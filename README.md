@@ -843,6 +843,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - 2022-02-02 - [Use OpenApi generator to share your models between Flutter and your backend](https://www.youtube.com/watch?v=kPW7ccu9Yvk) by [Guillaume Bernos](https://feb2022.fluttervikings.com/speakers/guillaume_bernos) at [Flutter Vikings Conference 2022 (Hybrid)](https://feb2022.fluttervikings.com/)
 - 2022-03-15 - [OpenAPI Specでハイフン区切りのEnum値をOpenAPI Generatorで出力すると、ハイフン区切りのまま出力される](https://qiita.com/yuji38kwmt/items/824d74d4889055ab37d8) by [yuji38kwmt](https://qiita.com/yuji38kwmt)
 - 2022-04-01 - [OpenAPI Generatorのコード生成とSpring Frameworkのカスタムデータバインディングを共存させる](https://techblog.zozo.com/entry/coexistence-of-openapi-and-spring) in [ZOZO Tech Blog](https://techblog.zozo.com/)
+- 2022-04-06 - [Effective Software Development using OpenAPI Generator](https://apexlabs.ai/post/openapi-generator) by Ajil Oommen (Senior Flutter Developer)
 
 ## [6 - About Us](#table-of-contents)
 
@@ -989,7 +990,7 @@ Here is a list of template creators:
    * PHP Lumen: @abcsun
    * PHP Mezzio (with Path Handler): @Articus
    * PHP Slim: @jfastnacht
-   * PHP Slim4: @ybelenko
+   * PHP Slim4: [@ybelenko](https://github.com/ybelenko)
    * PHP Symfony: @ksm2
    * Python FastAPI: @krjakbrjak
    * Python AIOHTTP:
@@ -1011,7 +1012,7 @@ Here is a list of template creators:
    * Avro: @sgadouar
    * GraphQL: @wing328 [:heart:](https://www.patreon.com/wing328)
    * Ktorm: @Luiz-Monad
-   * MySQL: @ybelenko
+   * MySQL: [@ybelenko](https://github.com/ybelenko)
    * Protocol Buffer: @wing328
    * WSDL @adessoDpd
 
@@ -1078,7 +1079,7 @@ If you want to join the committee, please kindly apply by sending an email to te
 | ObjC              |                                                                                                                                                                                                                                   |
 | OCaml             | @cgensoul (2019/08)                                                                                                                                                                                                               |
 | Perl              | @wing328 (2017/07) [:heart:](https://www.patreon.com/wing328) @yue9944882 (2019/06)                                                                                                                                               |
-| PHP               | @jebentier (2017/07), @dkarlovi (2017/07), @mandrean (2017/08), @jfastnacht (2017/09), @ybelenko (2018/07), @renepardon (2018/12)                     |
+| PHP               | @jebentier (2017/07), @dkarlovi (2017/07), @mandrean (2017/08), @jfastnacht (2017/09), [@ybelenko](https://github.com/ybelenko) (2018/07), @renepardon (2018/12)                     |
 | PowerShell        | @wing328 (2020/05)                                                                                                                                                                                                                                  |
 | Python            | @taxpon (2017/07) @frol (2017/07) @mbohlool (2017/07) @cbornet (2017/09) @kenjones-cisco (2017/11) @tomplus (2018/10) @arun-nalla (2019/11) @spacether (2019/11) [:heart:][spacether sponsorship]               |
 | R                 | @Ramanth (2019/07) @saigiridhar21 (2019/07)                                                                                                                                                                                       |
