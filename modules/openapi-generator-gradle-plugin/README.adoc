@@ -204,6 +204,11 @@ apply plugin: 'org.openapi.generator'
 |None
 |Suffix that will be appended to all model names.
 
+|apiNameSuffix
+|String
+|None
+|Suffix that will be appended to all api names.
+
 |instantiationTypes
 |Map(String,String)
 |None

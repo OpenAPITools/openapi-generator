@@ -16,6 +16,8 @@ class OuterEnum extends EnumClass {
   static const OuterEnum approved = _$approved;
   @BuiltValueEnumConst(wireName: r'delivered')
   static const OuterEnum delivered = _$delivered;
+  @BuiltValueEnumConst(wireName: r'unknown_default_open_api', fallback: true)
+  static const OuterEnum unknownDefaultOpenApi = _$unknownDefaultOpenApi;
 
   static Serializer<OuterEnum> get serializer => _$outerEnumSerializer;
 

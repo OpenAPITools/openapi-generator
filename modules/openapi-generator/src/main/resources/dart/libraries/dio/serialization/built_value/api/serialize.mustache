@@ -9,7 +9,7 @@
       {{^isMultipart}}
       _bodyData = <String, dynamic>{
         {{#formParams}}
-        {{^required}}{{^isNullable}}if ({{{paramName}}} != null) {{/isNullable}}{{/required}}r'{{{baseName}}}': {{>serialization/built_value/query_param}},
+        {{^required}}{{^isNullable}}if ({{{paramName}}} != null) {{/isNullable}}{{/required}}r'{{{baseName}}}': {{>serialization/built_value/api/query_param}},
         {{/formParams}}
       };
       {{/isMultipart}}

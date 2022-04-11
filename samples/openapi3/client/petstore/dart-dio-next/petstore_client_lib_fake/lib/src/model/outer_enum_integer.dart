@@ -16,6 +16,8 @@ class OuterEnumInteger extends EnumClass {
   static const OuterEnumInteger number1 = _$number1;
   @BuiltValueEnumConst(wireNumber: 2)
   static const OuterEnumInteger number2 = _$number2;
+  @BuiltValueEnumConst(wireNumber: 11184809, fallback: true)
+  static const OuterEnumInteger unknownDefaultOpenApi = _$unknownDefaultOpenApi;
 
   static Serializer<OuterEnumInteger> get serializer => _$outerEnumIntegerSerializer;
 
