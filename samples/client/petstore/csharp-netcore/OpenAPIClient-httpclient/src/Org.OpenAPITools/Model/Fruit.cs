@@ -37,7 +37,7 @@ namespace Org.OpenAPITools.Model
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Fruit" /> class
-        /// with the <see cref="Apple" /> class
+        /// with the <see cref="" /> class
         /// </summary>
         /// <param name="actualInstance">An instance of Apple.</param>
         public Fruit(Apple actualInstance)
@@ -49,7 +49,7 @@ namespace Org.OpenAPITools.Model
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Fruit" /> class
-        /// with the <see cref="Banana" /> class
+        /// with the <see cref="" /> class
         /// </summary>
         /// <param name="actualInstance">An instance of Banana.</param>
         public Fruit(Banana actualInstance)

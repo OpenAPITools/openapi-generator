@@ -37,7 +37,7 @@ namespace Org.OpenAPITools.Model
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Triangle" /> class
-        /// with the <see cref="EquilateralTriangle" /> class
+        /// with the <see cref="" /> class
         /// </summary>
         /// <param name="actualInstance">An instance of EquilateralTriangle.</param>
         public Triangle(EquilateralTriangle actualInstance)
@@ -49,7 +49,7 @@ namespace Org.OpenAPITools.Model
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Triangle" /> class
-        /// with the <see cref="IsoscelesTriangle" /> class
+        /// with the <see cref="" /> class
         /// </summary>
         /// <param name="actualInstance">An instance of IsoscelesTriangle.</param>
         public Triangle(IsoscelesTriangle actualInstance)
@@ -61,7 +61,7 @@ namespace Org.OpenAPITools.Model
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Triangle" /> class
-        /// with the <see cref="ScaleneTriangle" /> class
+        /// with the <see cref="" /> class
         /// </summary>
         /// <param name="actualInstance">An instance of ScaleneTriangle.</param>
         public Triangle(ScaleneTriangle actualInstance)

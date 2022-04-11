@@ -37,7 +37,7 @@ setup(
     description="{{appName}}",
     author="{{#if infoName}}{{infoName}}{{/if}}{{#unless infoName}}OpenAPI Generator community{{/unless}}",
     author_email="{{#if infoEmail}}{{infoEmail}}{{/if}}{{#unless infoEmail}}team@openapitools.org{{/unless}}",
-    url="{{packageUrl}}",
+    url="{{#if packageUrl}}{{packageUrl}}{{/if}}",
     keywords=["OpenAPI", "OpenAPI-Generator", "{{{appName}}}"],
     python_requires="{{{generatorLanguageVersion}}}",
     install_requires=REQUIRES,

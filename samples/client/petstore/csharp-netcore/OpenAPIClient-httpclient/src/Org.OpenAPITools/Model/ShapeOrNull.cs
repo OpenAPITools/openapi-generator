@@ -47,7 +47,7 @@ namespace Org.OpenAPITools.Model
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ShapeOrNull" /> class
-        /// with the <see cref="Triangle" /> class
+        /// with the <see cref="" /> class
         /// </summary>
         /// <param name="actualInstance">An instance of Triangle.</param>
         public ShapeOrNull(Triangle actualInstance)
@@ -59,7 +59,7 @@ namespace Org.OpenAPITools.Model
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ShapeOrNull" /> class
-        /// with the <see cref="Quadrilateral" /> class
+        /// with the <see cref="" /> class
         /// </summary>
         /// <param name="actualInstance">An instance of Quadrilateral.</param>
         public ShapeOrNull(Quadrilateral actualInstance)

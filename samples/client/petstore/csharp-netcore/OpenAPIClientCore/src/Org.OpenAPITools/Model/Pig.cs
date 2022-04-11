@@ -37,7 +37,7 @@ namespace Org.OpenAPITools.Model
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Pig" /> class
-        /// with the <see cref="BasquePig" /> class
+        /// with the <see cref="" /> class
         /// </summary>
         /// <param name="actualInstance">An instance of BasquePig.</param>
         public Pig(BasquePig actualInstance)
@@ -49,7 +49,7 @@ namespace Org.OpenAPITools.Model
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Pig" /> class
-        /// with the <see cref="DanishPig" /> class
+        /// with the <see cref="" /> class
         /// </summary>
         /// <param name="actualInstance">An instance of DanishPig.</param>
         public Pig(DanishPig actualInstance)

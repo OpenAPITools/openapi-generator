@@ -17,9 +17,12 @@
 package org.openapitools.codegen.languages;
 
 import com.google.common.collect.Sets;
+import com.samskivert.mustache.Mustache;
+import com.samskivert.mustache.Template;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.api.TemplatePathLocator;
 import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
@@ -28,6 +31,10 @@ import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.templating.CommonTemplateContentLocator;
+import org.openapitools.codegen.templating.GeneratorTemplateContentLocator;
+import org.openapitools.codegen.templating.MustacheEngineAdapter;
+import org.openapitools.codegen.templating.TemplateManagerOptions;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.ProcessUtils;
 import org.slf4j.Logger;
@@ -57,6 +64,8 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
     private String dateLibrary;
 
     private String clientName;
+
+    private TemplateManager templateManager;
 
     public DartDioNextClientCodegen() {
         super();
@@ -178,6 +187,28 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
                 configureSerializationLibraryBuiltValue(srcFolder);
                 break;
         }
+
+        TemplateManagerOptions templateManagerOptions = new TemplateManagerOptions(isEnableMinimalUpdate(), isSkipOverwrite());
+        TemplatePathLocator commonTemplateLocator = new CommonTemplateContentLocator();
+        TemplatePathLocator generatorTemplateLocator = new GeneratorTemplateContentLocator(this);
+        templateManager = new TemplateManager(
+                templateManagerOptions,
+                getTemplatingEngine(),
+                new TemplatePathLocator[]{generatorTemplateLocator, commonTemplateLocator}
+        );
+
+        // A lambda which allows for easy includes of serialization library specific
+        // templates without having to change the main template files.
+        additionalProperties.put("includeLibraryTemplate", (Mustache.Lambda) (fragment, writer) -> {
+            MustacheEngineAdapter engine = ((MustacheEngineAdapter) getTemplatingEngine());
+            String templateFile = "serialization/" + library + "/" + fragment.execute() + ".mustache";
+            Template tmpl = engine.getCompiler()
+                    .withLoader(name -> engine.findTemplate(templateManager, name))
+                    .defaultValue("")
+                    .compile(templateManager.getFullTemplateContents(templateFile));
+
+            fragment.executeTemplate(tmpl, writer);
+        });
     }
 
     private void configureSerializationLibraryBuiltValue(String srcFolder) {

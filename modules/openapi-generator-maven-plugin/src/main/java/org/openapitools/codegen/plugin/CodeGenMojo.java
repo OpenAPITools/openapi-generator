@@ -221,6 +221,12 @@ public class CodeGenMojo extends AbstractMojo {
     private String modelNameSuffix;
 
     /**
+     * Sets the suffix for api classes
+     */
+    @Parameter(name = "apiNameSuffix", property = "openapi.generator.maven.plugin.apiNameSuffix")
+    private String apiNameSuffix;
+
+    /**
      * Sets an optional ignoreFileOverride path
      */
     @Parameter(name = "ignoreFileOverride", property = "openapi.generator.maven.plugin.ignoreFileOverride")
@@ -594,6 +600,10 @@ public class CodeGenMojo extends AbstractMojo {
 
             if (isNotEmpty(modelNameSuffix)) {
                 configurator.setModelNameSuffix(modelNameSuffix);
+            }
+
+            if (isNotEmpty(apiNameSuffix)) {
+                configurator.setApiNameSuffix(apiNameSuffix);
             }
 
             if (null != templateDirectory) {

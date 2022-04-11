@@ -15,6 +15,77 @@
 
 export const BASE_PATH = "http://petstore.swagger.io/v2".replace(/\/+$/, "");
 
+export interface ConfigurationParameters {
+    basePath?: string; // override base path
+    fetchApi?: FetchAPI; // override for fetch implementation
+    middleware?: Middleware[]; // middleware to apply before/after fetch requests
+    queryParamsStringify?: (params: HTTPQuery) => string; // stringify function for query strings
+    username?: string; // parameter for basic security
+    password?: string; // parameter for basic security
+    apiKey?: string | ((name: string) => string); // parameter for apiKey security
+    accessToken?: string | Promise<string> | ((name?: string, scopes?: string[]) => string | Promise<string>); // parameter for oauth2 security
+    headers?: HTTPHeaders; //header params we want to use on every request
+    credentials?: RequestCredentials; //value for the credentials param we want to use on each request
+}
+
+export class Configuration {
+    constructor(private configuration: ConfigurationParameters = {}) {}
+
+    set config(configuration: Configuration) {
+        this.configuration = configuration;
+    }
+
+    get basePath(): string {
+        return this.configuration.basePath != null ? this.configuration.basePath : BASE_PATH;
+    }
+
+    get fetchApi(): FetchAPI | undefined {
+        return this.configuration.fetchApi;
+    }
+
+    get middleware(): Middleware[] {
+        return this.configuration.middleware || [];
+    }
+
+    get queryParamsStringify(): (params: HTTPQuery) => string {
+        return this.configuration.queryParamsStringify || querystring;
+    }
+
+    get username(): string | undefined {
+        return this.configuration.username;
+    }
+
+    get password(): string | undefined {
+        return this.configuration.password;
+    }
+
+    get apiKey(): ((name: string) => string) | undefined {
+        const apiKey = this.configuration.apiKey;
+        if (apiKey) {
+            return typeof apiKey === 'function' ? apiKey : () => apiKey;
+        }
+        return undefined;
+    }
+
+    get accessToken(): ((name?: string, scopes?: string[]) => string | Promise<string>) | undefined {
+        const accessToken = this.configuration.accessToken;
+        if (accessToken) {
+            return typeof accessToken === 'function' ? accessToken : async () => accessToken;
+        }
+        return undefined;
+    }
+
+    get headers(): HTTPHeaders | undefined {
+        return this.configuration.headers;
+    }
+
+    get credentials(): RequestCredentials | undefined {
+        return this.configuration.credentials;
+    }
+}
+
+export const DefaultConfig = new Configuration();
+
 const isBlob = (value: any) => typeof Blob !== 'undefined' && value instanceof Blob;
 
 /**
@@ -24,7 +95,7 @@ export class BaseAPI {
 
     private middleware: Middleware[];
 
-    constructor(protected configuration = new Configuration()) {
+    constructor(protected configuration = DefaultConfig) {
         this.middleware = configuration.middleware;
     }
 
@@ -136,71 +207,6 @@ export const COLLECTION_FORMATS = {
 };
 
 export type FetchAPI = WindowOrWorkerGlobalScope['fetch'];
-
-export interface ConfigurationParameters {
-    basePath?: string; // override base path
-    fetchApi?: FetchAPI; // override for fetch implementation
-    middleware?: Middleware[]; // middleware to apply before/after fetch requests
-    queryParamsStringify?: (params: HTTPQuery) => string; // stringify function for query strings
-    username?: string; // parameter for basic security
-    password?: string; // parameter for basic security
-    apiKey?: string | ((name: string) => string); // parameter for apiKey security
-    accessToken?: string | Promise<string> | ((name?: string, scopes?: string[]) => string | Promise<string>); // parameter for oauth2 security
-    headers?: HTTPHeaders; //header params we want to use on every request
-    credentials?: RequestCredentials; //value for the credentials param we want to use on each request
-}
-
-export class Configuration {
-    constructor(private configuration: ConfigurationParameters = {}) {}
-
-    get basePath(): string {
-        return this.configuration.basePath != null ? this.configuration.basePath : BASE_PATH;
-    }
-
-    get fetchApi(): FetchAPI | undefined {
-        return this.configuration.fetchApi;
-    }
-
-    get middleware(): Middleware[] {
-        return this.configuration.middleware || [];
-    }
-
-    get queryParamsStringify(): (params: HTTPQuery) => string {
-        return this.configuration.queryParamsStringify || querystring;
-    }
-
-    get username(): string | undefined {
-        return this.configuration.username;
-    }
-
-    get password(): string | undefined {
-        return this.configuration.password;
-    }
-
-    get apiKey(): ((name: string) => string) | undefined {
-        const apiKey = this.configuration.apiKey;
-        if (apiKey) {
-            return typeof apiKey === 'function' ? apiKey : () => apiKey;
-        }
-        return undefined;
-    }
-
-    get accessToken(): ((name?: string, scopes?: string[]) => string | Promise<string>) | undefined {
-        const accessToken = this.configuration.accessToken;
-        if (accessToken) {
-            return typeof accessToken === 'function' ? accessToken : async () => accessToken;
-        }
-        return undefined;
-    }
-
-    get headers(): HTTPHeaders | undefined {
-        return this.configuration.headers;
-    }
-
-    get credentials(): RequestCredentials | undefined {
-        return this.configuration.credentials;
-    }
-}
 
 export type Json = any;
 export type HTTPMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | 'OPTIONS' | 'HEAD';
