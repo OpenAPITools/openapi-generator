@@ -44,7 +44,7 @@ This endpoint does not need any parameter.
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-default | ApiResponseForDefault | response 
+default | ApiResponseForDefault | response
 
 #### ApiResponseForDefault
 Name | Type | Description  | Notes

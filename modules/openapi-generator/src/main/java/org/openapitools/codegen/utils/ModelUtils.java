@@ -1200,12 +1200,11 @@ public class ModelUtils {
             */
         }
         if (addProps == null || (addProps instanceof Boolean && (Boolean) addProps)) {
-            // Return ObjectSchema to specify any object (map) value is allowed.
-            // Set nullable to specify the value of additional properties may be
-            // the null value.
-            // Free-form additionalProperties don't need to have an inner
-            // additional properties, the type is already free-form.
-            return new ObjectSchema().additionalProperties(Boolean.FALSE).nullable(Boolean.TRUE);
+            // Return an empty schema as the properties can take on any type per
+            // the spec. See
+            // https://github.com/OpenAPITools/openapi-generator/issues/9282 for
+            // more details.
+            return new Schema();
         }
         return null;
     }

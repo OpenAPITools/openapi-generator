@@ -125,12 +125,13 @@ module Petstore
     # HTTP Proxy settings
     attr_accessor :proxy
 
-    # Set this to customize parameters encoding of array parameter with multi collectionFormat.
-    # Default to nil.
+    # Set this to customize parameters encoder of array parameter.
+    # Default to nil. Faraday uses NestedParamsEncoder when nil.
     #
-    # @see The params_encoding option of Ethon. Related source code:
-    # https://github.com/typhoeus/ethon/blob/master/lib/ethon/easy/queryable.rb#L96
-    attr_accessor :params_encoding
+    # @see The params_encoder option of Faraday. Related source code:
+    # https://github.com/lostisland/faraday/tree/main/lib/faraday/encoders
+    attr_accessor :params_encoder
+
 
     attr_accessor :inject_format
 
@@ -158,6 +159,7 @@ module Petstore
       @timeout = 60
       # return data as binary instead of file
       @return_binary_data = false
+      @params_encoder = nil
       @debugging = false
       @inject_format = false
       @force_ending_format = false
