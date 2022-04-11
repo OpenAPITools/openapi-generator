@@ -21,32 +21,22 @@ import com.google.gson.stream.JsonWriter;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
-import org.openapitools.client.model.ArrayOfInlineAllOfArrayAllofDogPropertyItemsAllOf;
-import org.openapitools.client.model.DogAllOf;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 
 /**
- * Model tests for ArrayOfInlineAllOfArrayAllofDogPropertyItems
+ * Model tests for ArrayOfInlineAllOfArrayAllofDogPropertyItemsAllof
  */
-public class ArrayOfInlineAllOfArrayAllofDogPropertyItemsTest {
-    private final ArrayOfInlineAllOfArrayAllofDogPropertyItems model = new ArrayOfInlineAllOfArrayAllofDogPropertyItems();
+public class ArrayOfInlineAllOfArrayAllofDogPropertyItemsAllofTest {
+    private final ArrayOfInlineAllOfArrayAllofDogPropertyItemsAllof model = new ArrayOfInlineAllOfArrayAllofDogPropertyItemsAllof();
 
     /**
-     * Model tests for ArrayOfInlineAllOfArrayAllofDogPropertyItems
+     * Model tests for ArrayOfInlineAllOfArrayAllofDogPropertyItemsAllof
      */
     @Test
-    public void testArrayOfInlineAllOfArrayAllofDogPropertyItems() {
-        // TODO: test ArrayOfInlineAllOfArrayAllofDogPropertyItems
-    }
-
-    /**
-     * Test the property 'breed'
-     */
-    @Test
-    public void breedTest() {
-        // TODO: test breed
+    public void testArrayOfInlineAllOfArrayAllofDogPropertyItemsAllof() {
+        // TODO: test ArrayOfInlineAllOfArrayAllofDogPropertyItemsAllof
     }
 
     /**

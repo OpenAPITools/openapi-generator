@@ -26,17 +26,17 @@ import org.junit.jupiter.api.Test;
 
 
 /**
- * Model tests for ArrayOfInlineAllOfArrayAllofDogPropertyItemsAllOf
+ * Model tests for ArrayOfInlineAllOfArrayAllofDogPropertyItemsAllof
  */
-public class ArrayOfInlineAllOfArrayAllofDogPropertyItemsAllOfTest {
-    private final ArrayOfInlineAllOfArrayAllofDogPropertyItemsAllOf model = new ArrayOfInlineAllOfArrayAllofDogPropertyItemsAllOf();
+public class ArrayOfInlineAllOfArrayAllofDogPropertyItemsAllofTest {
+    private final ArrayOfInlineAllOfArrayAllofDogPropertyItemsAllof model = new ArrayOfInlineAllOfArrayAllofDogPropertyItemsAllof();
 
     /**
-     * Model tests for ArrayOfInlineAllOfArrayAllofDogPropertyItemsAllOf
+     * Model tests for ArrayOfInlineAllOfArrayAllofDogPropertyItemsAllof
      */
     @Test
-    public void testArrayOfInlineAllOfArrayAllofDogPropertyItemsAllOf() {
-        // TODO: test ArrayOfInlineAllOfArrayAllofDogPropertyItemsAllOf
+    public void testArrayOfInlineAllOfArrayAllofDogPropertyItemsAllof() {
+        // TODO: test ArrayOfInlineAllOfArrayAllofDogPropertyItemsAllof
     }
 
     /**
