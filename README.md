@@ -576,6 +576,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [Bithost GmbH](https://www.bithost.ch)
 - [Bosch Connected Industry](https://www.bosch-connected-industry.com)
 - [Boxever](https://www.boxever.com/)
+- [Brevy](https://www.brevy.com)
 - [Bunker Holding Group](https://www.bunker-holding.com/)
 - [California State University, Northridge](https://www.csun.edu)
 - [CAM](https://www.cam-inc.co.jp/)
