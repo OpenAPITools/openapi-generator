@@ -847,7 +847,7 @@ No authorization required
 
 ## TestEndpointParameters
 
-> void TestEndpointParameters (decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, System.IO.Stream binary = null, DateTime? date = null, DateTime? dateTime = null, string password = null, string callback = null)
+> void TestEndpointParameters (decimal? number, double? _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, System.IO.Stream binary = null, DateTime? date = null, DateTime? dateTime = null, string password = null, string callback = null)
 
 Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
@@ -874,8 +874,8 @@ namespace Example
             Configuration.Default.Password = "YOUR_PASSWORD";
 
             var apiInstance = new FakeApi(Configuration.Default);
-            var number = 8.14D;  // decimal | None
-            var _double = 1.2D;  // double | None
+            var number = 8.14D;  // decimal? | None
+            var _double = 1.2D;  // double? | None
             var patternWithoutDelimiter = "patternWithoutDelimiter_example";  // string | None
             var _byte = System.Text.Encoding.ASCII.GetBytes("BYTE_ARRAY_DATA_HERE");  // byte[] | None
             var integer = 56;  // int? | None (optional) 
@@ -910,8 +910,8 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **number** | **decimal**| None | 
- **_double** | **double**| None | 
+ **number** | **decimal?**| None | 
+ **_double** | **double?**| None | 
  **patternWithoutDelimiter** | **string**| None | 
  **_byte** | **byte[]**| None | 
  **integer** | **int?**| None | [optional] 
@@ -1043,7 +1043,7 @@ No authorization required
 
 ## TestGroupParameters
 
-> void TestGroupParameters (int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, int? stringGroup = null, bool? booleanGroup = null, long? int64Group = null)
+> void TestGroupParameters (int? requiredStringGroup, bool? requiredBooleanGroup, long? requiredInt64Group, int? stringGroup = null, bool? booleanGroup = null, long? int64Group = null)
 
 Fake endpoint to test group parameters (optional)
 
@@ -1069,9 +1069,9 @@ namespace Example
             Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";
 
             var apiInstance = new FakeApi(Configuration.Default);
-            var requiredStringGroup = 56;  // int | Required String in group parameters
-            var requiredBooleanGroup = true;  // bool | Required Boolean in group parameters
-            var requiredInt64Group = 789L;  // long | Required Integer in group parameters
+            var requiredStringGroup = 56;  // int? | Required String in group parameters
+            var requiredBooleanGroup = true;  // bool? | Required Boolean in group parameters
+            var requiredInt64Group = 789L;  // long? | Required Integer in group parameters
             var stringGroup = 56;  // int? | String in group parameters (optional) 
             var booleanGroup = true;  // bool? | Boolean in group parameters (optional) 
             var int64Group = 789L;  // long? | Integer in group parameters (optional) 
@@ -1097,9 +1097,9 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **requiredStringGroup** | **int**| Required String in group parameters | 
- **requiredBooleanGroup** | **bool**| Required Boolean in group parameters | 
- **requiredInt64Group** | **long**| Required Integer in group parameters | 
+ **requiredStringGroup** | **int?**| Required String in group parameters | 
+ **requiredBooleanGroup** | **bool?**| Required Boolean in group parameters | 
+ **requiredInt64Group** | **long?**| Required Integer in group parameters | 
  **stringGroup** | **int?**| String in group parameters | [optional] 
  **booleanGroup** | **bool?**| Boolean in group parameters | [optional] 
  **int64Group** | **long?**| Integer in group parameters | [optional] 

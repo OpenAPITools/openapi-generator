@@ -8,11 +8,11 @@ Name | Type | Description | Notes
 **Int32** | **int** |  | [optional] 
 **Int64** | **long** |  | [optional] 
 **Number** | **decimal** |  | 
-**PropertyFloat** | **float** |  | [optional] 
-**PropertyDouble** | **double** |  | [optional] 
-**PropertyDecimal** | **decimal** |  | [optional] 
-**PropertyString** | **string** |  | [optional] 
-**PropertyByte** | **byte[]** |  | 
+**FloatProperty** | **float** |  | [optional] 
+**DoubleProperty** | **double** |  | [optional] 
+**DecimalProperty** | **decimal** |  | [optional] 
+**StringProperty** | **string** |  | [optional] 
+**ByteProperty** | **byte[]** |  | 
 **Binary** | [**FileParameter**](FileParameter.md) |  | [optional] 
 **Date** | **DateTime** |  | 
 **DateTime** | **DateTime** |  | [optional] 

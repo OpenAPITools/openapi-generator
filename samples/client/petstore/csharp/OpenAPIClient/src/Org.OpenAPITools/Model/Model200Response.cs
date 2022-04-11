@@ -34,11 +34,11 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Model200Response" /> class.
         /// </summary>
         /// <param name="name">name.</param>
-        /// <param name="propertyClass">propertyClass.</param>
-        public Model200Response(int name = default(int), string propertyClass = default(string))
+        /// <param name="classProperty">classProperty.</param>
+        public Model200Response(int name = default(int), string classProperty = default(string))
         {
             this.Name = name;
-            this.PropertyClass = propertyClass;
+            this.ClassProperty = classProperty;
         }
 
         /// <summary>
@@ -48,10 +48,10 @@ namespace Org.OpenAPITools.Model
         public int Name { get; set; }
 
         /// <summary>
-        /// Gets or Sets PropertyClass
+        /// Gets or Sets ClassProperty
         /// </summary>
         [DataMember(Name="class", EmitDefaultValue=false)]
-        public string PropertyClass { get; set; }
+        public string ClassProperty { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -62,7 +62,7 @@ namespace Org.OpenAPITools.Model
             var sb = new StringBuilder();
             sb.Append("class Model200Response {\n");
             sb.Append("  Name: ").Append(Name).Append("\n");
-            sb.Append("  PropertyClass: ").Append(PropertyClass).Append("\n");
+            sb.Append("  ClassProperty: ").Append(ClassProperty).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -103,9 +103,9 @@ namespace Org.OpenAPITools.Model
                     this.Name.Equals(input.Name))
                 ) && 
                 (
-                    this.PropertyClass == input.PropertyClass ||
-                    (this.PropertyClass != null &&
-                    this.PropertyClass.Equals(input.PropertyClass))
+                    this.ClassProperty == input.ClassProperty ||
+                    (this.ClassProperty != null &&
+                    this.ClassProperty.Equals(input.ClassProperty))
                 );
         }
 
@@ -120,8 +120,8 @@ namespace Org.OpenAPITools.Model
                 int hashCode = 41;
                 if (this.Name != null)
                     hashCode = hashCode * 59 + this.Name.GetHashCode();
-                if (this.PropertyClass != null)
-                    hashCode = hashCode * 59 + this.PropertyClass.GetHashCode();
+                if (this.ClassProperty != null)
+                    hashCode = hashCode * 59 + this.ClassProperty.GetHashCode();
                 return hashCode;
             }
         }

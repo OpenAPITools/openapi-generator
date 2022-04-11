@@ -33,17 +33,17 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Return" /> class.
         /// </summary>
-        /// <param name="propertyReturn">propertyReturn.</param>
-        public Return(int propertyReturn = default(int))
+        /// <param name="returnProperty">returnProperty.</param>
+        public Return(int returnProperty = default(int))
         {
-            this.Property_Return = propertyReturn;
+            this._ReturnProperty = returnProperty;
         }
 
         /// <summary>
-        /// Gets or Sets Property_Return
+        /// Gets or Sets _ReturnProperty
         /// </summary>
         [DataMember(Name="return", EmitDefaultValue=false)]
-        public int Property_Return { get; set; }
+        public int _ReturnProperty { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -53,7 +53,7 @@ namespace Org.OpenAPITools.Model
         {
             var sb = new StringBuilder();
             sb.Append("class Return {\n");
-            sb.Append("  Property_Return: ").Append(Property_Return).Append("\n");
+            sb.Append("  _ReturnProperty: ").Append(_ReturnProperty).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -89,9 +89,9 @@ namespace Org.OpenAPITools.Model
 
             return 
                 (
-                    this.Property_Return == input.Property_Return ||
-                    (this.Property_Return != null &&
-                    this.Property_Return.Equals(input.Property_Return))
+                    this._ReturnProperty == input._ReturnProperty ||
+                    (this._ReturnProperty != null &&
+                    this._ReturnProperty.Equals(input._ReturnProperty))
                 );
         }
 
@@ -104,8 +104,8 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.Property_Return != null)
-                    hashCode = hashCode * 59 + this.Property_Return.GetHashCode();
+                if (this._ReturnProperty != null)
+                    hashCode = hashCode * 59 + this._ReturnProperty.GetHashCode();
                 return hashCode;
             }
         }

@@ -163,7 +163,7 @@ This endpoint does not need any parameter.
 
 <a name="getorderbyid"></a>
 # **GetOrderById**
-> Order GetOrderById (long orderId)
+> Order GetOrderById (long? orderId)
 
 Find purchase order by ID
 
@@ -190,7 +190,7 @@ namespace Example
             HttpClient httpClient = new HttpClient();
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new StoreApi(httpClient, config, httpClientHandler);
-            var orderId = 789L;  // long | ID of pet that needs to be fetched
+            var orderId = 789L;  // long? | ID of pet that needs to be fetched
 
             try
             {
@@ -213,7 +213,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **orderId** | **long**| ID of pet that needs to be fetched | 
+ **orderId** | **long?**| ID of pet that needs to be fetched | 
 
 ### Return type
 

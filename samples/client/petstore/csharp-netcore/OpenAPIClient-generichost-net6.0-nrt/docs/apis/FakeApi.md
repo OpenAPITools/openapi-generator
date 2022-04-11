@@ -433,7 +433,7 @@ No authorization required
 
 <a name="testbodywithfileschema"></a>
 # **TestBodyWithFileSchema**
-> void TestBodyWithFileSchema (FileSchemaTestClass fileSchemaTestClass)
+> void TestBodyWithFileSchema (FileSchemaTestClass? fileSchemaTestClass)
 
 
 
@@ -456,7 +456,7 @@ namespace Example
             Configuration config = new Configuration();
             config.BasePath = "http://petstore.swagger.io:80/v2";
             var apiInstance = new FakeApi(config);
-            var fileSchemaTestClass = new FileSchemaTestClass(); // FileSchemaTestClass | 
+            var fileSchemaTestClass = new FileSchemaTestClass?(); // FileSchemaTestClass? | 
 
             try
             {
@@ -477,7 +477,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **fileSchemaTestClass** | [**FileSchemaTestClass**](FileSchemaTestClass.md)|  | 
+ **fileSchemaTestClass** | [**FileSchemaTestClass?**](FileSchemaTestClass?.md)|  | 
 
 ### Return type
 
@@ -502,7 +502,7 @@ No authorization required
 
 <a name="testbodywithqueryparams"></a>
 # **TestBodyWithQueryParams**
-> void TestBodyWithQueryParams (string query, User user)
+> void TestBodyWithQueryParams (string? query, User? user)
 
 
 
@@ -523,8 +523,8 @@ namespace Example
             Configuration config = new Configuration();
             config.BasePath = "http://petstore.swagger.io:80/v2";
             var apiInstance = new FakeApi(config);
-            var query = "query_example";  // string | 
-            var user = new User(); // User | 
+            var query = "query_example";  // string? | 
+            var user = new User?(); // User? | 
 
             try
             {
@@ -545,8 +545,8 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **query** | **string**|  | 
- **user** | [**User**](User.md)|  | 
+ **query** | **string?**|  | 
+ **user** | [**User?**](User?.md)|  | 
 
 ### Return type
 
@@ -571,7 +571,7 @@ No authorization required
 
 <a name="testclientmodel"></a>
 # **TestClientModel**
-> ModelClient TestClientModel (ModelClient modelClient)
+> ModelClient TestClientModel (ModelClient? modelClient)
 
 To test \"client\" model
 
@@ -594,7 +594,7 @@ namespace Example
             Configuration config = new Configuration();
             config.BasePath = "http://petstore.swagger.io:80/v2";
             var apiInstance = new FakeApi(config);
-            var modelClient = new ModelClient(); // ModelClient | client model
+            var modelClient = new ModelClient?(); // ModelClient? | client model
 
             try
             {
@@ -617,7 +617,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **modelClient** | [**ModelClient**](ModelClient.md)| client model | 
+ **modelClient** | [**ModelClient?**](ModelClient?.md)| client model | 
 
 ### Return type
 
@@ -642,7 +642,7 @@ No authorization required
 
 <a name="testendpointparameters"></a>
 # **TestEndpointParameters**
-> void TestEndpointParameters (decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string? _string = null, System.IO.Stream? binary = null, DateTime? date = null, string? password = null, string? callback = null, DateTime? dateTime = null)
+> void TestEndpointParameters (decimal? number, double? _double, string? patternWithoutDelimiter, byte[]? _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string? _string = null, System.IO.Stream? binary = null, DateTime? date = null, string? password = null, string? callback = null, DateTime? dateTime = null)
 
 Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
@@ -669,10 +669,10 @@ namespace Example
             config.Password = "YOUR_PASSWORD";
 
             var apiInstance = new FakeApi(config);
-            var number = 8.14D;  // decimal | None
-            var _double = 1.2D;  // double | None
-            var patternWithoutDelimiter = "patternWithoutDelimiter_example";  // string | None
-            var _byte = System.Text.Encoding.ASCII.GetBytes("BYTE_ARRAY_DATA_HERE");  // byte[] | None
+            var number = 8.14D;  // decimal? | None
+            var _double = 1.2D;  // double? | None
+            var patternWithoutDelimiter = "patternWithoutDelimiter_example";  // string? | None
+            var _byte = System.Text.Encoding.ASCII.GetBytes("BYTE_ARRAY_DATA_HERE");  // byte[]? | None
             var integer = 56;  // int? | None (optional) 
             var int32 = 56;  // int? | None (optional) 
             var int64 = 789L;  // long? | None (optional) 
@@ -704,10 +704,10 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **number** | **decimal**| None | 
- **_double** | **double**| None | 
- **patternWithoutDelimiter** | **string**| None | 
- **_byte** | **byte[]**| None | 
+ **number** | **decimal?**| None | 
+ **_double** | **double?**| None | 
+ **patternWithoutDelimiter** | **string?**| None | 
+ **_byte** | **byte[]?**| None | 
  **integer** | **int?**| None | [optional] 
  **int32** | **int?**| None | [optional] 
  **int64** | **long?**| None | [optional] 
@@ -828,7 +828,7 @@ No authorization required
 
 <a name="testgroupparameters"></a>
 # **TestGroupParameters**
-> void TestGroupParameters (int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, int? stringGroup = null, bool? booleanGroup = null, long? int64Group = null)
+> void TestGroupParameters (int? requiredStringGroup, bool? requiredBooleanGroup, long? requiredInt64Group, int? stringGroup = null, bool? booleanGroup = null, long? int64Group = null)
 
 Fake endpoint to test group parameters (optional)
 
@@ -854,9 +854,9 @@ namespace Example
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
             var apiInstance = new FakeApi(config);
-            var requiredStringGroup = 56;  // int | Required String in group parameters
-            var requiredBooleanGroup = true;  // bool | Required Boolean in group parameters
-            var requiredInt64Group = 789L;  // long | Required Integer in group parameters
+            var requiredStringGroup = 56;  // int? | Required String in group parameters
+            var requiredBooleanGroup = true;  // bool? | Required Boolean in group parameters
+            var requiredInt64Group = 789L;  // long? | Required Integer in group parameters
             var stringGroup = 56;  // int? | String in group parameters (optional) 
             var booleanGroup = true;  // bool? | Boolean in group parameters (optional) 
             var int64Group = 789L;  // long? | Integer in group parameters (optional) 
@@ -881,9 +881,9 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **requiredStringGroup** | **int**| Required String in group parameters | 
- **requiredBooleanGroup** | **bool**| Required Boolean in group parameters | 
- **requiredInt64Group** | **long**| Required Integer in group parameters | 
+ **requiredStringGroup** | **int?**| Required String in group parameters | 
+ **requiredBooleanGroup** | **bool?**| Required Boolean in group parameters | 
+ **requiredInt64Group** | **long?**| Required Integer in group parameters | 
  **stringGroup** | **int?**| String in group parameters | [optional] 
  **booleanGroup** | **bool?**| Boolean in group parameters | [optional] 
  **int64Group** | **long?**| Integer in group parameters | [optional] 
@@ -911,7 +911,7 @@ void (empty response body)
 
 <a name="testinlineadditionalproperties"></a>
 # **TestInlineAdditionalProperties**
-> void TestInlineAdditionalProperties (Dictionary<string, string> requestBody)
+> void TestInlineAdditionalProperties (Dictionary<string, string>? requestBody)
 
 test inline additionalProperties
 
@@ -932,7 +932,7 @@ namespace Example
             Configuration config = new Configuration();
             config.BasePath = "http://petstore.swagger.io:80/v2";
             var apiInstance = new FakeApi(config);
-            var requestBody = new Dictionary<string, string>(); // Dictionary<string, string> | request body
+            var requestBody = new Dictionary<string, string>?(); // Dictionary<string, string>? | request body
 
             try
             {
@@ -954,7 +954,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **requestBody** | [**Dictionary&lt;string, string&gt;**](string.md)| request body | 
+ **requestBody** | [**Dictionary&lt;string, string&gt;?**](string.md)| request body | 
 
 ### Return type
 
@@ -979,7 +979,7 @@ No authorization required
 
 <a name="testjsonformdata"></a>
 # **TestJsonFormData**
-> void TestJsonFormData (string param, string param2)
+> void TestJsonFormData (string? param, string? param2)
 
 test json serialization of form data
 
@@ -1000,8 +1000,8 @@ namespace Example
             Configuration config = new Configuration();
             config.BasePath = "http://petstore.swagger.io:80/v2";
             var apiInstance = new FakeApi(config);
-            var param = "param_example";  // string | field1
-            var param2 = "param2_example";  // string | field2
+            var param = "param_example";  // string? | field1
+            var param2 = "param2_example";  // string? | field2
 
             try
             {
@@ -1023,8 +1023,8 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **param** | **string**| field1 | 
- **param2** | **string**| field2 | 
+ **param** | **string?**| field1 | 
+ **param2** | **string?**| field2 | 
 
 ### Return type
 
@@ -1049,7 +1049,7 @@ No authorization required
 
 <a name="testqueryparametercollectionformat"></a>
 # **TestQueryParameterCollectionFormat**
-> void TestQueryParameterCollectionFormat (List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context)
+> void TestQueryParameterCollectionFormat (List<string>? pipe, List<string>? ioutil, List<string>? http, List<string>? url, List<string>? context)
 
 
 
@@ -1072,11 +1072,11 @@ namespace Example
             Configuration config = new Configuration();
             config.BasePath = "http://petstore.swagger.io:80/v2";
             var apiInstance = new FakeApi(config);
-            var pipe = new List<string>(); // List<string> | 
-            var ioutil = new List<string>(); // List<string> | 
-            var http = new List<string>(); // List<string> | 
-            var url = new List<string>(); // List<string> | 
-            var context = new List<string>(); // List<string> | 
+            var pipe = new List<string>?(); // List<string>? | 
+            var ioutil = new List<string>?(); // List<string>? | 
+            var http = new List<string>?(); // List<string>? | 
+            var url = new List<string>?(); // List<string>? | 
+            var context = new List<string>?(); // List<string>? | 
 
             try
             {
@@ -1097,11 +1097,11 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pipe** | [**List&lt;string&gt;**](string.md)|  | 
- **ioutil** | [**List&lt;string&gt;**](string.md)|  | 
- **http** | [**List&lt;string&gt;**](string.md)|  | 
- **url** | [**List&lt;string&gt;**](string.md)|  | 
- **context** | [**List&lt;string&gt;**](string.md)|  | 
+ **pipe** | [**List&lt;string&gt;?**](string.md)|  | 
+ **ioutil** | [**List&lt;string&gt;?**](string.md)|  | 
+ **http** | [**List&lt;string&gt;?**](string.md)|  | 
+ **url** | [**List&lt;string&gt;?**](string.md)|  | 
+ **context** | [**List&lt;string&gt;?**](string.md)|  | 
 
 ### Return type
 

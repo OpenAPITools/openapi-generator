@@ -89,7 +89,7 @@ Name | Type | Description  | Notes
 
 <a name="deletepet"></a>
 # **DeletePet**
-> void DeletePet (long petId, string apiKey = null)
+> void DeletePet (long? petId, string apiKey = null)
 
 Deletes a pet
 
@@ -113,7 +113,7 @@ namespace Example
             config.AccessToken = "YOUR_ACCESS_TOKEN";
 
             var apiInstance = new PetApi(config);
-            var petId = 789L;  // long | Pet id to delete
+            var petId = 789L;  // long? | Pet id to delete
             var apiKey = "apiKey_example";  // string |  (optional) 
 
             try
@@ -136,7 +136,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **petId** | **long**| Pet id to delete | 
+ **petId** | **long?**| Pet id to delete | 
  **apiKey** | **string**|  | [optional] 
 
 ### Return type
@@ -312,7 +312,7 @@ Name | Type | Description  | Notes
 
 <a name="getpetbyid"></a>
 # **GetPetById**
-> Pet GetPetById (long petId)
+> Pet GetPetById (long? petId)
 
 Find pet by ID
 
@@ -340,7 +340,7 @@ namespace Example
             // config.AddApiKeyPrefix("api_key", "Bearer");
 
             var apiInstance = new PetApi(config);
-            var petId = 789L;  // long | ID of pet to return
+            var petId = 789L;  // long? | ID of pet to return
 
             try
             {
@@ -363,7 +363,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **petId** | **long**| ID of pet to return | 
+ **petId** | **long?**| ID of pet to return | 
 
 ### Return type
 
@@ -465,7 +465,7 @@ Name | Type | Description  | Notes
 
 <a name="updatepetwithform"></a>
 # **UpdatePetWithForm**
-> void UpdatePetWithForm (long petId, string name = null, string status = null)
+> void UpdatePetWithForm (long? petId, string name = null, string status = null)
 
 Updates a pet in the store with form data
 
@@ -489,7 +489,7 @@ namespace Example
             config.AccessToken = "YOUR_ACCESS_TOKEN";
 
             var apiInstance = new PetApi(config);
-            var petId = 789L;  // long | ID of pet that needs to be updated
+            var petId = 789L;  // long? | ID of pet that needs to be updated
             var name = "name_example";  // string | Updated name of the pet (optional) 
             var status = "status_example";  // string | Updated status of the pet (optional) 
 
@@ -513,7 +513,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **petId** | **long**| ID of pet that needs to be updated | 
+ **petId** | **long?**| ID of pet that needs to be updated | 
  **name** | **string**| Updated name of the pet | [optional] 
  **status** | **string**| Updated status of the pet | [optional] 
 
@@ -540,7 +540,7 @@ void (empty response body)
 
 <a name="uploadfile"></a>
 # **UploadFile**
-> ApiResponse UploadFile (long petId, string additionalMetadata = null, System.IO.Stream file = null)
+> ApiResponse UploadFile (long? petId, string additionalMetadata = null, System.IO.Stream file = null)
 
 uploads an image
 
@@ -564,7 +564,7 @@ namespace Example
             config.AccessToken = "YOUR_ACCESS_TOKEN";
 
             var apiInstance = new PetApi(config);
-            var petId = 789L;  // long | ID of pet to update
+            var petId = 789L;  // long? | ID of pet to update
             var additionalMetadata = "additionalMetadata_example";  // string | Additional data to pass to server (optional) 
             var file = new System.IO.MemoryStream(System.IO.File.ReadAllBytes("/path/to/file.txt"));  // System.IO.Stream | file to upload (optional) 
 
@@ -589,7 +589,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **petId** | **long**| ID of pet to update | 
+ **petId** | **long?**| ID of pet to update | 
  **additionalMetadata** | **string**| Additional data to pass to server | [optional] 
  **file** | **System.IO.Stream****System.IO.Stream**| file to upload | [optional] 
 

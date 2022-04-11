@@ -9,7 +9,7 @@ Method | HTTP request | Description
 
 <a name="call123testspecialtags"></a>
 # **Call123TestSpecialTags**
-> ModelClient Call123TestSpecialTags (ModelClient modelClient)
+> ModelClient Call123TestSpecialTags (ModelClient? modelClient)
 
 To test special tags
 
@@ -32,7 +32,7 @@ namespace Example
             Configuration config = new Configuration();
             config.BasePath = "http://petstore.swagger.io:80/v2";
             var apiInstance = new AnotherFakeApi(config);
-            var modelClient = new ModelClient(); // ModelClient | client model
+            var modelClient = new ModelClient?(); // ModelClient? | client model
 
             try
             {
@@ -55,7 +55,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **modelClient** | [**ModelClient**](ModelClient.md)| client model | 
+ **modelClient** | [**ModelClient?**](ModelClient?.md)| client model | 
 
 ### Return type
 

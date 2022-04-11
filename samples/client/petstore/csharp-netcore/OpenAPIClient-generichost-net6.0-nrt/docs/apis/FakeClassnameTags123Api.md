@@ -9,7 +9,7 @@ Method | HTTP request | Description
 
 <a name="testclassname"></a>
 # **TestClassname**
-> ModelClient TestClassname (ModelClient modelClient)
+> ModelClient TestClassname (ModelClient? modelClient)
 
 To test class name in snake case
 
@@ -37,7 +37,7 @@ namespace Example
             // config.AddApiKeyPrefix("api_key_query", "Bearer");
 
             var apiInstance = new FakeClassnameTags123Api(config);
-            var modelClient = new ModelClient(); // ModelClient | client model
+            var modelClient = new ModelClient?(); // ModelClient? | client model
 
             try
             {
@@ -60,7 +60,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **modelClient** | [**ModelClient**](ModelClient.md)| client model | 
+ **modelClient** | [**ModelClient?**](ModelClient?.md)| client model | 
 
 ### Return type
 

@@ -33,17 +33,17 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="ClassModel" /> class.
         /// </summary>
-        /// <param name="propertyClass">propertyClass.</param>
-        public ClassModel(string propertyClass = default(string))
+        /// <param name="classProperty">classProperty.</param>
+        public ClassModel(string classProperty = default(string))
         {
-            this.PropertyClass = propertyClass;
+            this.ClassProperty = classProperty;
         }
 
         /// <summary>
-        /// Gets or Sets PropertyClass
+        /// Gets or Sets ClassProperty
         /// </summary>
         [DataMember(Name="_class", EmitDefaultValue=false)]
-        public string PropertyClass { get; set; }
+        public string ClassProperty { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -53,7 +53,7 @@ namespace Org.OpenAPITools.Model
         {
             var sb = new StringBuilder();
             sb.Append("class ClassModel {\n");
-            sb.Append("  PropertyClass: ").Append(PropertyClass).Append("\n");
+            sb.Append("  ClassProperty: ").Append(ClassProperty).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -89,9 +89,9 @@ namespace Org.OpenAPITools.Model
 
             return 
                 (
-                    this.PropertyClass == input.PropertyClass ||
-                    (this.PropertyClass != null &&
-                    this.PropertyClass.Equals(input.PropertyClass))
+                    this.ClassProperty == input.ClassProperty ||
+                    (this.ClassProperty != null &&
+                    this.ClassProperty.Equals(input.ClassProperty))
                 );
         }
 
@@ -104,8 +104,8 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.PropertyClass != null)
-                    hashCode = hashCode * 59 + this.PropertyClass.GetHashCode();
+                if (this.ClassProperty != null)
+                    hashCode = hashCode * 59 + this.ClassProperty.GetHashCode();
                 return hashCode;
             }
         }

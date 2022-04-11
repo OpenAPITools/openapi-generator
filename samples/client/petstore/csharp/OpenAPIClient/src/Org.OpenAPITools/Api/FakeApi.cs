@@ -282,7 +282,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="password">None (optional)</param>
         /// <param name="callback">None (optional)</param>
         /// <returns></returns>
-        void TestEndpointParameters (decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? _float = default(float?), string _string = default(string), System.IO.Stream binary = default(System.IO.Stream), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string password = default(string), string callback = default(string));
+        void TestEndpointParameters (decimal? number, double? _double, string patternWithoutDelimiter, byte[] _byte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? _float = default(float?), string _string = default(string), System.IO.Stream binary = default(System.IO.Stream), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string password = default(string), string callback = default(string));
 
         /// <summary>
         /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -306,7 +306,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="password">None (optional)</param>
         /// <param name="callback">None (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> TestEndpointParametersWithHttpInfo (decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? _float = default(float?), string _string = default(string), System.IO.Stream binary = default(System.IO.Stream), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string password = default(string), string callback = default(string));
+        ApiResponse<Object> TestEndpointParametersWithHttpInfo (decimal? number, double? _double, string patternWithoutDelimiter, byte[] _byte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? _float = default(float?), string _string = default(string), System.IO.Stream binary = default(System.IO.Stream), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string password = default(string), string callback = default(string));
         /// <summary>
         /// To test enum parameters
         /// </summary>
@@ -356,7 +356,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="booleanGroup">Boolean in group parameters (optional)</param>
         /// <param name="int64Group">Integer in group parameters (optional)</param>
         /// <returns></returns>
-        void TestGroupParameters (int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, int? stringGroup = default(int?), bool? booleanGroup = default(bool?), long? int64Group = default(long?));
+        void TestGroupParameters (int? requiredStringGroup, bool? requiredBooleanGroup, long? requiredInt64Group, int? stringGroup = default(int?), bool? booleanGroup = default(bool?), long? int64Group = default(long?));
 
         /// <summary>
         /// Fake endpoint to test group parameters (optional)
@@ -372,7 +372,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="booleanGroup">Boolean in group parameters (optional)</param>
         /// <param name="int64Group">Integer in group parameters (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> TestGroupParametersWithHttpInfo (int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, int? stringGroup = default(int?), bool? booleanGroup = default(bool?), long? int64Group = default(long?));
+        ApiResponse<Object> TestGroupParametersWithHttpInfo (int? requiredStringGroup, bool? requiredBooleanGroup, long? requiredInt64Group, int? stringGroup = default(int?), bool? booleanGroup = default(bool?), long? int64Group = default(long?));
         /// <summary>
         /// test inline additionalProperties
         /// </summary>
@@ -732,7 +732,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="callback">None (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
         /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task TestEndpointParametersAsync (decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? _float = default(float?), string _string = default(string), System.IO.Stream binary = default(System.IO.Stream), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string password = default(string), string callback = default(string), CancellationToken cancellationToken = default(CancellationToken));
+        System.Threading.Tasks.Task TestEndpointParametersAsync (decimal? number, double? _double, string patternWithoutDelimiter, byte[] _byte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? _float = default(float?), string _string = default(string), System.IO.Stream binary = default(System.IO.Stream), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string password = default(string), string callback = default(string), CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -757,7 +757,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="callback">None (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> TestEndpointParametersWithHttpInfoAsync (decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? _float = default(float?), string _string = default(string), System.IO.Stream binary = default(System.IO.Stream), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string password = default(string), string callback = default(string), CancellationToken cancellationToken = default(CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<Object>> TestEndpointParametersWithHttpInfoAsync (decimal? number, double? _double, string patternWithoutDelimiter, byte[] _byte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? _float = default(float?), string _string = default(string), System.IO.Stream binary = default(System.IO.Stream), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string password = default(string), string callback = default(string), CancellationToken cancellationToken = default(CancellationToken));
         /// <summary>
         /// To test enum parameters
         /// </summary>
@@ -810,7 +810,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="int64Group">Integer in group parameters (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
         /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task TestGroupParametersAsync (int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, int? stringGroup = default(int?), bool? booleanGroup = default(bool?), long? int64Group = default(long?), CancellationToken cancellationToken = default(CancellationToken));
+        System.Threading.Tasks.Task TestGroupParametersAsync (int? requiredStringGroup, bool? requiredBooleanGroup, long? requiredInt64Group, int? stringGroup = default(int?), bool? booleanGroup = default(bool?), long? int64Group = default(long?), CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Fake endpoint to test group parameters (optional)
@@ -827,7 +827,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="int64Group">Integer in group parameters (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> TestGroupParametersWithHttpInfoAsync (int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, int? stringGroup = default(int?), bool? booleanGroup = default(bool?), long? int64Group = default(long?), CancellationToken cancellationToken = default(CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<Object>> TestGroupParametersWithHttpInfoAsync (int? requiredStringGroup, bool? requiredBooleanGroup, long? requiredInt64Group, int? stringGroup = default(int?), bool? booleanGroup = default(bool?), long? int64Group = default(long?), CancellationToken cancellationToken = default(CancellationToken));
         /// <summary>
         /// test inline additionalProperties
         /// </summary>
@@ -2662,7 +2662,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="password">None (optional)</param>
         /// <param name="callback">None (optional)</param>
         /// <returns></returns>
-        public void TestEndpointParameters (decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? _float = default(float?), string _string = default(string), System.IO.Stream binary = default(System.IO.Stream), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string password = default(string), string callback = default(string))
+        public void TestEndpointParameters (decimal? number, double? _double, string patternWithoutDelimiter, byte[] _byte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? _float = default(float?), string _string = default(string), System.IO.Stream binary = default(System.IO.Stream), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string password = default(string), string callback = default(string))
         {
              TestEndpointParametersWithHttpInfo(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, _string, binary, date, dateTime, password, callback);
         }
@@ -2686,7 +2686,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="password">None (optional)</param>
         /// <param name="callback">None (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        public ApiResponse<Object> TestEndpointParametersWithHttpInfo (decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? _float = default(float?), string _string = default(string), System.IO.Stream binary = default(System.IO.Stream), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string password = default(string), string callback = default(string))
+        public ApiResponse<Object> TestEndpointParametersWithHttpInfo (decimal? number, double? _double, string patternWithoutDelimiter, byte[] _byte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? _float = default(float?), string _string = default(string), System.IO.Stream binary = default(System.IO.Stream), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string password = default(string), string callback = default(string))
         {
             // verify the required parameter 'number' is set
             if (number == null)
@@ -2782,7 +2782,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="callback">None (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
         /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task TestEndpointParametersAsync (decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? _float = default(float?), string _string = default(string), System.IO.Stream binary = default(System.IO.Stream), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string password = default(string), string callback = default(string), CancellationToken cancellationToken = default(CancellationToken))
+        public async System.Threading.Tasks.Task TestEndpointParametersAsync (decimal? number, double? _double, string patternWithoutDelimiter, byte[] _byte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? _float = default(float?), string _string = default(string), System.IO.Stream binary = default(System.IO.Stream), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string password = default(string), string callback = default(string), CancellationToken cancellationToken = default(CancellationToken))
         {
              await TestEndpointParametersWithHttpInfoAsync(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, _string, binary, date, dateTime, password, callback, cancellationToken);
 
@@ -2808,7 +2808,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="callback">None (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<Object>> TestEndpointParametersWithHttpInfoAsync (decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? _float = default(float?), string _string = default(string), System.IO.Stream binary = default(System.IO.Stream), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string password = default(string), string callback = default(string), CancellationToken cancellationToken = default(CancellationToken))
+        public async System.Threading.Tasks.Task<ApiResponse<Object>> TestEndpointParametersWithHttpInfoAsync (decimal? number, double? _double, string patternWithoutDelimiter, byte[] _byte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? _float = default(float?), string _string = default(string), System.IO.Stream binary = default(System.IO.Stream), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string password = default(string), string callback = default(string), CancellationToken cancellationToken = default(CancellationToken))
         {
             // verify the required parameter 'number' is set
             if (number == null)
@@ -3064,7 +3064,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="booleanGroup">Boolean in group parameters (optional)</param>
         /// <param name="int64Group">Integer in group parameters (optional)</param>
         /// <returns></returns>
-        public void TestGroupParameters (int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, int? stringGroup = default(int?), bool? booleanGroup = default(bool?), long? int64Group = default(long?))
+        public void TestGroupParameters (int? requiredStringGroup, bool? requiredBooleanGroup, long? requiredInt64Group, int? stringGroup = default(int?), bool? booleanGroup = default(bool?), long? int64Group = default(long?))
         {
              TestGroupParametersWithHttpInfo(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
         }
@@ -3080,7 +3080,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="booleanGroup">Boolean in group parameters (optional)</param>
         /// <param name="int64Group">Integer in group parameters (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        public ApiResponse<Object> TestGroupParametersWithHttpInfo (int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, int? stringGroup = default(int?), bool? booleanGroup = default(bool?), long? int64Group = default(long?))
+        public ApiResponse<Object> TestGroupParametersWithHttpInfo (int? requiredStringGroup, bool? requiredBooleanGroup, long? requiredInt64Group, int? stringGroup = default(int?), bool? booleanGroup = default(bool?), long? int64Group = default(long?))
         {
             // verify the required parameter 'requiredStringGroup' is set
             if (requiredStringGroup == null)
@@ -3156,7 +3156,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="int64Group">Integer in group parameters (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
         /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task TestGroupParametersAsync (int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, int? stringGroup = default(int?), bool? booleanGroup = default(bool?), long? int64Group = default(long?), CancellationToken cancellationToken = default(CancellationToken))
+        public async System.Threading.Tasks.Task TestGroupParametersAsync (int? requiredStringGroup, bool? requiredBooleanGroup, long? requiredInt64Group, int? stringGroup = default(int?), bool? booleanGroup = default(bool?), long? int64Group = default(long?), CancellationToken cancellationToken = default(CancellationToken))
         {
              await TestGroupParametersWithHttpInfoAsync(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group, cancellationToken);
 
@@ -3174,7 +3174,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="int64Group">Integer in group parameters (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<Object>> TestGroupParametersWithHttpInfoAsync (int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, int? stringGroup = default(int?), bool? booleanGroup = default(bool?), long? int64Group = default(long?), CancellationToken cancellationToken = default(CancellationToken))
+        public async System.Threading.Tasks.Task<ApiResponse<Object>> TestGroupParametersWithHttpInfoAsync (int? requiredStringGroup, bool? requiredBooleanGroup, long? requiredInt64Group, int? stringGroup = default(int?), bool? booleanGroup = default(bool?), long? int64Group = default(long?), CancellationToken cancellationToken = default(CancellationToken))
         {
             // verify the required parameter 'requiredStringGroup' is set
             if (requiredStringGroup == null)

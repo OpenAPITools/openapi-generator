@@ -76,7 +76,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orderId">ID of pet that needs to be fetched</param>
         /// <returns>Order</returns>
-        Order GetOrderById(long orderId);
+        Order GetOrderById(long? orderId);
 
         /// <summary>
         /// Find purchase order by ID
@@ -87,7 +87,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orderId">ID of pet that needs to be fetched</param>
         /// <returns>ApiResponse of Order</returns>
-        ApiResponse<Order> GetOrderByIdWithHttpInfo(long orderId);
+        ApiResponse<Order> GetOrderByIdWithHttpInfo(long? orderId);
         /// <summary>
         /// Place an order for a pet
         /// </summary>
@@ -169,7 +169,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="orderId">ID of pet that needs to be fetched</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of Order</returns>
-        System.Threading.Tasks.Task<Order> GetOrderByIdAsync(long orderId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<Order> GetOrderByIdAsync(long? orderId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// Find purchase order by ID
@@ -181,7 +181,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="orderId">ID of pet that needs to be fetched</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (Order)</returns>
-        System.Threading.Tasks.Task<ApiResponse<Order>> GetOrderByIdWithHttpInfoAsync(long orderId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<Order>> GetOrderByIdWithHttpInfoAsync(long? orderId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Place an order for a pet
         /// </summary>
@@ -646,7 +646,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orderId">ID of pet that needs to be fetched</param>
         /// <returns>Order</returns>
-        public Order GetOrderById(long orderId)
+        public Order GetOrderById(long? orderId)
         {
             Org.OpenAPITools.Client.ApiResponse<Order> localVarResponse = GetOrderByIdWithHttpInfo(orderId);
             return localVarResponse.Data;
@@ -658,8 +658,12 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orderId">ID of pet that needs to be fetched</param>
         /// <returns>ApiResponse of Order</returns>
-        public Org.OpenAPITools.Client.ApiResponse<Order> GetOrderByIdWithHttpInfo(long orderId)
+        public Org.OpenAPITools.Client.ApiResponse<Order> GetOrderByIdWithHttpInfo(long? orderId)
         {
+            // verify the required parameter 'orderId' is set
+            if (orderId == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'orderId' when calling StoreApi->GetOrderById");
+
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
             string[] _contentTypes = new string[] {
@@ -699,7 +703,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="orderId">ID of pet that needs to be fetched</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of Order</returns>
-        public async System.Threading.Tasks.Task<Order> GetOrderByIdAsync(long orderId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Order> GetOrderByIdAsync(long? orderId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             Org.OpenAPITools.Client.ApiResponse<Order> localVarResponse = await GetOrderByIdWithHttpInfoAsync(orderId, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
@@ -712,8 +716,12 @@ namespace Org.OpenAPITools.Api
         /// <param name="orderId">ID of pet that needs to be fetched</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (Order)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Order>> GetOrderByIdWithHttpInfoAsync(long orderId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Order>> GetOrderByIdWithHttpInfoAsync(long? orderId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
+            // verify the required parameter 'orderId' is set
+            if (orderId == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'orderId' when calling StoreApi->GetOrderById");
+
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 

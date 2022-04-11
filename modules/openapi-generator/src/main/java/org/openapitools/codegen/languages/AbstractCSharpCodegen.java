@@ -479,11 +479,11 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     protected void ensurePropertyNamesAreNotReservedWords(List<CodegenProperty> vars) {
         for (CodegenProperty cp : vars) {
             if (reservedWords().contains(cp.name)){
-                cp.name = "Property" + cp.name;
+                cp.name = cp.name + "Property";
             } else {
                 String camelCaseLambda = camelize(sanitizeName(cp.name), true);
                 if (reservedWords().contains(camelCaseLambda)) {
-                    cp.name = "Property" + cp.name;
+                    cp.name = cp.name + "Property";
                 }
             }
         }
@@ -1450,7 +1450,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
         // ensure a method's parameters are marked as nullable when nullable or when nullReferences are enabled
         // this is mostly needed for reference types used as a method's parameters
-        if (!parameter.required && (nullReferenceTypesFlag || nullableType.contains(parameter.dataType))) {
+        if (nullReferenceTypesFlag || nullableType.contains(parameter.dataType)) {
             parameter.dataType = parameter.dataType.endsWith("?")
                 ? parameter.dataType
                 : parameter.dataType + "?";
