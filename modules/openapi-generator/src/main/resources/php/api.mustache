@@ -511,7 +511,8 @@ use {{invokerPackage}}\ObjectSerializer;
             '{{baseName}}', // param base name
             '{{#schema}}{{openApiType}}{{/schema}}', // openApiType
             '{{style}}', // style
-            {{#isExplode}}true{{/isExplode}}{{^isExplode}}false{{/isExplode}} // explode
+            {{#isExplode}}true{{/isExplode}}{{^isExplode}}false{{/isExplode}}, // explode
+            {{required}} // required
         ) ?? []);
         {{/queryParams}}
 
