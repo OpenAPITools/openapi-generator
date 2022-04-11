@@ -804,6 +804,15 @@ paths:
           format: double
           type: number
         style: form
+      - explode: true
+        in: query
+        name: enum_query_model_array
+        required: false
+        schema:
+          items:
+            $ref: '#/components/schemas/EnumClass'
+          type: array
+        style: form
       requestBody:
         $ref: '#/components/requestBodies/inline_object_2'
         content:

@@ -660,6 +660,12 @@ paths:
             enum:
               - 1.1
               - -1.2
+        - name: enum_query_model_array
+          in: query
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/EnumClass'
       responses:
         '400':
           description: Invalid request
