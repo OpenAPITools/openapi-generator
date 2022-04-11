@@ -45,7 +45,7 @@ namespace Org.OpenAPITools.Model
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FruitReq" /> class
-        /// with the <see cref="" /> class
+        /// with the <see cref="AppleReq" /> class
         /// </summary>
         /// <param name="actualInstance">An instance of AppleReq.</param>
         public FruitReq(AppleReq actualInstance)
@@ -57,7 +57,7 @@ namespace Org.OpenAPITools.Model
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FruitReq" /> class
-        /// with the <see cref="" /> class
+        /// with the <see cref="BananaReq" /> class
         /// </summary>
         /// <param name="actualInstance">An instance of BananaReq.</param>
         public FruitReq(BananaReq actualInstance)

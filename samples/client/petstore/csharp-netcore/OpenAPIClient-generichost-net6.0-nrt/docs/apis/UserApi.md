@@ -16,7 +16,7 @@ Method | HTTP request | Description
 
 <a name="createuser"></a>
 # **CreateUser**
-> void CreateUser (User? user)
+> void CreateUser (User user)
 
 Create user
 
@@ -39,7 +39,7 @@ namespace Example
             Configuration config = new Configuration();
             config.BasePath = "http://petstore.swagger.io:80/v2";
             var apiInstance = new UserApi(config);
-            var user = new User?(); // User? | Created user object
+            var user = new User(); // User | Created user object
 
             try
             {
@@ -61,7 +61,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**User?**](User?.md)| Created user object | 
+ **user** | [**User**](User.md)| Created user object | 
 
 ### Return type
 
@@ -86,7 +86,7 @@ No authorization required
 
 <a name="createuserswitharrayinput"></a>
 # **CreateUsersWithArrayInput**
-> void CreateUsersWithArrayInput (List<User>? user)
+> void CreateUsersWithArrayInput (List<User> user)
 
 Creates list of users with given input array
 
@@ -107,7 +107,7 @@ namespace Example
             Configuration config = new Configuration();
             config.BasePath = "http://petstore.swagger.io:80/v2";
             var apiInstance = new UserApi(config);
-            var user = new List<User>?(); // List<User>? | List of user object
+            var user = new List<User>(); // List<User> | List of user object
 
             try
             {
@@ -129,7 +129,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**List&lt;User&gt;?**](User.md)| List of user object | 
+ **user** | [**List&lt;User&gt;**](User.md)| List of user object | 
 
 ### Return type
 
@@ -154,7 +154,7 @@ No authorization required
 
 <a name="createuserswithlistinput"></a>
 # **CreateUsersWithListInput**
-> void CreateUsersWithListInput (List<User>? user)
+> void CreateUsersWithListInput (List<User> user)
 
 Creates list of users with given input array
 
@@ -175,7 +175,7 @@ namespace Example
             Configuration config = new Configuration();
             config.BasePath = "http://petstore.swagger.io:80/v2";
             var apiInstance = new UserApi(config);
-            var user = new List<User>?(); // List<User>? | List of user object
+            var user = new List<User>(); // List<User> | List of user object
 
             try
             {
@@ -197,7 +197,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**List&lt;User&gt;?**](User.md)| List of user object | 
+ **user** | [**List&lt;User&gt;**](User.md)| List of user object | 
 
 ### Return type
 
@@ -222,7 +222,7 @@ No authorization required
 
 <a name="deleteuser"></a>
 # **DeleteUser**
-> void DeleteUser (string? username)
+> void DeleteUser (string username)
 
 Delete user
 
@@ -245,7 +245,7 @@ namespace Example
             Configuration config = new Configuration();
             config.BasePath = "http://petstore.swagger.io:80/v2";
             var apiInstance = new UserApi(config);
-            var username = "username_example";  // string? | The name that needs to be deleted
+            var username = "username_example";  // string | The name that needs to be deleted
 
             try
             {
@@ -267,7 +267,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **string?**| The name that needs to be deleted | 
+ **username** | **string**| The name that needs to be deleted | 
 
 ### Return type
 
@@ -293,7 +293,7 @@ No authorization required
 
 <a name="getuserbyname"></a>
 # **GetUserByName**
-> User GetUserByName (string? username)
+> User GetUserByName (string username)
 
 Get user by user name
 
@@ -314,7 +314,7 @@ namespace Example
             Configuration config = new Configuration();
             config.BasePath = "http://petstore.swagger.io:80/v2";
             var apiInstance = new UserApi(config);
-            var username = "username_example";  // string? | The name that needs to be fetched. Use user1 for testing.
+            var username = "username_example";  // string | The name that needs to be fetched. Use user1 for testing.
 
             try
             {
@@ -337,7 +337,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **string?**| The name that needs to be fetched. Use user1 for testing. | 
+ **username** | **string**| The name that needs to be fetched. Use user1 for testing. | 
 
 ### Return type
 
@@ -364,7 +364,7 @@ No authorization required
 
 <a name="loginuser"></a>
 # **LoginUser**
-> string LoginUser (string? username, string? password)
+> string LoginUser (string username, string password)
 
 Logs user into the system
 
@@ -385,8 +385,8 @@ namespace Example
             Configuration config = new Configuration();
             config.BasePath = "http://petstore.swagger.io:80/v2";
             var apiInstance = new UserApi(config);
-            var username = "username_example";  // string? | The user name for login
-            var password = "password_example";  // string? | The password for login in clear text
+            var username = "username_example";  // string | The user name for login
+            var password = "password_example";  // string | The password for login in clear text
 
             try
             {
@@ -409,8 +409,8 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **string?**| The user name for login | 
- **password** | **string?**| The password for login in clear text | 
+ **username** | **string**| The user name for login | 
+ **password** | **string**| The password for login in clear text | 
 
 ### Return type
 
@@ -500,7 +500,7 @@ No authorization required
 
 <a name="updateuser"></a>
 # **UpdateUser**
-> void UpdateUser (string? username, User? user)
+> void UpdateUser (string username, User user)
 
 Updated user
 
@@ -523,8 +523,8 @@ namespace Example
             Configuration config = new Configuration();
             config.BasePath = "http://petstore.swagger.io:80/v2";
             var apiInstance = new UserApi(config);
-            var username = "username_example";  // string? | name that need to be deleted
-            var user = new User?(); // User? | Updated user object
+            var username = "username_example";  // string | name that need to be deleted
+            var user = new User(); // User | Updated user object
 
             try
             {
@@ -546,8 +546,8 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **string?**| name that need to be deleted | 
- **user** | [**User?**](User?.md)| Updated user object | 
+ **username** | **string**| name that need to be deleted | 
+ **user** | [**User**](User.md)| Updated user object | 
 
 ### Return type
 

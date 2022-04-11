@@ -12,7 +12,7 @@ Method | HTTP request | Description
 
 <a name="deleteorder"></a>
 # **DeleteOrder**
-> void DeleteOrder (string? orderId)
+> void DeleteOrder (string orderId)
 
 Delete purchase order by ID
 
@@ -35,7 +35,7 @@ namespace Example
             Configuration config = new Configuration();
             config.BasePath = "http://petstore.swagger.io:80/v2";
             var apiInstance = new StoreApi(config);
-            var orderId = "orderId_example";  // string? | ID of the order that needs to be deleted
+            var orderId = "orderId_example";  // string | ID of the order that needs to be deleted
 
             try
             {
@@ -57,7 +57,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **orderId** | **string?**| ID of the order that needs to be deleted | 
+ **orderId** | **string**| ID of the order that needs to be deleted | 
 
 ### Return type
 
@@ -155,7 +155,7 @@ This endpoint does not need any parameter.
 
 <a name="getorderbyid"></a>
 # **GetOrderById**
-> Order GetOrderById (long? orderId)
+> Order GetOrderById (long orderId)
 
 Find purchase order by ID
 
@@ -178,7 +178,7 @@ namespace Example
             Configuration config = new Configuration();
             config.BasePath = "http://petstore.swagger.io:80/v2";
             var apiInstance = new StoreApi(config);
-            var orderId = 789L;  // long? | ID of pet that needs to be fetched
+            var orderId = 789L;  // long | ID of pet that needs to be fetched
 
             try
             {
@@ -201,7 +201,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **orderId** | **long?**| ID of pet that needs to be fetched | 
+ **orderId** | **long**| ID of pet that needs to be fetched | 
 
 ### Return type
 
@@ -228,7 +228,7 @@ No authorization required
 
 <a name="placeorder"></a>
 # **PlaceOrder**
-> Order PlaceOrder (Order? order)
+> Order PlaceOrder (Order order)
 
 Place an order for a pet
 
@@ -249,7 +249,7 @@ namespace Example
             Configuration config = new Configuration();
             config.BasePath = "http://petstore.swagger.io:80/v2";
             var apiInstance = new StoreApi(config);
-            var order = new Order?(); // Order? | order placed for purchasing the pet
+            var order = new Order(); // Order | order placed for purchasing the pet
 
             try
             {
@@ -272,7 +272,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **order** | [**Order?**](Order?.md)| order placed for purchasing the pet | 
+ **order** | [**Order**](Order.md)| order placed for purchasing the pet | 
 
 ### Return type
 

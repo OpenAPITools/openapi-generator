@@ -38,7 +38,7 @@ namespace Org.OpenAPITools.Model
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Mammal" /> class
-        /// with the <see cref="" /> class
+        /// with the <see cref="Whale" /> class
         /// </summary>
         /// <param name="actualInstance">An instance of Whale.</param>
         public Mammal(Whale actualInstance)
@@ -50,7 +50,7 @@ namespace Org.OpenAPITools.Model
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Mammal" /> class
-        /// with the <see cref="" /> class
+        /// with the <see cref="Zebra" /> class
         /// </summary>
         /// <param name="actualInstance">An instance of Zebra.</param>
         public Mammal(Zebra actualInstance)
@@ -62,7 +62,7 @@ namespace Org.OpenAPITools.Model
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Mammal" /> class
-        /// with the <see cref="" /> class
+        /// with the <see cref="Pig" /> class
         /// </summary>
         /// <param name="actualInstance">An instance of Pig.</param>
         public Mammal(Pig actualInstance)

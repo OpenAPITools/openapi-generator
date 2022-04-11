@@ -46,7 +46,7 @@ namespace Org.OpenAPITools.Model
 
         /// <summary>
         /// Initializes a new instance of the <see cref="NullableShape" /> class
-        /// with the <see cref="" /> class
+        /// with the <see cref="Triangle" /> class
         /// </summary>
         /// <param name="actualInstance">An instance of Triangle.</param>
         public NullableShape(Triangle actualInstance)
@@ -58,7 +58,7 @@ namespace Org.OpenAPITools.Model
 
         /// <summary>
         /// Initializes a new instance of the <see cref="NullableShape" /> class
-        /// with the <see cref="" /> class
+        /// with the <see cref="Quadrilateral" /> class
         /// </summary>
         /// <param name="actualInstance">An instance of Quadrilateral.</param>
         public NullableShape(Quadrilateral actualInstance)

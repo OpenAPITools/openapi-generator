@@ -254,7 +254,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="dateTime">None (optional, default to &quot;2010-02-01T10:20:10.111110+01:00&quot;)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;object&gt;&gt;</returns>
-        Task<ApiResponse<object>> TestEndpointParametersWithHttpInfoAsync(decimal? number, double? _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, System.IO.Stream binary = null, DateTime? date = null, string password = null, string callback = null, DateTime? dateTime = null, System.Threading.CancellationToken? cancellationToken = null);
+        Task<ApiResponse<object>> TestEndpointParametersWithHttpInfoAsync(decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, System.IO.Stream binary = null, DateTime? date = null, string password = null, string callback = null, DateTime? dateTime = null, System.Threading.CancellationToken? cancellationToken = null);
 
         /// <summary>
         /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -279,7 +279,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="dateTime">None (optional, default to &quot;2010-02-01T10:20:10.111110+01:00&quot;)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;object&gt;</returns>
-        Task<object> TestEndpointParametersAsync(decimal? number, double? _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, System.IO.Stream binary = null, DateTime? date = null, string password = null, string callback = null, DateTime? dateTime = null, System.Threading.CancellationToken? cancellationToken = null);
+        Task<object> TestEndpointParametersAsync(decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, System.IO.Stream binary = null, DateTime? date = null, string password = null, string callback = null, DateTime? dateTime = null, System.Threading.CancellationToken? cancellationToken = null);
         /// <summary>
         /// To test enum parameters
         /// </summary>
@@ -332,7 +332,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="int64Group">Integer in group parameters (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;object&gt;&gt;</returns>
-        Task<ApiResponse<object>> TestGroupParametersWithHttpInfoAsync(int? requiredStringGroup, bool? requiredBooleanGroup, long? requiredInt64Group, int? stringGroup = null, bool? booleanGroup = null, long? int64Group = null, System.Threading.CancellationToken? cancellationToken = null);
+        Task<ApiResponse<object>> TestGroupParametersWithHttpInfoAsync(int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, int? stringGroup = null, bool? booleanGroup = null, long? int64Group = null, System.Threading.CancellationToken? cancellationToken = null);
 
         /// <summary>
         /// Fake endpoint to test group parameters (optional)
@@ -349,7 +349,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="int64Group">Integer in group parameters (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;object&gt;</returns>
-        Task<object> TestGroupParametersAsync(int? requiredStringGroup, bool? requiredBooleanGroup, long? requiredInt64Group, int? stringGroup = null, bool? booleanGroup = null, long? int64Group = null, System.Threading.CancellationToken? cancellationToken = null);
+        Task<object> TestGroupParametersAsync(int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, int? stringGroup = null, bool? booleanGroup = null, long? int64Group = null, System.Threading.CancellationToken? cancellationToken = null);
         /// <summary>
         /// test inline additionalProperties
         /// </summary>
@@ -1501,7 +1501,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="dateTime">None (optional, default to &quot;2010-02-01T10:20:10.111110+01:00&quot;)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="object"/>&gt;</returns>
-        public async Task<object> TestEndpointParametersAsync(decimal? number, double? _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, System.IO.Stream binary = null, DateTime? date = null, string password = null, string callback = null, DateTime? dateTime = null, System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<object> TestEndpointParametersAsync(decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, System.IO.Stream binary = null, DateTime? date = null, string password = null, string callback = null, DateTime? dateTime = null, System.Threading.CancellationToken? cancellationToken = null)
         {
             ApiResponse<object> result = await TestEndpointParametersWithHttpInfoAsync(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, _string, binary, date, password, callback, dateTime, cancellationToken).ConfigureAwait(false);
 
@@ -1531,7 +1531,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="dateTime">None (optional, default to &quot;2010-02-01T10:20:10.111110+01:00&quot;)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="object"/>&gt;</returns>
-        public async Task<object> TestEndpointParametersOrDefaultAsync(decimal? number, double? _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, System.IO.Stream binary = null, DateTime? date = null, string password = null, string callback = null, DateTime? dateTime = null, System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<object> TestEndpointParametersOrDefaultAsync(decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, System.IO.Stream binary = null, DateTime? date = null, string password = null, string callback = null, DateTime? dateTime = null, System.Threading.CancellationToken? cancellationToken = null)
         {
             ApiResponse<object> result = null;
             try 
@@ -1567,17 +1567,11 @@ namespace Org.OpenAPITools.Api
         /// <param name="dateTime">None (optional, default to &quot;2010-02-01T10:20:10.111110+01:00&quot;)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
-        public async Task<ApiResponse<object>> TestEndpointParametersWithHttpInfoAsync(decimal? number, double? _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, System.IO.Stream binary = null, DateTime? date = null, string password = null, string callback = null, DateTime? dateTime = null, System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<ApiResponse<object>> TestEndpointParametersWithHttpInfoAsync(decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, System.IO.Stream binary = null, DateTime? date = null, string password = null, string callback = null, DateTime? dateTime = null, System.Threading.CancellationToken? cancellationToken = null)
         {
             try
             {
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-                if (number == null)
-                    throw new ArgumentNullException(nameof(number));
-
-                if (_double == null)
-                    throw new ArgumentNullException(nameof(_double));
 
                 if (patternWithoutDelimiter == null)
                     throw new ArgumentNullException(nameof(patternWithoutDelimiter));
@@ -1871,7 +1865,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="int64Group">Integer in group parameters (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="object"/>&gt;</returns>
-        public async Task<object> TestGroupParametersAsync(int? requiredStringGroup, bool? requiredBooleanGroup, long? requiredInt64Group, int? stringGroup = null, bool? booleanGroup = null, long? int64Group = null, System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<object> TestGroupParametersAsync(int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, int? stringGroup = null, bool? booleanGroup = null, long? int64Group = null, System.Threading.CancellationToken? cancellationToken = null)
         {
             ApiResponse<object> result = await TestGroupParametersWithHttpInfoAsync(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group, cancellationToken).ConfigureAwait(false);
 
@@ -1893,7 +1887,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="int64Group">Integer in group parameters (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="object"/>&gt;</returns>
-        public async Task<object> TestGroupParametersOrDefaultAsync(int? requiredStringGroup, bool? requiredBooleanGroup, long? requiredInt64Group, int? stringGroup = null, bool? booleanGroup = null, long? int64Group = null, System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<object> TestGroupParametersOrDefaultAsync(int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, int? stringGroup = null, bool? booleanGroup = null, long? int64Group = null, System.Threading.CancellationToken? cancellationToken = null)
         {
             ApiResponse<object> result = null;
             try 
@@ -1921,20 +1915,11 @@ namespace Org.OpenAPITools.Api
         /// <param name="int64Group">Integer in group parameters (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
-        public async Task<ApiResponse<object>> TestGroupParametersWithHttpInfoAsync(int? requiredStringGroup, bool? requiredBooleanGroup, long? requiredInt64Group, int? stringGroup = null, bool? booleanGroup = null, long? int64Group = null, System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<ApiResponse<object>> TestGroupParametersWithHttpInfoAsync(int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, int? stringGroup = null, bool? booleanGroup = null, long? int64Group = null, System.Threading.CancellationToken? cancellationToken = null)
         {
             try
             {
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-                if (requiredStringGroup == null)
-                    throw new ArgumentNullException(nameof(requiredStringGroup));
-
-                if (requiredBooleanGroup == null)
-                    throw new ArgumentNullException(nameof(requiredBooleanGroup));
-
-                if (requiredInt64Group == null)
-                    throw new ArgumentNullException(nameof(requiredInt64Group));
 
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
 

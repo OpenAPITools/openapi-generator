@@ -37,7 +37,7 @@ namespace Org.OpenAPITools.Model
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PolymorphicProperty" /> class
-        /// with the <see cref="" /> class
+        /// with the <see cref="bool" /> class
         /// </summary>
         /// <param name="actualInstance">An instance of bool.</param>
         public PolymorphicProperty(bool actualInstance)
@@ -49,7 +49,7 @@ namespace Org.OpenAPITools.Model
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PolymorphicProperty" /> class
-        /// with the <see cref="" /> class
+        /// with the <see cref="string" /> class
         /// </summary>
         /// <param name="actualInstance">An instance of string.</param>
         public PolymorphicProperty(string actualInstance)
@@ -61,7 +61,7 @@ namespace Org.OpenAPITools.Model
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PolymorphicProperty" /> class
-        /// with the <see cref="" /> class
+        /// with the <see cref="Object" /> class
         /// </summary>
         /// <param name="actualInstance">An instance of Object.</param>
         public PolymorphicProperty(Object actualInstance)
@@ -73,7 +73,7 @@ namespace Org.OpenAPITools.Model
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PolymorphicProperty" /> class
-        /// with the <see cref="" /> class
+        /// with the <see cref="List{String}" /> class
         /// </summary>
         /// <param name="actualInstance">An instance of List&lt;string&gt;.</param>
         public PolymorphicProperty(List<string> actualInstance)

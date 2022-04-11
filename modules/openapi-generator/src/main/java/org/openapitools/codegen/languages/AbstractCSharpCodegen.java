@@ -1465,7 +1465,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
         // ensure a method's parameters are marked as nullable when nullable or when nullReferences are enabled
         // this is mostly needed for reference types used as a method's parameters
-        if (nullReferenceTypesFlag || nullableType.contains(parameter.dataType)) {
+        if (!parameter.required && (nullReferenceTypesFlag || nullableType.contains(parameter.dataType))) {
             parameter.dataType = parameter.dataType.endsWith("?")
                 ? parameter.dataType
                 : parameter.dataType + "?";
