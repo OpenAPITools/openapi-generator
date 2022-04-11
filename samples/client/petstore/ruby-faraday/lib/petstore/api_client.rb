@@ -16,6 +16,7 @@ require 'logger'
 require 'tempfile'
 require 'time'
 require 'faraday'
+require 'faraday/multipart' if Gem::Version.new(Faraday::VERSION) >= Gem::Version.new('2.0')
 
 module Petstore
   class ApiClient
@@ -58,7 +59,13 @@ module Petstore
         :params_encoder => @config.params_encoder
       }
       connection = Faraday.new(:url => config.base_url, :ssl => ssl_options, :request => request_options) do |conn|
-        conn.request(:basic_auth, config.username, config.password)
+        if config.username && config.password
+          if Gem::Version.new(Faraday::VERSION) >= Gem::Version.new('2.0')
+            conn.request(:authorization, :basic, config.username, config.password)
+          else
+            conn.request(:basic_auth, config.username, config.password)
+          end
+        end
         @config.configure_middleware(conn)
         if opts[:header_params]["Content-Type"] == "multipart/form-data"
           conn.request :multipart
