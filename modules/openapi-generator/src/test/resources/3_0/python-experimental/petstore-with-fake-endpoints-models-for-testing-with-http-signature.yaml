@@ -1530,6 +1530,22 @@ paths:
       responses:
         '200':
           description: ok
+  '/fake/jsonWithCharset':
+    post:
+      tags:
+        - fake
+      summary: json with charset tx and rx
+      operationId: jsonWithCharset
+      requestBody:
+        content:
+          application/json; charset=utf-8:
+            schema: {}
+      responses:
+        200:
+          description: success
+          content:
+            application/json; charset=utf-8:
+              schema: {}
 servers:
   - url: 'http://{server}.swagger.io:{port}/v2'
     description: petstore server
