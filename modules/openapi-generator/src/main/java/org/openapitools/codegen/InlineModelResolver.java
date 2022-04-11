@@ -229,9 +229,9 @@ public class InlineModelResolver {
                 List<Schema> newAllOf = new ArrayList<Schema>();
                 for (Schema inner : m.getAllOf()) {
                     // Recurse to create $refs for inner models
-                    gatherInlineModels(inner, modelPrefix + "_allof");
+                    gatherInlineModels(inner, modelPrefix + "_allOf");
                     if (isModelNeeded(inner)) {
-                        Schema refSchema = this.makeSchemaResolve(modelPrefix, "_allof", inner);
+                        Schema refSchema = this.makeSchemaResolve(modelPrefix, "_allOf", inner);
                         newAllOf.add(refSchema); // replace with ref
                     } else {
                         newAllOf.add(inner);
@@ -243,9 +243,9 @@ public class InlineModelResolver {
                 List<Schema> newAnyOf = new ArrayList<Schema>();
                 for (Schema inner : m.getAnyOf()) {
                     // Recurse to create $refs for inner models
-                    gatherInlineModels(inner, modelPrefix + "_anyof");
+                    gatherInlineModels(inner, modelPrefix + "_anyOf");
                     if (isModelNeeded(inner)) {
-                        Schema refSchema = this.makeSchemaResolve(modelPrefix, "_anyof", inner);
+                        Schema refSchema = this.makeSchemaResolve(modelPrefix, "_anyOf", inner);
                         newAnyOf.add(refSchema); // replace with ref
                     } else {
                         newAnyOf.add(inner);
@@ -257,9 +257,9 @@ public class InlineModelResolver {
                 List<Schema> newOneOf = new ArrayList<Schema>();
                 for (Schema inner : m.getOneOf()) {
                     // Recurse to create $refs for inner models
-                    gatherInlineModels(inner, modelPrefix + "_oneof");
+                    gatherInlineModels(inner, modelPrefix + "_oneOf");
                     if (isModelNeeded(inner)) {
-                        Schema refSchema = this.makeSchemaResolve(modelPrefix, "_oneof", inner);
+                        Schema refSchema = this.makeSchemaResolve(modelPrefix, "_oneOf", inner);
                         newOneOf.add(refSchema); // replace with ref
                     } else {
                         newOneOf.add(inner);

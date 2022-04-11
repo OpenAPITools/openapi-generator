@@ -13,7 +13,7 @@ docs/AppleReq.md
 docs/ArrayOfArrayOfNumberOnly.md
 docs/ArrayOfInlineAllOf.md
 docs/ArrayOfInlineAllOfArrayAllofDogPropertyInner.md
-docs/ArrayOfInlineAllOfArrayAllofDogPropertyItemsAllof.md
+docs/ArrayOfInlineAllOfArrayAllofDogPropertyItemsAllOf.md
 docs/ArrayOfNumberOnly.md
 docs/ArrayTest.md
 docs/Banana.md
@@ -135,7 +135,7 @@ src/main/java/org/openapitools/client/model/AppleReq.java
 src/main/java/org/openapitools/client/model/ArrayOfArrayOfNumberOnly.java
 src/main/java/org/openapitools/client/model/ArrayOfInlineAllOf.java
 src/main/java/org/openapitools/client/model/ArrayOfInlineAllOfArrayAllofDogPropertyInner.java
-src/main/java/org/openapitools/client/model/ArrayOfInlineAllOfArrayAllofDogPropertyItemsAllof.java
+src/main/java/org/openapitools/client/model/ArrayOfInlineAllOfArrayAllofDogPropertyItemsAllOf.java
 src/main/java/org/openapitools/client/model/ArrayOfNumberOnly.java
 src/main/java/org/openapitools/client/model/ArrayTest.java
 src/main/java/org/openapitools/client/model/Banana.java
@@ -206,3 +206,5 @@ src/main/java/org/openapitools/client/model/TriangleInterface.java
 src/main/java/org/openapitools/client/model/User.java
 src/main/java/org/openapitools/client/model/Whale.java
 src/main/java/org/openapitools/client/model/Zebra.java
+src/test/java/org/openapitools/client/model/ArrayOfInlineAllOfArrayAllofDogPropertyInnerTest.java
+src/test/java/org/openapitools/client/model/ArrayOfInlineAllOfArrayAllofDogPropertyItemsAllOfTest.java

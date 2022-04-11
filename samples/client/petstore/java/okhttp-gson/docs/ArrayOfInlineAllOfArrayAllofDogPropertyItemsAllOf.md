@@ -1,6 +1,6 @@
 
 
-# ArrayOfInlineAllOfArrayAllofDogPropertyItemsAllof
+# ArrayOfInlineAllOfArrayAllofDogPropertyItemsAllOf
 
 
 ## Properties

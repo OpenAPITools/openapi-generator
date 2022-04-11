@@ -2502,7 +2502,7 @@ components:
         declawed:
           type: boolean
       type: object
-    ArrayOfInlineAllOf_array_allof_dog_propertyItems_allof:
+    ArrayOfInlineAllOf_array_allof_dog_propertyItems_allOf:
       properties:
         color:
           type: string
@@ -2510,7 +2510,7 @@ components:
     ArrayOfInlineAllOf_array_allof_dog_property_inner:
       allOf:
       - $ref: '#/components/schemas/Dog_allOf'
-      - $ref: '#/components/schemas/ArrayOfInlineAllOf_array_allof_dog_propertyItems_allof'
+      - $ref: '#/components/schemas/ArrayOfInlineAllOf_array_allof_dog_propertyItems_allOf'
   securitySchemes:
     petstore_auth:
       flows:
