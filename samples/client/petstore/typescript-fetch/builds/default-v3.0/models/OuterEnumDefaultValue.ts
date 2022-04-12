@@ -18,10 +18,10 @@
  * @export
  */
 export const OuterEnumDefaultValue = {
-    Placed: 'placed' as 'placed',
-    Approved: 'approved' as 'approved',
-    Delivered: 'delivered' as 'delivered'
-};
+    Placed: 'placed',
+    Approved: 'approved',
+    Delivered: 'delivered'
+} as const;
 export type OuterEnumDefaultValue = typeof OuterEnumDefaultValue[keyof typeof OuterEnumDefaultValue];
 
 
