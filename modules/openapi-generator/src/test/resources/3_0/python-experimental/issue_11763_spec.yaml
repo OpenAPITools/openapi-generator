@@ -141,6 +141,8 @@ paths:
           description: subclasses
           content:
             application/json:
+              schema:
+                type: object
               examples:
                 named class:
                   value:
@@ -230,6 +232,8 @@ paths:
           description: superclasses
           content:
             application/json:
+              schema:
+                type: object
               examples:
                 named class:
                   value:
@@ -304,6 +308,8 @@ paths:
           description: equivalent classes
           content:
             application/json:
+              schema:
+                type: object
               examples:
                 named class:
                   value:
@@ -365,6 +371,8 @@ paths:
           description: satisfiability
           content:
             application/json:
+              schema:
+                type: object
               examples:
                 named class:
                   value:
@@ -420,6 +428,8 @@ paths:
           description: instances
           content:
             application/json:
+              schema:
+                type: object
               examples:
                 named class:
                   value:
@@ -480,10 +490,11 @@ paths:
           content:
             application/json:
               schema:
-                example:
-                  "@id": http://example.org/person/1234
-                  "@type":
-                    - http://www.w3.org/2002/07/owl#Thing
+                type: object
+              example:
+                "@id": http://example.org/person/1234
+                "@type":
+                  - http://www.w3.org/2002/07/owl#Thing
   "/kbs/{kb}/sparql":
     get:
       tags:
