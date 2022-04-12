@@ -1,0 +1,618 @@
+openapi: 3.0.0
+info:
+  description: 'Owlery provides a web API for an [OWL API](http://owlapi.sourceforge.net)-based
+    reasoner containing a configurable set of ontologies (a "knowledgebase"). '
+  version: 1.0.0
+  title: Owlery API
+  contact:
+    email: balhoff@renci.org
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+servers:
+  - url: "{{basePathToReplace}}"
+tags:
+  - name: Knowledgebases
+  - name: DL queries
+  - name: SPARQL
+paths:
+  "/kbs":
+    get:
+      tags:
+        - Knowledgebases
+      summary: List available knowledgebases
+      description: List names of available knowledgebases in this instance of Owlery
+      responses:
+        '200':
+          description: knowledgebase names
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+              examples:
+                response:
+                  value:
+                    - phenoscape
+                    - obo-ontologies
+                    - monarch
+  "/kbs/{kb}":
+    get:
+      tags:
+        - Knowledgebases
+      summary: Knowledgebase
+      description: Display Knowledgebase information and status
+      parameters:
+        - name: kb
+          in: path
+          description: the knowledgebase name
+          required: true
+          schema:
+            type: string
+            example: uberon
+      responses:
+        '200':
+          description: KB info
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  isConsistent:
+                    type: boolean
+                  label:
+                    type: string
+                  logicalAxiomsCount:
+                    type: integer
+              examples:
+                response:
+                  value:
+                    label: uberon
+                    isConsistent: true
+                    logicalAxiomsCount: 43938
+  "/kbs/{kb}/subclasses":
+    get:
+      tags:
+        - DL queries
+      summary: Subclasses
+      description: Get subclasses of a named class or class expression
+      parameters:
+        - name: kb
+          in: path
+          description: label for a knowledgebase in this Owlery
+          required: true
+          schema:
+            type: string
+            example: uberon
+        - name: object
+          in: query
+          description: Manchester-syntax OWL class expression
+          required: true
+          schema:
+            type: string
+          examples:
+            named:
+              value: "<http://purl.obolibrary.org/obo/UBERON_0002101>"
+              summary: a named class with absolute IRI
+            prefixed:
+              value: obo:UBERON_02101
+              summary: a named class using a prefix definition
+            expression:
+              value: 'part_of: some obo:UBERON_0002101'
+              summary: an anonymous expression, using prefix definitions
+        - name: prefixes
+          in: query
+          description: JSON format prefix map, used to expand prefixes in the 'object'
+            expression
+          required: false
+          schema:
+            $ref: '#/components/schemas/prefixMap'
+        - name: direct
+          in: query
+          required: false
+          schema:
+            type: boolean
+            default: true
+        - name: includeEquivalent
+          in: query
+          description: Also query for equivalent classes
+          required: false
+          schema:
+            type: boolean
+            default: false
+        - name: includeNothing
+          in: query
+          description: owl:Nothing is filtered by default because it is by definition
+            a subclass of everything.
+          required: false
+          schema:
+            type: boolean
+            default: false
+        - name: includeDeprecated
+          in: query
+          description: Include `owl:deprecated` terms in the result
+          required: false
+          schema:
+            type: boolean
+            default: true
+      responses:
+        '200':
+          description: subclasses
+          content:
+            application/json:
+              examples:
+                named class:
+                  value:
+                    "@id": http://purl.obolibrary.org/obo/UBERON_0002101
+                    superClassOf:
+                      - http://purl.obolibrary.org/obo/UBERON_0002103
+                      - http://purl.obolibrary.org/obo/XAO_0003027
+                      - http://purl.obolibrary.org/obo/UBERON_0002102
+                      - http://purl.obolibrary.org/obo/EMAPA_16405
+                anonymous expression:
+                  value:
+                    "@id": _:b0
+                    value: ObjectSomeValuesFrom(<http://purl.obolibrary.org/obo/BFO_0000050>
+                      <http://purl.obolibrary.org/obo/UBERON_0002101>)
+                    superClassOf:
+                      - http://purl.obolibrary.org/obo/UBERON_0002103
+                      - http://purl.obolibrary.org/obo/XAO_0003027
+                      - http://purl.obolibrary.org/obo/UBERON_0002102
+                      - http://purl.obolibrary.org/obo/EMAPA_16405
+  "/kbs/{kb}/superclasses":
+    get:
+      tags:
+        - DL queries
+      summary: Superclasses
+      description: Get superclasses of a named class or class expression
+      parameters:
+        - name: kb
+          in: path
+          description: label for a knowledgebase in this Owlery
+          required: true
+          schema:
+            type: string
+            example: uberon
+        - name: object
+          in: query
+          description: Manchester-syntax OWL class expression
+          required: true
+          schema:
+            type: string
+          examples:
+            named:
+              value: "<http://purl.obolibrary.org/obo/UBERON_0002101>"
+              summary: a named class with absolute IRI
+            prefixed:
+              value: obo:UBERON_02101
+              summary: a named class using a prefix definition
+            expression:
+              value: 'part_of: some obo:UBERON_0002101'
+              summary: an anonymous expression, using prefix definitions
+        - name: prefixes
+          in: query
+          description: JSON format prefix map, used to expand prefixes in the 'object'
+            expression
+          required: false
+          schema:
+            $ref: '#/components/schemas/prefixMap'
+        - name: direct
+          in: query
+          required: false
+          schema:
+            type: boolean
+            default: true
+        - name: includeEquivalent
+          in: query
+          description: Also query for equivalent classes
+          required: false
+          schema:
+            type: boolean
+            default: false
+        - name: includeThing
+          in: query
+          description: owl:Thing is filtered by default because it is by definition
+            a superclass of everything.
+          required: false
+          schema:
+            type: boolean
+            default: false
+        - name: includeDeprecated
+          in: query
+          description: Include `owl:deprecated` terms in the result
+          required: false
+          schema:
+            type: boolean
+            default: true
+      responses:
+        '200':
+          description: superclasses
+          content:
+            application/json:
+              examples:
+                named class:
+                  value:
+                    "@id": http://purl.obolibrary.org/obo/UBERON_0002101
+                    subClassOf:
+                      - http://purl.obolibrary.org/obo/UBERON_0002103
+                      - http://purl.obolibrary.org/obo/XAO_0003027
+                      - http://purl.obolibrary.org/obo/UBERON_0002102
+                      - http://purl.obolibrary.org/obo/EMAPA_16405
+                anonymous expression:
+                  value:
+                    "@id": _:b0
+                    value: ObjectSomeValuesFrom(<http://purl.obolibrary.org/obo/BFO_0000050>
+                      <http://purl.obolibrary.org/obo/UBERON_0002101>)
+                    subClassOf:
+                      - http://purl.obolibrary.org/obo/UBERON_0002103
+                      - http://purl.obolibrary.org/obo/XAO_0003027
+                      - http://purl.obolibrary.org/obo/UBERON_0002102
+                      - http://purl.obolibrary.org/obo/EMAPA_16405
+  "/kbs/{kb}/equivalent":
+    get:
+      tags:
+        - DL queries
+      summary: Equivalent classes
+      description: Get equivalent classes of a named class or class expression
+      parameters:
+        - name: kb
+          in: path
+          description: label for a knowledgebase in this Owlery
+          required: true
+          schema:
+            type: string
+            example: uberon
+        - name: object
+          in: query
+          description: Manchester-syntax OWL class expression
+          required: true
+          schema:
+            type: string
+          examples:
+            named:
+              value: "<http://purl.obolibrary.org/obo/UBERON_0002101>"
+              summary: a named class with absolute IRI
+            prefixed:
+              value: obo:UBERON_02101
+              summary: a named class using a prefix definition
+            expression:
+              value: 'part_of: some obo:UBERON_0002101'
+              summary: an anonymous expression, using prefix definitions
+        - name: prefixes
+          in: query
+          description: JSON format prefix map, used to expand prefixes in the 'object'
+            expression
+          required: false
+          schema:
+            $ref: '#/components/schemas/prefixMap'
+        - name: direct
+          in: query
+          required: false
+          schema:
+            type: boolean
+            default: true
+        - name: includeDeprecated
+          in: query
+          description: Include `owl:deprecated` terms in the result
+          required: false
+          schema:
+            type: boolean
+            default: true
+      responses:
+        '200':
+          description: equivalent classes
+          content:
+            application/json:
+              examples:
+                named class:
+                  value:
+                    "@id": http://purl.obolibrary.org/obo/UBERON_0002101
+                    equivalentClass:
+                      - http://purl.obolibrary.org/obo/UBERON_0002103
+                      - http://purl.obolibrary.org/obo/XAO_0003027
+                      - http://purl.obolibrary.org/obo/UBERON_0002102
+                      - http://purl.obolibrary.org/obo/EMAPA_16405
+                anonymous expression:
+                  value:
+                    "@id": _:b0
+                    value: ObjectSomeValuesFrom(<http://purl.obolibrary.org/obo/BFO_0000050>
+                      <http://purl.obolibrary.org/obo/UBERON_0002101>)
+                    equivalentClass:
+                      - http://purl.obolibrary.org/obo/UBERON_0002103
+                      - http://purl.obolibrary.org/obo/XAO_0003027
+                      - http://purl.obolibrary.org/obo/UBERON_0002102
+                      - http://purl.obolibrary.org/obo/EMAPA_16405
+  "/kbs/{kb}/satisfiable":
+    get:
+      tags:
+        - DL queries
+      summary: Satisfiability
+      description: Returns whether the given named class or expression is satisfiable
+      parameters:
+        - name: kb
+          in: path
+          description: label for a knowledgebase in this Owlery
+          required: true
+          schema:
+            type: string
+            example: uberon
+        - name: object
+          in: query
+          description: Manchester-syntax OWL class expression
+          required: true
+          schema:
+            type: string
+          examples:
+            named:
+              value: "<http://purl.obolibrary.org/obo/UBERON_0002101>"
+              summary: a named class with absolute IRI
+            prefixed:
+              value: obo:UBERON_02101
+              summary: a named class using a prefix definition
+            expression:
+              value: 'part_of: some obo:UBERON_0002101'
+              summary: an anonymous expression, using prefix definitions
+        - name: prefixes
+          in: query
+          description: JSON format prefix map, used to expand prefixes in the 'object'
+            expression
+          required: false
+          schema:
+            $ref: '#/components/schemas/prefixMap'
+      responses:
+        '200':
+          description: satisfiability
+          content:
+            application/json:
+              examples:
+                named class:
+                  value:
+                    "@id": http://purl.obolibrary.org/obo/UBERON_0002101
+                    isSatisfiable: true
+                anonymous expression:
+                  value:
+                    "@id": _:b0
+                    value: ObjectSomeValuesFrom(<http://purl.obolibrary.org/obo/BFO_0000050>
+                      <http://purl.obolibrary.org/obo/UBERON_0002101>)
+                    isSatisfiable: true
+  "/kbs/{kb}/instances":
+    get:
+      tags:
+        - DL queries
+      summary: Instances
+      description: Get instances of a named class or class expression
+      parameters:
+        - name: kb
+          in: path
+          description: label for a knowledgebase in this Owlery
+          required: true
+          schema:
+            type: string
+            example: uberon
+        - name: object
+          in: query
+          description: Manchester-syntax OWL class expression
+          required: true
+          schema:
+            type: string
+        - name: prefixes
+          in: query
+          description: JSON format prefix map
+          required: false
+          schema:
+            $ref: '#/components/schemas/prefixMap'
+        - name: direct
+          in: query
+          required: false
+          schema:
+            type: boolean
+            default: true
+        - name: includeDeprecated
+          in: query
+          description: Include `owl:deprecated` terms in the result
+          required: false
+          schema:
+            type: boolean
+            default: true
+      responses:
+        '200':
+          description: instances
+          content:
+            application/json:
+              examples:
+                named class:
+                  value:
+                    "@id": http://purl.obolibrary.org/obo/UBERON_0002101
+                    hasInstance:
+                      - http://example.org/obo/UBERON_0002101#1
+                      - http://example.org/obo/UBERON_0002101#2
+  "/kbs/{kb}/types":
+    get:
+      tags:
+        - DL queries
+      summary: Types
+      description: Get types of a named individual
+      parameters:
+        - name: kb
+          in: path
+          description: label for a knowledgebase in this Owlery
+          required: true
+          schema:
+            type: string
+        - name: object
+          in: query
+          description: Individual IRI
+          required: true
+          schema:
+            type: string
+            example: "<http://example.org/person/1234>"
+        - name: prefixes
+          in: query
+          description: JSON format prefix map
+          required: false
+          schema:
+            $ref: '#/components/schemas/prefixMap'
+        - name: direct
+          in: query
+          required: false
+          schema:
+            type: boolean
+            default: true
+        - name: includeThing
+          in: query
+          description: owl:Thing is filtered by default because it is by definition
+            a type of everything.
+          required: false
+          schema:
+            type: boolean
+            default: false
+        - name: includeDeprecated
+          in: query
+          description: Include `owl:deprecated` terms in the result
+          required: false
+          schema:
+            type: boolean
+            default: true
+      responses:
+        '200':
+          description: types
+          content:
+            application/json:
+              schema:
+                example:
+                  "@id": http://example.org/person/1234
+                  "@type":
+                    - http://www.w3.org/2002/07/owl#Thing
+  "/kbs/{kb}/sparql":
+    get:
+      tags:
+        - SPARQL
+      summary: Perform SPARQL query encoded in URL parameter
+      description: Perform SPARQL query using Owlet-style embedded class expression.
+        This is not a complete SPARQL endpoint. It is for using Owlery as a federated
+        query endpoint for a single Owlet triple pattern.
+      parameters:
+        - name: kb
+          in: path
+          description: label for a knowledgebase in this Owlery
+          required: true
+          schema:
+            type: string
+        - name: query
+          in: query
+          description: SPARQL query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: SPARQL results
+          content:
+            application/sparql-results+xml: {}
+    post:
+      tags:
+        - SPARQL
+      summary: Perform SPARQL query contained in request body
+      description: Perform SPARQL query using Owlet-style embedded class expression.
+        This is not a complete SPARQL endpoint. It is for using Owlery as a federated
+        query endpoint for a single Owlet triple pattern.
+      parameters:
+        - name: kb
+          in: path
+          description: label for a knowledgebase in this Owlery
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/sparql-query:
+            schema:
+              type: string
+              format: SPARQL query
+              example: SELECT ?x WHERE { ?x a "blah"}
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                query:
+                  type: string
+                  format: SPARQL query
+              required:
+                - query
+      responses:
+        '200':
+          description: SPARQL results
+  "/kbs/{kb}/expand":
+    get:
+      tags:
+        - SPARQL
+      summary: Expand SPARQL query encoded in URL parameter
+      description: Expand a SPARQL query, transforming Owlet-style embedded class
+        expressions into `FILTER`s
+      parameters:
+        - name: kb
+          in: path
+          description: label for a knowledgebase in this Owlery
+          required: true
+          schema:
+            type: string
+        - name: query
+          in: query
+          description: SPARQL query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Expanded SPARQL query
+          content:
+            application/sparql-query: {}
+    post:
+      tags:
+        - SPARQL
+      summary: Expand SPARQL query contained in request body
+      description: Expand a SPARQL query, transforming Owlet-style embedded class
+        expressions into `FILTER`s
+      parameters:
+        - name: kb
+          in: path
+          description: label for a knowledgebase in this Owlery
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/sparql-query:
+            schema:
+              type: string
+              format: SPARQL query
+              example: SELECT ?x WHERE { ?x a "blah"}
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                query:
+                  type: string
+                  format: SPARQL query
+              required:
+                - query
+      responses:
+        '200':
+          description: SPARQL results
+components:
+  schemas:
+    prefixMap:
+      description: >
+        JSON format prefix map, used to expand prefixes in
+        the 'object' expression.  A JSON format prefix map is a JSON
+        object whose keys are prefixes without the colon separator
+        (e.g., \"owl\"), and whose values are IRI prefixes
+        (typically WITH the hash-mark, \"#\" suffix).  Because these
+        are passed as parameters, they may need to be URL-encoded to
+        pass over HTTP.
+      type: string
+      format: JSON
+      example: '{"obo": "http://purl.obolibrary.org/obo/", "part_of": "http://purl.obolibrary.org/obo/BFO_0000050"}'
