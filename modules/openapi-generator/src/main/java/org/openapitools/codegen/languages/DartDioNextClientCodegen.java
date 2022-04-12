@@ -405,7 +405,7 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
 
             if (SERIALIZATION_LIBRARY_BUILT_VALUE.equals(library)) {
 
-                for (CodegenParameter param : op.bodyParams) {
+                for (CodegenParameter param : op.allParams) {
                     // Generate serializer factories for all container type parameters.
                     // But skip binary and file parameters, JSON serializers don't make sense there.
                     if (param.isContainer && !(param.isBinary || param.isFile )) {
