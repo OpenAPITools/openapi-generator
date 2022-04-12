@@ -5,6 +5,7 @@ on:
     branches:
       - master
       - '[5-9]+.[0-9]+.x'
+      - auto-update-if-master-branch
   pull_request:
     branches:
       - master
@@ -116,7 +117,16 @@ jobs:
             echo "When you see unexpected files here, it likely means that there are newer commits in master that you need to "
             echo -e "rebase or merge into your branch.\n"
             echo "Please run 'bin/utils/ensure-up-to-date' locally and commit changes (UNCOMMITTED CHANGES ERROR)"
-            exit 1
+            if [[ "$(git symbolic-ref --short HEAD)" == "auto-update-if-master-branch" ]]; then
+              git pull origin auto-update-if-master-branch
+              git config --local user.email "action@github.com"
+              git config --local user.name "GitHub Action"
+              git add $(git diff --name-only)
+              git commit -m "auto update uncommit docs changes [ci skip]"
+              git push origin HEAD
+            else
+              exit 1
+            fi
           fi
 
   samples:
@@ -151,7 +161,16 @@ jobs:
             echo "When you see unexpected files here, it likely means that there are newer commits in master that you need to "
             echo -e "rebase or merge into your branch.\n"
             echo "Please run 'bin/generate-samples.sh' locally and commit changes (UNCOMMITTED CHANGES ERROR)"
-            exit 1
+            if [[ "$(git symbolic-ref --short HEAD)" == "auto-update-if-master-branch" ]]; then
+              git pull origin auto-update-if-master-branch
+              git config --local user.email "action@github.com"
+              git config --local user.name "GitHub Action"
+              git add $(git diff --name-only)
+              git commit -m "auto update uncommit sample changes [ci skip]"
+              git push origin HEAD
+            else
+              exit 1
+            fi
           fi
 
   test-maven-plugin:
