@@ -18,6 +18,9 @@ import {
     Client,
     ClientFromJSON,
     ClientToJSON,
+    EnumClass,
+    EnumClassFromJSON,
+    EnumClassToJSON,
     FileSchemaTestClass,
     FileSchemaTestClassFromJSON,
     FileSchemaTestClassToJSON,
@@ -105,6 +108,7 @@ export interface TestEnumParametersRequest {
     enumQueryString?: TestEnumParametersEnumQueryStringEnum;
     enumQueryInteger?: TestEnumParametersEnumQueryIntegerEnum;
     enumQueryDouble?: TestEnumParametersEnumQueryDoubleEnum;
+    enumQueryModelArray?: Array<EnumClass>;
     enumFormStringArray?: Array<TestEnumParametersEnumFormStringArrayEnum>;
     enumFormString?: TestEnumParametersEnumFormStringEnum;
 }
@@ -634,6 +638,10 @@ export class FakeApi extends runtime.BaseAPI {
 
         if (requestParameters.enumQueryDouble !== undefined) {
             queryParameters['enum_query_double'] = requestParameters.enumQueryDouble;
+        }
+
+        if (requestParameters.enumQueryModelArray) {
+            queryParameters['enum_query_model_array'] = requestParameters.enumQueryModelArray;
         }
 
         const headerParameters: runtime.HTTPHeaders = {};

@@ -15,6 +15,7 @@ import 'package:openapi/api_util.dart';
 import 'package:openapi/model/file_schema_test_class.dart';
 import 'package:openapi/model/health_check_result.dart';
 import 'package:openapi/model/model_client.dart';
+import 'package:openapi/model/model_enum_class.dart';
 import 'package:openapi/model/outer_composite.dart';
 import 'package:openapi/model/outer_object_with_enum_property.dart';
 import 'package:openapi/model/pet.dart';
@@ -686,6 +687,7 @@ class FakeApi {
     String enumQueryString,
     int enumQueryInteger,
     double enumQueryDouble,
+    BuiltList<ModelEnumClass> enumQueryModelArray,
     BuiltList<String> enumFormStringArray,
     String enumFormString,
     CancelToken cancelToken,
@@ -708,6 +710,7 @@ class FakeApi {
         if (enumQueryString != null) r'enum_query_string': enumQueryString,
         if (enumQueryInteger != null) r'enum_query_integer': enumQueryInteger,
         if (enumQueryDouble != null) r'enum_query_double': enumQueryDouble,
+        if (enumQueryModelArray != null) r'enum_query_model_array': enumQueryModelArray,
       },
       extra: <String, dynamic>{
         'secure': <Map<String, String>>[],
