@@ -229,10 +229,6 @@ QString PFXUserApi::getParamStyleDelimiter(const QString &style, const QString &
 void PFXUserApi::createUser(const PFXUser &pfx_user) {
     QString fullPath = QString(_serverConfigs["createUser"][_serverIndices.value("createUser")].URL()+"/user");
     
-    if (_apiKeys.contains("api_key")) {
-        addHeaders("api_key",_apiKeys.find("api_key").value());
-    }
-    
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
     worker->setWorkingDirectory(_workingDirectory);
@@ -284,10 +280,6 @@ void PFXUserApi::createUserCallback(PFXHttpRequestWorker *worker) {
 
 void PFXUserApi::createUsersWithArrayInput(const QList<PFXUser> &pfx_user) {
     QString fullPath = QString(_serverConfigs["createUsersWithArrayInput"][_serverIndices.value("createUsersWithArrayInput")].URL()+"/user/createWithArray");
-    
-    if (_apiKeys.contains("api_key")) {
-        addHeaders("api_key",_apiKeys.find("api_key").value());
-    }
     
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
@@ -341,10 +333,6 @@ void PFXUserApi::createUsersWithArrayInputCallback(PFXHttpRequestWorker *worker)
 void PFXUserApi::createUsersWithListInput(const QList<PFXUser> &pfx_user) {
     QString fullPath = QString(_serverConfigs["createUsersWithListInput"][_serverIndices.value("createUsersWithListInput")].URL()+"/user/createWithList");
     
-    if (_apiKeys.contains("api_key")) {
-        addHeaders("api_key",_apiKeys.find("api_key").value());
-    }
-    
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
     worker->setWorkingDirectory(_workingDirectory);
@@ -396,10 +384,6 @@ void PFXUserApi::createUsersWithListInputCallback(PFXHttpRequestWorker *worker) 
 
 void PFXUserApi::deleteUser(const QString &username) {
     QString fullPath = QString(_serverConfigs["deleteUser"][_serverIndices.value("deleteUser")].URL()+"/user/{username}");
-    
-    if (_apiKeys.contains("api_key")) {
-        addHeaders("api_key",_apiKeys.find("api_key").value());
-    }
     
     
     {
@@ -607,10 +591,6 @@ void PFXUserApi::loginUserCallback(PFXHttpRequestWorker *worker) {
 void PFXUserApi::logoutUser() {
     QString fullPath = QString(_serverConfigs["logoutUser"][_serverIndices.value("logoutUser")].URL()+"/user/logout");
     
-    if (_apiKeys.contains("api_key")) {
-        addHeaders("api_key",_apiKeys.find("api_key").value());
-    }
-    
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
     worker->setWorkingDirectory(_workingDirectory);
@@ -658,10 +638,6 @@ void PFXUserApi::logoutUserCallback(PFXHttpRequestWorker *worker) {
 
 void PFXUserApi::updateUser(const QString &username, const PFXUser &pfx_user) {
     QString fullPath = QString(_serverConfigs["updateUser"][_serverIndices.value("updateUser")].URL()+"/user/{username}");
-    
-    if (_apiKeys.contains("api_key")) {
-        addHeaders("api_key",_apiKeys.find("api_key").value());
-    }
     
     
     {

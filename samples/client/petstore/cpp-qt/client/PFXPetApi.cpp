@@ -295,12 +295,11 @@ void PFXPetApi::addPetCallback(PFXHttpRequestWorker *worker) {
     if (worker->error_type != QNetworkReply::NoError) {
         error_str = QString("%1, %2").arg(worker->error_str, QString(worker->response));
     }
-    PFXPet output(QString(worker->response));
     worker->deleteLater();
 
     if (worker->error_type == QNetworkReply::NoError) {
-        emit addPetSignal(output);
-        emit addPetSignalFull(worker, output);
+        emit addPetSignal();
+        emit addPetSignalFull(worker);
     } else if(worker->error_type == QNetworkReply::AuthenticationRequiredError){
         connect(&_implicitFlow, SIGNAL(tokenReceived()), this, SLOT(tokenAvailable()));
         QStringList scope;
@@ -314,7 +313,7 @@ void PFXPetApi::addPetCallback(PFXHttpRequestWorker *worker) {
 
 
     } else {
-        emit addPetSignalE(output, error_type, error_str);
+        emit addPetSignalE(error_type, error_str);
         emit addPetSignalEFull(worker, error_type, error_str);
     }
 }
@@ -545,6 +544,7 @@ void PFXPetApi::findPetsByStatus(const QList<QString> &status) {
     _authFlow.unlink();
     _credentialFlow.unlink();
     QStringList scope;
+    scope.append("write:pets");
     scope.append("read:pets");
     auto token = _implicitFlow.getToken(scope.join(" "));
     if(token.isValid())
@@ -595,6 +595,7 @@ void PFXPetApi::findPetsByStatusCallback(PFXHttpRequestWorker *worker) {
     } else if(worker->error_type == QNetworkReply::AuthenticationRequiredError){
         connect(&_implicitFlow, SIGNAL(tokenReceived()), this, SLOT(tokenAvailable()));
         QStringList scope;
+        scope.append("write:pets");
         scope.append("read:pets");
         QString scopeStr = scope.join(" ");
         QString authorizationUrl("http://petstore.swagger.io/api/oauth/dialog");
@@ -727,6 +728,7 @@ void PFXPetApi::findPetsByTags(const QList<QString> &tags) {
     _authFlow.unlink();
     _credentialFlow.unlink();
     QStringList scope;
+    scope.append("write:pets");
     scope.append("read:pets");
     auto token = _implicitFlow.getToken(scope.join(" "));
     if(token.isValid())
@@ -777,6 +779,7 @@ void PFXPetApi::findPetsByTagsCallback(PFXHttpRequestWorker *worker) {
     } else if(worker->error_type == QNetworkReply::AuthenticationRequiredError){
         connect(&_implicitFlow, SIGNAL(tokenReceived()), this, SLOT(tokenAvailable()));
         QStringList scope;
+        scope.append("write:pets");
         scope.append("read:pets");
         QString scopeStr = scope.join(" ");
         QString authorizationUrl("http://petstore.swagger.io/api/oauth/dialog");
@@ -927,12 +930,11 @@ void PFXPetApi::updatePetCallback(PFXHttpRequestWorker *worker) {
     if (worker->error_type != QNetworkReply::NoError) {
         error_str = QString("%1, %2").arg(worker->error_str, QString(worker->response));
     }
-    PFXPet output(QString(worker->response));
     worker->deleteLater();
 
     if (worker->error_type == QNetworkReply::NoError) {
-        emit updatePetSignal(output);
-        emit updatePetSignalFull(worker, output);
+        emit updatePetSignal();
+        emit updatePetSignalFull(worker);
     } else if(worker->error_type == QNetworkReply::AuthenticationRequiredError){
         connect(&_implicitFlow, SIGNAL(tokenReceived()), this, SLOT(tokenAvailable()));
         QStringList scope;
@@ -946,7 +948,7 @@ void PFXPetApi::updatePetCallback(PFXHttpRequestWorker *worker) {
 
 
     } else {
-        emit updatePetSignalE(output, error_type, error_str);
+        emit updatePetSignalE(error_type, error_str);
         emit updatePetSignalEFull(worker, error_type, error_str);
     }
 }

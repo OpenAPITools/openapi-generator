@@ -137,30 +137,30 @@ private:
 
 signals:
 
-    void addPetSignal(PFXPet summary);
+    void addPetSignal();
     void deletePetSignal();
     void findPetsByStatusSignal(QList<PFXPet> summary);
     void findPetsByTagsSignal(QList<PFXPet> summary);
     void getPetByIdSignal(PFXPet summary);
-    void updatePetSignal(PFXPet summary);
+    void updatePetSignal();
     void updatePetWithFormSignal();
     void uploadFileSignal(PFXApiResponse summary);
 
-    void addPetSignalFull(PFXHttpRequestWorker *worker, PFXPet summary);
+    void addPetSignalFull(PFXHttpRequestWorker *worker);
     void deletePetSignalFull(PFXHttpRequestWorker *worker);
     void findPetsByStatusSignalFull(PFXHttpRequestWorker *worker, QList<PFXPet> summary);
     void findPetsByTagsSignalFull(PFXHttpRequestWorker *worker, QList<PFXPet> summary);
     void getPetByIdSignalFull(PFXHttpRequestWorker *worker, PFXPet summary);
-    void updatePetSignalFull(PFXHttpRequestWorker *worker, PFXPet summary);
+    void updatePetSignalFull(PFXHttpRequestWorker *worker);
     void updatePetWithFormSignalFull(PFXHttpRequestWorker *worker);
     void uploadFileSignalFull(PFXHttpRequestWorker *worker, PFXApiResponse summary);
 
-    void addPetSignalE(PFXPet summary, QNetworkReply::NetworkError error_type, QString error_str);
+    void addPetSignalE(QNetworkReply::NetworkError error_type, QString error_str);
     void deletePetSignalE(QNetworkReply::NetworkError error_type, QString error_str);
     void findPetsByStatusSignalE(QList<PFXPet> summary, QNetworkReply::NetworkError error_type, QString error_str);
     void findPetsByTagsSignalE(QList<PFXPet> summary, QNetworkReply::NetworkError error_type, QString error_str);
     void getPetByIdSignalE(PFXPet summary, QNetworkReply::NetworkError error_type, QString error_str);
-    void updatePetSignalE(PFXPet summary, QNetworkReply::NetworkError error_type, QString error_str);
+    void updatePetSignalE(QNetworkReply::NetworkError error_type, QString error_str);
     void updatePetWithFormSignalE(QNetworkReply::NetworkError error_type, QString error_str);
     void uploadFileSignalE(PFXApiResponse summary, QNetworkReply::NetworkError error_type, QString error_str);
 
