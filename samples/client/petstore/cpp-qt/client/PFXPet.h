@@ -68,10 +68,10 @@ public:
     bool is_tags_Set() const;
     bool is_tags_Valid() const;
 
-    QString getStatus() const;
-    void setStatus(const QString &status);
-    bool is_status_Set() const;
-    bool is_status_Valid() const;
+    Q_DECL_DEPRECATED QString getStatus() const;
+    Q_DECL_DEPRECATED void setStatus(const QString &status);
+    Q_DECL_DEPRECATED bool is_status_Set() const;
+    Q_DECL_DEPRECATED bool is_status_Valid() const;
 
     virtual bool isSet() const override;
     virtual bool isValid() const override;

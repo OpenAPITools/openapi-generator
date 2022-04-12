@@ -226,7 +226,7 @@ QString PFXPetApi::getParamStyleDelimiter(const QString &style, const QString &n
     }
 }
 
-void PFXPetApi::addPet(const PFXPet &body) {
+void PFXPetApi::addPet(const PFXPet &pfx_pet) {
     QString fullPath = QString(_serverConfigs["addPet"][_serverIndices.value("addPet")].URL()+"/pet");
     
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
@@ -236,7 +236,7 @@ void PFXPetApi::addPet(const PFXPet &body) {
 
     {
 
-        QByteArray output = body.asJson().toUtf8();
+        QByteArray output = pfx_pet.asJson().toUtf8();
         input.request_body.append(output);
     }
 #if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
@@ -295,11 +295,12 @@ void PFXPetApi::addPetCallback(PFXHttpRequestWorker *worker) {
     if (worker->error_type != QNetworkReply::NoError) {
         error_str = QString("%1, %2").arg(worker->error_str, QString(worker->response));
     }
+    PFXPet output(QString(worker->response));
     worker->deleteLater();
 
     if (worker->error_type == QNetworkReply::NoError) {
-        emit addPetSignal();
-        emit addPetSignalFull(worker);
+        emit addPetSignal(output);
+        emit addPetSignalFull(worker, output);
     } else if(worker->error_type == QNetworkReply::AuthenticationRequiredError){
         connect(&_implicitFlow, SIGNAL(tokenReceived()), this, SLOT(tokenAvailable()));
         QStringList scope;
@@ -313,7 +314,7 @@ void PFXPetApi::addPetCallback(PFXHttpRequestWorker *worker) {
 
 
     } else {
-        emit addPetSignalE(error_type, error_str);
+        emit addPetSignalE(output, error_type, error_str);
         emit addPetSignalEFull(worker, error_type, error_str);
     }
 }
@@ -326,7 +327,7 @@ void PFXPetApi::deletePet(const qint64 &pet_id, const ::test_namespace::Optional
         QString pet_idPathParam("{");
         pet_idPathParam.append("petId").append("}");
         QString pathPrefix, pathSuffix, pathDelimiter;
-        QString pathStyle = "";
+        QString pathStyle = "simple";
         if (pathStyle == "")
             pathStyle = "simple";
         pathPrefix = getParamStylePrefix(pathStyle);
@@ -544,7 +545,6 @@ void PFXPetApi::findPetsByStatus(const QList<QString> &status) {
     _authFlow.unlink();
     _credentialFlow.unlink();
     QStringList scope;
-    scope.append("write:pets");
     scope.append("read:pets");
     auto token = _implicitFlow.getToken(scope.join(" "));
     if(token.isValid())
@@ -595,7 +595,6 @@ void PFXPetApi::findPetsByStatusCallback(PFXHttpRequestWorker *worker) {
     } else if(worker->error_type == QNetworkReply::AuthenticationRequiredError){
         connect(&_implicitFlow, SIGNAL(tokenReceived()), this, SLOT(tokenAvailable()));
         QStringList scope;
-        scope.append("write:pets");
         scope.append("read:pets");
         QString scopeStr = scope.join(" ");
         QString authorizationUrl("http://petstore.swagger.io/api/oauth/dialog");
@@ -728,7 +727,6 @@ void PFXPetApi::findPetsByTags(const QList<QString> &tags) {
     _authFlow.unlink();
     _credentialFlow.unlink();
     QStringList scope;
-    scope.append("write:pets");
     scope.append("read:pets");
     auto token = _implicitFlow.getToken(scope.join(" "));
     if(token.isValid())
@@ -779,7 +777,6 @@ void PFXPetApi::findPetsByTagsCallback(PFXHttpRequestWorker *worker) {
     } else if(worker->error_type == QNetworkReply::AuthenticationRequiredError){
         connect(&_implicitFlow, SIGNAL(tokenReceived()), this, SLOT(tokenAvailable()));
         QStringList scope;
-        scope.append("write:pets");
         scope.append("read:pets");
         QString scopeStr = scope.join(" ");
         QString authorizationUrl("http://petstore.swagger.io/api/oauth/dialog");
@@ -806,7 +803,7 @@ void PFXPetApi::getPetById(const qint64 &pet_id) {
         QString pet_idPathParam("{");
         pet_idPathParam.append("petId").append("}");
         QString pathPrefix, pathSuffix, pathDelimiter;
-        QString pathStyle = "";
+        QString pathStyle = "simple";
         if (pathStyle == "")
             pathStyle = "simple";
         pathPrefix = getParamStylePrefix(pathStyle);
@@ -861,7 +858,7 @@ void PFXPetApi::getPetByIdCallback(PFXHttpRequestWorker *worker) {
     }
 }
 
-void PFXPetApi::updatePet(const PFXPet &body) {
+void PFXPetApi::updatePet(const PFXPet &pfx_pet) {
     QString fullPath = QString(_serverConfigs["updatePet"][_serverIndices.value("updatePet")].URL()+"/pet");
     
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
@@ -871,7 +868,7 @@ void PFXPetApi::updatePet(const PFXPet &body) {
 
     {
 
-        QByteArray output = body.asJson().toUtf8();
+        QByteArray output = pfx_pet.asJson().toUtf8();
         input.request_body.append(output);
     }
 #if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
@@ -930,11 +927,12 @@ void PFXPetApi::updatePetCallback(PFXHttpRequestWorker *worker) {
     if (worker->error_type != QNetworkReply::NoError) {
         error_str = QString("%1, %2").arg(worker->error_str, QString(worker->response));
     }
+    PFXPet output(QString(worker->response));
     worker->deleteLater();
 
     if (worker->error_type == QNetworkReply::NoError) {
-        emit updatePetSignal();
-        emit updatePetSignalFull(worker);
+        emit updatePetSignal(output);
+        emit updatePetSignalFull(worker, output);
     } else if(worker->error_type == QNetworkReply::AuthenticationRequiredError){
         connect(&_implicitFlow, SIGNAL(tokenReceived()), this, SLOT(tokenAvailable()));
         QStringList scope;
@@ -948,7 +946,7 @@ void PFXPetApi::updatePetCallback(PFXHttpRequestWorker *worker) {
 
 
     } else {
-        emit updatePetSignalE(error_type, error_str);
+        emit updatePetSignalE(output, error_type, error_str);
         emit updatePetSignalEFull(worker, error_type, error_str);
     }
 }
@@ -961,7 +959,7 @@ void PFXPetApi::updatePetWithForm(const qint64 &pet_id, const ::test_namespace::
         QString pet_idPathParam("{");
         pet_idPathParam.append("petId").append("}");
         QString pathPrefix, pathSuffix, pathDelimiter;
-        QString pathStyle = "";
+        QString pathStyle = "simple";
         if (pathStyle == "")
             pathStyle = "simple";
         pathPrefix = getParamStylePrefix(pathStyle);
@@ -1071,7 +1069,7 @@ void PFXPetApi::uploadFile(const qint64 &pet_id, const ::test_namespace::Optiona
         QString pet_idPathParam("{");
         pet_idPathParam.append("petId").append("}");
         QString pathPrefix, pathSuffix, pathDelimiter;
-        QString pathStyle = "";
+        QString pathStyle = "simple";
         if (pathStyle == "")
             pathStyle = "simple";
         pathPrefix = getParamStylePrefix(pathStyle);

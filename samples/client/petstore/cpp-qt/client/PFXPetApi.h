@@ -59,9 +59,9 @@ public:
     QString getParamStyleDelimiter(const QString &style, const QString &name, bool isExplode);
 
     /**
-    * @param[in]  body PFXPet [required]
+    * @param[in]  pfx_pet PFXPet [required]
     */
-    void addPet(const PFXPet &body);
+    void addPet(const PFXPet &pfx_pet);
 
     /**
     * @param[in]  pet_id qint64 [required]
@@ -85,9 +85,9 @@ public:
     void getPetById(const qint64 &pet_id);
 
     /**
-    * @param[in]  body PFXPet [required]
+    * @param[in]  pfx_pet PFXPet [required]
     */
-    void updatePet(const PFXPet &body);
+    void updatePet(const PFXPet &pfx_pet);
 
     /**
     * @param[in]  pet_id qint64 [required]
@@ -137,30 +137,30 @@ private:
 
 signals:
 
-    void addPetSignal();
+    void addPetSignal(PFXPet summary);
     void deletePetSignal();
     void findPetsByStatusSignal(QList<PFXPet> summary);
     void findPetsByTagsSignal(QList<PFXPet> summary);
     void getPetByIdSignal(PFXPet summary);
-    void updatePetSignal();
+    void updatePetSignal(PFXPet summary);
     void updatePetWithFormSignal();
     void uploadFileSignal(PFXApiResponse summary);
 
-    void addPetSignalFull(PFXHttpRequestWorker *worker);
+    void addPetSignalFull(PFXHttpRequestWorker *worker, PFXPet summary);
     void deletePetSignalFull(PFXHttpRequestWorker *worker);
     void findPetsByStatusSignalFull(PFXHttpRequestWorker *worker, QList<PFXPet> summary);
     void findPetsByTagsSignalFull(PFXHttpRequestWorker *worker, QList<PFXPet> summary);
     void getPetByIdSignalFull(PFXHttpRequestWorker *worker, PFXPet summary);
-    void updatePetSignalFull(PFXHttpRequestWorker *worker);
+    void updatePetSignalFull(PFXHttpRequestWorker *worker, PFXPet summary);
     void updatePetWithFormSignalFull(PFXHttpRequestWorker *worker);
     void uploadFileSignalFull(PFXHttpRequestWorker *worker, PFXApiResponse summary);
 
-    void addPetSignalE(QNetworkReply::NetworkError error_type, QString error_str);
+    void addPetSignalE(PFXPet summary, QNetworkReply::NetworkError error_type, QString error_str);
     void deletePetSignalE(QNetworkReply::NetworkError error_type, QString error_str);
     void findPetsByStatusSignalE(QList<PFXPet> summary, QNetworkReply::NetworkError error_type, QString error_str);
     void findPetsByTagsSignalE(QList<PFXPet> summary, QNetworkReply::NetworkError error_type, QString error_str);
     void getPetByIdSignalE(PFXPet summary, QNetworkReply::NetworkError error_type, QString error_str);
-    void updatePetSignalE(QNetworkReply::NetworkError error_type, QString error_str);
+    void updatePetSignalE(PFXPet summary, QNetworkReply::NetworkError error_type, QString error_str);
     void updatePetWithFormSignalE(QNetworkReply::NetworkError error_type, QString error_str);
     void uploadFileSignalE(PFXApiResponse summary, QNetworkReply::NetworkError error_type, QString error_str);
 

@@ -226,8 +226,12 @@ QString PFXUserApi::getParamStyleDelimiter(const QString &style, const QString &
     }
 }
 
-void PFXUserApi::createUser(const PFXUser &body) {
+void PFXUserApi::createUser(const PFXUser &pfx_user) {
     QString fullPath = QString(_serverConfigs["createUser"][_serverIndices.value("createUser")].URL()+"/user");
+    
+    if (_apiKeys.contains("api_key")) {
+        addHeaders("api_key",_apiKeys.find("api_key").value());
+    }
     
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
@@ -236,7 +240,7 @@ void PFXUserApi::createUser(const PFXUser &body) {
 
     {
 
-        QByteArray output = body.asJson().toUtf8();
+        QByteArray output = pfx_user.asJson().toUtf8();
         input.request_body.append(output);
     }
 #if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
@@ -278,8 +282,12 @@ void PFXUserApi::createUserCallback(PFXHttpRequestWorker *worker) {
     }
 }
 
-void PFXUserApi::createUsersWithArrayInput(const QList<PFXUser> &body) {
+void PFXUserApi::createUsersWithArrayInput(const QList<PFXUser> &pfx_user) {
     QString fullPath = QString(_serverConfigs["createUsersWithArrayInput"][_serverIndices.value("createUsersWithArrayInput")].URL()+"/user/createWithArray");
+    
+    if (_apiKeys.contains("api_key")) {
+        addHeaders("api_key",_apiKeys.find("api_key").value());
+    }
     
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
@@ -287,7 +295,7 @@ void PFXUserApi::createUsersWithArrayInput(const QList<PFXUser> &body) {
     PFXHttpRequestInput input(fullPath, "POST");
 
     {
-        QJsonDocument doc(::test_namespace::toJsonValue(body).toArray());
+        QJsonDocument doc(::test_namespace::toJsonValue(pfx_user).toArray());
         QByteArray bytes = doc.toJson();
         input.request_body.append(bytes);
     }
@@ -330,8 +338,12 @@ void PFXUserApi::createUsersWithArrayInputCallback(PFXHttpRequestWorker *worker)
     }
 }
 
-void PFXUserApi::createUsersWithListInput(const QList<PFXUser> &body) {
+void PFXUserApi::createUsersWithListInput(const QList<PFXUser> &pfx_user) {
     QString fullPath = QString(_serverConfigs["createUsersWithListInput"][_serverIndices.value("createUsersWithListInput")].URL()+"/user/createWithList");
+    
+    if (_apiKeys.contains("api_key")) {
+        addHeaders("api_key",_apiKeys.find("api_key").value());
+    }
     
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
@@ -339,7 +351,7 @@ void PFXUserApi::createUsersWithListInput(const QList<PFXUser> &body) {
     PFXHttpRequestInput input(fullPath, "POST");
 
     {
-        QJsonDocument doc(::test_namespace::toJsonValue(body).toArray());
+        QJsonDocument doc(::test_namespace::toJsonValue(pfx_user).toArray());
         QByteArray bytes = doc.toJson();
         input.request_body.append(bytes);
     }
@@ -385,12 +397,16 @@ void PFXUserApi::createUsersWithListInputCallback(PFXHttpRequestWorker *worker) 
 void PFXUserApi::deleteUser(const QString &username) {
     QString fullPath = QString(_serverConfigs["deleteUser"][_serverIndices.value("deleteUser")].URL()+"/user/{username}");
     
+    if (_apiKeys.contains("api_key")) {
+        addHeaders("api_key",_apiKeys.find("api_key").value());
+    }
+    
     
     {
         QString usernamePathParam("{");
         usernamePathParam.append("username").append("}");
         QString pathPrefix, pathSuffix, pathDelimiter;
-        QString pathStyle = "";
+        QString pathStyle = "simple";
         if (pathStyle == "")
             pathStyle = "simple";
         pathPrefix = getParamStylePrefix(pathStyle);
@@ -452,7 +468,7 @@ void PFXUserApi::getUserByName(const QString &username) {
         QString usernamePathParam("{");
         usernamePathParam.append("username").append("}");
         QString pathPrefix, pathSuffix, pathDelimiter;
-        QString pathStyle = "";
+        QString pathStyle = "simple";
         if (pathStyle == "")
             pathStyle = "simple";
         pathPrefix = getParamStylePrefix(pathStyle);
@@ -513,12 +529,12 @@ void PFXUserApi::loginUser(const QString &username, const QString &password) {
     QString queryPrefix, querySuffix, queryDelimiter, queryStyle;
     
     {
-        queryStyle = "";
+        queryStyle = "form";
         if (queryStyle == "")
             queryStyle = "form";
         queryPrefix = getParamStylePrefix(queryStyle);
         querySuffix = getParamStyleSuffix(queryStyle);
-        queryDelimiter = getParamStyleDelimiter(queryStyle, "username", false);
+        queryDelimiter = getParamStyleDelimiter(queryStyle, "username", true);
         if (fullPath.indexOf("?") > 0)
             fullPath.append(queryPrefix);
         else
@@ -528,12 +544,12 @@ void PFXUserApi::loginUser(const QString &username, const QString &password) {
     }
     
     {
-        queryStyle = "";
+        queryStyle = "form";
         if (queryStyle == "")
             queryStyle = "form";
         queryPrefix = getParamStylePrefix(queryStyle);
         querySuffix = getParamStyleSuffix(queryStyle);
-        queryDelimiter = getParamStyleDelimiter(queryStyle, "password", false);
+        queryDelimiter = getParamStyleDelimiter(queryStyle, "password", true);
         if (fullPath.indexOf("?") > 0)
             fullPath.append(queryPrefix);
         else
@@ -591,6 +607,10 @@ void PFXUserApi::loginUserCallback(PFXHttpRequestWorker *worker) {
 void PFXUserApi::logoutUser() {
     QString fullPath = QString(_serverConfigs["logoutUser"][_serverIndices.value("logoutUser")].URL()+"/user/logout");
     
+    if (_apiKeys.contains("api_key")) {
+        addHeaders("api_key",_apiKeys.find("api_key").value());
+    }
+    
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
     worker->setWorkingDirectory(_workingDirectory);
@@ -636,15 +656,19 @@ void PFXUserApi::logoutUserCallback(PFXHttpRequestWorker *worker) {
     }
 }
 
-void PFXUserApi::updateUser(const QString &username, const PFXUser &body) {
+void PFXUserApi::updateUser(const QString &username, const PFXUser &pfx_user) {
     QString fullPath = QString(_serverConfigs["updateUser"][_serverIndices.value("updateUser")].URL()+"/user/{username}");
+    
+    if (_apiKeys.contains("api_key")) {
+        addHeaders("api_key",_apiKeys.find("api_key").value());
+    }
     
     
     {
         QString usernamePathParam("{");
         usernamePathParam.append("username").append("}");
         QString pathPrefix, pathSuffix, pathDelimiter;
-        QString pathStyle = "";
+        QString pathStyle = "simple";
         if (pathStyle == "")
             pathStyle = "simple";
         pathPrefix = getParamStylePrefix(pathStyle);
@@ -660,7 +684,7 @@ void PFXUserApi::updateUser(const QString &username, const PFXUser &body) {
 
     {
 
-        QByteArray output = body.asJson().toUtf8();
+        QByteArray output = pfx_user.asJson().toUtf8();
         input.request_body.append(output);
     }
 #if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)

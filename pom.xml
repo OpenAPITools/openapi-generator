@@ -1125,6 +1125,7 @@
                 </property>
             </activation>
             <modules>
+                <module>samples/client/petstore/cpp-qt</module>
                 <module>samples/client/petstore/php/OpenAPIClient-php</module>
                 <!-- TODO: move to github action or circleci
                 <module>samples/client/petstore/crystal</module>-->
@@ -1146,7 +1147,6 @@
                 <!-- comment out as it's not working as the moment
                 <module>samples/client/petstore/c</module>
                 -->
-                <module>samples/client/petstore/cpp-qt</module>
                 <module>samples/client/petstore/rust</module>
                 <module>samples/client/petstore/rust/reqwest/petstore</module>
                 <module>samples/client/petstore/rust/reqwest/petstore-async</module>
