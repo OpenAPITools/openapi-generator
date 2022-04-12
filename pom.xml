@@ -1311,29 +1311,16 @@
             </modules>
         </profile>
         <profile>
-            <id>samples.dart-2.13</id>
+            <id>samples.dart</id>
             <activation>
                 <property>
                     <name>env</name>
-                    <value>samples.dart-2.13</value>
+                    <value>samples.dart</value>
                 </property>
             </activation>
             <modules>
                 <module>samples/openapi3/client/petstore/dart2/petstore_client_lib</module>
                 <module>samples/openapi3/client/petstore/dart-dio-next/petstore_client_lib_fake</module>
-            </modules>
-        </profile>
-        <profile>
-            <id>samples.dart-2.10</id>
-            <activation>
-                <property>
-                    <name>env</name>
-                    <value>samples.dart-2.10</value>
-                </property>
-            </activation>
-            <modules>
-                <module>samples/openapi3/client/petstore/dart-dio/petstore_client_lib</module>
-                <module>samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake</module>
             </modules>
         </profile>
         <profile>
