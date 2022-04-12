@@ -166,7 +166,7 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
   {{/vars}}
   {{#parentVars}}
 
-{{! begin feature: fluent setter methods }}
+  {{! begin feature: fluent setter methods for inherited properties }}
   public {{classname}} {{name}}({{{datatypeWithEnum}}} {{name}}) {
     super.{{setter}}({{name}});
     return this;
@@ -185,8 +185,8 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
     return this;
   }
   {{/isMap}}
-  {{! end feature: fluent setter methods }}
-{{/parentVars}}
+  {{! end feature: fluent setter methods for inherited properties }}
+  {{/parentVars}}
 
   @Override
   public boolean equals(Object o) {
