@@ -6,5 +6,5 @@ analyzer:
     implicit-dynamic: false
     implicit-casts: false
   exclude:
-    - test/*.dart
-    - lib/src/model/*.g.dart
+    - test/*.dart{{#useJsonSerializable}}
+    - lib/src/model/*.g.dart{{/useJsonSerializable}}

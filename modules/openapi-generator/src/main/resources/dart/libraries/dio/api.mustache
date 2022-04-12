@@ -119,7 +119,6 @@ class {{classname}} {
 
     try {
 {{#includeLibraryTemplate}}api/deserialize{{/includeLibraryTemplate}}
-
     } catch (error, stackTrace) {
       throw DioError(
         requestOptions: _response.requestOptions,
