@@ -117,8 +117,8 @@ jobs:
             echo "When you see unexpected files here, it likely means that there are newer commits in master that you need to "
             echo -e "rebase or merge into your branch.\n"
             echo "Please run 'bin/utils/ensure-up-to-date' locally and commit changes (UNCOMMITTED CHANGES ERROR)"
-            if [[ "$(git symbolic-ref --short HEAD)" == "auto-update-if-master-branch" ]]; then
-              git pull origin auto-update-if-master-branch
+            if [[ "$(git symbolic-ref --short HEAD)" == "master" ]]; then
+              git pull origin master
               git config --local user.email "action@github.com"
               git config --local user.name "GitHub Action"
               git add $(git diff --name-only)
@@ -161,8 +161,8 @@ jobs:
             echo "When you see unexpected files here, it likely means that there are newer commits in master that you need to "
             echo -e "rebase or merge into your branch.\n"
             echo "Please run 'bin/generate-samples.sh' locally and commit changes (UNCOMMITTED CHANGES ERROR)"
-            if [[ "$(git symbolic-ref --short HEAD)" == "auto-update-if-master-branch" ]]; then
-              git pull origin auto-update-if-master-branch
+            if [[ "$(git symbolic-ref --short HEAD)" == "master" ]]; then
+              git pull origin master
               git config --local user.email "action@github.com"
               git config --local user.name "GitHub Action"
               git add $(git diff --name-only)
