@@ -1341,8 +1341,17 @@ components:
           type: integer
           format: int32
           description: User Status
+        userType:
+          allOf:
+            - $ref: '#/components/schemas/UserType'
       xml:
         name: User
+    UserType:
+      type: string
+      title: UserType
+      enum:
+        - admin
+        - user
     Tag:
       type: object
       properties:

@@ -58,6 +58,7 @@ import 'package:openapi/src/model/read_only_first.dart';
 import 'package:openapi/src/model/special_model_name.dart';
 import 'package:openapi/src/model/tag.dart';
 import 'package:openapi/src/model/user.dart';
+import 'package:openapi/src/model/user_type.dart';
 
 part 'serializers.g.dart';
 
@@ -108,6 +109,7 @@ part 'serializers.g.dart';
   SpecialModelName,
   Tag,
   User,
+  UserType,
 ])
 Serializers serializers = (_$serializers.toBuilder()
       ..addBuilderFactory(

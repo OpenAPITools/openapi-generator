@@ -397,7 +397,7 @@ export default function() {
         {
             let url = BASE_URL + `/fake/body-with-query-params?query=${query}`;
             // TODO: edit the parameters of the request body.
-            let body = {"id": "long", "username": "string", "firstName": "string", "lastName": "string", "email": "string", "password": "string", "phone": "string", "userStatus": "integer"};
+            let body = {"id": "long", "username": "string", "firstName": "string", "lastName": "string", "email": "string", "password": "string", "phone": "string", "userStatus": "integer", "userType": {}};
             let params = {headers: {"Content-Type": "application/json", "Accept": "application/json"}};
             let request = http.put(url, JSON.stringify(body), params);
 
@@ -447,7 +447,7 @@ export default function() {
         {
             let url = BASE_URL + `/user`;
             // TODO: edit the parameters of the request body.
-            let body = {"id": "long", "username": "string", "firstName": "string", "lastName": "string", "email": "string", "password": "string", "phone": "string", "userStatus": "integer"};
+            let body = {"id": "long", "username": "string", "firstName": "string", "lastName": "string", "email": "string", "password": "string", "phone": "string", "userStatus": "integer", "userType": {}};
             let params = {headers: {"Content-Type": "application/json", "Accept": "application/json"}};
             let request = http.post(url, JSON.stringify(body), params);
 

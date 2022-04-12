@@ -63,3 +63,4 @@ export 'package:openapi/src/model/read_only_first.dart';
 export 'package:openapi/src/model/special_model_name.dart';
 export 'package:openapi/src/model/tag.dart';
 export 'package:openapi/src/model/user.dart';
+export 'package:openapi/src/model/user_type.dart';

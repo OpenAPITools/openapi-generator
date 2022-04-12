@@ -3,6 +3,7 @@ package org.openapitools.codegen.languages;
 import com.google.common.collect.Sets;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.oas.models.servers.Server;
@@ -24,6 +25,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.openapitools.codegen.utils.StringUtils.*;
 
@@ -510,7 +513,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         super.postProcessModelProperty(model, property);
-        if (!model.isEnum && property.isEnum) {
+        if (!model.isEnum && property.isEnum && property.getComposedSchemas() == null) {
             // These are inner enums, enums which do not exist as models, just as properties.
             // They are handled via the enum_inline template and are generated in the
             // same file as the containing class. To prevent name clashes the inline enum classes
@@ -530,6 +533,37 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
             }
             property.setEnumName(enumName);
         }
+    }
+
+    @Override
+    public CodegenProperty fromProperty(String name, Schema p) {
+        final CodegenProperty property = super.fromProperty(name, p);
+
+        // Handle composed properties
+        if (ModelUtils.isComposedSchema(p)) {
+            ComposedSchema composed = (ComposedSchema) p;
+
+            // Count the occurrences of allOf/anyOf/oneOf with exactly one child element
+            long count = Stream.of(composed.getAllOf(), composed.getAnyOf(), composed.getOneOf())
+                    .filter(list -> list != null && list.size() == 1).count();
+
+            if (count == 1) {
+                // Continue only if there is one element that matches
+                // and basically treat it as simple property.
+                Stream.of(composed.getAllOf(), composed.getAnyOf(), composed.getOneOf())
+                        .filter(list -> list != null && list.size() == 1)
+                        .findFirst()
+                        .map(list -> list.get(0).get$ref())
+                        .map(ModelUtils::getSimpleRef)
+                        .map(ref -> ModelUtils.getSchemas(this.openAPI).get(ref))
+                        .ifPresent(schema -> {
+                            property.isEnum = schema.getEnum() != null;
+                            property.isModel = true;
+                        });
+
+            }
+        }
+        return property;
     }
 
     @Override
@@ -614,13 +648,6 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         prioritizedContentTypes.addAll(0, jsonMimeTypes);
         prioritizedContentTypes.addAll(0, jsonVendorMimeTypes);
         return prioritizedContentTypes;
-    }
-
-    private static boolean isMultipartType(String mediaType) {
-        if (mediaType != null) {
-            return "multipart/form-data".equals(mediaType);
-        }
-        return false;
     }
 
     @Override

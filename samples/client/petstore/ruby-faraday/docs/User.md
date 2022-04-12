@@ -12,6 +12,7 @@
 | **password** | **String** |  | [optional] |
 | **phone** | **String** |  | [optional] |
 | **user_status** | **Integer** | User Status | [optional] |
+| **user_type** | [**UserType**](UserType.md) |  | [optional] |
 
 ## Example
 
@@ -26,7 +27,8 @@ instance = Petstore::User.new(
   email: null,
   password: null,
   phone: null,
-  user_status: null
+  user_status: null,
+  user_type: null
 )
 ```
 
