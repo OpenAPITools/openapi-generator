@@ -18,9 +18,9 @@
  * @export
  */
 export const UserType = {
-    Admin: 'admin' as 'admin',
-    User: 'user' as 'user'
-};
+    Admin: 'admin',
+    User: 'user'
+} as const;
 export type UserType = typeof UserType[keyof typeof UserType];
 
 
