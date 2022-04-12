@@ -201,9 +201,6 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
         switch (library) {
             case SERIALIZATION_LIBRARY_JSON_SERIALIZABLE:
                 additionalProperties.put("useJsonSerializable", "true");
-                additionalProperties.put("useDioHttp", dioLibrary.equals(DIO_HTTP));
-                additionalProperties.put("dioImport", dioImport);
-                additionalProperties.put("dioLibrary", dioLibrary);
                 configureSerializationLibraryJsonSerializable(srcFolder);
                 break;
             default:
@@ -267,7 +264,6 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
         // just the binary / file handling
         languageSpecificPrimitives.add("Object");
         imports.put("Uint8List", "dart:typed_data");
-        imports.put("MultipartFile", dioImport);
     }
 
     private void configureDateLibrary(String srcFolder) {
