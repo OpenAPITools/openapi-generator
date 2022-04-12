@@ -725,13 +725,13 @@ class ApiResponseWithoutDeserialization(ApiResponse):
 
 class JSONDetector:
     @staticmethod
-    def content_type_is_json(content_type: str) -> bool:\
+    def content_type_is_json(content_type: str) -> bool:
         """
         for when content_type strings also include charset info like:
         application/json; charset=UTF-8
         """
         content_type_piece = content_type.split(';')[0]
-        if content_type_piece == 'application/json'
+        if content_type_piece == 'application/json':
             return True
         return False
 
@@ -751,8 +751,8 @@ class OpenApiResponse(JSONDetector):
 
     @staticmethod
     def __deserialize_json(response: urllib3.HTTPResponse) -> typing.Any:
-        decoded_data = response.data.decode("utf-8")
-        return json.loads(decoded_data)
+        # python must be >= 3.9 so we can pass in bytes into json.loads
+        return json.loads(response.data)
 
     @staticmethod
     def __file_name_from_content_disposition(content_disposition: typing.Optional[str]) -> typing.Optional[str]:
