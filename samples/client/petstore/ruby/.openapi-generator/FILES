@@ -58,6 +58,7 @@ docs/StoreApi.md
 docs/Tag.md
 docs/User.md
 docs/UserApi.md
+docs/UserType.md
 git_push.sh
 lib/petstore.rb
 lib/petstore/api/another_fake_api.rb
@@ -116,6 +117,7 @@ lib/petstore/models/read_only_first.rb
 lib/petstore/models/special_model_name.rb
 lib/petstore/models/tag.rb
 lib/petstore/models/user.rb
+lib/petstore/models/user_type.rb
 lib/petstore/version.rb
 petstore.gemspec
 spec/api_client_spec.rb

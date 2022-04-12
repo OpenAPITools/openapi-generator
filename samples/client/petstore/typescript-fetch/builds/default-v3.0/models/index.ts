@@ -46,3 +46,4 @@ export * from './Return';
 export * from './SpecialModelName';
 export * from './Tag';
 export * from './User';
+export * from './UserType';

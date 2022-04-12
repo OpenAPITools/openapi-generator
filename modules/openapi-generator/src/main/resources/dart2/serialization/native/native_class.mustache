@@ -277,6 +277,7 @@ class {{{classname}}} {
   };
 }
 {{#vars}}
+    {{^isModel}}
     {{#isEnum}}
         {{^isContainer}}
 
@@ -289,4 +290,5 @@ class {{{classname}}} {
             {{/mostInnerItems}}
         {{/isContainer}}
     {{/isEnum}}
+    {{/isModel}}
 {{/vars}}
