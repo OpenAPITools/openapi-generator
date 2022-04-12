@@ -168,12 +168,6 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
             additionalProperties.put(FINAL_PROPERTIES, Boolean.parseBoolean(additionalProperties.get(FINAL_PROPERTIES).toString()));
         }
 
-        if (!additionalProperties.containsKey(DIO_LIBRARY)) {
-            additionalProperties.put(DIO_LIBRARY, DIO_LIBRARY_DEFAULT);
-            LOGGER.debug("Dio library not set, using default {}", DIO_LIBRARY_DEFAULT);
-        }
-        setDioLibrary(additionalProperties.get(DIO_LIBRARY).toString());
-
         if (!additionalProperties.containsKey(CLIENT_NAME)) {
             final String name = org.openapitools.codegen.utils.StringUtils.camelize(pubName);
             additionalProperties.put(CLIENT_NAME, name);
@@ -435,18 +429,16 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
                 resultImports.add("package:" + pubName + "/src/api_util.dart");
             }
 
-                if (op.returnContainer != null && !(op.isResponseBinary || op.isResponseFile)) {
-                    addBuiltValueSerializer(new BuiltValueSerializer(
-                            Objects.equals("array", op.returnContainer) || Objects.equals("set", op.returnContainer),
-                            op.uniqueItems,
-                            Objects.equals("map", op.returnContainer),
-                            false,
-                            op.returnBaseType
-                    ));
-                }
+            if (op.returnContainer != null && !(op.isResponseBinary || op.isResponseFile)) {
+                addBuiltValueSerializer(new BuiltValueSerializer(
+                        Objects.equals("array", op.returnContainer) || Objects.equals("set", op.returnContainer),
+                        op.uniqueItems,
+                        Objects.equals("map", op.returnContainer),
+                        false,
+                        op.returnBaseType
+                ));
             }
         }
-
         // for some reason "import" structure is changed ..
         objs.put("imports", resultImports.stream().sorted().collect(Collectors.toList()));
 
