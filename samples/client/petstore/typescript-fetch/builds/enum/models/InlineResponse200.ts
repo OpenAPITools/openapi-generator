@@ -50,20 +50,20 @@ export interface InlineResponse200 {
  * @export
  */
 export const InlineResponse200StringEnumEnum = {
-    One: 'one' as 'one',
-    Two: 'two' as 'two',
-    Three: 'three' as 'three'
-};
+    One: 'one',
+    Two: 'two',
+    Three: 'three'
+} as const;
 export type InlineResponse200StringEnumEnum = typeof InlineResponse200StringEnumEnum[keyof typeof InlineResponse200StringEnumEnum];
 
 /**
  * @export
  */
 export const InlineResponse200NumberEnumEnum = {
-    NUMBER_1: 1 as 1,
-    NUMBER_2: 2 as 2,
-    NUMBER_3: 3 as 3
-};
+    NUMBER_1: 1,
+    NUMBER_2: 2,
+    NUMBER_3: 3
+} as const;
 export type InlineResponse200NumberEnumEnum = typeof InlineResponse200NumberEnumEnum[keyof typeof InlineResponse200NumberEnumEnum];
 
 

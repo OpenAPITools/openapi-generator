@@ -22,7 +22,6 @@ export const PetPartType = {
     Smooth: 'Smooth',
     Long: 'Long'
 } as const;
-
 export type PetPartType = typeof PetPartType[keyof typeof PetPartType];
 
 
