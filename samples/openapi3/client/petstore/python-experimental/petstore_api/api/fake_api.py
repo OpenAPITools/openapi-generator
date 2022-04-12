@@ -26,6 +26,7 @@ from petstore_api.api.fake_api_endpoints.group_parameters import GroupParameters
 from petstore_api.api.fake_api_endpoints.inline_additional_properties import InlineAdditionalProperties
 from petstore_api.api.fake_api_endpoints.inline_composition import InlineComposition
 from petstore_api.api.fake_api_endpoints.json_form_data import JsonFormData
+from petstore_api.api.fake_api_endpoints.json_with_charset import JsonWithCharset
 from petstore_api.api.fake_api_endpoints.mammal import Mammal
 from petstore_api.api.fake_api_endpoints.number_with_validations import NumberWithValidations
 from petstore_api.api.fake_api_endpoints.object_in_query import ObjectInQuery
@@ -57,6 +58,7 @@ class FakeApi(
     InlineAdditionalProperties,
     InlineComposition,
     JsonFormData,
+    JsonWithCharset,
     Mammal,
     NumberWithValidations,
     ObjectInQuery,

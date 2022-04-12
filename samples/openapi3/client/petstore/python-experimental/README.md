@@ -100,6 +100,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**inline_additional_properties**](docs/FakeApi.md#inline_additional_properties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 *FakeApi* | [**inline_composition**](docs/FakeApi.md#inline_composition) | **POST** /fake/inlineComposition/ | testing composed schemas at inline locations
 *FakeApi* | [**json_form_data**](docs/FakeApi.md#json_form_data) | **GET** /fake/jsonFormData | test json serialization of form data
+*FakeApi* | [**json_with_charset**](docs/FakeApi.md#json_with_charset) | **POST** /fake/jsonWithCharset | json with charset tx and rx
 *FakeApi* | [**mammal**](docs/FakeApi.md#mammal) | **POST** /fake/refs/mammal | 
 *FakeApi* | [**number_with_validations**](docs/FakeApi.md#number_with_validations) | **POST** /fake/refs/number | 
 *FakeApi* | [**object_in_query**](docs/FakeApi.md#object_in_query) | **GET** /fake/objInQuery | user list

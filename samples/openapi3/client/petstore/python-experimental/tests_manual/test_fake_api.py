@@ -679,6 +679,29 @@ class TestFakeApi(unittest.TestCase):
                     accept_content_types=(content_type,)
                 )
 
+    def test_json_with_charset(self):
+        # serialization + deserialization of json with charset works
+        with patch.object(RESTClientObject, 'request') as mock_request:
+            body = None
+            content_type_with_charset = 'application/json; charset=utf-8'
+            mock_request.return_value = self.__response(
+                self.__json_bytes(body),
+                content_type=content_type_with_charset
+            )
+
+            api_response = self.api.json_with_charset(body=body)
+            self.__assert_request_called_with(
+                mock_request,
+                'http://petstore.swagger.io:80/v2/fake/jsonWithCharset',
+                body=self.__json_bytes(body),
+                content_type=content_type_with_charset,
+                accept_content_type=content_type_with_charset
+            )
+
+            assert isinstance(api_response.body, schemas.AnyTypeSchema)
+            assert isinstance(api_response.body, schemas.NoneClass)
+            assert api_response.body.is_none()
+
 
 if __name__ == '__main__':
     unittest.main()
