@@ -723,7 +723,20 @@ class ApiResponseWithoutDeserialization(ApiResponse):
     headers: typing.Union[Unset, typing.List[HeaderParameter]] = unset
 
 
-class OpenApiResponse:
+class JSONDetector:
+    @staticmethod
+    def content_type_is_json(content_type: str) -> bool:
+        """
+        for when content_type strings also include charset info like:
+        application/json; charset=UTF-8
+        """
+        content_type_piece = content_type.split(';')[0]
+        if content_type_piece == 'application/json':
+            return True
+        return False
+
+
+class OpenApiResponse(JSONDetector):
     def __init__(
         self,
         response_cls: typing.Type[ApiResponse] = ApiResponse,
@@ -738,8 +751,8 @@ class OpenApiResponse:
 
     @staticmethod
     def __deserialize_json(response: urllib3.HTTPResponse) -> typing.Any:
-        decoded_data = response.data.decode("utf-8")
-        return json.loads(decoded_data)
+        # python must be >= 3.9 so we can pass in bytes into json.loads
+        return json.loads(response.data)
 
     @staticmethod
     def __file_name_from_content_disposition(content_disposition: typing.Optional[str]) -> typing.Optional[str]:
@@ -800,7 +813,7 @@ class OpenApiResponse:
         deserialized_body = unset
         streamed = response.supports_chunked_reads()
         if self.content is not None:
-            if content_type == 'application/json':
+            if self.content_type_is_json(content_type):
                 body_data = self.__deserialize_json(response)
             elif content_type == 'application/octet-stream':
                 body_data = self.__deserialize_application_octet_stream(response)
@@ -1244,7 +1257,7 @@ class SerializedRequestBody(typing.TypedDict, total=False):
     fields: typing.Tuple[typing.Union[RequestField, tuple[str, str]], ...]
 
 
-class RequestBody(StyleFormSerializer):
+class RequestBody(StyleFormSerializer, JSONDetector):
     """
     A request body parameter
     content: content_type to MediaType Schema info
@@ -1381,7 +1394,7 @@ class RequestBody(StyleFormSerializer):
             cast_in_data = media_type.schema(in_data)
         # TODO check for and use encoding if it exists
         # and content_type is multipart or application/x-www-form-urlencoded
-        if content_type == 'application/json':
+        if self.content_type_is_json(content_type):
             return self.__serialize_json(cast_in_data)
         elif content_type == 'text/plain':
             return self.__serialize_text_plain(cast_in_data)
