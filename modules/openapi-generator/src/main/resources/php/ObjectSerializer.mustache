@@ -170,7 +170,7 @@ class ObjectSerializer
     ): array {
         if (
             empty($value)
-            && ($value!==false && $openApiType !== 'boolean') // if $value === false and $openApiType ==='boolean' it isn't empty
+            && ($value!==false || $openApiType !== 'boolean') // if $value === false and $openApiType ==='boolean' it isn't empty
         ) {
             if ($required) {
                 return ["{$paramName}" => ''];
