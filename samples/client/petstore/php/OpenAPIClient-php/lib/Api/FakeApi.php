@@ -549,7 +549,8 @@ class FakeApi
             'query_1', // param base name
             'string', // openApiType
             'form', // style
-            true // explode
+            true, // explode
+            false // required
         ) ?? []);
 
         // header params
@@ -2546,7 +2547,8 @@ class FakeApi
             'query', // param base name
             'string', // openApiType
             'form', // style
-            true // explode
+            true, // explode
+            true // required
         ) ?? []);
 
 
@@ -3501,7 +3503,8 @@ class FakeApi
             'enum_query_string_array', // param base name
             'array', // openApiType
             'form', // style
-            true // explode
+            true, // explode
+            false // required
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -3509,7 +3512,8 @@ class FakeApi
             'enum_query_string', // param base name
             'string', // openApiType
             'form', // style
-            true // explode
+            true, // explode
+            false // required
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -3517,7 +3521,8 @@ class FakeApi
             'enum_query_integer', // param base name
             'integer', // openApiType
             'form', // style
-            true // explode
+            true, // explode
+            false // required
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -3525,7 +3530,8 @@ class FakeApi
             'enum_query_double', // param base name
             'number', // openApiType
             'form', // style
-            true // explode
+            true, // explode
+            false // required
         ) ?? []);
 
         // header params
@@ -3825,7 +3831,8 @@ class FakeApi
             'required_string_group', // param base name
             'integer', // openApiType
             'form', // style
-            true // explode
+            true, // explode
+            true // required
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -3833,7 +3840,8 @@ class FakeApi
             'required_int64_group', // param base name
             'integer', // openApiType
             'form', // style
-            true // explode
+            true, // explode
+            true // required
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -3841,7 +3849,8 @@ class FakeApi
             'string_group', // param base name
             'integer', // openApiType
             'form', // style
-            true // explode
+            true, // explode
+            false // required
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -3849,7 +3858,8 @@ class FakeApi
             'int64_group', // param base name
             'integer', // openApiType
             'form', // style
-            true // explode
+            true, // explode
+            false // required
         ) ?? []);
 
         // header params
@@ -4600,7 +4610,8 @@ class FakeApi
             'pipe', // param base name
             'array', // openApiType
             'pipeDelimited', // style
-            false // explode
+            false, // explode
+            true // required
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -4608,7 +4619,8 @@ class FakeApi
             'ioutil', // param base name
             'array', // openApiType
             'form', // style
-            false // explode
+            false, // explode
+            true // required
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -4616,7 +4628,8 @@ class FakeApi
             'http', // param base name
             'array', // openApiType
             'spaceDelimited', // style
-            false // explode
+            false, // explode
+            true // required
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -4624,7 +4637,8 @@ class FakeApi
             'url', // param base name
             'array', // openApiType
             'form', // style
-            false // explode
+            false, // explode
+            true // required
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -4632,7 +4646,8 @@ class FakeApi
             'context', // param base name
             'array', // openApiType
             'form', // style
-            true // explode
+            true, // explode
+            true // required
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -4640,7 +4655,8 @@ class FakeApi
             'language', // param base name
             'object', // openApiType
             'form', // style
-            true // explode
+            true, // explode
+            false // required
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -4648,7 +4664,8 @@ class FakeApi
             'allowEmpty', // param base name
             'string', // openApiType
             'form', // style
-            true // explode
+            true, // explode
+            true // required
         ) ?? []);
 
 

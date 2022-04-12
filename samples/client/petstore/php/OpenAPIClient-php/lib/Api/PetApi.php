@@ -825,7 +825,8 @@ class PetApi
             'status', // param base name
             'array', // openApiType
             'form', // style
-            false // explode
+            false, // explode
+            true // required
         ) ?? []);
 
 
@@ -1115,7 +1116,8 @@ class PetApi
             'tags', // param base name
             'array', // openApiType
             'form', // style
-            false // explode
+            false, // explode
+            true // required
         ) ?? []);
 
 

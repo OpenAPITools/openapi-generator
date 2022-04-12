@@ -1521,7 +1521,8 @@ class UserApi
             'username', // param base name
             'string', // openApiType
             'form', // style
-            true // explode
+            true, // explode
+            true // required
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -1529,7 +1530,8 @@ class UserApi
             'password', // param base name
             'string', // openApiType
             'form', // style
-            true // explode
+            true, // explode
+            true // required
         ) ?? []);
 
 
