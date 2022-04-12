@@ -264,6 +264,7 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
         // just the binary / file handling
         languageSpecificPrimitives.add("Object");
         imports.put("Uint8List", "dart:typed_data");
+        imports.put("MultipartFile", DIO_IMPORT);
     }
 
     private void configureDateLibrary(String srcFolder) {
