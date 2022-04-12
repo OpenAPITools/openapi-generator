@@ -20,6 +20,7 @@ Method | HTTP request | Description
 [**inline_additional_properties**](FakeApi.md#inline_additional_properties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 [**inline_composition**](FakeApi.md#inline_composition) | **POST** /fake/inlineComposition/ | testing composed schemas at inline locations
 [**json_form_data**](FakeApi.md#json_form_data) | **GET** /fake/jsonFormData | test json serialization of form data
+[**json_with_charset**](FakeApi.md#json_with_charset) | **POST** /fake/jsonWithCharset | json with charset tx and rx
 [**mammal**](FakeApi.md#mammal) | **POST** /fake/refs/mammal | 
 [**number_with_validations**](FakeApi.md#number_with_validations) | **POST** /fake/refs/number | 
 [**object_in_query**](FakeApi.md#object_in_query) | **GET** /fake/objInQuery | user list
@@ -1611,6 +1612,87 @@ headers | Unset | headers were not defined |
 
 
 void (empty response body)
+
+### Authorization
+
+No authorization required
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **json_with_charset**
+> bool, date, datetime, dict, float, int, list, str, none_type json_with_charset()
+
+json with charset tx and rx
+
+### Example
+
+```python
+import petstore_api
+from petstore_api.api import fake_api
+from pprint import pprint
+# Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
+# See configuration.py for a list of all supported configuration parameters.
+configuration = petstore_api.Configuration(
+    host = "http://petstore.swagger.io:80/v2"
+)
+
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = fake_api.FakeApi(api_client)
+
+    # example passing only optional values
+    body = None
+    try:
+        # json with charset tx and rx
+        api_response = api_instance.json_with_charset(
+            body=body,
+        )
+        pprint(api_response)
+    except petstore_api.ApiException as e:
+        print("Exception when calling FakeApi->json_with_charset: %s\n" % e)
+```
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+body | typing.Union[SchemaForRequestBodyApplicationJsonCharsetutf8, Unset] | optional, default is unset |
+content_type | str | optional, default is 'application/json; charset&#x3D;utf-8' | Selects the schema and serialization of the request body
+accept_content_types | typing.Tuple[str] | default is ('application/json; charset&#x3D;utf-8', ) | Tells the server the content type(s) that are accepted by the client
+stream | bool | default is False | if True then the response.content will be streamed and loaded from a file like object. When downloading a file, set this to True to force the code to deserialize the content to a FileSchema file
+timeout | typing.Optional[typing.Union[int, typing.Tuple]] | default is None | the timeout used by the rest client
+skip_deserialization | bool | default is False | when True, headers and body will be unset and an instance of api_client.ApiResponseWithoutDeserialization will be returned
+
+### body
+
+#### SchemaForRequestBodyApplicationJsonCharsetutf8
+
+Type | Description | Notes
+------------- | ------------- | -------------
+typing.Union[dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes] | |
+
+### Return Types, Responses
+
+Code | Class | Description
+------------- | ------------- | -------------
+n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
+200 | ApiResponseFor200 | success
+
+#### ApiResponseFor200
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+response | urllib3.HTTPResponse | Raw response |
+body | typing.Union[SchemaFor200ResponseBodyApplicationJsonCharsetutf8, ] |  |
+headers | Unset | headers were not defined |
+
+#### SchemaFor200ResponseBodyApplicationJsonCharsetutf8
+
+Type | Description | Notes
+------------- | ------------- | -------------
+typing.Union[dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes] | |
+
+
+**bool, date, datetime, dict, float, int, list, str, none_type**
 
 ### Authorization
 

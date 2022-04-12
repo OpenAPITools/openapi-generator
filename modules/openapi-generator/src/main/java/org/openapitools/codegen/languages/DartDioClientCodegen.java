@@ -231,7 +231,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
             property.isNullable = true;
         }
 
-        if (property.isEnum) {
+        if (property.isEnum && property.getComposedSchemas() == null) {
             // enums are generated with built_value and make use of BuiltSet
             model.imports.add("BuiltSet");
         }
