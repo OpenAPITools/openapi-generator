@@ -680,7 +680,7 @@ class TestFakeApi(unittest.TestCase):
                 )
 
     def test_json_with_charset(self):
-        # serialization + deserialization oj json with charset works
+        # serialization + deserialization of json with charset works
         with patch.object(RESTClientObject, 'request') as mock_request:
             body = None
             content_type_with_charset = 'application/json; charset=utf-8'
