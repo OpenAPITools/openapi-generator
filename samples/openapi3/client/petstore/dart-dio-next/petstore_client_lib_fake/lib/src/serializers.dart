@@ -137,6 +137,10 @@ Serializers serializers = (_$serializers.toBuilder()
         () => MapBuilder<String, int>(),
       )
       ..addBuilderFactory(
+        const FullType(BuiltList, [FullType(ModelEnumClass)]),
+        () => ListBuilder<ModelEnumClass>(),
+      )
+      ..addBuilderFactory(
         const FullType(BuiltList, [FullType(String)]),
         () => ListBuilder<String>(),
       )
