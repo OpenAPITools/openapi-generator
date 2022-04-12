@@ -57,6 +57,7 @@ docs/StoreApi.md
 docs/Tag.md
 docs/User.md
 docs/UserApi.md
+docs/UserType.md
 git_push.sh
 mono_nunit_test.sh
 src/Org.OpenAPITools.Test/packages.config
@@ -122,6 +123,7 @@ src/Org.OpenAPITools/Model/Return.cs
 src/Org.OpenAPITools/Model/SpecialModelName.cs
 src/Org.OpenAPITools/Model/Tag.cs
 src/Org.OpenAPITools/Model/User.cs
+src/Org.OpenAPITools/Model/UserType.cs
 src/Org.OpenAPITools/Org.OpenAPITools.csproj
 src/Org.OpenAPITools/Org.OpenAPITools.nuspec
 src/Org.OpenAPITools/Properties/AssemblyInfo.cs

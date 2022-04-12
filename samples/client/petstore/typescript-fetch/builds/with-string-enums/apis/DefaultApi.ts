@@ -196,18 +196,18 @@ export class DefaultApi extends runtime.BaseAPI {
 }
 
 /**
-    * @export
-    * @enum {string}
-    */
+  * @export
+  * @enum {string}
+  */
 export enum FakeEnumRequestGetInlineStringEnumEnum {
     One = 'one',
     Two = 'two',
     Three = 'three'
 }
 /**
-    * @export
-    * @enum {string}
-    */
+  * @export
+  * @enum {string}
+  */
 export enum FakeEnumRequestGetInlineNumberEnumEnum {
     NUMBER_1 = 1,
     NUMBER_2 = 2,

@@ -97,15 +97,28 @@ class _${{classname}}Serializer implements StructuredSerializer<{{classname}}> {
                     result.{{{name}}}.replace(serializers.deserialize(value,
                         specifiedType: {{{vendorExtensions.x-built-value-serializer-type}}}) as {{{datatypeWithEnum}}});
                     {{/isContainer}}
+                    {{^isContainer}}
+                    {{#isEnum}}
+                    result.{{{name}}} = serializers.deserialize(value,
+                        specifiedType: {{{vendorExtensions.x-built-value-serializer-type}}}) as {{{datatypeWithEnum}}};
+                    {{/isEnum}}
+                    {{^isEnum}}
                     {{#isModel}}
+                    {{#isPrimitiveType}}
+                    {{! These are models that have been manually marked as primitive via generator param. }}    result.{{{name}}} = valueDes;
+                    result.{{{name}}} = serializers.deserialize(value,
+                        specifiedType: {{{vendorExtensions.x-built-value-serializer-type}}}) as {{{datatypeWithEnum}}};
+                    {{/isPrimitiveType}}
+                    {{^isPrimitiveType}}
                     result.{{{name}}}.replace(serializers.deserialize(value,
                         specifiedType: {{{vendorExtensions.x-built-value-serializer-type}}}) as {{{datatypeWithEnum}}});
+                    {{/isPrimitiveType}}
                     {{/isModel}}
-                    {{^isContainer}}
                     {{^isModel}}
                     result.{{{name}}} = serializers.deserialize(value,
                         specifiedType: {{{vendorExtensions.x-built-value-serializer-type}}}) as {{{datatypeWithEnum}}};
                     {{/isModel}}
+                    {{/isEnum}}
                     {{/isContainer}}
                     break;
                 {{/vars}}
@@ -121,6 +134,7 @@ class _${{classname}}Serializer implements StructuredSerializer<{{classname}}> {
     enum.mustache template.
 }}
 {{#vars}}
+    {{^isModel}}
     {{#isEnum}}
         {{^isContainer}}
 
@@ -133,4 +147,5 @@ class _${{classname}}Serializer implements StructuredSerializer<{{classname}}> {
             {{/mostInnerItems}}
         {{/isContainer}}
     {{/isEnum}}
+    {{/isModel}}
 {{/vars}}

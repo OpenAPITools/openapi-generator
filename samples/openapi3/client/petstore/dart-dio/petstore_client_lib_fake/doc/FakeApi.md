@@ -568,7 +568,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **testEnumParameters**
-> testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString)
+> testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString)
 
 To test enum parameters
 
@@ -585,11 +585,12 @@ var enumQueryStringArray = []; // BuiltList<String> | Query parameter enum test 
 var enumQueryString = enumQueryString_example; // String | Query parameter enum test (string)
 var enumQueryInteger = 56; // int | Query parameter enum test (double)
 var enumQueryDouble = 1.2; // double | Query parameter enum test (double)
+var enumQueryModelArray = []; // BuiltList<ModelEnumClass> | 
 var enumFormStringArray = []; // BuiltList<String> | Form parameter enum test (string array)
 var enumFormString = enumFormString_example; // String | Form parameter enum test (string)
 
 try {
-    api_instance.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString);
+    api_instance.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString);
 } catch (e) {
     print('Exception when calling FakeApi->testEnumParameters: $e\n');
 }
@@ -605,6 +606,7 @@ Name | Type | Description  | Notes
  **enumQueryString** | **String**| Query parameter enum test (string) | [optional] [default to '-efg']
  **enumQueryInteger** | **int**| Query parameter enum test (double) | [optional] 
  **enumQueryDouble** | **double**| Query parameter enum test (double) | [optional] 
+ **enumQueryModelArray** | [**BuiltList<ModelEnumClass>**](ModelEnumClass.md)|  | [optional] 
  **enumFormStringArray** | [**BuiltList<String>**](String.md)| Form parameter enum test (string array) | [optional] [default to '$']
  **enumFormString** | **String**| Form parameter enum test (string) | [optional] [default to '-efg']
 
