@@ -1,0 +1,22 @@
+openapi: 3.0.1
+info:
+  title: Example API
+  version: '1.0'
+paths:
+  /test:
+    post:
+      requestBody:
+        $ref: '#/components/requestBodies/setupReq'
+      responses:
+        '201':
+          description: ok
+components:
+  requestBodies:
+    setupReq:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              property:
+                type: string

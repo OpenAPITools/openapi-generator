@@ -1,0 +1,106 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "example",
+    "description": "example",
+    "version": "1.2.3",
+    "contact": {}
+  },
+  "servers": [
+    {
+      "url": "/api/example/v1",
+      "description": "relative path"
+    }
+  ],
+  "tags": [
+    {
+      "name": "example",
+      "description": "example"
+    }
+  ],
+  "paths": {
+    "/example/{id}/run": {
+      "post": {
+        "tags": [
+          "example"
+        ],
+        "summary": "Execute example",
+        "description": "Execute example",
+        "operationId": "runExample",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ExampleId"
+          }
+        ],
+        "requestBody": {
+          "$ref": "#/components/requestBodies/ExampleRunsInput"
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExecuteExample"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "parameters": {
+      "ExampleId": {
+        "in": "path",
+        "name": "remediation",
+        "description": "example identifier (uuid)",
+        "required": true,
+        "schema": {
+          "$ref": "#/components/schemas/ExampleId"
+        }
+      }
+    },
+    "requestBodies": {
+      "ExampleRunsInput": {
+        "required": false,
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "exclude": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "format": "uuid"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "ExampleId": {
+        "type": "string",
+        "format": "uuid",
+        "example": "9197ba55-0abc-4028-9bbe-269e530f8bd5"
+      },
+      "ExecuteExample": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/ExampleId"
+          }
+        }
+      }
+    }
+  }
+}

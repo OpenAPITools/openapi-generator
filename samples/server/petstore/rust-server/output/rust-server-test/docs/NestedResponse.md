@@ -1,4 +1,4 @@
-# InlineObject
+# NestedResponse
 
 ## Properties
 Name | Type | Description | Notes

@@ -29,8 +29,8 @@ import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.utils.ModelUtils;
-import org.openapitools.codegen.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -96,9 +96,9 @@ public class InlineModelResolver {
             }
 
             for (Operation operation : operations) {
-                flattenRequestBody(pathname, operation);
-                flattenParameters(pathname, operation);
-                flattenResponses(pathname, operation);
+                flattenOperationRequestBody(pathname, operation);
+                flattenOperationParameters(pathname, operation);
+                flattenOperationResponses(pathname, operation);
             }
         }
     }
@@ -312,20 +312,30 @@ public class InlineModelResolver {
      * @param pathname  target pathname
      * @param operation target operation
      */
-    private void flattenRequestBody(String pathname, Operation operation) {
+    private void flattenOperationRequestBody(String pathname, Operation operation) {
         RequestBody requestBody = operation.getRequestBody();
         if (requestBody == null) {
             return;
         }
 
+        String requestBodyName = "";
+
+        // Handle Swagger 2 -> OAS 3 conversion where the request body name is
+        // set as a vendor extension.
+        if (operation.getExtensions() != null && operation.getExtensions().containsKey("x-codegen-request-body-name")) {
+            requestBodyName = (String) operation.getExtensions().get("x-codegen-request-body-name");
+        }
+
         Schema model = ModelUtils.getSchemaFromRequestBody(requestBody);
         if (model instanceof ObjectSchema) {
             Schema obj = model;
+            if (StringUtils.isBlank(requestBodyName)) {
+                requestBodyName = obj.getTitle();
+            }
             if (obj.getType() == null || "object".equals(obj.getType())) {
                 if (obj.getProperties() != null && obj.getProperties().size() > 0) {
                     flattenProperties(openAPI, obj.getProperties(), pathname);
-                    // for model name, use "title" if defined, otherwise default to 'inline_object'
-                    String modelName = resolveModelName(obj.getTitle(), "inline_object");
+                    String modelName = resolveModelName(requestBodyName, "inline_object");
                     addGenerated(modelName, model);
                     openAPI.getComponents().addSchemas(modelName, model);
 
@@ -373,10 +383,13 @@ public class InlineModelResolver {
             Schema inner = am.getItems();
             if (inner instanceof ObjectSchema) {
                 ObjectSchema op = (ObjectSchema) inner;
+                if (StringUtils.isBlank(requestBodyName)) {
+                    requestBodyName = op.getTitle();
+                }
                 if (op.getProperties() != null && op.getProperties().size() > 0) {
                     flattenProperties(openAPI, op.getProperties(), pathname);
                     // Generate a unique model name based on the title.
-                    String modelName = resolveModelName(op.getTitle(), null);
+                    String modelName = resolveModelName(requestBodyName, null);
                     Schema innerModel = modelFromProperty(openAPI, op, modelName);
                     String existing = matchGenerated(innerModel);
                     if (existing != null) {
@@ -401,7 +414,7 @@ public class InlineModelResolver {
      * @param pathname  target pathname
      * @param operation target operation
      */
-    private void flattenParameters(String pathname, Operation operation) {
+    private void flattenOperationParameters(String pathname, Operation operation) {
         List<Parameter> parameters = operation.getParameters();
         if (parameters == null) {
             return;
@@ -458,7 +471,7 @@ public class InlineModelResolver {
      * @param pathname  target pathname
      * @param operation target operation
      */
-    private void flattenResponses(String pathname, Operation operation) {
+    private void flattenOperationResponses(String pathname, Operation operation) {
         ApiResponses responses = operation.getResponses();
         if (responses == null) {
             return;
@@ -614,6 +627,14 @@ public class InlineModelResolver {
      * Flatten inline models in components
      */
     private void flattenComponents() {
+        flattenSchemaComponents();
+        flattenRequestBodyComponents();
+    }
+
+    /**
+     * Flatten inline models in schemas
+     */
+    private void flattenSchemaComponents() {
         Map<String, Schema> models = openAPI.getComponents().getSchemas();
         if (models == null) {
             return;
@@ -658,6 +679,69 @@ public class InlineModelResolver {
                     }
                 }
             }*/
+        }
+    }
+
+    /**
+     * Flatten inline models in request bodies
+     */
+    private void flattenRequestBodyComponents() {
+        Map<String, RequestBody> requestBodies = openAPI.getComponents().getRequestBodies();
+        if (requestBodies == null) {
+            return;
+        }
+
+        List<String> requestBodyNames = new ArrayList<String>(requestBodies.keySet());
+        for (String requestBodyName : requestBodyNames) {
+            RequestBody requestBody = requestBodies.get(requestBodyName);
+
+            Content content = requestBody.getContent();
+            if (content == null || content.isEmpty()) {
+                continue;
+            }
+
+            for (MediaType mt : content.values()) {
+                Schema model = mt.getSchema();
+                if (model instanceof ObjectSchema) {
+                    if (model.getType() != null && !"object".equals(model.getType())) {
+                        continue;
+                    }
+                    if (model.getProperties() == null || model.getProperties().isEmpty()) {
+                        continue;
+                    }
+
+                    flattenProperties(openAPI, model.getProperties(), requestBodyName);
+                    String modelName = resolveModelName(requestBodyName, "inline_request_body");
+                    addGenerated(modelName, model);
+                    openAPI.getComponents().addSchemas(modelName, model);
+
+                    mt.setSchema(new Schema().$ref(modelName));
+                } else if (model instanceof ArraySchema) {
+                    ArraySchema am = (ArraySchema) model;
+                    Schema inner = am.getItems();
+                    if (inner instanceof ObjectSchema) {
+                        ObjectSchema op = (ObjectSchema) inner;
+                        if (op.getProperties() != null && op.getProperties().size() > 0) {
+                            flattenProperties(openAPI, op.getProperties(), requestBodyName);
+                            // Generate a unique model name based on the title.
+                            String modelName = resolveModelName(requestBodyName, null);
+                            Schema innerModel = modelFromProperty(openAPI, op, modelName);
+                            String existing = matchGenerated(innerModel);
+                            if (existing != null) {
+                                Schema schema = new Schema().$ref(existing);
+                                schema.setRequired(op.getRequired());
+                                am.setItems(schema);
+                            } else {
+                                Schema schema = new Schema().$ref(modelName);
+                                schema.setRequired(op.getRequired());
+                                am.setItems(schema);
+                                addGenerated(modelName, innerModel);
+                                openAPI.getComponents().addSchemas(modelName, innerModel);
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 

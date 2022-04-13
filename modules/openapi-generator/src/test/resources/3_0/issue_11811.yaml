@@ -1,0 +1,23 @@
+openapi: 3.0.0
+paths:
+  /user:
+    post:
+      summary: Create New User
+      operationId: post-user
+      requestBody:
+        $ref: '#/components/requestBodies/UserPost'
+      responses:
+        '200':
+          description: OK
+components:
+  requestBodies:
+    UserPost:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              firstName:
+                type: string
+              lastName:
+                type: string

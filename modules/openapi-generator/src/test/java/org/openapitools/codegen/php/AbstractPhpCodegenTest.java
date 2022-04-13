@@ -166,6 +166,23 @@ public class AbstractPhpCodegenTest {
         Assert.assertEquals(cp1.getDefaultValue(), "'VALUE'");
     }
 
+    @Test(description = "Issue #9123")
+    public void TestNamedInlineRequestBody() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_9123.yaml");
+        final AbstractPhpCodegen codegen = new P_AbstractPhpCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        Schema target = openAPI.getComponents().getSchemas().get("ListOfDefinitions");
+        Assert.assertNotNull(target);
+        CodegenModel cm = codegen.fromModel("ListOfDefinitions", target);
+
+        Assert.assertEquals(cm.getDataType(), "object");
+        Assert.assertEquals(codegen.getTypeDeclaration("ListOfDefinitions"), "\\php\\Model\\ListOfDefinitions");
+
+        CodegenProperty label = cm.vars.get(0);
+        Assert.assertEquals(label.getName(), "label");
+    }
+
     private static class P_AbstractPhpCodegen extends AbstractPhpCodegen {
         @Override
         public CodegenType getTag() {

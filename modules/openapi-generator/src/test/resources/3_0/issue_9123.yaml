@@ -1,0 +1,28 @@
+openapi: 3.0.1
+info:
+  title: test
+  description: test
+  version: 1.0.0
+servers:
+  - url: /
+paths:
+  /definitions:
+    put:
+      summary: test
+      operationId: putTest
+      requestBody:
+        description: test
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                label:
+                  type: string
+                  description: label
+        required: true
+      responses:
+        204:
+          description: successful operation
+          content: {}
+      x-codegen-request-body-name: ListOfDefinitions

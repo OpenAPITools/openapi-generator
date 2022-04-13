@@ -1365,4 +1365,18 @@ public class SpringCodegenTest {
                 .assertParameterAnnotations()
                 .containsWithNameAndAttributes("RequestParam", ImmutableMap.of("defaultValue", "\"\""));
     }
+
+    @Test
+    public void testInlineRequestBody() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_10435.yaml");
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        Schema target = openAPI.getComponents().getSchemas().get("setupReq");
+        Assert.assertNotNull(target);
+        CodegenModel cm = codegen.fromModel("setupReq", target);
+
+        Assert.assertEquals(cm.dataType, "Object");
+        Assert.assertEquals(cm.vars.get(0).name, "property");
+    }
 }

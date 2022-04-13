@@ -119,7 +119,7 @@ Method | HTTP request | Description
  - [AllOfObject](docs/AllOfObject.md)
  - [BaseAllOf](docs/BaseAllOf.md)
  - [GetYamlResponse](docs/GetYamlResponse.md)
- - [InlineObject](docs/InlineObject.md)
+ - [NestedResponse](docs/NestedResponse.md)
  - [ObjectOfObjects](docs/ObjectOfObjects.md)
  - [ObjectOfObjectsInner](docs/ObjectOfObjectsInner.md)
 

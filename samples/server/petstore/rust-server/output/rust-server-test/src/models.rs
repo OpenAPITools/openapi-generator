@@ -546,7 +546,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct InlineObject {
+pub struct NestedResponse {
     #[serde(rename = "id")]
     pub id: String,
 
@@ -556,19 +556,19 @@ pub struct InlineObject {
 
 }
 
-impl InlineObject {
-    pub fn new(id: String, ) -> InlineObject {
-        InlineObject {
+impl NestedResponse {
+    pub fn new(id: String, ) -> NestedResponse {
+        NestedResponse {
             id: id,
             password: None,
         }
     }
 }
 
-/// Converts the InlineObject value to the Query Parameters representation (style=form, explode=false)
+/// Converts the NestedResponse value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl std::string::ToString for InlineObject {
+impl std::string::ToString for NestedResponse {
     fn to_string(&self) -> String {
         let mut params: Vec<String> = vec![];
 
@@ -585,10 +585,10 @@ impl std::string::ToString for InlineObject {
     }
 }
 
-/// Converts Query Parameters representation (style=form, explode=false) to a InlineObject value
+/// Converts Query Parameters representation (style=form, explode=false) to a NestedResponse value
 /// as specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde deserializer
-impl std::str::FromStr for InlineObject {
+impl std::str::FromStr for NestedResponse {
     type Err = String;
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
@@ -608,14 +608,14 @@ impl std::str::FromStr for InlineObject {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => return std::result::Result::Err("Missing value while parsing InlineObject".to_string())
+                None => return std::result::Result::Err("Missing value while parsing NestedResponse".to_string())
             };
 
             if let Some(key) = key_result {
                 match key {
                     "id" => intermediate_rep.id.push(<String as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
                     "password" => intermediate_rep.password.push(<String as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
-                    _ => return std::result::Result::Err("Unexpected key while parsing InlineObject".to_string())
+                    _ => return std::result::Result::Err("Unexpected key while parsing NestedResponse".to_string())
                 }
             }
 
@@ -624,41 +624,41 @@ impl std::str::FromStr for InlineObject {
         }
 
         // Use the intermediate representation to return the struct
-        std::result::Result::Ok(InlineObject {
-            id: intermediate_rep.id.into_iter().next().ok_or("id missing in InlineObject".to_string())?,
+        std::result::Result::Ok(NestedResponse {
+            id: intermediate_rep.id.into_iter().next().ok_or("id missing in NestedResponse".to_string())?,
             password: intermediate_rep.password.into_iter().next(),
         })
     }
 }
 
-// Methods for converting between header::IntoHeaderValue<InlineObject> and hyper::header::HeaderValue
+// Methods for converting between header::IntoHeaderValue<NestedResponse> and hyper::header::HeaderValue
 
 #[cfg(any(feature = "client", feature = "server"))]
-impl std::convert::TryFrom<header::IntoHeaderValue<InlineObject>> for hyper::header::HeaderValue {
+impl std::convert::TryFrom<header::IntoHeaderValue<NestedResponse>> for hyper::header::HeaderValue {
     type Error = String;
 
-    fn try_from(hdr_value: header::IntoHeaderValue<InlineObject>) -> std::result::Result<Self, Self::Error> {
+    fn try_from(hdr_value: header::IntoHeaderValue<NestedResponse>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match hyper::header::HeaderValue::from_str(&hdr_value) {
              std::result::Result::Ok(value) => std::result::Result::Ok(value),
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for InlineObject - value: {} is invalid {}",
+                 format!("Invalid header value for NestedResponse - value: {} is invalid {}",
                      hdr_value, e))
         }
     }
 }
 
 #[cfg(any(feature = "client", feature = "server"))]
-impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<InlineObject> {
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<NestedResponse> {
     type Error = String;
 
     fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
              std::result::Result::Ok(value) => {
-                    match <InlineObject as std::str::FromStr>::from_str(value) {
+                    match <NestedResponse as std::str::FromStr>::from_str(value) {
                         std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
                         std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into InlineObject - {}",
+                            format!("Unable to convert header value '{}' into NestedResponse - {}",
                                 value, err))
                     }
              },

@@ -30,6 +30,7 @@ import java.io.File;
 import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -548,5 +549,24 @@ public class PythonClientTest {
         Assert.assertEquals(codegen.toModelName(input), want);
     }
 
+    @Test
+    public void testRequestBodyInlineSchema() throws Exception {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
 
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("python")
+                .setInputSpec("src/test/resources/3_0/issue_8605.json")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path apiFile = Paths.get(output + "/openapi_client/api/example_api.py");
+        TestUtils.assertFileNotContains(apiFile, "import UNKNOWNBASETYPE");
+        TestUtils.assertFileContains(apiFile, "from openapi_client.model.example_runs_input import ExampleRunsInput");
+        TestUtils.ensureContainsFile(files, output, "openapi_client/model/example_runs_input.py");
+    }
 }

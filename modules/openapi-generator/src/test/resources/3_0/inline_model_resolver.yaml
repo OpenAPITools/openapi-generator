@@ -105,6 +105,14 @@ paths:
       responses:
         '200':
           description: OK
+  /resolve_inline_request_body_ref:
+    post:
+      operationId: resolveInlineRequestBodyRef
+      requestBody:
+        $ref: '#/components/requestBodies/ResolveInlineRequestBodyRefRequest'
+      responses:
+        '200':
+          description: OK
   /resolve_inline_array_response:
     get:
       operationId: resolveInlineArrayResponse
@@ -328,6 +336,16 @@ paths:
                         data:
                           type: string
 components:
+  requestBodies:
+    ResolveInlineRequestBodyRefRequest:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+      required: true
   schemas:
     Users:
       type: array

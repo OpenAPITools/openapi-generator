@@ -386,4 +386,18 @@ public class TypeScriptFetchModelTest {
 
         Assert.assertEquals(codegen.getTypeDeclaration(model), "{ [key: string]: string; }");
     }
+
+    @Test(description = "Inline request bodies create models")
+    public void testInlineRequestBody() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_11811.yaml");
+        final DefaultCodegen codegen = new TypeScriptFetchClientCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        Schema target = openAPI.getComponents().getSchemas().get("UserPost");
+        Assert.assertNotNull(target);
+        CodegenModel cm = codegen.fromModel("UserPost", target);
+
+        Assert.assertEquals(cm.dataType, "object");
+        Assert.assertEquals(cm.vars.get(0).name, "firstName");
+    }
 }

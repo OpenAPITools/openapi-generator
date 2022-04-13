@@ -115,7 +115,6 @@ parameters:
     in: body
     required: true
     schema:
-      # Erroneously ends up as `Option<models::InlineObject>`
       properties:
         id:
           type: string
