@@ -3544,7 +3544,8 @@ class FakeApi
             'enum_query_model_array', // param base name
             'array', // openApiType
             'form', // style
-            true // explode
+            true, // explode
+            false // required
         ) ?? []);
 
         // header params
