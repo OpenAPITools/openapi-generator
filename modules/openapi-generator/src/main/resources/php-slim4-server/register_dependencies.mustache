@@ -41,9 +41,9 @@ final class RegisterDependencies
             // Slim error middleware
             // @see https://www.slimframework.com/docs/v4/middleware/error-handling.html
             \Slim\Middleware\ErrorMiddleware::class => \DI\autowire()
-                ->constructorParameter('displayErrorDetails', \DI\get('slim.displayErrorDetails', false))
-                ->constructorParameter('logErrors', \DI\get('slim.logErrors', true))
-                ->constructorParameter('logErrorDetails', \DI\get('slim.logErrorDetails', true))
+                ->constructorParameter('displayErrorDetails', \DI\get('slim.displayErrorDetails'))
+                ->constructorParameter('logErrors', \DI\get('slim.logErrors'))
+                ->constructorParameter('logErrorDetails', \DI\get('slim.logErrorDetails'))
                 ->constructorParameter('logger', \DI\get(\Psr\Log\LoggerInterface::class)),
 
             // CORS
@@ -58,7 +58,7 @@ final class RegisterDependencies
                     \DI\get('pdo.dsn'),
                     \DI\get('pdo.username'),
                     \DI\get('pdo.password'),
-                    \DI\get('pdo.options', null)
+                    \DI\get('pdo.options')
                 ),
 
             // DataMocker
