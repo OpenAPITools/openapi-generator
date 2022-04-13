@@ -163,126 +163,129 @@ class ObjectSerializerTest extends TestCase
             'form empty boolean, explode on, required false' => [
                 null, 'skipValidation', 'boolean', 'form', true, false, '',
             ],
+            'form empty boolean, explode on, required true' => [
+                null, 'skipValidation', 'boolean', 'form', true, true, 'skipValidation=',
+            ],
             // color=
-            'form empty, explode on' => [
+            'form empty, explode on, required true' => [
                 '', 'color', 'string', 'form', true, true, 'color=',
             ],
             'form empty, explode on, required false' => [
                 '', 'color', 'string', 'form', true, false, '',
             ],
             // color=
-            'form empty, explode off' => [
+            'form empty, explode off, required true' => [
                 '', 'color', 'string', 'form', false, true, 'color=',
             ],
             // color=blue
-            'form string, explode on' => [
+            'form string, explode on, required true' => [
                 'blue', 'color', 'string', 'form', true, true, 'color=blue',
             ],
             // color=blue
-            'form string, explode off' => [
+            'form string, explode off, required true' => [
                 'blue', 'color', 'string', 'form', false, true, 'color=blue',
             ],
             // color=blue&color=black&color=brown
-            'form array, explode on' => [
+            'form array, explode on, required true' => [
                 $array, 'color', 'array', 'form', true, true, 'color=blue&color=black&color=brown',
             ],
             // color=blue&color=black&color=brown
-            'form nested array, explode on' => [
+            'form nested array, explode on, required true' => [
                 ['foobar' => $array], 'color', 'array', 'form', true, true, 'color=blue&color=black&color=brown',
             ],
             // color=blue,black,brown
-            'form array, explode off' => [
+            'form array, explode off, required true' => [
                 $array, 'color', 'array', 'form', false, true, 'color=blue%2Cblack%2Cbrown',
             ],
             // color=blue,black,brown
-            'form nested array, explode off' => [
+            'form nested array, explode off, required true' => [
                 ['foobar' => $array], 'color', 'array', 'form', false, true, 'color=blue%2Cblack%2Cbrown',
             ],
             // R=100&G=200&B=150
-            'form object, explode on' => [
+            'form object, explode on, required true' => [
                 $object, 'color', 'object', 'form', true, true, 'R=100&G=200&B=150',
             ],
             // color=R,100,G,200,B,150
-            'form object, explode off' => [
+            'form object, explode off, required true' => [
                 $object, 'color', 'object', 'form', false, true, 'color=R%2C100%2CG%2C200%2CB%2C150',
             ],
 
             // SPACE DELIMITED
             // color=blue
-            'spaceDelimited primitive, explode off' => [
+            'spaceDelimited primitive, explode off, required true' => [
                 'blue', 'color', 'string', 'spaceDelimited', false, true, 'color=blue',
             ],
             // color=blue
-            'spaceDelimited primitive, explode on' => [
+            'spaceDelimited primitive, explode on, required true' => [
                 'blue', 'color', 'string', 'spaceDelimited', true, true, 'color=blue',
             ],
             // color=blue%20black%20brown
-            'spaceDelimited array, explode off' => [
+            'spaceDelimited array, explode off, required true' => [
                 $array, 'color', 'array', 'spaceDelimited', false, true, 'color=blue%20black%20brown',
             ],
             // color=blue&color=black&color=brown
-            'spaceDelimited array, explode on' => [
+            'spaceDelimited array, explode on, required true' => [
                 $array, 'color', 'array', 'spaceDelimited', true, true, 'color=blue&color=black&color=brown',
             ],
             // color=R%20100%20G%20200%20B%20150
             // swagger editor gives color=R,100,G,200,B,150
-            'spaceDelimited object, explode off' => [
+            'spaceDelimited object, explode off, required true' => [
                 $object, 'color', 'object', 'spaceDelimited', false, true, 'color=R%20100%20G%20200%20B%20150',
             ],
             // R=100&G=200&B=150
-            'spaceDelimited object, explode on' => [
+            'spaceDelimited object, explode on, required true' => [
                 $object, 'color', 'object', 'spaceDelimited', true, true, 'R=100&G=200&B=150',
             ],
 
             // PIPE DELIMITED
             // color=blue
-            'pipeDelimited primitive, explode off' => [
+            'pipeDelimited primitive, explode off, required true' => [
                 'blue', 'color', 'string', 'pipeDelimited', false, true, 'color=blue',
             ],
             // color=blue
-            'pipeDelimited primitive, explode on' => [
+            'pipeDelimited primitive, explode on, required true' => [
                 'blue', 'color', 'string', 'pipeDelimited', true, true, 'color=blue',
             ],
             // color=blue|black|brown
-            'pipeDelimited array, explode off' => [
+            'pipeDelimited array, explode off, required true' => [
                 $array, 'color', 'array', 'pipeDelimited', false, true, 'color=blue%7Cblack%7Cbrown',
             ],
             // color=blue&color=black&color=brown
-            'pipeDelimited array, explode on' => [
+            'pipeDelimited array, explode on, required true' => [
                 $array, 'color', 'array', 'pipeDelimited', true, true, 'color=blue&color=black&color=brown',
             ],
             // color=R|100|G|200|B|150
             // swagger editor gives color=R,100,G,200,B,150
-            'pipeDelimited object, explode off' => [
+            'pipeDelimited object, explode off, required true' => [
                 $object, 'color', 'object', 'pipeDelimited', false, true, 'color=R%7C100%7CG%7C200%7CB%7C150',
             ],
             // R=100&G=200&B=150
-            'pipeDelimited object, explode on' => [
+            'pipeDelimited object, explode on, required true' => [
                 $object, 'color', 'object', 'pipeDelimited', true, true, 'R=100&G=200&B=150',
             ],
 
             // DEEP OBJECT
             // color=blue
-            'deepObject primitive, explode off' => [
+            'deepObject primitive, explode off, required true' => [
                 'blue', 'color', 'string', 'deepObject', false, true, 'color=blue',
             ],
-            'deepObject primitive, explode on' => [
+            'deepObject primitive, explode on, required true' => [
                 'blue', 'color', 'string', 'deepObject', true, true, 'color=blue',
             ],
             // color=blue,black,brown
-            'deepObject array, explode off' => [
+            'deepObject array, explode off, required true' => [
                 $array, 'color', 'array', 'deepObject', false, true, 'color=blue%2Cblack%2Cbrown',
             ],
             // color=blue&color=black&color=brown
-            'deepObject array, explode on' => [
+            'deepObject array, explode on, required true' => [
                 $array, 'color', 'array', 'deepObject', true, true, 'color=blue&color=black&color=brown',
             ],
             // color[R]=100&color[G]=200&color[B]=150
-            'deepObject object, explode off' => [
+            'deepObject object, explode off, required true' => [
                 $object, 'color', 'object', 'deepObject', false, true, 'color%5BR%5D=100&color%5BG%5D=200&color%5BB%5D=150',
             ],
             // color[R]=100&color[G]=200&color[B]=150
-            'deepObject object, explode on' => [
+            'deepObject object, explode on, required true' => [
                 $object, 'color', 'object', 'deepObject', true, true, 'color%5BR%5D=100&color%5BG%5D=200&color%5BB%5D=150',
             ],
             // filter[or][0][name]=John&filter[or][1][email]=john@doe.com
