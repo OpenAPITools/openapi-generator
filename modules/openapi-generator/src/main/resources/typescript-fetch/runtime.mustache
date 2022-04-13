@@ -217,10 +217,12 @@ export interface RequestOpts {
     body?: HTTPBody;
 }
 
+{{^withoutRuntimeChecks}}
 export function exists(json: any, key: string) {
     const value = json[key];
     return value !== null && value !== undefined;
 }
+{{/withoutRuntimeChecks}}
 
 export function querystring(params: HTTPQuery, prefix: string = ''): string {
     return Object.keys(params)
@@ -244,12 +246,14 @@ export function querystring(params: HTTPQuery, prefix: string = ''): string {
         .join('&');
 }
 
+{{^withoutRuntimeChecks}}
 export function mapValues(data: any, fn: (item: any) => any) {
   return Object.keys(data).reduce(
     (acc, key) => ({ ...acc, [key]: fn(data[key]) }),
     {}
   );
 }
+{{/withoutRuntimeChecks}}
 
 export function canConsumeForm(consumes: Consume[]): boolean {
     for (const consume of consumes) {
