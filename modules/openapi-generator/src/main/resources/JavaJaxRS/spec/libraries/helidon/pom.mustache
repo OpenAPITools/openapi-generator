@@ -70,6 +70,12 @@
             <artifactId>junit-jupiter-api</artifactId>
             <scope>test</scope>
         </dependency>
+        {{#jacksonAnnotation}}
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+        </dependency>
+        {{/jacksonAnnotation}}
     </dependencies>
 
     <build>
