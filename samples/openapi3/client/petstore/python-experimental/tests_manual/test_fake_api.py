@@ -70,28 +70,33 @@ class TestFakeApi(unittest.TestCase):
     def __assert_request_called_with(
         mock_request,
         url: str,
+        method: str = 'POST',
         body: typing.Optional[bytes] = None,
-        content_type: str = 'application/json',
+        content_type: typing.Optional[str] = 'application/json',
         fields: typing.Optional[tuple[api_client.RequestField, ...]] = None,
         accept_content_type: str = 'application/json',
         stream: bool = False,
         query_params: typing.Optional[typing.Tuple[typing.Tuple[str, str], ...]] = None
     ):
-        mock_request.assert_called_with(
-            'POST',
-            url,
-            headers=HTTPHeaderDict(
-                {
-                    'Accept': accept_content_type,
-                    'Content-Type': content_type,
-                    'User-Agent': 'OpenAPI-Generator/1.0.0/python'
-                }
-            ),
-            body=body,
+        headers = {
+            'Accept': accept_content_type,
+            'User-Agent': 'OpenAPI-Generator/1.0.0/python'
+        }
+        if content_type:
+            headers['Content-Type'] = content_type
+        kwargs = dict(
+            headers=HTTPHeaderDict(headers),
             query_params=query_params,
             fields=fields,
             stream=stream,
             timeout=None,
+        )
+        if method != 'GET':
+            kwargs['body'] = body
+        mock_request.assert_called_with(
+            method,
+            url,
+            **kwargs
         )
 
     def test_array_model(self):
@@ -701,6 +706,37 @@ class TestFakeApi(unittest.TestCase):
             assert isinstance(api_response.body, schemas.AnyTypeSchema)
             assert isinstance(api_response.body, schemas.NoneClass)
             assert api_response.body.is_none()
+
+    def test_response_without_schema(self):
+        # received response is not loaded into body because there is no deserialization schema defined
+        with patch.object(RESTClientObject, 'request') as mock_request:
+            body = None
+            content_type = 'application/json'
+            mock_request.return_value = self.__response(
+                self.__json_bytes(body),
+            )
+
+            api_response = self.api.response_without_schema()
+            self.__assert_request_called_with(
+                mock_request,
+                'http://petstore.swagger.io:80/v2/fake/responseWithoutSchema',
+                method='GET',
+                accept_content_type='application/json, application/xml',
+                content_type=None
+            )
+
+            assert isinstance(api_response.body, schemas.Unset)
+
+
+        with patch.object(RESTClientObject, 'request') as mock_request:
+            mock_request.return_value = self.__response(
+                'blah',
+                content_type='text/plain'
+            )
+
+            # when an incorrect content-type is sent back, and exception is raised
+            with self.assertRaises(exceptions.ApiValueError):
+                self.api.response_without_schema()
 
 
 if __name__ == '__main__':
