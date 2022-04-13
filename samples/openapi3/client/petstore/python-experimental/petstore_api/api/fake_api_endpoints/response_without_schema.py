@@ -61,77 +61,16 @@ from petstore_api.schemas import (  # noqa: F401
     _SchemaEnumMaker
 )
 
-# query params
-ObjectSchema = StrSchema
-PrefixesSchema = StrSchema
-RequestRequiredQueryParams = typing.TypedDict(
-    'RequestRequiredQueryParams',
-    {
-        'object': ObjectSchema,
-    }
-)
-RequestOptionalQueryParams = typing.TypedDict(
-    'RequestOptionalQueryParams',
-    {
-        'prefixes': PrefixesSchema,
-    },
-    total=False
-)
-
-
-class RequestQueryParams(RequestRequiredQueryParams, RequestOptionalQueryParams):
-    pass
-
-
-request_query_object = api_client.QueryParameter(
-    name="object",
-    style=api_client.ParameterStyle.FORM,
-    schema=ObjectSchema,
-    required=True,
-    explode=True,
-)
-request_query_prefixes = api_client.QueryParameter(
-    name="prefixes",
-    style=api_client.ParameterStyle.FORM,
-    schema=PrefixesSchema,
-    explode=True,
-)
-# path params
-KbSchema = StrSchema
-RequestRequiredPathParams = typing.TypedDict(
-    'RequestRequiredPathParams',
-    {
-        'kb': KbSchema,
-    }
-)
-RequestOptionalPathParams = typing.TypedDict(
-    'RequestOptionalPathParams',
-    {
-    },
-    total=False
-)
-
-
-class RequestPathParams(RequestRequiredPathParams, RequestOptionalPathParams):
-    pass
-
-
-request_path_kb = api_client.PathParameter(
-    name="kb",
-    style=api_client.ParameterStyle.SIMPLE,
-    schema=KbSchema,
-    required=True,
-)
-_path = '/kbs/{kb}/satisfiable'
+_path = '/fake/responseWithoutSchema'
 _method = 'GET'
-SchemaFor200ResponseBodyApplicationJson = DictSchema
 
 
 @dataclass
 class ApiResponseFor200(api_client.ApiResponse):
     response: urllib3.HTTPResponse
     body: typing.Union[
-        SchemaFor200ResponseBodyApplicationJson,
+        Unset,
+        Unset,
     ]
     headers: Unset = unset
 
@@ -139,8 +78,8 @@ class ApiResponseFor200(api_client.ApiResponse):
 _response_for_200 = api_client.OpenApiResponse(
     response_cls=ApiResponseFor200,
     content={
-        'application/json': api_client.MediaType(
-            schema=SchemaFor200ResponseBodyApplicationJson),
+        'application/json': api_client.MediaType(),
+        'application/xml': api_client.MediaType(),
     },
 )
 _status_code_to_response = {
@@ -148,15 +87,14 @@ _status_code_to_response = {
 }
 _all_accept_content_types = (
     'application/json',
+    'application/xml',
 )
 
 
-class KbsKbSatisfiableGet(api_client.Api):
+class ResponseWithoutSchema(api_client.Api):
 
-    def kbs_kb_satisfiable_get(
+    def response_without_schema(
         self: api_client.Api,
-        query_params: RequestQueryParams = frozendict(),
-        path_params: RequestPathParams = frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -166,34 +104,11 @@ class KbsKbSatisfiableGet(api_client.Api):
         api_client.ApiResponseWithoutDeserialization
     ]:
         """
-        Satisfiability
+        receives a response without schema
         :param skip_deserialization: If true then api_response.response will be set but
             api_response.body and api_response.headers will not be deserialized into schema
             class instances
         """
-        self._verify_typed_dict_inputs(RequestQueryParams, query_params)
-        self._verify_typed_dict_inputs(RequestPathParams, path_params)
-
-        _path_params = {}
-        for parameter in (
-            request_path_kb,
-        ):
-            parameter_data = path_params.get(parameter.name, unset)
-            if parameter_data is unset:
-                continue
-            serialized_data = parameter.serialize(parameter_data)
-            _path_params.update(serialized_data)
-
-        _query_params = []
-        for parameter in (
-            request_query_object,
-            request_query_prefixes,
-        ):
-            parameter_data = query_params.get(parameter.name, unset)
-            if parameter_data is unset:
-                continue
-            serialized_data = parameter.serialize(parameter_data)
-            _query_params.extend(serialized_data)
 
         _headers = HTTPHeaderDict()
         # TODO add cookie handling
@@ -204,8 +119,6 @@ class KbsKbSatisfiableGet(api_client.Api):
         response = self.api_client.call_api(
             resource_path=_path,
             method=_method,
-            path_params=_path_params,
-            query_params=tuple(_query_params),
             headers=_headers,
             stream=stream,
             timeout=timeout,
