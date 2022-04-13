@@ -122,7 +122,7 @@ _method = 'GET'
 class ApiResponseFor200(api_client.ApiResponse):
     response: urllib3.HTTPResponse
     body: typing.Union[
-        ,
+        Unset,
     ]
     headers: Unset = unset
 

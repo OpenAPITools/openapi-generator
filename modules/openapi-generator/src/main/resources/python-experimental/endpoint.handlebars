@@ -285,7 +285,11 @@ class ApiResponseFor{{code}}(api_client.ApiResponse):
 {{#and responseHeaders content}}
     body: typing.Union[
 {{#each content}}
+{{#if this.schema}}
         {{this.schema.baseName}},
+{{else}}
+        Unset,
+{{/if}}
 {{/each}}
     ]
     headers: ResponseHeadersFor{{code}}
@@ -297,7 +301,11 @@ class ApiResponseFor{{code}}(api_client.ApiResponse):
 {{else}}
     body: typing.Union[
 {{#each content}}
+{{#if this.schema}}
         {{this.schema.baseName}},
+{{else}}
+        Unset,
+{{/if}}
 {{/each}}
     ]
     headers: Unset = unset
