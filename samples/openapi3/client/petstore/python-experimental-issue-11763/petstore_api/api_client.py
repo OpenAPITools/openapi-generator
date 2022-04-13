@@ -678,6 +678,7 @@ class Encoding:
         self.allow_reserved = allow_reserved
 
 
+@dataclass
 class MediaType:
     """
     Used to store request and response body schema information
@@ -687,14 +688,8 @@ class MediaType:
         The encoding object SHALL only apply to requestBody objects when the media type is
         multipart or application/x-www-form-urlencoded.
     """
-
-    def __init__(
-        self,
-        schema: typing.Type[Schema],
-        encoding: typing.Optional[typing.Dict[str, Encoding]] = None,
-    ):
-        self.schema = schema
-        self.encoding = encoding
+    schema: typing.Optional[typing.Type[Schema]] = None
+    encoding: typing.Optional[typing.Dict[str, Encoding]] = None
 
 
 @dataclass
