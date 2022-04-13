@@ -852,6 +852,7 @@ opts = {
   enum_query_string: '_abc', # String | Query parameter enum test (string)
   enum_query_integer: 1, # Integer | Query parameter enum test (double)
   enum_query_double: 1.1, # Float | Query parameter enum test (double)
+  enum_query_model_array: [Petstore::EnumClass::ABC], # Array<EnumClass> | 
   enum_form_string_array: ['>'], # Array<String> | Form parameter enum test (string array)
   enum_form_string: '_abc' # String | Form parameter enum test (string)
 }
@@ -892,6 +893,7 @@ end
 | **enum_query_string** | **String** | Query parameter enum test (string) | [optional][default to &#39;-efg&#39;] |
 | **enum_query_integer** | **Integer** | Query parameter enum test (double) | [optional] |
 | **enum_query_double** | **Float** | Query parameter enum test (double) | [optional] |
+| **enum_query_model_array** | [**Array&lt;EnumClass&gt;**](EnumClass.md) |  | [optional] |
 | **enum_form_string_array** | [**Array&lt;String&gt;**](String.md) | Form parameter enum test (string array) | [optional][default to &#39;$&#39;] |
 | **enum_form_string** | **String** | Form parameter enum test (string) | [optional][default to &#39;-efg&#39;] |
 

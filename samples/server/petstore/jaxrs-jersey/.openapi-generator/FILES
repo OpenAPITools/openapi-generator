@@ -67,6 +67,7 @@ src/gen/java/org/openapitools/model/ReadOnlyFirst.java
 src/gen/java/org/openapitools/model/SpecialModelName.java
 src/gen/java/org/openapitools/model/Tag.java
 src/gen/java/org/openapitools/model/User.java
+src/gen/java/org/openapitools/model/UserType.java
 src/main/java/org/openapitools/api/Bootstrap.java
 src/main/java/org/openapitools/api/factories/AnotherFakeApiServiceFactory.java
 src/main/java/org/openapitools/api/factories/FakeApiServiceFactory.java

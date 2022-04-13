@@ -182,7 +182,7 @@ class RequestCookieParams(RequestRequiredCookieParams, RequestOptionalCookiePara
 request_body_{{paramName}} = api_client.RequestBody(
     content={
 {{#each content}}
-        '{{@key}}': api_client.MediaType(
+        '{{{@key}}}': api_client.MediaType(
             schema={{this.schema.baseName}}),
 {{/each}}
     },
@@ -323,7 +323,7 @@ _response_for_{{code}} = api_client.OpenApiResponse(
 {{#if @first}}
     content={
 {{/if}}
-        '{{@key}}': api_client.MediaType(
+        '{{{@key}}}': api_client.MediaType(
             schema={{this.schema.baseName}}),
 {{#if @last}}
     },
@@ -351,7 +351,7 @@ _status_code_to_response = {
 {{#if @first}}
 _all_accept_content_types = (
 {{/if}}
-    '{{this.mediaType}}',
+    '{{{this.mediaType}}}',
 {{#if @last}}
 )
 {{/if}}
@@ -382,7 +382,7 @@ class {{operationIdCamelCase}}(api_client.Api):
     {{#with bodyParam}}
     {{#each content}}
     {{#if @first}}
-        content_type: str = '{{@key}}',
+        content_type: str = '{{{@key}}}',
     {{/if}}
     {{/each}}
     {{/with}}

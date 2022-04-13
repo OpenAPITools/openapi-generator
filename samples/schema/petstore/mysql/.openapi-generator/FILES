@@ -44,5 +44,6 @@ Model/Return.sql
 Model/SpecialModelName.sql
 Model/Tag.sql
 Model/User.sql
+Model/UserType.sql
 README.md
 mysql_schema.sql

@@ -93,7 +93,6 @@ export const ResponseMetaCodeEnum = {
     RecurlyTransactionErrorException: 'Recurly_Transaction_Error_Exception',
     GalaxieApiException: 'Galaxie_Api_Exception'
 } as const;
-
 export type ResponseMetaCodeEnum = typeof ResponseMetaCodeEnum[keyof typeof ResponseMetaCodeEnum];
 
 
