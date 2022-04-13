@@ -41,7 +41,7 @@ const char* {{classname}}Exception::what() const noexcept
 {{classname}}::{{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{httpMethod}}_{{vendorExtensions.x-codegen-resource-name}}{{/operationId}}(
     {{#allParams}}const {{{dataType}}}& {{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}}) {
     std::string requestBody;
-    std::string path = m_context + "{{{path}}}";;
+    std::string path = m_context + "{{{path}}}";
     std::map<std::string, std::string> headers;
 {{#hasBodyParam}}
     // Body params
@@ -52,11 +52,11 @@ const char* {{classname}}Exception::what() const noexcept
 {{#isArray}}
     requestBody = createJsonStringFrom{{{baseType}}}Vector({{paramName}});
 {{/isArray}}
-{{^isModel}}
-{{^isArray}}
-    requestBody = createJsonStringFrom{{{baseType}}}Vector({{paramName}});
-{{/isArray}}
-{{/isModel}}
+{{#isPrimitiveType}}
+    std::stringstream {{paramName}}Stream;
+{{paramName}}Stream << {{paramName}};
+    requestBody = {{paramName}}Stream.str();
+{{/isPrimitiveType}}
 {{/allParams}}
 {{/hasBodyParam}}
 {{#hasPathParams}}
@@ -102,31 +102,33 @@ const char* {{classname}}Exception::what() const noexcept
     catch(...) {
         {{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{httpMethod}}_{{vendorExtensions.x-codegen-resource-name}}{{/operationId}}_handleUncaughtException();
     }
+
     {{#returnType}}
-    {{#hasDefaultResponse}}
-    {{{returnType}}} result = {{{defaultResponse}}};
-    {{/hasDefaultResponse}}
-    {{^hasDefaultResponse}}
-    {{{returnType}}} result{};
-    {{/hasDefaultResponse}}
+    {{{.}}} result = {{{defaultResponse}}};
     {{/returnType}}
     {{#responses}}
-    {{#returnType}}
-    {{#isModel}}
-    {{#isString}}
+    if (statusCode == boost::beast::http::status({{code}})) {
+        {{#is2xx}}
+        {{#returnType}}
+        {{#isModel}}
+        {{#isString}}
         result = responseBody;
-    {{/isString}}
-    {{^isString}}
+        {{/isString}}
+        {{^isString}}
         result->fromJsonString(responseBody);
-    {{/isString}}
-    {{/isModel}}
-    {{#isMap}}
-        /*TODO {{{.}}}
-        auto result = create{{baseType}}VectorFromJsonString(responseBody);
-        */
-    {{/isMap}}
-    {{/returnType}}
+        {{/isString}}
+        {{/isModel}}
+        {{#isMap}}
+        // TODO result = convertMapResponse(resultObject);
+        {{/isMap}}
+        {{/returnType}}
+        {{/is2xx}}
+        {{^is2xx}}
+        throw {{classname}}Exception(statusCode, "{{{message}}}");
+        {{/is2xx}}
+    }
     {{/responses}}
+
     {{#returnType}}
     return result;
     {{/returnType}}

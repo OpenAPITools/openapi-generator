@@ -67,6 +67,8 @@ HttpClientImpl::prepareRequest(const std::string &verb,
         req.set(header.first, header.second);
     }
 
+    req.prepare_payload();
+
     return req;
 }
 
