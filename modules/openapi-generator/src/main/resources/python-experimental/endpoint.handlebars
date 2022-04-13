@@ -182,8 +182,8 @@ class RequestCookieParams(RequestRequiredCookieParams, RequestOptionalCookiePara
 request_body_{{paramName}} = api_client.RequestBody(
     content={
 {{#each content}}
-        '{{{@key}}}': api_client.MediaType(
-            schema={{this.schema.baseName}}),
+        '{{{@key}}}': api_client.MediaType({{#if this.schema}}
+            schema={{this.schema.baseName}}{{/if}}),
 {{/each}}
     },
 {{#if required}}
@@ -323,8 +323,8 @@ _response_for_{{code}} = api_client.OpenApiResponse(
 {{#if @first}}
     content={
 {{/if}}
-        '{{{@key}}}': api_client.MediaType(
-            schema={{this.schema.baseName}}),
+        '{{{@key}}}': api_client.MediaType({{#if this.schema}}
+            schema={{this.schema.baseName}}{{/if}}),
 {{#if @last}}
     },
 {{/if}}

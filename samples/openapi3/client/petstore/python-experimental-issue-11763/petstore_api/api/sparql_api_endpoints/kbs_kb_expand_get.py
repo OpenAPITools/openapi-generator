@@ -130,8 +130,7 @@ class ApiResponseFor200(api_client.ApiResponse):
 _response_for_200 = api_client.OpenApiResponse(
     response_cls=ApiResponseFor200,
     content={
-        'application/sparql-query': api_client.MediaType(
-            schema=),
+        'application/sparql-query': api_client.MediaType(),
     },
 )
 _status_code_to_response = {
