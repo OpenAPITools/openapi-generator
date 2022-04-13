@@ -28,6 +28,7 @@ Method | HTTP request | Description
 [**parameter_collisions**](FakeApi.md#parameter_collisions) | **POST** /fake/parameterCollisions/{1}/{aB}/{Ab}/{self}/{A-B}/ | parameter collision case
 [**query_parameter_collection_format**](FakeApi.md#query_parameter_collection_format) | **PUT** /fake/test-query-paramters | 
 [**ref_object_in_query**](FakeApi.md#ref_object_in_query) | **GET** /fake/refObjInQuery | user list
+[**response_without_schema**](FakeApi.md#response_without_schema) | **GET** /fake/responseWithoutSchema | receives a response without schema
 [**string**](FakeApi.md#string) | **POST** /fake/refs/string | 
 [**string_enum**](FakeApi.md#string_enum) | **POST** /fake/refs/enum | 
 [**upload_download_file**](FakeApi.md#upload_download_file) | **POST** /fake/uploadDownloadFile | uploads a file and downloads a file using application/octet-stream
@@ -2544,6 +2545,61 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
+headers | Unset | headers were not defined |
+
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **response_without_schema**
+> response_without_schema()
+
+receives a response without schema
+
+### Example
+
+```python
+import petstore_api
+from petstore_api.api import fake_api
+from pprint import pprint
+# Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
+# See configuration.py for a list of all supported configuration parameters.
+configuration = petstore_api.Configuration(
+    host = "http://petstore.swagger.io:80/v2"
+)
+
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = fake_api.FakeApi(api_client)
+
+    # example, this endpoint has no required or optional parameters
+    try:
+        # receives a response without schema
+        api_response = api_instance.response_without_schema()
+    except petstore_api.ApiException as e:
+        print("Exception when calling FakeApi->response_without_schema: %s\n" % e)
+```
+### Parameters
+This endpoint does not need any parameter.
+
+### Return Types, Responses
+
+Code | Class | Description
+------------- | ------------- | -------------
+n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
+200 | ApiResponseFor200 | contents without schema definition
+
+#### ApiResponseFor200
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+response | urllib3.HTTPResponse | Raw response |
+body | typing.Union[Unset, Unset, ] |  |
 headers | Unset | headers were not defined |
 
 
