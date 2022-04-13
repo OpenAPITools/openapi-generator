@@ -175,6 +175,10 @@ public class PythonClientCodegen extends AbstractPythonCodegen {
         supportingFiles.add(new SupportingFile("configuration.mustache", swaggerFolder, "configuration.py"));
         supportingFiles.add(new SupportingFile("logger.mustache", swaggerFolder, "logger.py"));
 
+        supportingFiles.add(new SupportingFile("__init__package.mustache", swaggerFolder, "__init__.py"));
+        supportingFiles.add(new SupportingFile("__init__model.mustache", modelPackage, "__init__.py"));
+        supportingFiles.add(new SupportingFile("__init__api.mustache", apiPackage, "__init__.py"));
+
         if(Boolean.FALSE.equals(excludeTests)) {
             supportingFiles.add(new SupportingFile("__init__test.mustache", testFolder, "__init__.py"));
         }
