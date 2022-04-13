@@ -3,8 +3,8 @@ import 'package:openapi/openapi.dart';
 
 // tests for OuterComposite
 void main() {
-  final instance = OuterCompositeBuilder();
-  // TODO add properties to the builder and call build()
+  final OuterComposite? instance = /* OuterComposite(...) */ null;
+  // TODO add properties to the entity
 
   group(OuterComposite, () {
     // num myNumber

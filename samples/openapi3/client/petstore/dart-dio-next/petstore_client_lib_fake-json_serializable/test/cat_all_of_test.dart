@@ -3,8 +3,8 @@ import 'package:openapi/openapi.dart';
 
 // tests for CatAllOf
 void main() {
-  final instance = CatAllOfBuilder();
-  // TODO add properties to the builder and call build()
+  final CatAllOf? instance = /* CatAllOf(...) */ null;
+  // TODO add properties to the entity
 
   group(CatAllOf, () {
     // bool declawed

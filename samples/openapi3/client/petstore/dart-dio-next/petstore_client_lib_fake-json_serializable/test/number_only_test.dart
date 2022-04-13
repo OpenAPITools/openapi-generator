@@ -3,8 +3,8 @@ import 'package:openapi/openapi.dart';
 
 // tests for NumberOnly
 void main() {
-  final instance = NumberOnlyBuilder();
-  // TODO add properties to the builder and call build()
+  final NumberOnly? instance = /* NumberOnly(...) */ null;
+  // TODO add properties to the entity
 
   group(NumberOnly, () {
     // num justNumber

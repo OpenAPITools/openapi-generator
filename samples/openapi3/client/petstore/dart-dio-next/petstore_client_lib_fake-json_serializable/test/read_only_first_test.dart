@@ -3,8 +3,8 @@ import 'package:openapi/openapi.dart';
 
 // tests for ReadOnlyFirst
 void main() {
-  final instance = ReadOnlyFirstBuilder();
-  // TODO add properties to the builder and call build()
+  final ReadOnlyFirst? instance = /* ReadOnlyFirst(...) */ null;
+  // TODO add properties to the entity
 
   group(ReadOnlyFirst, () {
     // String bar

@@ -3,8 +3,8 @@ import 'package:openapi/openapi.dart';
 
 // tests for Foo
 void main() {
-  final instance = FooBuilder();
-  // TODO add properties to the builder and call build()
+  final Foo? instance = /* Foo(...) */ null;
+  // TODO add properties to the entity
 
   group(Foo, () {
     // String bar (default value: 'bar')

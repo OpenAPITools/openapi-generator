@@ -3,8 +3,8 @@ import 'package:openapi/openapi.dart';
 
 // tests for ApiResponse
 void main() {
-  final instance = ApiResponseBuilder();
-  // TODO add properties to the builder and call build()
+  final ApiResponse? instance = /* ApiResponse(...) */ null;
+  // TODO add properties to the entity
 
   group(ApiResponse, () {
     // int code

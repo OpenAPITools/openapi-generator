@@ -3,8 +3,8 @@ import 'package:openapi/openapi.dart';
 
 // tests for Model200Response
 void main() {
-  final instance = Model200ResponseBuilder();
-  // TODO add properties to the builder and call build()
+  final Model200Response? instance = /* Model200Response(...) */ null;
+  // TODO add properties to the entity
 
   group(Model200Response, () {
     // int name

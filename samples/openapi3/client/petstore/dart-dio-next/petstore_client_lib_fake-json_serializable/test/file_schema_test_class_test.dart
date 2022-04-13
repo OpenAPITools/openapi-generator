@@ -3,8 +3,8 @@ import 'package:openapi/openapi.dart';
 
 // tests for FileSchemaTestClass
 void main() {
-  final instance = FileSchemaTestClassBuilder();
-  // TODO add properties to the builder and call build()
+  final FileSchemaTestClass? instance = /* FileSchemaTestClass(...) */ null;
+  // TODO add properties to the entity
 
   group(FileSchemaTestClass, () {
     // ModelFile file

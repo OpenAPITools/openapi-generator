@@ -3,8 +3,8 @@ import 'package:openapi/openapi.dart';
 
 // tests for Pet
 void main() {
-  final instance = PetBuilder();
-  // TODO add properties to the builder and call build()
+  final Pet? instance = /* Pet(...) */ null;
+  // TODO add properties to the entity
 
   group(Pet, () {
     // int id

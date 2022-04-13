@@ -3,8 +3,8 @@ import 'package:openapi/openapi.dart';
 
 // tests for Tag
 void main() {
-  final instance = TagBuilder();
-  // TODO add properties to the builder and call build()
+  final Tag? instance = /* Tag(...) */ null;
+  // TODO add properties to the entity
 
   group(Tag, () {
     // int id

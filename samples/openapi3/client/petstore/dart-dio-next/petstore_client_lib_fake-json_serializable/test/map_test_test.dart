@@ -3,8 +3,8 @@ import 'package:openapi/openapi.dart';
 
 // tests for MapTest
 void main() {
-  final instance = MapTestBuilder();
-  // TODO add properties to the builder and call build()
+  final MapTest? instance = /* MapTest(...) */ null;
+  // TODO add properties to the entity
 
   group(MapTest, () {
     // Map<String, Map<String, String>> mapMapOfString

@@ -3,8 +3,8 @@ import 'package:openapi/openapi.dart';
 
 // tests for ModelList
 void main() {
-  final instance = ModelListBuilder();
-  // TODO add properties to the builder and call build()
+  final ModelList? instance = /* ModelList(...) */ null;
+  // TODO add properties to the entity
 
   group(ModelList, () {
     // String n123list

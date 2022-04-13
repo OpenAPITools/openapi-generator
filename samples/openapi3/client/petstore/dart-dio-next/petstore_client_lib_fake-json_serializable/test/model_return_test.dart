@@ -3,8 +3,8 @@ import 'package:openapi/openapi.dart';
 
 // tests for ModelReturn
 void main() {
-  final instance = ModelReturnBuilder();
-  // TODO add properties to the builder and call build()
+  final ModelReturn? instance = /* ModelReturn(...) */ null;
+  // TODO add properties to the entity
 
   group(ModelReturn, () {
     // int return_

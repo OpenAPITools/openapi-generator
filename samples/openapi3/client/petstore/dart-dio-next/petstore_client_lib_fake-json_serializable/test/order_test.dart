@@ -3,8 +3,8 @@ import 'package:openapi/openapi.dart';
 
 // tests for Order
 void main() {
-  final instance = OrderBuilder();
-  // TODO add properties to the builder and call build()
+  final Order? instance = /* Order(...) */ null;
+  // TODO add properties to the entity
 
   group(Order, () {
     // int id

@@ -3,8 +3,8 @@ import 'package:openapi/openapi.dart';
 
 // tests for MixedPropertiesAndAdditionalPropertiesClass
 void main() {
-  final instance = MixedPropertiesAndAdditionalPropertiesClassBuilder();
-  // TODO add properties to the builder and call build()
+  final MixedPropertiesAndAdditionalPropertiesClass? instance = /* MixedPropertiesAndAdditionalPropertiesClass(...) */ null;
+  // TODO add properties to the entity
 
   group(MixedPropertiesAndAdditionalPropertiesClass, () {
     // String uuid

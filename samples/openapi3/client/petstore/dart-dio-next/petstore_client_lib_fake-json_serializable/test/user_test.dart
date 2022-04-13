@@ -3,8 +3,8 @@ import 'package:openapi/openapi.dart';
 
 // tests for User
 void main() {
-  final instance = UserBuilder();
-  // TODO add properties to the builder and call build()
+  final User? instance = /* User(...) */ null;
+  // TODO add properties to the entity
 
   group(User, () {
     // int id

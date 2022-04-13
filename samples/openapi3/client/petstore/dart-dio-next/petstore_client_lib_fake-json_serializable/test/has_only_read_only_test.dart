@@ -3,8 +3,8 @@ import 'package:openapi/openapi.dart';
 
 // tests for HasOnlyReadOnly
 void main() {
-  final instance = HasOnlyReadOnlyBuilder();
-  // TODO add properties to the builder and call build()
+  final HasOnlyReadOnly? instance = /* HasOnlyReadOnly(...) */ null;
+  // TODO add properties to the entity
 
   group(HasOnlyReadOnly, () {
     // String bar

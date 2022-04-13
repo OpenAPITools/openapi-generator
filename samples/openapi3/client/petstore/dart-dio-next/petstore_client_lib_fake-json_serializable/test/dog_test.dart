@@ -3,8 +3,8 @@ import 'package:openapi/openapi.dart';
 
 // tests for Dog
 void main() {
-  final instance = DogBuilder();
-  // TODO add properties to the builder and call build()
+  final Dog? instance = /* Dog(...) */ null;
+  // TODO add properties to the entity
 
   group(Dog, () {
     // String className

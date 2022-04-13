@@ -3,8 +3,8 @@ import 'package:openapi/openapi.dart';
 
 // tests for Category
 void main() {
-  final instance = CategoryBuilder();
-  // TODO add properties to the builder and call build()
+  final Category? instance = /* Category(...) */ null;
+  // TODO add properties to the entity
 
   group(Category, () {
     // int id

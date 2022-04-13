@@ -3,8 +3,8 @@ import 'package:openapi/openapi.dart';
 
 // tests for ArrayTest
 void main() {
-  final instance = ArrayTestBuilder();
-  // TODO add properties to the builder and call build()
+  final ArrayTest? instance = /* ArrayTest(...) */ null;
+  // TODO add properties to the entity
 
   group(ArrayTest, () {
     // List<String> arrayOfString
