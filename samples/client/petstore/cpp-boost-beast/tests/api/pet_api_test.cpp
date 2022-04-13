@@ -9,6 +9,7 @@
 #include "api/HttpClientImpl.h"
 #include "api/PetApi.h"
 #include "model/Pet.h"
+#include "testing_helper.h"
 
 #include <vector>
 #include <tuple>
@@ -29,8 +30,8 @@ using namespace org::openapitools::client::api;
 
 
 struct fixture {
-    fixture() {}
-    ~fixture() {}
+    fixture() = default;
+    ~fixture() = default;
 
     std::shared_ptr<HttpClient> client = std::make_shared<HttpClientImpl>("localhost", "8080");
 };
@@ -119,5 +120,36 @@ BOOST_DATA_TEST_CASE(updatePet_fails, boost::unit_test::data::make(
     });
 
 }
+
+BOOST_AUTO_TEST_SUITE_END()
+
+
+
+struct throwing_tests_fixture {
+    throwing_tests_fixture() = default;
+    ~throwing_tests_fixture() = default;
+
+    std::shared_ptr<ThrowingClient> client = std::make_shared<ThrowingClient>();
+};
+
+
+BOOST_FIXTURE_TEST_SUITE(PetApiExceptionsTest, throwing_tests_fixture)
+
+BOOST_AUTO_TEST_CASE(getPetById_std_exception) {
+        client->setExceptionType(ExceptionType::STD_EXCEPTION);
+        auto baseClient = std::static_pointer_cast<HttpClient>(client);
+        PetApi api(baseClient);
+
+        BOOST_REQUIRE_THROW(api.getPetById(0), std::exception);
+}
+
+    BOOST_AUTO_TEST_CASE(getPetById_int_exception) {
+        client->setExceptionType(ExceptionType::INT);
+        auto baseClient = std::static_pointer_cast<HttpClient>(client);
+        PetApi api(baseClient);
+
+        BOOST_REQUIRE_THROW(api.getPetById(0), int);
+    }
+
 
 BOOST_AUTO_TEST_SUITE_END()
