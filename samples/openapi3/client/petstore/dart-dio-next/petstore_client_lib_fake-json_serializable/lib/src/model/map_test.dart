@@ -100,11 +100,11 @@ class MapTest {
 
 
 enum MapTestMapOfEnumStringEnum {
-  @JsonValue('UPPER')
+  @JsonValue(r'UPPER')
   UPPER,
-  @JsonValue('lower')
+  @JsonValue(r'lower')
   lower,
-  @JsonValue('unknown_default_open_api')
+  @JsonValue(r'unknown_default_open_api')
   unknownDefaultOpenApi,
 }
 

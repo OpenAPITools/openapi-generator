@@ -133,13 +133,13 @@ class Order {
 
 /// Order Status
 enum OrderStatusEnum {
-  @JsonValue('placed')
+  @JsonValue(r'placed')
   placed,
-  @JsonValue('approved')
+  @JsonValue(r'approved')
   approved,
-  @JsonValue('delivered')
+  @JsonValue(r'delivered')
   delivered,
-  @JsonValue('unknown_default_open_api')
+  @JsonValue(r'unknown_default_open_api')
   unknownDefaultOpenApi,
 }
 

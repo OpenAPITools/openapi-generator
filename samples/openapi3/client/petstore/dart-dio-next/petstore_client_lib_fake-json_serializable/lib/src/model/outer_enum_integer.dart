@@ -6,12 +6,12 @@ import 'package:json_annotation/json_annotation.dart';
 
 
 enum OuterEnumInteger {
-  @JsonValue(0)
+  @JsonValue(r0)
   number0,
-  @JsonValue(1)
+  @JsonValue(r1)
   number1,
-  @JsonValue(2)
+  @JsonValue(r2)
   number2,
-  @JsonValue(11184809)
+  @JsonValue(r11184809)
   unknownDefaultOpenApi,
 }

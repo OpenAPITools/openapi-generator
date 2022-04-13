@@ -6,10 +6,10 @@ import 'package:json_annotation/json_annotation.dart';
 
 
 enum UserType {
-  @JsonValue('admin')
+  @JsonValue(r'admin')
   admin,
-  @JsonValue('user')
+  @JsonValue(r'user')
   user,
-  @JsonValue('unknown_default_open_api')
+  @JsonValue(r'unknown_default_open_api')
   unknownDefaultOpenApi,
 }

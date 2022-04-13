@@ -68,22 +68,22 @@ class EnumArrays {
 
 
 enum EnumArraysJustSymbolEnum {
-  @JsonValue('>=')
+  @JsonValue(r'>=')
   greaterThanEqual,
-  @JsonValue('\$')
+  @JsonValue(r'$')
   dollar,
-  @JsonValue('unknown_default_open_api')
+  @JsonValue(r'unknown_default_open_api')
   unknownDefaultOpenApi,
 }
 
 
 
 enum EnumArraysArrayEnumEnum {
-  @JsonValue('fish')
+  @JsonValue(r'fish')
   fish,
-  @JsonValue('crab')
+  @JsonValue(r'crab')
   crab,
-  @JsonValue('unknown_default_open_api')
+  @JsonValue(r'unknown_default_open_api')
   unknownDefaultOpenApi,
 }
 

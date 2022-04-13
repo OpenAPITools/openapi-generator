@@ -135,13 +135,13 @@ class Pet {
 
 /// pet status in the store
 enum PetStatusEnum {
-  @JsonValue('available')
+  @JsonValue(r'available')
   available,
-  @JsonValue('pending')
+  @JsonValue(r'pending')
   pending,
-  @JsonValue('sold')
+  @JsonValue(r'sold')
   sold,
-  @JsonValue('unknown_default_open_api')
+  @JsonValue(r'unknown_default_open_api')
   unknownDefaultOpenApi,
 }
 

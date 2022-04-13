@@ -168,48 +168,48 @@ class EnumTest {
 
 
 enum EnumTestEnumStringEnum {
-  @JsonValue('UPPER')
+  @JsonValue(r'UPPER')
   UPPER,
-  @JsonValue('lower')
+  @JsonValue(r'lower')
   lower,
-  @JsonValue('')
+  @JsonValue(r'')
   empty,
-  @JsonValue('unknown_default_open_api')
+  @JsonValue(r'unknown_default_open_api')
   unknownDefaultOpenApi,
 }
 
 
 
 enum EnumTestEnumStringRequiredEnum {
-  @JsonValue('UPPER')
+  @JsonValue(r'UPPER')
   UPPER,
-  @JsonValue('lower')
+  @JsonValue(r'lower')
   lower,
-  @JsonValue('')
+  @JsonValue(r'')
   empty,
-  @JsonValue('unknown_default_open_api')
+  @JsonValue(r'unknown_default_open_api')
   unknownDefaultOpenApi,
 }
 
 
 
 enum EnumTestEnumIntegerEnum {
-  @JsonValue(1)
+  @JsonValue(r1)
   number1,
-  @JsonValue(-1)
+  @JsonValue(r-1)
   numberNegative1,
-  @JsonValue(11184809)
+  @JsonValue(r11184809)
   unknownDefaultOpenApi,
 }
 
 
 
 enum EnumTestEnumNumberEnum {
-  @JsonValue('1.1')
+  @JsonValue(r'1.1')
   number1Period1,
-  @JsonValue('-1.2')
+  @JsonValue(r'-1.2')
   numberNegative1Period2,
-  @JsonValue('11184809')
+  @JsonValue(r'11184809')
   unknownDefaultOpenApi,
 }
 

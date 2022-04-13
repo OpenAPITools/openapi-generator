@@ -6,12 +6,12 @@ import 'package:json_annotation/json_annotation.dart';
 
 
 enum ModelEnumClass {
-  @JsonValue('_abc')
+  @JsonValue(r'_abc')
   abc,
-  @JsonValue('-efg')
+  @JsonValue(r'-efg')
   efg,
-  @JsonValue('(xyz)')
+  @JsonValue(r'(xyz)')
   leftParenthesisXyzRightParenthesis,
-  @JsonValue('unknown_default_open_api')
+  @JsonValue(r'unknown_default_open_api')
   unknownDefaultOpenApi,
 }
