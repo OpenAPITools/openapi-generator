@@ -768,7 +768,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
 
     @Override
     public String escapeUnsafeCharacters(String input) {
-        return input.replace("*/", "*_/").replace("/*", "/_*").replace("$", "\\$");
+        return input.replace("*/", "*_/").replace("/*", "/_*");
     }
 
     @Override
