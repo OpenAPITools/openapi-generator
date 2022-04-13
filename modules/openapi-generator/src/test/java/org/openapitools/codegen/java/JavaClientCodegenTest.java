@@ -20,6 +20,7 @@ package org.openapitools.codegen.java;
 import static org.openapitools.codegen.TestUtils.validateJavaSourceFiles;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.fail;
 
 import java.io.File;
 import java.io.IOException;
@@ -1453,12 +1454,13 @@ public class JavaClientCodegenTest {
         output.deleteOnExit();
     }
 
-    @Test
+    @Test(expectedExceptions = IllegalArgumentException.class, expectedExceptionsMessageRegExp = "Version incorrectVersion of MicroProfile Rest Client is not supported or incorrect. Supported versions are 1.4.1, 2.0, 3.0")
     public void testMicroprofileRestClientIncorrectVersion() throws Exception {
         Map<String, Object> properties = new HashMap<>();
         properties.put(JavaClientCodegen.MICROPROFILE_REST_CLIENT_VERSION, "incorrectVersion");
 
         File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
                 .setAdditionalProperties(properties)
@@ -1469,22 +1471,8 @@ public class JavaClientCodegenTest {
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
         DefaultGenerator generator = new DefaultGenerator();
-        List<File> files = generator.opts(clientOptInput).generate();
-
-        TestUtils.ensureContainsFile(files, output, "pom.xml");
-
-        validateJavaSourceFiles(files);
-
-        TestUtils.assertFileContains(Paths.get(output + "/pom.xml"),
-                "<microprofile.rest.client.api.version>2.0</microprofile.rest.client.api.version>");
-        TestUtils.assertFileContains(Paths.get(output + "/pom.xml"),
-                "<smallrye.rest.client.version>1.2.1</smallrye.rest.client.version>");
-        TestUtils.assertFileContains(Paths.get(output + "/pom.xml"),
-                "<java.version>1.8</java.version>");
-        TestUtils.assertFileContains(Paths.get(output + "/src/main/java/org/openapitools/client/api/PetApi.java"),
-                "import javax.");
-
-        output.deleteOnExit();
+        generator.opts(clientOptInput).generate();
+        fail("Expected an exception that did not occur");
     }
 
     @Test

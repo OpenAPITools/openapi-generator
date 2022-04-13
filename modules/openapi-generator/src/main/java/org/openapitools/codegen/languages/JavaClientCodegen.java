@@ -309,7 +309,13 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         } else {
             String mpRestClientVersion = (String) additionalProperties.get(MICROPROFILE_REST_CLIENT_VERSION);
             if (!mpRestClientVersions.containsKey(mpRestClientVersion)){
-                additionalProperties.put(MICROPROFILE_REST_CLIENT_VERSION, MICROPROFILE_REST_CLIENT_DEFAULT_VERSION);
+                throw new IllegalArgumentException(
+                        String.format(Locale.ROOT,
+                                "Version %s of MicroProfile Rest Client is not supported or incorrect. Supported versions are %s",
+                                mpRestClientVersion,
+                                String.join(", ", mpRestClientVersions.keySet())
+                        )
+                );
             }
         }
         if (!additionalProperties.containsKey("rootJavaEEPackage")) {
