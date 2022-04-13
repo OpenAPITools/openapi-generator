@@ -324,6 +324,11 @@
   infoLink: "https://www.nokia.com/"
   pinned: false
 -
+  caption: OneSignal
+  image: "img/companies/onesignal.png"
+  infoLink: "https://www.onesignal.com/"
+  pinned: false
+-
   caption: Options Clearing Corporation (OCC)
   image: "img/companies/occ.jpg"
   infoLink: "https://www.theocc.com/"
