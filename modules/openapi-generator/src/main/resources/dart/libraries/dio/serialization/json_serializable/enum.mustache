@@ -1,7 +1,13 @@
+import 'package:json_annotation/json_annotation.dart';
+
 {{#description}}/// {{{description}}}{{/description}}
-enum {{{enumName}}} {
+enum {{{classname}}} {
 {{#allowableValues}}
 {{#enumVars}}
+  {{#description}}
+  /// {{{.}}}
+  {{/description}}
+  @JsonValue({{{value}}})
   {{{name}}},
 {{/enumVars}}
 {{/allowableValues}}

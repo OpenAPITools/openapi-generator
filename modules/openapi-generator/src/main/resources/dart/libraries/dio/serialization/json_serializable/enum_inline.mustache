@@ -1,8 +1,11 @@
+{{#enumName}}
 {{#description}}/// {{{description}}}{{/description}}
-enum {{{enumName}}} {
+enum {{{ enumName }}} {
 {{#allowableValues}}
 {{#enumVars}}
+  @JsonValue({{{value}}})
   {{{name}}},
 {{/enumVars}}
 {{/allowableValues}}
 }
+{{/enumName}}

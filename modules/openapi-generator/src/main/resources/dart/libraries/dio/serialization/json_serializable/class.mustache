@@ -28,6 +28,7 @@ class {{{classname}}} {
     {{#defaultValue}}defaultValue: {{{defaultValue}}},{{/defaultValue}}
     name: r'{{{baseName}}}',
     required: {{#required}}true{{/required}}{{^required}}false{{/required}},
+    includeIfNull: {{#required}}{{#isNullable}}true{{/isNullable}}false{{/required}}{{^required}}false{{/required}}
   )
   {{/isBinary}}
   {{#isBinary}}
@@ -71,12 +72,12 @@ class {{{classname}}} {
     {{#isEnum}}
         {{^isContainer}}
 
-{{>serialization/json_serializable/json_serializable_enum_inline}}
+{{>serialization/json_serializable/enum_inline}}
         {{/isContainer}}
         {{#isContainer}}
             {{#mostInnerItems}}
 
-{{>serialization/json_serializable/json_serializable_enum_inline}}
+{{>serialization/json_serializable/enum_inline}}
             {{/mostInnerItems}}
         {{/isContainer}}
     {{/isEnum}}
