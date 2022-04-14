@@ -58,6 +58,7 @@ import 'package:openapi/src/model/read_only_first.dart';
 import 'package:openapi/src/model/special_model_name.dart';
 import 'package:openapi/src/model/tag.dart';
 import 'package:openapi/src/model/user.dart';
+import 'package:openapi/src/model/user_type.dart';
 
 part 'serializers.g.dart';
 
@@ -108,6 +109,7 @@ part 'serializers.g.dart';
   SpecialModelName,
   Tag,
   User,
+  UserType,
 ])
 Serializers serializers = (_$serializers.toBuilder()
       ..addBuilderFactory(
@@ -133,6 +135,10 @@ Serializers serializers = (_$serializers.toBuilder()
       ..addBuilderFactory(
         const FullType(BuiltMap, [FullType(String), FullType(int)]),
         () => MapBuilder<String, int>(),
+      )
+      ..addBuilderFactory(
+        const FullType(BuiltList, [FullType(ModelEnumClass)]),
+        () => ListBuilder<ModelEnumClass>(),
       )
       ..addBuilderFactory(
         const FullType(BuiltList, [FullType(String)]),

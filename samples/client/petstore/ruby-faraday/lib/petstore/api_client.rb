@@ -54,9 +54,10 @@ module Petstore
         :client_cert => @config.ssl_client_cert,
         :client_key => @config.ssl_client_key
       }
-
-      connection = Faraday.new(:url => config.base_url, :ssl => ssl_options) do |conn|
-        conn.proxy = config.proxy if config.proxy
+      request_options = {
+        :params_encoder => @config.params_encoder
+      }
+      connection = Faraday.new(:url => config.base_url, :ssl => ssl_options, :request => request_options) do |conn|
         conn.request(:basic_auth, config.username, config.password)
         @config.configure_middleware(conn)
         if opts[:header_params]["Content-Type"] == "multipart/form-data"
@@ -128,7 +129,7 @@ module Petstore
       request.body = req_body
 
       # Overload default options only if provided
-      request.options.params_encoding = @config.params_encoding if @config.params_encoding
+      request.options.params_encoder = @config.params_encoder if @config.params_encoder
       request.options.timeout         = @config.timeout         if @config.timeout
       request.options.verbose         = @config.debugging       if @config.debugging
 
@@ -201,29 +202,30 @@ module Petstore
       # handle file downloading - return the File instance processed in request callbacks
       # note that response body is empty when the file is written in chunks in request on_body callback
       if return_type == 'File'
-        content_disposition = response.headers['Content-Disposition']
-        if content_disposition && content_disposition =~ /filename=/i
-          filename = content_disposition[/filename=['"]?([^'"\s]+)['"]?/, 1]
-          prefix = sanitize_filename(filename)
+        if @config.return_binary_data == true
+          # return byte stream
+          encoding = body.encoding
+          return @stream.join.force_encoding(encoding)
         else
-          prefix = 'download-'
+          # return file instead of binary data
+          content_disposition = response.headers['Content-Disposition']
+          if content_disposition && content_disposition =~ /filename=/i
+            filename = content_disposition[/filename=['"]?([^'"\s]+)['"]?/, 1]
+            prefix = sanitize_filename(filename)
+          else
+            prefix = 'download-'
+          end
+          prefix = prefix + '-' unless prefix.end_with?('-')
+          encoding = body.encoding
+          @tempfile = Tempfile.open(prefix, @config.temp_folder_path, encoding: encoding)
+          @tempfile.write(@stream.join.force_encoding(encoding))
+          @tempfile.close
+          @config.logger.info "Temp file written to #{@tempfile.path}, please copy the file to a proper folder "\
+                              "with e.g. `FileUtils.cp(tempfile.path, '/new/file/path')` otherwise the temp file "\
+                              "will be deleted automatically with GC. It's also recommended to delete the temp file "\
+                              "explicitly with `tempfile.delete`"
+          return @tempfile
         end
-        prefix = prefix + '-' unless prefix.end_with?('-')
-        encoding = body.encoding
-        @tempfile = Tempfile.open(prefix, @config.temp_folder_path, encoding: encoding)
-        @tempfile.write(@stream.join.force_encoding(encoding))
-        @tempfile.close
-        @config.logger.info "Temp file written to #{@tempfile.path}, please copy the file to a proper folder "\
-                            "with e.g. `FileUtils.cp(tempfile.path, '/new/file/path')` otherwise the temp file "\
-                            "will be deleted automatically with GC. It's also recommended to delete the temp file "\
-                            "explicitly with `tempfile.delete`"
-        return @tempfile
-      end
-
-      # return byte stream for Binary return type
-      if return_type == 'Binary'
-        encoding = body.encoding
-        return @stream.join.force_encoding(encoding)
       end
 
       return nil if body.nil? || body.empty?

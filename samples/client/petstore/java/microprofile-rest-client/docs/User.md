@@ -6,16 +6,16 @@ A User who is purchasing from the pet store
 
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**id** | **Long** |  |  [optional]
-**username** | **String** |  |  [optional]
-**firstName** | **String** |  |  [optional]
-**lastName** | **String** |  |  [optional]
-**email** | **String** |  |  [optional]
-**password** | **String** |  |  [optional]
-**phone** | **String** |  |  [optional]
-**userStatus** | **Integer** | User Status |  [optional]
+| Name | Type | Description | Notes |
+|------------ | ------------- | ------------- | -------------|
+|**id** | **Long** |  |  [optional] |
+|**username** | **String** |  |  [optional] |
+|**firstName** | **String** |  |  [optional] |
+|**lastName** | **String** |  |  [optional] |
+|**email** | **String** |  |  [optional] |
+|**password** | **String** |  |  [optional] |
+|**phone** | **String** |  |  [optional] |
+|**userStatus** | **Integer** | User Status |  [optional] |
 
 
 

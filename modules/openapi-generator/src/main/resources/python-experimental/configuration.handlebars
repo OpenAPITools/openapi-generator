@@ -559,13 +559,13 @@ conf = {{{packageName}}}.Configuration(
             {{#each servers}}
             {
                 'url': "{{{url}}}",
-                'description': "{{{description}}}{{#unless description}}No description provided{{/unless}}",
+                'description': "{{#unless description}}No description provided{{else}}{{{description}}}{{/unless}}",
                 {{#each variables}}
                 {{#if @first}}
                 'variables': {
                 {{/if}}
                     '{{{name}}}': {
-                        'description': "{{{description}}}{{#unless description}}No description provided{{/unless}}",
+                        'description': "{{#unless description}}No description provided{{else}}{{{description}}}{{/unless}}",
                         'default_value': "{{{defaultValue}}}",
                         {{#each enumValues}}
                         {{#if @first}}
