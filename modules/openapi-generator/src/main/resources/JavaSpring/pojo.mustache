@@ -109,9 +109,7 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
     {{/openApiNullable}}
     return this;
   }
-  {{/isArray}}
-  {{#isMap}}
-
+{{/isArray}}{{#isMap}}{{#items.datatypeWithEnum}}
   public {{classname}} put{{nameInCamelCase}}Item(String key, {{{items.datatypeWithEnum}}} {{name}}Item) {
     {{^required}}
     if (this.{{name}} == null) {
@@ -121,7 +119,7 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
     this.{{name}}.put(key, {{name}}Item);
     return this;
   }
-  {{/isMap}}
+  {{/items.datatypeWithEnum}}{{/isMap}}
   {{! end feature: fluent setter methods }}
   {{! begin feature: getter and setter }}
 

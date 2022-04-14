@@ -1672,4 +1672,25 @@ public class ModelUtils {
 
         return new SemVer(version);
     }
+
+    public static boolean isSchemaOneOfConsistsOfCustomTypes(OpenAPI openAPI, Schema<?> schema) {
+        if (schema instanceof ComposedSchema) {
+            ComposedSchema composedSchema = (ComposedSchema) schema;
+            if (composedSchema.getOneOf() == null || composedSchema.getOneOf().isEmpty()) {
+                return false;
+            }
+            for (Schema<?> oneOfSchema : composedSchema.getOneOf()) {
+                if (oneOfSchema.get$ref() != null) {
+                    oneOfSchema = ModelUtils.getReferencedSchema(openAPI, schema);
+                }
+                if (!(oneOfSchema instanceof ComposedSchema
+                    || oneOfSchema instanceof MapSchema
+                    || oneOfSchema instanceof ArraySchema
+                    || oneOfSchema instanceof ObjectSchema)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 }

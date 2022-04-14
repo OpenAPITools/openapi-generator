@@ -1,0 +1,30 @@
+openapi: 3.0.0
+info:
+  version: "1.0.0"
+  title: "OneOf interface should be generated, API has link to OneOf, models implement OneOf interface"
+paths:
+  /addFruits:
+    post:
+      operationId: "addFruits"
+      responses:
+        '200':
+          description: Returns a list of fruits
+          content:
+            application/json:
+              schema:
+                x-one-of-name: "AddFruitsOneOf"
+                oneOf:
+                  - type: string
+                    format: date
+                  - type: string
+                    format: date-time
+      requestBody:
+        content:
+          application/json:
+            schema:
+              x-one-of-name: "AddFruitsOneOf"
+              oneOf:
+                - type: string
+                  format: date
+                - type: string
+                  format: date-time

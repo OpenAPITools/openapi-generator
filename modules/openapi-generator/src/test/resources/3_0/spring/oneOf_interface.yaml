@@ -1,0 +1,52 @@
+openapi: 3.0.0
+info:
+  version: "1.0.0"
+  title: "OneOf interface should be generated, API has link to OneOf, models implement OneOf interface"
+paths:
+  /addFruits:
+    post:
+      responses:
+        '200':
+          description: Returns a list of fruits
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/Apple'
+                  - $ref: '#/components/schemas/Orange'
+                discriminator:
+                  propertyName: kind
+      requestBody:
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - $ref: '#/components/schemas/Apple'
+                - $ref: '#/components/schemas/Orange'
+components:
+  schemas:
+    Apple:
+      type: object
+      properties:
+        kind:
+          type: string
+        identifier:
+          type: string
+      required:
+        - kind
+    Orange:
+      type: object
+      properties:
+        kind:
+          type: string
+        identifier2:
+          type: string
+      required:
+        - kind
+    Fruit:
+      type: object
+      oneOf:
+        - $ref: '#/components/schemas/Apple'
+        - $ref: '#/components/schemas/Orange'
+      discriminator:
+        propertyName: kind
