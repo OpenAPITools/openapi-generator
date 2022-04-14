@@ -25,14 +25,7 @@ This can only be done by the logged in user.
 
 ### Example
 ```powershell
-# general setting of the PowerShell module, e.g. base URL, authentication, etc
-$Configuration = Get-Configuration
-# Configure API key authorization: auth_cookie
-$Configuration.ApiKey.AUTH_KEY = "YOUR_API_KEY"
-# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-#$Configuration.ApiKeyPrefix.AUTH_KEY = "Bearer"
-
-$User = Initialize-User -Id 0 -Username "MyUsername" -FirstName "MyFirstName" -LastName "MyLastName" -Email "MyEmail" -Password "MyPassword" -Phone "MyPhone" -UserStatus 0 # User | Created user object
+$User = Initialize-User -Id 0 -Username "MyUsername" -FirstName "MyFirstName" -LastName "MyLastName" -Email "MyEmail" -Password "MyPassword" -Phone "MyPhone" -UserStatus 0 -ObjectWithNoDeclaredProps  -ObjectWithNoDeclaredPropsNullable  -AnyTypeProp  -AnyTypePropNullable # User | Created user object
 
 # Create user
 try {
@@ -55,7 +48,7 @@ void (empty response body)
 
 ### Authorization
 
-[auth_cookie](../README.md#auth_cookie)
+No authorization required
 
 ### HTTP request headers
 
@@ -75,14 +68,7 @@ Creates list of users with given input array
 
 ### Example
 ```powershell
-# general setting of the PowerShell module, e.g. base URL, authentication, etc
-$Configuration = Get-Configuration
-# Configure API key authorization: auth_cookie
-$Configuration.ApiKey.AUTH_KEY = "YOUR_API_KEY"
-# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-#$Configuration.ApiKeyPrefix.AUTH_KEY = "Bearer"
-
-$User = Initialize-User -Id 0 -Username "MyUsername" -FirstName "MyFirstName" -LastName "MyLastName" -Email "MyEmail" -Password "MyPassword" -Phone "MyPhone" -UserStatus 0 # User[] | List of user object
+$User = Initialize-User -Id 0 -Username "MyUsername" -FirstName "MyFirstName" -LastName "MyLastName" -Email "MyEmail" -Password "MyPassword" -Phone "MyPhone" -UserStatus 0 -ObjectWithNoDeclaredProps  -ObjectWithNoDeclaredPropsNullable  -AnyTypeProp  -AnyTypePropNullable # User[] | List of user object
 
 # Creates list of users with given input array
 try {
@@ -105,7 +91,7 @@ void (empty response body)
 
 ### Authorization
 
-[auth_cookie](../README.md#auth_cookie)
+No authorization required
 
 ### HTTP request headers
 
@@ -125,14 +111,7 @@ Creates list of users with given input array
 
 ### Example
 ```powershell
-# general setting of the PowerShell module, e.g. base URL, authentication, etc
-$Configuration = Get-Configuration
-# Configure API key authorization: auth_cookie
-$Configuration.ApiKey.AUTH_KEY = "YOUR_API_KEY"
-# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-#$Configuration.ApiKeyPrefix.AUTH_KEY = "Bearer"
-
-$User = Initialize-User -Id 0 -Username "MyUsername" -FirstName "MyFirstName" -LastName "MyLastName" -Email "MyEmail" -Password "MyPassword" -Phone "MyPhone" -UserStatus 0 # User[] | List of user object
+$User = Initialize-User -Id 0 -Username "MyUsername" -FirstName "MyFirstName" -LastName "MyLastName" -Email "MyEmail" -Password "MyPassword" -Phone "MyPhone" -UserStatus 0 -ObjectWithNoDeclaredProps  -ObjectWithNoDeclaredPropsNullable  -AnyTypeProp  -AnyTypePropNullable # User[] | List of user object
 
 # Creates list of users with given input array
 try {
@@ -155,7 +134,7 @@ void (empty response body)
 
 ### Authorization
 
-[auth_cookie](../README.md#auth_cookie)
+No authorization required
 
 ### HTTP request headers
 
@@ -175,13 +154,6 @@ This can only be done by the logged in user.
 
 ### Example
 ```powershell
-# general setting of the PowerShell module, e.g. base URL, authentication, etc
-$Configuration = Get-Configuration
-# Configure API key authorization: auth_cookie
-$Configuration.ApiKey.AUTH_KEY = "YOUR_API_KEY"
-# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-#$Configuration.ApiKeyPrefix.AUTH_KEY = "Bearer"
-
 $Username = "MyUsername" # String | The name that needs to be deleted
 
 # Delete user
@@ -205,7 +177,7 @@ void (empty response body)
 
 ### Authorization
 
-[auth_cookie](../README.md#auth_cookie)
+No authorization required
 
 ### HTTP request headers
 
@@ -313,13 +285,6 @@ Logs out current logged in user session
 
 ### Example
 ```powershell
-# general setting of the PowerShell module, e.g. base URL, authentication, etc
-$Configuration = Get-Configuration
-# Configure API key authorization: auth_cookie
-$Configuration.ApiKey.AUTH_KEY = "YOUR_API_KEY"
-# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-#$Configuration.ApiKeyPrefix.AUTH_KEY = "Bearer"
-
 
 # Logs out current logged in user session
 try {
@@ -339,7 +304,7 @@ void (empty response body)
 
 ### Authorization
 
-[auth_cookie](../README.md#auth_cookie)
+No authorization required
 
 ### HTTP request headers
 
@@ -360,15 +325,8 @@ This can only be done by the logged in user.
 
 ### Example
 ```powershell
-# general setting of the PowerShell module, e.g. base URL, authentication, etc
-$Configuration = Get-Configuration
-# Configure API key authorization: auth_cookie
-$Configuration.ApiKey.AUTH_KEY = "YOUR_API_KEY"
-# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-#$Configuration.ApiKeyPrefix.AUTH_KEY = "Bearer"
-
 $Username = "MyUsername" # String | name that need to be deleted
-$User = Initialize-User -Id 0 -Username "MyUsername" -FirstName "MyFirstName" -LastName "MyLastName" -Email "MyEmail" -Password "MyPassword" -Phone "MyPhone" -UserStatus 0 # User | Updated user object
+$User = Initialize-User -Id 0 -Username "MyUsername" -FirstName "MyFirstName" -LastName "MyLastName" -Email "MyEmail" -Password "MyPassword" -Phone "MyPhone" -UserStatus 0 -ObjectWithNoDeclaredProps  -ObjectWithNoDeclaredPropsNullable  -AnyTypeProp  -AnyTypePropNullable # User | Updated user object
 
 # Updated user
 try {
@@ -392,7 +350,7 @@ void (empty response body)
 
 ### Authorization
 
-[auth_cookie](../README.md#auth_cookie)
+No authorization required
 
 ### HTTP request headers
 

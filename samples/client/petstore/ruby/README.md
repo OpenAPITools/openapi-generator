@@ -166,6 +166,7 @@ Class | Method | HTTP request | Description
  - [Petstore::SpecialModelName](docs/SpecialModelName.md)
  - [Petstore::Tag](docs/Tag.md)
  - [Petstore::User](docs/User.md)
+ - [Petstore::UserType](docs/UserType.md)
 
 
 ## Documentation for Authorization

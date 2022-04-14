@@ -1274,4 +1274,52 @@ public class SpringCodegenTest {
             .toFileAssert()
             .assertMethod("getWithMapOfStrings").hasReturnType("ResponseEntity<Map<String, String>>");
     }
+
+    @Test
+    public void shouldSetDefaultValueForMultipleArrayItems() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+            .readLocation("src/test/resources/bugs/issue_11957.yaml", null, new ParseOptions()).getOpenAPI();
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary(SPRING_BOOT);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(AbstractJavaCodegen.FULL_JAVA_UTIL, "true");
+        codegen.additionalProperties().put(SpringCodegen.USE_TAGS, "true");
+        codegen.additionalProperties().put(SpringCodegen.INTERFACE_ONLY, "true");
+        codegen.additionalProperties().put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
+        codegen.additionalProperties().put(SpringCodegen.PERFORM_BEANVALIDATION, "true");
+        codegen.additionalProperties().put(SpringCodegen.SPRING_CONTROLLER, "true");
+        codegen.additionalProperties().put(CodegenConstants.SERIALIZATION_LIBRARY, "jackson");
+
+        ClientOptInput input = new ClientOptInput()
+            .openAPI(openAPI)
+            .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(input).generate().stream()
+            .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("SearchApi.java"))
+            .assertMethod("defaultList")
+                .hasParameter("orderBy")
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("RequestParam", ImmutableMap.of("defaultValue", "\"updatedAt:DESC,createdAt:DESC\""))
+            .toParameter().toMethod().toFileAssert()
+            .assertMethod("defaultSet")
+                .hasParameter("orderBy")
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("RequestParam", ImmutableMap.of("defaultValue", "\"updatedAt:DESC,createdAt:DESC\""))
+            .toParameter().toMethod().toFileAssert()
+            .assertMethod("emptyDefaultList")
+                .hasParameter("orderBy")
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("RequestParam", ImmutableMap.of("defaultValue", "\"\""))
+            .toParameter().toMethod().toFileAssert()
+            .assertMethod("emptyDefaultSet")
+                .hasParameter("orderBy")
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("RequestParam", ImmutableMap.of("defaultValue", "\"\""));
+    }
 }

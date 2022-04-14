@@ -53,5 +53,6 @@ models/Return.ts
 models/SpecialModelName.ts
 models/Tag.ts
 models/User.ts
+models/UserType.ts
 models/index.ts
 runtime.ts

@@ -421,7 +421,8 @@ CREATE TABLE IF NOT EXISTS `User` (
   `email` TEXT DEFAULT NULL,
   `password` TEXT DEFAULT NULL,
   `phone` TEXT DEFAULT NULL,
-  `userStatus` INT DEFAULT NULL COMMENT 'User Status'
+  `userStatus` INT DEFAULT NULL COMMENT 'User Status',
+  `userType` TEXT DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 

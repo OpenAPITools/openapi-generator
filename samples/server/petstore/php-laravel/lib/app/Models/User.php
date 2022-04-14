@@ -33,4 +33,7 @@ class User {
     /** @var int $userStatus User Status*/
     private $userStatus;
 
+    /** @var UserType $userType */
+    private $userType;
+
 }

@@ -13,6 +13,7 @@ Name | Type | Description | Notes
 **Password** | **string** |  | [optional] 
 **Phone** | **string** |  | [optional] 
 **UserStatus** | **int** | User Status | [optional] 
+**UserType** | **UserType** |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to API list]](../README.md#documentation-for-api-endpoints)

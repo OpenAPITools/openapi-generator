@@ -45,7 +45,7 @@ Once built, `run-in-docker.sh` will act as an executable for openapi-generator-c
 ./run-in-docker.sh list # Executes 'list' command for openapi-generator-cli
 ./run-in-docker.sh /gen/bin/generate-samples.sh /gen/bin/configs/go-petstore.yaml  # Builds the Go client
 ./run-in-docker.sh generate -i modules/openapi-generator/src/test/resources/3_0/petstore.yaml \
-    -g go -o /gen/out/go-petstore --packageName=petstore # generates go client, outputs locally to ./out/go-petstore
+    -g go -o /gen/out/go-petstore -p packageName=petstore # generates go client, outputs locally to ./out/go-petstore
 ```
 
 ### Docker in Vagrant
