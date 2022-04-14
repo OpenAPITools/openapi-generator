@@ -121,6 +121,13 @@ BOOST_DATA_TEST_CASE(updatePet_fails, boost::unit_test::data::make(
 
 }
 
+BOOST_AUTO_TEST_CASE(updatePetWithForm) {
+    PetApi api(client);
+
+    // Nothing to assert. Should not throw any exception
+    api.updatePetWithForm(42, "my_pet", "sold");
+}
+
 BOOST_AUTO_TEST_SUITE_END()
 
 

@@ -147,42 +147,51 @@ public:
 
 
 protected:
-    virtual void createUser_addDefaultHeaders(std::map<std::string, std::string>& headers);
+    virtual std::string base64encode(const std::string& str);
+    virtual void createUser_setPreferredMediaTypeHeader(
+        std::map<std::string, std::string>& headers, const std::string& headerName, const std::vector<std::string>& contentTypes);
     virtual void createUser_handleStdException(
         const std::exception& e);
     virtual void createUser_handleUncaughtException();
 
-    virtual void createUsersWithArrayInput_addDefaultHeaders(std::map<std::string, std::string>& headers);
+    virtual void createUsersWithArrayInput_setPreferredMediaTypeHeader(
+        std::map<std::string, std::string>& headers, const std::string& headerName, const std::vector<std::string>& contentTypes);
     virtual void createUsersWithArrayInput_handleStdException(
         const std::exception& e);
     virtual void createUsersWithArrayInput_handleUncaughtException();
 
-    virtual void createUsersWithListInput_addDefaultHeaders(std::map<std::string, std::string>& headers);
+    virtual void createUsersWithListInput_setPreferredMediaTypeHeader(
+        std::map<std::string, std::string>& headers, const std::string& headerName, const std::vector<std::string>& contentTypes);
     virtual void createUsersWithListInput_handleStdException(
         const std::exception& e);
     virtual void createUsersWithListInput_handleUncaughtException();
 
-    virtual void deleteUser_addDefaultHeaders(std::map<std::string, std::string>& headers);
+    virtual void deleteUser_setPreferredMediaTypeHeader(
+        std::map<std::string, std::string>& headers, const std::string& headerName, const std::vector<std::string>& contentTypes);
     virtual void deleteUser_handleStdException(
         const std::exception& e);
     virtual void deleteUser_handleUncaughtException();
 
-    virtual void getUserByName_addDefaultHeaders(std::map<std::string, std::string>& headers);
+    virtual void getUserByName_setPreferredMediaTypeHeader(
+        std::map<std::string, std::string>& headers, const std::string& headerName, const std::vector<std::string>& contentTypes);
     virtual void getUserByName_handleStdException(
         const std::exception& e);
     virtual void getUserByName_handleUncaughtException();
 
-    virtual void updateUser_addDefaultHeaders(std::map<std::string, std::string>& headers);
+    virtual void updateUser_setPreferredMediaTypeHeader(
+        std::map<std::string, std::string>& headers, const std::string& headerName, const std::vector<std::string>& contentTypes);
     virtual void updateUser_handleStdException(
         const std::exception& e);
     virtual void updateUser_handleUncaughtException();
 
-    virtual void loginUser_addDefaultHeaders(std::map<std::string, std::string>& headers);
+    virtual void loginUser_setPreferredMediaTypeHeader(
+        std::map<std::string, std::string>& headers, const std::string& headerName, const std::vector<std::string>& contentTypes);
     virtual void loginUser_handleStdException(
         const std::exception& e);
     virtual void loginUser_handleUncaughtException();
 
-    virtual void logoutUser_addDefaultHeaders(std::map<std::string, std::string>& headers);
+    virtual void logoutUser_setPreferredMediaTypeHeader(
+        std::map<std::string, std::string>& headers, const std::string& headerName, const std::vector<std::string>& contentTypes);
     virtual void logoutUser_handleStdException(
         const std::exception& e);
     virtual void logoutUser_handleUncaughtException();
