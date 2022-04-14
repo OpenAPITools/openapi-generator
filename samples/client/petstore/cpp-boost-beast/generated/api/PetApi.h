@@ -147,50 +147,37 @@ public:
 
 protected:
     virtual std::string base64encode(const std::string& str);
-    virtual void addPet_setPreferredMediaTypeHeader(
+    virtual void setPreferredMediaTypeHeader(
         std::map<std::string, std::string>& headers, const std::string& headerName, const std::vector<std::string>& contentTypes);
+
     virtual void addPet_handleStdException(
         const std::exception& e);
     virtual void addPet_handleUncaughtException();
 
-    virtual void updatePet_setPreferredMediaTypeHeader(
-        std::map<std::string, std::string>& headers, const std::string& headerName, const std::vector<std::string>& contentTypes);
     virtual void updatePet_handleStdException(
         const std::exception& e);
     virtual void updatePet_handleUncaughtException();
 
-    virtual void deletePet_setPreferredMediaTypeHeader(
-        std::map<std::string, std::string>& headers, const std::string& headerName, const std::vector<std::string>& contentTypes);
     virtual void deletePet_handleStdException(
         const std::exception& e);
     virtual void deletePet_handleUncaughtException();
 
-    virtual void getPetById_setPreferredMediaTypeHeader(
-        std::map<std::string, std::string>& headers, const std::string& headerName, const std::vector<std::string>& contentTypes);
     virtual void getPetById_handleStdException(
         const std::exception& e);
     virtual void getPetById_handleUncaughtException();
 
-    virtual void updatePetWithForm_setPreferredMediaTypeHeader(
-        std::map<std::string, std::string>& headers, const std::string& headerName, const std::vector<std::string>& contentTypes);
     virtual void updatePetWithForm_handleStdException(
         const std::exception& e);
     virtual void updatePetWithForm_handleUncaughtException();
 
-    virtual void findPetsByStatus_setPreferredMediaTypeHeader(
-        std::map<std::string, std::string>& headers, const std::string& headerName, const std::vector<std::string>& contentTypes);
     virtual void findPetsByStatus_handleStdException(
         const std::exception& e);
     virtual void findPetsByStatus_handleUncaughtException();
 
-    virtual void findPetsByTags_setPreferredMediaTypeHeader(
-        std::map<std::string, std::string>& headers, const std::string& headerName, const std::vector<std::string>& contentTypes);
     virtual void findPetsByTags_handleStdException(
         const std::exception& e);
     virtual void findPetsByTags_handleUncaughtException();
 
-    virtual void uploadFile_setPreferredMediaTypeHeader(
-        std::map<std::string, std::string>& headers, const std::string& headerName, const std::vector<std::string>& contentTypes);
     virtual void uploadFile_handleStdException(
         const std::exception& e);
     virtual void uploadFile_handleUncaughtException();

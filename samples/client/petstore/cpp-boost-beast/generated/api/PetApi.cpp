@@ -87,6 +87,11 @@ std::string PetApi::base64encode(const std::string& str) {
     return base64encodeImpl(str);
 }
 
+void PetApi::setPreferredMediaTypeHeader(std::map<std::string, std::string>& headers, const std::string& headerName, const std::vector<std::string>& contentTypes) {
+    const std::string contentType = selectPreferredContentType(contentTypes);
+    headers[headerName] = contentType;
+}
+
 std::shared_ptr<Pet>
 PetApi::addPet(
     const std::shared_ptr<Pet>& pet) {
@@ -97,10 +102,10 @@ PetApi::addPet(
     requestBody = pet->toJsonString();
 
     static const std::vector<std::string> acceptTypes{ "application/xml","application/json", };
-    addPet_setPreferredMediaTypeHeader(headers, "Accept", acceptTypes);
+    setPreferredMediaTypeHeader(headers, "Accept", acceptTypes);
 
     static const std::vector<std::string> contentTypes{ "application/json","application/xml", };
-    addPet_setPreferredMediaTypeHeader(headers, "ContentType", contentTypes);
+    setPreferredMediaTypeHeader(headers, "ContentType", contentTypes);
 
     auto statusCode = boost::beast::http::status::unknown;
     std::string responseBody;
@@ -139,10 +144,10 @@ PetApi::updatePet(
     requestBody = pet->toJsonString();
 
     static const std::vector<std::string> acceptTypes{ "application/xml","application/json", };
-    updatePet_setPreferredMediaTypeHeader(headers, "Accept", acceptTypes);
+    setPreferredMediaTypeHeader(headers, "Accept", acceptTypes);
 
     static const std::vector<std::string> contentTypes{ "application/json","application/xml", };
-    updatePet_setPreferredMediaTypeHeader(headers, "ContentType", contentTypes);
+    setPreferredMediaTypeHeader(headers, "ContentType", contentTypes);
 
     auto statusCode = boost::beast::http::status::unknown;
     std::string responseBody;
@@ -177,11 +182,6 @@ PetApi::updatePet(
     return result;
 }
 
-void PetApi::addPet_setPreferredMediaTypeHeader(
-    std::map<std::string, std::string>& headers, const std::string& headerName, const std::vector<std::string>& contentTypes) {
-    const std::string contentType = selectPreferredContentType(contentTypes);
-    headers[headerName] = contentType;
-}
 
 void PetApi::addPet_handleStdException(
     const std::exception& e) {
@@ -192,11 +192,6 @@ void PetApi::addPet_handleUncaughtException() {
     throw;
 }
 
-void PetApi::updatePet_setPreferredMediaTypeHeader(
-    std::map<std::string, std::string>& headers, const std::string& headerName, const std::vector<std::string>& contentTypes) {
-    const std::string contentType = selectPreferredContentType(contentTypes);
-    headers[headerName] = contentType;
-}
 
 void PetApi::updatePet_handleStdException(
     const std::exception& e) {
@@ -252,7 +247,7 @@ PetApi::getPetById(
     path = formattedPath.str();
 
     static const std::vector<std::string> acceptTypes{ "application/xml","application/json", };
-    getPetById_setPreferredMediaTypeHeader(headers, "Accept", acceptTypes);
+    setPreferredMediaTypeHeader(headers, "Accept", acceptTypes);
 
 
     auto statusCode = boost::beast::http::status::unknown;
@@ -307,7 +302,7 @@ PetApi::updatePetWithForm(
 
 
     static const std::vector<std::string> contentTypes{ "application/x-www-form-urlencoded", };
-    updatePetWithForm_setPreferredMediaTypeHeader(headers, "ContentType", contentTypes);
+    setPreferredMediaTypeHeader(headers, "ContentType", contentTypes);
 
     auto statusCode = boost::beast::http::status::unknown;
     std::string responseBody;
@@ -331,11 +326,6 @@ PetApi::updatePetWithForm(
 
 }
 
-void PetApi::deletePet_setPreferredMediaTypeHeader(
-    std::map<std::string, std::string>& headers, const std::string& headerName, const std::vector<std::string>& contentTypes) {
-    const std::string contentType = selectPreferredContentType(contentTypes);
-    headers[headerName] = contentType;
-}
 
 void PetApi::deletePet_handleStdException(
     const std::exception& e) {
@@ -346,11 +336,6 @@ void PetApi::deletePet_handleUncaughtException() {
     throw;
 }
 
-void PetApi::getPetById_setPreferredMediaTypeHeader(
-    std::map<std::string, std::string>& headers, const std::string& headerName, const std::vector<std::string>& contentTypes) {
-    const std::string contentType = selectPreferredContentType(contentTypes);
-    headers[headerName] = contentType;
-}
 
 void PetApi::getPetById_handleStdException(
     const std::exception& e) {
@@ -358,11 +343,6 @@ void PetApi::getPetById_handleStdException(
 }
 void PetApi::getPetById_handleUncaughtException() {
     throw;
-}
-void PetApi::updatePetWithForm_setPreferredMediaTypeHeader(
-    std::map<std::string, std::string>& headers, const std::string& headerName, const std::vector<std::string>& contentTypes) {
-    const std::string contentType = selectPreferredContentType(contentTypes);
-    headers[headerName] = contentType;
 }
 
 void PetApi::updatePetWithForm_handleStdException(
@@ -384,7 +364,7 @@ PetApi::findPetsByStatus(
     path += queryParamStream.str();
 
     static const std::vector<std::string> acceptTypes{ "application/xml","application/json", };
-    findPetsByStatus_setPreferredMediaTypeHeader(headers, "Accept", acceptTypes);
+    setPreferredMediaTypeHeader(headers, "Accept", acceptTypes);
 
 
     auto statusCode = boost::beast::http::status::unknown;
@@ -412,11 +392,6 @@ PetApi::findPetsByStatus(
 
     return result;
 }
-void PetApi::findPetsByStatus_setPreferredMediaTypeHeader(
-    std::map<std::string, std::string>& headers, const std::string& headerName, const std::vector<std::string>& contentTypes) {
-    const std::string contentType = selectPreferredContentType(contentTypes);
-    headers[headerName] = contentType;
-}
 
 void PetApi::findPetsByStatus_handleStdException(
     const std::exception& e) {
@@ -439,7 +414,7 @@ PetApi::findPetsByTags(
     path += queryParamStream.str();
 
     static const std::vector<std::string> acceptTypes{ "application/xml","application/json", };
-    findPetsByTags_setPreferredMediaTypeHeader(headers, "Accept", acceptTypes);
+    setPreferredMediaTypeHeader(headers, "Accept", acceptTypes);
 
 
     auto statusCode = boost::beast::http::status::unknown;
@@ -467,11 +442,6 @@ PetApi::findPetsByTags(
 
     return result;
 }
-void PetApi::findPetsByTags_setPreferredMediaTypeHeader(
-    std::map<std::string, std::string>& headers, const std::string& headerName, const std::vector<std::string>& contentTypes) {
-    const std::string contentType = selectPreferredContentType(contentTypes);
-    headers[headerName] = contentType;
-}
 
 void PetApi::findPetsByTags_handleStdException(
     const std::exception& e) {
@@ -493,10 +463,10 @@ PetApi::uploadFile(
     path = formattedPath.str();
 
     static const std::vector<std::string> acceptTypes{ "application/json", };
-    uploadFile_setPreferredMediaTypeHeader(headers, "Accept", acceptTypes);
+    setPreferredMediaTypeHeader(headers, "Accept", acceptTypes);
 
     static const std::vector<std::string> contentTypes{ "multipart/form-data", };
-    uploadFile_setPreferredMediaTypeHeader(headers, "ContentType", contentTypes);
+    setPreferredMediaTypeHeader(headers, "ContentType", contentTypes);
 
     auto statusCode = boost::beast::http::status::unknown;
     std::string responseBody;
@@ -520,11 +490,6 @@ PetApi::uploadFile(
     }
 
     return result;
-}
-void PetApi::uploadFile_setPreferredMediaTypeHeader(
-    std::map<std::string, std::string>& headers, const std::string& headerName, const std::vector<std::string>& contentTypes) {
-    const std::string contentType = selectPreferredContentType(contentTypes);
-    headers[headerName] = contentType;
 }
 
 void PetApi::uploadFile_handleStdException(

@@ -87,6 +87,11 @@ std::string UserApi::base64encode(const std::string& str) {
     return base64encodeImpl(str);
 }
 
+void UserApi::setPreferredMediaTypeHeader(std::map<std::string, std::string>& headers, const std::string& headerName, const std::vector<std::string>& contentTypes) {
+    const std::string contentType = selectPreferredContentType(contentTypes);
+    headers[headerName] = contentType;
+}
+
 void
 UserApi::createUser(
     const std::shared_ptr<User>& user) {
@@ -98,7 +103,7 @@ UserApi::createUser(
 
 
     static const std::vector<std::string> contentTypes{ "application/json", };
-    createUser_setPreferredMediaTypeHeader(headers, "ContentType", contentTypes);
+    setPreferredMediaTypeHeader(headers, "ContentType", contentTypes);
 
     auto statusCode = boost::beast::http::status::unknown;
     std::string responseBody;
@@ -121,11 +126,6 @@ UserApi::createUser(
     }
 
 }
-void UserApi::createUser_setPreferredMediaTypeHeader(
-    std::map<std::string, std::string>& headers, const std::string& headerName, const std::vector<std::string>& contentTypes) {
-    const std::string contentType = selectPreferredContentType(contentTypes);
-    headers[headerName] = contentType;
-}
 
 void UserApi::createUser_handleStdException(
     const std::exception& e) {
@@ -147,7 +147,7 @@ UserApi::createUsersWithArrayInput(
 
 
     static const std::vector<std::string> contentTypes{ "application/json", };
-    createUsersWithArrayInput_setPreferredMediaTypeHeader(headers, "ContentType", contentTypes);
+    setPreferredMediaTypeHeader(headers, "ContentType", contentTypes);
 
     auto statusCode = boost::beast::http::status::unknown;
     std::string responseBody;
@@ -170,11 +170,6 @@ UserApi::createUsersWithArrayInput(
     }
 
 }
-void UserApi::createUsersWithArrayInput_setPreferredMediaTypeHeader(
-    std::map<std::string, std::string>& headers, const std::string& headerName, const std::vector<std::string>& contentTypes) {
-    const std::string contentType = selectPreferredContentType(contentTypes);
-    headers[headerName] = contentType;
-}
 
 void UserApi::createUsersWithArrayInput_handleStdException(
     const std::exception& e) {
@@ -196,7 +191,7 @@ UserApi::createUsersWithListInput(
 
 
     static const std::vector<std::string> contentTypes{ "application/json", };
-    createUsersWithListInput_setPreferredMediaTypeHeader(headers, "ContentType", contentTypes);
+    setPreferredMediaTypeHeader(headers, "ContentType", contentTypes);
 
     auto statusCode = boost::beast::http::status::unknown;
     std::string responseBody;
@@ -218,11 +213,6 @@ UserApi::createUsersWithListInput(
         throw UserApiException(statusCode, "successful operation");
     }
 
-}
-void UserApi::createUsersWithListInput_setPreferredMediaTypeHeader(
-    std::map<std::string, std::string>& headers, const std::string& headerName, const std::vector<std::string>& contentTypes) {
-    const std::string contentType = selectPreferredContentType(contentTypes);
-    headers[headerName] = contentType;
 }
 
 void UserApi::createUsersWithListInput_handleStdException(
@@ -282,7 +272,7 @@ UserApi::getUserByName(
     path = formattedPath.str();
 
     static const std::vector<std::string> acceptTypes{ "application/xml","application/json", };
-    getUserByName_setPreferredMediaTypeHeader(headers, "Accept", acceptTypes);
+    setPreferredMediaTypeHeader(headers, "Accept", acceptTypes);
 
 
     auto statusCode = boost::beast::http::status::unknown;
@@ -333,7 +323,7 @@ UserApi::updateUser(
 
 
     static const std::vector<std::string> contentTypes{ "application/json", };
-    updateUser_setPreferredMediaTypeHeader(headers, "ContentType", contentTypes);
+    setPreferredMediaTypeHeader(headers, "ContentType", contentTypes);
 
     auto statusCode = boost::beast::http::status::unknown;
     std::string responseBody;
@@ -360,11 +350,6 @@ UserApi::updateUser(
 
 }
 
-void UserApi::deleteUser_setPreferredMediaTypeHeader(
-    std::map<std::string, std::string>& headers, const std::string& headerName, const std::vector<std::string>& contentTypes) {
-    const std::string contentType = selectPreferredContentType(contentTypes);
-    headers[headerName] = contentType;
-}
 
 void UserApi::deleteUser_handleStdException(
     const std::exception& e) {
@@ -375,11 +360,6 @@ void UserApi::deleteUser_handleUncaughtException() {
     throw;
 }
 
-void UserApi::getUserByName_setPreferredMediaTypeHeader(
-    std::map<std::string, std::string>& headers, const std::string& headerName, const std::vector<std::string>& contentTypes) {
-    const std::string contentType = selectPreferredContentType(contentTypes);
-    headers[headerName] = contentType;
-}
 
 void UserApi::getUserByName_handleStdException(
     const std::exception& e) {
@@ -387,11 +367,6 @@ void UserApi::getUserByName_handleStdException(
 }
 void UserApi::getUserByName_handleUncaughtException() {
     throw;
-}
-void UserApi::updateUser_setPreferredMediaTypeHeader(
-    std::map<std::string, std::string>& headers, const std::string& headerName, const std::vector<std::string>& contentTypes) {
-    const std::string contentType = selectPreferredContentType(contentTypes);
-    headers[headerName] = contentType;
 }
 
 void UserApi::updateUser_handleStdException(
@@ -417,7 +392,7 @@ UserApi::loginUser(
     path += queryParamStream.str();
 
     static const std::vector<std::string> acceptTypes{ "application/xml","application/json", };
-    loginUser_setPreferredMediaTypeHeader(headers, "Accept", acceptTypes);
+    setPreferredMediaTypeHeader(headers, "Accept", acceptTypes);
 
 
     auto statusCode = boost::beast::http::status::unknown;
@@ -445,11 +420,6 @@ UserApi::loginUser(
     }
 
     return result;
-}
-void UserApi::loginUser_setPreferredMediaTypeHeader(
-    std::map<std::string, std::string>& headers, const std::string& headerName, const std::vector<std::string>& contentTypes) {
-    const std::string contentType = selectPreferredContentType(contentTypes);
-    headers[headerName] = contentType;
 }
 
 void UserApi::loginUser_handleStdException(
@@ -490,11 +460,6 @@ UserApi::logoutUser(
         throw UserApiException(statusCode, "successful operation");
     }
 
-}
-void UserApi::logoutUser_setPreferredMediaTypeHeader(
-    std::map<std::string, std::string>& headers, const std::string& headerName, const std::vector<std::string>& contentTypes) {
-    const std::string contentType = selectPreferredContentType(contentTypes);
-    headers[headerName] = contentType;
 }
 
 void UserApi::logoutUser_handleStdException(

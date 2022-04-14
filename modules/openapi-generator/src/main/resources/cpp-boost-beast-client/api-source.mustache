@@ -76,6 +76,11 @@ std::string {{classname}}::base64encode(const std::string& str) {
     return base64encodeImpl(str);
 }
 
+void {{classname}}::setPreferredMediaTypeHeader(std::map<std::string, std::string>& headers, const std::string& headerName, const std::vector<std::string>& contentTypes) {
+    const std::string contentType = selectPreferredContentType(contentTypes);
+    headers[headerName] = contentType;
+}
+
 {{#operation}}
 {{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}void{{/returnType}}
 {{classname}}::{{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{httpMethod}}_{{vendorExtensions.x-codegen-resource-name}}{{/operationId}}(
@@ -127,12 +132,12 @@ std::string {{classname}}::base64encode(const std::string& str) {
 
     {{#hasProduces}}
     static const std::vector<std::string> acceptTypes{ {{#produces}}"{{{mediaType}}}",{{/produces}} };
-    {{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{httpMethod}}_{{vendorExtensions.x-codegen-resource-name}}{{/operationId}}_setPreferredMediaTypeHeader(headers, "Accept", acceptTypes);
+    setPreferredMediaTypeHeader(headers, "Accept", acceptTypes);
     {{/hasProduces}}
 
     {{#hasConsumes}}
     static const std::vector<std::string> contentTypes{ {{#consumes}}"{{{mediaType}}}",{{/consumes}} };
-    {{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{httpMethod}}_{{vendorExtensions.x-codegen-resource-name}}{{/operationId}}_setPreferredMediaTypeHeader(headers, "ContentType", contentTypes);
+    setPreferredMediaTypeHeader(headers, "ContentType", contentTypes);
     {{/hasConsumes}}
 
     auto statusCode = boost::beast::http::status::unknown;
@@ -245,12 +250,12 @@ std::string {{classname}}::base64encode(const std::string& str) {
 
     {{#hasProduces}}
     static const std::vector<std::string> acceptTypes{ {{#produces}}"{{{mediaType}}}",{{/produces}} };
-    {{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{httpMethod}}_{{vendorExtensions.x-codegen-resource-name}}{{/operationId}}_setPreferredMediaTypeHeader(headers, "Accept", acceptTypes);
+    setPreferredMediaTypeHeader(headers, "Accept", acceptTypes);
     {{/hasProduces}}
 
     {{#hasConsumes}}
     static const std::vector<std::string> contentTypes{ {{#consumes}}"{{{mediaType}}}",{{/consumes}} };
-    {{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{httpMethod}}_{{vendorExtensions.x-codegen-resource-name}}{{/operationId}}_setPreferredMediaTypeHeader(headers, "ContentType", contentTypes);
+    setPreferredMediaTypeHeader(headers, "ContentType", contentTypes);
     {{/hasConsumes}}
 
     auto statusCode = boost::beast::http::status::unknown;
@@ -301,11 +306,6 @@ std::string {{classname}}::base64encode(const std::string& str) {
 }
 
 {{/vendorExtensions.x-codegen-other-methods}}
-void {{classname}}::{{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{httpMethod}}_{{vendorExtensions.x-codegen-resource-name}}{{/operationId}}_setPreferredMediaTypeHeader(
-    std::map<std::string, std::string>& headers, const std::string& headerName, const std::vector<std::string>& contentTypes) {
-    const std::string contentType = selectPreferredContentType(contentTypes);
-    headers[headerName] = contentType;
-}
 
 void {{classname}}::{{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{httpMethod}}_{{vendorExtensions.x-codegen-resource-name}}{{/operationId}}_handleStdException(
     const std::exception& e) {
@@ -317,11 +317,6 @@ void {{classname}}::{{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{htt
 }
 
 {{#vendorExtensions.x-codegen-other-methods}}
-void {{classname}}::{{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{httpMethod}}_{{vendorExtensions.x-codegen-resource-name}}{{/operationId}}_setPreferredMediaTypeHeader(
-    std::map<std::string, std::string>& headers, const std::string& headerName, const std::vector<std::string>& contentTypes) {
-    const std::string contentType = selectPreferredContentType(contentTypes);
-    headers[headerName] = contentType;
-}
 
 void {{classname}}::{{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{httpMethod}}_{{vendorExtensions.x-codegen-resource-name}}{{/operationId}}_handleStdException(
     const std::exception& e) {

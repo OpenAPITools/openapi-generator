@@ -57,3 +57,7 @@ resources:
     method: POST
     response:
       statusCode: 200
+  - path: "/v2/pet/50"
+    method: DELETE
+    response:
+      statusCode: 200
