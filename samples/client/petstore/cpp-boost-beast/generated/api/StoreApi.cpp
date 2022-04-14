@@ -84,15 +84,6 @@ const char* StoreApiException::what() const noexcept
     return m_what.c_str();
 }
 
-std::string StoreApi::base64encode(const std::string& str) {
-    return base64encodeImpl(str);
-}
-
-void StoreApi::setPreferredMediaTypeHeader(std::map<std::string, std::string>& headers, const std::string& headerName, const std::vector<std::string>& contentTypes) {
-    const std::string contentType = selectPreferredContentType(contentTypes);
-    headers[headerName] = contentType;
-}
-
 void
 StoreApi::deleteOrder(
     const std::string& orderId) {
@@ -115,10 +106,10 @@ StoreApi::deleteOrder(
                               headers);
     }
     catch(const std::exception& e) {
-        deleteOrder_handleStdException(e);
+        handleStdException(e);
     }
     catch(...) {
-        deleteOrder_handleUncaughtException();
+        handleUncaughtException();
     }
 
     if (statusCode == boost::beast::http::status(400)) {
@@ -155,10 +146,10 @@ StoreApi::getOrderById(
                 headers);
     }
     catch(const std::exception& e) {
-        getOrderById_handleStdException(e);
+        handleStdException(e);
     }
     catch(...) {
-        getOrderById_handleUncaughtException();
+        handleUncaughtException();
     }
 
     std::shared_ptr<Order> result = std::make_shared<Order>();
@@ -175,24 +166,6 @@ StoreApi::getOrderById(
     return result;
 }
 
-
-void StoreApi::deleteOrder_handleStdException(
-    const std::exception& e) {
-    throw e;
-}
-
-void StoreApi::deleteOrder_handleUncaughtException() {
-    throw;
-}
-
-
-void StoreApi::getOrderById_handleStdException(
-    const std::exception& e) {
-    throw e;
-}
-void StoreApi::getOrderById_handleUncaughtException() {
-    throw;
-}
 std::map<std::string, int32_t>
 StoreApi::getInventory(
     ) {
@@ -214,10 +187,10 @@ StoreApi::getInventory(
                               headers);
     }
     catch(const std::exception& e) {
-        getInventory_handleStdException(e);
+        handleStdException(e);
     }
     catch(...) {
-        getInventory_handleUncaughtException();
+        handleUncaughtException();
     }
 
     std::map<std::string, int32_t> result = std::map<std::string, int32_t>();
@@ -227,16 +200,6 @@ StoreApi::getInventory(
 
     return result;
 }
-
-void StoreApi::getInventory_handleStdException(
-    const std::exception& e) {
-    throw e;
-}
-
-void StoreApi::getInventory_handleUncaughtException() {
-    throw;
-}
-
 std::shared_ptr<Order>
 StoreApi::placeOrder(
     const std::shared_ptr<Order>& order) {
@@ -262,10 +225,10 @@ StoreApi::placeOrder(
                               headers);
     }
     catch(const std::exception& e) {
-        placeOrder_handleStdException(e);
+        handleStdException(e);
     }
     catch(...) {
-        placeOrder_handleUncaughtException();
+        handleUncaughtException();
     }
 
     std::shared_ptr<Order> result = std::make_shared<Order>();
@@ -279,12 +242,21 @@ StoreApi::placeOrder(
     return result;
 }
 
-void StoreApi::placeOrder_handleStdException(
-    const std::exception& e) {
+
+std::string StoreApi::base64encode(const std::string& str) {
+    return base64encodeImpl(str);
+}
+
+void StoreApi::setPreferredMediaTypeHeader(std::map<std::string, std::string>& headers, const std::string& headerName, const std::vector<std::string>& contentTypes) {
+    const std::string contentType = selectPreferredContentType(contentTypes);
+    headers[headerName] = contentType;
+}
+
+void StoreApi::handleStdException(const std::exception& e) {
     throw e;
 }
 
-void StoreApi::placeOrder_handleUncaughtException() {
+void StoreApi::handleUncaughtException() {
     throw;
 }
 

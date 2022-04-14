@@ -109,26 +109,15 @@ public:
 
 protected:
     virtual std::string base64encode(const std::string& str);
+
     virtual void setPreferredMediaTypeHeader(
         std::map<std::string, std::string>& headers, const std::string& headerName, const std::vector<std::string>& contentTypes);
 
-    virtual void deleteOrder_handleStdException(
+    virtual void handleStdException(
         const std::exception& e);
-    virtual void deleteOrder_handleUncaughtException();
+    virtual void handleUncaughtException();
 
-    virtual void getOrderById_handleStdException(
-        const std::exception& e);
-    virtual void getOrderById_handleUncaughtException();
-
-    virtual void getInventory_handleStdException(
-        const std::exception& e);
-    virtual void getInventory_handleUncaughtException();
-
-    virtual void placeOrder_handleStdException(
-        const std::exception& e);
-    virtual void placeOrder_handleUncaughtException();
-
-private:
+    private:
     std::shared_ptr<HttpClient> m_client;
     std::string m_context;
 };

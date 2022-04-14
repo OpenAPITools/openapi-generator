@@ -80,22 +80,15 @@ public:
 
 protected:
     virtual std::string base64encode(const std::string& str);
+
     virtual void setPreferredMediaTypeHeader(
         std::map<std::string, std::string>& headers, const std::string& headerName, const std::vector<std::string>& contentTypes);
 
-    {{#operation}}
-    virtual void {{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{httpMethod}}_{{vendorExtensions.x-codegen-resource-name}}{{/operationId}}_handleStdException(
+    virtual void handleStdException(
         const std::exception& e);
-    virtual void {{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{httpMethod}}_{{vendorExtensions.x-codegen-resource-name}}{{/operationId}}_handleUncaughtException();
-    {{#vendorExtensions.x-codegen-other-methods}}
+    virtual void handleUncaughtException();
 
-    virtual void {{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{httpMethod}}_{{vendorExtensions.x-codegen-resource-name}}{{/operationId}}_handleStdException(
-        const std::exception& e);
-    virtual void {{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{httpMethod}}_{{vendorExtensions.x-codegen-resource-name}}{{/operationId}}_handleUncaughtException();
-    {{/vendorExtensions.x-codegen-other-methods}}
-
-    {{/operation}}
-private:
+    private:
     std::shared_ptr<HttpClient> m_client;
     std::string m_context;
 };

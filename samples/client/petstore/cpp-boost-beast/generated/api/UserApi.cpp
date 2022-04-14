@@ -84,15 +84,6 @@ const char* UserApiException::what() const noexcept
     return m_what.c_str();
 }
 
-std::string UserApi::base64encode(const std::string& str) {
-    return base64encodeImpl(str);
-}
-
-void UserApi::setPreferredMediaTypeHeader(std::map<std::string, std::string>& headers, const std::string& headerName, const std::vector<std::string>& contentTypes) {
-    const std::string contentType = selectPreferredContentType(contentTypes);
-    headers[headerName] = contentType;
-}
-
 void
 UserApi::createUser(
     const std::shared_ptr<User>& user) {
@@ -116,10 +107,10 @@ UserApi::createUser(
                               headers);
     }
     catch(const std::exception& e) {
-        createUser_handleStdException(e);
+        handleStdException(e);
     }
     catch(...) {
-        createUser_handleUncaughtException();
+        handleUncaughtException();
     }
 
     if (statusCode == boost::beast::http::status(0)) {
@@ -127,16 +118,6 @@ UserApi::createUser(
     }
 
 }
-
-void UserApi::createUser_handleStdException(
-    const std::exception& e) {
-    throw e;
-}
-
-void UserApi::createUser_handleUncaughtException() {
-    throw;
-}
-
 void
 UserApi::createUsersWithArrayInput(
     const std::vector<std::shared_ptr<User>>& user) {
@@ -160,10 +141,10 @@ UserApi::createUsersWithArrayInput(
                               headers);
     }
     catch(const std::exception& e) {
-        createUsersWithArrayInput_handleStdException(e);
+        handleStdException(e);
     }
     catch(...) {
-        createUsersWithArrayInput_handleUncaughtException();
+        handleUncaughtException();
     }
 
     if (statusCode == boost::beast::http::status(0)) {
@@ -171,16 +152,6 @@ UserApi::createUsersWithArrayInput(
     }
 
 }
-
-void UserApi::createUsersWithArrayInput_handleStdException(
-    const std::exception& e) {
-    throw e;
-}
-
-void UserApi::createUsersWithArrayInput_handleUncaughtException() {
-    throw;
-}
-
 void
 UserApi::createUsersWithListInput(
     const std::vector<std::shared_ptr<User>>& user) {
@@ -204,10 +175,10 @@ UserApi::createUsersWithListInput(
                               headers);
     }
     catch(const std::exception& e) {
-        createUsersWithListInput_handleStdException(e);
+        handleStdException(e);
     }
     catch(...) {
-        createUsersWithListInput_handleUncaughtException();
+        handleUncaughtException();
     }
 
     if (statusCode == boost::beast::http::status(0)) {
@@ -215,16 +186,6 @@ UserApi::createUsersWithListInput(
     }
 
 }
-
-void UserApi::createUsersWithListInput_handleStdException(
-    const std::exception& e) {
-    throw e;
-}
-
-void UserApi::createUsersWithListInput_handleUncaughtException() {
-    throw;
-}
-
 void
 UserApi::deleteUser(
     const std::string& username) {
@@ -247,10 +208,10 @@ UserApi::deleteUser(
                               headers);
     }
     catch(const std::exception& e) {
-        deleteUser_handleStdException(e);
+        handleStdException(e);
     }
     catch(...) {
-        deleteUser_handleUncaughtException();
+        handleUncaughtException();
     }
 
     if (statusCode == boost::beast::http::status(400)) {
@@ -287,10 +248,10 @@ UserApi::getUserByName(
                 headers);
     }
     catch(const std::exception& e) {
-        getUserByName_handleStdException(e);
+        handleStdException(e);
     }
     catch(...) {
-        getUserByName_handleUncaughtException();
+        handleUncaughtException();
     }
 
     std::shared_ptr<User> result = std::make_shared<User>();
@@ -338,10 +299,10 @@ UserApi::updateUser(
                 headers);
     }
     catch(const std::exception& e) {
-        updateUser_handleStdException(e);
+        handleStdException(e);
     }
     catch(...) {
-        updateUser_handleUncaughtException();
+        handleUncaughtException();
     }
 
     if (statusCode == boost::beast::http::status(400)) {
@@ -353,32 +314,6 @@ UserApi::updateUser(
 
 }
 
-
-void UserApi::deleteUser_handleStdException(
-    const std::exception& e) {
-    throw e;
-}
-
-void UserApi::deleteUser_handleUncaughtException() {
-    throw;
-}
-
-
-void UserApi::getUserByName_handleStdException(
-    const std::exception& e) {
-    throw e;
-}
-void UserApi::getUserByName_handleUncaughtException() {
-    throw;
-}
-
-void UserApi::updateUser_handleStdException(
-    const std::exception& e) {
-    throw e;
-}
-void UserApi::updateUser_handleUncaughtException() {
-    throw;
-}
 std::string
 UserApi::loginUser(
     const std::string& username, const std::string& password) {
@@ -408,10 +343,10 @@ UserApi::loginUser(
                               headers);
     }
     catch(const std::exception& e) {
-        loginUser_handleStdException(e);
+        handleStdException(e);
     }
     catch(...) {
-        loginUser_handleUncaughtException();
+        handleUncaughtException();
     }
 
     std::string result = "";
@@ -424,16 +359,6 @@ UserApi::loginUser(
 
     return result;
 }
-
-void UserApi::loginUser_handleStdException(
-    const std::exception& e) {
-    throw e;
-}
-
-void UserApi::loginUser_handleUncaughtException() {
-    throw;
-}
-
 void
 UserApi::logoutUser(
     ) {
@@ -453,10 +378,10 @@ UserApi::logoutUser(
                               headers);
     }
     catch(const std::exception& e) {
-        logoutUser_handleStdException(e);
+        handleStdException(e);
     }
     catch(...) {
-        logoutUser_handleUncaughtException();
+        handleUncaughtException();
     }
 
     if (statusCode == boost::beast::http::status(0)) {
@@ -465,12 +390,21 @@ UserApi::logoutUser(
 
 }
 
-void UserApi::logoutUser_handleStdException(
-    const std::exception& e) {
+
+std::string UserApi::base64encode(const std::string& str) {
+    return base64encodeImpl(str);
+}
+
+void UserApi::setPreferredMediaTypeHeader(std::map<std::string, std::string>& headers, const std::string& headerName, const std::vector<std::string>& contentTypes) {
+    const std::string contentType = selectPreferredContentType(contentTypes);
+    headers[headerName] = contentType;
+}
+
+void UserApi::handleStdException(const std::exception& e) {
     throw e;
 }
 
-void UserApi::logoutUser_handleUncaughtException() {
+void UserApi::handleUncaughtException() {
     throw;
 }
 
