@@ -80,16 +80,15 @@ public:
 
 protected:
     virtual std::string base64encode(const std::string& str);
-    {{#operation}}
-    virtual void {{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{httpMethod}}_{{vendorExtensions.x-codegen-resource-name}}{{/operationId}}_setPreferredMediaTypeHeader(
+    virtual void setPreferredMediaTypeHeader(
         std::map<std::string, std::string>& headers, const std::string& headerName, const std::vector<std::string>& contentTypes);
+
+    {{#operation}}
     virtual void {{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{httpMethod}}_{{vendorExtensions.x-codegen-resource-name}}{{/operationId}}_handleStdException(
         const std::exception& e);
     virtual void {{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{httpMethod}}_{{vendorExtensions.x-codegen-resource-name}}{{/operationId}}_handleUncaughtException();
     {{#vendorExtensions.x-codegen-other-methods}}
 
-    virtual void {{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{httpMethod}}_{{vendorExtensions.x-codegen-resource-name}}{{/operationId}}_setPreferredMediaTypeHeader(
-        std::map<std::string, std::string>& headers, const std::string& headerName, const std::vector<std::string>& contentTypes);
     virtual void {{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{httpMethod}}_{{vendorExtensions.x-codegen-resource-name}}{{/operationId}}_handleStdException(
         const std::exception& e);
     virtual void {{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{httpMethod}}_{{vendorExtensions.x-codegen-resource-name}}{{/operationId}}_handleUncaughtException();
