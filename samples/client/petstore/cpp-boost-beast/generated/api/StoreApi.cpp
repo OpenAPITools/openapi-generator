@@ -14,10 +14,14 @@
 #include <sstream>
 #include <string>
 #include <map>
+#include <array>
+#include <algorithm>
 
 #include <boost/lexical_cast.hpp>
 #include <boost/beast/http/status.hpp>
 #include <boost/format.hpp>
+#include <boost/version.hpp>
+#include <boost/beast/core/detail/base64.hpp>
 
 #include "StoreApi.h"
 
@@ -29,6 +33,39 @@ namespace api {
 
 using namespace org::openapitools::client::model;
 
+
+namespace {
+std::string selectPreferredContentType(const std::vector<std::string>& contentTypes) {
+    if (contentTypes.size() == 1) {
+        return contentTypes.at(0);
+    }
+
+    static const std::array<std::string, 2> preferredTypes = {"json", "xml"};
+    for (const auto& preferredType: preferredTypes) {
+        const auto ret = std::find_if(contentTypes.cbegin(),
+                                      contentTypes.cend(),
+                                      [preferredType](const std::string& str) {
+                                            return str.find(preferredType) != std::string::npos;});
+        if (ret != contentTypes.cend()) {
+            return *ret;
+        }
+    }
+
+    if (contentTypes.size() == 0) {
+        return "application/json";
+    }
+
+    return contentTypes.at(0);
+}
+
+std::string base64encodeImpl(const std::string& str) {
+#if BOOST_VERSION < 107100
+    return boost::beast::detail::base64_encode(str);
+#else
+    return boost::beast::detail::base64::encode(str);
+#endif
+}
+}
 
 StoreApiException::StoreApiException(boost::beast::http::status statusCode, std::string what)
   : m_status(statusCode),
@@ -46,6 +83,9 @@ const char* StoreApiException::what() const noexcept
     return m_what.c_str();
 }
 
+std::string StoreApi::base64encode(const std::string& str) {
+    return base64encodeImpl(str);
+}
 
 void
 StoreApi::deleteOrder(
@@ -57,7 +97,7 @@ StoreApi::deleteOrder(
     const auto formattedPath = boost::format(path) % orderId;
     path = formattedPath.str();
 
-    deleteOrder_addDefaultHeaders(headers);
+
 
     auto statusCode = boost::beast::http::status::unknown;
     std::string responseBody;
@@ -84,7 +124,6 @@ StoreApi::deleteOrder(
 
 }
 
-// vendor extensions
 std::shared_ptr<Order>
 StoreApi::getOrderById(
     const int64_t& orderId) {
@@ -95,7 +134,9 @@ StoreApi::getOrderById(
     const auto formattedPath = boost::format(path) % orderId;
     path = formattedPath.str();
 
-    getOrderById_addDefaultHeaders(headers);
+    static const std::vector<std::string> acceptTypes{ "application/xml","application/json", };
+    getOrderById_setPreferredMediaTypeHeader(headers, "Accept", acceptTypes);
+
 
     auto statusCode = boost::beast::http::status::unknown;
     std::string responseBody;
@@ -127,12 +168,10 @@ StoreApi::getOrderById(
     return result;
 }
 
-void StoreApi::deleteOrder_addDefaultHeaders(std::map<std::string, std::string>& headers) {
-    static const std::map<std::string, std::string> defaultHeaders{std::make_pair("Accept",
-                                                                                  "application/json"),
-                                                                   std::make_pair("Content-Type",
-                                                                                  "application/json;charset=UTF-8")};
-    headers.insert(defaultHeaders.cbegin(), defaultHeaders.cend());
+void StoreApi::deleteOrder_setPreferredMediaTypeHeader(
+    std::map<std::string, std::string>& headers, const std::string& headerName, const std::vector<std::string>& contentTypes) {
+    const std::string contentType = selectPreferredContentType(contentTypes);
+    headers[headerName] = contentType;
 }
 
 void StoreApi::deleteOrder_handleStdException(
@@ -144,12 +183,10 @@ void StoreApi::deleteOrder_handleUncaughtException() {
     throw;
 }
 
-void StoreApi::getOrderById_addDefaultHeaders(std::map<std::string, std::string>& headers) {
-    static const std::map<std::string, std::string> defaultHeaders{std::make_pair("Accept",
-                                                                                  "application/json"),
-                                                                   std::make_pair("Content-Type",
-                                                                                  "application/json;charset=UTF-8")};
-    headers.insert(defaultHeaders.cbegin(), defaultHeaders.cend());
+void StoreApi::getOrderById_setPreferredMediaTypeHeader(
+    std::map<std::string, std::string>& headers, const std::string& headerName, const std::vector<std::string>& contentTypes) {
+    const std::string contentType = selectPreferredContentType(contentTypes);
+    headers[headerName] = contentType;
 }
 
 void StoreApi::getOrderById_handleStdException(
@@ -166,7 +203,9 @@ StoreApi::getInventory(
     std::string path = m_context + "/store/inventory";
     std::map<std::string, std::string> headers;
 
-    getInventory_addDefaultHeaders(headers);
+    static const std::vector<std::string> acceptTypes{ "application/json", };
+    getInventory_setPreferredMediaTypeHeader(headers, "Accept", acceptTypes);
+
 
     auto statusCode = boost::beast::http::status::unknown;
     std::string responseBody;
@@ -191,12 +230,10 @@ StoreApi::getInventory(
 
     return result;
 }
-void StoreApi::getInventory_addDefaultHeaders(std::map<std::string, std::string>& headers) {
-    static const std::map<std::string, std::string> defaultHeaders{std::make_pair("Accept",
-                                                                                  "application/json"),
-                                                                   std::make_pair("Content-Type",
-                                                                                  "application/json;charset=UTF-8")};
-    headers.insert(defaultHeaders.cbegin(), defaultHeaders.cend());
+void StoreApi::getInventory_setPreferredMediaTypeHeader(
+    std::map<std::string, std::string>& headers, const std::string& headerName, const std::vector<std::string>& contentTypes) {
+    const std::string contentType = selectPreferredContentType(contentTypes);
+    headers[headerName] = contentType;
 }
 
 void StoreApi::getInventory_handleStdException(
@@ -217,7 +254,11 @@ StoreApi::placeOrder(
     // Body params
     requestBody = order->toJsonString();
 
-    placeOrder_addDefaultHeaders(headers);
+    static const std::vector<std::string> acceptTypes{ "application/xml","application/json", };
+    placeOrder_setPreferredMediaTypeHeader(headers, "Accept", acceptTypes);
+
+    static const std::vector<std::string> contentTypes{ "application/json", };
+    placeOrder_setPreferredMediaTypeHeader(headers, "ContentType", contentTypes);
 
     auto statusCode = boost::beast::http::status::unknown;
     std::string responseBody;
@@ -245,12 +286,10 @@ StoreApi::placeOrder(
 
     return result;
 }
-void StoreApi::placeOrder_addDefaultHeaders(std::map<std::string, std::string>& headers) {
-    static const std::map<std::string, std::string> defaultHeaders{std::make_pair("Accept",
-                                                                                  "application/json"),
-                                                                   std::make_pair("Content-Type",
-                                                                                  "application/json;charset=UTF-8")};
-    headers.insert(defaultHeaders.cbegin(), defaultHeaders.cend());
+void StoreApi::placeOrder_setPreferredMediaTypeHeader(
+    std::map<std::string, std::string>& headers, const std::string& headerName, const std::vector<std::string>& contentTypes) {
+    const std::string contentType = selectPreferredContentType(contentTypes);
+    headers[headerName] = contentType;
 }
 
 void StoreApi::placeOrder_handleStdException(

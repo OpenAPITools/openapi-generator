@@ -108,22 +108,27 @@ public:
 
 
 protected:
-    virtual void deleteOrder_addDefaultHeaders(std::map<std::string, std::string>& headers);
+    virtual std::string base64encode(const std::string& str);
+    virtual void deleteOrder_setPreferredMediaTypeHeader(
+        std::map<std::string, std::string>& headers, const std::string& headerName, const std::vector<std::string>& contentTypes);
     virtual void deleteOrder_handleStdException(
         const std::exception& e);
     virtual void deleteOrder_handleUncaughtException();
 
-    virtual void getOrderById_addDefaultHeaders(std::map<std::string, std::string>& headers);
+    virtual void getOrderById_setPreferredMediaTypeHeader(
+        std::map<std::string, std::string>& headers, const std::string& headerName, const std::vector<std::string>& contentTypes);
     virtual void getOrderById_handleStdException(
         const std::exception& e);
     virtual void getOrderById_handleUncaughtException();
 
-    virtual void getInventory_addDefaultHeaders(std::map<std::string, std::string>& headers);
+    virtual void getInventory_setPreferredMediaTypeHeader(
+        std::map<std::string, std::string>& headers, const std::string& headerName, const std::vector<std::string>& contentTypes);
     virtual void getInventory_handleStdException(
         const std::exception& e);
     virtual void getInventory_handleUncaughtException();
 
-    virtual void placeOrder_addDefaultHeaders(std::map<std::string, std::string>& headers);
+    virtual void placeOrder_setPreferredMediaTypeHeader(
+        std::map<std::string, std::string>& headers, const std::string& headerName, const std::vector<std::string>& contentTypes);
     virtual void placeOrder_handleStdException(
         const std::exception& e);
     virtual void placeOrder_handleUncaughtException();

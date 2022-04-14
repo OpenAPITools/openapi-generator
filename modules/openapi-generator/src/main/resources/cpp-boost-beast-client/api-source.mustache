@@ -4,10 +4,14 @@
 #include <sstream>
 #include <string>
 #include <map>
+#include <array>
+#include <algorithm>
 
 #include <boost/lexical_cast.hpp>
 #include <boost/beast/http/status.hpp>
 #include <boost/format.hpp>
+#include <boost/version.hpp>
+#include <boost/beast/core/detail/base64.hpp>
 
 #include "{{classname}}.h"
 
@@ -18,6 +22,39 @@ namespace {{this}} {
 
 using namespace {{modelNamespace}};
 
+
+namespace {
+std::string selectPreferredContentType(const std::vector<std::string>& contentTypes) {
+    if (contentTypes.size() == 1) {
+        return contentTypes.at(0);
+    }
+
+    static const std::array<std::string, 2> preferredTypes = {"json", "xml"};
+    for (const auto& preferredType: preferredTypes) {
+        const auto ret = std::find_if(contentTypes.cbegin(),
+                                      contentTypes.cend(),
+                                      [preferredType](const std::string& str) {
+                                            return str.find(preferredType) != std::string::npos;});
+        if (ret != contentTypes.cend()) {
+            return *ret;
+        }
+    }
+
+    if (contentTypes.size() == 0) {
+        return "application/json";
+    }
+
+    return contentTypes.at(0);
+}
+
+std::string base64encodeImpl(const std::string& str) {
+#if BOOST_VERSION < 107100
+    return boost::beast::detail::base64_encode(str);
+#else
+    return boost::beast::detail::base64::encode(str);
+#endif
+}
+}
 
 {{classname}}Exception::{{classname}}Exception(boost::beast::http::status statusCode, std::string what)
   : m_status(statusCode),
@@ -35,6 +72,9 @@ const char* {{classname}}Exception::what() const noexcept
     return m_what.c_str();
 }
 
+std::string {{classname}}::base64encode(const std::string& str) {
+    return base64encodeImpl(str);
+}
 
 {{#operation}}
 {{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}void{{/returnType}}
@@ -85,7 +125,15 @@ const char* {{classname}}Exception::what() const noexcept
 {{/headerParams}}
 {{/hasHeaderParams}}
 
-    {{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{httpMethod}}_{{vendorExtensions.x-codegen-resource-name}}{{/operationId}}_addDefaultHeaders(headers);
+    {{#hasProduces}}
+    static const std::vector<std::string> acceptTypes{ {{#produces}}"{{{mediaType}}}",{{/produces}} };
+    {{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{httpMethod}}_{{vendorExtensions.x-codegen-resource-name}}{{/operationId}}_setPreferredMediaTypeHeader(headers, "Accept", acceptTypes);
+    {{/hasProduces}}
+
+    {{#hasConsumes}}
+    static const std::vector<std::string> contentTypes{ {{#consumes}}"{{{mediaType}}}",{{/consumes}} };
+    {{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{httpMethod}}_{{vendorExtensions.x-codegen-resource-name}}{{/operationId}}_setPreferredMediaTypeHeader(headers, "ContentType", contentTypes);
+    {{/hasConsumes}}
 
     auto statusCode = boost::beast::http::status::unknown;
     std::string responseBody;
@@ -157,6 +205,18 @@ const char* {{classname}}Exception::what() const noexcept
     {{/isPrimitiveType}}
     {{/allParams}}
     {{/hasBodyParam}}
+    {{#hasFormParams}}
+    // form param
+    std::stringstream formParams;
+    {{#allParams}}
+    {{#isFormParam}}
+    formParams << "{{{paramName}}}=";
+    formParams << base64encode({{{paramName}}});
+    {{^-last}}formParams << '&';{{/-last}}
+    {{/isFormParam}}
+    {{/allParams}}
+    requestBody = formParams.str();
+    {{/hasFormParams}}
     {{#hasPathParams}}
     // path params
     const auto formattedPath = boost::format(path){{#pathParams}} % {{{paramName}}}{{/pathParams}};
@@ -183,7 +243,15 @@ const char* {{classname}}Exception::what() const noexcept
     {{/headerParams}}
     {{/hasHeaderParams}}
 
-    {{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{httpMethod}}_{{vendorExtensions.x-codegen-resource-name}}{{/operationId}}_addDefaultHeaders(headers);
+    {{#hasProduces}}
+    static const std::vector<std::string> acceptTypes{ {{#produces}}"{{{mediaType}}}",{{/produces}} };
+    {{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{httpMethod}}_{{vendorExtensions.x-codegen-resource-name}}{{/operationId}}_setPreferredMediaTypeHeader(headers, "Accept", acceptTypes);
+    {{/hasProduces}}
+
+    {{#hasConsumes}}
+    static const std::vector<std::string> contentTypes{ {{#consumes}}"{{{mediaType}}}",{{/consumes}} };
+    {{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{httpMethod}}_{{vendorExtensions.x-codegen-resource-name}}{{/operationId}}_setPreferredMediaTypeHeader(headers, "ContentType", contentTypes);
+    {{/hasConsumes}}
 
     auto statusCode = boost::beast::http::status::unknown;
     std::string responseBody;
@@ -233,12 +301,10 @@ const char* {{classname}}Exception::what() const noexcept
 }
 
 {{/vendorExtensions.x-codegen-other-methods}}
-void {{classname}}::{{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{httpMethod}}_{{vendorExtensions.x-codegen-resource-name}}{{/operationId}}_addDefaultHeaders(std::map<std::string, std::string>& headers) {
-    static const std::map<std::string, std::string> defaultHeaders{std::make_pair("Accept",
-                                                                                  "application/json"),
-                                                                   std::make_pair("Content-Type",
-                                                                                  "application/json;charset=UTF-8")};
-    headers.insert(defaultHeaders.cbegin(), defaultHeaders.cend());
+void {{classname}}::{{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{httpMethod}}_{{vendorExtensions.x-codegen-resource-name}}{{/operationId}}_setPreferredMediaTypeHeader(
+    std::map<std::string, std::string>& headers, const std::string& headerName, const std::vector<std::string>& contentTypes) {
+    const std::string contentType = selectPreferredContentType(contentTypes);
+    headers[headerName] = contentType;
 }
 
 void {{classname}}::{{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{httpMethod}}_{{vendorExtensions.x-codegen-resource-name}}{{/operationId}}_handleStdException(
@@ -251,12 +317,10 @@ void {{classname}}::{{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{htt
 }
 
 {{#vendorExtensions.x-codegen-other-methods}}
-void {{classname}}::{{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{httpMethod}}_{{vendorExtensions.x-codegen-resource-name}}{{/operationId}}_addDefaultHeaders(std::map<std::string, std::string>& headers) {
-    static const std::map<std::string, std::string> defaultHeaders{std::make_pair("Accept",
-                                                                                  "application/json"),
-                                                                   std::make_pair("Content-Type",
-                                                                                  "application/json;charset=UTF-8")};
-    headers.insert(defaultHeaders.cbegin(), defaultHeaders.cend());
+void {{classname}}::{{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{httpMethod}}_{{vendorExtensions.x-codegen-resource-name}}{{/operationId}}_setPreferredMediaTypeHeader(
+    std::map<std::string, std::string>& headers, const std::string& headerName, const std::vector<std::string>& contentTypes) {
+    const std::string contentType = selectPreferredContentType(contentTypes);
+    headers[headerName] = contentType;
 }
 
 void {{classname}}::{{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{httpMethod}}_{{vendorExtensions.x-codegen-resource-name}}{{/operationId}}_handleStdException(

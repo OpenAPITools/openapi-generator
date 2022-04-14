@@ -53,3 +53,7 @@ resources:
       value: "405"
     response:
       statusCode: 405
+  - path: "/v2/pet/42"
+    method: POST
+    response:
+      statusCode: 200
