@@ -1,7 +1,9 @@
 ---
 title: Documentation for the csharp-netcore-functions Generator
 ---
+## DESCRIPTION
 
+Creates Azure function templates on top of the models/converters created by the C# codegens. This function is contained in a partial class. Default Get/Create/Patch/Post etc. methods are created with an underscore prefix. The assumption is that when the function is implemented, the partial class will be completed with another partial class. The implementing code should be located in a method of the same name, only without the underscore prefix. If no such method is found then the function will throw a Not Implemented exception. This setup allows the endpoints to be specified in the schema at build time, and separated from the implementing function.
 ## METADATA
 
 | Property | Value | Notes |
