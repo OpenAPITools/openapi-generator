@@ -176,14 +176,8 @@ public class FakeApi {
      */
     public ApiResponse<HealthCheckResult> fakeHealthGetWithHttpInfo() throws ApiException {
         okhttp3.Call localVarCall = fakeHealthGetValidateBeforeCall(null);
-        try {
-            Type localVarReturnType = new TypeToken<HealthCheckResult>(){}.getType();
-            return localVarApiClient.execute(localVarCall, localVarReturnType);
-        } catch (ApiException e) {
-            e.setErrorObject(localVarApiClient.getJSON().getGson().fromJson(e.getResponseBody(), new TypeToken<HealthCheckResult>(){}.getType()));
-            e.setErrorObjectType(new GenericType<HealthCheckResult>(){});
-            throw e;
-        }
+        Type localVarReturnType = new TypeToken<HealthCheckResult>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
@@ -302,14 +296,8 @@ public class FakeApi {
      */
     public ApiResponse<Boolean> fakeOuterBooleanSerializeWithHttpInfo(Boolean body) throws ApiException {
         okhttp3.Call localVarCall = fakeOuterBooleanSerializeValidateBeforeCall(body, null);
-        try {
-            Type localVarReturnType = new TypeToken<Boolean>(){}.getType();
-            return localVarApiClient.execute(localVarCall, localVarReturnType);
-        } catch (ApiException e) {
-            e.setErrorObject(localVarApiClient.getJSON().getGson().fromJson(e.getResponseBody(), new TypeToken<Boolean>(){}.getType()));
-            e.setErrorObjectType(new GenericType<Boolean>(){});
-            throw e;
-        }
+        Type localVarReturnType = new TypeToken<Boolean>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
@@ -429,14 +417,8 @@ public class FakeApi {
      */
     public ApiResponse<OuterComposite> fakeOuterCompositeSerializeWithHttpInfo(OuterComposite outerComposite) throws ApiException {
         okhttp3.Call localVarCall = fakeOuterCompositeSerializeValidateBeforeCall(outerComposite, null);
-        try {
-            Type localVarReturnType = new TypeToken<OuterComposite>(){}.getType();
-            return localVarApiClient.execute(localVarCall, localVarReturnType);
-        } catch (ApiException e) {
-            e.setErrorObject(localVarApiClient.getJSON().getGson().fromJson(e.getResponseBody(), new TypeToken<OuterComposite>(){}.getType()));
-            e.setErrorObjectType(new GenericType<OuterComposite>(){});
-            throw e;
-        }
+        Type localVarReturnType = new TypeToken<OuterComposite>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
@@ -556,14 +538,8 @@ public class FakeApi {
      */
     public ApiResponse<BigDecimal> fakeOuterNumberSerializeWithHttpInfo(BigDecimal body) throws ApiException {
         okhttp3.Call localVarCall = fakeOuterNumberSerializeValidateBeforeCall(body, null);
-        try {
-            Type localVarReturnType = new TypeToken<BigDecimal>(){}.getType();
-            return localVarApiClient.execute(localVarCall, localVarReturnType);
-        } catch (ApiException e) {
-            e.setErrorObject(localVarApiClient.getJSON().getGson().fromJson(e.getResponseBody(), new TypeToken<BigDecimal>(){}.getType()));
-            e.setErrorObjectType(new GenericType<BigDecimal>(){});
-            throw e;
-        }
+        Type localVarReturnType = new TypeToken<BigDecimal>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
@@ -683,14 +659,8 @@ public class FakeApi {
      */
     public ApiResponse<String> fakeOuterStringSerializeWithHttpInfo(String body) throws ApiException {
         okhttp3.Call localVarCall = fakeOuterStringSerializeValidateBeforeCall(body, null);
-        try {
-            Type localVarReturnType = new TypeToken<String>(){}.getType();
-            return localVarApiClient.execute(localVarCall, localVarReturnType);
-        } catch (ApiException e) {
-            e.setErrorObject(localVarApiClient.getJSON().getGson().fromJson(e.getResponseBody(), new TypeToken<String>(){}.getType()));
-            e.setErrorObjectType(new GenericType<String>(){});
-            throw e;
-        }
+        Type localVarReturnType = new TypeToken<String>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
@@ -807,14 +777,8 @@ public class FakeApi {
      */
     public ApiResponse<List<OuterEnum>> getArrayOfEnumsWithHttpInfo() throws ApiException {
         okhttp3.Call localVarCall = getArrayOfEnumsValidateBeforeCall(null);
-        try {
-            Type localVarReturnType = new TypeToken<List<OuterEnum>>(){}.getType();
-            return localVarApiClient.execute(localVarCall, localVarReturnType);
-        } catch (ApiException e) {
-            e.setErrorObject(localVarApiClient.getJSON().getGson().fromJson(e.getResponseBody(), new TypeToken<List<OuterEnum>>(){}.getType()));
-            e.setErrorObjectType(new GenericType<List<OuterEnum>>(){});
-            throw e;
-        }
+        Type localVarReturnType = new TypeToken<List<OuterEnum>>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
@@ -1195,14 +1159,8 @@ public class FakeApi {
      */
     public ApiResponse<Client> testClientModelWithHttpInfo(Client client) throws ApiException {
         okhttp3.Call localVarCall = testClientModelValidateBeforeCall(client, null);
-        try {
-            Type localVarReturnType = new TypeToken<Client>(){}.getType();
-            return localVarApiClient.execute(localVarCall, localVarReturnType);
-        } catch (ApiException e) {
-            e.setErrorObject(localVarApiClient.getJSON().getGson().fromJson(e.getResponseBody(), new TypeToken<Client>(){}.getType()));
-            e.setErrorObjectType(new GenericType<Client>(){});
-            throw e;
-        }
+        Type localVarReturnType = new TypeToken<Client>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
