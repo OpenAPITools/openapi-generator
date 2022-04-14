@@ -31,11 +31,11 @@ class HealthCheckResult {
   String toString() => 'HealthCheckResult[nullableMessage=$nullableMessage]';
 
   Map<String, dynamic> toJson() {
-    final json = <String, dynamic>{};
+    final _json = <String, dynamic>{};
     if (nullableMessage != null) {
-      json[r'NullableMessage'] = nullableMessage;
+      _json[r'NullableMessage'] = nullableMessage;
     }
-    return json;
+    return _json;
   }
 
   /// Returns a new [HealthCheckResult] instance and imports its values from
