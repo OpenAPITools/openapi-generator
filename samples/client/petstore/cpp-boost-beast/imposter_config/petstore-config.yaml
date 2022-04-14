@@ -61,3 +61,14 @@ resources:
     method: DELETE
     response:
       statusCode: 200
+  - path: "/v2/pet/findByStatus"
+    method: GET
+    queryParams:
+      status: available
+    response:
+      statusCode: 200
+      headers:
+        Content-Type: "application/json"
+      staticData: |
+        [{ "id": 1, "name": "cat", "status": "available" },
+         { "id": 2, "name": "dog", "status": "available" }]

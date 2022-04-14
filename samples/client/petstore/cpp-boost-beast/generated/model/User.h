@@ -118,9 +118,9 @@ protected:
     int32_t m_UserStatus = 0;
 };
 
-std::string createJsonStringFromUserVector(const std::vector<std::shared_ptr<User>>& data);
+std::string createJsonStringFromModelVector(const std::vector<std::shared_ptr<User>>& data);
 
-std::vector<std::shared_ptr<User>> createUserVectorFromJsonString(const std::string& json);
+void createModelVectorFromJsonString(std::vector<std::shared_ptr<User>>& vec, const std::string& json);
 
 
 }

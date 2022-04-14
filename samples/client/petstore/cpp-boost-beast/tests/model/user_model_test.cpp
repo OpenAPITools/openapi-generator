@@ -108,7 +108,7 @@ BOOST_AUTO_TEST_CASE(test_createJsonStringFromUserVector) {
   vec.emplace_back(user1);
   vec.emplace_back(user2);
 
-  const auto json = createJsonStringFromUserVector(vec);
+  const auto json = createJsonStringFromModelVector(vec);
 
   Approvals::verify(json);
   

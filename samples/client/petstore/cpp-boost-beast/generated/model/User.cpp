@@ -171,7 +171,7 @@ void User::setUserStatus(int32_t value)
 	m_UserStatus = value;
 }
 
-std::string createJsonStringFromUserVector(const std::vector<std::shared_ptr<User>>& data)
+std::string createJsonStringFromModelVector(const std::vector<std::shared_ptr<User>>& data)
 {
     std::stringstream output;
     output << '[';
@@ -185,18 +185,15 @@ std::string createJsonStringFromUserVector(const std::vector<std::shared_ptr<Use
     return output.str();
 }
 
-std::vector<std::shared_ptr<User>> createUserVectorFromJsonString(const std::string& json)
+void createModelVectorFromJsonString(std::vector<std::shared_ptr<User>>& vec, const std::string& json)
 {
 std::stringstream sstream(json);
     boost::property_tree::ptree pt;
     boost::property_tree::json_parser::read_json(sstream,pt);
 
-    auto vec = std::vector<std::shared_ptr<User>>();
     for (const auto& child: pt) {
         vec.emplace_back(std::make_shared<User>(child.second));
     }
-
-    return vec;
 }
 
 }

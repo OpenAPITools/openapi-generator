@@ -105,7 +105,7 @@ void Category::setName(std::string value)
 	m_Name = value;
 }
 
-std::string createJsonStringFromCategoryVector(const std::vector<std::shared_ptr<Category>>& data)
+std::string createJsonStringFromModelVector(const std::vector<std::shared_ptr<Category>>& data)
 {
     std::stringstream output;
     output << '[';
@@ -119,18 +119,15 @@ std::string createJsonStringFromCategoryVector(const std::vector<std::shared_ptr
     return output.str();
 }
 
-std::vector<std::shared_ptr<Category>> createCategoryVectorFromJsonString(const std::string& json)
+void createModelVectorFromJsonString(std::vector<std::shared_ptr<Category>>& vec, const std::string& json)
 {
 std::stringstream sstream(json);
     boost::property_tree::ptree pt;
     boost::property_tree::json_parser::read_json(sstream,pt);
 
-    auto vec = std::vector<std::shared_ptr<Category>>();
     for (const auto& child: pt) {
         vec.emplace_back(std::make_shared<Category>(child.second));
     }
-
-    return vec;
 }
 
 }

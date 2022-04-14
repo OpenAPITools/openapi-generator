@@ -78,7 +78,7 @@ BOOST_AUTO_TEST_CASE(test_createJsonStringFromOrderVector) {
   vec.emplace_back(order1);
   vec.emplace_back(order2);
 
-  const auto json = createJsonStringFromOrderVector(vec);
+  const auto json = createJsonStringFromModelVector(vec);
 
   Approvals::verify(json);
 }

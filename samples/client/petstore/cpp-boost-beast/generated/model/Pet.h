@@ -112,9 +112,9 @@ protected:
 
 };
 
-std::string createJsonStringFromPetVector(const std::vector<std::shared_ptr<Pet>>& data);
+std::string createJsonStringFromModelVector(const std::vector<std::shared_ptr<Pet>>& data);
 
-std::vector<std::shared_ptr<Pet>> createPetVectorFromJsonString(const std::string& json);
+void createModelVectorFromJsonString(std::vector<std::shared_ptr<Pet>>& vec, const std::string& json);
 
 
 }

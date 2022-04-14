@@ -22,6 +22,7 @@
 #include <boost/format.hpp>
 #include <boost/version.hpp>
 #include <boost/beast/core/detail/base64.hpp>
+#include <boost/algorithm/string.hpp>
 
 #include "UserApi.h"
 
@@ -143,7 +144,7 @@ UserApi::createUsersWithArrayInput(
     std::string path = m_context + "/user/createWithArray";
     std::map<std::string, std::string> headers;
     // Body params
-    requestBody = createJsonStringFromUserVector(user);
+    requestBody = createJsonStringFromModelVector(user);
 
 
     static const std::vector<std::string> contentTypes{ "application/json", };
@@ -187,7 +188,7 @@ UserApi::createUsersWithListInput(
     std::string path = m_context + "/user/createWithList";
     std::map<std::string, std::string> headers;
     // Body params
-    requestBody = createJsonStringFromUserVector(user);
+    requestBody = createJsonStringFromModelVector(user);
 
 
     static const std::vector<std::string> contentTypes{ "application/json", };
@@ -261,6 +262,7 @@ UserApi::deleteUser(
 
 }
 
+// vendor extension
 std::shared_ptr<User>
 UserApi::getUserByName(
     const std::string& username) {
@@ -306,6 +308,7 @@ UserApi::getUserByName(
 }
 
 
+// vendor extension
 void
 UserApi::updateUser(
     const std::string& username, const std::shared_ptr<User>& user) {

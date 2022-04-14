@@ -86,9 +86,9 @@ protected:
     {{/vars}}
 };
 
-std::string createJsonStringFrom{{classname}}Vector(const std::vector<std::shared_ptr<{{classname}}>>& data);
+std::string createJsonStringFromModelVector(const std::vector<std::shared_ptr<{{classname}}>>& data);
 
-std::vector<std::shared_ptr<{{{classname}}}>> create{{classname}}VectorFromJsonString(const std::string& json);
+void createModelVectorFromJsonString(std::vector<std::shared_ptr<{{{classname}}}>>& vec, const std::string& json);
 
 
 {{#modelNamespaceDeclarations}}

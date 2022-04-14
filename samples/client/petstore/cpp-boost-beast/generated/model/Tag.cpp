@@ -105,7 +105,7 @@ void Tag::setName(std::string value)
 	m_Name = value;
 }
 
-std::string createJsonStringFromTagVector(const std::vector<std::shared_ptr<Tag>>& data)
+std::string createJsonStringFromModelVector(const std::vector<std::shared_ptr<Tag>>& data)
 {
     std::stringstream output;
     output << '[';
@@ -119,18 +119,15 @@ std::string createJsonStringFromTagVector(const std::vector<std::shared_ptr<Tag>
     return output.str();
 }
 
-std::vector<std::shared_ptr<Tag>> createTagVectorFromJsonString(const std::string& json)
+void createModelVectorFromJsonString(std::vector<std::shared_ptr<Tag>>& vec, const std::string& json)
 {
 std::stringstream sstream(json);
     boost::property_tree::ptree pt;
     boost::property_tree::json_parser::read_json(sstream,pt);
 
-    auto vec = std::vector<std::shared_ptr<Tag>>();
     for (const auto& child: pt) {
         vec.emplace_back(std::make_shared<Tag>(child.second));
     }
-
-    return vec;
 }
 
 }

@@ -154,7 +154,7 @@ void Order::setComplete(bool value)
 	m_Complete = value;
 }
 
-std::string createJsonStringFromOrderVector(const std::vector<std::shared_ptr<Order>>& data)
+std::string createJsonStringFromModelVector(const std::vector<std::shared_ptr<Order>>& data)
 {
     std::stringstream output;
     output << '[';
@@ -168,18 +168,15 @@ std::string createJsonStringFromOrderVector(const std::vector<std::shared_ptr<Or
     return output.str();
 }
 
-std::vector<std::shared_ptr<Order>> createOrderVectorFromJsonString(const std::string& json)
+void createModelVectorFromJsonString(std::vector<std::shared_ptr<Order>>& vec, const std::string& json)
 {
 std::stringstream sstream(json);
     boost::property_tree::ptree pt;
     boost::property_tree::json_parser::read_json(sstream,pt);
 
-    auto vec = std::vector<std::shared_ptr<Order>>();
     for (const auto& child: pt) {
         vec.emplace_back(std::make_shared<Order>(child.second));
     }
-
-    return vec;
 }
 
 }

@@ -76,9 +76,9 @@ protected:
     std::string m_Name = "";
 };
 
-std::string createJsonStringFromCategoryVector(const std::vector<std::shared_ptr<Category>>& data);
+std::string createJsonStringFromModelVector(const std::vector<std::shared_ptr<Category>>& data);
 
-std::vector<std::shared_ptr<Category>> createCategoryVectorFromJsonString(const std::string& json);
+void createModelVectorFromJsonString(std::vector<std::shared_ptr<Category>>& vec, const std::string& json);
 
 
 }
