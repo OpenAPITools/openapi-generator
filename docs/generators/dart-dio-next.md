@@ -33,7 +33,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |pubLibrary|Library name in generated code| |null|
 |pubName|Name in generated pubspec| |null|
 |pubVersion|Version in generated pubspec| |null|
-|serializationLibrary|Specify serialization library|<dl><dt>**built_value**</dt><dd>[DEFAULT] built_value</dd><dt>**json_serializable**</dt><dd>json_serializable</dd></dl>|built_value|
+|serializationLibrary|Specify serialization library|<dl><dt>**built_value**</dt><dd>[DEFAULT] built_value</dd><dt>**json_serializable**</dt><dd>[BETA] json_serializable</dd></dl>|built_value|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |sourceFolder|Source folder for generated code| |null|
