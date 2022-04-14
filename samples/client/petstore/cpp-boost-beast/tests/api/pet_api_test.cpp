@@ -137,6 +137,14 @@ BOOST_AUTO_TEST_CASE(findPetsByStatus) {
     Approvals::verify(json);
 }
 
+BOOST_AUTO_TEST_CASE(findPetsByStatus_list) {
+    PetApi api(client);
+
+    const std::vector<std::string> states{{"available"}, {"sold"}};
+    const auto response = api.findPetsByStatus(states);
+    const auto json = createJsonStringFromModelVector(response);
+    Approvals::verify(json);
+}
 
 BOOST_AUTO_TEST_SUITE_END()
 
