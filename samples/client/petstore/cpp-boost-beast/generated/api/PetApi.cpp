@@ -22,6 +22,7 @@
 #include <boost/format.hpp>
 #include <boost/version.hpp>
 #include <boost/beast/core/detail/base64.hpp>
+#include <boost/algorithm/string.hpp>
 
 #include "PetApi.h"
 
@@ -134,6 +135,7 @@ PetApi::addPet(
     return result;
 }
 
+// vendor extension
 std::shared_ptr<Pet>
 PetApi::updatePet(
     const std::shared_ptr<Pet>& pet) {
@@ -236,6 +238,7 @@ PetApi::deletePet(
 
 }
 
+// vendor extension
 std::shared_ptr<Pet>
 PetApi::getPetById(
     const int64_t& petId) {
@@ -281,6 +284,7 @@ PetApi::getPetById(
 }
 
 
+// vendor extension
 void
 PetApi::updatePetWithForm(
     const int64_t& petId, const std::string& name, const std::string& status) {
@@ -361,6 +365,8 @@ PetApi::findPetsByStatus(
     // query params
     std::stringstream queryParamStream;
     queryParamStream << '?';
+    queryParamStream << "status=";
+    queryParamStream << boost::algorithm::join(status, ",");
     path += queryParamStream.str();
 
     static const std::vector<std::string> acceptTypes{ "application/xml","application/json", };
@@ -385,6 +391,7 @@ PetApi::findPetsByStatus(
 
     std::vector<std::shared_ptr<Pet>> result = std::vector<std::shared_ptr<Pet>>();
     if (statusCode == boost::beast::http::status(200)) {
+        createModelVectorFromJsonString(result, responseBody);
     }
     if (statusCode == boost::beast::http::status(400)) {
         throw PetApiException(statusCode, "Invalid status value");
@@ -411,6 +418,8 @@ PetApi::findPetsByTags(
     // query params
     std::stringstream queryParamStream;
     queryParamStream << '?';
+    queryParamStream << "tags=";
+    queryParamStream << boost::algorithm::join(tags, ",");
     path += queryParamStream.str();
 
     static const std::vector<std::string> acceptTypes{ "application/xml","application/json", };
@@ -435,6 +444,7 @@ PetApi::findPetsByTags(
 
     std::vector<std::shared_ptr<Pet>> result = std::vector<std::shared_ptr<Pet>>();
     if (statusCode == boost::beast::http::status(200)) {
+        createModelVectorFromJsonString(result, responseBody);
     }
     if (statusCode == boost::beast::http::status(400)) {
         throw PetApiException(statusCode, "Invalid tag value");

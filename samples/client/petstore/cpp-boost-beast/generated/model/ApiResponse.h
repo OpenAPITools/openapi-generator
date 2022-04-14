@@ -83,9 +83,9 @@ protected:
     std::string m_Message = "";
 };
 
-std::string createJsonStringFromApiResponseVector(const std::vector<std::shared_ptr<ApiResponse>>& data);
+std::string createJsonStringFromModelVector(const std::vector<std::shared_ptr<ApiResponse>>& data);
 
-std::vector<std::shared_ptr<ApiResponse>> createApiResponseVectorFromJsonString(const std::string& json);
+void createModelVectorFromJsonString(std::vector<std::shared_ptr<ApiResponse>>& vec, const std::string& json);
 
 
 }

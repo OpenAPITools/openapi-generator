@@ -128,6 +128,16 @@ BOOST_AUTO_TEST_CASE(updatePetWithForm) {
     api.updatePetWithForm(42, "my_pet", "sold");
 }
 
+BOOST_AUTO_TEST_CASE(findPetsByStatus) {
+    PetApi api(client);
+
+    const std::vector<std::string> states{{"available"}};
+    const auto response = api.findPetsByStatus(states);
+    const auto json = createJsonStringFromModelVector(response);
+    Approvals::verify(json);
+}
+
+
 BOOST_AUTO_TEST_SUITE_END()
 
 

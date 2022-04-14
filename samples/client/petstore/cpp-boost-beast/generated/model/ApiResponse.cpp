@@ -116,7 +116,7 @@ void ApiResponse::setMessage(std::string value)
 	m_Message = value;
 }
 
-std::string createJsonStringFromApiResponseVector(const std::vector<std::shared_ptr<ApiResponse>>& data)
+std::string createJsonStringFromModelVector(const std::vector<std::shared_ptr<ApiResponse>>& data)
 {
     std::stringstream output;
     output << '[';
@@ -130,18 +130,15 @@ std::string createJsonStringFromApiResponseVector(const std::vector<std::shared_
     return output.str();
 }
 
-std::vector<std::shared_ptr<ApiResponse>> createApiResponseVectorFromJsonString(const std::string& json)
+void createModelVectorFromJsonString(std::vector<std::shared_ptr<ApiResponse>>& vec, const std::string& json)
 {
 std::stringstream sstream(json);
     boost::property_tree::ptree pt;
     boost::property_tree::json_parser::read_json(sstream,pt);
 
-    auto vec = std::vector<std::shared_ptr<ApiResponse>>();
     for (const auto& child: pt) {
         vec.emplace_back(std::make_shared<ApiResponse>(child.second));
     }
-
-    return vec;
 }
 
 }

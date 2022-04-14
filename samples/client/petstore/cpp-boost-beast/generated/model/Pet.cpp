@@ -189,7 +189,7 @@ void Pet::setStatus(std::string value)
 	}
 }
 
-std::string createJsonStringFromPetVector(const std::vector<std::shared_ptr<Pet>>& data)
+std::string createJsonStringFromModelVector(const std::vector<std::shared_ptr<Pet>>& data)
 {
     std::stringstream output;
     output << '[';
@@ -203,18 +203,15 @@ std::string createJsonStringFromPetVector(const std::vector<std::shared_ptr<Pet>
     return output.str();
 }
 
-std::vector<std::shared_ptr<Pet>> createPetVectorFromJsonString(const std::string& json)
+void createModelVectorFromJsonString(std::vector<std::shared_ptr<Pet>>& vec, const std::string& json)
 {
 std::stringstream sstream(json);
     boost::property_tree::ptree pt;
     boost::property_tree::json_parser::read_json(sstream,pt);
 
-    auto vec = std::vector<std::shared_ptr<Pet>>();
     for (const auto& child: pt) {
         vec.emplace_back(std::make_shared<Pet>(child.second));
     }
-
-    return vec;
 }
 
 }

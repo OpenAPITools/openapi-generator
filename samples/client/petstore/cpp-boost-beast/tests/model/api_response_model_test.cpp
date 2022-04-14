@@ -55,7 +55,7 @@ BOOST_AUTO_TEST_CASE(test_createJsonStringFromApiResponseVector) {
   vec.emplace_back(resp0);
   vec.emplace_back(resp1);
 
-  const auto json = createJsonStringFromApiResponseVector(vec);
+  const auto json = createJsonStringFromModelVector(vec);
     
   Approvals::verify(json);
 }

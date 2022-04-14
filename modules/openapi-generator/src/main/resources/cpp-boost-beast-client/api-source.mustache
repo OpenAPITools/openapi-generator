@@ -12,6 +12,7 @@
 #include <boost/format.hpp>
 #include <boost/version.hpp>
 #include <boost/beast/core/detail/base64.hpp>
+#include <boost/algorithm/string.hpp>
 
 #include "{{classname}}.h"
 
@@ -95,7 +96,7 @@ void {{classname}}::setPreferredMediaTypeHeader(std::map<std::string, std::strin
     requestBody = {{paramName}}->toJsonString();
 {{/isModel}}
 {{#isArray}}
-    requestBody = createJsonStringFrom{{{baseType}}}Vector({{paramName}});
+    requestBody = createJsonStringFromModelVector({{paramName}});
 {{/isArray}}
 {{#isPrimitiveType}}
     std::stringstream {{paramName}}Stream;
@@ -118,6 +119,10 @@ void {{classname}}::setPreferredMediaTypeHeader(std::map<std::string, std::strin
     queryParamStream << "{{{paramName}}}=" << {{paramName}};
     {{^-last}}queryParamStream << '&';{{/-last}}
 {{/isPrimitiveType}}
+{{#isContainer}}
+    queryParamStream << "{{{paramName}}}=";
+    queryParamStream << boost::algorithm::join({{{paramName}}}, ",");
+{{/isContainer}}
 {{/queryParams}}
     path += queryParamStream.str();
 {{/hasQueryParams}}
@@ -171,6 +176,9 @@ void {{classname}}::setPreferredMediaTypeHeader(std::map<std::string, std::strin
         result->fromJsonString(responseBody);
         {{/isString}}
         {{/isModel}}
+        {{#isArray}}
+        createModelVectorFromJsonString(result, responseBody);
+        {{/isArray}}
         {{#isMap}}
         // TODO result = convertMapResponse(resultObject);
         {{/isMap}}
@@ -188,6 +196,7 @@ void {{classname}}::setPreferredMediaTypeHeader(std::map<std::string, std::strin
 }
 {{#vendorExtensions.x-codegen-other-methods}}
 
+// vendor extension
 {{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}void{{/returnType}}
 {{classname}}::{{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{httpMethod}}_{{vendorExtensions.x-codegen-resource-name}}{{/operationId}}(
     {{#allParams}}const {{{dataType}}}& {{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}}) {
@@ -201,7 +210,7 @@ void {{classname}}::setPreferredMediaTypeHeader(std::map<std::string, std::strin
     requestBody = {{paramName}}->toJsonString();
     {{/isModel}}
     {{#isArray}}
-    requestBody = createJsonStringFrom{{{baseType}}}Vector({{paramName}});
+    requestBody = createJsonStringFromModelVector({{paramName}});
     {{/isArray}}
     {{#isPrimitiveType}}
     std::stringstream {{paramName}}Stream;

@@ -52,7 +52,7 @@ BOOST_AUTO_TEST_CASE(test_createJsonStringFromTagVector) {
   vec.emplace_back(tag1);
   vec.emplace_back(tag2);
 
-  const auto json = createJsonStringFromTagVector(vec);
+  const auto json = createJsonStringFromModelVector(vec);
 
   Approvals::verify(json);
 }

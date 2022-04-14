@@ -59,7 +59,7 @@ HttpClientImpl::prepareRequest(const std::string &verb,
     boost::beast::http::request<boost::beast::http::string_body> req{
         boost::beast::http::string_to_verb(verb), target, m_httpVersion};
 
-    req.set(boost::beast::http::field::host, m_host);
+    req.set(boost::beast::http::field::host, m_host + ":" + m_port);
     req.body() = body;
     req.set(boost::beast::http::field::user_agent, BOOST_BEAST_VERSION_STRING);
     for (const auto & header : headers) {

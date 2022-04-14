@@ -53,7 +53,7 @@ BOOST_AUTO_TEST_CASE(test_createJsonStringFromCategoryVector) {
   vec.emplace_back(category1);
   vec.emplace_back(category2);
 
-  const auto json = createJsonStringFromCategoryVector(vec);
+  const auto json = createJsonStringFromModelVector(vec);
 
   Approvals::verify(json);
 }

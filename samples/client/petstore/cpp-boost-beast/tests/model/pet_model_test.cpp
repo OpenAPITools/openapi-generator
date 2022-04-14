@@ -98,7 +98,7 @@ BOOST_AUTO_TEST_CASE(test_createJsonStringFromPetVector) {
   vector.emplace_back(pet0);
   vector.emplace_back(pet1);
 
-  const auto jsonVector  = createJsonStringFromPetVector(vector);
+  const auto jsonVector  = createJsonStringFromModelVector(vector);
 
   Approvals::verify(jsonVector);
 }

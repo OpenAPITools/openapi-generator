@@ -22,6 +22,7 @@
 #include <boost/format.hpp>
 #include <boost/version.hpp>
 #include <boost/beast/core/detail/base64.hpp>
+#include <boost/algorithm/string.hpp>
 
 #include "StoreApi.h"
 
@@ -129,6 +130,7 @@ StoreApi::deleteOrder(
 
 }
 
+// vendor extension
 std::shared_ptr<Order>
 StoreApi::getOrderById(
     const int64_t& orderId) {

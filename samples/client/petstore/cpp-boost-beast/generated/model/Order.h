@@ -110,9 +110,9 @@ protected:
 
 };
 
-std::string createJsonStringFromOrderVector(const std::vector<std::shared_ptr<Order>>& data);
+std::string createJsonStringFromModelVector(const std::vector<std::shared_ptr<Order>>& data);
 
-std::vector<std::shared_ptr<Order>> createOrderVectorFromJsonString(const std::string& json);
+void createModelVectorFromJsonString(std::vector<std::shared_ptr<Order>>& vec, const std::string& json);
 
 
 }
