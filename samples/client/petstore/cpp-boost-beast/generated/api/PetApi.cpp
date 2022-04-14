@@ -84,15 +84,6 @@ const char* PetApiException::what() const noexcept
     return m_what.c_str();
 }
 
-std::string PetApi::base64encode(const std::string& str) {
-    return base64encodeImpl(str);
-}
-
-void PetApi::setPreferredMediaTypeHeader(std::map<std::string, std::string>& headers, const std::string& headerName, const std::vector<std::string>& contentTypes) {
-    const std::string contentType = selectPreferredContentType(contentTypes);
-    headers[headerName] = contentType;
-}
-
 std::shared_ptr<Pet>
 PetApi::addPet(
     const std::shared_ptr<Pet>& pet) {
@@ -118,10 +109,10 @@ PetApi::addPet(
                               headers);
     }
     catch(const std::exception& e) {
-        addPet_handleStdException(e);
+        handleStdException(e);
     }
     catch(...) {
-        addPet_handleUncaughtException();
+        handleUncaughtException();
     }
 
     std::shared_ptr<Pet> result = std::make_shared<Pet>();
@@ -161,10 +152,10 @@ PetApi::updatePet(
                 headers);
     }
     catch(const std::exception& e) {
-        updatePet_handleStdException(e);
+        handleStdException(e);
     }
     catch(...) {
-        updatePet_handleUncaughtException();
+        handleUncaughtException();
     }
 
     std::shared_ptr<Pet> result = std::make_shared<Pet>();
@@ -184,24 +175,6 @@ PetApi::updatePet(
     return result;
 }
 
-
-void PetApi::addPet_handleStdException(
-    const std::exception& e) {
-    throw e;
-}
-
-void PetApi::addPet_handleUncaughtException() {
-    throw;
-}
-
-
-void PetApi::updatePet_handleStdException(
-    const std::exception& e) {
-    throw e;
-}
-void PetApi::updatePet_handleUncaughtException() {
-    throw;
-}
 void
 PetApi::deletePet(
     const int64_t& petId, const std::string& apiKey) {
@@ -226,10 +199,10 @@ PetApi::deletePet(
                               headers);
     }
     catch(const std::exception& e) {
-        deletePet_handleStdException(e);
+        handleStdException(e);
     }
     catch(...) {
-        deletePet_handleUncaughtException();
+        handleUncaughtException();
     }
 
     if (statusCode == boost::beast::http::status(400)) {
@@ -263,10 +236,10 @@ PetApi::getPetById(
                 headers);
     }
     catch(const std::exception& e) {
-        getPetById_handleStdException(e);
+        handleStdException(e);
     }
     catch(...) {
-        getPetById_handleUncaughtException();
+        handleUncaughtException();
     }
 
     std::shared_ptr<Pet> result = std::make_shared<Pet>();
@@ -318,10 +291,10 @@ PetApi::updatePetWithForm(
                 headers);
     }
     catch(const std::exception& e) {
-        updatePetWithForm_handleStdException(e);
+        handleStdException(e);
     }
     catch(...) {
-        updatePetWithForm_handleUncaughtException();
+        handleUncaughtException();
     }
 
     if (statusCode == boost::beast::http::status(405)) {
@@ -330,32 +303,6 @@ PetApi::updatePetWithForm(
 
 }
 
-
-void PetApi::deletePet_handleStdException(
-    const std::exception& e) {
-    throw e;
-}
-
-void PetApi::deletePet_handleUncaughtException() {
-    throw;
-}
-
-
-void PetApi::getPetById_handleStdException(
-    const std::exception& e) {
-    throw e;
-}
-void PetApi::getPetById_handleUncaughtException() {
-    throw;
-}
-
-void PetApi::updatePetWithForm_handleStdException(
-    const std::exception& e) {
-    throw e;
-}
-void PetApi::updatePetWithForm_handleUncaughtException() {
-    throw;
-}
 std::vector<std::shared_ptr<Pet>>
 PetApi::findPetsByStatus(
     const std::vector<std::string>& status) {
@@ -383,10 +330,10 @@ PetApi::findPetsByStatus(
                               headers);
     }
     catch(const std::exception& e) {
-        findPetsByStatus_handleStdException(e);
+        handleStdException(e);
     }
     catch(...) {
-        findPetsByStatus_handleUncaughtException();
+        handleUncaughtException();
     }
 
     std::vector<std::shared_ptr<Pet>> result = std::vector<std::shared_ptr<Pet>>();
@@ -399,16 +346,6 @@ PetApi::findPetsByStatus(
 
     return result;
 }
-
-void PetApi::findPetsByStatus_handleStdException(
-    const std::exception& e) {
-    throw e;
-}
-
-void PetApi::findPetsByStatus_handleUncaughtException() {
-    throw;
-}
-
 std::vector<std::shared_ptr<Pet>>
 PetApi::findPetsByTags(
     const std::vector<std::string>& tags) {
@@ -436,10 +373,10 @@ PetApi::findPetsByTags(
                               headers);
     }
     catch(const std::exception& e) {
-        findPetsByTags_handleStdException(e);
+        handleStdException(e);
     }
     catch(...) {
-        findPetsByTags_handleUncaughtException();
+        handleUncaughtException();
     }
 
     std::vector<std::shared_ptr<Pet>> result = std::vector<std::shared_ptr<Pet>>();
@@ -452,16 +389,6 @@ PetApi::findPetsByTags(
 
     return result;
 }
-
-void PetApi::findPetsByTags_handleStdException(
-    const std::exception& e) {
-    throw e;
-}
-
-void PetApi::findPetsByTags_handleUncaughtException() {
-    throw;
-}
-
 std::shared_ptr<ApiResponse>
 PetApi::uploadFile(
     const int64_t& petId, const std::string& additionalMetadata, const std::string& file) {
@@ -488,10 +415,10 @@ PetApi::uploadFile(
                               headers);
     }
     catch(const std::exception& e) {
-        uploadFile_handleStdException(e);
+        handleStdException(e);
     }
     catch(...) {
-        uploadFile_handleUncaughtException();
+        handleUncaughtException();
     }
 
     std::shared_ptr<ApiResponse> result = std::make_shared<ApiResponse>();
@@ -502,12 +429,21 @@ PetApi::uploadFile(
     return result;
 }
 
-void PetApi::uploadFile_handleStdException(
-    const std::exception& e) {
+
+std::string PetApi::base64encode(const std::string& str) {
+    return base64encodeImpl(str);
+}
+
+void PetApi::setPreferredMediaTypeHeader(std::map<std::string, std::string>& headers, const std::string& headerName, const std::vector<std::string>& contentTypes) {
+    const std::string contentType = selectPreferredContentType(contentTypes);
+    headers[headerName] = contentType;
+}
+
+void PetApi::handleStdException(const std::exception& e) {
     throw e;
 }
 
-void PetApi::uploadFile_handleUncaughtException() {
+void PetApi::handleUncaughtException() {
     throw;
 }
 

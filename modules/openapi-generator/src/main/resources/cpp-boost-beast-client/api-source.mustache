@@ -73,15 +73,6 @@ const char* {{classname}}Exception::what() const noexcept
     return m_what.c_str();
 }
 
-std::string {{classname}}::base64encode(const std::string& str) {
-    return base64encodeImpl(str);
-}
-
-void {{classname}}::setPreferredMediaTypeHeader(std::map<std::string, std::string>& headers, const std::string& headerName, const std::vector<std::string>& contentTypes) {
-    const std::string contentType = selectPreferredContentType(contentTypes);
-    headers[headerName] = contentType;
-}
-
 {{#operation}}
 {{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}void{{/returnType}}
 {{classname}}::{{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{httpMethod}}_{{vendorExtensions.x-codegen-resource-name}}{{/operationId}}(
@@ -155,10 +146,10 @@ void {{classname}}::setPreferredMediaTypeHeader(std::map<std::string, std::strin
                               headers);
     }
     catch(const std::exception& e) {
-        {{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{httpMethod}}_{{vendorExtensions.x-codegen-resource-name}}{{/operationId}}_handleStdException(e);
+        handleStdException(e);
     }
     catch(...) {
-        {{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{httpMethod}}_{{vendorExtensions.x-codegen-resource-name}}{{/operationId}}_handleUncaughtException();
+        handleUncaughtException();
     }
 
     {{#returnType}}
@@ -277,10 +268,10 @@ void {{classname}}::setPreferredMediaTypeHeader(std::map<std::string, std::strin
                 headers);
     }
     catch(const std::exception& e) {
-        {{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{httpMethod}}_{{vendorExtensions.x-codegen-resource-name}}{{/operationId}}_handleStdException(e);
+        handleStdException(e);
     }
     catch(...) {
-        {{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{httpMethod}}_{{vendorExtensions.x-codegen-resource-name}}{{/operationId}}_handleUncaughtException();
+        handleUncaughtException();
     }
 
     {{#returnType}}
@@ -315,27 +306,26 @@ void {{classname}}::setPreferredMediaTypeHeader(std::map<std::string, std::strin
 }
 
 {{/vendorExtensions.x-codegen-other-methods}}
-
-void {{classname}}::{{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{httpMethod}}_{{vendorExtensions.x-codegen-resource-name}}{{/operationId}}_handleStdException(
-    const std::exception& e) {
-    throw e;
-}
-
-void {{classname}}::{{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{httpMethod}}_{{vendorExtensions.x-codegen-resource-name}}{{/operationId}}_handleUncaughtException() {
-    throw;
-}
-
-{{#vendorExtensions.x-codegen-other-methods}}
-
-void {{classname}}::{{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{httpMethod}}_{{vendorExtensions.x-codegen-resource-name}}{{/operationId}}_handleStdException(
-    const std::exception& e) {
-    throw e;
-}
-void {{classname}}::{{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{httpMethod}}_{{vendorExtensions.x-codegen-resource-name}}{{/operationId}}_handleUncaughtException() {
-    throw;
-}
-{{/vendorExtensions.x-codegen-other-methods}}
 {{/operation}}
+
+
+std::string {{classname}}::base64encode(const std::string& str) {
+    return base64encodeImpl(str);
+}
+
+void {{classname}}::setPreferredMediaTypeHeader(std::map<std::string, std::string>& headers, const std::string& headerName, const std::vector<std::string>& contentTypes) {
+    const std::string contentType = selectPreferredContentType(contentTypes);
+    headers[headerName] = contentType;
+}
+
+void {{classname}}::handleStdException(const std::exception& e) {
+    throw e;
+}
+
+void {{classname}}::handleUncaughtException() {
+    throw;
+}
+
 
 {{#apiNamespaceDeclarations}}
 }  // namespace {{{.}}}
