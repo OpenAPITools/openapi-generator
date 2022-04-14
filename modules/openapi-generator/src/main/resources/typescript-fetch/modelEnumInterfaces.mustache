@@ -12,7 +12,6 @@ export enum {{classname}} {
 {{/allowableValues}}
 }
 {{/stringEnums}}{{^stringEnums}}
-{{#typescriptThreePlus}}
 /**
  * {{#lambda.indented_star_1}}{{{unescapedDescription}}}{{/lambda.indented_star_1}}
  * @export
@@ -24,18 +23,5 @@ export const {{classname}} = {
 {{/enumVars}}
 {{/allowableValues}}
 } as const;
-{{/typescriptThreePlus}}
-{{^typescriptThreePlus}}
-/**
- * {{#lambda.indented_star_1}}{{{unescapedDescription}}}{{/lambda.indented_star_1}}
- * @export
- */
-export const {{classname}} = {
-{{#allowableValues}}
-{{#enumVars}}
-    {{{name}}}: {{{value}}} as {{{value}}}{{^-last}},{{/-last}}
-{{/enumVars}}
-{{/allowableValues}}
-};{{/typescriptThreePlus}}
 export type {{classname}} = typeof {{classname}}[keyof typeof {{classname}}];
 {{/stringEnums}}

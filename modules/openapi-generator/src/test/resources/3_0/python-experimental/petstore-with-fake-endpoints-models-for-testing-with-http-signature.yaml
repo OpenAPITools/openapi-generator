@@ -1546,6 +1546,18 @@ paths:
           content:
             application/json; charset=utf-8:
               schema: {}
+  "/fake/responseWithoutSchema":
+    get:
+      tags:
+        - fake
+      summary: receives a response without schema
+      operationId: responseWithoutSchema
+      responses:
+        '200':
+          description: contents without schema definition
+          content:
+            application/json: {}
+            application/xml: {}
 servers:
   - url: 'http://{server}.swagger.io:{port}/v2'
     description: petstore server

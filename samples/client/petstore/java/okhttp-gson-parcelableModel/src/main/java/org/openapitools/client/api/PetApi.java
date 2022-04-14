@@ -446,14 +446,8 @@ public class PetApi {
      */
     public ApiResponse<List<Pet>> findPetsByStatusWithHttpInfo(List<String> status) throws ApiException {
         okhttp3.Call localVarCall = findPetsByStatusValidateBeforeCall(status, null);
-        try {
-            Type localVarReturnType = new TypeToken<List<Pet>>(){}.getType();
-            return localVarApiClient.execute(localVarCall, localVarReturnType);
-        } catch (ApiException e) {
-            e.setErrorObject(localVarApiClient.getJSON().getGson().fromJson(e.getResponseBody(), new TypeToken<List<Pet>>(){}.getType()));
-            e.setErrorObjectType(new GenericType<List<Pet>>(){});
-            throw e;
-        }
+        Type localVarReturnType = new TypeToken<List<Pet>>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
@@ -593,14 +587,8 @@ public class PetApi {
     @Deprecated
     public ApiResponse<Set<Pet>> findPetsByTagsWithHttpInfo(Set<String> tags) throws ApiException {
         okhttp3.Call localVarCall = findPetsByTagsValidateBeforeCall(tags, null);
-        try {
-            Type localVarReturnType = new TypeToken<Set<Pet>>(){}.getType();
-            return localVarApiClient.execute(localVarCall, localVarReturnType);
-        } catch (ApiException e) {
-            e.setErrorObject(localVarApiClient.getJSON().getGson().fromJson(e.getResponseBody(), new TypeToken<Set<Pet>>(){}.getType()));
-            e.setErrorObjectType(new GenericType<Set<Pet>>(){});
-            throw e;
-        }
+        Type localVarReturnType = new TypeToken<Set<Pet>>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
@@ -735,14 +723,8 @@ public class PetApi {
      */
     public ApiResponse<Pet> getPetByIdWithHttpInfo(Long petId) throws ApiException {
         okhttp3.Call localVarCall = getPetByIdValidateBeforeCall(petId, null);
-        try {
-            Type localVarReturnType = new TypeToken<Pet>(){}.getType();
-            return localVarApiClient.execute(localVarCall, localVarReturnType);
-        } catch (ApiException e) {
-            e.setErrorObject(localVarApiClient.getJSON().getGson().fromJson(e.getResponseBody(), new TypeToken<Pet>(){}.getType()));
-            e.setErrorObjectType(new GenericType<Pet>(){});
-            throw e;
-        }
+        Type localVarReturnType = new TypeToken<Pet>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
@@ -1157,14 +1139,8 @@ public class PetApi {
      */
     public ApiResponse<ModelApiResponse> uploadFileWithHttpInfo(Long petId, String additionalMetadata, File _file) throws ApiException {
         okhttp3.Call localVarCall = uploadFileValidateBeforeCall(petId, additionalMetadata, _file, null);
-        try {
-            Type localVarReturnType = new TypeToken<ModelApiResponse>(){}.getType();
-            return localVarApiClient.execute(localVarCall, localVarReturnType);
-        } catch (ApiException e) {
-            e.setErrorObject(localVarApiClient.getJSON().getGson().fromJson(e.getResponseBody(), new TypeToken<ModelApiResponse>(){}.getType()));
-            e.setErrorObjectType(new GenericType<ModelApiResponse>(){});
-            throw e;
-        }
+        Type localVarReturnType = new TypeToken<ModelApiResponse>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
@@ -1311,14 +1287,8 @@ public class PetApi {
      */
     public ApiResponse<ModelApiResponse> uploadFileWithRequiredFileWithHttpInfo(Long petId, File requiredFile, String additionalMetadata) throws ApiException {
         okhttp3.Call localVarCall = uploadFileWithRequiredFileValidateBeforeCall(petId, requiredFile, additionalMetadata, null);
-        try {
-            Type localVarReturnType = new TypeToken<ModelApiResponse>(){}.getType();
-            return localVarApiClient.execute(localVarCall, localVarReturnType);
-        } catch (ApiException e) {
-            e.setErrorObject(localVarApiClient.getJSON().getGson().fromJson(e.getResponseBody(), new TypeToken<ModelApiResponse>(){}.getType()));
-            e.setErrorObjectType(new GenericType<ModelApiResponse>(){});
-            throw e;
-        }
+        Type localVarReturnType = new TypeToken<ModelApiResponse>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**

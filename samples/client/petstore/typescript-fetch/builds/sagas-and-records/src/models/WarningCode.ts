@@ -22,7 +22,6 @@ export const WarningCode = {
     RaiseAmplifierVolume: 'Raise_Amplifier_Volume',
     NoVolumeRangeSpecified: 'No_Volume_Range_Specified'
 } as const;
-
 export type WarningCode = typeof WarningCode[keyof typeof WarningCode];
 
 

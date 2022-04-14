@@ -1125,6 +1125,7 @@
                 </property>
             </activation>
             <modules>
+                <module>samples/client/petstore/cpp-qt</module>
                 <module>samples/client/petstore/php/OpenAPIClient-php</module>
                 <!-- TODO: move to github action or circleci
                 <module>samples/client/petstore/crystal</module>-->
@@ -1146,7 +1147,6 @@
                 <!-- comment out as it's not working as the moment
                 <module>samples/client/petstore/c</module>
                 -->
-                <module>samples/client/petstore/cpp-qt</module>
                 <module>samples/client/petstore/rust</module>
                 <module>samples/client/petstore/rust/reqwest/petstore</module>
                 <module>samples/client/petstore/rust/reqwest/petstore-async</module>
@@ -1311,30 +1311,17 @@
             </modules>
         </profile>
         <profile>
-            <id>samples.dart-2.13</id>
+            <id>samples.dart</id>
             <activation>
                 <property>
                     <name>env</name>
-                    <value>samples.dart-2.13</value>
+                    <value>samples.dart</value>
                 </property>
             </activation>
             <modules>
                 <module>samples/openapi3/client/petstore/dart2/petstore_client_lib</module>
                 <module>samples/openapi3/client/petstore/dart-dio-next/petstore_client_lib_fake</module>
                 <module>samples/openapi3/client/petstore/dart-dio-next/petstore_client_lib_fake-json_serializable</module>
-            </modules>
-        </profile>
-        <profile>
-            <id>samples.dart-2.10</id>
-            <activation>
-                <property>
-                    <name>env</name>
-                    <value>samples.dart-2.10</value>
-                </property>
-            </activation>
-            <modules>
-                <module>samples/openapi3/client/petstore/dart-dio/petstore_client_lib</module>
-                <module>samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake</module>
             </modules>
         </profile>
         <profile>
