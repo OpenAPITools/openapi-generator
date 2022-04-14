@@ -3,8 +3,8 @@ import 'package:openapi/openapi.dart';
 
 // tests for SpecialModelName
 void main() {
-  final instance = SpecialModelNameBuilder();
-  // TODO add properties to the builder and call build()
+  final SpecialModelName? instance = /* SpecialModelName(...) */ null;
+  // TODO add properties to the entity
 
   group(SpecialModelName, () {
     // int dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket

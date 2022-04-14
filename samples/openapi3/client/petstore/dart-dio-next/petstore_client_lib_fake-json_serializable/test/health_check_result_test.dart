@@ -3,8 +3,8 @@ import 'package:openapi/openapi.dart';
 
 // tests for HealthCheckResult
 void main() {
-  final instance = HealthCheckResultBuilder();
-  // TODO add properties to the builder and call build()
+  final HealthCheckResult? instance = /* HealthCheckResult(...) */ null;
+  // TODO add properties to the entity
 
   group(HealthCheckResult, () {
     // String nullableMessage

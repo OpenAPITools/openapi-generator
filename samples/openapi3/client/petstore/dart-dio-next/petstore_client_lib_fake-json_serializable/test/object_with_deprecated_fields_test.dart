@@ -3,8 +3,8 @@ import 'package:openapi/openapi.dart';
 
 // tests for ObjectWithDeprecatedFields
 void main() {
-  final instance = ObjectWithDeprecatedFieldsBuilder();
-  // TODO add properties to the builder and call build()
+  final ObjectWithDeprecatedFields? instance = /* ObjectWithDeprecatedFields(...) */ null;
+  // TODO add properties to the entity
 
   group(ObjectWithDeprecatedFields, () {
     // String uuid

@@ -3,8 +3,8 @@ import 'package:openapi/openapi.dart';
 
 // tests for Capitalization
 void main() {
-  final instance = CapitalizationBuilder();
-  // TODO add properties to the builder and call build()
+  final Capitalization? instance = /* Capitalization(...) */ null;
+  // TODO add properties to the entity
 
   group(Capitalization, () {
     // String smallCamel

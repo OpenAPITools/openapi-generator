@@ -3,8 +3,8 @@ import 'package:openapi/openapi.dart';
 
 // tests for ClassModel
 void main() {
-  final instance = ClassModelBuilder();
-  // TODO add properties to the builder and call build()
+  final ClassModel? instance = /* ClassModel(...) */ null;
+  // TODO add properties to the entity
 
   group(ClassModel, () {
     // String class_

@@ -56,7 +56,14 @@ void main() {
       // TODO
     });
 
-    // For this test, the body for this request much reference a schema named `File`.
+    // For this test, the body has to be a binary file.
+    //
+    //Future testBodyWithBinary(MultipartFile body) async
+    test('test testBodyWithBinary', () async {
+      // TODO
+    });
+
+    // For this test, the body for this request must reference a schema named `File`.
     //
     //Future testBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass) async
     test('test testBodyWithFileSchema', () async {
@@ -90,7 +97,7 @@ void main() {
     //
     // To test enum parameters
     //
-    //Future testEnumParameters({ BuiltList<String> enumHeaderStringArray, String enumHeaderString, BuiltList<String> enumQueryStringArray, String enumQueryString, int enumQueryInteger, double enumQueryDouble, BuiltList<String> enumFormStringArray, String enumFormString }) async
+    //Future testEnumParameters({ BuiltList<String> enumHeaderStringArray, String enumHeaderString, BuiltList<String> enumQueryStringArray, String enumQueryString, int enumQueryInteger, double enumQueryDouble, BuiltList<ModelEnumClass> enumQueryModelArray, BuiltList<String> enumFormStringArray, String enumFormString }) async
     test('test testEnumParameters', () async {
       // TODO
     });
@@ -106,12 +113,16 @@ void main() {
 
     // test inline additionalProperties
     //
+    // 
+    //
     //Future testInlineAdditionalProperties(BuiltMap<String, String> requestBody) async
     test('test testInlineAdditionalProperties', () async {
       // TODO
     });
 
     // test json serialization of form data
+    //
+    // 
     //
     //Future testJsonFormData(String param, String param2) async
     test('test testJsonFormData', () async {
@@ -120,7 +131,7 @@ void main() {
 
     // To test the collection format in query parameters
     //
-    //Future testQueryParameterCollectionFormat(BuiltList<String> pipe, BuiltList<String> ioutil, BuiltList<String> http, BuiltList<String> url, BuiltList<String> context) async
+    //Future testQueryParameterCollectionFormat(BuiltList<String> pipe, BuiltList<String> ioutil, BuiltList<String> http, BuiltList<String> url, BuiltList<String> context, String allowEmpty, { BuiltMap<String, String> language }) async
     test('test testQueryParameterCollectionFormat', () async {
       // TODO
     });

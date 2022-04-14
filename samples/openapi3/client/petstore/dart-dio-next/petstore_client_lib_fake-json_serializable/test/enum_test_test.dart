@@ -3,8 +3,8 @@ import 'package:openapi/openapi.dart';
 
 // tests for EnumTest
 void main() {
-  final instance = EnumTestBuilder();
-  // TODO add properties to the builder and call build()
+  final EnumTest? instance = /* EnumTest(...) */ null;
+  // TODO add properties to the entity
 
   group(EnumTest, () {
     // String enumString

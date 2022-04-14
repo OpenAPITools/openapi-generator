@@ -3,8 +3,8 @@ import 'package:openapi/openapi.dart';
 
 // tests for NullableClass
 void main() {
-  final instance = NullableClassBuilder();
-  // TODO add properties to the builder and call build()
+  final NullableClass? instance = /* NullableClass(...) */ null;
+  // TODO add properties to the entity
 
   group(NullableClass, () {
     // int integerProp

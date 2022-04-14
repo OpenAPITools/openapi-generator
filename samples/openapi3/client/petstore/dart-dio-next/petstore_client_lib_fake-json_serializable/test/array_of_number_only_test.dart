@@ -3,8 +3,8 @@ import 'package:openapi/openapi.dart';
 
 // tests for ArrayOfNumberOnly
 void main() {
-  final instance = ArrayOfNumberOnlyBuilder();
-  // TODO add properties to the builder and call build()
+  final ArrayOfNumberOnly? instance = /* ArrayOfNumberOnly(...) */ null;
+  // TODO add properties to the entity
 
   group(ArrayOfNumberOnly, () {
     // List<num> arrayNumber

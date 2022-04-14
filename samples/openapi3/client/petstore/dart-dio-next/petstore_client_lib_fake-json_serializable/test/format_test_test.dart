@@ -3,8 +3,8 @@ import 'package:openapi/openapi.dart';
 
 // tests for FormatTest
 void main() {
-  final instance = FormatTestBuilder();
-  // TODO add properties to the builder and call build()
+  final FormatTest? instance = /* FormatTest(...) */ null;
+  // TODO add properties to the entity
 
   group(FormatTest, () {
     // int integer

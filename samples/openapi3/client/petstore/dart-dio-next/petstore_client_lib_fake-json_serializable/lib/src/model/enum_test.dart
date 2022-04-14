@@ -194,22 +194,22 @@ enum EnumTestEnumStringRequiredEnum {
 
 
 enum EnumTestEnumIntegerEnum {
-  @JsonValue(r1)
+  @JsonValue(1)
   number1,
-  @JsonValue(r-1)
+  @JsonValue(-1)
   numberNegative1,
-  @JsonValue(r11184809)
+  @JsonValue(11184809)
   unknownDefaultOpenApi,
 }
 
 
 
 enum EnumTestEnumNumberEnum {
-  @JsonValue(r'1.1')
+  @JsonValue('1.1')
   number1Period1,
-  @JsonValue(r'-1.2')
+  @JsonValue('-1.2')
   numberNegative1Period2,
-  @JsonValue(r'11184809')
+  @JsonValue('11184809')
   unknownDefaultOpenApi,
 }
 
