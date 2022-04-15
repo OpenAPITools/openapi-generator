@@ -26,7 +26,7 @@ public class PureCloudGoClientCodegen extends GoClientCodegen {
         // Go type for arbitrary objects
         // Mainly used for API types of Map<string, Object>, which are objects with additional properties of type object
         typeMapping.put("object", "interface{}");
-        typeMapping.put("LocalDateTime", "time.Time");
+        typeMapping.put("local-date-time", "time.Time");
     }
 
     @Override
