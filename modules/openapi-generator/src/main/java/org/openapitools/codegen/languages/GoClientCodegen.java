@@ -65,6 +65,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
                         "case", "defer", "go", "map", "struct",
                         "chan", "else", "goto", "package", "switch",
                         "const", "fallthrough", "if", "range", "type", "Type",
+                        "const", "fallthrough", "if", "range", "type", "_type",
                         "continue", "for", "import", "return", "var", "error", "ApiResponse")
                 // Added "error" as it's used so frequently that it may as well be a keyword
         );

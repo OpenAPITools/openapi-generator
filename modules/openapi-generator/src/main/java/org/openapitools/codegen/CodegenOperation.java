@@ -17,6 +17,10 @@
 
 package org.openapitools.codegen;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.swagger.v3.oas.models.ExternalDocumentation;
 import io.swagger.v3.oas.models.tags.Tag;
 
@@ -59,6 +63,26 @@ public class CodegenOperation {
     public String operationIdLowerCase; // for markdown documentation
     public String operationIdCamelCase; // for class names
     public String operationIdSnakeCase;
+
+    /**
+     * Returns a list of permissions
+     *
+     * @return the list of permissions
+     */
+    public List<String> getPermissions() throws JsonProcessingException {
+        if (!vendorExtensions.containsKey("x-inin-requires-permissions")) {
+            return null;
+        }
+        Object obj = vendorExtensions.get("x-inin-requires-permissions");
+        ObjectMapper mapper = new ObjectMapper();
+        String json = mapper.writeValueAsString(obj);
+        JsonNode jsonNode = mapper.readValue(json, JsonNode.class);
+        List<String> permissionsList = new ArrayList<>();
+        for (JsonNode permission : jsonNode.get("permissions")) {
+            permissionsList.add(permission.toString().replaceAll("\"", ""));
+        }
+        return permissionsList;
+    }
 
     /**
      * Check if there's at least one parameter
