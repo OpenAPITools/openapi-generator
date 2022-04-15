@@ -956,6 +956,11 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     @Override
     public String getSchemaType(Schema p) {
         String openAPIType = super.getSchemaType(p);
+        // This exception is needed because there is a swagger definition named Number
+        // I tried to find a cleaner alternative but couldn't without side effects
+        if (openAPIType.equals("Number")) {
+            return "Number";
+        }
         String type;
 
         if (openAPIType == null) {
