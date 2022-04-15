@@ -92,6 +92,8 @@ class SomeObject(
             ],
             'anyOf': [
             ],
+            'not':
+                None
         }
 
     def __new__(

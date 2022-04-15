@@ -146,6 +146,8 @@ class ComposedOneOfDifferentTypes(
             ],
             'anyOf': [
             ],
+            'not':
+                None
         }
 
     def __new__(

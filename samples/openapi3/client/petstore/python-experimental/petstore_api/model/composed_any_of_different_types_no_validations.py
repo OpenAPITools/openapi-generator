@@ -128,6 +128,8 @@ class ComposedAnyOfDifferentTypesNoValidations(
                 anyOf_14,
                 anyOf_15,
             ],
+            'not':
+                None
         }
 
     def __new__(

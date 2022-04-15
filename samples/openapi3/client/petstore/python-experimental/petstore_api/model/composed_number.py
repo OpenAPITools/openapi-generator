@@ -94,6 +94,8 @@ class ComposedNumber(
             ],
             'anyOf': [
             ],
+            'not':
+                None
         }
 
     def __new__(

@@ -93,6 +93,8 @@ class EquilateralTriangle(
             ],
             'anyOf': [
             ],
+            'not':
+                None
         }
 
     def __new__(

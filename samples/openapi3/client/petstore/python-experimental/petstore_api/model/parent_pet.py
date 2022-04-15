@@ -102,6 +102,8 @@ class ParentPet(
             ],
             'anyOf': [
             ],
+            'not':
+                None
         }
 
     def __new__(

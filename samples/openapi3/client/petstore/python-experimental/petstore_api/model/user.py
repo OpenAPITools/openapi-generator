@@ -104,6 +104,46 @@ class User(
                 **kwargs,
             )
     anyTypeProp = AnyTypeSchema
+    
+    
+    class anyTypeExceptNullProp(
+        ComposedSchema
+    ):
+    
+        @classmethod
+        @property
+        def _composed_schemas(cls):
+            # we need this here to make our import statements work
+            # we must store _composed_schemas in here so the code is only run
+            # when we invoke this method. If we kept this at the class
+            # level we would get an error because the class level
+            # code would be run when this module is imported, and these composed
+            # classes don't exist yet because their module has not finished
+            # loading
+            NotSchema = NoneSchema
+            return {
+                'allOf': [
+                ],
+                'oneOf': [
+                ],
+                'anyOf': [
+                ],
+                'not':
+                    NotSchema
+            }
+    
+        def __new__(
+            cls,
+            *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
+            _configuration: typing.Optional[Configuration] = None,
+            **kwargs: typing.Type[Schema],
+        ) -> 'anyTypeExceptNullProp':
+            return super().__new__(
+                cls,
+                *args,
+                _configuration=_configuration,
+                **kwargs,
+            )
     anyTypePropNullable = AnyTypeSchema
 
 
@@ -121,6 +161,7 @@ class User(
         objectWithNoDeclaredProps: typing.Union[objectWithNoDeclaredProps, Unset] = unset,
         objectWithNoDeclaredPropsNullable: typing.Union[objectWithNoDeclaredPropsNullable, Unset] = unset,
         anyTypeProp: typing.Union[anyTypeProp, Unset] = unset,
+        anyTypeExceptNullProp: typing.Union[anyTypeExceptNullProp, Unset] = unset,
         anyTypePropNullable: typing.Union[anyTypePropNullable, Unset] = unset,
         _configuration: typing.Optional[Configuration] = None,
         **kwargs: typing.Type[Schema],
@@ -139,6 +180,7 @@ class User(
             objectWithNoDeclaredProps=objectWithNoDeclaredProps,
             objectWithNoDeclaredPropsNullable=objectWithNoDeclaredPropsNullable,
             anyTypeProp=anyTypeProp,
+            anyTypeExceptNullProp=anyTypeExceptNullProp,
             anyTypePropNullable=anyTypePropNullable,
             _configuration=_configuration,
             **kwargs,

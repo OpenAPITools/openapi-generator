@@ -94,6 +94,8 @@ class GmFruit(
                 Apple,
                 Banana,
             ],
+            'not':
+                None
         }
 
     def __new__(

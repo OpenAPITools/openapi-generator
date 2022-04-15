@@ -105,6 +105,8 @@ class Mammal(
             ],
             'anyOf': [
             ],
+            'not':
+                None
         }
 
     def __new__(

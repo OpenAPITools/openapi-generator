@@ -1574,19 +1574,19 @@ def cast_to_allowed_types(arg: typing.Union[str, date, datetime, decimal.Decimal
 class ComposedBase(Discriminable):
 
     @classmethod
-    def __get_allof_classes(cls, *args, validation_metadata: ValidationMetadata):
+    def __get_allof_classes(cls, arg, validation_metadata: ValidationMetadata):
         path_to_schemas = defaultdict(set)
         for allof_cls in cls._composed_schemas['allOf']:
             if allof_cls in validation_metadata.base_classes:
                 continue
-            other_path_to_schemas = allof_cls._validate(*args, validation_metadata=validation_metadata)
+            other_path_to_schemas = allof_cls._validate(arg, validation_metadata=validation_metadata)
             update(path_to_schemas, other_path_to_schemas)
         return path_to_schemas
 
     @classmethod
     def __get_oneof_class(
         cls,
-        *args,
+        arg,
         discriminated_cls,
         validation_metadata: ValidationMetadata,
         path_to_schemas: typing.Dict[typing.Tuple, typing.Set[typing.Type[Schema]]]
@@ -1600,13 +1600,13 @@ class ComposedBase(Discriminable):
             if oneof_cls in path_to_schemas[validation_metadata.path_to_item]:
                 oneof_classes.append(oneof_cls)
                 continue
-            if isinstance(args[0], oneof_cls):
+            if isinstance(arg, oneof_cls):
                 # passed in instance is the correct type
                 chosen_oneof_cls = oneof_cls
                 oneof_classes.append(oneof_cls)
                 continue
             try:
-                path_to_schemas = oneof_cls._validate(*args, validation_metadata=validation_metadata)
+                path_to_schemas = oneof_cls._validate(arg, validation_metadata=validation_metadata)
                 new_base_classes = validation_metadata.base_classes
             except (ApiValueError, ApiTypeError) as ex:
                 if discriminated_cls is not None and oneof_cls is discriminated_cls:
@@ -1629,7 +1629,7 @@ class ComposedBase(Discriminable):
     @classmethod
     def __get_anyof_classes(
         cls,
-        *args,
+        arg,
         discriminated_cls,
         validation_metadata: ValidationMetadata
     ):
@@ -1640,14 +1640,14 @@ class ComposedBase(Discriminable):
         for anyof_cls in cls._composed_schemas['anyOf']:
             if anyof_cls in validation_metadata.base_classes:
                 continue
-            if isinstance(args[0], anyof_cls):
+            if isinstance(arg, anyof_cls):
                 # passed in instance is the correct type
                 chosen_anyof_cls = anyof_cls
                 anyof_classes.append(anyof_cls)
                 continue
 
             try:
-                other_path_to_schemas = anyof_cls._validate(*args, validation_metadata=validation_metadata)
+                other_path_to_schemas = anyof_cls._validate(arg, validation_metadata=validation_metadata)
             except (ApiValueError, ApiTypeError) as ex:
                 if discriminated_cls is not None and anyof_cls is discriminated_cls:
                     raise ex
@@ -1744,6 +1744,21 @@ class ComposedBase(Discriminable):
                 validation_metadata=updated_vm
             )
             update(path_to_schemas, other_path_to_schemas)
+        not_cls = cls._composed_schemas['not']
+        if not_cls:
+            other_path_to_schemas = None
+            try:
+                other_path_to_schemas = not_cls._validate(arg, validation_metadata=updated_vm)
+            except (ApiValueError, ApiTypeError):
+                pass
+            if other_path_to_schemas:
+                raise ApiValueError(
+                    "Invalid value '{}' was passed in to {}. Value is invalid because it is disallowed by {}".format(
+                        arg,
+                        cls.__name__,
+                        not_cls.__name__,
+                    )
+                )
 
         if discriminated_cls is not None:
             # TODO use an exception from this package here
@@ -2053,6 +2068,7 @@ class BinarySchema(
             ],
             'anyOf': [
             ],
+            'not': None
         }
 
     def __new__(cls, arg: typing.Union[io.FileIO, io.BufferedReader, bytes], **kwargs: typing.Union[ValidationMetadata]):

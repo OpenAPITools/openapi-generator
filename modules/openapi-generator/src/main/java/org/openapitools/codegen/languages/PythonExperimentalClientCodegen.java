@@ -98,7 +98,11 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
                         SchemaSupportFeature.Simple,
                         SchemaSupportFeature.Composite,
                         SchemaSupportFeature.Polymorphism,
-                        SchemaSupportFeature.Union
+                        SchemaSupportFeature.Union,
+                        SchemaSupportFeature.allOf,
+                        SchemaSupportFeature.anyOf,
+                        SchemaSupportFeature.oneOf,
+                        SchemaSupportFeature.not
                 )
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.Custom))
@@ -533,7 +537,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
                 "Features in this generator:",
                 "- type hints on endpoints and model creation",
                 "- model parameter names use the spec defined keys and cases",
-                "- robust composition (oneOf/anyOf/allOf) where paload data is stored in one instance only",
+                "- robust composition (oneOf/anyOf/allOf/not) where payload data is stored in one instance only",
                 "- endpoint parameter names use the spec defined keys and cases",
                 "- inline schemas are supported at any location including composition",
                 "- multiple content types supported in request body and response bodies",

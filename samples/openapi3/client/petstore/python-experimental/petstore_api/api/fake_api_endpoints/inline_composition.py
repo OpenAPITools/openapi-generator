@@ -99,6 +99,8 @@ class CompositionAtRootSchema(
             ],
             'anyOf': [
             ],
+            'not':
+                None
         }
 
     def __new__(
@@ -151,6 +153,8 @@ class CompositionInPropertySchema(
                 ],
                 'anyOf': [
                 ],
+                'not':
+                    None
             }
     
         def __new__(
@@ -246,6 +250,8 @@ class SchemaForRequestBodyApplicationJson(
             ],
             'anyOf': [
             ],
+            'not':
+                None
         }
 
     def __new__(
@@ -298,6 +304,8 @@ class SchemaForRequestBodyMultipartFormData(
                 ],
                 'anyOf': [
                 ],
+                'not':
+                    None
             }
     
         def __new__(
@@ -373,6 +381,8 @@ class SchemaFor200ResponseBodyApplicationJson(
             ],
             'anyOf': [
             ],
+            'not':
+                None
         }
 
     def __new__(
@@ -425,6 +435,8 @@ class SchemaFor200ResponseBodyMultipartFormData(
                 ],
                 'anyOf': [
                 ],
+                'not':
+                    None
             }
     
         def __new__(
