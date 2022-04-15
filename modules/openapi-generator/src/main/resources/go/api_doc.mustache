@@ -1,6 +1,5 @@
 # {{invokerPackage}}\{{classname}}{{#description}}
-
-{{description}}{{/description}}
+    {{description}}{{/description}}
 
 All URIs are relative to *{{basePath}}*
 
@@ -10,83 +9,36 @@ Method | HTTP request | Description
 {{/operation}}{{/operations}}
 
 {{#operations}}
-{{#operation}}
+    {{#operation}}
+        # **{{{operationId}}}**
+        > {{#returnType}}{{{returnType}}} {{/returnType}}{{{operationId}}}({{#allParams}}${{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
 
-## {{{operationId}}}
+        {{{summary}}}{{#notes}}
 
-> {{#returnType}}{{{.}}} {{/returnType}}{{{operationId}}}(ctx{{#pathParams}}, {{paramName}}{{/pathParams}}){{#allParams}}{{^isPathParam}}.{{vendorExtensions.x-export-param-name}}({{paramName}}){{/isPathParam}}{{/allParams}}.Execute()
+            {{{notes}}}{{/notes}}
 
-{{{summary}}}{{#notes}}
 
-{{{unespacedNotes}}}{{/notes}}
+        ### Parameters
+        {{^allParams}}This endpoint does not need any parameter.{{/allParams}}{{#allParams}}{{#-last}}
+            Name | Type | Description  | Notes
+            ------------- | ------------- | ------------- | -------------{{/-last}}{{/allParams}}
+        {{#allParams}} **{{paramName}}** | {{#isFile}}**{{dataType}}**{{/isFile}}{{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}{{^isFile}}[**{{dataType}}**]({{baseType}}.md){{/isFile}}{{/isPrimitiveType}}| {{description}} | {{^required}}[optional] {{/required}}{{#defaultValue}}[default to {{defaultValue}}]{{/defaultValue}}
+        {{/allParams}}
 
-### Example
+        ### Return type
 
-```go
-package main
+        {{#returnType}}{{#returnTypeIsPrimitive}}**{{{returnType}}}**{{/returnTypeIsPrimitive}}{{^returnTypeIsPrimitive}}[**{{{returnType}}}**]({{returnBaseType}}.md){{/returnTypeIsPrimitive}}{{/returnType}}{{^returnType}}void (empty response body){{/returnType}}
 
-import (
-    "context"
-    "fmt"
-    "os"
-{{#vendorExtensions.x-go-import}}
-{{{vendorExtensions.x-go-import}}}
-{{/vendorExtensions.x-go-import}}
-    {{goImportAlias}} "./openapi"
-)
+        ### Authorization
 
-func main() {
-    {{#allParams}}
-    {{paramName}} := {{{vendorExtensions.x-go-example}}} // {{{dataType}}} | {{{description}}}{{^required}} (optional){{/required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}
-    {{/allParams}}
+        {{^authMethods}}No authorization required{{/authMethods}}{{#authMethods}}[{{{name}}}](../README.md#{{{name}}}){{^-last}}, {{/-last}}{{/authMethods}}
 
-    configuration := {{goImportAlias}}.NewConfiguration()
-    api_client := {{goImportAlias}}.NewAPIClient(configuration)
-    resp, r, err := api_client.{{classname}}.{{operationId}}(context.Background(){{#pathParams}}, {{paramName}}{{/pathParams}}){{#allParams}}{{^isPathParam}}.{{vendorExtensions.x-export-param-name}}({{paramName}}){{/isPathParam}}{{/allParams}}.Execute()
-    if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `{{classname}}.{{operationId}}``: %v\n", err)
-        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-    }
-    {{#returnType}}
-    // response from `{{operationId}}`: {{{.}}}
-    fmt.Fprintf(os.Stdout, "Response from `{{classname}}.{{operationId}}`: %v\n", resp)
-    {{/returnType}}
-}
-```
+        ### HTTP request headers
 
-### Path Parameters
+        - **Content-Type**: {{#consumes}}{{mediaType}}{{#hasMore}}, {{/hasMore}}{{/consumes}}{{^consumes}}Not defined{{/consumes}}
+        - **Accept**: {{#produces}}{{mediaType}}{{#hasMore}}, {{/hasMore}}{{/produces}}{{^produces}}Not defined{{/produces}}
 
-{{^allParams}}This endpoint does not need any parameter.{{/allParams}}{{#pathParams}}{{#-last}}
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.{{/-last}}{{/pathParams}}{{#pathParams}}
-**{{paramName}}** | {{^isPrimitiveType}}{{^isFile}}[{{/isFile}}{{/isPrimitiveType}}**{{dataType}}**{{^isPrimitiveType}}{{^isFile}}]({{baseType}}.md){{/isFile}}{{/isPrimitiveType}} | {{description}} | {{#defaultValue}}[default to {{defaultValue}}]{{/defaultValue}}{{/pathParams}}
+        [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-### Other Parameters
-
-Other parameters are passed through a pointer to a api{{{nickname}}}Request struct via the builder pattern
-{{#allParams}}{{#-last}}
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------{{/-last}}{{/allParams}}{{#allParams}}
-{{^isPathParam}} **{{paramName}}** | {{#isContainer}}{{#isArray}}{{#items}}{{^isPrimitiveType}}{{^isFile}}[{{/isFile}}{{/isPrimitiveType}}**[]{{dataType}}**{{^isPrimitiveType}}{{^isFile}}]({{^baseType}}{{dataType}}{{/baseType}}{{baseType}}.md){{/isFile}}{{/isPrimitiveType}}{{/items}}{{/isArray}}{{#isMap}}{{#items}}{{^isPrimitiveType}}{{^isFile}}[{{/isFile}}{{/isPrimitiveType}}**map[string]{{dataType}}**{{^isPrimitiveType}}{{^isFile}}]({{^baseType}}{{dataType}}{{/baseType}}{{baseType}}.md){{/isFile}}{{/isPrimitiveType}}{{/items}}{{/isMap}}{{/isContainer}}{{^isContainer}}{{^isPrimitiveType}}{{^isFile}}[{{/isFile}}{{/isPrimitiveType}}**{{dataType}}**{{^isPrimitiveType}}{{^isFile}}]({{^baseType}}{{dataType}}{{/baseType}}{{baseType}}.md){{/isFile}}{{/isPrimitiveType}}{{/isContainer}} | {{description}} | {{#defaultValue}}[default to {{defaultValue}}]{{/defaultValue}}{{/isPathParam}}{{/allParams}}
-
-### Return type
-
-{{#returnType}}{{#returnTypeIsPrimitive}}**{{{returnType}}}**{{/returnTypeIsPrimitive}}{{^returnTypeIsPrimitive}}[**{{{returnType}}}**]({{returnBaseType}}.md){{/returnTypeIsPrimitive}}{{/returnType}}{{^returnType}} (empty response body){{/returnType}}
-
-### Authorization
-
-{{^authMethods}}No authorization required{{/authMethods}}{{#authMethods}}[{{{name}}}](../README.md#{{{name}}}){{^-last}}, {{/-last}}{{/authMethods}}
-
-### HTTP request headers
-
-- **Content-Type**: {{#consumes}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/consumes}}{{^consumes}}Not defined{{/consumes}}
-- **Accept**: {{#produces}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/produces}}{{^produces}}Not defined{{/produces}}
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
-
-{{/operation}}
+    {{/operation}}
 {{/operations}}
