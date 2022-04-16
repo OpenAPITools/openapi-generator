@@ -122,7 +122,6 @@ public enum DataTypeFeature {
     @OAS2 @OAS3
     Password,
 
-
     /**
      * Supports file inputs (e.g. multipart support).
      *
@@ -140,16 +139,15 @@ public enum DataTypeFeature {
     File,
 
     /**
+     * String uuid data
+     */
+    Uuid,
+
+    /**
      * Supports arrays of data
      */
     @OAS2 @OAS3
     Array,
-
-    /**
-     * An unordered set of properties mapping a string to an instance
-     */
-    @OAS2 @OAS3
-    Object,
 
     /**
      * A JSON "null" value added in openapi v3.1.0
@@ -162,6 +160,12 @@ public enum DataTypeFeature {
      */
     @OAS2 @OAS3
     AnyType,
+
+    /**
+     * An unordered set of properties mapping a string to an instance
+     */
+    @OAS2 @OAS3
+    Object,
 
     /**
      * Supports map of data
@@ -255,9 +259,4 @@ public enum DataTypeFeature {
      */
     @ToolingExtension
     MapOfCollectionOfEnum,
-
-    /**
-     * String uuid data
-     */
-    Uuid
 }
