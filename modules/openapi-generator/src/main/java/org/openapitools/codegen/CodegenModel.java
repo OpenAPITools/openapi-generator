@@ -161,6 +161,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     private boolean hasRequiredVars;
     private boolean hasDiscriminatorWithNonEmptyMapping;
     private boolean isAnyType;
+    private boolean isUuid;
 
     public String getAdditionalPropertiesType() {
         return additionalPropertiesType;
@@ -851,6 +852,10 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         this.isAnyType = isAnyType;
     }
 
+    public boolean getIsUuid() { return isUuid; }
+
+    public void setIsUuid(boolean isUuid) { this.isUuid = isUuid; }
+
     @Override
     public void setComposedSchemas(CodegenComposedSchemas composedSchemas) {
         this.composedSchemas = composedSchemas;
@@ -907,6 +912,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 isDecimal == that.isDecimal &&
                 hasMultipleTypes == that.getHasMultipleTypes() &&
                 hasDiscriminatorWithNonEmptyMapping == that.getHasDiscriminatorWithNonEmptyMapping() &&
+                isUuid == that.getIsUuid() &&
                 getIsAnyType() == that.getIsAnyType() &&
                 getAdditionalPropertiesIsAnyType() == that.getAdditionalPropertiesIsAnyType() &&
                 getUniqueItems() == that.getUniqueItems() &&
@@ -983,7 +989,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 getMinItems(), getMaxLength(), getMinLength(), getExclusiveMinimum(), getExclusiveMaximum(), getMinimum(),
                 getMaximum(), getPattern(), getMultipleOf(), getItems(), getAdditionalProperties(), getIsModel(),
                 getAdditionalPropertiesIsAnyType(), hasDiscriminatorWithNonEmptyMapping,
-                isAnyType, getComposedSchemas(), hasMultipleTypes, isDecimal);
+                isAnyType, getComposedSchemas(), hasMultipleTypes, isDecimal, isUuid);
     }
 
     @Override
@@ -1078,6 +1084,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         sb.append(", composedSchemas=").append(composedSchemas);
         sb.append(", hasMultipleTypes=").append(hasMultipleTypes);
         sb.append(", isDecimal=").append(isDecimal);
+        sb.append(", isUUID=").append(isUuid);
         sb.append('}');
         return sb.toString();
     }

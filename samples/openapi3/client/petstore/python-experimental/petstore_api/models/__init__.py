@@ -128,6 +128,7 @@ from petstore_api.model.string_with_validation import StringWithValidation
 from petstore_api.model.tag import Tag
 from petstore_api.model.triangle import Triangle
 from petstore_api.model.triangle_interface import TriangleInterface
+from petstore_api.model.uuid_string import UUIDString
 from petstore_api.model.user import User
 from petstore_api.model.whale import Whale
 from petstore_api.model.zebra import Zebra

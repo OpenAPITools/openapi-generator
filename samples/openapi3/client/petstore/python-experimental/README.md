@@ -256,6 +256,7 @@ Class | Method | HTTP request | Description
  - [Tag](docs/Tag.md)
  - [Triangle](docs/Triangle.md)
  - [TriangleInterface](docs/TriangleInterface.md)
+ - [UUIDString](docs/UUIDString.md)
  - [User](docs/User.md)
  - [Whale](docs/Whale.md)
  - [Zebra](docs/Zebra.md)

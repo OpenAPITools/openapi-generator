@@ -125,6 +125,7 @@ docs/StringWithValidation.md
 docs/Tag.md
 docs/Triangle.md
 docs/TriangleInterface.md
+docs/UUIDString.md
 docs/User.md
 docs/UserApi.md
 docs/Whale.md
@@ -262,6 +263,7 @@ petstore_api/model/tag.py
 petstore_api/model/triangle.py
 petstore_api/model/triangle_interface.py
 petstore_api/model/user.py
+petstore_api/model/uuid_string.py
 petstore_api/model/whale.py
 petstore_api/model/zebra.py
 petstore_api/models/__init__.py

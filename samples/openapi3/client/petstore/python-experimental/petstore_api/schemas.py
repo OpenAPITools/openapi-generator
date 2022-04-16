@@ -19,6 +19,7 @@ import os
 import re
 import tempfile
 import typing
+import uuid
 
 from dateutil.parser.isoparser import isoparser, _takes_ascii
 from frozendict import frozendict
@@ -559,6 +560,40 @@ class StrBase:
     @property
     def as_decimal(self) -> decimal.Decimal:
         raise Exception('not implemented')
+
+    @property
+    def as_uuid(self) -> uuid.UUID:
+        raise Exception('not implemented')
+
+
+class UUIDBase(StrBase):
+    @property
+    @functools.cache
+    def as_uuid(self) -> uuid.UUID:
+        return uuid.UUID(self)
+
+    @classmethod
+    def _validate_format(cls, arg: typing.Optional[str], validation_metadata: ValidationMetadata):
+        if isinstance(arg, str):
+            try:
+                uuid.UUID(arg)
+                return True
+            except ValueError:
+                raise ApiValueError(
+                    "Invalid value '{}' for type UUID at {}".format(arg, validation_metadata.path_to_item)
+                )
+
+    @classmethod
+    def _validate(
+        cls,
+        arg,
+        validation_metadata: typing.Optional[ValidationMetadata] = None,
+    ):
+        """
+        UUIDBase _validate
+        """
+        cls._validate_format(arg, validation_metadata=validation_metadata)
+        return super()._validate(arg, validation_metadata=validation_metadata)
 
 
 class CustomIsoparser(isoparser):
@@ -1523,6 +1558,11 @@ def cast_to_allowed_types(arg: typing.Union[str, date, datetime, decimal.Decimal
             return arg.isoformat()
         # ApiTypeError will be thrown later by _validate_type
         return arg
+    elif isinstance(arg, uuid.UUID):
+        if not from_server:
+            return str(arg)
+        # ApiTypeError will be thrown later by _validate_type
+        return arg
     elif isinstance(arg, decimal.Decimal):
         return arg
     elif isinstance(arg, bytes):
@@ -1919,7 +1959,13 @@ class StrSchema(
     def _from_openapi_data(cls, arg: typing.Union[str], _configuration: typing.Optional[Configuration] = None) -> 'StrSchema':
         return super()._from_openapi_data(arg, _configuration=_configuration)
 
-    def __new__(cls, arg: typing.Union[str, date, datetime], **kwargs: typing.Union[ValidationMetadata]):
+    def __new__(cls, arg: typing.Union[str, date, datetime, uuid.UUID], **kwargs: typing.Union[ValidationMetadata]):
+        return super().__new__(cls, arg, **kwargs)
+
+
+class UUIDSchema(UUIDBase, StrSchema):
+
+    def __new__(cls, arg: typing.Union[str, uuid.UUID], **kwargs: typing.Union[ValidationMetadata]):
         return super().__new__(cls, arg, **kwargs)
 
 
