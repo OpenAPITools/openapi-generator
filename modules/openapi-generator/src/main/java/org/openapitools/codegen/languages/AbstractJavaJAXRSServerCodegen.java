@@ -70,6 +70,7 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
         updateOption(CodegenConstants.API_PACKAGE, apiPackage);
         updateOption(CodegenConstants.MODEL_PACKAGE, modelPackage);
         updateOption(DATE_LIBRARY, this.getDateLibrary());
+        updateOption(CodegenConstants.SOURCE_FOLDER, this.getSourceFolder());
 
         additionalProperties.put("title", title);
         // java inflector uses the jackson lib
