@@ -152,6 +152,12 @@ public enum DataTypeFeature {
     Object,
 
     /**
+     * Supports map of data
+     */
+    @ToolingExtension
+    Maps,
+
+    /**
      * Supports specifying the format of the array if type array is used (one of: csv, ssv, tsv, pipes).
      *
      * <p>
