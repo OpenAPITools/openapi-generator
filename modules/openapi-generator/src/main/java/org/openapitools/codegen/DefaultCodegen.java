@@ -2749,7 +2749,9 @@ public class DefaultCodegen implements CodegenConfig {
                 m.setIsString(false); // for backward compatibility with 2.x
                 m.isDate = Boolean.TRUE;
             } else if (ModelUtils.isUUIDSchema(schema)) {
-                m.setIsString(false); // for backward compatibility with 2.x
+                // NOTE: UUID schemas as CodegenModel is a rare use case and may be removed at a later date.
+                m.setIsString(false);
+                m.setIsUuid(true);
             }
         } else if (ModelUtils.isNumberSchema(schema)) {
             // NOTE: Number schemas as CodegenModel is a rare use case and may be removed at a later date.

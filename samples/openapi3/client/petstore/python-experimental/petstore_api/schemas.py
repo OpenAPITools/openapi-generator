@@ -19,7 +19,7 @@ import os
 import re
 import tempfile
 import typing
-umport uuid
+import uuid
 
 from dateutil.parser.isoparser import isoparser, _takes_ascii
 from frozendict import frozendict
@@ -569,14 +569,14 @@ class StrBase:
 class UUIDBase(StrBase):
     @property
     @functools.cache
-    def as_uuid(self) -> date:
+    def as_uuid(self) -> uuid.UUID:
         return uuid.UUID(self)
 
     @classmethod
     def _validate_format(cls, arg: typing.Optional[str], validation_metadata: ValidationMetadata):
         if isinstance(arg, str):
             try:
-                uuid.UUID(self)
+                uuid.UUID(arg)
                 return True
             except ValueError:
                 raise ApiValueError(
