@@ -84,9 +84,6 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
         embeddedTemplateDir = "dart/libraries/dio";
         this.setTemplateDir(embeddedTemplateDir);
 
-        apiPackage = "lib.src.api";
-        modelPackage = "lib.src.model";
-
         supportedLibraries.put(SERIALIZATION_LIBRARY_BUILT_VALUE, "[DEFAULT] built_value");
         final CliOption serializationLibrary = CliOption.newString(CodegenConstants.SERIALIZATION_LIBRARY, "Specify serialization library");
         serializationLibrary.setEnum(supportedLibraries);
@@ -162,10 +159,9 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
 
-        final String libFolder = sourceFolder + File.separator + "lib";
-        supportingFiles.add(new SupportingFile("lib.mustache", libFolder, pubName + ".dart"));
+        supportingFiles.add(new SupportingFile("lib.mustache", libPath, pubName + ".dart"));
 
-        final String srcFolder = libFolder + File.separator + "src";
+        final String srcFolder = libPath + sourceFolder;
         supportingFiles.add(new SupportingFile("api_client.mustache", srcFolder, "api.dart"));
 
         final String authFolder = srcFolder + File.separator + "auth";
@@ -253,8 +249,8 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
                 if (SERIALIZATION_LIBRARY_BUILT_VALUE.equals(library)) {
                     typeMapping.put("date", "Date");
                     typeMapping.put("Date", "Date");
-                    importMapping.put("Date", "package:" + pubName + "/src/model/date.dart");
-                    supportingFiles.add(new SupportingFile("serialization/built_value/date.mustache", srcFolder + File.separator + "model", "date.dart"));
+                    importMapping.put("Date", "package:" + pubName + "/" + sourceFolder + "/" + modelPackage() + "/date.dart");
+                    supportingFiles.add(new SupportingFile("serialization/built_value/date.mustache", srcFolder + File.separator + modelPackage(), "date.dart"));
                     supportingFiles.add(new SupportingFile("serialization/built_value/date_serializer.mustache", srcFolder, "date_serializer.dart"));
                 }
                 break;
@@ -382,7 +378,7 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
 
             resultImports.addAll(rewriteImports(op.imports, false));
             if (op.getHasFormParams() || op.getHasQueryParams()) {
-                resultImports.add("package:" + pubName + "/src/api_util.dart");
+                resultImports.add("package:" + pubName + "/" + sourceFolder + "/api_util.dart");
             }
 
             // Generate serializer factories for response types.
@@ -437,7 +433,7 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
             } else if (importMapping().containsKey(modelImport)) {
                 resultImports.add(importMapping().get(modelImport));
             } else {
-                resultImports.add("package:" + pubName + "/src/model/" + underscore(modelImport) + ".dart");
+                resultImports.add("package:" + pubName + "/" + sourceFolder + "/" + modelPackage() + "/" + underscore(modelImport) + ".dart");
             }
         }
         return resultImports;
