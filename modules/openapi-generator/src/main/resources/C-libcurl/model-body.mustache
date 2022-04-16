@@ -336,8 +336,20 @@ cJSON *{{classname}}_convertToJSON({{classname}}_t *{{classname}}) {
         goto fail;
     }
     {{/isEnum}}
+    {{#isEnum}}
+    if ({{projectName}}_{{classVarName}}_{{enumName}}_NULL == {{{classname}}}->{{{name}}}) {
+        goto fail;
+    }
+    {{/isEnum}}
     {{/required}}
-    {{^required}}{{^isEnum}}if({{{classname}}}->{{{name}}}) { {{/isEnum}}{{/required}}
+    {{^required}}
+    {{^isEnum}}
+    if({{{classname}}}->{{{name}}}) {
+    {{/isEnum}}
+    {{#isEnum}}
+    if({{{classname}}}->{{{name}}} != {{projectName}}_{{classVarName}}_{{enumName}}_NULL) {
+    {{/isEnum}}
+    {{/required}}
     {{^isContainer}}
     {{#isPrimitiveType}}
     {{#isNumeric}}
@@ -536,7 +548,7 @@ cJSON *{{classname}}_convertToJSON({{classname}}_t *{{classname}}) {
     {{/isMap}}
     {{/isContainer}}
     {{^required}}
-    {{^isEnum}} } {{/isEnum}}
+    }
     {{/required}}
 
     {{/vars}}
