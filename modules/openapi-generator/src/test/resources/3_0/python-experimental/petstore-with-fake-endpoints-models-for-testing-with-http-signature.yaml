@@ -2808,3 +2808,7 @@ components:
           allOf:
             - type: string
               minLength: 1
+    UUIDString:
+      type: string
+      format: uuid
+      minLength: 1
