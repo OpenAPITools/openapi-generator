@@ -93,7 +93,7 @@ module XAuthIDAlias
       header_params = @default_headers.merge(opts[:header_params] || {})
       query_params = opts[:query_params] || {}
       form_params = opts[:form_params] || {}
-      follow_location = opts[:follow_location] || false
+      follow_location = opts[:follow_location] || true
 
       update_params_for_auth! header_params, query_params, opts[:auth_names]
 
