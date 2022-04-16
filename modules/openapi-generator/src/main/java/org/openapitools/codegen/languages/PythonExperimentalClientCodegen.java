@@ -109,6 +109,8 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
                         SecurityFeature.OAuth2_Implicit
                 ))
                 .includeDataTypeFeatures(
+                        DataTypeFeature.Null,
+                        DataTypeFeature.AnyType,
                         DataTypeFeature.Uuid
                 )
                 .includeGlobalFeatures(

@@ -152,6 +152,18 @@ public enum DataTypeFeature {
     Object,
 
     /**
+     * A JSON "null" value added in openapi v3.1.0
+     */
+    @OAS3
+    Null,
+
+    /**
+     * When no type is defined, any data type is accepted
+     */
+    @OAS2 @OAS3
+    AnyType,
+
+    /**
      * Supports map of data
      */
     @ToolingExtension
