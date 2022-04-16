@@ -96,7 +96,7 @@ public class DefaultCodegen implements CodegenConfig {
                         DataTypeFeature.Int32, DataTypeFeature.Int64, DataTypeFeature.Float, DataTypeFeature.Double,
                         DataTypeFeature.Decimal, DataTypeFeature.String, DataTypeFeature.Byte, DataTypeFeature.Binary,
                         DataTypeFeature.Boolean, DataTypeFeature.Date, DataTypeFeature.DateTime, DataTypeFeature.Password,
-                        DataTypeFeature.File, DataTypeFeature.Array, DataTypeFeature.Maps, DataTypeFeature.CollectionFormat,
+                        DataTypeFeature.File, DataTypeFeature.Array, DataTypeFeature.Object, DataTypeFeature.Maps, DataTypeFeature.CollectionFormat,
                         DataTypeFeature.CollectionFormatMulti, DataTypeFeature.Enum, DataTypeFeature.ArrayOfEnum, DataTypeFeature.ArrayOfModel,
                         DataTypeFeature.ArrayOfCollectionOfPrimitives, DataTypeFeature.ArrayOfCollectionOfModel, DataTypeFeature.ArrayOfCollectionOfEnum,
                         DataTypeFeature.MapOfEnum, DataTypeFeature.MapOfModel, DataTypeFeature.MapOfCollectionOfPrimitives,
@@ -2748,6 +2748,10 @@ public class DefaultCodegen implements CodegenConfig {
                 // NOTE: Date schemas as CodegenModel is a rare use case and may be removed at a later date.
                 m.setIsString(false); // for backward compatibility with 2.x
                 m.isDate = Boolean.TRUE;
+            } else if (ModelUtils.isUUIDSchema(schema)) {
+                // NOTE: UUID schemas as CodegenModel is a rare use case and may be removed at a later date.
+                m.setIsString(false);
+                m.setIsUuid(true);
             }
         } else if (ModelUtils.isNumberSchema(schema)) {
             // NOTE: Number schemas as CodegenModel is a rare use case and may be removed at a later date.

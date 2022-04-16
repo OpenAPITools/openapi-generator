@@ -108,6 +108,11 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
                         SecurityFeature.ApiKey,
                         SecurityFeature.OAuth2_Implicit
                 ))
+                .includeDataTypeFeatures(
+                        DataTypeFeature.Null,
+                        DataTypeFeature.AnyType,
+                        DataTypeFeature.Uuid
+                )
                 .includeGlobalFeatures(
                         GlobalFeature.ParameterizedServer,
                         GlobalFeature.ParameterStyling
@@ -534,6 +539,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
                 "- multiple content types supported in request body and response bodies",
                 "- run time type checking",
                 "- Sending/receiving decimals as strings supported with type:string format: number -> DecimalSchema",
+                "- Sending/receiving uuids as strings supported with type:string format: uuid -> UUIDSchema",
                 "- quicker load time for python modules (a single endpoint can be imported and used without loading others)",
                 "- all instances of schemas dynamically inherit from all matching schemas so one can use isinstance to check if validation passed",
                 "- composed schemas with type constraints supported (type:object + oneOf/anyOf/allOf)",
@@ -2005,20 +2011,21 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
             property.isBinary = true;
             property.isFile = true; // file = binary in OAS3
         } else if (ModelUtils.isUUIDSchema(p)) {
-            property.isUuid = true;
+            property.setIsString(false); // so the templates only see isUuid
+            property.setIsUuid(true);
         } else if (ModelUtils.isURISchema(p)) {
             property.isUri = true;
         } else if (ModelUtils.isEmailSchema(p)) {
             property.isEmail = true;
         } else if (ModelUtils.isDateSchema(p)) { // date format
-            property.setIsString(false); // for backward compatibility with 2.x
+            property.setIsString(false); // so the templates only see isDate
             property.isDate = true;
         } else if (ModelUtils.isDateTimeSchema(p)) { // date-time format
-            property.setIsString(false); // for backward compatibility with 2.x
+            property.setIsString(false); // so the templates only see isDateTime
             property.isDateTime = true;
         } else if (ModelUtils.isDecimalSchema(p)) { // type: string, format: number
+            property.setIsString(false); // so the templates only see isDecimal
             property.isDecimal = true;
-            property.setIsString(false);
         }
         property.pattern = toRegularExpression(p.getPattern());
     }
