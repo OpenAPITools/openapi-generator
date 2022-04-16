@@ -989,17 +989,17 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("CodegenModel{");
-        sb.append("parent='").append(parent).append('\'');
+        sb.append("name='").append(name).append('\'');
+        sb.append(", parent='").append(parent).append('\'');
         sb.append(", parentSchema='").append(parentSchema).append('\'');
         sb.append(", interfaces=").append(interfaces);
+        sb.append(", interfaceModels=").append(interfaceModels!=null?interfaceModels.size():"[]");
         sb.append(", allParents=").append(allParents);
         sb.append(", parentModel=").append(parentModel);
-        sb.append(", interfaceModels=").append(interfaceModels);
-        sb.append(", children=").append(children);
+        sb.append(", children=").append(children!=null?children.size():"[]");
         sb.append(", anyOf=").append(anyOf);
         sb.append(", oneOf=").append(oneOf);
         sb.append(", allOf=").append(allOf);
-        sb.append(", name='").append(name).append('\'');
         sb.append(", classname='").append(classname).append('\'');
         sb.append(", title='").append(title).append('\'');
         sb.append(", description='").append(description).append('\'');
