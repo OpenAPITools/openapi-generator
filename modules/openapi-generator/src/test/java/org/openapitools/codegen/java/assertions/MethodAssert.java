@@ -6,13 +6,14 @@ import java.util.stream.Collectors;
 
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.Assertions;
+import org.assertj.core.util.CanIgnoreReturnValue;
 
-import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.body.Parameter;
 import com.github.javaparser.ast.nodeTypes.NodeWithName;
 
+@CanIgnoreReturnValue
 public class MethodAssert extends AbstractAssert<MethodAssert, MethodDeclaration> {
 
     private final JavaFileAssert fileAssert;
