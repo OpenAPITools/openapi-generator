@@ -862,9 +862,9 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         this.hasMultipleTypes = hasMultipleTypes;
     }
 
-    public boolean getisUuid() { return isUuid; }
+    public boolean getIsUuid() { return isUuid; }
 
-    public void setisUuid(boolean isUuid) { this.isUuid = isUuid; }
+    public void setIsUuid(boolean isUuid) { this.isUuid = isUuid; }
 
     @Override
     public String toString() {

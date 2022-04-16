@@ -108,6 +108,9 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
                         SecurityFeature.ApiKey,
                         SecurityFeature.OAuth2_Implicit
                 ))
+                .includeDataTypeFeatures(
+                        DataTypeFeature.Uuid
+                )
                 .includeGlobalFeatures(
                         GlobalFeature.ParameterizedServer,
                         GlobalFeature.ParameterStyling
@@ -2006,7 +2009,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
             property.isFile = true; // file = binary in OAS3
         } else if (ModelUtils.isUUIDSchema(p)) {
             property.setIsString(false); // so the templates only see isUuid
-            property.isUuid = true;
+            property.setIsUuid(true);
         } else if (ModelUtils.isURISchema(p)) {
             property.isUri = true;
         } else if (ModelUtils.isEmailSchema(p)) {

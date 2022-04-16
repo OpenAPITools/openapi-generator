@@ -146,10 +146,10 @@ public enum DataTypeFeature {
     Array,
 
     /**
-     * Supports map of data
+     * An unordered set of properties mapping a string to an instance
      */
-    @ToolingExtension
-    Maps,
+    @OAS2 @OAS3
+    Object,
 
     /**
      * Supports specifying the format of the array if type array is used (one of: csv, ssv, tsv, pipes).
@@ -236,5 +236,10 @@ public enum DataTypeFeature {
      * Supports a map of arrays (enums)
      */
     @ToolingExtension
-    MapOfCollectionOfEnum
+    MapOfCollectionOfEnum,
+
+    /**
+     * String uuid data
+     */
+    Uuid
 }
