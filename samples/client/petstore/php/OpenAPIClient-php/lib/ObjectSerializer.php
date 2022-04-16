@@ -166,6 +166,7 @@ class ObjectSerializer
      * @param string $openApiType OpenAPIType eg. array or object
      * @param string $style       Parameter serialization style
      * @param bool   $explode     Parameter explode option
+     * @param bool   $required    Whether query param is required or not
      *
      * @return array
      */
