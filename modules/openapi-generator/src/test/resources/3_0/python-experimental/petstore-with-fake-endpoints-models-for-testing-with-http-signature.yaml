@@ -1558,6 +1558,30 @@ paths:
           content:
             application/json: {}
             application/xml: {}
+  /fake/authenticate:
+    post:
+      operationId: authenticateUser
+      tags:
+        - fake
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AuthenticateCredentials"
+      responses:
+        "200":
+          description: Success
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/AuthenticateSuccess"
+        default:
+          description: unexpected error response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthenticateError"
 servers:
   - url: 'http://{server}.swagger.io:{port}/v2'
     description: petstore server
@@ -2811,3 +2835,25 @@ components:
     AnyTypeNotString:
       not:
         type: string
+    AuthenticateCredentials:
+      type: object
+      description: user credentials
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+          format: password
+      required:
+        - email
+        - password
+    AuthenticateError:
+      type: object
+      properties:
+        error:
+          type: string
+    AuthenticateSuccess:
+      type: object
+      properties:
+        success:
+          type: boolean
