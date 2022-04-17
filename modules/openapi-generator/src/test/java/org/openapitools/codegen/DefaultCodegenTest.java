@@ -2371,10 +2371,9 @@ public class DefaultCodegenTest {
         );
         // for the array schema, assert that a oneOf interface was added to schema map
         Schema items = ((ArraySchema) openAPI.getComponents().getSchemas().get("CustomOneOfArraySchema")).getItems();
-
-        // TODO revise below
-        //Assert.assertEquals(items.getExtensions(), "CustomOneOfArraySchemaOneOf");
-        //Assert.assertEquals(items.getExtensions().get("x-one-of-name"), "CustomOneOfArraySchemaOneOf");
+        Assert.assertEquals(items.get$ref(), "#/components/schemas/CustomOneOfArraySchema_inner");
+        Schema innerItem = openAPI.getComponents().getSchemas().get("CustomOneOfArraySchema_inner");
+        Assert.assertEquals(innerItem.getExtensions().get("x-one-of-name"), "CustomOneOfArraySchemaInner");
     }
 
     @Test
