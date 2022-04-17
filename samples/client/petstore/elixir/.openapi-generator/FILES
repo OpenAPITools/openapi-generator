@@ -57,6 +57,7 @@ lib/openapi_petstore/model/return.ex
 lib/openapi_petstore/model/tag.ex
 lib/openapi_petstore/model/user.ex
 lib/openapi_petstore/model/user_type.ex
+lib/openapi_petstore/model/user_user_type.ex
 lib/openapi_petstore/request_builder.ex
 mix.exs
 test/test_helper.exs

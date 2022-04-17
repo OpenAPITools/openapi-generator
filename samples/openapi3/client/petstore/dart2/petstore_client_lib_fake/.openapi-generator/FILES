@@ -56,6 +56,7 @@ doc/Tag.md
 doc/User.md
 doc/UserApi.md
 doc/UserType.md
+doc/UserUserType.md
 git_push.sh
 lib/api.dart
 lib/api/another_fake_api.dart
@@ -120,4 +121,6 @@ lib/model/special_model_name.dart
 lib/model/tag.dart
 lib/model/user.dart
 lib/model/user_type.dart
+lib/model/user_user_type.dart
 pubspec.yaml
+test/user_user_type_test.dart

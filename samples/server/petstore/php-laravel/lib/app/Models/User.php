@@ -33,7 +33,7 @@ class User {
     /** @var int $userStatus User Status*/
     private $userStatus;
 
-    /** @var UserType $userType */
+    /** @var \app\Models\UserUserType $userType */
     private $userType;
 
 }

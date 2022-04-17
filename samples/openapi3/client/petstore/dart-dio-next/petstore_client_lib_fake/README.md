@@ -156,6 +156,7 @@ Class | Method | HTTP request | Description
  - [Tag](doc/Tag.md)
  - [User](doc/User.md)
  - [UserType](doc/UserType.md)
+ - [UserUserType](doc/UserUserType.md)
 
 
 ## Documentation For Authorization

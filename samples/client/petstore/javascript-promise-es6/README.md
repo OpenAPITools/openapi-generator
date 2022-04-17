@@ -210,6 +210,7 @@ Class | Method | HTTP request | Description
  - [OpenApiPetstore.Tag](docs/Tag.md)
  - [OpenApiPetstore.User](docs/User.md)
  - [OpenApiPetstore.UserType](docs/UserType.md)
+ - [OpenApiPetstore.UserUserType](docs/UserUserType.md)
 
 
 ## Documentation for Authorization

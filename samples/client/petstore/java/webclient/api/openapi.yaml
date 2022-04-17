@@ -1491,7 +1491,7 @@ components:
         userStatus: 6
         phone: phone
         id: 0
-        userType: ""
+        userType: null
         email: email
         username: username
       properties:
@@ -1516,8 +1516,7 @@ components:
           format: int32
           type: integer
         userType:
-          allOf:
-          - $ref: '#/components/schemas/UserType'
+          $ref: '#/components/schemas/User_userType'
       type: object
       xml:
         name: User
@@ -2267,6 +2266,9 @@ components:
       required:
       - requiredFile
       type: object
+    User_userType:
+      allOf:
+      - $ref: '#/components/schemas/UserType'
     Dog_allOf:
       properties:
         breed:

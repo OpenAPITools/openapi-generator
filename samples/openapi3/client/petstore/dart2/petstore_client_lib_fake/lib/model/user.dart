@@ -89,7 +89,13 @@ class User {
   ///
   int? userStatus;
 
-  UserType? userType;
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  UserUserType? userType;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is User &&
@@ -178,7 +184,7 @@ class User {
         password: mapValueOfType<String>(json, r'password'),
         phone: mapValueOfType<String>(json, r'phone'),
         userStatus: mapValueOfType<int>(json, r'userStatus'),
-        userType: UserType.fromJson(json[r'userType']),
+        userType: UserUserType.fromJson(json[r'userType']),
       );
     }
     return null;

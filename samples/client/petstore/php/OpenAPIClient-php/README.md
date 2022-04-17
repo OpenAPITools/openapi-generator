@@ -163,6 +163,7 @@ Class | Method | HTTP request | Description
 - [Tag](docs/Model/Tag.md)
 - [User](docs/Model/User.md)
 - [UserType](docs/Model/UserType.md)
+- [UserUserType](docs/Model/UserUserType.md)
 
 ## Authorization
 

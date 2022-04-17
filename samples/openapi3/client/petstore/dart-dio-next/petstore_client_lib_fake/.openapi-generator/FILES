@@ -55,6 +55,7 @@ doc/Tag.md
 doc/User.md
 doc/UserApi.md
 doc/UserType.md
+doc/UserUserType.md
 lib/openapi.dart
 lib/src/api.dart
 lib/src/api/another_fake_api.dart
@@ -119,5 +120,7 @@ lib/src/model/special_model_name.dart
 lib/src/model/tag.dart
 lib/src/model/user.dart
 lib/src/model/user_type.dart
+lib/src/model/user_user_type.dart
 lib/src/serializers.dart
 pubspec.yaml
+test/user_user_type_test.dart

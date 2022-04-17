@@ -31,11 +31,6 @@ namespace Org.OpenAPITools.Model
     public partial class User :  IEquatable<User>, IValidatableObject
     {
         /// <summary>
-        /// Gets or Sets UserType
-        /// </summary>
-        [DataMember(Name="userType", EmitDefaultValue=true)]
-        public UserType? UserType { get; set; }
-        /// <summary>
         /// Initializes a new instance of the <see cref="User" /> class.
         /// </summary>
         /// <param name="id">id.</param>
@@ -47,9 +42,8 @@ namespace Org.OpenAPITools.Model
         /// <param name="phone">phone.</param>
         /// <param name="userStatus">User Status.</param>
         /// <param name="userType">userType.</param>
-        public User(long id = default(long), string username = default(string), string firstName = default(string), string lastName = default(string), string email = default(string), string password = default(string), string phone = default(string), int userStatus = default(int), UserType? userType = default(UserType?))
+        public User(long id = default(long), string username = default(string), string firstName = default(string), string lastName = default(string), string email = default(string), string password = default(string), string phone = default(string), int userStatus = default(int), UserUserType userType = default(UserUserType))
         {
-            this.UserType = userType;
             this.Id = id;
             this.Username = username;
             this.FirstName = firstName;
@@ -110,6 +104,11 @@ namespace Org.OpenAPITools.Model
         [DataMember(Name="userStatus", EmitDefaultValue=false)]
         public int UserStatus { get; set; }
 
+        /// <summary>
+        /// Gets or Sets UserType
+        /// </summary>
+        [DataMember(Name="userType", EmitDefaultValue=false)]
+        public UserUserType UserType { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object

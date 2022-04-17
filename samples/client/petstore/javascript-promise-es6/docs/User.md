@@ -12,6 +12,6 @@ Name | Type | Description | Notes
 **password** | **String** |  | [optional] 
 **phone** | **String** |  | [optional] 
 **userStatus** | **Number** | User Status | [optional] 
-**userType** | [**UserType**](UserType.md) |  | [optional] 
+**userType** | [**UserUserType**](UserUserType.md) |  | [optional] 
 
 

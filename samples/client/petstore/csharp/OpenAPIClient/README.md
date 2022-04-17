@@ -197,6 +197,7 @@ Class | Method | HTTP request | Description
  - [Model.Tag](docs/Tag.md)
  - [Model.User](docs/User.md)
  - [Model.UserType](docs/UserType.md)
+ - [Model.UserUserType](docs/UserUserType.md)
 
 
 ## Documentation for Authorization

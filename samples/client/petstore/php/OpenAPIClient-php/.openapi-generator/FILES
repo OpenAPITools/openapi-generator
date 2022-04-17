@@ -57,6 +57,7 @@ docs/Model/SpecialModelName.md
 docs/Model/Tag.md
 docs/Model/User.md
 docs/Model/UserType.md
+docs/Model/UserUserType.md
 git_push.sh
 lib/Api/AnotherFakeApi.php
 lib/Api/DefaultApi.php
@@ -116,5 +117,7 @@ lib/Model/SpecialModelName.php
 lib/Model/Tag.php
 lib/Model/User.php
 lib/Model/UserType.php
+lib/Model/UserUserType.php
 lib/ObjectSerializer.php
 phpunit.xml.dist
+test/Model/UserUserTypeTest.php

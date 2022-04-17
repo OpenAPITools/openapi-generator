@@ -67,7 +67,7 @@ class User implements ModelInterface, ArrayAccess, \JsonSerializable
         'password' => 'string',
         'phone' => 'string',
         'user_status' => 'int',
-        'user_type' => 'UserType'
+        'user_type' => '\OpenAPI\Client\Model\UserUserType'
     ];
 
     /**
@@ -448,7 +448,7 @@ class User implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Gets user_type
      *
-     * @return UserType|null
+     * @return \OpenAPI\Client\Model\UserUserType|null
      */
     public function getUserType()
     {
@@ -458,7 +458,7 @@ class User implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets user_type
      *
-     * @param UserType|null $user_type user_type
+     * @param \OpenAPI\Client\Model\UserUserType|null $user_type user_type
      *
      * @return self
      */

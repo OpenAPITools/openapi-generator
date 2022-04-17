@@ -59,6 +59,7 @@ docs/Tag.md
 docs/User.md
 docs/UserApi.md
 docs/UserType.md
+docs/UserUserType.md
 git_push.sh
 gradle.properties
 gradle/wrapper/gradle-wrapper.jar
@@ -134,3 +135,5 @@ src/main/java/org/openapitools/client/model/SpecialModelName.java
 src/main/java/org/openapitools/client/model/Tag.java
 src/main/java/org/openapitools/client/model/User.java
 src/main/java/org/openapitools/client/model/UserType.java
+src/main/java/org/openapitools/client/model/UserUserType.java
+src/test/java/org/openapitools/client/model/UserUserTypeTest.java

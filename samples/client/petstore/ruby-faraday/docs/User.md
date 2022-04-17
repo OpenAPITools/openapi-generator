@@ -12,7 +12,7 @@
 | **password** | **String** |  | [optional] |
 | **phone** | **String** |  | [optional] |
 | **user_status** | **Integer** | User Status | [optional] |
-| **user_type** | [**UserType**](UserType.md) |  | [optional] |
+| **user_type** | [**UserUserType**](UserUserType.md) |  | [optional] |
 
 ## Example
 

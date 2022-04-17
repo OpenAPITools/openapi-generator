@@ -18,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.openapitools.model.UserType;
+import org.openapitools.model.UserUserType;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -73,7 +73,7 @@ public class User   {
 
   public static final String JSON_PROPERTY_USER_TYPE = "userType";
   @JsonProperty(JSON_PROPERTY_USER_TYPE)
-  private UserType userType;
+  private UserUserType userType;
 
   public User id(Long id) {
     this.id = id;
@@ -235,7 +235,7 @@ public class User   {
     this.userStatus = userStatus;
   }
 
-  public User userType(UserType userType) {
+  public User userType(UserUserType userType) {
     this.userType = userType;
     return this;
   }
@@ -247,11 +247,11 @@ public class User   {
   @JsonProperty(value = "userType")
   @ApiModelProperty(value = "")
   @Valid 
-  public UserType getUserType() {
+  public UserUserType getUserType() {
     return userType;
   }
 
-  public void setUserType(UserType userType) {
+  public void setUserType(UserUserType userType) {
     this.userType = userType;
   }
 

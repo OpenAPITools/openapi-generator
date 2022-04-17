@@ -69,6 +69,7 @@ lib/app/Models/SpecialModelName.php
 lib/app/Models/Tag.php
 lib/app/Models/User.php
 lib/app/Models/UserType.php
+lib/app/Models/UserUserType.php
 lib/app/Providers/AppServiceProvider.php
 lib/app/Providers/AuthServiceProvider.php
 lib/app/Providers/BroadcastServiceProvider.php

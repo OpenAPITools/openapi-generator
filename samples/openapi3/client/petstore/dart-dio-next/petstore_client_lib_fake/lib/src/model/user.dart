@@ -2,7 +2,7 @@
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
 
-import 'package:openapi/src/model/user_type.dart';
+import 'package:openapi/src/model/user_user_type.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
@@ -47,7 +47,7 @@ abstract class User implements Built<User, UserBuilder> {
     int? get userStatus;
 
     @BuiltValueField(wireName: r'userType')
-    UserType? get userType;
+    UserUserType? get userType;
 
     User._();
 
@@ -123,7 +123,7 @@ class _$UserSerializer implements StructuredSerializer<User> {
             result
                 ..add(r'userType')
                 ..add(serializers.serialize(object.userType,
-                    specifiedType: const FullType.nullable(UserType)));
+                    specifiedType: const FullType(UserUserType)));
         }
         return result;
     }
@@ -182,9 +182,8 @@ class _$UserSerializer implements StructuredSerializer<User> {
                     break;
                 case r'userType':
                     final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType.nullable(UserType)) as UserType?;
-                    if (valueDes == null) continue;
-                    result.userType = valueDes;
+                        specifiedType: const FullType(UserUserType)) as UserUserType;
+                    result.userType.replace(valueDes);
                     break;
             }
         }

@@ -289,6 +289,7 @@ use WWW::OpenAPIClient::Object::SpecialModelName;
 use WWW::OpenAPIClient::Object::Tag;
 use WWW::OpenAPIClient::Object::User;
 use WWW::OpenAPIClient::Object::UserType;
+use WWW::OpenAPIClient::Object::UserUserType;
 
 ````
 
@@ -356,6 +357,7 @@ use WWW::OpenAPIClient::Object::SpecialModelName;
 use WWW::OpenAPIClient::Object::Tag;
 use WWW::OpenAPIClient::Object::User;
 use WWW::OpenAPIClient::Object::UserType;
+use WWW::OpenAPIClient::Object::UserUserType;
 
 # for displaying the API response data
 use Data::Dumper;
@@ -473,6 +475,7 @@ Class | Method | HTTP request | Description
  - [WWW::OpenAPIClient::Object::Tag](docs/Tag.md)
  - [WWW::OpenAPIClient::Object::User](docs/User.md)
  - [WWW::OpenAPIClient::Object::UserType](docs/UserType.md)
+ - [WWW::OpenAPIClient::Object::UserUserType](docs/UserUserType.md)
 
 
 # DOCUMENTATION FOR AUTHORIZATION

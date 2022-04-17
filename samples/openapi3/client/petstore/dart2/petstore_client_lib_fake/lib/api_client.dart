@@ -307,6 +307,8 @@ class ApiClient {
           return User.fromJson(value);
         case 'UserType':
           return UserTypeTypeTransformer().decode(value);
+        case 'UserUserType':
+          return UserUserType.fromJson(value);
         default:
           dynamic match;
           if (value is List && (match = _regList.firstMatch(targetType)?.group(1)) != null) {

@@ -22,11 +22,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.openapitools.client.model.UserType;
-import org.openapitools.jackson.nullable.JsonNullable;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.openapitools.jackson.nullable.JsonNullable;
-import java.util.NoSuchElementException;
+import org.openapitools.client.model.UserUserType;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
@@ -71,7 +67,7 @@ public class User {
   private Integer userStatus;
 
   public static final String JSON_PROPERTY_USER_TYPE = "userType";
-  private JsonNullable<UserType> userType = JsonNullable.<UserType>undefined();
+  private UserUserType userType;
 
   public User() { 
   }
@@ -292,9 +288,9 @@ public class User {
   }
 
 
-  public User userType(UserType userType) {
-    this.userType = JsonNullable.<UserType>of(userType);
+  public User userType(UserUserType userType) {
     
+    this.userType = userType;
     return this;
   }
 
@@ -304,26 +300,18 @@ public class User {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
-  @JsonIgnore
-
-  public UserType getUserType() {
-        return userType.orElse(null);
-  }
-
   @JsonProperty(JSON_PROPERTY_USER_TYPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public JsonNullable<UserType> getUserType_JsonNullable() {
+  public UserUserType getUserType() {
     return userType;
   }
-  
-  @JsonProperty(JSON_PROPERTY_USER_TYPE)
-  public void setUserType_JsonNullable(JsonNullable<UserType> userType) {
-    this.userType = userType;
-  }
 
-  public void setUserType(UserType userType) {
-    this.userType = JsonNullable.<UserType>of(userType);
+
+  @JsonProperty(JSON_PROPERTY_USER_TYPE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setUserType(UserUserType userType) {
+    this.userType = userType;
   }
 
 
@@ -344,23 +332,12 @@ public class User {
         Objects.equals(this.password, user.password) &&
         Objects.equals(this.phone, user.phone) &&
         Objects.equals(this.userStatus, user.userStatus) &&
-        equalsNullable(this.userType, user.userType);
-  }
-
-  private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
-    return a == b || (a != null && b != null && a.isPresent() && b.isPresent() && Objects.deepEquals(a.get(), b.get()));
+        Objects.equals(this.userType, user.userType);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, username, firstName, lastName, email, password, phone, userStatus, hashCodeNullable(userType));
-  }
-
-  private static <T> int hashCodeNullable(JsonNullable<T> a) {
-    if (a == null) {
-      return 1;
-    }
-    return a.isPresent() ? Arrays.deepHashCode(new Object[]{a.get()}) : 31;
+    return Objects.hash(id, username, firstName, lastName, email, password, phone, userStatus, userType);
   }
 
   @Override

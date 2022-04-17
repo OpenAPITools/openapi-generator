@@ -65,14 +65,13 @@ module Petstore
         :'password' => :'String',
         :'phone' => :'String',
         :'user_status' => :'Integer',
-        :'user_type' => :'UserType'
+        :'user_type' => :'UserUserType'
       }
     end
 
     # List of attributes with nullable: true
     def self.openapi_nullable
       Set.new([
-        :'user_type'
       ])
     end
 

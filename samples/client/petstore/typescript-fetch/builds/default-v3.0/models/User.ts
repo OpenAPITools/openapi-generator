@@ -14,11 +14,11 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    UserType,
-    UserTypeFromJSON,
-    UserTypeFromJSONTyped,
-    UserTypeToJSON,
-} from './UserType';
+    UserUserType,
+    UserUserTypeFromJSON,
+    UserUserTypeFromJSONTyped,
+    UserUserTypeToJSON,
+} from './UserUserType';
 
 /**
  * 
@@ -76,10 +76,10 @@ export interface User {
     userStatus?: number;
     /**
      * 
-     * @type {UserType}
+     * @type {UserUserType}
      * @memberof User
      */
-    userType?: UserType | null;
+    userType?: UserUserType;
 }
 
 export function UserFromJSON(json: any): User {
@@ -100,7 +100,7 @@ export function UserFromJSONTyped(json: any, ignoreDiscriminator: boolean): User
         'password': !exists(json, 'password') ? undefined : json['password'],
         'phone': !exists(json, 'phone') ? undefined : json['phone'],
         'userStatus': !exists(json, 'userStatus') ? undefined : json['userStatus'],
-        'userType': !exists(json, 'userType') ? undefined : UserTypeFromJSON(json['userType']),
+        'userType': !exists(json, 'userType') ? undefined : UserUserTypeFromJSON(json['userType']),
     };
 }
 
@@ -121,7 +121,7 @@ export function UserToJSON(value?: User | null): any {
         'password': value.password,
         'phone': value.phone,
         'userStatus': value.userStatus,
-        'userType': UserTypeToJSON(value.userType),
+        'userType': UserUserTypeToJSON(value.userType),
     };
 }
 

@@ -82,4 +82,5 @@ from petstore_api.models.special_model_name import SpecialModelName
 from petstore_api.models.tag import Tag
 from petstore_api.models.user import User
 from petstore_api.models.user_type import UserType
+from petstore_api.models.user_user_type import UserUserType
 

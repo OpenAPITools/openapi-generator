@@ -167,6 +167,7 @@ Class | Method | HTTP request | Description
  - [Petstore::Tag](docs/Tag.md)
  - [Petstore::User](docs/User.md)
  - [Petstore::UserType](docs/UserType.md)
+ - [Petstore::UserUserType](docs/UserUserType.md)
 
 
 ## Documentation for Authorization

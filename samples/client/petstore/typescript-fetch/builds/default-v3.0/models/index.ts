@@ -47,3 +47,4 @@ export * from './SpecialModelName';
 export * from './Tag';
 export * from './User';
 export * from './UserType';
+export * from './UserUserType';

@@ -164,8 +164,8 @@ class FormatTest(
     binary = BinarySchema
     date = DateSchema
     dateTime = DateTimeSchema
-    uuid = UUIDSchema
-    uuidNoExample = UUIDSchema
+    uuid = StrSchema
+    uuidNoExample = StrSchema
     
     
     class password(

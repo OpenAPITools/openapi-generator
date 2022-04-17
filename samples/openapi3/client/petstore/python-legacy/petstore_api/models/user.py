@@ -44,7 +44,7 @@ class User(object):
         'password': 'str',
         'phone': 'str',
         'user_status': 'int',
-        'user_type': 'UserType'
+        'user_type': 'UserUserType'
     }
 
     attribute_map = {
@@ -92,7 +92,8 @@ class User(object):
             self.phone = phone
         if user_status is not None:
             self.user_status = user_status
-        self.user_type = user_type
+        if user_type is not None:
+            self.user_type = user_type
 
     @property
     def id(self):
@@ -270,7 +271,7 @@ class User(object):
 
 
         :return: The user_type of this User.  # noqa: E501
-        :rtype: UserType
+        :rtype: UserUserType
         """
         return self._user_type
 
@@ -280,7 +281,7 @@ class User(object):
 
 
         :param user_type: The user_type of this User.  # noqa: E501
-        :type user_type: UserType
+        :type user_type: UserUserType
         """
 
         self._user_type = user_type
