@@ -51,6 +51,7 @@ with petstore_api.ApiClient(configuration) as api_client:
         object_with_no_declared_props=dict(),
         object_with_no_declared_props_nullable=dict(),
         any_type_prop=None,
+        any_type_except_null_prop=None,
         any_type_prop_nullable=None,
     )
     try:
@@ -139,6 +140,7 @@ with petstore_api.ApiClient(configuration) as api_client:
             object_with_no_declared_props=dict(),
             object_with_no_declared_props_nullable=dict(),
             any_type_prop=None,
+            any_type_except_null_prop=None,
             any_type_prop_nullable=None,
         )
     ]
@@ -228,6 +230,7 @@ with petstore_api.ApiClient(configuration) as api_client:
             object_with_no_declared_props=dict(),
             object_with_no_declared_props_nullable=dict(),
             any_type_prop=None,
+            any_type_except_null_prop=None,
             any_type_prop_nullable=None,
         )
     ]
@@ -708,6 +711,7 @@ with petstore_api.ApiClient(configuration) as api_client:
         object_with_no_declared_props=dict(),
         object_with_no_declared_props_nullable=dict(),
         any_type_prop=None,
+        any_type_except_null_prop=None,
         any_type_prop_nullable=None,
     )
     try:

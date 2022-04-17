@@ -105,6 +105,8 @@ class Triangle(
             ],
             'anyOf': [
             ],
+            'not':
+                None
         }
 
     def __new__(

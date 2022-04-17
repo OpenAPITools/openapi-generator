@@ -7371,14 +7371,28 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     private CodegenComposedSchemas getComposedSchemas(Schema schema) {
-        if (!(schema instanceof ComposedSchema)) {
+        if (!(schema instanceof ComposedSchema) && schema.getNot()==null) {
             return null;
         }
-        ComposedSchema cs = (ComposedSchema) schema;
+        Schema notSchema = schema.getNot();
+        CodegenProperty notProperty = null;
+        if (notSchema != null) {
+            notProperty = fromProperty("NotSchema", notSchema);
+        }
+        List<CodegenProperty> allOf = new ArrayList<>();
+        List<CodegenProperty> oneOf = new ArrayList<>();
+        List<CodegenProperty> anyOf = new ArrayList<>();
+        if (schema instanceof ComposedSchema) {
+            ComposedSchema cs = (ComposedSchema) schema;
+            allOf = getComposedProperties(cs.getAllOf(), "allOf");
+            oneOf = getComposedProperties(cs.getOneOf(), "oneOf");
+            anyOf = getComposedProperties(cs.getAnyOf(), "anyOf");
+        }
         return new CodegenComposedSchemas(
-                getComposedProperties(cs.getAllOf(), "allOf"),
-                getComposedProperties(cs.getOneOf(), "oneOf"),
-                getComposedProperties(cs.getAnyOf(), "anyOf")
+                allOf,
+                oneOf,
+                anyOf,
+                notProperty
         );
     }
 

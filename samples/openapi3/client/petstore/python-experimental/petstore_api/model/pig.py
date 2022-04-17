@@ -103,6 +103,8 @@ class Pig(
             ],
             'anyOf': [
             ],
+            'not':
+                None
         }
 
     def __new__(
