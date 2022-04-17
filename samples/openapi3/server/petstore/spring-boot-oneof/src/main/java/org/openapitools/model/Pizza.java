@@ -58,6 +58,31 @@ public class Pizza extends Entity {
     this.pizzaSize = pizzaSize;
   }
 
+  public Pizza href(String href) {
+    super.setHref(href);
+    return this;
+  }
+
+  public Pizza id(String id) {
+    super.setId(id);
+    return this;
+  }
+
+  public Pizza atSchemaLocation(String atSchemaLocation) {
+    super.setAtSchemaLocation(atSchemaLocation);
+    return this;
+  }
+
+  public Pizza atBaseType(String atBaseType) {
+    super.setAtBaseType(atBaseType);
+    return this;
+  }
+
+  public Pizza atType(String atType) {
+    super.setAtType(atType);
+    return this;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {

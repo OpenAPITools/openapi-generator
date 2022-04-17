@@ -73,7 +73,7 @@ class MixedPropertiesAndAdditionalPropertiesClass(
 
     Do not edit the class manually.
     """
-    uuid = StrSchema
+    uuid = UUIDSchema
     dateTime = DateTimeSchema
     
     

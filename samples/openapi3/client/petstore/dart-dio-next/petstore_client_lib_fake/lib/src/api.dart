@@ -4,18 +4,18 @@
 
 import 'package:dio/dio.dart';
 import 'package:built_value/serializer.dart';
-import 'package:openapi//serializers.dart';
-import 'package:openapi//auth/api_key_auth.dart';
-import 'package:openapi//auth/basic_auth.dart';
-import 'package:openapi//auth/bearer_auth.dart';
-import 'package:openapi//auth/oauth.dart';
-import 'package:openapi//lib.src.api/another_fake_api.dart';
-import 'package:openapi//lib.src.api/default_api.dart';
-import 'package:openapi//lib.src.api/fake_api.dart';
-import 'package:openapi//lib.src.api/fake_classname_tags123_api.dart';
-import 'package:openapi//lib.src.api/pet_api.dart';
-import 'package:openapi//lib.src.api/store_api.dart';
-import 'package:openapi//lib.src.api/user_api.dart';
+import 'package:openapi/src/serializers.dart';
+import 'package:openapi/src/auth/api_key_auth.dart';
+import 'package:openapi/src/auth/basic_auth.dart';
+import 'package:openapi/src/auth/bearer_auth.dart';
+import 'package:openapi/src/auth/oauth.dart';
+import 'package:openapi/src/api/another_fake_api.dart';
+import 'package:openapi/src/api/default_api.dart';
+import 'package:openapi/src/api/fake_api.dart';
+import 'package:openapi/src/api/fake_classname_tags123_api.dart';
+import 'package:openapi/src/api/pet_api.dart';
+import 'package:openapi/src/api/store_api.dart';
+import 'package:openapi/src/api/user_api.dart';
 
 class Openapi {
   static const String basePath = r'http://petstore.swagger.io:80/v2';

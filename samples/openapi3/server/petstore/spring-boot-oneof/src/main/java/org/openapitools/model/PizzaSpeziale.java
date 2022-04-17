@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.openapitools.model.Pizza;
+import java.math.BigDecimal;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -46,6 +47,36 @@ public class PizzaSpeziale extends Pizza {
 
   public void setToppings(String toppings) {
     this.toppings = toppings;
+  }
+
+  public PizzaSpeziale pizzaSize(BigDecimal pizzaSize) {
+    super.setPizzaSize(pizzaSize);
+    return this;
+  }
+
+  public PizzaSpeziale href(String href) {
+    super.setHref(href);
+    return this;
+  }
+
+  public PizzaSpeziale id(String id) {
+    super.setId(id);
+    return this;
+  }
+
+  public PizzaSpeziale atSchemaLocation(String atSchemaLocation) {
+    super.setAtSchemaLocation(atSchemaLocation);
+    return this;
+  }
+
+  public PizzaSpeziale atBaseType(String atBaseType) {
+    super.setAtBaseType(atBaseType);
+    return this;
+  }
+
+  public PizzaSpeziale atType(String atType) {
+    super.setAtType(atType);
+    return this;
   }
 
   @Override

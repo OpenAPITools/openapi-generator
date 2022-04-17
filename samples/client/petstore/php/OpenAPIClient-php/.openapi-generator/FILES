@@ -120,4 +120,3 @@ lib/Model/UserType.php
 lib/Model/UserUserType.php
 lib/ObjectSerializer.php
 phpunit.xml.dist
-test/Model/UserUserTypeTest.php

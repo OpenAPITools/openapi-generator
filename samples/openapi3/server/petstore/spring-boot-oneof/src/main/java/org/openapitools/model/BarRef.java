@@ -26,92 +26,39 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class BarRef extends EntityRef implements BarRefOrValue {
 
-  @JsonProperty("href")
-  private String href;
-
-  @JsonProperty("@schemaLocation")
-  private String atSchemaLocation;
-
-  @JsonProperty("@baseType")
-  private String atBaseType;
-
-  @JsonProperty("@type")
-  private String atType;
-
-  public BarRef href(String href) {
-    this.href = href;
+  public BarRef name(String name) {
+    super.setName(name);
     return this;
   }
 
-  /**
-   * Hyperlink reference
-   * @return href
-  */
-  
-  @Schema(name = "href", description = "Hyperlink reference", required = false)
-  public String getHref() {
-    return href;
+  public BarRef atReferredType(String atReferredType) {
+    super.setAtReferredType(atReferredType);
+    return this;
   }
 
-  public void setHref(String href) {
-    this.href = href;
+  public BarRef href(String href) {
+    super.setHref(href);
+    return this;
+  }
+
+  public BarRef id(String id) {
+    super.setId(id);
+    return this;
   }
 
   public BarRef atSchemaLocation(String atSchemaLocation) {
-    this.atSchemaLocation = atSchemaLocation;
+    super.setAtSchemaLocation(atSchemaLocation);
     return this;
-  }
-
-  /**
-   * A URI to a JSON-Schema file that defines additional attributes and relationships
-   * @return atSchemaLocation
-  */
-  
-  @Schema(name = "@schemaLocation", description = "A URI to a JSON-Schema file that defines additional attributes and relationships", required = false)
-  public String getAtSchemaLocation() {
-    return atSchemaLocation;
-  }
-
-  public void setAtSchemaLocation(String atSchemaLocation) {
-    this.atSchemaLocation = atSchemaLocation;
   }
 
   public BarRef atBaseType(String atBaseType) {
-    this.atBaseType = atBaseType;
+    super.setAtBaseType(atBaseType);
     return this;
-  }
-
-  /**
-   * When sub-classing, this defines the super-class
-   * @return atBaseType
-  */
-  
-  @Schema(name = "@baseType", description = "When sub-classing, this defines the super-class", required = false)
-  public String getAtBaseType() {
-    return atBaseType;
-  }
-
-  public void setAtBaseType(String atBaseType) {
-    this.atBaseType = atBaseType;
   }
 
   public BarRef atType(String atType) {
-    this.atType = atType;
+    super.setAtType(atType);
     return this;
-  }
-
-  /**
-   * When sub-classing, this defines the sub-class Extensible name
-   * @return atType
-  */
-  @NotNull 
-  @Schema(name = "@type", description = "When sub-classing, this defines the sub-class Extensible name", required = true)
-  public String getAtType() {
-    return atType;
-  }
-
-  public void setAtType(String atType) {
-    this.atType = atType;
   }
 
   @Override
@@ -127,7 +74,7 @@ public class BarRef extends EntityRef implements BarRefOrValue {
 
   @Override
   public int hashCode() {
-    return Objects.hash(href, atSchemaLocation, atBaseType, atTypesuper.hashCode());
+    return Objects.hash(super.hashCode());
   }
 
   @Override
@@ -135,10 +82,6 @@ public class BarRef extends EntityRef implements BarRefOrValue {
     StringBuilder sb = new StringBuilder();
     sb.append("class BarRef {\n");
     sb.append("    ").append(toIndentedString(super.toString())).append("\n");
-    sb.append("    href: ").append(toIndentedString(href)).append("\n");
-    sb.append("    atSchemaLocation: ").append(toIndentedString(atSchemaLocation)).append("\n");
-    sb.append("    atBaseType: ").append(toIndentedString(atBaseType)).append("\n");
-    sb.append("    atType: ").append(toIndentedString(atType)).append("\n");
     sb.append("}");
     return sb.toString();
   }

@@ -123,4 +123,3 @@ lib/model/user.dart
 lib/model/user_type.dart
 lib/model/user_user_type.dart
 pubspec.yaml
-test/user_user_type_test.dart

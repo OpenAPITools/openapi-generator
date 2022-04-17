@@ -117,4 +117,3 @@ src/model/Tag.js
 src/model/User.js
 src/model/UserType.js
 src/model/UserUserType.js
-test/model/UserUserType.spec.js

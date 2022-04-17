@@ -5,7 +5,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:openapi//auth/auth.dart';
+import 'package:openapi/src/auth/auth.dart';
 
 class BasicAuthInfo {
   final String username;

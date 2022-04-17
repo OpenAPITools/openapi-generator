@@ -125,5 +125,4 @@ setup.cfg
 setup.py
 test-requirements.txt
 test/__init__.py
-test/test_user_user_type.py
 tox.ini

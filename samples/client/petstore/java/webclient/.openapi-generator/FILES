@@ -136,4 +136,3 @@ src/main/java/org/openapitools/client/model/Tag.java
 src/main/java/org/openapitools/client/model/User.java
 src/main/java/org/openapitools/client/model/UserType.java
 src/main/java/org/openapitools/client/model/UserUserType.java
-src/test/java/org/openapitools/client/model/UserUserTypeTest.java
