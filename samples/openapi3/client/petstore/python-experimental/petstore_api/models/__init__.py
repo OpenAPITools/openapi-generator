@@ -26,6 +26,9 @@ from petstore_api.model.array_of_enums import ArrayOfEnums
 from petstore_api.model.array_of_number_only import ArrayOfNumberOnly
 from petstore_api.model.array_test import ArrayTest
 from petstore_api.model.array_with_validations_in_items import ArrayWithValidationsInItems
+from petstore_api.model.authenticate_credentials import AuthenticateCredentials
+from petstore_api.model.authenticate_error import AuthenticateError
+from petstore_api.model.authenticate_success import AuthenticateSuccess
 from petstore_api.model.banana import Banana
 from petstore_api.model.banana_req import BananaReq
 from petstore_api.model.bar import Bar

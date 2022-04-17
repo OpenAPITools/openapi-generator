@@ -18,6 +18,9 @@ docs/ArrayOfEnums.md
 docs/ArrayOfNumberOnly.md
 docs/ArrayTest.md
 docs/ArrayWithValidationsInItems.md
+docs/AuthenticateCredentials.md
+docs/AuthenticateError.md
+docs/AuthenticateSuccess.md
 docs/Banana.md
 docs/BananaReq.md
 docs/Bar.md
@@ -161,6 +164,9 @@ petstore_api/model/array_of_enums.py
 petstore_api/model/array_of_number_only.py
 petstore_api/model/array_test.py
 petstore_api/model/array_with_validations_in_items.py
+petstore_api/model/authenticate_credentials.py
+petstore_api/model/authenticate_error.py
+petstore_api/model/authenticate_success.py
 petstore_api/model/banana.py
 petstore_api/model/banana_req.py
 petstore_api/model/bar.py
@@ -277,4 +283,7 @@ setup.cfg
 setup.py
 test-requirements.txt
 test/__init__.py
+test/test_authenticate_credentials.py
+test/test_authenticate_error.py
+test/test_authenticate_success.py
 tox.ini
