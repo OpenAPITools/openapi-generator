@@ -87,7 +87,6 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**additional_properties_with_array_of_enums**](docs/FakeApi.md#additional_properties_with_array_of_enums) | **GET** /fake/additional-properties-with-array-of-enums | Additional Properties with Array of Enums
 *FakeApi* | [**array_model**](docs/FakeApi.md#array_model) | **POST** /fake/refs/arraymodel | 
 *FakeApi* | [**array_of_enums**](docs/FakeApi.md#array_of_enums) | **POST** /fake/refs/array-of-enums | Array of Enums
-*FakeApi* | [**authenticate_user**](docs/FakeApi.md#authenticate_user) | **POST** /fake/authenticate | 
 *FakeApi* | [**body_with_file_schema**](docs/FakeApi.md#body_with_file_schema) | **PUT** /fake/body-with-file-schema | 
 *FakeApi* | [**body_with_query_params**](docs/FakeApi.md#body_with_query_params) | **PUT** /fake/body-with-query-params | 
 *FakeApi* | [**boolean**](docs/FakeApi.md#boolean) | **POST** /fake/refs/boolean | 
@@ -155,9 +154,6 @@ Class | Method | HTTP request | Description
  - [ArrayOfNumberOnly](docs/ArrayOfNumberOnly.md)
  - [ArrayTest](docs/ArrayTest.md)
  - [ArrayWithValidationsInItems](docs/ArrayWithValidationsInItems.md)
- - [AuthenticateCredentials](docs/AuthenticateCredentials.md)
- - [AuthenticateError](docs/AuthenticateError.md)
- - [AuthenticateSuccess](docs/AuthenticateSuccess.md)
  - [Banana](docs/Banana.md)
  - [BananaReq](docs/BananaReq.md)
  - [Bar](docs/Bar.md)
