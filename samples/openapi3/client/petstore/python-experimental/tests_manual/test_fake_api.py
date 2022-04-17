@@ -738,34 +738,6 @@ class TestFakeApi(unittest.TestCase):
             with self.assertRaises(exceptions.ApiValueError):
                 self.api.response_without_schema()
 
-    def test_authenticate_user(self):
-        from petstore_api.model.authenticate_credentials import AuthenticateCredentials
-        from petstore_api.model.authenticate_success import AuthenticateSuccess
-        with patch.object(RESTClientObject, 'request') as mock_request:
-            body_json = dict(
-                email='me@me.com',
-                password='bogus'
-            )
-            body = AuthenticateCredentials(
-                **body_json
-            )
-            mock_request.return_value = self.__response(
-                self.__json_bytes({"success": True}),
-            )
-
-            api_response = self.api.authenticate_user(body)
-            self.__assert_request_called_with(
-                mock_request,
-                'http://petstore.swagger.io:80/v2/fake/authenticate',
-                body=self.__json_bytes(body_json)
-            )
-
-            assert isinstance(api_response.body, AuthenticateSuccess)
-            print(api_response)
-            print(api_response.body)
-            print(api_response.body.success)
-            assert False is True
-
 
 if __name__ == '__main__':
     unittest.main()
