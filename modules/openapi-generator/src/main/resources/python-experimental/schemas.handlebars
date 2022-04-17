@@ -492,7 +492,7 @@ class Singleton:
             if (self.__class__, True) in self._instances:
                 return f'<{self.__class__.__name__}: True>'
             return f'<{self.__class__.__name__}: False>'
-        return f'<{self.__class__.__name__}: {self}>'
+        return f'<{self.__class__.__name__}: {super().__repr__()}>'
 
 
 class NoneClass(Singleton):

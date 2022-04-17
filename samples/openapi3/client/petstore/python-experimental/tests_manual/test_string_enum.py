@@ -38,7 +38,7 @@ class TestStringEnum(unittest.TestCase):
         assert isinstance(inst, Singleton)
         assert isinstance(inst, str)
         assert inst == 'approved'
-        assert repr(inst) == '<DynamicStringEnum: approved>'
+        assert repr(inst) == "<DynamicStringEnum: 'approved'>"
 
         with self.assertRaises(petstore_api.ApiValueError):
             StringEnum('garbage')
