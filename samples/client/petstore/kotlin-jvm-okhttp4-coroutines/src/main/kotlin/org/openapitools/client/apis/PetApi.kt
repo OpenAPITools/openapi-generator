@@ -36,6 +36,7 @@ import org.openapitools.client.infrastructure.ClientError
 import org.openapitools.client.infrastructure.ServerException
 import org.openapitools.client.infrastructure.ServerError
 import org.openapitools.client.infrastructure.MultiValueMap
+import org.openapitools.client.infrastructure.PartConfig
 import org.openapitools.client.infrastructure.RequestConfig
 import org.openapitools.client.infrastructure.RequestMethod
 import org.openapitools.client.infrastructure.ResponseType
@@ -534,7 +535,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     suspend fun updatePetWithFormWithHttpInfo(petId: kotlin.Long, name: kotlin.String?, status: kotlin.String?) : ApiResponse<Unit?> = withContext(Dispatchers.IO) {
         val localVariableConfig = updatePetWithFormRequestConfig(petId = petId, name = name, status = status)
 
-        return@withContext request<Map<String, Any?>, Unit>(
+        return@withContext request<Map<String, PartConfig<*>>, Unit>(
             localVariableConfig
         )
     }
@@ -547,8 +548,10 @@ class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     * @param status Updated status of the pet (optional)
     * @return RequestConfig
     */
-    fun updatePetWithFormRequestConfig(petId: kotlin.Long, name: kotlin.String?, status: kotlin.String?) : RequestConfig<Map<String, Any?>> {
-        val localVariableBody = mapOf("name" to name, "status" to status)
+    fun updatePetWithFormRequestConfig(petId: kotlin.Long, name: kotlin.String?, status: kotlin.String?) : RequestConfig<Map<String, PartConfig<*>>> {
+        val localVariableBody = mapOf(
+            "name" to PartConfig(body = name, headers = mutableMapOf()),
+            "status" to PartConfig(body = status, headers = mutableMapOf()),)
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf("Content-Type" to "application/x-www-form-urlencoded")
         
@@ -609,7 +612,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     suspend fun uploadFileWithHttpInfo(petId: kotlin.Long, additionalMetadata: kotlin.String?, file: java.io.File?) : ApiResponse<ModelApiResponse?> = withContext(Dispatchers.IO) {
         val localVariableConfig = uploadFileRequestConfig(petId = petId, additionalMetadata = additionalMetadata, file = file)
 
-        return@withContext request<Map<String, Any?>, ModelApiResponse>(
+        return@withContext request<Map<String, PartConfig<*>>, ModelApiResponse>(
             localVariableConfig
         )
     }
@@ -622,8 +625,10 @@ class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     * @param file file to upload (optional)
     * @return RequestConfig
     */
-    fun uploadFileRequestConfig(petId: kotlin.Long, additionalMetadata: kotlin.String?, file: java.io.File?) : RequestConfig<Map<String, Any?>> {
-        val localVariableBody = mapOf("additionalMetadata" to additionalMetadata, "file" to file)
+    fun uploadFileRequestConfig(petId: kotlin.Long, additionalMetadata: kotlin.String?, file: java.io.File?) : RequestConfig<Map<String, PartConfig<*>>> {
+        val localVariableBody = mapOf(
+            "additionalMetadata" to PartConfig(body = additionalMetadata, headers = mutableMapOf()),
+            "file" to PartConfig(body = file, headers = mutableMapOf()),)
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf("Content-Type" to "multipart/form-data")
         localVariableHeaders["Accept"] = "application/json"

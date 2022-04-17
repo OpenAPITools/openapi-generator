@@ -1530,6 +1530,34 @@ paths:
       responses:
         '200':
           description: ok
+  '/fake/jsonWithCharset':
+    post:
+      tags:
+        - fake
+      summary: json with charset tx and rx
+      operationId: jsonWithCharset
+      requestBody:
+        content:
+          application/json; charset=utf-8:
+            schema: {}
+      responses:
+        200:
+          description: success
+          content:
+            application/json; charset=utf-8:
+              schema: {}
+  "/fake/responseWithoutSchema":
+    get:
+      tags:
+        - fake
+      summary: receives a response without schema
+      operationId: responseWithoutSchema
+      responses:
+        '200':
+          description: contents without schema definition
+          content:
+            application/json: {}
+            application/xml: {}
 servers:
   - url: 'http://{server}.swagger.io:{port}/v2'
     description: petstore server
@@ -2780,3 +2808,7 @@ components:
           allOf:
             - type: string
               minLength: 1
+    UUIDString:
+      type: string
+      format: uuid
+      minLength: 1

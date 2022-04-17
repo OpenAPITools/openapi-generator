@@ -98,7 +98,7 @@ void main() {
           (server) => server.reply(200, null),
           data: {
             'enum_form_string': 'formString',
-            'enum_form_string_array': Matchers.listParam<String>(
+            'enum_form_string_array': Matchers.listParam<Object>(
               ListParam(
                 ['foo', 'bar'],
                 ListFormat.csv,
@@ -106,26 +106,84 @@ void main() {
             ),
           },
           queryParameters: <String, dynamic>{
-            'enum_query_string_array': Matchers.listParam<String>(
-              ListParam(
-                ['a', 'b', 'c'],
+            'enum_query_string': '-efg',
+          },
+          headers: <String, dynamic>{
+            'enum_header_string': '-efg',
+            'content-type': 'application/x-www-form-urlencoded',
+          },
+        );
+
+        final response = await client.getFakeApi().testEnumParameters(
+              enumFormString: 'formString',
+              enumFormStringArray: ListBuilder<String>(
+                <String>['foo', 'bar'],
+              ).build(),
+            );
+
+        expect(response.statusCode, 200);
+      });
+
+      test('in query parameters', () async {
+        tester.onGet(
+          '/fake',
+          (server) => server.reply(200, null),
+          queryParameters: <String, dynamic>{
+            'enum_query_string_array': Matchers.listParam<dynamic>(
+              ListParam<dynamic>(
+                <String>['a', 'b', 'c'],
                 ListFormat.multi,
               ),
             ),
+            'enum_query_model_array': Matchers.listParam<dynamic>(
+              ListParam<dynamic>(
+                <String>['_abc', '-efg'],
+                ListFormat.multi,
+              ),
+            ),
+            'enum_query_string': 'foo',
+            'enum_query_double': 1.23,
+            'enum_query_integer': 42,
           },
           headers: <String, dynamic>{
+            'enum_header_string': '-efg',
             'content-type': 'application/x-www-form-urlencoded',
           },
+          data: <String, dynamic>{},
         );
 
         final response = await client.getFakeApi().testEnumParameters(
               enumQueryStringArray: ListBuilder<String>(
                 <String>['a', 'b', 'c'],
               ).build(),
-              enumFormString: 'formString',
-              enumFormStringArray: ListBuilder<String>(
-                <String>['foo', 'bar'],
+              enumQueryModelArray: ListBuilder<ModelEnumClass>(
+                <ModelEnumClass>[ModelEnumClass.abc, ModelEnumClass.efg],
               ).build(),
+              enumQueryString: 'foo',
+              enumQueryDouble: 1.23,
+              enumQueryInteger: 42,
+            );
+
+        expect(response.statusCode, 200);
+      });
+
+      test('in header parameters', () async {
+        tester.onGet(
+          '/fake',
+          (server) => server.reply(200, null),
+          headers: <String, dynamic>{
+            'enum_header_string': 'foo',
+            'enum_header_string_array': '[a, b, c]',
+            'content-type': 'application/x-www-form-urlencoded',
+          },
+          data: <String, dynamic>{},
+        );
+
+        final response = await client.getFakeApi().testEnumParameters(
+              enumHeaderStringArray: ListBuilder<String>(
+                <String>['a', 'b', 'c'],
+              ).build(),
+              enumHeaderString: 'foo',
             );
 
         expect(response.statusCode, 200);

@@ -161,6 +161,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     private boolean hasRequiredVars;
     private boolean hasDiscriminatorWithNonEmptyMapping;
     private boolean isAnyType;
+    private boolean isUuid;
 
     public String getAdditionalPropertiesType() {
         return additionalPropertiesType;
@@ -851,6 +852,10 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         this.isAnyType = isAnyType;
     }
 
+    public boolean getIsUuid() { return isUuid; }
+
+    public void setIsUuid(boolean isUuid) { this.isUuid = isUuid; }
+
     @Override
     public void setComposedSchemas(CodegenComposedSchemas composedSchemas) {
         this.composedSchemas = composedSchemas;
@@ -907,6 +912,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 isDecimal == that.isDecimal &&
                 hasMultipleTypes == that.getHasMultipleTypes() &&
                 hasDiscriminatorWithNonEmptyMapping == that.getHasDiscriminatorWithNonEmptyMapping() &&
+                isUuid == that.getIsUuid() &&
                 getIsAnyType() == that.getIsAnyType() &&
                 getAdditionalPropertiesIsAnyType() == that.getAdditionalPropertiesIsAnyType() &&
                 getUniqueItems() == that.getUniqueItems() &&
@@ -983,23 +989,23 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 getMinItems(), getMaxLength(), getMinLength(), getExclusiveMinimum(), getExclusiveMaximum(), getMinimum(),
                 getMaximum(), getPattern(), getMultipleOf(), getItems(), getAdditionalProperties(), getIsModel(),
                 getAdditionalPropertiesIsAnyType(), hasDiscriminatorWithNonEmptyMapping,
-                isAnyType, getComposedSchemas(), hasMultipleTypes, isDecimal);
+                isAnyType, getComposedSchemas(), hasMultipleTypes, isDecimal, isUuid);
     }
 
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("CodegenModel{");
-        sb.append("parent='").append(parent).append('\'');
+        sb.append("name='").append(name).append('\'');
+        sb.append(", parent='").append(parent).append('\'');
         sb.append(", parentSchema='").append(parentSchema).append('\'');
         sb.append(", interfaces=").append(interfaces);
+        sb.append(", interfaceModels=").append(interfaceModels!=null?interfaceModels.size():"[]");
         sb.append(", allParents=").append(allParents);
         sb.append(", parentModel=").append(parentModel);
-        sb.append(", interfaceModels=").append(interfaceModels);
-        sb.append(", children=").append(children);
+        sb.append(", children=").append(children!=null?children.size():"[]");
         sb.append(", anyOf=").append(anyOf);
         sb.append(", oneOf=").append(oneOf);
         sb.append(", allOf=").append(allOf);
-        sb.append(", name='").append(name).append('\'');
         sb.append(", classname='").append(classname).append('\'');
         sb.append(", title='").append(title).append('\'');
         sb.append(", description='").append(description).append('\'');
@@ -1078,6 +1084,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         sb.append(", composedSchemas=").append(composedSchemas);
         sb.append(", hasMultipleTypes=").append(hasMultipleTypes);
         sb.append(", isDecimal=").append(isDecimal);
+        sb.append(", isUUID=").append(isUuid);
         sb.append('}');
         return sb.toString();
     }

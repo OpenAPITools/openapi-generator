@@ -61,6 +61,7 @@ require 'petstore/models/read_only_first'
 require 'petstore/models/special_model_name'
 require 'petstore/models/tag'
 require 'petstore/models/user'
+require 'petstore/models/user_type'
 require 'petstore/models/cat'
 require 'petstore/models/dog'
 

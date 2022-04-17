@@ -39,7 +39,6 @@ public class TypeScriptFetchClientOptionsProvider implements OptionsProvider {
     private static final String NPM_REPOSITORY = "https://registry.npmjs.org";
     public static final String ALLOW_UNICODE_IDENTIFIERS_VALUE = "false";
     public static final String PREPEND_FORM_OR_BODY_PARAMETERS_VALUE = "true";
-    public static final String TYPESCRIPT_THREE_PLUS = "true";
     public static final String WITHOUT_RUNTIME_CHECKS = "true";
     public static final String SAGAS_AND_RECORDS = "false";
     public static final String ENUM_UNKNOWN_DEFAULT_CASE_VALUE = "false";
@@ -69,7 +68,6 @@ public class TypeScriptFetchClientOptionsProvider implements OptionsProvider {
                 .put(TypeScriptFetchClientCodegen.WITH_INTERFACES, Boolean.FALSE.toString())
                 .put(TypeScriptFetchClientCodegen.USE_SINGLE_REQUEST_PARAMETER, Boolean.FALSE.toString())
                 .put(TypeScriptFetchClientCodegen.PREFIX_PARAMETER_INTERFACES, Boolean.FALSE.toString())
-                .put(TypeScriptFetchClientCodegen.TYPESCRIPT_THREE_PLUS, TYPESCRIPT_THREE_PLUS)
                 .put(TypeScriptFetchClientCodegen.WITHOUT_RUNTIME_CHECKS, WITHOUT_RUNTIME_CHECKS)
                 .put(TypeScriptFetchClientCodegen.SAGAS_AND_RECORDS, SAGAS_AND_RECORDS)
                 .put(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, ALLOW_UNICODE_IDENTIFIERS_VALUE)

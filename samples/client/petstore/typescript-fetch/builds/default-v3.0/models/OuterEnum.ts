@@ -18,10 +18,10 @@
  * @export
  */
 export const OuterEnum = {
-    Placed: 'placed' as 'placed',
-    Approved: 'approved' as 'approved',
-    Delivered: 'delivered' as 'delivered'
-};
+    Placed: 'placed',
+    Approved: 'approved',
+    Delivered: 'delivered'
+} as const;
 export type OuterEnum = typeof OuterEnum[keyof typeof OuterEnum];
 
 

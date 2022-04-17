@@ -162,6 +162,7 @@ Class | Method | HTTP request | Description
 - [SpecialModelName](docs/Model/SpecialModelName.md)
 - [Tag](docs/Model/Tag.md)
 - [User](docs/Model/User.md)
+- [UserType](docs/Model/UserType.md)
 
 ## Authorization
 

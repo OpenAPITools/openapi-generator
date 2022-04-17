@@ -12,7 +12,7 @@ title: Documentation for the python-experimental Generator
 | generator language | Python | |
 | generator language version | >=3.9 | |
 | generator default templating engine | handlebars | |
-| helpTxt | Generates a Python client library<br /><br />Features in this generator:<br />- type hints on endpoints and model creation<br />- model parameter names use the spec defined keys and cases<br />- robust composition (oneOf/anyOf/allOf) where paload data is stored in one instance only<br />- endpoint parameter names use the spec defined keys and cases<br />- inline schemas are supported at any location including composition<br />- multiple content types supported in request body and response bodies<br />- run time type checking<br />- Sending/receiving decimals as strings supported with type:string format: number -> DecimalSchema<br />- quicker load time for python modules (a single endpoint can be imported and used without loading others)<br />- all instances of schemas dynamically inherit from all matching schemas so one can use isinstance to check if validation passed<br />- composed schemas with type constraints supported (type:object + oneOf/anyOf/allOf)<br />- schemas are not coerced/cast. For example string + date are both stored as string, and there is a date accessor<br />    - Exceptions: int/float is stored as Decimal, When receiving data from headers it will start as str and may need to be cast for example to int | |
+| helpTxt | Generates a Python client library<br /><br />Features in this generator:<br />- type hints on endpoints and model creation<br />- model parameter names use the spec defined keys and cases<br />- robust composition (oneOf/anyOf/allOf) where paload data is stored in one instance only<br />- endpoint parameter names use the spec defined keys and cases<br />- inline schemas are supported at any location including composition<br />- multiple content types supported in request body and response bodies<br />- run time type checking<br />- Sending/receiving decimals as strings supported with type:string format: number -> DecimalSchema<br />- Sending/receiving uuids as strings supported with type:string format: uuid -> UUIDSchema<br />- quicker load time for python modules (a single endpoint can be imported and used without loading others)<br />- all instances of schemas dynamically inherit from all matching schemas so one can use isinstance to check if validation passed<br />- composed schemas with type constraints supported (type:object + oneOf/anyOf/allOf)<br />- schemas are not coerced/cast. For example string + date are both stored as string, and there is a date accessor<br />    - Exceptions: int/float is stored as Decimal, When receiving data from headers it will start as str and may need to be cast for example to int | |
 
 ## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
@@ -151,7 +151,11 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |DateTime|✓|OAS2,OAS3
 |Password|✓|OAS2,OAS3
 |File|✓|OAS2
+|Uuid|✓|
 |Array|✓|OAS2,OAS3
+|Null|✓|OAS3
+|AnyType|✓|OAS2,OAS3
+|Object|✓|OAS2,OAS3
 |Maps|✓|ToolingExtension
 |CollectionFormat|✓|OAS2
 |CollectionFormatMulti|✓|OAS2
