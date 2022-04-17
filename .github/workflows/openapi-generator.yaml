@@ -117,11 +117,10 @@ jobs:
             echo -e "rebase or merge into your branch.\n"
             echo "Please run 'bin/utils/ensure-up-to-date' locally and commit changes (UNCOMMITTED CHANGES ERROR)"
             if [[ "$(git symbolic-ref --short HEAD)" == "master" ]]; then
-              git pull origin master
               git config --local user.email "action@github.com"
               git config --local user.name "GitHub Action"
               git add $(git diff --name-only)
-              git commit -m "auto update uncommit docs changes [ci skip]"
+              git commit -m "auto update uncommit docs changes"
               git push origin HEAD
             else
               exit 1
@@ -161,11 +160,10 @@ jobs:
             echo -e "rebase or merge into your branch.\n"
             echo "Please run 'bin/generate-samples.sh' locally and commit changes (UNCOMMITTED CHANGES ERROR)"
             if [[ "$(git symbolic-ref --short HEAD)" == "master" ]]; then
-              git pull origin master
               git config --local user.email "action@github.com"
               git config --local user.name "GitHub Action"
               git add $(git diff --name-only)
-              git commit -m "auto update uncommit sample changes [ci skip]"
+              git commit -m "auto update uncommit sample changes"
               git push origin HEAD
             else
               exit 1
