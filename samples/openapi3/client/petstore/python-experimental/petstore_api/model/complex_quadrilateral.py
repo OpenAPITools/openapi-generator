@@ -93,6 +93,8 @@ class ComplexQuadrilateral(
             ],
             'anyOf': [
             ],
+            'not':
+                None
         }
 
     def __new__(

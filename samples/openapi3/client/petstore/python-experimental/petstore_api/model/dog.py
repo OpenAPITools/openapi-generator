@@ -93,6 +93,8 @@ class Dog(
             ],
             'anyOf': [
             ],
+            'not':
+                None
         }
 
     def __new__(

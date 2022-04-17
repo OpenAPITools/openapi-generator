@@ -103,6 +103,8 @@ class Quadrilateral(
             ],
             'anyOf': [
             ],
+            'not':
+                None
         }
 
     def __new__(

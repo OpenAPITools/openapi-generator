@@ -107,6 +107,8 @@ class ShapeOrNull(
             ],
             'anyOf': [
             ],
+            'not':
+                None
         }
 
     def __new__(

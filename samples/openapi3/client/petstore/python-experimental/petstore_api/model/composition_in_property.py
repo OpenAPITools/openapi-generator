@@ -106,6 +106,8 @@ class CompositionInProperty(
                 ],
                 'anyOf': [
                 ],
+                'not':
+                    None
             }
     
         def __new__(

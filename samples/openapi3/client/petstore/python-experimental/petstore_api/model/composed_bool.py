@@ -94,6 +94,8 @@ class ComposedBool(
             ],
             'anyOf': [
             ],
+            'not':
+                None
         }
 
     def __new__(
