@@ -164,8 +164,6 @@ Class | Method | HTTP request | Description
 ## Documentation for Models
 
  - [OpenApiPetstore.AdditionalPropertiesClass](docs/AdditionalPropertiesClass.md)
- - [OpenApiPetstore.AllOfWithSingleRef](docs/AllOfWithSingleRef.md)
- - [OpenApiPetstore.AllOfWithSingleRefSingleRefType](docs/AllOfWithSingleRefSingleRefType.md)
  - [OpenApiPetstore.Animal](docs/Animal.md)
  - [OpenApiPetstore.ApiResponse](docs/ApiResponse.md)
  - [OpenApiPetstore.ArrayOfArrayOfNumberOnly](docs/ArrayOfArrayOfNumberOnly.md)
@@ -208,7 +206,6 @@ Class | Method | HTTP request | Description
  - [OpenApiPetstore.Pet](docs/Pet.md)
  - [OpenApiPetstore.ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [OpenApiPetstore.Return](docs/Return.md)
- - [OpenApiPetstore.SingleRefType](docs/SingleRefType.md)
  - [OpenApiPetstore.SpecialModelName](docs/SpecialModelName.md)
  - [OpenApiPetstore.Tag](docs/Tag.md)
  - [OpenApiPetstore.User](docs/User.md)

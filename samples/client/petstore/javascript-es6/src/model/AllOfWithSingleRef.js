@@ -12,7 +12,7 @@
  */
 
 import ApiClient from '../ApiClient';
-import AllOfWithSingleRefSingleRefType from './AllOfWithSingleRefSingleRefType';
+import AllOfWithSingleRefSingleRefTypeProp from './AllOfWithSingleRefSingleRefTypeProp';
 
 /**
  * The AllOfWithSingleRef model module.
@@ -51,8 +51,8 @@ class AllOfWithSingleRef {
             if (data.hasOwnProperty('username')) {
                 obj['username'] = ApiClient.convertToType(data['username'], 'String');
             }
-            if (data.hasOwnProperty('SingleRefType')) {
-                obj['SingleRefType'] = AllOfWithSingleRefSingleRefType.constructFromObject(data['SingleRefType']);
+            if (data.hasOwnProperty('SingleRefTypeProp')) {
+                obj['SingleRefTypeProp'] = AllOfWithSingleRefSingleRefTypeProp.constructFromObject(data['SingleRefTypeProp']);
             }
         }
         return obj;
@@ -67,9 +67,9 @@ class AllOfWithSingleRef {
 AllOfWithSingleRef.prototype['username'] = undefined;
 
 /**
- * @member {module:model/AllOfWithSingleRefSingleRefType} SingleRefType
+ * @member {module:model/AllOfWithSingleRefSingleRefTypeProp} SingleRefTypeProp
  */
-AllOfWithSingleRef.prototype['SingleRefType'] = undefined;
+AllOfWithSingleRef.prototype['SingleRefTypeProp'] = undefined;
 
 
 

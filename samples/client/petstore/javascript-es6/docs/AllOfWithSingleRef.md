@@ -5,6 +5,6 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **username** | **String** |  | [optional] 
-**singleRefType** | [**AllOfWithSingleRefSingleRefType**](AllOfWithSingleRefSingleRefType.md) |  | [optional] 
+**singleRefTypeProp** | [**AllOfWithSingleRefSingleRefTypeProp**](AllOfWithSingleRefSingleRefTypeProp.md) |  | [optional] 
 
 

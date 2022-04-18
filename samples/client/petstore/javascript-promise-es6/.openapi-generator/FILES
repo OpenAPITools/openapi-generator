@@ -3,8 +3,6 @@
 .travis.yml
 README.md
 docs/AdditionalPropertiesClass.md
-docs/AllOfWithSingleRef.md
-docs/AllOfWithSingleRefSingleRefType.md
 docs/Animal.md
 docs/AnotherFakeApi.md
 docs/ApiResponse.md
@@ -52,7 +50,6 @@ docs/Pet.md
 docs/PetApi.md
 docs/ReadOnlyFirst.md
 docs/Return.md
-docs/SingleRefType.md
 docs/SpecialModelName.md
 docs/StoreApi.md
 docs/Tag.md
@@ -71,8 +68,6 @@ src/api/StoreApi.js
 src/api/UserApi.js
 src/index.js
 src/model/AdditionalPropertiesClass.js
-src/model/AllOfWithSingleRef.js
-src/model/AllOfWithSingleRefSingleRefType.js
 src/model/Animal.js
 src/model/ApiResponse.js
 src/model/ArrayOfArrayOfNumberOnly.js
@@ -115,7 +110,6 @@ src/model/OuterObjectWithEnumProperty.js
 src/model/Pet.js
 src/model/ReadOnlyFirst.js
 src/model/Return.js
-src/model/SingleRefType.js
 src/model/SpecialModelName.js
 src/model/Tag.js
 src/model/User.js

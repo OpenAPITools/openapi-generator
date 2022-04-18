@@ -1908,17 +1908,3 @@ components:
           deprecated: true
           items:
             $ref: '#/components/schemas/Bar'
-    AllOfWithSingleRef:
-      type: object
-      properties:
-        username:
-          type: string
-        SingleRefTypeProp:
-          allOf:
-            - $ref: '#/components/schemas/SingleRefType'
-    SingleRefType:
-      type: string
-      title: SingleRefType
-      enum:
-        - admin
-        - user

@@ -14,8 +14,6 @@
 
 import ApiClient from './ApiClient';
 import AdditionalPropertiesClass from './model/AdditionalPropertiesClass';
-import AllOfWithSingleRef from './model/AllOfWithSingleRef';
-import AllOfWithSingleRefSingleRefType from './model/AllOfWithSingleRefSingleRefType';
 import Animal from './model/Animal';
 import ApiResponse from './model/ApiResponse';
 import ArrayOfArrayOfNumberOnly from './model/ArrayOfArrayOfNumberOnly';
@@ -58,7 +56,6 @@ import OuterObjectWithEnumProperty from './model/OuterObjectWithEnumProperty';
 import Pet from './model/Pet';
 import ReadOnlyFirst from './model/ReadOnlyFirst';
 import Return from './model/Return';
-import SingleRefType from './model/SingleRefType';
 import SpecialModelName from './model/SpecialModelName';
 import Tag from './model/Tag';
 import User from './model/User';
@@ -114,18 +111,6 @@ export {
      * @property {module:model/AdditionalPropertiesClass}
      */
     AdditionalPropertiesClass,
-
-    /**
-     * The AllOfWithSingleRef model constructor.
-     * @property {module:model/AllOfWithSingleRef}
-     */
-    AllOfWithSingleRef,
-
-    /**
-     * The AllOfWithSingleRefSingleRefType model constructor.
-     * @property {module:model/AllOfWithSingleRefSingleRefType}
-     */
-    AllOfWithSingleRefSingleRefType,
 
     /**
      * The Animal model constructor.
@@ -378,12 +363,6 @@ export {
      * @property {module:model/Return}
      */
     Return,
-
-    /**
-     * The SingleRefType model constructor.
-     * @property {module:model/SingleRefType}
-     */
-    SingleRefType,
 
     /**
      * The SpecialModelName model constructor.
