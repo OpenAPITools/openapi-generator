@@ -1,6 +1,5 @@
 .gitignore
 Org.OpenAPITools.sln
-README.md
 appveyor.yml
 docs/apis/AnotherFakeApi.md
 docs/apis/DefaultApi.md
@@ -193,3 +192,4 @@ src/Org.OpenAPITools/Model/User.cs
 src/Org.OpenAPITools/Model/Whale.cs
 src/Org.OpenAPITools/Model/Zebra.cs
 src/Org.OpenAPITools/Org.OpenAPITools.csproj
+src/Org.OpenAPITools/README.md

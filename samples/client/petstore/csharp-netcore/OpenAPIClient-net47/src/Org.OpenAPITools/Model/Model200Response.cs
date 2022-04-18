@@ -36,11 +36,11 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Model200Response" /> class.
         /// </summary>
         /// <param name="name">name.</param>
-        /// <param name="propertyClass">propertyClass.</param>
-        public Model200Response(int name = default(int), string propertyClass = default(string))
+        /// <param name="_class">_class.</param>
+        public Model200Response(int name = default(int), string _class = default(string))
         {
             this.Name = name;
-            this.PropertyClass = propertyClass;
+            this.Class = _class;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
@@ -51,10 +51,10 @@ namespace Org.OpenAPITools.Model
         public int Name { get; set; }
 
         /// <summary>
-        /// Gets or Sets PropertyClass
+        /// Gets or Sets Class
         /// </summary>
         [DataMember(Name = "class", EmitDefaultValue = false)]
-        public string PropertyClass { get; set; }
+        public string Class { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -71,7 +71,7 @@ namespace Org.OpenAPITools.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class Model200Response {\n");
             sb.Append("  Name: ").Append(Name).Append("\n");
-            sb.Append("  PropertyClass: ").Append(PropertyClass).Append("\n");
+            sb.Append("  Class: ").Append(Class).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -116,9 +116,9 @@ namespace Org.OpenAPITools.Model
             {
                 int hashCode = 41;
                 hashCode = (hashCode * 59) + this.Name.GetHashCode();
-                if (this.PropertyClass != null)
+                if (this.Class != null)
                 {
-                    hashCode = (hashCode * 59) + this.PropertyClass.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Class.GetHashCode();
                 }
                 if (this.AdditionalProperties != null)
                 {

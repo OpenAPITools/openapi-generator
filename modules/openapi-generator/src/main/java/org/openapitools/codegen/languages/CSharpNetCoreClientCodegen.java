@@ -396,18 +396,34 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
 
         // avoid breaking changes
         if (GENERICHOST.equals(getLibrary())) {
-            Comparator<CodegenProperty> comparatorByRequiredAndDefault = propertyComparatorByRequired.thenComparing(propertyComparatorByDefaultValue);
-            Collections.sort(codegenModel.vars, comparatorByRequiredAndDefault);
-            Collections.sort(codegenModel.allVars, comparatorByRequiredAndDefault);
-            Collections.sort(codegenModel.requiredVars, comparatorByRequiredAndDefault);
-            Collections.sort(codegenModel.optionalVars, comparatorByRequiredAndDefault);
-            Collections.sort(codegenModel.readOnlyVars, comparatorByRequiredAndDefault);
-            Collections.sort(codegenModel.readWriteVars, comparatorByRequiredAndDefault);
-            Collections.sort(codegenModel.parentVars, comparatorByRequiredAndDefault);
+
+            Collections.sort(codegenModel.vars, propertyComparatorByName);
+            Collections.sort(codegenModel.allVars, propertyComparatorByName);
+            Collections.sort(codegenModel.requiredVars, propertyComparatorByName);
+            Collections.sort(codegenModel.optionalVars, propertyComparatorByName);
+            Collections.sort(codegenModel.readOnlyVars, propertyComparatorByName);
+            Collections.sort(codegenModel.readWriteVars, propertyComparatorByName);
+            Collections.sort(codegenModel.parentVars, propertyComparatorByName);
+
+            Comparator<CodegenProperty> comparator = propertyComparatorByNullable.thenComparing(propertyComparatorByDefaultValue);
+            Collections.sort(codegenModel.vars, comparator);
+            Collections.sort(codegenModel.allVars, comparator);
+            Collections.sort(codegenModel.requiredVars, comparator);
+            Collections.sort(codegenModel.optionalVars, comparator);
+            Collections.sort(codegenModel.readOnlyVars, comparator);
+            Collections.sort(codegenModel.readWriteVars, comparator);
+            Collections.sort(codegenModel.parentVars, comparator);
         }
 
         return codegenModel;
     }
+
+    public static Comparator<CodegenProperty> propertyComparatorByName = new Comparator<CodegenProperty>() {
+        @Override
+        public int compare(CodegenProperty one, CodegenProperty another) {
+            return one.name.compareTo(another.name);
+        }
+    };
 
     public static Comparator<CodegenProperty> propertyComparatorByDefaultValue = new Comparator<CodegenProperty>() {
         @Override
@@ -421,15 +437,22 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         }
     };
 
-    public static Comparator<CodegenProperty> propertyComparatorByRequired = new Comparator<CodegenProperty>() {
+    public static Comparator<CodegenProperty> propertyComparatorByNullable = new Comparator<CodegenProperty>() {
         @Override
         public int compare(CodegenProperty one, CodegenProperty another) {
-            if (one.required == another.required)
+            if (one.isNullable == another.isNullable)
                 return 0;
-            else if (Boolean.TRUE.equals(one.required))
+            else if (Boolean.FALSE.equals(one.isNullable))
                 return -1;
             else
                 return 1;
+        }
+    };
+
+    public static Comparator<CodegenParameter> parameterComparatorByDataType = new Comparator<CodegenParameter>() {
+        @Override
+        public int compare(CodegenParameter one, CodegenParameter another) {
+            return one.dataType.compareTo(another.dataType);
         }
     };
 
@@ -543,15 +566,6 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         postProcessPattern(property.pattern, property.vendorExtensions);
         postProcessEmitDefaultValue(property.vendorExtensions);
-
-        if (GENERICHOST.equals(getLibrary())) {
-            // all c# libraries should want this, but avoid breaking changes for now
-            // a class cannot contain a property with the same name
-            if (property.name.equals(model.classname)) {
-                property.name = property.name + "Property";
-            }
-        }
-
         super.postProcessModelProperty(model, property);
     }
 
@@ -794,8 +808,6 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             additionalProperties.put("apiDocPath", apiDocPath);
             additionalProperties.put("modelDocPath", modelDocPath);
         }
-
-        addTestInstructions();
     }
 
     @Override
@@ -809,43 +821,30 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             return op;
         }
 
-        Comparator<CodegenParameter> comparatorByRequiredAndDefault = parameterComparatorByRequired.thenComparing(parameterComparatorByDefaultValue);
-        Collections.sort(op.allParams, comparatorByRequiredAndDefault);
-        Collections.sort(op.bodyParams, comparatorByRequiredAndDefault);
-        Collections.sort(op.pathParams, comparatorByRequiredAndDefault);
-        Collections.sort(op.queryParams, comparatorByRequiredAndDefault);
-        Collections.sort(op.headerParams, comparatorByRequiredAndDefault);
-        Collections.sort(op.implicitHeadersParams, comparatorByRequiredAndDefault);
-        Collections.sort(op.formParams, comparatorByRequiredAndDefault);
-        Collections.sort(op.cookieParams, comparatorByRequiredAndDefault);
-        Collections.sort(op.requiredParams, comparatorByRequiredAndDefault);
-        Collections.sort(op.optionalParams, comparatorByRequiredAndDefault);
+        Collections.sort(op.allParams, parameterComparatorByDataType);
+        Collections.sort(op.bodyParams, parameterComparatorByDataType);
+        Collections.sort(op.pathParams, parameterComparatorByDataType);
+        Collections.sort(op.queryParams, parameterComparatorByDataType);
+        Collections.sort(op.headerParams, parameterComparatorByDataType);
+        Collections.sort(op.implicitHeadersParams, parameterComparatorByDataType);
+        Collections.sort(op.formParams, parameterComparatorByDataType);
+        Collections.sort(op.cookieParams, parameterComparatorByDataType);
+        Collections.sort(op.requiredParams, parameterComparatorByDataType);
+        Collections.sort(op.optionalParams, parameterComparatorByDataType);
+
+        Comparator<CodegenParameter> comparator = parameterComparatorByRequired.thenComparing(parameterComparatorByDefaultValue);
+        Collections.sort(op.allParams, comparator);
+        Collections.sort(op.bodyParams, comparator);
+        Collections.sort(op.pathParams, comparator);
+        Collections.sort(op.queryParams, comparator);
+        Collections.sort(op.headerParams, comparator);
+        Collections.sort(op.implicitHeadersParams, comparator);
+        Collections.sort(op.formParams, comparator);
+        Collections.sort(op.cookieParams, comparator);
+        Collections.sort(op.requiredParams, comparator);
+        Collections.sort(op.optionalParams, comparator);
 
         return op;
-    }
-
-    private void addTestInstructions() {
-        if (GENERICHOST.equals(getLibrary())) {
-            additionalProperties.put("testInstructions",
-                    "/* *********************************************************************************" +
-                            "\n*              Follow these manual steps to construct tests." +
-                            "\n*              This file will not be overwritten." +
-                            "\n*  *********************************************************************************" +
-                            "\n* 1. Navigate to ApiTests.Base.cs and ensure any tokens are being created correctly." +
-                            "\n*    Take care not to commit credentials to any repository." +
-                            "\n*" +
-                            "\n* 2. Mocking is coordinated by ApiTestsBase#AddApiHttpClients." +
-                            "\n*    To mock the client, use the generic AddApiHttpClients." +
-                            "\n*    To mock the server, change the client's BaseAddress." +
-                            "\n*" +
-                            "\n* 3. Locate the test you want below" +
-                            "\n*      - remove the skip property from the Fact attribute" +
-                            "\n*      - set the value of any variables if necessary" +
-                            "\n*" +
-                            "\n* 4. Run the tests and ensure they work." +
-                            "\n*" +
-                            "\n*/");
-        }
     }
 
     public void addRestSharpSupportingFiles(final String clientPackageDir, final String packageFolder,
@@ -908,7 +907,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("ApiResponse`1.mustache", clientPackageDir, "ApiResponse`1.cs"));
         supportingFiles.add(new SupportingFile("ClientUtils.mustache", clientPackageDir, "ClientUtils.cs"));
         supportingFiles.add(new SupportingFile("HostConfiguration.mustache", clientPackageDir, "HostConfiguration.cs"));
-        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+        supportingFiles.add(new SupportingFile("README.mustache", packageFolder, "README.md"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "docs" + File.separator + "scripts", "git_push.sh"));
         supportingFiles.add(new SupportingFile("git_push.ps1.mustache", "docs" + File.separator + "scripts", "git_push.ps1"));
         // TODO: supportingFiles.add(new SupportingFile("generate.ps1.mustache", "docs" + File.separator + "scripts", "generate.ps1"));
@@ -1426,15 +1425,42 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
         objs = super.postProcessAllModels(objs);
 
+        ArrayList<CodegenModel> allModels = new ArrayList<CodegenModel>();
+        for (Map.Entry<String, ModelsMap> entry : objs.entrySet()) {
+            CodegenModel model = ModelUtils.getModelByName(entry.getKey(), objs);
+            allModels.add(model);
+
+            // TODO: why do these collections contain different instances?
+            // fixing allVars should suffice instead of patching every collection
+            for (CodegenProperty property : model.allVars){
+                patchProperty(model, property);
+            }
+            for (CodegenProperty property : model.vars){
+                patchProperty(model, property);
+            }
+            for (CodegenProperty property : model.readWriteVars){
+                patchProperty(model, property);
+            }
+            for (CodegenProperty property : model.optionalVars){
+                patchProperty(model, property);
+            }
+            for (CodegenProperty property : model.parentVars){
+                patchProperty(model, property);
+            }
+            for (CodegenProperty property : model.requiredVars){
+                patchProperty(model, property);
+            }
+            for (CodegenProperty property : model.readOnlyVars){
+                patchProperty(model, property);
+            }
+            for (CodegenProperty property : model.nonNullableVars){
+                patchProperty(model, property);
+            }
+        }
+
         // other libraries probably want these fixes, but lets avoid breaking changes for now
         if (Boolean.FALSE.equals(GENERICHOST.equals(getLibrary()))){
             return objs;
-        }
-
-        ArrayList<CodegenModel> allModels = new ArrayList<>();
-        for (String key : objs.keySet()) {
-            CodegenModel model = ModelUtils.getModelByName(key, objs);
-            allModels.add(model);
         }
 
         for (CodegenModel cm : allModels) {
@@ -1457,6 +1483,28 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     }
 
     /**
+     * Hotfix for this issue
+     * https://github.com/OpenAPITools/openapi-generator/issues/12155
+     */
+    private void patchProperty(CodegenModel model, CodegenProperty property){
+         if (property.name.equalsIgnoreCase(model.classname)) {
+             property.name = property.name + "Property";
+         }
+
+        if (property.dataType.equals("List") && property.getComposedSchemas() != null && property.getComposedSchemas().getAllOf() != null){
+            List<CodegenProperty> composedSchemas = property.getComposedSchemas().getAllOf();
+            if (composedSchemas.size() == 0) {
+                return;
+            }
+            CodegenProperty composedProperty = composedSchemas.stream().findFirst().get();
+            property.dataType = composedProperty.dataType;
+            property.datatypeWithEnum = composedProperty.datatypeWithEnum;
+            property.isMap = composedProperty.isMap;
+            property.isContainer = composedProperty.isContainer;
+        }
+    }
+
+    /**
      * Removes properties from a model which are also defined in a composed class.
      *
      * @param className The name which may be a composed model
@@ -1476,6 +1524,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
                 cm.readOnlyVars.removeIf(item -> item.baseName.equals(v.baseName));
                 cm.requiredVars.removeIf(item -> item.baseName.equals(v.baseName));
                 cm.allVars.removeIf(item -> item.baseName.equals(v.baseName));
+                cm.nonNullableVars.removeIf(item -> item.baseName.equals(v.baseName));
             });
     }
 

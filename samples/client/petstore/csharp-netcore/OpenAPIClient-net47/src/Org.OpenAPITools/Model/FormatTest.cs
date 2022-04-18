@@ -47,11 +47,11 @@ namespace Org.OpenAPITools.Model
         /// <param name="int32">int32.</param>
         /// <param name="int64">int64.</param>
         /// <param name="number">number (required).</param>
-        /// <param name="propertyFloat">propertyFloat.</param>
-        /// <param name="propertyDouble">propertyDouble.</param>
-        /// <param name="propertyDecimal">propertyDecimal.</param>
-        /// <param name="propertyString">propertyString.</param>
-        /// <param name="propertyByte">propertyByte (required).</param>
+        /// <param name="_float">_float.</param>
+        /// <param name="_double">_double.</param>
+        /// <param name="_decimal">_decimal.</param>
+        /// <param name="_string">_string.</param>
+        /// <param name="_byte">_byte (required).</param>
         /// <param name="binary">binary.</param>
         /// <param name="date">date (required).</param>
         /// <param name="dateTime">dateTime.</param>
@@ -59,15 +59,15 @@ namespace Org.OpenAPITools.Model
         /// <param name="password">password (required).</param>
         /// <param name="patternWithDigits">A string that is a 10 digit number. Can have leading zeros..</param>
         /// <param name="patternWithDigitsAndDelimiter">A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01..</param>
-        public FormatTest(int integer = default(int), int int32 = default(int), long int64 = default(long), decimal number = default(decimal), float propertyFloat = default(float), double propertyDouble = default(double), decimal propertyDecimal = default(decimal), string propertyString = default(string), byte[] propertyByte = default(byte[]), System.IO.Stream binary = default(System.IO.Stream), DateTime date = default(DateTime), DateTime dateTime = default(DateTime), Guid uuid = default(Guid), string password = default(string), string patternWithDigits = default(string), string patternWithDigitsAndDelimiter = default(string))
+        public FormatTest(int integer = default(int), int int32 = default(int), long int64 = default(long), decimal number = default(decimal), float _float = default(float), double _double = default(double), decimal _decimal = default(decimal), string _string = default(string), byte[] _byte = default(byte[]), System.IO.Stream binary = default(System.IO.Stream), DateTime date = default(DateTime), DateTime dateTime = default(DateTime), Guid uuid = default(Guid), string password = default(string), string patternWithDigits = default(string), string patternWithDigitsAndDelimiter = default(string))
         {
             this.Number = number;
-            // to ensure "propertyByte" is required (not null)
-            if (propertyByte == null)
+            // to ensure "_byte" is required (not null)
+            if (_byte == null)
             {
-                throw new ArgumentNullException("propertyByte is a required property for FormatTest and cannot be null");
+                throw new ArgumentNullException("_byte is a required property for FormatTest and cannot be null");
             }
-            this.PropertyByte = propertyByte;
+            this.Byte = _byte;
             this.Date = date;
             // to ensure "password" is required (not null)
             if (password == null)
@@ -78,10 +78,10 @@ namespace Org.OpenAPITools.Model
             this.Integer = integer;
             this.Int32 = int32;
             this.Int64 = int64;
-            this.PropertyFloat = propertyFloat;
-            this.PropertyDouble = propertyDouble;
-            this.PropertyDecimal = propertyDecimal;
-            this.PropertyString = propertyString;
+            this.Float = _float;
+            this.Double = _double;
+            this.Decimal = _decimal;
+            this.String = _string;
             this.Binary = binary;
             this.DateTime = dateTime;
             this.Uuid = uuid;
@@ -115,34 +115,34 @@ namespace Org.OpenAPITools.Model
         public decimal Number { get; set; }
 
         /// <summary>
-        /// Gets or Sets PropertyFloat
+        /// Gets or Sets Float
         /// </summary>
         [DataMember(Name = "float", EmitDefaultValue = false)]
-        public float PropertyFloat { get; set; }
+        public float Float { get; set; }
 
         /// <summary>
-        /// Gets or Sets PropertyDouble
+        /// Gets or Sets Double
         /// </summary>
         [DataMember(Name = "double", EmitDefaultValue = false)]
-        public double PropertyDouble { get; set; }
+        public double Double { get; set; }
 
         /// <summary>
-        /// Gets or Sets PropertyDecimal
+        /// Gets or Sets Decimal
         /// </summary>
         [DataMember(Name = "decimal", EmitDefaultValue = false)]
-        public decimal PropertyDecimal { get; set; }
+        public decimal Decimal { get; set; }
 
         /// <summary>
-        /// Gets or Sets PropertyString
+        /// Gets or Sets String
         /// </summary>
         [DataMember(Name = "string", EmitDefaultValue = false)]
-        public string PropertyString { get; set; }
+        public string String { get; set; }
 
         /// <summary>
-        /// Gets or Sets PropertyByte
+        /// Gets or Sets Byte
         /// </summary>
         [DataMember(Name = "byte", IsRequired = true, EmitDefaultValue = false)]
-        public byte[] PropertyByte { get; set; }
+        public byte[] Byte { get; set; }
 
         /// <summary>
         /// Gets or Sets Binary
@@ -207,11 +207,11 @@ namespace Org.OpenAPITools.Model
             sb.Append("  Int32: ").Append(Int32).Append("\n");
             sb.Append("  Int64: ").Append(Int64).Append("\n");
             sb.Append("  Number: ").Append(Number).Append("\n");
-            sb.Append("  PropertyFloat: ").Append(PropertyFloat).Append("\n");
-            sb.Append("  PropertyDouble: ").Append(PropertyDouble).Append("\n");
-            sb.Append("  PropertyDecimal: ").Append(PropertyDecimal).Append("\n");
-            sb.Append("  PropertyString: ").Append(PropertyString).Append("\n");
-            sb.Append("  PropertyByte: ").Append(PropertyByte).Append("\n");
+            sb.Append("  Float: ").Append(Float).Append("\n");
+            sb.Append("  Double: ").Append(Double).Append("\n");
+            sb.Append("  Decimal: ").Append(Decimal).Append("\n");
+            sb.Append("  String: ").Append(String).Append("\n");
+            sb.Append("  Byte: ").Append(Byte).Append("\n");
             sb.Append("  Binary: ").Append(Binary).Append("\n");
             sb.Append("  Date: ").Append(Date).Append("\n");
             sb.Append("  DateTime: ").Append(DateTime).Append("\n");
@@ -266,16 +266,16 @@ namespace Org.OpenAPITools.Model
                 hashCode = (hashCode * 59) + this.Int32.GetHashCode();
                 hashCode = (hashCode * 59) + this.Int64.GetHashCode();
                 hashCode = (hashCode * 59) + this.Number.GetHashCode();
-                hashCode = (hashCode * 59) + this.PropertyFloat.GetHashCode();
-                hashCode = (hashCode * 59) + this.PropertyDouble.GetHashCode();
-                hashCode = (hashCode * 59) + this.PropertyDecimal.GetHashCode();
-                if (this.PropertyString != null)
+                hashCode = (hashCode * 59) + this.Float.GetHashCode();
+                hashCode = (hashCode * 59) + this.Double.GetHashCode();
+                hashCode = (hashCode * 59) + this.Decimal.GetHashCode();
+                if (this.String != null)
                 {
-                    hashCode = (hashCode * 59) + this.PropertyString.GetHashCode();
+                    hashCode = (hashCode * 59) + this.String.GetHashCode();
                 }
-                if (this.PropertyByte != null)
+                if (this.Byte != null)
                 {
-                    hashCode = (hashCode * 59) + this.PropertyByte.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Byte.GetHashCode();
                 }
                 if (this.Binary != null)
                 {
@@ -356,35 +356,35 @@ namespace Org.OpenAPITools.Model
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Number, must be a value greater than or equal to 32.1.", new [] { "Number" });
             }
 
-            // PropertyFloat (float) maximum
-            if (this.PropertyFloat > (float)987.6)
+            // Float (float) maximum
+            if (this.Float > (float)987.6)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for PropertyFloat, must be a value less than or equal to 987.6.", new [] { "PropertyFloat" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Float, must be a value less than or equal to 987.6.", new [] { "Float" });
             }
 
-            // PropertyFloat (float) minimum
-            if (this.PropertyFloat < (float)54.3)
+            // Float (float) minimum
+            if (this.Float < (float)54.3)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for PropertyFloat, must be a value greater than or equal to 54.3.", new [] { "PropertyFloat" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Float, must be a value greater than or equal to 54.3.", new [] { "Float" });
             }
 
-            // PropertyDouble (double) maximum
-            if (this.PropertyDouble > (double)123.4)
+            // Double (double) maximum
+            if (this.Double > (double)123.4)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for PropertyDouble, must be a value less than or equal to 123.4.", new [] { "PropertyDouble" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Double, must be a value less than or equal to 123.4.", new [] { "Double" });
             }
 
-            // PropertyDouble (double) minimum
-            if (this.PropertyDouble < (double)67.8)
+            // Double (double) minimum
+            if (this.Double < (double)67.8)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for PropertyDouble, must be a value greater than or equal to 67.8.", new [] { "PropertyDouble" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Double, must be a value greater than or equal to 67.8.", new [] { "Double" });
             }
 
-            // PropertyString (string) pattern
-            Regex regexPropertyString = new Regex(@"[a-z]", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
-            if (false == regexPropertyString.Match(this.PropertyString).Success)
+            // String (string) pattern
+            Regex regexString = new Regex(@"[a-z]", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
+            if (false == regexString.Match(this.String).Success)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for PropertyString, must match a pattern of " + regexPropertyString, new [] { "PropertyString" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for String, must match a pattern of " + regexString, new [] { "String" });
             }
 
             // Password (string) maxLength

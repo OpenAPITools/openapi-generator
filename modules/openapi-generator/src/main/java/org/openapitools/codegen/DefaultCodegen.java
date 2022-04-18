@@ -691,6 +691,10 @@ public class DefaultCodegen implements CodegenConfig {
                 updateCodegenPropertyEnum(var);
             }
 
+            for (CodegenProperty var : cm.nonNullableVars) {
+                updateCodegenPropertyEnum(var);
+            }
+
             for (CodegenProperty var : cm.requiredVars) {
                 updateCodegenPropertyEnum(var);
             }
@@ -3367,7 +3371,10 @@ public class DefaultCodegen implements CodegenConfig {
         if (Boolean.FALSE.equals(p.getNullable())) {
             LOGGER.warn("Schema '{}' is any type, which includes the 'null' value. 'nullable' cannot be set to 'false'", p.getName());
         }
-        property.isNullable = true;
+        ComposedSchema composedSchema = p instanceof ComposedSchema
+            ? (ComposedSchema) p
+            : null;
+        property.isNullable = property.isNullable || composedSchema == null || composedSchema.getAllOf() == null || composedSchema.getAllOf().size() == 0;
         if (languageSpecificPrimitives.contains(property.dataType)) {
             property.isPrimitiveType = true;
         }
@@ -3512,6 +3519,7 @@ public class DefaultCodegen implements CodegenConfig {
                 property._enum.add(String.valueOf(i));
             }
             property.isEnum = true;
+            property.isInnerEnum = true;
 
             Map<String, Object> allowableValues = new HashMap<>();
             allowableValues.put("values", _enum);
@@ -3657,6 +3665,7 @@ public class DefaultCodegen implements CodegenConfig {
             // isEnum is set to true when the type is an enum
             // or the inner type of an array/map is an enum
             property.isEnum = true;
+            property.isInnerEnum = true;
             // update datatypeWithEnum and default value for array
             // e.g. List<string> => List<StatusEnum>
             updateDataTypeWithEnumForArray(property);
@@ -3693,6 +3702,7 @@ public class DefaultCodegen implements CodegenConfig {
             // isEnum is set to true when the type is an enum
             // or the inner type of an array/map is an enum
             property.isEnum = true;
+            property.isInnerEnum = true;
             // update datatypeWithEnum and default value for map
             // e.g. Dictionary<string, string> => Dictionary<string, StatusEnum>
             updateDataTypeWithEnumForMap(property);
@@ -3771,6 +3781,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         if (baseItem != null) {
             // set both datatype and datetypeWithEnum as only the inner type is enum
+            property.dataType = property.dataType.replace(", " + baseItem.baseType, ", " + toEnumName(baseItem));
             property.datatypeWithEnum = property.datatypeWithEnum.replace(", " + baseItem.baseType, ", " + toEnumName(baseItem));
 
             // naming the enum with respect to the language enum naming convention
@@ -3910,6 +3921,7 @@ public class DefaultCodegen implements CodegenConfig {
             if (languageSpecificPrimitives().contains(op.returnBaseType) || op.returnBaseType == null) {
                 op.returnTypeIsPrimitive = true;
             }
+            op.returnProperty = cm;
         }
         addHeaders(methodResponse, op.responseHeaders);
     }
@@ -5282,6 +5294,10 @@ public class DefaultCodegen implements CodegenConfig {
                 } else { // else add to readWriteVars (list of properties)
                     // duplicated properties will be removed by removeAllDuplicatedProperty later
                     cm.readWriteVars.add(cp);
+                }
+
+                if (Boolean.FALSE.equals(cp.isNullable)){
+                    cm.nonNullableVars.add(cp);
                 }
             }
         }

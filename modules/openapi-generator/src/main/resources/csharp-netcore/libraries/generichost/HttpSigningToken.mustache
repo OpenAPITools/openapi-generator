@@ -14,7 +14,7 @@ namespace {{packageName}}.Client
     /// <summary>
     /// A token constructed from an HttpSigningConfiguration
     /// </summary>
-    public class HttpSignatureToken : TokenBase
+    {{>visibility}} class HttpSignatureToken : TokenBase
     {
         private HttpSigningConfiguration _configuration;
 

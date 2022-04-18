@@ -14,7 +14,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.IO;
-using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Text.Json;
@@ -27,14 +26,15 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// ComplexQuadrilateral
     /// </summary>
-    public partial class ComplexQuadrilateral : IEquatable<ComplexQuadrilateral>, IValidatableObject
+    public partial class ComplexQuadrilateral : IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ComplexQuadrilateral" /> class.
         /// </summary>
         /// <param name="shapeInterface"></param>
         /// <param name="quadrilateralInterface"></param>
-        public ComplexQuadrilateral(ShapeInterface shapeInterface, QuadrilateralInterface quadrilateralInterface)
+        [JsonConstructor]
+        internal ComplexQuadrilateral(ShapeInterface shapeInterface, QuadrilateralInterface quadrilateralInterface)
         {
             ShapeInterface = shapeInterface;
             QuadrilateralInterface = quadrilateralInterface;
@@ -54,7 +54,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets additional properties
         /// </summary>
         [JsonExtensionData]
-        public Dictionary<string, JsonElement> AdditionalProperties { get; set; } = new Dictionary<string, JsonElement>();
+        public Dictionary<string, JsonElement> AdditionalProperties { get; } = new Dictionary<string, JsonElement>();
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -68,44 +68,6 @@ namespace Org.OpenAPITools.Model
             sb.Append("}\n");
             return sb.ToString();
         }
-
-        /// <summary>
-        /// Returns true if objects are equal
-        /// </summary>
-        /// <param name="input">Object to be compared</param>
-        /// <returns>Boolean</returns>
-        public override bool Equals(object input)
-        {
-            return OpenAPIClientUtils.compareLogic.Compare(this, input as ComplexQuadrilateral).AreEqual;
-        }
-
-        /// <summary>
-        /// Returns true if ComplexQuadrilateral instances are equal
-        /// </summary>
-        /// <param name="input">Instance of ComplexQuadrilateral to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(ComplexQuadrilateral input)
-        {
-            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
-        }
-
-        /// <summary>
-        /// Gets the hash code
-        /// </summary>
-        /// <returns>Hash code</returns>
-        public override int GetHashCode()
-        {
-            unchecked // Overflow is fine, just wrap
-            {
-                int hashCode = 41;
-                if (this.AdditionalProperties != null)
-                {
-                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
-                }
-                return hashCode;
-            }
-        }
-
         /// <summary>
         /// To validate all properties of the instance
         /// </summary>
@@ -177,6 +139,9 @@ namespace Org.OpenAPITools.Model
         /// <param name="complexQuadrilateral"></param>
         /// <param name="options"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public override void Write(Utf8JsonWriter writer, ComplexQuadrilateral complexQuadrilateral, JsonSerializerOptions options) => throw new NotImplementedException();
+        public override void Write(Utf8JsonWriter writer, ComplexQuadrilateral complexQuadrilateral, JsonSerializerOptions options)
+        {
+            JsonSerializer.Serialize(writer, complexQuadrilateral);
+        }
     }
 }

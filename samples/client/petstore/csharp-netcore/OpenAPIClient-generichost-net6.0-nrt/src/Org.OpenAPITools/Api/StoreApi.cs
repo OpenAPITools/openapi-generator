@@ -50,7 +50,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="orderId">ID of the order that needs to be deleted</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;object&gt;</returns>
-        Task<object?> DeleteOrderAsync(string orderId, System.Threading.CancellationToken? cancellationToken = null);
+        Task<object> DeleteOrderAsync(string orderId, System.Threading.CancellationToken? cancellationToken = null);
 
         /// <summary>
         /// Delete purchase order by ID
@@ -63,7 +63,6 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of ApiResponse&lt;object?&gt;</returns>
         Task<object?> DeleteOrderOrDefaultAsync(string orderId, System.Threading.CancellationToken? cancellationToken = null);
 
-        
         /// <summary>
         /// Returns pet inventories by status
         /// </summary>
@@ -84,7 +83,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;Dictionary&lt;string, int&gt;&gt;</returns>
-        Task<Dictionary<string, int>?> GetInventoryAsync(System.Threading.CancellationToken? cancellationToken = null);
+        Task<Dictionary<string, int>> GetInventoryAsync(System.Threading.CancellationToken? cancellationToken = null);
 
         /// <summary>
         /// Returns pet inventories by status
@@ -96,7 +95,6 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of ApiResponse&lt;Dictionary&lt;string, int&gt;?&gt;</returns>
         Task<Dictionary<string, int>?> GetInventoryOrDefaultAsync(System.Threading.CancellationToken? cancellationToken = null);
 
-        
         /// <summary>
         /// Find purchase order by ID
         /// </summary>
@@ -119,7 +117,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="orderId">ID of pet that needs to be fetched</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;Order&gt;</returns>
-        Task<Order?> GetOrderByIdAsync(long orderId, System.Threading.CancellationToken? cancellationToken = null);
+        Task<Order> GetOrderByIdAsync(long orderId, System.Threading.CancellationToken? cancellationToken = null);
 
         /// <summary>
         /// Find purchase order by ID
@@ -132,7 +130,6 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of ApiResponse&lt;Order?&gt;</returns>
         Task<Order?> GetOrderByIdOrDefaultAsync(long orderId, System.Threading.CancellationToken? cancellationToken = null);
 
-        
         /// <summary>
         /// Place an order for a pet
         /// </summary>
@@ -155,7 +152,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="order">order placed for purchasing the pet</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;Order&gt;</returns>
-        Task<Order?> PlaceOrderAsync(Order order, System.Threading.CancellationToken? cancellationToken = null);
+        Task<Order> PlaceOrderAsync(Order order, System.Threading.CancellationToken? cancellationToken = null);
 
         /// <summary>
         /// Place an order for a pet
@@ -168,7 +165,7 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of ApiResponse&lt;Order?&gt;</returns>
         Task<Order?> PlaceOrderOrDefaultAsync(Order order, System.Threading.CancellationToken? cancellationToken = null);
 
-            }
+    }
 
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
@@ -246,7 +243,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="orderId">ID of the order that needs to be deleted</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="object"/>&gt;</returns>
-        public async Task<object?> DeleteOrderAsync(string orderId, System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<object> DeleteOrderAsync(string orderId, System.Threading.CancellationToken? cancellationToken = null)
         {
             ApiResponse<object?> result = await DeleteOrderWithHttpInfoAsync(orderId, cancellationToken).ConfigureAwait(false);
 
@@ -291,11 +288,13 @@ namespace Org.OpenAPITools.Api
             try
             {
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+                #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
                 if (orderId == null)
                     throw new ArgumentNullException(nameof(orderId));
 
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+                #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
@@ -349,7 +348,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="Dictionary&lt;string, int&gt;"/>&gt;</returns>
-        public async Task<Dictionary<string, int>?> GetInventoryAsync(System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<Dictionary<string, int>> GetInventoryAsync(System.Threading.CancellationToken? cancellationToken = null)
         {
             ApiResponse<Dictionary<string, int>?> result = await GetInventoryWithHttpInfoAsync(cancellationToken).ConfigureAwait(false);
 
@@ -463,7 +462,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="orderId">ID of pet that needs to be fetched</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="Order"/>&gt;</returns>
-        public async Task<Order?> GetOrderByIdAsync(long orderId, System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<Order> GetOrderByIdAsync(long orderId, System.Threading.CancellationToken? cancellationToken = null)
         {
             ApiResponse<Order?> result = await GetOrderByIdWithHttpInfoAsync(orderId, cancellationToken).ConfigureAwait(false);
 
@@ -508,11 +507,13 @@ namespace Org.OpenAPITools.Api
             try
             {
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+                #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
                 if (orderId == null)
                     throw new ArgumentNullException(nameof(orderId));
 
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+                #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
@@ -577,7 +578,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="order">order placed for purchasing the pet</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="Order"/>&gt;</returns>
-        public async Task<Order?> PlaceOrderAsync(Order order, System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<Order> PlaceOrderAsync(Order order, System.Threading.CancellationToken? cancellationToken = null)
         {
             ApiResponse<Order?> result = await PlaceOrderWithHttpInfoAsync(order, cancellationToken).ConfigureAwait(false);
 
@@ -622,11 +623,13 @@ namespace Org.OpenAPITools.Api
             try
             {
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+                #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
                 if (order == null)
                     throw new ArgumentNullException(nameof(order));
 
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+                #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {

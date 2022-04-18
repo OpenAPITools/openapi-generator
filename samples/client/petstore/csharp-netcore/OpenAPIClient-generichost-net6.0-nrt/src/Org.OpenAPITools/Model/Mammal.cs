@@ -16,7 +16,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.IO;
-using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Text.Json;
@@ -29,13 +28,14 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// Mammal
     /// </summary>
-    public partial class Mammal : IEquatable<Mammal>, IValidatableObject
+    public partial class Mammal : IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Mammal" /> class.
         /// </summary>
         /// <param name="whale"></param>
-        public Mammal(Whale whale)
+        [JsonConstructor]
+        internal Mammal(Whale whale)
         {
             Whale = whale;
         }
@@ -44,7 +44,8 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Mammal" /> class.
         /// </summary>
         /// <param name="zebra"></param>
-        public Mammal(Zebra zebra)
+        [JsonConstructor]
+        internal Mammal(Zebra zebra)
         {
             Zebra = zebra;
         }
@@ -53,7 +54,8 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Mammal" /> class.
         /// </summary>
         /// <param name="pig"></param>
-        public Mammal(Pig pig)
+        [JsonConstructor]
+        internal Mammal(Pig pig)
         {
             Pig = pig;
         }
@@ -77,7 +79,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets additional properties
         /// </summary>
         [JsonExtensionData]
-        public Dictionary<string, JsonElement> AdditionalProperties { get; set; } = new Dictionary<string, JsonElement>();
+        public Dictionary<string, JsonElement> AdditionalProperties { get; } = new Dictionary<string, JsonElement>();
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -91,44 +93,6 @@ namespace Org.OpenAPITools.Model
             sb.Append("}\n");
             return sb.ToString();
         }
-
-        /// <summary>
-        /// Returns true if objects are equal
-        /// </summary>
-        /// <param name="input">Object to be compared</param>
-        /// <returns>Boolean</returns>
-        public override bool Equals(object? input)
-        {
-            return OpenAPIClientUtils.compareLogic.Compare(this, input as Mammal).AreEqual;
-        }
-
-        /// <summary>
-        /// Returns true if Mammal instances are equal
-        /// </summary>
-        /// <param name="input">Instance of Mammal to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(Mammal? input)
-        {
-            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
-        }
-
-        /// <summary>
-        /// Gets the hash code
-        /// </summary>
-        /// <returns>Hash code</returns>
-        public override int GetHashCode()
-        {
-            unchecked // Overflow is fine, just wrap
-            {
-                int hashCode = 41;
-                if (this.AdditionalProperties != null)
-                {
-                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
-                }
-                return hashCode;
-            }
-        }
-
         /// <summary>
         /// To validate all properties of the instance
         /// </summary>
@@ -222,6 +186,9 @@ namespace Org.OpenAPITools.Model
         /// <param name="mammal"></param>
         /// <param name="options"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public override void Write(Utf8JsonWriter writer, Mammal mammal, JsonSerializerOptions options) => throw new NotImplementedException();
+        public override void Write(Utf8JsonWriter writer, Mammal mammal, JsonSerializerOptions options)
+        {
+            JsonSerializer.Serialize(writer, mammal);
+        }
     }
 }

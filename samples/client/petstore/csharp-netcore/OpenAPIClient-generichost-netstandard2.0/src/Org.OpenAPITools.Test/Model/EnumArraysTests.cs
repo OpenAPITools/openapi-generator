@@ -57,20 +57,20 @@ namespace Org.OpenAPITools.Test.Model
 
 
         /// <summary>
-        /// Test the property 'JustSymbol'
-        /// </summary>
-        [Fact]
-        public void JustSymbolTest()
-        {
-            // TODO unit test for the property 'JustSymbol'
-        }
-        /// <summary>
         /// Test the property 'ArrayEnum'
         /// </summary>
         [Fact]
         public void ArrayEnumTest()
         {
             // TODO unit test for the property 'ArrayEnum'
+        }
+        /// <summary>
+        /// Test the property 'JustSymbol'
+        /// </summary>
+        [Fact]
+        public void JustSymbolTest()
+        {
+            // TODO unit test for the property 'JustSymbol'
         }
 
     }

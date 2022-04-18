@@ -17,12 +17,33 @@
             /// <summary>
             /// Enum {{name}} for value: {{value}}
             /// </summary>
+            {{^useGenericHost}}
             {{#isString}}
             [EnumMember(Value = "{{{value}}}")]
             {{/isString}}
-            {{name}}{{^isString}} = {{{value}}}{{/isString}}{{#isString}} = {{-index}}{{/isString}}{{^-last}},{{/-last}}
+            {{/useGenericHost}}
+            {{name}} = {{^isString}}{{{value}}}{{/isString}}{{#isString}}{{-index}}{{/isString}}{{^-last}},
+
+            {{/-last}}
+            {{/enumVars}}
+            {{/allowableValues}}
+
+        }
+
+        /// <summary>
+        /// Returns a {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}? {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}FromString(string value)
+        {
+            {{#allowableValues}}
+            {{#enumVars}}
+            if (value == {{^isString}}({{{value}}}).ToString(){{/isString}}{{#isString}}"{{{value}}}"{{/isString}})
+                return {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}.{{name}};
 
             {{/enumVars}}
             {{/allowableValues}}
+            return null;
         }
         {{/isContainer}}

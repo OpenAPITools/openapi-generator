@@ -33,17 +33,17 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="ModelClient" /> class.
         /// </summary>
-        /// <param name="propertyClient">propertyClient.</param>
-        public ModelClient(string propertyClient = default(string))
+        /// <param name="_client">_client.</param>
+        public ModelClient(string _client = default(string))
         {
-            this.Property_Client = propertyClient;
+            this._Client = _client;
         }
 
         /// <summary>
-        /// Gets or Sets Property_Client
+        /// Gets or Sets _Client
         /// </summary>
         [DataMember(Name="client", EmitDefaultValue=false)]
-        public string Property_Client { get; set; }
+        public string _Client { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -53,7 +53,7 @@ namespace Org.OpenAPITools.Model
         {
             var sb = new StringBuilder();
             sb.Append("class ModelClient {\n");
-            sb.Append("  Property_Client: ").Append(Property_Client).Append("\n");
+            sb.Append("  _Client: ").Append(_Client).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -89,9 +89,9 @@ namespace Org.OpenAPITools.Model
 
             return 
                 (
-                    this.Property_Client == input.Property_Client ||
-                    (this.Property_Client != null &&
-                    this.Property_Client.Equals(input.Property_Client))
+                    this._Client == input._Client ||
+                    (this._Client != null &&
+                    this._Client.Equals(input._Client))
                 );
         }
 
@@ -104,8 +104,8 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.Property_Client != null)
-                    hashCode = hashCode * 59 + this.Property_Client.GetHashCode();
+                if (this._Client != null)
+                    hashCode = hashCode * 59 + this._Client.GetHashCode();
                 return hashCode;
             }
         }

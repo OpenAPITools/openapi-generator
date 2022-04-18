@@ -4,22 +4,22 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Number** | **decimal** |  | 
-**PropertyByte** | **byte[]** |  | 
+**Binary** | **System.IO.Stream** |  | [optional] 
+**Byte** | **byte[]** |  | 
 **Date** | **DateTime** |  | 
-**Password** | **string** |  | 
-**Integer** | **int** |  | [optional] 
+**DateTime** | **DateTime** |  | [optional] 
+**Decimal** | **decimal** |  | [optional] 
+**Double** | **double** |  | [optional] 
+**Float** | **float** |  | [optional] 
 **Int32** | **int** |  | [optional] 
 **Int64** | **long** |  | [optional] 
-**PropertyFloat** | **float** |  | [optional] 
-**PropertyDouble** | **double** |  | [optional] 
-**PropertyDecimal** | **decimal** |  | [optional] 
-**PropertyString** | **string** |  | [optional] 
-**Binary** | **System.IO.Stream** |  | [optional] 
-**DateTime** | **DateTime** |  | [optional] 
-**Uuid** | **Guid** |  | [optional] 
+**Integer** | **int** |  | [optional] 
+**Number** | **decimal** |  | 
+**Password** | **string** |  | 
 **PatternWithDigits** | **string** | A string that is a 10 digit number. Can have leading zeros. | [optional] 
 **PatternWithDigitsAndDelimiter** | **string** | A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01. | [optional] 
+**String** | **string** |  | [optional] 
+**Uuid** | **Guid** |  | [optional] 
 
 [[Back to Model list]](../../README.md#documentation-for-models) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to README]](../../README.md)
 

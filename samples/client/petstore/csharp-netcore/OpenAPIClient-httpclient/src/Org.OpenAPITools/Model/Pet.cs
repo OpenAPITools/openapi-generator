@@ -57,7 +57,25 @@ namespace Org.OpenAPITools.Model
             /// </summary>
             [EnumMember(Value = "sold")]
             Sold = 3
+        }
 
+        /// <summary>
+        /// Returns a StatusEnum
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static StatusEnum? StatusEnumFromString(string value)
+        {
+            if (value == "available")
+                return StatusEnum.Available;
+
+            if (value == "pending")
+                return StatusEnum.Pending;
+
+            if (value == "sold")
+                return StatusEnum.Sold;
+
+            return null;
         }
 
 

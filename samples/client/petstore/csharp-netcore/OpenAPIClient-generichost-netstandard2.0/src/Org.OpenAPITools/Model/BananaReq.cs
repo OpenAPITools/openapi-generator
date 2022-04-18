@@ -14,7 +14,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.IO;
-using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Text.Json;
@@ -27,17 +26,27 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// BananaReq
     /// </summary>
-    public partial class BananaReq : IEquatable<BananaReq>, IValidatableObject
+    public partial class BananaReq : IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="BananaReq" /> class.
         /// </summary>
-        /// <param name="lengthCm">lengthCm (required)</param>
+        /// <param name="lengthCm">lengthCm</param>
         /// <param name="sweet">sweet</param>
-        public BananaReq(decimal lengthCm, bool sweet = default)
+        [JsonConstructor]
+        public BananaReq(decimal lengthCm, bool sweet)
         {
+#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
             if (lengthCm == null)
                 throw new ArgumentNullException("lengthCm is a required property for BananaReq and cannot be null.");
+
+            if (sweet == null)
+                throw new ArgumentNullException("sweet is a required property for BananaReq and cannot be null.");
+
+#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
             LengthCm = lengthCm;
             Sweet = sweet;
@@ -68,42 +77,6 @@ namespace Org.OpenAPITools.Model
             sb.Append("}\n");
             return sb.ToString();
         }
-
-        /// <summary>
-        /// Returns true if objects are equal
-        /// </summary>
-        /// <param name="input">Object to be compared</param>
-        /// <returns>Boolean</returns>
-        public override bool Equals(object input)
-        {
-            return OpenAPIClientUtils.compareLogic.Compare(this, input as BananaReq).AreEqual;
-        }
-
-        /// <summary>
-        /// Returns true if BananaReq instances are equal
-        /// </summary>
-        /// <param name="input">Instance of BananaReq to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(BananaReq input)
-        {
-            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
-        }
-
-        /// <summary>
-        /// Gets the hash code
-        /// </summary>
-        /// <returns>Hash code</returns>
-        public override int GetHashCode()
-        {
-            unchecked // Overflow is fine, just wrap
-            {
-                int hashCode = 41;
-                hashCode = (hashCode * 59) + this.LengthCm.GetHashCode();
-                hashCode = (hashCode * 59) + this.Sweet.GetHashCode();
-                return hashCode;
-            }
-        }
-
         /// <summary>
         /// To validate all properties of the instance
         /// </summary>
@@ -115,4 +88,71 @@ namespace Org.OpenAPITools.Model
         }
     }
 
+    /// <summary>
+    /// A Json converter for type BananaReq
+    /// </summary>
+    public class BananaReqJsonConverter : JsonConverter<BananaReq>
+    {
+        /// <summary>
+        /// Returns a boolean if the type is compatible with this converter.
+        /// </summary>
+        /// <param name="typeToConvert"></param>
+        /// <returns></returns>
+        public override bool CanConvert(Type typeToConvert) => typeof(BananaReq).IsAssignableFrom(typeToConvert);
+
+        /// <summary>
+        /// A Json reader.
+        /// </summary>
+        /// <param name="reader"></param>
+        /// <param name="typeToConvert"></param>
+        /// <param name="options"></param>
+        /// <returns></returns>
+        /// <exception cref="JsonException"></exception>
+        public override BananaReq Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        {
+            int currentDepth = reader.CurrentDepth;
+
+            if (reader.TokenType != JsonTokenType.StartObject)
+                throw new JsonException();
+
+            decimal lengthCm = default;
+            bool sweet = default;
+
+            while (reader.Read())
+            {
+                if (reader.TokenType == JsonTokenType.EndObject && currentDepth == reader.CurrentDepth)
+                    break;
+
+                if (reader.TokenType == JsonTokenType.PropertyName)
+                {
+                    string propertyName = reader.GetString();
+                    reader.Read();
+
+                    switch (propertyName)
+                    {
+                        case "lengthCm":
+                            lengthCm = reader.GetInt32();
+                            break;
+                        case "sweet":
+                            sweet = reader.GetBoolean();
+                            break;
+                    }
+                }
+            }
+
+            return new BananaReq(lengthCm, sweet);
+        }
+
+        /// <summary>
+        /// A Json writer
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="bananaReq"></param>
+        /// <param name="options"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public override void Write(Utf8JsonWriter writer, BananaReq bananaReq, JsonSerializerOptions options)
+        {
+            JsonSerializer.Serialize(writer, bananaReq);
+        }
+    }
 }

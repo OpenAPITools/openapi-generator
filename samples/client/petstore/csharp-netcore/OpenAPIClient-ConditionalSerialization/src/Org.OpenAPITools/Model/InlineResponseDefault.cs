@@ -35,40 +35,40 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="InlineResponseDefault" /> class.
         /// </summary>
-        /// <param name="propertyString">propertyString.</param>
-        public InlineResponseDefault(Foo propertyString = default(Foo))
+        /// <param name="_string">_string.</param>
+        public InlineResponseDefault(Foo _string = default(Foo))
         {
-            this._PropertyString = propertyString;
-            if (this.PropertyString != null)
+            this._String = _string;
+            if (this.String != null)
             {
-                this._flagPropertyString = true;
+                this._flagString = true;
             }
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
-        /// Gets or Sets PropertyString
+        /// Gets or Sets String
         /// </summary>
         [DataMember(Name = "string", EmitDefaultValue = false)]
-        public Foo PropertyString
+        public Foo String
         {
-            get{ return _PropertyString;}
+            get{ return _String;}
             set
             {
-                _PropertyString = value;
-                _flagPropertyString = true;
+                _String = value;
+                _flagString = true;
             }
         }
-        private Foo _PropertyString;
-        private bool _flagPropertyString;
+        private Foo _String;
+        private bool _flagString;
 
         /// <summary>
-        /// Returns false as PropertyString should not be serialized given that it's read-only.
+        /// Returns false as String should not be serialized given that it's read-only.
         /// </summary>
         /// <returns>false (boolean)</returns>
-        public bool ShouldSerializePropertyString()
+        public bool ShouldSerializeString()
         {
-            return _flagPropertyString;
+            return _flagString;
         }
         /// <summary>
         /// Gets or Sets additional properties
@@ -84,7 +84,7 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class InlineResponseDefault {\n");
-            sb.Append("  PropertyString: ").Append(PropertyString).Append("\n");
+            sb.Append("  String: ").Append(String).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -128,9 +128,9 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.PropertyString != null)
+                if (this.String != null)
                 {
-                    hashCode = (hashCode * 59) + this.PropertyString.GetHashCode();
+                    hashCode = (hashCode * 59) + this.String.GetHashCode();
                 }
                 if (this.AdditionalProperties != null)
                 {

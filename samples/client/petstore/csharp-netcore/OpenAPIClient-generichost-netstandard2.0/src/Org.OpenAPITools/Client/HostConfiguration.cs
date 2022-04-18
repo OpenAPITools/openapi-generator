@@ -25,7 +25,7 @@ namespace Org.OpenAPITools.Client
     public class HostConfiguration
     {
         private readonly IServiceCollection _services;
-        private JsonSerializerOptions _jsonOptions = new JsonSerializerOptions();
+        private readonly JsonSerializerOptions _jsonOptions = new JsonSerializerOptions();
 
         internal bool HttpClientsAdded { get; private set; }
 
@@ -38,26 +38,232 @@ namespace Org.OpenAPITools.Client
             _services = services;
             _jsonOptions.Converters.Add(new JsonStringEnumConverter());
             _jsonOptions.Converters.Add(new OpenAPIDateJsonConverter());
+            _jsonOptions.Converters.Add(new AdditionalPropertiesClassJsonConverter());
+            //JsonConverter()); }}
+            //JsonConverter()); }}
+            _jsonOptions.Converters.Add(new AnimalJsonConverter());
+            //JsonConverter()); }}
+            //JsonConverter()); }}
+            _jsonOptions.Converters.Add(new ApiResponseJsonConverter());
+            //JsonConverter()); }}
+            //JsonConverter()); }}
+            _jsonOptions.Converters.Add(new AppleJsonConverter());
+            //JsonConverter()); }}
+            //JsonConverter()); }}
+            _jsonOptions.Converters.Add(new AppleReqJsonConverter());
+            //JsonConverter()); }}
+            //JsonConverter()); }}
+            _jsonOptions.Converters.Add(new ArrayOfArrayOfNumberOnlyJsonConverter());
+            //JsonConverter()); }}
+            //JsonConverter()); }}
+            _jsonOptions.Converters.Add(new ArrayOfNumberOnlyJsonConverter());
+            //JsonConverter()); }}
+            //JsonConverter()); }}
+            _jsonOptions.Converters.Add(new ArrayTestJsonConverter());
+            //JsonConverter()); }}
+            //JsonConverter()); }}
+            _jsonOptions.Converters.Add(new BananaJsonConverter());
+            //JsonConverter()); }}
+            //JsonConverter()); }}
+            _jsonOptions.Converters.Add(new BananaReqJsonConverter());
+            //JsonConverter()); }}
+            //JsonConverter()); }}
+            _jsonOptions.Converters.Add(new BasquePigJsonConverter());
+            //JsonConverter()); }}
+            //JsonConverter()); }}
+            _jsonOptions.Converters.Add(new CapitalizationJsonConverter());
+            //JsonConverter()); }}
+            //JsonConverter()); }}
             _jsonOptions.Converters.Add(new CatJsonConverter());
+            //JsonConverter()); }}
+            //JsonConverter()); }}
+            _jsonOptions.Converters.Add(new CatAllOfJsonConverter());
+            //JsonConverter()); }}
+            //JsonConverter()); }}
+            _jsonOptions.Converters.Add(new CategoryJsonConverter());
+            //JsonConverter()); }}
+            //JsonConverter()); }}
             _jsonOptions.Converters.Add(new ChildCatJsonConverter());
+            //JsonConverter()); }}
+            //JsonConverter()); }}
+            _jsonOptions.Converters.Add(new ChildCatAllOfJsonConverter());
+            //JsonConverter()); }}
+            //JsonConverter()); }}
+            _jsonOptions.Converters.Add(new ClassModelJsonConverter());
+            //JsonConverter()); }}
+            //JsonConverter()); }}
             _jsonOptions.Converters.Add(new ComplexQuadrilateralJsonConverter());
+            //JsonConverter()); }}
+            //JsonConverter()); }}
+            _jsonOptions.Converters.Add(new DanishPigJsonConverter());
+            //JsonConverter()); }}
+            //JsonConverter()); }}
+            _jsonOptions.Converters.Add(new DeprecatedObjectJsonConverter());
+            //JsonConverter()); }}
+            //JsonConverter()); }}
             _jsonOptions.Converters.Add(new DogJsonConverter());
+            //JsonConverter()); }}
+            //JsonConverter()); }}
+            _jsonOptions.Converters.Add(new DogAllOfJsonConverter());
+            //JsonConverter()); }}
+            //JsonConverter()); }}
+            _jsonOptions.Converters.Add(new DrawingJsonConverter());
+            //JsonConverter()); }}
+            //JsonConverter()); }}
+            _jsonOptions.Converters.Add(new EnumArraysJsonConverter());
+            //JsonConverter()); }}
+            //JsonConverter()); }}
+            _jsonOptions.Converters.Add(new EnumClassConverter());
+            _jsonOptions.Converters.Add(new EnumClassNullableConverter());
+            _jsonOptions.Converters.Add(new EnumTestJsonConverter());
+            //JsonConverter()); }}
+            //JsonConverter()); }}
             _jsonOptions.Converters.Add(new EquilateralTriangleJsonConverter());
+            //JsonConverter()); }}
+            //JsonConverter()); }}
+            _jsonOptions.Converters.Add(new FileJsonConverter());
+            //JsonConverter()); }}
+            //JsonConverter()); }}
+            _jsonOptions.Converters.Add(new FileSchemaTestClassJsonConverter());
+            //JsonConverter()); }}
+            //JsonConverter()); }}
+            _jsonOptions.Converters.Add(new FooJsonConverter());
+            //JsonConverter()); }}
+            //JsonConverter()); }}
+            _jsonOptions.Converters.Add(new FormatTestJsonConverter());
+            //JsonConverter()); }}
+            //JsonConverter()); }}
             _jsonOptions.Converters.Add(new FruitJsonConverter());
+            //JsonConverter()); }}
+            //JsonConverter()); }}
             _jsonOptions.Converters.Add(new FruitReqJsonConverter());
+            //JsonConverter()); }}
+            //JsonConverter()); }}
             _jsonOptions.Converters.Add(new GmFruitJsonConverter());
+            //JsonConverter()); }}
+            //JsonConverter()); }}
+            _jsonOptions.Converters.Add(new GrandparentAnimalJsonConverter());
+            //JsonConverter()); }}
+            //JsonConverter()); }}
+            _jsonOptions.Converters.Add(new HasOnlyReadOnlyJsonConverter());
+            //JsonConverter()); }}
+            //JsonConverter()); }}
+            _jsonOptions.Converters.Add(new HealthCheckResultJsonConverter());
+            //JsonConverter()); }}
+            //JsonConverter()); }}
+            _jsonOptions.Converters.Add(new InlineResponseDefaultJsonConverter());
+            //JsonConverter()); }}
+            //JsonConverter()); }}
             _jsonOptions.Converters.Add(new IsoscelesTriangleJsonConverter());
+            //JsonConverter()); }}
+            //JsonConverter()); }}
+            _jsonOptions.Converters.Add(new ListJsonConverter());
+            //JsonConverter()); }}
+            //JsonConverter()); }}
             _jsonOptions.Converters.Add(new MammalJsonConverter());
+            //JsonConverter()); }}
+            //JsonConverter()); }}
+            _jsonOptions.Converters.Add(new MapTestJsonConverter());
+            //JsonConverter()); }}
+            //JsonConverter()); }}
+            _jsonOptions.Converters.Add(new MixedPropertiesAndAdditionalPropertiesClassJsonConverter());
+            //JsonConverter()); }}
+            //JsonConverter()); }}
+            _jsonOptions.Converters.Add(new Model200ResponseJsonConverter());
+            //JsonConverter()); }}
+            //JsonConverter()); }}
+            _jsonOptions.Converters.Add(new ModelClientJsonConverter());
+            //JsonConverter()); }}
+            //JsonConverter()); }}
+            _jsonOptions.Converters.Add(new NameJsonConverter());
+            //JsonConverter()); }}
+            //JsonConverter()); }}
+            _jsonOptions.Converters.Add(new NullableClassJsonConverter());
+            //JsonConverter()); }}
+            //JsonConverter()); }}
             _jsonOptions.Converters.Add(new NullableShapeJsonConverter());
+            //JsonConverter()); }}
+            //JsonConverter()); }}
+            _jsonOptions.Converters.Add(new NumberOnlyJsonConverter());
+            //JsonConverter()); }}
+            //JsonConverter()); }}
+            _jsonOptions.Converters.Add(new ObjectWithDeprecatedFieldsJsonConverter());
+            //JsonConverter()); }}
+            //JsonConverter()); }}
+            _jsonOptions.Converters.Add(new OrderJsonConverter());
+            //JsonConverter()); }}
+            //JsonConverter()); }}
+            _jsonOptions.Converters.Add(new OuterCompositeJsonConverter());
+            //JsonConverter()); }}
+            //JsonConverter()); }}
+            _jsonOptions.Converters.Add(new OuterEnumConverter());
+            _jsonOptions.Converters.Add(new OuterEnumNullableConverter());
+            _jsonOptions.Converters.Add(new OuterEnumDefaultValueConverter());
+            _jsonOptions.Converters.Add(new OuterEnumDefaultValueNullableConverter());
+            _jsonOptions.Converters.Add(new OuterEnumIntegerConverter());
+            _jsonOptions.Converters.Add(new OuterEnumIntegerNullableConverter());
+            _jsonOptions.Converters.Add(new OuterEnumIntegerDefaultValueConverter());
+            _jsonOptions.Converters.Add(new OuterEnumIntegerDefaultValueNullableConverter());
             _jsonOptions.Converters.Add(new ParentPetJsonConverter());
+            //JsonConverter()); }}
+            //JsonConverter()); }}
+            _jsonOptions.Converters.Add(new PetJsonConverter());
+            //JsonConverter()); }}
+            //JsonConverter()); }}
             _jsonOptions.Converters.Add(new PigJsonConverter());
+            //JsonConverter()); }}
+            //JsonConverter()); }}
             _jsonOptions.Converters.Add(new PolymorphicPropertyJsonConverter());
+            //JsonConverter()); }}
+            //JsonConverter()); }}
             _jsonOptions.Converters.Add(new QuadrilateralJsonConverter());
+            //JsonConverter()); }}
+            //JsonConverter()); }}
+            _jsonOptions.Converters.Add(new QuadrilateralInterfaceJsonConverter());
+            //JsonConverter()); }}
+            //JsonConverter()); }}
+            _jsonOptions.Converters.Add(new ReadOnlyFirstJsonConverter());
+            //JsonConverter()); }}
+            //JsonConverter()); }}
+            _jsonOptions.Converters.Add(new ReturnJsonConverter());
+            //JsonConverter()); }}
+            //JsonConverter()); }}
             _jsonOptions.Converters.Add(new ScaleneTriangleJsonConverter());
+            //JsonConverter()); }}
+            //JsonConverter()); }}
             _jsonOptions.Converters.Add(new ShapeJsonConverter());
+            //JsonConverter()); }}
+            //JsonConverter()); }}
+            _jsonOptions.Converters.Add(new ShapeInterfaceJsonConverter());
+            //JsonConverter()); }}
+            //JsonConverter()); }}
             _jsonOptions.Converters.Add(new ShapeOrNullJsonConverter());
+            //JsonConverter()); }}
+            //JsonConverter()); }}
             _jsonOptions.Converters.Add(new SimpleQuadrilateralJsonConverter());
+            //JsonConverter()); }}
+            //JsonConverter()); }}
+            _jsonOptions.Converters.Add(new SpecialModelNameJsonConverter());
+            //JsonConverter()); }}
+            //JsonConverter()); }}
+            _jsonOptions.Converters.Add(new TagJsonConverter());
+            //JsonConverter()); }}
+            //JsonConverter()); }}
             _jsonOptions.Converters.Add(new TriangleJsonConverter());
+            //JsonConverter()); }}
+            //JsonConverter()); }}
+            _jsonOptions.Converters.Add(new TriangleInterfaceJsonConverter());
+            //JsonConverter()); }}
+            //JsonConverter()); }}
+            _jsonOptions.Converters.Add(new UserJsonConverter());
+            //JsonConverter()); }}
+            //JsonConverter()); }}
+            _jsonOptions.Converters.Add(new WhaleJsonConverter());
+            //JsonConverter()); }}
+            //JsonConverter()); }}
+            _jsonOptions.Converters.Add(new ZebraJsonConverter());
+            //JsonConverter()); }}
+            //JsonConverter()); }}
             _services.AddSingleton(new JsonSerializerOptionsProvider(_jsonOptions));
             _services.AddSingleton<IAnotherFakeApi, AnotherFakeApi>();
             _services.AddSingleton<IDefaultApi, DefaultApi>();

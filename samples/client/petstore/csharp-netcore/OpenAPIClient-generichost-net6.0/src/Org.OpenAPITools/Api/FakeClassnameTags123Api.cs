@@ -48,7 +48,9 @@ namespace Org.OpenAPITools.Api
         /// <param name="modelClient">client model</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;ModelClient&gt;</returns>
-        Task<ModelClient> TestClassnameAsync(ModelClient modelClient, System.Threading.CancellationToken? cancellationToken = null);    }
+        Task<ModelClient> TestClassnameAsync(ModelClient modelClient, System.Threading.CancellationToken? cancellationToken = null);
+
+    }
 
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
@@ -171,11 +173,13 @@ namespace Org.OpenAPITools.Api
             try
             {
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+                #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
                 if (modelClient == null)
                     throw new ArgumentNullException(nameof(modelClient));
 
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+                #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {

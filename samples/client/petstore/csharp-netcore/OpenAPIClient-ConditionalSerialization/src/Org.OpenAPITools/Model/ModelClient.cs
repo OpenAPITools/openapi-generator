@@ -35,40 +35,40 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="ModelClient" /> class.
         /// </summary>
-        /// <param name="propertyClient">propertyClient.</param>
-        public ModelClient(string propertyClient = default(string))
+        /// <param name="_client">_client.</param>
+        public ModelClient(string _client = default(string))
         {
-            this._Property_Client = propertyClient;
-            if (this.Property_Client != null)
+            this.__Client = _client;
+            if (this._Client != null)
             {
-                this._flagProperty_Client = true;
+                this._flag_Client = true;
             }
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
-        /// Gets or Sets Property_Client
+        /// Gets or Sets _Client
         /// </summary>
         [DataMember(Name = "client", EmitDefaultValue = false)]
-        public string Property_Client
+        public string _Client
         {
-            get{ return _Property_Client;}
+            get{ return __Client;}
             set
             {
-                _Property_Client = value;
-                _flagProperty_Client = true;
+                __Client = value;
+                _flag_Client = true;
             }
         }
-        private string _Property_Client;
-        private bool _flagProperty_Client;
+        private string __Client;
+        private bool _flag_Client;
 
         /// <summary>
-        /// Returns false as Property_Client should not be serialized given that it's read-only.
+        /// Returns false as _Client should not be serialized given that it's read-only.
         /// </summary>
         /// <returns>false (boolean)</returns>
-        public bool ShouldSerializeProperty_Client()
+        public bool ShouldSerialize_Client()
         {
-            return _flagProperty_Client;
+            return _flag_Client;
         }
         /// <summary>
         /// Gets or Sets additional properties
@@ -84,7 +84,7 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class ModelClient {\n");
-            sb.Append("  Property_Client: ").Append(Property_Client).Append("\n");
+            sb.Append("  _Client: ").Append(_Client).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -128,9 +128,9 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.Property_Client != null)
+                if (this._Client != null)
                 {
-                    hashCode = (hashCode * 59) + this.Property_Client.GetHashCode();
+                    hashCode = (hashCode * 59) + this._Client.GetHashCode();
                 }
                 if (this.AdditionalProperties != null)
                 {

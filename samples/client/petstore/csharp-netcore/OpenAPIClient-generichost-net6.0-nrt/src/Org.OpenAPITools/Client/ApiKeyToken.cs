@@ -18,7 +18,7 @@ namespace Org.OpenAPITools.Client
         /// </summary>
         /// <param name="value"></param>
         /// <param name="prefix"></param>
-        /// <param name="timeout"></param>        
+        /// <param name="timeout"></param>
         public ApiKeyToken(string value, string prefix = "Bearer ", TimeSpan? timeout = null) : base(timeout)
         {
             _raw = $"{ prefix }{ value }";

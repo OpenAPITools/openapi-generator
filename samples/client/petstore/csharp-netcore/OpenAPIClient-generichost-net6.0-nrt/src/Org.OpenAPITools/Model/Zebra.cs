@@ -16,7 +16,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.IO;
-using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Text.Json;
@@ -29,17 +28,27 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// Zebra
     /// </summary>
-    public partial class Zebra : Dictionary<String, Object>, IEquatable<Zebra>, IValidatableObject
+    public partial class Zebra : Dictionary<String, Object>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Zebra" /> class.
         /// </summary>
-        /// <param name="className">className (required)</param>
+        /// <param name="className">className</param>
         /// <param name="type">type</param>
-        public Zebra(string className, TypeEnum? type = default) : base()
+        [JsonConstructor]
+        public Zebra(string className, TypeEnum type) : base()
         {
+#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (type == null)
+                throw new ArgumentNullException("type is a required property for Zebra and cannot be null.");
+
             if (className == null)
                 throw new ArgumentNullException("className is a required property for Zebra and cannot be null.");
+
+#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
             ClassName = className;
             Type = type;
@@ -53,28 +62,43 @@ namespace Org.OpenAPITools.Model
             /// <summary>
             /// Enum Plains for value: plains
             /// </summary>
-            [EnumMember(Value = "plains")]
             Plains = 1,
 
             /// <summary>
             /// Enum Mountain for value: mountain
             /// </summary>
-            [EnumMember(Value = "mountain")]
             Mountain = 2,
 
             /// <summary>
             /// Enum Grevys for value: grevys
             /// </summary>
-            [EnumMember(Value = "grevys")]
             Grevys = 3
+        }
 
+        /// <summary>
+        /// Returns a TypeEnum
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static TypeEnum? TypeEnumFromString(string value)
+        {
+            if (value == "plains")
+                return TypeEnum.Plains;
+
+            if (value == "mountain")
+                return TypeEnum.Mountain;
+
+            if (value == "grevys")
+                return TypeEnum.Grevys;
+
+            return null;
         }
 
         /// <summary>
         /// Gets or Sets Type
         /// </summary>
         [JsonPropertyName("type")]
-        public TypeEnum? Type { get; set; }
+        public TypeEnum Type { get; set; }
 
         /// <summary>
         /// Gets or Sets ClassName
@@ -86,7 +110,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets additional properties
         /// </summary>
         [JsonExtensionData]
-        public Dictionary<string, JsonElement> AdditionalProperties { get; set; } = new Dictionary<string, JsonElement>();
+        public Dictionary<string, JsonElement> AdditionalProperties { get; } = new Dictionary<string, JsonElement>();
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -103,49 +127,6 @@ namespace Org.OpenAPITools.Model
             sb.Append("}\n");
             return sb.ToString();
         }
-
-        /// <summary>
-        /// Returns true if objects are equal
-        /// </summary>
-        /// <param name="input">Object to be compared</param>
-        /// <returns>Boolean</returns>
-        public override bool Equals(object? input)
-        {
-            return OpenAPIClientUtils.compareLogic.Compare(this, input as Zebra).AreEqual;
-        }
-
-        /// <summary>
-        /// Returns true if Zebra instances are equal
-        /// </summary>
-        /// <param name="input">Instance of Zebra to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(Zebra? input)
-        {
-            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
-        }
-
-        /// <summary>
-        /// Gets the hash code
-        /// </summary>
-        /// <returns>Hash code</returns>
-        public override int GetHashCode()
-        {
-            unchecked // Overflow is fine, just wrap
-            {
-                int hashCode = base.GetHashCode();
-                if (this.ClassName != null)
-                {
-                    hashCode = (hashCode * 59) + this.ClassName.GetHashCode();
-                }
-                hashCode = (hashCode * 59) + this.Type.GetHashCode();
-                if (this.AdditionalProperties != null)
-                {
-                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
-                }
-                return hashCode;
-            }
-        }
-
         /// <summary>
         /// To validate all properties of the instance
         /// </summary>
@@ -157,4 +138,72 @@ namespace Org.OpenAPITools.Model
         }
     }
 
+    /// <summary>
+    /// A Json converter for type Zebra
+    /// </summary>
+    public class ZebraJsonConverter : JsonConverter<Zebra>
+    {
+        /// <summary>
+        /// Returns a boolean if the type is compatible with this converter.
+        /// </summary>
+        /// <param name="typeToConvert"></param>
+        /// <returns></returns>
+        public override bool CanConvert(Type typeToConvert) => typeof(Zebra).IsAssignableFrom(typeToConvert);
+
+        /// <summary>
+        /// A Json reader.
+        /// </summary>
+        /// <param name="reader"></param>
+        /// <param name="typeToConvert"></param>
+        /// <param name="options"></param>
+        /// <returns></returns>
+        /// <exception cref="JsonException"></exception>
+        public override Zebra Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        {
+            int currentDepth = reader.CurrentDepth;
+
+            if (reader.TokenType != JsonTokenType.StartObject)
+                throw new JsonException();
+
+            string className = default;
+            Zebra.TypeEnum? type = default;
+
+            while (reader.Read())
+            {
+                if (reader.TokenType == JsonTokenType.EndObject && currentDepth == reader.CurrentDepth)
+                    break;
+
+                if (reader.TokenType == JsonTokenType.PropertyName)
+                {
+                    string? propertyName = reader.GetString();
+                    reader.Read();
+
+                    switch (propertyName)
+                    {
+                        case "className":
+                            className = reader.GetString();
+                            break;
+                        case "type":
+                            string typeRawValue = reader.GetString();
+                            type = Zebra.TypeEnumFromString(typeRawValue);
+                            break;
+                    }
+                }
+            }
+
+            return new Zebra(className, type.Value);
+        }
+
+        /// <summary>
+        /// A Json writer
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="zebra"></param>
+        /// <param name="options"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public override void Write(Utf8JsonWriter writer, Zebra zebra, JsonSerializerOptions options)
+        {
+            JsonSerializer.Serialize(writer, zebra);
+        }
+    }
 }

@@ -115,7 +115,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         );
 
         mapTypes = new HashSet<>(
-                Arrays.asList("IDictionary")
+                Arrays.asList("IDictionary", "Dictionary")
         );
 
         // NOTE: C# uses camel cased reserved words, while models are title cased. We don't want lowercase comparisons.
@@ -413,6 +413,18 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         super.postProcessModelProperty(model, property);
+        if (property.isInnerEnum && property.items != null) {
+            // format maps of inner enums to include the classname eg: Dictionary<string, MapTest.InnerEnum>
+            property.dataType = property.dataType.replace(property.items.datatypeWithEnum, model.classname + "." + property.items.datatypeWithEnum);
+            property.datatypeWithEnum = property.datatypeWithEnum.replace(property.items.datatypeWithEnum, model.classname + "." + property.items.datatypeWithEnum);
+        }
+        if (property.isMap || property.isContainer) {
+            // maps of enums will be marked both isMap and isEnum
+            // see map_of_enum_string in the sample - csharp-netcore-OpenAPIClient-generichost-netcore5.0
+            property.isEnum = false;
+            property.isInnerEnum = false;
+            property.isString = false;
+        }
     }
 
     @Override
@@ -424,7 +436,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                 // which will result in compilation error
                 // if found, prepend with _ to workaround the limitation
                 if (var.name.equalsIgnoreCase(cm.classname)) {
-                    var.name = "_" + var.name;
+                    var.name = var.name + "Property";
                 }
             }
         }
@@ -444,49 +456,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         postProcessEnumRefs(processed);
         updateValueTypeProperty(processed);
         updateNullableTypeProperty(processed);
-        ensureAllModelsPropertyNamesAreNotReservedWords(processed);
         return processed;
-    }
-
-    /**
-    * Iterates the models and calls ensurePropertyNamesAreNotReservedWords 
-    * for each collection of CodegenProperties
-    * @param models processed models to be further processed for enum references
-    */
-    protected void ensureAllModelsPropertyNamesAreNotReservedWords(final Map<String, ModelsMap> models) {
-        for (Map.Entry<String, ModelsMap> entry : models.entrySet()) {
-            String openAPIName = entry.getKey();
-            CodegenModel model = ModelUtils.getModelByName(openAPIName, models);
-            if (model != null) {
-                ensurePropertyNamesAreNotReservedWords(model.vars);
-                ensurePropertyNamesAreNotReservedWords(model.allVars);
-                ensurePropertyNamesAreNotReservedWords(model.requiredVars);
-                ensurePropertyNamesAreNotReservedWords(model.optionalVars);
-                ensurePropertyNamesAreNotReservedWords(model.readOnlyVars);
-                ensurePropertyNamesAreNotReservedWords(model.readWriteVars);
-                ensurePropertyNamesAreNotReservedWords(model.parentVars);
-            }
-        }
-    }
-
-    /**
-    * Renames any CodegenProperty#name if it is a reserved word, 
-    * or if the camelized and sanitized output is a reserved word.
-    * This ensure CamelCaseLambda will not prefix the name with an underscore.
-    * Doing so will break the mapping of JSON property to C# class property.
-    * @param vars the collection of variables
-    */
-    protected void ensurePropertyNamesAreNotReservedWords(List<CodegenProperty> vars) {
-        for (CodegenProperty cp : vars) {
-            if (reservedWords().contains(cp.name)){
-                cp.name = "Property" + cp.name;
-            } else {
-                String camelCaseLambda = camelize(sanitizeName(cp.name), true);
-                if (reservedWords().contains(camelCaseLambda)) {
-                    cp.name = "Property" + cp.name;
-                }
-            }
-        }
     }
 
     @Override
@@ -739,7 +709,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                             }
                         } else {
                             operation.returnContainer = operation.returnType;
-                            operation.isMap = this.mapTypes.contains(typeMapping);
+                            operation.isMap = this.mapTypes.stream().anyMatch(t -> typeMapping.startsWith(t));
                         }
                     }
 
@@ -1448,8 +1418,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     public void postProcessParameter(CodegenParameter parameter) {
         super.postProcessParameter(parameter);
 
-        // ensure a method's parameters are marked as nullable when nullable or when nullReferences are enabled
-        // this is mostly needed for reference types used as a method's parameters
+        // TODO: instead of appending the ?
+        // use isNullable, OptionalParameterLambda, or RequiredParameterLambda
         if (!parameter.required && (nullReferenceTypesFlag || nullableType.contains(parameter.dataType))) {
             parameter.dataType = parameter.dataType.endsWith("?")
                 ? parameter.dataType

@@ -14,7 +14,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.IO;
-using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Text.Json;
@@ -27,14 +26,15 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// IsoscelesTriangle
     /// </summary>
-    public partial class IsoscelesTriangle : IEquatable<IsoscelesTriangle>, IValidatableObject
+    public partial class IsoscelesTriangle : IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="IsoscelesTriangle" /> class.
         /// </summary>
         /// <param name="shapeInterface"></param>
         /// <param name="triangleInterface"></param>
-        public IsoscelesTriangle(ShapeInterface shapeInterface, TriangleInterface triangleInterface)
+        [JsonConstructor]
+        internal IsoscelesTriangle(ShapeInterface shapeInterface, TriangleInterface triangleInterface)
         {
             ShapeInterface = shapeInterface;
             TriangleInterface = triangleInterface;
@@ -61,40 +61,6 @@ namespace Org.OpenAPITools.Model
             sb.Append("}\n");
             return sb.ToString();
         }
-
-        /// <summary>
-        /// Returns true if objects are equal
-        /// </summary>
-        /// <param name="input">Object to be compared</param>
-        /// <returns>Boolean</returns>
-        public override bool Equals(object input)
-        {
-            return OpenAPIClientUtils.compareLogic.Compare(this, input as IsoscelesTriangle).AreEqual;
-        }
-
-        /// <summary>
-        /// Returns true if IsoscelesTriangle instances are equal
-        /// </summary>
-        /// <param name="input">Instance of IsoscelesTriangle to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(IsoscelesTriangle input)
-        {
-            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
-        }
-
-        /// <summary>
-        /// Gets the hash code
-        /// </summary>
-        /// <returns>Hash code</returns>
-        public override int GetHashCode()
-        {
-            unchecked // Overflow is fine, just wrap
-            {
-                int hashCode = 41;
-                return hashCode;
-            }
-        }
-
         /// <summary>
         /// To validate all properties of the instance
         /// </summary>
@@ -166,6 +132,9 @@ namespace Org.OpenAPITools.Model
         /// <param name="isoscelesTriangle"></param>
         /// <param name="options"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public override void Write(Utf8JsonWriter writer, IsoscelesTriangle isoscelesTriangle, JsonSerializerOptions options) => throw new NotImplementedException();
+        public override void Write(Utf8JsonWriter writer, IsoscelesTriangle isoscelesTriangle, JsonSerializerOptions options)
+        {
+            JsonSerializer.Serialize(writer, isoscelesTriangle);
+        }
     }
 }

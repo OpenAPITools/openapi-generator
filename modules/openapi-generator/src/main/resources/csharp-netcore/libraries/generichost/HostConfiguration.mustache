@@ -18,10 +18,10 @@ namespace {{packageName}}.Client
     /// <summary>
     /// Provides hosting configuration for {{packageName}}
     /// </summary>
-    public class HostConfiguration
+    {{>visibility}} class HostConfiguration
     {
         private readonly IServiceCollection _services;
-        private JsonSerializerOptions _jsonOptions = new JsonSerializerOptions();
+        private readonly JsonSerializerOptions _jsonOptions = new JsonSerializerOptions();
 
         internal bool HttpClientsAdded { get; private set; }
 
@@ -36,22 +36,26 @@ namespace {{packageName}}.Client
             _jsonOptions.Converters.Add(new OpenAPIDateJsonConverter());
 {{#models}}
 {{#model}}
+{{#isEnum}}
+            _jsonOptions.Converters.Add(new {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}Converter());
+            _jsonOptions.Converters.Add(new {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}NullableConverter());
+{{/isEnum}}
 {{^isEnum}}
-{{#allOf}}
-{{#-first}}
+{{! {{#allOf}}
+{{! {{#-first}}
             _jsonOptions.Converters.Add(new {{classname}}JsonConverter());
-{{/-first}}
-{{/allOf}}
-{{#anyOf}}
-{{#-first}}
-            _jsonOptions.Converters.Add(new {{classname}}JsonConverter());
-{{/-first}}
-{{/anyOf}}
-{{#oneOf}}
-{{#-first}}
-            _jsonOptions.Converters.Add(new {{classname}}JsonConverter());
-{{/-first}}
-{{/oneOf}}
+{{! {{/-first}}
+{{! {{/allOf}}
+{{! {{#anyOf}}
+{{! {{#-first}}
+            //{{! _jsonOptions.Converters.Add(new {{classname}}JsonConverter()); }}
+{{! {{/-first}}
+{{! {{/anyOf}}
+{{! {{#oneOf}}
+{{! {{#-first}}
+            //{{! _jsonOptions.Converters.Add(new {{classname}}JsonConverter()); }}
+{{! {{/-first}}
+{{! {{/oneOf}}
 {{/isEnum}}
 {{/model}}
 {{/models}}

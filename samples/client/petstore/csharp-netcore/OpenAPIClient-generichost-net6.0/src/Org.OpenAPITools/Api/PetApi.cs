@@ -49,6 +49,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;object&gt;</returns>
         Task<object> AddPetAsync(Pet pet, System.Threading.CancellationToken? cancellationToken = null);
+
         /// <summary>
         /// Deletes a pet
         /// </summary>
@@ -74,6 +75,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;object&gt;</returns>
         Task<object> DeletePetAsync(long petId, string apiKey = null, System.Threading.CancellationToken? cancellationToken = null);
+
         /// <summary>
         /// Finds Pets by status
         /// </summary>
@@ -97,6 +99,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;List&lt;Pet&gt;&gt;</returns>
         Task<List<Pet>> FindPetsByStatusAsync(List<string> status, System.Threading.CancellationToken? cancellationToken = null);
+
         /// <summary>
         /// Finds Pets by tags
         /// </summary>
@@ -120,6 +123,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;List&lt;Pet&gt;&gt;</returns>
         Task<List<Pet>> FindPetsByTagsAsync(List<string> tags, System.Threading.CancellationToken? cancellationToken = null);
+
         /// <summary>
         /// Find pet by ID
         /// </summary>
@@ -143,6 +147,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;Pet&gt;</returns>
         Task<Pet> GetPetByIdAsync(long petId, System.Threading.CancellationToken? cancellationToken = null);
+
         /// <summary>
         /// Update an existing pet
         /// </summary>
@@ -166,6 +171,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;object&gt;</returns>
         Task<object> UpdatePetAsync(Pet pet, System.Threading.CancellationToken? cancellationToken = null);
+
         /// <summary>
         /// Updates a pet in the store with form data
         /// </summary>
@@ -193,19 +199,6 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;object&gt;</returns>
         Task<object> UpdatePetWithFormAsync(long petId, string name = null, string status = null, System.Threading.CancellationToken? cancellationToken = null);
-        /// <summary>
-        /// uploads an image
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="petId">ID of pet to update</param>
-        /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
-        /// <param name="file">file to upload (optional)</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task&lt;ApiResponse&lt;ApiResponse&gt;&gt;</returns>
-        Task<ApiResponse<ApiResponse>> UploadFileWithHttpInfoAsync(long petId, string additionalMetadata = null, System.IO.Stream file = null, System.Threading.CancellationToken? cancellationToken = null);
 
         /// <summary>
         /// uploads an image
@@ -215,24 +208,25 @@ namespace Org.OpenAPITools.Api
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="petId">ID of pet to update</param>
-        /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="file">file to upload (optional)</param>
+        /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse&lt;ApiResponse&gt;</returns>
-        Task<ApiResponse> UploadFileAsync(long petId, string additionalMetadata = null, System.IO.Stream file = null, System.Threading.CancellationToken? cancellationToken = null);
+        /// <returns>Task&lt;ApiResponse&lt;ApiResponse&gt;&gt;</returns>
+        Task<ApiResponse<ApiResponse>> UploadFileWithHttpInfoAsync(long petId, System.IO.Stream file = null, string additionalMetadata = null, System.Threading.CancellationToken? cancellationToken = null);
+
         /// <summary>
-        /// uploads an image (required)
+        /// uploads an image
         /// </summary>
         /// <remarks>
         /// 
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="petId">ID of pet to update</param>
-        /// <param name="requiredFile">file to upload</param>
+        /// <param name="file">file to upload (optional)</param>
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task&lt;ApiResponse&lt;ApiResponse&gt;&gt;</returns>
-        Task<ApiResponse<ApiResponse>> UploadFileWithRequiredFileWithHttpInfoAsync(long petId, System.IO.Stream requiredFile, string additionalMetadata = null, System.Threading.CancellationToken? cancellationToken = null);
+        /// <returns>Task of ApiResponse&lt;ApiResponse&gt;</returns>
+        Task<ApiResponse> UploadFileAsync(long petId, System.IO.Stream file = null, string additionalMetadata = null, System.Threading.CancellationToken? cancellationToken = null);
 
         /// <summary>
         /// uploads an image (required)
@@ -241,12 +235,28 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="petId">ID of pet to update</param>
         /// <param name="requiredFile">file to upload</param>
+        /// <param name="petId">ID of pet to update</param>
+        /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task&lt;ApiResponse&lt;ApiResponse&gt;&gt;</returns>
+        Task<ApiResponse<ApiResponse>> UploadFileWithRequiredFileWithHttpInfoAsync(System.IO.Stream requiredFile, long petId, string additionalMetadata = null, System.Threading.CancellationToken? cancellationToken = null);
+
+        /// <summary>
+        /// uploads an image (required)
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="requiredFile">file to upload</param>
+        /// <param name="petId">ID of pet to update</param>
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;ApiResponse&gt;</returns>
-        Task<ApiResponse> UploadFileWithRequiredFileAsync(long petId, System.IO.Stream requiredFile, string additionalMetadata = null, System.Threading.CancellationToken? cancellationToken = null);    }
+        Task<ApiResponse> UploadFileWithRequiredFileAsync(System.IO.Stream requiredFile, long petId, string additionalMetadata = null, System.Threading.CancellationToken? cancellationToken = null);
+
+    }
 
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
@@ -369,11 +379,13 @@ namespace Org.OpenAPITools.Api
             try
             {
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+                #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
                 if (pet == null)
                     throw new ArgumentNullException(nameof(pet));
 
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+                #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
@@ -511,8 +523,13 @@ namespace Org.OpenAPITools.Api
             try
             {
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+                #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+                if (petId == null)
+                    throw new ArgumentNullException(nameof(petId));
 
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+                #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
@@ -626,11 +643,13 @@ namespace Org.OpenAPITools.Api
             try
             {
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+                #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
                 if (status == null)
                     throw new ArgumentNullException(nameof(status));
 
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+                #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
@@ -767,11 +786,13 @@ namespace Org.OpenAPITools.Api
             try
             {
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+                #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
                 if (tags == null)
                     throw new ArgumentNullException(nameof(tags));
 
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+                #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
@@ -908,8 +929,13 @@ namespace Org.OpenAPITools.Api
             try
             {
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+                #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+                if (petId == null)
+                    throw new ArgumentNullException(nameof(petId));
 
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+                #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
@@ -1030,11 +1056,13 @@ namespace Org.OpenAPITools.Api
             try
             {
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+                #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
                 if (pet == null)
                     throw new ArgumentNullException(nameof(pet));
 
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+                #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
@@ -1175,8 +1203,13 @@ namespace Org.OpenAPITools.Api
             try
             {
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+                #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+                if (petId == null)
+                    throw new ArgumentNullException(nameof(petId));
 
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+                #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
@@ -1263,13 +1296,13 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="petId">ID of pet to update</param>
-        /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="file">file to upload (optional)</param>
+        /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse"/>&gt;</returns>
-        public async Task<ApiResponse> UploadFileAsync(long petId, string additionalMetadata = null, System.IO.Stream file = null, System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<ApiResponse> UploadFileAsync(long petId, System.IO.Stream file = null, string additionalMetadata = null, System.Threading.CancellationToken? cancellationToken = null)
         {
-            ApiResponse<ApiResponse> result = await UploadFileWithHttpInfoAsync(petId, additionalMetadata, file, cancellationToken).ConfigureAwait(false);
+            ApiResponse<ApiResponse> result = await UploadFileWithHttpInfoAsync(petId, file, additionalMetadata, cancellationToken).ConfigureAwait(false);
 
             if (result.Content == null)
                 throw new ApiException(result.ReasonPhrase, result.StatusCode, result.RawContent);
@@ -1282,16 +1315,16 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="petId">ID of pet to update</param>
-        /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="file">file to upload (optional)</param>
+        /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse"/>&gt;</returns>
-        public async Task<ApiResponse> UploadFileOrDefaultAsync(long petId, string additionalMetadata = null, System.IO.Stream file = null, System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<ApiResponse> UploadFileOrDefaultAsync(long petId, System.IO.Stream file = null, string additionalMetadata = null, System.Threading.CancellationToken? cancellationToken = null)
         {
             ApiResponse<ApiResponse> result = null;
             try 
             {
-                result = await UploadFileWithHttpInfoAsync(petId, additionalMetadata, file, cancellationToken).ConfigureAwait(false);
+                result = await UploadFileWithHttpInfoAsync(petId, file, additionalMetadata, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception)
             {
@@ -1307,17 +1340,22 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="petId">ID of pet to update</param>
-        /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="file">file to upload (optional)</param>
+        /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="ApiResponse"/></returns>
-        public async Task<ApiResponse<ApiResponse>> UploadFileWithHttpInfoAsync(long petId, string additionalMetadata = null, System.IO.Stream file = null, System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<ApiResponse<ApiResponse>> UploadFileWithHttpInfoAsync(long petId, System.IO.Stream file = null, string additionalMetadata = null, System.Threading.CancellationToken? cancellationToken = null)
         {
             try
             {
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+                #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+                if (petId == null)
+                    throw new ArgumentNullException(nameof(petId));
 
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+                #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
@@ -1335,11 +1373,11 @@ namespace Org.OpenAPITools.Api
 
                     multipartContent.Add(new FormUrlEncodedContent(formParams));
 
-                    if (additionalMetadata != null)
-                        formParams.Add(new KeyValuePair<string, string>("additionalMetadata", ClientUtils.ParameterToString(additionalMetadata)));
-
                     if (file != null)
                         multipartContent.Add(new StreamContent(file));
+
+                    if (additionalMetadata != null)
+                        formParams.Add(new KeyValuePair<string, string>("additionalMetadata", ClientUtils.ParameterToString(additionalMetadata)));
 
                     List<TokenBase> tokens = new List<TokenBase>();
 
@@ -1412,14 +1450,14 @@ namespace Org.OpenAPITools.Api
         /// uploads an image (required) 
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="petId">ID of pet to update</param>
         /// <param name="requiredFile">file to upload</param>
+        /// <param name="petId">ID of pet to update</param>
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse"/>&gt;</returns>
-        public async Task<ApiResponse> UploadFileWithRequiredFileAsync(long petId, System.IO.Stream requiredFile, string additionalMetadata = null, System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<ApiResponse> UploadFileWithRequiredFileAsync(System.IO.Stream requiredFile, long petId, string additionalMetadata = null, System.Threading.CancellationToken? cancellationToken = null)
         {
-            ApiResponse<ApiResponse> result = await UploadFileWithRequiredFileWithHttpInfoAsync(petId, requiredFile, additionalMetadata, cancellationToken).ConfigureAwait(false);
+            ApiResponse<ApiResponse> result = await UploadFileWithRequiredFileWithHttpInfoAsync(requiredFile, petId, additionalMetadata, cancellationToken).ConfigureAwait(false);
 
             if (result.Content == null)
                 throw new ApiException(result.ReasonPhrase, result.StatusCode, result.RawContent);
@@ -1431,17 +1469,17 @@ namespace Org.OpenAPITools.Api
         /// uploads an image (required) 
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="petId">ID of pet to update</param>
         /// <param name="requiredFile">file to upload</param>
+        /// <param name="petId">ID of pet to update</param>
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse"/>&gt;</returns>
-        public async Task<ApiResponse> UploadFileWithRequiredFileOrDefaultAsync(long petId, System.IO.Stream requiredFile, string additionalMetadata = null, System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<ApiResponse> UploadFileWithRequiredFileOrDefaultAsync(System.IO.Stream requiredFile, long petId, string additionalMetadata = null, System.Threading.CancellationToken? cancellationToken = null)
         {
             ApiResponse<ApiResponse> result = null;
             try 
             {
-                result = await UploadFileWithRequiredFileWithHttpInfoAsync(petId, requiredFile, additionalMetadata, cancellationToken).ConfigureAwait(false);
+                result = await UploadFileWithRequiredFileWithHttpInfoAsync(requiredFile, petId, additionalMetadata, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception)
             {
@@ -1456,21 +1494,26 @@ namespace Org.OpenAPITools.Api
         /// uploads an image (required) 
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="petId">ID of pet to update</param>
         /// <param name="requiredFile">file to upload</param>
+        /// <param name="petId">ID of pet to update</param>
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="ApiResponse"/></returns>
-        public async Task<ApiResponse<ApiResponse>> UploadFileWithRequiredFileWithHttpInfoAsync(long petId, System.IO.Stream requiredFile, string additionalMetadata = null, System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<ApiResponse<ApiResponse>> UploadFileWithRequiredFileWithHttpInfoAsync(System.IO.Stream requiredFile, long petId, string additionalMetadata = null, System.Threading.CancellationToken? cancellationToken = null)
         {
             try
             {
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+                #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
                 if (requiredFile == null)
                     throw new ArgumentNullException(nameof(requiredFile));
 
+                if (petId == null)
+                    throw new ArgumentNullException(nameof(petId));
+
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+                #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {

@@ -16,7 +16,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.IO;
-using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Text.Json;
@@ -29,28 +28,38 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// InlineResponseDefault
     /// </summary>
-    public partial class InlineResponseDefault : IEquatable<InlineResponseDefault>, IValidatableObject
+    public partial class InlineResponseDefault : IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="InlineResponseDefault" /> class.
         /// </summary>
-        /// <param name="propertyString">propertyString</param>
-        public InlineResponseDefault(Foo? propertyString = default)
+        /// <param name="_string">_string</param>
+        [JsonConstructor]
+        public InlineResponseDefault(Foo _string)
         {
-            PropertyString = propertyString;
+#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (_string == null)
+                throw new ArgumentNullException("_string is a required property for InlineResponseDefault and cannot be null.");
+
+#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            String = _string;
         }
 
         /// <summary>
-        /// Gets or Sets PropertyString
+        /// Gets or Sets String
         /// </summary>
         [JsonPropertyName("string")]
-        public Foo? PropertyString { get; set; }
+        public Foo String { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
         /// </summary>
         [JsonExtensionData]
-        public Dictionary<string, JsonElement> AdditionalProperties { get; set; } = new Dictionary<string, JsonElement>();
+        public Dictionary<string, JsonElement> AdditionalProperties { get; } = new Dictionary<string, JsonElement>();
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -60,53 +69,11 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class InlineResponseDefault {\n");
-            sb.Append("  PropertyString: ").Append(PropertyString).Append("\n");
+            sb.Append("  String: ").Append(String).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
-
-        /// <summary>
-        /// Returns true if objects are equal
-        /// </summary>
-        /// <param name="input">Object to be compared</param>
-        /// <returns>Boolean</returns>
-        public override bool Equals(object? input)
-        {
-            return OpenAPIClientUtils.compareLogic.Compare(this, input as InlineResponseDefault).AreEqual;
-        }
-
-        /// <summary>
-        /// Returns true if InlineResponseDefault instances are equal
-        /// </summary>
-        /// <param name="input">Instance of InlineResponseDefault to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(InlineResponseDefault? input)
-        {
-            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
-        }
-
-        /// <summary>
-        /// Gets the hash code
-        /// </summary>
-        /// <returns>Hash code</returns>
-        public override int GetHashCode()
-        {
-            unchecked // Overflow is fine, just wrap
-            {
-                int hashCode = 41;
-                if (this.PropertyString != null)
-                {
-                    hashCode = (hashCode * 59) + this.PropertyString.GetHashCode();
-                }
-                if (this.AdditionalProperties != null)
-                {
-                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
-                }
-                return hashCode;
-            }
-        }
-
         /// <summary>
         /// To validate all properties of the instance
         /// </summary>
@@ -118,4 +85,68 @@ namespace Org.OpenAPITools.Model
         }
     }
 
+    /// <summary>
+    /// A Json converter for type InlineResponseDefault
+    /// </summary>
+    public class InlineResponseDefaultJsonConverter : JsonConverter<InlineResponseDefault>
+    {
+        /// <summary>
+        /// Returns a boolean if the type is compatible with this converter.
+        /// </summary>
+        /// <param name="typeToConvert"></param>
+        /// <returns></returns>
+        public override bool CanConvert(Type typeToConvert) => typeof(InlineResponseDefault).IsAssignableFrom(typeToConvert);
+
+        /// <summary>
+        /// A Json reader.
+        /// </summary>
+        /// <param name="reader"></param>
+        /// <param name="typeToConvert"></param>
+        /// <param name="options"></param>
+        /// <returns></returns>
+        /// <exception cref="JsonException"></exception>
+        public override InlineResponseDefault Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        {
+            int currentDepth = reader.CurrentDepth;
+
+            if (reader.TokenType != JsonTokenType.StartObject)
+                throw new JsonException();
+
+            Foo _string = default;
+
+            while (reader.Read())
+            {
+                if (reader.TokenType == JsonTokenType.EndObject && currentDepth == reader.CurrentDepth)
+                    break;
+
+                if (reader.TokenType == JsonTokenType.PropertyName)
+                {
+                    string? propertyName = reader.GetString();
+                    reader.Read();
+
+                    switch (propertyName)
+                    {
+                        case "string":
+                            Utf8JsonReader _stringReader = reader;
+                            _string = JsonSerializer.Deserialize<Foo>(ref reader, options);
+                            break;
+                    }
+                }
+            }
+
+            return new InlineResponseDefault(_string);
+        }
+
+        /// <summary>
+        /// A Json writer
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="inlineResponseDefault"></param>
+        /// <param name="options"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public override void Write(Utf8JsonWriter writer, InlineResponseDefault inlineResponseDefault, JsonSerializerOptions options)
+        {
+            JsonSerializer.Serialize(writer, inlineResponseDefault);
+        }
+    }
 }

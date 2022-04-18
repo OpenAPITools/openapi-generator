@@ -16,7 +16,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.IO;
-using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Text.Json;
@@ -29,31 +28,50 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// Pet
     /// </summary>
-    public partial class Pet : IEquatable<Pet>, IValidatableObject
+    public partial class Pet : IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Pet" /> class.
         /// </summary>
-        /// <param name="name">name (required)</param>
-        /// <param name="photoUrls">photoUrls (required)</param>
-        /// <param name="id">id</param>
         /// <param name="category">category</param>
-        /// <param name="tags">tags</param>
+        /// <param name="id">id</param>
+        /// <param name="name">name</param>
+        /// <param name="photoUrls">photoUrls</param>
         /// <param name="status">pet status in the store</param>
-        public Pet(string name, List<string> photoUrls, long? id = default, Category? category = default, List<Tag>? tags = default, StatusEnum? status = default)
+        /// <param name="tags">tags</param>
+        [JsonConstructor]
+        public Pet(Category category, long id, string name, List<string> photoUrls, StatusEnum status, List<Tag> tags)
         {
+#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (id == null)
+                throw new ArgumentNullException("id is a required property for Pet and cannot be null.");
+
+            if (category == null)
+                throw new ArgumentNullException("category is a required property for Pet and cannot be null.");
+
             if (name == null)
                 throw new ArgumentNullException("name is a required property for Pet and cannot be null.");
 
             if (photoUrls == null)
                 throw new ArgumentNullException("photoUrls is a required property for Pet and cannot be null.");
 
+            if (tags == null)
+                throw new ArgumentNullException("tags is a required property for Pet and cannot be null.");
+
+            if (status == null)
+                throw new ArgumentNullException("status is a required property for Pet and cannot be null.");
+
+#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            Category = category;
+            Id = id;
             Name = name;
             PhotoUrls = photoUrls;
-            Id = id;
-            Category = category;
-            Tags = tags;
             Status = status;
+            Tags = tags;
         }
 
         /// <summary>
@@ -65,21 +83,36 @@ namespace Org.OpenAPITools.Model
             /// <summary>
             /// Enum Available for value: available
             /// </summary>
-            [EnumMember(Value = "available")]
             Available = 1,
 
             /// <summary>
             /// Enum Pending for value: pending
             /// </summary>
-            [EnumMember(Value = "pending")]
             Pending = 2,
 
             /// <summary>
             /// Enum Sold for value: sold
             /// </summary>
-            [EnumMember(Value = "sold")]
             Sold = 3
+        }
 
+        /// <summary>
+        /// Returns a StatusEnum
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static StatusEnum? StatusEnumFromString(string value)
+        {
+            if (value == "available")
+                return StatusEnum.Available;
+
+            if (value == "pending")
+                return StatusEnum.Pending;
+
+            if (value == "sold")
+                return StatusEnum.Sold;
+
+            return null;
         }
 
         /// <summary>
@@ -87,7 +120,19 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>pet status in the store</value>
         [JsonPropertyName("status")]
-        public StatusEnum? Status { get; set; }
+        public StatusEnum Status { get; set; }
+
+        /// <summary>
+        /// Gets or Sets Category
+        /// </summary>
+        [JsonPropertyName("category")]
+        public Category Category { get; set; }
+
+        /// <summary>
+        /// Gets or Sets Id
+        /// </summary>
+        [JsonPropertyName("id")]
+        public long Id { get; set; }
 
         /// <summary>
         /// Gets or Sets Name
@@ -102,28 +147,16 @@ namespace Org.OpenAPITools.Model
         public List<string> PhotoUrls { get; set; }
 
         /// <summary>
-        /// Gets or Sets Id
-        /// </summary>
-        [JsonPropertyName("id")]
-        public long? Id { get; set; }
-
-        /// <summary>
-        /// Gets or Sets Category
-        /// </summary>
-        [JsonPropertyName("category")]
-        public Category? Category { get; set; }
-
-        /// <summary>
         /// Gets or Sets Tags
         /// </summary>
         [JsonPropertyName("tags")]
-        public List<Tag>? Tags { get; set; }
+        public List<Tag> Tags { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
         /// </summary>
         [JsonExtensionData]
-        public Dictionary<string, JsonElement> AdditionalProperties { get; set; } = new Dictionary<string, JsonElement>();
+        public Dictionary<string, JsonElement> AdditionalProperties { get; } = new Dictionary<string, JsonElement>();
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -133,72 +166,16 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Pet {\n");
+            sb.Append("  Category: ").Append(Category).Append("\n");
+            sb.Append("  Id: ").Append(Id).Append("\n");
             sb.Append("  Name: ").Append(Name).Append("\n");
             sb.Append("  PhotoUrls: ").Append(PhotoUrls).Append("\n");
-            sb.Append("  Id: ").Append(Id).Append("\n");
-            sb.Append("  Category: ").Append(Category).Append("\n");
-            sb.Append("  Tags: ").Append(Tags).Append("\n");
             sb.Append("  Status: ").Append(Status).Append("\n");
+            sb.Append("  Tags: ").Append(Tags).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
-
-        /// <summary>
-        /// Returns true if objects are equal
-        /// </summary>
-        /// <param name="input">Object to be compared</param>
-        /// <returns>Boolean</returns>
-        public override bool Equals(object? input)
-        {
-            return OpenAPIClientUtils.compareLogic.Compare(this, input as Pet).AreEqual;
-        }
-
-        /// <summary>
-        /// Returns true if Pet instances are equal
-        /// </summary>
-        /// <param name="input">Instance of Pet to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(Pet? input)
-        {
-            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
-        }
-
-        /// <summary>
-        /// Gets the hash code
-        /// </summary>
-        /// <returns>Hash code</returns>
-        public override int GetHashCode()
-        {
-            unchecked // Overflow is fine, just wrap
-            {
-                int hashCode = 41;
-                if (this.Name != null)
-                {
-                    hashCode = (hashCode * 59) + this.Name.GetHashCode();
-                }
-                if (this.PhotoUrls != null)
-                {
-                    hashCode = (hashCode * 59) + this.PhotoUrls.GetHashCode();
-                }
-                hashCode = (hashCode * 59) + this.Id.GetHashCode();
-                if (this.Category != null)
-                {
-                    hashCode = (hashCode * 59) + this.Category.GetHashCode();
-                }
-                if (this.Tags != null)
-                {
-                    hashCode = (hashCode * 59) + this.Tags.GetHashCode();
-                }
-                hashCode = (hashCode * 59) + this.Status.GetHashCode();
-                if (this.AdditionalProperties != null)
-                {
-                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
-                }
-                return hashCode;
-            }
-        }
-
         /// <summary>
         /// To validate all properties of the instance
         /// </summary>
@@ -210,4 +187,92 @@ namespace Org.OpenAPITools.Model
         }
     }
 
+    /// <summary>
+    /// A Json converter for type Pet
+    /// </summary>
+    public class PetJsonConverter : JsonConverter<Pet>
+    {
+        /// <summary>
+        /// Returns a boolean if the type is compatible with this converter.
+        /// </summary>
+        /// <param name="typeToConvert"></param>
+        /// <returns></returns>
+        public override bool CanConvert(Type typeToConvert) => typeof(Pet).IsAssignableFrom(typeToConvert);
+
+        /// <summary>
+        /// A Json reader.
+        /// </summary>
+        /// <param name="reader"></param>
+        /// <param name="typeToConvert"></param>
+        /// <param name="options"></param>
+        /// <returns></returns>
+        /// <exception cref="JsonException"></exception>
+        public override Pet Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        {
+            int currentDepth = reader.CurrentDepth;
+
+            if (reader.TokenType != JsonTokenType.StartObject)
+                throw new JsonException();
+
+            Category category = default;
+            long id = default;
+            string name = default;
+            List<string> photoUrls = default;
+            Pet.StatusEnum? status = default;
+            List<Tag> tags = default;
+
+            while (reader.Read())
+            {
+                if (reader.TokenType == JsonTokenType.EndObject && currentDepth == reader.CurrentDepth)
+                    break;
+
+                if (reader.TokenType == JsonTokenType.PropertyName)
+                {
+                    string? propertyName = reader.GetString();
+                    reader.Read();
+
+                    switch (propertyName)
+                    {
+                        case "category":
+                            Utf8JsonReader categoryReader = reader;
+                            category = JsonSerializer.Deserialize<Category>(ref reader, options);
+                            break;
+                        case "id":
+                            id = reader.GetInt32();
+                            id = reader.GetInt64();
+                            break;
+                        case "name":
+                            name = reader.GetString();
+                            break;
+                        case "photoUrls":
+                            Utf8JsonReader photoUrlsReader = reader;
+                            photoUrls = JsonSerializer.Deserialize<List<string>>(ref reader, options);
+                            break;
+                        case "status":
+                            string statusRawValue = reader.GetString();
+                            status = Pet.StatusEnumFromString(statusRawValue);
+                            break;
+                        case "tags":
+                            Utf8JsonReader tagsReader = reader;
+                            tags = JsonSerializer.Deserialize<List<Tag>>(ref reader, options);
+                            break;
+                    }
+                }
+            }
+
+            return new Pet(category, id, name, photoUrls, status.Value, tags);
+        }
+
+        /// <summary>
+        /// A Json writer
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="pet"></param>
+        /// <param name="options"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public override void Write(Utf8JsonWriter writer, Pet pet, JsonSerializerOptions options)
+        {
+            JsonSerializer.Serialize(writer, pet);
+        }
+    }
 }

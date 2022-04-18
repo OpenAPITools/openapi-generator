@@ -16,7 +16,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.IO;
-using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Text.Json;
@@ -29,28 +28,38 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// Model for testing model with \&quot;_class\&quot; property
     /// </summary>
-    public partial class ClassModel : IEquatable<ClassModel>, IValidatableObject
+    public partial class ClassModel : IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ClassModel" /> class.
         /// </summary>
-        /// <param name="propertyClass">propertyClass</param>
-        public ClassModel(string? propertyClass = default)
+        /// <param name="_class">_class</param>
+        [JsonConstructor]
+        public ClassModel(string _class)
         {
-            PropertyClass = propertyClass;
+#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (_class == null)
+                throw new ArgumentNullException("_class is a required property for ClassModel and cannot be null.");
+
+#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            Class = _class;
         }
 
         /// <summary>
-        /// Gets or Sets PropertyClass
+        /// Gets or Sets Class
         /// </summary>
         [JsonPropertyName("_class")]
-        public string? PropertyClass { get; set; }
+        public string Class { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
         /// </summary>
         [JsonExtensionData]
-        public Dictionary<string, JsonElement> AdditionalProperties { get; set; } = new Dictionary<string, JsonElement>();
+        public Dictionary<string, JsonElement> AdditionalProperties { get; } = new Dictionary<string, JsonElement>();
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -60,53 +69,11 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class ClassModel {\n");
-            sb.Append("  PropertyClass: ").Append(PropertyClass).Append("\n");
+            sb.Append("  Class: ").Append(Class).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
-
-        /// <summary>
-        /// Returns true if objects are equal
-        /// </summary>
-        /// <param name="input">Object to be compared</param>
-        /// <returns>Boolean</returns>
-        public override bool Equals(object? input)
-        {
-            return OpenAPIClientUtils.compareLogic.Compare(this, input as ClassModel).AreEqual;
-        }
-
-        /// <summary>
-        /// Returns true if ClassModel instances are equal
-        /// </summary>
-        /// <param name="input">Instance of ClassModel to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(ClassModel? input)
-        {
-            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
-        }
-
-        /// <summary>
-        /// Gets the hash code
-        /// </summary>
-        /// <returns>Hash code</returns>
-        public override int GetHashCode()
-        {
-            unchecked // Overflow is fine, just wrap
-            {
-                int hashCode = 41;
-                if (this.PropertyClass != null)
-                {
-                    hashCode = (hashCode * 59) + this.PropertyClass.GetHashCode();
-                }
-                if (this.AdditionalProperties != null)
-                {
-                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
-                }
-                return hashCode;
-            }
-        }
-
         /// <summary>
         /// To validate all properties of the instance
         /// </summary>
@@ -118,4 +85,67 @@ namespace Org.OpenAPITools.Model
         }
     }
 
+    /// <summary>
+    /// A Json converter for type ClassModel
+    /// </summary>
+    public class ClassModelJsonConverter : JsonConverter<ClassModel>
+    {
+        /// <summary>
+        /// Returns a boolean if the type is compatible with this converter.
+        /// </summary>
+        /// <param name="typeToConvert"></param>
+        /// <returns></returns>
+        public override bool CanConvert(Type typeToConvert) => typeof(ClassModel).IsAssignableFrom(typeToConvert);
+
+        /// <summary>
+        /// A Json reader.
+        /// </summary>
+        /// <param name="reader"></param>
+        /// <param name="typeToConvert"></param>
+        /// <param name="options"></param>
+        /// <returns></returns>
+        /// <exception cref="JsonException"></exception>
+        public override ClassModel Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        {
+            int currentDepth = reader.CurrentDepth;
+
+            if (reader.TokenType != JsonTokenType.StartObject)
+                throw new JsonException();
+
+            string _class = default;
+
+            while (reader.Read())
+            {
+                if (reader.TokenType == JsonTokenType.EndObject && currentDepth == reader.CurrentDepth)
+                    break;
+
+                if (reader.TokenType == JsonTokenType.PropertyName)
+                {
+                    string? propertyName = reader.GetString();
+                    reader.Read();
+
+                    switch (propertyName)
+                    {
+                        case "_class":
+                            _class = reader.GetString();
+                            break;
+                    }
+                }
+            }
+
+            return new ClassModel(_class);
+        }
+
+        /// <summary>
+        /// A Json writer
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="classModel"></param>
+        /// <param name="options"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public override void Write(Utf8JsonWriter writer, ClassModel classModel, JsonSerializerOptions options)
+        {
+            JsonSerializer.Serialize(writer, classModel);
+        }
+    }
 }

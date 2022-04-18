@@ -14,7 +14,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.IO;
-using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Text.Json;
@@ -27,14 +26,24 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// ArrayOfArrayOfNumberOnly
     /// </summary>
-    public partial class ArrayOfArrayOfNumberOnly : IEquatable<ArrayOfArrayOfNumberOnly>, IValidatableObject
+    public partial class ArrayOfArrayOfNumberOnly : IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ArrayOfArrayOfNumberOnly" /> class.
         /// </summary>
         /// <param name="arrayArrayNumber">arrayArrayNumber</param>
-        public ArrayOfArrayOfNumberOnly(List<List<decimal>> arrayArrayNumber = default)
+        [JsonConstructor]
+        public ArrayOfArrayOfNumberOnly(List<List<decimal>> arrayArrayNumber)
         {
+#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (arrayArrayNumber == null)
+                throw new ArgumentNullException("arrayArrayNumber is a required property for ArrayOfArrayOfNumberOnly and cannot be null.");
+
+#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
             ArrayArrayNumber = arrayArrayNumber;
         }
 
@@ -48,7 +57,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets additional properties
         /// </summary>
         [JsonExtensionData]
-        public Dictionary<string, JsonElement> AdditionalProperties { get; set; } = new Dictionary<string, JsonElement>();
+        public Dictionary<string, JsonElement> AdditionalProperties { get; } = new Dictionary<string, JsonElement>();
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -63,48 +72,6 @@ namespace Org.OpenAPITools.Model
             sb.Append("}\n");
             return sb.ToString();
         }
-
-        /// <summary>
-        /// Returns true if objects are equal
-        /// </summary>
-        /// <param name="input">Object to be compared</param>
-        /// <returns>Boolean</returns>
-        public override bool Equals(object input)
-        {
-            return OpenAPIClientUtils.compareLogic.Compare(this, input as ArrayOfArrayOfNumberOnly).AreEqual;
-        }
-
-        /// <summary>
-        /// Returns true if ArrayOfArrayOfNumberOnly instances are equal
-        /// </summary>
-        /// <param name="input">Instance of ArrayOfArrayOfNumberOnly to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(ArrayOfArrayOfNumberOnly input)
-        {
-            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
-        }
-
-        /// <summary>
-        /// Gets the hash code
-        /// </summary>
-        /// <returns>Hash code</returns>
-        public override int GetHashCode()
-        {
-            unchecked // Overflow is fine, just wrap
-            {
-                int hashCode = 41;
-                if (this.ArrayArrayNumber != null)
-                {
-                    hashCode = (hashCode * 59) + this.ArrayArrayNumber.GetHashCode();
-                }
-                if (this.AdditionalProperties != null)
-                {
-                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
-                }
-                return hashCode;
-            }
-        }
-
         /// <summary>
         /// To validate all properties of the instance
         /// </summary>
@@ -116,4 +83,68 @@ namespace Org.OpenAPITools.Model
         }
     }
 
+    /// <summary>
+    /// A Json converter for type ArrayOfArrayOfNumberOnly
+    /// </summary>
+    public class ArrayOfArrayOfNumberOnlyJsonConverter : JsonConverter<ArrayOfArrayOfNumberOnly>
+    {
+        /// <summary>
+        /// Returns a boolean if the type is compatible with this converter.
+        /// </summary>
+        /// <param name="typeToConvert"></param>
+        /// <returns></returns>
+        public override bool CanConvert(Type typeToConvert) => typeof(ArrayOfArrayOfNumberOnly).IsAssignableFrom(typeToConvert);
+
+        /// <summary>
+        /// A Json reader.
+        /// </summary>
+        /// <param name="reader"></param>
+        /// <param name="typeToConvert"></param>
+        /// <param name="options"></param>
+        /// <returns></returns>
+        /// <exception cref="JsonException"></exception>
+        public override ArrayOfArrayOfNumberOnly Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        {
+            int currentDepth = reader.CurrentDepth;
+
+            if (reader.TokenType != JsonTokenType.StartObject)
+                throw new JsonException();
+
+            List<List<decimal>> arrayArrayNumber = default;
+
+            while (reader.Read())
+            {
+                if (reader.TokenType == JsonTokenType.EndObject && currentDepth == reader.CurrentDepth)
+                    break;
+
+                if (reader.TokenType == JsonTokenType.PropertyName)
+                {
+                    string propertyName = reader.GetString();
+                    reader.Read();
+
+                    switch (propertyName)
+                    {
+                        case "ArrayArrayNumber":
+                            Utf8JsonReader arrayArrayNumberReader = reader;
+                            arrayArrayNumber = JsonSerializer.Deserialize<List<List<decimal>>>(ref reader, options);
+                            break;
+                    }
+                }
+            }
+
+            return new ArrayOfArrayOfNumberOnly(arrayArrayNumber);
+        }
+
+        /// <summary>
+        /// A Json writer
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="arrayOfArrayOfNumberOnly"></param>
+        /// <param name="options"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public override void Write(Utf8JsonWriter writer, ArrayOfArrayOfNumberOnly arrayOfArrayOfNumberOnly, JsonSerializerOptions options)
+        {
+            JsonSerializer.Serialize(writer, arrayOfArrayOfNumberOnly);
+        }
+    }
 }

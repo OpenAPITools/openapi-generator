@@ -16,7 +16,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.IO;
-using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Text.Json;
@@ -29,21 +28,28 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// Triangle
     /// </summary>
-    public partial class Triangle : IEquatable<Triangle>, IValidatableObject
+    public partial class Triangle : IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Triangle" /> class.
         /// </summary>
         /// <param name="equilateralTriangle"></param>
-        /// <param name="shapeType">shapeType (required)</param>
-        /// <param name="triangleType">triangleType (required)</param>
+        /// <param name="shapeType">shapeType</param>
+        /// <param name="triangleType">triangleType</param>
+        [JsonConstructor]
         public Triangle(EquilateralTriangle equilateralTriangle, string shapeType, string triangleType)
         {
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
             if (shapeType == null)
-                throw new ArgumentNullException("shapeType is a required property for Triangle and cannot be null.");
+                throw new ArgumentNullException(nameof(ShapeType));
 
             if (triangleType == null)
-                throw new ArgumentNullException("triangleType is a required property for Triangle and cannot be null.");
+                throw new ArgumentNullException(nameof(TriangleType));
+
+            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
             EquilateralTriangle = equilateralTriangle;
             ShapeType = shapeType;
@@ -54,15 +60,22 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Triangle" /> class.
         /// </summary>
         /// <param name="isoscelesTriangle"></param>
-        /// <param name="shapeType">shapeType (required)</param>
-        /// <param name="triangleType">triangleType (required)</param>
+        /// <param name="shapeType">shapeType</param>
+        /// <param name="triangleType">triangleType</param>
+        [JsonConstructor]
         public Triangle(IsoscelesTriangle isoscelesTriangle, string shapeType, string triangleType)
         {
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
             if (shapeType == null)
-                throw new ArgumentNullException("shapeType is a required property for Triangle and cannot be null.");
+                throw new ArgumentNullException(nameof(ShapeType));
 
             if (triangleType == null)
-                throw new ArgumentNullException("triangleType is a required property for Triangle and cannot be null.");
+                throw new ArgumentNullException(nameof(TriangleType));
+
+            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
             IsoscelesTriangle = isoscelesTriangle;
             ShapeType = shapeType;
@@ -73,15 +86,22 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Triangle" /> class.
         /// </summary>
         /// <param name="scaleneTriangle"></param>
-        /// <param name="shapeType">shapeType (required)</param>
-        /// <param name="triangleType">triangleType (required)</param>
+        /// <param name="shapeType">shapeType</param>
+        /// <param name="triangleType">triangleType</param>
+        [JsonConstructor]
         public Triangle(ScaleneTriangle scaleneTriangle, string shapeType, string triangleType)
         {
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
             if (shapeType == null)
-                throw new ArgumentNullException("shapeType is a required property for Triangle and cannot be null.");
+                throw new ArgumentNullException(nameof(ShapeType));
 
             if (triangleType == null)
-                throw new ArgumentNullException("triangleType is a required property for Triangle and cannot be null.");
+                throw new ArgumentNullException(nameof(TriangleType));
+
+            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
             ScaleneTriangle = scaleneTriangle;
             ShapeType = shapeType;
@@ -119,7 +139,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets additional properties
         /// </summary>
         [JsonExtensionData]
-        public Dictionary<string, JsonElement> AdditionalProperties { get; set; } = new Dictionary<string, JsonElement>();
+        public Dictionary<string, JsonElement> AdditionalProperties { get; } = new Dictionary<string, JsonElement>();
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -135,52 +155,6 @@ namespace Org.OpenAPITools.Model
             sb.Append("}\n");
             return sb.ToString();
         }
-
-        /// <summary>
-        /// Returns true if objects are equal
-        /// </summary>
-        /// <param name="input">Object to be compared</param>
-        /// <returns>Boolean</returns>
-        public override bool Equals(object? input)
-        {
-            return OpenAPIClientUtils.compareLogic.Compare(this, input as Triangle).AreEqual;
-        }
-
-        /// <summary>
-        /// Returns true if Triangle instances are equal
-        /// </summary>
-        /// <param name="input">Instance of Triangle to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(Triangle? input)
-        {
-            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
-        }
-
-        /// <summary>
-        /// Gets the hash code
-        /// </summary>
-        /// <returns>Hash code</returns>
-        public override int GetHashCode()
-        {
-            unchecked // Overflow is fine, just wrap
-            {
-                int hashCode = 41;
-                if (this.ShapeType != null)
-                {
-                    hashCode = (hashCode * 59) + this.ShapeType.GetHashCode();
-                }
-                if (this.TriangleType != null)
-                {
-                    hashCode = (hashCode * 59) + this.TriangleType.GetHashCode();
-                }
-                if (this.AdditionalProperties != null)
-                {
-                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
-                }
-                return hashCode;
-            }
-        }
-
         /// <summary>
         /// To validate all properties of the instance
         /// </summary>
@@ -238,8 +212,8 @@ namespace Org.OpenAPITools.Model
             Utf8JsonReader scaleneTriangleReader = reader;
             bool scaleneTriangleDeserialized = Client.ClientUtils.TryDeserialize<ScaleneTriangle>(ref scaleneTriangleReader, options, out ScaleneTriangle? scaleneTriangle);
 
-            string? shapeType = default;
-            string? triangleType = default;
+            string shapeType = default;
+            string triangleType = default;
 
             while (reader.Read())
             {
@@ -282,6 +256,9 @@ namespace Org.OpenAPITools.Model
         /// <param name="triangle"></param>
         /// <param name="options"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public override void Write(Utf8JsonWriter writer, Triangle triangle, JsonSerializerOptions options) => throw new NotImplementedException();
+        public override void Write(Utf8JsonWriter writer, Triangle triangle, JsonSerializerOptions options)
+        {
+            JsonSerializer.Serialize(writer, triangle);
+        }
     }
 }

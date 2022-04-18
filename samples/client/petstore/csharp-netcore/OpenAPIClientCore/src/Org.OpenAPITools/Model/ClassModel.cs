@@ -35,17 +35,17 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="ClassModel" /> class.
         /// </summary>
-        /// <param name="propertyClass">propertyClass.</param>
-        public ClassModel(string propertyClass = default(string))
+        /// <param name="_class">_class.</param>
+        public ClassModel(string _class = default(string))
         {
-            this.PropertyClass = propertyClass;
+            this.Class = _class;
         }
 
         /// <summary>
-        /// Gets or Sets PropertyClass
+        /// Gets or Sets Class
         /// </summary>
         [DataMember(Name = "_class", EmitDefaultValue = false)]
-        public string PropertyClass { get; set; }
+        public string Class { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -55,7 +55,7 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class ClassModel {\n");
-            sb.Append("  PropertyClass: ").Append(PropertyClass).Append("\n");
+            sb.Append("  Class: ").Append(Class).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -98,9 +98,9 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.PropertyClass != null)
+                if (this.Class != null)
                 {
-                    hashCode = (hashCode * 59) + this.PropertyClass.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Class.GetHashCode();
                 }
                 return hashCode;
             }

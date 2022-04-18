@@ -16,7 +16,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.IO;
-using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Text.Json;
@@ -29,36 +28,49 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// Model for testing model name starting with number
     /// </summary>
-    public partial class Model200Response : IEquatable<Model200Response>, IValidatableObject
+    public partial class Model200Response : IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Model200Response" /> class.
         /// </summary>
+        /// <param name="_class">_class</param>
         /// <param name="name">name</param>
-        /// <param name="propertyClass">propertyClass</param>
-        public Model200Response(int? name = default, string? propertyClass = default)
+        [JsonConstructor]
+        public Model200Response(string _class, int name)
         {
+#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (name == null)
+                throw new ArgumentNullException("name is a required property for Model200Response and cannot be null.");
+
+            if (_class == null)
+                throw new ArgumentNullException("_class is a required property for Model200Response and cannot be null.");
+
+#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            Class = _class;
             Name = name;
-            PropertyClass = propertyClass;
         }
+
+        /// <summary>
+        /// Gets or Sets Class
+        /// </summary>
+        [JsonPropertyName("class")]
+        public string Class { get; set; }
 
         /// <summary>
         /// Gets or Sets Name
         /// </summary>
         [JsonPropertyName("name")]
-        public int? Name { get; set; }
-
-        /// <summary>
-        /// Gets or Sets PropertyClass
-        /// </summary>
-        [JsonPropertyName("class")]
-        public string? PropertyClass { get; set; }
+        public int Name { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
         /// </summary>
         [JsonExtensionData]
-        public Dictionary<string, JsonElement> AdditionalProperties { get; set; } = new Dictionary<string, JsonElement>();
+        public Dictionary<string, JsonElement> AdditionalProperties { get; } = new Dictionary<string, JsonElement>();
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -68,55 +80,12 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Model200Response {\n");
+            sb.Append("  Class: ").Append(Class).Append("\n");
             sb.Append("  Name: ").Append(Name).Append("\n");
-            sb.Append("  PropertyClass: ").Append(PropertyClass).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
-
-        /// <summary>
-        /// Returns true if objects are equal
-        /// </summary>
-        /// <param name="input">Object to be compared</param>
-        /// <returns>Boolean</returns>
-        public override bool Equals(object? input)
-        {
-            return OpenAPIClientUtils.compareLogic.Compare(this, input as Model200Response).AreEqual;
-        }
-
-        /// <summary>
-        /// Returns true if Model200Response instances are equal
-        /// </summary>
-        /// <param name="input">Instance of Model200Response to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(Model200Response? input)
-        {
-            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
-        }
-
-        /// <summary>
-        /// Gets the hash code
-        /// </summary>
-        /// <returns>Hash code</returns>
-        public override int GetHashCode()
-        {
-            unchecked // Overflow is fine, just wrap
-            {
-                int hashCode = 41;
-                hashCode = (hashCode * 59) + this.Name.GetHashCode();
-                if (this.PropertyClass != null)
-                {
-                    hashCode = (hashCode * 59) + this.PropertyClass.GetHashCode();
-                }
-                if (this.AdditionalProperties != null)
-                {
-                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
-                }
-                return hashCode;
-            }
-        }
-
         /// <summary>
         /// To validate all properties of the instance
         /// </summary>
@@ -128,4 +97,71 @@ namespace Org.OpenAPITools.Model
         }
     }
 
+    /// <summary>
+    /// A Json converter for type Model200Response
+    /// </summary>
+    public class Model200ResponseJsonConverter : JsonConverter<Model200Response>
+    {
+        /// <summary>
+        /// Returns a boolean if the type is compatible with this converter.
+        /// </summary>
+        /// <param name="typeToConvert"></param>
+        /// <returns></returns>
+        public override bool CanConvert(Type typeToConvert) => typeof(Model200Response).IsAssignableFrom(typeToConvert);
+
+        /// <summary>
+        /// A Json reader.
+        /// </summary>
+        /// <param name="reader"></param>
+        /// <param name="typeToConvert"></param>
+        /// <param name="options"></param>
+        /// <returns></returns>
+        /// <exception cref="JsonException"></exception>
+        public override Model200Response Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        {
+            int currentDepth = reader.CurrentDepth;
+
+            if (reader.TokenType != JsonTokenType.StartObject)
+                throw new JsonException();
+
+            string _class = default;
+            int name = default;
+
+            while (reader.Read())
+            {
+                if (reader.TokenType == JsonTokenType.EndObject && currentDepth == reader.CurrentDepth)
+                    break;
+
+                if (reader.TokenType == JsonTokenType.PropertyName)
+                {
+                    string? propertyName = reader.GetString();
+                    reader.Read();
+
+                    switch (propertyName)
+                    {
+                        case "class":
+                            _class = reader.GetString();
+                            break;
+                        case "name":
+                            name = reader.GetInt32();
+                            break;
+                    }
+                }
+            }
+
+            return new Model200Response(_class, name);
+        }
+
+        /// <summary>
+        /// A Json writer
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="model200Response"></param>
+        /// <param name="options"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public override void Write(Utf8JsonWriter writer, Model200Response model200Response, JsonSerializerOptions options)
+        {
+            JsonSerializer.Serialize(writer, model200Response);
+        }
+    }
 }

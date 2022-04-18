@@ -16,7 +16,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.IO;
-using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Text.Json;
@@ -29,16 +28,17 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// Cat
     /// </summary>
-    public partial class Cat : Animal, IEquatable<Cat>
+    public partial class Cat : Animal, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Cat" /> class.
         /// </summary>
         /// <param name="dictionary"></param>
         /// <param name="catAllOf"></param>
-        /// <param name="className">className (required)</param>
+        /// <param name="className">className</param>
         /// <param name="color">color (default to &quot;red&quot;)</param>
-        public Cat(Dictionary<string, int> dictionary, CatAllOf catAllOf, string className, string? color = "red") : base(className, color)
+        [JsonConstructor]
+        internal Cat(Dictionary<string, int> dictionary, CatAllOf catAllOf, string className, string color = "red") : base(className, color)
         {
             Dictionary = dictionary;
             CatAllOf = catAllOf;
@@ -66,40 +66,6 @@ namespace Org.OpenAPITools.Model
             sb.Append("}\n");
             return sb.ToString();
         }
-
-        /// <summary>
-        /// Returns true if objects are equal
-        /// </summary>
-        /// <param name="input">Object to be compared</param>
-        /// <returns>Boolean</returns>
-        public override bool Equals(object? input)
-        {
-            return OpenAPIClientUtils.compareLogic.Compare(this, input as Cat).AreEqual;
-        }
-
-        /// <summary>
-        /// Returns true if Cat instances are equal
-        /// </summary>
-        /// <param name="input">Instance of Cat to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(Cat? input)
-        {
-            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
-        }
-
-        /// <summary>
-        /// Gets the hash code
-        /// </summary>
-        /// <returns>Hash code</returns>
-        public override int GetHashCode()
-        {
-            unchecked // Overflow is fine, just wrap
-            {
-                int hashCode = base.GetHashCode();
-                return hashCode;
-            }
-        }
-
     }
 
     /// <summary>
@@ -135,8 +101,8 @@ namespace Org.OpenAPITools.Model
             Utf8JsonReader catAllOfReader = reader;
             bool catAllOfDeserialized = Client.ClientUtils.TryDeserialize<CatAllOf>(ref catAllOfReader, options, out CatAllOf? catAllOf);
 
-            string? className = default;
-            string? color = default;
+            string className = default;
+            string color = default;
 
             while (reader.Read())
             {
@@ -170,6 +136,9 @@ namespace Org.OpenAPITools.Model
         /// <param name="cat"></param>
         /// <param name="options"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public override void Write(Utf8JsonWriter writer, Cat cat, JsonSerializerOptions options) => throw new NotImplementedException();
+        public override void Write(Utf8JsonWriter writer, Cat cat, JsonSerializerOptions options)
+        {
+            JsonSerializer.Serialize(writer, cat);
+        }
     }
 }

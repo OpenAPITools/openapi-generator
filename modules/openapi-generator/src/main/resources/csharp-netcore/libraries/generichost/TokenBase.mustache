@@ -11,7 +11,7 @@ namespace {{packageName}}.Client
     /// <summary>
     /// The base for all tokens.
     /// </summary>
-    public abstract class TokenBase
+    {{>visibility}} abstract class TokenBase
     {
         private DateTime _nextAvailable = DateTime.UtcNow;
         private object _nextAvailableLock = new object();

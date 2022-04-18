@@ -6,7 +6,7 @@ namespace {{packageName}}.Client
     /// <summary>
     /// Useful for tracking server health.
     /// </summary>
-    public class ApiResponseEventArgs : EventArgs
+    {{>visibility}} class ApiResponseEventArgs : EventArgs
     {
         /// <summary>
         /// The time the request was sent.

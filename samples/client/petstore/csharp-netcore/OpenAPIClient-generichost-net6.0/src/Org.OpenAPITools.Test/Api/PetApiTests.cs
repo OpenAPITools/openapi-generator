@@ -134,9 +134,9 @@ namespace Org.OpenAPITools.Test.Api
         public async Task UploadFileAsyncTest()
         {
             long petId = default;
-            string additionalMetadata = default;
             System.IO.Stream file = default;
-            var response = await _instance.UploadFileAsync(petId, additionalMetadata, file);
+            string additionalMetadata = default;
+            var response = await _instance.UploadFileAsync(petId, file, additionalMetadata);
             Assert.IsType<ApiResponse>(response);
         }
 
@@ -146,10 +146,10 @@ namespace Org.OpenAPITools.Test.Api
         [Fact (Skip = "not implemented")]
         public async Task UploadFileWithRequiredFileAsyncTest()
         {
-            long petId = default;
             System.IO.Stream requiredFile = default;
+            long petId = default;
             string additionalMetadata = default;
-            var response = await _instance.UploadFileWithRequiredFileAsync(petId, requiredFile, additionalMetadata);
+            var response = await _instance.UploadFileWithRequiredFileAsync(requiredFile, petId, additionalMetadata);
             Assert.IsType<ApiResponse>(response);
         }
     }

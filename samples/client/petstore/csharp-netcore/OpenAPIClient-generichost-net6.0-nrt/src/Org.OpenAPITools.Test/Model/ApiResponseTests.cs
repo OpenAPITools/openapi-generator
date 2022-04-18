@@ -65,20 +65,20 @@ namespace Org.OpenAPITools.Test.Model
             // TODO unit test for the property 'Code'
         }
         /// <summary>
-        /// Test the property 'Type'
-        /// </summary>
-        [Fact]
-        public void TypeTest()
-        {
-            // TODO unit test for the property 'Type'
-        }
-        /// <summary>
         /// Test the property 'Message'
         /// </summary>
         [Fact]
         public void MessageTest()
         {
             // TODO unit test for the property 'Message'
+        }
+        /// <summary>
+        /// Test the property 'Type'
+        /// </summary>
+        [Fact]
+        public void TypeTest()
+        {
+            // TODO unit test for the property 'Type'
         }
 
     }

@@ -14,7 +14,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.IO;
-using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Text.Json;
@@ -27,13 +26,14 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// FruitReq
     /// </summary>
-    public partial class FruitReq : IEquatable<FruitReq>, IValidatableObject
+    public partial class FruitReq : IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="FruitReq" /> class.
         /// </summary>
         /// <param name="appleReq"></param>
-        public FruitReq(AppleReq appleReq)
+        [JsonConstructor]
+        internal FruitReq(AppleReq appleReq)
         {
             AppleReq = appleReq;
         }
@@ -42,7 +42,8 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="FruitReq" /> class.
         /// </summary>
         /// <param name="bananaReq"></param>
-        public FruitReq(BananaReq bananaReq)
+        [JsonConstructor]
+        internal FruitReq(BananaReq bananaReq)
         {
             BananaReq = bananaReq;
         }
@@ -68,40 +69,6 @@ namespace Org.OpenAPITools.Model
             sb.Append("}\n");
             return sb.ToString();
         }
-
-        /// <summary>
-        /// Returns true if objects are equal
-        /// </summary>
-        /// <param name="input">Object to be compared</param>
-        /// <returns>Boolean</returns>
-        public override bool Equals(object input)
-        {
-            return OpenAPIClientUtils.compareLogic.Compare(this, input as FruitReq).AreEqual;
-        }
-
-        /// <summary>
-        /// Returns true if FruitReq instances are equal
-        /// </summary>
-        /// <param name="input">Instance of FruitReq to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(FruitReq input)
-        {
-            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
-        }
-
-        /// <summary>
-        /// Gets the hash code
-        /// </summary>
-        /// <returns>Hash code</returns>
-        public override int GetHashCode()
-        {
-            unchecked // Overflow is fine, just wrap
-            {
-                int hashCode = 41;
-                return hashCode;
-            }
-        }
-
         /// <summary>
         /// To validate all properties of the instance
         /// </summary>
@@ -179,6 +146,9 @@ namespace Org.OpenAPITools.Model
         /// <param name="fruitReq"></param>
         /// <param name="options"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public override void Write(Utf8JsonWriter writer, FruitReq fruitReq, JsonSerializerOptions options) => throw new NotImplementedException();
+        public override void Write(Utf8JsonWriter writer, FruitReq fruitReq, JsonSerializerOptions options)
+        {
+            JsonSerializer.Serialize(writer, fruitReq);
+        }
     }
 }

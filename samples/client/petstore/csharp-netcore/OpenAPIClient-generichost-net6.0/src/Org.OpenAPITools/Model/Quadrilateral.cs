@@ -14,7 +14,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.IO;
-using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Text.Json;
@@ -27,13 +26,14 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// Quadrilateral
     /// </summary>
-    public partial class Quadrilateral : IEquatable<Quadrilateral>, IValidatableObject
+    public partial class Quadrilateral : IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Quadrilateral" /> class.
         /// </summary>
         /// <param name="simpleQuadrilateral"></param>
-        public Quadrilateral(SimpleQuadrilateral simpleQuadrilateral)
+        [JsonConstructor]
+        internal Quadrilateral(SimpleQuadrilateral simpleQuadrilateral)
         {
             SimpleQuadrilateral = simpleQuadrilateral;
         }
@@ -42,7 +42,8 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Quadrilateral" /> class.
         /// </summary>
         /// <param name="complexQuadrilateral"></param>
-        public Quadrilateral(ComplexQuadrilateral complexQuadrilateral)
+        [JsonConstructor]
+        internal Quadrilateral(ComplexQuadrilateral complexQuadrilateral)
         {
             ComplexQuadrilateral = complexQuadrilateral;
         }
@@ -61,7 +62,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets additional properties
         /// </summary>
         [JsonExtensionData]
-        public Dictionary<string, JsonElement> AdditionalProperties { get; set; } = new Dictionary<string, JsonElement>();
+        public Dictionary<string, JsonElement> AdditionalProperties { get; } = new Dictionary<string, JsonElement>();
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -75,44 +76,6 @@ namespace Org.OpenAPITools.Model
             sb.Append("}\n");
             return sb.ToString();
         }
-
-        /// <summary>
-        /// Returns true if objects are equal
-        /// </summary>
-        /// <param name="input">Object to be compared</param>
-        /// <returns>Boolean</returns>
-        public override bool Equals(object input)
-        {
-            return OpenAPIClientUtils.compareLogic.Compare(this, input as Quadrilateral).AreEqual;
-        }
-
-        /// <summary>
-        /// Returns true if Quadrilateral instances are equal
-        /// </summary>
-        /// <param name="input">Instance of Quadrilateral to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(Quadrilateral input)
-        {
-            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
-        }
-
-        /// <summary>
-        /// Gets the hash code
-        /// </summary>
-        /// <returns>Hash code</returns>
-        public override int GetHashCode()
-        {
-            unchecked // Overflow is fine, just wrap
-            {
-                int hashCode = 41;
-                if (this.AdditionalProperties != null)
-                {
-                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
-                }
-                return hashCode;
-            }
-        }
-
         /// <summary>
         /// To validate all properties of the instance
         /// </summary>
@@ -200,6 +163,9 @@ namespace Org.OpenAPITools.Model
         /// <param name="quadrilateral"></param>
         /// <param name="options"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public override void Write(Utf8JsonWriter writer, Quadrilateral quadrilateral, JsonSerializerOptions options) => throw new NotImplementedException();
+        public override void Write(Utf8JsonWriter writer, Quadrilateral quadrilateral, JsonSerializerOptions options)
+        {
+            JsonSerializer.Serialize(writer, quadrilateral);
+        }
     }
 }

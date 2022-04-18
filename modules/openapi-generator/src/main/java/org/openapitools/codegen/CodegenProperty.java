@@ -149,6 +149,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     public boolean isArray;
     public boolean isMap;
     public boolean isEnum;
+    public boolean isInnerEnum;
     public boolean isReadOnly;
     public boolean isWriteOnly;
     public boolean isNullable;
@@ -432,10 +433,6 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
 
     public boolean getRequired() {
         return required;
-    }
-
-    public boolean compulsory(){
-        return getRequired() && !isNullable;
     }
 
     public void setRequired(boolean required) {
@@ -921,6 +918,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         sb.append(", isArray=").append(isArray);
         sb.append(", isMap=").append(isMap);
         sb.append(", isEnum=").append(isEnum);
+        sb.append(", isInnerEnum=").append(isInnerEnum);
         sb.append(", isAnyType=").append(isAnyType);
         sb.append(", isReadOnly=").append(isReadOnly);
         sb.append(", isWriteOnly=").append(isWriteOnly);
@@ -1000,6 +998,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 isArray == that.isArray &&
                 isMap == that.isMap &&
                 isEnum == that.isEnum &&
+                isInnerEnum == that.isInnerEnum &&
                 isAnyType == that.isAnyType &&
                 isReadOnly == that.isReadOnly &&
                 isWriteOnly == that.isWriteOnly &&
@@ -1074,7 +1073,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 hasMoreNonReadOnly, isPrimitiveType, isModel, isContainer, isString, isNumeric,
                 isInteger, isLong, isNumber, isFloat, isDouble, isDecimal, isByteArray, isBinary, isFile,
                 isBoolean, isDate, isDateTime, isUuid, isUri, isEmail, isFreeFormObject,
-                isArray, isMap, isEnum, isAnyType, isReadOnly, isWriteOnly, isNullable, isShort,
+                isArray, isMap, isEnum, isInnerEnum, isAnyType, isReadOnly, isWriteOnly, isNullable, isShort,
                 isUnboundedInteger, isSelfReference, isCircularReference, isDiscriminator, _enum,
                 allowableValues, items, mostInnerItems, additionalProperties, vars, requiredVars,
                 vendorExtensions, hasValidation, isInherited, discriminatorValue, nameInCamelCase,

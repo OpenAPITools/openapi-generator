@@ -14,7 +14,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.IO;
-using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Text.Json;
@@ -27,7 +26,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// Order
     /// </summary>
-    public partial class Order : IEquatable<Order>, IValidatableObject
+    public partial class Order : IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Order" /> class.
@@ -38,8 +37,33 @@ namespace Org.OpenAPITools.Model
         /// <param name="shipDate">shipDate</param>
         /// <param name="status">Order Status</param>
         /// <param name="complete">complete (default to false)</param>
-        public Order(long id = default, long petId = default, int quantity = default, DateTime shipDate = default, StatusEnum status = default, bool complete = false)
+        [JsonConstructor]
+        public Order(long id, long petId, int quantity, DateTime shipDate, StatusEnum status, bool complete = false)
         {
+#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (id == null)
+                throw new ArgumentNullException("id is a required property for Order and cannot be null.");
+
+            if (petId == null)
+                throw new ArgumentNullException("petId is a required property for Order and cannot be null.");
+
+            if (quantity == null)
+                throw new ArgumentNullException("quantity is a required property for Order and cannot be null.");
+
+            if (shipDate == null)
+                throw new ArgumentNullException("shipDate is a required property for Order and cannot be null.");
+
+            if (status == null)
+                throw new ArgumentNullException("status is a required property for Order and cannot be null.");
+
+            if (complete == null)
+                throw new ArgumentNullException("complete is a required property for Order and cannot be null.");
+
+#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
             Id = id;
             PetId = petId;
             Quantity = quantity;
@@ -57,21 +81,36 @@ namespace Org.OpenAPITools.Model
             /// <summary>
             /// Enum Placed for value: placed
             /// </summary>
-            [EnumMember(Value = "placed")]
             Placed = 1,
 
             /// <summary>
             /// Enum Approved for value: approved
             /// </summary>
-            [EnumMember(Value = "approved")]
             Approved = 2,
 
             /// <summary>
             /// Enum Delivered for value: delivered
             /// </summary>
-            [EnumMember(Value = "delivered")]
             Delivered = 3
+        }
 
+        /// <summary>
+        /// Returns a StatusEnum
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static StatusEnum? StatusEnumFromString(string value)
+        {
+            if (value == "placed")
+                return StatusEnum.Placed;
+
+            if (value == "approved")
+                return StatusEnum.Approved;
+
+            if (value == "delivered")
+                return StatusEnum.Delivered;
+
+            return null;
         }
 
         /// <summary>
@@ -115,7 +154,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets additional properties
         /// </summary>
         [JsonExtensionData]
-        public Dictionary<string, JsonElement> AdditionalProperties { get; set; } = new Dictionary<string, JsonElement>();
+        public Dictionary<string, JsonElement> AdditionalProperties { get; } = new Dictionary<string, JsonElement>();
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -135,53 +174,6 @@ namespace Org.OpenAPITools.Model
             sb.Append("}\n");
             return sb.ToString();
         }
-
-        /// <summary>
-        /// Returns true if objects are equal
-        /// </summary>
-        /// <param name="input">Object to be compared</param>
-        /// <returns>Boolean</returns>
-        public override bool Equals(object input)
-        {
-            return OpenAPIClientUtils.compareLogic.Compare(this, input as Order).AreEqual;
-        }
-
-        /// <summary>
-        /// Returns true if Order instances are equal
-        /// </summary>
-        /// <param name="input">Instance of Order to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(Order input)
-        {
-            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
-        }
-
-        /// <summary>
-        /// Gets the hash code
-        /// </summary>
-        /// <returns>Hash code</returns>
-        public override int GetHashCode()
-        {
-            unchecked // Overflow is fine, just wrap
-            {
-                int hashCode = 41;
-                hashCode = (hashCode * 59) + this.Id.GetHashCode();
-                hashCode = (hashCode * 59) + this.PetId.GetHashCode();
-                hashCode = (hashCode * 59) + this.Quantity.GetHashCode();
-                if (this.ShipDate != null)
-                {
-                    hashCode = (hashCode * 59) + this.ShipDate.GetHashCode();
-                }
-                hashCode = (hashCode * 59) + this.Status.GetHashCode();
-                hashCode = (hashCode * 59) + this.Complete.GetHashCode();
-                if (this.AdditionalProperties != null)
-                {
-                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
-                }
-                return hashCode;
-            }
-        }
-
         /// <summary>
         /// To validate all properties of the instance
         /// </summary>
@@ -193,4 +185,91 @@ namespace Org.OpenAPITools.Model
         }
     }
 
+    /// <summary>
+    /// A Json converter for type Order
+    /// </summary>
+    public class OrderJsonConverter : JsonConverter<Order>
+    {
+        /// <summary>
+        /// Returns a boolean if the type is compatible with this converter.
+        /// </summary>
+        /// <param name="typeToConvert"></param>
+        /// <returns></returns>
+        public override bool CanConvert(Type typeToConvert) => typeof(Order).IsAssignableFrom(typeToConvert);
+
+        /// <summary>
+        /// A Json reader.
+        /// </summary>
+        /// <param name="reader"></param>
+        /// <param name="typeToConvert"></param>
+        /// <param name="options"></param>
+        /// <returns></returns>
+        /// <exception cref="JsonException"></exception>
+        public override Order Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        {
+            int currentDepth = reader.CurrentDepth;
+
+            if (reader.TokenType != JsonTokenType.StartObject)
+                throw new JsonException();
+
+            long id = default;
+            long petId = default;
+            int quantity = default;
+            DateTime shipDate = default;
+            Order.StatusEnum? status = default;
+            bool complete = default;
+
+            while (reader.Read())
+            {
+                if (reader.TokenType == JsonTokenType.EndObject && currentDepth == reader.CurrentDepth)
+                    break;
+
+                if (reader.TokenType == JsonTokenType.PropertyName)
+                {
+                    string propertyName = reader.GetString();
+                    reader.Read();
+
+                    switch (propertyName)
+                    {
+                        case "id":
+                            id = reader.GetInt32();
+                            id = reader.GetInt64();
+                            break;
+                        case "petId":
+                            petId = reader.GetInt32();
+                            petId = reader.GetInt64();
+                            break;
+                        case "quantity":
+                            quantity = reader.GetInt32();
+                            break;
+                        case "shipDate":
+                            Utf8JsonReader shipDateReader = reader;
+                            shipDate = JsonSerializer.Deserialize<DateTime>(ref reader, options);
+                            break;
+                        case "status":
+                            string statusRawValue = reader.GetString();
+                            status = Order.StatusEnumFromString(statusRawValue);
+                            break;
+                        case "complete":
+                            complete = reader.GetBoolean();
+                            break;
+                    }
+                }
+            }
+
+            return new Order(id, petId, quantity, shipDate, status.Value, complete);
+        }
+
+        /// <summary>
+        /// A Json writer
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="order"></param>
+        /// <param name="options"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public override void Write(Utf8JsonWriter writer, Order order, JsonSerializerOptions options)
+        {
+            JsonSerializer.Serialize(writer, order);
+        }
+    }
 }

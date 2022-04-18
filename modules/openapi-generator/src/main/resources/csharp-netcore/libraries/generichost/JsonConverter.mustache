@@ -1,7 +1,7 @@
     /// <summary>
     /// A Json converter for type {{classname}}
     /// </summary>
-    public class {{classname}}JsonConverter : JsonConverter<{{classname}}>
+    {{>visibility}} class {{classname}}JsonConverter : JsonConverter<{{classname}}>
     {
         /// <summary>
         /// Returns a boolean if the type is compatible with this converter.
@@ -43,7 +43,7 @@
             {{/isInherited}}
             {{/composedSchemas.allOf}}
             {{#allVars}}
-            {{#lambda.optional}}{{{datatypeWithEnum}}}{{/lambda.optional}} {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = default;
+            {{#isInnerEnum}}{{^isMap}}{{classname}}.{{/isMap}}{{/isInnerEnum}}{{{datatypeWithEnum}}}{{#isEnum}}?{{/isEnum}} {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = default;
             {{/allVars}}
 
             while (reader.Read())
@@ -61,7 +61,13 @@
                         {{#allVars}}
                         case "{{baseName}}":
                         {{#isString}}
+                        {{^isMap}}
+                        {{^isEnum}}
+                        {{^isUuid}}
                             {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = reader.GetString();
+                        {{/isUuid}}
+                        {{/isEnum}}
+                        {{/isMap}}
                         {{/isString}}
                         {{#isBoolean}}
                             {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = reader.GetBoolean();
@@ -69,21 +75,57 @@
                         {{#isDecimal}}
                             {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = reader.GetDecimal();
                         {{/isDecimal}}
+                        {{^isFloat}}
                         {{#isNumeric}}
+                        {{^isEnum}}
                             {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = reader.GetInt32();
+                        {{/isEnum}}
                         {{/isNumeric}}
+                        {{/isFloat}}
+                        {{#isFloat}}
+                        {{^isEnum}}
+                            {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = (float)reader.GetDouble();
+                        {{/isEnum}}
+                        {{/isFloat}}
                         {{#isLong}}
+                        {{^isEnum}}
                             {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = reader.GetInt64();
+                        {{/isEnum}}
                         {{/isLong}}
                         {{#isDouble}}
+                        {{^isEnum}}
                             {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = reader.GetDouble();
+                        {{/isEnum}}
                         {{/isDouble}}
                         {{#isDate}}
-                            {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = reader.GetDateTime();
+                            Utf8JsonReader {{#lambda.camelcase_param}}{{name}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}Reader = reader;
+                            {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = JsonSerializer.Deserialize<DateTime>(ref reader, options);
                         {{/isDate}}
                         {{#isDateTime}}
-                            {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = reader.GetDateTime();
+                            Utf8JsonReader {{#lambda.camelcase_param}}{{name}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}Reader = reader;
+                            {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = JsonSerializer.Deserialize<DateTime>(ref reader, options);
                         {{/isDateTime}}
+                        {{#isEnum}}
+                        {{^isMap}}
+                        {{#isNumeric}}
+                            {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = ({{#isInnerEnum}}{{classname}}.{{/isInnerEnum}}{{{datatypeWithEnum}}}) reader.GetInt32();
+                        {{/isNumeric}}
+                        {{^isNumeric}}
+                            string {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}RawValue = reader.GetString();
+                            {{^isInnerEnum}}
+                            {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = {{{datatypeWithEnum}}}Converter.FromString({{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}RawValue);
+                            {{/isInnerEnum}}
+                            {{#isInnerEnum}}
+                            {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = {{classname}}.{{{datatypeWithEnum}}}FromString({{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}RawValue);
+                            {{/isInnerEnum}}
+                        {{/isNumeric}}
+                        {{/isMap}}
+                        {{/isEnum}}
+                        {{#isUuid}}
+                            {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = reader.GetGuid();
+                        {{/isUuid}}
+                        {{^isUuid}}
+                        {{^isEnum}}
                         {{^isString}}
                         {{^isBoolean}}
                         {{^isDecimal}}
@@ -92,6 +134,7 @@
                         {{^isDouble}}
                         {{^isDate}}
                         {{^isDateTime}}
+                            Utf8JsonReader {{#lambda.camelcase_param}}{{name}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}Reader = reader;
                             {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = JsonSerializer.Deserialize<{{{datatypeWithEnum}}}>(ref reader, options);
                         {{/isDateTime}}
                         {{/isDate}}
@@ -101,6 +144,8 @@
                         {{/isDecimal}}
                         {{/isBoolean}}
                         {{/isString}}
+                        {{/isEnum}}
+                        {{/isUuid}}
                             break;
                         {{/allVars}}
                     }
@@ -109,14 +154,14 @@
 
             {{#composedSchemas.oneOf}}
             if ({{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}Deserialized)
-                return new {{classname}}({{#lambda.joinWithComma}}{{#lambda.camelcase_param}}{{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}{{/lambda.camelcase_param}}  {{#model.composedSchemas.allOf}}{{^isInherited}}{{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}{{/isInherited}}{{/model.composedSchemas.allOf}}{{#model.composedSchemas.anyOf}}{{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}  {{/model.composedSchemas.anyOf}}{{#allVars}}{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}  {{/allVars}}{{/lambda.joinWithComma}});
+                return new {{classname}}({{#lambda.joinWithComma}}{{#lambda.camelcase_param}}{{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}{{/lambda.camelcase_param}}  {{#model.composedSchemas.allOf}}{{^isInherited}}{{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}{{/isInherited}}{{/model.composedSchemas.allOf}}{{#model.composedSchemas.anyOf}}{{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}  {{/model.composedSchemas.anyOf}}{{#allVars}}{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}{{#isEnum}}.Value{{/isEnum}}  {{/allVars}}{{/lambda.joinWithComma}});
 
             {{#-last}}
             throw new JsonException();
             {{/-last}}
             {{/composedSchemas.oneOf}}
             {{^composedSchemas.oneOf}}
-            return new {{classname}}({{#lambda.joinWithComma}}{{#model.composedSchemas.anyOf}}{{#lambda.camelcase_param}}{{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}{{/lambda.camelcase_param}}  {{/model.composedSchemas.anyOf}}{{#model.composedSchemas.allOf}}{{^isInherited}}{{#lambda.camelcase_param}}{{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}{{/lambda.camelcase_param}}  {{/isInherited}}{{/model.composedSchemas.allOf}}{{#allVars}}{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}  {{/allVars}}{{/lambda.joinWithComma}});
+            return new {{classname}}({{#lambda.joinWithComma}}{{#model.composedSchemas.anyOf}}{{#lambda.camelcase_param}}{{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}{{/lambda.camelcase_param}}  {{/model.composedSchemas.anyOf}}{{#model.composedSchemas.allOf}}{{^isInherited}}{{#lambda.camelcase_param}}{{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}{{/lambda.camelcase_param}}  {{/isInherited}}{{/model.composedSchemas.allOf}}{{#allVars}}{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}{{#isEnum}}.Value{{/isEnum}}  {{/allVars}}{{/lambda.joinWithComma}});
             {{/composedSchemas.oneOf}}
         }
 
@@ -127,5 +172,9 @@
         /// <param name="{{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}"></param>
         /// <param name="options"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public override void Write(Utf8JsonWriter writer, {{classname}} {{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}, JsonSerializerOptions options) => throw new NotImplementedException();
+        public override void Write(Utf8JsonWriter writer, {{classname}} {{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}, JsonSerializerOptions options)
+        {
+            {{! just use the default }}
+            JsonSerializer.Serialize(writer, {{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}});
+        }
     }

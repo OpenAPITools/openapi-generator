@@ -55,7 +55,25 @@ namespace Org.OpenAPITools.Model
             /// </summary>
             [EnumMember(Value = "grevys")]
             Grevys = 3
+        }
 
+        /// <summary>
+        /// Returns a TypeEnum
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static TypeEnum? TypeEnumFromString(string value)
+        {
+            if (value == "plains")
+                return TypeEnum.Plains;
+
+            if (value == "mountain")
+                return TypeEnum.Mountain;
+
+            if (value == "grevys")
+                return TypeEnum.Grevys;
+
+            return null;
         }
 
 
