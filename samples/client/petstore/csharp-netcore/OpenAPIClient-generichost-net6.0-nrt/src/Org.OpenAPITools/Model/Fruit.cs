@@ -61,7 +61,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Banana
         /// </summary>
-        public Banana? Banana { get; set; }
+        public Banana Banana { get; set; }
 
         /// <summary>
         /// Gets or Sets Color

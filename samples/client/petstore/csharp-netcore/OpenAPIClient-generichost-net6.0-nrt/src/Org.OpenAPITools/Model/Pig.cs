@@ -52,12 +52,12 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets BasquePig
         /// </summary>
-        public BasquePig? BasquePig { get; set; }
+        public BasquePig BasquePig { get; set; }
 
         /// <summary>
         /// Gets or Sets DanishPig
         /// </summary>
-        public DanishPig? DanishPig { get; set; }
+        public DanishPig DanishPig { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

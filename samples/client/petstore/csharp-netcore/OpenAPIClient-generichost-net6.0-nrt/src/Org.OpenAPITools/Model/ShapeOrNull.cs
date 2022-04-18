@@ -62,12 +62,12 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Triangle
         /// </summary>
-        public Triangle? Triangle { get; set; }
+        public Triangle Triangle { get; set; }
 
         /// <summary>
         /// Gets or Sets Quadrilateral
         /// </summary>
-        public Quadrilateral? Quadrilateral { get; set; }
+        public Quadrilateral Quadrilateral { get; set; }
 
         /// <summary>
         /// Gets or Sets QuadrilateralType

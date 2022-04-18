@@ -52,12 +52,12 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets SimpleQuadrilateral
         /// </summary>
-        public SimpleQuadrilateral? SimpleQuadrilateral { get; set; }
+        public SimpleQuadrilateral SimpleQuadrilateral { get; set; }
 
         /// <summary>
         /// Gets or Sets ComplexQuadrilateral
         /// </summary>
-        public ComplexQuadrilateral? ComplexQuadrilateral { get; set; }
+        public ComplexQuadrilateral ComplexQuadrilateral { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
