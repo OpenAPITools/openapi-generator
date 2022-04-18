@@ -2197,7 +2197,6 @@ components:
           type: array
           items:
             allOf:
-              #- $ref: '#/components/schemas/Dog'
               - type: object
                 properties:
                   breed:

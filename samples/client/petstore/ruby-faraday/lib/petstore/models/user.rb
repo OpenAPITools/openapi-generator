@@ -32,8 +32,6 @@ module Petstore
     # User Status
     attr_accessor :user_status
 
-    attr_accessor :user_type
-
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
@@ -44,8 +42,7 @@ module Petstore
         :'email' => :'email',
         :'password' => :'password',
         :'phone' => :'phone',
-        :'user_status' => :'userStatus',
-        :'user_type' => :'userType'
+        :'user_status' => :'userStatus'
       }
     end
 
@@ -64,8 +61,7 @@ module Petstore
         :'email' => :'String',
         :'password' => :'String',
         :'phone' => :'String',
-        :'user_status' => :'Integer',
-        :'user_type' => :'UserUserType'
+        :'user_status' => :'Integer'
       }
     end
 
@@ -121,10 +117,6 @@ module Petstore
       if attributes.key?(:'user_status')
         self.user_status = attributes[:'user_status']
       end
-
-      if attributes.key?(:'user_type')
-        self.user_type = attributes[:'user_type']
-      end
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -152,8 +144,7 @@ module Petstore
           email == o.email &&
           password == o.password &&
           phone == o.phone &&
-          user_status == o.user_status &&
-          user_type == o.user_type
+          user_status == o.user_status
     end
 
     # @see the `==` method
@@ -165,7 +156,7 @@ module Petstore
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [id, username, first_name, last_name, email, password, phone, user_status, user_type].hash
+      [id, username, first_name, last_name, email, password, phone, user_status].hash
     end
 
     # Builds the object from hash

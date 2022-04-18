@@ -110,6 +110,8 @@ Class | Method | HTTP request | Description
 ## Documentation For Models
 
  - [AdditionalPropertiesClass](doc/AdditionalPropertiesClass.md)
+ - [AllOfWithSingleRef](doc/AllOfWithSingleRef.md)
+ - [AllOfWithSingleRefSingleRefType](doc/AllOfWithSingleRefSingleRefType.md)
  - [Animal](doc/Animal.md)
  - [ApiResponse](doc/ApiResponse.md)
  - [ArrayOfArrayOfNumberOnly](doc/ArrayOfArrayOfNumberOnly.md)
@@ -152,11 +154,10 @@ Class | Method | HTTP request | Description
  - [OuterObjectWithEnumProperty](doc/OuterObjectWithEnumProperty.md)
  - [Pet](doc/Pet.md)
  - [ReadOnlyFirst](doc/ReadOnlyFirst.md)
+ - [SingleRefType](doc/SingleRefType.md)
  - [SpecialModelName](doc/SpecialModelName.md)
  - [Tag](doc/Tag.md)
  - [User](doc/User.md)
- - [UserType](doc/UserType.md)
- - [UserUserType](doc/UserUserType.md)
 
 
 ## Documentation For Authorization

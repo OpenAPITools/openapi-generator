@@ -15,7 +15,6 @@
 |**password** | **String** |  |  [optional] |
 |**phone** | **String** |  |  [optional] |
 |**userStatus** | **Integer** | User Status |  [optional] |
-|**userType** | [**UserUserType**](UserUserType.md) |  |  [optional] |
 
 
 

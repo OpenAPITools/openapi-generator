@@ -33,7 +33,4 @@ class User {
     /** @var int $userStatus User Status*/
     private $userStatus;
 
-    /** @var \app\Models\UserUserType $userType */
-    private $userType;
-
 }

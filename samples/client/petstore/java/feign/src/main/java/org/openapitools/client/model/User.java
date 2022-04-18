@@ -22,7 +22,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.openapitools.client.model.UserUserType;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
@@ -37,8 +36,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   User.JSON_PROPERTY_EMAIL,
   User.JSON_PROPERTY_PASSWORD,
   User.JSON_PROPERTY_PHONE,
-  User.JSON_PROPERTY_USER_STATUS,
-  User.JSON_PROPERTY_USER_TYPE
+  User.JSON_PROPERTY_USER_STATUS
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class User {
@@ -65,9 +63,6 @@ public class User {
 
   public static final String JSON_PROPERTY_USER_STATUS = "userStatus";
   private Integer userStatus;
-
-  public static final String JSON_PROPERTY_USER_TYPE = "userType";
-  private UserUserType userType;
 
   public User() { 
   }
@@ -288,33 +283,6 @@ public class User {
   }
 
 
-  public User userType(UserUserType userType) {
-    
-    this.userType = userType;
-    return this;
-  }
-
-   /**
-   * Get userType
-   * @return userType
-  **/
-  @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_USER_TYPE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-  public UserUserType getUserType() {
-    return userType;
-  }
-
-
-  @JsonProperty(JSON_PROPERTY_USER_TYPE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setUserType(UserUserType userType) {
-    this.userType = userType;
-  }
-
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -331,13 +299,12 @@ public class User {
         Objects.equals(this.email, user.email) &&
         Objects.equals(this.password, user.password) &&
         Objects.equals(this.phone, user.phone) &&
-        Objects.equals(this.userStatus, user.userStatus) &&
-        Objects.equals(this.userType, user.userType);
+        Objects.equals(this.userStatus, user.userStatus);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, username, firstName, lastName, email, password, phone, userStatus, userType);
+    return Objects.hash(id, username, firstName, lastName, email, password, phone, userStatus);
   }
 
   @Override
@@ -352,7 +319,6 @@ public class User {
     sb.append("    password: ").append(toIndentedString(password)).append("\n");
     sb.append("    phone: ").append(toIndentedString(phone)).append("\n");
     sb.append("    userStatus: ").append(toIndentedString(userStatus)).append("\n");
-    sb.append("    userType: ").append(toIndentedString(userType)).append("\n");
     sb.append("}");
     return sb.toString();
   }

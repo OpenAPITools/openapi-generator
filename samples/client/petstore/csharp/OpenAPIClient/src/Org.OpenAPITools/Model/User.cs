@@ -41,8 +41,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="password">password.</param>
         /// <param name="phone">phone.</param>
         /// <param name="userStatus">User Status.</param>
-        /// <param name="userType">userType.</param>
-        public User(long id = default(long), string username = default(string), string firstName = default(string), string lastName = default(string), string email = default(string), string password = default(string), string phone = default(string), int userStatus = default(int), UserUserType userType = default(UserUserType))
+        public User(long id = default(long), string username = default(string), string firstName = default(string), string lastName = default(string), string email = default(string), string password = default(string), string phone = default(string), int userStatus = default(int))
         {
             this.Id = id;
             this.Username = username;
@@ -52,7 +51,6 @@ namespace Org.OpenAPITools.Model
             this.Password = password;
             this.Phone = phone;
             this.UserStatus = userStatus;
-            this.UserType = userType;
         }
 
         /// <summary>
@@ -105,12 +103,6 @@ namespace Org.OpenAPITools.Model
         public int UserStatus { get; set; }
 
         /// <summary>
-        /// Gets or Sets UserType
-        /// </summary>
-        [DataMember(Name="userType", EmitDefaultValue=false)]
-        public UserUserType UserType { get; set; }
-
-        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -126,7 +118,6 @@ namespace Org.OpenAPITools.Model
             sb.Append("  Password: ").Append(Password).Append("\n");
             sb.Append("  Phone: ").Append(Phone).Append("\n");
             sb.Append("  UserStatus: ").Append(UserStatus).Append("\n");
-            sb.Append("  UserType: ").Append(UserType).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -200,11 +191,6 @@ namespace Org.OpenAPITools.Model
                     this.UserStatus == input.UserStatus ||
                     (this.UserStatus != null &&
                     this.UserStatus.Equals(input.UserStatus))
-                ) && 
-                (
-                    this.UserType == input.UserType ||
-                    (this.UserType != null &&
-                    this.UserType.Equals(input.UserType))
                 );
         }
 
@@ -233,8 +219,6 @@ namespace Org.OpenAPITools.Model
                     hashCode = hashCode * 59 + this.Phone.GetHashCode();
                 if (this.UserStatus != null)
                     hashCode = hashCode * 59 + this.UserStatus.GetHashCode();
-                if (this.UserType != null)
-                    hashCode = hashCode * 59 + this.UserType.GetHashCode();
                 return hashCode;
             }
         }
