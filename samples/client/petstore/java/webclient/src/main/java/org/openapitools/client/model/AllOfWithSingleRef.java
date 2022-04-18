@@ -22,7 +22,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.openapitools.client.model.AllOfWithSingleRefSingleRefType;
+import org.openapitools.client.model.SingleRefType;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
@@ -39,7 +39,7 @@ public class AllOfWithSingleRef {
   private String username;
 
   public static final String JSON_PROPERTY_SINGLE_REF_TYPE = "SingleRefType";
-  private AllOfWithSingleRefSingleRefType singleRefType;
+  private SingleRefType singleRefType;
 
   public AllOfWithSingleRef() { 
   }
@@ -71,7 +71,7 @@ public class AllOfWithSingleRef {
   }
 
 
-  public AllOfWithSingleRef singleRefType(AllOfWithSingleRefSingleRefType singleRefType) {
+  public AllOfWithSingleRef singleRefType(SingleRefType singleRefType) {
     
     this.singleRefType = singleRefType;
     return this;
@@ -86,14 +86,14 @@ public class AllOfWithSingleRef {
   @JsonProperty(JSON_PROPERTY_SINGLE_REF_TYPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public AllOfWithSingleRefSingleRefType getSingleRefType() {
+  public SingleRefType getSingleRefType() {
     return singleRefType;
   }
 
 
   @JsonProperty(JSON_PROPERTY_SINGLE_REF_TYPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setSingleRefType(AllOfWithSingleRefSingleRefType singleRefType) {
+  public void setSingleRefType(SingleRefType singleRefType) {
     this.singleRefType = singleRefType;
   }
 

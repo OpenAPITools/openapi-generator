@@ -7,7 +7,6 @@ README.md
 Rakefile
 docs/AdditionalPropertiesClass.md
 docs/AllOfWithSingleRef.md
-docs/AllOfWithSingleRefSingleRefType.md
 docs/Animal.md
 docs/AnotherFakeApi.md
 docs/ApiResponse.md
@@ -75,7 +74,6 @@ lib/petstore/api_error.rb
 lib/petstore/configuration.rb
 lib/petstore/models/additional_properties_class.rb
 lib/petstore/models/all_of_with_single_ref.rb
-lib/petstore/models/all_of_with_single_ref_single_ref_type.rb
 lib/petstore/models/animal.rb
 lib/petstore/models/api_response.rb
 lib/petstore/models/array_of_array_of_number_only.rb

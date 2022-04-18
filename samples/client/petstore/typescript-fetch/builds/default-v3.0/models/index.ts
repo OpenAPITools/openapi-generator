@@ -2,7 +2,6 @@
 /* eslint-disable */
 export * from './AdditionalPropertiesClass';
 export * from './AllOfWithSingleRef';
-export * from './AllOfWithSingleRefSingleRefType';
 export * from './Animal';
 export * from './ArrayOfArrayOfNumberOnly';
 export * from './ArrayOfNumberOnly';

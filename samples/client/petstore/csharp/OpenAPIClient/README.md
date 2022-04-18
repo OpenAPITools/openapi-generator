@@ -152,7 +152,6 @@ Class | Method | HTTP request | Description
 
  - [Model.AdditionalPropertiesClass](docs/AdditionalPropertiesClass.md)
  - [Model.AllOfWithSingleRef](docs/AllOfWithSingleRef.md)
- - [Model.AllOfWithSingleRefSingleRefType](docs/AllOfWithSingleRefSingleRefType.md)
  - [Model.Animal](docs/Animal.md)
  - [Model.ApiResponse](docs/ApiResponse.md)
  - [Model.ArrayOfArrayOfNumberOnly](docs/ArrayOfArrayOfNumberOnly.md)

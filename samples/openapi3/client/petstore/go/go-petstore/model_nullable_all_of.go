@@ -16,7 +16,7 @@ import (
 
 // NullableAllOf struct for NullableAllOf
 type NullableAllOf struct {
-	Child NullableNullableAllOfChild `json:"child,omitempty"`
+	Child *NullableAllOfChild `json:"child,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -39,52 +39,42 @@ func NewNullableAllOfWithDefaults() *NullableAllOf {
 	return &this
 }
 
-// GetChild returns the Child field value if set, zero value otherwise (both if not set or set to explicit null).
+// GetChild returns the Child field value if set, zero value otherwise.
 func (o *NullableAllOf) GetChild() NullableAllOfChild {
-	if o == nil || o.Child.Get() == nil {
+	if o == nil || o.Child == nil {
 		var ret NullableAllOfChild
 		return ret
 	}
-	return *o.Child.Get()
+	return *o.Child
 }
 
 // GetChildOk returns a tuple with the Child field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *NullableAllOf) GetChildOk() (*NullableAllOfChild, bool) {
-	if o == nil {
+	if o == nil || o.Child == nil {
 		return nil, false
 	}
-	return o.Child.Get(), o.Child.IsSet()
+	return o.Child, true
 }
 
 // HasChild returns a boolean if a field has been set.
 func (o *NullableAllOf) HasChild() bool {
-	if o != nil && o.Child.IsSet() {
+	if o != nil && o.Child != nil {
 		return true
 	}
 
 	return false
 }
 
-// SetChild gets a reference to the given NullableNullableAllOfChild and assigns it to the Child field.
+// SetChild gets a reference to the given NullableAllOfChild and assigns it to the Child field.
 func (o *NullableAllOf) SetChild(v NullableAllOfChild) {
-	o.Child.Set(&v)
-}
-// SetChildNil sets the value for Child to be an explicit nil
-func (o *NullableAllOf) SetChildNil() {
-	o.Child.Set(nil)
-}
-
-// UnsetChild ensures that no value is present for Child, not even an explicit nil
-func (o *NullableAllOf) UnsetChild() {
-	o.Child.Unset()
+	o.Child = &v
 }
 
 func (o NullableAllOf) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
-	if o.Child.IsSet() {
-		toSerialize["child"] = o.Child.Get()
+	if o.Child != nil {
+		toSerialize["child"] = o.Child
 	}
 
 	for key, value := range o.AdditionalProperties {

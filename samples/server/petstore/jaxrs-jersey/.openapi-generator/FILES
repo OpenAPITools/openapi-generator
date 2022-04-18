@@ -23,7 +23,6 @@ src/gen/java/org/openapitools/api/UserApi.java
 src/gen/java/org/openapitools/api/UserApiService.java
 src/gen/java/org/openapitools/model/AdditionalPropertiesClass.java
 src/gen/java/org/openapitools/model/AllOfWithSingleRef.java
-src/gen/java/org/openapitools/model/AllOfWithSingleRefSingleRefType.java
 src/gen/java/org/openapitools/model/Animal.java
 src/gen/java/org/openapitools/model/ArrayOfArrayOfNumberOnly.java
 src/gen/java/org/openapitools/model/ArrayOfNumberOnly.java

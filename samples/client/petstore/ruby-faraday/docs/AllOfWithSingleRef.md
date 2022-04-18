@@ -5,7 +5,7 @@
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
 | **username** | **String** |  | [optional] |
-| **single_ref_type** | [**AllOfWithSingleRefSingleRefType**](AllOfWithSingleRefSingleRefType.md) |  | [optional] |
+| **single_ref_type** | [**SingleRefType**](SingleRefType.md) |  | [optional] |
 
 ## Example
 

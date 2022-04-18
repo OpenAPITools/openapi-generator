@@ -232,7 +232,6 @@ Class | Method | HTTP request | Description
  - [ObjectWithDecimalProperties](docs/ObjectWithDecimalProperties.md)
  - [ObjectWithDifficultlyNamedProps](docs/ObjectWithDifficultlyNamedProps.md)
  - [ObjectWithInlineCompositionProperty](docs/ObjectWithInlineCompositionProperty.md)
- - [ObjectWithInlineCompositionPropertySomeProp](docs/ObjectWithInlineCompositionPropertySomeProp.md)
  - [ObjectWithValidations](docs/ObjectWithValidations.md)
  - [Order](docs/Order.md)
  - [ParentPet](docs/ParentPet.md)

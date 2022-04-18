@@ -2119,7 +2119,7 @@ components:
         username:
           type: string
         SingleRefType:
-          $ref: '#/components/schemas/AllOfWithSingleRef_SingleRefType'
+          $ref: '#/components/schemas/SingleRefType'
       type: object
     SingleRefType:
       enum:
@@ -2280,9 +2280,6 @@ components:
         declawed:
           type: boolean
       type: object
-    AllOfWithSingleRef_SingleRefType:
-      allOf:
-      - $ref: '#/components/schemas/SingleRefType'
   securitySchemes:
     petstore_auth:
       flows:

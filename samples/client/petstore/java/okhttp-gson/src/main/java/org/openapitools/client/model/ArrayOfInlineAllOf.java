@@ -25,7 +25,8 @@ import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import org.openapitools.client.model.ArrayOfInlineAllOfArrayAllofDogPropertyInner;
+import org.openapitools.client.model.ArrayOfInlineAllOfArrayAllofDogPropertyItemsAllOf;
+import org.openapitools.client.model.DogAllOf;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -62,7 +63,7 @@ public class ArrayOfInlineAllOf {
 
   public static final String SERIALIZED_NAME_ARRAY_ALLOF_DOG_PROPERTY = "array_allof_dog_property";
   @SerializedName(SERIALIZED_NAME_ARRAY_ALLOF_DOG_PROPERTY)
-  private List<ArrayOfInlineAllOfArrayAllofDogPropertyInner> arrayAllofDogProperty = null;
+  private List<DogAllOf> arrayAllofDogProperty = null;
 
   public ArrayOfInlineAllOf() { 
   }
@@ -113,13 +114,13 @@ public class ArrayOfInlineAllOf {
   }
 
 
-  public ArrayOfInlineAllOf arrayAllofDogProperty(List<ArrayOfInlineAllOfArrayAllofDogPropertyInner> arrayAllofDogProperty) {
+  public ArrayOfInlineAllOf arrayAllofDogProperty(List<DogAllOf> arrayAllofDogProperty) {
     
     this.arrayAllofDogProperty = arrayAllofDogProperty;
     return this;
   }
 
-  public ArrayOfInlineAllOf addArrayAllofDogPropertyItem(ArrayOfInlineAllOfArrayAllofDogPropertyInner arrayAllofDogPropertyItem) {
+  public ArrayOfInlineAllOf addArrayAllofDogPropertyItem(DogAllOf arrayAllofDogPropertyItem) {
     if (this.arrayAllofDogProperty == null) {
       this.arrayAllofDogProperty = new ArrayList<>();
     }
@@ -134,12 +135,12 @@ public class ArrayOfInlineAllOf {
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
 
-  public List<ArrayOfInlineAllOfArrayAllofDogPropertyInner> getArrayAllofDogProperty() {
+  public List<DogAllOf> getArrayAllofDogProperty() {
     return arrayAllofDogProperty;
   }
 
 
-  public void setArrayAllofDogProperty(List<ArrayOfInlineAllOfArrayAllofDogPropertyInner> arrayAllofDogProperty) {
+  public void setArrayAllofDogProperty(List<DogAllOf> arrayAllofDogProperty) {
     this.arrayAllofDogProperty = arrayAllofDogProperty;
   }
 
@@ -272,7 +273,7 @@ public class ArrayOfInlineAllOf {
 
         // validate the optional field `array_allof_dog_property` (array)
         for (int i = 0; i < jsonArrayarrayAllofDogProperty.size(); i++) {
-          ArrayOfInlineAllOfArrayAllofDogPropertyInner.validateJsonObject(jsonArrayarrayAllofDogProperty.get(i).getAsJsonObject());
+          DogAllOf.validateJsonObject(jsonArrayarrayAllofDogProperty.get(i).getAsJsonObject());
         };
       }
   }

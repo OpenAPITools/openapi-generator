@@ -31,11 +31,16 @@ namespace Org.OpenAPITools.Model
     public partial class AllOfWithSingleRef :  IEquatable<AllOfWithSingleRef>, IValidatableObject
     {
         /// <summary>
+        /// Gets or Sets SingleRefType
+        /// </summary>
+        [DataMember(Name="SingleRefType", EmitDefaultValue=false)]
+        public SingleRefType? SingleRefType { get; set; }
+        /// <summary>
         /// Initializes a new instance of the <see cref="AllOfWithSingleRef" /> class.
         /// </summary>
         /// <param name="username">username.</param>
         /// <param name="singleRefType">singleRefType.</param>
-        public AllOfWithSingleRef(string username = default(string), AllOfWithSingleRefSingleRefType singleRefType = default(AllOfWithSingleRefSingleRefType))
+        public AllOfWithSingleRef(string username = default(string), SingleRefType? singleRefType = default(SingleRefType?))
         {
             this.Username = username;
             this.SingleRefType = singleRefType;
@@ -47,11 +52,6 @@ namespace Org.OpenAPITools.Model
         [DataMember(Name="username", EmitDefaultValue=false)]
         public string Username { get; set; }
 
-        /// <summary>
-        /// Gets or Sets SingleRefType
-        /// </summary>
-        [DataMember(Name="SingleRefType", EmitDefaultValue=false)]
-        public AllOfWithSingleRefSingleRefType SingleRefType { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object

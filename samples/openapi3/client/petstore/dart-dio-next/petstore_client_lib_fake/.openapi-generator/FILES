@@ -3,7 +3,6 @@ README.md
 analysis_options.yaml
 doc/AdditionalPropertiesClass.md
 doc/AllOfWithSingleRef.md
-doc/AllOfWithSingleRefSingleRefType.md
 doc/Animal.md
 doc/AnotherFakeApi.md
 doc/ApiResponse.md
@@ -75,7 +74,6 @@ lib/src/auth/oauth.dart
 lib/src/date_serializer.dart
 lib/src/model/additional_properties_class.dart
 lib/src/model/all_of_with_single_ref.dart
-lib/src/model/all_of_with_single_ref_single_ref_type.dart
 lib/src/model/animal.dart
 lib/src/model/api_response.dart
 lib/src/model/array_of_array_of_number_only.dart

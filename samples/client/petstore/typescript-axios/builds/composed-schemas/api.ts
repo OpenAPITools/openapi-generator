@@ -125,17 +125,10 @@ export type DogAllOfBreedEnum = typeof DogAllOfBreedEnum[keyof typeof DogAllOfBr
 export interface InlineObject {
     /**
      * 
-     * @type {InlineObjectFile}
+     * @type {any}
      * @memberof InlineObject
      */
-    'file'?: InlineObjectFile;
-}
-/**
- * 
- * @export
- * @interface InlineObjectFile
- */
-export interface InlineObjectFile {
+    'file'?: any;
 }
 /**
  * 

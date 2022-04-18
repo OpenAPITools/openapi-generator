@@ -4,7 +4,6 @@ README.md
 bin/autodoc
 docs/AdditionalPropertiesClass.md
 docs/AllOfWithSingleRef.md
-docs/AllOfWithSingleRefSingleRefType.md
 docs/Animal.md
 docs/AnotherFakeApi.md
 docs/ApiResponse.md
@@ -68,7 +67,6 @@ lib/WWW/OpenAPIClient/FakeApi.pm
 lib/WWW/OpenAPIClient/FakeClassnameTags123Api.pm
 lib/WWW/OpenAPIClient/Object/AdditionalPropertiesClass.pm
 lib/WWW/OpenAPIClient/Object/AllOfWithSingleRef.pm
-lib/WWW/OpenAPIClient/Object/AllOfWithSingleRefSingleRefType.pm
 lib/WWW/OpenAPIClient/Object/Animal.pm
 lib/WWW/OpenAPIClient/Object/ApiResponse.pm
 lib/WWW/OpenAPIClient/Object/ArrayOfArrayOfNumberOnly.pm

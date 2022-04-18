@@ -37,7 +37,7 @@ class AllOfWithSingleRef(object):
     """
     openapi_types = {
         'username': 'str',
-        'single_ref_type': 'AllOfWithSingleRefSingleRefType'
+        'single_ref_type': 'SingleRefType'
     }
 
     attribute_map = {
@@ -87,7 +87,7 @@ class AllOfWithSingleRef(object):
 
 
         :return: The single_ref_type of this AllOfWithSingleRef.  # noqa: E501
-        :rtype: AllOfWithSingleRefSingleRefType
+        :rtype: SingleRefType
         """
         return self._single_ref_type
 
@@ -97,7 +97,7 @@ class AllOfWithSingleRef(object):
 
 
         :param single_ref_type: The single_ref_type of this AllOfWithSingleRef.  # noqa: E501
-        :type single_ref_type: AllOfWithSingleRefSingleRefType
+        :type single_ref_type: SingleRefType
         """
 
         self._single_ref_type = single_ref_type

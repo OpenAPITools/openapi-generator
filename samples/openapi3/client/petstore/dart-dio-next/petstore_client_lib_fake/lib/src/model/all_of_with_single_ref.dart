@@ -2,7 +2,7 @@
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
 
-import 'package:openapi/src/model/all_of_with_single_ref_single_ref_type.dart';
+import 'package:openapi/src/model/single_ref_type.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
@@ -18,7 +18,8 @@ abstract class AllOfWithSingleRef implements Built<AllOfWithSingleRef, AllOfWith
     String? get username;
 
     @BuiltValueField(wireName: r'SingleRefType')
-    AllOfWithSingleRefSingleRefType? get singleRefType;
+    SingleRefType? get singleRefType;
+    // enum singleRefTypeEnum {  admin,  user,  };
 
     AllOfWithSingleRef._();
 
@@ -52,7 +53,7 @@ class _$AllOfWithSingleRefSerializer implements StructuredSerializer<AllOfWithSi
             result
                 ..add(r'SingleRefType')
                 ..add(serializers.serialize(object.singleRefType,
-                    specifiedType: const FullType(AllOfWithSingleRefSingleRefType)));
+                    specifiedType: const FullType(SingleRefType)));
         }
         return result;
     }
@@ -76,8 +77,8 @@ class _$AllOfWithSingleRefSerializer implements StructuredSerializer<AllOfWithSi
                     break;
                 case r'SingleRefType':
                     final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(AllOfWithSingleRefSingleRefType)) as AllOfWithSingleRefSingleRefType;
-                    result.singleRefType.replace(valueDes);
+                        specifiedType: const FullType(SingleRefType)) as SingleRefType;
+                    result.singleRefType = valueDes;
                     break;
             }
         }

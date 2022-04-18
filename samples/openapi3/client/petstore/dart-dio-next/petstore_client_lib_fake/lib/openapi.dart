@@ -19,7 +19,6 @@ export 'package:openapi/src/api/user_api.dart';
 
 export 'package:openapi/src/model/additional_properties_class.dart';
 export 'package:openapi/src/model/all_of_with_single_ref.dart';
-export 'package:openapi/src/model/all_of_with_single_ref_single_ref_type.dart';
 export 'package:openapi/src/model/animal.dart';
 export 'package:openapi/src/model/api_response.dart';
 export 'package:openapi/src/model/array_of_array_of_number_only.dart';

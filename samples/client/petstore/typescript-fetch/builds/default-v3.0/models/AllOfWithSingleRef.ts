@@ -14,11 +14,11 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    AllOfWithSingleRefSingleRefType,
-    AllOfWithSingleRefSingleRefTypeFromJSON,
-    AllOfWithSingleRefSingleRefTypeFromJSONTyped,
-    AllOfWithSingleRefSingleRefTypeToJSON,
-} from './AllOfWithSingleRefSingleRefType';
+    SingleRefType,
+    SingleRefTypeFromJSON,
+    SingleRefTypeFromJSONTyped,
+    SingleRefTypeToJSON,
+} from './SingleRefType';
 
 /**
  * 
@@ -34,10 +34,10 @@ export interface AllOfWithSingleRef {
     username?: string;
     /**
      * 
-     * @type {AllOfWithSingleRefSingleRefType}
+     * @type {SingleRefType}
      * @memberof AllOfWithSingleRef
      */
-    singleRefType?: AllOfWithSingleRefSingleRefType;
+    singleRefType?: SingleRefType;
 }
 
 export function AllOfWithSingleRefFromJSON(json: any): AllOfWithSingleRef {
@@ -51,7 +51,7 @@ export function AllOfWithSingleRefFromJSONTyped(json: any, ignoreDiscriminator: 
     return {
         
         'username': !exists(json, 'username') ? undefined : json['username'],
-        'singleRefType': !exists(json, 'SingleRefType') ? undefined : AllOfWithSingleRefSingleRefTypeFromJSON(json['SingleRefType']),
+        'singleRefType': !exists(json, 'SingleRefType') ? undefined : SingleRefTypeFromJSON(json['SingleRefType']),
     };
 }
 
@@ -65,7 +65,7 @@ export function AllOfWithSingleRefToJSON(value?: AllOfWithSingleRef | null): any
     return {
         
         'username': value.username,
-        'SingleRefType': AllOfWithSingleRefSingleRefTypeToJSON(value.singleRefType),
+        'SingleRefType': SingleRefTypeToJSON(value.singleRefType),
     };
 }
 

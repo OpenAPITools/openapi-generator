@@ -1,7 +1,6 @@
 Model/200Response.sql
 Model/AdditionalPropertiesClass.sql
 Model/AllOfWithSingleRef.sql
-Model/AllOfWithSingleRefSingleRefType.sql
 Model/Animal.sql
 Model/ApiResponse.sql
 Model/ArrayOfArrayOfNumberOnly.sql

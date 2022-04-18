@@ -19,7 +19,6 @@ require 'petstore/configuration'
 # Models
 require 'petstore/models/additional_properties_class'
 require 'petstore/models/all_of_with_single_ref'
-require 'petstore/models/all_of_with_single_ref_single_ref_type'
 require 'petstore/models/animal'
 require 'petstore/models/api_response'
 require 'petstore/models/array_of_array_of_number_only'

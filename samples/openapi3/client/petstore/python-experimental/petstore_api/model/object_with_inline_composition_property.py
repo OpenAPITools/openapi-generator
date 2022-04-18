@@ -73,17 +73,21 @@ class ObjectWithInlineCompositionProperty(
 
     Do not edit the class manually.
     """
-
-    @classmethod
-    @property
-    def someProp(cls) -> typing.Type['ObjectWithInlineCompositionPropertySomeProp']:
-        return ObjectWithInlineCompositionPropertySomeProp
+    
+    
+    class someProp(
+        _SchemaValidator(
+            min_length=1,
+        ),
+        StrSchema
+    ):
+        pass
 
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        someProp: typing.Union['ObjectWithInlineCompositionPropertySomeProp', Unset] = unset,
+        someProp: typing.Union[someProp, Unset] = unset,
         _configuration: typing.Optional[Configuration] = None,
         **kwargs: typing.Type[Schema],
     ) -> 'ObjectWithInlineCompositionProperty':
@@ -94,5 +98,3 @@ class ObjectWithInlineCompositionProperty(
             _configuration=_configuration,
             **kwargs,
         )
-
-from petstore_api.model.object_with_inline_composition_property_some_prop import ObjectWithInlineCompositionPropertySomeProp

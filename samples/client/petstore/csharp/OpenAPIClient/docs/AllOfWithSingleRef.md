@@ -6,7 +6,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Username** | **string** |  | [optional] 
-**SingleRefType** | [**AllOfWithSingleRefSingleRefType**](AllOfWithSingleRefSingleRefType.md) |  | [optional] 
+**SingleRefType** | **SingleRefType** |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to API list]](../README.md#documentation-for-api-endpoints)

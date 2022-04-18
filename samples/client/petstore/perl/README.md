@@ -244,7 +244,6 @@ To load the models:
 ```perl
 use WWW::OpenAPIClient::Object::AdditionalPropertiesClass;
 use WWW::OpenAPIClient::Object::AllOfWithSingleRef;
-use WWW::OpenAPIClient::Object::AllOfWithSingleRefSingleRefType;
 use WWW::OpenAPIClient::Object::Animal;
 use WWW::OpenAPIClient::Object::ApiResponse;
 use WWW::OpenAPIClient::Object::ArrayOfArrayOfNumberOnly;
@@ -313,7 +312,6 @@ use WWW::OpenAPIClient::UserApi;
 # load the models
 use WWW::OpenAPIClient::Object::AdditionalPropertiesClass;
 use WWW::OpenAPIClient::Object::AllOfWithSingleRef;
-use WWW::OpenAPIClient::Object::AllOfWithSingleRefSingleRefType;
 use WWW::OpenAPIClient::Object::Animal;
 use WWW::OpenAPIClient::Object::ApiResponse;
 use WWW::OpenAPIClient::Object::ArrayOfArrayOfNumberOnly;
@@ -432,7 +430,6 @@ Class | Method | HTTP request | Description
 # DOCUMENTATION FOR MODELS
  - [WWW::OpenAPIClient::Object::AdditionalPropertiesClass](docs/AdditionalPropertiesClass.md)
  - [WWW::OpenAPIClient::Object::AllOfWithSingleRef](docs/AllOfWithSingleRef.md)
- - [WWW::OpenAPIClient::Object::AllOfWithSingleRefSingleRefType](docs/AllOfWithSingleRefSingleRefType.md)
  - [WWW::OpenAPIClient::Object::Animal](docs/Animal.md)
  - [WWW::OpenAPIClient::Object::ApiResponse](docs/ApiResponse.md)
  - [WWW::OpenAPIClient::Object::ArrayOfArrayOfNumberOnly](docs/ArrayOfArrayOfNumberOnly.md)

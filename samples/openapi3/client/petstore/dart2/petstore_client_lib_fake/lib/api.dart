@@ -37,7 +37,6 @@ part 'api/user_api.dart';
 
 part 'model/additional_properties_class.dart';
 part 'model/all_of_with_single_ref.dart';
-part 'model/all_of_with_single_ref_single_ref_type.dart';
 part 'model/animal.dart';
 part 'model/api_response.dart';
 part 'model/array_of_array_of_number_only.dart';

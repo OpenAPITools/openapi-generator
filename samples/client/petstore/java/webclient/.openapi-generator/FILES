@@ -7,7 +7,6 @@ build.gradle
 build.sbt
 docs/AdditionalPropertiesClass.md
 docs/AllOfWithSingleRef.md
-docs/AllOfWithSingleRefSingleRefType.md
 docs/Animal.md
 docs/AnotherFakeApi.md
 docs/ArrayOfArrayOfNumberOnly.md
@@ -91,7 +90,6 @@ src/main/java/org/openapitools/client/auth/OAuth.java
 src/main/java/org/openapitools/client/auth/OAuthFlow.java
 src/main/java/org/openapitools/client/model/AdditionalPropertiesClass.java
 src/main/java/org/openapitools/client/model/AllOfWithSingleRef.java
-src/main/java/org/openapitools/client/model/AllOfWithSingleRefSingleRefType.java
 src/main/java/org/openapitools/client/model/Animal.java
 src/main/java/org/openapitools/client/model/ArrayOfArrayOfNumberOnly.java
 src/main/java/org/openapitools/client/model/ArrayOfNumberOnly.java

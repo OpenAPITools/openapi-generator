@@ -9,7 +9,7 @@ use WWW::OpenAPIClient::Object::AllOfWithSingleRef;
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **username** | **string** |  | [optional] 
-**single_ref_type** | [**AllOfWithSingleRefSingleRefType**](AllOfWithSingleRefSingleRefType.md) |  | [optional] 
+**single_ref_type** | [**SingleRefType**](SingleRefType.md) |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

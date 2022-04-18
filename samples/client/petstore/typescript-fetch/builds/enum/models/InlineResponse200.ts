@@ -13,19 +13,6 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import {
-    InlineResponse200NullableNumberEnum,
-    InlineResponse200NullableNumberEnumFromJSON,
-    InlineResponse200NullableNumberEnumFromJSONTyped,
-    InlineResponse200NullableNumberEnumToJSON,
-} from './InlineResponse200NullableNumberEnum';
-import {
-    InlineResponse200NullableStringEnum,
-    InlineResponse200NullableStringEnumFromJSON,
-    InlineResponse200NullableStringEnumFromJSONTyped,
-    InlineResponse200NullableStringEnumToJSON,
-} from './InlineResponse200NullableStringEnum';
-
 /**
  * 
  * @export
@@ -40,10 +27,10 @@ export interface InlineResponse200 {
     stringEnum?: InlineResponse200StringEnumEnum;
     /**
      * 
-     * @type {InlineResponse200NullableStringEnum}
+     * @type {string}
      * @memberof InlineResponse200
      */
-    nullableStringEnum?: InlineResponse200NullableStringEnum | null;
+    nullableStringEnum?: InlineResponse200NullableStringEnumEnum;
     /**
      * 
      * @type {number}
@@ -52,10 +39,10 @@ export interface InlineResponse200 {
     numberEnum?: InlineResponse200NumberEnumEnum;
     /**
      * 
-     * @type {InlineResponse200NullableNumberEnum}
+     * @type {number}
      * @memberof InlineResponse200
      */
-    nullableNumberEnum?: InlineResponse200NullableNumberEnum | null;
+    nullableNumberEnum?: InlineResponse200NullableNumberEnumEnum;
 }
 
 
@@ -72,12 +59,32 @@ export type InlineResponse200StringEnumEnum = typeof InlineResponse200StringEnum
 /**
  * @export
  */
+export const InlineResponse200NullableStringEnumEnum = {
+    One: 'one',
+    Two: 'two',
+    Three: 'three'
+} as const;
+export type InlineResponse200NullableStringEnumEnum = typeof InlineResponse200NullableStringEnumEnum[keyof typeof InlineResponse200NullableStringEnumEnum];
+
+/**
+ * @export
+ */
 export const InlineResponse200NumberEnumEnum = {
     NUMBER_1: 1,
     NUMBER_2: 2,
     NUMBER_3: 3
 } as const;
 export type InlineResponse200NumberEnumEnum = typeof InlineResponse200NumberEnumEnum[keyof typeof InlineResponse200NumberEnumEnum];
+
+/**
+ * @export
+ */
+export const InlineResponse200NullableNumberEnumEnum = {
+    NUMBER_1: 1,
+    NUMBER_2: 2,
+    NUMBER_3: 3
+} as const;
+export type InlineResponse200NullableNumberEnumEnum = typeof InlineResponse200NullableNumberEnumEnum[keyof typeof InlineResponse200NullableNumberEnumEnum];
 
 
 export function InlineResponse200FromJSON(json: any): InlineResponse200 {
@@ -91,9 +98,9 @@ export function InlineResponse200FromJSONTyped(json: any, ignoreDiscriminator: b
     return {
         
         'stringEnum': !exists(json, 'string-enum') ? undefined : json['string-enum'],
-        'nullableStringEnum': !exists(json, 'nullable-string-enum') ? undefined : InlineResponse200NullableStringEnumFromJSON(json['nullable-string-enum']),
+        'nullableStringEnum': !exists(json, 'nullable-string-enum') ? undefined : json['nullable-string-enum'],
         'numberEnum': !exists(json, 'number-enum') ? undefined : json['number-enum'],
-        'nullableNumberEnum': !exists(json, 'nullable-number-enum') ? undefined : InlineResponse200NullableNumberEnumFromJSON(json['nullable-number-enum']),
+        'nullableNumberEnum': !exists(json, 'nullable-number-enum') ? undefined : json['nullable-number-enum'],
     };
 }
 
@@ -107,9 +114,9 @@ export function InlineResponse200ToJSON(value?: InlineResponse200 | null): any {
     return {
         
         'string-enum': value.stringEnum,
-        'nullable-string-enum': InlineResponse200NullableStringEnumToJSON(value.nullableStringEnum),
+        'nullable-string-enum': value.nullableStringEnum,
         'number-enum': value.numberEnum,
-        'nullable-number-enum': InlineResponse200NullableNumberEnumToJSON(value.nullableNumberEnum),
+        'nullable-number-enum': value.nullableNumberEnum,
     };
 }
 

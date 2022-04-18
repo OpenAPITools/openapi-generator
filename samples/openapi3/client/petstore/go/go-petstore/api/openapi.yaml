@@ -2095,7 +2095,7 @@ components:
     NullableAllOf:
       properties:
         child:
-          $ref: '#/components/schemas/NullableAllOf_child'
+          $ref: '#/components/schemas/NullableAllOfChild'
       type: object
     OneOfPrimitiveType:
       oneOf:
@@ -2265,10 +2265,6 @@ components:
         declawed:
           type: boolean
       type: object
-    NullableAllOf_child:
-      allOf:
-      - $ref: '#/components/schemas/NullableAllOfChild'
-      nullable: true
   securitySchemes:
     petstore_auth:
       flows:

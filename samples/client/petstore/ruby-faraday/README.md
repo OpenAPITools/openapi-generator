@@ -122,7 +122,6 @@ Class | Method | HTTP request | Description
 
  - [Petstore::AdditionalPropertiesClass](docs/AdditionalPropertiesClass.md)
  - [Petstore::AllOfWithSingleRef](docs/AllOfWithSingleRef.md)
- - [Petstore::AllOfWithSingleRefSingleRefType](docs/AllOfWithSingleRefSingleRefType.md)
  - [Petstore::Animal](docs/Animal.md)
  - [Petstore::ApiResponse](docs/ApiResponse.md)
  - [Petstore::ArrayOfArrayOfNumberOnly](docs/ArrayOfArrayOfNumberOnly.md)

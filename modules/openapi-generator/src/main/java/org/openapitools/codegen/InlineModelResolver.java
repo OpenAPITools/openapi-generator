@@ -128,7 +128,14 @@ public class InlineModelResolver {
             // allOf, anyOf, oneOf
             ComposedSchema m = (ComposedSchema) schema;
             if (m.getAllOf() != null && !m.getAllOf().isEmpty()) {
-                return true;
+                // check to ensure at least of the allOf item is model
+                for (Schema inner : m.getAllOf()) {
+                    if (isModelNeeded(inner)) {
+                        return true;
+                    }
+                }
+                // allOf items are all non-model (e.g. type: string) only
+                return false;
             }
             if (m.getAnyOf() != null && !m.getAnyOf().isEmpty()) {
                 return true;
@@ -176,6 +183,10 @@ public class InlineModelResolver {
                         //Schema refSchema = this.makeSchemaResolve(modelPrefix, StringUtils.camelize(propName), prop);
                         Schema refSchema = this.makeSchemaResolve(modelPrefix, "_" + propName, prop);
                         props.put(propName, refSchema);
+                    } else if (prop instanceof ComposedSchema && ((ComposedSchema)prop).getAllOf().size() == 1) {
+                        // allOf with only 1 type
+                        LOGGER.info("allOf schema used by the property `{}` replaced by its only item (a type).", propName);
+                        props.put(propName, ((ComposedSchema)prop).getAllOf().get(0));
                     }
                 }
             }
@@ -227,17 +238,30 @@ public class InlineModelResolver {
             ComposedSchema m = (ComposedSchema) schema;
             if (m.getAllOf() != null) {
                 List<Schema> newAllOf = new ArrayList<Schema>();
+                boolean atLeastOneModel = false;
                 for (Schema inner : m.getAllOf()) {
                     // Recurse to create $refs for inner models
                     gatherInlineModels(inner, modelPrefix + "_allOf");
                     if (isModelNeeded(inner)) {
                         Schema refSchema = this.makeSchemaResolve(modelPrefix, "_allOf", inner);
                         newAllOf.add(refSchema); // replace with ref
+                        atLeastOneModel = true;
                     } else {
                         newAllOf.add(inner);
                     }
                 }
-                m.setAllOf(newAllOf);
+                if (atLeastOneModel) {
+                    m.setAllOf(newAllOf);
+                } else {
+                    // allOf is just one or more types only so do not generate the inline allOf model
+                    if (m.getAllOf().size() == 1) {
+                        // handle earlier in this function when looping through properites
+                    } else if (m.getAllOf().size() > 1) {
+                        LOGGER.warn("allOf schema `{}` containing multiple types (not model) is not supported at the moment.", schema.getName());
+                    } else {
+                        LOGGER.error("allOf schema `{}` contains no items.", schema.getName());
+                    }
+                }
             }
             if (m.getAnyOf() != null) {
                 List<Schema> newAnyOf = new ArrayList<Schema>();

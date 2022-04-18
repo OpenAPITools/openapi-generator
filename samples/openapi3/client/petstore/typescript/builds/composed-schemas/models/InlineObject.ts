@@ -10,11 +10,10 @@
  * Do not edit the class manually.
  */
 
-import { InlineObjectFile } from './InlineObjectFile';
 import { HttpFile } from '../http/http';
 
 export class InlineObject {
-    'file'?: InlineObjectFile;
+    'file'?: any;
 
     static readonly discriminator: string | undefined = undefined;
 
@@ -22,7 +21,7 @@ export class InlineObject {
         {
             "name": "file",
             "baseName": "file",
-            "type": "InlineObjectFile",
+            "type": "any",
             "format": ""
         }    ];
 

@@ -9,7 +9,6 @@ apis/index.ts
 index.ts
 models/AdditionalPropertiesClass.ts
 models/AllOfWithSingleRef.ts
-models/AllOfWithSingleRefSingleRefType.ts
 models/Animal.ts
 models/ArrayOfArrayOfNumberOnly.ts
 models/ArrayOfNumberOnly.ts

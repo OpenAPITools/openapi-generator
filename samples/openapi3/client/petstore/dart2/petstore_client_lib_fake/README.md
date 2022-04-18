@@ -105,7 +105,6 @@ Class | Method | HTTP request | Description
 
  - [AdditionalPropertiesClass](doc//AdditionalPropertiesClass.md)
  - [AllOfWithSingleRef](doc//AllOfWithSingleRef.md)
- - [AllOfWithSingleRefSingleRefType](doc//AllOfWithSingleRefSingleRefType.md)
  - [Animal](doc//Animal.md)
  - [ApiResponse](doc//ApiResponse.md)
  - [ArrayOfArrayOfNumberOnly](doc//ArrayOfArrayOfNumberOnly.md)

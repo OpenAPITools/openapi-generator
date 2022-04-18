@@ -31,7 +31,7 @@ class AllOfWithSingleRef {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  AllOfWithSingleRefSingleRefType? singleRefType;
+  SingleRefType? singleRefType;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is AllOfWithSingleRef &&
@@ -78,7 +78,7 @@ class AllOfWithSingleRef {
 
       return AllOfWithSingleRef(
         username: mapValueOfType<String>(json, r'username'),
-        singleRefType: AllOfWithSingleRefSingleRefType.fromJson(json[r'SingleRefType']),
+        singleRefType: SingleRefType.fromJson(json[r'SingleRefType']),
       );
     }
     return null;

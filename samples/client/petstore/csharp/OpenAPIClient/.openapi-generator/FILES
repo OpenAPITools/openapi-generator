@@ -6,7 +6,6 @@ build.bat
 build.sh
 docs/AdditionalPropertiesClass.md
 docs/AllOfWithSingleRef.md
-docs/AllOfWithSingleRefSingleRefType.md
 docs/Animal.md
 docs/AnotherFakeApi.md
 docs/ApiResponse.md
@@ -81,7 +80,6 @@ src/Org.OpenAPITools/Client/IReadableConfiguration.cs
 src/Org.OpenAPITools/Client/OpenAPIDateConverter.cs
 src/Org.OpenAPITools/Model/AdditionalPropertiesClass.cs
 src/Org.OpenAPITools/Model/AllOfWithSingleRef.cs
-src/Org.OpenAPITools/Model/AllOfWithSingleRefSingleRefType.cs
 src/Org.OpenAPITools/Model/Animal.cs
 src/Org.OpenAPITools/Model/ApiResponse.cs
 src/Org.OpenAPITools/Model/ArrayOfArrayOfNumberOnly.cs

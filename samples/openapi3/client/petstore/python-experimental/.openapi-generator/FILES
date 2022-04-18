@@ -99,7 +99,6 @@ docs/ObjectModelWithRefProps.md
 docs/ObjectWithDecimalProperties.md
 docs/ObjectWithDifficultlyNamedProps.md
 docs/ObjectWithInlineCompositionProperty.md
-docs/ObjectWithInlineCompositionPropertySomeProp.md
 docs/ObjectWithValidations.md
 docs/Order.md
 docs/ParentPet.md
@@ -240,7 +239,6 @@ petstore_api/model/object_model_with_ref_props.py
 petstore_api/model/object_with_decimal_properties.py
 petstore_api/model/object_with_difficultly_named_props.py
 petstore_api/model/object_with_inline_composition_property.py
-petstore_api/model/object_with_inline_composition_property_some_prop.py
 petstore_api/model/object_with_validations.py
 petstore_api/model/order.py
 petstore_api/model/parent_pet.py

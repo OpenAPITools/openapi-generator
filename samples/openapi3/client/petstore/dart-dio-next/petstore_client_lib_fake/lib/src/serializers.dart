@@ -14,7 +14,6 @@ import 'package:openapi/src/model/date.dart';
 
 import 'package:openapi/src/model/additional_properties_class.dart';
 import 'package:openapi/src/model/all_of_with_single_ref.dart';
-import 'package:openapi/src/model/all_of_with_single_ref_single_ref_type.dart';
 import 'package:openapi/src/model/animal.dart';
 import 'package:openapi/src/model/api_response.dart';
 import 'package:openapi/src/model/array_of_array_of_number_only.dart';
@@ -67,7 +66,6 @@ part 'serializers.g.dart';
 @SerializersFor([
   AdditionalPropertiesClass,
   AllOfWithSingleRef,
-  AllOfWithSingleRefSingleRefType,
   Animal,
   ApiResponse,
   ArrayOfArrayOfNumberOnly,

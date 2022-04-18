@@ -24,7 +24,6 @@ lib/app/Http/Middleware/TrustProxies.php
 lib/app/Http/Middleware/VerifyCsrfToken.php
 lib/app/Models/AdditionalPropertiesClass.php
 lib/app/Models/AllOfWithSingleRef.php
-lib/app/Models/AllOfWithSingleRefSingleRefType.php
 lib/app/Models/Animal.php
 lib/app/Models/ApiResponse.php
 lib/app/Models/ArrayOfArrayOfNumberOnly.php

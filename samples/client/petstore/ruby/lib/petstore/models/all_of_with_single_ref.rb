@@ -36,7 +36,7 @@ module Petstore
     def self.openapi_types
       {
         :'username' => :'String',
-        :'single_ref_type' => :'AllOfWithSingleRefSingleRefType'
+        :'single_ref_type' => :'SingleRefType'
       }
     end
 

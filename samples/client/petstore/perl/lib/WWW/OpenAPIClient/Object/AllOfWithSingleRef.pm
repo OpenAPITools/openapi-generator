@@ -30,7 +30,7 @@ use Log::Any qw($log);
 use Date::Parse;
 use DateTime;
 
-use WWW::OpenAPIClient::Object::AllOfWithSingleRefSingleRefType;
+use WWW::OpenAPIClient::Object::SingleRefType;
 
 use base ("Class::Accessor", "Class::Data::Inheritable");
 
@@ -169,7 +169,7 @@ __PACKAGE__->method_documentation({
         read_only => '',
             },
     'single_ref_type' => {
-        datatype => 'AllOfWithSingleRefSingleRefType',
+        datatype => 'SingleRefType',
         base_name => 'SingleRefType',
         description => '',
         format => '',
@@ -179,7 +179,7 @@ __PACKAGE__->method_documentation({
 
 __PACKAGE__->openapi_types( {
     'username' => 'string',
-    'single_ref_type' => 'AllOfWithSingleRefSingleRefType'
+    'single_ref_type' => 'SingleRefType'
 } );
 
 __PACKAGE__->attribute_map( {

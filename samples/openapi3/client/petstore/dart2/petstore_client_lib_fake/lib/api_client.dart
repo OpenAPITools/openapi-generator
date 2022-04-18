@@ -217,8 +217,6 @@ class ApiClient {
           return AdditionalPropertiesClass.fromJson(value);
         case 'AllOfWithSingleRef':
           return AllOfWithSingleRef.fromJson(value);
-        case 'AllOfWithSingleRefSingleRefType':
-          return AllOfWithSingleRefSingleRefType.fromJson(value);
         case 'Animal':
           return Animal.fromJson(value);
         case 'ApiResponse':
