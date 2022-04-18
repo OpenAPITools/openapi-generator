@@ -403,6 +403,15 @@ public class CsharpNetcoreFunctionsServerCodegen extends AbstractCSharpCodegen {
             if (operations != null) {
                 List<CodegenOperation> ops = operations.getOperation();
                 for (CodegenOperation operation : ops) {
+
+
+                    for (CodegenParameter param : operation.allParams) {
+                        if (param.isPathParam)
+                        {
+                            param.paramName = unCamelize(param.paramName);
+                        }
+                    }
+
                     if (operation.consumes == null) {
                         continue;
                     }
@@ -594,10 +603,15 @@ public class CsharpNetcoreFunctionsServerCodegen extends AbstractCSharpCodegen {
             if (apiBasePath.startsWith("/"))
                 apiBasePath = apiBasePath.substring(1);
 
-            if (apiBasePath.endsWith("/"))
-                apiBasePath = apiBasePath.substring(0, apiBasePath.lastIndexOf("/"));
+            if (!apiBasePath.endsWith("/"))
+                apiBasePath += "/";
         }
 
         additionalProperties.put("apiBasePath", apiBasePath);
+    }
+
+
+    private String unCamelize(String name) {
+        return name.replaceAll("(.)(\\p{Upper})", "$1_$2").toLowerCase(Locale.ROOT);
     }
 }
