@@ -94,6 +94,8 @@ class ComposedNone(
             ],
             'anyOf': [
             ],
+            'not':
+                None
         }
 
     def __new__(

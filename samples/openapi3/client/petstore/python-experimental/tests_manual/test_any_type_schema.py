@@ -50,6 +50,7 @@ class TestAnyTypeSchema(unittest.TestCase):
                     ],
                     'anyOf': [
                     ],
+                    'not': None
                 }
 
         m = Model(a=1, b='hi')
@@ -74,6 +75,7 @@ class TestAnyTypeSchema(unittest.TestCase):
                     ],
                     'anyOf': [
                     ],
+                    'not': None
                 }
 
         m = Model([1, 'hi'])
@@ -98,6 +100,7 @@ class TestAnyTypeSchema(unittest.TestCase):
                     ],
                     'anyOf': [
                     ],
+                    'not': None
                 }
 
         m = Model('hi')
@@ -122,6 +125,7 @@ class TestAnyTypeSchema(unittest.TestCase):
                     ],
                     'anyOf': [
                     ],
+                    'not': None
                 }
 
         m = Model(1)
@@ -153,6 +157,7 @@ class TestAnyTypeSchema(unittest.TestCase):
                     ],
                     'anyOf': [
                     ],
+                    'not': None
                 }
 
         m = Model(1)
@@ -181,6 +186,7 @@ class TestAnyTypeSchema(unittest.TestCase):
                     ],
                     'anyOf': [
                     ],
+                    'not': None
                 }
 
         m = Model(True)
@@ -212,6 +218,7 @@ class TestAnyTypeSchema(unittest.TestCase):
                     ],
                     'anyOf': [
                     ],
+                    'not': None
                 }
 
         m = Model(None)
@@ -236,6 +243,7 @@ class TestAnyTypeSchema(unittest.TestCase):
                     ],
                     'anyOf': [
                     ],
+                    'not': None
                 }
 
         m = Model('1970-01-01')
@@ -260,6 +268,7 @@ class TestAnyTypeSchema(unittest.TestCase):
                     ],
                     'anyOf': [
                     ],
+                    'not': None
                 }
 
         m = Model('2020-01-01T00:00:00')
@@ -284,6 +293,7 @@ class TestAnyTypeSchema(unittest.TestCase):
                     ],
                     'anyOf': [
                     ],
+                    'not': None
                 }
 
         m = Model('12.34')

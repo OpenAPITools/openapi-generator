@@ -144,6 +144,7 @@ Class | Method | HTTP request | Description
  - [Address](docs/Address.md)
  - [Animal](docs/Animal.md)
  - [AnimalFarm](docs/AnimalFarm.md)
+ - [AnyTypeNotString](docs/AnyTypeNotString.md)
  - [ApiResponse](docs/ApiResponse.md)
  - [Apple](docs/Apple.md)
  - [AppleReq](docs/AppleReq.md)

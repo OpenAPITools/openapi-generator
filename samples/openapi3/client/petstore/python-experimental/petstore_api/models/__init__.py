@@ -16,6 +16,7 @@ from petstore_api.model.additional_properties_with_array_of_enums import Additio
 from petstore_api.model.address import Address
 from petstore_api.model.animal import Animal
 from petstore_api.model.animal_farm import AnimalFarm
+from petstore_api.model.any_type_not_string import AnyTypeNotString
 from petstore_api.model.api_response import ApiResponse
 from petstore_api.model.apple import Apple
 from petstore_api.model.apple_req import AppleReq

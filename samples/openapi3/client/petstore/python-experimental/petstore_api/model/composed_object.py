@@ -94,6 +94,8 @@ class ComposedObject(
             ],
             'anyOf': [
             ],
+            'not':
+                None
         }
 
     def __new__(

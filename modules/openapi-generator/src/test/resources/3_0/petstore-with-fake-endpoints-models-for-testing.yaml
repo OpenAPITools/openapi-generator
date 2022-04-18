@@ -1913,7 +1913,7 @@ components:
       properties:
         username:
           type: string
-        SingleRefTypeProp:
+        SingleRefType:
           allOf:
             - $ref: '#/components/schemas/SingleRefType'
     SingleRefType:

@@ -93,6 +93,8 @@ class IsoscelesTriangle(
             ],
             'anyOf': [
             ],
+            'not':
+                None
         }
 
     def __new__(

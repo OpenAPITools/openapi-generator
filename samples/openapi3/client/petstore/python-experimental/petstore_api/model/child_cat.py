@@ -93,6 +93,8 @@ class ChildCat(
             ],
             'anyOf': [
             ],
+            'not':
+                None
         }
 
     def __new__(
