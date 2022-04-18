@@ -3703,6 +3703,7 @@ public class DefaultCodegenTest {
         CodegenModel m = codegen.fromModel(modelName, openAPI.getComponents().getSchemas().get(modelName));
         /* TODO inline allOf schema are created as separate models and the following assumptions that
            the properties are non-model are no longer valid and need to be revised 
+        assertTrue(m.vars.get(0).getIsMap());
         assertTrue(m.vars.get(1).getIsNumber());
         assertTrue(m.vars.get(2).getIsUnboundedInteger());
         assertTrue(m.vars.get(3).getIsString());
