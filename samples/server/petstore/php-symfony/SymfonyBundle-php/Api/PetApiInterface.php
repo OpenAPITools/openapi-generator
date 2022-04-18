@@ -90,12 +90,13 @@ interface PetApiInterface
      *
      * @param  \int $petId  Pet id to delete (required)
      * @param  \string $apiKey   (optional)
+     * @param  \string $additionalMetadata  Additional data to pass to server (optional)
      * @param  \int $responseCode     The HTTP response code to return
      * @param  \array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
      * @return void
      */
-    public function deletePet($petId, $apiKey = null, &$responseCode, array &$responseHeaders);
+    public function deletePet($petId, $apiKey = null, $additionalMetadata = null, &$responseCode, array &$responseHeaders);
 
     /**
      * Operation findPetsByStatus

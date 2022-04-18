@@ -12,7 +12,7 @@ import { User } from "../models/User";
 export abstract class AbstractPromisePetApi {
     public abstract addPet(pet: Pet, options?: Configuration): Promise<Pet>;
 
-    public abstract deletePet(petId: number, apiKey?: string, options?: Configuration): Promise<void>;
+    public abstract deletePet(petId: number, apiKey?: string, additionalMetadata?: string, options?: Configuration): Promise<void>;
 
     public abstract findPetsByStatus(status: Array<'available' | 'pending' | 'sold'>, options?: Configuration): Promise<Array<Pet>>;
 

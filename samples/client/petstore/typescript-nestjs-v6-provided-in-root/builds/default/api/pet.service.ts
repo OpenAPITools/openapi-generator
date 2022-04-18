@@ -96,15 +96,17 @@ export class PetService {
      * 
      * @param petId Pet id to delete
      * @param apiKey 
+     * @param additionalMetadata Additional data to pass to server
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public deletePet(petId: number, apiKey?: string, ): Observable<AxiosResponse<any>>;
-    public deletePet(petId: number, apiKey?: string, ): Observable<any> {
+    public deletePet(petId: number, apiKey?: string, additionalMetadata?: string, ): Observable<AxiosResponse<any>>;
+    public deletePet(petId: number, apiKey?: string, additionalMetadata?: string, ): Observable<any> {
 
         if (petId === null || petId === undefined) {
             throw new Error('Required parameter petId was null or undefined when calling deletePet.');
         }
+
 
 
         let headers = this.defaultHeaders;
@@ -130,7 +132,24 @@ export class PetService {
 
         // to determine the Content-Type header
         const consumes: string[] = [
+            'application/x-www-form-urlencoded'
         ];
+
+        const canConsumeForm = this.canConsumeForm(consumes);
+
+        let formParams: { append(param: string, value: any): void; };
+        let useForm = false;
+        let convertFormParamsToString = false;
+        if (useForm) {
+            formParams = new FormData();
+        } else {
+            // formParams = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        }
+
+        if (additionalMetadata !== undefined) {
+            formParams.append('additionalMetadata', <any>additionalMetadata);
+        }
+
         return this.httpClient.delete<any>(`${this.basePath}/pet/${encodeURIComponent(String(petId))}`,
             {
                 withCredentials: this.configuration.withCredentials,

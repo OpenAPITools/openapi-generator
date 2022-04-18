@@ -71,14 +71,16 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
      * Deletes a pet
      * @param petId Pet id to delete
      * @param apiKey 
+     * @param additionalMetadata Additional data to pass to server
      */
-    public async deletePet(petId: number, apiKey?: string, _options?: Configuration): Promise<RequestContext> {
+    public async deletePet(petId: number, apiKey?: string, additionalMetadata?: string, _options?: Configuration): Promise<RequestContext> {
         let _config = _options || this.configuration;
 
         // verify required parameter 'petId' is not null or undefined
         if (petId === null || petId === undefined) {
             throw new RequiredError("PetApi", "deletePet", "petId");
         }
+
 
 
 
@@ -93,6 +95,31 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
         // Header Params
         requestContext.setHeaderParam("api_key", ObjectSerializer.serialize(apiKey, "string", ""));
 
+        // Form Params
+        const useForm = canConsumeForm([
+            'application/x-www-form-urlencoded',
+        ]);
+
+        let localVarFormParams
+        if (useForm) {
+            localVarFormParams = new FormData();
+        } else {
+            localVarFormParams = new URLSearchParams();
+        }
+
+        if (additionalMetadata !== undefined) {
+             // TODO: replace .append with .set
+             localVarFormParams.append('additionalMetadata', additionalMetadata as any);
+        }
+
+        requestContext.setBody(localVarFormParams);
+
+        if(!useForm) {
+            const contentType = ObjectSerializer.getPreferredMediaType([
+                "application/x-www-form-urlencoded"
+            ]);
+            requestContext.setHeaderParam("Content-Type", contentType);
+        }
 
         let authMethod: SecurityAuthentication | undefined;
         // Apply auth methods

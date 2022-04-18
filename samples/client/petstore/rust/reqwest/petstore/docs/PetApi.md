@@ -47,7 +47,7 @@ Name | Type | Description  | Required | Notes
 
 ## delete_pet
 
-> delete_pet(pet_id, api_key)
+> delete_pet(pet_id, api_key, additional_metadata)
 Deletes a pet
 
 
@@ -59,6 +59,7 @@ Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
 **pet_id** | **i64** | Pet id to delete | [required] |
 **api_key** | Option<**String**> |  |  |
+**additional_metadata** | Option<**String**> | Additional data to pass to server |  |
 
 ### Return type
 
@@ -70,7 +71,7 @@ Name | Type | Description  | Required | Notes
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/x-www-form-urlencoded
 - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

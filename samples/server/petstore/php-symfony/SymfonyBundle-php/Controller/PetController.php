@@ -162,6 +162,7 @@ class PetController extends Controller
 
         // Read out all input parameter values into variables
         $apiKey = $request->headers->get('api_key');
+        $additionalMetadata = $request->request->get('additionalMetadata');
 
         // Use the default value if no value was provided
 
@@ -169,6 +170,7 @@ class PetController extends Controller
         try {
             $petId = $this->deserialize($petId, 'int', 'string');
             $apiKey = $this->deserialize($apiKey, 'string', 'string');
+            $additionalMetadata = $this->deserialize($additionalMetadata, 'string', 'string');
         } catch (SerializerRuntimeException $exception) {
             return $this->createBadRequestResponse($exception->getMessage());
         }
@@ -187,6 +189,12 @@ class PetController extends Controller
         if ($response instanceof Response) {
             return $response;
         }
+        $asserts = [];
+        $asserts[] = new Assert\Type("string");
+        $response = $this->validate($additionalMetadata, $asserts);
+        if ($response instanceof Response) {
+            return $response;
+        }
 
 
         try {
@@ -198,7 +206,7 @@ class PetController extends Controller
             // Make the call to the business logic
             $responseCode = 204;
             $responseHeaders = [];
-            $result = $handler->deletePet($petId, $apiKey, $responseCode, $responseHeaders);
+            $result = $handler->deletePet($petId, $apiKey, $additionalMetadata, $responseCode, $responseHeaders);
 
             // Find default response message
             $message = '';

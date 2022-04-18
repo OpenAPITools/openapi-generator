@@ -115,7 +115,7 @@ pub fn add_pet(configuration: &configuration::Configuration, pet: crate::models:
 }
 
 /// 
-pub fn delete_pet(configuration: &configuration::Configuration, pet_id: i64, api_key: Option<&str>) -> Result<(), Error<DeletePetError>> {
+pub fn delete_pet(configuration: &configuration::Configuration, pet_id: i64, api_key: Option<&str>, additional_metadata: Option<&str>) -> Result<(), Error<DeletePetError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -132,6 +132,11 @@ pub fn delete_pet(configuration: &configuration::Configuration, pet_id: i64, api
     if let Some(ref local_var_token) = local_var_configuration.oauth_access_token {
         local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
     };
+    let mut local_var_form_params = std::collections::HashMap::new();
+    if let Some(local_var_param_value) = additional_metadata {
+        local_var_form_params.insert("additionalMetadata", local_var_param_value.to_string());
+    }
+    local_var_req_builder = local_var_req_builder.form(&local_var_form_params);
 
     let local_var_req = local_var_req_builder.build()?;
     let mut local_var_resp = local_var_client.execute(local_var_req)?;

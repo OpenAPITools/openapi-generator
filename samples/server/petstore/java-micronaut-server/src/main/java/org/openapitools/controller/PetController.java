@@ -70,6 +70,7 @@ public class PetController {
      *
      * @param petId Pet id to delete (required)
      * @param apiKey  (optional)
+     * @param additionalMetadata Additional data to pass to server (optional)
      */
     @ApiOperation(
         value = "Deletes a pet",
@@ -86,9 +87,11 @@ public class PetController {
         @ApiResponse(code = 400, message = "Invalid pet value")})
     @Delete(uri="/pet/{petId}")
     @Produces(value = {})
+    @Consumes(value = {"application/x-www-form-urlencoded"})
     public Mono<Object> deletePet(
         @PathVariable(value="petId") @NotNull Long petId, 
-        @Header(value="api_key") @Nullable String apiKey
+        @Header(value="api_key") @Nullable String apiKey, 
+        @Nullable String additionalMetadata
     ) {
         // TODO implement deletePet() body;
         Mono<Object> result = Mono.empty();

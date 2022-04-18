@@ -88,7 +88,10 @@ class PetApi {
   ///   Pet id to delete
   ///
   /// * [String] apiKey:
-  Future<Response> deletePetWithHttpInfo(int petId, { String? apiKey, }) async {
+  ///
+  /// * [String] additionalMetadata:
+  ///   Additional data to pass to server
+  Future<Response> deletePetWithHttpInfo(int petId, { String? apiKey, String? additionalMetadata, }) async {
     // ignore: prefer_const_declarations
     final path = r'/pet/{petId}'
       .replaceAll('{petId}', petId.toString());
@@ -105,8 +108,11 @@ class PetApi {
     }
 
     const authNames = <String>['petstore_auth'];
-    const contentTypes = <String>[];
+    const contentTypes = <String>['application/x-www-form-urlencoded'];
 
+    if (additionalMetadata != null) {
+      formParams[r'additionalMetadata'] = parameterToString(additionalMetadata);
+    }
 
     return apiClient.invokeAPI(
       path,
@@ -130,8 +136,11 @@ class PetApi {
   ///   Pet id to delete
   ///
   /// * [String] apiKey:
-  Future<void> deletePet(int petId, { String? apiKey, }) async {
-    final response = await deletePetWithHttpInfo(petId,  apiKey: apiKey, );
+  ///
+  /// * [String] additionalMetadata:
+  ///   Additional data to pass to server
+  Future<void> deletePet(int petId, { String? apiKey, String? additionalMetadata, }) async {
+    final response = await deletePetWithHttpInfo(petId,  apiKey: apiKey, additionalMetadata: additionalMetadata, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }

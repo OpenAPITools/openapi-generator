@@ -7,7 +7,7 @@ import { Pet } from "../models/Pet";
 export abstract class AbstractPetApiRequestFactory {
     public abstract addPet(pet: Pet, options?: Configuration): Promise<RequestContext>;
 
-    public abstract deletePet(petId: number, apiKey?: string, options?: Configuration): Promise<RequestContext>;
+    public abstract deletePet(petId: number, apiKey?: string, additionalMetadata?: string, options?: Configuration): Promise<RequestContext>;
 
     public abstract findPetsByStatus(status: Array<'available' | 'pending' | 'sold'>, options?: Configuration): Promise<RequestContext>;
 

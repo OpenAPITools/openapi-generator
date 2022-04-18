@@ -44,7 +44,8 @@ interface PetApiDelegate {
      * @see PetApi#deletePet
      */
     fun deletePet(petId: kotlin.Long,
-        apiKey: kotlin.String?): ResponseEntity<Unit> {
+        apiKey: kotlin.String?,
+        additionalMetadata: kotlin.String?): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
 
     }

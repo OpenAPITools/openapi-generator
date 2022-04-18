@@ -54,12 +54,16 @@ public class OASPetApi {
      * 
      * @param petId Pet id to delete (required)
      * @param apiKey  (optional)
+     * @param additionalMetadata Additional data to pass to server (optional)
      * @throws OAS.ApiException if fails to make API call
      */
     public void deletePet(Map<String, Object> params) {
         client.assertNotNull(params.get('petId'), 'petId');
         List<OAS.Param> query = new List<OAS.Param>();
         List<OAS.Param> form = new List<OAS.Param>();
+
+        // cast form params to verify their expected type
+        form.addAll(client.makeParam('additionalMetadata', (String) params.get('additionalMetadata')));
 
         client.invoke(
             'DELETE', '/pet/{petId}', '',
@@ -71,7 +75,7 @@ public class OASPetApi {
                 'api_key' => (String) params.get('apiKey')
             },
             new List<String>(),
-            new List<String>(),
+            new List<String>{ 'application/x-www-form-urlencoded' },
             new List<String> { 'petstore_auth' },
             null
         );

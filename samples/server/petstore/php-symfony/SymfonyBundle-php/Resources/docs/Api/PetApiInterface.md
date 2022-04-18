@@ -89,7 +89,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 ## **deletePet**
-> deletePet($petId, $apiKey)
+> deletePet($petId, $apiKey, $additionalMetadata)
 
 Deletes a pet
 
@@ -120,7 +120,7 @@ class PetApi implements PetApiInterface
     /**
      * Implementation of PetApiInterface#deletePet
      */
-    public function deletePet($petId, $apiKey = null)
+    public function deletePet($petId, $apiKey = null, $additionalMetadata = null)
     {
         // Implement the operation ...
     }
@@ -135,6 +135,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **petId** | **int**| Pet id to delete |
  **apiKey** | **string**|  | [optional]
+ **additionalMetadata** | **string**| Additional data to pass to server | [optional]
 
 ### Return type
 
@@ -146,7 +147,7 @@ void (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/x-www-form-urlencoded
  - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)

@@ -34,6 +34,12 @@ export interface PetApiDeletePetRequest {
      * @memberof PetApideletePet
      */
     apiKey?: string
+    /**
+     * Additional data to pass to server
+     * @type string
+     * @memberof PetApideletePet
+     */
+    additionalMetadata?: string
 }
 
 export interface PetApiFindPetsByStatusRequest {
@@ -136,7 +142,7 @@ export class ObjectPetApi {
      * @param param the request object
      */
     public deletePet(param: PetApiDeletePetRequest, options?: Configuration): Promise<void> {
-        return this.api.deletePet(param.petId, param.apiKey,  options).toPromise();
+        return this.api.deletePet(param.petId, param.apiKey, param.additionalMetadata,  options).toPromise();
     }
 
     /**

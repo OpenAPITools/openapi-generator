@@ -65,7 +65,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **deletePet**
-> deletePet(petId, apiKey)
+> deletePet(petId, apiKey, additionalMetadata)
 
 Deletes a pet
 
@@ -80,9 +80,10 @@ import 'package:openapi/api.dart';
 final api_instance = PetApi();
 final petId = 789; // int | Pet id to delete
 final apiKey = apiKey_example; // String | 
+final additionalMetadata = additionalMetadata_example; // String | Additional data to pass to server
 
 try {
-    api_instance.deletePet(petId, apiKey);
+    api_instance.deletePet(petId, apiKey, additionalMetadata);
 } catch (e) {
     print('Exception when calling PetApi->deletePet: $e\n');
 }
@@ -94,6 +95,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **petId** | **int**| Pet id to delete | 
  **apiKey** | **String**|  | [optional] 
+ **additionalMetadata** | **String**| Additional data to pass to server | [optional] 
 
 ### Return type
 
@@ -105,7 +107,7 @@ void (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/x-www-form-urlencoded
  - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

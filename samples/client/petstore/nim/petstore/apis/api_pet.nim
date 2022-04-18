@@ -47,10 +47,14 @@ proc addPet*(httpClient: HttpClient, pet: Pet): (Option[Pet], Response) =
   constructResult[Pet](response)
 
 
-proc deletePet*(httpClient: HttpClient, petId: int64, apiKey: string): Response =
+proc deletePet*(httpClient: HttpClient, petId: int64, apiKey: string, additionalMetadata: string): Response =
   ## Deletes a pet
+  httpClient.headers["Content-Type"] = "application/x-www-form-urlencoded"
   httpClient.headers["api_key"] = apiKey
-  httpClient.delete(basepath & fmt"/pet/{petId}")
+  let query_for_api_call = encodeQuery([
+    ("additionalMetadata", $additionalMetadata), # Additional data to pass to server
+  ])
+  httpClient.delete(basepath & fmt"/pet/{petId}", $query_for_api_call)
 
 
 proc findPetsByStatus*(httpClient: HttpClient, status: seq[Status]): (Option[seq[Pet]], Response) =

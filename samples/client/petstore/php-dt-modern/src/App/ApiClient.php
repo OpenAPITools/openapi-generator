@@ -374,18 +374,23 @@ class ApiClient extends OAGAC\AbstractApiClient
     /**
      * Deletes a pet
      * @param \App\DTO\DeletePetParameterData $parameters
+     * @param \App\DTO\InlineObject1 $requestContent
      * @param iterable|string[][] $security
+     * @param string $requestMediaType
      * @return ResponseInterface
      * @throws ClientExceptionInterface
      * @throws DT\Exception\InvalidData
      */
     public function deletePetRaw(
         \App\DTO\DeletePetParameterData $parameters,
-        iterable $security = ['petstore_auth' => ['write:pets', 'read:pets', ]]
+        \App\DTO\InlineObject1 $requestContent,
+        iterable $security = ['petstore_auth' => ['write:pets', 'read:pets', ]],
+        string $requestMediaType = 'application/x-www-form-urlencoded'
     ): ResponseInterface
     {
         $request = $this->createRequest('DELETE', '/pet/{petId}', $this->getPathParameters($parameters), []);
         $request = $this->addCustomHeaders($request, $parameters);
+        $request = $this->addBody($request, $requestMediaType, $requestContent);
         $request = $this->addSecurity($request, $security);
         return $this->httpClient->sendRequest($request);
     }
@@ -393,7 +398,9 @@ class ApiClient extends OAGAC\AbstractApiClient
     /**
      * Deletes a pet
      * @param \App\DTO\DeletePetParameterData $parameters
+     * @param \App\DTO\InlineObject1 $requestContent
      * @param iterable|string[][] $security
+     * @param string $requestMediaType
      * @return array
      * @throws ClientExceptionInterface
      * @throws DT\Exception\InvalidData
@@ -401,10 +408,12 @@ class ApiClient extends OAGAC\AbstractApiClient
      */
     public function deletePet(
         \App\DTO\DeletePetParameterData $parameters,
-        iterable $security = ['petstore_auth' => ['write:pets', 'read:pets', ]]
+        \App\DTO\InlineObject1 $requestContent,
+        iterable $security = ['petstore_auth' => ['write:pets', 'read:pets', ]],
+        string $requestMediaType = 'application/x-www-form-urlencoded'
     ): array
     {
-        $response = $this->deletePetRaw($parameters, $security);
+        $response = $this->deletePetRaw($parameters, $requestContent, $security, $requestMediaType);
         $responseContent = null;
         switch ($response->getStatusCode())
         {
@@ -419,7 +428,9 @@ class ApiClient extends OAGAC\AbstractApiClient
     /**
      * Deletes a pet
      * @param \App\DTO\DeletePetParameterData $parameters
+     * @param \App\DTO\InlineObject1 $requestContent
      * @param iterable|string[][] $security
+     * @param string $requestMediaType
      * @return mixed
      * @throws ClientExceptionInterface
      * @throws DT\Exception\InvalidData
@@ -428,10 +439,12 @@ class ApiClient extends OAGAC\AbstractApiClient
      */
     public function deletePetResult(
         \App\DTO\DeletePetParameterData $parameters,
-        iterable $security = ['petstore_auth' => ['write:pets', 'read:pets', ]]
+        \App\DTO\InlineObject1 $requestContent,
+        iterable $security = ['petstore_auth' => ['write:pets', 'read:pets', ]],
+        string $requestMediaType = 'application/x-www-form-urlencoded'
     ): mixed
     {
-        return $this->getSuccessfulContent(...$this->deletePet($parameters, $security));
+        return $this->getSuccessfulContent(...$this->deletePet($parameters, $requestContent, $security, $requestMediaType));
     }
     //endregion
 
@@ -1387,7 +1400,7 @@ class ApiClient extends OAGAC\AbstractApiClient
     /**
      * uploads an image
      * @param \App\DTO\UploadFileParameterData $parameters
-     * @param \App\DTO\InlineObject1 $requestContent
+     * @param \App\DTO\InlineObject2 $requestContent
      * @param iterable|string[][] $security
      * @param string $requestMediaType
      * @param string $responseMediaType
@@ -1397,7 +1410,7 @@ class ApiClient extends OAGAC\AbstractApiClient
      */
     public function uploadFileRaw(
         \App\DTO\UploadFileParameterData $parameters,
-        \App\DTO\InlineObject1 $requestContent,
+        \App\DTO\InlineObject2 $requestContent,
         iterable $security = ['petstore_auth' => ['write:pets', 'read:pets', ]],
         string $requestMediaType = 'multipart/form-data',
         string $responseMediaType = 'application/json'
@@ -1413,7 +1426,7 @@ class ApiClient extends OAGAC\AbstractApiClient
     /**
      * uploads an image
      * @param \App\DTO\UploadFileParameterData $parameters
-     * @param \App\DTO\InlineObject1 $requestContent
+     * @param \App\DTO\InlineObject2 $requestContent
      * @param iterable|string[][] $security
      * @param string $requestMediaType
      * @param string $responseMediaType
@@ -1424,7 +1437,7 @@ class ApiClient extends OAGAC\AbstractApiClient
      */
     public function uploadFile(
         \App\DTO\UploadFileParameterData $parameters,
-        \App\DTO\InlineObject1 $requestContent,
+        \App\DTO\InlineObject2 $requestContent,
         iterable $security = ['petstore_auth' => ['write:pets', 'read:pets', ]],
         string $requestMediaType = 'multipart/form-data',
         string $responseMediaType = 'application/json'
@@ -1446,7 +1459,7 @@ class ApiClient extends OAGAC\AbstractApiClient
     /**
      * uploads an image
      * @param \App\DTO\UploadFileParameterData $parameters
-     * @param \App\DTO\InlineObject1 $requestContent
+     * @param \App\DTO\InlineObject2 $requestContent
      * @param iterable|string[][] $security
      * @param string $requestMediaType
      * @param string $responseMediaType
@@ -1458,7 +1471,7 @@ class ApiClient extends OAGAC\AbstractApiClient
      */
     public function uploadFileResult(
         \App\DTO\UploadFileParameterData $parameters,
-        \App\DTO\InlineObject1 $requestContent,
+        \App\DTO\InlineObject2 $requestContent,
         iterable $security = ['petstore_auth' => ['write:pets', 'read:pets', ]],
         string $requestMediaType = 'multipart/form-data',
         string $responseMediaType = 'application/json'

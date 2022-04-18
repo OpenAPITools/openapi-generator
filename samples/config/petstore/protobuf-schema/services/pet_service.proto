@@ -45,6 +45,8 @@ message DeletePetRequest {
   // Pet id to delete
   int64 petId = 1;
   string apiKey = 2;
+  // Additional data to pass to server
+  string additionalMetadata = 3;
 
 }
 

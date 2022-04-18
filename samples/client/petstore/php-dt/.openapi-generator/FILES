@@ -52,6 +52,7 @@ src/App/DTO/GetPetByIdParameterData.php
 src/App/DTO/GetUserByNameParameterData.php
 src/App/DTO/InlineObject.php
 src/App/DTO/InlineObject1.php
+src/App/DTO/InlineObject2.php
 src/App/DTO/LoginUserParameterData.php
 src/App/DTO/Order.php
 src/App/DTO/Pet.php

@@ -54,6 +54,7 @@ async def add_pet(
 async def delete_pet(
     petId: int = Path(None, description="Pet id to delete"),
     api_key: str = Header(None, description=""),
+    additional_metadata: str = Form(None, description="Additional data to pass to server"),
     token_petstore_auth: TokenModel = Security(
         get_token_petstore_auth, scopes=["write:pets", "read:pets"]
     ),

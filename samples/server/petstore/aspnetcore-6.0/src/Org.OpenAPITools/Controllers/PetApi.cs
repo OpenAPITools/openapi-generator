@@ -63,12 +63,14 @@ namespace Org.OpenAPITools.Controllers
         /// </summary>
         /// <param name="petId">Pet id to delete</param>
         /// <param name="apiKey"></param>
+        /// <param name="additionalMetadata">Additional data to pass to server</param>
         /// <response code="400">Invalid pet value</response>
         [HttpDelete]
         [Route("/v2/pet/{petId}")]
+        [Consumes("application/x-www-form-urlencoded")]
         [ValidateModelState]
         [SwaggerOperation("DeletePet")]
-        public virtual IActionResult DeletePet([FromRoute (Name = "petId")][Required]long petId, [FromHeader]string apiKey)
+        public virtual IActionResult DeletePet([FromRoute (Name = "petId")][Required]long petId, [FromHeader]string apiKey, [FromForm (Name = "additionalMetadata")]string additionalMetadata)
         {
 
             //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...

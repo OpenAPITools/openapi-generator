@@ -26,6 +26,7 @@ public class PetApiValidator extends RouteBuilder {
         
         from("direct:validate-deletePet")
             .id("validate-deletePet")
+            .to("bean-validator://validate-request")
             .to("direct:deletePet");
         
         from("direct:validate-findPetsByStatus")

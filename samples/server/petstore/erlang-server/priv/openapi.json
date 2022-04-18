@@ -230,6 +230,22 @@
           },
           "style" : "simple"
         } ],
+        "requestBody" : {
+          "$ref" : "#/components/requestBodies/inline_object_1",
+          "content" : {
+            "application/x-www-form-urlencoded" : {
+              "schema" : {
+                "properties" : {
+                  "additionalMetadata" : {
+                    "description" : "Additional data to pass to server",
+                    "type" : "string"
+                  }
+                },
+                "type" : "object"
+              }
+            }
+          }
+        },
         "responses" : {
           "400" : {
             "description" : "Invalid pet value"
@@ -349,7 +365,7 @@
           "style" : "simple"
         } ],
         "requestBody" : {
-          "$ref" : "#/components/requestBodies/inline_object_1",
+          "$ref" : "#/components/requestBodies/inline_object_2",
           "content" : {
             "multipart/form-data" : {
               "schema" : {
@@ -837,9 +853,18 @@
       },
       "inline_object_1" : {
         "content" : {
-          "multipart/form-data" : {
+          "application/x-www-form-urlencoded" : {
             "schema" : {
               "$ref" : "#/components/schemas/inline_object_1"
+            }
+          }
+        }
+      },
+      "inline_object_2" : {
+        "content" : {
+          "multipart/form-data" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/inline_object_2"
             }
           }
         }
@@ -1080,6 +1105,15 @@
         "type" : "object"
       },
       "inline_object_1" : {
+        "properties" : {
+          "additionalMetadata" : {
+            "description" : "Additional data to pass to server",
+            "type" : "string"
+          }
+        },
+        "type" : "object"
+      },
+      "inline_object_2" : {
         "properties" : {
           "additionalMetadata" : {
             "description" : "Additional data to pass to server",

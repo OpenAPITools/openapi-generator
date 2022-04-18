@@ -67,6 +67,10 @@ public class PetApi extends RouteBuilder {
             .delete("/pet/{petId}")
                 .description("Deletes a pet")
                 .id("deletePetApi")
+                .clientRequestValidation(false)
+                .bindingMode(RestBindingMode.off)
+                .consumes("application/x-www-form-urlencoded")
+                
                 .param()
                     .name("petId")
                     .type(RestParamType.path)
@@ -77,6 +81,12 @@ public class PetApi extends RouteBuilder {
                     .name("apiKey")
                     .type(RestParamType.header)
                     .required(false)
+                .endParam()
+                .param()
+                    .name("additionalMetadata")
+                    .type(RestParamType.formData)
+                    .required(false)
+                    .description("Additional data to pass to server")
                 .endParam()
                 .to("direct:validate-deletePet");
         

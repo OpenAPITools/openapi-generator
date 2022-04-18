@@ -75,11 +75,14 @@ public class PetApiHandler {
 
         Long petId = requestParameters.pathParameter("petId") != null ? requestParameters.pathParameter("petId").getLong() : null;
         String apiKey = requestParameters.headerParameter("api_key") != null ? requestParameters.headerParameter("api_key").getString() : null;
+        RequestParameter body = requestParameters.body();
+        JsonObject formBody = body != null ? body.getJsonObject() : null;
 
         logger.debug("Parameter petId is {}", petId);
         logger.debug("Parameter apiKey is {}", apiKey);
+        logger.debug("Parameter formBody is {}", formBody);
 
-        api.deletePet(petId, apiKey)
+        api.deletePet(petId, apiKey, formBody)
             .onSuccess(apiResponse -> {
                 routingContext.response().setStatusCode(apiResponse.getStatusCode());
                 if (apiResponse.hasData()) {

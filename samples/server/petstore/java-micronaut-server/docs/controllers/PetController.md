@@ -43,7 +43,7 @@ Name | Type | Description  | Notes
 <a name="deletePet"></a>
 # **deletePet**
 ```java
-Mono<Object> PetController.deletePet(petIdapiKey)
+Mono<Object> PetController.deletePet(petIdapiKeyadditionalMetadata)
 ```
 
 Deletes a pet
@@ -55,13 +55,14 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **petId** | `Long` | Pet id to delete |
 **apiKey** | `String` |  | [optional parameter]
+**additionalMetadata** | `String` | Additional data to pass to server | [optional parameter]
 
 
 ### Authorization
 * **petstore_auth**, scopes: `write:pets`, `read:pets`
 
 ### HTTP request headers
- - **Accepts Content-Type**: Not defined
+ - **Accepts Content-Type**: `application/x-www-form-urlencoded`
  - **Produces Content-Type**: Not defined
 
 <a name="findPetsByStatus"></a>

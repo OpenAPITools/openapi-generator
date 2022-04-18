@@ -23,7 +23,8 @@ request_params('AddPet') ->
 request_params('DeletePet') ->
     [
         'petId',
-        'api_key'
+        'api_key',
+        'additionalMetadata'
     ];
 
 request_params('FindPetsByStatus') ->
@@ -173,6 +174,15 @@ request_param_info('DeletePet', 'petId') ->
 request_param_info('DeletePet', 'api_key') ->
     #{
         source =>   header,
+        rules => [
+            {type, 'binary'},
+            not_required
+        ]
+    };
+
+request_param_info('DeletePet', 'additionalMetadata') ->
+    #{
+        source =>   body,
         rules => [
             {type, 'binary'},
             not_required

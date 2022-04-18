@@ -37,9 +37,10 @@ export class PromisePetApi {
      * Deletes a pet
      * @param petId Pet id to delete
      * @param apiKey 
+     * @param additionalMetadata Additional data to pass to server
      */
-    public deletePet(petId: number, apiKey?: string, _options?: Configuration): Promise<void> {
-        const result = this.api.deletePet(petId, apiKey, _options);
+    public deletePet(petId: number, apiKey?: string, additionalMetadata?: string, _options?: Configuration): Promise<void> {
+        const result = this.api.deletePet(petId, apiKey, additionalMetadata, _options);
         return result.toPromise();
     }
 

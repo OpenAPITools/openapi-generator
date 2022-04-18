@@ -127,6 +127,10 @@ func (c *PetApiController) AddPet(w http.ResponseWriter, r *http.Request) {
 
 // DeletePet - Deletes a pet
 func (c *PetApiController) DeletePet(w http.ResponseWriter, r *http.Request) {
+	if err := r.ParseForm(); err != nil {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
+	}
 	petIdParam, err := parseInt64Parameter(chi.URLParam(r, "petId"), true)
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
@@ -134,7 +138,8 @@ func (c *PetApiController) DeletePet(w http.ResponseWriter, r *http.Request) {
 	}
 
 	apiKeyParam := r.Header.Get("api_key")
-	result, err := c.service.DeletePet(r.Context(), petIdParam, apiKeyParam)
+				additionalMetadataParam := r.FormValue("additionalMetadata")
+	result, err := c.service.DeletePet(r.Context(), petIdParam, apiKeyParam, additionalMetadataParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)

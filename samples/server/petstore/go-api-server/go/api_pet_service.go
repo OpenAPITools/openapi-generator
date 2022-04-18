@@ -42,7 +42,7 @@ func (s *PetApiService) AddPet(ctx context.Context, pet Pet) (ImplResponse, erro
 }
 
 // DeletePet - Deletes a pet
-func (s *PetApiService) DeletePet(ctx context.Context, petId int64, apiKey string) (ImplResponse, error) {
+func (s *PetApiService) DeletePet(ctx context.Context, petId int64, apiKey string, additionalMetadata string) (ImplResponse, error) {
 	// TODO - update DeletePet with the required logic for this service method.
 	// Add api_pet_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 

@@ -44,6 +44,7 @@ public:
     * 
     * \param petId Pet id to delete *Required*
     * \param apiKey 
+    * \param additionalMetadata Additional data to pass to server
     */
     Response<
             String
@@ -54,6 +55,9 @@ public:
             , 
             
             std::string apiKey
+            , 
+            
+            std::string additionalMetadata
             
     );
     /**

@@ -71,12 +71,14 @@ interface PetApi {
         value = [ApiResponse(code = 400, message = "Invalid pet value")])
     @RequestMapping(
             method = [RequestMethod.DELETE],
-            value = ["/pet/{petId}"]
+            value = ["/pet/{petId}"],
+            consumes = ["application/x-www-form-urlencoded"]
     )
     fun deletePet(@ApiParam(value = "Pet id to delete", required=true) @PathVariable("petId") petId: kotlin.Long
 ,@ApiParam(value = "" ) @RequestHeader(value="api_key", required=false) apiKey: kotlin.String?
+,@ApiParam(value = "Additional data to pass to server") @RequestParam(value="additionalMetadata", required=false) additionalMetadata: kotlin.String? 
 ): ResponseEntity<Unit> {
-        return getDelegate().deletePet(petId, apiKey);
+        return getDelegate().deletePet(petId, apiKey, additionalMetadata);
     }
 
     @ApiOperation(

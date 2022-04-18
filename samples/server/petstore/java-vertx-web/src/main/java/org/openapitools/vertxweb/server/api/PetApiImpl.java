@@ -20,7 +20,7 @@ public class PetApiImpl implements PetApi {
         return Future.failedFuture(new HttpException(501));
     }
 
-    public Future<ApiResponse<Void>> deletePet(Long petId, String apiKey) {
+    public Future<ApiResponse<Void>> deletePet(Long petId, String apiKey, JsonObject formBody) {
         return Future.failedFuture(new HttpException(501));
     }
 

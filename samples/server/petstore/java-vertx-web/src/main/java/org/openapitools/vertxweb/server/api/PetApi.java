@@ -14,7 +14,7 @@ import java.util.Map;
 
 public interface PetApi  {
     Future<ApiResponse<Pet>> addPet(Pet pet);
-    Future<ApiResponse<Void>> deletePet(Long petId, String apiKey);
+    Future<ApiResponse<Void>> deletePet(Long petId, String apiKey, JsonObject formBody);
     Future<ApiResponse<List<Pet>>> findPetsByStatus(List<String> status);
     Future<ApiResponse<List<Pet>>> findPetsByTags(List<String> tags);
     Future<ApiResponse<Pet>> getPetById(Long petId);

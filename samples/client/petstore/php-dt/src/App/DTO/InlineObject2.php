@@ -7,7 +7,7 @@ use Articus\DataTransfer\Annotation as DTA;
 
 /**
  */
-class InlineObject1
+class InlineObject2
 {
     /**
      * Additional data to pass to server
@@ -16,5 +16,14 @@ class InlineObject1
      * @var string|null
      */
     public $additional_metadata;
+
+    /**
+     * file to upload
+     * @DTA\Data(field="file", nullable=true)
+     * @DTA\Strategy(name="Object", options={"type":\SplFileObject::class})
+     * @DTA\Validator(name="TypeCompliant", options={"type":\SplFileObject::class})
+     * @var \SplFileObject|null
+     */
+    public $file;
 
 }

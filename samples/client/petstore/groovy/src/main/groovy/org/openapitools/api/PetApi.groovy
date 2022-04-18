@@ -35,7 +35,7 @@ class PetApi {
 
     }
 
-    def deletePet ( Long petId, String apiKey, Closure onSuccess, Closure onFailure)  {
+    def deletePet ( Long petId, String apiKey, String additionalMetadata, Closure onSuccess, Closure onFailure)  {
         String resourcePath = "/pet/${petId}"
 
         // params
@@ -55,6 +55,8 @@ class PetApi {
         }
 
 
+        contentType = 'application/x-www-form-urlencoded';
+        bodyParams = additionalMetadata
 
         apiUtils.invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams, bodyParams, contentType,
                     "DELETE", "",

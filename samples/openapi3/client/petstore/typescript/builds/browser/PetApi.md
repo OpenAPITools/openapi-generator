@@ -106,6 +106,8 @@ let body:petstore.PetApiDeletePetRequest = {
   petId: 1,
   // string (optional)
   apiKey: "api_key_example",
+  // string | Additional data to pass to server (optional)
+  additionalMetadata: "additionalMetadata_example",
 };
 
 apiInstance.deletePet(body).then((data:any) => {
@@ -120,6 +122,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **petId** | [**number**] | Pet id to delete | defaults to undefined
  **apiKey** | [**string**] |  | (optional) defaults to undefined
+ **additionalMetadata** | [**string**] | Additional data to pass to server | (optional) defaults to undefined
 
 
 ### Return type
@@ -132,7 +135,7 @@ void (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/x-www-form-urlencoded
  - **Accept**: Not defined
 
 

@@ -77,6 +77,8 @@ abstract class AbstractPetApi
     ): ResponseInterface {
         $headers = $request->getHeaders();
         $apiKey = $request->hasHeader('api_key') ? $headers['api_key'] : null;
+        $body = $request->getParsedBody();
+        $additionalMetadata = (isset($body['additionalMetadata'])) ? $body['additionalMetadata'] : null;
         $message = "How about implementing deletePet as a DELETE method in OpenAPIServer\Api\PetApi class?";
         throw new HttpNotImplementedException($request, $message);
     }

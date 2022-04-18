@@ -89,7 +89,7 @@ Name | Type | Description  | Notes
 
 <a name="deletepet"></a>
 # **DeletePet**
-> void DeletePet (long petId, string apiKey = null)
+> void DeletePet (long petId, string apiKey = null, string additionalMetadata = null)
 
 Deletes a pet
 
@@ -115,11 +115,12 @@ namespace Example
             var apiInstance = new PetApi(config);
             var petId = 789L;  // long | Pet id to delete
             var apiKey = "apiKey_example";  // string |  (optional) 
+            var additionalMetadata = "additionalMetadata_example";  // string | Additional data to pass to server (optional) 
 
             try
             {
                 // Deletes a pet
-                apiInstance.DeletePet(petId, apiKey);
+                apiInstance.DeletePet(petId, apiKey, additionalMetadata);
             }
             catch (ApiException  e)
             {
@@ -138,6 +139,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **petId** | **long**| Pet id to delete | 
  **apiKey** | **string**|  | [optional] 
+ **additionalMetadata** | **string**| Additional data to pass to server | [optional] 
 
 ### Return type
 
@@ -149,7 +151,7 @@ void (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/x-www-form-urlencoded
  - **Accept**: Not defined
 
 

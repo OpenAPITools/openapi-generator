@@ -82,8 +82,8 @@ module Petstore
     # 
     # @param pet_id [Int64] Pet id to delete
     # @return [nil]
-    def delete_pet(pet_id : Int64, api_key : String?)
-      delete_pet_with_http_info(pet_id, api_key)
+    def delete_pet(pet_id : Int64, api_key : String?, additional_metadata : String?)
+      delete_pet_with_http_info(pet_id, api_key, additional_metadata)
       nil
     end
 
@@ -91,7 +91,7 @@ module Petstore
     # 
     # @param pet_id [Int64] Pet id to delete
     # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
-    def delete_pet_with_http_info(pet_id : Int64, api_key : String?)
+    def delete_pet_with_http_info(pet_id : Int64, api_key : String?, additional_metadata : String?)
       if @api_client.config.debugging
         Log.debug {"Calling API: PetApi.delete_pet ..."}
       end
@@ -107,10 +107,13 @@ module Petstore
 
       # header parameters
       header_params = Hash(String, String).new
+      # HTTP header "Content-Type"
+      header_params["Content-Type"] = @api_client.select_header_content_type(["application/x-www-form-urlencoded"])
       header_params["api_key"] = api_key
 
       # form parameters
       form_params = Hash(Symbol, (String | ::File)).new
+      form_params[:"additionalMetadata"] = additional_metadata unless additional_metadata.nil?
 
       # http body (model)
       post_body = nil

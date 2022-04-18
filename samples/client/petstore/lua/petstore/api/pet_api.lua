@@ -101,7 +101,7 @@ function pet_api:add_pet(pet)
 	end
 end
 
-function pet_api:delete_pet(pet_id, api_key)
+function pet_api:delete_pet(pet_id, api_key, additional_metadata)
 	local req = http_request.new_from_uri({
 		scheme = self.default_scheme;
 		host = self.host;
@@ -112,9 +112,16 @@ function pet_api:delete_pet(pet_id, api_key)
 
 	-- set HTTP verb
 	req.headers:upsert(":method", "DELETE")
+	-- TODO: create a function to select proper accept
+	--local var_content_type = { "application/x-www-form-urlencoded" }
+	req.headers:upsert("accept", "application/x-www-form-urlencoded")
+
 	if api_key then
 		req.headers:upsert("api_key", api_key)
 	end
+	req:set_body(http_util.dict_to_query({
+		["additionalMetadata"] = additional_metadata;
+	}))
 	-- oAuth
 	if self.access_token then
 		req.headers:upsert("authorization", "Bearer " .. self.access_token)

@@ -108,10 +108,11 @@ class PetApi(
    *
    * @param petId Pet id to delete 
    * @param apiKey  (optional)
+   * @param additionalMetadata Additional data to pass to server (optional)
    * @return void
    */
-  def deletePet(petId: Long, apiKey: Option[String] = None) = {
-    val await = Try(Await.result(deletePetAsync(petId, apiKey), Duration.Inf))
+  def deletePet(petId: Long, apiKey: Option[String] = None, additionalMetadata: Option[String] = None) = {
+    val await = Try(Await.result(deletePetAsync(petId, apiKey, additionalMetadata), Duration.Inf))
     await match {
       case Success(i) => Some(await.get)
       case Failure(t) => None
@@ -124,10 +125,11 @@ class PetApi(
    *
    * @param petId Pet id to delete 
    * @param apiKey  (optional)
+   * @param additionalMetadata Additional data to pass to server (optional)
    * @return Future(void)
    */
-  def deletePetAsync(petId: Long, apiKey: Option[String] = None) = {
-      helper.deletePet(petId, apiKey)
+  def deletePetAsync(petId: Long, apiKey: Option[String] = None, additionalMetadata: Option[String] = None) = {
+      helper.deletePet(petId, apiKey, additionalMetadata)
   }
 
   /**
@@ -319,7 +321,8 @@ class PetApiAsyncHelper(client: TransportClient, config: SwaggerConfig) extends 
   }
 
   def deletePet(petId: Long,
-    apiKey: Option[String] = None
+    apiKey: Option[String] = None,
+    additionalMetadata: Option[String] = None
     )(implicit reader: ClientResponseReader[Unit]): Future[Unit] = {
     // create path and map variables
     val path = (addFmt("/pet/{petId}")

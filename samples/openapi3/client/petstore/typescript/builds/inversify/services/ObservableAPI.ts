@@ -13,7 +13,7 @@ import { User } from "../models/User";
 export abstract class AbstractObservablePetApi {
     public abstract addPet(pet: Pet, options?: Configuration): Observable<Pet>;
 
-    public abstract deletePet(petId: number, apiKey?: string, options?: Configuration): Observable<void>;
+    public abstract deletePet(petId: number, apiKey?: string, additionalMetadata?: string, options?: Configuration): Observable<void>;
 
     public abstract findPetsByStatus(status: Array<'available' | 'pending' | 'sold'>, options?: Configuration): Observable<Array<Pet>>;
 

@@ -75,6 +75,7 @@ public interface PetApi {
      *
      * @param petId Pet id to delete (required)
      * @param apiKey  (optional)
+     * @param additionalMetadata Additional data to pass to server (optional)
      * @return Invalid pet value (status code 400)
      */
     @Operation(
@@ -90,11 +91,13 @@ public interface PetApi {
     )
     @RequestMapping(
         method = RequestMethod.DELETE,
-        value = "/pet/{petId}"
+        value = "/pet/{petId}",
+        consumes = "application/x-www-form-urlencoded"
     )
     ResponseEntity<Void> deletePet(
         @Parameter(name = "petId", description = "Pet id to delete", required = true) @PathVariable("petId") Long petId,
-        @Parameter(name = "api_key", description = "") @RequestHeader(value = "api_key", required = false) String apiKey
+        @Parameter(name = "api_key", description = "") @RequestHeader(value = "api_key", required = false) String apiKey,
+        @Parameter(name = "additionalMetadata", description = "Additional data to pass to server") @Valid @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata
     );
 
 

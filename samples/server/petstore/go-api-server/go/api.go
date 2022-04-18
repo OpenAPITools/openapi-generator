@@ -61,7 +61,7 @@ type UserApiRouter interface {
 // and updated with the logic required for the API.
 type PetApiServicer interface { 
 	AddPet(context.Context, Pet) (ImplResponse, error)
-	DeletePet(context.Context, int64, string) (ImplResponse, error)
+	DeletePet(context.Context, int64, string, string) (ImplResponse, error)
 	FindPetsByStatus(context.Context, []string) (ImplResponse, error)
 	// Deprecated
 	FindPetsByTags(context.Context, []string) (ImplResponse, error)

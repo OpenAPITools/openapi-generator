@@ -50,13 +50,17 @@ class PetApi(baseUrl: String) {
    * 
    * @param petId Pet id to delete
    * @param apiKey 
+   * @param additionalMetadata Additional data to pass to server
    */
-  def deletePet(petId: Long, apiKey: Option[String] = None
+  def deletePet(petId: Long, apiKey: Option[String] = None, additionalMetadata: Option[String] = None
 ): Request[Either[ResponseException[String, Exception], Unit], Nothing] =
     basicRequest
       .method(Method.DELETE, uri"$baseUrl/pet/${petId}")
-      .contentType("application/json")
+      .contentType("application/x-www-form-urlencoded")
       .header("api_key", apiKey.toString)
+      .body(Map(
+        "additionalMetadata" -> additionalMetadata
+      ))
       .response(asJson[Unit])
 
   /**

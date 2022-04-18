@@ -63,6 +63,9 @@ using namespace Tiny;
             , 
             
             std::string apiKey
+            , 
+            
+            std::string additionalMetadata
             
         )
         {
@@ -74,8 +77,10 @@ using namespace Tiny;
 
             // Query    | 
 
-            // Form     | 
+            // Form     | additionalMetadata 
+            addHeader("Content-Type", "application/x-www-form-urlencoded");
 
+            addFormParam("additionalMetadata",additionalMetadata);
 
 
                 std::string s_petId("{");
