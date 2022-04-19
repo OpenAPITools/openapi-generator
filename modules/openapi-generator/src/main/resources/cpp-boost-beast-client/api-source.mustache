@@ -13,6 +13,8 @@
 #include <boost/version.hpp>
 #include <boost/beast/core/detail/base64.hpp>
 #include <boost/algorithm/string.hpp>
+#include <boost/property_tree/json_parser.hpp>
+
 
 #include "{{classname}}.h"
 
@@ -171,7 +173,16 @@ const char* {{classname}}Exception::what() const noexcept
         createModelVectorFromJsonString(result, responseBody);
         {{/isArray}}
         {{#isMap}}
-        // TODO result = convertMapResponse(resultObject);
+        if (not responseBody.empty()) {
+            std::stringstream responseStream(responseBody);
+            boost::property_tree::ptree pt;
+            boost::property_tree::read_json(responseStream, pt);
+            {{#additionalProperties}}
+            for (const auto& kv : pt) {
+                result.insert(std::make_pair(kv.first, boost::lexical_cast<{{{dataType}}}>(kv.second.data())));
+            }
+        }
+        {{/additionalProperties}}
         {{/isMap}}
         {{/returnType}}
         {{/is2xx}}

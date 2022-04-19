@@ -17,6 +17,17 @@ using namespace ApprovalTests;
 using namespace org::openapitools::client::api;
 
 
+#define REQUIRE_THROW(fn, ex, lambda) do { \
+        bool exceptionThrown = false;      \
+        try { fn; }                        \
+        catch(const ex& e) {               \
+            exceptionThrown = true;        \
+            lambda(e);                     \
+         }                                 \
+         BOOST_REQUIRE(exceptionThrown);   \
+    } while (0)
+
+
 enum class ExceptionType {
     STD_EXCEPTION,
     INT

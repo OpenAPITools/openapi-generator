@@ -84,3 +84,24 @@ resources:
         [{ "id": 1, "name": "cat", "status": "available", "photoUrls":[""] },
          { "id": 2, "name": "dog", "status": "available", "photoUrls":[""] },
          { "id": 3, "name": "mouse", "status": "sold", "photoUrls":[""] }]
+  - path: "/v2/store/order/order_id_ok"
+    method: DELETE
+    response:
+      statusCode: 200
+  - path: "/v2/store/order/order_id_invalid"
+    method: DELETE
+    response:
+      statusCode: 400
+  - path: "/v2/store/order/order_id_not_found"
+    method: DELETE
+    response:
+      statusCode: 404
+  - path: "/v2/store/inventory"
+    method: GET
+    response:
+      statusCode: 200
+      headers:
+        Content-Type: "application/json"
+      staticData: |
+        { "dogs": 2, "cats": 3 }
+      
