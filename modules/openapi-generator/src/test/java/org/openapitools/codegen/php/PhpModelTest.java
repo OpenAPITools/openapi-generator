@@ -422,7 +422,7 @@ public class PhpModelTest {
         Assert.assertTrue(property2.isPrimitiveType);
         Assert.assertFalse(property2.isContainer);
 
-        final CodegenProperty property3 = cm.vars.get(3);
+        final CodegenProperty property3 = cm.vars.get(2);
         Assert.assertEquals(property3.baseName, "type");
         Assert.assertEquals(property3.dataType, "string");
         Assert.assertEquals(property3.name, "type");
@@ -431,7 +431,7 @@ public class PhpModelTest {
         Assert.assertTrue(property3.isPrimitiveType);
         Assert.assertFalse(property3.isContainer);
 
-        final CodegenProperty property4 = cm.vars.get(4);
+        final CodegenProperty property4 = cm.vars.get(3);
         Assert.assertEquals(property4.baseName, "@type");
         Assert.assertEquals(property4.dataType, "string");
         Assert.assertEquals(property4.name, "at_type");
@@ -440,7 +440,7 @@ public class PhpModelTest {
         Assert.assertTrue(property4.isPrimitiveType);
         Assert.assertFalse(property4.isContainer);
 
-        final CodegenProperty property5 = cm.vars.get(5);
+        final CodegenProperty property5 = cm.vars.get(4);
         Assert.assertEquals(property5.baseName, "context");
         Assert.assertEquals(property5.dataType, "string");
         Assert.assertEquals(property5.name, "context");
@@ -449,7 +449,7 @@ public class PhpModelTest {
         Assert.assertTrue(property5.isPrimitiveType);
         Assert.assertFalse(property5.isContainer);
 
-        final CodegenProperty property6 = cm.vars.get(6);
+        final CodegenProperty property6 = cm.vars.get(5);
         Assert.assertEquals(property6.baseName, "@context");
         Assert.assertEquals(property6.dataType, "string");
         Assert.assertEquals(property6.name, "at_context");
