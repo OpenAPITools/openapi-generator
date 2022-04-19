@@ -146,6 +146,29 @@ BOOST_AUTO_TEST_CASE(findPetsByStatus_list) {
     Approvals::verify(json);
 }
 
+BOOST_AUTO_TEST_CASE(deletePet) {
+    PetApi api(client);
+
+    api.deletePet(50, "myApiKey");
+}
+
+BOOST_AUTO_TEST_CASE(findPetsByTags) {
+    PetApi api(client);
+
+    const std::vector<std::string> tags{"tag_a", "tag_b"};
+    const auto resp = api.findPetsByTags(tags);
+    const auto json = createJsonStringFromModelVector(resp);
+    Approvals::verify(json);
+}
+
+BOOST_AUTO_TEST_CASE(uploadFile) {
+    PetApi api(client);
+    const auto resp = api.uploadFile(1, "some metadata", "a file");
+
+    const auto json = resp->toJsonString(true);
+    Approvals::verify(json);
+}
+
 BOOST_AUTO_TEST_SUITE_END()
 
 
