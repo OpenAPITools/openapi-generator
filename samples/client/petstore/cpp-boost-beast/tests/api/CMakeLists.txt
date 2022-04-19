@@ -5,6 +5,7 @@ target_sources(api_tests
         PRIVATE
         pet_api_test.cpp
         store_api_test.cpp
+        user_api_test.cpp
         testing_helper.h
         main.cpp
 )

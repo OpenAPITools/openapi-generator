@@ -104,4 +104,29 @@ resources:
         Content-Type: "application/json"
       staticData: |
         { "dogs": 2, "cats": 3 }
-      
+  - path: "/v2/user/me"
+    method: DELETE
+    response:
+      statusCode: 200
+  - path: "/v2/user/user_name_invalid"
+    method: DELETE
+    response:
+      statusCode: 400
+  - path: "/v2/user/user_name_not_found"
+    method: DELETE
+    response:
+      statusCode: 404
+  - path: "/v2/user/me"
+    method: PUT
+    response:
+      statusCode: 200
+  - path: "/v2/user/login"
+    method: GET
+    queryParams:
+      username: "me"
+      password: "pa55w0rd"
+    response:
+      statusCode: 200
+      headers:
+        Content-Type: "application/json"
+      staticData: "token"
