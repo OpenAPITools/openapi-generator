@@ -385,7 +385,7 @@ public class PhpModelTest {
     }
 
     @Test(description = "test @ character replacements used in Hydra")
-    public void simpleModelTest() {
+    public void hydraModelTest() {
         final Schema model = new Schema()
                 .description("a hydra model")
                 .addProperties("id", new IntegerSchema())
