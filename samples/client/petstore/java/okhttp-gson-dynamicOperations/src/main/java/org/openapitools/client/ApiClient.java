@@ -1229,7 +1229,7 @@ public class ApiClient {
                 reqBody = null;
             } else {
                 // use an empty request body (for POST, PUT and PATCH)
-                reqBody = RequestBody.create("", MediaType.parse(contentType));
+                reqBody = RequestBody.create("", contentType == null ? null : MediaType.parse(contentType));
             }
         } else {
             reqBody = serialize(body, contentType);
