@@ -416,7 +416,7 @@ public class PhpModelTest {
         final CodegenProperty property2 = cm.vars.get(1);
         Assert.assertEquals(property2.baseName, "@id");
         Assert.assertEquals(property2.dataType, "string");
-        Assert.assertEquals(property2.name, "atId");
+        Assert.assertEquals(property2.name, "at_id");
         Assert.assertEquals(property2.defaultValue, null);
         Assert.assertEquals(property2.baseType, "string");
         Assert.assertTrue(property2.isPrimitiveType);
@@ -434,25 +434,25 @@ public class PhpModelTest {
         final CodegenProperty property4 = cm.vars.get(4);
         Assert.assertEquals(property4.baseName, "@type");
         Assert.assertEquals(property4.dataType, "string");
-        Assert.assertEquals(property4.name, "atType");
+        Assert.assertEquals(property4.name, "at_type");
         Assert.assertEquals(property4.defaultValue, null);
         Assert.assertEquals(property4.baseType, "string");
         Assert.assertTrue(property4.isPrimitiveType);
         Assert.assertFalse(property4.isContainer);
 
         final CodegenProperty property5 = cm.vars.get(5);
-        Assert.assertEquals(property5.baseName, "type");
+        Assert.assertEquals(property5.baseName, "context");
         Assert.assertEquals(property5.dataType, "string");
-        Assert.assertEquals(property5.name, "type");
+        Assert.assertEquals(property5.name, "context");
         Assert.assertEquals(property5.defaultValue, null);
         Assert.assertEquals(property5.baseType, "string");
         Assert.assertTrue(property5.isPrimitiveType);
         Assert.assertFalse(property5.isContainer);
 
         final CodegenProperty property6 = cm.vars.get(6);
-        Assert.assertEquals(property6.baseName, "@type");
+        Assert.assertEquals(property6.baseName, "@context");
         Assert.assertEquals(property6.dataType, "string");
-        Assert.assertEquals(property6.name, "atType");
+        Assert.assertEquals(property6.name, "at_context");
         Assert.assertEquals(property6.defaultValue, null);
         Assert.assertEquals(property6.baseType, "string");
         Assert.assertTrue(property6.isPrimitiveType);
