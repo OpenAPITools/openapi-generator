@@ -23,6 +23,8 @@
 #include <boost/version.hpp>
 #include <boost/beast/core/detail/base64.hpp>
 #include <boost/algorithm/string.hpp>
+#include <boost/property_tree/json_parser.hpp>
+
 
 #include "PetApi.h"
 

@@ -23,6 +23,8 @@
 #include <boost/version.hpp>
 #include <boost/beast/core/detail/base64.hpp>
 #include <boost/algorithm/string.hpp>
+#include <boost/property_tree/json_parser.hpp>
+
 
 #include "StoreApi.h"
 
@@ -195,7 +197,14 @@ StoreApi::getInventory(
 
     std::map<std::string, int32_t> result = std::map<std::string, int32_t>();
     if (statusCode == boost::beast::http::status(200)) {
-        // TODO result = convertMapResponse(resultObject);
+        if (not responseBody.empty()) {
+            std::stringstream responseStream(responseBody);
+            boost::property_tree::ptree pt;
+            boost::property_tree::read_json(responseStream, pt);
+            for (const auto& kv : pt) {
+                result.insert(std::make_pair(kv.first, boost::lexical_cast<int32_t>(kv.second.data())));
+            }
+        }
     }
 
     return result;
