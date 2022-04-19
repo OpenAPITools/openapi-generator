@@ -183,10 +183,14 @@ public class InlineModelResolver {
                         //Schema refSchema = this.makeSchemaResolve(modelPrefix, StringUtils.camelize(propName), prop);
                         Schema refSchema = this.makeSchemaResolve(modelPrefix, "_" + propName, prop);
                         props.put(propName, refSchema);
-                    } else if (prop instanceof ComposedSchema && ((ComposedSchema)prop).getAllOf().size() == 1) {
-                        // allOf with only 1 type
-                        LOGGER.info("allOf schema used by the property `{}` replaced by its only item (a type).", propName);
-                        props.put(propName, ((ComposedSchema)prop).getAllOf().get(0));
+                    } else if (prop instanceof ComposedSchema) {
+                        ComposedSchema m = (ComposedSchema) prop;
+                        if (m.getAllOf() != null && m.getAllOf().size() == 1 &&
+                                !(m.getAllOf().get(0).getType() == null || "object".equals(m.getAllOf().get(0).getType()))) {
+                            // allOf with only 1 type (non-model)
+                            LOGGER.info("allOf schema used by the property `{}` replaced by its only item (a type)", propName);
+                            props.put(propName, m.getAllOf().get(0));
+                        }
                     }
                 }
             }
@@ -893,7 +897,8 @@ public class InlineModelResolver {
         model.setExtensions(object.getExtensions());
         model.setExclusiveMinimum(object.getExclusiveMinimum());
         model.setExclusiveMaximum(object.getExclusiveMaximum());
-        model.setExample(object.getExample());
+        // no need to set it again as it's set earlier
+        //model.setExample(object.getExample());
         model.setDeprecated(object.getDeprecated());
 
         if (properties != null) {

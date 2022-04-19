@@ -2119,7 +2119,8 @@ components:
         username:
           type: string
         SingleRefType:
-          $ref: '#/components/schemas/SingleRefType'
+          allOf:
+          - $ref: '#/components/schemas/SingleRefType'
       type: object
     SingleRefType:
       enum:

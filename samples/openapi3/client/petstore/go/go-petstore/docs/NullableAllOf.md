@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Child** | Pointer to [**NullableAllOfChild**](NullableAllOfChild.md) |  | [optional] 
+**Child** | Pointer to [**NullableNullableAllOfChild**](NullableAllOfChild.md) |  | [optional] 
 
 ## Methods
 
@@ -50,6 +50,16 @@ SetChild sets Child field to given value.
 
 HasChild returns a boolean if a field has been set.
 
+### SetChildNil
+
+`func (o *NullableAllOf) SetChildNil(b bool)`
+
+ SetChildNil sets the value for Child to be an explicit nil
+
+### UnsetChild
+`func (o *NullableAllOf) UnsetChild()`
+
+UnsetChild ensures that no value is present for Child, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

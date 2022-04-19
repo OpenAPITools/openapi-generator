@@ -19,7 +19,6 @@ abstract class AllOfWithSingleRef implements Built<AllOfWithSingleRef, AllOfWith
 
     @BuiltValueField(wireName: r'SingleRefType')
     SingleRefType? get singleRefType;
-    // enum singleRefTypeEnum {  admin,  user,  };
 
     AllOfWithSingleRef._();
 
@@ -53,7 +52,7 @@ class _$AllOfWithSingleRefSerializer implements StructuredSerializer<AllOfWithSi
             result
                 ..add(r'SingleRefType')
                 ..add(serializers.serialize(object.singleRefType,
-                    specifiedType: const FullType(SingleRefType)));
+                    specifiedType: const FullType.nullable(SingleRefType)));
         }
         return result;
     }
@@ -77,7 +76,8 @@ class _$AllOfWithSingleRefSerializer implements StructuredSerializer<AllOfWithSi
                     break;
                 case r'SingleRefType':
                     final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(SingleRefType)) as SingleRefType;
+                        specifiedType: const FullType.nullable(SingleRefType)) as SingleRefType?;
+                    if (valueDes == null) continue;
                     result.singleRefType = valueDes;
                     break;
             }

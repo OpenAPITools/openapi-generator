@@ -60,7 +60,7 @@ class AllOfWithSingleRef implements ModelInterface, ArrayAccess, \JsonSerializab
       */
     protected static $openAPITypes = [
         'username' => 'string',
-        'single_ref_type' => '\OpenAPI\Client\Model\SingleRefType'
+        'single_ref_type' => 'SingleRefType'
     ];
 
     /**
@@ -238,7 +238,7 @@ class AllOfWithSingleRef implements ModelInterface, ArrayAccess, \JsonSerializab
     /**
      * Gets single_ref_type
      *
-     * @return \OpenAPI\Client\Model\SingleRefType|null
+     * @return SingleRefType|null
      */
     public function getSingleRefType()
     {
@@ -248,7 +248,7 @@ class AllOfWithSingleRef implements ModelInterface, ArrayAccess, \JsonSerializab
     /**
      * Sets single_ref_type
      *
-     * @param \OpenAPI\Client\Model\SingleRefType|null $single_ref_type single_ref_type
+     * @param SingleRefType|null $single_ref_type single_ref_type
      *
      * @return self
      */

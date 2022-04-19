@@ -43,6 +43,7 @@ module Petstore
     # List of attributes with nullable: true
     def self.openapi_nullable
       Set.new([
+        :'single_ref_type'
       ])
     end
 
