@@ -972,16 +972,18 @@ public class ApiClient {
         String respBody = null;
         try {
             if (response.body() != null)
-                 if ("chunked".equals(response.header("Transfer-Encoding"))) {
-                    BufferedSource source = response.body().source();
-                    Buffer buffer = new Buffer();
-                    while (!source.exhausted()) {
-                        Long readBytes = source.read(buffer, Long.MAX_VALUE);
-                        respBody = buffer.readString(Charset.defaultCharset());
-                    }
-                 } else {
-                    respBody = response.body().string();
-                 }
+                  if ("chunked".equals(response.header("Transfer-Encoding"))) {
+                     BufferedSource source = response.body().source();
+                     Buffer buffer = new Buffer();
+                     StringBuilder result = new StringBuilder();
+                     while (!source.exhausted()) {
+                         Long readBytes = source.read(buffer, Long.MAX_VALUE);
+                         result.append(buffer.readString(Charset.defaultCharset()));
+                     }
+                     respBody = result.toString();
+                  } else {
+                     respBody = response.body().string();
+                  }
             else
                 respBody = null;
         } catch (IOException e) {
