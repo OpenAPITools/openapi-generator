@@ -2,7 +2,12 @@
 package {{controllerPackage}};
 
 import io.micronaut.http.annotation.Controller;
+{{#reactive}}
 import reactor.core.publisher.Mono;
+{{/reactive}}
+{{#wrapInHttpResponse}}
+import io.micronaut.http.HttpResponse;
+{{/wrapInHttpResponse}}
 import {{package}}.{{classname}};
 {{#imports}}
 import {{import}};
@@ -24,7 +29,7 @@ public class {{controllerClassname}} extends {{classname}} {
     {{#operation}}
     {{!the method definition}}
     @Override
-    public {{#returnType}}Mono<{{{returnType}}}>{{/returnType}}{{^returnType}}Mono<Object>{{/returnType}} {{nickname}}({{#allParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) {
+    public {{>common/operationReturnType}} {{nickname}}({{#allParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) {
 {{>server/controllerOperationBody}}    }
     {{^-last}}
 
