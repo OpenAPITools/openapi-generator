@@ -22,4 +22,4 @@
 # Then explicitly reverse the ignore rule for a single file:
 #!docs/README.md
 Org.OpenAPITools.sln
-Org.OpenAPITools.csproj
+src/Org.OpenAPITools/Org.OpenAPITools.csproj
