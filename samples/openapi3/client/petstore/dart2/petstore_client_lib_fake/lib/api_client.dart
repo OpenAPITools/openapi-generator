@@ -215,6 +215,8 @@ class ApiClient {
           return valueString == 'true' || valueString == '1';
         case 'AdditionalPropertiesClass':
           return AdditionalPropertiesClass.fromJson(value);
+        case 'AllOfWithSingleRef':
+          return AllOfWithSingleRef.fromJson(value);
         case 'Animal':
           return Animal.fromJson(value);
         case 'ApiResponse':
@@ -299,14 +301,14 @@ class ApiClient {
           return Pet.fromJson(value);
         case 'ReadOnlyFirst':
           return ReadOnlyFirst.fromJson(value);
+        case 'SingleRefType':
+          return SingleRefTypeTypeTransformer().decode(value);
         case 'SpecialModelName':
           return SpecialModelName.fromJson(value);
         case 'Tag':
           return Tag.fromJson(value);
         case 'User':
           return User.fromJson(value);
-        case 'UserType':
-          return UserTypeTypeTransformer().decode(value);
         default:
           dynamic match;
           if (value is List && (match = _regList.firstMatch(targetType)?.group(1)) != null) {

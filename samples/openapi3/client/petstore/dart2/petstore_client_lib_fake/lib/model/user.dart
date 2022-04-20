@@ -21,7 +21,6 @@ class User {
     this.password,
     this.phone,
     this.userStatus,
-    this.userType,
   });
 
   ///
@@ -89,8 +88,6 @@ class User {
   ///
   int? userStatus;
 
-  UserType? userType;
-
   @override
   bool operator ==(Object other) => identical(this, other) || other is User &&
      other.id == id &&
@@ -100,8 +97,7 @@ class User {
      other.email == email &&
      other.password == password &&
      other.phone == phone &&
-     other.userStatus == userStatus &&
-     other.userType == userType;
+     other.userStatus == userStatus;
 
   @override
   int get hashCode =>
@@ -113,11 +109,10 @@ class User {
     (email == null ? 0 : email!.hashCode) +
     (password == null ? 0 : password!.hashCode) +
     (phone == null ? 0 : phone!.hashCode) +
-    (userStatus == null ? 0 : userStatus!.hashCode) +
-    (userType == null ? 0 : userType!.hashCode);
+    (userStatus == null ? 0 : userStatus!.hashCode);
 
   @override
-  String toString() => 'User[id=$id, username=$username, firstName=$firstName, lastName=$lastName, email=$email, password=$password, phone=$phone, userStatus=$userStatus, userType=$userType]';
+  String toString() => 'User[id=$id, username=$username, firstName=$firstName, lastName=$lastName, email=$email, password=$password, phone=$phone, userStatus=$userStatus]';
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
@@ -144,9 +139,6 @@ class User {
     }
     if (userStatus != null) {
       _json[r'userStatus'] = userStatus;
-    }
-    if (userType != null) {
-      _json[r'userType'] = userType;
     }
     return _json;
   }
@@ -178,7 +170,6 @@ class User {
         password: mapValueOfType<String>(json, r'password'),
         phone: mapValueOfType<String>(json, r'phone'),
         userStatus: mapValueOfType<int>(json, r'userStatus'),
-        userType: UserType.fromJson(json[r'userType']),
       );
     }
     return null;

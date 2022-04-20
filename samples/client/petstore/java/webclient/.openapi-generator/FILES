@@ -6,6 +6,7 @@ api/openapi.yaml
 build.gradle
 build.sbt
 docs/AdditionalPropertiesClass.md
+docs/AllOfWithSingleRef.md
 docs/Animal.md
 docs/AnotherFakeApi.md
 docs/ArrayOfArrayOfNumberOnly.md
@@ -53,12 +54,12 @@ docs/OuterObjectWithEnumProperty.md
 docs/Pet.md
 docs/PetApi.md
 docs/ReadOnlyFirst.md
+docs/SingleRefType.md
 docs/SpecialModelName.md
 docs/StoreApi.md
 docs/Tag.md
 docs/User.md
 docs/UserApi.md
-docs/UserType.md
 git_push.sh
 gradle.properties
 gradle/wrapper/gradle-wrapper.jar
@@ -88,6 +89,7 @@ src/main/java/org/openapitools/client/auth/HttpBearerAuth.java
 src/main/java/org/openapitools/client/auth/OAuth.java
 src/main/java/org/openapitools/client/auth/OAuthFlow.java
 src/main/java/org/openapitools/client/model/AdditionalPropertiesClass.java
+src/main/java/org/openapitools/client/model/AllOfWithSingleRef.java
 src/main/java/org/openapitools/client/model/Animal.java
 src/main/java/org/openapitools/client/model/ArrayOfArrayOfNumberOnly.java
 src/main/java/org/openapitools/client/model/ArrayOfNumberOnly.java
@@ -130,7 +132,7 @@ src/main/java/org/openapitools/client/model/OuterEnumIntegerDefaultValue.java
 src/main/java/org/openapitools/client/model/OuterObjectWithEnumProperty.java
 src/main/java/org/openapitools/client/model/Pet.java
 src/main/java/org/openapitools/client/model/ReadOnlyFirst.java
+src/main/java/org/openapitools/client/model/SingleRefType.java
 src/main/java/org/openapitools/client/model/SpecialModelName.java
 src/main/java/org/openapitools/client/model/Tag.java
 src/main/java/org/openapitools/client/model/User.java
-src/main/java/org/openapitools/client/model/UserType.java

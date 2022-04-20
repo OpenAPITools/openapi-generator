@@ -59,7 +59,6 @@ import Return from './model/Return';
 import SpecialModelName from './model/SpecialModelName';
 import Tag from './model/Tag';
 import User from './model/User';
-import UserType from './model/UserType';
 import AnotherFakeApi from './api/AnotherFakeApi';
 import DefaultApi from './api/DefaultApi';
 import FakeApi from './api/FakeApi';
@@ -382,12 +381,6 @@ export {
      * @property {module:model/User}
      */
     User,
-
-    /**
-     * The UserType model constructor.
-     * @property {module:model/UserType}
-     */
-    UserType,
 
     /**
     * The AnotherFakeApi service constructor.
