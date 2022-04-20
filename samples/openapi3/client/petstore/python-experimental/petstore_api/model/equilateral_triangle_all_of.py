@@ -87,7 +87,7 @@ class EquilateralTriangleAllOf(
         @classmethod
         @property
         def EQUILATERALTRIANGLE(cls):
-            return cls._enum_by_value["EquilateralTriangle"]("EquilateralTriangle")
+            return cls("EquilateralTriangle")
 
 
     def __new__(

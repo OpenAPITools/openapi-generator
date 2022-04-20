@@ -90,7 +90,7 @@ class BasquePig(
         @classmethod
         @property
         def BASQUEPIG(cls):
-            return cls._enum_by_value["BasquePig"]("BasquePig")
+            return cls("BasquePig")
 
 
     def __new__(

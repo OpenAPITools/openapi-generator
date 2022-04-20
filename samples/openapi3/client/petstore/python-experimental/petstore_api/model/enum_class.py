@@ -84,14 +84,14 @@ class EnumClass(
     @classmethod
     @property
     def _ABC(cls):
-        return cls._enum_by_value["_abc"]("_abc")
+        return cls("_abc")
     
     @classmethod
     @property
     def EFG(cls):
-        return cls._enum_by_value["-efg"]("-efg")
+        return cls("-efg")
     
     @classmethod
     @property
     def XYZ(cls):
-        return cls._enum_by_value["(xyz)"]("(xyz)")
+        return cls("(xyz)")

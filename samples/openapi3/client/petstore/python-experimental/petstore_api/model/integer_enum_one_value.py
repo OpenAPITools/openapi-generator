@@ -82,4 +82,4 @@ class IntegerEnumOneValue(
     @classmethod
     @property
     def POSITIVE_0(cls):
-        return cls._enum_by_value[0](0)
+        return cls(0)

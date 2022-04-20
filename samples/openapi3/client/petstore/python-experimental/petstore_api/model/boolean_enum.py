@@ -82,4 +82,4 @@ class BooleanEnum(
     @classmethod
     @property
     def TRUE(cls):
-        return cls._enum_by_value[True](True)
+        return cls(True)

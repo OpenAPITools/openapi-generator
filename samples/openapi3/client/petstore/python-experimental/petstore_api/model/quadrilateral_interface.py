@@ -91,7 +91,7 @@ class QuadrilateralInterface(
         @classmethod
         @property
         def QUADRILATERAL(cls):
-            return cls._enum_by_value["Quadrilateral"]("Quadrilateral")
+            return cls("Quadrilateral")
     quadrilateralType = StrSchema
 
     def __new__(
