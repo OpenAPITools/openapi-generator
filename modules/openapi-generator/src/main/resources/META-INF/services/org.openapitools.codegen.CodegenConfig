@@ -137,6 +137,8 @@ org.openapitools.codegen.languages.PureCloudGoClientCodegen
 org.openapitools.codegen.languages.PureCloudJavaClientCodegen
 org.openapitools.codegen.languages.PureCloudJavaGuestClientCodegen
 org.openapitools.codegen.languages.WebMessagingJavaClientCodegen
+org.openapitools.codegen.languages.PureCloudJavaScriptClientCodegen
+org.openapitools.codegen.languages.PureCloudJavaScriptGuestClientCodegen
 org.openapitools.codegen.languages.GoCliClientCodegen
 org.openapitools.codegen.languages.PureCloudDotNetClientCodegen
 org.openapitools.codegen.languages.PureCloudPythonClientCodegen

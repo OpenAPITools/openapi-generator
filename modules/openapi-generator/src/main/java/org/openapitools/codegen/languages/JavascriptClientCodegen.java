@@ -923,6 +923,10 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
                 + (StringUtils.isEmpty(modelPackage) ? "" : (modelPackage + "/")) + dataType;
     }
 
+    private String getJSDocTypeWithBraces(CodegenModel cm, CodegenProperty cp) {
+        return "{" + getJSDocType(cm, cp) + "}";
+    }
+
     private String getJSDocType(CodegenModel cm, CodegenProperty cp) {
         if (Boolean.TRUE.equals(cp.isContainer)) {
             if (cp.containerType.equals("array") || cp.containerType.equals("set"))
@@ -939,9 +943,13 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         return dataType;
     }
 
-    private boolean isModelledType(CodegenProperty cp) {
-        // N.B. enums count as modelled types, file is not modelled (SuperAgent uses some 3rd party library).
-        return cp.isEnum || !languageSpecificPrimitives.contains(cp.baseType == null ? cp.dataType : cp.baseType);
+    private String getJSDocTypeWithBraces(CodegenParameter cp) {
+        return "{" + getJSDocType(cp) + "}";
+    }
+
+    private String getJSDocTypeWithBraces(CodegenOperation co) {
+        String jsDocType = getJSDocType(co);
+        return jsDocType == null ? null : "{" + jsDocType + "}";
     }
 
     private String getJSDocType(CodegenParameter cp) {
@@ -954,6 +962,11 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
             return "Object.<String, " + dataType + ">";
         }
         return dataType;
+    }
+
+    private boolean isModelledType(CodegenProperty cp) {
+        // N.B. enums count as modelled types, file is not modelled (SuperAgent uses some 3rd party library).
+        return cp.isEnum || !languageSpecificPrimitives.contains(cp.baseType == null ? cp.dataType : cp.baseType);
     }
 
     private boolean isModelledType(CodegenParameter cp) {

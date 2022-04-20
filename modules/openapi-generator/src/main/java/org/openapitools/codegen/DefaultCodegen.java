@@ -78,7 +78,7 @@ import io.swagger.v3.parser.util.SchemaTypeUtil;
 import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
-public class DefaultCodegen implements CodegenConfig {
+public abstract class DefaultCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(DefaultCodegen.class);
 
     public static FeatureSet DefaultFeatureSet;
@@ -615,9 +615,7 @@ public class DefaultCodegen implements CodegenConfig {
 
     // override with any special post-processing
     @SuppressWarnings("static-method")
-    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
-        return objs;
-    }
+    public Map<String, Object> postProcessModels(Map<String, Object> objs) { return objs; }
 
     /**
      * post process enum defined in model's properties
@@ -1431,7 +1429,7 @@ public class DefaultCodegen implements CodegenConfig {
 
     /**
      * Return the fully-qualified "Api" name for import
-     *
+     *`
      * @param name the name of the "Api"
      * @return the fully-qualified "Api" name for import
      */
