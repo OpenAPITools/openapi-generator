@@ -53,7 +53,7 @@ public class InlineModelResolver {
         structureMapper.writer(new DefaultPrettyPrinter());
     }
 
-     final Logger LOGGER = LoggerFactory.getLogger(InlineModelResolver.class);
+    final Logger LOGGER = LoggerFactory.getLogger(InlineModelResolver.class);
 
     void flatten(OpenAPI openapi) {
         this.openapi = openapi;
@@ -108,7 +108,7 @@ public class InlineModelResolver {
     /**
      * Return false if model can be represented by primitives e.g. string, object
      * without properties, array or map of other model (model contanier), etc.
-     *
+     * <p>
      * Return true if a model should be generated e.g. object with properties,
      * enum, oneOf, allOf, anyOf, etc.
      *
@@ -311,8 +311,8 @@ public class InlineModelResolver {
     /**
      * Flatten inline models in RequestBody
      *
-     * @param openAPI target spec
-     * @param pathname target pathname
+     * @param openAPI   target spec
+     * @param pathname  target pathname
      * @param operation target operation
      */
     private void flattenRequestBody(OpenAPI openAPI, String pathname, Operation operation) {
@@ -401,8 +401,8 @@ public class InlineModelResolver {
     /**
      * Flatten inline models in parameters
      *
-     * @param openAPI target spec
-     * @param pathname target pathname
+     * @param openAPI   target spec
+     * @param pathname  target pathname
      * @param operation target operation
      */
     private void flattenParameters(OpenAPI openAPI, String pathname, Operation operation) {
@@ -459,8 +459,8 @@ public class InlineModelResolver {
     /**
      * Flatten inline models in ApiResponses
      *
-     * @param openAPI target spec
-     * @param pathname target pathname
+     * @param openAPI   target spec
+     * @param pathname  target pathname
      * @param operation target operation
      */
     private void flattenResponses(OpenAPI openAPI, String pathname, Operation operation) {
@@ -554,27 +554,27 @@ public class InlineModelResolver {
      * Flattens properties of inline object schemas that belong to a composed schema into a
      * single flat list of properties. This is useful to generate a single or multiple
      * inheritance model.
-     *
+     * <p>
      * In the example below, codegen may generate a 'Dog' class that extends from the
      * generated 'Animal' class. 'Dog' has additional properties 'name', 'age' and 'breed' that
      * are flattened as a single list of properties.
-     *
+     * <p>
      * Dog:
-     *   allOf:
-     *     - $ref: '#/components/schemas/Animal'
-     *     - type: object
-     *       properties:
-     *         name:
-     *           type: string
-     *         age:
-     *           type: string
-     *     - type: object
-     *       properties:
-     *         breed:
-     *           type: string
+     * allOf:
+     * - $ref: '#/components/schemas/Animal'
+     * - type: object
+     * properties:
+     * name:
+     * type: string
+     * age:
+     * type: string
+     * - type: object
+     * properties:
+     * breed:
+     * type: string
      *
-     * @param openAPI the OpenAPI document
-     * @param key a unique name ofr the composed schema.
+     * @param openAPI  the OpenAPI document
+     * @param key      a unique name ofr the composed schema.
      * @param children the list of nested schemas within a composed schema (allOf, anyOf, oneOf).
      */
     private void flattenComposedChildren(OpenAPI openAPI, String key, List<Schema> children) {
@@ -585,9 +585,9 @@ public class InlineModelResolver {
         while (listIterator.hasNext()) {
             Schema component = listIterator.next();
             if ((component != null) &&
-                (component.get$ref() == null) &&
-                ((component.getProperties() != null && !component.getProperties().isEmpty()) ||
-                 (component.getEnum() != null && !component.getEnum().isEmpty()))) {
+                    (component.get$ref() == null) &&
+                    ((component.getProperties() != null && !component.getProperties().isEmpty()) ||
+                            (component.getEnum() != null && !component.getEnum().isEmpty()))) {
                 // If a `title` attribute is defined in the inline schema, codegen uses it to name the
                 // inline schema. Otherwise, we'll use the default naming such as InlineObject1, etc.
                 // We know that this is not the best way to name the model.
@@ -695,12 +695,11 @@ public class InlineModelResolver {
     /**
      * Generates a unique model name. Non-alphanumeric characters will be replaced
      * with underscores
-     *
+     * <p>
      * e.g. io.schema.User_name => io_schema_User_name
      *
      * @param title String title field in the schema if present
-     * @param key String model name
-     *
+     * @param key   String model name
      * @return if provided the sanitized {@code title}, else the sanitized {@code key}
      */
     private String resolveModelName(String title, String key) {
@@ -739,13 +738,13 @@ public class InlineModelResolver {
 
     /**
      * Sanitizes the input so that it's valid name for a class or interface
-     *
+     * <p>
      * e.g. 12.schema.User name => _2_schema_User_name
      */
     private String sanitizeName(final String name) {
         return name
-            .replaceAll("^[0-9]", "_$0") // e.g. 12object => _12object
-            .replaceAll("[^A-Za-z0-9]", "_"); // e.g. io.schema.User name => io_schema_User_name
+                .replaceAll("^[0-9]", "_$0") // e.g. 12object => _12object
+                .replaceAll("[^A-Za-z0-9]", "_"); // e.g. io.schema.User name => io_schema_User_name
     }
 
     private String uniqueName(final String name) {
@@ -912,10 +911,11 @@ public class InlineModelResolver {
      * Resolve namespace conflicts using:
      * title (if title exists) or
      * prefix + suffix (if title not specified)
+     *
      * @param prefix used to form name if no title found in schema
      * @param suffix used to form name if no title found in schema
      * @param schema title property used to form name if exists and schema definition used
-     *   to create new schema if doesn't exist
+     *               to create new schema if doesn't exist
      * @return a new schema or $ref to an existing one if it was already created
      */
     private Schema makeSchemaResolve(String prefix, String suffix, Schema schema) {
@@ -973,7 +973,7 @@ public class InlineModelResolver {
     private void copyVendorExtensions(Schema source, Schema target) {
         Map<String, Object> vendorExtensions = source.getExtensions();
         if (vendorExtensions == null) {
-             return;
+            return;
         }
         for (String extName : vendorExtensions.keySet()) {
             target.addExtension(extName, vendorExtensions.get(extName));
