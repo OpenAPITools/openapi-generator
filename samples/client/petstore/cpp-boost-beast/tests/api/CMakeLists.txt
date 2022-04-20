@@ -22,4 +22,7 @@ target_link_libraries(api_tests
             ${Boost_LIBRARIES})
 
 
-add_test(NAME api_tests COMMAND api_tests)
+add_test(NAME api_tests
+        COMMAND_EXPAND_LISTS
+        COMMAND
+            ${CMAKE_CURRENT_LIST_DIR}/run_imposter_for_tests.sh ${CMAKE_CURRENT_BINARY_DIR}/api_tests)
