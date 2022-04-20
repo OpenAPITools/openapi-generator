@@ -308,7 +308,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             additionalProperties.put(MICROPROFILE_REST_CLIENT_VERSION, MICROPROFILE_REST_CLIENT_DEFAULT_VERSION);
         } else {
             String mpRestClientVersion = (String) additionalProperties.get(MICROPROFILE_REST_CLIENT_VERSION);
-            if (!mpRestClientVersions.containsKey(mpRestClientVersion)){
+            if (!mpRestClientVersions.containsKey(mpRestClientVersion)) {
                 throw new IllegalArgumentException(
                         String.format(Locale.ROOT,
                                 "Version %s of MicroProfile Rest Client is not supported or incorrect. Supported versions are %s",
@@ -600,6 +600,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 supportingFiles.add(new SupportingFile("kumuluzee.pom.mustache", "", "pom.xml"));
                 supportingFiles.add(new SupportingFile("kumuluzee.config.yaml.mustache", "src/main/resources", "config.yaml"));
                 supportingFiles.add(new SupportingFile("kumuluzee.beans.xml.mustache", "src/main/resources/META-INF", "beans.xml"));
+            }
+
+            if ("3.0".equals(mpRestClientVersion)) {
+                additionalProperties.put("microprofile3", true);
             }
         } else if (APACHE.equals(getLibrary())) {
             forceSerializationLibrary(SERIALIZATION_LIBRARY_JACKSON);
