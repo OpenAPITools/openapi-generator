@@ -28,7 +28,7 @@ import javax.validation.constraints.*;
 import io.swagger.annotations.*;
 
 @Generated(value="org.openapitools.codegen.languages.JavaMicronautServerCodegen")
-@Controller("${context-path}")
+@Controller
 public class UserController {
     /**
      * Create user

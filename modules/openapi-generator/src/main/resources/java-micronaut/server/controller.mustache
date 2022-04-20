@@ -35,7 +35,7 @@ import io.swagger.annotations.*;
 
 {{>common/generatedAnnotation}}
 {{^generateControllerAsAbstract}}
-@Controller("${context-path}")
+@Controller
 {{/generateControllerAsAbstract}}
 public {{#generateControllerAsAbstract}}abstract {{/generateControllerAsAbstract}}class {{classname}} {
 {{#operations}}
