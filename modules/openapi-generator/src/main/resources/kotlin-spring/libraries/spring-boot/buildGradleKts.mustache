@@ -41,9 +41,12 @@ dependencies {
     compile("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinxCoroutinesVersion")
     compile("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:$kotlinxCoroutinesVersion")
 {{/reactive}}
-{{#swaggerAnnotations}}
+{{#swagger2AnnotationLibrary}}
+    compile("io.swagger.core.v3:swagger-annotations:2.1.13")
+{{/swagger2AnnotationLibrary}}
+{{#swagger1AnnotationLibrary}}
     compile("io.swagger:swagger-annotations:1.5.21")
-{{/swaggerAnnotations}}
+{{/swagger1AnnotationLibrary}}
     compile("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml")
     compile("com.fasterxml.jackson.dataformat:jackson-dataformat-xml")
     compile("com.fasterxml.jackson.module:jackson-module-kotlin")
