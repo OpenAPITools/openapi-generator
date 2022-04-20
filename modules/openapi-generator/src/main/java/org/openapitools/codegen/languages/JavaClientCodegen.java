@@ -308,7 +308,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             additionalProperties.put(MICROPROFILE_REST_CLIENT_VERSION, MICROPROFILE_REST_CLIENT_DEFAULT_VERSION);
         } else {
             String mpRestClientVersion = (String) additionalProperties.get(MICROPROFILE_REST_CLIENT_VERSION);
-            if (!mpRestClientVersions.containsKey(mpRestClientVersion)){
+            if (!mpRestClientVersions.containsKey(mpRestClientVersion)) {
                 throw new IllegalArgumentException(
                         String.format(Locale.ROOT,
                                 "Version %s of MicroProfile Rest Client is not supported or incorrect. Supported versions are %s",
