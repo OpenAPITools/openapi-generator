@@ -87,7 +87,7 @@ class SimpleQuadrilateralAllOf(
         @classmethod
         @property
         def SIMPLEQUADRILATERAL(cls):
-            return cls._enum_by_value["SimpleQuadrilateral"]("SimpleQuadrilateral")
+            return cls("SimpleQuadrilateral")
 
 
     def __new__(

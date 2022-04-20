@@ -92,7 +92,7 @@ class Whale(
         @classmethod
         @property
         def WHALE(cls):
-            return cls._enum_by_value["whale"]("whale")
+            return cls("whale")
 
 
     def __new__(

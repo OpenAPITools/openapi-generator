@@ -84,12 +84,12 @@ class EnumQueryStringArraySchema(
         @classmethod
         @property
         def GREATER_THAN(cls):
-            return cls._enum_by_value[">"](">")
+            return cls(">")
         
         @classmethod
         @property
         def DOLLAR(cls):
-            return cls._enum_by_value["$"]("$")
+            return cls("$")
 
 
 class EnumQueryStringSchema(
@@ -106,17 +106,17 @@ class EnumQueryStringSchema(
     @classmethod
     @property
     def _ABC(cls):
-        return cls._enum_by_value["_abc"]("_abc")
+        return cls("_abc")
     
     @classmethod
     @property
     def EFG(cls):
-        return cls._enum_by_value["-efg"]("-efg")
+        return cls("-efg")
     
     @classmethod
     @property
     def XYZ(cls):
-        return cls._enum_by_value["(xyz)"]("(xyz)")
+        return cls("(xyz)")
 
 
 class EnumQueryIntegerSchema(
@@ -132,12 +132,12 @@ class EnumQueryIntegerSchema(
     @classmethod
     @property
     def POSITIVE_1(cls):
-        return cls._enum_by_value[1](1)
+        return cls(1)
     
     @classmethod
     @property
     def NEGATIVE_2(cls):
-        return cls._enum_by_value[-2](-2)
+        return cls(-2)
 
 
 class EnumQueryDoubleSchema(
@@ -153,12 +153,12 @@ class EnumQueryDoubleSchema(
     @classmethod
     @property
     def POSITIVE_1_PT_1(cls):
-        return cls._enum_by_value[1.1](1.1)
+        return cls(1.1)
     
     @classmethod
     @property
     def NEGATIVE_1_PT_2(cls):
-        return cls._enum_by_value[-1.2](-1.2)
+        return cls(-1.2)
 RequestRequiredQueryParams = typing.TypedDict(
     'RequestRequiredQueryParams',
     {
@@ -225,12 +225,12 @@ class EnumHeaderStringArraySchema(
         @classmethod
         @property
         def GREATER_THAN(cls):
-            return cls._enum_by_value[">"](">")
+            return cls(">")
         
         @classmethod
         @property
         def DOLLAR(cls):
-            return cls._enum_by_value["$"]("$")
+            return cls("$")
 
 
 class EnumHeaderStringSchema(
@@ -247,17 +247,17 @@ class EnumHeaderStringSchema(
     @classmethod
     @property
     def _ABC(cls):
-        return cls._enum_by_value["_abc"]("_abc")
+        return cls("_abc")
     
     @classmethod
     @property
     def EFG(cls):
-        return cls._enum_by_value["-efg"]("-efg")
+        return cls("-efg")
     
     @classmethod
     @property
     def XYZ(cls):
-        return cls._enum_by_value["(xyz)"]("(xyz)")
+        return cls("(xyz)")
 RequestRequiredHeaderParams = typing.TypedDict(
     'RequestRequiredHeaderParams',
     {
@@ -313,12 +313,12 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
             @classmethod
             @property
             def GREATER_THAN(cls):
-                return cls._enum_by_value[">"](">")
+                return cls(">")
             
             @classmethod
             @property
             def DOLLAR(cls):
-                return cls._enum_by_value["$"]("$")
+                return cls("$")
     
     
     class enum_form_string(
@@ -335,17 +335,17 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
         @classmethod
         @property
         def _ABC(cls):
-            return cls._enum_by_value["_abc"]("_abc")
+            return cls("_abc")
         
         @classmethod
         @property
         def EFG(cls):
-            return cls._enum_by_value["-efg"]("-efg")
+            return cls("-efg")
         
         @classmethod
         @property
         def XYZ(cls):
-            return cls._enum_by_value["(xyz)"]("(xyz)")
+            return cls("(xyz)")
 
 
     def __new__(

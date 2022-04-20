@@ -87,7 +87,7 @@ class ComplexQuadrilateralAllOf(
         @classmethod
         @property
         def COMPLEXQUADRILATERAL(cls):
-            return cls._enum_by_value["ComplexQuadrilateral"]("ComplexQuadrilateral")
+            return cls("ComplexQuadrilateral")
 
 
     def __new__(

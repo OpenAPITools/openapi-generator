@@ -1389,6 +1389,7 @@ class Schema:
             # Use case: value is None, True, False, or an enum value
             value = arg
             for key in path[1:]:
+                # if path is bigger than one, get the value that mfg_cls validated
                 value = value[key]
             if hasattr(mfg_cls, '_enum_by_value'):
                 mfg_cls = mfg_cls._enum_by_value[value]

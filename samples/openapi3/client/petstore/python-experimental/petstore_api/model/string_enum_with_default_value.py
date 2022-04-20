@@ -84,14 +84,14 @@ class StringEnumWithDefaultValue(
     @classmethod
     @property
     def PLACED(cls):
-        return cls._enum_by_value["placed"]("placed")
+        return cls("placed")
     
     @classmethod
     @property
     def APPROVED(cls):
-        return cls._enum_by_value["approved"]("approved")
+        return cls("approved")
     
     @classmethod
     @property
     def DELIVERED(cls):
-        return cls._enum_by_value["delivered"]("delivered")
+        return cls("delivered")

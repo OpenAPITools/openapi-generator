@@ -87,7 +87,7 @@ class IsoscelesTriangleAllOf(
         @classmethod
         @property
         def ISOSCELESTRIANGLE(cls):
-            return cls._enum_by_value["IsoscelesTriangle"]("IsoscelesTriangle")
+            return cls("IsoscelesTriangle")
 
 
     def __new__(

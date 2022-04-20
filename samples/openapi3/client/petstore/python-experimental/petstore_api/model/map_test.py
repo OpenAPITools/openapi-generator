@@ -132,12 +132,12 @@ class MapTest(
             @classmethod
             @property
             def UPPER(cls):
-                return cls._enum_by_value["UPPER"]("UPPER")
+                return cls("UPPER")
             
             @classmethod
             @property
             def LOWER(cls):
-                return cls._enum_by_value["lower"]("lower")
+                return cls("lower")
     
     
         def __new__(
