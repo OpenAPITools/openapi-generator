@@ -50,9 +50,9 @@ export interface MapTest {
  * @export
  */
 export const MapTestMapOfEnumStringEnum = {
-    Upper: 'UPPER' as 'UPPER',
-    Lower: 'lower' as 'lower'
-};
+    Upper: 'UPPER',
+    Lower: 'lower'
+} as const;
 export type MapTestMapOfEnumStringEnum = typeof MapTestMapOfEnumStringEnum[keyof typeof MapTestMapOfEnumStringEnum];
 
 

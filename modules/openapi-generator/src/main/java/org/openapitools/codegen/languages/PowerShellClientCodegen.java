@@ -27,6 +27,8 @@ import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.ProcessUtils;
 import org.slf4j.Logger;
@@ -1012,8 +1014,8 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<ModelMap> allModels) {
-        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        OperationMap operations = objs.getOperations();
         HashMap<String, CodegenModel> modelMaps = new HashMap<>();
         HashMap<String, Integer> processedModelMaps = new HashMap<>();
 
@@ -1022,7 +1024,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
             modelMaps.put(m.classname, m);
         }
 
-        List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
+        List<CodegenOperation> operationList = operations.getOperation();
         for (CodegenOperation op : operationList) {
             int index = 0;
             for (CodegenParameter p : op.allParams) {
@@ -1123,7 +1125,8 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
             }
         }
 
-        return objs;
+        // process enum in models
+        return postProcessModelsEnum(objs);
     }
 
     @Override
@@ -1543,4 +1546,30 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
 
     @Override
     public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.POWERSHELL; }
+
+    @Override
+    public String toEnumVarName(String name, String datatype) {
+        if (name.length() == 0) {
+            return "EMPTY";
+        }
+
+        // for symbol, e.g. $, #
+        if (getSymbolName(name) != null) {
+            return (getSymbolName(name)).toUpperCase(Locale.ROOT);
+        }
+
+        // number
+        if ("Int16".equals(datatype) ||  "Int32".equals(datatype)  || "Int64".equals(datatype) ||
+            "UInt16".equals(datatype) ||  "UInt32".equals(datatype)  || "UInt64".equals(datatype) ||
+            "Double".equals(datatype) || "Single".equals(datatype) || "Decimal".equals(datatype)) {
+            String varName = name;
+            varName = varName.replaceAll("-", "MINUS_");
+            varName = varName.replaceAll("\\+", "PLUS_");
+            varName = varName.replaceAll("\\.", "_DOT_");
+            return varName;
+        }
+
+        // remove special character
+        return sanitizeName(name);
+    }
 }

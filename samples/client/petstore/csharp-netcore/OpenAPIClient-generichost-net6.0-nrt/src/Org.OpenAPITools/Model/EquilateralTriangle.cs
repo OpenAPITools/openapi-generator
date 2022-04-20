@@ -34,23 +34,23 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="EquilateralTriangle" /> class.
         /// </summary>
-        /// <param name="shapeInterface">shapeInterface</param>
-        /// <param name="triangleInterface">triangleInterface</param>
-        public EquilateralTriangle(ShapeInterface? shapeInterface, TriangleInterface? triangleInterface)
+        /// <param name="shapeInterface"></param>
+        /// <param name="triangleInterface"></param>
+        public EquilateralTriangle(ShapeInterface shapeInterface, TriangleInterface triangleInterface)
         {
             ShapeInterface = shapeInterface;
             TriangleInterface = triangleInterface;
         }
 
         /// <summary>
-        /// Gets or Sets EquilateralTriangle
+        /// Gets or Sets ShapeInterface
         /// </summary>
-        public ShapeInterface? ShapeInterface { get; set; }
+        public ShapeInterface ShapeInterface { get; set; }
 
         /// <summary>
-        /// Gets or Sets EquilateralTriangle
+        /// Gets or Sets TriangleInterface
         /// </summary>
-        public TriangleInterface? TriangleInterface { get; set; }
+        public TriangleInterface TriangleInterface { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -147,9 +147,11 @@ namespace Org.OpenAPITools.Model
                 throw new JsonException();
 
             Utf8JsonReader shapeInterfaceReader = reader;
-            Client.ClientUtils.TryDeserialize<ShapeInterface>(ref shapeInterfaceReader, options, out ShapeInterface? shapeInterface);
+            bool shapeInterfaceDeserialized = Client.ClientUtils.TryDeserialize<ShapeInterface>(ref shapeInterfaceReader, options, out ShapeInterface? shapeInterface);
+
             Utf8JsonReader triangleInterfaceReader = reader;
-            Client.ClientUtils.TryDeserialize<TriangleInterface>(ref triangleInterfaceReader, options, out TriangleInterface? triangleInterface);
+            bool triangleInterfaceDeserialized = Client.ClientUtils.TryDeserialize<TriangleInterface>(ref triangleInterfaceReader, options, out TriangleInterface? triangleInterface);
+
 
             while (reader.Read())
             {

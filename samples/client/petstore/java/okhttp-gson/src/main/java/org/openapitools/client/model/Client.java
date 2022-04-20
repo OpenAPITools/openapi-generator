@@ -181,6 +181,9 @@ public class Client {
           throw new IllegalArgumentException(String.format("The required field(s) %s in Client is not found in the empty JSON string", Client.openapiRequiredFields.toString()));
         }
       }
+      if (jsonObj.get("client") != null && !jsonObj.get("client").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `client` to be a primitive type in the JSON string but got `%s`", jsonObj.get("client").toString()));
+      }
   }
 
   public static class CustomTypeAdapterFactory implements TypeAdapterFactory {

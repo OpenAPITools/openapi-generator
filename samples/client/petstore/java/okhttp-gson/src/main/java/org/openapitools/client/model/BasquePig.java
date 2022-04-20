@@ -189,6 +189,9 @@ public class BasquePig {
           throw new IllegalArgumentException(String.format("The required field `%s` is not found in the JSON string: %s", requiredField, jsonObj.toString()));
         }
       }
+      if (jsonObj.get("className") != null && !jsonObj.get("className").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `className` to be a primitive type in the JSON string but got `%s`", jsonObj.get("className").toString()));
+      }
   }
 
   public static class CustomTypeAdapterFactory implements TypeAdapterFactory {

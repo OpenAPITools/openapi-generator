@@ -19,6 +19,8 @@ package org.openapitools.codegen.languages;
 
 import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache.Lambda;
+import com.samskivert.mustache.Mustache;
+import com.samskivert.mustache.Template;
 
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
@@ -27,6 +29,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.templating.mustache.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
@@ -34,6 +38,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Writer;
 import java.util.*;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
@@ -397,6 +402,18 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
         // This either updates additionalProperties with the above fixes, or sets the default if the option was not specified.
         additionalProperties.put(CodegenConstants.INTERFACE_PREFIX, interfacePrefix);
+
+        // add lambda for mustache templates
+        additionalProperties.put("lambdaCref", new Mustache.Lambda() {
+            @Override
+            public void execute(Template.Fragment fragment, Writer writer) throws IOException {
+                String content = fragment.execute();
+                content = content.trim().replace("<", "{");
+                content = content.replace(">", "}");
+                content = content.replace("{string}", "{String}");
+                writer.write(content);
+            }
+        });
     }
 
     @Override
@@ -663,12 +680,12 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<ModelMap> allModels) {
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         super.postProcessOperationsWithModels(objs, allModels);
         if (objs != null) {
-            Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
+            OperationMap operations = objs.getOperations();
             if (operations != null) {
-                List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
+                List<CodegenOperation> ops = operations.getOperation();
                 for (CodegenOperation operation : ops) {
 
                     // Check return types for collection

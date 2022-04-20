@@ -36,6 +36,8 @@ import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.GoClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import org.testng.annotations.Ignore;
+
 
 public class GoClientCodegenTest {
 

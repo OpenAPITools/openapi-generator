@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text.Json;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
 
@@ -62,7 +63,8 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of ApiResponse&lt;object?&gt;</returns>
         Task<object?> AddPetOrDefaultAsync(Pet pet, System.Threading.CancellationToken? cancellationToken = null);
 
-                /// <summary>
+        
+        /// <summary>
         /// Deletes a pet
         /// </summary>
         /// <remarks>
@@ -100,7 +102,8 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of ApiResponse&lt;object?&gt;</returns>
         Task<object?> DeletePetOrDefaultAsync(long petId, string? apiKey = null, System.Threading.CancellationToken? cancellationToken = null);
 
-                /// <summary>
+        
+        /// <summary>
         /// Finds Pets by status
         /// </summary>
         /// <remarks>
@@ -135,7 +138,8 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of ApiResponse&lt;List&lt;Pet&gt;?&gt;</returns>
         Task<List<Pet>?> FindPetsByStatusOrDefaultAsync(List<string> status, System.Threading.CancellationToken? cancellationToken = null);
 
-                /// <summary>
+        
+        /// <summary>
         /// Finds Pets by tags
         /// </summary>
         /// <remarks>
@@ -170,7 +174,8 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of ApiResponse&lt;List&lt;Pet&gt;?&gt;</returns>
         Task<List<Pet>?> FindPetsByTagsOrDefaultAsync(List<string> tags, System.Threading.CancellationToken? cancellationToken = null);
 
-                /// <summary>
+        
+        /// <summary>
         /// Find pet by ID
         /// </summary>
         /// <remarks>
@@ -205,7 +210,8 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of ApiResponse&lt;Pet?&gt;</returns>
         Task<Pet?> GetPetByIdOrDefaultAsync(long petId, System.Threading.CancellationToken? cancellationToken = null);
 
-                /// <summary>
+        
+        /// <summary>
         /// Update an existing pet
         /// </summary>
         /// <remarks>
@@ -240,7 +246,8 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of ApiResponse&lt;object?&gt;</returns>
         Task<object?> UpdatePetOrDefaultAsync(Pet pet, System.Threading.CancellationToken? cancellationToken = null);
 
-                /// <summary>
+        
+        /// <summary>
         /// Updates a pet in the store with form data
         /// </summary>
         /// <remarks>
@@ -281,7 +288,8 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of ApiResponse&lt;object?&gt;</returns>
         Task<object?> UpdatePetWithFormOrDefaultAsync(long petId, string? name = null, string? status = null, System.Threading.CancellationToken? cancellationToken = null);
 
-                /// <summary>
+        
+        /// <summary>
         /// uploads an image
         /// </summary>
         /// <remarks>
@@ -322,7 +330,8 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of ApiResponse&lt;ApiResponse?&gt;</returns>
         Task<ApiResponse?> UploadFileOrDefaultAsync(long petId, string? additionalMetadata = null, System.IO.Stream? file = null, System.Threading.CancellationToken? cancellationToken = null);
 
-                /// <summary>
+        
+        /// <summary>
         /// uploads an image (required)
         /// </summary>
         /// <remarks>
@@ -362,13 +371,16 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;ApiResponse?&gt;</returns>
         Task<ApiResponse?> UploadFileWithRequiredFileOrDefaultAsync(long petId, System.IO.Stream requiredFile, string? additionalMetadata = null, System.Threading.CancellationToken? cancellationToken = null);
-    }
+
+            }
 
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
     public partial class PetApi : IPetApi
     {
+        private JsonSerializerOptions _jsonSerializerOptions;
+
         /// <summary>
         /// An event to track the health of the server. 
         /// If you store these event args, be sure to purge old event args to prevent a memory leak.
@@ -414,13 +426,14 @@ namespace Org.OpenAPITools.Api
         /// Initializes a new instance of the <see cref="PetApi"/> class.
         /// </summary>
         /// <returns></returns>
-        public PetApi(ILogger<PetApi> logger, HttpClient httpClient, 
+        public PetApi(ILogger<PetApi> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, 
             TokenProvider<ApiKeyToken> apiKeyProvider, 
             TokenProvider<BearerToken> bearerTokenProvider, 
             TokenProvider<BasicToken> basicTokenProvider, 
             TokenProvider<HttpSignatureToken> httpSignatureTokenProvider, 
             TokenProvider<OAuthToken> oauthTokenProvider)
         {
+            _jsonSerializerOptions = jsonSerializerOptionsProvider.Options;
             Logger = logger;
             HttpClient = httpClient;
             ApiKeyProvider = apiKeyProvider;
@@ -497,7 +510,7 @@ namespace Org.OpenAPITools.Api
 
                     request.Content = (pet as object) is System.IO.Stream stream
                         ? request.Content = new StreamContent(stream)
-                        : request.Content = new StringContent(System.Text.Json.JsonSerializer.Serialize(pet, ClientUtils.JsonSerializerOptions));
+                        : request.Content = new StringContent(JsonSerializer.Serialize(pet, _jsonSerializerOptions));
 
                     List<TokenBase> tokens = new List<TokenBase>();
 
@@ -550,7 +563,7 @@ namespace Org.OpenAPITools.Api
                         ApiResponse<object?> apiResponse = new ApiResponse<object?>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
-                            apiResponse.Content = System.Text.Json.JsonSerializer.Deserialize<object>(apiResponse.RawContent, ClientUtils.JsonSerializerOptions);
+                            apiResponse.Content = JsonSerializer.Deserialize<object>(apiResponse.RawContent, _jsonSerializerOptions);
                         else if (apiResponse.StatusCode == (HttpStatusCode) 429)
                             foreach(TokenBase token in tokens)
                                 token.BeginRateLimit();
@@ -674,7 +687,7 @@ namespace Org.OpenAPITools.Api
                         ApiResponse<object?> apiResponse = new ApiResponse<object?>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
-                            apiResponse.Content = System.Text.Json.JsonSerializer.Deserialize<object>(apiResponse.RawContent, ClientUtils.JsonSerializerOptions);
+                            apiResponse.Content = JsonSerializer.Deserialize<object>(apiResponse.RawContent, _jsonSerializerOptions);
                         else if (apiResponse.StatusCode == (HttpStatusCode) 429)
                             foreach(TokenBase token in tokens)
                                 token.BeginRateLimit();
@@ -812,7 +825,7 @@ namespace Org.OpenAPITools.Api
                         ApiResponse<List<Pet>?> apiResponse = new ApiResponse<List<Pet>?>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
-                            apiResponse.Content = System.Text.Json.JsonSerializer.Deserialize<List<Pet>>(apiResponse.RawContent, ClientUtils.JsonSerializerOptions);
+                            apiResponse.Content = JsonSerializer.Deserialize<List<Pet>>(apiResponse.RawContent, _jsonSerializerOptions);
                         else if (apiResponse.StatusCode == (HttpStatusCode) 429)
                             foreach(TokenBase token in tokens)
                                 token.BeginRateLimit();
@@ -953,7 +966,7 @@ namespace Org.OpenAPITools.Api
                         ApiResponse<List<Pet>?> apiResponse = new ApiResponse<List<Pet>?>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
-                            apiResponse.Content = System.Text.Json.JsonSerializer.Deserialize<List<Pet>>(apiResponse.RawContent, ClientUtils.JsonSerializerOptions);
+                            apiResponse.Content = JsonSerializer.Deserialize<List<Pet>>(apiResponse.RawContent, _jsonSerializerOptions);
                         else if (apiResponse.StatusCode == (HttpStatusCode) 429)
                             foreach(TokenBase token in tokens)
                                 token.BeginRateLimit();
@@ -1081,7 +1094,7 @@ namespace Org.OpenAPITools.Api
                         ApiResponse<Pet?> apiResponse = new ApiResponse<Pet?>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
-                            apiResponse.Content = System.Text.Json.JsonSerializer.Deserialize<Pet>(apiResponse.RawContent, ClientUtils.JsonSerializerOptions);
+                            apiResponse.Content = JsonSerializer.Deserialize<Pet>(apiResponse.RawContent, _jsonSerializerOptions);
                         else if (apiResponse.StatusCode == (HttpStatusCode) 429)
                             foreach(TokenBase token in tokens)
                                 token.BeginRateLimit();
@@ -1164,7 +1177,7 @@ namespace Org.OpenAPITools.Api
 
                     request.Content = (pet as object) is System.IO.Stream stream
                         ? request.Content = new StreamContent(stream)
-                        : request.Content = new StringContent(System.Text.Json.JsonSerializer.Serialize(pet, ClientUtils.JsonSerializerOptions));
+                        : request.Content = new StringContent(JsonSerializer.Serialize(pet, _jsonSerializerOptions));
 
                     List<TokenBase> tokens = new List<TokenBase>();
 
@@ -1217,7 +1230,7 @@ namespace Org.OpenAPITools.Api
                         ApiResponse<object?> apiResponse = new ApiResponse<object?>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
-                            apiResponse.Content = System.Text.Json.JsonSerializer.Deserialize<object>(apiResponse.RawContent, ClientUtils.JsonSerializerOptions);
+                            apiResponse.Content = JsonSerializer.Deserialize<object>(apiResponse.RawContent, _jsonSerializerOptions);
                         else if (apiResponse.StatusCode == (HttpStatusCode) 429)
                             foreach(TokenBase token in tokens)
                                 token.BeginRateLimit();
@@ -1364,7 +1377,7 @@ namespace Org.OpenAPITools.Api
                         ApiResponse<object?> apiResponse = new ApiResponse<object?>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
-                            apiResponse.Content = System.Text.Json.JsonSerializer.Deserialize<object>(apiResponse.RawContent, ClientUtils.JsonSerializerOptions);
+                            apiResponse.Content = JsonSerializer.Deserialize<object>(apiResponse.RawContent, _jsonSerializerOptions);
                         else if (apiResponse.StatusCode == (HttpStatusCode) 429)
                             foreach(TokenBase token in tokens)
                                 token.BeginRateLimit();
@@ -1517,7 +1530,7 @@ namespace Org.OpenAPITools.Api
                         ApiResponse<ApiResponse?> apiResponse = new ApiResponse<ApiResponse?>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
-                            apiResponse.Content = System.Text.Json.JsonSerializer.Deserialize<ApiResponse>(apiResponse.RawContent, ClientUtils.JsonSerializerOptions);
+                            apiResponse.Content = JsonSerializer.Deserialize<ApiResponse>(apiResponse.RawContent, _jsonSerializerOptions);
                         else if (apiResponse.StatusCode == (HttpStatusCode) 429)
                             foreach(TokenBase token in tokens)
                                 token.BeginRateLimit();
@@ -1672,7 +1685,7 @@ namespace Org.OpenAPITools.Api
                         ApiResponse<ApiResponse?> apiResponse = new ApiResponse<ApiResponse?>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
-                            apiResponse.Content = System.Text.Json.JsonSerializer.Deserialize<ApiResponse>(apiResponse.RawContent, ClientUtils.JsonSerializerOptions);
+                            apiResponse.Content = JsonSerializer.Deserialize<ApiResponse>(apiResponse.RawContent, _jsonSerializerOptions);
                         else if (apiResponse.StatusCode == (HttpStatusCode) 429)
                             foreach(TokenBase token in tokens)
                                 token.BeginRateLimit();
@@ -1686,6 +1699,5 @@ namespace Org.OpenAPITools.Api
                 Logger.LogError(e, "An error occured while sending the request to the server.");
                 throw;
             }
-        }
-    }
+        }    }
 }

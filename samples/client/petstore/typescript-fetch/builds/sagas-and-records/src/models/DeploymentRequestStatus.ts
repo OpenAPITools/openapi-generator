@@ -31,7 +31,6 @@ export const DeploymentRequestStatus = {
     Pairing: 'Pairing',
     Paired: 'Paired'
 } as const;
-
 export type DeploymentRequestStatus = typeof DeploymentRequestStatus[keyof typeof DeploymentRequestStatus];
 
 

@@ -33,7 +33,7 @@ import javax.annotation.Generated;
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 @Validated
-@Tag(name = "pet", description = "the pet API")
+@Tag(name = "pet", description = "Everything about your Pets")
 public interface PetApi {
 
     /**

@@ -1,16 +1,20 @@
 {{>partial_header}}
+{{#nrt}}
+#nullable enable
 
+{{/nrt}}
 using System;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
+using System.Text.Json;
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;{{#supportsRetry}}
 using Polly.Timeout;
 using Polly.Extensions.Http;
 using Polly;{{/supportsRetry}}
-using System.Net.Http;
 using {{packageName}}.Api;{{#useCompareNetObjects}}
 using KellermanSoftware.CompareNetObjects;{{/useCompareNetObjects}}
 
@@ -53,11 +57,11 @@ namespace {{packageName}}.Client
         /// <param name="options"></param>
         /// <param name="result"></param>
         /// <returns></returns>
-        public static bool TryDeserialize<T>(string json, System.Text.Json.JsonSerializerOptions options, {{^netStandard}}[System.Diagnostics.CodeAnalysis.NotNullWhen(true)] {{/netStandard}}out T{{#nrt}}{{^netStandard}}?{{/netStandard}}{{/nrt}} result)
+        public static bool TryDeserialize<T>(string json, JsonSerializerOptions options, {{^netStandard}}[System.Diagnostics.CodeAnalysis.NotNullWhen(true)] {{/netStandard}}out T{{#nrt}}{{^netStandard}}?{{/netStandard}}{{/nrt}} result)
         {
             try
             {
-                result = System.Text.Json.JsonSerializer.Deserialize<T>(json, options);
+                result = JsonSerializer.Deserialize<T>(json, options);
                 return result != null;
             }
             catch (Exception)
@@ -75,11 +79,11 @@ namespace {{packageName}}.Client
         /// <param name="options"></param>
         /// <param name="result"></param>
         /// <returns></returns>
-        public static bool TryDeserialize<T>(ref System.Text.Json.Utf8JsonReader reader, System.Text.Json.JsonSerializerOptions options, {{^netStandard}}[System.Diagnostics.CodeAnalysis.NotNullWhen(true)] {{/netStandard}}out T{{#nrt}}{{^netStandard}}?{{/netStandard}}{{/nrt}} result)
+        public static bool TryDeserialize<T>(ref Utf8JsonReader reader, JsonSerializerOptions options, {{^netStandard}}[System.Diagnostics.CodeAnalysis.NotNullWhen(true)] {{/netStandard}}out T{{#nrt}}{{^netStandard}}?{{/netStandard}}{{/nrt}} result)
         {
             try
             {
-                result = System.Text.Json.JsonSerializer.Deserialize<T>(ref reader, options);
+                result = JsonSerializer.Deserialize<T>(ref reader, options);
                 return result != null;
             }
             catch (Exception)
@@ -88,11 +92,6 @@ namespace {{packageName}}.Client
                 return false;
             }
         }
-
-        /// <summary>
-        /// Json serializer options
-        /// </summary>
-        public static System.Text.Json.JsonSerializerOptions JsonSerializerOptions { get; set; } = new System.Text.Json.JsonSerializerOptions();
 
         /// <summary>
         /// Sanitize filename by removing the path
@@ -280,6 +279,25 @@ namespace {{packageName}}.Client
         /// </summary>
         public const string ISO8601_DATETIME_FORMAT = "o";
 
+        {{^hasAuthMethods}}
+        /// <summary>
+        /// Add the api to your host builder.
+        /// </summary>
+        /// <param name="builder"></param>
+        /// <param name="options"></param>
+        public static IHostBuilder Configure{{apiName}}(this IHostBuilder builder)
+        {
+            builder.ConfigureServices((context, services) => 
+            {
+                HostConfiguration config = new HostConfiguration(services);
+
+                Add{{apiName}}(services, config);
+            });
+
+            return builder;
+        }
+
+        {{/hasAuthMethods}}
         /// <summary>
         /// Add the api to your host builder.
         /// </summary>
@@ -299,6 +317,19 @@ namespace {{packageName}}.Client
             return builder;
         }
 
+        {{^hasAuthMethods}}
+        /// <summary>
+        /// Add the api to your host builder.
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="options"></param>
+        public static void Add{{apiName}}(this IServiceCollection services)
+        {
+            HostConfiguration config = new HostConfiguration(services);
+            Add{{apiName}}(services, config);
+        }
+
+        {{/hasAuthMethods}}
         /// <summary>
         /// Add the api to your host builder.
         /// </summary>

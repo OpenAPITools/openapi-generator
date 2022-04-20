@@ -7,6 +7,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -310,12 +312,11 @@ public abstract class CppQtAbstractCodegen extends AbstractCppCodegen implements
 
 
     @Override
-    @SuppressWarnings("unchecked")
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<ModelMap> allModels) {
-        Map<String, Object> objectMap = (Map<String, Object>) objs.get("operations");
-        List<CodegenOperation> operations = (List<CodegenOperation>) objectMap.get("operation");
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        OperationMap objectMap = objs.getOperations();
+        List<CodegenOperation> operations = objectMap.getOperation();
 
-        List<Map<String, String>> imports = (List<Map<String, String>>) objs.get("imports");
+        List<Map<String, String>> imports = objs.getImports();
         Map<String, CodegenModel> codegenModels = new HashMap<>();
 
         for (ModelMap moObj : allModels) {

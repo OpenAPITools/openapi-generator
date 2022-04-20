@@ -804,6 +804,15 @@ paths:
           format: double
           type: number
         style: form
+      - explode: true
+        in: query
+        name: enum_query_model_array
+        required: false
+        schema:
+          items:
+            $ref: '#/components/schemas/EnumClass'
+          type: array
+        style: form
       requestBody:
         $ref: '#/components/requestBodies/inline_object_2'
         content:
@@ -2105,6 +2114,20 @@ components:
             $ref: '#/components/schemas/Bar'
           type: array
       type: object
+    AllOfWithSingleRef:
+      properties:
+        username:
+          type: string
+        SingleRefType:
+          allOf:
+          - $ref: '#/components/schemas/SingleRefType'
+      type: object
+    SingleRefType:
+      enum:
+      - admin
+      - user
+      title: SingleRefType
+      type: string
     inline_response_default:
       example:
         string:

@@ -8,6 +8,7 @@ docs/Address.md
 docs/Animal.md
 docs/AnimalFarm.md
 docs/AnotherFakeApi.md
+docs/AnyTypeNotString.md
 docs/ApiResponse.md
 docs/Apple.md
 docs/AppleReq.md
@@ -79,6 +80,7 @@ docs/IntegerMin15.md
 docs/IsoscelesTriangle.md
 docs/IsoscelesTriangleAllOf.md
 docs/Mammal.md
+docs/MapBean.md
 docs/MapTest.md
 docs/MixedPropertiesAndAdditionalPropertiesClass.md
 docs/Model200Response.md
@@ -124,6 +126,7 @@ docs/StringWithValidation.md
 docs/Tag.md
 docs/Triangle.md
 docs/TriangleInterface.md
+docs/UUIDString.md
 docs/User.md
 docs/UserApi.md
 docs/Whale.md
@@ -148,6 +151,7 @@ petstore_api/model/additional_properties_with_array_of_enums.py
 petstore_api/model/address.py
 petstore_api/model/animal.py
 petstore_api/model/animal_farm.py
+petstore_api/model/any_type_not_string.py
 petstore_api/model/api_response.py
 petstore_api/model/apple.py
 petstore_api/model/apple_req.py
@@ -216,6 +220,7 @@ petstore_api/model/integer_min15.py
 petstore_api/model/isosceles_triangle.py
 petstore_api/model/isosceles_triangle_all_of.py
 petstore_api/model/mammal.py
+petstore_api/model/map_bean.py
 petstore_api/model/map_test.py
 petstore_api/model/mixed_properties_and_additional_properties_class.py
 petstore_api/model/model200_response.py
@@ -260,6 +265,7 @@ petstore_api/model/tag.py
 petstore_api/model/triangle.py
 petstore_api/model/triangle_interface.py
 petstore_api/model/user.py
+petstore_api/model/uuid_string.py
 petstore_api/model/whale.py
 petstore_api/model/zebra.py
 petstore_api/models/__init__.py

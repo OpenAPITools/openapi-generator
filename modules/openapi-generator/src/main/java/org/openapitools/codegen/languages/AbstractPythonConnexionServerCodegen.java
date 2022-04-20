@@ -32,8 +32,11 @@ import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
+import org.openapitools.codegen.model.ApiInfoMap;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -465,13 +468,11 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
         }
     }
 
-    @SuppressWarnings("unchecked")
-    private static List<Map<String, Object>> getOperations(Map<String, Object> objs) {
-        List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
-        Map<String, Object> apiInfo = (Map<String, Object>) objs.get("apiInfo");
-        List<Map<String, Object>> apis = (List<Map<String, Object>>) apiInfo.get("apis");
-        for (Map<String, Object> api : apis) {
-            result.add((Map<String, Object>) api.get("operations"));
+    private static List<OperationMap> getOperations(Map<String, Object> objs) {
+        List<OperationMap> result = new ArrayList<>();
+        ApiInfoMap apiInfo = (ApiInfoMap) objs.get("apiInfo");
+        for (OperationsMap api : apiInfo.getApis()) {
+            result.add(api.getOperations());
         }
         return result;
     }
@@ -483,9 +484,9 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
             opsByPath.put(op.path, op);
         }
 
-        List<Map<String, Object>> opsByPathList = new ArrayList<Map<String, Object>>();
+        List<Map<String, Object>> opsByPathList = new ArrayList<>();
         for (Map.Entry<String, Collection<CodegenOperation>> entry : opsByPath.asMap().entrySet()) {
-            Map<String, Object> opsByPathEntry = new HashMap<String, Object>();
+            Map<String, Object> opsByPathEntry = new HashMap<>();
             opsByPathList.add(opsByPathEntry);
             opsByPathEntry.put("path", entry.getKey());
             opsByPathEntry.put("operation", entry.getValue());
@@ -570,9 +571,8 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
         generateJSONSpecFile(objs);
         generateYAMLSpecFile(objs);
 
-        for (Map<String, Object> operations : getOperations(objs)) {
-            @SuppressWarnings("unchecked")
-            List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
+        for (OperationMap operations : getOperations(objs)) {
+            List<CodegenOperation> ops = operations.getOperation();
 
             List<Map<String, Object>> opsByPathList = sortOperationsByPath(ops);
             operations.put("operationsByPath", opsByPathList);
@@ -645,9 +645,9 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<ModelMap> allModels) {
-        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
-        List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        OperationMap operations = objs.getOperations();
+        List<CodegenOperation> operationList = operations.getOperation();
 
         for (CodegenOperation operation : operationList) {
             Map<String, String> skipTests = new HashMap<>();

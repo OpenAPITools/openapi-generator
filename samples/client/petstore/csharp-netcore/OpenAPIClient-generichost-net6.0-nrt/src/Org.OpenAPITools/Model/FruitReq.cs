@@ -34,8 +34,8 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="FruitReq" /> class.
         /// </summary>
-        /// <param name="appleReq">appleReq</param>
-        public FruitReq(AppleReq? appleReq)
+        /// <param name="appleReq"></param>
+        public FruitReq(AppleReq appleReq)
         {
             AppleReq = appleReq;
         }
@@ -43,21 +43,21 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="FruitReq" /> class.
         /// </summary>
-        /// <param name="bananaReq">bananaReq</param>
-        public FruitReq(BananaReq? bananaReq)
+        /// <param name="bananaReq"></param>
+        public FruitReq(BananaReq bananaReq)
         {
             BananaReq = bananaReq;
         }
 
         /// <summary>
-        /// Gets or Sets fruitReq
+        /// Gets or Sets AppleReq
         /// </summary>
-        public AppleReq? AppleReq { get; set; }
+        public AppleReq AppleReq { get; set; }
 
         /// <summary>
-        /// Gets or Sets fruitReq
+        /// Gets or Sets BananaReq
         /// </summary>
-        public BananaReq? BananaReq { get; set; }
+        public BananaReq BananaReq { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -143,10 +143,10 @@ namespace Org.OpenAPITools.Model
                 throw new JsonException();
 
             Utf8JsonReader appleReqReader = reader;
-            Client.ClientUtils.TryDeserialize<AppleReq>(ref appleReqReader, options, out AppleReq? appleReq);
+            bool appleReqDeserialized = Client.ClientUtils.TryDeserialize<AppleReq>(ref appleReqReader, options, out AppleReq? appleReq);
 
             Utf8JsonReader bananaReqReader = reader;
-            Client.ClientUtils.TryDeserialize<BananaReq>(ref bananaReqReader, options, out BananaReq? bananaReq);
+            bool bananaReqDeserialized = Client.ClientUtils.TryDeserialize<BananaReq>(ref bananaReqReader, options, out BananaReq? bananaReq);
 
 
             while (reader.Read())
@@ -165,10 +165,10 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (appleReq != null)
+            if (appleReqDeserialized)
                 return new FruitReq(appleReq);
 
-            if (bananaReq != null)
+            if (bananaReqDeserialized)
                 return new FruitReq(bananaReq);
 
             throw new JsonException();

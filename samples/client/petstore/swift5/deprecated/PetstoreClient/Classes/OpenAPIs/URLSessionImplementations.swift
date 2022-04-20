@@ -9,6 +9,12 @@ import Foundation
 import MobileCoreServices
 #endif
 
+public protocol URLSessionProtocol {
+    func dataTask(with request: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask
+}
+
+extension URLSession: URLSessionProtocol {}
+
 class URLSessionRequestBuilderFactory: RequestBuilderFactory {
     func getNonDecodableBuilder<T>() -> RequestBuilder<T>.Type {
         return URLSessionRequestBuilder<T>.self
@@ -57,7 +63,7 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T> {
      May be overridden by a subclass if you want to control the URLSession
      configuration.
      */
-    open func createURLSession() -> URLSession {
+    open func createURLSession() -> URLSessionProtocol {
         return defaultURLSession
     }
 
@@ -76,7 +82,7 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T> {
      May be overridden by a subclass if you want to control the URLRequest
      configuration (e.g. to override the cache policy).
      */
-    open func createURLRequest(urlSession: URLSession, method: HTTPMethod, encoding: ParameterEncoding, headers: [String: String]) throws -> URLRequest {
+    open func createURLRequest(urlSession: URLSessionProtocol, method: HTTPMethod, encoding: ParameterEncoding, headers: [String: String]) throws -> URLRequest {
 
         guard let url = URL(string: URLString) else {
             throw DownloadException.requestMissingURL

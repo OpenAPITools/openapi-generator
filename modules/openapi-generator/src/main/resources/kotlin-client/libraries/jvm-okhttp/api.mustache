@@ -38,6 +38,7 @@ import {{packageName}}.infrastructure.ClientError
 import {{packageName}}.infrastructure.ServerException
 import {{packageName}}.infrastructure.ServerError
 import {{packageName}}.infrastructure.MultiValueMap
+import {{packageName}}.infrastructure.PartConfig
 import {{packageName}}.infrastructure.RequestConfig
 import {{packageName}}.infrastructure.RequestMethod
 import {{packageName}}.infrastructure.ResponseType
@@ -169,7 +170,7 @@ import {{packageName}}.infrastructure.toMultiValue
         {{/isDeprecated}}
         val localVariableConfig = {{operationId}}RequestConfig({{#allParams}}{{{paramName}}} = {{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}})
 
-        return{{^doNotUseRxAndCoroutines}}{{#useCoroutines}}@withContext{{/useCoroutines}}{{/doNotUseRxAndCoroutines}} request<{{#hasBodyParam}}{{#bodyParams}}{{{dataType}}}{{/bodyParams}}{{/hasBodyParam}}{{^hasBodyParam}}{{^hasFormParams}}Unit{{/hasFormParams}}{{#hasFormParams}}Map<String, Any?>{{/hasFormParams}}{{/hasBodyParam}}, {{{returnType}}}{{^returnType}}Unit{{/returnType}}>(
+        return{{^doNotUseRxAndCoroutines}}{{#useCoroutines}}@withContext{{/useCoroutines}}{{/doNotUseRxAndCoroutines}} request<{{#hasBodyParam}}{{#bodyParams}}{{{dataType}}}{{/bodyParams}}{{/hasBodyParam}}{{^hasBodyParam}}{{^hasFormParams}}Unit{{/hasFormParams}}{{#hasFormParams}}Map<String, PartConfig<*>>{{/hasFormParams}}{{/hasBodyParam}}, {{{returnType}}}{{^returnType}}Unit{{/returnType}}>(
             localVariableConfig
         )
     }
@@ -183,8 +184,14 @@ import {{packageName}}.infrastructure.toMultiValue
     {{#isDeprecated}}
     @Deprecated(message = "This operation is deprecated.")
     {{/isDeprecated}}
-    fun {{operationId}}RequestConfig({{#allParams}}{{{paramName}}}: {{#isEnum}}{{#isContainer}}kotlin.collections.List<{{enumName}}_{{operationId}}>{{/isContainer}}{{^isContainer}}{{enumName}}_{{operationId}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}?{{/required}}{{^-last}}, {{/-last}}{{/allParams}}) : RequestConfig<{{#hasBodyParam}}{{#bodyParams}}{{{dataType}}}{{/bodyParams}}{{/hasBodyParam}}{{^hasBodyParam}}{{^hasFormParams}}Unit{{/hasFormParams}}{{#hasFormParams}}Map<String, Any?>{{/hasFormParams}}{{/hasBodyParam}}> {
-        val localVariableBody = {{#hasBodyParam}}{{#bodyParams}}{{{paramName}}}{{/bodyParams}}{{/hasBodyParam}}{{^hasBodyParam}}{{^hasFormParams}}null{{/hasFormParams}}{{#hasFormParams}}mapOf({{#formParams}}"{{{baseName}}}" to {{{paramName}}}{{^-last}}, {{/-last}}{{/formParams}}){{/hasFormParams}}{{/hasBodyParam}}
+    fun {{operationId}}RequestConfig({{#allParams}}{{{paramName}}}: {{#isEnum}}{{#isContainer}}kotlin.collections.List<{{enumName}}_{{operationId}}>{{/isContainer}}{{^isContainer}}{{enumName}}_{{operationId}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}?{{/required}}{{^-last}}, {{/-last}}{{/allParams}}) : RequestConfig<{{#hasBodyParam}}{{#bodyParams}}{{{dataType}}}{{/bodyParams}}{{/hasBodyParam}}{{^hasBodyParam}}{{^hasFormParams}}Unit{{/hasFormParams}}{{#hasFormParams}}Map<String, PartConfig<*>>{{/hasFormParams}}{{/hasBodyParam}}> {
+        val localVariableBody = {{#hasBodyParam}}{{!
+          }}{{#bodyParams}}{{{paramName}}}{{/bodyParams}}{{/hasBodyParam}}{{^hasBodyParam}}{{!
+          }}{{^hasFormParams}}null{{/hasFormParams}}{{!
+          }}{{#hasFormParams}}mapOf({{#formParams}}
+            "{{{baseName}}}" to PartConfig(body = {{{paramName}}}, headers = mutableMapOf({{#contentType}}"Content-Type" to "{{contentType}}"{{/contentType}})),{{!
+            }}{{/formParams}}){{/hasFormParams}}{{!
+        }}{{/hasBodyParam}}
         val localVariableQuery: MultiValueMap = {{^hasQueryParams}}mutableMapOf()
 {{/hasQueryParams}}{{#hasQueryParams}}mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {

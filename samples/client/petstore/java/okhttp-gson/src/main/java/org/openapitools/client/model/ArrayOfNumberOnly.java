@@ -192,6 +192,10 @@ public class ArrayOfNumberOnly {
           throw new IllegalArgumentException(String.format("The required field(s) %s in ArrayOfNumberOnly is not found in the empty JSON string", ArrayOfNumberOnly.openapiRequiredFields.toString()));
         }
       }
+      // ensure the json data is an array
+      if (jsonObj.get("ArrayNumber") != null && !jsonObj.get("ArrayNumber").isJsonArray()) {
+        throw new IllegalArgumentException(String.format("Expected the field `ArrayNumber` to be an array in the JSON string but got `%s`", jsonObj.get("ArrayNumber").toString()));
+      }
   }
 
   public static class CustomTypeAdapterFactory implements TypeAdapterFactory {

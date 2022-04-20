@@ -33,8 +33,11 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.ApiInfoMap;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
@@ -968,9 +971,9 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<ModelMap> allModels) {
-        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
-        List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        OperationMap operations = objs.getOperations();
+        List<CodegenOperation> operationList = operations.getOperation();
 
         for (CodegenOperation op : operationList) {
             postProcessOperationWithModels(op, allModels);
@@ -1370,12 +1373,9 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
      * @return true if any operation has a callback, false otherwise
      */
     private static boolean haveCallbacks(Map<String, Object> bundle) {
-        Map<String, Object> apiInfo = (Map<String, Object>) bundle.get("apiInfo");
-        List<Object> apis = (List<Object>) apiInfo.get("apis");
-        for (Object api : apis) {
-            Map<String, Object> apiData = (Map<String, Object>) api;
-            Map<String, Object> opss = (Map<String, Object>) apiData.get("operations");
-            List<CodegenOperation> ops = (List<CodegenOperation>) opss.get("operation");
+        ApiInfoMap apiInfo = (ApiInfoMap) bundle.get("apiInfo");
+        for (OperationsMap api : apiInfo.getApis()) {
+            List<CodegenOperation> ops = api.getOperations().getOperation();
             for (CodegenOperation op : ops) {
                 if (!op.callbacks.isEmpty()) {
                     return true;
