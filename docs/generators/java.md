@@ -56,6 +56,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |licenseName|The name of the license| |Unlicense|
 |licenseUrl|The URL of the license| |http://unlicense.org|
 |microprofileFramework|Framework for microprofile. Possible values &quot;kumuluzee&quot;| |null|
+|microprofileRestClientVersion|Version of MicroProfile Rest Client API.| |null|
 |modelPackage|package for generated models| |org.openapitools.client.model|
 |openApiNullable|Enable OpenAPI Jackson Nullable library| |true|
 |parcelableModel|Whether to generate models for Android that implement Parcelable with the okhttp-gson library.| |false|
