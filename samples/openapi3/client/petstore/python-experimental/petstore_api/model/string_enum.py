@@ -98,35 +98,33 @@ lines''': "MULTIPLE_LINES",
     @classmethod
     @property
     def PLACED(cls):
-        return cls._enum_by_value["placed"]("placed")
+        return cls("placed")
     
     @classmethod
     @property
     def APPROVED(cls):
-        return cls._enum_by_value["approved"]("approved")
+        return cls("approved")
     
     @classmethod
     @property
     def DELIVERED(cls):
-        return cls._enum_by_value["delivered"]("delivered")
+        return cls("delivered")
     
     @classmethod
     @property
     def SINGLE_QUOTED(cls):
-        return cls._enum_by_value["single quoted"]("single quoted")
+        return cls("single quoted")
     
     @classmethod
     @property
     def MULTIPLE_LINES(cls):
-        return cls._enum_by_value['''multiple
-lines''']('''multiple
+        return cls('''multiple
 lines''')
     
     @classmethod
     @property
     def DOUBLE_QUOTE_WITH_NEWLINE(cls):
-        return cls._enum_by_value['''double quote 
- with newline''']('''double quote 
+        return cls('''double quote 
  with newline''')
 
     def __new__(

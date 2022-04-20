@@ -28,8 +28,7 @@ class TestBooleanEnum(unittest.TestCase):
     def test_BooleanEnum(self):
         """Test BooleanEnum"""
         model = BooleanEnum(True)
-        # TODO why is BooleanEnum.TRUE.__class__ DynamicDynamicBooleanEnum? It should only have one Dynamic
-        # assert model is BooleanEnum.TRUE
+        assert model is BooleanEnum.TRUE
         assert repr(model) == '<DynamicBooleanEnum: True>'
         with self.assertRaises(petstore_api.ApiValueError):
             BooleanEnum(False)

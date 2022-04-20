@@ -91,7 +91,7 @@ class TriangleInterface(
         @classmethod
         @property
         def TRIANGLE(cls):
-            return cls._enum_by_value["Triangle"]("Triangle")
+            return cls("Triangle")
     triangleType = StrSchema
 
     def __new__(

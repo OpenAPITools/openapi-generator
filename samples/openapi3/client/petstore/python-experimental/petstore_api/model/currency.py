@@ -83,9 +83,9 @@ class Currency(
     @classmethod
     @property
     def EUR(cls):
-        return cls._enum_by_value["eur"]("eur")
+        return cls("eur")
     
     @classmethod
     @property
     def USD(cls):
-        return cls._enum_by_value["usd"]("usd")
+        return cls("usd")

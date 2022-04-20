@@ -87,17 +87,17 @@ class StatusSchema(
         @classmethod
         @property
         def AVAILABLE(cls):
-            return cls._enum_by_value["available"]("available")
+            return cls("available")
         
         @classmethod
         @property
         def PENDING(cls):
-            return cls._enum_by_value["pending"]("pending")
+            return cls("pending")
         
         @classmethod
         @property
         def SOLD(cls):
-            return cls._enum_by_value["sold"]("sold")
+            return cls("sold")
 RequestRequiredQueryParams = typing.TypedDict(
     'RequestRequiredQueryParams',
     {

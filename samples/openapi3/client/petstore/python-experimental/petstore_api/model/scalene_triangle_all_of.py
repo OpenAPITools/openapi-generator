@@ -87,7 +87,7 @@ class ScaleneTriangleAllOf(
         @classmethod
         @property
         def SCALENETRIANGLE(cls):
-            return cls._enum_by_value["ScaleneTriangle"]("ScaleneTriangle")
+            return cls("ScaleneTriangle")
 
 
     def __new__(
