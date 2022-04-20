@@ -38,7 +38,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class InlineModelResolver {
-    private OpenAPI openapi;
+    private OpenAPI openAPI;
     private Map<String, Schema> addedModels = new HashMap<String, Schema>();
     private Map<String, String> generatedSignature = new HashMap<String, String>();
     public boolean resolveInlineEnums = false;
@@ -53,29 +53,27 @@ public class InlineModelResolver {
         structureMapper.writer(new DefaultPrettyPrinter());
     }
 
-     final Logger LOGGER = LoggerFactory.getLogger(InlineModelResolver.class);
+    final Logger LOGGER = LoggerFactory.getLogger(InlineModelResolver.class);
 
-    void flatten(OpenAPI openapi) {
-        this.openapi = openapi;
+    void flatten(OpenAPI openAPI) {
+        this.openAPI = openAPI;
 
-        if (openapi.getComponents() == null) {
-            openapi.setComponents(new Components());
+        if (this.openAPI.getComponents() == null) {
+            this.openAPI.setComponents(new Components());
         }
 
-        if (openapi.getComponents().getSchemas() == null) {
-            openapi.getComponents().setSchemas(new HashMap<String, Schema>());
+        if (this.openAPI.getComponents().getSchemas() == null) {
+            this.openAPI.getComponents().setSchemas(new HashMap<String, Schema>());
         }
 
-        flattenPaths(openapi);
-        flattenComponents(openapi);
+        flattenPaths();
+        flattenComponents();
     }
 
     /**
      * Flatten inline models in Paths
-     *
-     * @param openAPI target spec
      */
-    private void flattenPaths(OpenAPI openAPI) {
+    private void flattenPaths() {
         Paths paths = openAPI.getPaths();
         if (paths == null) {
             return;
@@ -98,9 +96,9 @@ public class InlineModelResolver {
             }
 
             for (Operation operation : operations) {
-                flattenRequestBody(openAPI, pathname, operation);
-                flattenParameters(openAPI, pathname, operation);
-                flattenResponses(openAPI, pathname, operation);
+                flattenRequestBody(pathname, operation);
+                flattenParameters(pathname, operation);
+                flattenResponses(pathname, operation);
             }
         }
     }
@@ -108,7 +106,7 @@ public class InlineModelResolver {
     /**
      * Return false if model can be represented by primitives e.g. string, object
      * without properties, array or map of other model (model contanier), etc.
-     *
+     * <p>
      * Return true if a model should be generated e.g. object with properties,
      * enum, oneOf, allOf, anyOf, etc.
      *
@@ -311,11 +309,10 @@ public class InlineModelResolver {
     /**
      * Flatten inline models in RequestBody
      *
-     * @param openAPI target spec
-     * @param pathname target pathname
+     * @param pathname  target pathname
      * @param operation target operation
      */
-    private void flattenRequestBody(OpenAPI openAPI, String pathname, Operation operation) {
+    private void flattenRequestBody(String pathname, Operation operation) {
         RequestBody requestBody = operation.getRequestBody();
         if (requestBody == null) {
             return;
@@ -401,11 +398,10 @@ public class InlineModelResolver {
     /**
      * Flatten inline models in parameters
      *
-     * @param openAPI target spec
-     * @param pathname target pathname
+     * @param pathname  target pathname
      * @param operation target operation
      */
-    private void flattenParameters(OpenAPI openAPI, String pathname, Operation operation) {
+    private void flattenParameters(String pathname, Operation operation) {
         List<Parameter> parameters = operation.getParameters();
         if (parameters == null) {
             return;
@@ -459,11 +455,10 @@ public class InlineModelResolver {
     /**
      * Flatten inline models in ApiResponses
      *
-     * @param openAPI target spec
-     * @param pathname target pathname
+     * @param pathname  target pathname
      * @param operation target operation
      */
-    private void flattenResponses(OpenAPI openAPI, String pathname, Operation operation) {
+    private void flattenResponses(String pathname, Operation operation) {
         ApiResponses responses = operation.getResponses();
         if (responses == null) {
             return;
@@ -554,30 +549,29 @@ public class InlineModelResolver {
      * Flattens properties of inline object schemas that belong to a composed schema into a
      * single flat list of properties. This is useful to generate a single or multiple
      * inheritance model.
-     *
+     * <p>
      * In the example below, codegen may generate a 'Dog' class that extends from the
      * generated 'Animal' class. 'Dog' has additional properties 'name', 'age' and 'breed' that
      * are flattened as a single list of properties.
-     *
+     * <p>
      * Dog:
-     *   allOf:
-     *     - $ref: '#/components/schemas/Animal'
-     *     - type: object
-     *       properties:
-     *         name:
-     *           type: string
-     *         age:
-     *           type: string
-     *     - type: object
-     *       properties:
-     *         breed:
-     *           type: string
+     * allOf:
+     * - $ref: '#/components/schemas/Animal'
+     * - type: object
+     * properties:
+     * name:
+     * type: string
+     * age:
+     * type: string
+     * - type: object
+     * properties:
+     * breed:
+     * type: string
      *
-     * @param openAPI the OpenAPI document
-     * @param key a unique name ofr the composed schema.
+     * @param key      a unique name ofr the composed schema.
      * @param children the list of nested schemas within a composed schema (allOf, anyOf, oneOf).
      */
-    private void flattenComposedChildren(OpenAPI openAPI, String key, List<Schema> children) {
+    private void flattenComposedChildren(String key, List<Schema> children) {
         if (children == null || children.isEmpty()) {
             return;
         }
@@ -585,9 +579,9 @@ public class InlineModelResolver {
         while (listIterator.hasNext()) {
             Schema component = listIterator.next();
             if ((component != null) &&
-                (component.get$ref() == null) &&
-                ((component.getProperties() != null && !component.getProperties().isEmpty()) ||
-                 (component.getEnum() != null && !component.getEnum().isEmpty()))) {
+                    (component.get$ref() == null) &&
+                    ((component.getProperties() != null && !component.getProperties().isEmpty()) ||
+                            (component.getEnum() != null && !component.getEnum().isEmpty()))) {
                 // If a `title` attribute is defined in the inline schema, codegen uses it to name the
                 // inline schema. Otherwise, we'll use the default naming such as InlineObject1, etc.
                 // We know that this is not the best way to name the model.
@@ -618,10 +612,8 @@ public class InlineModelResolver {
 
     /**
      * Flatten inline models in components
-     *
-     * @param openAPI target spec
      */
-    private void flattenComponents(OpenAPI openAPI) {
+    private void flattenComponents() {
         Map<String, Schema> models = openAPI.getComponents().getSchemas();
         if (models == null) {
             return;
@@ -633,9 +625,9 @@ public class InlineModelResolver {
             if (ModelUtils.isComposedSchema(model)) {
                 ComposedSchema m = (ComposedSchema) model;
                 // inline child schemas
-                flattenComposedChildren(openAPI, modelName + "_allOf", m.getAllOf());
-                flattenComposedChildren(openAPI, modelName + "_anyOf", m.getAnyOf());
-                flattenComposedChildren(openAPI, modelName + "_oneOf", m.getOneOf());
+                flattenComposedChildren(modelName + "_allOf", m.getAllOf());
+                flattenComposedChildren(modelName + "_anyOf", m.getAnyOf());
+                flattenComposedChildren(modelName + "_oneOf", m.getOneOf());
             } else if (model instanceof Schema) {
                 //Schema m = model;
                 //Map<String, Schema> properties = m.getProperties();
@@ -695,12 +687,11 @@ public class InlineModelResolver {
     /**
      * Generates a unique model name. Non-alphanumeric characters will be replaced
      * with underscores
-     *
+     * <p>
      * e.g. io.schema.User_name => io_schema_User_name
      *
      * @param title String title field in the schema if present
-     * @param key String model name
-     *
+     * @param key   String model name
      * @return if provided the sanitized {@code title}, else the sanitized {@code key}
      */
     private String resolveModelName(String title, String key) {
@@ -739,24 +730,24 @@ public class InlineModelResolver {
 
     /**
      * Sanitizes the input so that it's valid name for a class or interface
-     *
+     * <p>
      * e.g. 12.schema.User name => _2_schema_User_name
      */
     private String sanitizeName(final String name) {
         return name
-            .replaceAll("^[0-9]", "_$0") // e.g. 12object => _12object
-            .replaceAll("[^A-Za-z0-9]", "_"); // e.g. io.schema.User name => io_schema_User_name
+                .replaceAll("^[0-9]", "_$0") // e.g. 12object => _12object
+                .replaceAll("[^A-Za-z0-9]", "_"); // e.g. io.schema.User name => io_schema_User_name
     }
 
     private String uniqueName(final String name) {
-        if (openapi.getComponents().getSchemas() == null) {
+        if (openAPI.getComponents().getSchemas() == null) {
             return name;
         }
 
         String uniqueName = name;
         int count = 0;
         while (true) {
-            if (!openapi.getComponents().getSchemas().containsKey(uniqueName)) {
+            if (!openAPI.getComponents().getSchemas().containsKey(uniqueName)) {
                 return uniqueName;
             }
             uniqueName = name + "_" + ++count;
@@ -789,7 +780,7 @@ public class InlineModelResolver {
                     propsToUpdate.put(key, schema);
                     modelsToAdd.put(modelName, model);
                     addGenerated(modelName, model);
-                    openapi.getComponents().addSchemas(modelName, model);
+                    openAPI.getComponents().addSchemas(modelName, model);
                 }
             } else if (property instanceof ArraySchema) {
                 ArraySchema ap = (ArraySchema) property;
@@ -810,7 +801,7 @@ public class InlineModelResolver {
                             schema.setRequired(op.getRequired());
                             ap.setItems(schema);
                             addGenerated(modelName, innerModel);
-                            openapi.getComponents().addSchemas(modelName, innerModel);
+                            openAPI.getComponents().addSchemas(modelName, innerModel);
                         }
                     }
                 }
@@ -833,7 +824,7 @@ public class InlineModelResolver {
                             schema.setRequired(op.getRequired());
                             property.setAdditionalProperties(schema);
                             addGenerated(modelName, innerModel);
-                            openapi.getComponents().addSchemas(modelName, innerModel);
+                            openAPI.getComponents().addSchemas(modelName, innerModel);
                         }
                     }
                 }
@@ -845,7 +836,7 @@ public class InlineModelResolver {
             }
         }
         for (String key : modelsToAdd.keySet()) {
-            openapi.getComponents().addSchemas(key, modelsToAdd.get(key));
+            openAPI.getComponents().addSchemas(key, modelsToAdd.get(key));
             this.addedModels.put(key, modelsToAdd.get(key));
         }
     }
@@ -912,10 +903,11 @@ public class InlineModelResolver {
      * Resolve namespace conflicts using:
      * title (if title exists) or
      * prefix + suffix (if title not specified)
+     *
      * @param prefix used to form name if no title found in schema
      * @param suffix used to form name if no title found in schema
      * @param schema title property used to form name if exists and schema definition used
-     *   to create new schema if doesn't exist
+     *               to create new schema if doesn't exist
      * @return a new schema or $ref to an existing one if it was already created
      */
     private Schema makeSchemaResolve(String prefix, String suffix, Schema schema) {
@@ -944,7 +936,7 @@ public class InlineModelResolver {
             }
             refSchema = new Schema().$ref(name);
             addGenerated(name, schema);
-            openapi.getComponents().addSchemas(name, schema);
+            openAPI.getComponents().addSchemas(name, schema);
         }
         this.copyVendorExtensions(schema, refSchema);
         return refSchema;
@@ -973,7 +965,7 @@ public class InlineModelResolver {
     private void copyVendorExtensions(Schema source, Schema target) {
         Map<String, Object> vendorExtensions = source.getExtensions();
         if (vendorExtensions == null) {
-             return;
+            return;
         }
         for (String extName : vendorExtensions.keySet()) {
             target.addExtension(extName, vendorExtensions.get(extName));
