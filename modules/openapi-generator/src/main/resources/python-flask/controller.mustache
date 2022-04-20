@@ -3,6 +3,7 @@ import six
 
 {{#imports}}{{import}}  # noqa: E501
 {{/imports}}
+from {{packageName}} import impl
 from {{packageName}} import util
 {{#operations}}
 {{#operation}}
@@ -107,6 +108,11 @@ def {{operationId}}({{#allParams}}{{paramName}}{{^required}}=None{{/required}}{{
             {{/items}}
         {{/isMap}}
     {{/allParams}}
-    return 'do some magic!'
+
+    return impl.{{operationId}}(
+    {{#allParams}}
+        {{paramName}}{{^required}}={{paramName}}{{/required}},  # noqa: E501
+    {{/allParams}}
+    )
 {{/operation}}
 {{/operations}}
