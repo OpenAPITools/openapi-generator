@@ -1439,7 +1439,7 @@ with petstore_api.ApiClient(configuration) as api_client:
     query_params = {
         'compositionAtRoot': None,
         'compositionInProperty': dict(
-        some_prop=None,
+        some_prop="some_prop_example",
     ),
     }
     body = None

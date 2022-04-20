@@ -55,7 +55,6 @@ docs/StoreApi.md
 docs/Tag.md
 docs/User.md
 docs/UserApi.md
-docs/UserType.md
 git_push.sh
 mocha.opts
 package.json
@@ -114,4 +113,3 @@ src/model/Return.js
 src/model/SpecialModelName.js
 src/model/Tag.js
 src/model/User.js
-src/model/UserType.js
