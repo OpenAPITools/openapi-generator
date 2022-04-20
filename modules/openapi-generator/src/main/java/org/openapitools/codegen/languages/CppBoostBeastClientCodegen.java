@@ -415,7 +415,6 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
         }
 
         modelName = toModelName(type);
-        modelName = modelName.replaceFirst("^([0-9_])", "Model$1");
         return modelName;
     }
 
