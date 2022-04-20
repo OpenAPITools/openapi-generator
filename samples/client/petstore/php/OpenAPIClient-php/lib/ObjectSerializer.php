@@ -269,7 +269,7 @@ class ObjectSerializer
         } elseif (is_bool($value)) {
             return $value ? 'true' : 'false';
         } else {
-            return $value;
+            return (string) $value;
         }
     }
 
