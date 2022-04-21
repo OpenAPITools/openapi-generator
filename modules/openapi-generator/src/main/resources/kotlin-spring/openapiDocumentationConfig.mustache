@@ -3,7 +3,6 @@ package {{basePackage}}
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-
 import org.springframework.web.util.UriComponentsBuilder
 import springfox.documentation.builders.ApiInfoBuilder
 import springfox.documentation.builders.RequestHandlerSelectors
@@ -14,8 +13,6 @@ import springfox.documentation.spring.web.paths.Paths
 import springfox.documentation.spring.web.paths.RelativePathProvider
 import springfox.documentation.spring.web.plugins.Docket
 import springfox.documentation.swagger2.annotations.EnableSwagger2
-
-import javax.annotation.Generated
 import javax.servlet.ServletContext
 
 {{>generatedAnnotation}}
@@ -37,7 +34,7 @@ class SpringFoxConfiguration {
 
     @Bean
 {{=<% %>=}}
-    fun customImplementation(servletContext: ServletContext, @Value("${openapi.<%title%>.base-path:<%>defaultBasePath%>}") basePath: String): Docket {
+    fun customImplementation(servletContext: ServletContext, @Value("\${openapi.<%title%>.base-path:<%>defaultBasePath%>}") basePath: String): Docket {
 <%={{ }}=%>
         return Docket(DocumentationType.SWAGGER_2)
                 .select()
