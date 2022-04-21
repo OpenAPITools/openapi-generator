@@ -274,7 +274,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         final String invokerFolder = (sourceFolder + '/' + invokerPackage).replace(".", "/");
 
-        if (additionalProperties.get(CodegenConstants.ARTIFACT_ID).equals("platform-client-v2")) {
+        if (additionalProperties.get(CodegenConstants.ARTIFACT_ID).equals("platform-client-v2") || additionalProperties.get(CodegenConstants.ARTIFACT_ID).equals("purecloud-guest-chat-client")) {
             supportingFiles.add(new SupportingFile("pom.xml", "", "pom.xml"));
             supportingFiles.add(new SupportingFile("props.properties.mustache", "", "props.properties"));
         } else {

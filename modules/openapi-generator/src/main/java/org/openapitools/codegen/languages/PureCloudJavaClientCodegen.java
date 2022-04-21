@@ -51,10 +51,12 @@ public class PureCloudJavaClientCodegen extends JavaClientCodegen {
         reservedWords.add("request");
 
         operationTemplateFiles.put("requestBuilder.mustache", ".java");
-
+        supportingFiles.add(new SupportingFile("testng.mustache", "", "testng.xml"));
+        apiDocTemplateFiles.put("api_json.mustache", ".json");
         supportingFiles.add(new SupportingFile("testng-unit.mustache", "", "testng-unit.xml").doNotOverwrite());
         supportingFiles.add(new SupportingFile("testng-integration.mustache", "", "testng-integration.xml").doNotOverwrite());
-
+        apiDocTemplateFiles.put("api_json.mustache", ".json");
+        operationTemplateFiles.put("operation_example.mustache", "-example.txt");
         additionalProperties.put(CodegenConstants.INVOKER_PACKAGE, "com.mypurecloud.sdk.v2");
 
         setRemoveEnumValuePrefix(false);

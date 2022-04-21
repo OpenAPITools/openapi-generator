@@ -27,6 +27,8 @@ public class PureCloudGoClientCodegen extends GoClientCodegen {
         // Mainly used for API types of Map<string, Object>, which are objects with additional properties of type object
         typeMapping.put("object", "interface{}");
         typeMapping.put("local-date-time", "time.Time");
+        apiDocTemplateFiles.put("api_json.mustache", ".json");
+        operationTemplateFiles.put("operation_example.mustache", "-example.txt");
     }
 
     @Override

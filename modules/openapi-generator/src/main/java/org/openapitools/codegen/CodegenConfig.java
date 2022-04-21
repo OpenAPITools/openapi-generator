@@ -204,6 +204,8 @@ public interface CodegenConfig {
 
     String operationFilename(String templateName, String tag);
 
+    String operationIdFilename(String templateName, String tag);
+
     String apiTestFilename(String templateName, String tag);
 
     String apiDocFilename(String templateName, String tag);

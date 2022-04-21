@@ -30,6 +30,9 @@ public class PureCloudDotNetClientCodegen extends CSharpClientCodegen {
         typeMapping.put("decimal", "double");
         typeMapping.put("decimal?", "double?");
 
+        apiDocTemplateFiles.put("api_json.mustache", ".json");
+        operationTemplateFiles.put("operation_example.mustache", "-example.txt");
+
         reservedWords.addAll(
                 Arrays.asList(
                         // set "client" as a reserved word to avoid conflicts with Org.OpenAPITools.Client

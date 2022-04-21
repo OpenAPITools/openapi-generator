@@ -749,6 +749,10 @@ public class DefaultGenerator implements Generator {
 
                     // Determine filename
                     String filename = config.operationFilename(templateName, operationData.get("classname").toString());
+                    // HACK: this file specifically will be named based on the unadulterated operation ID and placed in the docs folder so it can be programmatically accessed; this workaround was done to avoid breaking existing functionality
+                    if (templateName.equals("operation_example.mustache")) {
+                        filename = config.operationIdFilename(templateName, apiOperation.operationId);
+                    }
                     if (!config.shouldOverwrite(filename) && new File(filename).exists()) {
                         LOGGER.info("Skipped overwriting " + filename);
                         continue;

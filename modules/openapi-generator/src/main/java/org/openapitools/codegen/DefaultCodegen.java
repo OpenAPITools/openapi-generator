@@ -1437,6 +1437,11 @@ public abstract class DefaultCodegen implements CodegenConfig {
         return apiPackage() + "." + name;
     }
 
+    public String operationIdFilename(String templateName, String tag) {
+        String suffix = operationTemplateFiles().get(templateName);
+        return apiDocFileFolder() + '/' + tag + suffix;
+    }
+
     /**
      * Default constructor.
      * This method will map between OAS type and language-specified type, as well as mapping

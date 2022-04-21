@@ -11,6 +11,7 @@ import java.util.*;
 
 public class GoCliClientCodegen extends PureCloudGoClientCodegen {
     protected Logger LOGGER = LoggerFactory.getLogger(GoCliClientCodegen.class);
+    private static String ORIGINAL_OPERATION_ID_PROPERTY_NAME = "x-genesys-original-operation-id";
 
     public GoCliClientCodegen() {
         super();
@@ -40,15 +41,13 @@ public class GoCliClientCodegen extends PureCloudGoClientCodegen {
 
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
             setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
-        }
-        else {
+        } else {
             setPackageName("swagger");
         }
 
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_VERSION)) {
             setPackageVersion((String) additionalProperties.get(CodegenConstants.PACKAGE_VERSION));
-        }
-        else {
+        } else {
             setPackageVersion("1.0.0");
         }
 
@@ -67,6 +66,8 @@ public class GoCliClientCodegen extends PureCloudGoClientCodegen {
         supportingFiles.add(new SupportingFile("root.mustache", "/gc/cmd", "root.go"));
         apiTemplateFiles.put("api.mustache", ".go");
         modelTemplateFiles.put("model.mustache", ".go");
+        apiDocTemplateFiles.put("api_json.mustache", ".json");
+        operationTemplateFiles.put("operation_example.mustache", "-example.txt");
     }
 
     public String modelFileFolder() {
@@ -137,8 +138,14 @@ public class GoCliClientCodegen extends PureCloudGoClientCodegen {
             opList = new ArrayList<CodegenOperation>();
             operations.put(tag, opList);
         }
-
         co.operationIdLowerCase = co.operationId.toLowerCase(Locale.getDefault());
+        // Set original operationId from pre-processed swagger file
+        if (operation.getExtensions().containsKey(ORIGINAL_OPERATION_ID_PROPERTY_NAME)) {
+            co.originalOperationId = operation.getExtensions().get(ORIGINAL_OPERATION_ID_PROPERTY_NAME).toString();
+            if (!StringUtils.isBlank(co.originalOperationId)) {
+                co.operationIdLowerCase = co.originalOperationId.toLowerCase(Locale.getDefault());
+            }
+        }
         opList.add(co);
         co.baseName = tag;
     }

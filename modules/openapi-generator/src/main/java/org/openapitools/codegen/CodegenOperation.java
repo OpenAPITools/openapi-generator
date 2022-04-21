@@ -64,6 +64,7 @@ public class CodegenOperation {
     public String operationIdLowerCase; // for markdown documentation
     public String operationIdCamelCase; // for class names
     public String operationIdSnakeCase;
+    public String originalOperationId; // for markdown documentation
 
     public String getTypeScriptResponseType() {
         CodegenResponse defaultResponseType = null;
@@ -444,7 +445,8 @@ public class CodegenOperation {
                 Objects.equals(operationIdOriginal, that.operationIdOriginal) &&
                 Objects.equals(operationIdLowerCase, that.operationIdLowerCase) &&
                 Objects.equals(operationIdCamelCase, that.operationIdCamelCase) &&
-                Objects.equals(operationIdSnakeCase, that.operationIdSnakeCase);
+                Objects.equals(operationIdSnakeCase, that.operationIdSnakeCase) &&
+                Objects.equals(originalOperationId, that.originalOperationId);
     }
 
     @Override
@@ -459,6 +461,6 @@ public class CodegenOperation {
                 produces, prioritizedContentTypes, servers, bodyParam, allParams, bodyParams, pathParams, queryParams,
                 headerParams, formParams, cookieParams, requiredParams, optionalParams, authMethods, tags,
                 responses, callbacks, imports, examples, requestBodyExamples, externalDocs, vendorExtensions,
-                nickname, operationIdOriginal, operationIdLowerCase, operationIdCamelCase, operationIdSnakeCase);
+                nickname, operationIdOriginal, operationIdLowerCase, operationIdCamelCase, operationIdSnakeCase, originalOperationId);
     }
 }
