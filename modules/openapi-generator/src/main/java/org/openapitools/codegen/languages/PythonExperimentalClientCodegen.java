@@ -70,11 +70,13 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
     // nose is a python testing framework, we use pytest if USE_NOSE is unset
     public static final String USE_NOSE = "useNose";
     public static final String RECURSION_LIMIT = "recursionLimit";
+    public static final String USE_INLINE_MODEL_RESOLVER = "useInlineModelResolver";
 
     protected String packageUrl;
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
-    protected boolean useNose = Boolean.FALSE;
+    protected boolean useNose = false;
+    protected boolean useInlineModelResolver = false;
 
     protected Map<Character, String> regexModifiers;
 
@@ -192,6 +194,8 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         cliOptions.add(CliOption.newBoolean(USE_NOSE, "use the nose test framework").
                 defaultValue(Boolean.FALSE.toString()));
         cliOptions.add(new CliOption(RECURSION_LIMIT, "Set the recursion limit. If not set, use the system default value."));
+        cliOptions.add(CliOption.newBoolean(USE_INLINE_MODEL_RESOLVER, "use the inline model resolver, if true inline complex models will be extracted into components and $refs to them will be used").
+                defaultValue(Boolean.FALSE.toString()));
 
         supportedLibraries.put("urllib3", "urllib3-based client");
         CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use: urllib3");
@@ -260,7 +264,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         }
 
         modelTemplateFiles.put("model." + templateExtension, ".py");
-            apiTemplateFiles.put("api." + templateExtension, ".py");
+        apiTemplateFiles.put("api." + templateExtension, ".py");
         modelTestTemplateFiles.put("model_test." + templateExtension, ".py");
         apiTestTemplateFiles.put("api_test." + templateExtension, ".py");
         modelDocTemplateFiles.put("model_doc." + templateExtension, ".md");
@@ -319,6 +323,10 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
 
         if (additionalProperties.containsKey(USE_NOSE)) {
             setUseNose((String) additionalProperties.get(USE_NOSE));
+        }
+
+        if (additionalProperties.containsKey(USE_INLINE_MODEL_RESOLVER)) {
+            setUseInlineModelResolver((String) additionalProperties.get(USE_INLINE_MODEL_RESOLVER));
         }
 
         // check to see if setRecursionLimit is set and whether it's an integer
@@ -2235,6 +2243,13 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
 
     public void setUseNose(String val) {
         this.useNose = Boolean.parseBoolean(val);
+    }
+
+    @Override
+    public boolean getUseInlineModelResolver() { return useInlineModelResolver; }
+
+    public void setUseInlineModelResolver(String val) {
+        this.useInlineModelResolver = Boolean.parseBoolean(val);
     }
 
     public void setPackageUrl(String packageUrl) {

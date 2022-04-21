@@ -7429,4 +7429,7 @@ public class DefaultCodegen implements CodegenConfig {
     public List<VendorExtension> getSupportedVendorExtensions() {
         return new ArrayList<>();
     }
+
+    @Override
+    public boolean getUseInlineModelResolver() { return true; }
 }
