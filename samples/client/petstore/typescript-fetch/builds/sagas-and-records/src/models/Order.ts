@@ -66,7 +66,6 @@ export const OrderStatusEnum = {
     Approved: 'approved',
     Delivered: 'delivered'
 } as const;
-
 export type OrderStatusEnum = typeof OrderStatusEnum[keyof typeof OrderStatusEnum];
 
 

@@ -707,6 +707,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     private void commonJvmMultiplatformSupportingFiles(String infrastructureFolder) {
         supportingFiles.add(new SupportingFile("infrastructure/ApiClient.kt.mustache", infrastructureFolder, "ApiClient.kt"));
         supportingFiles.add(new SupportingFile("infrastructure/ApiAbstractions.kt.mustache", infrastructureFolder, "ApiAbstractions.kt"));
+        supportingFiles.add(new SupportingFile("infrastructure/PartConfig.kt.mustache", infrastructureFolder, "PartConfig.kt"));
         supportingFiles.add(new SupportingFile("infrastructure/RequestConfig.kt.mustache", infrastructureFolder, "RequestConfig.kt"));
         supportingFiles.add(new SupportingFile("infrastructure/RequestMethod.kt.mustache", infrastructureFolder, "RequestMethod.kt"));
     }
