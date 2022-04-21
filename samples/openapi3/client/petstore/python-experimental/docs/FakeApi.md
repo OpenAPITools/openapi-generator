@@ -1422,7 +1422,7 @@ testing composed schemas at inline locations
 ```python
 import petstore_api
 from petstore_api.api import fake_api
-from petstore_api.model.composition_in_property import CompositionInProperty
+from petstore_api.model.str_bool_date_datetime_dict_float_int_list_str_none_type import StrBoolDateDatetimeDictFloatIntListStrNoneType
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -1439,7 +1439,7 @@ with petstore_api.ApiClient(configuration) as api_client:
     query_params = {
         'compositionAtRoot': None,
         'compositionInProperty': dict(
-        some_prop="some_prop_example",
+        some_prop=None,
     ),
     }
     body = None
@@ -1501,7 +1501,7 @@ Name | Type | Description | Notes
 #### CompositionInPropertySchema
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**{str: (bool, date, datetime, dict, float, int, list, str, none_type)}**](CompositionInProperty.md) |  | 
+[**{str: (bool, date, datetime, dict, float, int, list, str, none_type)}**]({str: (bool, date, datetime, dict, float, int, list, str, none_type)}.md) |  | 
 
 
 ### Return Types, Responses
@@ -1882,7 +1882,7 @@ user list
 ```python
 import petstore_api
 from petstore_api.api import fake_api
-from petstore_api.model.map_bean import MapBean
+from petstore_api.model.str_bool_date_datetime_dict_float_int_list_str_none_type import StrBoolDateDatetimeDictFloatIntListStrNoneType
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -1929,7 +1929,7 @@ mapBean | MapBeanSchema | | optional
 #### MapBeanSchema
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**{str: (bool, date, datetime, dict, float, int, list, str, none_type)}**](MapBean.md) |  | 
+[**{str: (bool, date, datetime, dict, float, int, list, str, none_type)}**]({str: (bool, date, datetime, dict, float, int, list, str, none_type)}.md) |  | 
 
 
 ### Return Types, Responses

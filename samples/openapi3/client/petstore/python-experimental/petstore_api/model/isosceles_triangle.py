@@ -84,10 +84,46 @@ class IsoscelesTriangle(
         # code would be run when this module is imported, and these composed
         # classes don't exist yet because their module has not finished
         # loading
+        
+        
+        class allOf_1(
+            DictSchema
+        ):
+            
+            
+            class triangleType(
+                _SchemaEnumMaker(
+                    enum_value_to_name={
+                        "IsoscelesTriangle": "ISOSCELESTRIANGLE",
+                    }
+                ),
+                StrSchema
+            ):
+                
+                @classmethod
+                @property
+                def ISOSCELESTRIANGLE(cls):
+                    return cls("IsoscelesTriangle")
+        
+        
+            def __new__(
+                cls,
+                *args: typing.Union[dict, frozendict, ],
+                triangleType: typing.Union[triangleType, Unset] = unset,
+                _configuration: typing.Optional[Configuration] = None,
+                **kwargs: typing.Type[Schema],
+            ) -> 'allOf_1':
+                return super().__new__(
+                    cls,
+                    *args,
+                    triangleType=triangleType,
+                    _configuration=_configuration,
+                    **kwargs,
+                )
         return {
             'allOf': [
                 TriangleInterface,
-                IsoscelesTriangleAllOf,
+                allOf_1,
             ],
             'oneOf': [
             ],
@@ -110,5 +146,4 @@ class IsoscelesTriangle(
             **kwargs,
         )
 
-from petstore_api.model.isosceles_triangle_all_of import IsoscelesTriangleAllOf
 from petstore_api.model.triangle_interface import TriangleInterface
