@@ -18,7 +18,10 @@ import org.springframework.web.bind.annotation.GetMapping
 {{/useSwaggerUI}}
 {{/sourceDocumentationProvider}}
 {{#reactive}}
+import org.springframework.web.reactive.function.server.HandlerFunction
+import org.springframework.web.reactive.function.server.RequestPredicates.GET
 import org.springframework.web.reactive.function.server.RouterFunction
+import org.springframework.web.reactive.function.server.RouterFunctions.route
 import org.springframework.web.reactive.function.server.ServerResponse
 {{/reactive}}
 {{#sourceDocumentationProvider}}
@@ -31,11 +34,6 @@ import java.net.URI
 {{#sourceDocumentationProvider}}
 import java.nio.charset.Charset
 {{/sourceDocumentationProvider}}
-{{#reactive}}
-
-import static org.springframework.web.reactive.function.server.RequestPredicates.GET
-import static org.springframework.web.reactive.function.server.RouterFunctions.route
-{{/reactive}}
 
 /**
  * Home redirection to OpenAPI api documentation
@@ -84,9 +82,9 @@ class HomeController {
 
     @Bean
     fun index(): RouterFunction<ServerResponse> = route(
-        GET("/"),
-        req -> ServerResponse.temporaryRedirect(URI.create("swagger-ui.html")).build()
-    )
+        GET("/"), HandlerFunction<ServerResponse> {
+            ServerResponse.temporaryRedirect(URI.create("swagger-ui.html")).build()
+        })
 {{/reactive}}
 {{^reactive}}
 
