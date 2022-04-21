@@ -65,7 +65,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
     @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_UUID)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public UUID getUuid() {
+    public UUID getUuid() {
         return uuid;
     }
 
@@ -89,7 +89,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
     @JsonProperty(JSON_PROPERTY_DATE_TIME)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXXX")
-       public OffsetDateTime getDateTime() {
+    public OffsetDateTime getDateTime() {
         return dateTime;
     }
 
@@ -121,7 +121,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
     @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_MAP)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public Map<String, Animal> getMap() {
+    public Map<String, Animal> getMap() {
         return map;
     }
 

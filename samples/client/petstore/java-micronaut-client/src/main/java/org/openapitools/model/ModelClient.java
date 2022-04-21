@@ -52,7 +52,7 @@ public class ModelClient {
     @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_CLIENT)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public String getClient() {
+    public String getClient() {
         return _client;
     }
 

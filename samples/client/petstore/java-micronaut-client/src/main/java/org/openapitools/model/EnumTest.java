@@ -203,7 +203,7 @@ public class EnumTest {
     @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_ENUM_STRING)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public EnumStringEnum getEnumString() {
+    public EnumStringEnum getEnumString() {
         return enumString;
     }
 
@@ -226,7 +226,7 @@ public class EnumTest {
     @ApiModelProperty(required = true, value = "")
     @JsonProperty(JSON_PROPERTY_ENUM_STRING_REQUIRED)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
-       public EnumStringRequiredEnum getEnumStringRequired() {
+    public EnumStringRequiredEnum getEnumStringRequired() {
         return enumStringRequired;
     }
 
@@ -249,7 +249,7 @@ public class EnumTest {
     @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_ENUM_INTEGER)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public EnumIntegerEnum getEnumInteger() {
+    public EnumIntegerEnum getEnumInteger() {
         return enumInteger;
     }
 
@@ -272,7 +272,7 @@ public class EnumTest {
     @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_ENUM_NUMBER)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public EnumNumberEnum getEnumNumber() {
+    public EnumNumberEnum getEnumNumber() {
         return enumNumber;
     }
 
@@ -295,7 +295,7 @@ public class EnumTest {
     @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_OUTER_ENUM)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public OuterEnum getOuterEnum() {
+    public OuterEnum getOuterEnum() {
         return outerEnum;
     }
 

@@ -50,7 +50,7 @@ public class ReadOnlyFirst {
     @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_BAR)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public String getBar() {
+    public String getBar() {
         return bar;
     }
 
@@ -67,7 +67,7 @@ public class ReadOnlyFirst {
     @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_BAZ)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public String getBaz() {
+    public String getBaz() {
         return baz;
     }
 

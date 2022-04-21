@@ -69,7 +69,7 @@ public class Animal {
     @ApiModelProperty(required = true, value = "")
     @JsonProperty(JSON_PROPERTY_CLASS_NAME)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
-       public String getClassName() {
+    public String getClassName() {
         return className;
     }
 
@@ -92,7 +92,7 @@ public class Animal {
     @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_COLOR)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public String getColor() {
+    public String getColor() {
         return color;
     }
 
