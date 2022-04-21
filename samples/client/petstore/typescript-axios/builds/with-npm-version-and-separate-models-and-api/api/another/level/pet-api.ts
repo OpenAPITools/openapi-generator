@@ -13,13 +13,13 @@
  */
 
 
-import globalAxios, { AxiosPromise, AxiosInstance, AxiosRequestConfig } from 'axios';
-import { Configuration } from '../../../configuration';
+import globalAxios, { type AxiosPromise, type AxiosInstance, type AxiosRequestConfig } from 'axios';
+import type { Configuration } from '../../../configuration';
 // Some imports not used depending on template conditions
 // @ts-ignore
 import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, setSearchParams, serializeDataIfNeeded, toPathString, createRequestFunction } from '../../../common';
 // @ts-ignore
-import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from '../../../base';
+import { BASE_PATH, COLLECTION_FORMATS, type RequestArgs, BaseAPI, RequiredError } from '../../../base';
 // @ts-ignore
 import { ApiResponse } from '../../../model/some/levels/deep';
 // @ts-ignore
@@ -34,10 +34,10 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
          * 
          * @summary Add a new pet to the store
          * @param {Pet} body Pet object that needs to be added to the store
-         * @param {*} [options] Override http request option.
+         * @param {*} [axiosOptions] Override http request option.
          * @throws {RequiredError}
          */
-        addPet: async (body: Pet, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        addPet: async (body: Pet, axiosOptions: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'body' is not null or undefined
             assertParamExists('addPet', 'body', body)
             const localVarPath = `/pet`;
@@ -48,7 +48,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
                 baseOptions = configuration.baseOptions;
             }
 
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...axiosOptions};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -62,7 +62,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...axiosOptions.headers};
             localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
 
             return {
@@ -75,10 +75,10 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
          * @summary Deletes a pet
          * @param {number} petId Pet id to delete
          * @param {string} [apiKey] 
-         * @param {*} [options] Override http request option.
+         * @param {*} [axiosOptions] Override http request option.
          * @throws {RequiredError}
          */
-        deletePet: async (petId: number, apiKey?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        deletePet: async (petId: number, apiKey?: string, axiosOptions: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'petId' is not null or undefined
             assertParamExists('deletePet', 'petId', petId)
             const localVarPath = `/pet/{petId}`
@@ -90,7 +90,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
                 baseOptions = configuration.baseOptions;
             }
 
-            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...axiosOptions};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -106,7 +106,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
     
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...axiosOptions.headers};
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -117,10 +117,10 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
          * Multiple status values can be provided with comma separated strings
          * @summary Finds Pets by status
          * @param {Array<'available' | 'pending' | 'sold'>} status Status values that need to be considered for filter
-         * @param {*} [options] Override http request option.
+         * @param {*} [axiosOptions] Override http request option.
          * @throws {RequiredError}
          */
-        findPetsByStatus: async (status: Array<'available' | 'pending' | 'sold'>, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        findPetsByStatus: async (status: Array<'available' | 'pending' | 'sold'>, axiosOptions: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'status' is not null or undefined
             assertParamExists('findPetsByStatus', 'status', status)
             const localVarPath = `/pet/findByStatus`;
@@ -131,7 +131,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
                 baseOptions = configuration.baseOptions;
             }
 
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...axiosOptions};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -147,7 +147,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
     
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...axiosOptions.headers};
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -158,11 +158,11 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
          * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
          * @summary Finds Pets by tags
          * @param {Array<string>} tags Tags to filter by
-         * @param {*} [options] Override http request option.
+         * @param {*} [axiosOptions] Override http request option.
          * @deprecated
          * @throws {RequiredError}
          */
-        findPetsByTags: async (tags: Array<string>, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        findPetsByTags: async (tags: Array<string>, axiosOptions: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'tags' is not null or undefined
             assertParamExists('findPetsByTags', 'tags', tags)
             const localVarPath = `/pet/findByTags`;
@@ -173,7 +173,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
                 baseOptions = configuration.baseOptions;
             }
 
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...axiosOptions};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -189,7 +189,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
     
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...axiosOptions.headers};
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -200,10 +200,10 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
          * Returns a single pet
          * @summary Find pet by ID
          * @param {number} petId ID of pet to return
-         * @param {*} [options] Override http request option.
+         * @param {*} [axiosOptions] Override http request option.
          * @throws {RequiredError}
          */
-        getPetById: async (petId: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getPetById: async (petId: number, axiosOptions: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'petId' is not null or undefined
             assertParamExists('getPetById', 'petId', petId)
             const localVarPath = `/pet/{petId}`
@@ -215,7 +215,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
                 baseOptions = configuration.baseOptions;
             }
 
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...axiosOptions};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -226,7 +226,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
     
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...axiosOptions.headers};
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -237,10 +237,10 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
          * 
          * @summary Update an existing pet
          * @param {Pet} body Pet object that needs to be added to the store
-         * @param {*} [options] Override http request option.
+         * @param {*} [axiosOptions] Override http request option.
          * @throws {RequiredError}
          */
-        updatePet: async (body: Pet, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        updatePet: async (body: Pet, axiosOptions: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'body' is not null or undefined
             assertParamExists('updatePet', 'body', body)
             const localVarPath = `/pet`;
@@ -251,7 +251,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
                 baseOptions = configuration.baseOptions;
             }
 
-            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...axiosOptions};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -265,7 +265,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...axiosOptions.headers};
             localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
 
             return {
@@ -279,10 +279,10 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
          * @param {number} petId ID of pet that needs to be updated
          * @param {string} [name] Updated name of the pet
          * @param {string} [status] Updated status of the pet
-         * @param {*} [options] Override http request option.
+         * @param {*} [axiosOptions] Override http request option.
          * @throws {RequiredError}
          */
-        updatePetWithForm: async (petId: number, name?: string, status?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        updatePetWithForm: async (petId: number, name?: string, status?: string, axiosOptions: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'petId' is not null or undefined
             assertParamExists('updatePetWithForm', 'petId', petId)
             const localVarPath = `/pet/{petId}`
@@ -294,7 +294,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
                 baseOptions = configuration.baseOptions;
             }
 
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...axiosOptions};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
             const localVarFormParams = new URLSearchParams();
@@ -317,7 +317,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
     
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...axiosOptions.headers};
             localVarRequestOptions.data = localVarFormParams.toString();
 
             return {
@@ -331,10 +331,10 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
          * @param {number} petId ID of pet to update
          * @param {string} [additionalMetadata] Additional data to pass to server
          * @param {any} [file] file to upload
-         * @param {*} [options] Override http request option.
+         * @param {*} [axiosOptions] Override http request option.
          * @throws {RequiredError}
          */
-        uploadFile: async (petId: number, additionalMetadata?: string, file?: any, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        uploadFile: async (petId: number, additionalMetadata?: string, file?: any, axiosOptions: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'petId' is not null or undefined
             assertParamExists('uploadFile', 'petId', petId)
             const localVarPath = `/pet/{petId}/uploadImage`
@@ -346,7 +346,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
                 baseOptions = configuration.baseOptions;
             }
 
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...axiosOptions};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
             const localVarFormParams = new ((configuration && configuration.formDataCtor) || FormData)();
@@ -369,7 +369,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
     
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...axiosOptions.headers};
             localVarRequestOptions.data = localVarFormParams;
 
             return {
@@ -391,11 +391,11 @@ export const PetApiFp = function(configuration?: Configuration) {
          * 
          * @summary Add a new pet to the store
          * @param {Pet} body Pet object that needs to be added to the store
-         * @param {*} [options] Override http request option.
+         * @param {*} [axiosOptions] Override http request option.
          * @throws {RequiredError}
          */
-        async addPet(body: Pet, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.addPet(body, options);
+        async addPet(body: Pet, axiosOptions?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.addPet(body, axiosOptions);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -403,56 +403,56 @@ export const PetApiFp = function(configuration?: Configuration) {
          * @summary Deletes a pet
          * @param {number} petId Pet id to delete
          * @param {string} [apiKey] 
-         * @param {*} [options] Override http request option.
+         * @param {*} [axiosOptions] Override http request option.
          * @throws {RequiredError}
          */
-        async deletePet(petId: number, apiKey?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.deletePet(petId, apiKey, options);
+        async deletePet(petId: number, apiKey?: string, axiosOptions?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deletePet(petId, apiKey, axiosOptions);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * Multiple status values can be provided with comma separated strings
          * @summary Finds Pets by status
          * @param {Array<'available' | 'pending' | 'sold'>} status Status values that need to be considered for filter
-         * @param {*} [options] Override http request option.
+         * @param {*} [axiosOptions] Override http request option.
          * @throws {RequiredError}
          */
-        async findPetsByStatus(status: Array<'available' | 'pending' | 'sold'>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Pet>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.findPetsByStatus(status, options);
+        async findPetsByStatus(status: Array<'available' | 'pending' | 'sold'>, axiosOptions?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Pet>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.findPetsByStatus(status, axiosOptions);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
          * @summary Finds Pets by tags
          * @param {Array<string>} tags Tags to filter by
-         * @param {*} [options] Override http request option.
+         * @param {*} [axiosOptions] Override http request option.
          * @deprecated
          * @throws {RequiredError}
          */
-        async findPetsByTags(tags: Array<string>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Pet>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.findPetsByTags(tags, options);
+        async findPetsByTags(tags: Array<string>, axiosOptions?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Pet>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.findPetsByTags(tags, axiosOptions);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * Returns a single pet
          * @summary Find pet by ID
          * @param {number} petId ID of pet to return
-         * @param {*} [options] Override http request option.
+         * @param {*} [axiosOptions] Override http request option.
          * @throws {RequiredError}
          */
-        async getPetById(petId: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Pet>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getPetById(petId, options);
+        async getPetById(petId: number, axiosOptions?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Pet>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getPetById(petId, axiosOptions);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * 
          * @summary Update an existing pet
          * @param {Pet} body Pet object that needs to be added to the store
-         * @param {*} [options] Override http request option.
+         * @param {*} [axiosOptions] Override http request option.
          * @throws {RequiredError}
          */
-        async updatePet(body: Pet, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.updatePet(body, options);
+        async updatePet(body: Pet, axiosOptions?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updatePet(body, axiosOptions);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -461,11 +461,11 @@ export const PetApiFp = function(configuration?: Configuration) {
          * @param {number} petId ID of pet that needs to be updated
          * @param {string} [name] Updated name of the pet
          * @param {string} [status] Updated status of the pet
-         * @param {*} [options] Override http request option.
+         * @param {*} [axiosOptions] Override http request option.
          * @throws {RequiredError}
          */
-        async updatePetWithForm(petId: number, name?: string, status?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.updatePetWithForm(petId, name, status, options);
+        async updatePetWithForm(petId: number, name?: string, status?: string, axiosOptions?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updatePetWithForm(petId, name, status, axiosOptions);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -474,11 +474,11 @@ export const PetApiFp = function(configuration?: Configuration) {
          * @param {number} petId ID of pet to update
          * @param {string} [additionalMetadata] Additional data to pass to server
          * @param {any} [file] file to upload
-         * @param {*} [options] Override http request option.
+         * @param {*} [axiosOptions] Override http request option.
          * @throws {RequiredError}
          */
-        async uploadFile(petId: number, additionalMetadata?: string, file?: any, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApiResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.uploadFile(petId, additionalMetadata, file, options);
+        async uploadFile(petId: number, additionalMetadata?: string, file?: any, axiosOptions?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApiResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.uploadFile(petId, additionalMetadata, file, axiosOptions);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -495,63 +495,63 @@ export const PetApiFactory = function (configuration?: Configuration, basePath?:
          * 
          * @summary Add a new pet to the store
          * @param {Pet} body Pet object that needs to be added to the store
-         * @param {*} [options] Override http request option.
+         * @param {*} [axiosOptions] Override http request option.
          * @throws {RequiredError}
          */
-        addPet(body: Pet, options?: any): AxiosPromise<void> {
-            return localVarFp.addPet(body, options).then((request) => request(axios, basePath));
+        addPet(body: Pet, axiosOptions?: any): AxiosPromise<void> {
+            return localVarFp.addPet(body, axiosOptions).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary Deletes a pet
          * @param {number} petId Pet id to delete
          * @param {string} [apiKey] 
-         * @param {*} [options] Override http request option.
+         * @param {*} [axiosOptions] Override http request option.
          * @throws {RequiredError}
          */
-        deletePet(petId: number, apiKey?: string, options?: any): AxiosPromise<void> {
-            return localVarFp.deletePet(petId, apiKey, options).then((request) => request(axios, basePath));
+        deletePet(petId: number, apiKey?: string, axiosOptions?: any): AxiosPromise<void> {
+            return localVarFp.deletePet(petId, apiKey, axiosOptions).then((request) => request(axios, basePath));
         },
         /**
          * Multiple status values can be provided with comma separated strings
          * @summary Finds Pets by status
          * @param {Array<'available' | 'pending' | 'sold'>} status Status values that need to be considered for filter
-         * @param {*} [options] Override http request option.
+         * @param {*} [axiosOptions] Override http request option.
          * @throws {RequiredError}
          */
-        findPetsByStatus(status: Array<'available' | 'pending' | 'sold'>, options?: any): AxiosPromise<Array<Pet>> {
-            return localVarFp.findPetsByStatus(status, options).then((request) => request(axios, basePath));
+        findPetsByStatus(status: Array<'available' | 'pending' | 'sold'>, axiosOptions?: any): AxiosPromise<Array<Pet>> {
+            return localVarFp.findPetsByStatus(status, axiosOptions).then((request) => request(axios, basePath));
         },
         /**
          * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
          * @summary Finds Pets by tags
          * @param {Array<string>} tags Tags to filter by
-         * @param {*} [options] Override http request option.
+         * @param {*} [axiosOptions] Override http request option.
          * @deprecated
          * @throws {RequiredError}
          */
-        findPetsByTags(tags: Array<string>, options?: any): AxiosPromise<Array<Pet>> {
-            return localVarFp.findPetsByTags(tags, options).then((request) => request(axios, basePath));
+        findPetsByTags(tags: Array<string>, axiosOptions?: any): AxiosPromise<Array<Pet>> {
+            return localVarFp.findPetsByTags(tags, axiosOptions).then((request) => request(axios, basePath));
         },
         /**
          * Returns a single pet
          * @summary Find pet by ID
          * @param {number} petId ID of pet to return
-         * @param {*} [options] Override http request option.
+         * @param {*} [axiosOptions] Override http request option.
          * @throws {RequiredError}
          */
-        getPetById(petId: number, options?: any): AxiosPromise<Pet> {
-            return localVarFp.getPetById(petId, options).then((request) => request(axios, basePath));
+        getPetById(petId: number, axiosOptions?: any): AxiosPromise<Pet> {
+            return localVarFp.getPetById(petId, axiosOptions).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary Update an existing pet
          * @param {Pet} body Pet object that needs to be added to the store
-         * @param {*} [options] Override http request option.
+         * @param {*} [axiosOptions] Override http request option.
          * @throws {RequiredError}
          */
-        updatePet(body: Pet, options?: any): AxiosPromise<void> {
-            return localVarFp.updatePet(body, options).then((request) => request(axios, basePath));
+        updatePet(body: Pet, axiosOptions?: any): AxiosPromise<void> {
+            return localVarFp.updatePet(body, axiosOptions).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -559,11 +559,11 @@ export const PetApiFactory = function (configuration?: Configuration, basePath?:
          * @param {number} petId ID of pet that needs to be updated
          * @param {string} [name] Updated name of the pet
          * @param {string} [status] Updated status of the pet
-         * @param {*} [options] Override http request option.
+         * @param {*} [axiosOptions] Override http request option.
          * @throws {RequiredError}
          */
-        updatePetWithForm(petId: number, name?: string, status?: string, options?: any): AxiosPromise<void> {
-            return localVarFp.updatePetWithForm(petId, name, status, options).then((request) => request(axios, basePath));
+        updatePetWithForm(petId: number, name?: string, status?: string, axiosOptions?: any): AxiosPromise<void> {
+            return localVarFp.updatePetWithForm(petId, name, status, axiosOptions).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -571,11 +571,11 @@ export const PetApiFactory = function (configuration?: Configuration, basePath?:
          * @param {number} petId ID of pet to update
          * @param {string} [additionalMetadata] Additional data to pass to server
          * @param {any} [file] file to upload
-         * @param {*} [options] Override http request option.
+         * @param {*} [axiosOptions] Override http request option.
          * @throws {RequiredError}
          */
-        uploadFile(petId: number, additionalMetadata?: string, file?: any, options?: any): AxiosPromise<ApiResponse> {
-            return localVarFp.uploadFile(petId, additionalMetadata, file, options).then((request) => request(axios, basePath));
+        uploadFile(petId: number, additionalMetadata?: string, file?: any, axiosOptions?: any): AxiosPromise<ApiResponse> {
+            return localVarFp.uploadFile(petId, additionalMetadata, file, axiosOptions).then((request) => request(axios, basePath));
         },
     };
 };
@@ -591,12 +591,12 @@ export class PetApi extends BaseAPI {
      * 
      * @summary Add a new pet to the store
      * @param {Pet} body Pet object that needs to be added to the store
-     * @param {*} [options] Override http request option.
+     * @param {*} [axiosOptions] Override http request option.
      * @throws {RequiredError}
      * @memberof PetApi
      */
-    public addPet(body: Pet, options?: AxiosRequestConfig) {
-        return PetApiFp(this.configuration).addPet(body, options).then((request) => request(this.axios, this.basePath));
+    public addPet(body: Pet, axiosOptions?: AxiosRequestConfig) {
+        return PetApiFp(this.configuration).addPet(body, axiosOptions).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -604,61 +604,61 @@ export class PetApi extends BaseAPI {
      * @summary Deletes a pet
      * @param {number} petId Pet id to delete
      * @param {string} [apiKey] 
-     * @param {*} [options] Override http request option.
+     * @param {*} [axiosOptions] Override http request option.
      * @throws {RequiredError}
      * @memberof PetApi
      */
-    public deletePet(petId: number, apiKey?: string, options?: AxiosRequestConfig) {
-        return PetApiFp(this.configuration).deletePet(petId, apiKey, options).then((request) => request(this.axios, this.basePath));
+    public deletePet(petId: number, apiKey?: string, axiosOptions?: AxiosRequestConfig) {
+        return PetApiFp(this.configuration).deletePet(petId, apiKey, axiosOptions).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Multiple status values can be provided with comma separated strings
      * @summary Finds Pets by status
      * @param {Array<'available' | 'pending' | 'sold'>} status Status values that need to be considered for filter
-     * @param {*} [options] Override http request option.
+     * @param {*} [axiosOptions] Override http request option.
      * @throws {RequiredError}
      * @memberof PetApi
      */
-    public findPetsByStatus(status: Array<'available' | 'pending' | 'sold'>, options?: AxiosRequestConfig) {
-        return PetApiFp(this.configuration).findPetsByStatus(status, options).then((request) => request(this.axios, this.basePath));
+    public findPetsByStatus(status: Array<'available' | 'pending' | 'sold'>, axiosOptions?: AxiosRequestConfig) {
+        return PetApiFp(this.configuration).findPetsByStatus(status, axiosOptions).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      * @summary Finds Pets by tags
      * @param {Array<string>} tags Tags to filter by
-     * @param {*} [options] Override http request option.
+     * @param {*} [axiosOptions] Override http request option.
      * @deprecated
      * @throws {RequiredError}
      * @memberof PetApi
      */
-    public findPetsByTags(tags: Array<string>, options?: AxiosRequestConfig) {
-        return PetApiFp(this.configuration).findPetsByTags(tags, options).then((request) => request(this.axios, this.basePath));
+    public findPetsByTags(tags: Array<string>, axiosOptions?: AxiosRequestConfig) {
+        return PetApiFp(this.configuration).findPetsByTags(tags, axiosOptions).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Returns a single pet
      * @summary Find pet by ID
      * @param {number} petId ID of pet to return
-     * @param {*} [options] Override http request option.
+     * @param {*} [axiosOptions] Override http request option.
      * @throws {RequiredError}
      * @memberof PetApi
      */
-    public getPetById(petId: number, options?: AxiosRequestConfig) {
-        return PetApiFp(this.configuration).getPetById(petId, options).then((request) => request(this.axios, this.basePath));
+    public getPetById(petId: number, axiosOptions?: AxiosRequestConfig) {
+        return PetApiFp(this.configuration).getPetById(petId, axiosOptions).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary Update an existing pet
      * @param {Pet} body Pet object that needs to be added to the store
-     * @param {*} [options] Override http request option.
+     * @param {*} [axiosOptions] Override http request option.
      * @throws {RequiredError}
      * @memberof PetApi
      */
-    public updatePet(body: Pet, options?: AxiosRequestConfig) {
-        return PetApiFp(this.configuration).updatePet(body, options).then((request) => request(this.axios, this.basePath));
+    public updatePet(body: Pet, axiosOptions?: AxiosRequestConfig) {
+        return PetApiFp(this.configuration).updatePet(body, axiosOptions).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -667,12 +667,12 @@ export class PetApi extends BaseAPI {
      * @param {number} petId ID of pet that needs to be updated
      * @param {string} [name] Updated name of the pet
      * @param {string} [status] Updated status of the pet
-     * @param {*} [options] Override http request option.
+     * @param {*} [axiosOptions] Override http request option.
      * @throws {RequiredError}
      * @memberof PetApi
      */
-    public updatePetWithForm(petId: number, name?: string, status?: string, options?: AxiosRequestConfig) {
-        return PetApiFp(this.configuration).updatePetWithForm(petId, name, status, options).then((request) => request(this.axios, this.basePath));
+    public updatePetWithForm(petId: number, name?: string, status?: string, axiosOptions?: AxiosRequestConfig) {
+        return PetApiFp(this.configuration).updatePetWithForm(petId, name, status, axiosOptions).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -681,11 +681,11 @@ export class PetApi extends BaseAPI {
      * @param {number} petId ID of pet to update
      * @param {string} [additionalMetadata] Additional data to pass to server
      * @param {any} [file] file to upload
-     * @param {*} [options] Override http request option.
+     * @param {*} [axiosOptions] Override http request option.
      * @throws {RequiredError}
      * @memberof PetApi
      */
-    public uploadFile(petId: number, additionalMetadata?: string, file?: any, options?: AxiosRequestConfig) {
-        return PetApiFp(this.configuration).uploadFile(petId, additionalMetadata, file, options).then((request) => request(this.axios, this.basePath));
+    public uploadFile(petId: number, additionalMetadata?: string, file?: any, axiosOptions?: AxiosRequestConfig) {
+        return PetApiFp(this.configuration).uploadFile(petId, additionalMetadata, file, axiosOptions).then((request) => request(this.axios, this.basePath));
     }
 }
