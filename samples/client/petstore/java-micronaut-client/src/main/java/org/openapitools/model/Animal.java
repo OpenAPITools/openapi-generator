@@ -156,9 +156,9 @@ public class Animal {
      * @param <R> the return type of the visitor
      */
     public interface Visitor<R> {
-        public R visitBigCat(BigCat value);
-        public R visitCat(Cat value);
-        public R visitDog(Dog value);
+        R visitBigCat(BigCat value);
+        R visitCat(Cat value);
+        R visitDog(Dog value);
     }
 
 }

@@ -373,7 +373,7 @@ Declare the class with extends and implements
      */
     public interface Visitor<R> {
         {{#discriminator.mappedModels}}
-        public R visit{{modelName}}({{modelName}} value);
+        R visit{{modelName}}({{modelName}} value);
         {{/discriminator.mappedModels}}
     }
 
