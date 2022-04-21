@@ -17,6 +17,9 @@
 
 package org.openapitools.codegen;
 
+import org.openapitools.codegen.languages.PureCloudJavaScriptClientCodegen;
+
+import java.sql.SQLOutput;
 import java.util.*;
 
 public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperties {
@@ -192,6 +195,14 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     private boolean additionalPropertiesIsAnyType;
     private boolean hasVars;
     private boolean hasRequired;
+
+    public String getTypeScriptType() {
+        // special case.
+        if (baseType.equals("Array") && jsonSchema.contains("#/components/schemas/Number")) {
+            return "Array<Models.Number>";
+        }
+        return PureCloudJavaScriptClientCodegen.getTypeScriptResponseType(dataType);
+    }
 
     public String getBaseName() {
         return baseName;

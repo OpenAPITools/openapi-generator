@@ -96,23 +96,6 @@ public class JavascriptClientCodegenTest {
         Assert.assertFalse(property2.isContainer);
     }
 
-    @Test(description = "test isDefualt in the response")
-    public void testResponseIsDefault() throws Exception {
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/petstore.yaml");
-        final DefaultCodegen codegen = new DefaultCodegen();
-        codegen.setOpenAPI(openAPI);
-
-        Operation textOperation = openAPI.getPaths().get("/user").getPost();
-        CodegenOperation coText = codegen.fromOperation("/user", "post", textOperation, null);
-
-        for (CodegenResponse cr : coText.responses) {
-            Assert.assertTrue(cr.isDefault);
-        }
-
-        Assert.assertEquals(coText.responses.size(), 1);
-
-    }
-
     @Test(description = "test multiple file upload collection is correct")
     public void testMultipleFileUpload() throws Exception {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/form-multipart-binary-array.yaml");

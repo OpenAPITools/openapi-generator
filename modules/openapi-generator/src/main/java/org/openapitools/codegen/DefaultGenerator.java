@@ -913,6 +913,7 @@ public class DefaultGenerator implements Generator {
             LOGGER.info("############ Supporting file info ############");
             Json.prettyPrint(bundle);
         }
+
         return bundle;
     }
 

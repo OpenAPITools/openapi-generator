@@ -1,5 +1,4 @@
 # {{moduleName}}.{{classname}}{{#description}}
-
 {{description}}{{/description}}
 
 All URIs are relative to *{{basePath}}*
@@ -11,72 +10,50 @@ Method | HTTP request | Description
 
 {{#operations}}
 {{#operation}}
-
-## {{operationId}}
-
-> {{#returnType}}{{returnType}} {{/returnType}}{{operationId}}({{#requiredParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#optionalParams}}{{#-last}}{{#hasRequiredParams}}, {{/hasRequiredParams}}opts{{/-last}}{{/optionalParams}})
+<a name="{{operationId}}"></a>
+# **{{operationId}}**
+> {{#returnType}}{{returnType}} {{/returnType}}{{operationId}}({{#allParams}}{{#required}}{{{paramName}}}{{#vendorExtensions.x-codegen-hasMoreRequired}}, {{/vendorExtensions.x-codegen-hasMoreRequired}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{{#vendorExtensions.x-codegen-hasRequiredParams}}, {{/vendorExtensions.x-codegen-hasRequiredParams}}opts{{/hasOptionalParams}})
 
 {{summary}}{{#notes}}
 
 {{notes}}{{/notes}}
 
 ### Example
-
 ```javascript
 var {{{moduleName}}} = require('{{{projectName}}}');
 {{#hasAuthMethods}}
-var defaultClient = {{{moduleName}}}.ApiClient.instance;
-{{#authMethods}}
-{{#isBasic}}
-{{#isBasicBasic}}
+var defaultClient = {{{moduleName}}}.ApiClient.default;
+{{#authMethods}}{{#isBasic}}
 // Configure HTTP basic authorization: {{{name}}}
 var {{{name}}} = defaultClient.authentications['{{{name}}}'];
 {{{name}}}.username = 'YOUR USERNAME';
-{{{name}}}.password = 'YOUR PASSWORD';
-{{/isBasicBasic}}
-{{#isBasicBearer}}
-// Configure Bearer{{#bearerFormat}} ({{{.}}}){{/bearerFormat}} access token for authorization: {{{name}}}
-var {{{name}}} = defaultClient.authentications['{{{name}}}'];
-{{{name}}}.accessToken = 'YOUR ACCESS TOKEN';
-{{/isBasicBearer}}
-{{/isBasic}}
-{{#isApiKey}}
+{{{name}}}.password = 'YOUR PASSWORD';{{/isBasic}}{{#isApiKey}}
 // Configure API key authorization: {{{name}}}
 var {{{name}}} = defaultClient.authentications['{{{name}}}'];
 {{{name}}}.apiKey = 'YOUR API KEY';
 // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
-//{{{name}}}.apiKeyPrefix = 'Token';
-{{/isApiKey}}
-{{#isOAuth}}
+//{{{name}}}.apiKeyPrefix = 'Token';{{/isApiKey}}{{#isOAuth}}
 // Configure OAuth2 access token for authorization: {{{name}}}
 var {{{name}}} = defaultClient.authentications['{{{name}}}'];
-{{{name}}}.accessToken = 'YOUR ACCESS TOKEN';
-{{/isOAuth}}
+{{{name}}}.accessToken = 'YOUR ACCESS TOKEN';{{/isOAuth}}
 {{/authMethods}}
 {{/hasAuthMethods}}
 
-var apiInstance = new {{{moduleName}}}.{{{classname}}}();
-{{#requiredParams}}
+var apiInstance = new {{{moduleName}}}.{{{classname}}}();{{#hasParams}}
+{{#vendorExtensions.x-codegen-hasRequiredParams}}{{#allParams}}{{#required}}
 var {{{paramName}}} = {{{example}}}; // {{{dataType}}} | {{{description}}}
-{{/requiredParams}}
-{{#optionalParams}}
-{{#-first}}
-var opts = {
-{{/-first}}
-  '{{{paramName}}}': {{{example}}}{{^-last}},{{/-last}} // {{{dataType}}} | {{{description}}}
-{{#-last}}
-};
-{{/-last}}
-{{/optionalParams}}
+{{/required}}{{/allParams}}{{/vendorExtensions.x-codegen-hasRequiredParams}}{{#hasOptionalParams}}
+var opts = { {{#allParams}}{{^required}}
+  '{{{paramName}}}': {{{example}}}{{#vendorExtensions.x-codegen-hasMoreOptional}},{{/vendorExtensions.x-codegen-hasMoreOptional}} // {{{dataType}}} | {{{description}}}{{/required}}{{/allParams}}
+};{{/hasOptionalParams}}{{/hasParams}}
 {{#usePromises}}
-apiInstance.{{{operationId}}}({{#requiredParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#optionalParams}}{{#-last}}{{#hasRequiredParams}}, {{/hasRequiredParams}}opts{{/-last}}{{/optionalParams}}).then(function({{#returnType}}data{{/returnType}}) {
+apiInstance.{{{operationId}}}({{#allParams}}{{#required}}{{{paramName}}}{{#vendorExtensions.x-codegen-hasMoreRequired}}, {{/vendorExtensions.x-codegen-hasMoreRequired}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{{#vendorExtensions.x-codegen-hasRequiredParams}}, {{/vendorExtensions.x-codegen-hasRequiredParams}}opts{{/hasOptionalParams}}).then(function({{#returnType}}data{{/returnType}}) {
   {{#returnType}}console.log('API called successfully. Returned data: ' + data);{{/returnType}}{{^returnType}}console.log('API called successfully.');{{/returnType}}
 }, function(error) {
   console.error(error);
 });
 
-{{/usePromises}}
-{{^usePromises}}
+{{/usePromises}}{{^usePromises}}
 var callback = function(error, data, response) {
   if (error) {
     console.error(error);
@@ -84,14 +61,12 @@ var callback = function(error, data, response) {
     {{#returnType}}console.log('API called successfully. Returned data: ' + data);{{/returnType}}{{^returnType}}console.log('API called successfully.');{{/returnType}}
   }
 };
-apiInstance.{{{operationId}}}({{#requiredParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#optionalParams}}{{#-last}}{{#hasRequiredParams}}, {{/hasRequiredParams}}opts{{/-last}}{{/optionalParams}}{{#hasParams}}, {{/hasParams}}callback);
+apiInstance.{{{operationId}}}({{#allParams}}{{#required}}{{{paramName}}}{{#vendorExtensions.x-codegen-hasMoreRequired}}, {{/vendorExtensions.x-codegen-hasMoreRequired}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{{#vendorExtensions.x-codegen-hasRequiredParams}}, {{/vendorExtensions.x-codegen-hasRequiredParams}}opts{{/hasOptionalParams}}{{#hasParams}}, {{/hasParams}}callback);
 {{/usePromises}}
 ```
 
 ### Parameters
-
 {{^allParams}}This endpoint does not need any parameter.{{/allParams}}{{#allParams}}{{#-last}}
-
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------{{/-last}}{{/allParams}}
 {{#allParams}} **{{paramName}}** | {{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}{{#isFile}}**{{dataType}}**{{/isFile}}{{^isFile}}[**{{dataType}}**]({{baseType}}.md){{/isFile}}{{/isPrimitiveType}}| {{description}} | {{^required}}[optional] {{/required}}{{#defaultValue}}[default to {{defaultValue}}]{{/defaultValue}}
@@ -107,8 +82,8 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
-- **Content-Type**: {{#consumes}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/consumes}}{{^consumes}}Not defined{{/consumes}}
-- **Accept**: {{#produces}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/produces}}{{^produces}}Not defined{{/produces}}
+ - **Content-Type**: {{#consumes}}{{mediaType}}{{#hasMore}}, {{/hasMore}}{{/consumes}}{{^consumes}}Not defined{{/consumes}}
+ - **Accept**: {{#produces}}{{mediaType}}{{#hasMore}}, {{/hasMore}}{{/produces}}{{^produces}}Not defined{{/produces}}
 
 {{/operation}}
 {{/operations}}

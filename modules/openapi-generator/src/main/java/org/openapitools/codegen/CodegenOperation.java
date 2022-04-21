@@ -23,6 +23,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.swagger.v3.oas.models.ExternalDocumentation;
 import io.swagger.v3.oas.models.tags.Tag;
+import org.openapitools.codegen.languages.PureCloudJavaScriptClientCodegen;
 
 import java.util.*;
 
@@ -63,6 +64,22 @@ public class CodegenOperation {
     public String operationIdLowerCase; // for markdown documentation
     public String operationIdCamelCase; // for class names
     public String operationIdSnakeCase;
+
+    public String getTypeScriptResponseType() {
+        CodegenResponse defaultResponseType = null;
+        // Find the default response. Should be a 2xx response
+        for (CodegenResponse cr : responses) {
+            if (cr.is2xx) {
+                defaultResponseType = cr;
+                break;
+            }
+        }
+        // No default means the 2xx response doesn't have a body
+        if (defaultResponseType == null || defaultResponseType.dataType == null) {
+            return "void";
+        }
+        return PureCloudJavaScriptClientCodegen.getTypeScriptResponseType(defaultResponseType.dataType);
+    }
 
     /**
      * Returns a list of permissions

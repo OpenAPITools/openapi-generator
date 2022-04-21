@@ -17,6 +17,8 @@
 
 package org.openapitools.codegen;
 
+import org.openapitools.codegen.languages.PureCloudJavaScriptClientCodegen;
+
 import java.util.*;
 
 /**
@@ -211,6 +213,22 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
         output.contentType = this.contentType;
 
         return output;
+    }
+
+    public String getTypeScriptType() {
+        String computedDataType = dataType;
+        if (isBodyParam && isFreeFormObject) {
+            computedDataType = "Object";
+        }
+        // Body params have dataType of Object since the JS SDK doesn't use models (see PureCloudJavaScriptClientCodegen::setParameterExampleValue()),
+        // but the typescript model should have the actual type
+        if (Boolean.TRUE.equals(isBodyParam) && dataType != null && dataType.equals("Object")) {
+            computedDataType = baseType;
+            if (Boolean.TRUE.equals(isContainer) && !computedDataType.startsWith("[")) {
+                computedDataType = "[" + computedDataType + "]";
+            }
+        }
+        return PureCloudJavaScriptClientCodegen.getTypeScriptResponseType(computedDataType);
     }
 
     @Override
