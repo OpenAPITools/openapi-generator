@@ -21,7 +21,7 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
 
-    static final Logger LOGGER = LoggerFactory.getLogger(CppBoostBeastClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(CppBoostBeastClientCodegen.class);
 
     public CodegenType getTag() {
         return CodegenType.CLIENT;
