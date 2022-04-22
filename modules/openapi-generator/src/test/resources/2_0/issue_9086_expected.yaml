@@ -11,7 +11,7 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/inline_response_200'
+                $ref: '#/components/schemas/_foo_bar_inline_response_200'
 
   /foo/bar2:
     post:
@@ -31,7 +31,7 @@ components:
         n:
           type: number
           example: 4.56
-    inline_response_200:
+    _foo_bar_inline_response_200:
       type: object
       example: { n: 1.23 }
       properties:

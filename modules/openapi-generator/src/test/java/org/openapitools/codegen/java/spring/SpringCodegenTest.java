@@ -517,8 +517,8 @@ public class SpringCodegenTest {
         generator.opts(input).generate();
 
         JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/ExampleApi.java"))
-            .assertMethod("exampleApiPost", "InlineObject")
-            .hasParameter("inlineObject")
+            .assertMethod("exampleApiPost", "ExampleApiInlineObject")
+            .hasParameter("exampleApiInlineObject")
             .assertParameterAnnotations()
             .containsWithNameAndAttributes("RequestBody", ImmutableMap.of("required", "false"));
 
