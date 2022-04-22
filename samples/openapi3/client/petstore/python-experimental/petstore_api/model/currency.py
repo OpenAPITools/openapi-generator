@@ -31,6 +31,7 @@ from petstore_api.schemas import (  # noqa: F401
     Float32Schema,
     Float64Schema,
     NumberSchema,
+    UUIDSchema,
     DateSchema,
     DateTimeSchema,
     DecimalSchema,
@@ -52,6 +53,7 @@ from petstore_api.schemas import (  # noqa: F401
     Float32Base,
     Float64Base,
     NumberBase,
+    UUIDBase,
     DateBase,
     DateTimeBase,
     BoolBase,
@@ -81,9 +83,9 @@ class Currency(
     @classmethod
     @property
     def EUR(cls):
-        return cls._enum_by_value["eur"]("eur")
+        return cls("eur")
     
     @classmethod
     @property
     def USD(cls):
-        return cls._enum_by_value["usd"]("usd")
+        return cls("usd")

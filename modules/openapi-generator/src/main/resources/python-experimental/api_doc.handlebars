@@ -13,7 +13,7 @@ Method | HTTP request | Description
 # **{{{operationId}}}**
 > {{#if returnType}}{{{returnType}}} {{/if}}{{{operationId}}}({{#each requiredParams}}{{#unless defaultValue}}{{paramName}}{{#if hasMore}}, {{/if}}{{/unless}}{{/each}})
 
-{{{summary}}}{{#if notes}}
+{{#if summary}}{{{summary}}}{{/if}}{{#if notes}}
 
 {{{notes}}}{{/if}}
 
@@ -159,9 +159,9 @@ Code | Class | Description
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
 {{#each responses}}
 {{#if isDefault}}
-default | ApiResponseForDefault | {{message}} {{description}}
+default | ApiResponseForDefault | {{message}}
 {{else}}
-{{code}} | ApiResponseFor{{code}} | {{message}} {{description}}
+{{code}} | ApiResponseFor{{code}} | {{message}}
 {{/if}}
 {{/each}}
 {{#each responses}}
@@ -175,7 +175,7 @@ default | ApiResponseForDefault | {{message}} {{description}}
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
-body | {{#unless content}}Unset{{else}}typing.Union[{{#each content}}{{this.schema.baseName}}, {{/each}}]{{/unless}} | {{#unless content}}body was not defined{{/unless}} |
+body | {{#unless content}}Unset{{else}}typing.Union[{{#each content}}{{#if this.schema}}{{this.schema.baseName}}{{else}}Unset{{/if}}, {{/each}}]{{/unless}} | {{#unless content}}body was not defined{{/unless}} |
 headers | {{#unless responseHeaders}}Unset{{else}}ResponseHeadersFor{{code}}{{/unless}} | {{#unless responseHeaders}}headers were not defined{{/unless}} |
 {{#each content}}
 {{#with this.schema}}

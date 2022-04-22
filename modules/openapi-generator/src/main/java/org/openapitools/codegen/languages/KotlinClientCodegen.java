@@ -35,6 +35,8 @@ import org.openapitools.codegen.meta.features.SecurityFeature;
 import org.openapitools.codegen.meta.features.WireFormatFeature;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ProcessUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -705,6 +707,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     private void commonJvmMultiplatformSupportingFiles(String infrastructureFolder) {
         supportingFiles.add(new SupportingFile("infrastructure/ApiClient.kt.mustache", infrastructureFolder, "ApiClient.kt"));
         supportingFiles.add(new SupportingFile("infrastructure/ApiAbstractions.kt.mustache", infrastructureFolder, "ApiAbstractions.kt"));
+        supportingFiles.add(new SupportingFile("infrastructure/PartConfig.kt.mustache", infrastructureFolder, "PartConfig.kt"));
         supportingFiles.add(new SupportingFile("infrastructure/RequestConfig.kt.mustache", infrastructureFolder, "RequestConfig.kt"));
         supportingFiles.add(new SupportingFile("infrastructure/RequestMethod.kt.mustache", infrastructureFolder, "RequestMethod.kt"));
     }
@@ -767,12 +770,11 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<ModelMap> allModels) {
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         super.postProcessOperationsWithModels(objs, allModels);
-        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
+        OperationMap operations = objs.getOperations();
         if (operations != null) {
-            List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
+            List<CodegenOperation> ops = operations.getOperation();
             for (CodegenOperation operation : ops) {
 
                 if (JVM_RETROFIT2.equals(getLibrary()) && StringUtils.isNotEmpty(operation.path) && operation.path.startsWith("/")) {
@@ -789,22 +791,22 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
                         // match on first part in mediaTypes like 'application/json; charset=utf-8'
                         int endIndex = mediaTypeValue.indexOf(';');
                         String mediaType = (endIndex == -1
-                                ? mediaTypeValue
-                                : mediaTypeValue.substring(0, endIndex)
+                            ? mediaTypeValue
+                            : mediaTypeValue.substring(0, endIndex)
                         ).trim();
                         return "multipart/form-data".equals(mediaType)
-                                || "application/x-www-form-urlencoded".equals(mediaType)
-                                || (mediaType.startsWith("application/") && mediaType.endsWith("json"));
+                            || "application/x-www-form-urlencoded".equals(mediaType)
+                            || (mediaType.startsWith("application/") && mediaType.endsWith("json"));
                     };
                     operation.consumes = operation.consumes == null ? null : operation.consumes.stream()
-                            .filter(isSerializable)
-                            .limit(1)
-                            .collect(Collectors.toList());
+                        .filter(isSerializable)
+                        .limit(1)
+                        .collect(Collectors.toList());
                     operation.hasConsumes = operation.consumes != null && !operation.consumes.isEmpty();
 
                     operation.produces = operation.produces == null ? null : operation.produces.stream()
-                            .filter(isSerializable)
-                            .collect(Collectors.toList());
+                        .filter(isSerializable)
+                        .collect(Collectors.toList());
                     operation.hasProduces = operation.produces != null && !operation.produces.isEmpty();
                 }
 
@@ -850,7 +852,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
                 }
             }
         }
-        return operations;
+        return objs;
     }
 
     private static boolean isMultipartType(List<Map<String, String>> consumes) {

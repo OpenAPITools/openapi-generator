@@ -16,6 +16,7 @@ from petstore_api.model.additional_properties_with_array_of_enums import Additio
 from petstore_api.model.address import Address
 from petstore_api.model.animal import Animal
 from petstore_api.model.animal_farm import AnimalFarm
+from petstore_api.model.any_type_not_string import AnyTypeNotString
 from petstore_api.model.api_response import ApiResponse
 from petstore_api.model.apple import Apple
 from petstore_api.model.apple_req import AppleReq
@@ -84,6 +85,7 @@ from petstore_api.model.integer_min15 import IntegerMin15
 from petstore_api.model.isosceles_triangle import IsoscelesTriangle
 from petstore_api.model.isosceles_triangle_all_of import IsoscelesTriangleAllOf
 from petstore_api.model.mammal import Mammal
+from petstore_api.model.map_bean import MapBean
 from petstore_api.model.map_test import MapTest
 from petstore_api.model.mixed_properties_and_additional_properties_class import MixedPropertiesAndAdditionalPropertiesClass
 from petstore_api.model.model200_response import Model200Response
@@ -127,6 +129,7 @@ from petstore_api.model.string_with_validation import StringWithValidation
 from petstore_api.model.tag import Tag
 from petstore_api.model.triangle import Triangle
 from petstore_api.model.triangle_interface import TriangleInterface
+from petstore_api.model.uuid_string import UUIDString
 from petstore_api.model.user import User
 from petstore_api.model.whale import Whale
 from petstore_api.model.zebra import Zebra

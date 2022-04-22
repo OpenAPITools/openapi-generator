@@ -26,11 +26,15 @@ from petstore_api.api.fake_api_endpoints.group_parameters import GroupParameters
 from petstore_api.api.fake_api_endpoints.inline_additional_properties import InlineAdditionalProperties
 from petstore_api.api.fake_api_endpoints.inline_composition import InlineComposition
 from petstore_api.api.fake_api_endpoints.json_form_data import JsonFormData
+from petstore_api.api.fake_api_endpoints.json_with_charset import JsonWithCharset
 from petstore_api.api.fake_api_endpoints.mammal import Mammal
 from petstore_api.api.fake_api_endpoints.number_with_validations import NumberWithValidations
+from petstore_api.api.fake_api_endpoints.object_in_query import ObjectInQuery
 from petstore_api.api.fake_api_endpoints.object_model_with_ref_props import ObjectModelWithRefProps
 from petstore_api.api.fake_api_endpoints.parameter_collisions import ParameterCollisions
 from petstore_api.api.fake_api_endpoints.query_parameter_collection_format import QueryParameterCollectionFormat
+from petstore_api.api.fake_api_endpoints.ref_object_in_query import RefObjectInQuery
+from petstore_api.api.fake_api_endpoints.response_without_schema import ResponseWithoutSchema
 from petstore_api.api.fake_api_endpoints.string import String
 from petstore_api.api.fake_api_endpoints.string_enum import StringEnum
 from petstore_api.api.fake_api_endpoints.upload_download_file import UploadDownloadFile
@@ -55,11 +59,15 @@ class FakeApi(
     InlineAdditionalProperties,
     InlineComposition,
     JsonFormData,
+    JsonWithCharset,
     Mammal,
     NumberWithValidations,
+    ObjectInQuery,
     ObjectModelWithRefProps,
     ParameterCollisions,
     QueryParameterCollectionFormat,
+    RefObjectInQuery,
+    ResponseWithoutSchema,
     String,
     StringEnum,
     UploadDownloadFile,

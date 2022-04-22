@@ -3,17 +3,20 @@ package org.openapitools.codegen.languages;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
+import org.openapitools.codegen.languages.features.OptionalFeatures;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.meta.features.SecurityFeature;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.CodegenConstants.INVOKER_PACKAGE;
 
-public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen implements BeanValidationFeatures {
+public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen implements BeanValidationFeatures, OptionalFeatures {
     public static final String OPT_TITLE = "title";
     public static final String OPT_BUILD = "build";
     public static final String OPT_BUILD_GRADLE = "gradle";
@@ -32,6 +35,7 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
 
     protected String title;
     protected boolean useBeanValidation;
+    protected boolean useOptional;
     protected String buildTool;
     protected String testTool;
     protected boolean requiredPropertiesInConstructor = true;
@@ -50,6 +54,7 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
 
         // Set all the fields
         useBeanValidation = true;
+        useOptional = false;
         buildTool = OPT_BUILD_ALL;
         testTool = OPT_TEST_JUNIT;
         outputFolder = "generated-code/java-micronaut-client";
@@ -93,6 +98,7 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
         cliOptions.add(new CliOption(OPT_TITLE, "Client service name").defaultValue(title));
         cliOptions.add(new CliOption(OPT_MICRONAUT_VERSION, "Micronaut version, only >=3.0.0 versions are supported").defaultValue(micronautVersion));
         cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations", useBeanValidation));
+        cliOptions.add(CliOption.newBoolean(USE_OPTIONAL, "Use Optional container for optional parameters", useOptional));
         cliOptions.add(CliOption.newBoolean(OPT_REQUIRED_PROPERTIES_IN_CONSTRUCTOR, "Allow only to create models with all the required properties provided in constructor", requiredPropertiesInConstructor));
 
         CliOption buildToolOption = new CliOption(OPT_BUILD, "Specify for which build tool to generate files").defaultValue(buildTool);
@@ -155,6 +161,11 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
             this.setUseBeanValidation(convertPropertyToBoolean(USE_BEANVALIDATION));
         }
         writePropertyBack(USE_BEANVALIDATION, useBeanValidation);
+
+        if (additionalProperties.containsKey(USE_OPTIONAL)) {
+            this.setUseOptional(convertPropertyToBoolean(USE_OPTIONAL));
+        }
+        writePropertyBack(USE_OPTIONAL, useOptional);
 
         if (additionalProperties.containsKey(OPT_REQUIRED_PROPERTIES_IN_CONSTRUCTOR)) {
             this.requiredPropertiesInConstructor = convertPropertyToBoolean(OPT_REQUIRED_PROPERTIES_IN_CONSTRUCTOR);
@@ -305,6 +316,11 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
     }
 
     @Override
+    public void setUseOptional(boolean useOptional) {
+        this.useOptional = useOptional;
+    }
+
+    @Override
     public String toApiVarName(String name) {
         String apiVarName = super.toApiVarName(name);
         if (reservedWords.contains(apiVarName)) {
@@ -317,15 +333,19 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
         return useBeanValidation;
     }
 
+    public boolean isUseOptional() {
+        return useOptional;
+    }
+
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<ModelMap> allModels) {
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         objs = super.postProcessOperationsWithModels(objs, allModels);
 
         Map<String, CodegenModel> models = allModels.stream()
                 .map(ModelMap::getModel)
                 .collect(Collectors.toMap(v -> v.classname, v -> v));
-        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
-        List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
+        OperationMap operations = objs.getOperations();
+        List<CodegenOperation> operationList = operations.getOperation();
 
         for (CodegenOperation op : operationList) {
             // Set whether body is supported in request

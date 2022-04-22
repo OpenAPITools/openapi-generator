@@ -121,6 +121,7 @@ Class | Method | HTTP request | Description
 ## Documentation for Models
 
  - [Petstore::AdditionalPropertiesClass](docs/AdditionalPropertiesClass.md)
+ - [Petstore::AllOfWithSingleRef](docs/AllOfWithSingleRef.md)
  - [Petstore::Animal](docs/Animal.md)
  - [Petstore::ApiResponse](docs/ApiResponse.md)
  - [Petstore::ArrayOfArrayOfNumberOnly](docs/ArrayOfArrayOfNumberOnly.md)
@@ -163,6 +164,7 @@ Class | Method | HTTP request | Description
  - [Petstore::OuterObjectWithEnumProperty](docs/OuterObjectWithEnumProperty.md)
  - [Petstore::Pet](docs/Pet.md)
  - [Petstore::ReadOnlyFirst](docs/ReadOnlyFirst.md)
+ - [Petstore::SingleRefType](docs/SingleRefType.md)
  - [Petstore::SpecialModelName](docs/SpecialModelName.md)
  - [Petstore::Tag](docs/Tag.md)
  - [Petstore::User](docs/User.md)

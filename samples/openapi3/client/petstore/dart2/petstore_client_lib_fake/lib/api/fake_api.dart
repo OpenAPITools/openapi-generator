@@ -806,12 +806,14 @@ class FakeApi {
   /// * [double] enumQueryDouble:
   ///   Query parameter enum test (double)
   ///
+  /// * [List<EnumClass>] enumQueryModelArray:
+  ///
   /// * [List<String>] enumFormStringArray:
   ///   Form parameter enum test (string array)
   ///
   /// * [String] enumFormString:
   ///   Form parameter enum test (string)
-  Future<Response> testEnumParametersWithHttpInfo({ List<String>? enumHeaderStringArray, String? enumHeaderString, List<String>? enumQueryStringArray, String? enumQueryString, int? enumQueryInteger, double? enumQueryDouble, List<String>? enumFormStringArray, String? enumFormString, }) async {
+  Future<Response> testEnumParametersWithHttpInfo({ List<String>? enumHeaderStringArray, String? enumHeaderString, List<String>? enumQueryStringArray, String? enumQueryString, int? enumQueryInteger, double? enumQueryDouble, List<EnumClass>? enumQueryModelArray, List<String>? enumFormStringArray, String? enumFormString, }) async {
     // ignore: prefer_const_declarations
     final path = r'/fake';
 
@@ -833,6 +835,9 @@ class FakeApi {
     }
     if (enumQueryDouble != null) {
       queryParams.addAll(_queryParams('', 'enum_query_double', enumQueryDouble));
+    }
+    if (enumQueryModelArray != null) {
+      queryParams.addAll(_queryParams('multi', 'enum_query_model_array', enumQueryModelArray));
     }
 
     if (enumHeaderStringArray != null) {
@@ -888,13 +893,15 @@ class FakeApi {
   /// * [double] enumQueryDouble:
   ///   Query parameter enum test (double)
   ///
+  /// * [List<EnumClass>] enumQueryModelArray:
+  ///
   /// * [List<String>] enumFormStringArray:
   ///   Form parameter enum test (string array)
   ///
   /// * [String] enumFormString:
   ///   Form parameter enum test (string)
-  Future<void> testEnumParameters({ List<String>? enumHeaderStringArray, String? enumHeaderString, List<String>? enumQueryStringArray, String? enumQueryString, int? enumQueryInteger, double? enumQueryDouble, List<String>? enumFormStringArray, String? enumFormString, }) async {
-    final response = await testEnumParametersWithHttpInfo( enumHeaderStringArray: enumHeaderStringArray, enumHeaderString: enumHeaderString, enumQueryStringArray: enumQueryStringArray, enumQueryString: enumQueryString, enumQueryInteger: enumQueryInteger, enumQueryDouble: enumQueryDouble, enumFormStringArray: enumFormStringArray, enumFormString: enumFormString, );
+  Future<void> testEnumParameters({ List<String>? enumHeaderStringArray, String? enumHeaderString, List<String>? enumQueryStringArray, String? enumQueryString, int? enumQueryInteger, double? enumQueryDouble, List<EnumClass>? enumQueryModelArray, List<String>? enumFormStringArray, String? enumFormString, }) async {
+    final response = await testEnumParametersWithHttpInfo( enumHeaderStringArray: enumHeaderStringArray, enumHeaderString: enumHeaderString, enumQueryStringArray: enumQueryStringArray, enumQueryString: enumQueryString, enumQueryInteger: enumQueryInteger, enumQueryDouble: enumQueryDouble, enumQueryModelArray: enumQueryModelArray, enumFormStringArray: enumFormStringArray, enumFormString: enumFormString, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }

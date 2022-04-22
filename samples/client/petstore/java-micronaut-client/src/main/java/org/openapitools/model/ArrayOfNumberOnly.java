@@ -62,7 +62,7 @@ public class ArrayOfNumberOnly {
     @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_ARRAY_NUMBER)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public List<BigDecimal> getArrayNumber() {
+    public List<BigDecimal> getArrayNumber() {
         return arrayNumber;
     }
 

@@ -62,10 +62,10 @@ export interface Order {
  * @export
  */
 export const OrderStatusEnum = {
-    Placed: 'placed' as 'placed',
-    Approved: 'approved' as 'approved',
-    Delivered: 'delivered' as 'delivered'
-};
+    Placed: 'placed',
+    Approved: 'approved',
+    Delivered: 'delivered'
+} as const;
 export type OrderStatusEnum = typeof OrderStatusEnum[keyof typeof OrderStatusEnum];
 
 

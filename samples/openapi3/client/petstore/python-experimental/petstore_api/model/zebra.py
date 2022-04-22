@@ -31,6 +31,7 @@ from petstore_api.schemas import (  # noqa: F401
     Float32Schema,
     Float64Schema,
     NumberSchema,
+    UUIDSchema,
     DateSchema,
     DateTimeSchema,
     DecimalSchema,
@@ -52,6 +53,7 @@ from petstore_api.schemas import (  # noqa: F401
     Float32Base,
     Float64Base,
     NumberBase,
+    UUIDBase,
     DateBase,
     DateTimeBase,
     BoolBase,
@@ -90,17 +92,17 @@ class Zebra(
         @classmethod
         @property
         def PLAINS(cls):
-            return cls._enum_by_value["plains"]("plains")
+            return cls("plains")
         
         @classmethod
         @property
         def MOUNTAIN(cls):
-            return cls._enum_by_value["mountain"]("mountain")
+            return cls("mountain")
         
         @classmethod
         @property
         def GREVYS(cls):
-            return cls._enum_by_value["grevys"]("grevys")
+            return cls("grevys")
     
     
     class className(
@@ -115,7 +117,7 @@ class Zebra(
         @classmethod
         @property
         def ZEBRA(cls):
-            return cls._enum_by_value["zebra"]("zebra")
+            return cls("zebra")
 
 
     def __new__(

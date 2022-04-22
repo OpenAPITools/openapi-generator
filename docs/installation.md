@@ -61,7 +61,7 @@ openapi-generator generate -i petstore.yaml -g ruby -o /tmp/test/
 **Install** via [scoop](https://scoop.sh/):
 
 ```
-scoop install openapi-generator
+scoop install openapi-generator-cli
 ```
 
 If you don't have java installed, you can also install it via [scoop java bucket](https://github.com/ScoopInstaller/Java/):

@@ -18,6 +18,7 @@ export 'package:openapi/src/api/store_api.dart';
 export 'package:openapi/src/api/user_api.dart';
 
 export 'package:openapi/src/model/additional_properties_class.dart';
+export 'package:openapi/src/model/all_of_with_single_ref.dart';
 export 'package:openapi/src/model/animal.dart';
 export 'package:openapi/src/model/api_response.dart';
 export 'package:openapi/src/model/array_of_array_of_number_only.dart';
@@ -60,6 +61,7 @@ export 'package:openapi/src/model/outer_enum_integer_default_value.dart';
 export 'package:openapi/src/model/outer_object_with_enum_property.dart';
 export 'package:openapi/src/model/pet.dart';
 export 'package:openapi/src/model/read_only_first.dart';
+export 'package:openapi/src/model/single_ref_type.dart';
 export 'package:openapi/src/model/special_model_name.dart';
 export 'package:openapi/src/model/tag.dart';
 export 'package:openapi/src/model/user.dart';

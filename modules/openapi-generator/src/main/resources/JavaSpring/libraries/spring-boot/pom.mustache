@@ -9,6 +9,7 @@
         <java.version>1.8</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         {{#springFoxDocumentationProvider}}
         <springfox.version>2.9.2</springfox.version>
         {{/springFoxDocumentationProvider}}
@@ -40,7 +41,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>{{#springFoxDocumentationProvider}}2.5.11{{/springFoxDocumentationProvider}}{{^springFoxDocumentationProvider}}2.6.5{{/springFoxDocumentationProvider}}</version>
+        <version>{{#springFoxDocumentationProvider}}2.5.12{{/springFoxDocumentationProvider}}{{^springFoxDocumentationProvider}}2.6.6{{/springFoxDocumentationProvider}}</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 {{/parentOverridden}}

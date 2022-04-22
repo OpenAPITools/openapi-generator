@@ -95,6 +95,31 @@ public class BarCreate extends Entity {
     this.foo = foo;
   }
 
+  public BarCreate href(String href) {
+    super.setHref(href);
+    return this;
+  }
+
+  public BarCreate id(String id) {
+    super.setId(id);
+    return this;
+  }
+
+  public BarCreate atSchemaLocation(String atSchemaLocation) {
+    super.setAtSchemaLocation(atSchemaLocation);
+    return this;
+  }
+
+  public BarCreate atBaseType(String atBaseType) {
+    super.setAtBaseType(atBaseType);
+    return this;
+  }
+
+  public BarCreate atType(String atType) {
+    super.setAtType(atType);
+    return this;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {

@@ -55,7 +55,7 @@ public class Tag {
     @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_ID)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public Long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -78,7 +78,7 @@ public class Tag {
     @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_NAME)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public String getName() {
+    public String getName() {
         return name;
     }
 

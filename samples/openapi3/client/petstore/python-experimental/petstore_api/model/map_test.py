@@ -31,6 +31,7 @@ from petstore_api.schemas import (  # noqa: F401
     Float32Schema,
     Float64Schema,
     NumberSchema,
+    UUIDSchema,
     DateSchema,
     DateTimeSchema,
     DecimalSchema,
@@ -52,6 +53,7 @@ from petstore_api.schemas import (  # noqa: F401
     Float32Base,
     Float64Base,
     NumberBase,
+    UUIDBase,
     DateBase,
     DateTimeBase,
     BoolBase,
@@ -130,12 +132,12 @@ class MapTest(
             @classmethod
             @property
             def UPPER(cls):
-                return cls._enum_by_value["UPPER"]("UPPER")
+                return cls("UPPER")
             
             @classmethod
             @property
             def LOWER(cls):
-                return cls._enum_by_value["lower"]("lower")
+                return cls("lower")
     
     
         def __new__(

@@ -36,6 +36,7 @@ part 'api/store_api.dart';
 part 'api/user_api.dart';
 
 part 'model/additional_properties_class.dart';
+part 'model/all_of_with_single_ref.dart';
 part 'model/animal.dart';
 part 'model/api_response.dart';
 part 'model/array_of_array_of_number_only.dart';
@@ -78,6 +79,7 @@ part 'model/outer_enum_integer_default_value.dart';
 part 'model/outer_object_with_enum_property.dart';
 part 'model/pet.dart';
 part 'model/read_only_first.dart';
+part 'model/single_ref_type.dart';
 part 'model/special_model_name.dart';
 part 'model/tag.dart';
 part 'model/user.dart';

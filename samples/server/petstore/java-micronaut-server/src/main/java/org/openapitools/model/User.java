@@ -81,7 +81,7 @@ public class User {
     @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_ID)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public Long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -104,7 +104,7 @@ public class User {
     @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_USERNAME)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public String getUsername() {
+    public String getUsername() {
         return username;
     }
 
@@ -127,7 +127,7 @@ public class User {
     @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_FIRST_NAME)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public String getFirstName() {
+    public String getFirstName() {
         return firstName;
     }
 
@@ -150,7 +150,7 @@ public class User {
     @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_LAST_NAME)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public String getLastName() {
+    public String getLastName() {
         return lastName;
     }
 
@@ -173,7 +173,7 @@ public class User {
     @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_EMAIL)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public String getEmail() {
+    public String getEmail() {
         return email;
     }
 
@@ -196,7 +196,7 @@ public class User {
     @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_PASSWORD)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public String getPassword() {
+    public String getPassword() {
         return password;
     }
 
@@ -219,7 +219,7 @@ public class User {
     @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_PHONE)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public String getPhone() {
+    public String getPhone() {
         return phone;
     }
 
@@ -242,7 +242,7 @@ public class User {
     @ApiModelProperty(value = "User Status")
     @JsonProperty(JSON_PROPERTY_USER_STATUS)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public Integer getUserStatus() {
+    public Integer getUserStatus() {
         return userStatus;
     }
 

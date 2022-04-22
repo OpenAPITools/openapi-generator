@@ -174,96 +174,96 @@ public class FakeApiController extends Controller {
 
     @ApiAction
     public Result testEndpointParameters(Http.Request request) throws Exception {
-        String valueinteger = (request.body().asMultipartFormData().asFormUrlEncoded().get("integer"))[0];
+        String[] valueinteger = request.body().asMultipartFormData().asFormUrlEncoded().get("integer");
         Integer integer;
         if (valueinteger != null) {
-            integer = Integer.parseInt(valueinteger);
+            integer = Integer.parseInt(valueinteger[0]);
         } else {
             integer = null;
         }
-        String valueint32 = (request.body().asMultipartFormData().asFormUrlEncoded().get("int32"))[0];
+        String[] valueint32 = request.body().asMultipartFormData().asFormUrlEncoded().get("int32");
         Integer int32;
         if (valueint32 != null) {
-            int32 = Integer.parseInt(valueint32);
+            int32 = Integer.parseInt(valueint32[0]);
         } else {
             int32 = null;
         }
-        String valueint64 = (request.body().asMultipartFormData().asFormUrlEncoded().get("int64"))[0];
+        String[] valueint64 = request.body().asMultipartFormData().asFormUrlEncoded().get("int64");
         Long int64;
         if (valueint64 != null) {
-            int64 = Long.parseLong(valueint64);
+            int64 = Long.parseLong(valueint64[0]);
         } else {
             int64 = null;
         }
-        String valuenumber = (request.body().asMultipartFormData().asFormUrlEncoded().get("number"))[0];
+        String[] valuenumber = request.body().asMultipartFormData().asFormUrlEncoded().get("number");
         BigDecimal number;
         if (valuenumber != null) {
-            number = new BigDecimal(valuenumber);
+            number = new BigDecimal(valuenumber[0]);
         } else {
             throw new IllegalArgumentException("'number' parameter is required");
         }
-        String value_float = (request.body().asMultipartFormData().asFormUrlEncoded().get("float"))[0];
+        String[] value_float = request.body().asMultipartFormData().asFormUrlEncoded().get("float");
         Float _float;
         if (value_float != null) {
-            _float = Float.parseFloat(value_float);
+            _float = Float.parseFloat(value_float[0]);
         } else {
             _float = null;
         }
-        String value_double = (request.body().asMultipartFormData().asFormUrlEncoded().get("double"))[0];
+        String[] value_double = request.body().asMultipartFormData().asFormUrlEncoded().get("double");
         Double _double;
         if (value_double != null) {
-            _double = Double.parseDouble(value_double);
+            _double = Double.parseDouble(value_double[0]);
         } else {
             throw new IllegalArgumentException("'double' parameter is required");
         }
-        String valuestring = (request.body().asMultipartFormData().asFormUrlEncoded().get("string"))[0];
+        String[] valuestring = request.body().asMultipartFormData().asFormUrlEncoded().get("string");
         String string;
         if (valuestring != null) {
-            string = valuestring;
+            string = valuestring[0];
         } else {
             string = null;
         }
-        String valuepatternWithoutDelimiter = (request.body().asMultipartFormData().asFormUrlEncoded().get("pattern_without_delimiter"))[0];
+        String[] valuepatternWithoutDelimiter = request.body().asMultipartFormData().asFormUrlEncoded().get("pattern_without_delimiter");
         String patternWithoutDelimiter;
         if (valuepatternWithoutDelimiter != null) {
-            patternWithoutDelimiter = valuepatternWithoutDelimiter;
+            patternWithoutDelimiter = valuepatternWithoutDelimiter[0];
         } else {
             throw new IllegalArgumentException("'pattern_without_delimiter' parameter is required");
         }
-        String value_byte = (request.body().asMultipartFormData().asFormUrlEncoded().get("byte"))[0];
+        String[] value_byte = request.body().asMultipartFormData().asFormUrlEncoded().get("byte");
         byte[] _byte;
         if (value_byte != null) {
-            _byte = value_byte.getBytes();
+            _byte = value_byte[0].getBytes();
         } else {
             throw new IllegalArgumentException("'byte' parameter is required");
         }
         Http.MultipartFormData<TemporaryFile> bodybinary = request.body().asMultipartFormData();
         Http.MultipartFormData.FilePart<TemporaryFile> binary = bodybinary.getFile("binary");
-        String valuedate = (request.body().asMultipartFormData().asFormUrlEncoded().get("date"))[0];
+        String[] valuedate = request.body().asMultipartFormData().asFormUrlEncoded().get("date");
         LocalDate date;
         if (valuedate != null) {
-            date = LocalDate.parse(valuedate);
+            date = LocalDate.parse(valuedate[0]);
         } else {
             date = null;
         }
-        String valuedateTime = (request.body().asMultipartFormData().asFormUrlEncoded().get("dateTime"))[0];
+        String[] valuedateTime = request.body().asMultipartFormData().asFormUrlEncoded().get("dateTime");
         OffsetDateTime dateTime;
         if (valuedateTime != null) {
-            dateTime = OffsetDateTime.parse(valuedateTime);
+            dateTime = OffsetDateTime.parse(valuedateTime[0]);
         } else {
             dateTime = null;
         }
-        String valuepassword = (request.body().asMultipartFormData().asFormUrlEncoded().get("password"))[0];
+        String[] valuepassword = request.body().asMultipartFormData().asFormUrlEncoded().get("password");
         String password;
         if (valuepassword != null) {
-            password = valuepassword;
+            password = valuepassword[0];
         } else {
             password = null;
         }
-        String valueparamCallback = (request.body().asMultipartFormData().asFormUrlEncoded().get("callback"))[0];
+        String[] valueparamCallback = request.body().asMultipartFormData().asFormUrlEncoded().get("callback");
         String paramCallback;
         if (valueparamCallback != null) {
-            paramCallback = valueparamCallback;
+            paramCallback = valueparamCallback[0];
         } else {
             paramCallback = null;
         }
@@ -311,10 +311,10 @@ public class FakeApiController extends Controller {
                 enumFormStringArray.add(curParam);
             }
         }
-        String valueenumFormString = (request.body().asMultipartFormData().asFormUrlEncoded().get("enum_form_string"))[0];
+        String[] valueenumFormString = request.body().asMultipartFormData().asFormUrlEncoded().get("enum_form_string");
         String enumFormString;
         if (valueenumFormString != null) {
-            enumFormString = valueenumFormString;
+            enumFormString = valueenumFormString[0];
         } else {
             enumFormString = "-efg";
         }
@@ -403,17 +403,17 @@ public class FakeApiController extends Controller {
 
     @ApiAction
     public Result testJsonFormData(Http.Request request) throws Exception {
-        String valueparam = (request.body().asMultipartFormData().asFormUrlEncoded().get("param"))[0];
+        String[] valueparam = request.body().asMultipartFormData().asFormUrlEncoded().get("param");
         String param;
         if (valueparam != null) {
-            param = valueparam;
+            param = valueparam[0];
         } else {
             throw new IllegalArgumentException("'param' parameter is required");
         }
-        String valueparam2 = (request.body().asMultipartFormData().asFormUrlEncoded().get("param2"))[0];
+        String[] valueparam2 = request.body().asMultipartFormData().asFormUrlEncoded().get("param2");
         String param2;
         if (valueparam2 != null) {
-            param2 = valueparam2;
+            param2 = valueparam2[0];
         } else {
             throw new IllegalArgumentException("'param2' parameter is required");
         }

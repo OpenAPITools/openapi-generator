@@ -14,6 +14,7 @@ import 'package:openapi/src/model/date.dart';
 import 'package:openapi/src/model/file_schema_test_class.dart';
 import 'package:openapi/src/model/health_check_result.dart';
 import 'package:openapi/src/model/model_client.dart';
+import 'package:openapi/src/model/model_enum_class.dart';
 import 'package:openapi/src/model/outer_composite.dart';
 import 'package:openapi/src/model/outer_object_with_enum_property.dart';
 import 'package:openapi/src/model/pet.dart';
@@ -1052,6 +1053,7 @@ class FakeApi {
   /// * [enumQueryString] - Query parameter enum test (string)
   /// * [enumQueryInteger] - Query parameter enum test (double)
   /// * [enumQueryDouble] - Query parameter enum test (double)
+  /// * [enumQueryModelArray] 
   /// * [enumFormStringArray] - Form parameter enum test (string array)
   /// * [enumFormString] - Form parameter enum test (string)
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
@@ -1070,6 +1072,7 @@ class FakeApi {
     String? enumQueryString = '-efg',
     int? enumQueryInteger,
     double? enumQueryDouble,
+    BuiltList<ModelEnumClass>? enumQueryModelArray,
     BuiltList<String>? enumFormStringArray,
     String? enumFormString,
     CancelToken? cancelToken,
@@ -1100,6 +1103,7 @@ class FakeApi {
       if (enumQueryString != null) r'enum_query_string': encodeQueryParameter(_serializers, enumQueryString, const FullType(String)),
       if (enumQueryInteger != null) r'enum_query_integer': encodeQueryParameter(_serializers, enumQueryInteger, const FullType(int)),
       if (enumQueryDouble != null) r'enum_query_double': encodeQueryParameter(_serializers, enumQueryDouble, const FullType(double)),
+      if (enumQueryModelArray != null) r'enum_query_model_array': encodeCollectionQueryParameter<ModelEnumClass>(_serializers, enumQueryModelArray, const FullType(BuiltList, [FullType(ModelEnumClass)]), format: ListFormat.multi,),
     };
 
     dynamic _bodyData;
