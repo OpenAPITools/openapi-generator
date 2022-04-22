@@ -4,8 +4,9 @@ library: spring-boot
 inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore.yaml
 templateDir: modules/openapi-generator/src/main/resources/kotlin-spring
 additionalProperties:
-  documentationProvider: springdoc
+  documentationProvider: none
+  annotationLibrary: none
+  useSwaggerUI: "false"
   serviceImplementation: "true"
   serializableModel: "true"
-  useSwaggerUI: "false"
   beanValidations: "true"
