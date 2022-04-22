@@ -12,6 +12,7 @@
 import re  # noqa: F401
 import sys  # noqa: F401
 import typing  # noqa: F401
+import functools  # noqa: F401
 
 from frozendict import frozendict  # noqa: F401
 
@@ -76,6 +77,7 @@ class SimpleQuadrilateral(
 
     @classmethod
     @property
+    @functools.cache
     def _composed_schemas(cls):
         # we need this here to make our import statements work
         # we must store _composed_schemas in here so the code is only run
@@ -84,10 +86,46 @@ class SimpleQuadrilateral(
         # code would be run when this module is imported, and these composed
         # classes don't exist yet because their module has not finished
         # loading
+        
+        
+        class allOf_1(
+            DictSchema
+        ):
+            
+            
+            class quadrilateralType(
+                _SchemaEnumMaker(
+                    enum_value_to_name={
+                        "SimpleQuadrilateral": "SIMPLEQUADRILATERAL",
+                    }
+                ),
+                StrSchema
+            ):
+                
+                @classmethod
+                @property
+                def SIMPLEQUADRILATERAL(cls):
+                    return cls("SimpleQuadrilateral")
+        
+        
+            def __new__(
+                cls,
+                *args: typing.Union[dict, frozendict, ],
+                quadrilateralType: typing.Union[quadrilateralType, Unset] = unset,
+                _configuration: typing.Optional[Configuration] = None,
+                **kwargs: typing.Type[Schema],
+            ) -> 'allOf_1':
+                return super().__new__(
+                    cls,
+                    *args,
+                    quadrilateralType=quadrilateralType,
+                    _configuration=_configuration,
+                    **kwargs,
+                )
         return {
             'allOf': [
                 QuadrilateralInterface,
-                SimpleQuadrilateralAllOf,
+                allOf_1,
             ],
             'oneOf': [
             ],
@@ -111,4 +149,3 @@ class SimpleQuadrilateral(
         )
 
 from petstore_api.model.quadrilateral_interface import QuadrilateralInterface
-from petstore_api.model.simple_quadrilateral_all_of import SimpleQuadrilateralAllOf
