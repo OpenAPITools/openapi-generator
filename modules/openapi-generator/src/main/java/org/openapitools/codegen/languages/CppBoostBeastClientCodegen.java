@@ -10,6 +10,9 @@ import java.io.File;
 import java.util.*;
 
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -107,7 +110,7 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
 
 
     @Override
-    public Map<String, Object> updateAllModels(Map<String, Object> objs) {
+    public Map<String, ModelsMap> updateAllModels(Map<String, ModelsMap> objs)  {
         // Index all CodegenModels by model name.
         Map<String, CodegenModel> allModels = getAllModels(objs);
 
@@ -219,7 +222,7 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
 
     @SuppressWarnings("unchecked")
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
         List<CodegenOperation> newOpList = new ArrayList<>();
