@@ -2504,3 +2504,31 @@ components:
             type: object
         prop2:
           type: object
+    StreamOptions:
+      allOf:
+        - $ref: "#/components/schemas/EgressThresholdOptions"
+        - $ref: "#/components/schemas/PublishOptions"
+
+    EgressThresholdOptions:
+      type: object
+      properties:
+        egressThresholds:
+          type: object
+          additionalProperties:
+            type: number
+            minimum: 0
+            maximum: 1
+            example: 0.9
+
+    PublishOptions:
+      type: object
+      properties:
+        publish:
+          type : object
+          properties:
+            egressUnknownDetections:
+              type: boolean
+              example: true
+            filterZeroDetections:
+              type: boolean
+              example: true
