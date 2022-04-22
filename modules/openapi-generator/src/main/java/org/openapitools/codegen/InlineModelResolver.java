@@ -325,7 +325,7 @@ public class InlineModelResolver {
                 if (obj.getProperties() != null && obj.getProperties().size() > 0) {
                     flattenProperties(openAPI, obj.getProperties(), pathname);
                     // for model name, use "title" if defined, otherwise default to 'inline_object'
-                    String modelName = resolveModelName(obj.getTitle(), "inline_object");
+                    String modelName = resolveModelName(obj.getTitle(), pathname + "_inline_object");
                     addGenerated(modelName, model);
                     openAPI.getComponents().addSchemas(modelName, model);
 
@@ -475,7 +475,7 @@ public class InlineModelResolver {
             if (property instanceof ObjectSchema) {
                 ObjectSchema op = (ObjectSchema) property;
                 if (op.getProperties() != null && op.getProperties().size() > 0) {
-                    String modelName = resolveModelName(op.getTitle(), "inline_response_" + key);
+                    String modelName = resolveModelName(op.getTitle(), pathname + "_inline_response_" + key);
                     Schema model = modelFromProperty(openAPI, op, modelName);
                     String existing = matchGenerated(model);
                     Content content = response.getContent();
@@ -501,7 +501,7 @@ public class InlineModelResolver {
                     if (op.getProperties() != null && op.getProperties().size() > 0) {
                         flattenProperties(openAPI, op.getProperties(), pathname);
                         String modelName = resolveModelName(op.getTitle(),
-                                "inline_response_" + key);
+                                pathname + "_inline_response_" + key);
                         Schema innerModel = modelFromProperty(openAPI, op, modelName);
                         String existing = matchGenerated(innerModel);
                         if (existing != null) {
@@ -525,7 +525,7 @@ public class InlineModelResolver {
                     if (op.getProperties() != null && op.getProperties().size() > 0) {
                         flattenProperties(openAPI, op.getProperties(), pathname);
                         String modelName = resolveModelName(op.getTitle(),
-                                "inline_response_" + key);
+                                pathname + "_inline_response_" + key);
                         Schema innerModel = modelFromProperty(openAPI, op, modelName);
                         String existing = matchGenerated(innerModel);
                         if (existing != null) {
