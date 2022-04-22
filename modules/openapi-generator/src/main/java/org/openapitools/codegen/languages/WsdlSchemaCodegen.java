@@ -31,6 +31,8 @@ import java.util.*;
 public class WsdlSchemaCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String PROJECT_NAME = "projectName";
 
+    protected String contentTypeVersion = null;
+
     public CodegenType getTag() {
         return CodegenType.SCHEMA;
     }
@@ -58,6 +60,8 @@ public class WsdlSchemaCodegen extends DefaultCodegen implements CodegenConfig {
         cliOptions.add(new CliOption("hostname", "the hostname of the service"));
         cliOptions.add(new CliOption("soapPath", "basepath of the soap services"));
         cliOptions.add(new CliOption("serviceName", "service name for the wsdl"));
+        cliOptions.add(new CliOption("contentTypeVersion", 
+                "generate WSDL with parameters/responses of the specified content-type"));
 
         additionalProperties.put("hostname", "localhost");
         additionalProperties.put("soapPath", "soap");
@@ -78,6 +82,13 @@ public class WsdlSchemaCodegen extends DefaultCodegen implements CodegenConfig {
         info.setTitle(this.escapeTitle(title));
     }
 
+    @Override
+    public void processOpts() {
+        if (additionalProperties.containsKey("contentTypeVersion")) {
+            this.setContentTypeVersion((String) additionalProperties.get("contentTypeVersion"));
+        }
+    }
+
     private String escapeTitle(String title) {
         // strip umlauts etc.
         final String normalizedTitle = Normalizer.normalize(title, Normalizer.Form.NFD)
@@ -94,12 +105,83 @@ public class WsdlSchemaCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs,
-                                                               List<ModelMap> allModels) {
-
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<ModelMap> allModels) {
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
         for (CodegenOperation op : operationList) {
+            // depending on the specified content type generate WSDL of this version
+            if (this.contentTypeVersion != null) {
+                List<String> unusedModels = new ArrayList<String>();
+
+                // use content type data to change dataType/baseType variable depending on specified version
+                for (CodegenParameter codegenParameter : op.allParams) {
+                    if (codegenParameter.isBodyParam) {
+                        for (Map.Entry<String, CodegenMediaType> ite1 
+                                : codegenParameter.getContent().entrySet()) {
+                            // only if specified content-type was found inside content variable
+                            if (ite1.getKey().startsWith(this.contentTypeVersion)) {
+                                if (codegenParameter.isArray) {
+                                    codegenParameter.baseType = 
+                                            ite1.getValue().getSchema().getItems().getBaseType();
+                                } else {
+                                    codegenParameter.dataType = 
+                                            ite1.getValue().getSchema().getDataType();
+                                }
+                                // mark unused models of other versions for removal
+                                for (Map.Entry<String, CodegenMediaType> ite2 
+                                        : codegenParameter.getContent().entrySet()) {
+                                    if (!ite2.getKey().startsWith(this.contentTypeVersion)) { 
+                                        if (codegenParameter.isArray) {
+                                            unusedModels.add(ite2.getValue().getSchema().getItems().getBaseType());
+                                        } else {
+                                            unusedModels.add(ite2.getValue().getSchema().getDataType());
+                                        }
+                                    }
+                                }
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                // same approach for responses
+                for (CodegenResponse codegenResponse : op.responses) {
+                    if (codegenResponse.getContent() != null) {
+                        for (Map.Entry<String, CodegenMediaType> ite1 
+                                : codegenResponse.getContent().entrySet()) {
+                            if (ite1.getKey().startsWith(this.contentTypeVersion) 
+                                    && codegenResponse.is2xx) {
+                                if (codegenResponse.isArray) {
+                                    codegenResponse.baseType = 
+                                            ite1.getValue().getSchema().getItems().getBaseType();
+                                } else {
+                                    codegenResponse.dataType = 
+                                            ite1.getValue().getSchema().getDataType();
+                                }
+                                for (Map.Entry<String, CodegenMediaType> ite2
+                                        : codegenResponse.getContent().entrySet()) { 
+                                    if (!ite2.getKey().startsWith(this.contentTypeVersion) 
+                                            && codegenResponse.is2xx) {
+                                        if (codegenResponse.isArray) {
+                                            unusedModels.add(ite2.getValue().getSchema().getItems().getBaseType());
+                                        } else {
+                                            unusedModels.add(ite2.getValue().getSchema().getDataType());
+                                        }
+                                    }
+                                }
+                                break;
+                            }
+                        }   
+                    } 
+                }
+
+                // remove models which are used by other versions than the specified one
+                for (String unusedModelName : unusedModels) {
+                    allModels.removeIf(modelMap -> 
+                            (modelMap.getModel().getClassname().equals(unusedModelName)));   
+                }
+            }
+
             op.operationId = this.generateOperationId(op);
 
             // for xml compliant primitives, lowercase dataType of openapi
@@ -280,6 +362,12 @@ public class WsdlSchemaCodegen extends DefaultCodegen implements CodegenConfig {
         return input;
     }
 
+    public void setContentTypeVersion(String contentTypeVersion) {
+        this.contentTypeVersion = contentTypeVersion;
+    }
+
     @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.WSDL; }
+    public GeneratorLanguage generatorLanguage() { 
+        return GeneratorLanguage.WSDL; 
+    }
 }
