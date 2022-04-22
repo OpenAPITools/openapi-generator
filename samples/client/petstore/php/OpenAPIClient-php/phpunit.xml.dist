@@ -2,8 +2,8 @@
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" bootstrap="./vendor/autoload.php" colors="true" convertErrorsToExceptions="true" convertNoticesToExceptions="true" convertWarningsToExceptions="true" stopOnFailure="false" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
   <coverage processUncoveredFiles="true">
     <include>
-      <directory suffix=".php">./lib/Api</directory>
-      <directory suffix=".php">./lib/Model</directory>
+      <directory suffix=".php">./lib\/Api</directory>
+      <directory suffix=".php">./lib\/Model</directory>
     </include>
   </coverage>
   <testsuites>
