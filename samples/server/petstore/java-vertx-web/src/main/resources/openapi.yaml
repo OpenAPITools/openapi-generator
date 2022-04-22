@@ -45,7 +45,7 @@ paths:
       summary: Add a new pet to the store
       tags:
       - pet
-      x-contentType: application/json
+      x-content-type: application/json
       x-accepts: application/json
     put:
       description: ""
@@ -75,7 +75,7 @@ paths:
       summary: Update an existing pet
       tags:
       - pet
-      x-contentType: application/json
+      x-content-type: application/json
       x-accepts: application/json
   /pet/findByStatus:
     get:
@@ -262,7 +262,7 @@ paths:
       summary: Updates a pet in the store with form data
       tags:
       - pet
-      x-contentType: application/x-www-form-urlencoded
+      x-content-type: application/x-www-form-urlencoded
       x-accepts: application/json
   /pet/{petId}/uploadImage:
     post:
@@ -306,7 +306,7 @@ paths:
       summary: uploads an image
       tags:
       - pet
-      x-contentType: multipart/form-data
+      x-content-type: multipart/form-data
       x-accepts: application/json
   /store/inventory:
     get:
@@ -354,7 +354,7 @@ paths:
       summary: Place an order for a pet
       tags:
       - store
-      x-contentType: application/json
+      x-content-type: application/json
       x-accepts: application/json
   /store/order/{orderId}:
     delete:
@@ -432,7 +432,7 @@ paths:
       summary: Create user
       tags:
       - user
-      x-contentType: application/json
+      x-content-type: application/json
       x-accepts: application/json
   /user/createWithArray:
     post:
@@ -448,7 +448,7 @@ paths:
       summary: Creates list of users with given input array
       tags:
       - user
-      x-contentType: application/json
+      x-content-type: application/json
       x-accepts: application/json
   /user/createWithList:
     post:
@@ -464,7 +464,7 @@ paths:
       summary: Creates list of users with given input array
       tags:
       - user
-      x-contentType: application/json
+      x-content-type: application/json
       x-accepts: application/json
   /user/login:
     get:
@@ -623,7 +623,7 @@ paths:
       summary: Updated user
       tags:
       - user
-      x-contentType: application/json
+      x-content-type: application/json
       x-accepts: application/json
 components:
   requestBodies:

@@ -32,6 +32,11 @@ import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
+import org.openapitools.codegen.model.ApiInfoMap;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,7 +45,6 @@ import java.io.File;
 import java.util.*;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
-import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public abstract class AbstractPythonConnexionServerCodegen extends AbstractPythonCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractPythonConnexionServerCodegen.class);
@@ -179,16 +183,16 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
             typeMapping.put("long", "long");
         }
         if (additionalProperties.containsKey(FEATURE_CORS)) {
-            setFeatureCORS((String) additionalProperties.get(FEATURE_CORS));
+            setFeatureCORS(String.valueOf(additionalProperties.get(FEATURE_CORS)));
         }
         if (additionalProperties.containsKey(USE_NOSE)) {
-            setUseNose((String) additionalProperties.get(USE_NOSE));
+            setUseNose(String.valueOf(additionalProperties.get(USE_NOSE)));
         }
         if (additionalProperties.containsKey(USE_PYTHON_SRC_ROOT_IN_IMPORTS)) {
-            setUsePythonSrcRootInImports((String) additionalProperties.get(USE_PYTHON_SRC_ROOT_IN_IMPORTS));
+            setUsePythonSrcRootInImports(String.valueOf(additionalProperties.get(USE_PYTHON_SRC_ROOT_IN_IMPORTS)));
         }
         if (additionalProperties.containsKey(MOVE_TESTS_UNDER_PYTHON_SRC_ROOT)) {
-            setMoveTestsUnderPythonSrcRoot((String) additionalProperties.get(MOVE_TESTS_UNDER_PYTHON_SRC_ROOT));
+            setMoveTestsUnderPythonSrcRoot(String.valueOf(additionalProperties.get(MOVE_TESTS_UNDER_PYTHON_SRC_ROOT)));
         }
         if (additionalProperties.containsKey(PYTHON_SRC_ROOT)) {
             String pythonSrcRoot = (String) additionalProperties.get(PYTHON_SRC_ROOT);
@@ -464,13 +468,11 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
         }
     }
 
-    @SuppressWarnings("unchecked")
-    private static List<Map<String, Object>> getOperations(Map<String, Object> objs) {
-        List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
-        Map<String, Object> apiInfo = (Map<String, Object>) objs.get("apiInfo");
-        List<Map<String, Object>> apis = (List<Map<String, Object>>) apiInfo.get("apis");
-        for (Map<String, Object> api : apis) {
-            result.add((Map<String, Object>) api.get("operations"));
+    private static List<OperationMap> getOperations(Map<String, Object> objs) {
+        List<OperationMap> result = new ArrayList<>();
+        ApiInfoMap apiInfo = (ApiInfoMap) objs.get("apiInfo");
+        for (OperationsMap api : apiInfo.getApis()) {
+            result.add(api.getOperations());
         }
         return result;
     }
@@ -482,9 +484,9 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
             opsByPath.put(op.path, op);
         }
 
-        List<Map<String, Object>> opsByPathList = new ArrayList<Map<String, Object>>();
+        List<Map<String, Object>> opsByPathList = new ArrayList<>();
         for (Map.Entry<String, Collection<CodegenOperation>> entry : opsByPath.asMap().entrySet()) {
-            Map<String, Object> opsByPathEntry = new HashMap<String, Object>();
+            Map<String, Object> opsByPathEntry = new HashMap<>();
             opsByPathList.add(opsByPathEntry);
             opsByPathEntry.put("path", entry.getKey());
             opsByPathEntry.put("operation", entry.getValue());
@@ -569,9 +571,8 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
         generateJSONSpecFile(objs);
         generateYAMLSpecFile(objs);
 
-        for (Map<String, Object> operations : getOperations(objs)) {
-            @SuppressWarnings("unchecked")
-            List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
+        for (OperationMap operations : getOperations(objs)) {
+            List<CodegenOperation> ops = operations.getOperation();
 
             List<Map<String, Object>> opsByPathList = sortOperationsByPath(ops);
             operations.put("operationsByPath", opsByPathList);
@@ -608,19 +609,17 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
     }
 
     @Override
-    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+    public ModelsMap postProcessModels(ModelsMap objs) {
         // process enum in models
         return postProcessModelsEnum(objs);
     }
 
     @Override
-    public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
-        Map<String, Object> result = super.postProcessAllModels(objs);
-        for (Map.Entry<String, Object> entry : result.entrySet()) {
-            Map<String, Object> inner = (Map<String, Object>) entry.getValue();
-            List<Map<String, Object>> models = (List<Map<String, Object>>) inner.get("models");
-            for (Map<String, Object> mo : models) {
-                CodegenModel cm = (CodegenModel) mo.get("model");
+    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
+        Map<String, ModelsMap> result = super.postProcessAllModels(objs);
+        for (ModelsMap entry : result.values()) {
+            for (ModelMap mo : entry.getModels()) {
+                CodegenModel cm = mo.getModel();
                 // Add additional filename information for imports
                 mo.put("pyImports", toPyImports(cm, cm.imports));
             }
@@ -646,9 +645,9 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
-        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
-        List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        OperationMap operations = objs.getOperations();
+        List<CodegenOperation> operationList = operations.getOperation();
 
         for (CodegenOperation operation : operationList) {
             Map<String, String> skipTests = new HashMap<>();

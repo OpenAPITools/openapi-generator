@@ -69,6 +69,7 @@ docs/models/OuterEnumIntegerDefaultValue.md
 docs/models/ParentPet.md
 docs/models/Pet.md
 docs/models/Pig.md
+docs/models/PolymorphicProperty.md
 docs/models/Quadrilateral.md
 docs/models/QuadrilateralInterface.md
 docs/models/ReadOnlyFirst.md
@@ -107,13 +108,13 @@ src/Org.OpenAPITools/Client/HostConfiguration.cs
 src/Org.OpenAPITools/Client/HttpSigningConfiguration.cs
 src/Org.OpenAPITools/Client/HttpSigningToken.cs
 src/Org.OpenAPITools/Client/IApi.cs
+src/Org.OpenAPITools/Client/JsonSerializerOptionsProvider.cs
 src/Org.OpenAPITools/Client/OAuthToken.cs
-src/Org.OpenAPITools/Client/OpenAPIDateConverter.cs
+src/Org.OpenAPITools/Client/OpenAPIDateJsonConverter.cs
 src/Org.OpenAPITools/Client/RateLimitProvider`1.cs
 src/Org.OpenAPITools/Client/TokenBase.cs
 src/Org.OpenAPITools/Client/TokenContainer`1.cs
 src/Org.OpenAPITools/Client/TokenProvider`1.cs
-src/Org.OpenAPITools/Model/AbstractOpenAPISchema.cs
 src/Org.OpenAPITools/Model/AdditionalPropertiesClass.cs
 src/Org.OpenAPITools/Model/Animal.cs
 src/Org.OpenAPITools/Model/ApiResponse.cs
@@ -174,6 +175,7 @@ src/Org.OpenAPITools/Model/OuterEnumIntegerDefaultValue.cs
 src/Org.OpenAPITools/Model/ParentPet.cs
 src/Org.OpenAPITools/Model/Pet.cs
 src/Org.OpenAPITools/Model/Pig.cs
+src/Org.OpenAPITools/Model/PolymorphicProperty.cs
 src/Org.OpenAPITools/Model/Quadrilateral.cs
 src/Org.OpenAPITools/Model/QuadrilateralInterface.cs
 src/Org.OpenAPITools/Model/ReadOnlyFirst.cs

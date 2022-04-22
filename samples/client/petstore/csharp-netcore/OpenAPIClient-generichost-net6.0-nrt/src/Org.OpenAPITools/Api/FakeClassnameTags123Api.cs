@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text.Json;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
 
@@ -38,7 +39,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;ModelClient?&gt;&gt;</returns>
         Task<ApiResponse<ModelClient?>> TestClassnameWithHttpInfoAsync(ModelClient modelClient, System.Threading.CancellationToken? cancellationToken = null);
-        
+
         /// <summary>
         /// To test class name in snake case
         /// </summary>
@@ -50,7 +51,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;ModelClient&gt;</returns>
         Task<ModelClient?> TestClassnameAsync(ModelClient modelClient, System.Threading.CancellationToken? cancellationToken = null);
-        
+
         /// <summary>
         /// To test class name in snake case
         /// </summary>
@@ -61,13 +62,16 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;ModelClient?&gt;</returns>
         Task<ModelClient?> TestClassnameOrDefaultAsync(ModelClient modelClient, System.Threading.CancellationToken? cancellationToken = null);
-    }
+
+            }
 
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
     public partial class FakeClassnameTags123Api : IFakeClassnameTags123Api
     {
+        private JsonSerializerOptions _jsonSerializerOptions;
+
         /// <summary>
         /// An event to track the health of the server. 
         /// If you store these event args, be sure to purge old event args to prevent a memory leak.
@@ -88,22 +92,22 @@ namespace Org.OpenAPITools.Api
         /// A token provider of type <see cref="ApiKeyProvider"/>
         /// </summary>
         public TokenProvider<ApiKeyToken> ApiKeyProvider { get; }
-        
+
         /// <summary>
         /// A token provider of type <see cref="BearerToken"/>
         /// </summary>
         public TokenProvider<BearerToken> BearerTokenProvider { get; }
-        
+
         /// <summary>
         /// A token provider of type <see cref="BasicTokenProvider"/>
         /// </summary>
         public TokenProvider<BasicToken> BasicTokenProvider { get; }
-        
+
         /// <summary>
         /// A token provider of type <see cref="HttpSignatureTokenProvider"/>
         /// </summary>
         public TokenProvider<HttpSignatureToken> HttpSignatureTokenProvider { get; }
-        
+
         /// <summary>
         /// A token provider of type <see cref="OauthTokenProvider"/>
         /// </summary>
@@ -113,13 +117,14 @@ namespace Org.OpenAPITools.Api
         /// Initializes a new instance of the <see cref="FakeClassnameTags123Api"/> class.
         /// </summary>
         /// <returns></returns>
-        public FakeClassnameTags123Api(ILogger<FakeClassnameTags123Api> logger, HttpClient httpClient, 
+        public FakeClassnameTags123Api(ILogger<FakeClassnameTags123Api> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, 
             TokenProvider<ApiKeyToken> apiKeyProvider, 
             TokenProvider<BearerToken> bearerTokenProvider, 
             TokenProvider<BasicToken> basicTokenProvider, 
             TokenProvider<HttpSignatureToken> httpSignatureTokenProvider, 
             TokenProvider<OAuthToken> oauthTokenProvider)
         {
+            _jsonSerializerOptions = jsonSerializerOptionsProvider.Options;
             Logger = logger;
             HttpClient = httpClient;
             ApiKeyProvider = apiKeyProvider;
@@ -139,7 +144,7 @@ namespace Org.OpenAPITools.Api
         public async Task<ModelClient?> TestClassnameAsync(ModelClient modelClient, System.Threading.CancellationToken? cancellationToken = null)
         {
             ApiResponse<ModelClient?> result = await TestClassnameWithHttpInfoAsync(modelClient, cancellationToken).ConfigureAwait(false);
-            
+
             if (result.Content == null)
                 throw new ApiException(result.ReasonPhrase, result.StatusCode, result.RawContent);
 
@@ -184,54 +189,53 @@ namespace Org.OpenAPITools.Api
 
                 if (modelClient == null)
                     throw new ArgumentNullException(nameof(modelClient));
-                    
+
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                
+
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
                     UriBuilder uriBuilder = new UriBuilder();
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
                     uriBuilder.Scheme = ClientUtils.SCHEME;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/fake_classname_test";
-                    
+
                     System.Collections.Specialized.NameValueCollection parseQueryString = System.Web.HttpUtility.ParseQueryString(string.Empty);
-                    
-                    if ((modelClient as object) is System.IO.Stream stream)
-                        request.Content = new StreamContent(stream);
-                    else
-                        request.Content = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(modelClient, ClientUtils.JsonSerializerSettings));
+
+                    request.Content = (modelClient as object) is System.IO.Stream stream
+                        ? request.Content = new StreamContent(stream)
+                        : request.Content = new StringContent(JsonSerializer.Serialize(modelClient, _jsonSerializerOptions));
 
                     List<TokenBase> tokens = new List<TokenBase>();
-                    
+
                     ApiKeyToken apiKey = (ApiKeyToken) await ApiKeyProvider.GetAsync(cancellationToken).ConfigureAwait(false);
-                    
+
                     tokens.Add(apiKey);
-                    
+
                     apiKey.UseInQuery(request, uriBuilder, parseQueryString, "api_key_query");
-                    
+
                     uriBuilder.Query = parseQueryString.ToString();
 
                     request.RequestUri = uriBuilder.Uri;
-                    
+
                     string[] contentTypes = new string[] {
                         "application/json" 
                     };
-                    
+
                     string? contentType = ClientUtils.SelectHeaderContentType(contentTypes);
 
                     if (contentType != null)
                         request.Content.Headers.Add("ContentType", contentType);
-                    
+
                     string[] accepts = new string[] { 
                         "application/json" 
                     };
-                    
+
                     string? accept = ClientUtils.SelectHeaderAccept(accepts);
 
                     if (accept != null)
                         request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(accept));
                     
-                    request.Method = HttpMethod.Patch; 
+                    request.Method = HttpMethod.Patch;
 
                     using (HttpResponseMessage responseMessage = await HttpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
                     {
@@ -254,7 +258,7 @@ namespace Org.OpenAPITools.Api
                         ApiResponse<ModelClient?> apiResponse = new ApiResponse<ModelClient?>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
-                            apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<ModelClient>(apiResponse.RawContent, ClientUtils.JsonSerializerSettings);
+                            apiResponse.Content = JsonSerializer.Deserialize<ModelClient>(apiResponse.RawContent, _jsonSerializerOptions);
                         else if (apiResponse.StatusCode == (HttpStatusCode) 429)
                             foreach(TokenBase token in tokens)
                                 token.BeginRateLimit();
@@ -268,6 +272,5 @@ namespace Org.OpenAPITools.Api
                 Logger.LogError(e, "An error occured while sending the request to the server.");
                 throw;
             }
-        }
-    }
+        }    }
 }

@@ -4,14 +4,14 @@ import {Configuration} from '../configuration{{extensionForDeno}}';
 import {RequestContext, HttpMethod, ResponseContext, HttpFile} from '../http/http{{extensionForDeno}}';
 {{#platforms}}
 {{#node}}
-import * as FormData from "form-data";
+import {{^supportsES6}}* as{{/supportsES6}} FormData from "form-data";
 import { URLSearchParams } from 'url';
 {{/node}}
 {{/platforms}}
 import {ObjectSerializer} from '../models/ObjectSerializer{{extensionForDeno}}';
 import {ApiException} from './exception{{extensionForDeno}}';
 import {canConsumeForm, isCodeInRange} from '../util{{extensionForDeno}}';
-import {SecurityAuthentication} from '../auth/auth';
+import {SecurityAuthentication} from '../auth/auth{{extensionForDeno}}';
 
 {{#useInversify}}
 import { injectable } from "inversify";

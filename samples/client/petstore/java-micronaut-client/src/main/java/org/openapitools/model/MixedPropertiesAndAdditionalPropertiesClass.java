@@ -16,7 +16,7 @@ import java.util.Objects;
 import java.util.Arrays;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,7 +45,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
     private UUID uuid;
 
     public static final String JSON_PROPERTY_DATE_TIME = "dateTime";
-    private LocalDateTime dateTime;
+    private OffsetDateTime dateTime;
 
     public static final String JSON_PROPERTY_MAP = "map";
     private Map<String, Animal> map = null;
@@ -65,7 +65,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
     @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_UUID)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public UUID getUuid() {
+    public UUID getUuid() {
         return uuid;
     }
 
@@ -75,7 +75,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
         this.uuid = uuid;
     }
 
-    public MixedPropertiesAndAdditionalPropertiesClass dateTime(LocalDateTime dateTime) {
+    public MixedPropertiesAndAdditionalPropertiesClass dateTime(OffsetDateTime dateTime) {
         this.dateTime = dateTime;
         return this;
     }
@@ -89,14 +89,14 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
     @JsonProperty(JSON_PROPERTY_DATE_TIME)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXXX")
-       public LocalDateTime getDateTime() {
+    public OffsetDateTime getDateTime() {
         return dateTime;
     }
 
     @JsonProperty(JSON_PROPERTY_DATE_TIME)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXXX")
-       public void setDateTime(LocalDateTime dateTime) {
+       public void setDateTime(OffsetDateTime dateTime) {
         this.dateTime = dateTime;
     }
 
@@ -121,7 +121,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
     @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_MAP)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public Map<String, Animal> getMap() {
+    public Map<String, Animal> getMap() {
         return map;
     }
 

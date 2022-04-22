@@ -25,6 +25,15 @@ CREATE TABLE IF NOT EXISTS `AdditionalPropertiesClass` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
+-- Table structure for table `AllOfWithSingleRef` generated from model 'AllOfWithSingleRef'
+--
+
+CREATE TABLE IF NOT EXISTS `AllOfWithSingleRef` (
+  `username` TEXT DEFAULT NULL,
+  `SingleRefType` TEXT DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
 -- Table structure for table `Animal` generated from model 'Animal'
 --
 

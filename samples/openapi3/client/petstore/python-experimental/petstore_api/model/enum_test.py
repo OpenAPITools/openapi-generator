@@ -31,6 +31,7 @@ from petstore_api.schemas import (  # noqa: F401
     Float32Schema,
     Float64Schema,
     NumberSchema,
+    UUIDSchema,
     DateSchema,
     DateTimeSchema,
     DecimalSchema,
@@ -52,6 +53,7 @@ from petstore_api.schemas import (  # noqa: F401
     Float32Base,
     Float64Base,
     NumberBase,
+    UUIDBase,
     DateBase,
     DateTimeBase,
     BoolBase,
@@ -90,17 +92,17 @@ class EnumTest(
         @classmethod
         @property
         def UPPER(cls):
-            return cls._enum_by_value["UPPER"]("UPPER")
+            return cls("UPPER")
         
         @classmethod
         @property
         def LOWER(cls):
-            return cls._enum_by_value["lower"]("lower")
+            return cls("lower")
         
         @classmethod
         @property
         def EMPTY(cls):
-            return cls._enum_by_value[""]("")
+            return cls("")
     
     
     class enum_string_required(
@@ -117,17 +119,17 @@ class EnumTest(
         @classmethod
         @property
         def UPPER(cls):
-            return cls._enum_by_value["UPPER"]("UPPER")
+            return cls("UPPER")
         
         @classmethod
         @property
         def LOWER(cls):
-            return cls._enum_by_value["lower"]("lower")
+            return cls("lower")
         
         @classmethod
         @property
         def EMPTY(cls):
-            return cls._enum_by_value[""]("")
+            return cls("")
     
     
     class enum_integer(
@@ -143,12 +145,12 @@ class EnumTest(
         @classmethod
         @property
         def POSITIVE_1(cls):
-            return cls._enum_by_value[1](1)
+            return cls(1)
         
         @classmethod
         @property
         def NEGATIVE_1(cls):
-            return cls._enum_by_value[-1](-1)
+            return cls(-1)
     
     
     class enum_number(
@@ -164,12 +166,12 @@ class EnumTest(
         @classmethod
         @property
         def POSITIVE_1_PT_1(cls):
-            return cls._enum_by_value[1.1](1.1)
+            return cls(1.1)
         
         @classmethod
         @property
         def NEGATIVE_1_PT_2(cls):
-            return cls._enum_by_value[-1.2](-1.2)
+            return cls(-1.2)
 
     @classmethod
     @property

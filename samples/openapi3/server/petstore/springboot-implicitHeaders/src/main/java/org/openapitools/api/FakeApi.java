@@ -63,8 +63,6 @@ public interface FakeApi {
             @ApiResponse(responseCode = "200", description = "successful operation")
         }
     )
-    @Parameters({
-    })
     @RequestMapping(
         method = RequestMethod.POST,
         value = "/fake/create_xml_item",
@@ -94,8 +92,6 @@ public interface FakeApi {
             })
         }
     )
-    @Parameters({
-    })
     @RequestMapping(
         method = RequestMethod.POST,
         value = "/fake/outer/boolean",
@@ -125,8 +121,6 @@ public interface FakeApi {
             })
         }
     )
-    @Parameters({
-    })
     @RequestMapping(
         method = RequestMethod.POST,
         value = "/fake/outer/composite",
@@ -165,8 +159,6 @@ public interface FakeApi {
             })
         }
     )
-    @Parameters({
-    })
     @RequestMapping(
         method = RequestMethod.POST,
         value = "/fake/outer/number",
@@ -196,8 +188,6 @@ public interface FakeApi {
             })
         }
     )
-    @Parameters({
-    })
     @RequestMapping(
         method = RequestMethod.POST,
         value = "/fake/outer/string",
@@ -225,8 +215,6 @@ public interface FakeApi {
             @ApiResponse(responseCode = "200", description = "Success")
         }
     )
-    @Parameters({
-    })
     @RequestMapping(
         method = RequestMethod.PUT,
         value = "/fake/body-with-file-schema",
@@ -254,8 +242,6 @@ public interface FakeApi {
             @ApiResponse(responseCode = "200", description = "Success")
         }
     )
-    @Parameters({
-    })
     @RequestMapping(
         method = RequestMethod.PUT,
         value = "/fake/body-with-query-params",
@@ -287,8 +273,6 @@ public interface FakeApi {
             })
         }
     )
-    @Parameters({
-    })
     @RequestMapping(
         method = RequestMethod.PATCH,
         value = "/fake",
@@ -345,8 +329,6 @@ public interface FakeApi {
             @SecurityRequirement(name = "http_basic_test")
         }
     )
-    @Parameters({
-    })
     @RequestMapping(
         method = RequestMethod.POST,
         value = "/fake",
@@ -468,8 +450,6 @@ public interface FakeApi {
             @ApiResponse(responseCode = "200", description = "successful operation")
         }
     )
-    @Parameters({
-    })
     @RequestMapping(
         method = RequestMethod.POST,
         value = "/fake/inline-additionalProperties",
@@ -498,8 +478,6 @@ public interface FakeApi {
             @ApiResponse(responseCode = "200", description = "successful operation")
         }
     )
-    @Parameters({
-    })
     @RequestMapping(
         method = RequestMethod.GET,
         value = "/fake/jsonFormData",
@@ -532,8 +510,6 @@ public interface FakeApi {
             @ApiResponse(responseCode = "200", description = "Success")
         }
     )
-    @Parameters({
-    })
     @RequestMapping(
         method = RequestMethod.PUT,
         value = "/fake/test-query-parameters"
@@ -571,8 +547,6 @@ public interface FakeApi {
             @SecurityRequirement(name = "petstore_auth", scopes={ "write:pets", "read:pets" })
         }
     )
-    @Parameters({
-    })
     @RequestMapping(
         method = RequestMethod.POST,
         value = "/fake/{petId}/uploadImageWithRequiredFile",

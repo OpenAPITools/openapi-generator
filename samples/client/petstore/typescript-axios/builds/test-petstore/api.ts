@@ -59,10 +59,10 @@ export interface AdditionalPropertiesClass {
     'map_with_undeclared_properties_anytype_2'?: object;
     /**
      * 
-     * @type {{ [key: string]: object; }}
+     * @type {{ [key: string]: any; }}
      * @memberof AdditionalPropertiesClass
      */
-    'map_with_undeclared_properties_anytype_3'?: { [key: string]: object; };
+    'map_with_undeclared_properties_anytype_3'?: { [key: string]: any; };
     /**
      * an object with no declared properties and no undeclared properties, hence it\'s an empty map.
      * @type {object}
@@ -1706,7 +1706,7 @@ export interface Whale {
  * @interface Zebra
  */
 export interface Zebra {
-    [key: string]: object | any;
+    [key: string]: any;
 
     /**
      * 

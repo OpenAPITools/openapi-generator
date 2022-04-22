@@ -173,7 +173,7 @@ export interface ArrayTest {
  * @interface Banana
  */
 export interface Banana {
-    [key: string]: object | any;
+    [key: string]: any;
 
     /**
      * 

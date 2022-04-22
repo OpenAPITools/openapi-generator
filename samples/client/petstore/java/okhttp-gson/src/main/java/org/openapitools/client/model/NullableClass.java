@@ -44,6 +44,7 @@ import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -55,7 +56,7 @@ import org.openapitools.client.JSON;
  * NullableClass
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-public class NullableClass extends HashMap<String, Object> {
+public class NullableClass {
   public static final String SERIALIZED_NAME_INTEGER_PROP = "integer_prop";
   @SerializedName(SERIALIZED_NAME_INTEGER_PROP)
   private Integer integerProp;
@@ -431,6 +432,7 @@ public class NullableClass extends HashMap<String, Object> {
   }
 
 
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -451,8 +453,7 @@ public class NullableClass extends HashMap<String, Object> {
         Objects.equals(this.arrayItemsNullable, nullableClass.arrayItemsNullable) &&
         Objects.equals(this.objectNullableProp, nullableClass.objectNullableProp) &&
         Objects.equals(this.objectAndItemsNullableProp, nullableClass.objectAndItemsNullableProp) &&
-        Objects.equals(this.objectItemsNullable, nullableClass.objectItemsNullable) &&
-        super.equals(o);
+        Objects.equals(this.objectItemsNullable, nullableClass.objectItemsNullable);
   }
 
   private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
@@ -461,7 +462,7 @@ public class NullableClass extends HashMap<String, Object> {
 
   @Override
   public int hashCode() {
-    return Objects.hash(integerProp, numberProp, booleanProp, stringProp, dateProp, datetimeProp, arrayNullableProp, arrayAndItemsNullableProp, arrayItemsNullable, objectNullableProp, objectAndItemsNullableProp, objectItemsNullable, super.hashCode());
+    return Objects.hash(integerProp, numberProp, booleanProp, stringProp, dateProp, datetimeProp, arrayNullableProp, arrayAndItemsNullableProp, arrayItemsNullable, objectNullableProp, objectAndItemsNullableProp, objectItemsNullable);
   }
 
   private static <T> int hashCodeNullable(JsonNullable<T> a) {
@@ -475,7 +476,6 @@ public class NullableClass extends HashMap<String, Object> {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class NullableClass {\n");
-    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    integerProp: ").append(toIndentedString(integerProp)).append("\n");
     sb.append("    numberProp: ").append(toIndentedString(numberProp)).append("\n");
     sb.append("    booleanProp: ").append(toIndentedString(booleanProp)).append("\n");
@@ -541,12 +541,28 @@ public class NullableClass extends HashMap<String, Object> {
           throw new IllegalArgumentException(String.format("The required field(s) %s in NullableClass is not found in the empty JSON string", NullableClass.openapiRequiredFields.toString()));
         }
       }
+
       Set<Entry<String, JsonElement>> entries = jsonObj.entrySet();
       // check to see if the JSON string contains additional fields
       for (Entry<String, JsonElement> entry : entries) {
         if (!NullableClass.openapiFields.contains(entry.getKey())) {
           throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `NullableClass` properties. JSON: %s", entry.getKey(), jsonObj.toString()));
         }
+      }
+      if (jsonObj.get("string_prop") != null && !jsonObj.get("string_prop").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `string_prop` to be a primitive type in the JSON string but got `%s`", jsonObj.get("string_prop").toString()));
+      }
+      // ensure the json data is an array
+      if (jsonObj.get("array_nullable_prop") != null && !jsonObj.get("array_nullable_prop").isJsonArray()) {
+        throw new IllegalArgumentException(String.format("Expected the field `array_nullable_prop` to be an array in the JSON string but got `%s`", jsonObj.get("array_nullable_prop").toString()));
+      }
+      // ensure the json data is an array
+      if (jsonObj.get("array_and_items_nullable_prop") != null && !jsonObj.get("array_and_items_nullable_prop").isJsonArray()) {
+        throw new IllegalArgumentException(String.format("Expected the field `array_and_items_nullable_prop` to be an array in the JSON string but got `%s`", jsonObj.get("array_and_items_nullable_prop").toString()));
+      }
+      // ensure the json data is an array
+      if (jsonObj.get("array_items_nullable") != null && !jsonObj.get("array_items_nullable").isJsonArray()) {
+        throw new IllegalArgumentException(String.format("Expected the field `array_items_nullable` to be an array in the JSON string but got `%s`", jsonObj.get("array_items_nullable").toString()));
       }
   }
 

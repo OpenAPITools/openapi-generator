@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text.Json;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
 
@@ -37,7 +38,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;InlineResponseDefault?&gt;&gt;</returns>
         Task<ApiResponse<InlineResponseDefault?>> FooGetWithHttpInfoAsync(System.Threading.CancellationToken? cancellationToken = null);
-        
+
         /// <summary>
         /// 
         /// </summary>
@@ -48,7 +49,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;InlineResponseDefault&gt;</returns>
         Task<InlineResponseDefault?> FooGetAsync(System.Threading.CancellationToken? cancellationToken = null);
-        
+
         /// <summary>
         /// 
         /// </summary>
@@ -58,13 +59,16 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;InlineResponseDefault?&gt;</returns>
         Task<InlineResponseDefault?> FooGetOrDefaultAsync(System.Threading.CancellationToken? cancellationToken = null);
-    }
+
+            }
 
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
     public partial class DefaultApi : IDefaultApi
     {
+        private JsonSerializerOptions _jsonSerializerOptions;
+
         /// <summary>
         /// An event to track the health of the server. 
         /// If you store these event args, be sure to purge old event args to prevent a memory leak.
@@ -85,22 +89,22 @@ namespace Org.OpenAPITools.Api
         /// A token provider of type <see cref="ApiKeyProvider"/>
         /// </summary>
         public TokenProvider<ApiKeyToken> ApiKeyProvider { get; }
-        
+
         /// <summary>
         /// A token provider of type <see cref="BearerToken"/>
         /// </summary>
         public TokenProvider<BearerToken> BearerTokenProvider { get; }
-        
+
         /// <summary>
         /// A token provider of type <see cref="BasicTokenProvider"/>
         /// </summary>
         public TokenProvider<BasicToken> BasicTokenProvider { get; }
-        
+
         /// <summary>
         /// A token provider of type <see cref="HttpSignatureTokenProvider"/>
         /// </summary>
         public TokenProvider<HttpSignatureToken> HttpSignatureTokenProvider { get; }
-        
+
         /// <summary>
         /// A token provider of type <see cref="OauthTokenProvider"/>
         /// </summary>
@@ -110,13 +114,14 @@ namespace Org.OpenAPITools.Api
         /// Initializes a new instance of the <see cref="DefaultApi"/> class.
         /// </summary>
         /// <returns></returns>
-        public DefaultApi(ILogger<DefaultApi> logger, HttpClient httpClient, 
+        public DefaultApi(ILogger<DefaultApi> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, 
             TokenProvider<ApiKeyToken> apiKeyProvider, 
             TokenProvider<BearerToken> bearerTokenProvider, 
             TokenProvider<BasicToken> basicTokenProvider, 
             TokenProvider<HttpSignatureToken> httpSignatureTokenProvider, 
             TokenProvider<OAuthToken> oauthTokenProvider)
         {
+            _jsonSerializerOptions = jsonSerializerOptionsProvider.Options;
             Logger = logger;
             HttpClient = httpClient;
             ApiKeyProvider = apiKeyProvider;
@@ -135,7 +140,7 @@ namespace Org.OpenAPITools.Api
         public async Task<InlineResponseDefault?> FooGetAsync(System.Threading.CancellationToken? cancellationToken = null)
         {
             ApiResponse<InlineResponseDefault?> result = await FooGetWithHttpInfoAsync(cancellationToken).ConfigureAwait(false);
-            
+
             if (result.Content == null)
                 throw new ApiException(result.ReasonPhrase, result.StatusCode, result.RawContent);
 
@@ -182,17 +187,17 @@ namespace Org.OpenAPITools.Api
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/foo";
 
                     request.RequestUri = uriBuilder.Uri;
-                    
+
                     string[] accepts = new string[] { 
                         "application/json" 
                     };
-                    
+
                     string? accept = ClientUtils.SelectHeaderAccept(accepts);
 
                     if (accept != null)
                         request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(accept));
                     
-                    request.Method = HttpMethod.Get; 
+                    request.Method = HttpMethod.Get;
 
                     using (HttpResponseMessage responseMessage = await HttpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
                     {
@@ -215,7 +220,7 @@ namespace Org.OpenAPITools.Api
                         ApiResponse<InlineResponseDefault?> apiResponse = new ApiResponse<InlineResponseDefault?>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
-                            apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<InlineResponseDefault>(apiResponse.RawContent, ClientUtils.JsonSerializerSettings);
+                            apiResponse.Content = JsonSerializer.Deserialize<InlineResponseDefault>(apiResponse.RawContent, _jsonSerializerOptions);
 
                         return apiResponse;
                     }
@@ -226,6 +231,5 @@ namespace Org.OpenAPITools.Api
                 Logger.LogError(e, "An error occured while sending the request to the server.");
                 throw;
             }
-        }
-    }
+        }    }
 }

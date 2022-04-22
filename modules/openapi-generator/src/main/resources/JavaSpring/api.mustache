@@ -76,10 +76,10 @@ import javax.annotation.Generated;
 @Controller
 {{/useSpringController}}
 {{#swagger2AnnotationLibrary}}
-@Tag(name = "{{{baseName}}}", description = "the {{{baseName}}} API")
+@Tag(name = "{{{baseName}}}", description = {{#tagDescription}}"{{{.}}}"{{/tagDescription}}{{^tagDescription}}"the {{{baseName}}} API"{{/tagDescription}})
 {{/swagger2AnnotationLibrary}}
 {{#swagger1AnnotationLibrary}}
-@Api(value = "{{{baseName}}}", description = "the {{{baseName}}} API")
+@Api(value = "{{{baseName}}}", description = {{#tagDescription}}"{{{.}}}"{{/tagDescription}}{{^tagDescription}}"the {{{baseName}}} API"{{/tagDescription}})
 {{/swagger1AnnotationLibrary}}
 {{#operations}}
 {{#virtualService}}
@@ -132,6 +132,9 @@ public interface {{classname}} {
         {{#summary}}
         summary = "{{{.}}}",
         {{/summary}}
+        {{#description}}
+        description= "{{{.}}}",
+        {{/description}}
         {{#vendorExtensions.x-tags.size}}
         tags = { {{#vendorExtensions.x-tags}}"{{tag}}"{{^-last}}, {{/-last}}{{/vendorExtensions.x-tags}} },
         {{/vendorExtensions.x-tags.size}}
@@ -181,26 +184,26 @@ public interface {{classname}} {
         {{/responses}}
     })
     {{/swagger1AnnotationLibrary}}
-    {{#implicitHeaders}}
+    {{#implicitHeadersParams.0}}
     {{#swagger2AnnotationLibrary}}
     @Parameters({
-        {{#headerParams}}
+        {{#implicitHeadersParams}}
         {{>paramDoc}}{{^-last}},{{/-last}}
-        {{/headerParams}}
+        {{/implicitHeadersParams}}
     {{/swagger2AnnotationLibrary}}
     {{#swagger1AnnotationLibrary}}
     @ApiImplicitParams({
-        {{#headerParams}}
+        {{#implicitHeadersParams}}
         {{>implicitHeader}}{{^-last}},{{/-last}}
-        {{/headerParams}}
+        {{/implicitHeadersParams}}
     {{/swagger1AnnotationLibrary}}
     })
-    {{/implicitHeaders}}
+    {{/implicitHeadersParams.0}}
     @RequestMapping(
         method = RequestMethod.{{httpMethod}},
         value = "{{{path}}}"{{#singleContentTypes}}{{#hasProduces}},
         produces = "{{{vendorExtensions.x-accepts}}}"{{/hasProduces}}{{#hasConsumes}},
-        consumes = "{{{vendorExtensions.x-contentType}}}"{{/hasConsumes}}{{/singleContentTypes}}{{^singleContentTypes}}{{#hasProduces}},
+        consumes = "{{{vendorExtensions.x-content-type}}}"{{/hasConsumes}}{{/singleContentTypes}}{{^singleContentTypes}}{{#hasProduces}},
         produces = { {{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}} }{{/hasProduces}}{{#hasConsumes}},
         consumes = { {{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}} }{{/hasConsumes}}{{/singleContentTypes}}
     )

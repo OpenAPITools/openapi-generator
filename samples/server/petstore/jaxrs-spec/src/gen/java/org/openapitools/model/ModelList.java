@@ -17,9 +17,16 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("List")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class ModelList  implements Serializable {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+public class ModelList  implements Serializable {
   
   private @Valid String _123list;
+
+  protected ModelList(ModelListBuilder<?, ?> b) {
+  this._123list = b._123list;
+  }
+
+  public ModelList() { }
 
   /**
    **/
@@ -27,8 +34,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this._123list = _123list;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -82,5 +87,33 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   }
 
 
+  public static ModelListBuilder<?, ?> builder() {
+    return new ModelListBuilderImpl();
+  }
+
+  private static final class ModelListBuilderImpl extends ModelListBuilder<ModelList, ModelListBuilderImpl> {
+
+    @Override
+    protected ModelListBuilderImpl self() {
+      return this;
+    }
+
+    @Override
+    public ModelList build() {
+      return new ModelList(this);
+    }
+  }
+
+  public static abstract class ModelListBuilder<C extends ModelList, B extends ModelListBuilder<C, B>>  {
+    private String _123list;
+    protected abstract B self();
+
+    public abstract C build();
+
+    public B _123list(String _123list) {
+      this._123list = _123list;
+      return self();
+    }
+  }
 }
 

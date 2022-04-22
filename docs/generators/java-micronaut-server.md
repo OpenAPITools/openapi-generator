@@ -29,6 +29,9 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |booleanGetterPrefix|Set booleanGetterPrefix| |get|
 |build|Specify for which build tool to generate files|<dl><dt>**gradle**</dt><dd>Gradle configuration is generated for the project</dd><dt>**all**</dt><dd>Both Gradle and Maven configurations are generated</dd><dt>**maven**</dt><dd>Maven configuration is generated for the project</dd></dl>|all|
 |controllerPackage|The package in which controllers will be generated| |org.openapitools.api|
+|dateFormat|Specify the format pattern of date as a string| |null|
+|dateLibrary|Option. Date library to use|<dl><dt>**java8-localdatetime**</dt><dd>Java 8 using LocalDateTime (for legacy app only)</dd><dt>**java8**</dt><dd>Java 8 native JSR310 (preferred for jdk 1.8+)</dd></dl>|java8|
+|datetimeFormat|Specify the format pattern of date-time as a string| |null|
 |developerEmail|developer email in generated pom.xml| |team@openapitools.org|
 |developerName|developer name in generated pom.xml| |OpenAPI-Generator Contributors|
 |developerOrganization|developer organization in generated pom.xml| |OpenAPITools.org|
@@ -44,6 +47,8 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |groupId|groupId in generated pom.xml| |org.openapitools|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |false|
 |ignoreAnyOfInEnum|Ignore anyOf keyword in enum| |false|
+|implicitHeaders|Skip header parameters in the generated API methods using @ApiImplicitParams annotation.| |false|
+|implicitHeadersRegex|Skip header parameters that matches given regex in the generated API methods using @ApiImplicitParams annotation. Note: this parameter is ignored when implicitHeaders=true| |null|
 |invokerPackage|root package for generated code| |org.openapitools|
 |legacyDiscriminatorBehavior|Set to false for generators with better support for discriminators. (Python, Java, Go, PowerShell, C#have this enabled by default).|<dl><dt>**true**</dt><dd>The mapping in the discriminator includes descendent schemas that allOf inherit from self and the discriminator mapping schemas in the OAS document.</dd><dt>**false**</dt><dd>The mapping in the discriminator includes any descendent schemas that allOf inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values, and the discriminator mapping schemas in the OAS document AND Codegen validates that oneOf and anyOf schemas contain the required discriminator and throws an error if the discriminator is missing.</dd></dl>|true|
 |licenseName|The name of the license| |Unlicense|
@@ -69,7 +74,22 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |title|Client service name| |null|
 |useAuth|Whether to import authorization and to annotate controller methods accordingly| |true|
 |useBeanValidation|Use BeanValidation API annotations| |true|
+|useOptional|Use Optional container for optional parameters| |false|
 |withXml|whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)| |false|
+
+## SUPPORTED VENDOR EXTENSIONS
+
+| Extension name | Description | Applicable for | Default value |
+| -------------- | ----------- | -------------- | ------------- |
+|x-discriminator-value|Used with model inheritance to specify value for discriminator that identifies current model|MODEL|
+|x-implements|Ability to specify interfaces that model must implements|MODEL|empty array
+|x-setter-extra-annotation|Custom annotation that can be specified over java setter for specific field|FIELD|When field is array & uniqueItems, then this extension is used to add `@JsonDeserialize(as = LinkedHashSet.class)` over setter, otherwise no value
+|x-tags|Specify multiple swagger tags for operation|OPERATION|null
+|x-accepts|Specify custom value for 'Accept' header for operation|OPERATION|null
+|x-content-type|Specify custom value for 'Content-Type' header for operation|OPERATION|null
+|x-class-extra-annotation|List of custom annotations to be added to model|MODEL|null
+|x-field-extra-annotation|List of custom annotations to be added to property|FIELD|null
+
 
 ## IMPORT MAPPING
 
@@ -233,7 +253,11 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |DateTime|✓|OAS2,OAS3
 |Password|✓|OAS2,OAS3
 |File|✓|OAS2
+|Uuid|✗|
 |Array|✓|OAS2,OAS3
+|Null|✗|OAS3
+|AnyType|✗|OAS2,OAS3
+|Object|✓|OAS2,OAS3
 |Maps|✓|ToolingExtension
 |CollectionFormat|✓|OAS2
 |CollectionFormatMulti|✓|OAS2
@@ -293,6 +317,10 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |Composite|✓|OAS2,OAS3
 |Polymorphism|✗|OAS2,OAS3
 |Union|✗|OAS3
+|allOf|✗|OAS2,OAS3
+|anyOf|✗|OAS3
+|oneOf|✗|OAS3
+|not|✗|OAS3
 
 ### Security Feature
 | Name | Supported | Defined By |

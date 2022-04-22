@@ -34,17 +34,18 @@ jobs:
           - samples/client/petstore/java/rest-assured
           - samples/client/petstore/java/rest-assured-jackson
           - samples/client/petstore/java/microprofile-rest-client
+          - samples/client/petstore/java/microprofile-rest-client-3.0
           - samples/client/petstore/java/apache-httpclient
           - samples/client/petstore/java/feign
           - samples/client/petstore/java/jersey1
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-java@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
           java-version: 11
       - name: Cache maven dependencies
-        uses: actions/cache@v2.1.7
+        uses: actions/cache@v3
         env:
           cache-name: maven-repository
         with:

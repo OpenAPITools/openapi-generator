@@ -975,6 +975,7 @@ sub test_endpoint_parameters {
 # @param string $enum_query_string Query parameter enum test (string) (optional, default to '-efg')
 # @param int $enum_query_integer Query parameter enum test (double) (optional)
 # @param double $enum_query_double Query parameter enum test (double) (optional)
+# @param ARRAY[EnumClass] $enum_query_model_array  (optional)
 # @param ARRAY[string] $enum_form_string_array Form parameter enum test (string array) (optional, default to '$')
 # @param string $enum_form_string Form parameter enum test (string) (optional, default to '-efg')
 {
@@ -1007,6 +1008,11 @@ sub test_endpoint_parameters {
     'enum_query_double' => {
         data_type => 'double',
         description => 'Query parameter enum test (double)',
+        required => '0',
+    },
+    'enum_query_model_array' => {
+        data_type => 'ARRAY[EnumClass]',
+        description => '',
         required => '0',
     },
     'enum_form_string_array' => {
@@ -1064,6 +1070,11 @@ sub test_enum_parameters {
     # query params
     if ( exists $args{'enum_query_double'}) {
         $query_params->{'enum_query_double'} = $self->{api_client}->to_query_value($args{'enum_query_double'});
+    }
+
+    # query params
+    if ( exists $args{'enum_query_model_array'}) {
+        $query_params->{'enum_query_model_array'} = $self->{api_client}->to_query_value($args{'enum_query_model_array'});
     }
 
     # header params

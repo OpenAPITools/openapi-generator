@@ -2,8 +2,11 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -22,8 +25,9 @@ import javax.annotation.Generated;
  * BigCat
  */
 
+
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class BigCat extends Cat  {
+public class BigCat extends Cat {
 
   /**
    * Gets or Sets kind
@@ -84,6 +88,21 @@ public class BigCat extends Cat  {
 
   public void setKind(KindEnum kind) {
     this.kind = kind;
+  }
+
+  public BigCat declawed(Boolean declawed) {
+    super.setDeclawed(declawed);
+    return this;
+  }
+
+  public BigCat className(String className) {
+    super.setClassName(className);
+    return this;
+  }
+
+  public BigCat color(String color) {
+    super.setColor(color);
+    return this;
   }
 
   @Override

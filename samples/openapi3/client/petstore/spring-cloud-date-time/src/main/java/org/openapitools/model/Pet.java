@@ -23,7 +23,7 @@ import javax.annotation.Generated;
  */
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class Pet   {
+public class Pet {
 
   @JsonProperty("@type")
   private String atType = "Pet";

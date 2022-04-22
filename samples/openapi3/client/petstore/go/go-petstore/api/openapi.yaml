@@ -2087,6 +2087,33 @@ components:
           default: 120
           type: number
       type: object
+    NullableAllOfChild:
+      properties:
+        name:
+          type: string
+      type: object
+    NullableAllOf:
+      properties:
+        child:
+          allOf:
+          - $ref: '#/components/schemas/NullableAllOfChild'
+          nullable: true
+      type: object
+    OneOfPrimitiveType:
+      oneOf:
+      - $ref: '#/components/schemas/OneOfPrimitiveTypeChild'
+      - format: int32
+        type: integer
+      - $ref: '#/components/schemas/OneOfArrayOfString'
+    OneOfPrimitiveTypeChild:
+      properties:
+        name:
+          type: string
+      type: object
+    OneOfArrayOfString:
+      items:
+        type: string
+      type: array
     inline_response_default:
       example:
         string:

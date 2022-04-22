@@ -54,7 +54,7 @@ public class AdditionalPropertiesAnyType extends HashMap<String, Object> {
     @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_NAME)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public String getName() {
+    public String getName() {
         return name;
     }
 

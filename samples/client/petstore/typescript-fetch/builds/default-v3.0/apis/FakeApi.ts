@@ -18,6 +18,9 @@ import {
     Client,
     ClientFromJSON,
     ClientToJSON,
+    EnumClass,
+    EnumClassFromJSON,
+    EnumClassToJSON,
     FileSchemaTestClass,
     FileSchemaTestClassFromJSON,
     FileSchemaTestClassToJSON,
@@ -105,6 +108,7 @@ export interface TestEnumParametersRequest {
     enumQueryString?: TestEnumParametersEnumQueryStringEnum;
     enumQueryInteger?: TestEnumParametersEnumQueryIntegerEnum;
     enumQueryDouble?: TestEnumParametersEnumQueryDoubleEnum;
+    enumQueryModelArray?: Array<EnumClass>;
     enumFormStringArray?: Array<TestEnumParametersEnumFormStringArrayEnum>;
     enumFormString?: TestEnumParametersEnumFormStringEnum;
 }
@@ -636,6 +640,10 @@ export class FakeApi extends runtime.BaseAPI {
             queryParameters['enum_query_double'] = requestParameters.enumQueryDouble;
         }
 
+        if (requestParameters.enumQueryModelArray) {
+            queryParameters['enum_query_model_array'] = requestParameters.enumQueryModelArray;
+        }
+
         const headerParameters: runtime.HTTPHeaders = {};
 
         if (requestParameters.enumHeaderStringArray) {
@@ -930,69 +938,69 @@ export class FakeApi extends runtime.BaseAPI {
 }
 
 /**
-    * @export
-    * @enum {string}
-    */
-export enum TestEnumParametersEnumHeaderStringArrayEnum {
-    GreaterThan = '>',
-    Dollar = '$'
-}
+ * @export
+ */
+export const TestEnumParametersEnumHeaderStringArrayEnum = {
+    GreaterThan: '>',
+    Dollar: '$'
+} as const;
+export type TestEnumParametersEnumHeaderStringArrayEnum = typeof TestEnumParametersEnumHeaderStringArrayEnum[keyof typeof TestEnumParametersEnumHeaderStringArrayEnum];
 /**
-    * @export
-    * @enum {string}
-    */
-export enum TestEnumParametersEnumHeaderStringEnum {
-    Abc = '_abc',
-    Efg = '-efg',
-    Xyz = '(xyz)'
-}
+ * @export
+ */
+export const TestEnumParametersEnumHeaderStringEnum = {
+    Abc: '_abc',
+    Efg: '-efg',
+    Xyz: '(xyz)'
+} as const;
+export type TestEnumParametersEnumHeaderStringEnum = typeof TestEnumParametersEnumHeaderStringEnum[keyof typeof TestEnumParametersEnumHeaderStringEnum];
 /**
-    * @export
-    * @enum {string}
-    */
-export enum TestEnumParametersEnumQueryStringArrayEnum {
-    GreaterThan = '>',
-    Dollar = '$'
-}
+ * @export
+ */
+export const TestEnumParametersEnumQueryStringArrayEnum = {
+    GreaterThan: '>',
+    Dollar: '$'
+} as const;
+export type TestEnumParametersEnumQueryStringArrayEnum = typeof TestEnumParametersEnumQueryStringArrayEnum[keyof typeof TestEnumParametersEnumQueryStringArrayEnum];
 /**
-    * @export
-    * @enum {string}
-    */
-export enum TestEnumParametersEnumQueryStringEnum {
-    Abc = '_abc',
-    Efg = '-efg',
-    Xyz = '(xyz)'
-}
+ * @export
+ */
+export const TestEnumParametersEnumQueryStringEnum = {
+    Abc: '_abc',
+    Efg: '-efg',
+    Xyz: '(xyz)'
+} as const;
+export type TestEnumParametersEnumQueryStringEnum = typeof TestEnumParametersEnumQueryStringEnum[keyof typeof TestEnumParametersEnumQueryStringEnum];
 /**
-    * @export
-    * @enum {string}
-    */
-export enum TestEnumParametersEnumQueryIntegerEnum {
-    NUMBER_1 = 1,
-    NUMBER_MINUS_2 = -2
-}
+ * @export
+ */
+export const TestEnumParametersEnumQueryIntegerEnum = {
+    NUMBER_1: 1,
+    NUMBER_MINUS_2: -2
+} as const;
+export type TestEnumParametersEnumQueryIntegerEnum = typeof TestEnumParametersEnumQueryIntegerEnum[keyof typeof TestEnumParametersEnumQueryIntegerEnum];
 /**
-    * @export
-    * @enum {string}
-    */
-export enum TestEnumParametersEnumQueryDoubleEnum {
-    NUMBER_1_DOT_1 = 1.1,
-    NUMBER_MINUS_1_DOT_2 = -1.2
-}
+ * @export
+ */
+export const TestEnumParametersEnumQueryDoubleEnum = {
+    NUMBER_1_DOT_1: 1.1,
+    NUMBER_MINUS_1_DOT_2: -1.2
+} as const;
+export type TestEnumParametersEnumQueryDoubleEnum = typeof TestEnumParametersEnumQueryDoubleEnum[keyof typeof TestEnumParametersEnumQueryDoubleEnum];
 /**
-    * @export
-    * @enum {string}
-    */
-export enum TestEnumParametersEnumFormStringArrayEnum {
-    GreaterThan = '>',
-    Dollar = '$'
-}
+ * @export
+ */
+export const TestEnumParametersEnumFormStringArrayEnum = {
+    GreaterThan: '>',
+    Dollar: '$'
+} as const;
+export type TestEnumParametersEnumFormStringArrayEnum = typeof TestEnumParametersEnumFormStringArrayEnum[keyof typeof TestEnumParametersEnumFormStringArrayEnum];
 /**
-    * @export
-    * @enum {string}
-    */
-export enum TestEnumParametersEnumFormStringEnum {
-    Abc = '_abc',
-    Efg = '-efg',
-    Xyz = '(xyz)'
-}
+ * @export
+ */
+export const TestEnumParametersEnumFormStringEnum = {
+    Abc: '_abc',
+    Efg: '-efg',
+    Xyz: '(xyz)'
+} as const;
+export type TestEnumParametersEnumFormStringEnum = typeof TestEnumParametersEnumFormStringEnum[keyof typeof TestEnumParametersEnumFormStringEnum];

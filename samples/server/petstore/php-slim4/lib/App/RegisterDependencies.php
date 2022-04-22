@@ -54,9 +54,16 @@ final class RegisterDependencies
             // Slim error middleware
             // @see https://www.slimframework.com/docs/v4/middleware/error-handling.html
             \Slim\Middleware\ErrorMiddleware::class => \DI\autowire()
-                ->constructorParameter('displayErrorDetails', \DI\get('slim.displayErrorDetails', false))
-                ->constructorParameter('logErrors', \DI\get('slim.logErrors', true))
-                ->constructorParameter('logErrorDetails', \DI\get('slim.logErrorDetails', true)),
+                ->constructorParameter('displayErrorDetails', \DI\get('slim.displayErrorDetails'))
+                ->constructorParameter('logErrors', \DI\get('slim.logErrors'))
+                ->constructorParameter('logErrorDetails', \DI\get('slim.logErrorDetails'))
+                ->constructorParameter('logger', \DI\get(\Psr\Log\LoggerInterface::class)),
+
+            // CORS
+            \Neomerx\Cors\Contracts\AnalysisStrategyInterface::class => \DI\create(\Neomerx\Cors\Strategies\Settings::class)
+                ->method('setData', \DI\get('cors.settings')),
+
+            \Neomerx\Cors\Contracts\AnalyzerInterface::class => \DI\factory([\Neomerx\Cors\Analyzer::class, 'instance']),
 
             // PDO class for database managing
             \PDO::class => \DI\create()
@@ -64,8 +71,44 @@ final class RegisterDependencies
                     \DI\get('pdo.dsn'),
                     \DI\get('pdo.username'),
                     \DI\get('pdo.password'),
-                    \DI\get('pdo.options', null)
+                    \DI\get('pdo.options')
                 ),
+
+            // DataMocker
+            // @see https://github.com/ybelenko/openapi-data-mocker-server-middleware
+            \OpenAPIServer\Mock\OpenApiDataMockerInterface::class => \DI\create(\OpenAPIServer\Mock\OpenApiDataMocker::class)
+                ->method('setModelsNamespace', 'OpenAPIServer\Model\\'),
+
+            \OpenAPIServer\Mock\OpenApiDataMockerRouteMiddlewareFactory::class => \DI\autowire()
+                ->constructorParameter('getMockStatusCodeCallback', \DI\get('mocker.getMockStatusCodeCallback'))
+                ->constructorParameter('afterCallback', \DI\get('mocker.afterCallback')),
+
+            // Monolog Logger
+            \Psr\Log\LoggerInterface::class => \DI\factory(function (string $mode, string $name, string $path, $level, array $options = []) {
+                $logger = new \Monolog\Logger($name);
+
+                $handlers = [];
+                // stream logger as default handler across all environments
+                // somebody might not need it during development
+                $handlers[] = new \Monolog\Handler\StreamHandler($path, $level);
+
+                if ($mode === 'development') {
+                    // add dev handlers if necessary
+                    // @see https://github.com/Seldaek/monolog/blob/f2f66cd480df5f165391ff9b6332700d467b25ac/doc/02-handlers-formatters-processors.md#logging-in-development
+                } elseif ($mode === 'production') {
+                    // add prod handlers
+                    // @see https://github.com/Seldaek/monolog/blob/f2f66cd480df5f165391ff9b6332700d467b25ac/doc/02-handlers-formatters-processors.md#send-alerts-and-emails
+                    // handlers which doesn't make sense during development
+                    // Slack, Sentry, Swift or native mailer
+                }
+
+                return $logger->setHandlers($handlers);
+            })
+                ->parameter('mode', \DI\get('mode'))
+                ->parameter('name', \DI\get('logger.name'))
+                ->parameter('path', \DI\get('logger.path'))
+                ->parameter('level', \DI\get('logger.level'))
+                ->parameter('options', \DI\get('logger.options')),
         ]);
     }
 }

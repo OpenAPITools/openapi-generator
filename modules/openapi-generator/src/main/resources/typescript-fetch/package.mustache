@@ -9,10 +9,13 @@
 {{^packageAsSourceOnlyLibrary}}
   "main": "./dist/index.js",
   "typings": "./dist/index.d.ts",
+{{#supportsES6}}
+  "module": "./dist/esm/index.js",
+  "sideEffects": false,
+{{/supportsES6}}
   "scripts": {
-    "build": "tsc"{{^sagasAndRecords}},
-    "prepare": "npm run build"
-{{/sagasAndRecords}}
+    "build": "tsc{{#supportsES6}} && tsc -p tsconfig.esm.json{{/supportsES6}}"{{^sagasAndRecords}},
+    "prepare": "npm run build"{{/sagasAndRecords}}
   },
 {{/packageAsSourceOnlyLibrary}}
   "devDependencies": {
@@ -23,7 +26,7 @@
     "redux-ts-simple": "^3.2.0",
     "reselect": "^4.0.0",
 {{/sagasAndRecords}}
-    "typescript": "^{{#typescriptThreePlus}}3.9.5{{/typescriptThreePlus}}{{^typescriptThreePlus}}2.4{{/typescriptThreePlus}}"
+    "typescript": "^4.0"
   }{{#npmRepository}},{{/npmRepository}}
 {{#npmRepository}}
   "publishConfig": {

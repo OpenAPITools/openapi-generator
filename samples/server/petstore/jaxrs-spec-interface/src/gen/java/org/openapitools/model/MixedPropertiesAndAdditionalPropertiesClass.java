@@ -22,7 +22,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("MixedPropertiesAndAdditionalPropertiesClass")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializable {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializable {
   
   private @Valid UUID uuid;
   private @Valid Date dateTime;
@@ -34,8 +35,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.uuid = uuid;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -57,8 +56,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("dateTime")
   public Date getDateTime() {
@@ -76,8 +73,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.map = map;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")

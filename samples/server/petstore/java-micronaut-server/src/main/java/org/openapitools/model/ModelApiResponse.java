@@ -62,7 +62,7 @@ public class ModelApiResponse {
     @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_CODE)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public Integer getCode() {
+    public Integer getCode() {
         return code;
     }
 
@@ -85,7 +85,7 @@ public class ModelApiResponse {
     @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_TYPE)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public String getType() {
+    public String getType() {
         return type;
     }
 
@@ -108,7 +108,7 @@ public class ModelApiResponse {
     @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_MESSAGE)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public String getMessage() {
+    public String getMessage() {
         return message;
     }
 

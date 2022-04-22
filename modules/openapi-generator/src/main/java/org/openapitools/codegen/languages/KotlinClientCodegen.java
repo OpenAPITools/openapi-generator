@@ -33,6 +33,10 @@ import org.openapitools.codegen.meta.features.ParameterFeature;
 import org.openapitools.codegen.meta.features.SchemaSupportFeature;
 import org.openapitools.codegen.meta.features.SecurityFeature;
 import org.openapitools.codegen.meta.features.WireFormatFeature;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ProcessUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -232,7 +236,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
         cliOptions.add(CliOption.newBoolean(GENERATE_ROOM_MODELS, "Generate Android Room database models in addition to API models (JVM Volley library only)", false));
 
-        cliOptions.add(CliOption.newBoolean(SUPPORT_ANDROID_API_LEVEL_25_AND_BELLOW, "[WARNING] This flag will generate code that has a known security vulnerability. It uses `kotlin.io.createTempFile` instead of `java.nio.file.Files.createTempFile` in oder to support Android API level 25 and bellow. For more info, please check the following links https://github.com/OpenAPITools/openapi-generator/security/advisories/GHSA-23x4-m842-fmwf, https://github.com/OpenAPITools/openapi-generator/pull/9284"));
+        cliOptions.add(CliOption.newBoolean(SUPPORT_ANDROID_API_LEVEL_25_AND_BELLOW, "[WARNING] This flag will generate code that has a known security vulnerability. It uses `kotlin.io.createTempFile` instead of `java.nio.file.Files.createTempFile` in order to support Android API level 25 and bellow. For more info, please check the following links https://github.com/OpenAPITools/openapi-generator/security/advisories/GHSA-23x4-m842-fmwf, https://github.com/OpenAPITools/openapi-generator/pull/9284"));
     }
 
     public CodegenType getTag() {
@@ -703,6 +707,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     private void commonJvmMultiplatformSupportingFiles(String infrastructureFolder) {
         supportingFiles.add(new SupportingFile("infrastructure/ApiClient.kt.mustache", infrastructureFolder, "ApiClient.kt"));
         supportingFiles.add(new SupportingFile("infrastructure/ApiAbstractions.kt.mustache", infrastructureFolder, "ApiAbstractions.kt"));
+        supportingFiles.add(new SupportingFile("infrastructure/PartConfig.kt.mustache", infrastructureFolder, "PartConfig.kt"));
         supportingFiles.add(new SupportingFile("infrastructure/RequestConfig.kt.mustache", infrastructureFolder, "RequestConfig.kt"));
         supportingFiles.add(new SupportingFile("infrastructure/RequestMethod.kt.mustache", infrastructureFolder, "RequestMethod.kt"));
     }
@@ -730,13 +735,11 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     }
 
     @Override
-    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
-        Map<String, Object> objects = super.postProcessModels(objs);
-        @SuppressWarnings("unchecked") List<Object> models = (List<Object>) objs.get("models");
+    public ModelsMap postProcessModels(ModelsMap objs) {
+        ModelsMap objects = super.postProcessModels(objs);
 
-        for (Object model : models) {
-            @SuppressWarnings("unchecked") Map<String, Object> mo = (Map<String, Object>) model;
-            CodegenModel cm = (CodegenModel) mo.get("model");
+        for (ModelMap mo : objects.getModels()) {
+            CodegenModel cm = mo.getModel();
             if (getGenerateRoomModels()) {
                 cm.vendorExtensions.put("x-has-data-class-body", true);
             }
@@ -767,12 +770,11 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         super.postProcessOperationsWithModels(objs, allModels);
-        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
+        OperationMap operations = objs.getOperations();
         if (operations != null) {
-            List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
+            List<CodegenOperation> ops = operations.getOperation();
             for (CodegenOperation operation : ops) {
 
                 if (JVM_RETROFIT2.equals(getLibrary()) && StringUtils.isNotEmpty(operation.path) && operation.path.startsWith("/")) {
@@ -789,22 +791,22 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
                         // match on first part in mediaTypes like 'application/json; charset=utf-8'
                         int endIndex = mediaTypeValue.indexOf(';');
                         String mediaType = (endIndex == -1
-                                ? mediaTypeValue
-                                : mediaTypeValue.substring(0, endIndex)
+                            ? mediaTypeValue
+                            : mediaTypeValue.substring(0, endIndex)
                         ).trim();
                         return "multipart/form-data".equals(mediaType)
-                                || "application/x-www-form-urlencoded".equals(mediaType)
-                                || (mediaType.startsWith("application/") && mediaType.endsWith("json"));
+                            || "application/x-www-form-urlencoded".equals(mediaType)
+                            || (mediaType.startsWith("application/") && mediaType.endsWith("json"));
                     };
                     operation.consumes = operation.consumes == null ? null : operation.consumes.stream()
-                            .filter(isSerializable)
-                            .limit(1)
-                            .collect(Collectors.toList());
+                        .filter(isSerializable)
+                        .limit(1)
+                        .collect(Collectors.toList());
                     operation.hasConsumes = operation.consumes != null && !operation.consumes.isEmpty();
 
                     operation.produces = operation.produces == null ? null : operation.produces.stream()
-                            .filter(isSerializable)
-                            .collect(Collectors.toList());
+                        .filter(isSerializable)
+                        .collect(Collectors.toList());
                     operation.hasProduces = operation.produces != null && !operation.produces.isEmpty();
                 }
 
@@ -850,7 +852,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
                 }
             }
         }
-        return operations;
+        return objs;
     }
 
     private static boolean isMultipartType(List<Map<String, String>> consumes) {

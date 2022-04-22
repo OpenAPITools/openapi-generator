@@ -188,9 +188,9 @@ void main() {
           request: Request(
             method: RequestMethods.get,
             queryParameters: <String, dynamic>{
-              'status': Matchers.listParam<String>(
-                ListParam(
-                  ['available', 'sold'],
+              'status': Matchers.listParam<dynamic>(
+                ListParam<dynamic>(
+                  <dynamic>['available', 'sold'],
                   ListFormat.csv,
                 ),
               ),

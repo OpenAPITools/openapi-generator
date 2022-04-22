@@ -151,6 +151,7 @@ Class | Method | HTTP request | Description
 ## Documentation for Models
 
  - [Model.AdditionalPropertiesClass](docs/AdditionalPropertiesClass.md)
+ - [Model.AllOfWithSingleRef](docs/AllOfWithSingleRef.md)
  - [Model.Animal](docs/Animal.md)
  - [Model.ApiResponse](docs/ApiResponse.md)
  - [Model.ArrayOfArrayOfNumberOnly](docs/ArrayOfArrayOfNumberOnly.md)
@@ -193,6 +194,7 @@ Class | Method | HTTP request | Description
  - [Model.Pet](docs/Pet.md)
  - [Model.ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [Model.Return](docs/Return.md)
+ - [Model.SingleRefType](docs/SingleRefType.md)
  - [Model.SpecialModelName](docs/SpecialModelName.md)
  - [Model.Tag](docs/Tag.md)
  - [Model.User](docs/User.md)
