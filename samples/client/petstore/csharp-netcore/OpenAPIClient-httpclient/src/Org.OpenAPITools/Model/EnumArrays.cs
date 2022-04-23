@@ -93,7 +93,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ArrayEnum
         /// </summary>
         [DataMember(Name = "array_enum", EmitDefaultValue = false)]
-        public List<string> ArrayEnum { get; set; }
+        public List<EnumArrays.ArrayEnumEnum> ArrayEnum { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

@@ -120,7 +120,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ArrayEnum
         /// </summary>
         [DataMember(Name = "array_enum", EmitDefaultValue = false)]
-        public List<string> ArrayEnum
+        public List<EnumArrays.ArrayEnumEnum> ArrayEnum
         {
             get{ return _ArrayEnum;}
             set
@@ -129,7 +129,7 @@ namespace Org.OpenAPITools.Model
                 _flagArrayEnum = true;
             }
         }
-        private List<string> _ArrayEnum;
+        private List<EnumArrays.ArrayEnumEnum> _ArrayEnum;
         private bool _flagArrayEnum;
 
         /// <summary>
