@@ -51,22 +51,6 @@ namespace Org.OpenAPITools.Model
             Dollar = 2
         }
 
-        /// <summary>
-        /// Returns a JustSymbolEnum
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static JustSymbolEnum? JustSymbolEnumFromString(string value)
-        {
-            if (value == ">=")
-                return JustSymbolEnum.GreaterThanOrEqualTo;
-
-            if (value == "$")
-                return JustSymbolEnum.Dollar;
-
-            return null;
-        }
-
 
         /// <summary>
         /// Gets or Sets JustSymbol
@@ -90,22 +74,6 @@ namespace Org.OpenAPITools.Model
             /// </summary>
             [EnumMember(Value = "crab")]
             Crab = 2
-        }
-
-        /// <summary>
-        /// Returns a ArrayEnumEnum
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static ArrayEnumEnum? ArrayEnumEnumFromString(string value)
-        {
-            if (value == "fish")
-                return ArrayEnumEnum.Fish;
-
-            if (value == "crab")
-                return ArrayEnumEnum.Crab;
-
-            return null;
         }
 
         /// <summary>

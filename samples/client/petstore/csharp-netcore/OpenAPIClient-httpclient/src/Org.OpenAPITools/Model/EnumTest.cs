@@ -58,25 +58,6 @@ namespace Org.OpenAPITools.Model
             Empty = 3
         }
 
-        /// <summary>
-        /// Returns a EnumStringEnum
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static EnumStringEnum? EnumStringEnumFromString(string value)
-        {
-            if (value == "UPPER")
-                return EnumStringEnum.UPPER;
-
-            if (value == "lower")
-                return EnumStringEnum.Lower;
-
-            if (value == "")
-                return EnumStringEnum.Empty;
-
-            return null;
-        }
-
 
         /// <summary>
         /// Gets or Sets EnumString
@@ -108,25 +89,6 @@ namespace Org.OpenAPITools.Model
             Empty = 3
         }
 
-        /// <summary>
-        /// Returns a EnumStringRequiredEnum
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static EnumStringRequiredEnum? EnumStringRequiredEnumFromString(string value)
-        {
-            if (value == "UPPER")
-                return EnumStringRequiredEnum.UPPER;
-
-            if (value == "lower")
-                return EnumStringRequiredEnum.Lower;
-
-            if (value == "")
-                return EnumStringRequiredEnum.Empty;
-
-            return null;
-        }
-
 
         /// <summary>
         /// Gets or Sets EnumStringRequired
@@ -149,22 +111,6 @@ namespace Org.OpenAPITools.Model
             NUMBER_MINUS_1 = -1
         }
 
-        /// <summary>
-        /// Returns a EnumIntegerEnum
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static EnumIntegerEnum? EnumIntegerEnumFromString(string value)
-        {
-            if (value == (1).ToString())
-                return EnumIntegerEnum.NUMBER_1;
-
-            if (value == (-1).ToString())
-                return EnumIntegerEnum.NUMBER_MINUS_1;
-
-            return null;
-        }
-
 
         /// <summary>
         /// Gets or Sets EnumInteger
@@ -185,22 +131,6 @@ namespace Org.OpenAPITools.Model
             /// Enum NUMBER_MINUS_2 for value: -2
             /// </summary>
             NUMBER_MINUS_2 = -2
-        }
-
-        /// <summary>
-        /// Returns a EnumIntegerOnlyEnum
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static EnumIntegerOnlyEnum? EnumIntegerOnlyEnumFromString(string value)
-        {
-            if (value == (2).ToString())
-                return EnumIntegerOnlyEnum.NUMBER_2;
-
-            if (value == (-2).ToString())
-                return EnumIntegerOnlyEnum.NUMBER_MINUS_2;
-
-            return null;
         }
 
 
@@ -226,22 +156,6 @@ namespace Org.OpenAPITools.Model
             /// </summary>
             [EnumMember(Value = "-1.2")]
             NUMBER_MINUS_1_DOT_2 = 2
-        }
-
-        /// <summary>
-        /// Returns a EnumNumberEnum
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static EnumNumberEnum? EnumNumberEnumFromString(string value)
-        {
-            if (value == "1.1")
-                return EnumNumberEnum.NUMBER_1_DOT_1;
-
-            if (value == "-1.2")
-                return EnumNumberEnum.NUMBER_MINUS_1_DOT_2;
-
-            return null;
         }
 
 

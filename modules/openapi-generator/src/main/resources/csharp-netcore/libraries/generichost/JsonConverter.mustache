@@ -72,31 +72,31 @@
                         {{#isBoolean}}
                             {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = reader.GetBoolean();
                         {{/isBoolean}}
+                        {{#isNumeric}}
+                        {{^isEnum}}
+                        {{#isDouble}}
+                            {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = reader.GetDouble();
+                        {{/isDouble}}
                         {{#isDecimal}}
                             {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = reader.GetDecimal();
                         {{/isDecimal}}
-                        {{^isFloat}}
-                        {{#isNumeric}}
-                        {{^isEnum}}
-                            {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = reader.GetInt32();
-                        {{/isEnum}}
-                        {{/isNumeric}}
-                        {{/isFloat}}
                         {{#isFloat}}
-                        {{^isEnum}}
                             {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = (float)reader.GetDouble();
-                        {{/isEnum}}
                         {{/isFloat}}
                         {{#isLong}}
-                        {{^isEnum}}
                             {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = reader.GetInt64();
-                        {{/isEnum}}
                         {{/isLong}}
-                        {{#isDouble}}
-                        {{^isEnum}}
-                            {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = reader.GetDouble();
-                        {{/isEnum}}
+                        {{^isLong}}
+                        {{^isFloat}}
+                        {{^isDecimal}}
+                        {{^isDouble}}
+                            {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = reader.GetInt32();
                         {{/isDouble}}
+                        {{/isDecimal}}
+                        {{/isFloat}}
+                        {{/isLong}}
+                        {{/isEnum}}
+                        {{/isNumeric}}
                         {{#isDate}}
                             Utf8JsonReader {{#lambda.camelcase_param}}{{name}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}Reader = reader;
                             {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = JsonSerializer.Deserialize<DateTime>(ref reader, options);
@@ -128,20 +128,14 @@
                         {{^isEnum}}
                         {{^isString}}
                         {{^isBoolean}}
-                        {{^isDecimal}}
                         {{^isNumeric}}
-                        {{^isLong}}
-                        {{^isDouble}}
                         {{^isDate}}
                         {{^isDateTime}}
                             Utf8JsonReader {{#lambda.camelcase_param}}{{name}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}Reader = reader;
                             {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = JsonSerializer.Deserialize<{{{datatypeWithEnum}}}>(ref reader, options);
                         {{/isDateTime}}
                         {{/isDate}}
-                        {{/isDouble}}
-                        {{/isLong}}
                         {{/isNumeric}}
-                        {{/isDecimal}}
                         {{/isBoolean}}
                         {{/isString}}
                         {{/isEnum}}

@@ -29,6 +29,7 @@
             {{/allowableValues}}
 
         }
+        {{#useGenericHost}}
 
         /// <summary>
         /// Returns a {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}
@@ -46,4 +47,5 @@
             {{/allowableValues}}
             return null;
         }
+        {{/useGenericHost}}
         {{/isContainer}}

@@ -58,25 +58,6 @@ namespace Org.OpenAPITools.Model
             Delivered = 3
         }
 
-        /// <summary>
-        /// Returns a StatusEnum
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static StatusEnum? StatusEnumFromString(string value)
-        {
-            if (value == "placed")
-                return StatusEnum.Placed;
-
-            if (value == "approved")
-                return StatusEnum.Approved;
-
-            if (value == "delivered")
-                return StatusEnum.Delivered;
-
-            return null;
-        }
-
 
         /// <summary>
         /// Order Status

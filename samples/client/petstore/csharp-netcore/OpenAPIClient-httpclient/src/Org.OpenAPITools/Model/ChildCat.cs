@@ -48,19 +48,6 @@ namespace Org.OpenAPITools.Model
             ChildCat = 1
         }
 
-        /// <summary>
-        /// Returns a PetTypeEnum
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static PetTypeEnum? PetTypeEnumFromString(string value)
-        {
-            if (value == "ChildCat")
-                return PetTypeEnum.ChildCat;
-
-            return null;
-        }
-
 
         /// <summary>
         /// Gets or Sets PetType

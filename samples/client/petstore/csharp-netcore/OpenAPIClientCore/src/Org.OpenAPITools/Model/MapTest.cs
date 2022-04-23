@@ -52,22 +52,6 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Returns a InnerEnum
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static InnerEnum? InnerEnumFromString(string value)
-        {
-            if (value == "UPPER")
-                return InnerEnum.UPPER;
-
-            if (value == "lower")
-                return InnerEnum.Lower;
-
-            return null;
-        }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="MapTest" /> class.
         /// </summary>
         /// <param name="mapMapOfString">mapMapOfString.</param>

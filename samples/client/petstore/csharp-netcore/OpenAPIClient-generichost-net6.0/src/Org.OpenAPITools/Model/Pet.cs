@@ -236,7 +236,6 @@ namespace Org.OpenAPITools.Model
                             category = JsonSerializer.Deserialize<Category>(ref reader, options);
                             break;
                         case "id":
-                            id = reader.GetInt32();
                             id = reader.GetInt64();
                             break;
                         case "name":

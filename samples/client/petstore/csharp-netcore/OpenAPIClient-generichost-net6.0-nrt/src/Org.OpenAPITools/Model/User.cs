@@ -272,7 +272,6 @@ namespace Org.OpenAPITools.Model
                             firstName = reader.GetString();
                             break;
                         case "id":
-                            id = reader.GetInt32();
                             id = reader.GetInt64();
                             break;
                         case "lastName":

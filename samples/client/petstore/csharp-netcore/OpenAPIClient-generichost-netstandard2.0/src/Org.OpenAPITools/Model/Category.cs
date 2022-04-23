@@ -138,7 +138,6 @@ namespace Org.OpenAPITools.Model
                     switch (propertyName)
                     {
                         case "id":
-                            id = reader.GetInt32();
                             id = reader.GetInt64();
                             break;
                         case "name":

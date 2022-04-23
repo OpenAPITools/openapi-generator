@@ -433,10 +433,10 @@ namespace Org.OpenAPITools.Model
                             dateTime = JsonSerializer.Deserialize<DateTime>(ref reader, options);
                             break;
                         case "decimal":
-                            _decimal = reader.GetDecimal();
+                            Utf8JsonReader _decimalReader = reader;
+                            _decimal = JsonSerializer.Deserialize<decimal>(ref reader, options);
                             break;
                         case "double":
-                            _double = reader.GetInt32();
                             _double = reader.GetDouble();
                             break;
                         case "float":
@@ -446,7 +446,6 @@ namespace Org.OpenAPITools.Model
                             int32 = reader.GetInt32();
                             break;
                         case "int64":
-                            int64 = reader.GetInt32();
                             int64 = reader.GetInt64();
                             break;
                         case "integer":

@@ -141,7 +141,6 @@ namespace Org.OpenAPITools.Model
                             specialModelNameProperty = reader.GetString();
                             break;
                         case "$special[property.name]":
-                            specialPropertyName = reader.GetInt32();
                             specialPropertyName = reader.GetInt64();
                             break;
                     }
