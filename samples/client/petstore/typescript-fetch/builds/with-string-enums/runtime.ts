@@ -113,7 +113,7 @@ export class BaseAPI {
         return this.withMiddleware<T>(...middlewares);
     }
 
-    protected async request(context: RequestOpts, initOverrides?: RequestInit | ((requestContext: { init: HTTPRequestInit, context: RequestOpts }) => Promise<RequestInit>)): Promise<Response> {
+    protected async request(context: RequestOpts, initOverrides?: RequestInit | InitOverideFunction): Promise<Response> {
         const { url, init } = await this.createFetchParams(context, initOverrides);
         const response = await this.fetchApi(url, init);
         if (response.status >= 200 && response.status < 300) {
@@ -122,7 +122,7 @@ export class BaseAPI {
         throw new ResponseError(response, 'Response returned an error code');
     }
 
-    private async createFetchParams(context: RequestOpts, initOverrides?: RequestInit | ((requestContext: { init: HTTPRequestInit, context: RequestOpts }) => Promise<RequestInit>)) {
+    private async createFetchParams(context: RequestOpts, initOverrides?: RequestInit | InitOverideFunction) {
         let url = this.configuration.basePath + context.path;
         if (context.query !== undefined && Object.keys(context.query).length !== 0) {
             // only add the querystring to the URL if there are query parameters.
@@ -134,24 +134,35 @@ export class BaseAPI {
         const headers = Object.assign({}, this.configuration.headers, context.headers);
         Object.keys(headers).forEach(key => headers[key] === undefined ? delete headers[key] : {});
 
-        const initOverrideFn: (requestContext: { init: HTTPRequestInit, context: RequestOpts }) => Promise<RequestInit> = typeof initOverrides === "function" ? initOverrides : async (requestContext: { init: HTTPRequestInit, context: RequestOpts }) => ({...requestContext.init, ...initOverrides});
+        const initOverrideFn =
+            typeof initOverrides === "function"
+                ? initOverrides
+                : async () => initOverrides;
 
-        const initWithOverride = await initOverrideFn({
-            init: {
-                method: context.method,
-                headers,
-                body: context.body,
-                credentials: this.configuration.credentials,
-            },
-            context
-        })
+        const initParams = {
+            method: context.method,
+            headers,
+            body: context.body,
+            credentials: this.configuration.credentials,
+        };
+
+        const overridedInit: RequestInit = {
+            ...initParams,
+            ...(await initOverrideFn({
+                init: initParams,
+                context,
+            }))
+        }
 
         const init: RequestInit = {
-            ...initWithOverride,
-            body:  ((typeof FormData !== "undefined" && initWithOverride.body instanceof FormData) || initWithOverride.body instanceof URLSearchParams || isBlob(initWithOverride.body))
-            ? initWithOverride.body
-            : JSON.stringify(initWithOverride.body)
-        }
+            ...overridedInit,
+            body:
+                isFormData(overridedInit.body) ||
+                overridedInit.body instanceof URLSearchParams ||
+                isBlob(overridedInit.body)
+                    ? overridedInit.body
+                    : JSON.stringify(overridedInit.body),
+        };
 
         return { url, init };
     }
@@ -196,6 +207,10 @@ function isBlob(value: any): value is Blob {
     return typeof Blob !== 'undefined' && value instanceof Blob
 }
 
+function isFormData(value: any): value is FormData {
+    return typeof FormData !== "undefined" && value instanceof FormData
+}
+
 export class ResponseError extends Error {
     name: "ResponseError" = "ResponseError";
     constructor(public response: Response, msg?: string) {
@@ -226,6 +241,8 @@ export type HTTPQuery = { [key: string]: string | number | null | boolean | Arra
 export type HTTPBody = Json | FormData | URLSearchParams;
 export type HTTPRequestInit = { headers?: HTTPHeaders; method: HTTPMethod; credentials?: RequestCredentials; body?: HTTPBody }
 export type ModelPropertyNaming = 'camelCase' | 'snake_case' | 'PascalCase' | 'original';
+
+export type InitOverideFunction = (requestContext: { init: HTTPRequestInit, context: RequestOpts }) => Promise<RequestInit>
 
 export interface FetchParams {
     url: string;
