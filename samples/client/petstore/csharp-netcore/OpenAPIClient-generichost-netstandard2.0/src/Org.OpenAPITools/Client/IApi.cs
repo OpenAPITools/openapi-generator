@@ -13,9 +13,9 @@ namespace Org.OpenAPITools.Client
         HttpClient HttpClient { get; }
 
         /// <summary>
-        /// An event to track the health of the server. 
+        /// The EventHub
         /// If you store these event args, be sure to purge old event args to prevent a memory leak.
         /// </summary>
-        event ClientUtils.EventHandler<ApiResponseEventArgs> ApiResponded;
+        IEventHub EventHub { get; }
     }
 }

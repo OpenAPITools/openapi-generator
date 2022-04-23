@@ -639,7 +639,6 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;object?&gt;</returns>
         Task<object?> TestQueryParameterCollectionFormatOrDefaultAsync(List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, System.Threading.CancellationToken? cancellationToken = null);
-
     }
 
     /// <summary>
@@ -650,10 +649,9 @@ namespace Org.OpenAPITools.Api
         private JsonSerializerOptions _jsonSerializerOptions;
 
         /// <summary>
-        /// An event to track the health of the server. 
-        /// If you store these event args, be sure to purge old event args to prevent a memory leak.
+        /// The EventHub
         /// </summary>
-        public event ClientUtils.EventHandler<ApiResponseEventArgs>? ApiResponded;
+        public IEventHub EventHub { get; }
 
         /// <summary>
         /// The logger
@@ -694,7 +692,7 @@ namespace Org.OpenAPITools.Api
         /// Initializes a new instance of the <see cref="FakeApi"/> class.
         /// </summary>
         /// <returns></returns>
-        public FakeApi(ILogger<FakeApi> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, 
+        public FakeApi(ILogger<FakeApi> logger, HttpClient httpClient, IEventHub eventHub, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, 
             TokenProvider<ApiKeyToken> apiKeyProvider, 
             TokenProvider<BearerToken> bearerTokenProvider, 
             TokenProvider<BasicToken> basicTokenProvider, 
@@ -704,6 +702,7 @@ namespace Org.OpenAPITools.Api
             _jsonSerializerOptions = jsonSerializerOptionsProvider.Options;
             Logger = logger;
             HttpClient = httpClient;
+            EventHub = eventHub;
             ApiKeyProvider = apiKeyProvider;
             BearerTokenProvider = bearerTokenProvider;
             BasicTokenProvider = basicTokenProvider;
@@ -776,7 +775,7 @@ namespace Org.OpenAPITools.Api
 
                     if (accept != null)
                         request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(accept));
-                    
+
                     request.Method = HttpMethod.Get;
 
                     using (HttpResponseMessage responseMessage = await HttpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
@@ -785,17 +784,7 @@ namespace Org.OpenAPITools.Api
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-                        if (ApiResponded != null)
-                        {
-                            try
-                            {
-                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake/health"));
-                            }
-                            catch(Exception e)
-                            {
-                                Logger.LogError(e, "An error occured while invoking ApiResponded.");
-                            }
-                        }
+                        EventHub.OnApiResponded(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake/health"));
 
                         ApiResponse<HealthCheckResult?> apiResponse = new ApiResponse<HealthCheckResult?>(responseMessage, responseContent);
 
@@ -894,7 +883,7 @@ namespace Org.OpenAPITools.Api
 
                     if (accept != null)
                         request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(accept));
-                    
+
                     request.Method = HttpMethod.Post;
 
                     using (HttpResponseMessage responseMessage = await HttpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
@@ -903,17 +892,7 @@ namespace Org.OpenAPITools.Api
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-                        if (ApiResponded != null)
-                        {
-                            try
-                            {
-                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake/outer/boolean"));
-                            }
-                            catch(Exception e)
-                            {
-                                Logger.LogError(e, "An error occured while invoking ApiResponded.");
-                            }
-                        }
+                        EventHub.OnApiResponded(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake/outer/boolean"));
 
                         ApiResponse<bool?> apiResponse = new ApiResponse<bool?>(responseMessage, responseContent);
 
@@ -1012,7 +991,7 @@ namespace Org.OpenAPITools.Api
 
                     if (accept != null)
                         request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(accept));
-                    
+
                     request.Method = HttpMethod.Post;
 
                     using (HttpResponseMessage responseMessage = await HttpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
@@ -1021,17 +1000,7 @@ namespace Org.OpenAPITools.Api
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-                        if (ApiResponded != null)
-                        {
-                            try
-                            {
-                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake/outer/composite"));
-                            }
-                            catch(Exception e)
-                            {
-                                Logger.LogError(e, "An error occured while invoking ApiResponded.");
-                            }
-                        }
+                        EventHub.OnApiResponded(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake/outer/composite"));
 
                         ApiResponse<OuterComposite?> apiResponse = new ApiResponse<OuterComposite?>(responseMessage, responseContent);
 
@@ -1130,7 +1099,7 @@ namespace Org.OpenAPITools.Api
 
                     if (accept != null)
                         request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(accept));
-                    
+
                     request.Method = HttpMethod.Post;
 
                     using (HttpResponseMessage responseMessage = await HttpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
@@ -1139,17 +1108,7 @@ namespace Org.OpenAPITools.Api
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-                        if (ApiResponded != null)
-                        {
-                            try
-                            {
-                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake/outer/number"));
-                            }
-                            catch(Exception e)
-                            {
-                                Logger.LogError(e, "An error occured while invoking ApiResponded.");
-                            }
-                        }
+                        EventHub.OnApiResponded(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake/outer/number"));
 
                         ApiResponse<decimal?> apiResponse = new ApiResponse<decimal?>(responseMessage, responseContent);
 
@@ -1248,7 +1207,7 @@ namespace Org.OpenAPITools.Api
 
                     if (accept != null)
                         request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(accept));
-                    
+
                     request.Method = HttpMethod.Post;
 
                     using (HttpResponseMessage responseMessage = await HttpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
@@ -1257,17 +1216,7 @@ namespace Org.OpenAPITools.Api
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-                        if (ApiResponded != null)
-                        {
-                            try
-                            {
-                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake/outer/string"));
-                            }
-                            catch(Exception e)
-                            {
-                                Logger.LogError(e, "An error occured while invoking ApiResponded.");
-                            }
-                        }
+                        EventHub.OnApiResponded(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake/outer/string"));
 
                         ApiResponse<string?> apiResponse = new ApiResponse<string?>(responseMessage, responseContent);
 
@@ -1350,7 +1299,7 @@ namespace Org.OpenAPITools.Api
 
                     if (accept != null)
                         request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(accept));
-                    
+
                     request.Method = HttpMethod.Get;
 
                     using (HttpResponseMessage responseMessage = await HttpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
@@ -1359,17 +1308,7 @@ namespace Org.OpenAPITools.Api
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-                        if (ApiResponded != null)
-                        {
-                            try
-                            {
-                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake/array-of-enums"));
-                            }
-                            catch(Exception e)
-                            {
-                                Logger.LogError(e, "An error occured while invoking ApiResponded.");
-                            }
-                        }
+                        EventHub.OnApiResponded(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake/array-of-enums"));
 
                         ApiResponse<List<OuterEnum>?> apiResponse = new ApiResponse<List<OuterEnum>?>(responseMessage, responseContent);
 
@@ -1477,17 +1416,7 @@ namespace Org.OpenAPITools.Api
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-                        if (ApiResponded != null)
-                        {
-                            try
-                            {
-                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake/body-with-file-schema"));
-                            }
-                            catch(Exception e)
-                            {
-                                Logger.LogError(e, "An error occured while invoking ApiResponded.");
-                            }
-                        }
+                        EventHub.OnApiResponded(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake/body-with-file-schema"));
 
                         ApiResponse<object?> apiResponse = new ApiResponse<object?>(responseMessage, responseContent);
 
@@ -1607,17 +1536,7 @@ namespace Org.OpenAPITools.Api
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-                        if (ApiResponded != null)
-                        {
-                            try
-                            {
-                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake/body-with-query-params"));
-                            }
-                            catch(Exception e)
-                            {
-                                Logger.LogError(e, "An error occured while invoking ApiResponded.");
-                            }
-                        }
+                        EventHub.OnApiResponded(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake/body-with-query-params"));
 
                         ApiResponse<object?> apiResponse = new ApiResponse<object?>(responseMessage, responseContent);
 
@@ -1725,7 +1644,7 @@ namespace Org.OpenAPITools.Api
 
                     if (accept != null)
                         request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(accept));
-                    
+
                     request.Method = HttpMethod.Patch;
 
                     using (HttpResponseMessage responseMessage = await HttpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
@@ -1734,17 +1653,7 @@ namespace Org.OpenAPITools.Api
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-                        if (ApiResponded != null)
-                        {
-                            try
-                            {
-                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake"));
-                            }
-                            catch(Exception e)
-                            {
-                                Logger.LogError(e, "An error occured while invoking ApiResponded.");
-                            }
-                        }
+                        EventHub.OnApiResponded(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake"));
 
                         ApiResponse<ModelClient?> apiResponse = new ApiResponse<ModelClient?>(responseMessage, responseContent);
 
@@ -1950,17 +1859,7 @@ namespace Org.OpenAPITools.Api
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-                        if (ApiResponded != null)
-                        {
-                            try
-                            {
-                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake"));
-                            }
-                            catch(Exception e)
-                            {
-                                Logger.LogError(e, "An error occured while invoking ApiResponded.");
-                            }
-                        }
+                        EventHub.OnApiResponded(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake"));
 
                         ApiResponse<object?> apiResponse = new ApiResponse<object?>(responseMessage, responseContent);
 
@@ -2114,17 +2013,7 @@ namespace Org.OpenAPITools.Api
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-                        if (ApiResponded != null)
-                        {
-                            try
-                            {
-                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake"));
-                            }
-                            catch(Exception e)
-                            {
-                                Logger.LogError(e, "An error occured while invoking ApiResponded.");
-                            }
-                        }
+                        EventHub.OnApiResponded(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake"));
 
                         ApiResponse<object?> apiResponse = new ApiResponse<object?>(responseMessage, responseContent);
 
@@ -2266,17 +2155,7 @@ namespace Org.OpenAPITools.Api
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-                        if (ApiResponded != null)
-                        {
-                            try
-                            {
-                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake"));
-                            }
-                            catch(Exception e)
-                            {
-                                Logger.LogError(e, "An error occured while invoking ApiResponded.");
-                            }
-                        }
+                        EventHub.OnApiResponded(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake"));
 
                         ApiResponse<object?> apiResponse = new ApiResponse<object?>(responseMessage, responseContent);
 
@@ -2387,17 +2266,7 @@ namespace Org.OpenAPITools.Api
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-                        if (ApiResponded != null)
-                        {
-                            try
-                            {
-                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake/inline-additionalProperties"));
-                            }
-                            catch(Exception e)
-                            {
-                                Logger.LogError(e, "An error occured while invoking ApiResponded.");
-                            }
-                        }
+                        EventHub.OnApiResponded(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake/inline-additionalProperties"));
 
                         ApiResponse<object?> apiResponse = new ApiResponse<object?>(responseMessage, responseContent);
 
@@ -2519,17 +2388,7 @@ namespace Org.OpenAPITools.Api
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-                        if (ApiResponded != null)
-                        {
-                            try
-                            {
-                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake/jsonFormData"));
-                            }
-                            catch(Exception e)
-                            {
-                                Logger.LogError(e, "An error occured while invoking ApiResponded.");
-                            }
-                        }
+                        EventHub.OnApiResponded(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake/jsonFormData"));
 
                         ApiResponse<object?> apiResponse = new ApiResponse<object?>(responseMessage, responseContent);
 
@@ -2658,17 +2517,7 @@ namespace Org.OpenAPITools.Api
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-                        if (ApiResponded != null)
-                        {
-                            try
-                            {
-                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake/test-query-parameters"));
-                            }
-                            catch(Exception e)
-                            {
-                                Logger.LogError(e, "An error occured while invoking ApiResponded.");
-                            }
-                        }
+                        EventHub.OnApiResponded(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake/test-query-parameters"));
 
                         ApiResponse<object?> apiResponse = new ApiResponse<object?>(responseMessage, responseContent);
 
@@ -2684,5 +2533,6 @@ namespace Org.OpenAPITools.Api
                 Logger.LogError(e, "An error occured while sending the request to the server.");
                 throw;
             }
-        }    }
+        }
+    }
 }

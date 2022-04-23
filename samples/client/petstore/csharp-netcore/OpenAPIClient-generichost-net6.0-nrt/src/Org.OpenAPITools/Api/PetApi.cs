@@ -363,7 +363,6 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;ApiResponse?&gt;</returns>
         Task<ApiResponse?> UploadFileWithRequiredFileOrDefaultAsync(System.IO.Stream requiredFile, long petId, string? additionalMetadata = null, System.Threading.CancellationToken? cancellationToken = null);
-
     }
 
     /// <summary>
@@ -374,10 +373,9 @@ namespace Org.OpenAPITools.Api
         private JsonSerializerOptions _jsonSerializerOptions;
 
         /// <summary>
-        /// An event to track the health of the server. 
-        /// If you store these event args, be sure to purge old event args to prevent a memory leak.
+        /// The EventHub
         /// </summary>
-        public event ClientUtils.EventHandler<ApiResponseEventArgs>? ApiResponded;
+        public IEventHub EventHub { get; }
 
         /// <summary>
         /// The logger
@@ -418,7 +416,7 @@ namespace Org.OpenAPITools.Api
         /// Initializes a new instance of the <see cref="PetApi"/> class.
         /// </summary>
         /// <returns></returns>
-        public PetApi(ILogger<PetApi> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, 
+        public PetApi(ILogger<PetApi> logger, HttpClient httpClient, IEventHub eventHub, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, 
             TokenProvider<ApiKeyToken> apiKeyProvider, 
             TokenProvider<BearerToken> bearerTokenProvider, 
             TokenProvider<BasicToken> basicTokenProvider, 
@@ -428,6 +426,7 @@ namespace Org.OpenAPITools.Api
             _jsonSerializerOptions = jsonSerializerOptionsProvider.Options;
             Logger = logger;
             HttpClient = httpClient;
+            EventHub = eventHub;
             ApiKeyProvider = apiKeyProvider;
             BearerTokenProvider = bearerTokenProvider;
             BasicTokenProvider = basicTokenProvider;
@@ -542,17 +541,7 @@ namespace Org.OpenAPITools.Api
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-                        if (ApiResponded != null)
-                        {
-                            try
-                            {
-                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/pet"));
-                            }
-                            catch(Exception e)
-                            {
-                                Logger.LogError(e, "An error occured while invoking ApiResponded.");
-                            }
-                        }
+                        EventHub.OnApiResponded(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/pet"));
 
                         ApiResponse<object?> apiResponse = new ApiResponse<object?>(responseMessage, responseContent);
 
@@ -668,17 +657,7 @@ namespace Org.OpenAPITools.Api
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-                        if (ApiResponded != null)
-                        {
-                            try
-                            {
-                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/pet/{petId}"));
-                            }
-                            catch(Exception e)
-                            {
-                                Logger.LogError(e, "An error occured while invoking ApiResponded.");
-                            }
-                        }
+                        EventHub.OnApiResponded(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/pet/{petId}"));
 
                         ApiResponse<object?> apiResponse = new ApiResponse<object?>(responseMessage, responseContent);
 
@@ -799,7 +778,7 @@ namespace Org.OpenAPITools.Api
 
                     if (accept != null)
                         request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(accept));
-                    
+
                     request.Method = HttpMethod.Get;
 
                     using (HttpResponseMessage responseMessage = await HttpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
@@ -808,17 +787,7 @@ namespace Org.OpenAPITools.Api
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-                        if (ApiResponded != null)
-                        {
-                            try
-                            {
-                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/pet/findByStatus"));
-                            }
-                            catch(Exception e)
-                            {
-                                Logger.LogError(e, "An error occured while invoking ApiResponded.");
-                            }
-                        }
+                        EventHub.OnApiResponded(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/pet/findByStatus"));
 
                         ApiResponse<List<Pet>?> apiResponse = new ApiResponse<List<Pet>?>(responseMessage, responseContent);
 
@@ -942,7 +911,7 @@ namespace Org.OpenAPITools.Api
 
                     if (accept != null)
                         request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(accept));
-                    
+
                     request.Method = HttpMethod.Get;
 
                     using (HttpResponseMessage responseMessage = await HttpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
@@ -951,17 +920,7 @@ namespace Org.OpenAPITools.Api
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-                        if (ApiResponded != null)
-                        {
-                            try
-                            {
-                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/pet/findByTags"));
-                            }
-                            catch(Exception e)
-                            {
-                                Logger.LogError(e, "An error occured while invoking ApiResponded.");
-                            }
-                        }
+                        EventHub.OnApiResponded(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/pet/findByTags"));
 
                         ApiResponse<List<Pet>?> apiResponse = new ApiResponse<List<Pet>?>(responseMessage, responseContent);
 
@@ -1072,7 +1031,7 @@ namespace Org.OpenAPITools.Api
 
                     if (accept != null)
                         request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(accept));
-                    
+
                     request.Method = HttpMethod.Get;
 
                     using (HttpResponseMessage responseMessage = await HttpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
@@ -1081,17 +1040,7 @@ namespace Org.OpenAPITools.Api
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-                        if (ApiResponded != null)
-                        {
-                            try
-                            {
-                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/pet/{petId}"));
-                            }
-                            catch(Exception e)
-                            {
-                                Logger.LogError(e, "An error occured while invoking ApiResponded.");
-                            }
-                        }
+                        EventHub.OnApiResponded(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/pet/{petId}"));
 
                         ApiResponse<Pet?> apiResponse = new ApiResponse<Pet?>(responseMessage, responseContent);
 
@@ -1219,17 +1168,7 @@ namespace Org.OpenAPITools.Api
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-                        if (ApiResponded != null)
-                        {
-                            try
-                            {
-                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/pet"));
-                            }
-                            catch(Exception e)
-                            {
-                                Logger.LogError(e, "An error occured while invoking ApiResponded.");
-                            }
-                        }
+                        EventHub.OnApiResponded(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/pet"));
 
                         ApiResponse<object?> apiResponse = new ApiResponse<object?>(responseMessage, responseContent);
 
@@ -1368,17 +1307,7 @@ namespace Org.OpenAPITools.Api
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-                        if (ApiResponded != null)
-                        {
-                            try
-                            {
-                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/pet/{petId}"));
-                            }
-                            catch(Exception e)
-                            {
-                                Logger.LogError(e, "An error occured while invoking ApiResponded.");
-                            }
-                        }
+                        EventHub.OnApiResponded(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/pet/{petId}"));
 
                         ApiResponse<object?> apiResponse = new ApiResponse<object?>(responseMessage, responseContent);
 
@@ -1514,7 +1443,7 @@ namespace Org.OpenAPITools.Api
 
                     if (accept != null)
                         request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(accept));
-                    
+
                     request.Method = HttpMethod.Post;
 
                     using (HttpResponseMessage responseMessage = await HttpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
@@ -1523,17 +1452,7 @@ namespace Org.OpenAPITools.Api
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-                        if (ApiResponded != null)
-                        {
-                            try
-                            {
-                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/pet/{petId}/uploadImage"));
-                            }
-                            catch(Exception e)
-                            {
-                                Logger.LogError(e, "An error occured while invoking ApiResponded.");
-                            }
-                        }
+                        EventHub.OnApiResponded(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/pet/{petId}/uploadImage"));
 
                         ApiResponse<ApiResponse?> apiResponse = new ApiResponse<ApiResponse?>(responseMessage, responseContent);
 
@@ -1671,7 +1590,7 @@ namespace Org.OpenAPITools.Api
 
                     if (accept != null)
                         request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(accept));
-                    
+
                     request.Method = HttpMethod.Post;
 
                     using (HttpResponseMessage responseMessage = await HttpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
@@ -1680,17 +1599,7 @@ namespace Org.OpenAPITools.Api
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-                        if (ApiResponded != null)
-                        {
-                            try
-                            {
-                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake/{petId}/uploadImageWithRequiredFile"));
-                            }
-                            catch(Exception e)
-                            {
-                                Logger.LogError(e, "An error occured while invoking ApiResponded.");
-                            }
-                        }
+                        EventHub.OnApiResponded(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake/{petId}/uploadImageWithRequiredFile"));
 
                         ApiResponse<ApiResponse?> apiResponse = new ApiResponse<ApiResponse?>(responseMessage, responseContent);
 
@@ -1709,5 +1618,6 @@ namespace Org.OpenAPITools.Api
                 Logger.LogError(e, "An error occured while sending the request to the server.");
                 throw;
             }
-        }    }
+        }
+    }
 }

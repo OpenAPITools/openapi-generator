@@ -310,7 +310,6 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;object?&gt;</returns>
         Task<object?> UpdateUserOrDefaultAsync(User user, string username, System.Threading.CancellationToken? cancellationToken = null);
-
     }
 
     /// <summary>
@@ -321,10 +320,9 @@ namespace Org.OpenAPITools.Api
         private JsonSerializerOptions _jsonSerializerOptions;
 
         /// <summary>
-        /// An event to track the health of the server. 
-        /// If you store these event args, be sure to purge old event args to prevent a memory leak.
+        /// The EventHub
         /// </summary>
-        public event ClientUtils.EventHandler<ApiResponseEventArgs>? ApiResponded;
+        public IEventHub EventHub { get; }
 
         /// <summary>
         /// The logger
@@ -365,7 +363,7 @@ namespace Org.OpenAPITools.Api
         /// Initializes a new instance of the <see cref="UserApi"/> class.
         /// </summary>
         /// <returns></returns>
-        public UserApi(ILogger<UserApi> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, 
+        public UserApi(ILogger<UserApi> logger, HttpClient httpClient, IEventHub eventHub, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, 
             TokenProvider<ApiKeyToken> apiKeyProvider, 
             TokenProvider<BearerToken> bearerTokenProvider, 
             TokenProvider<BasicToken> basicTokenProvider, 
@@ -375,6 +373,7 @@ namespace Org.OpenAPITools.Api
             _jsonSerializerOptions = jsonSerializerOptionsProvider.Options;
             Logger = logger;
             HttpClient = httpClient;
+            EventHub = eventHub;
             ApiKeyProvider = apiKeyProvider;
             BearerTokenProvider = bearerTokenProvider;
             BasicTokenProvider = basicTokenProvider;
@@ -472,17 +471,7 @@ namespace Org.OpenAPITools.Api
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-                        if (ApiResponded != null)
-                        {
-                            try
-                            {
-                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/user"));
-                            }
-                            catch(Exception e)
-                            {
-                                Logger.LogError(e, "An error occured while invoking ApiResponded.");
-                            }
-                        }
+                        EventHub.OnApiResponded(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/user"));
 
                         ApiResponse<object?> apiResponse = new ApiResponse<object?>(responseMessage, responseContent);
 
@@ -590,17 +579,7 @@ namespace Org.OpenAPITools.Api
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-                        if (ApiResponded != null)
-                        {
-                            try
-                            {
-                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/user/createWithArray"));
-                            }
-                            catch(Exception e)
-                            {
-                                Logger.LogError(e, "An error occured while invoking ApiResponded.");
-                            }
-                        }
+                        EventHub.OnApiResponded(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/user/createWithArray"));
 
                         ApiResponse<object?> apiResponse = new ApiResponse<object?>(responseMessage, responseContent);
 
@@ -708,17 +687,7 @@ namespace Org.OpenAPITools.Api
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-                        if (ApiResponded != null)
-                        {
-                            try
-                            {
-                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/user/createWithList"));
-                            }
-                            catch(Exception e)
-                            {
-                                Logger.LogError(e, "An error occured while invoking ApiResponded.");
-                            }
-                        }
+                        EventHub.OnApiResponded(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/user/createWithList"));
 
                         ApiResponse<object?> apiResponse = new ApiResponse<object?>(responseMessage, responseContent);
 
@@ -814,17 +783,7 @@ namespace Org.OpenAPITools.Api
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-                        if (ApiResponded != null)
-                        {
-                            try
-                            {
-                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/user/{username}"));
-                            }
-                            catch(Exception e)
-                            {
-                                Logger.LogError(e, "An error occured while invoking ApiResponded.");
-                            }
-                        }
+                        EventHub.OnApiResponded(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/user/{username}"));
 
                         ApiResponse<object?> apiResponse = new ApiResponse<object?>(responseMessage, responseContent);
 
@@ -921,7 +880,7 @@ namespace Org.OpenAPITools.Api
 
                     if (accept != null)
                         request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(accept));
-                    
+
                     request.Method = HttpMethod.Get;
 
                     using (HttpResponseMessage responseMessage = await HttpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
@@ -930,17 +889,7 @@ namespace Org.OpenAPITools.Api
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-                        if (ApiResponded != null)
-                        {
-                            try
-                            {
-                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/user/{username}"));
-                            }
-                            catch(Exception e)
-                            {
-                                Logger.LogError(e, "An error occured while invoking ApiResponded.");
-                            }
-                        }
+                        EventHub.OnApiResponded(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/user/{username}"));
 
                         ApiResponse<User?> apiResponse = new ApiResponse<User?>(responseMessage, responseContent);
 
@@ -1049,7 +998,7 @@ namespace Org.OpenAPITools.Api
 
                     if (accept != null)
                         request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(accept));
-                    
+
                     request.Method = HttpMethod.Get;
 
                     using (HttpResponseMessage responseMessage = await HttpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
@@ -1058,17 +1007,7 @@ namespace Org.OpenAPITools.Api
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-                        if (ApiResponded != null)
-                        {
-                            try
-                            {
-                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/user/login"));
-                            }
-                            catch(Exception e)
-                            {
-                                Logger.LogError(e, "An error occured while invoking ApiResponded.");
-                            }
-                        }
+                        EventHub.OnApiResponded(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/user/login"));
 
                         ApiResponse<string?> apiResponse = new ApiResponse<string?>(responseMessage, responseContent);
 
@@ -1151,17 +1090,7 @@ namespace Org.OpenAPITools.Api
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-                        if (ApiResponded != null)
-                        {
-                            try
-                            {
-                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/user/logout"));
-                            }
-                            catch(Exception e)
-                            {
-                                Logger.LogError(e, "An error occured while invoking ApiResponded.");
-                            }
-                        }
+                        EventHub.OnApiResponded(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/user/logout"));
 
                         ApiResponse<object?> apiResponse = new ApiResponse<object?>(responseMessage, responseContent);
 
@@ -1276,17 +1205,7 @@ namespace Org.OpenAPITools.Api
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-                        if (ApiResponded != null)
-                        {
-                            try
-                            {
-                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/user/{username}"));
-                            }
-                            catch(Exception e)
-                            {
-                                Logger.LogError(e, "An error occured while invoking ApiResponded.");
-                            }
-                        }
+                        EventHub.OnApiResponded(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/user/{username}"));
 
                         ApiResponse<object?> apiResponse = new ApiResponse<object?>(responseMessage, responseContent);
 
@@ -1302,5 +1221,6 @@ namespace Org.OpenAPITools.Api
                 Logger.LogError(e, "An error occured while sending the request to the server.");
                 throw;
             }
-        }    }
+        }
+    }
 }

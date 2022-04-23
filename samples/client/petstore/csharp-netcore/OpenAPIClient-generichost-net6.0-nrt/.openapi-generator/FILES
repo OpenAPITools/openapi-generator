@@ -97,12 +97,14 @@ src/Org.OpenAPITools/Api/PetApi.cs
 src/Org.OpenAPITools/Api/StoreApi.cs
 src/Org.OpenAPITools/Api/UserApi.cs
 src/Org.OpenAPITools/Client/ApiException.cs
+src/Org.OpenAPITools/Client/ApiFactory.cs
 src/Org.OpenAPITools/Client/ApiKeyToken.cs
 src/Org.OpenAPITools/Client/ApiResponseEventArgs.cs
 src/Org.OpenAPITools/Client/ApiResponse`1.cs
 src/Org.OpenAPITools/Client/BasicToken.cs
 src/Org.OpenAPITools/Client/BearerToken.cs
 src/Org.OpenAPITools/Client/ClientUtils.cs
+src/Org.OpenAPITools/Client/EventHub.cs
 src/Org.OpenAPITools/Client/HostConfiguration.cs
 src/Org.OpenAPITools/Client/HttpSigningConfiguration.cs
 src/Org.OpenAPITools/Client/HttpSigningToken.cs

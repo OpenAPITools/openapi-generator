@@ -45,8 +45,10 @@ namespace {{packageName}}.Client
             {{/isEnum}}
             {{/model}}
             {{/models}}
-            _services.AddSingleton(new JsonSerializerOptionsProvider(_jsonOptions));{{#apiInfo}}{{#apis}}
-            _services.AddSingleton<{{interfacePrefix}}{{classname}}, {{classname}}>();{{/apis}}{{/apiInfo}}
+            _services.AddSingleton(new JsonSerializerOptionsProvider(_jsonOptions));
+            _services.AddSingleton<IEventHub, EventHub>();
+            _services.AddSingleton<IApiFactory, ApiFactory>();{{#apiInfo}}{{#apis}}
+            _services.AddTransient<{{interfacePrefix}}{{classname}}, {{classname}}>();{{/apis}}{{/apiInfo}}
         }
 
         /// <summary>
@@ -64,7 +66,7 @@ namespace {{packageName}}.Client
                 client = c => c.BaseAddress = new Uri(ClientUtils.BASE_ADDRESS);
 
             List<IHttpClientBuilder> builders = new List<IHttpClientBuilder>();
-            
+
             {{#apis}}builders.Add(_services.AddHttpClient<{{interfacePrefix}}{{classname}}, T{{classname}}>(client));
             {{/apis}}{{/apiInfo}}
             if (builder != null)

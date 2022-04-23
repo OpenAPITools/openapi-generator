@@ -123,13 +123,15 @@ namespace Org.OpenAPITools.Client
             _jsonOptions.Converters.Add(new WhaleJsonConverter());
             _jsonOptions.Converters.Add(new ZebraJsonConverter());
             _services.AddSingleton(new JsonSerializerOptionsProvider(_jsonOptions));
-            _services.AddSingleton<IAnotherFakeApi, AnotherFakeApi>();
-            _services.AddSingleton<IDefaultApi, DefaultApi>();
-            _services.AddSingleton<IFakeApi, FakeApi>();
-            _services.AddSingleton<IFakeClassnameTags123Api, FakeClassnameTags123Api>();
-            _services.AddSingleton<IPetApi, PetApi>();
-            _services.AddSingleton<IStoreApi, StoreApi>();
-            _services.AddSingleton<IUserApi, UserApi>();
+            _services.AddSingleton<IEventHub, EventHub>();
+            _services.AddSingleton<IApiFactory, ApiFactory>();
+            _services.AddTransient<IAnotherFakeApi, AnotherFakeApi>();
+            _services.AddTransient<IDefaultApi, DefaultApi>();
+            _services.AddTransient<IFakeApi, FakeApi>();
+            _services.AddTransient<IFakeClassnameTags123Api, FakeClassnameTags123Api>();
+            _services.AddTransient<IPetApi, PetApi>();
+            _services.AddTransient<IStoreApi, StoreApi>();
+            _services.AddTransient<IUserApi, UserApi>();
         }
 
         /// <summary>
@@ -153,7 +155,7 @@ namespace Org.OpenAPITools.Client
                 client = c => c.BaseAddress = new Uri(ClientUtils.BASE_ADDRESS);
 
             List<IHttpClientBuilder> builders = new List<IHttpClientBuilder>();
-            
+
             builders.Add(_services.AddHttpClient<IAnotherFakeApi, TAnotherFakeApi>(client));
             builders.Add(_services.AddHttpClient<IDefaultApi, TDefaultApi>(client));
             builders.Add(_services.AddHttpClient<IFakeApi, TFakeApi>(client));

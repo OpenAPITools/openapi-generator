@@ -66,7 +66,9 @@ namespace {{packageName}}.{{apiPackage}}
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;{{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}object{{/returnType}}?&gt;</returns>
         Task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}{{nrt?}}> {{operationId}}OrDefaultAsync({{#allParams}}{{#required}}{{#lambda.required}}{{{dataType}}}{{/lambda.required}} {{paramName}}{{^-last}}, {{/-last}}{{/required}}{{^required}}{{#lambda.optional}}{{{dataType}}}{{/lambda.optional}} {{paramName}} = null{{^-last}}, {{/-last}}{{/required}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}System.Threading.CancellationToken? cancellationToken = null);{{/nrt}}
+        {{^-last}}
 
+        {{/-last}}
         {{/operation}}
     }
 
@@ -78,10 +80,9 @@ namespace {{packageName}}.{{apiPackage}}
         private JsonSerializerOptions _jsonSerializerOptions;
 
         /// <summary>
-        /// An event to track the health of the server. 
-        /// If you store these event args, be sure to purge old event args to prevent a memory leak.
+        /// The EventHub
         /// </summary>
-        public event ClientUtils.EventHandler<ApiResponseEventArgs>{{nrt?}} ApiResponded;
+        public IEventHub EventHub { get; }
 
         /// <summary>
         /// The logger
@@ -122,7 +123,7 @@ namespace {{packageName}}.{{apiPackage}}
         /// Initializes a new instance of the <see cref="{{classname}}"/> class.
         /// </summary>
         /// <returns></returns>
-        public {{classname}}(ILogger<{{classname}}> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider{{#hasApiKeyMethods}}, 
+        public {{classname}}(ILogger<{{classname}}> logger, HttpClient httpClient, IEventHub eventHub, JsonSerializerOptionsProvider jsonSerializerOptionsProvider{{#hasApiKeyMethods}}, 
             TokenProvider<ApiKeyToken> apiKeyProvider{{/hasApiKeyMethods}}{{#hasHttpBearerMethods}}, 
             TokenProvider<BearerToken> bearerTokenProvider{{/hasHttpBearerMethods}}{{#hasHttpBasicMethods}}, 
             TokenProvider<BasicToken> basicTokenProvider{{/hasHttpBasicMethods}}{{#hasHttpSignatureMethods}}, 
@@ -131,7 +132,8 @@ namespace {{packageName}}.{{apiPackage}}
         {
             _jsonSerializerOptions = jsonSerializerOptionsProvider.Options;
             Logger = logger;
-            HttpClient = httpClient;{{#hasApiKeyMethods}}
+            HttpClient = httpClient;
+            EventHub = eventHub;{{#hasApiKeyMethods}}
             ApiKeyProvider = apiKeyProvider;{{/hasApiKeyMethods}}{{#hasHttpBearerMethods}}
             BearerTokenProvider = bearerTokenProvider;{{/hasHttpBearerMethods}}{{#hasHttpBasicMethods}}
             BasicTokenProvider = basicTokenProvider;{{/hasHttpBasicMethods}}{{#hasHttpSignatureMethods}}
@@ -370,7 +372,10 @@ namespace {{packageName}}.{{apiPackage}}
 
                     if (accept != null)
                         request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(accept));
-                    {{/-first}}{{/produces}}{{^netStandard}}
+                    {{/-first}}
+                    {{/produces}}
+                    {{^netStandard}}
+
                     request.Method = HttpMethod.{{#lambda.titlecase}}{{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}{{/lambda.titlecase}};{{/netStandard}}{{#netStandard}}
                     request.Method = new HttpMethod("{{#lambda.uppercase}}{{httpMethod}}{{/lambda.uppercase}}");{{/netStandard}}{{! early standard versions do not have HttpMethod.Patch }}
 
@@ -380,17 +385,7 @@ namespace {{packageName}}.{{apiPackage}}
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync({{^netStandard}}{{^netcoreapp3.1}}cancellationToken.GetValueOrDefault(){{/netcoreapp3.1}}{{/netStandard}}).ConfigureAwait(false);
 
-                        if (ApiResponded != null)
-                        {
-                            try
-                            {
-                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "{{path}}"));
-                            }
-                            catch(Exception e)
-                            {
-                                Logger.LogError(e, "An error occured while invoking ApiResponded.");
-                            }
-                        }
+                        EventHub.OnApiResponded(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "{{path}}"));
 
                         ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}{{nrt?}}> apiResponse = new ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}{{nrt?}}>(responseMessage, responseContent);
 
@@ -409,8 +404,7 @@ namespace {{packageName}}.{{apiPackage}}
                 Logger.LogError(e, "An error occured while sending the request to the server.");
                 throw;
             }
-        }{{^-last}}
-        {{/-last}}
+        }
         {{/operation}}
     }
     {{/operations}}
