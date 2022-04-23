@@ -226,7 +226,7 @@ QString PFXPetApi::getParamStyleDelimiter(const QString &style, const QString &n
     }
 }
 
-void PFXPetApi::addPet(const PFXPet &body) {
+void PFXPetApi::addPet(const PFXPet &pfx_pet) {
     QString fullPath = QString(_serverConfigs["addPet"][_serverIndices.value("addPet")].URL()+"/pet");
     
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
@@ -236,7 +236,7 @@ void PFXPetApi::addPet(const PFXPet &body) {
 
     {
 
-        QByteArray output = body.asJson().toUtf8();
+        QByteArray output = pfx_pet.asJson().toUtf8();
         input.request_body.append(output);
     }
 #if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
@@ -326,7 +326,7 @@ void PFXPetApi::deletePet(const qint64 &pet_id, const ::test_namespace::Optional
         QString pet_idPathParam("{");
         pet_idPathParam.append("petId").append("}");
         QString pathPrefix, pathSuffix, pathDelimiter;
-        QString pathStyle = "";
+        QString pathStyle = "simple";
         if (pathStyle == "")
             pathStyle = "simple";
         pathPrefix = getParamStylePrefix(pathStyle);
@@ -806,7 +806,7 @@ void PFXPetApi::getPetById(const qint64 &pet_id) {
         QString pet_idPathParam("{");
         pet_idPathParam.append("petId").append("}");
         QString pathPrefix, pathSuffix, pathDelimiter;
-        QString pathStyle = "";
+        QString pathStyle = "simple";
         if (pathStyle == "")
             pathStyle = "simple";
         pathPrefix = getParamStylePrefix(pathStyle);
@@ -861,7 +861,7 @@ void PFXPetApi::getPetByIdCallback(PFXHttpRequestWorker *worker) {
     }
 }
 
-void PFXPetApi::updatePet(const PFXPet &body) {
+void PFXPetApi::updatePet(const PFXPet &pfx_pet) {
     QString fullPath = QString(_serverConfigs["updatePet"][_serverIndices.value("updatePet")].URL()+"/pet");
     
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
@@ -871,7 +871,7 @@ void PFXPetApi::updatePet(const PFXPet &body) {
 
     {
 
-        QByteArray output = body.asJson().toUtf8();
+        QByteArray output = pfx_pet.asJson().toUtf8();
         input.request_body.append(output);
     }
 #if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
@@ -961,7 +961,7 @@ void PFXPetApi::updatePetWithForm(const qint64 &pet_id, const ::test_namespace::
         QString pet_idPathParam("{");
         pet_idPathParam.append("petId").append("}");
         QString pathPrefix, pathSuffix, pathDelimiter;
-        QString pathStyle = "";
+        QString pathStyle = "simple";
         if (pathStyle == "")
             pathStyle = "simple";
         pathPrefix = getParamStylePrefix(pathStyle);
@@ -1071,7 +1071,7 @@ void PFXPetApi::uploadFile(const qint64 &pet_id, const ::test_namespace::Optiona
         QString pet_idPathParam("{");
         pet_idPathParam.append("petId").append("}");
         QString pathPrefix, pathSuffix, pathDelimiter;
-        QString pathStyle = "";
+        QString pathStyle = "simple";
         if (pathStyle == "")
             pathStyle = "simple";
         pathPrefix = getParamStylePrefix(pathStyle);

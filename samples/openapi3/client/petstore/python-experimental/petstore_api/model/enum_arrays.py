@@ -31,6 +31,7 @@ from petstore_api.schemas import (  # noqa: F401
     Float32Schema,
     Float64Schema,
     NumberSchema,
+    UUIDSchema,
     DateSchema,
     DateTimeSchema,
     DecimalSchema,
@@ -52,6 +53,7 @@ from petstore_api.schemas import (  # noqa: F401
     Float32Base,
     Float64Base,
     NumberBase,
+    UUIDBase,
     DateBase,
     DateTimeBase,
     BoolBase,
@@ -86,12 +88,12 @@ class EnumArrays(
         @classmethod
         @property
         def GREATER_THAN_EQUALS(cls):
-            return cls._enum_by_value[">="](">=")
+            return cls(">=")
         
         @classmethod
         @property
         def DOLLAR(cls):
-            return cls._enum_by_value["$"]("$")
+            return cls("$")
     
     
     class array_enum(
@@ -112,12 +114,12 @@ class EnumArrays(
             @classmethod
             @property
             def FISH(cls):
-                return cls._enum_by_value["fish"]("fish")
+                return cls("fish")
             
             @classmethod
             @property
             def CRAB(cls):
-                return cls._enum_by_value["crab"]("crab")
+                return cls("crab")
 
 
     def __new__(

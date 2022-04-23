@@ -114,6 +114,11 @@ Used packages:
 * [Openapi Data Mocker Server Middleware](https://github.com/ybelenko/openapi-data-mocker-server-middleware) - PSR-15 HTTP server middleware.
 * [Openapi Data Mocker Interfaces](https://github.com/ybelenko/openapi-data-mocker-interfaces) - package with mocking interfaces.
 
+## Logging
+
+Build contains pre-configured [`monolog/monolog`](https://github.com/Seldaek/monolog) package. Make sure that `logs` folder is writable.
+Add required log handlers/processors/formatters in `lib/App/RegisterDependencies.php`.
+
 ## API Endpoints
 
 All URIs are relative to *http://petstore.swagger.io/v2*

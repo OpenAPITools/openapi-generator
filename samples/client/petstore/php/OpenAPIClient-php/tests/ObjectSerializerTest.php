@@ -334,4 +334,44 @@ class ObjectSerializerTest extends TestCase
             ],
         ];
     }
+
+    /**
+     * @dataProvider provideToStringInput
+     */
+    public function testToString($input, string $expected): void
+    {
+        $result = ObjectSerializer::toString($input);
+
+        $this->assertSame($expected, $result);
+    }
+
+    public function provideToStringInput(): array
+    {
+        return [
+            'int' => [
+                'input' => 1,
+                'expected' => '1',
+            ],
+            'int 0' => [
+                'input' => 0,
+                'expected' => '0',
+            ],
+            'false' => [
+                'input' => false,
+                'expected' => 'false',
+            ],
+            'true' => [
+                'input' => true,
+                'expected' => 'true',
+            ],
+            'some string' => [
+                'input' => 'some string',
+                'expected' => 'some string',
+            ],
+            'a date' => [
+                'input' => new \DateTime('14-04-2022'),
+                'expected' => '2022-04-14T00:00:00+00:00',
+            ],
+        ];
+    }
 }

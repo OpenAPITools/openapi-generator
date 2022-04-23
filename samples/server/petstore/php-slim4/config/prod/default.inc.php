@@ -62,4 +62,10 @@ return [
     'pdo.options' => [
         \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
     ],
+
+    // logger
+    'logger.name' => 'App',
+    'logger.path' => \realpath(__DIR__ . '/../../logs') . '/app.log',
+    'logger.level' => 300, // equals WARNING level
+    'logger.options' => [],
 ];

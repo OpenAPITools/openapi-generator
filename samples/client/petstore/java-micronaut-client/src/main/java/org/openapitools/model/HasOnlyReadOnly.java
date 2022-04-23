@@ -51,7 +51,7 @@ public class HasOnlyReadOnly {
     @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_BAR)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public String getBar() {
+    public String getBar() {
         return bar;
     }
 
@@ -63,7 +63,7 @@ public class HasOnlyReadOnly {
     @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_FOO)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public String getFoo() {
+    public String getFoo() {
         return foo;
     }
 

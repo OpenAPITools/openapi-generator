@@ -37,11 +37,11 @@ class ClassModel {
   String toString() => 'ClassModel[class_=$class_]';
 
   Map<String, dynamic> toJson() {
-    final json = <String, dynamic>{};
+    final _json = <String, dynamic>{};
     if (class_ != null) {
-      json[r'_class'] = class_;
+      _json[r'_class'] = class_;
     }
-    return json;
+    return _json;
   }
 
   /// Returns a new [ClassModel] instance and imports its values from

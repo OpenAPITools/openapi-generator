@@ -1491,7 +1491,6 @@ components:
         userStatus: 6
         phone: phone
         id: 0
-        userType: ""
         email: email
         username: username
       properties:
@@ -1515,18 +1514,9 @@ components:
           description: User Status
           format: int32
           type: integer
-        userType:
-          allOf:
-          - $ref: '#/components/schemas/UserType'
       type: object
       xml:
         name: User
-    UserType:
-      enum:
-      - admin
-      - user
-      title: UserType
-      type: string
     Tag:
       example:
         name: name
@@ -2124,6 +2114,20 @@ components:
             $ref: '#/components/schemas/Bar'
           type: array
       type: object
+    AllOfWithSingleRef:
+      properties:
+        username:
+          type: string
+        SingleRefType:
+          allOf:
+          - $ref: '#/components/schemas/SingleRefType'
+      type: object
+    SingleRefType:
+      enum:
+      - admin
+      - user
+      title: SingleRefType
+      type: string
     inline_response_default:
       example:
         string:

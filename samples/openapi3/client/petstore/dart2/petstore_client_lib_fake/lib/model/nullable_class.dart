@@ -86,40 +86,40 @@ class NullableClass {
   String toString() => 'NullableClass[integerProp=$integerProp, numberProp=$numberProp, booleanProp=$booleanProp, stringProp=$stringProp, dateProp=$dateProp, datetimeProp=$datetimeProp, arrayNullableProp=$arrayNullableProp, arrayAndItemsNullableProp=$arrayAndItemsNullableProp, arrayItemsNullable=$arrayItemsNullable, objectNullableProp=$objectNullableProp, objectAndItemsNullableProp=$objectAndItemsNullableProp, objectItemsNullable=$objectItemsNullable]';
 
   Map<String, dynamic> toJson() {
-    final json = <String, dynamic>{};
+    final _json = <String, dynamic>{};
     if (integerProp != null) {
-      json[r'integer_prop'] = integerProp;
+      _json[r'integer_prop'] = integerProp;
     }
     if (numberProp != null) {
-      json[r'number_prop'] = numberProp;
+      _json[r'number_prop'] = numberProp;
     }
     if (booleanProp != null) {
-      json[r'boolean_prop'] = booleanProp;
+      _json[r'boolean_prop'] = booleanProp;
     }
     if (stringProp != null) {
-      json[r'string_prop'] = stringProp;
+      _json[r'string_prop'] = stringProp;
     }
     if (dateProp != null) {
-      json[r'date_prop'] = _dateFormatter.format(dateProp!.toUtc());
+      _json[r'date_prop'] = _dateFormatter.format(dateProp!.toUtc());
     }
     if (datetimeProp != null) {
-      json[r'datetime_prop'] = datetimeProp!.toUtc().toIso8601String();
+      _json[r'datetime_prop'] = datetimeProp!.toUtc().toIso8601String();
     }
     if (arrayNullableProp != null) {
-      json[r'array_nullable_prop'] = arrayNullableProp;
+      _json[r'array_nullable_prop'] = arrayNullableProp;
     }
     if (arrayAndItemsNullableProp != null) {
-      json[r'array_and_items_nullable_prop'] = arrayAndItemsNullableProp;
+      _json[r'array_and_items_nullable_prop'] = arrayAndItemsNullableProp;
     }
-      json[r'array_items_nullable'] = arrayItemsNullable;
+      _json[r'array_items_nullable'] = arrayItemsNullable;
     if (objectNullableProp != null) {
-      json[r'object_nullable_prop'] = objectNullableProp;
+      _json[r'object_nullable_prop'] = objectNullableProp;
     }
     if (objectAndItemsNullableProp != null) {
-      json[r'object_and_items_nullable_prop'] = objectAndItemsNullableProp;
+      _json[r'object_and_items_nullable_prop'] = objectAndItemsNullableProp;
     }
-      json[r'object_items_nullable'] = objectItemsNullable;
-    return json;
+      _json[r'object_items_nullable'] = objectItemsNullable;
+    return _json;
   }
 
   /// Returns a new [NullableClass] instance and imports its values from

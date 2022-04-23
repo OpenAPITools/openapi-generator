@@ -31,6 +31,7 @@ from petstore_api.schemas import (  # noqa: F401
     Float32Schema,
     Float64Schema,
     NumberSchema,
+    UUIDSchema,
     DateSchema,
     DateTimeSchema,
     DecimalSchema,
@@ -52,6 +53,7 @@ from petstore_api.schemas import (  # noqa: F401
     Float32Base,
     Float64Base,
     NumberBase,
+    UUIDBase,
     DateBase,
     DateTimeBase,
     BoolBase,
@@ -88,7 +90,7 @@ class BasquePig(
         @classmethod
         @property
         def BASQUEPIG(cls):
-            return cls._enum_by_value["BasquePig"]("BasquePig")
+            return cls("BasquePig")
 
 
     def __new__(

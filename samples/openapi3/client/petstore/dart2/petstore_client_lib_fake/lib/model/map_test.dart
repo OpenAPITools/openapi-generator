@@ -46,12 +46,12 @@ class MapTest {
   String toString() => 'MapTest[mapMapOfString=$mapMapOfString, mapOfEnumString=$mapOfEnumString, directMap=$directMap, indirectMap=$indirectMap]';
 
   Map<String, dynamic> toJson() {
-    final json = <String, dynamic>{};
-      json[r'map_map_of_string'] = mapMapOfString;
-      json[r'map_of_enum_string'] = mapOfEnumString;
-      json[r'direct_map'] = directMap;
-      json[r'indirect_map'] = indirectMap;
-    return json;
+    final _json = <String, dynamic>{};
+      _json[r'map_map_of_string'] = mapMapOfString;
+      _json[r'map_of_enum_string'] = mapOfEnumString;
+      _json[r'direct_map'] = directMap;
+      _json[r'indirect_map'] = indirectMap;
+    return _json;
   }
 
   /// Returns a new [MapTest] instance and imports its values from

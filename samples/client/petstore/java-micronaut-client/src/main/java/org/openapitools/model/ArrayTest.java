@@ -70,7 +70,7 @@ public class ArrayTest {
     @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_ARRAY_OF_STRING)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public List<String> getArrayOfString() {
+    public List<String> getArrayOfString() {
         return arrayOfString;
     }
 
@@ -101,7 +101,7 @@ public class ArrayTest {
     @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public List<List<Long>> getArrayArrayOfInteger() {
+    public List<List<Long>> getArrayArrayOfInteger() {
         return arrayArrayOfInteger;
     }
 
@@ -132,7 +132,7 @@ public class ArrayTest {
     @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public List<List<ReadOnlyFirst>> getArrayArrayOfModel() {
+    public List<List<ReadOnlyFirst>> getArrayArrayOfModel() {
         return arrayArrayOfModel;
     }
 

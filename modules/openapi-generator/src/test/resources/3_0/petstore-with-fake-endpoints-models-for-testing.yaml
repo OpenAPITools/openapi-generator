@@ -1347,17 +1347,8 @@ components:
           type: integer
           format: int32
           description: User Status
-        userType:
-          allOf:
-            - $ref: '#/components/schemas/UserType'
       xml:
         name: User
-    UserType:
-      type: string
-      title: UserType
-      enum:
-        - admin
-        - user
     Tag:
       type: object
       properties:
@@ -1917,3 +1908,17 @@ components:
           deprecated: true
           items:
             $ref: '#/components/schemas/Bar'
+    AllOfWithSingleRef:
+      type: object
+      properties:
+        username:
+          type: string
+        SingleRefType:
+          allOf:
+            - $ref: '#/components/schemas/SingleRefType'
+    SingleRefType:
+      type: string
+      title: SingleRefType
+      enum:
+        - admin
+        - user
