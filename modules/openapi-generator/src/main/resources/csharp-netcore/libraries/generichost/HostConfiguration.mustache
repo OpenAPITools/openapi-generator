@@ -34,31 +34,17 @@ namespace {{packageName}}.Client
             _services = services;
             _jsonOptions.Converters.Add(new JsonStringEnumConverter());
             _jsonOptions.Converters.Add(new OpenAPIDateJsonConverter());
-{{#models}}
-{{#model}}
-{{#isEnum}}
+            {{#models}}
+            {{#model}}
+            {{#isEnum}}
             _jsonOptions.Converters.Add(new {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}Converter());
             _jsonOptions.Converters.Add(new {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}NullableConverter());
-{{/isEnum}}
-{{^isEnum}}
-{{! {{#allOf}}
-{{! {{#-first}}
+            {{/isEnum}}
+            {{^isEnum}}
             _jsonOptions.Converters.Add(new {{classname}}JsonConverter());
-{{! {{/-first}}
-{{! {{/allOf}}
-{{! {{#anyOf}}
-{{! {{#-first}}
-            //{{! _jsonOptions.Converters.Add(new {{classname}}JsonConverter()); }}
-{{! {{/-first}}
-{{! {{/anyOf}}
-{{! {{#oneOf}}
-{{! {{#-first}}
-            //{{! _jsonOptions.Converters.Add(new {{classname}}JsonConverter()); }}
-{{! {{/-first}}
-{{! {{/oneOf}}
-{{/isEnum}}
-{{/model}}
-{{/models}}
+            {{/isEnum}}
+            {{/model}}
+            {{/models}}
             _services.AddSingleton(new JsonSerializerOptionsProvider(_jsonOptions));{{#apiInfo}}{{#apis}}
             _services.AddSingleton<{{interfacePrefix}}{{classname}}, {{classname}}>();{{/apis}}{{/apiInfo}}
         }
