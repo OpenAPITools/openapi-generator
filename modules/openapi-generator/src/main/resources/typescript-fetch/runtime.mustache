@@ -123,24 +123,35 @@ export class BaseAPI {
         const headers = Object.assign({}, this.configuration.headers, context.headers);
         Object.keys(headers).forEach(key => headers[key] === undefined ? delete headers[key] : {});
 
-        const initOverrideFn: InitOverideFunction = typeof initOverrides === "function" ? initOverrides : async (requestContext: { init: HTTPRequestInit, context: RequestOpts }) => ({...requestContext.init, ...initOverrides});
+        const initOverrideFn =
+            typeof initOverrides === "function"
+                ? initOverrides
+                : async () => initOverrides;
 
-        const initWithOverride = await initOverrideFn({
-            init: {
-                method: context.method,
-                headers,
-                body: context.body,
-                credentials: this.configuration.credentials,
-            },
-            context
-        })
+        const initParams = {
+            method: context.method,
+            headers,
+            body: context.body,
+            credentials: this.configuration.credentials,
+        };
+
+        const overridedInit: RequestInit = {
+            ...initParams,
+            ...(await initOverrideFn({
+                init: initParams,
+                context,
+            }))
+        }
 
         const init: RequestInit = {
-            ...initWithOverride,
-            body:  ((typeof FormData !== "undefined" && initWithOverride.body instanceof FormData) || initWithOverride.body instanceof URLSearchParams || isBlob(initWithOverride.body))
-                ? initWithOverride.body
-                : JSON.stringify(initWithOverride.body)
-        }
+            ...overridedInit,
+            body:
+                isFormData(overridedInit.body) ||
+                overridedInit.body instanceof URLSearchParams ||
+                isBlob(overridedInit.body)
+                    ? overridedInit.body
+                    : JSON.stringify(overridedInit.body),
+        };
 
         return { url, init };
     }
@@ -183,6 +194,10 @@ export class BaseAPI {
 
 function isBlob(value: any): value is Blob {
     return typeof Blob !== 'undefined' && value instanceof Blob
+}
+
+function isFormData(value: any): value is FormData {
+    return typeof FormData !== "undefined" && value instanceof FormData
 }
 
 export class ResponseError extends Error {
