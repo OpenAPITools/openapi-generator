@@ -98,11 +98,13 @@
             <artifactId>micronaut-runtime</artifactId>
             <scope>compile</scope>
         </dependency>
+    {{#reactive}}
         <dependency>
             <groupId>io.micronaut.reactor</groupId>
             <artifactId>micronaut-reactor</artifactId>
             <scope>compile</scope>
         </dependency>
+    {{/reactive}}
     {{#useAuth}}
         <dependency>
             <groupId>io.micronaut.security</groupId>
