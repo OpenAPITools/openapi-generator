@@ -1422,7 +1422,6 @@ testing composed schemas at inline locations
 ```python
 import petstore_api
 from petstore_api.api import fake_api
-from petstore_api.model.str_bool_date_datetime_dict_float_int_list_str_none_type import StrBoolDateDatetimeDictFloatIntListStrNoneType
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -1499,10 +1498,12 @@ Name | Type | Description | Notes
 **any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
 
 #### CompositionInPropertySchema
-Type | Description  | Notes
-------------- | ------------- | -------------
-[**{str: (bool, date, datetime, dict, float, int, list, str, none_type)}**]({str: (bool, date, datetime, dict, float, int, list, str, none_type)}.md) |  | 
 
+#### Properties
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+**someProp** | **object** |  | [optional] 
+**any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
 
 ### Return Types, Responses
 
@@ -1882,7 +1883,6 @@ user list
 ```python
 import petstore_api
 from petstore_api.api import fake_api
-from petstore_api.model.str_bool_date_datetime_dict_float_int_list_str_none_type import StrBoolDateDatetimeDictFloatIntListStrNoneType
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -1927,10 +1927,12 @@ mapBean | MapBeanSchema | | optional
 
 
 #### MapBeanSchema
-Type | Description  | Notes
-------------- | ------------- | -------------
-[**{str: (bool, date, datetime, dict, float, int, list, str, none_type)}**]({str: (bool, date, datetime, dict, float, int, list, str, none_type)}.md) |  | 
 
+#### Properties
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+**keyword** | **str** |  | [optional] 
+**any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
 
 ### Return Types, Responses
 

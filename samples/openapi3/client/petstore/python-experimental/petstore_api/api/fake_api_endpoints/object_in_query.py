@@ -11,6 +11,7 @@ import re  # noqa: F401
 import sys  # noqa: F401
 import typing
 import urllib3
+import functools  # noqa: F401
 
 from petstore_api import api_client, exceptions
 import decimal  # noqa: F401
@@ -61,8 +62,6 @@ from petstore_api.schemas import (  # noqa: F401
     _SchemaTypeChecker,
     _SchemaEnumMaker
 )
-
-from petstore_api.model.str_bool_date_datetime_dict_float_int_list_str_none_type import StrBoolDateDatetimeDictFloatIntListStrNoneType
 
 # query params
 

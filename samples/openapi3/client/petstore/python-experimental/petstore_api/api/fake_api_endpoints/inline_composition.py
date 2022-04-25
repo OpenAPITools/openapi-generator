@@ -11,6 +11,7 @@ import re  # noqa: F401
 import sys  # noqa: F401
 import typing
 import urllib3
+import functools  # noqa: F401
 from urllib3._collections import HTTPHeaderDict
 
 from petstore_api import api_client, exceptions
@@ -63,8 +64,6 @@ from petstore_api.schemas import (  # noqa: F401
     _SchemaEnumMaker
 )
 
-from petstore_api.model.str_bool_date_datetime_dict_float_int_list_str_none_type import StrBoolDateDatetimeDictFloatIntListStrNoneType
-
 # query params
 
 
@@ -74,6 +73,7 @@ class CompositionAtRootSchema(
 
     @classmethod
     @property
+    @functools.cache
     def _composed_schemas(cls):
         # we need this here to make our import statements work
         # we must store _composed_schemas in here so the code is only run
@@ -128,6 +128,7 @@ class CompositionInPropertySchema(
     
         @classmethod
         @property
+        @functools.cache
         def _composed_schemas(cls):
             # we need this here to make our import statements work
             # we must store _composed_schemas in here so the code is only run
@@ -225,6 +226,7 @@ class SchemaForRequestBodyApplicationJson(
 
     @classmethod
     @property
+    @functools.cache
     def _composed_schemas(cls):
         # we need this here to make our import statements work
         # we must store _composed_schemas in here so the code is only run
@@ -279,6 +281,7 @@ class SchemaForRequestBodyMultipartFormData(
     
         @classmethod
         @property
+        @functools.cache
         def _composed_schemas(cls):
             # we need this here to make our import statements work
             # we must store _composed_schemas in here so the code is only run
@@ -356,6 +359,7 @@ class SchemaFor200ResponseBodyApplicationJson(
 
     @classmethod
     @property
+    @functools.cache
     def _composed_schemas(cls):
         # we need this here to make our import statements work
         # we must store _composed_schemas in here so the code is only run
@@ -410,6 +414,7 @@ class SchemaFor200ResponseBodyMultipartFormData(
     
         @classmethod
         @property
+        @functools.cache
         def _composed_schemas(cls):
             # we need this here to make our import statements work
             # we must store _composed_schemas in here so the code is only run
