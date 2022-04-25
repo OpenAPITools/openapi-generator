@@ -74,7 +74,7 @@ pub enum MultigetGetResponse {
     ,
     /// XML rsp
     XMLRsp
-    (models::InlineResponse201)
+    (models::MultigetInlineResponse201)
     ,
     /// octet rsp
     OctetRsp

@@ -28,10 +28,10 @@ docs/FakeClassnameTags123Api.md
 docs/File.md
 docs/FileSchemaTestClass.md
 docs/Foo.md
+docs/FooInlineResponseDefault.md
 docs/FormatTest.md
 docs/HasOnlyReadOnly.md
 docs/HealthCheckResult.md
-docs/InlineResponseDefault.md
 docs/List.md
 docs/MapTest.md
 docs/MixedPropertiesAndAdditionalPropertiesClass.md
@@ -87,10 +87,10 @@ lib/WWW/OpenAPIClient/Object/EnumTest.pm
 lib/WWW/OpenAPIClient/Object/File.pm
 lib/WWW/OpenAPIClient/Object/FileSchemaTestClass.pm
 lib/WWW/OpenAPIClient/Object/Foo.pm
+lib/WWW/OpenAPIClient/Object/FooInlineResponseDefault.pm
 lib/WWW/OpenAPIClient/Object/FormatTest.pm
 lib/WWW/OpenAPIClient/Object/HasOnlyReadOnly.pm
 lib/WWW/OpenAPIClient/Object/HealthCheckResult.pm
-lib/WWW/OpenAPIClient/Object/InlineResponseDefault.pm
 lib/WWW/OpenAPIClient/Object/List.pm
 lib/WWW/OpenAPIClient/Object/MapTest.pm
 lib/WWW/OpenAPIClient/Object/MixedPropertiesAndAdditionalPropertiesClass.pm
@@ -118,3 +118,4 @@ lib/WWW/OpenAPIClient/Role.pm
 lib/WWW/OpenAPIClient/Role/AutoDoc.pm
 lib/WWW/OpenAPIClient/StoreApi.pm
 lib/WWW/OpenAPIClient/UserApi.pm
+t/FooInlineResponseDefaultTest.t

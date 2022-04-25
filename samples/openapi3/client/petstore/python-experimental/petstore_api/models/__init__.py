@@ -68,6 +68,7 @@ from petstore_api.model.equilateral_triangle_all_of import EquilateralTriangleAl
 from petstore_api.model.file import File
 from petstore_api.model.file_schema_test_class import FileSchemaTestClass
 from petstore_api.model.foo import Foo
+from petstore_api.model.foo_inline_response_default import FooInlineResponseDefault
 from petstore_api.model.format_test import FormatTest
 from petstore_api.model.fruit import Fruit
 from petstore_api.model.fruit_req import FruitReq
@@ -75,7 +76,6 @@ from petstore_api.model.gm_fruit import GmFruit
 from petstore_api.model.grandparent_animal import GrandparentAnimal
 from petstore_api.model.has_only_read_only import HasOnlyReadOnly
 from petstore_api.model.health_check_result import HealthCheckResult
-from petstore_api.model.inline_response_default import InlineResponseDefault
 from petstore_api.model.integer_enum import IntegerEnum
 from petstore_api.model.integer_enum_big import IntegerEnumBig
 from petstore_api.model.integer_enum_one_value import IntegerEnumOneValue

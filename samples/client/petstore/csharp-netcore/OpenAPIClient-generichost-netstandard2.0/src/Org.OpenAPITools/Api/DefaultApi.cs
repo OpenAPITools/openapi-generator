@@ -34,8 +34,8 @@ namespace Org.OpenAPITools.Api
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task&lt;ApiResponse&lt;InlineResponseDefault&gt;&gt;</returns>
-        Task<ApiResponse<InlineResponseDefault>> FooGetWithHttpInfoAsync(System.Threading.CancellationToken? cancellationToken = null);
+        /// <returns>Task&lt;ApiResponse&lt;FooInlineResponseDefault&gt;&gt;</returns>
+        Task<ApiResponse<FooInlineResponseDefault>> FooGetWithHttpInfoAsync(System.Threading.CancellationToken? cancellationToken = null);
 
         /// <summary>
         /// 
@@ -45,8 +45,8 @@ namespace Org.OpenAPITools.Api
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse&lt;InlineResponseDefault&gt;</returns>
-        Task<InlineResponseDefault> FooGetAsync(System.Threading.CancellationToken? cancellationToken = null);    }
+        /// <returns>Task of ApiResponse&lt;FooInlineResponseDefault&gt;</returns>
+        Task<FooInlineResponseDefault> FooGetAsync(System.Threading.CancellationToken? cancellationToken = null);    }
 
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
@@ -122,10 +122,10 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="InlineResponseDefault"/>&gt;</returns>
-        public async Task<InlineResponseDefault> FooGetAsync(System.Threading.CancellationToken? cancellationToken = null)
+        /// <returns><see cref="Task"/>&lt;<see cref="FooInlineResponseDefault"/>&gt;</returns>
+        public async Task<FooInlineResponseDefault> FooGetAsync(System.Threading.CancellationToken? cancellationToken = null)
         {
-            ApiResponse<InlineResponseDefault> result = await FooGetWithHttpInfoAsync(cancellationToken).ConfigureAwait(false);
+            ApiResponse<FooInlineResponseDefault> result = await FooGetWithHttpInfoAsync(cancellationToken).ConfigureAwait(false);
 
             if (result.Content == null)
                 throw new ApiException(result.ReasonPhrase, result.StatusCode, result.RawContent);
@@ -138,10 +138,10 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="InlineResponseDefault"/>&gt;</returns>
-        public async Task<InlineResponseDefault> FooGetOrDefaultAsync(System.Threading.CancellationToken? cancellationToken = null)
+        /// <returns><see cref="Task"/>&lt;<see cref="FooInlineResponseDefault"/>&gt;</returns>
+        public async Task<FooInlineResponseDefault> FooGetOrDefaultAsync(System.Threading.CancellationToken? cancellationToken = null)
         {
-            ApiResponse<InlineResponseDefault> result = null;
+            ApiResponse<FooInlineResponseDefault> result = null;
             try 
             {
                 result = await FooGetWithHttpInfoAsync(cancellationToken).ConfigureAwait(false);
@@ -160,8 +160,8 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="InlineResponseDefault"/></returns>
-        public async Task<ApiResponse<InlineResponseDefault>> FooGetWithHttpInfoAsync(System.Threading.CancellationToken? cancellationToken = null)
+        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="FooInlineResponseDefault"/></returns>
+        public async Task<ApiResponse<FooInlineResponseDefault>> FooGetWithHttpInfoAsync(System.Threading.CancellationToken? cancellationToken = null)
         {
             try
             {
@@ -203,10 +203,10 @@ namespace Org.OpenAPITools.Api
                             }
                         }
 
-                        ApiResponse<InlineResponseDefault> apiResponse = new ApiResponse<InlineResponseDefault>(responseMessage, responseContent);
+                        ApiResponse<FooInlineResponseDefault> apiResponse = new ApiResponse<FooInlineResponseDefault>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
-                            apiResponse.Content = JsonSerializer.Deserialize<InlineResponseDefault>(apiResponse.RawContent, _jsonSerializerOptions);
+                            apiResponse.Content = JsonSerializer.Deserialize<FooInlineResponseDefault>(apiResponse.RawContent, _jsonSerializerOptions);
 
                         return apiResponse;
                     }

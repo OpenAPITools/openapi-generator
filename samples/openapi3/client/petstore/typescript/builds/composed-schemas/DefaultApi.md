@@ -24,8 +24,8 @@ const configuration = .createConfiguration();
 const apiInstance = new .DefaultApi(configuration);
 
 let body:.DefaultApiFilePostRequest = {
-  // InlineObject (optional)
-  inlineObject: {
+  // FileInlineObject (optional)
+  fileInlineObject: {
     file: null,
   },
 };
@@ -40,7 +40,7 @@ apiInstance.filePost(body).then((data:any) => {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **inlineObject** | **InlineObject**|  |
+ **fileInlineObject** | **FileInlineObject**|  |
 
 
 ### Return type

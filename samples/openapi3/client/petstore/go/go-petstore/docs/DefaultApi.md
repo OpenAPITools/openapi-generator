@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 ## FooGet
 
-> InlineResponseDefault FooGet(ctx).Execute()
+> FooInlineResponseDefault FooGet(ctx).Execute()
 
 
 
@@ -35,7 +35,7 @@ func main() {
         fmt.Fprintf(os.Stderr, "Error when calling `DefaultApi.FooGet``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
-    // response from `FooGet`: InlineResponseDefault
+    // response from `FooGet`: FooInlineResponseDefault
     fmt.Fprintf(os.Stdout, "Response from `DefaultApi.FooGet`: %v\n", resp)
 }
 ```
@@ -51,7 +51,7 @@ Other parameters are passed through a pointer to a apiFooGetRequest struct via t
 
 ### Return type
 
-[**InlineResponseDefault**](InlineResponseDefault.md)
+[**FooInlineResponseDefault**](FooInlineResponseDefault.md)
 
 ### Authorization
 

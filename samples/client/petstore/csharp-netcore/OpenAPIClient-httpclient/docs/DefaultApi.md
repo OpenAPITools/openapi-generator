@@ -9,7 +9,7 @@ Method | HTTP request | Description
 
 <a name="fooget"></a>
 # **FooGet**
-> InlineResponseDefault FooGet ()
+> FooInlineResponseDefault FooGet ()
 
 
 
@@ -37,7 +37,7 @@ namespace Example
 
             try
             {
-                InlineResponseDefault result = apiInstance.FooGet();
+                FooInlineResponseDefault result = apiInstance.FooGet();
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -56,7 +56,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**InlineResponseDefault**](InlineResponseDefault.md)
+[**FooInlineResponseDefault**](FooInlineResponseDefault.md)
 
 ### Authorization
 

@@ -29,10 +29,10 @@ docs/FakeApi.md
 docs/FakeClassnameTags123Api.md
 docs/FileSchemaTestClass.md
 docs/Foo.md
+docs/FooInlineResponseDefault.md
 docs/FormatTest.md
 docs/HasOnlyReadOnly.md
 docs/HealthCheckResult.md
-docs/InlineResponseDefault.md
 docs/MapTest.md
 docs/MixedPropertiesAndAdditionalPropertiesClass.md
 docs/Model200Response.md
@@ -108,10 +108,10 @@ src/main/java/org/openapitools/client/model/EnumClass.java
 src/main/java/org/openapitools/client/model/EnumTest.java
 src/main/java/org/openapitools/client/model/FileSchemaTestClass.java
 src/main/java/org/openapitools/client/model/Foo.java
+src/main/java/org/openapitools/client/model/FooInlineResponseDefault.java
 src/main/java/org/openapitools/client/model/FormatTest.java
 src/main/java/org/openapitools/client/model/HasOnlyReadOnly.java
 src/main/java/org/openapitools/client/model/HealthCheckResult.java
-src/main/java/org/openapitools/client/model/InlineResponseDefault.java
 src/main/java/org/openapitools/client/model/MapTest.java
 src/main/java/org/openapitools/client/model/MixedPropertiesAndAdditionalPropertiesClass.java
 src/main/java/org/openapitools/client/model/Model200Response.java
@@ -136,3 +136,4 @@ src/main/java/org/openapitools/client/model/SingleRefType.java
 src/main/java/org/openapitools/client/model/SpecialModelName.java
 src/main/java/org/openapitools/client/model/Tag.java
 src/main/java/org/openapitools/client/model/User.java
+src/test/java/org/openapitools/client/model/FooInlineResponseDefaultTest.java

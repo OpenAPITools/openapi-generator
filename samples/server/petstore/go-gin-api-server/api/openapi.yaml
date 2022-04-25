@@ -232,7 +232,7 @@ paths:
           type: integer
         style: simple
       requestBody:
-        $ref: '#/components/requestBodies/inline_object'
+        $ref: '#/components/requestBodies/_pet__petId__inline_object'
         content:
           application/x-www-form-urlencoded:
             schema:
@@ -269,7 +269,7 @@ paths:
           type: integer
         style: simple
       requestBody:
-        $ref: '#/components/requestBodies/inline_object_1'
+        $ref: '#/components/requestBodies/_pet__petId__uploadImage_inline_object'
         content:
           multipart/form-data:
             schema:
@@ -617,16 +617,16 @@ components:
             $ref: '#/components/schemas/Pet'
       description: Pet object that needs to be added to the store
       required: true
-    inline_object:
+    _pet__petId__inline_object:
       content:
         application/x-www-form-urlencoded:
           schema:
-            $ref: '#/components/schemas/inline_object'
-    inline_object_1:
+            $ref: '#/components/schemas/_pet__petId__inline_object'
+    _pet__petId__uploadImage_inline_object:
       content:
         multipart/form-data:
           schema:
-            $ref: '#/components/schemas/inline_object_1'
+            $ref: '#/components/schemas/_pet__petId__uploadImage_inline_object'
   schemas:
     Order:
       description: An order for a pets from the pet store
@@ -801,7 +801,7 @@ components:
           type: string
       title: An uploaded response
       type: object
-    inline_object:
+    _pet__petId__inline_object:
       properties:
         name:
           description: Updated name of the pet
@@ -810,7 +810,7 @@ components:
           description: Updated status of the pet
           type: string
       type: object
-    inline_object_1:
+    _pet__petId__uploadImage_inline_object:
       properties:
         additionalMetadata:
           description: Additional data to pass to server

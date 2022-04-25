@@ -7,7 +7,7 @@ import 'dart:async';
 import 'package:built_value/serializer.dart';
 import 'package:dio/dio.dart';
 
-import 'package:openapi/src/model/inline_response_default.dart';
+import 'package:openapi/src/model/foo_inline_response_default.dart';
 
 class DefaultApi {
 
@@ -28,9 +28,9 @@ class DefaultApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future] containing a [Response] with a [InlineResponseDefault] as data
+  /// Returns a [Future] containing a [Response] with a [FooInlineResponseDefault] as data
   /// Throws [DioError] if API call or serialization fails
-  Future<Response<InlineResponseDefault>> fooGet({ 
+  Future<Response<FooInlineResponseDefault>> fooGet({ 
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -59,14 +59,14 @@ class DefaultApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    InlineResponseDefault _responseData;
+    FooInlineResponseDefault _responseData;
 
     try {
-      const _responseType = FullType(InlineResponseDefault);
+      const _responseType = FullType(FooInlineResponseDefault);
       _responseData = _serializers.deserialize(
         _response.data!,
         specifiedType: _responseType,
-      ) as InlineResponseDefault;
+      ) as FooInlineResponseDefault;
 
     } catch (error, stackTrace) {
       throw DioError(
@@ -77,7 +77,7 @@ class DefaultApi {
       )..stackTrace = stackTrace;
     }
 
-    return Response<InlineResponseDefault>(
+    return Response<FooInlineResponseDefault>(
       data: _responseData,
       headers: _response.headers,
       isRedirect: _response.isRedirect,

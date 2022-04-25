@@ -8,7 +8,7 @@ import org.openapitools.client.Pair;
 
 import javax.ws.rs.core.GenericType;
 
-import org.openapitools.client.model.InlineResponseDefault;
+import org.openapitools.client.model.FooInlineResponseDefault;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -48,7 +48,7 @@ public class DefaultApi {
   /**
    * 
    * 
-   * @return InlineResponseDefault
+   * @return FooInlineResponseDefault
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
@@ -56,14 +56,14 @@ public class DefaultApi {
        <tr><td> 0 </td><td> response </td><td>  -  </td></tr>
      </table>
    */
-  public InlineResponseDefault fooGet() throws ApiException {
+  public FooInlineResponseDefault fooGet() throws ApiException {
     return fooGetWithHttpInfo().getData();
   }
 
   /**
    * 
    * 
-   * @return ApiResponse&lt;InlineResponseDefault&gt;
+   * @return ApiResponse&lt;FooInlineResponseDefault&gt;
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
@@ -71,7 +71,7 @@ public class DefaultApi {
        <tr><td> 0 </td><td> response </td><td>  -  </td></tr>
      </table>
    */
-  public ApiResponse<InlineResponseDefault> fooGetWithHttpInfo() throws ApiException {
+  public ApiResponse<FooInlineResponseDefault> fooGetWithHttpInfo() throws ApiException {
     Object localVarPostBody = null;
     
     // create path and map variables
@@ -99,7 +99,7 @@ public class DefaultApi {
 
     String[] localVarAuthNames = new String[] {  };
 
-    GenericType<InlineResponseDefault> localVarReturnType = new GenericType<InlineResponseDefault>() {};
+    GenericType<FooInlineResponseDefault> localVarReturnType = new GenericType<FooInlineResponseDefault>() {};
 
     return apiClient.invokeAPI("DefaultApi.fooGet", localVarPath, "GET", localVarQueryParams, localVarPostBody,
                                localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,

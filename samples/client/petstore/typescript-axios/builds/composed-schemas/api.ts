@@ -120,13 +120,13 @@ export type DogAllOfBreedEnum = typeof DogAllOfBreedEnum[keyof typeof DogAllOfBr
 /**
  * 
  * @export
- * @interface InlineObject
+ * @interface FileInlineObject
  */
-export interface InlineObject {
+export interface FileInlineObject {
     /**
      * 
      * @type {any}
-     * @memberof InlineObject
+     * @memberof FileInlineObject
      */
     'file'?: any;
 }
@@ -185,11 +185,11 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
     return {
         /**
          * 
-         * @param {InlineObject} [inlineObject] 
+         * @param {FileInlineObject} [fileInlineObject] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        filePost: async (inlineObject?: InlineObject, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        filePost: async (fileInlineObject?: FileInlineObject, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/file`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -209,7 +209,7 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(inlineObject, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(fileInlineObject, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -294,12 +294,12 @@ export const DefaultApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
-         * @param {InlineObject} [inlineObject] 
+         * @param {FileInlineObject} [fileInlineObject] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async filePost(inlineObject?: InlineObject, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.filePost(inlineObject, options);
+        async filePost(fileInlineObject?: FileInlineObject, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.filePost(fileInlineObject, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -334,12 +334,12 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
     return {
         /**
          * 
-         * @param {InlineObject} [inlineObject] 
+         * @param {FileInlineObject} [fileInlineObject] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        filePost(inlineObject?: InlineObject, options?: any): AxiosPromise<void> {
-            return localVarFp.filePost(inlineObject, options).then((request) => request(axios, basePath));
+        filePost(fileInlineObject?: FileInlineObject, options?: any): AxiosPromise<void> {
+            return localVarFp.filePost(fileInlineObject, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -371,13 +371,13 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
 export class DefaultApi extends BaseAPI {
     /**
      * 
-     * @param {InlineObject} [inlineObject] 
+     * @param {FileInlineObject} [fileInlineObject] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DefaultApi
      */
-    public filePost(inlineObject?: InlineObject, options?: AxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).filePost(inlineObject, options).then((request) => request(this.axios, this.basePath));
+    public filePost(fileInlineObject?: FileInlineObject, options?: AxiosRequestConfig) {
+        return DefaultApiFp(this.configuration).filePost(fileInlineObject, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

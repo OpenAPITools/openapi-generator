@@ -788,7 +788,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **post_inline_additional_properties_payload**
-> InlineObject6 post_inline_additional_properties_payload()
+> FakePostInlineAdditionalPropertiesPayloadInlineObject post_inline_additional_properties_payload()
 
 
 
@@ -799,7 +799,7 @@ No authorization required
 import time
 import petstore_api
 from petstore_api.api import fake_api
-from petstore_api.model.inline_object6 import InlineObject6
+from petstore_api.model.fake_post_inline_additional_properties_payload_inline_object import FakePostInlineAdditionalPropertiesPayloadInlineObject
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -812,7 +812,7 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = fake_api.FakeApi(api_client)
-    inline_object6 = InlineObject6(
+    fake_post_inline_additional_properties_payload_inline_object = FakePostInlineAdditionalPropertiesPayloadInlineObject(
         array_data=[
             FakePostInlineAdditionalPropertiesPayloadArrayData(
                 labels=[
@@ -820,12 +820,12 @@ with petstore_api.ApiClient() as api_client:
                 ],
             ),
         ],
-    ) # InlineObject6 |  (optional)
+    ) # FakePostInlineAdditionalPropertiesPayloadInlineObject |  (optional)
 
     # example passing only required values which don't have defaults set
     # and optional values
     try:
-        api_response = api_instance.post_inline_additional_properties_payload(inline_object6=inline_object6)
+        api_response = api_instance.post_inline_additional_properties_payload(fake_post_inline_additional_properties_payload_inline_object=fake_post_inline_additional_properties_payload_inline_object)
         pprint(api_response)
     except petstore_api.ApiException as e:
         print("Exception when calling FakeApi->post_inline_additional_properties_payload: %s\n" % e)
@@ -836,11 +836,11 @@ with petstore_api.ApiClient() as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **inline_object6** | [**InlineObject6**](InlineObject6.md)|  | [optional]
+ **fake_post_inline_additional_properties_payload_inline_object** | [**FakePostInlineAdditionalPropertiesPayloadInlineObject**](FakePostInlineAdditionalPropertiesPayloadInlineObject.md)|  | [optional]
 
 ### Return type
 
-[**InlineObject6**](InlineObject6.md)
+[**FakePostInlineAdditionalPropertiesPayloadInlineObject**](FakePostInlineAdditionalPropertiesPayloadInlineObject.md)
 
 ### Authorization
 

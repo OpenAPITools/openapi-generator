@@ -63,11 +63,11 @@ from petstore_api.schemas import (  # noqa: F401
     _SchemaEnumMaker
 )
 
-from petstore_api.model.inline_response_default import InlineResponseDefault
+from petstore_api.model.foo_inline_response_default import FooInlineResponseDefault
 
 _path = '/foo'
 _method = 'GET'
-SchemaFor0ResponseBodyApplicationJson = InlineResponseDefault
+SchemaFor0ResponseBodyApplicationJson = FooInlineResponseDefault
 
 
 @dataclass

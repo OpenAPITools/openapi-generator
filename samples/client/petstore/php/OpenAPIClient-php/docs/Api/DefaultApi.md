@@ -10,7 +10,7 @@ Method | HTTP request | Description
 ## `fooGet()`
 
 ```php
-fooGet(): \OpenAPI\Client\Model\InlineResponseDefault
+fooGet(): \OpenAPI\Client\Model\FooInlineResponseDefault
 ```
 
 
@@ -43,7 +43,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**\OpenAPI\Client\Model\InlineResponseDefault**](../Model/InlineResponseDefault.md)
+[**\OpenAPI\Client\Model\FooInlineResponseDefault**](../Model/FooInlineResponseDefault.md)
 
 ### Authorization
 

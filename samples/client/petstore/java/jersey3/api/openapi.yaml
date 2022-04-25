@@ -48,7 +48,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_default'
+                $ref: '#/components/schemas/_foo_inline_response_default'
           description: response
       x-accepts: application/json
   /pet:
@@ -262,7 +262,7 @@ paths:
           type: integer
         style: simple
       requestBody:
-        $ref: '#/components/requestBodies/inline_object'
+        $ref: '#/components/requestBodies/_pet__petId__inline_object'
         content:
           application/x-www-form-urlencoded:
             schema:
@@ -301,7 +301,7 @@ paths:
           type: integer
         style: simple
       requestBody:
-        $ref: '#/components/requestBodies/inline_object_1'
+        $ref: '#/components/requestBodies/_pet__petId__uploadImage_inline_object'
         content:
           multipart/form-data:
             schema:
@@ -794,7 +794,7 @@ paths:
           type: number
         style: form
       requestBody:
-        $ref: '#/components/requestBodies/inline_object_2'
+        $ref: '#/components/requestBodies/_fake_inline_object'
         content:
           application/x-www-form-urlencoded:
             schema:
@@ -852,7 +852,7 @@ paths:
         가짜 엔드 포인트
       operationId: testEndpointParameters
       requestBody:
-        $ref: '#/components/requestBodies/inline_object_3'
+        $ref: '#/components/requestBodies/_fake_inline_object_1'
         content:
           application/x-www-form-urlencoded:
             schema:
@@ -1034,7 +1034,7 @@ paths:
       description: ""
       operationId: testJsonFormData
       requestBody:
-        $ref: '#/components/requestBodies/inline_object_4'
+        $ref: '#/components/requestBodies/_fake_jsonFormData_inline_object'
         content:
           application/x-www-form-urlencoded:
             schema:
@@ -1209,7 +1209,7 @@ paths:
           type: integer
         style: simple
       requestBody:
-        $ref: '#/components/requestBodies/inline_object_5'
+        $ref: '#/components/requestBodies/_fake__petId__uploadImageWithRequiredFile_inline_object'
         content:
           multipart/form-data:
             schema:
@@ -1302,36 +1302,36 @@ components:
             $ref: '#/components/schemas/Pet'
       description: Pet object that needs to be added to the store
       required: true
-    inline_object:
+    _pet__petId__inline_object:
       content:
         application/x-www-form-urlencoded:
           schema:
-            $ref: '#/components/schemas/inline_object'
-    inline_object_1:
+            $ref: '#/components/schemas/_pet__petId__inline_object'
+    _pet__petId__uploadImage_inline_object:
       content:
         multipart/form-data:
           schema:
-            $ref: '#/components/schemas/inline_object_1'
-    inline_object_2:
+            $ref: '#/components/schemas/_pet__petId__uploadImage_inline_object'
+    _fake_inline_object:
       content:
         application/x-www-form-urlencoded:
           schema:
-            $ref: '#/components/schemas/inline_object_2'
-    inline_object_3:
+            $ref: '#/components/schemas/_fake_inline_object'
+    _fake_inline_object_1:
       content:
         application/x-www-form-urlencoded:
           schema:
-            $ref: '#/components/schemas/inline_object_3'
-    inline_object_4:
+            $ref: '#/components/schemas/_fake_inline_object_1'
+    _fake_jsonFormData_inline_object:
       content:
         application/x-www-form-urlencoded:
           schema:
-            $ref: '#/components/schemas/inline_object_4'
-    inline_object_5:
+            $ref: '#/components/schemas/_fake_jsonFormData_inline_object'
+    _fake__petId__uploadImageWithRequiredFile_inline_object:
       content:
         multipart/form-data:
           schema:
-            $ref: '#/components/schemas/inline_object_5'
+            $ref: '#/components/schemas/_fake__petId__uploadImageWithRequiredFile_inline_object'
   schemas:
     Foo:
       example:
@@ -2297,7 +2297,7 @@ components:
             $ref: '#/components/schemas/Bar'
           type: array
       type: object
-    inline_response_default:
+    _foo_inline_response_default:
       example:
         string:
           bar: bar
@@ -2305,7 +2305,7 @@ components:
         string:
           $ref: '#/components/schemas/Foo'
       type: object
-    inline_object:
+    _pet__petId__inline_object:
       properties:
         name:
           description: Updated name of the pet
@@ -2314,7 +2314,7 @@ components:
           description: Updated status of the pet
           type: string
       type: object
-    inline_object_1:
+    _pet__petId__uploadImage_inline_object:
       properties:
         additionalMetadata:
           description: Additional data to pass to server
@@ -2324,7 +2324,7 @@ components:
           format: binary
           type: string
       type: object
-    inline_object_2:
+    _fake_inline_object:
       properties:
         enum_form_string_array:
           description: Form parameter enum test (string array)
@@ -2344,7 +2344,7 @@ components:
           - (xyz)
           type: string
       type: object
-    inline_object_3:
+    _fake_inline_object_1:
       properties:
         integer:
           description: None
@@ -2418,7 +2418,7 @@ components:
       - number
       - pattern_without_delimiter
       type: object
-    inline_object_4:
+    _fake_jsonFormData_inline_object:
       properties:
         param:
           description: field1
@@ -2430,7 +2430,7 @@ components:
       - param
       - param2
       type: object
-    inline_object_5:
+    _fake__petId__uploadImageWithRequiredFile_inline_object:
       properties:
         additionalMetadata:
           description: Additional data to pass to server

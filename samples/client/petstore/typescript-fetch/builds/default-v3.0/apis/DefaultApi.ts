@@ -15,9 +15,9 @@
 
 import * as runtime from '../runtime';
 import {
-    InlineResponseDefault,
-    InlineResponseDefaultFromJSON,
-    InlineResponseDefaultToJSON,
+    FooInlineResponseDefault,
+    FooInlineResponseDefaultFromJSON,
+    FooInlineResponseDefaultToJSON,
 } from '../models';
 
 /**
@@ -27,7 +27,7 @@ export class DefaultApi extends runtime.BaseAPI {
 
     /**
      */
-    async fooGetRaw(initOverrides?: RequestInit): Promise<runtime.ApiResponse<InlineResponseDefault>> {
+    async fooGetRaw(initOverrides?: RequestInit): Promise<runtime.ApiResponse<FooInlineResponseDefault>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -39,12 +39,12 @@ export class DefaultApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => InlineResponseDefaultFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => FooInlineResponseDefaultFromJSON(jsonValue));
     }
 
     /**
      */
-    async fooGet(initOverrides?: RequestInit): Promise<InlineResponseDefault> {
+    async fooGet(initOverrides?: RequestInit): Promise<FooInlineResponseDefault> {
         const response = await this.fooGetRaw(initOverrides);
         return await response.value();
     }

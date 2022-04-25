@@ -29,10 +29,10 @@ docs/FakeClassnameTags123Api.md
 docs/File.md
 docs/FileSchemaTestClass.md
 docs/Foo.md
+docs/FooInlineResponseDefault.md
 docs/FormatTest.md
 docs/HasOnlyReadOnly.md
 docs/HealthCheckResult.md
-docs/InlineResponseDefault.md
 docs/List.md
 docs/MapTest.md
 docs/MixedPropertiesAndAdditionalPropertiesClass.md
@@ -61,6 +61,7 @@ docs/User.md
 docs/UserApi.md
 git_push.sh
 mono_nunit_test.sh
+src/Org.OpenAPITools.Test/Model/FooInlineResponseDefaultTests.cs
 src/Org.OpenAPITools.Test/packages.config
 src/Org.OpenAPITools/Api/AnotherFakeApi.cs
 src/Org.OpenAPITools/Api/DefaultApi.cs
@@ -99,10 +100,10 @@ src/Org.OpenAPITools/Model/EnumTest.cs
 src/Org.OpenAPITools/Model/File.cs
 src/Org.OpenAPITools/Model/FileSchemaTestClass.cs
 src/Org.OpenAPITools/Model/Foo.cs
+src/Org.OpenAPITools/Model/FooInlineResponseDefault.cs
 src/Org.OpenAPITools/Model/FormatTest.cs
 src/Org.OpenAPITools/Model/HasOnlyReadOnly.cs
 src/Org.OpenAPITools/Model/HealthCheckResult.cs
-src/Org.OpenAPITools/Model/InlineResponseDefault.cs
 src/Org.OpenAPITools/Model/List.cs
 src/Org.OpenAPITools/Model/MapTest.cs
 src/Org.OpenAPITools/Model/MixedPropertiesAndAdditionalPropertiesClass.cs

@@ -53,7 +53,7 @@ paths:
   /multiple-identical-mime-types:
     post:
       requestBody:
-        $ref: '#/components/requestBodies/inline_object'
+        $ref: '#/components/requestBodies/_multiple_identical_mime_types_inline_object'
         content:
           multipart/related:
             encoding:
@@ -78,11 +78,11 @@ paths:
           description: OK
 components:
   requestBodies:
-    inline_object:
+    _multiple_identical_mime_types_inline_object:
       content:
         multipart/related:
           schema:
-            $ref: '#/components/schemas/inline_object'
+            $ref: '#/components/schemas/_multiple_identical_mime_types_inline_object'
       required: true
   schemas:
     multipart_request:
@@ -113,7 +113,7 @@ components:
       required:
       - required_binary_field
       type: object
-    inline_object:
+    _multiple_identical_mime_types_inline_object:
       properties:
         binary1:
           format: binary

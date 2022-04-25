@@ -6,7 +6,7 @@ import { Cat } from '../models/Cat';
 import { CatAllOf } from '../models/CatAllOf';
 import { Dog } from '../models/Dog';
 import { DogAllOf } from '../models/DogAllOf';
-import { InlineObject } from '../models/InlineObject';
+import { FileInlineObject } from '../models/FileInlineObject';
 import { PetByAge } from '../models/PetByAge';
 import { PetByType } from '../models/PetByType';
 import { ObservableDefaultApi } from './ObservableAPI';
@@ -24,10 +24,10 @@ export class PromiseDefaultApi {
     }
 
     /**
-     * @param inlineObject 
+     * @param fileInlineObject 
      */
-    public filePost(inlineObject?: InlineObject, _options?: Configuration): Promise<void> {
-        const result = this.api.filePost(inlineObject, _options);
+    public filePost(fileInlineObject?: FileInlineObject, _options?: Configuration): Promise<void> {
+        const result = this.api.filePost(fileInlineObject, _options);
         return result.toPromise();
     }
 

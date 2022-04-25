@@ -15,7 +15,7 @@ models/Cat.ts
 models/CatAllOf.ts
 models/Dog.ts
 models/DogAllOf.ts
-models/InlineObject.ts
+models/FileInlineObject.ts
 models/ObjectSerializer.ts
 models/PetByAge.ts
 models/PetByType.ts

@@ -99,7 +99,7 @@ Method | HTTP request | Description
 
 ## Documentation For Models
 
- - [InlineObject](docs/InlineObject.md)
+ - [OpInlineObject](docs/OpInlineObject.md)
 
 
 ## Documentation For Authorization

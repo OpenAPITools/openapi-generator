@@ -28,11 +28,11 @@ from petstore_api.model.array_of_enums import ArrayOfEnums
 from petstore_api.model.client import Client
 from petstore_api.model.composed_one_of_number_with_validations import ComposedOneOfNumberWithValidations
 from petstore_api.model.enum_test import EnumTest
+from petstore_api.model.fake_post_inline_additional_properties_payload_inline_object import FakePostInlineAdditionalPropertiesPayloadInlineObject
 from petstore_api.model.file_schema_test_class import FileSchemaTestClass
 from petstore_api.model.gm_fruit_no_properties import GmFruitNoProperties
 from petstore_api.model.health_check_result import HealthCheckResult
 from petstore_api.model.inline_additional_properties_ref_payload import InlineAdditionalPropertiesRefPayload
-from petstore_api.model.inline_object6 import InlineObject6
 from petstore_api.model.mammal import Mammal
 from petstore_api.model.number_with_validations import NumberWithValidations
 from petstore_api.model.object_model_with_ref_props import ObjectModelWithRefProps
@@ -583,7 +583,7 @@ class FakeApi(object):
         )
         self.post_inline_additional_properties_payload_endpoint = _Endpoint(
             settings={
-                'response_type': (InlineObject6,),
+                'response_type': (FakePostInlineAdditionalPropertiesPayloadInlineObject,),
                 'auth': [],
                 'endpoint_path': '/fake/postInlineAdditionalPropertiesPayload',
                 'operation_id': 'post_inline_additional_properties_payload',
@@ -592,7 +592,7 @@ class FakeApi(object):
             },
             params_map={
                 'all': [
-                    'inline_object6',
+                    'fake_post_inline_additional_properties_payload_inline_object',
                 ],
                 'required': [],
                 'nullable': [
@@ -608,13 +608,13 @@ class FakeApi(object):
                 'allowed_values': {
                 },
                 'openapi_types': {
-                    'inline_object6':
-                        (InlineObject6,),
+                    'fake_post_inline_additional_properties_payload_inline_object':
+                        (FakePostInlineAdditionalPropertiesPayloadInlineObject,),
                 },
                 'attribute_map': {
                 },
                 'location_map': {
-                    'inline_object6': 'body',
+                    'fake_post_inline_additional_properties_payload_inline_object': 'body',
                 },
                 'collection_format_map': {
                 }
@@ -2575,7 +2575,7 @@ class FakeApi(object):
 
 
         Keyword Args:
-            inline_object6 (InlineObject6): [optional]
+            fake_post_inline_additional_properties_payload_inline_object (FakePostInlineAdditionalPropertiesPayloadInlineObject): [optional]
             _return_http_data_only (bool): response data without head status
                 code and headers. Default is True.
             _preload_content (bool): if False, the urllib3.HTTPResponse object
@@ -2608,7 +2608,7 @@ class FakeApi(object):
             async_req (bool): execute request asynchronously
 
         Returns:
-            InlineObject6
+            FakePostInlineAdditionalPropertiesPayloadInlineObject
                 If the method is called asynchronously, returns the request
                 thread.
         """

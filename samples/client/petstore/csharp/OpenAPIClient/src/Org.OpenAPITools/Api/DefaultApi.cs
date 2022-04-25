@@ -32,8 +32,8 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <returns>InlineResponseDefault</returns>
-        InlineResponseDefault FooGet ();
+        /// <returns>FooInlineResponseDefault</returns>
+        FooInlineResponseDefault FooGet ();
 
         /// <summary>
         /// 
@@ -42,8 +42,8 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <returns>ApiResponse of InlineResponseDefault</returns>
-        ApiResponse<InlineResponseDefault> FooGetWithHttpInfo ();
+        /// <returns>ApiResponse of FooInlineResponseDefault</returns>
+        ApiResponse<FooInlineResponseDefault> FooGetWithHttpInfo ();
         #endregion Synchronous Operations
         #region Asynchronous Operations
         /// <summary>
@@ -54,8 +54,8 @@ namespace Org.OpenAPITools.Api
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
-        /// <returns>Task of InlineResponseDefault</returns>
-        System.Threading.Tasks.Task<InlineResponseDefault> FooGetAsync (CancellationToken cancellationToken = default(CancellationToken));
+        /// <returns>Task of FooInlineResponseDefault</returns>
+        System.Threading.Tasks.Task<FooInlineResponseDefault> FooGetAsync (CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// 
@@ -65,8 +65,8 @@ namespace Org.OpenAPITools.Api
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
-        /// <returns>Task of ApiResponse (InlineResponseDefault)</returns>
-        System.Threading.Tasks.Task<ApiResponse<InlineResponseDefault>> FooGetWithHttpInfoAsync (CancellationToken cancellationToken = default(CancellationToken));
+        /// <returns>Task of ApiResponse (FooInlineResponseDefault)</returns>
+        System.Threading.Tasks.Task<ApiResponse<FooInlineResponseDefault>> FooGetWithHttpInfoAsync (CancellationToken cancellationToken = default(CancellationToken));
         #endregion Asynchronous Operations
     }
 
@@ -182,10 +182,10 @@ namespace Org.OpenAPITools.Api
         ///  
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <returns>InlineResponseDefault</returns>
-        public InlineResponseDefault FooGet ()
+        /// <returns>FooInlineResponseDefault</returns>
+        public FooInlineResponseDefault FooGet ()
         {
-             ApiResponse<InlineResponseDefault> localVarResponse = FooGetWithHttpInfo();
+             ApiResponse<FooInlineResponseDefault> localVarResponse = FooGetWithHttpInfo();
              return localVarResponse.Data;
         }
 
@@ -193,8 +193,8 @@ namespace Org.OpenAPITools.Api
         ///  
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <returns>ApiResponse of InlineResponseDefault</returns>
-        public ApiResponse<InlineResponseDefault> FooGetWithHttpInfo ()
+        /// <returns>ApiResponse of FooInlineResponseDefault</returns>
+        public ApiResponse<FooInlineResponseDefault> FooGetWithHttpInfo ()
         {
 
             var localVarPath = "/foo";
@@ -233,9 +233,9 @@ namespace Org.OpenAPITools.Api
                 if (exception != null) throw exception;
             }
 
-            return new ApiResponse<InlineResponseDefault>(localVarStatusCode,
+            return new ApiResponse<FooInlineResponseDefault>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                (InlineResponseDefault) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(InlineResponseDefault)));
+                (FooInlineResponseDefault) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(FooInlineResponseDefault)));
         }
 
         /// <summary>
@@ -243,10 +243,10 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
-        /// <returns>Task of InlineResponseDefault</returns>
-        public async System.Threading.Tasks.Task<InlineResponseDefault> FooGetAsync (CancellationToken cancellationToken = default(CancellationToken))
+        /// <returns>Task of FooInlineResponseDefault</returns>
+        public async System.Threading.Tasks.Task<FooInlineResponseDefault> FooGetAsync (CancellationToken cancellationToken = default(CancellationToken))
         {
-             ApiResponse<InlineResponseDefault> localVarResponse = await FooGetWithHttpInfoAsync(cancellationToken);
+             ApiResponse<FooInlineResponseDefault> localVarResponse = await FooGetWithHttpInfoAsync(cancellationToken);
              return localVarResponse.Data;
 
         }
@@ -256,8 +256,8 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
-        /// <returns>Task of ApiResponse (InlineResponseDefault)</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<InlineResponseDefault>> FooGetWithHttpInfoAsync (CancellationToken cancellationToken = default(CancellationToken))
+        /// <returns>Task of ApiResponse (FooInlineResponseDefault)</returns>
+        public async System.Threading.Tasks.Task<ApiResponse<FooInlineResponseDefault>> FooGetWithHttpInfoAsync (CancellationToken cancellationToken = default(CancellationToken))
         {
 
             var localVarPath = "/foo";
@@ -296,9 +296,9 @@ namespace Org.OpenAPITools.Api
                 if (exception != null) throw exception;
             }
 
-            return new ApiResponse<InlineResponseDefault>(localVarStatusCode,
+            return new ApiResponse<FooInlineResponseDefault>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                (InlineResponseDefault) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(InlineResponseDefault)));
+                (FooInlineResponseDefault) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(FooInlineResponseDefault)));
         }
 
     }

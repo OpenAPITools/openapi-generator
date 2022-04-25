@@ -13,7 +13,7 @@
 
 
 import ApiClient from "../ApiClient";
-import InlineResponseDefault from '../model/InlineResponseDefault';
+import FooInlineResponseDefault from '../model/FooInlineResponseDefault';
 
 /**
 * Default service.
@@ -36,7 +36,7 @@ export default class DefaultApi {
 
 
     /**
-     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/InlineResponseDefault} and HTTP response
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/FooInlineResponseDefault} and HTTP response
      */
     fooGetWithHttpInfo() {
       let postBody = null;
@@ -53,7 +53,7 @@ export default class DefaultApi {
       let authNames = [];
       let contentTypes = [];
       let accepts = ['application/json'];
-      let returnType = InlineResponseDefault;
+      let returnType = FooInlineResponseDefault;
       return this.apiClient.callApi(
         '/foo', 'GET',
         pathParams, queryParams, headerParams, formParams, postBody,
@@ -62,7 +62,7 @@ export default class DefaultApi {
     }
 
     /**
-     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/InlineResponseDefault}
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/FooInlineResponseDefault}
      */
     fooGet() {
       return this.fooGetWithHttpInfo()

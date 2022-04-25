@@ -20,7 +20,7 @@ A switch when turned on will return a hash table of Response, StatusCode and Hea
 
 .OUTPUTS
 
-InlineResponseDefault
+FooInlineResponseDefault
 #>
 function Invoke-PSFooGet {
     [CmdletBinding()]
@@ -57,7 +57,7 @@ function Invoke-PSFooGet {
                                 -QueryParameters $LocalVarQueryParameters `
                                 -FormParameters $LocalVarFormParameters `
                                 -CookieParameters $LocalVarCookieParameters `
-                                -ReturnType "InlineResponseDefault" `
+                                -ReturnType "FooInlineResponseDefault" `
                                 -IsBodyNullable $false
 
         if ($WithHttpInfo.IsPresent) {

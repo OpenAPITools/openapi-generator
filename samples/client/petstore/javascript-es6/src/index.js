@@ -34,10 +34,10 @@ import EnumTest from './model/EnumTest';
 import File from './model/File';
 import FileSchemaTestClass from './model/FileSchemaTestClass';
 import Foo from './model/Foo';
+import FooInlineResponseDefault from './model/FooInlineResponseDefault';
 import FormatTest from './model/FormatTest';
 import HasOnlyReadOnly from './model/HasOnlyReadOnly';
 import HealthCheckResult from './model/HealthCheckResult';
-import InlineResponseDefault from './model/InlineResponseDefault';
 import List from './model/List';
 import MapTest from './model/MapTest';
 import MixedPropertiesAndAdditionalPropertiesClass from './model/MixedPropertiesAndAdditionalPropertiesClass';
@@ -233,6 +233,12 @@ export {
     Foo,
 
     /**
+     * The FooInlineResponseDefault model constructor.
+     * @property {module:model/FooInlineResponseDefault}
+     */
+    FooInlineResponseDefault,
+
+    /**
      * The FormatTest model constructor.
      * @property {module:model/FormatTest}
      */
@@ -249,12 +255,6 @@ export {
      * @property {module:model/HealthCheckResult}
      */
     HealthCheckResult,
-
-    /**
-     * The InlineResponseDefault model constructor.
-     * @property {module:model/InlineResponseDefault}
-     */
-    InlineResponseDefault,
 
     /**
      * The List model constructor.

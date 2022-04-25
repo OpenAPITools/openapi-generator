@@ -6,7 +6,7 @@ import { Cat } from '../models/Cat';
 import { CatAllOf } from '../models/CatAllOf';
 import { Dog } from '../models/Dog';
 import { DogAllOf } from '../models/DogAllOf';
-import { InlineObject } from '../models/InlineObject';
+import { FileInlineObject } from '../models/FileInlineObject';
 import { PetByAge } from '../models/PetByAge';
 import { PetByType } from '../models/PetByType';
 
@@ -16,10 +16,10 @@ import { DefaultApiRequestFactory, DefaultApiResponseProcessor} from "../apis/De
 export interface DefaultApiFilePostRequest {
     /**
      * 
-     * @type InlineObject
+     * @type FileInlineObject
      * @memberof DefaultApifilePost
      */
-    inlineObject?: InlineObject
+    fileInlineObject?: FileInlineObject
 }
 
 export interface DefaultApiPetsFilteredPatchRequest {
@@ -51,7 +51,7 @@ export class ObjectDefaultApi {
      * @param param the request object
      */
     public filePost(param: DefaultApiFilePostRequest = {}, options?: Configuration): Promise<void> {
-        return this.api.filePost(param.inlineObject,  options).toPromise();
+        return this.api.filePost(param.fileInlineObject,  options).toPromise();
     }
 
     /**

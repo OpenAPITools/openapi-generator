@@ -7,7 +7,7 @@ import { Cat } from '../models/Cat';
 import { CatAllOf } from '../models/CatAllOf';
 import { Dog } from '../models/Dog';
 import { DogAllOf } from '../models/DogAllOf';
-import { InlineObject } from '../models/InlineObject';
+import { FileInlineObject } from '../models/FileInlineObject';
 import { PetByAge } from '../models/PetByAge';
 import { PetByType } from '../models/PetByType';
 
@@ -28,10 +28,10 @@ export class ObservableDefaultApi {
     }
 
     /**
-     * @param inlineObject 
+     * @param fileInlineObject 
      */
-    public filePost(inlineObject?: InlineObject, _options?: Configuration): Observable<void> {
-        const requestContextPromise = this.requestFactory.filePost(inlineObject, _options);
+    public filePost(fileInlineObject?: FileInlineObject, _options?: Configuration): Observable<void> {
+        const requestContextPromise = this.requestFactory.filePost(fileInlineObject, _options);
 
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);

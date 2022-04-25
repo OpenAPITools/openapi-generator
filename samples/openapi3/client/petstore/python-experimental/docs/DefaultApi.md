@@ -7,7 +7,7 @@ Method | HTTP request | Description
 [**foo_get**](DefaultApi.md#foo_get) | **GET** /foo | 
 
 # **foo_get**
-> InlineResponseDefault foo_get()
+> FooInlineResponseDefault foo_get()
 
 
 
@@ -16,7 +16,7 @@ Method | HTTP request | Description
 ```python
 import petstore_api
 from petstore_api.api import default_api
-from petstore_api.model.inline_response_default import InlineResponseDefault
+from petstore_api.model.foo_inline_response_default import FooInlineResponseDefault
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -56,11 +56,11 @@ headers | Unset | headers were not defined |
 #### SchemaFor0ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**InlineResponseDefault**](InlineResponseDefault.md) |  | 
+[**FooInlineResponseDefault**](FooInlineResponseDefault.md) |  | 
 
 
 
-[**InlineResponseDefault**](InlineResponseDefault.md)
+[**FooInlineResponseDefault**](FooInlineResponseDefault.md)
 
 ### Authorization
 

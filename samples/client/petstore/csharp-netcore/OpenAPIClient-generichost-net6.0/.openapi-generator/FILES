@@ -40,6 +40,7 @@ docs/models/EquilateralTriangle.md
 docs/models/File.md
 docs/models/FileSchemaTestClass.md
 docs/models/Foo.md
+docs/models/FooInlineResponseDefault.md
 docs/models/FormatTest.md
 docs/models/Fruit.md
 docs/models/FruitReq.md
@@ -47,7 +48,6 @@ docs/models/GmFruit.md
 docs/models/GrandparentAnimal.md
 docs/models/HasOnlyReadOnly.md
 docs/models/HealthCheckResult.md
-docs/models/InlineResponseDefault.md
 docs/models/IsoscelesTriangle.md
 docs/models/List.md
 docs/models/Mammal.md
@@ -89,6 +89,7 @@ docs/models/Zebra.md
 docs/scripts/git_push.ps1
 docs/scripts/git_push.sh
 src/Org.OpenAPITools.Test/Api/DependencyInjectionTests.cs
+src/Org.OpenAPITools.Test/Model/FooInlineResponseDefaultTests.cs
 src/Org.OpenAPITools.Test/Org.OpenAPITools.Test.csproj
 src/Org.OpenAPITools/Api/AnotherFakeApi.cs
 src/Org.OpenAPITools/Api/DefaultApi.cs
@@ -146,6 +147,7 @@ src/Org.OpenAPITools/Model/EquilateralTriangle.cs
 src/Org.OpenAPITools/Model/File.cs
 src/Org.OpenAPITools/Model/FileSchemaTestClass.cs
 src/Org.OpenAPITools/Model/Foo.cs
+src/Org.OpenAPITools/Model/FooInlineResponseDefault.cs
 src/Org.OpenAPITools/Model/FormatTest.cs
 src/Org.OpenAPITools/Model/Fruit.cs
 src/Org.OpenAPITools/Model/FruitReq.cs
@@ -153,7 +155,6 @@ src/Org.OpenAPITools/Model/GmFruit.cs
 src/Org.OpenAPITools/Model/GrandparentAnimal.cs
 src/Org.OpenAPITools/Model/HasOnlyReadOnly.cs
 src/Org.OpenAPITools/Model/HealthCheckResult.cs
-src/Org.OpenAPITools/Model/InlineResponseDefault.cs
 src/Org.OpenAPITools/Model/IsoscelesTriangle.cs
 src/Org.OpenAPITools/Model/List.cs
 src/Org.OpenAPITools/Model/Mammal.cs

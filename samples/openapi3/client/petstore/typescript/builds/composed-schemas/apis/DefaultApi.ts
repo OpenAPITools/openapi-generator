@@ -10,7 +10,7 @@ import {SecurityAuthentication} from '../auth/auth';
 
 import { Cat } from '../models/Cat';
 import { Dog } from '../models/Dog';
-import { InlineObject } from '../models/InlineObject';
+import { FileInlineObject } from '../models/FileInlineObject';
 import { PetByAge } from '../models/PetByAge';
 import { PetByType } from '../models/PetByType';
 
@@ -20,9 +20,9 @@ import { PetByType } from '../models/PetByType';
 export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
 
     /**
-     * @param inlineObject 
+     * @param fileInlineObject 
      */
-    public async filePost(inlineObject?: InlineObject, _options?: Configuration): Promise<RequestContext> {
+    public async filePost(fileInlineObject?: FileInlineObject, _options?: Configuration): Promise<RequestContext> {
         let _config = _options || this.configuration;
 
 
@@ -40,7 +40,7 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
         ]);
         requestContext.setHeaderParam("Content-Type", contentType);
         const serializedBody = ObjectSerializer.stringify(
-            ObjectSerializer.serialize(inlineObject, "InlineObject", ""),
+            ObjectSerializer.serialize(fileInlineObject, "FileInlineObject", ""),
             contentType
         );
         requestContext.setBody(serializedBody);
