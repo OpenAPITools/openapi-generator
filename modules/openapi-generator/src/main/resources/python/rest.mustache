@@ -330,7 +330,7 @@ def should_bypass_proxies(url, no_proxy=None):
     if no_proxy == '*':
         return True
 
-    no_proxy = no_proxy.lower().replace(' ', '');
+    no_proxy = no_proxy.lower().replace(' ', '')
     entries = (
         host for host in no_proxy.split(',') if host
     )
