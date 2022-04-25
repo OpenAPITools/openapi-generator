@@ -19,7 +19,8 @@ from urllib.request import proxy_bypass_environment
 import urllib3
 import ipaddress
 
-from petstore_api.exceptions import ApiException, UnauthorizedException, ForbiddenException, NotFoundException, ServiceException, ApiValueError
+from petstore_api.exceptions import ApiException, UnauthorizedException, \
+    ForbiddenException, NotFoundException, ServiceException, ApiValueError
 
 
 logger = logging.getLogger(__name__)
@@ -293,15 +294,17 @@ class RESTClientObject(object):
                             _request_timeout=_request_timeout,
                             body=body)
 
+
 # end of class RESTClientObject
 def is_ipv4(target):
     """ Test if IPv4 address or not
     """
     try:
-        chk = ipaddress.IPv4Address(target)
+        ipaddress.IPv4Address(target)
         return True
     except ipaddress.AddressValueError:
         return False
+
 
 def in_ipv4net(target, net):
     """ Test if target belongs to given IPv4 network
@@ -317,6 +320,7 @@ def in_ipv4net(target, net):
     except ipaddress.NetmaskValueError:
         return False
 
+
 def should_bypass_proxies(url, no_proxy=None):
     """ Yet another requests.should_bypass_proxies
     Test if proxies should not be used for a particular url.
@@ -329,12 +333,12 @@ def should_bypass_proxies(url, no_proxy=None):
         return True
 
     # special cases
-    if no_proxy in [None , '']:
+    if no_proxy in [None, '']:
         return False
     if no_proxy == '*':
         return True
 
-    no_proxy = no_proxy.lower().replace(' ','');
+    no_proxy = no_proxy.lower().replace(' ', '')
     entries = (
         host for host in no_proxy.split(',') if host
     )
@@ -343,4 +347,4 @@ def should_bypass_proxies(url, no_proxy=None):
         for item in entries:
             if in_ipv4net(parsed.hostname, item):
                 return True
-    return proxy_bypass_environment(parsed.hostname, {'no': no_proxy} )
+    return proxy_bypass_environment(parsed.hostname, {'no': no_proxy})
