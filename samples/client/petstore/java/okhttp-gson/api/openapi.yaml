@@ -2344,7 +2344,7 @@ components:
           items:
             allOf:
             - $ref: '#/components/schemas/Dog_allOf'
-            - $ref: '#/components/schemas/ArrayOfInlineAllOf_array_allof_dog_propertyItems_allOf'
+            - $ref: '#/components/schemas/ArrayOfInlineAllOf_array_allof_dog_propertyItems_allOf_1'
           type: array
       required:
       - name
@@ -2504,7 +2504,7 @@ components:
         declawed:
           type: boolean
       type: object
-    ArrayOfInlineAllOf_array_allof_dog_propertyItems_allOf:
+    ArrayOfInlineAllOf_array_allof_dog_propertyItems_allOf_1:
       properties:
         color:
           type: string
