@@ -225,7 +225,7 @@ public class DefaultCodegen implements CodegenConfig {
     // How to encode special characters like $
     // They are translated to words like "Dollar" and prefixed with '
     // Then translated back during JSON encoding and decoding
-    protected Map<String, String> specialCharReplacements = new HashMap<>();
+    protected Map<String, String> specialCharReplacements = new LinkedHashMap<>();
     // When a model is an alias for a simple type
     protected Map<String, String> typeAliases = null;
     protected Boolean prependFormOrBodyParameters = false;
@@ -512,7 +512,7 @@ public class DefaultCodegen implements CodegenConfig {
      * @return map of all models indexed by names
      */
     public Map<String, CodegenModel> getAllModels(Map<String, ModelsMap> objs) {
-        Map<String, CodegenModel> allModels = new HashMap<>();
+        Map<String, CodegenModel> allModels = new LinkedHashMap<>();
         for (Entry<String, ModelsMap> entry : objs.entrySet()) {
             String modelName = toModelName(entry.getKey());
             List<ModelMap> models = entry.getValue().getModels();
