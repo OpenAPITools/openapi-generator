@@ -33,7 +33,7 @@ export class AnotherFakeApi extends runtime.BaseAPI {
      * To test special tags and operation ID starting with number
      * To test special tags
      */
-    async _123testSpecialTagsRaw(requestParameters: 123testSpecialTagsRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<Client>> {
+    async _123testSpecialTagsRaw(requestParameters: 123testSpecialTagsRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<Client>> {
         if (requestParameters.client === null || requestParameters.client === undefined) {
             throw new runtime.RequiredError('client','Required parameter requestParameters.client was null or undefined when calling _123testSpecialTags.');
         }
@@ -59,7 +59,7 @@ export class AnotherFakeApi extends runtime.BaseAPI {
      * To test special tags and operation ID starting with number
      * To test special tags
      */
-    async _123testSpecialTags(requestParameters: 123testSpecialTagsRequest, initOverrides?: RequestInit): Promise<Client> {
+    async _123testSpecialTags(requestParameters: 123testSpecialTagsRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<Client> {
         const response = await this._123testSpecialTagsRaw(requestParameters, initOverrides);
         return await response.value();
     }

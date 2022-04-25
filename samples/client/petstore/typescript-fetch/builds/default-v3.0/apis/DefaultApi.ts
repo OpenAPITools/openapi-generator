@@ -27,7 +27,7 @@ export class DefaultApi extends runtime.BaseAPI {
 
     /**
      */
-    async fooGetRaw(initOverrides?: RequestInit): Promise<runtime.ApiResponse<FooInlineResponseDefault>> {
+    async fooGetRaw(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<FooInlineResponseDefault>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -44,7 +44,7 @@ export class DefaultApi extends runtime.BaseAPI {
 
     /**
      */
-    async fooGet(initOverrides?: RequestInit): Promise<FooInlineResponseDefault> {
+    async fooGet(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<FooInlineResponseDefault> {
         const response = await this.fooGetRaw(initOverrides);
         return await response.value();
     }

@@ -123,4 +123,3 @@ lib/src/model/tag.dart
 lib/src/model/user.dart
 lib/src/serializers.dart
 pubspec.yaml
-test/foo_inline_response_default_test.dart

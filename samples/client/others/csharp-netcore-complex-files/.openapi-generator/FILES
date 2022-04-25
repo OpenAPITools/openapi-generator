@@ -9,9 +9,6 @@ docs/MultipartMixedMarker.md
 docs/MultipartMixedStatus.md
 docs/MultipartSingleInlineObject.md
 git_push.sh
-src/Org.OpenAPITools.Test/Model/MultipartArrayInlineObjectTests.cs
-src/Org.OpenAPITools.Test/Model/MultipartMixedInlineObjectTests.cs
-src/Org.OpenAPITools.Test/Model/MultipartSingleInlineObjectTests.cs
 src/Org.OpenAPITools.Test/Org.OpenAPITools.Test.csproj
 src/Org.OpenAPITools/Api/MultipartApi.cs
 src/Org.OpenAPITools/Client/ApiClient.cs

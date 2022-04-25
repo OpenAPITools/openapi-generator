@@ -68,7 +68,7 @@ export class PetApi extends runtime.BaseAPI {
     /**
      * Add a new pet to the store
      */
-    async addPetRaw(requestParameters: PetApiAddPetRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<void>> {
+    async addPetRaw(requestParameters: PetApiAddPetRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<void>> {
         if (requestParameters.body === null || requestParameters.body === undefined) {
             throw new runtime.RequiredError('body','Required parameter requestParameters.body was null or undefined when calling addPet.');
         }
@@ -98,14 +98,14 @@ export class PetApi extends runtime.BaseAPI {
     /**
      * Add a new pet to the store
      */
-    async addPet(requestParameters: PetApiAddPetRequest, initOverrides?: RequestInit): Promise<void> {
+    async addPet(requestParameters: PetApiAddPetRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<void> {
         await this.addPetRaw(requestParameters, initOverrides);
     }
 
     /**
      * Deletes a pet
      */
-    async deletePetRaw(requestParameters: PetApiDeletePetRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<void>> {
+    async deletePetRaw(requestParameters: PetApiDeletePetRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<void>> {
         if (requestParameters.petId === null || requestParameters.petId === undefined) {
             throw new runtime.RequiredError('petId','Required parameter requestParameters.petId was null or undefined when calling deletePet.');
         }
@@ -136,7 +136,7 @@ export class PetApi extends runtime.BaseAPI {
     /**
      * Deletes a pet
      */
-    async deletePet(requestParameters: PetApiDeletePetRequest, initOverrides?: RequestInit): Promise<void> {
+    async deletePet(requestParameters: PetApiDeletePetRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<void> {
         await this.deletePetRaw(requestParameters, initOverrides);
     }
 
@@ -144,7 +144,7 @@ export class PetApi extends runtime.BaseAPI {
      * Multiple status values can be provided with comma separated strings
      * Finds Pets by status
      */
-    async findPetsByStatusRaw(requestParameters: PetApiFindPetsByStatusRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<Array<Pet>>> {
+    async findPetsByStatusRaw(requestParameters: PetApiFindPetsByStatusRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<Array<Pet>>> {
         if (requestParameters.status === null || requestParameters.status === undefined) {
             throw new runtime.RequiredError('status','Required parameter requestParameters.status was null or undefined when calling findPetsByStatus.');
         }
@@ -176,7 +176,7 @@ export class PetApi extends runtime.BaseAPI {
      * Multiple status values can be provided with comma separated strings
      * Finds Pets by status
      */
-    async findPetsByStatus(requestParameters: PetApiFindPetsByStatusRequest, initOverrides?: RequestInit): Promise<Array<Pet>> {
+    async findPetsByStatus(requestParameters: PetApiFindPetsByStatusRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<Array<Pet>> {
         const response = await this.findPetsByStatusRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -185,7 +185,7 @@ export class PetApi extends runtime.BaseAPI {
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      * Finds Pets by tags
      */
-    async findPetsByTagsRaw(requestParameters: PetApiFindPetsByTagsRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<Array<Pet>>> {
+    async findPetsByTagsRaw(requestParameters: PetApiFindPetsByTagsRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<Array<Pet>>> {
         if (requestParameters.tags === null || requestParameters.tags === undefined) {
             throw new runtime.RequiredError('tags','Required parameter requestParameters.tags was null or undefined when calling findPetsByTags.');
         }
@@ -217,7 +217,7 @@ export class PetApi extends runtime.BaseAPI {
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      * Finds Pets by tags
      */
-    async findPetsByTags(requestParameters: PetApiFindPetsByTagsRequest, initOverrides?: RequestInit): Promise<Array<Pet>> {
+    async findPetsByTags(requestParameters: PetApiFindPetsByTagsRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<Array<Pet>> {
         const response = await this.findPetsByTagsRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -226,7 +226,7 @@ export class PetApi extends runtime.BaseAPI {
      * Returns a single pet
      * Find pet by ID
      */
-    async getPetByIdRaw(requestParameters: PetApiGetPetByIdRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<Pet>> {
+    async getPetByIdRaw(requestParameters: PetApiGetPetByIdRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<Pet>> {
         if (requestParameters.petId === null || requestParameters.petId === undefined) {
             throw new runtime.RequiredError('petId','Required parameter requestParameters.petId was null or undefined when calling getPetById.');
         }
@@ -253,7 +253,7 @@ export class PetApi extends runtime.BaseAPI {
      * Returns a single pet
      * Find pet by ID
      */
-    async getPetById(requestParameters: PetApiGetPetByIdRequest, initOverrides?: RequestInit): Promise<Pet> {
+    async getPetById(requestParameters: PetApiGetPetByIdRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<Pet> {
         const response = await this.getPetByIdRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -261,7 +261,7 @@ export class PetApi extends runtime.BaseAPI {
     /**
      * Update an existing pet
      */
-    async updatePetRaw(requestParameters: PetApiUpdatePetRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<void>> {
+    async updatePetRaw(requestParameters: PetApiUpdatePetRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<void>> {
         if (requestParameters.body === null || requestParameters.body === undefined) {
             throw new runtime.RequiredError('body','Required parameter requestParameters.body was null or undefined when calling updatePet.');
         }
@@ -291,14 +291,14 @@ export class PetApi extends runtime.BaseAPI {
     /**
      * Update an existing pet
      */
-    async updatePet(requestParameters: PetApiUpdatePetRequest, initOverrides?: RequestInit): Promise<void> {
+    async updatePet(requestParameters: PetApiUpdatePetRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<void> {
         await this.updatePetRaw(requestParameters, initOverrides);
     }
 
     /**
      * Updates a pet in the store with form data
      */
-    async updatePetWithFormRaw(requestParameters: PetApiUpdatePetWithFormRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<void>> {
+    async updatePetWithFormRaw(requestParameters: PetApiUpdatePetWithFormRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<void>> {
         if (requestParameters.petId === null || requestParameters.petId === undefined) {
             throw new runtime.RequiredError('petId','Required parameter requestParameters.petId was null or undefined when calling updatePetWithForm.');
         }
@@ -348,14 +348,14 @@ export class PetApi extends runtime.BaseAPI {
     /**
      * Updates a pet in the store with form data
      */
-    async updatePetWithForm(requestParameters: PetApiUpdatePetWithFormRequest, initOverrides?: RequestInit): Promise<void> {
+    async updatePetWithForm(requestParameters: PetApiUpdatePetWithFormRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<void> {
         await this.updatePetWithFormRaw(requestParameters, initOverrides);
     }
 
     /**
      * uploads an image
      */
-    async uploadFileRaw(requestParameters: PetApiUploadFileRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<ModelApiResponse>> {
+    async uploadFileRaw(requestParameters: PetApiUploadFileRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<ModelApiResponse>> {
         if (requestParameters.petId === null || requestParameters.petId === undefined) {
             throw new runtime.RequiredError('petId','Required parameter requestParameters.petId was null or undefined when calling uploadFile.');
         }
@@ -407,7 +407,7 @@ export class PetApi extends runtime.BaseAPI {
     /**
      * uploads an image
      */
-    async uploadFile(requestParameters: PetApiUploadFileRequest, initOverrides?: RequestInit): Promise<ModelApiResponse> {
+    async uploadFile(requestParameters: PetApiUploadFileRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<ModelApiResponse> {
         const response = await this.uploadFileRaw(requestParameters, initOverrides);
         return await response.value();
     }
