@@ -242,6 +242,8 @@ public class PhpSlim4ServerCodegen extends AbstractPhpCodegen {
         supportingFiles.add(new SupportingFile("htaccess_deny_all", "config", ".htaccess"));
         supportingFiles.add(new SupportingFile("config_dev_default.mustache", "config" + File.separator + "dev", "default.inc.php"));
         supportingFiles.add(new SupportingFile("config_prod_default.mustache", "config" + File.separator + "prod", "default.inc.php"));
+        // add restricted htaccess to create log folder
+        supportingFiles.add(new SupportingFile("htaccess_deny_all", "logs", ".htaccess"));
 
         if (Boolean.TRUE.equals(generateModels)) {
             supportingFiles.add(new SupportingFile("base_model.mustache", toSrcPath(invokerPackage, srcBasePath), "BaseModel.php"));

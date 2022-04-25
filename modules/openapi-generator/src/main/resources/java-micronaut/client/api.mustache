@@ -8,7 +8,12 @@ import io.micronaut.http.client.annotation.Client;
 import {{invokerPackage}}.auth.Authorization;
 {{/configureAuth}}
 import io.micronaut.core.convert.format.Format;
+{{#reactive}}
 import reactor.core.publisher.Mono;
+{{/reactive}}
+{{#wrapInHttpResponse}}
+import io.micronaut.http.HttpResponse;
+{{/wrapInHttpResponse}}
 {{#imports}}import {{import}};
 {{/imports}}
 import javax.annotation.Generated;
@@ -63,9 +68,9 @@ public interface {{classname}} {
             {{/authMethods}}
         {{/configureAuth}}
     {{!the method definition}}
-    {{#returnType}}Mono<{{{returnType}}}>{{/returnType}}{{^returnType}}Mono<Object>{{/returnType}} {{nickname}}({{^allParams}});{{/allParams}}{{#allParams}}
+    {{>common/operationReturnType}} {{nickname}}({{#allParams}}
         {{>client/params/queryParams}}{{>client/params/pathParams}}{{>client/params/headerParams}}{{>client/params/bodyParams}}{{>client/params/formParams}}{{>client/params/cookieParams}}{{^-last}}, {{/-last}}{{#-last}}
-  );{{/-last}}{{/allParams}}
+    {{/-last}}{{/allParams}});
     {{/operation}}
 {{/operations}}
 }

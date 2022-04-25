@@ -59,17 +59,17 @@ class ApiResponse {
   String toString() => 'ApiResponse[code=$code, type=$type, message=$message]';
 
   Map<String, dynamic> toJson() {
-    final json = <String, dynamic>{};
+    final _json = <String, dynamic>{};
     if (code != null) {
-      json[r'code'] = code;
+      _json[r'code'] = code;
     }
     if (type != null) {
-      json[r'type'] = type;
+      _json[r'type'] = type;
     }
     if (message != null) {
-      json[r'message'] = message;
+      _json[r'message'] = message;
     }
-    return json;
+    return _json;
   }
 
   /// Returns a new [ApiResponse] instance and imports its values from

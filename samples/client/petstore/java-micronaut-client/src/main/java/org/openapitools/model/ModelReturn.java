@@ -53,7 +53,7 @@ public class ModelReturn {
     @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_RETURN)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public Integer getReturn() {
+    public Integer getReturn() {
         return _return;
     }
 

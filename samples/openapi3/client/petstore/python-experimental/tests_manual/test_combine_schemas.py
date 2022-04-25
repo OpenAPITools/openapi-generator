@@ -96,7 +96,7 @@ class TestCombineNonObjectSchemas(unittest.TestCase):
         # accessing invalid enum throws an exception
         invalid_enums = ['POSITIVE_1', 'POSITIVE_2']
         for invalid_enum in invalid_enums:
-            with self.assertRaises(KeyError):
+            with self.assertRaises(petstore_api.ApiValueError):
                 getattr(IntegerOneEnum, invalid_enum)
 
 

@@ -243,6 +243,7 @@ use WWW::OpenAPIClient::UserApi;
 To load the models:
 ```perl
 use WWW::OpenAPIClient::Object::AdditionalPropertiesClass;
+use WWW::OpenAPIClient::Object::AllOfWithSingleRef;
 use WWW::OpenAPIClient::Object::Animal;
 use WWW::OpenAPIClient::Object::ApiResponse;
 use WWW::OpenAPIClient::Object::ArrayOfArrayOfNumberOnly;
@@ -285,10 +286,10 @@ use WWW::OpenAPIClient::Object::OuterEnumIntegerDefaultValue;
 use WWW::OpenAPIClient::Object::OuterObjectWithEnumProperty;
 use WWW::OpenAPIClient::Object::Pet;
 use WWW::OpenAPIClient::Object::ReadOnlyFirst;
+use WWW::OpenAPIClient::Object::SingleRefType;
 use WWW::OpenAPIClient::Object::SpecialModelName;
 use WWW::OpenAPIClient::Object::Tag;
 use WWW::OpenAPIClient::Object::User;
-use WWW::OpenAPIClient::Object::UserType;
 
 ````
 
@@ -310,6 +311,7 @@ use WWW::OpenAPIClient::UserApi;
 
 # load the models
 use WWW::OpenAPIClient::Object::AdditionalPropertiesClass;
+use WWW::OpenAPIClient::Object::AllOfWithSingleRef;
 use WWW::OpenAPIClient::Object::Animal;
 use WWW::OpenAPIClient::Object::ApiResponse;
 use WWW::OpenAPIClient::Object::ArrayOfArrayOfNumberOnly;
@@ -352,10 +354,10 @@ use WWW::OpenAPIClient::Object::OuterEnumIntegerDefaultValue;
 use WWW::OpenAPIClient::Object::OuterObjectWithEnumProperty;
 use WWW::OpenAPIClient::Object::Pet;
 use WWW::OpenAPIClient::Object::ReadOnlyFirst;
+use WWW::OpenAPIClient::Object::SingleRefType;
 use WWW::OpenAPIClient::Object::SpecialModelName;
 use WWW::OpenAPIClient::Object::Tag;
 use WWW::OpenAPIClient::Object::User;
-use WWW::OpenAPIClient::Object::UserType;
 
 # for displaying the API response data
 use Data::Dumper;
@@ -427,6 +429,7 @@ Class | Method | HTTP request | Description
 
 # DOCUMENTATION FOR MODELS
  - [WWW::OpenAPIClient::Object::AdditionalPropertiesClass](docs/AdditionalPropertiesClass.md)
+ - [WWW::OpenAPIClient::Object::AllOfWithSingleRef](docs/AllOfWithSingleRef.md)
  - [WWW::OpenAPIClient::Object::Animal](docs/Animal.md)
  - [WWW::OpenAPIClient::Object::ApiResponse](docs/ApiResponse.md)
  - [WWW::OpenAPIClient::Object::ArrayOfArrayOfNumberOnly](docs/ArrayOfArrayOfNumberOnly.md)
@@ -469,10 +472,10 @@ Class | Method | HTTP request | Description
  - [WWW::OpenAPIClient::Object::OuterObjectWithEnumProperty](docs/OuterObjectWithEnumProperty.md)
  - [WWW::OpenAPIClient::Object::Pet](docs/Pet.md)
  - [WWW::OpenAPIClient::Object::ReadOnlyFirst](docs/ReadOnlyFirst.md)
+ - [WWW::OpenAPIClient::Object::SingleRefType](docs/SingleRefType.md)
  - [WWW::OpenAPIClient::Object::SpecialModelName](docs/SpecialModelName.md)
  - [WWW::OpenAPIClient::Object::Tag](docs/Tag.md)
  - [WWW::OpenAPIClient::Object::User](docs/User.md)
- - [WWW::OpenAPIClient::Object::UserType](docs/UserType.md)
 
 
 # DOCUMENTATION FOR AUTHORIZATION

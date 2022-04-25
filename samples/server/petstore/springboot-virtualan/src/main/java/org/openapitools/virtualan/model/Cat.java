@@ -59,6 +59,16 @@ public class Cat extends Animal {
     this.declawed = declawed;
   }
 
+  public Cat className(String className) {
+    super.setClassName(className);
+    return this;
+  }
+
+  public Cat color(String color) {
+    super.setColor(color);
+    return this;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {

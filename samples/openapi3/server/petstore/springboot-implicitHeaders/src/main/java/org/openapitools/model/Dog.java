@@ -49,6 +49,16 @@ public class Dog extends Animal {
     this.breed = breed;
   }
 
+  public Dog className(String className) {
+    super.setClassName(className);
+    return this;
+  }
+
+  public Dog color(String color) {
+    super.setColor(color);
+    return this;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {

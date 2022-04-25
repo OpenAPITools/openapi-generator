@@ -31,6 +31,7 @@ from petstore_api.schemas import (  # noqa: F401
     Float32Schema,
     Float64Schema,
     NumberSchema,
+    UUIDSchema,
     DateSchema,
     DateTimeSchema,
     DecimalSchema,
@@ -52,6 +53,7 @@ from petstore_api.schemas import (  # noqa: F401
     Float32Base,
     Float64Base,
     NumberBase,
+    UUIDBase,
     DateBase,
     DateTimeBase,
     BoolBase,
@@ -82,14 +84,14 @@ class IntegerEnumBig(
     @classmethod
     @property
     def POSITIVE_10(cls):
-        return cls._enum_by_value[10](10)
+        return cls(10)
     
     @classmethod
     @property
     def POSITIVE_11(cls):
-        return cls._enum_by_value[11](11)
+        return cls(11)
     
     @classmethod
     @property
     def POSITIVE_12(cls):
-        return cls._enum_by_value[12](12)
+        return cls(12)

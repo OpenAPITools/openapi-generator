@@ -108,6 +108,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**parameter_collisions**](docs/FakeApi.md#parameter_collisions) | **POST** /fake/parameterCollisions/{1}/{aB}/{Ab}/{self}/{A-B}/ | parameter collision case
 *FakeApi* | [**query_parameter_collection_format**](docs/FakeApi.md#query_parameter_collection_format) | **PUT** /fake/test-query-paramters | 
 *FakeApi* | [**ref_object_in_query**](docs/FakeApi.md#ref_object_in_query) | **GET** /fake/refObjInQuery | user list
+*FakeApi* | [**response_without_schema**](docs/FakeApi.md#response_without_schema) | **GET** /fake/responseWithoutSchema | receives a response without schema
 *FakeApi* | [**string**](docs/FakeApi.md#string) | **POST** /fake/refs/string | 
 *FakeApi* | [**string_enum**](docs/FakeApi.md#string_enum) | **POST** /fake/refs/enum | 
 *FakeApi* | [**upload_download_file**](docs/FakeApi.md#upload_download_file) | **POST** /fake/uploadDownloadFile | uploads a file and downloads a file using application/octet-stream
@@ -143,6 +144,7 @@ Class | Method | HTTP request | Description
  - [Address](docs/Address.md)
  - [Animal](docs/Animal.md)
  - [AnimalFarm](docs/AnimalFarm.md)
+ - [AnyTypeNotString](docs/AnyTypeNotString.md)
  - [ApiResponse](docs/ApiResponse.md)
  - [Apple](docs/Apple.md)
  - [AppleReq](docs/AppleReq.md)
@@ -255,6 +257,7 @@ Class | Method | HTTP request | Description
  - [Tag](docs/Tag.md)
  - [Triangle](docs/Triangle.md)
  - [TriangleInterface](docs/TriangleInterface.md)
+ - [UUIDString](docs/UUIDString.md)
  - [User](docs/User.md)
  - [Whale](docs/Whale.md)
  - [Zebra](docs/Zebra.md)

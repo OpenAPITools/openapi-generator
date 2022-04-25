@@ -96,7 +96,7 @@ public class DefaultCodegen implements CodegenConfig {
                         DataTypeFeature.Int32, DataTypeFeature.Int64, DataTypeFeature.Float, DataTypeFeature.Double,
                         DataTypeFeature.Decimal, DataTypeFeature.String, DataTypeFeature.Byte, DataTypeFeature.Binary,
                         DataTypeFeature.Boolean, DataTypeFeature.Date, DataTypeFeature.DateTime, DataTypeFeature.Password,
-                        DataTypeFeature.File, DataTypeFeature.Array, DataTypeFeature.Maps, DataTypeFeature.CollectionFormat,
+                        DataTypeFeature.File, DataTypeFeature.Array, DataTypeFeature.Object, DataTypeFeature.Maps, DataTypeFeature.CollectionFormat,
                         DataTypeFeature.CollectionFormatMulti, DataTypeFeature.Enum, DataTypeFeature.ArrayOfEnum, DataTypeFeature.ArrayOfModel,
                         DataTypeFeature.ArrayOfCollectionOfPrimitives, DataTypeFeature.ArrayOfCollectionOfModel, DataTypeFeature.ArrayOfCollectionOfEnum,
                         DataTypeFeature.MapOfEnum, DataTypeFeature.MapOfModel, DataTypeFeature.MapOfCollectionOfPrimitives,
@@ -2748,6 +2748,10 @@ public class DefaultCodegen implements CodegenConfig {
                 // NOTE: Date schemas as CodegenModel is a rare use case and may be removed at a later date.
                 m.setIsString(false); // for backward compatibility with 2.x
                 m.isDate = Boolean.TRUE;
+            } else if (ModelUtils.isUUIDSchema(schema)) {
+                // NOTE: UUID schemas as CodegenModel is a rare use case and may be removed at a later date.
+                m.setIsString(false);
+                m.setIsUuid(true);
             }
         } else if (ModelUtils.isNumberSchema(schema)) {
             // NOTE: Number schemas as CodegenModel is a rare use case and may be removed at a later date.
@@ -3193,7 +3197,7 @@ public class DefaultCodegen implements CodegenConfig {
         // FIXME: for now, we assume that the discriminator property is String
         discriminator.setPropertyType(typeMapping.get("string"));
         discriminator.setMapping(sourceDiscriminator.getMapping());
-        List<MappedModel> uniqueDescendants = new ArrayList();
+        List<MappedModel> uniqueDescendants = new ArrayList<>();
         if (sourceDiscriminator.getMapping() != null && !sourceDiscriminator.getMapping().isEmpty()) {
             for (Entry<String, String> e : sourceDiscriminator.getMapping().entrySet()) {
                 String name;
@@ -6753,7 +6757,10 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             }
             String contentType = contentEntry.getKey();
-            CodegenProperty schemaProp = fromProperty(toMediaTypeSchemaName(contentType, mediaTypeSchemaSuffix), mt.getSchema());
+            CodegenProperty schemaProp = null;
+            if (mt.getSchema() != null) {
+                schemaProp = fromProperty(toMediaTypeSchemaName(contentType, mediaTypeSchemaSuffix), mt.getSchema());
+            }
             CodegenMediaType codegenMt = new CodegenMediaType(schemaProp, ceMap);
             cmtContent.put(contentType, codegenMt);
             if (schemaProp != null) {
@@ -7364,14 +7371,28 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     private CodegenComposedSchemas getComposedSchemas(Schema schema) {
-        if (!(schema instanceof ComposedSchema)) {
+        if (!(schema instanceof ComposedSchema) && schema.getNot()==null) {
             return null;
         }
-        ComposedSchema cs = (ComposedSchema) schema;
+        Schema notSchema = schema.getNot();
+        CodegenProperty notProperty = null;
+        if (notSchema != null) {
+            notProperty = fromProperty("NotSchema", notSchema);
+        }
+        List<CodegenProperty> allOf = new ArrayList<>();
+        List<CodegenProperty> oneOf = new ArrayList<>();
+        List<CodegenProperty> anyOf = new ArrayList<>();
+        if (schema instanceof ComposedSchema) {
+            ComposedSchema cs = (ComposedSchema) schema;
+            allOf = getComposedProperties(cs.getAllOf(), "allOf");
+            oneOf = getComposedProperties(cs.getOneOf(), "oneOf");
+            anyOf = getComposedProperties(cs.getAnyOf(), "anyOf");
+        }
         return new CodegenComposedSchemas(
-                getComposedProperties(cs.getAllOf(), "allOf"),
-                getComposedProperties(cs.getOneOf(), "oneOf"),
-                getComposedProperties(cs.getAnyOf(), "anyOf")
+                allOf,
+                oneOf,
+                anyOf,
+                notProperty
         );
     }
 

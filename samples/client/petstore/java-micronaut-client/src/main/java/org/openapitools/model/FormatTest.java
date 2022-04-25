@@ -113,7 +113,7 @@ public class FormatTest {
     @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_INTEGER)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public Integer getInteger() {
+    public Integer getInteger() {
         return integer;
     }
 
@@ -140,7 +140,7 @@ public class FormatTest {
     @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_INT32)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public Integer getInt32() {
+    public Integer getInt32() {
         return int32;
     }
 
@@ -163,7 +163,7 @@ public class FormatTest {
     @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_INT64)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public Long getInt64() {
+    public Long getInt64() {
         return int64;
     }
 
@@ -190,7 +190,7 @@ public class FormatTest {
     @ApiModelProperty(required = true, value = "")
     @JsonProperty(JSON_PROPERTY_NUMBER)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
-       public BigDecimal getNumber() {
+    public BigDecimal getNumber() {
         return number;
     }
 
@@ -217,7 +217,7 @@ public class FormatTest {
     @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_FLOAT)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public Float getFloat() {
+    public Float getFloat() {
         return _float;
     }
 
@@ -244,7 +244,7 @@ public class FormatTest {
     @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_DOUBLE)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public Double getDouble() {
+    public Double getDouble() {
         return _double;
     }
 
@@ -268,7 +268,7 @@ public class FormatTest {
     @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_STRING)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public String getString() {
+    public String getString() {
         return string;
     }
 
@@ -291,7 +291,7 @@ public class FormatTest {
     @ApiModelProperty(required = true, value = "")
     @JsonProperty(JSON_PROPERTY_BYTE)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
-       public byte[] getByte() {
+    public byte[] getByte() {
         return _byte;
     }
 
@@ -314,7 +314,7 @@ public class FormatTest {
     @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_BINARY)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public File getBinary() {
+    public File getBinary() {
         return binary;
     }
 
@@ -338,7 +338,7 @@ public class FormatTest {
     @JsonProperty(JSON_PROPERTY_DATE)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-       public LocalDate getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
@@ -363,7 +363,7 @@ public class FormatTest {
     @JsonProperty(JSON_PROPERTY_DATE_TIME)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXXX")
-       public OffsetDateTime getDateTime() {
+    public OffsetDateTime getDateTime() {
         return dateTime;
     }
 
@@ -387,7 +387,7 @@ public class FormatTest {
     @ApiModelProperty(example = "72f98069-206d-4f12-9f12-3d1e525a8e84", value = "")
     @JsonProperty(JSON_PROPERTY_UUID)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public UUID getUuid() {
+    public UUID getUuid() {
         return uuid;
     }
 
@@ -411,7 +411,7 @@ public class FormatTest {
     @ApiModelProperty(required = true, value = "")
     @JsonProperty(JSON_PROPERTY_PASSWORD)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
-       public String getPassword() {
+    public String getPassword() {
         return password;
     }
 
@@ -434,7 +434,7 @@ public class FormatTest {
     @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_BIG_DECIMAL)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public BigDecimal getBigDecimal() {
+    public BigDecimal getBigDecimal() {
         return bigDecimal;
     }
 

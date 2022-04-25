@@ -8,7 +8,12 @@ import io.micronaut.core.convert.format.Format;
 import io.micronaut.security.annotation.Secured;
 import io.micronaut.security.rules.SecurityRule;
 {{/useAuth}}
+{{#reactive}}
 import reactor.core.publisher.Mono;
+{{/reactive}}
+{{#wrapInHttpResponse}}
+import io.micronaut.http.HttpResponse;
+{{/wrapInHttpResponse}}
 {{#imports}}
 import {{import}};
 {{/imports}}
@@ -30,7 +35,7 @@ import io.swagger.annotations.*;
 
 {{>common/generatedAnnotation}}
 {{^generateControllerAsAbstract}}
-@Controller("${context-path}")
+@Controller
 {{/generateControllerAsAbstract}}
 public {{#generateControllerAsAbstract}}abstract {{/generateControllerAsAbstract}}class {{classname}} {
 {{#operations}}
@@ -95,7 +100,7 @@ public {{#generateControllerAsAbstract}}abstract {{/generateControllerAsAbstract
     @Secured({{openbrace}}{{#vendorExtensions.x-roles}}{{{.}}}{{^-last}}, {{/-last}}{{/vendorExtensions.x-roles}}{{closebrace}})
     {{/useAuth}}
     {{!the method definition}}
-    public {{#returnType}}Mono<{{{returnType}}}>{{/returnType}}{{^returnType}}Mono<Object>{{/returnType}} {{nickname}}{{#generateControllerAsAbstract}}Api{{/generateControllerAsAbstract}}({{#allParams}}
+    public {{>common/operationReturnType}} {{nickname}}{{#generateControllerAsAbstract}}Api{{/generateControllerAsAbstract}}({{#allParams}}
         {{>server/params/queryParams}}{{>server/params/pathParams}}{{>server/params/headerParams}}{{>server/params/bodyParams}}{{>server/params/formParams}}{{>server/params/cookieParams}}{{^-last}}, {{/-last}}{{#-last}}
     {{/-last}}{{/allParams}}) {
         {{^generateControllerAsAbstract}}
@@ -114,7 +119,7 @@ public {{#generateControllerAsAbstract}}abstract {{/generateControllerAsAbstract
      *
      * This method will be delegated to when the controller gets a request
      */
-    public abstract {{#returnType}}Mono<{{{returnType}}}>{{/returnType}}{{^returnType}}Mono<Object>{{/returnType}} {{nickname}}({{#allParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
+    public abstract {{>common/operationReturnType}} {{nickname}}({{#allParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
     {{/generateControllerAsAbstract}}
     {{^-last}}
 
