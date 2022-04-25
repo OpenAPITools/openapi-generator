@@ -325,7 +325,7 @@ def should_bypass_proxies(url, no_proxy=None):
         return True
 
     # special cases
-    if no_proxy in [None , '']:
+    if no_proxy in [None, '']:
         return False
     if no_proxy == '*':
         return True
