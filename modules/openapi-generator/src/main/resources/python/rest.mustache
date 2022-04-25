@@ -286,6 +286,7 @@ class RESTClientObject(object):
                             _request_timeout=_request_timeout,
                             body=body)
 
+
 # end of class RESTClientObject
 def is_ipv4(target):
     """ Test if IPv4 address or not
@@ -295,6 +296,7 @@ def is_ipv4(target):
         return True
     except ipaddress.AddressValueError:
         return False
+
 
 def in_ipv4net(target, net):
     """ Test if target belongs to given IPv4 network
@@ -309,6 +311,7 @@ def in_ipv4net(target, net):
         return False
     except ipaddress.NetmaskValueError:
         return False
+
 
 def should_bypass_proxies(url, no_proxy=None):
     """ Yet another requests.should_bypass_proxies
