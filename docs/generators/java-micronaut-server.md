@@ -76,6 +76,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |useAuth|Whether to import authorization and to annotate controller methods accordingly| |true|
 |useBeanValidation|Use BeanValidation API annotations| |true|
 |useOptional|Use Optional container for optional parameters| |false|
+|visitable|Generate visitor for subtypes with a discriminator| |false|
 |withXml|whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)| |false|
 |wrapInHttpResponse|Wrap the response in HttpResponse object| |false|
 

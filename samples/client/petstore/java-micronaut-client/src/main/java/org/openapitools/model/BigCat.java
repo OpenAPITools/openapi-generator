@@ -138,4 +138,8 @@ public class BigCat extends Cat {
         return o.toString().replace("\n", "\n    ");
     }
 
+    @Override
+    public <T> T accept(Cat.Visitor<T> visitor) {
+        return visitor.visitBigCat(this);
+    }
 }

@@ -103,4 +103,8 @@ public class Dog extends Animal {
         return o.toString().replace("\n", "\n    ");
     }
 
+    @Override
+    public <T> T accept(Animal.Visitor<T> visitor) {
+        return visitor.visitDog(this);
+    }
 }

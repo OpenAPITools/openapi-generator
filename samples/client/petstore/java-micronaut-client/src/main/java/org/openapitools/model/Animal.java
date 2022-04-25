@@ -141,4 +141,24 @@ public class Animal {
         return o.toString().replace("\n", "\n    ");
     }
 
+    /**
+     * Accept the visitor and invoke it for the specific Animal type.
+     *
+     * @param visitor the Animal visitor
+     * @param <T> the return type of the visitor
+     * @return the result from the visitor
+     */
+    public abstract <T> T accept(Visitor<T> visitor);
+
+    /**
+     * A Animal visitor implementation allows visiting the various Animal types.
+     *
+     * @param <R> the return type of the visitor
+     */
+    public interface Visitor<R> {
+        R visitBigCat(BigCat value);
+        R visitCat(Cat value);
+        R visitDog(Dog value);
+    }
+
 }
