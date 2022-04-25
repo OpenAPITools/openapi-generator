@@ -9,18 +9,19 @@ import {all, fork, put, takeLatest} from "redux-saga/effects";
 import {apiCall, createSagaAction as originalCreateSagaAction, BaseEntitySupportPayloadApiAction, BasePayloadApiAction, NormalizedRecordEntities, normalizedEntities} from "../runtimeSagasAndRecords{{importFileExtension}}";
 import {Action} from "redux-ts-simple";
 
-{{#imports.0}}
+{{#imports}}
 import {
-    {{#imports}}
     {{className}},
     {{className}}Record,
     {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}RecordUtils,
-    {{/imports}}
-    {{#passthroughImports}}
+} from '../models/{{className}}';
+{{/imports}}
+
+{{#passthroughImports}}
+import {
     {{.}},
-    {{/passthroughImports}}
-} from '../models/index{{importFileExtension}}';
-{{/imports.0}}
+} from '../models/{{.}}';
+{{/passthroughImports}}
 {{#hasEnums}}
 {{#operations}}
 {{#operation}}

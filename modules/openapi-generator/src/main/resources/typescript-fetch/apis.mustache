@@ -4,21 +4,19 @@
 
 
 import * as runtime from '../runtime{{importFileExtension}}';
-{{#imports.0}}
+{{#imports}}
 import type {
-  {{#imports}}
-  {{className}},
-  {{/imports}}
-} from '../models/index{{importFileExtension}}';
+    {{className}},
+} from '../models/{{className}}';
 {{^withoutRuntimeChecks}}
 import {
-    {{#imports}}
+    {{className}},
     {{className}}FromJSON,
     {{className}}ToJSON,
-    {{/imports}}
-} from '../models/index{{importFileExtension}}';
+} from '../models/{{className}}'; 
 {{/withoutRuntimeChecks}}
-{{/imports.0}}
+{{/imports}}
+
 
 {{#operations}}
 {{#operation}}

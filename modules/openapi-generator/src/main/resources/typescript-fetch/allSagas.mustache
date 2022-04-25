@@ -1,12 +1,12 @@
 import {all, fork} from "redux-saga/effects";
 
-import {
 {{#apiInfo}}
 {{#apis}}
+import {
     {{#lambda.camelcase}}{{classFilename}}{{/lambda.camelcase}}AllSagas,
+} from "./classFilename";
 {{/apis}}
 {{/apiInfo}}
-} from "./index{{importFileExtension}}";
 
 export function *allApiSagas() {
     yield all([
