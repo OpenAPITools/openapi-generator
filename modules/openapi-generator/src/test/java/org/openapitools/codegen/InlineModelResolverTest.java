@@ -429,7 +429,7 @@ public class InlineModelResolverTest {
 
         ArraySchema requestBody = (ArraySchema) mediaType.getSchema();
         assertNotNull(requestBody.getItems().get$ref());
-        assertEquals("#/components/schemas/InlineObject", requestBody.getItems().get$ref());
+        assertEquals("#/components/schemas/inline_object_2", requestBody.getItems().get$ref());
 
         Schema items = ModelUtils.getReferencedSchema(openAPI, ((ArraySchema) mediaType.getSchema()).getItems());
         assertTrue(items.getProperties().get("street") instanceof StringSchema);
