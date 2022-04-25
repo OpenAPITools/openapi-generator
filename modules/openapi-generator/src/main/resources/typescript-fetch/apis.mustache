@@ -3,17 +3,15 @@
 {{>licenseInfo}}
 
 import * as runtime from '../runtime';
-{{#imports.0}}
+{{#imports}}
 import {
-    {{#imports}}
     {{className}},
     {{^withoutRuntimeChecks}}
     {{className}}FromJSON,
     {{className}}ToJSON,
     {{/withoutRuntimeChecks}}
-    {{/imports}}
-} from '../models';
-{{/imports.0}}
+} from '../models/{{className}}';
+{{/imports}}
 
 {{#operations}}
 {{#operation}}
