@@ -1269,13 +1269,24 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         if (ModelUtils.isNullable(ModelUtils.getReferencedSchema(this.openAPI, p))) {
             fullSuffix = ", none_type" + suffix;
         }
-        if (isFreeFormObject(p) && getAdditionalProperties(p) == null) {
-            return prefix + "bool, date, datetime, dict, float, int, list, str" + fullSuffix;
-        } else if (ModelUtils.isNumberSchema(p)) {
+        if (ModelUtils.isNumberSchema(p)) {
             return prefix + "int, float" + fullSuffix;
-        } else if ((ModelUtils.isMapSchema(p) || "object".equals(p.getType())) && getAdditionalProperties(p) != null) {
-            Schema inner = getAdditionalProperties(p);
-            return prefix + "{str: " + getTypeString(inner, "(", ")", referencedModelNames) + "}" + fullSuffix;
+        } else if (ModelUtils.isTypeObjectSchema(p)) {
+            if (p.getAdditionalProperties() != null && p.getAdditionalProperties().equals(false)) {
+                if (p.getProperties() == null) {
+                    // type object with no properties and additionalProperties = false, empty dict only
+                    return prefix + "{str: typing.Any}" + fullSuffix;
+                } else {
+                    // properties only
+                    // TODO add type hints for those properties only as values
+                    return prefix + "{str: typing.Any}" + fullSuffix;
+                }
+            } else {
+                // additionalProperties exists
+                Schema inner = getAdditionalProperties(p);
+                return prefix + "{str: " + getTypeString(inner, "(", ")", referencedModelNames) + "}" + fullSuffix;
+                // TODO add code here to add property values too if they exist
+            }
         } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
@@ -1292,8 +1303,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
             } else {
                 return prefix + getTypeString(inner, "[", "]", referencedModelNames) + fullSuffix;
             }
-        }
-        if (ModelUtils.isFileSchema(p)) {
+        } else if (ModelUtils.isFileSchema(p)) {
             return prefix + "file_type" + fullSuffix;
         }
         String baseType = getSchemaType(p);
@@ -1310,7 +1320,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
     public String getTypeDeclaration(Schema p) {
         // this is used to set dataType, which defines a python tuple of classes
         // in Python we will wrap this in () to make it a tuple but here we
-        // will omit the parens so the generated documentaion will not include
+        // will omit the parens so the generated documentation will not include
         // them
         return getTypeString(p, "", "", null);
     }
