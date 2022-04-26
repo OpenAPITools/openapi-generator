@@ -116,7 +116,7 @@ public class Example {
     {{/authMethods}}
     {{/hasAuthMethods}}
 
-    {{{classname}}} apiInstance = new {{{classname}}}(defaultClient);
+    {{{classname}}} apiInstance = defaultClient.get{{{classname}}}();
     {{#allParams}}
     {{{dataType}}} {{{paramName}}} = {{{example}}}; // {{{dataType}}} | {{{description}}}
     {{/allParams}}

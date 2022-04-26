@@ -90,7 +90,7 @@ public class Example {
     ApiClient defaultClient = Configuration.getDefaultApiClient();
     defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
-    AnotherFakeApi apiInstance = new AnotherFakeApi(defaultClient);
+    AnotherFakeApi apiInstance = defaultClient.getAnotherFakeApi();
     Client body = new Client(); // Client | client model
     try {
       Client result = apiInstance.call123testSpecialTags(body);

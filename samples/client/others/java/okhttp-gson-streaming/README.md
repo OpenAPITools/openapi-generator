@@ -90,7 +90,7 @@ public class Example {
     ApiClient defaultClient = Configuration.getDefaultApiClient();
     defaultClient.setBasePath("http://localhost:8082");
 
-    PingApi apiInstance = new PingApi(defaultClient);
+    PingApi apiInstance = defaultClient.getPingApi();
     SomeObj someObj = new SomeObj(); // SomeObj | 
     try {
       SomeObj result = apiInstance.postPing(someObj);
