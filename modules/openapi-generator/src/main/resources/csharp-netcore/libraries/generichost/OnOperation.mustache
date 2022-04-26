@@ -1,0 +1,4 @@
+{{^allParams}}void{{/allParams}}{{#allParams}}{{#-first}}{{^-last}}({{/-last}}{{/-first}}{{#required}}{{#lambda.required}}{{{dataType}}}{{/lambda.required}}{{^-last}}, {{/-last}}{{/required}}{{^required}}{{#lambda.optional}}{{{dataType}}}{{/lambda.optional}}{{^-last}}, {{/-last}}{{/required}}{{#-last}}{{^-first}}){{/-first}}{{/-last}}{{/allParams}} On{{operationId}}({{#allParams}}{{#required}}{{#lambda.required}}{{{dataType}}}{{/lambda.required}} {{paramName}}{{^-last}}, {{/-last}}{{/required}}{{^required}}{{#lambda.optional}}{{{dataType}}}{{/lambda.optional}} {{paramName}}{{^-last}}, {{/-last}}{{/required}}{{/allParams}})
+        {
+            return{{#allParams}} {{#-first}}{{^-last}}({{/-last}}{{/-first}}{{paramName}}{{^-last}},{{/-last}}{{#-last}}{{^-first}}){{/-first}}{{/-last}}{{/allParams}};
+        }
