@@ -968,7 +968,7 @@ public class InlineModelResolver {
     }
 
     /**
-     * Copy vendor extensions from Model to another Model
+     * Add the schemas to the components
      *
      * @param name   name of the inline schema
      * @param schema inilne schema
