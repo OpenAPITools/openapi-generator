@@ -747,7 +747,7 @@ public class InlineModelResolver {
         String uniqueName = name;
         int count = 0;
         while (true) {
-            if (!uniqueNames.contains(uniqueName)) {
+            if (!openAPI.getComponents().getSchemas().containsKey(uniqueName) && !uniqueNames.contains(uniqueName)) {
                 uniqueNames.add(uniqueName);
                 return uniqueName;
             }
