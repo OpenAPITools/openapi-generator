@@ -596,96 +596,93 @@ class TestFakeApi(unittest.TestCase):
 
         return m
 
-    # comment out below for the time being after adding better inline model support
-    # ref: https://github.com/OpenAPITools/openapi-generator/pull/12104
-    #
-    #@patch.object(RESTClientObject, 'request')
-    #def test_inline_composition(self, mock_request):
-    #    """Test case for inline_composition
+    @patch.object(RESTClientObject, 'request')
+    def test_inline_composition(self, mock_request):
+       """Test case for inline_composition
 
-    #    testing composed schemas at inline locations  # noqa: E501
-    #    """
-    #    single_char_str = 'a'
-    #    json_bytes = self.__json_bytes(single_char_str)
+       testing composed schemas at inline locations  # noqa: E501
+       """
+       single_char_str = 'a'
+       json_bytes = self.__json_bytes(single_char_str)
 
-    #    # tx and rx json with composition at root level of schema for request + response body
-    #    content_type = 'application/json'
-    #    mock_request.return_value = self.__response(
-    #        json_bytes
-    #    )
-    #    api_response = self.api.inline_composition(
-    #        body=single_char_str,
-    #        query_params={
-    #            'compositionAtRoot': single_char_str,
-    #            'compositionInProperty': {'someProp': single_char_str}
-    #        },
-    #        accept_content_types=(content_type,)
-    #    )
-    #    self.__assert_request_called_with(
-    #        mock_request,
-    #        'http://petstore.swagger.io:80/v2/fake/inlineComposition/',
-    #        accept_content_type=content_type,
-    #        content_type=content_type,
-    #        query_params=(('compositionAtRoot', 'a'), ('someProp', 'a')),
-    #        body=json_bytes
-    #    )
-    #    self.assertEqual(api_response.body, single_char_str)
-    #    self.assertTrue(isinstance(api_response.body, schemas.StrSchema))
+       # tx and rx json with composition at root level of schema for request + response body
+       content_type = 'application/json'
+       mock_request.return_value = self.__response(
+           json_bytes
+       )
+       api_response = self.api.inline_composition(
+           body=single_char_str,
+           query_params={
+               'compositionAtRoot': single_char_str,
+               'compositionInProperty': {'someProp': single_char_str}
+           },
+           accept_content_types=(content_type,)
+       )
+       self.__assert_request_called_with(
+           mock_request,
+           'http://petstore.swagger.io:80/v2/fake/inlineComposition/',
+           accept_content_type=content_type,
+           content_type=content_type,
+           query_params=(('compositionAtRoot', 'a'), ('someProp', 'a')),
+           body=json_bytes
+       )
+       self.assertEqual(api_response.body, single_char_str)
+       self.assertTrue(isinstance(api_response.body, schemas.StrSchema))
 
-    #    # tx and rx json with composition at property level of schema for request + response body
-    #    content_type = 'multipart/form-data'
-    #    multipart_response = self.__encode_multipart_formdata(fields={'someProp': single_char_str})
-    #    mock_request.return_value = self.__response(
-    #        bytes(multipart_response),
-    #        content_type=multipart_response.get_content_type()
-    #    )
-    #    api_response = self.api.inline_composition(
-    #        body={'someProp': single_char_str},
-    #        query_params={
-    #            'compositionAtRoot': single_char_str,
-    #            'compositionInProperty': {'someProp': single_char_str}
-    #        },
-    #        content_type=content_type,
-    #        accept_content_types=(content_type,)
-    #    )
-    #    self.__assert_request_called_with(
-    #        mock_request,
-    #        'http://petstore.swagger.io:80/v2/fake/inlineComposition/',
-    #        accept_content_type=content_type,
-    #        content_type=content_type,
-    #        query_params=(('compositionAtRoot', 'a'), ('someProp', 'a')),
-    #        fields=(
-    #            api_client.RequestField(
-    #                name='someProp',
-    #                data=single_char_str,
-    #                headers={'Content-Type': 'text/plain'}
-    #            ),
-    #        ),
-    #    )
-    #    self.assertEqual(api_response.body, {'someProp': single_char_str})
-    #    self.assertTrue(isinstance(api_response.body.someProp, schemas.StrSchema))
+       # tx and rx json with composition at property level of schema for request + response body
+       content_type = 'multipart/form-data'
+       multipart_response = self.__encode_multipart_formdata(fields={'someProp': single_char_str})
+       mock_request.return_value = self.__response(
+           bytes(multipart_response),
+           content_type=multipart_response.get_content_type()
+       )
+       api_response = self.api.inline_composition(
+           body={'someProp': single_char_str},
+           query_params={
+               'compositionAtRoot': single_char_str,
+               'compositionInProperty': {'someProp': single_char_str}
+           },
+           content_type=content_type,
+           accept_content_types=(content_type,)
+       )
+       self.__assert_request_called_with(
+           mock_request,
+           'http://petstore.swagger.io:80/v2/fake/inlineComposition/',
+           accept_content_type=content_type,
+           content_type=content_type,
+           query_params=(('compositionAtRoot', 'a'), ('someProp', 'a')),
+           fields=(
+               api_client.RequestField(
+                   name='someProp',
+                   data=single_char_str,
+                   headers={'Content-Type': 'text/plain'}
+               ),
+           ),
+       )
+       self.assertEqual(api_response.body, {'someProp': single_char_str})
+       self.assertTrue(isinstance(api_response.body.someProp, schemas.StrSchema))
 
-    #    # error thrown when a str is input which doesn't meet the composed schema length constraint
-    #    invalid_value = ''
-    #    variable_locations = 4
-    #    for invalid_index in range(variable_locations):
-    #        values = [single_char_str]*variable_locations
-    #        values[invalid_index] = invalid_value
-    #        with self.assertRaises(exceptions.ApiValueError):
-    #            multipart_response = self.__encode_multipart_formdata(fields={'someProp': values[0]})
-    #            mock_request.return_value = self.__response(
-    #                bytes(multipart_response),
-    #                content_type=multipart_response.get_content_type()
-    #            )
-    #            self.api.inline_composition(
-    #                body={'someProp': values[1]},
-    #                query_params={
-    #                    'compositionAtRoot': values[2],
-    #                    'compositionInProperty': {'someProp': values[3]}
-    #                },
-    #                content_type=content_type,
-    #                accept_content_types=(content_type,)
-    #            )
+       # error thrown when a str is input which doesn't meet the composed schema length constraint
+       invalid_value = ''
+       variable_locations = 4
+       for invalid_index in range(variable_locations):
+           values = [single_char_str]*variable_locations
+           values[invalid_index] = invalid_value
+           with self.assertRaises(exceptions.ApiValueError):
+               multipart_response = self.__encode_multipart_formdata(fields={'someProp': values[0]})
+               mock_request.return_value = self.__response(
+                   bytes(multipart_response),
+                   content_type=multipart_response.get_content_type()
+               )
+               self.api.inline_composition(
+                   body={'someProp': values[1]},
+                   query_params={
+                       'compositionAtRoot': values[2],
+                       'compositionInProperty': {'someProp': values[3]}
+                   },
+                   content_type=content_type,
+                   accept_content_types=(content_type,)
+               )
 
     def test_json_with_charset(self):
         # serialization + deserialization of json with charset works

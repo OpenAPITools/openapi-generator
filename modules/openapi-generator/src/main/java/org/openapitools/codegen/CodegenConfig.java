@@ -322,4 +322,6 @@ public interface CodegenConfig {
     String generatorLanguageVersion();
 
     List<VendorExtension> getSupportedVendorExtensions();
+
+    boolean getUseInlineModelResolver();
 }

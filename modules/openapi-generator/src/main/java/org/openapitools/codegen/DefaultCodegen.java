@@ -4720,11 +4720,11 @@ public class DefaultCodegen implements CodegenConfig {
         String parameterDataType = this.getParameterDataType(parameter, parameterSchema);
         if (parameterDataType != null) {
             codegenParameter.dataType = parameterDataType;
+            if (ModelUtils.isObjectSchema(parameterSchema)) {
+                codegenProperty.complexType = codegenParameter.dataType;
+            }
         } else {
             codegenParameter.dataType = codegenProperty.dataType;
-        }
-        if (ModelUtils.isObjectSchema(parameterSchema)) {
-            codegenProperty.complexType = codegenParameter.dataType;
         }
         if (ModelUtils.isSet(parameterSchema)) {
             imports.add(codegenProperty.baseType);
@@ -7436,4 +7436,7 @@ public class DefaultCodegen implements CodegenConfig {
     public List<VendorExtension> getSupportedVendorExtensions() {
         return new ArrayList<>();
     }
+
+    @Override
+    public boolean getUseInlineModelResolver() { return true; }
 }
