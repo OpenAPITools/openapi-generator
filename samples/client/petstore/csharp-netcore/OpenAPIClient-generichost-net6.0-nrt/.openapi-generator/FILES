@@ -89,7 +89,6 @@ docs/models/Whale.md
 docs/models/Zebra.md
 docs/scripts/git_push.ps1
 docs/scripts/git_push.sh
-mnt/d/shawn/repos/openapi-generator/samples/client/petstore/csharp-netcore/OpenAPIClient-generichost-net6.0-nrt/src/Org.OpenAPITools/DefaultApi/DefaultApi.cs
 src/Org.OpenAPITools.Test/Api/AnotherFakeApiTests.cs
 src/Org.OpenAPITools.Test/Api/ApiTestsBase.cs
 src/Org.OpenAPITools.Test/Api/DefaultApiTests.cs
@@ -205,6 +204,7 @@ src/Org.OpenAPITools/Client/RateLimitProvider`1.cs
 src/Org.OpenAPITools/Client/TokenBase.cs
 src/Org.OpenAPITools/Client/TokenContainer`1.cs
 src/Org.OpenAPITools/Client/TokenProvider`1.cs
+src/Org.OpenAPITools/DefaultApi/DefaultApi.cs
 src/Org.OpenAPITools/Model/AdditionalPropertiesClass.cs
 src/Org.OpenAPITools/Model/Animal.cs
 src/Org.OpenAPITools/Model/ApiResponse.cs

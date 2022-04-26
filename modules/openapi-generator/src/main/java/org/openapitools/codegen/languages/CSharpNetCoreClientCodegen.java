@@ -929,13 +929,11 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("IApi.mustache", clientPackageDir, getInterfacePrefix() + "Api.cs"));
         supportingFiles.add(new SupportingFile("JsonSerializerOptionsProvider.mustache", clientPackageDir, "JsonSerializerOptionsProvider.cs"));
 
-        String defaultApiDirectory = outputFolder + File.separator + sourceFolder + File.separator + packageName + File.separator + "Default" + apiPackage;
-        String defaultApiPath = defaultApiDirectory + File.separator + "Default" + apiPackage + ".cs";
+        String defaultApiPath = apiFileFolder() + File.separator + "Default" + apiPackage + File.separator + "Default" + apiPackage + ".cs";
         File defaultApisFile = new File(defaultApiPath);
         if (!defaultApisFile.exists()) {
-             LOGGER.warn(defaultApisFile.toString());
             // // TODO: we should have a file per API
-             supportingFiles.add(new SupportingFile("DefaultApi.mustache", defaultApiDirectory, "Default" + apiPackage + ".cs"));
+             supportingFiles.add(new SupportingFile("DefaultApi.mustache", sourceFolder + File.separator + packageName + File.separator + "Default" + apiPackage(), "Default" + apiPackage + ".cs"));
         }
 
         String apiTestFolder = testFolder + File.separator + testPackageName() + File.separator + apiPackage();
