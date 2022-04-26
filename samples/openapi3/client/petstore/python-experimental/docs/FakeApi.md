@@ -1413,7 +1413,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **inline_composition**
-> object inline_composition()
+> bool, date, datetime, dict, float, int, list, str, none_type inline_composition()
 
 testing composed schemas at inline locations
 
@@ -1478,7 +1478,7 @@ Name | Type | Description | Notes
 #### Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**someProp** | **object** |  | [optional] 
+**someProp** | **bool, date, datetime, dict, float, int, list, str, none_type** |  | [optional] 
 **any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
 
 ### query_params
@@ -1502,7 +1502,7 @@ Name | Type | Description | Notes
 #### Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**someProp** | **object** |  | [optional] 
+**someProp** | **bool, date, datetime, dict, float, int, list, str, none_type** |  | [optional] 
 **any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
 
 ### Return Types, Responses
@@ -1531,11 +1531,11 @@ Name | Type | Description | Notes
 #### Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**someProp** | **object** |  | [optional] 
+**someProp** | **bool, date, datetime, dict, float, int, list, str, none_type** |  | [optional] 
 **any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
 
 
-**object**
+**bool, date, datetime, dict, float, int, list, str, none_type**
 
 ### Authorization
 
