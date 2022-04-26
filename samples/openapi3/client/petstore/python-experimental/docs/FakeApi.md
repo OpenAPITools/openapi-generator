@@ -1413,7 +1413,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **inline_composition**
-> object inline_composition()
+> bool, date, datetime, dict, float, int, list, str, none_type inline_composition()
 
 testing composed schemas at inline locations
 
@@ -1422,7 +1422,6 @@ testing composed schemas at inline locations
 ```python
 import petstore_api
 from petstore_api.api import fake_api
-from petstore_api.model.composition_in_property import CompositionInProperty
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -1439,7 +1438,7 @@ with petstore_api.ApiClient(configuration) as api_client:
     query_params = {
         'compositionAtRoot': None,
         'compositionInProperty': dict(
-        some_prop="some_prop_example",
+        some_prop=None,
     ),
     }
     body = None
@@ -1479,7 +1478,7 @@ Name | Type | Description | Notes
 #### Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**someProp** | **object** |  | [optional] 
+**someProp** | **bool, date, datetime, dict, float, int, list, str, none_type** |  | [optional] 
 **any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
 
 ### query_params
@@ -1499,10 +1498,12 @@ Name | Type | Description | Notes
 **any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
 
 #### CompositionInPropertySchema
-Type | Description  | Notes
-------------- | ------------- | -------------
-[**{str: (bool, date, datetime, dict, float, int, list, str, none_type)}**](CompositionInProperty.md) |  | 
 
+#### Properties
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+**someProp** | **bool, date, datetime, dict, float, int, list, str, none_type** |  | [optional] 
+**any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
 
 ### Return Types, Responses
 
@@ -1530,11 +1531,11 @@ Name | Type | Description | Notes
 #### Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**someProp** | **object** |  | [optional] 
+**someProp** | **bool, date, datetime, dict, float, int, list, str, none_type** |  | [optional] 
 **any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
 
 
-**object**
+**bool, date, datetime, dict, float, int, list, str, none_type**
 
 ### Authorization
 
@@ -1882,7 +1883,6 @@ user list
 ```python
 import petstore_api
 from petstore_api.api import fake_api
-from petstore_api.model.map_bean import MapBean
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -1927,10 +1927,12 @@ mapBean | MapBeanSchema | | optional
 
 
 #### MapBeanSchema
-Type | Description  | Notes
-------------- | ------------- | -------------
-[**{str: (bool, date, datetime, dict, float, int, list, str, none_type)}**](MapBean.md) |  | 
 
+#### Properties
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+**keyword** | **str** |  | [optional] 
+**any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
 
 ### Return Types, Responses
 

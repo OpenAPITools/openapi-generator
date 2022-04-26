@@ -7,7 +7,7 @@ Method | HTTP request | Description
 [**foo_get**](DefaultApi.md#foo_get) | **GET** /foo | 
 
 # **foo_get**
-> InlineResponseDefault foo_get()
+> {str: (bool, date, datetime, dict, float, int, list, str, none_type)} foo_get()
 
 
 
@@ -16,7 +16,7 @@ Method | HTTP request | Description
 ```python
 import petstore_api
 from petstore_api.api import default_api
-from petstore_api.model.inline_response_default import InlineResponseDefault
+from petstore_api.model.foo import Foo
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -54,13 +54,15 @@ body | typing.Union[SchemaFor0ResponseBodyApplicationJson, ] |  |
 headers | Unset | headers were not defined |
 
 #### SchemaFor0ResponseBodyApplicationJson
-Type | Description  | Notes
-------------- | ------------- | -------------
-[**InlineResponseDefault**](InlineResponseDefault.md) |  | 
+
+#### Properties
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+**string** | [**Foo**](Foo.md) |  | [optional] 
+**any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
 
 
-
-[**InlineResponseDefault**](InlineResponseDefault.md)
+**{str: (bool, date, datetime, dict, float, int, list, str, none_type)}**
 
 ### Authorization
 
