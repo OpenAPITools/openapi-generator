@@ -13,6 +13,7 @@
 
 package org.openapitools.client;
 
+import org.openapitools.client.api.*;
 import okhttp3.*;
 import okhttp3.internal.http.HttpMethod;
 import okhttp3.internal.tls.OkHostnameVerifier;
@@ -1558,4 +1559,60 @@ public class ApiClient {
         // empty http request body
         return "";
     }
+
+    
+    /**
+     * Get an instance of AnotherFakeApi
+     *
+     * @return An instance of AnotherFakeApi
+     */
+    public AnotherFakeApi anotherFakeApi() {
+        return new AnotherFakeApi(this);
+    }
+    
+    /**
+     * Get an instance of FakeApi
+     *
+     * @return An instance of FakeApi
+     */
+    public FakeApi fakeApi() {
+        return new FakeApi(this);
+    }
+    
+    /**
+     * Get an instance of FakeClassnameTags123Api
+     *
+     * @return An instance of FakeClassnameTags123Api
+     */
+    public FakeClassnameTags123Api fakeClassnameTags123Api() {
+        return new FakeClassnameTags123Api(this);
+    }
+    
+    /**
+     * Get an instance of PetApi
+     *
+     * @return An instance of PetApi
+     */
+    public PetApi petApi() {
+        return new PetApi(this);
+    }
+    
+    /**
+     * Get an instance of StoreApi
+     *
+     * @return An instance of StoreApi
+     */
+    public StoreApi storeApi() {
+        return new StoreApi(this);
+    }
+    
+    /**
+     * Get an instance of UserApi
+     *
+     * @return An instance of UserApi
+     */
+    public UserApi userApi() {
+        return new UserApi(this);
+    }
+    
 }

@@ -13,6 +13,7 @@
 
 package org.openapitools.client;
 
+import org.openapitools.client.api.*;
 import okhttp3.*;
 import okhttp3.internal.http.HttpMethod;
 import okhttp3.internal.tls.OkHostnameVerifier;
@@ -1479,4 +1480,15 @@ public class ApiClient {
         // empty http request body
         return "";
     }
+
+    
+    /**
+     * Get an instance of PingApi
+     *
+     * @return An instance of PingApi
+     */
+    public PingApi pingApi() {
+        return new PingApi(this);
+    }
+    
 }
