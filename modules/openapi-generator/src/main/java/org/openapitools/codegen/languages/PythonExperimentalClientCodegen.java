@@ -1262,7 +1262,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
                 return prefix + modelName + fullSuffix;
             }
         }
-        if (isAnyTypeSchema(p)) {
+        if (ModelUtils.isAnyType(p)) {
             return prefix + "bool, date, datetime, dict, float, int, list, str, none_type" + suffix;
         }
         // Resolve $ref because ModelUtils.isXYZ methods do not automatically resolve references.
