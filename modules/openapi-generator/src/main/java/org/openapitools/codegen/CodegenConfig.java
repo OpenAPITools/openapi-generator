@@ -183,7 +183,7 @@ public interface CodegenConfig {
 
     String toModelImport(String name);
 
-    Map<String,String> toModelImportMap(String name);
+    Map<String, String> toModelImportMap(String name);
 
     String toApiImport(String name);
 
@@ -286,6 +286,7 @@ public interface CodegenConfig {
 
     /**
      * Set the OpenAPI instance. This method needs to be called right after the instantiation of the Codegen class.
+     *
      * @param openAPI specification being generated
      */
     void setOpenAPI(OpenAPI openAPI);
