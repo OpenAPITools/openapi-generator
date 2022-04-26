@@ -234,11 +234,11 @@ public class InlineModelResolverTest {
         responseExt.put("x-foo", "bar");
 
         openapi.path("/foo/bar", new PathItem()
-                .get(new Operation().responses(new ApiResponses().addApiResponse("200", new ApiResponse()
-                        .description("it works!")
-                        .content(new Content().addMediaType("application/json",
-                                new MediaType().schema(new ObjectSchema().title("inline_response_200")
-                                        .addProperties("name", new StringSchema()).extensions(propExt))))))))
+                        .get(new Operation().responses(new ApiResponses().addApiResponse("200", new ApiResponse()
+                                .description("it works!")
+                                .content(new Content().addMediaType("application/json",
+                                        new MediaType().schema(new ObjectSchema().title("inline_response_200")
+                                                .addProperties("name", new StringSchema()).extensions(propExt))))))))
                 .path("/foo/baz", new PathItem()
                         .get(new Operation().responses(new ApiResponses().addApiResponse("200", new ApiResponse()
                                 .description("it works!")
@@ -293,11 +293,11 @@ public class InlineModelResolverTest {
         responseExt.put("x-foo", "bar");
 
         openapi.path("/foo/bar", new PathItem()
-                .get(new Operation().responses(new ApiResponses().addApiResponse("200", new ApiResponse()
-                        .description("it works!")
-                        .content(new Content().addMediaType("application/json",
-                                new MediaType().schema(new ObjectSchema().title("GetBarResponse")
-                                        .addProperties("name", new StringSchema()).extensions(propExt))))))))
+                        .get(new Operation().responses(new ApiResponses().addApiResponse("200", new ApiResponse()
+                                .description("it works!")
+                                .content(new Content().addMediaType("application/json",
+                                        new MediaType().schema(new ObjectSchema().title("GetBarResponse")
+                                                .addProperties("name", new StringSchema()).extensions(propExt))))))))
                 .path("/foo/baz", new PathItem()
                         .get(new Operation().responses(new ApiResponses().addApiResponse("200", new ApiResponse()
                                 .description("it works!")
@@ -429,7 +429,7 @@ public class InlineModelResolverTest {
 
         ArraySchema requestBody = (ArraySchema) mediaType.getSchema();
         assertNotNull(requestBody.getItems().get$ref());
-        assertEquals("#/components/schemas/InlineObject", requestBody.getItems().get$ref());
+        assertEquals("#/components/schemas/inline_object_2", requestBody.getItems().get$ref());
 
         Schema items = ModelUtils.getReferencedSchema(openAPI, ((ArraySchema) mediaType.getSchema()).getItems());
         assertTrue(items.getProperties().get("street") instanceof StringSchema);
@@ -513,7 +513,7 @@ public class InlineModelResolverTest {
         Object additionalPropertiesObject = mediaType.getSchema().getAdditionalProperties();
         assertTrue(additionalPropertiesObject instanceof Schema);
 
-        Schema additionalProperties = ModelUtils.getReferencedSchema(openAPI, (Schema)additionalPropertiesObject);
+        Schema additionalProperties = ModelUtils.getReferencedSchema(openAPI, (Schema) additionalPropertiesObject);
         assertNotNull(additionalProperties);
         assertTrue(additionalProperties.getProperties().get("resolve_inline_object_response_with_additional_properties") instanceof StringSchema);
     }
@@ -522,42 +522,42 @@ public class InlineModelResolverTest {
     public void resolveInlineMapSchemaInResponse() {
         OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/inline_model_resolver.yaml", null, new ParseOptions()).getOpenAPI();
         ApiResponse apiResponse = openAPI
-            .getPaths()
-            .get("/resolve_inline_map_schema_in_response")
-            .getGet()
-            .getResponses()
-            .get("200");
+                .getPaths()
+                .get("/resolve_inline_map_schema_in_response")
+                .getGet()
+                .getResponses()
+                .get("200");
 
         // NOTE: Swagger parser doesn't use MapSchema currently,
         //       so we need to set a MapSchema instance as the schema manually for testing.
         // @see https://github.com/swagger-api/swagger-parser/blob/master/modules/swagger-parser-v3/src/main/java/io/swagger/v3/parser/util/SchemaTypeUtil.java
         apiResponse.content(
-            new Content().addMediaType(
-                "application/json",
-                new MediaType().schema(
-                    new MapSchema().additionalProperties(
-                        new ObjectSchema().addProperties(
-                            "resolve_inline_map_schema_in_response_property",
-                            new ObjectSchema().addProperties(
-                                "resolve_inline_map_schema_in_response_property_string",
-                                new StringSchema().example("example")
-                            )
+                new Content().addMediaType(
+                        "application/json",
+                        new MediaType().schema(
+                                new MapSchema().additionalProperties(
+                                        new ObjectSchema().addProperties(
+                                                "resolve_inline_map_schema_in_response_property",
+                                                new ObjectSchema().addProperties(
+                                                        "resolve_inline_map_schema_in_response_property_string",
+                                                        new StringSchema().example("example")
+                                                )
+                                        )
+                                )
                         )
-                    )
                 )
-            )
         );
 
         new InlineModelResolver().flatten(openAPI);
 
         MediaType mediaType = openAPI
-            .getPaths()
-            .get("/resolve_inline_map_schema_in_response")
-            .getGet()
-            .getResponses()
-            .get("200")
-            .getContent()
-            .get("application/json");
+                .getPaths()
+                .get("/resolve_inline_map_schema_in_response")
+                .getGet()
+                .getResponses()
+                .get("200")
+                .getContent()
+                .get("application/json");
         assertTrue(mediaType.getSchema() instanceof MapSchema);
 
         Schema additionalProperties = (Schema) mediaType.getSchema().getAdditionalProperties();
@@ -568,8 +568,8 @@ public class InlineModelResolverTest {
         Schema referencedSchemaProperty = (Schema) referencedSchema.getProperties().get("resolve_inline_map_schema_in_response_property");
 
         assertEquals(
-            "#/components/schemas/_resolve_inline_map_schema_in_response_resolve_inline_map_schema_in_response_property",
-            referencedSchemaProperty.get$ref()
+                "#/components/schemas/_resolve_inline_map_schema_in_response_resolve_inline_map_schema_in_response_property",
+                referencedSchemaProperty.get$ref()
         );
         assertNotNull(ModelUtils.getReferencedSchema(openAPI, referencedSchemaProperty));
     }
@@ -995,7 +995,20 @@ public class InlineModelResolverTest {
     }
 
     @Test
-    public void regression_6905() {
+    public void testInlineSchemaNameMapping() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_resolver.yaml");
+        InlineModelResolver resolver = new InlineModelResolver();
+        Map<String, String> inlineSchemaNames = new HashMap<>();
+        inlineSchemaNames.put("inline_object_2", "SomethingMapped");
+        inlineSchemaNames.put("inline_object_4", "nothing_new");
+        resolver.setInlineSchemaNameMapping(inlineSchemaNames);
+        resolver.flatten(openAPI);
 
+        Schema schema = openAPI.getComponents().getSchemas().get("SomethingMapped");
+        assertTrue(schema.getProperties().get("street") instanceof StringSchema);
+        assertTrue(schema.getProperties().get("city") instanceof StringSchema);
+
+        Schema nothingNew = openAPI.getComponents().getSchemas().get("nothing_new");
+        assertTrue(nothingNew.getProperties().get("arbitrary_request_body_array_property") instanceof ObjectSchema);
     }
 }

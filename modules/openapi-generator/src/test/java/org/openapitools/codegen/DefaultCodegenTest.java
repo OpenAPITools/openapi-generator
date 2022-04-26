@@ -246,7 +246,7 @@ public class DefaultCodegenTest {
 
         Schema requestBodySchema = ModelUtils.getSchemaFromRequestBody(openAPI.getPaths().get("/thingy/{date}").getPost().getRequestBody());
         CodegenParameter codegenParameter = codegen.fromFormProperty("visitDate", (Schema) requestBodySchema.getProperties().get("visitDate"),
-            new HashSet<>());
+                new HashSet<>());
 
         Assert.assertEquals(codegenParameter.defaultValue, "1971-12-19T03:39:57-08:00");
         Assert.assertEquals(codegenParameter.getSchema(), null);
@@ -297,7 +297,7 @@ public class DefaultCodegenTest {
         Schema map_without_additional_properties_sc = modelPropSchemas.get("map_without_additional_properties");
         CodegenProperty map_without_additional_properties_cp = null;
 
-        for(CodegenProperty cp: cm.vars) {
+        for (CodegenProperty cp : cm.vars) {
             if ("map_string".equals(cp.baseName)) {
                 map_string_cp = cp;
             } else if ("map_with_additional_properties".equals(cp.baseName)) {
@@ -386,7 +386,7 @@ public class DefaultCodegenTest {
         Schema map_without_additional_properties_sc = modelPropSchemas.get("map_without_additional_properties");
         CodegenProperty map_without_additional_properties_cp = null;
 
-        for(CodegenProperty cp: cm.vars) {
+        for (CodegenProperty cp : cm.vars) {
             if ("map_string".equals(cp.baseName)) {
                 map_string_cp = cp;
             } else if ("map_with_additional_properties".equals(cp.baseName)) {
@@ -466,7 +466,7 @@ public class DefaultCodegenTest {
         Schema empty_map_sc = modelPropSchemas.get("empty_map");
         CodegenProperty empty_map_cp = null;
 
-        for(CodegenProperty cp: cm.vars) {
+        for (CodegenProperty cp : cm.vars) {
             if ("map_with_undeclared_properties_string".equals(cp.baseName)) {
                 map_with_undeclared_properties_string_cp = cp;
             } else if ("map_with_undeclared_properties_anytype_1".equals(cp.baseName)) {
@@ -1016,7 +1016,7 @@ public class DefaultCodegenTest {
 
         // all leaf Schemas have discriminators with PropertyName/BaseName + empty discriminator maps
         List<String> leafModelNames = Arrays.asList("Cat", "Dog", "Lizard", "Snake");
-        for (String leafModelName: leafModelNames) {
+        for (String leafModelName : leafModelNames) {
             Schema leafSc = openAPI.getComponents().getSchemas().get(leafModelName);
             CodegenModel leafCm = codegen.fromModel(leafModelName, leafSc);
             Assert.assertEquals(leafCm.discriminator, emptyMapDisc);
@@ -1028,7 +1028,7 @@ public class DefaultCodegenTest {
         petDisc.setPropertyName(propertyName);
         petDisc.setPropertyBaseName(propertyBaseName);
         java.util.LinkedHashSet hs = new LinkedHashSet<>();
-        for (String leafModelName: leafModelNames) {
+        for (String leafModelName : leafModelNames) {
             hs.add(new CodegenDiscriminator.MappedModel(leafModelName, codegen.toModelName(leafModelName)));
         }
         hs.add(new CodegenDiscriminator.MappedModel("Reptile", codegen.toModelName("Reptile")));
@@ -1045,7 +1045,7 @@ public class DefaultCodegenTest {
         reptileDisc.setPropertyName(propertyName);
         reptileDisc.setPropertyBaseName(propertyBaseName);
         hs.clear();
-        for (String reptileModelName: reptileModelNames) {
+        for (String reptileModelName : reptileModelNames) {
             hs.add(new CodegenDiscriminator.MappedModel(reptileModelName, codegen.toModelName(reptileModelName)));
         }
         reptileDisc.setMappedModels(hs);
@@ -1061,7 +1061,7 @@ public class DefaultCodegenTest {
         myPetDisc.setPropertyName(propertyName);
         myPetDisc.setPropertyBaseName(propertyBaseName);
         hs.clear();
-        for (String myPetName: myPetNames) {
+        for (String myPetName : myPetNames) {
             hs.add(new CodegenDiscriminator.MappedModel(myPetName, codegen.toModelName(myPetName)));
         }
         myPetDisc.setMappedModels(hs);
@@ -1128,7 +1128,7 @@ public class DefaultCodegenTest {
 
         // all leaf Schemas have discriminators with PropertyName/BaseName + empty discriminator maps
         List<String> leafModelNames = Arrays.asList("Cat", "Dog", "Lizard", "Snake");
-        for (String leafModelName: leafModelNames) {
+        for (String leafModelName : leafModelNames) {
             Schema leafSc = openAPI.getComponents().getSchemas().get(leafModelName);
             CodegenModel leafCm = codegen.fromModel(leafModelName, leafSc);
             Assert.assertNull(leafCm.discriminator);
@@ -1139,7 +1139,7 @@ public class DefaultCodegenTest {
         petDisc.setPropertyName(propertyName);
         petDisc.setPropertyBaseName(propertyBaseName);
         java.util.LinkedHashSet hs = new LinkedHashSet<>();
-        for (String leafModelName: leafModelNames) {
+        for (String leafModelName : leafModelNames) {
             hs.add(new CodegenDiscriminator.MappedModel(leafModelName, codegen.toModelName(leafModelName)));
         }
         hs.add(new CodegenDiscriminator.MappedModel("Reptile", codegen.toModelName("Reptile")));
@@ -1155,7 +1155,7 @@ public class DefaultCodegenTest {
         reptileDisc.setPropertyName(propertyName);
         reptileDisc.setPropertyBaseName(propertyBaseName);
         hs.clear();
-        for (String reptileModelName: reptileModelNames) {
+        for (String reptileModelName : reptileModelNames) {
             hs.add(new CodegenDiscriminator.MappedModel(reptileModelName, codegen.toModelName(reptileModelName)));
         }
         reptileDisc.setMappedModels(hs);
@@ -1220,7 +1220,7 @@ public class DefaultCodegenTest {
         hm.put("ComposedDiscTypeInconsistent", "'ComposedDiscTypeInconsistent' defines discriminator 'fruitType', but the referenced schema 'DiscTypeIncorrect' is incorrect. invalid type for fruitType, set it to string");
         hm.put("ComposedDiscRequiredInconsistent", "'ComposedDiscRequiredInconsistent' defines discriminator 'fruitType', but the referenced schema 'DiscOptionalTypeCorrect' is incorrect. invalid optional definition of fruitType, include it in required");
 
-        for(Map.Entry<String, String> entry : hm.entrySet()) {
+        for (Map.Entry<String, String> entry : hm.entrySet()) {
             String modelName = entry.getKey();
             String errorMessageExpected = entry.getValue();
 
@@ -1255,7 +1255,7 @@ public class DefaultCodegenTest {
         hm.put("ComposedDiscTypeInconsistent", "'ComposedDiscTypeInconsistent' defines discriminator 'fruitType', but the referenced schema 'DiscTypeIncorrect' is incorrect. invalid type for fruitType, set it to string");
         hm.put("ComposedDiscRequiredInconsistent", "'ComposedDiscRequiredInconsistent' defines discriminator 'fruitType', but the referenced schema 'DiscOptionalTypeCorrect' is incorrect. invalid optional definition of fruitType, include it in required");
 
-        for(Map.Entry<String, String> entry : hm.entrySet()) {
+        for (Map.Entry<String, String> entry : hm.entrySet()) {
             String modelName = entry.getKey();
             String errorMessageExpected = entry.getValue();
 
@@ -1465,7 +1465,7 @@ public class DefaultCodegenTest {
     }
 
     @Test
-    public void testComposedSchemaAllOfHierarchy(){
+    public void testComposedSchemaAllOfHierarchy() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/allOf_composition_discriminator.yaml");
 
         DefaultCodegen codegen = new DefaultCodegen();
@@ -1497,7 +1497,7 @@ public class DefaultCodegenTest {
         test.setPropertyName(prop);
         test.setPropertyBaseName(prop);
         test.setMapping(null);
-        test.setMappedModels(new HashSet<CodegenDiscriminator.MappedModel>(){{
+        test.setMappedModels(new HashSet<CodegenDiscriminator.MappedModel>() {{
             add(new CodegenDiscriminator.MappedModel("Snake", "Snake"));
             add(new CodegenDiscriminator.MappedModel("Lizard", "Lizard"));
         }});
@@ -1510,7 +1510,7 @@ public class DefaultCodegenTest {
         test.setPropertyName(prop);
         test.setPropertyBaseName(prop);
         test.setMapping(null);
-        test.setMappedModels(new HashSet<CodegenDiscriminator.MappedModel>(){{
+        test.setMappedModels(new HashSet<CodegenDiscriminator.MappedModel>() {{
             add(new CodegenDiscriminator.MappedModel("Cat", "Cat"));
             add(new CodegenDiscriminator.MappedModel("Lizard", "Lizard"));
         }});
@@ -1518,7 +1518,7 @@ public class DefaultCodegenTest {
     }
 
     public CodegenModel getModel(List<ModelMap> allModels, String modelName) {
-        for (ModelMap obj: allModels) {
+        for (ModelMap obj : allModels) {
             CodegenModel cm = obj.getModel();
             if (modelName.equals(cm.name)) {
                 return cm;
@@ -1558,7 +1558,7 @@ public class DefaultCodegenTest {
         Assert.assertNotNull(cm.children);
         List<String> expectedDiscriminatorValues = new ArrayList<>(Arrays.asList("daily", "sub-obj"));
         ArrayList<String> xDiscriminatorValues = new ArrayList<>();
-        for (CodegenModel child: cm.children) {
+        for (CodegenModel child : cm.children) {
             xDiscriminatorValues.add((String) child.vendorExtensions.get("x-discriminator-value"));
         }
         assertEquals(xDiscriminatorValues, expectedDiscriminatorValues);
@@ -1569,7 +1569,7 @@ public class DefaultCodegenTest {
         discriminator.setPropertyName(config.toVarName(prop));
         discriminator.setPropertyBaseName(prop);
         discriminator.setMapping(null);
-        discriminator.setMappedModels(new HashSet<CodegenDiscriminator.MappedModel>(){{
+        discriminator.setMappedModels(new HashSet<CodegenDiscriminator.MappedModel>() {{
             add(new CodegenDiscriminator.MappedModel("DailySubObj", "DailySubObj"));
             add(new CodegenDiscriminator.MappedModel("SubObj", "SubObj"));
             add(new CodegenDiscriminator.MappedModel("daily", "DailySubObj"));
@@ -1587,7 +1587,7 @@ public class DefaultCodegenTest {
         Schema schema = openAPI.getComponents().getSchemas().get("NewMessageEventCoreNoOwnProps");
         codegen.setOpenAPI(openAPI);
         CodegenModel model = codegen.fromModel("NewMessageEventCoreNoOwnProps", schema);
-        Assert.assertEquals(getNames(model.getVars()), Arrays.asList("id","message"));
+        Assert.assertEquals(getNames(model.getVars()), Arrays.asList("id", "message"));
         Assert.assertNull(model.parent);
         Assert.assertNull(model.allParents);
     }
@@ -1624,7 +1624,7 @@ public class DefaultCodegenTest {
     }
 
     private List<String> getNames(List<CodegenProperty> props) {
-        if(props == null) return null;
+        if (props == null) return null;
         return props.stream().map(v -> v.name).collect(Collectors.toList());
     }
 
@@ -1767,10 +1767,10 @@ public class DefaultCodegenTest {
         final Map responseProperties = Collections.unmodifiableMap(openAPI.getComponents().getSchemas().get("Response").getProperties());
         final Map requestProperties = Collections.unmodifiableMap(openAPI.getComponents().getSchemas().get("Response").getProperties());
 
-        Assert.assertTrue(codegen.fromProperty("firstName",(Schema) responseProperties.get("firstName")).deprecated);
-        Assert.assertFalse(codegen.fromProperty("customerCode",(Schema) responseProperties.get("customerCode")).deprecated);
-        Assert.assertTrue(codegen.fromProperty("firstName",(Schema) requestProperties.get("firstName")).deprecated);
-        Assert.assertFalse(codegen.fromProperty("customerCode",(Schema) requestProperties.get("customerCode")).deprecated);
+        Assert.assertTrue(codegen.fromProperty("firstName", (Schema) responseProperties.get("firstName")).deprecated);
+        Assert.assertFalse(codegen.fromProperty("customerCode", (Schema) responseProperties.get("customerCode")).deprecated);
+        Assert.assertTrue(codegen.fromProperty("firstName", (Schema) requestProperties.get("firstName")).deprecated);
+        Assert.assertFalse(codegen.fromProperty("customerCode", (Schema) requestProperties.get("customerCode")).deprecated);
     }
 
     @Test
@@ -1782,8 +1782,8 @@ public class DefaultCodegenTest {
 
         final Map requestProperties = Collections.unmodifiableMap(openAPI.getComponents().getSchemas().get("complex").getProperties());
 
-        Assert.assertTrue(codegen.fromProperty("deprecated", (Schema)requestProperties.get("deprecated")).deprecated);
-        Assert.assertFalse(codegen.fromProperty("current", (Schema)requestProperties.get("current")).deprecated);
+        Assert.assertTrue(codegen.fromProperty("deprecated", (Schema) requestProperties.get("deprecated")).deprecated);
+        Assert.assertFalse(codegen.fromProperty("current", (Schema) requestProperties.get("current")).deprecated);
     }
 
     @Test
@@ -3115,7 +3115,7 @@ public class DefaultCodegenTest {
         CodegenOperation co;
 
         for (String modelName : modelNames) {
-            path = "/"+modelName;
+            path = "/" + modelName;
             operation = openAPI.getPaths().get(path).getPost();
             co = codegen.fromOperation(path, "POST", operation, null);
             assertTrue(co.bodyParam.getHasValidation());
@@ -3244,7 +3244,7 @@ public class DefaultCodegenTest {
         modelName = "ArrayWithObjectWithPropsInItems";
         ArraySchema as = (ArraySchema) openAPI.getComponents().getSchemas().get(modelName);
         assertEquals("#/components/schemas/ArrayWithObjectWithPropsInItems_inner", as.getItems().get$ref());
-        sc  = openAPI.getComponents().getSchemas().get("ArrayWithObjectWithPropsInItems_inner");
+        sc = openAPI.getComponents().getSchemas().get("ArrayWithObjectWithPropsInItems_inner");
         cm = codegen.fromModel(modelName, sc);
         assertTrue(cm.getHasVars());
 

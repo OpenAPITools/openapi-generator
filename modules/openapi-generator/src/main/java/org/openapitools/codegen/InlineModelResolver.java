@@ -39,13 +39,18 @@ import java.util.stream.Collectors;
 
 public class InlineModelResolver {
     private OpenAPI openAPI;
-    private Map<String, Schema> addedModels = new HashMap<String, Schema>();
-    private Map<String, String> generatedSignature = new HashMap<String, String>();
+    private Map<String, Schema> addedModels = new HashMap<>();
+    private Map<String, String> generatedSignature = new HashMap<>();
+    private Map<String, String> inlineSchemaNameMapping = new HashMap<>();
+    private Set<String> inlineSchemaNameMappingValues = new HashSet<>();
     public boolean resolveInlineEnums = false;
 
     // structure mapper sorts properties alphabetically on write to ensure models are
     // serialized consistently for lookup of existing models
     private static ObjectMapper structureMapper;
+
+    // a set to keep track of names generated for inline schemas
+    private Set<String> uniqueNames = new HashSet<>();
 
     static {
         structureMapper = Json.mapper().copy();
@@ -54,6 +59,11 @@ public class InlineModelResolver {
     }
 
     final Logger LOGGER = LoggerFactory.getLogger(InlineModelResolver.class);
+
+    public void setInlineSchemaNameMapping(Map inlineSchemaNameMapping) {
+        this.inlineSchemaNameMapping = inlineSchemaNameMapping;
+        this.inlineSchemaNameMappingValues = new HashSet<>(inlineSchemaNameMapping.values());
+    }
 
     void flatten(OpenAPI openAPI) {
         this.openAPI = openAPI;
@@ -326,9 +336,7 @@ public class InlineModelResolver {
                     flattenProperties(openAPI, obj.getProperties(), pathname);
                     // for model name, use "title" if defined, otherwise default to 'inline_object'
                     String modelName = resolveModelName(obj.getTitle(), "inline_object");
-                    addGenerated(modelName, model);
-                    openAPI.getComponents().addSchemas(modelName, model);
-
+                    modelName = addSchemas(modelName, model);
                     // create request body
                     RequestBody rb = new RequestBody();
                     rb.setRequired(requestBody.getRequired());
@@ -384,11 +392,10 @@ public class InlineModelResolver {
                         schema.setRequired(op.getRequired());
                         am.setItems(schema);
                     } else {
+                        modelName = addSchemas(modelName, innerModel);
                         Schema schema = new Schema().$ref(modelName);
                         schema.setRequired(op.getRequired());
                         am.setItems(schema);
-                        addGenerated(modelName, innerModel);
-                        openAPI.getComponents().addSchemas(modelName, innerModel);
                     }
                 }
             }
@@ -419,10 +426,8 @@ public class InlineModelResolver {
                     if (obj.getProperties() != null && obj.getProperties().size() > 0) {
                         flattenProperties(openAPI, obj.getProperties(), pathname);
                         String modelName = resolveModelName(obj.getTitle(), parameter.getName());
-
+                        modelName = addSchemas(modelName, model);
                         parameter.$ref(modelName);
-                        addGenerated(modelName, model);
-                        openAPI.getComponents().addSchemas(modelName, model);
                     }
                 }
             } else if (model instanceof ArraySchema) {
@@ -440,11 +445,10 @@ public class InlineModelResolver {
                             schema.setRequired(op.getRequired());
                             am.setItems(schema);
                         } else {
+                            modelName = addSchemas(modelName, innerModel);
                             Schema schema = new Schema().$ref(modelName);
                             schema.setRequired(op.getRequired());
                             am.setItems(schema);
-                            addGenerated(modelName, innerModel);
-                            openAPI.getComponents().addSchemas(modelName, innerModel);
                         }
                     }
                 }
@@ -485,11 +489,10 @@ public class InlineModelResolver {
                             schema.setRequired(op.getRequired());
                             mediaType.setSchema(schema);
                         } else {
+                            modelName = addSchemas(modelName, model);
                             Schema schema = this.makeSchema(modelName, property);
                             schema.setRequired(op.getRequired());
                             mediaType.setSchema(schema);
-                            addGenerated(modelName, model);
-                            openAPI.getComponents().addSchemas(modelName, model);
                         }
                     }
                 }
@@ -509,11 +512,10 @@ public class InlineModelResolver {
                             schema.setRequired(op.getRequired());
                             ap.setItems(schema);
                         } else {
+                            modelName = addSchemas(modelName, innerModel);
                             Schema schema = this.makeSchema(modelName, op);
                             schema.setRequired(op.getRequired());
                             ap.setItems(schema);
-                            addGenerated(modelName, innerModel);
-                            openAPI.getComponents().addSchemas(modelName, innerModel);
                         }
                     }
                 }
@@ -533,11 +535,10 @@ public class InlineModelResolver {
                             schema.setRequired(op.getRequired());
                             mp.setAdditionalProperties(schema);
                         } else {
+                            modelName = addSchemas(modelName, innerModel);
                             Schema schema = new Schema().$ref(modelName);
                             schema.setRequired(op.getRequired());
                             mp.setAdditionalProperties(schema);
-                            addGenerated(modelName, innerModel);
-                            openAPI.getComponents().addSchemas(modelName, innerModel);
                         }
                     }
                 }
@@ -596,8 +597,7 @@ public class InlineModelResolver {
                 Schema innerModel = modelFromProperty(openAPI, component, innerModelName);
                 String existing = matchGenerated(innerModel);
                 if (existing == null) {
-                    openAPI.getComponents().addSchemas(innerModelName, innerModel);
-                    addGenerated(innerModelName, innerModel);
+                    innerModelName = addSchemas(innerModelName, innerModel);
                     Schema schema = new Schema().$ref(innerModelName);
                     schema.setRequired(component.getRequired());
                     listIterator.set(schema);
@@ -697,8 +697,7 @@ public class InlineModelResolver {
     private String resolveModelName(String title, String key) {
         if (title == null) {
             if (key == null) {
-                LOGGER.warn("Found an inline schema without the `title` attribute. Default the model name to InlineObject instead. To have better control of the model naming, define the model separately so that it can be reused throughout the spec.");
-                return uniqueName("InlineObject");
+                return uniqueName("inline_object");
             }
             return uniqueName(sanitizeName(key));
         } else {
@@ -740,19 +739,20 @@ public class InlineModelResolver {
     }
 
     private String uniqueName(final String name) {
-        if (openAPI.getComponents().getSchemas() == null) {
+        if (openAPI.getComponents().getSchemas() == null) { // no schema has been created
+            uniqueNames.add(name);
             return name;
         }
 
         String uniqueName = name;
         int count = 0;
         while (true) {
-            if (!openAPI.getComponents().getSchemas().containsKey(uniqueName)) {
+            if (!openAPI.getComponents().getSchemas().containsKey(uniqueName) && !uniqueNames.contains(uniqueName)) {
+                uniqueNames.add(uniqueName);
                 return uniqueName;
             }
             uniqueName = name + "_" + ++count;
         }
-        // TODO it would probably be a good idea to check against a list of used uniqueNames to make sure there are no collisions
     }
 
     private void flattenProperties(OpenAPI openAPI, Map<String, Schema> properties, String path) {
@@ -775,12 +775,11 @@ public class InlineModelResolver {
                     schema.setRequired(op.getRequired());
                     propsToUpdate.put(key, schema);
                 } else {
+                    modelName = addSchemas(modelName, model);
                     Schema schema = new Schema().$ref(modelName);
                     schema.setRequired(op.getRequired());
                     propsToUpdate.put(key, schema);
                     modelsToAdd.put(modelName, model);
-                    addGenerated(modelName, model);
-                    openAPI.getComponents().addSchemas(modelName, model);
                 }
             } else if (property instanceof ArraySchema) {
                 ArraySchema ap = (ArraySchema) property;
@@ -797,11 +796,10 @@ public class InlineModelResolver {
                             schema.setRequired(op.getRequired());
                             ap.setItems(schema);
                         } else {
+                            modelName = addSchemas(modelName, innerModel);
                             Schema schema = new Schema().$ref(modelName);
                             schema.setRequired(op.getRequired());
                             ap.setItems(schema);
-                            addGenerated(modelName, innerModel);
-                            openAPI.getComponents().addSchemas(modelName, innerModel);
                         }
                     }
                 }
@@ -820,11 +818,10 @@ public class InlineModelResolver {
                             schema.setRequired(op.getRequired());
                             property.setAdditionalProperties(schema);
                         } else {
+                            modelName = addSchemas(modelName, innerModel);
                             Schema schema = new Schema().$ref(modelName);
                             schema.setRequired(op.getRequired());
                             property.setAdditionalProperties(schema);
-                            addGenerated(modelName, innerModel);
-                            openAPI.getComponents().addSchemas(modelName, innerModel);
                         }
                     }
                 }
@@ -934,9 +931,8 @@ public class InlineModelResolver {
             if (resolveInlineEnums && schema.getEnum() != null && schema.getEnum().size() > 0) {
                 LOGGER.warn("Model " + name + " promoted to its own schema due to resolveInlineEnums=true");
             }
+            name = addSchemas(name, schema);
             refSchema = new Schema().$ref(name);
-            addGenerated(name, schema);
-            openAPI.getComponents().addSchemas(name, schema);
         }
         this.copyVendorExtensions(schema, refSchema);
         return refSchema;
@@ -961,7 +957,6 @@ public class InlineModelResolver {
      * @param source source property
      * @param target target property
      */
-
     private void copyVendorExtensions(Schema source, Schema target) {
         Map<String, Object> vendorExtensions = source.getExtensions();
         if (vendorExtensions == null) {
@@ -971,4 +966,28 @@ public class InlineModelResolver {
             target.addExtension(extName, vendorExtensions.get(extName));
         }
     }
+
+    /**
+     * Add the schemas to the components
+     *
+     * @param name   name of the inline schema
+     * @param schema inilne schema
+     * @return the actual model name (based on inlineSchemaNameMapping if provied)
+     */
+    private String addSchemas(String name, Schema schema) {
+        //check inlineSchemaNameMapping
+        if (inlineSchemaNameMapping.containsKey(name)) {
+            name = inlineSchemaNameMapping.get(name);
+        }
+
+        addGenerated(name, schema);
+        openAPI.getComponents().addSchemas(name, schema);
+        if (!name.equals(schema.getTitle()) && !inlineSchemaNameMappingValues.contains(name)) {
+            LOGGER.info("Inline schema created as {}. To have complete control of the model name, set the `title` field or use the inlineSchemaNameMapping option (--inline-schema-name-mapping in CLI).", name);
+        }
+
+        return name;
+    }
+
+
 }

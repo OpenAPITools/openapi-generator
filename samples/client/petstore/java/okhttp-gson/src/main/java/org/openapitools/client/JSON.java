@@ -225,7 +225,7 @@ public class JSON {
             .registerTypeAdapterFactory(new org.openapitools.client.model.AppleReq.CustomTypeAdapterFactory())
             .registerTypeAdapterFactory(new org.openapitools.client.model.ArrayOfArrayOfNumberOnly.CustomTypeAdapterFactory())
             .registerTypeAdapterFactory(new org.openapitools.client.model.ArrayOfInlineAllOf.CustomTypeAdapterFactory())
-            .registerTypeAdapterFactory(new org.openapitools.client.model.ArrayOfInlineAllOfArrayAllofDogPropertyItemsAllOf.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.ArrayOfInlineAllOfArrayAllofDogPropertyItemsAllOf1.CustomTypeAdapterFactory())
             .registerTypeAdapterFactory(new org.openapitools.client.model.ArrayOfNumberOnly.CustomTypeAdapterFactory())
             .registerTypeAdapterFactory(new org.openapitools.client.model.ArrayTest.CustomTypeAdapterFactory())
             .registerTypeAdapterFactory(new org.openapitools.client.model.Banana.CustomTypeAdapterFactory())
