@@ -1487,7 +1487,7 @@ public class ApiClient {
      *
      * @return An instance of PingApi
      */
-    public PingApi pingApi() {
+    public PingApi getPingApi() {
         return new PingApi(this);
     }
     

@@ -1566,7 +1566,7 @@ public class ApiClient {
      *
      * @return An instance of AnotherFakeApi
      */
-    public AnotherFakeApi anotherFakeApi() {
+    public AnotherFakeApi getAnotherFakeApi() {
         return new AnotherFakeApi(this);
     }
     
@@ -1575,7 +1575,7 @@ public class ApiClient {
      *
      * @return An instance of FakeApi
      */
-    public FakeApi fakeApi() {
+    public FakeApi getFakeApi() {
         return new FakeApi(this);
     }
     
@@ -1584,7 +1584,7 @@ public class ApiClient {
      *
      * @return An instance of FakeClassnameTags123Api
      */
-    public FakeClassnameTags123Api fakeClassnameTags123Api() {
+    public FakeClassnameTags123Api getFakeClassnameTags123Api() {
         return new FakeClassnameTags123Api(this);
     }
     
@@ -1593,7 +1593,7 @@ public class ApiClient {
      *
      * @return An instance of PetApi
      */
-    public PetApi petApi() {
+    public PetApi getPetApi() {
         return new PetApi(this);
     }
     
@@ -1602,7 +1602,7 @@ public class ApiClient {
      *
      * @return An instance of StoreApi
      */
-    public StoreApi storeApi() {
+    public StoreApi getStoreApi() {
         return new StoreApi(this);
     }
     
@@ -1611,7 +1611,7 @@ public class ApiClient {
      *
      * @return An instance of UserApi
      */
-    public UserApi userApi() {
+    public UserApi getUserApi() {
         return new UserApi(this);
     }
     
