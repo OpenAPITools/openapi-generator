@@ -23,6 +23,7 @@ namespace Org.OpenAPITools.Api
 {
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
+    /// This class is registered as transient.
     /// </summary>
     public interface IStoreApi : IApi
     {
@@ -190,6 +191,11 @@ namespace Org.OpenAPITools.Api
             OauthTokenProvider = oauthTokenProvider;
         }
 
+        public virtual void OnApiResponded(ApiResponseEventArgs args)
+        {
+            EventHub.OnApiResponded(this, args);
+        }
+
         /// <summary>
         /// Delete purchase order by ID For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
         /// </summary>
@@ -231,6 +237,25 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
+        /// Validates the request parameters
+        /// </summary>
+        /// <param name="orderId"></param>
+        /// <returns></returns>
+        public virtual string OnDeleteOrder(string orderId)
+        {
+            return orderId;
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponse"></param>
+        /// <param name="orderId"></param>
+        public virtual void AfterDeleteOrder(ApiResponse<object> apiResponse, string orderId)
+        {
+        }
+
+        /// <summary>
         /// Delete purchase order by ID For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
@@ -241,6 +266,8 @@ namespace Org.OpenAPITools.Api
         {
             try
             {
+                orderId = OnDeleteOrder(orderId);
+
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
                 #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
@@ -268,12 +295,15 @@ namespace Org.OpenAPITools.Api
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-                        EventHub.OnApiResponded(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/store/order/{order_id}"));
+                        OnApiResponded(new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/store/order/{order_id}"));
 
                         ApiResponse<object> apiResponse = new ApiResponse<object>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
+                        {
                             apiResponse.Content = JsonSerializer.Deserialize<object>(apiResponse.RawContent, _jsonSerializerOptions);
+                            AfterDeleteOrder(apiResponse, orderId);
+                        }
 
                         return apiResponse;
                     }
@@ -305,6 +335,23 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
+        /// Validates the request parameters
+        /// </summary>
+        /// <returns></returns>
+        public virtual void OnGetInventory()
+        {
+            return;
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponse"></param>
+        public virtual void AfterGetInventory(ApiResponse<Dictionary<string, int>> apiResponse)
+        {
+        }
+
+        /// <summary>
         /// Returns pet inventories by status Returns a map of status codes to quantities
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
@@ -314,6 +361,8 @@ namespace Org.OpenAPITools.Api
         {
             try
             {
+                OnGetInventory();
+
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
                     UriBuilder uriBuilder = new UriBuilder();
@@ -348,12 +397,15 @@ namespace Org.OpenAPITools.Api
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-                        EventHub.OnApiResponded(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/store/inventory"));
+                        OnApiResponded(new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/store/inventory"));
 
                         ApiResponse<Dictionary<string, int>> apiResponse = new ApiResponse<Dictionary<string, int>>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
+                        {
                             apiResponse.Content = JsonSerializer.Deserialize<Dictionary<string, int>>(apiResponse.RawContent, _jsonSerializerOptions);
+                            AfterGetInventory(apiResponse);
+                        }
                         else if (apiResponse.StatusCode == (HttpStatusCode) 429)
                             foreach(TokenBase token in tokens)
                                 token.BeginRateLimit();
@@ -410,6 +462,25 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
+        /// Validates the request parameters
+        /// </summary>
+        /// <param name="orderId"></param>
+        /// <returns></returns>
+        public virtual long OnGetOrderById(long orderId)
+        {
+            return orderId;
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponse"></param>
+        /// <param name="orderId"></param>
+        public virtual void AfterGetOrderById(ApiResponse<Order> apiResponse, long orderId)
+        {
+        }
+
+        /// <summary>
         /// Find purchase order by ID For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
@@ -420,6 +491,8 @@ namespace Org.OpenAPITools.Api
         {
             try
             {
+                orderId = OnGetOrderById(orderId);
+
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
                 #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
@@ -457,12 +530,15 @@ namespace Org.OpenAPITools.Api
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-                        EventHub.OnApiResponded(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/store/order/{order_id}"));
+                        OnApiResponded(new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/store/order/{order_id}"));
 
                         ApiResponse<Order> apiResponse = new ApiResponse<Order>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
+                        {
                             apiResponse.Content = JsonSerializer.Deserialize<Order>(apiResponse.RawContent, _jsonSerializerOptions);
+                            AfterGetOrderById(apiResponse, orderId);
+                        }
 
                         return apiResponse;
                     }
@@ -516,6 +592,25 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
+        /// Validates the request parameters
+        /// </summary>
+        /// <param name="order"></param>
+        /// <returns></returns>
+        public virtual Order OnPlaceOrder(Order order)
+        {
+            return order;
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponse"></param>
+        /// <param name="order"></param>
+        public virtual void AfterPlaceOrder(ApiResponse<Order> apiResponse, Order order)
+        {
+        }
+
+        /// <summary>
         /// Place an order for a pet 
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
@@ -526,6 +621,8 @@ namespace Org.OpenAPITools.Api
         {
             try
             {
+                order = OnPlaceOrder(order);
+
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
                 #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
@@ -575,12 +672,15 @@ namespace Org.OpenAPITools.Api
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-                        EventHub.OnApiResponded(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/store/order"));
+                        OnApiResponded(new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/store/order"));
 
                         ApiResponse<Order> apiResponse = new ApiResponse<Order>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
+                        {
                             apiResponse.Content = JsonSerializer.Deserialize<Order>(apiResponse.RawContent, _jsonSerializerOptions);
+                            AfterPlaceOrder(apiResponse, order);
+                        }
 
                         return apiResponse;
                     }

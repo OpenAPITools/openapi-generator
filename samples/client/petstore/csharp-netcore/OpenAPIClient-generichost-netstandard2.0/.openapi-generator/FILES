@@ -1,5 +1,6 @@
 .gitignore
 Org.OpenAPITools.sln
+README.md
 appveyor.yml
 docs/apis/AnotherFakeApi.md
 docs/apis/DefaultApi.md
@@ -87,8 +88,10 @@ docs/models/Whale.md
 docs/models/Zebra.md
 docs/scripts/git_push.ps1
 docs/scripts/git_push.sh
+mnt/d/shawn/repos/openapi-generator/samples/client/petstore/csharp-netcore/OpenAPIClient-generichost-netstandard2.0/src/Org.OpenAPITools/DefaultApi/DefaultApi.cs
 src/Org.OpenAPITools.Test/Api/DependencyInjectionTests.cs
 src/Org.OpenAPITools.Test/Org.OpenAPITools.Test.csproj
+src/Org.OpenAPITools.Test/README.md
 src/Org.OpenAPITools/Api/AnotherFakeApi.cs
 src/Org.OpenAPITools/Api/DefaultApi.cs
 src/Org.OpenAPITools/Api/FakeApi.cs

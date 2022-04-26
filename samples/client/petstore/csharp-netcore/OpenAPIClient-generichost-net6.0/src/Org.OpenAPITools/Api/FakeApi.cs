@@ -23,6 +23,7 @@ namespace Org.OpenAPITools.Api
 {
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
+    /// This class is registered as transient.
     /// </summary>
     public interface IFakeApi : IApi
     {
@@ -514,6 +515,11 @@ namespace Org.OpenAPITools.Api
             OauthTokenProvider = oauthTokenProvider;
         }
 
+        public virtual void OnApiResponded(ApiResponseEventArgs args)
+        {
+            EventHub.OnApiResponded(this, args);
+        }
+
         /// <summary>
         /// Health check endpoint 
         /// </summary>
@@ -553,6 +559,23 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
+        /// Validates the request parameters
+        /// </summary>
+        /// <returns></returns>
+        public virtual void OnFakeHealthGet()
+        {
+            return;
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponse"></param>
+        public virtual void AfterFakeHealthGet(ApiResponse<HealthCheckResult> apiResponse)
+        {
+        }
+
+        /// <summary>
         /// Health check endpoint 
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
@@ -562,6 +585,8 @@ namespace Org.OpenAPITools.Api
         {
             try
             {
+                OnFakeHealthGet();
+
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
                     UriBuilder uriBuilder = new UriBuilder();
@@ -588,12 +613,15 @@ namespace Org.OpenAPITools.Api
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-                        EventHub.OnApiResponded(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake/health"));
+                        OnApiResponded(new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake/health"));
 
                         ApiResponse<HealthCheckResult> apiResponse = new ApiResponse<HealthCheckResult>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
+                        {
                             apiResponse.Content = JsonSerializer.Deserialize<HealthCheckResult>(apiResponse.RawContent, _jsonSerializerOptions);
+                            AfterFakeHealthGet(apiResponse);
+                        }
 
                         return apiResponse;
                     }
@@ -626,6 +654,25 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
+        /// Validates the request parameters
+        /// </summary>
+        /// <param name="body"></param>
+        /// <returns></returns>
+        public virtual bool? OnFakeOuterBooleanSerialize(bool? body)
+        {
+            return body;
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponse"></param>
+        /// <param name="body"></param>
+        public virtual void AfterFakeOuterBooleanSerialize(ApiResponse<bool> apiResponse, bool? body)
+        {
+        }
+
+        /// <summary>
         ///  Test serialization of outer boolean types
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
@@ -636,6 +683,8 @@ namespace Org.OpenAPITools.Api
         {
             try
             {
+                body = OnFakeOuterBooleanSerialize(body);
+
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
                     UriBuilder uriBuilder = new UriBuilder();
@@ -675,12 +724,15 @@ namespace Org.OpenAPITools.Api
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-                        EventHub.OnApiResponded(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake/outer/boolean"));
+                        OnApiResponded(new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake/outer/boolean"));
 
                         ApiResponse<bool> apiResponse = new ApiResponse<bool>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
+                        {
                             apiResponse.Content = JsonSerializer.Deserialize<bool>(apiResponse.RawContent, _jsonSerializerOptions);
+                            AfterFakeOuterBooleanSerialize(apiResponse, body);
+                        }
 
                         return apiResponse;
                     }
@@ -734,6 +786,25 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
+        /// Validates the request parameters
+        /// </summary>
+        /// <param name="outerComposite"></param>
+        /// <returns></returns>
+        public virtual OuterComposite OnFakeOuterCompositeSerialize(OuterComposite outerComposite)
+        {
+            return outerComposite;
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponse"></param>
+        /// <param name="outerComposite"></param>
+        public virtual void AfterFakeOuterCompositeSerialize(ApiResponse<OuterComposite> apiResponse, OuterComposite outerComposite)
+        {
+        }
+
+        /// <summary>
         ///  Test serialization of object with outer number type
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
@@ -744,6 +815,8 @@ namespace Org.OpenAPITools.Api
         {
             try
             {
+                outerComposite = OnFakeOuterCompositeSerialize(outerComposite);
+
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
                     UriBuilder uriBuilder = new UriBuilder();
@@ -783,12 +856,15 @@ namespace Org.OpenAPITools.Api
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-                        EventHub.OnApiResponded(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake/outer/composite"));
+                        OnApiResponded(new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake/outer/composite"));
 
                         ApiResponse<OuterComposite> apiResponse = new ApiResponse<OuterComposite>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
+                        {
                             apiResponse.Content = JsonSerializer.Deserialize<OuterComposite>(apiResponse.RawContent, _jsonSerializerOptions);
+                            AfterFakeOuterCompositeSerialize(apiResponse, outerComposite);
+                        }
 
                         return apiResponse;
                     }
@@ -821,6 +897,25 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
+        /// Validates the request parameters
+        /// </summary>
+        /// <param name="body"></param>
+        /// <returns></returns>
+        public virtual decimal? OnFakeOuterNumberSerialize(decimal? body)
+        {
+            return body;
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponse"></param>
+        /// <param name="body"></param>
+        public virtual void AfterFakeOuterNumberSerialize(ApiResponse<decimal> apiResponse, decimal? body)
+        {
+        }
+
+        /// <summary>
         ///  Test serialization of outer number types
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
@@ -831,6 +926,8 @@ namespace Org.OpenAPITools.Api
         {
             try
             {
+                body = OnFakeOuterNumberSerialize(body);
+
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
                     UriBuilder uriBuilder = new UriBuilder();
@@ -870,12 +967,15 @@ namespace Org.OpenAPITools.Api
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-                        EventHub.OnApiResponded(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake/outer/number"));
+                        OnApiResponded(new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake/outer/number"));
 
                         ApiResponse<decimal> apiResponse = new ApiResponse<decimal>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
+                        {
                             apiResponse.Content = JsonSerializer.Deserialize<decimal>(apiResponse.RawContent, _jsonSerializerOptions);
+                            AfterFakeOuterNumberSerialize(apiResponse, body);
+                        }
 
                         return apiResponse;
                     }
@@ -908,6 +1008,25 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
+        /// Validates the request parameters
+        /// </summary>
+        /// <param name="body"></param>
+        /// <returns></returns>
+        public virtual string OnFakeOuterStringSerialize(string body)
+        {
+            return body;
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponse"></param>
+        /// <param name="body"></param>
+        public virtual void AfterFakeOuterStringSerialize(ApiResponse<string> apiResponse, string body)
+        {
+        }
+
+        /// <summary>
         ///  Test serialization of outer string types
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
@@ -918,6 +1037,8 @@ namespace Org.OpenAPITools.Api
         {
             try
             {
+                body = OnFakeOuterStringSerialize(body);
+
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
                     UriBuilder uriBuilder = new UriBuilder();
@@ -957,12 +1078,15 @@ namespace Org.OpenAPITools.Api
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-                        EventHub.OnApiResponded(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake/outer/string"));
+                        OnApiResponded(new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake/outer/string"));
 
                         ApiResponse<string> apiResponse = new ApiResponse<string>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
+                        {
                             apiResponse.Content = JsonSerializer.Deserialize<string>(apiResponse.RawContent, _jsonSerializerOptions);
+                            AfterFakeOuterStringSerialize(apiResponse, body);
+                        }
 
                         return apiResponse;
                     }
@@ -1014,6 +1138,23 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
+        /// Validates the request parameters
+        /// </summary>
+        /// <returns></returns>
+        public virtual void OnGetArrayOfEnums()
+        {
+            return;
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponse"></param>
+        public virtual void AfterGetArrayOfEnums(ApiResponse<List<OuterEnum>> apiResponse)
+        {
+        }
+
+        /// <summary>
         /// Array of Enums 
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
@@ -1023,6 +1164,8 @@ namespace Org.OpenAPITools.Api
         {
             try
             {
+                OnGetArrayOfEnums();
+
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
                     UriBuilder uriBuilder = new UriBuilder();
@@ -1049,12 +1192,15 @@ namespace Org.OpenAPITools.Api
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-                        EventHub.OnApiResponded(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake/array-of-enums"));
+                        OnApiResponded(new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake/array-of-enums"));
 
                         ApiResponse<List<OuterEnum>> apiResponse = new ApiResponse<List<OuterEnum>>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
+                        {
                             apiResponse.Content = JsonSerializer.Deserialize<List<OuterEnum>>(apiResponse.RawContent, _jsonSerializerOptions);
+                            AfterGetArrayOfEnums(apiResponse);
+                        }
 
                         return apiResponse;
                     }
@@ -1108,6 +1254,25 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
+        /// Validates the request parameters
+        /// </summary>
+        /// <param name="fileSchemaTestClass"></param>
+        /// <returns></returns>
+        public virtual FileSchemaTestClass OnTestBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass)
+        {
+            return fileSchemaTestClass;
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponse"></param>
+        /// <param name="fileSchemaTestClass"></param>
+        public virtual void AfterTestBodyWithFileSchema(ApiResponse<object> apiResponse, FileSchemaTestClass fileSchemaTestClass)
+        {
+        }
+
+        /// <summary>
         ///  For this test, the body for this request much reference a schema named &#x60;File&#x60;.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
@@ -1118,6 +1283,8 @@ namespace Org.OpenAPITools.Api
         {
             try
             {
+                fileSchemaTestClass = OnTestBodyWithFileSchema(fileSchemaTestClass);
+
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
                 #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
@@ -1157,12 +1324,15 @@ namespace Org.OpenAPITools.Api
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-                        EventHub.OnApiResponded(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake/body-with-file-schema"));
+                        OnApiResponded(new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake/body-with-file-schema"));
 
                         ApiResponse<object> apiResponse = new ApiResponse<object>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
+                        {
                             apiResponse.Content = JsonSerializer.Deserialize<object>(apiResponse.RawContent, _jsonSerializerOptions);
+                            AfterTestBodyWithFileSchema(apiResponse, fileSchemaTestClass);
+                        }
 
                         return apiResponse;
                     }
@@ -1218,6 +1388,27 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
+        /// Validates the request parameters
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="query"></param>
+        /// <returns></returns>
+        public virtual (User, string) OnTestBodyWithQueryParams(User user, string query)
+        {
+            return (user, query);
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponse"></param>
+        /// <param name="user"></param>
+        /// <param name="query"></param>
+        public virtual void AfterTestBodyWithQueryParams(ApiResponse<object> apiResponse, User user, string query)
+        {
+        }
+
+        /// <summary>
         ///  
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
@@ -1229,6 +1420,10 @@ namespace Org.OpenAPITools.Api
         {
             try
             {
+                var validatedParameters = OnTestBodyWithQueryParams(user, query);
+                user = validatedParameters.Item1;
+                query = validatedParameters.Item2;
+
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
                 #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
@@ -1277,12 +1472,15 @@ namespace Org.OpenAPITools.Api
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-                        EventHub.OnApiResponded(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake/body-with-query-params"));
+                        OnApiResponded(new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake/body-with-query-params"));
 
                         ApiResponse<object> apiResponse = new ApiResponse<object>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
+                        {
                             apiResponse.Content = JsonSerializer.Deserialize<object>(apiResponse.RawContent, _jsonSerializerOptions);
+                            AfterTestBodyWithQueryParams(apiResponse, user, query);
+                        }
 
                         return apiResponse;
                     }
@@ -1336,6 +1534,25 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
+        /// Validates the request parameters
+        /// </summary>
+        /// <param name="modelClient"></param>
+        /// <returns></returns>
+        public virtual ModelClient OnTestClientModel(ModelClient modelClient)
+        {
+            return modelClient;
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponse"></param>
+        /// <param name="modelClient"></param>
+        public virtual void AfterTestClientModel(ApiResponse<ModelClient> apiResponse, ModelClient modelClient)
+        {
+        }
+
+        /// <summary>
         /// To test \&quot;client\&quot; model To test \&quot;client\&quot; model
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
@@ -1346,6 +1563,8 @@ namespace Org.OpenAPITools.Api
         {
             try
             {
+                modelClient = OnTestClientModel(modelClient);
+
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
                 #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
@@ -1394,12 +1613,15 @@ namespace Org.OpenAPITools.Api
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-                        EventHub.OnApiResponded(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake"));
+                        OnApiResponded(new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake"));
 
                         ApiResponse<ModelClient> apiResponse = new ApiResponse<ModelClient>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
+                        {
                             apiResponse.Content = JsonSerializer.Deserialize<ModelClient>(apiResponse.RawContent, _jsonSerializerOptions);
+                            AfterTestClientModel(apiResponse, modelClient);
+                        }
 
                         return apiResponse;
                     }
@@ -1479,6 +1701,51 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
+        /// Validates the request parameters
+        /// </summary>
+        /// <param name="_byte"></param>
+        /// <param name="number"></param>
+        /// <param name="_double"></param>
+        /// <param name="patternWithoutDelimiter"></param>
+        /// <param name="date"></param>
+        /// <param name="binary"></param>
+        /// <param name="_float"></param>
+        /// <param name="integer"></param>
+        /// <param name="int32"></param>
+        /// <param name="int64"></param>
+        /// <param name="_string"></param>
+        /// <param name="password"></param>
+        /// <param name="callback"></param>
+        /// <param name="dateTime"></param>
+        /// <returns></returns>
+        public virtual (byte[], decimal, double, string, DateTime?, System.IO.Stream, float?, int?, int?, long?, string, string, string, DateTime?) OnTestEndpointParameters(byte[] _byte, decimal number, double _double, string patternWithoutDelimiter, DateTime? date, System.IO.Stream binary, float? _float, int? integer, int? int32, long? int64, string _string, string password, string callback, DateTime? dateTime)
+        {
+            return (_byte, number, _double, patternWithoutDelimiter, date, binary, _float, integer, int32, int64, _string, password, callback, dateTime);
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponse"></param>
+        /// <param name="_byte"></param>
+        /// <param name="number"></param>
+        /// <param name="_double"></param>
+        /// <param name="patternWithoutDelimiter"></param>
+        /// <param name="date"></param>
+        /// <param name="binary"></param>
+        /// <param name="_float"></param>
+        /// <param name="integer"></param>
+        /// <param name="int32"></param>
+        /// <param name="int64"></param>
+        /// <param name="_string"></param>
+        /// <param name="password"></param>
+        /// <param name="callback"></param>
+        /// <param name="dateTime"></param>
+        public virtual void AfterTestEndpointParameters(ApiResponse<object> apiResponse, byte[] _byte, decimal number, double _double, string patternWithoutDelimiter, DateTime? date, System.IO.Stream binary, float? _float, int? integer, int? int32, long? int64, string _string, string password, string callback, DateTime? dateTime)
+        {
+        }
+
+        /// <summary>
         /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트  Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
@@ -1502,6 +1769,22 @@ namespace Org.OpenAPITools.Api
         {
             try
             {
+                var validatedParameters = OnTestEndpointParameters(_byte, number, _double, patternWithoutDelimiter, date, binary, _float, integer, int32, int64, _string, password, callback, dateTime);
+                _byte = validatedParameters.Item1;
+                number = validatedParameters.Item2;
+                _double = validatedParameters.Item3;
+                patternWithoutDelimiter = validatedParameters.Item4;
+                date = validatedParameters.Item5;
+                binary = validatedParameters.Item6;
+                _float = validatedParameters.Item7;
+                integer = validatedParameters.Item8;
+                int32 = validatedParameters.Item9;
+                int64 = validatedParameters.Item10;
+                _string = validatedParameters.Item11;
+                password = validatedParameters.Item12;
+                callback = validatedParameters.Item13;
+                dateTime = validatedParameters.Item14;
+
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
                 #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
@@ -1600,12 +1883,15 @@ namespace Org.OpenAPITools.Api
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-                        EventHub.OnApiResponded(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake"));
+                        OnApiResponded(new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake"));
 
                         ApiResponse<object> apiResponse = new ApiResponse<object>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
+                        {
                             apiResponse.Content = JsonSerializer.Deserialize<object>(apiResponse.RawContent, _jsonSerializerOptions);
+                            AfterTestEndpointParameters(apiResponse, _byte, number, _double, patternWithoutDelimiter, date, binary, _float, integer, int32, int64, _string, password, callback, dateTime);
+                        }
                         else if (apiResponse.StatusCode == (HttpStatusCode) 429)
                             foreach(TokenBase token in tokens)
                                 token.BeginRateLimit();
@@ -1676,6 +1962,39 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
+        /// Validates the request parameters
+        /// </summary>
+        /// <param name="enumHeaderStringArray"></param>
+        /// <param name="enumQueryStringArray"></param>
+        /// <param name="enumQueryDouble"></param>
+        /// <param name="enumQueryInteger"></param>
+        /// <param name="enumFormStringArray"></param>
+        /// <param name="enumHeaderString"></param>
+        /// <param name="enumQueryString"></param>
+        /// <param name="enumFormString"></param>
+        /// <returns></returns>
+        public virtual (List<string>, List<string>, double?, int?, List<string>, string, string, string) OnTestEnumParameters(List<string> enumHeaderStringArray, List<string> enumQueryStringArray, double? enumQueryDouble, int? enumQueryInteger, List<string> enumFormStringArray, string enumHeaderString, string enumQueryString, string enumFormString)
+        {
+            return (enumHeaderStringArray, enumQueryStringArray, enumQueryDouble, enumQueryInteger, enumFormStringArray, enumHeaderString, enumQueryString, enumFormString);
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponse"></param>
+        /// <param name="enumHeaderStringArray"></param>
+        /// <param name="enumQueryStringArray"></param>
+        /// <param name="enumQueryDouble"></param>
+        /// <param name="enumQueryInteger"></param>
+        /// <param name="enumFormStringArray"></param>
+        /// <param name="enumHeaderString"></param>
+        /// <param name="enumQueryString"></param>
+        /// <param name="enumFormString"></param>
+        public virtual void AfterTestEnumParameters(ApiResponse<object> apiResponse, List<string> enumHeaderStringArray, List<string> enumQueryStringArray, double? enumQueryDouble, int? enumQueryInteger, List<string> enumFormStringArray, string enumHeaderString, string enumQueryString, string enumFormString)
+        {
+        }
+
+        /// <summary>
         /// To test enum parameters To test enum parameters
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
@@ -1693,6 +2012,16 @@ namespace Org.OpenAPITools.Api
         {
             try
             {
+                var validatedParameters = OnTestEnumParameters(enumHeaderStringArray, enumQueryStringArray, enumQueryDouble, enumQueryInteger, enumFormStringArray, enumHeaderString, enumQueryString, enumFormString);
+                enumHeaderStringArray = validatedParameters.Item1;
+                enumQueryStringArray = validatedParameters.Item2;
+                enumQueryDouble = validatedParameters.Item3;
+                enumQueryInteger = validatedParameters.Item4;
+                enumFormStringArray = validatedParameters.Item5;
+                enumHeaderString = validatedParameters.Item6;
+                enumQueryString = validatedParameters.Item7;
+                enumFormString = validatedParameters.Item8;
+
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
                     UriBuilder uriBuilder = new UriBuilder();
@@ -1754,12 +2083,15 @@ namespace Org.OpenAPITools.Api
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-                        EventHub.OnApiResponded(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake"));
+                        OnApiResponded(new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake"));
 
                         ApiResponse<object> apiResponse = new ApiResponse<object>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
+                        {
                             apiResponse.Content = JsonSerializer.Deserialize<object>(apiResponse.RawContent, _jsonSerializerOptions);
+                            AfterTestEnumParameters(apiResponse, enumHeaderStringArray, enumQueryStringArray, enumQueryDouble, enumQueryInteger, enumFormStringArray, enumHeaderString, enumQueryString, enumFormString);
+                        }
 
                         return apiResponse;
                     }
@@ -1823,6 +2155,35 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
+        /// Validates the request parameters
+        /// </summary>
+        /// <param name="requiredBooleanGroup"></param>
+        /// <param name="requiredStringGroup"></param>
+        /// <param name="requiredInt64Group"></param>
+        /// <param name="booleanGroup"></param>
+        /// <param name="stringGroup"></param>
+        /// <param name="int64Group"></param>
+        /// <returns></returns>
+        public virtual (bool, int, long, bool?, int?, long?) OnTestGroupParameters(bool requiredBooleanGroup, int requiredStringGroup, long requiredInt64Group, bool? booleanGroup, int? stringGroup, long? int64Group)
+        {
+            return (requiredBooleanGroup, requiredStringGroup, requiredInt64Group, booleanGroup, stringGroup, int64Group);
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponse"></param>
+        /// <param name="requiredBooleanGroup"></param>
+        /// <param name="requiredStringGroup"></param>
+        /// <param name="requiredInt64Group"></param>
+        /// <param name="booleanGroup"></param>
+        /// <param name="stringGroup"></param>
+        /// <param name="int64Group"></param>
+        public virtual void AfterTestGroupParameters(ApiResponse<object> apiResponse, bool requiredBooleanGroup, int requiredStringGroup, long requiredInt64Group, bool? booleanGroup, int? stringGroup, long? int64Group)
+        {
+        }
+
+        /// <summary>
         /// Fake endpoint to test group parameters (optional) Fake endpoint to test group parameters (optional)
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
@@ -1838,6 +2199,14 @@ namespace Org.OpenAPITools.Api
         {
             try
             {
+                var validatedParameters = OnTestGroupParameters(requiredBooleanGroup, requiredStringGroup, requiredInt64Group, booleanGroup, stringGroup, int64Group);
+                requiredBooleanGroup = validatedParameters.Item1;
+                requiredStringGroup = validatedParameters.Item2;
+                requiredInt64Group = validatedParameters.Item3;
+                booleanGroup = validatedParameters.Item4;
+                stringGroup = validatedParameters.Item5;
+                int64Group = validatedParameters.Item6;
+
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
                 #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
@@ -1896,12 +2265,15 @@ namespace Org.OpenAPITools.Api
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-                        EventHub.OnApiResponded(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake"));
+                        OnApiResponded(new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake"));
 
                         ApiResponse<object> apiResponse = new ApiResponse<object>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
+                        {
                             apiResponse.Content = JsonSerializer.Deserialize<object>(apiResponse.RawContent, _jsonSerializerOptions);
+                            AfterTestGroupParameters(apiResponse, requiredBooleanGroup, requiredStringGroup, requiredInt64Group, booleanGroup, stringGroup, int64Group);
+                        }
                         else if (apiResponse.StatusCode == (HttpStatusCode) 429)
                             foreach(TokenBase token in tokens)
                                 token.BeginRateLimit();
@@ -1958,6 +2330,25 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
+        /// Validates the request parameters
+        /// </summary>
+        /// <param name="requestBody"></param>
+        /// <returns></returns>
+        public virtual Dictionary<string, string> OnTestInlineAdditionalProperties(Dictionary<string, string> requestBody)
+        {
+            return requestBody;
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponse"></param>
+        /// <param name="requestBody"></param>
+        public virtual void AfterTestInlineAdditionalProperties(ApiResponse<object> apiResponse, Dictionary<string, string> requestBody)
+        {
+        }
+
+        /// <summary>
         /// test inline additionalProperties 
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
@@ -1968,6 +2359,8 @@ namespace Org.OpenAPITools.Api
         {
             try
             {
+                requestBody = OnTestInlineAdditionalProperties(requestBody);
+
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
                 #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
@@ -2007,12 +2400,15 @@ namespace Org.OpenAPITools.Api
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-                        EventHub.OnApiResponded(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake/inline-additionalProperties"));
+                        OnApiResponded(new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake/inline-additionalProperties"));
 
                         ApiResponse<object> apiResponse = new ApiResponse<object>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
+                        {
                             apiResponse.Content = JsonSerializer.Deserialize<object>(apiResponse.RawContent, _jsonSerializerOptions);
+                            AfterTestInlineAdditionalProperties(apiResponse, requestBody);
+                        }
 
                         return apiResponse;
                     }
@@ -2068,6 +2464,27 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
+        /// Validates the request parameters
+        /// </summary>
+        /// <param name="param"></param>
+        /// <param name="param2"></param>
+        /// <returns></returns>
+        public virtual (string, string) OnTestJsonFormData(string param, string param2)
+        {
+            return (param, param2);
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponse"></param>
+        /// <param name="param"></param>
+        /// <param name="param2"></param>
+        public virtual void AfterTestJsonFormData(ApiResponse<object> apiResponse, string param, string param2)
+        {
+        }
+
+        /// <summary>
         /// test json serialization of form data 
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
@@ -2079,6 +2496,10 @@ namespace Org.OpenAPITools.Api
         {
             try
             {
+                var validatedParameters = OnTestJsonFormData(param, param2);
+                param = validatedParameters.Item1;
+                param2 = validatedParameters.Item2;
+
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
                 #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
@@ -2129,12 +2550,15 @@ namespace Org.OpenAPITools.Api
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-                        EventHub.OnApiResponded(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake/jsonFormData"));
+                        OnApiResponded(new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake/jsonFormData"));
 
                         ApiResponse<object> apiResponse = new ApiResponse<object>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
+                        {
                             apiResponse.Content = JsonSerializer.Deserialize<object>(apiResponse.RawContent, _jsonSerializerOptions);
+                            AfterTestJsonFormData(apiResponse, param, param2);
+                        }
 
                         return apiResponse;
                     }
@@ -2196,6 +2620,33 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
+        /// Validates the request parameters
+        /// </summary>
+        /// <param name="pipe"></param>
+        /// <param name="ioutil"></param>
+        /// <param name="http"></param>
+        /// <param name="url"></param>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        public virtual (List<string>, List<string>, List<string>, List<string>, List<string>) OnTestQueryParameterCollectionFormat(List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context)
+        {
+            return (pipe, ioutil, http, url, context);
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponse"></param>
+        /// <param name="pipe"></param>
+        /// <param name="ioutil"></param>
+        /// <param name="http"></param>
+        /// <param name="url"></param>
+        /// <param name="context"></param>
+        public virtual void AfterTestQueryParameterCollectionFormat(ApiResponse<object> apiResponse, List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context)
+        {
+        }
+
+        /// <summary>
         ///  To test the collection format in query parameters
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
@@ -2210,6 +2661,13 @@ namespace Org.OpenAPITools.Api
         {
             try
             {
+                var validatedParameters = OnTestQueryParameterCollectionFormat(pipe, ioutil, http, url, context);
+                pipe = validatedParameters.Item1;
+                ioutil = validatedParameters.Item2;
+                http = validatedParameters.Item3;
+                url = validatedParameters.Item4;
+                context = validatedParameters.Item5;
+
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
                 #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
@@ -2258,12 +2716,15 @@ namespace Org.OpenAPITools.Api
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-                        EventHub.OnApiResponded(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake/test-query-parameters"));
+                        OnApiResponded(new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake/test-query-parameters"));
 
                         ApiResponse<object> apiResponse = new ApiResponse<object>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
+                        {
                             apiResponse.Content = JsonSerializer.Deserialize<object>(apiResponse.RawContent, _jsonSerializerOptions);
+                            AfterTestQueryParameterCollectionFormat(apiResponse, pipe, ioutil, http, url, context);
+                        }
 
                         return apiResponse;
                     }

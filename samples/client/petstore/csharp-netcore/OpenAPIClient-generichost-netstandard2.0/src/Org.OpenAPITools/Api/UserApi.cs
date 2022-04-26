@@ -23,6 +23,7 @@ namespace Org.OpenAPITools.Api
 {
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
+    /// This class is registered as transient.
     /// </summary>
     public interface IUserApi : IApi
     {
@@ -290,6 +291,11 @@ namespace Org.OpenAPITools.Api
             OauthTokenProvider = oauthTokenProvider;
         }
 
+        public virtual void OnApiResponded(ApiResponseEventArgs args)
+        {
+            EventHub.OnApiResponded(this, args);
+        }
+
         /// <summary>
         /// Create user This can only be done by the logged in user.
         /// </summary>
@@ -331,6 +337,25 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
+        /// Validates the request parameters
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public virtual User OnCreateUser(User user)
+        {
+            return user;
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponse"></param>
+        /// <param name="user"></param>
+        public virtual void AfterCreateUser(ApiResponse<object> apiResponse, User user)
+        {
+        }
+
+        /// <summary>
         /// Create user This can only be done by the logged in user.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
@@ -341,6 +366,8 @@ namespace Org.OpenAPITools.Api
         {
             try
             {
+                user = OnCreateUser(user);
+
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
                 #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
@@ -380,12 +407,15 @@ namespace Org.OpenAPITools.Api
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-                        EventHub.OnApiResponded(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/user"));
+                        OnApiResponded(new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/user"));
 
                         ApiResponse<object> apiResponse = new ApiResponse<object>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
+                        {
                             apiResponse.Content = JsonSerializer.Deserialize<object>(apiResponse.RawContent, _jsonSerializerOptions);
+                            AfterCreateUser(apiResponse, user);
+                        }
 
                         return apiResponse;
                     }
@@ -439,6 +469,25 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
+        /// Validates the request parameters
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public virtual List<User> OnCreateUsersWithArrayInput(List<User> user)
+        {
+            return user;
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponse"></param>
+        /// <param name="user"></param>
+        public virtual void AfterCreateUsersWithArrayInput(ApiResponse<object> apiResponse, List<User> user)
+        {
+        }
+
+        /// <summary>
         /// Creates list of users with given input array 
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
@@ -449,6 +498,8 @@ namespace Org.OpenAPITools.Api
         {
             try
             {
+                user = OnCreateUsersWithArrayInput(user);
+
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
                 #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
@@ -488,12 +539,15 @@ namespace Org.OpenAPITools.Api
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-                        EventHub.OnApiResponded(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/user/createWithArray"));
+                        OnApiResponded(new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/user/createWithArray"));
 
                         ApiResponse<object> apiResponse = new ApiResponse<object>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
+                        {
                             apiResponse.Content = JsonSerializer.Deserialize<object>(apiResponse.RawContent, _jsonSerializerOptions);
+                            AfterCreateUsersWithArrayInput(apiResponse, user);
+                        }
 
                         return apiResponse;
                     }
@@ -547,6 +601,25 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
+        /// Validates the request parameters
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public virtual List<User> OnCreateUsersWithListInput(List<User> user)
+        {
+            return user;
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponse"></param>
+        /// <param name="user"></param>
+        public virtual void AfterCreateUsersWithListInput(ApiResponse<object> apiResponse, List<User> user)
+        {
+        }
+
+        /// <summary>
         /// Creates list of users with given input array 
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
@@ -557,6 +630,8 @@ namespace Org.OpenAPITools.Api
         {
             try
             {
+                user = OnCreateUsersWithListInput(user);
+
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
                 #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
@@ -596,12 +671,15 @@ namespace Org.OpenAPITools.Api
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-                        EventHub.OnApiResponded(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/user/createWithList"));
+                        OnApiResponded(new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/user/createWithList"));
 
                         ApiResponse<object> apiResponse = new ApiResponse<object>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
+                        {
                             apiResponse.Content = JsonSerializer.Deserialize<object>(apiResponse.RawContent, _jsonSerializerOptions);
+                            AfterCreateUsersWithListInput(apiResponse, user);
+                        }
 
                         return apiResponse;
                     }
@@ -655,6 +733,25 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
+        /// Validates the request parameters
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns></returns>
+        public virtual string OnDeleteUser(string username)
+        {
+            return username;
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponse"></param>
+        /// <param name="username"></param>
+        public virtual void AfterDeleteUser(ApiResponse<object> apiResponse, string username)
+        {
+        }
+
+        /// <summary>
         /// Delete user This can only be done by the logged in user.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
@@ -665,6 +762,8 @@ namespace Org.OpenAPITools.Api
         {
             try
             {
+                username = OnDeleteUser(username);
+
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
                 #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
@@ -692,12 +791,15 @@ namespace Org.OpenAPITools.Api
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-                        EventHub.OnApiResponded(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/user/{username}"));
+                        OnApiResponded(new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/user/{username}"));
 
                         ApiResponse<object> apiResponse = new ApiResponse<object>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
+                        {
                             apiResponse.Content = JsonSerializer.Deserialize<object>(apiResponse.RawContent, _jsonSerializerOptions);
+                            AfterDeleteUser(apiResponse, username);
+                        }
 
                         return apiResponse;
                     }
@@ -751,6 +853,25 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
+        /// Validates the request parameters
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns></returns>
+        public virtual string OnGetUserByName(string username)
+        {
+            return username;
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponse"></param>
+        /// <param name="username"></param>
+        public virtual void AfterGetUserByName(ApiResponse<User> apiResponse, string username)
+        {
+        }
+
+        /// <summary>
         /// Get user by user name 
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
@@ -761,6 +882,8 @@ namespace Org.OpenAPITools.Api
         {
             try
             {
+                username = OnGetUserByName(username);
+
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
                 #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
@@ -798,12 +921,15 @@ namespace Org.OpenAPITools.Api
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-                        EventHub.OnApiResponded(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/user/{username}"));
+                        OnApiResponded(new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/user/{username}"));
 
                         ApiResponse<User> apiResponse = new ApiResponse<User>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
+                        {
                             apiResponse.Content = JsonSerializer.Deserialize<User>(apiResponse.RawContent, _jsonSerializerOptions);
+                            AfterGetUserByName(apiResponse, username);
+                        }
 
                         return apiResponse;
                     }
@@ -837,6 +963,27 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
+        /// Validates the request parameters
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
+        public virtual (string, string) OnLoginUser(string username, string password)
+        {
+            return (username, password);
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponse"></param>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
+        public virtual void AfterLoginUser(ApiResponse<string> apiResponse, string username, string password)
+        {
+        }
+
+        /// <summary>
         /// Logs user into the system 
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
@@ -848,6 +995,10 @@ namespace Org.OpenAPITools.Api
         {
             try
             {
+                var validatedParameters = OnLoginUser(username, password);
+                username = validatedParameters.Item1;
+                password = validatedParameters.Item2;
+
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
                 #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
@@ -894,12 +1045,15 @@ namespace Org.OpenAPITools.Api
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-                        EventHub.OnApiResponded(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/user/login"));
+                        OnApiResponded(new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/user/login"));
 
                         ApiResponse<string> apiResponse = new ApiResponse<string>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
+                        {
                             apiResponse.Content = JsonSerializer.Deserialize<string>(apiResponse.RawContent, _jsonSerializerOptions);
+                            AfterLoginUser(apiResponse, username, password);
+                        }
 
                         return apiResponse;
                     }
@@ -951,6 +1105,23 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
+        /// Validates the request parameters
+        /// </summary>
+        /// <returns></returns>
+        public virtual void OnLogoutUser()
+        {
+            return;
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponse"></param>
+        public virtual void AfterLogoutUser(ApiResponse<object> apiResponse)
+        {
+        }
+
+        /// <summary>
         /// Logs out current logged in user session 
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
@@ -960,6 +1131,8 @@ namespace Org.OpenAPITools.Api
         {
             try
             {
+                OnLogoutUser();
+
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
                     UriBuilder uriBuilder = new UriBuilder();
@@ -977,12 +1150,15 @@ namespace Org.OpenAPITools.Api
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-                        EventHub.OnApiResponded(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/user/logout"));
+                        OnApiResponded(new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/user/logout"));
 
                         ApiResponse<object> apiResponse = new ApiResponse<object>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
+                        {
                             apiResponse.Content = JsonSerializer.Deserialize<object>(apiResponse.RawContent, _jsonSerializerOptions);
+                            AfterLogoutUser(apiResponse);
+                        }
 
                         return apiResponse;
                     }
@@ -1038,6 +1214,27 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
+        /// Validates the request parameters
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="username"></param>
+        /// <returns></returns>
+        public virtual (User, string) OnUpdateUser(User user, string username)
+        {
+            return (user, username);
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponse"></param>
+        /// <param name="user"></param>
+        /// <param name="username"></param>
+        public virtual void AfterUpdateUser(ApiResponse<object> apiResponse, User user, string username)
+        {
+        }
+
+        /// <summary>
         /// Updated user This can only be done by the logged in user.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
@@ -1049,6 +1246,10 @@ namespace Org.OpenAPITools.Api
         {
             try
             {
+                var validatedParameters = OnUpdateUser(user, username);
+                user = validatedParameters.Item1;
+                username = validatedParameters.Item2;
+
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
                 #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
@@ -1092,12 +1293,15 @@ namespace Org.OpenAPITools.Api
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-                        EventHub.OnApiResponded(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/user/{username}"));
+                        OnApiResponded(new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/user/{username}"));
 
                         ApiResponse<object> apiResponse = new ApiResponse<object>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
+                        {
                             apiResponse.Content = JsonSerializer.Deserialize<object>(apiResponse.RawContent, _jsonSerializerOptions);
+                            AfterUpdateUser(apiResponse, user, username);
+                        }
 
                         return apiResponse;
                     }

@@ -25,6 +25,7 @@ namespace Org.OpenAPITools.Api
 {
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
+    /// This class is registered as transient.
     /// </summary>
     public interface IPetApi : IApi
     {
@@ -434,6 +435,11 @@ namespace Org.OpenAPITools.Api
             OauthTokenProvider = oauthTokenProvider;
         }
 
+        public virtual void OnApiResponded(ApiResponseEventArgs args)
+        {
+            EventHub.OnApiResponded(this, args);
+        }
+
         /// <summary>
         /// Add a new pet to the store 
         /// </summary>
@@ -475,6 +481,25 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
+        /// Validates the request parameters
+        /// </summary>
+        /// <param name="pet"></param>
+        /// <returns></returns>
+        public virtual Pet OnAddPet(Pet pet)
+        {
+            return pet;
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponse"></param>
+        /// <param name="pet"></param>
+        public virtual void AfterAddPet(ApiResponse<object?> apiResponse, Pet pet)
+        {
+        }
+
+        /// <summary>
         /// Add a new pet to the store 
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
@@ -485,6 +510,8 @@ namespace Org.OpenAPITools.Api
         {
             try
             {
+                pet = OnAddPet(pet);
+
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
                 #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
@@ -541,12 +568,15 @@ namespace Org.OpenAPITools.Api
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-                        EventHub.OnApiResponded(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/pet"));
+                        OnApiResponded(new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/pet"));
 
                         ApiResponse<object?> apiResponse = new ApiResponse<object?>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
+                        {
                             apiResponse.Content = JsonSerializer.Deserialize<object>(apiResponse.RawContent, _jsonSerializerOptions);
+                            AfterAddPet(apiResponse, pet);
+                        }
                         else if (apiResponse.StatusCode == (HttpStatusCode) 429)
                             foreach(TokenBase token in tokens)
                                 token.BeginRateLimit();
@@ -608,6 +638,27 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
+        /// Validates the request parameters
+        /// </summary>
+        /// <param name="petId"></param>
+        /// <param name="apiKey"></param>
+        /// <returns></returns>
+        public virtual (long, string?) OnDeletePet(long petId, string? apiKey)
+        {
+            return (petId, apiKey);
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponse"></param>
+        /// <param name="petId"></param>
+        /// <param name="apiKey"></param>
+        public virtual void AfterDeletePet(ApiResponse<object?> apiResponse, long petId, string? apiKey)
+        {
+        }
+
+        /// <summary>
         /// Deletes a pet 
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
@@ -619,6 +670,10 @@ namespace Org.OpenAPITools.Api
         {
             try
             {
+                var validatedParameters = OnDeletePet(petId, apiKey);
+                petId = validatedParameters.Item1;
+                apiKey = validatedParameters.Item2;
+
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
                 #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
@@ -657,12 +712,15 @@ namespace Org.OpenAPITools.Api
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-                        EventHub.OnApiResponded(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/pet/{petId}"));
+                        OnApiResponded(new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/pet/{petId}"));
 
                         ApiResponse<object?> apiResponse = new ApiResponse<object?>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
+                        {
                             apiResponse.Content = JsonSerializer.Deserialize<object>(apiResponse.RawContent, _jsonSerializerOptions);
+                            AfterDeletePet(apiResponse, petId, apiKey);
+                        }
                         else if (apiResponse.StatusCode == (HttpStatusCode) 429)
                             foreach(TokenBase token in tokens)
                                 token.BeginRateLimit();
@@ -719,6 +777,25 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
+        /// Validates the request parameters
+        /// </summary>
+        /// <param name="status"></param>
+        /// <returns></returns>
+        public virtual List<string> OnFindPetsByStatus(List<string> status)
+        {
+            return status;
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponse"></param>
+        /// <param name="status"></param>
+        public virtual void AfterFindPetsByStatus(ApiResponse<List<Pet>?> apiResponse, List<string> status)
+        {
+        }
+
+        /// <summary>
         /// Finds Pets by status Multiple status values can be provided with comma separated strings
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
@@ -729,6 +806,8 @@ namespace Org.OpenAPITools.Api
         {
             try
             {
+                status = OnFindPetsByStatus(status);
+
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
                 #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
@@ -787,12 +866,15 @@ namespace Org.OpenAPITools.Api
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-                        EventHub.OnApiResponded(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/pet/findByStatus"));
+                        OnApiResponded(new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/pet/findByStatus"));
 
                         ApiResponse<List<Pet>?> apiResponse = new ApiResponse<List<Pet>?>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
+                        {
                             apiResponse.Content = JsonSerializer.Deserialize<List<Pet>>(apiResponse.RawContent, _jsonSerializerOptions);
+                            AfterFindPetsByStatus(apiResponse, status);
+                        }
                         else if (apiResponse.StatusCode == (HttpStatusCode) 429)
                             foreach(TokenBase token in tokens)
                                 token.BeginRateLimit();
@@ -852,6 +934,25 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
+        /// Validates the request parameters
+        /// </summary>
+        /// <param name="tags"></param>
+        /// <returns></returns>
+        public virtual List<string> OnFindPetsByTags(List<string> tags)
+        {
+            return tags;
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponse"></param>
+        /// <param name="tags"></param>
+        public virtual void AfterFindPetsByTags(ApiResponse<List<Pet>?> apiResponse, List<string> tags)
+        {
+        }
+
+        /// <summary>
         /// Finds Pets by tags Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
@@ -862,6 +963,8 @@ namespace Org.OpenAPITools.Api
         {
             try
             {
+                tags = OnFindPetsByTags(tags);
+
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
                 #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
@@ -920,12 +1023,15 @@ namespace Org.OpenAPITools.Api
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-                        EventHub.OnApiResponded(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/pet/findByTags"));
+                        OnApiResponded(new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/pet/findByTags"));
 
                         ApiResponse<List<Pet>?> apiResponse = new ApiResponse<List<Pet>?>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
+                        {
                             apiResponse.Content = JsonSerializer.Deserialize<List<Pet>>(apiResponse.RawContent, _jsonSerializerOptions);
+                            AfterFindPetsByTags(apiResponse, tags);
+                        }
                         else if (apiResponse.StatusCode == (HttpStatusCode) 429)
                             foreach(TokenBase token in tokens)
                                 token.BeginRateLimit();
@@ -985,6 +1091,25 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
+        /// Validates the request parameters
+        /// </summary>
+        /// <param name="petId"></param>
+        /// <returns></returns>
+        public virtual long OnGetPetById(long petId)
+        {
+            return petId;
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponse"></param>
+        /// <param name="petId"></param>
+        public virtual void AfterGetPetById(ApiResponse<Pet?> apiResponse, long petId)
+        {
+        }
+
+        /// <summary>
         /// Find pet by ID Returns a single pet
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
@@ -995,6 +1120,8 @@ namespace Org.OpenAPITools.Api
         {
             try
             {
+                petId = OnGetPetById(petId);
+
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
                 #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
@@ -1040,12 +1167,15 @@ namespace Org.OpenAPITools.Api
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-                        EventHub.OnApiResponded(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/pet/{petId}"));
+                        OnApiResponded(new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/pet/{petId}"));
 
                         ApiResponse<Pet?> apiResponse = new ApiResponse<Pet?>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
+                        {
                             apiResponse.Content = JsonSerializer.Deserialize<Pet>(apiResponse.RawContent, _jsonSerializerOptions);
+                            AfterGetPetById(apiResponse, petId);
+                        }
                         else if (apiResponse.StatusCode == (HttpStatusCode) 429)
                             foreach(TokenBase token in tokens)
                                 token.BeginRateLimit();
@@ -1102,6 +1232,25 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
+        /// Validates the request parameters
+        /// </summary>
+        /// <param name="pet"></param>
+        /// <returns></returns>
+        public virtual Pet OnUpdatePet(Pet pet)
+        {
+            return pet;
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponse"></param>
+        /// <param name="pet"></param>
+        public virtual void AfterUpdatePet(ApiResponse<object?> apiResponse, Pet pet)
+        {
+        }
+
+        /// <summary>
         /// Update an existing pet 
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
@@ -1112,6 +1261,8 @@ namespace Org.OpenAPITools.Api
         {
             try
             {
+                pet = OnUpdatePet(pet);
+
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
                 #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
@@ -1168,12 +1319,15 @@ namespace Org.OpenAPITools.Api
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-                        EventHub.OnApiResponded(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/pet"));
+                        OnApiResponded(new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/pet"));
 
                         ApiResponse<object?> apiResponse = new ApiResponse<object?>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
+                        {
                             apiResponse.Content = JsonSerializer.Deserialize<object>(apiResponse.RawContent, _jsonSerializerOptions);
+                            AfterUpdatePet(apiResponse, pet);
+                        }
                         else if (apiResponse.StatusCode == (HttpStatusCode) 429)
                             foreach(TokenBase token in tokens)
                                 token.BeginRateLimit();
@@ -1237,6 +1391,29 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
+        /// Validates the request parameters
+        /// </summary>
+        /// <param name="petId"></param>
+        /// <param name="name"></param>
+        /// <param name="status"></param>
+        /// <returns></returns>
+        public virtual (long, string?, string?) OnUpdatePetWithForm(long petId, string? name, string? status)
+        {
+            return (petId, name, status);
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponse"></param>
+        /// <param name="petId"></param>
+        /// <param name="name"></param>
+        /// <param name="status"></param>
+        public virtual void AfterUpdatePetWithForm(ApiResponse<object?> apiResponse, long petId, string? name, string? status)
+        {
+        }
+
+        /// <summary>
         /// Updates a pet in the store with form data 
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
@@ -1249,6 +1426,11 @@ namespace Org.OpenAPITools.Api
         {
             try
             {
+                var validatedParameters = OnUpdatePetWithForm(petId, name, status);
+                petId = validatedParameters.Item1;
+                name = validatedParameters.Item2;
+                status = validatedParameters.Item3;
+
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
                 #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
@@ -1307,12 +1489,15 @@ namespace Org.OpenAPITools.Api
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-                        EventHub.OnApiResponded(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/pet/{petId}"));
+                        OnApiResponded(new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/pet/{petId}"));
 
                         ApiResponse<object?> apiResponse = new ApiResponse<object?>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
+                        {
                             apiResponse.Content = JsonSerializer.Deserialize<object>(apiResponse.RawContent, _jsonSerializerOptions);
+                            AfterUpdatePetWithForm(apiResponse, petId, name, status);
+                        }
                         else if (apiResponse.StatusCode == (HttpStatusCode) 429)
                             foreach(TokenBase token in tokens)
                                 token.BeginRateLimit();
@@ -1373,6 +1558,29 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
+        /// Validates the request parameters
+        /// </summary>
+        /// <param name="petId"></param>
+        /// <param name="file"></param>
+        /// <param name="additionalMetadata"></param>
+        /// <returns></returns>
+        public virtual (long, System.IO.Stream?, string?) OnUploadFile(long petId, System.IO.Stream? file, string? additionalMetadata)
+        {
+            return (petId, file, additionalMetadata);
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponse"></param>
+        /// <param name="petId"></param>
+        /// <param name="file"></param>
+        /// <param name="additionalMetadata"></param>
+        public virtual void AfterUploadFile(ApiResponse<ApiResponse?> apiResponse, long petId, System.IO.Stream? file, string? additionalMetadata)
+        {
+        }
+
+        /// <summary>
         /// uploads an image 
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
@@ -1385,6 +1593,11 @@ namespace Org.OpenAPITools.Api
         {
             try
             {
+                var validatedParameters = OnUploadFile(petId, file, additionalMetadata);
+                petId = validatedParameters.Item1;
+                file = validatedParameters.Item2;
+                additionalMetadata = validatedParameters.Item3;
+
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
                 #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
@@ -1452,12 +1665,15 @@ namespace Org.OpenAPITools.Api
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-                        EventHub.OnApiResponded(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/pet/{petId}/uploadImage"));
+                        OnApiResponded(new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/pet/{petId}/uploadImage"));
 
                         ApiResponse<ApiResponse?> apiResponse = new ApiResponse<ApiResponse?>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
+                        {
                             apiResponse.Content = JsonSerializer.Deserialize<ApiResponse>(apiResponse.RawContent, _jsonSerializerOptions);
+                            AfterUploadFile(apiResponse, petId, file, additionalMetadata);
+                        }
                         else if (apiResponse.StatusCode == (HttpStatusCode) 429)
                             foreach(TokenBase token in tokens)
                                 token.BeginRateLimit();
@@ -1518,6 +1734,29 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
+        /// Validates the request parameters
+        /// </summary>
+        /// <param name="requiredFile"></param>
+        /// <param name="petId"></param>
+        /// <param name="additionalMetadata"></param>
+        /// <returns></returns>
+        public virtual (System.IO.Stream, long, string?) OnUploadFileWithRequiredFile(System.IO.Stream requiredFile, long petId, string? additionalMetadata)
+        {
+            return (requiredFile, petId, additionalMetadata);
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponse"></param>
+        /// <param name="requiredFile"></param>
+        /// <param name="petId"></param>
+        /// <param name="additionalMetadata"></param>
+        public virtual void AfterUploadFileWithRequiredFile(ApiResponse<ApiResponse?> apiResponse, System.IO.Stream requiredFile, long petId, string? additionalMetadata)
+        {
+        }
+
+        /// <summary>
         /// uploads an image (required) 
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
@@ -1530,6 +1769,11 @@ namespace Org.OpenAPITools.Api
         {
             try
             {
+                var validatedParameters = OnUploadFileWithRequiredFile(requiredFile, petId, additionalMetadata);
+                requiredFile = validatedParameters.Item1;
+                petId = validatedParameters.Item2;
+                additionalMetadata = validatedParameters.Item3;
+
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
                 #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
@@ -1599,12 +1843,15 @@ namespace Org.OpenAPITools.Api
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-                        EventHub.OnApiResponded(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake/{petId}/uploadImageWithRequiredFile"));
+                        OnApiResponded(new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake/{petId}/uploadImageWithRequiredFile"));
 
                         ApiResponse<ApiResponse?> apiResponse = new ApiResponse<ApiResponse?>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
+                        {
                             apiResponse.Content = JsonSerializer.Deserialize<ApiResponse>(apiResponse.RawContent, _jsonSerializerOptions);
+                            AfterUploadFileWithRequiredFile(apiResponse, requiredFile, petId, additionalMetadata);
+                        }
                         else if (apiResponse.StatusCode == (HttpStatusCode) 429)
                             foreach(TokenBase token in tokens)
                                 token.BeginRateLimit();

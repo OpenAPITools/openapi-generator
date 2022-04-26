@@ -136,6 +136,9 @@ namespace YourProject
   It depends how you made the request. If the return type is ApiResponse<T> no error will be thrown, though the Content property will be null. 
   StatusCode and ReasonPhrase will contain information about the error.
   If the return type is T, then it will throw. If the return type is TOrDefault, it will return null.
+- How do I validate requests and process responses?
+  Use the provided On and After methods in the Api class from the namespace Org.OpenAPITools.Rest.DefaultApi.
+  Or provide your own class by using the generic ConfigureApi method.
 
 <a name="dependencies"></a>
 ## Dependencies
@@ -144,8 +147,6 @@ namespace YourProject
 - [Microsoft.Extensions.Http](https://www.nuget.org/packages/Microsoft.Extensions.Http/) - 5.0.0 or later
 - [Microsoft.Extensions.Http.Polly](https://www.nuget.org/packages/Microsoft.Extensions.Http.Polly/) - 5.0.1 or later
 - [Polly](https://www.nuget.org/packages/Polly/) - 7.2.3 or later
-- [Newtonsoft.Json](https://www.nuget.org/packages/Newtonsoft.Json/) - 12.0.3 or later
-- [JsonSubTypes](https://www.nuget.org/packages/JsonSubTypes/) - 1.7.0 or later
 - [CompareNETObjects](https://www.nuget.org/packages/CompareNETObjects) - 4.61.0 or later
 - [System.ComponentModel.Annotations](https://www.nuget.org/packages/System.ComponentModel.Annotations) - 4.7.0 or later
 

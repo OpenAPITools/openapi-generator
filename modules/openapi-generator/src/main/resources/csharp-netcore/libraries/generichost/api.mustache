@@ -22,6 +22,7 @@ namespace {{packageName}}.{{apiPackage}}
     {{#operations}}
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
+    /// This class is registered as transient.
     /// </summary>
     {{>visibility}} interface {{interfacePrefix}}{{classname}} : IApi
     {
@@ -140,6 +141,11 @@ namespace {{packageName}}.{{apiPackage}}
             HttpSignatureTokenProvider = httpSignatureTokenProvider;{{/hasHttpSignatureMethods}}{{#hasOAuthMethods}}
             OauthTokenProvider = oauthTokenProvider;{{/hasOAuthMethods}}
         }
+
+        public virtual void OnApiResponded(ApiResponseEventArgs args)
+        {
+            EventHub.OnApiResponded(this, args);
+        }
         {{#operation}}
 
         /// <summary>
@@ -164,62 +170,35 @@ namespace {{packageName}}.{{apiPackage}}
         }
 
         {{#nrt}}
-        /// <summary>
-        /// {{summary}} {{notes}}
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        {{#allParams}}
-        /// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}</param>
-        {{/allParams}}
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="{{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}object{{/returnType}}"/>&gt;</returns>
-        public async Task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}{{nrt?}}> {{operationId}}OrDefaultAsync({{#allParams}}{{#required}}{{#lambda.required}}{{{dataType}}}{{/lambda.required}} {{paramName}}{{^-last}}, {{/-last}}{{/required}}{{^required}}{{#lambda.optional}}{{{dataType}}}{{/lambda.optional}} {{paramName}} = null{{^-last}}, {{/-last}}{{/required}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}System.Threading.CancellationToken? cancellationToken = null)
-        {
-            ApiResponse<{{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}object{{/returnType}}{{nrt?}}>{{nrt?}} result = null;
-            try 
-            {
-                result = await {{operationId}}WithHttpInfoAsync({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception)
-            {
-            }
-
-            return result != null && result.IsSuccessStatusCode
-                ? result.Content
-                : null;
-        }
+{{>OperationOrDefault}}
 
         {{/nrt}}
         {{^nrt}}
         {{^returnTypeIsPrimitive}}
-        {{! Note that this method is a copy paste of above due to NRT complexities }}
-        /// <summary>
-        /// {{summary}} {{notes}}
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        {{#allParams}}
-        /// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}</param>
-        {{/allParams}}
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="{{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}object{{/returnType}}"/>&gt;</returns>
-        public async Task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}{{nrt?}}> {{operationId}}OrDefaultAsync({{#allParams}}{{#required}}{{#lambda.required}}{{{dataType}}}{{/lambda.required}} {{paramName}}{{^-last}}, {{/-last}}{{/required}}{{^required}}{{#lambda.optional}}{{{dataType}}}{{/lambda.optional}} {{paramName}} = null{{^-last}}, {{/-last}}{{/required}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}System.Threading.CancellationToken? cancellationToken = null)
-        {
-            ApiResponse<{{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}object{{/returnType}}{{nrt?}}>{{nrt?}} result = null;
-            try 
-            {
-                result = await {{operationId}}WithHttpInfoAsync({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception)
-            {
-            }
-
-            return result != null && result.IsSuccessStatusCode
-                ? result.Content
-                : null;
-        }
+{{>OperationOrDefault}}
 
         {{/returnTypeIsPrimitive}}
         {{/nrt}}
+        /// <summary>
+        /// Validates the request parameters
+        /// </summary>
+        {{#allParams}}
+        /// <param name="{{paramName}}"></param>
+        {{/allParams}}
+        /// <returns></returns>
+        public virtual {{>OnOperation}}
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponse"></param>
+        {{#allParams}}
+        /// <param name="{{paramName}}"></param>
+        {{/allParams}}
+        public virtual void After{{operationId}}({{#lambda.joinWithComma}}ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}{{nrt?}}> apiResponse  {{#allParams}}{{#required}}{{#lambda.required}}{{{dataType}}}{{/lambda.required}} {{paramName}}  {{/required}}{{^required}}{{#lambda.optional}}{{{dataType}}}{{/lambda.optional}} {{paramName}}  {{/required}}{{/allParams}}{{/lambda.joinWithComma}})
+        {
+        }
+
         /// <summary>
         /// {{summary}} {{notes}}
         /// </summary>
@@ -233,6 +212,17 @@ namespace {{packageName}}.{{apiPackage}}
         {
             try
             {
+                {{#allParams}}{{#-first}}{{#-last}}{{paramName}} = {{/-last}}{{^-last}}var validatedParameters = {{/-last}}{{/-first}}{{/allParams}}On{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
+                {{#allParams}}
+                {{#-first}}
+                {{^-last}}
+                {{#allParams}}
+                {{paramName}} = validatedParameters.Item{{-index}};
+                {{/allParams}}
+                {{/-last}}
+                {{/-first}}
+                {{/allParams}}
+
                 {{#requiredParams}}
                 {{#-first}}
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -385,15 +375,20 @@ namespace {{packageName}}.{{apiPackage}}
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync({{^netStandard}}{{^netcoreapp3.1}}cancellationToken.GetValueOrDefault(){{/netcoreapp3.1}}{{/netStandard}}).ConfigureAwait(false);
 
-                        EventHub.OnApiResponded(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "{{path}}"));
+                        OnApiResponded(new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "{{path}}"));
 
                         ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}{{nrt?}}> apiResponse = new ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}{{nrt?}}>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
-                            apiResponse.Content = JsonSerializer.Deserialize<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}>(apiResponse.RawContent, _jsonSerializerOptions);{{#authMethods}}
+                        {
+                            apiResponse.Content = JsonSerializer.Deserialize<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}>(apiResponse.RawContent, _jsonSerializerOptions);
+                            After{{operationId}}({{#lambda.joinWithComma}}apiResponse  {{#allParams}}{{paramName}}  {{/allParams}}{{/lambda.joinWithComma}});
+                        }
+                        {{#authMethods}}
                         else if (apiResponse.StatusCode == (HttpStatusCode) 429)
                             foreach(TokenBase token in tokens)
-                                token.BeginRateLimit();{{/authMethods}}
+                                token.BeginRateLimit();
+                        {{/authMethods}}
 
                         return apiResponse;
                     }

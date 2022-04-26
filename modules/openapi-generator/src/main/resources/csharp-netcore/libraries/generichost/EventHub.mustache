@@ -3,26 +3,45 @@ using System;
 
 namespace {{packageName}}.Client
 {
+    /// <summary>
+    /// The IEventHub
+    /// </summary>
     {{>visibility}} interface IEventHub 
     {
+        /// <summary>
+        /// An event that fires when the server has responded successfully.
+        /// </summary>
         void OnApiResponded(object sender, ApiResponseEventArgs args);
     }
 
+    /// <summary>
+    /// The EventHub class
+    /// </summary>
     {{>visibility}} class EventHub : IEventHub
     {
         /// <summary>
         /// An event to track the health of the server.
         /// If you store these event args, be sure to purge old event args to prevent a memory leak.
+        /// This class is registered as a singleton.
         /// </summary>
-        public event ClientUtils.EventHandler<ApiResponseEventArgs>? ApiResponded;
+        public event ClientUtils.EventHandler<ApiResponseEventArgs>{{nrt?}} ApiResponded;
 
+        /// <summary>
+        /// The logger
+        /// </summary>
         public ILogger<EventHub> Logger { get; }
 
+        /// <summary>
+        /// The EventHub class
+        /// </summary>
         public EventHub(ILogger<EventHub> logger)
         {
             Logger = logger;
         }
 
+        /// <summary>
+        /// An event that fires when the server has responded successfully.
+        /// </summary>
         public void OnApiResponded(object sender, ApiResponseEventArgs args)
         {
             if (ApiResponded != null)

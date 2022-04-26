@@ -897,8 +897,23 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("AbstractOpenAPISchema.mustache", modelPackageDir, "AbstractOpenAPISchema.cs"));
     }
 
-    public void addGenericHostSupportingFiles(final String clientPackageDir, final String packageFolder,
-            final AtomicReference<Boolean> excludeTests, final String testPackageFolder, final String testPackageName, final String modelPackageDir) {
+    public void addGenericHostSupportingFiles(final String clientPackageDir, final String packageDir,
+            final AtomicReference<Boolean> excludeTests, final String testPackageDir, final String testPackageName, final String modelPackageDir) {
+        supportingFiles.add(new SupportingFile("README.test.mustache", testPackageDir, "README.md"));
+
+        supportingFiles.add(new SupportingFile("README.solution.mustache", "", "README.md"));
+        supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
+        supportingFiles.add(new SupportingFile("Solution.mustache", "", packageName + ".sln"));
+        supportingFiles.add(new SupportingFile("appveyor.mustache", "", "appveyor.yml"));
+
+        supportingFiles.add(new SupportingFile("git_push.sh.mustache", "docs" + File.separator + "scripts", "git_push.sh"));
+        supportingFiles.add(new SupportingFile("git_push.ps1.mustache", "docs" + File.separator + "scripts", "git_push.ps1"));
+        // TODO: supportingFiles.add(new SupportingFile("generate.ps1.mustache", "docs" + File.separator + "scripts", "generate.ps1"));
+
+        supportingFiles.add(new SupportingFile("netcore_project.mustache", packageDir, packageName + ".csproj"));
+        supportingFiles.add(new SupportingFile("README.client.mustache", packageDir, "README.md"));
+
+        // client directory
         supportingFiles.add(new SupportingFile("TokenProvider`1.mustache", clientPackageDir, "TokenProvider`1.cs"));
         supportingFiles.add(new SupportingFile("RateLimitProvider`1.mustache", clientPackageDir, "RateLimitProvider`1.cs"));
         supportingFiles.add(new SupportingFile("TokenContainer`1.mustache", clientPackageDir, "TokenContainer`1.cs"));
@@ -909,23 +924,23 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("HostConfiguration.mustache", clientPackageDir, "HostConfiguration.cs"));
         supportingFiles.add(new SupportingFile("EventHub.mustache", clientPackageDir, "EventHub.cs"));
         supportingFiles.add(new SupportingFile("ApiFactory.mustache", clientPackageDir, "ApiFactory.cs"));
-        supportingFiles.add(new SupportingFile("README.mustache", packageFolder, "README.md"));
-        supportingFiles.add(new SupportingFile("git_push.sh.mustache", "docs" + File.separator + "scripts", "git_push.sh"));
-        supportingFiles.add(new SupportingFile("git_push.ps1.mustache", "docs" + File.separator + "scripts", "git_push.ps1"));
-        // TODO: supportingFiles.add(new SupportingFile("generate.ps1.mustache", "docs" + File.separator + "scripts", "generate.ps1"));
-        supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
-        supportingFiles.add(new SupportingFile("Solution.mustache", "", packageName + ".sln"));
-        supportingFiles.add(new SupportingFile("netcore_project.mustache", packageFolder, packageName + ".csproj"));
-        supportingFiles.add(new SupportingFile("appveyor.mustache", "", "appveyor.yml"));
         supportingFiles.add(new SupportingFile("OpenAPIDateConverter.mustache", clientPackageDir, "OpenAPIDateJsonConverter.cs"));
         supportingFiles.add(new SupportingFile("ApiResponseEventArgs.mustache", clientPackageDir, "ApiResponseEventArgs.cs"));
         supportingFiles.add(new SupportingFile("IApi.mustache", clientPackageDir, getInterfacePrefix() + "Api.cs"));
         supportingFiles.add(new SupportingFile("JsonSerializerOptionsProvider.mustache", clientPackageDir, "JsonSerializerOptionsProvider.cs"));
 
-        String apiTestFolder = testFolder + File.separator + testPackageName() + File.separator + apiPackage();
+        String defaultApiDirectory = outputFolder + File.separator + sourceFolder + File.separator + packageName + File.separator + "Default" + apiPackage;
+        String defaultApiPath = defaultApiDirectory + File.separator + "Default" + apiPackage + ".cs";
+        File defaultApisFile = new File(defaultApiPath);
+        if (!defaultApisFile.exists()) {
+             LOGGER.warn(defaultApisFile.toString());
+            // // TODO: we should have a file per API
+             supportingFiles.add(new SupportingFile("DefaultApi.mustache", defaultApiDirectory, "Default" + apiPackage + ".cs"));
+        }
 
+        String apiTestFolder = testFolder + File.separator + testPackageName() + File.separator + apiPackage();
         if (Boolean.FALSE.equals(excludeTests.get())) {
-            supportingFiles.add(new SupportingFile("netcore_testproject.mustache", testPackageFolder, testPackageName + ".csproj"));
+            supportingFiles.add(new SupportingFile("netcore_testproject.mustache", testPackageDir, testPackageName + ".csproj"));
             supportingFiles.add(new SupportingFile("DependencyInjectionTests.mustache", apiTestFolder, "DependencyInjectionTests.cs"));
 
             // do not overwrite test file that already exists

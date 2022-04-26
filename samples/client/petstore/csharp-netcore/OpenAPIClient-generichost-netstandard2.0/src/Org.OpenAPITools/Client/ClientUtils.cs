@@ -20,6 +20,7 @@ using Polly.Timeout;
 using Polly.Extensions.Http;
 using Polly;
 using Org.OpenAPITools.Api;
+using Org.OpenAPITools.DefaultApi;
 using KellermanSoftware.CompareNetObjects;
 
 namespace Org.OpenAPITools.Client
@@ -286,11 +287,18 @@ namespace Org.OpenAPITools.Client
         /// </summary>
         /// <param name="builder"></param>
         /// <param name="options"></param>
-        public static IHostBuilder ConfigureApi(this IHostBuilder builder, Action<HostBuilderContext, HostConfiguration> options)
+        public static IHostBuilder ConfigureApi<TAnotherFakeApi, TDefaultApi, TFakeApi, TFakeClassnameTags123Api, TPetApi, TStoreApi, TUserApi>(this IHostBuilder builder, Action<HostBuilderContext, HostConfiguration<TAnotherFakeApi, TDefaultApi, TFakeApi, TFakeClassnameTags123Api, TPetApi, TStoreApi, TUserApi>> options)
+            where TAnotherFakeApi : class, IAnotherFakeApi
+            where TDefaultApi : class, IDefaultApi
+            where TFakeApi : class, IFakeApi
+            where TFakeClassnameTags123Api : class, IFakeClassnameTags123Api
+            where TPetApi : class, IPetApi
+            where TStoreApi : class, IStoreApi
+            where TUserApi : class, IUserApi
         {
             builder.ConfigureServices((context, services) => 
             {
-                HostConfiguration config = new HostConfiguration(services);
+                HostConfiguration<TAnotherFakeApi, TDefaultApi, TFakeApi, TFakeClassnameTags123Api, TPetApi, TStoreApi, TUserApi> config = new HostConfiguration<TAnotherFakeApi, TDefaultApi, TFakeApi, TFakeClassnameTags123Api, TPetApi, TStoreApi, TUserApi>(services);
 
                 options(context, config);
 
@@ -303,16 +311,50 @@ namespace Org.OpenAPITools.Client
         /// <summary>
         /// Add the api to your host builder.
         /// </summary>
+        /// <param name="builder"></param>
+        /// <param name="options"></param>
+        public static IHostBuilder ConfigureApi(this IHostBuilder builder, Action<HostBuilderContext, HostConfiguration<DefaultAnotherFakeApi, DefaultDefaultApi, DefaultFakeApi, DefaultFakeClassnameTags123Api, DefaultPetApi, DefaultStoreApi, DefaultUserApi>> options)
+            => ConfigureApi<DefaultAnotherFakeApi, DefaultDefaultApi, DefaultFakeApi, DefaultFakeClassnameTags123Api, DefaultPetApi, DefaultStoreApi, DefaultUserApi>(builder, options);
+
+        /// <summary>
+        /// Add the api to your host builder.
+        /// </summary>
         /// <param name="services"></param>
         /// <param name="options"></param>
-        public static void AddApi(this IServiceCollection services, Action<HostConfiguration> options)
+        public static void AddApi<TAnotherFakeApi, TDefaultApi, TFakeApi, TFakeClassnameTags123Api, TPetApi, TStoreApi, TUserApi>(this IServiceCollection services, Action<HostConfiguration<TAnotherFakeApi, TDefaultApi, TFakeApi, TFakeClassnameTags123Api, TPetApi, TStoreApi, TUserApi>> options)
+            where TAnotherFakeApi : class, IAnotherFakeApi
+            where TDefaultApi : class, IDefaultApi
+            where TFakeApi : class, IFakeApi
+            where TFakeClassnameTags123Api : class, IFakeClassnameTags123Api
+            where TPetApi : class, IPetApi
+            where TStoreApi : class, IStoreApi
+            where TUserApi : class, IUserApi
         {
-            HostConfiguration config = new HostConfiguration(services);
+            HostConfiguration<TAnotherFakeApi, TDefaultApi, TFakeApi, TFakeClassnameTags123Api, TPetApi, TStoreApi, TUserApi> config = new HostConfiguration<TAnotherFakeApi, TDefaultApi, TFakeApi, TFakeClassnameTags123Api, TPetApi, TStoreApi, TUserApi>(services);
             options(config);
             AddApi(services, config);
         }
 
-        private static void AddApi(IServiceCollection services, HostConfiguration host)
+        /// <summary>
+        /// Add the api to your host builder.
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="options"></param>
+        public static void AddApi(this IServiceCollection services, Action<HostConfiguration<DefaultAnotherFakeApi, DefaultDefaultApi, DefaultFakeApi, DefaultFakeClassnameTags123Api, DefaultPetApi, DefaultStoreApi, DefaultUserApi>> options)
+        {
+            HostConfiguration<DefaultAnotherFakeApi, DefaultDefaultApi, DefaultFakeApi, DefaultFakeClassnameTags123Api, DefaultPetApi, DefaultStoreApi, DefaultUserApi> config = new HostConfiguration<DefaultAnotherFakeApi, DefaultDefaultApi, DefaultFakeApi, DefaultFakeClassnameTags123Api, DefaultPetApi, DefaultStoreApi, DefaultUserApi>(services);
+            options(config);
+            AddApi(services, config);
+        }
+
+        private static void AddApi<TAnotherFakeApi, TDefaultApi, TFakeApi, TFakeClassnameTags123Api, TPetApi, TStoreApi, TUserApi>(IServiceCollection services, HostConfiguration<TAnotherFakeApi, TDefaultApi, TFakeApi, TFakeClassnameTags123Api, TPetApi, TStoreApi, TUserApi> host)
+            where TAnotherFakeApi : class, IAnotherFakeApi
+            where TDefaultApi : class, IDefaultApi
+            where TFakeApi : class, IFakeApi
+            where TFakeClassnameTags123Api : class, IFakeClassnameTags123Api
+            where TPetApi : class, IPetApi
+            where TStoreApi : class, IStoreApi
+            where TUserApi : class, IUserApi
         {
             if (!host.HttpClientsAdded)
                 host.AddApiHttpClients();

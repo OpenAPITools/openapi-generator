@@ -25,6 +25,7 @@ namespace Org.OpenAPITools.Api
 {
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
+    /// This class is registered as transient.
     /// </summary>
     public interface IDefaultApi : IApi
     {
@@ -130,6 +131,11 @@ namespace Org.OpenAPITools.Api
             OauthTokenProvider = oauthTokenProvider;
         }
 
+        public virtual void OnApiResponded(ApiResponseEventArgs args)
+        {
+            EventHub.OnApiResponded(this, args);
+        }
+
         /// <summary>
         ///  
         /// </summary>
@@ -169,6 +175,23 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
+        /// Validates the request parameters
+        /// </summary>
+        /// <returns></returns>
+        public virtual void OnFooGet()
+        {
+            return;
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponse"></param>
+        public virtual void AfterFooGet(ApiResponse<InlineResponseDefault?> apiResponse)
+        {
+        }
+
+        /// <summary>
         ///  
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
@@ -178,6 +201,8 @@ namespace Org.OpenAPITools.Api
         {
             try
             {
+                OnFooGet();
+
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
                     UriBuilder uriBuilder = new UriBuilder();
@@ -204,12 +229,15 @@ namespace Org.OpenAPITools.Api
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-                        EventHub.OnApiResponded(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/foo"));
+                        OnApiResponded(new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/foo"));
 
                         ApiResponse<InlineResponseDefault?> apiResponse = new ApiResponse<InlineResponseDefault?>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
+                        {
                             apiResponse.Content = JsonSerializer.Deserialize<InlineResponseDefault>(apiResponse.RawContent, _jsonSerializerOptions);
+                            AfterFooGet(apiResponse);
+                        }
 
                         return apiResponse;
                     }

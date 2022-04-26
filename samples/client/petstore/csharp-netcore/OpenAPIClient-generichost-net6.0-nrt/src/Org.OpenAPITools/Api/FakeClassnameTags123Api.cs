@@ -25,6 +25,7 @@ namespace Org.OpenAPITools.Api
 {
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
+    /// This class is registered as transient.
     /// </summary>
     public interface IFakeClassnameTags123Api : IApi
     {
@@ -133,6 +134,11 @@ namespace Org.OpenAPITools.Api
             OauthTokenProvider = oauthTokenProvider;
         }
 
+        public virtual void OnApiResponded(ApiResponseEventArgs args)
+        {
+            EventHub.OnApiResponded(this, args);
+        }
+
         /// <summary>
         /// To test class name in snake case To test class name in snake case
         /// </summary>
@@ -174,6 +180,25 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
+        /// Validates the request parameters
+        /// </summary>
+        /// <param name="modelClient"></param>
+        /// <returns></returns>
+        public virtual ModelClient OnTestClassname(ModelClient modelClient)
+        {
+            return modelClient;
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponse"></param>
+        /// <param name="modelClient"></param>
+        public virtual void AfterTestClassname(ApiResponse<ModelClient?> apiResponse, ModelClient modelClient)
+        {
+        }
+
+        /// <summary>
         /// To test class name in snake case To test class name in snake case
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
@@ -184,6 +209,8 @@ namespace Org.OpenAPITools.Api
         {
             try
             {
+                modelClient = OnTestClassname(modelClient);
+
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
                 #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
@@ -244,12 +271,15 @@ namespace Org.OpenAPITools.Api
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-                        EventHub.OnApiResponded(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake_classname_test"));
+                        OnApiResponded(new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake_classname_test"));
 
                         ApiResponse<ModelClient?> apiResponse = new ApiResponse<ModelClient?>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
+                        {
                             apiResponse.Content = JsonSerializer.Deserialize<ModelClient>(apiResponse.RawContent, _jsonSerializerOptions);
+                            AfterTestClassname(apiResponse, modelClient);
+                        }
                         else if (apiResponse.StatusCode == (HttpStatusCode) 429)
                             foreach(TokenBase token in tokens)
                                 token.BeginRateLimit();
