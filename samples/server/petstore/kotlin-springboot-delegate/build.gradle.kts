@@ -30,14 +30,18 @@ plugins {
 }
 
 dependencies {
-    val kotlinxCoroutinesVersion="1.2.0"
     compile("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     compile("org.jetbrains.kotlin:kotlin-reflect")
     compile("org.springframework.boot:spring-boot-starter-web")
-    compile("io.swagger:swagger-annotations:1.5.21")
+    compile("org.springdoc:springdoc-openapi-ui:1.6.6")
+
+    compile("com.google.code.findbugs:jsr305:3.0.2")
     compile("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml")
     compile("com.fasterxml.jackson.dataformat:jackson-dataformat-xml")
+    compile("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
     compile("com.fasterxml.jackson.module:jackson-module-kotlin")
+    compile("jakarta.validation:jakarta.validation-api")
+    compile("jakarta.annotation:jakarta.annotation-api:1.3.5")
 
     testCompile("org.jetbrains.kotlin:kotlin-test-junit5")
     testCompile("org.springframework.boot:spring-boot-starter-test") {
