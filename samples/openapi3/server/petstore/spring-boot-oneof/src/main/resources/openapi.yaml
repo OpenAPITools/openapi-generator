@@ -166,11 +166,13 @@ components:
     FooRef:
       allOf:
       - $ref: '#/components/schemas/EntityRef'
-      discriminator:
-        propertyName: '@type'
       properties:
         foorefPropA:
           type: string
+      type: object
+    BarRef:
+      allOf:
+      - $ref: '#/components/schemas/EntityRef'
       type: object
     Bar_Create:
       allOf:
@@ -202,4 +204,31 @@ components:
           $ref: '#/components/schemas/FooRefOrValue'
       required:
       - id
+      type: object
+    BarRefOrValue:
+      oneOf:
+      - $ref: '#/components/schemas/Bar'
+      - $ref: '#/components/schemas/BarRef'
+      type: object
+      x-one-of-name: BarRefOrValue
+    Pizza:
+      allOf:
+      - $ref: '#/components/schemas/Entity'
+      properties:
+        pizzaSize:
+          type: number
+      type: object
+    Pasta:
+      allOf:
+      - $ref: '#/components/schemas/Entity'
+      properties:
+        vendor:
+          type: string
+      type: object
+    PizzaSpeziale:
+      allOf:
+      - $ref: '#/components/schemas/Pizza'
+      properties:
+        toppings:
+          type: string
       type: object

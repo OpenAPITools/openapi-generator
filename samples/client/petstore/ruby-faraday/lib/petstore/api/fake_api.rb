@@ -900,6 +900,7 @@ module Petstore
     # @option opts [String] :enum_query_string Query parameter enum test (string) (default to '-efg')
     # @option opts [Integer] :enum_query_integer Query parameter enum test (double)
     # @option opts [Float] :enum_query_double Query parameter enum test (double)
+    # @option opts [Array<EnumClass>] :enum_query_model_array 
     # @option opts [Array<String>] :enum_form_string_array Form parameter enum test (string array) (default to '$')
     # @option opts [String] :enum_form_string Form parameter enum test (string) (default to '-efg')
     # @return [nil]
@@ -917,6 +918,7 @@ module Petstore
     # @option opts [String] :enum_query_string Query parameter enum test (string) (default to '-efg')
     # @option opts [Integer] :enum_query_integer Query parameter enum test (double)
     # @option opts [Float] :enum_query_double Query parameter enum test (double)
+    # @option opts [Array<EnumClass>] :enum_query_model_array 
     # @option opts [Array<String>] :enum_form_string_array Form parameter enum test (string array) (default to '$')
     # @option opts [String] :enum_form_string Form parameter enum test (string) (default to '-efg')
     # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
@@ -965,6 +967,7 @@ module Petstore
       query_params[:'enum_query_string'] = opts[:'enum_query_string'] if !opts[:'enum_query_string'].nil?
       query_params[:'enum_query_integer'] = opts[:'enum_query_integer'] if !opts[:'enum_query_integer'].nil?
       query_params[:'enum_query_double'] = opts[:'enum_query_double'] if !opts[:'enum_query_double'].nil?
+      query_params[:'enum_query_model_array'] = @api_client.build_collection_param(opts[:'enum_query_model_array'], :multi) if !opts[:'enum_query_model_array'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}

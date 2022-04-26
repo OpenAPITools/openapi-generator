@@ -74,6 +74,7 @@ class TestGmFruit(unittest.TestCase):
                 ],
                 'allOf': [],
                 'oneOf': [],
+                'not': None
             }
         )
 

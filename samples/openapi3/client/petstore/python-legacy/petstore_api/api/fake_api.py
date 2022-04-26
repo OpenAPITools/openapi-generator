@@ -1881,6 +1881,8 @@ class FakeApi(object):
         :type enum_query_integer: int
         :param enum_query_double: Query parameter enum test (double)
         :type enum_query_double: float
+        :param enum_query_model_array:
+        :type enum_query_model_array: list[EnumClass]
         :param enum_form_string_array: Form parameter enum test (string array)
         :type enum_form_string_array: list[str]
         :param enum_form_string: Form parameter enum test (string)
@@ -1925,6 +1927,8 @@ class FakeApi(object):
         :type enum_query_integer: int
         :param enum_query_double: Query parameter enum test (double)
         :type enum_query_double: float
+        :param enum_query_model_array:
+        :type enum_query_model_array: list[EnumClass]
         :param enum_form_string_array: Form parameter enum test (string array)
         :type enum_form_string_array: list[str]
         :param enum_form_string: Form parameter enum test (string)
@@ -1962,6 +1966,7 @@ class FakeApi(object):
             'enum_query_string',
             'enum_query_integer',
             'enum_query_double',
+            'enum_query_model_array',
             'enum_form_string_array',
             'enum_form_string'
         ]
@@ -2000,6 +2005,9 @@ class FakeApi(object):
             query_params.append(('enum_query_integer', local_var_params['enum_query_integer']))  # noqa: E501
         if local_var_params.get('enum_query_double') is not None:  # noqa: E501
             query_params.append(('enum_query_double', local_var_params['enum_query_double']))  # noqa: E501
+        if local_var_params.get('enum_query_model_array') is not None:  # noqa: E501
+            query_params.append(('enum_query_model_array', local_var_params['enum_query_model_array']))  # noqa: E501
+            collection_formats['enum_query_model_array'] = 'multi'  # noqa: E501
 
         header_params = dict(local_var_params.get('_headers', {}))
         if 'enum_header_string_array' in local_var_params:

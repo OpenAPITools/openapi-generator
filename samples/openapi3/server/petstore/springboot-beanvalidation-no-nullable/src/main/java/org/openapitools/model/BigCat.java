@@ -88,6 +88,21 @@ public class BigCat extends Cat {
     this.kind = kind;
   }
 
+  public BigCat declawed(Boolean declawed) {
+    super.setDeclawed(declawed);
+    return this;
+  }
+
+  public BigCat className(String className) {
+    super.setClassName(className);
+    return this;
+  }
+
+  public BigCat color(String color) {
+    super.setColor(color);
+    return this;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {

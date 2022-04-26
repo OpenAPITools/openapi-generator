@@ -38,18 +38,18 @@ export interface EnumArrays {
  * @export
  */
 export const EnumArraysJustSymbolEnum = {
-    GreaterThanOrEqualTo: '>=' as '>=',
-    Dollar: '$' as '$'
-};
+    GreaterThanOrEqualTo: '>=',
+    Dollar: '$'
+} as const;
 export type EnumArraysJustSymbolEnum = typeof EnumArraysJustSymbolEnum[keyof typeof EnumArraysJustSymbolEnum];
 
 /**
  * @export
  */
 export const EnumArraysArrayEnumEnum = {
-    Fish: 'fish' as 'fish',
-    Crab: 'crab' as 'crab'
-};
+    Fish: 'fish',
+    Crab: 'crab'
+} as const;
 export type EnumArraysArrayEnumEnum = typeof EnumArraysArrayEnumEnum[keyof typeof EnumArraysArrayEnumEnum];
 
 

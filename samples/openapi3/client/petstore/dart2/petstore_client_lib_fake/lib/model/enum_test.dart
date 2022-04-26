@@ -84,30 +84,30 @@ class EnumTest {
   String toString() => 'EnumTest[enumString=$enumString, enumStringRequired=$enumStringRequired, enumInteger=$enumInteger, enumNumber=$enumNumber, outerEnum=$outerEnum, outerEnumInteger=$outerEnumInteger, outerEnumDefaultValue=$outerEnumDefaultValue, outerEnumIntegerDefaultValue=$outerEnumIntegerDefaultValue]';
 
   Map<String, dynamic> toJson() {
-    final json = <String, dynamic>{};
+    final _json = <String, dynamic>{};
     if (enumString != null) {
-      json[r'enum_string'] = enumString;
+      _json[r'enum_string'] = enumString;
     }
-      json[r'enum_string_required'] = enumStringRequired;
+      _json[r'enum_string_required'] = enumStringRequired;
     if (enumInteger != null) {
-      json[r'enum_integer'] = enumInteger;
+      _json[r'enum_integer'] = enumInteger;
     }
     if (enumNumber != null) {
-      json[r'enum_number'] = enumNumber;
+      _json[r'enum_number'] = enumNumber;
     }
     if (outerEnum != null) {
-      json[r'outerEnum'] = outerEnum;
+      _json[r'outerEnum'] = outerEnum;
     }
     if (outerEnumInteger != null) {
-      json[r'outerEnumInteger'] = outerEnumInteger;
+      _json[r'outerEnumInteger'] = outerEnumInteger;
     }
     if (outerEnumDefaultValue != null) {
-      json[r'outerEnumDefaultValue'] = outerEnumDefaultValue;
+      _json[r'outerEnumDefaultValue'] = outerEnumDefaultValue;
     }
     if (outerEnumIntegerDefaultValue != null) {
-      json[r'outerEnumIntegerDefaultValue'] = outerEnumIntegerDefaultValue;
+      _json[r'outerEnumIntegerDefaultValue'] = outerEnumIntegerDefaultValue;
     }
-    return json;
+    return _json;
   }
 
   /// Returns a new [EnumTest] instance and imports its values from

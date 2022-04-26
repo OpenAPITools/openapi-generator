@@ -116,11 +116,13 @@ components:
         - $ref: '#/components/schemas/Entity'
     FooRef:
       type: object
-      discriminator:
-        propertyName: '@type'
       properties:
         foorefPropA:
           type: string
+      allOf:
+        - $ref: '#/components/schemas/EntityRef'
+    BarRef:
+      type: object
       allOf:
         - $ref: '#/components/schemas/EntityRef'
     Bar_Create:
@@ -149,6 +151,32 @@ components:
           $ref: '#/components/schemas/FooRefOrValue'
       allOf:
         - $ref: '#/components/schemas/Entity'
+    BarRefOrValue:
+      type: object
+      oneOf:
+        - $ref: "#/components/schemas/Bar"
+        - $ref: "#/components/schemas/BarRef"
+    Pizza:
+      type: object
+      properties:
+        pizzaSize:
+          type: number
+      allOf:
+        - $ref: '#/components/schemas/Entity'
+    Pasta:
+      type: object
+      properties:
+        vendor:
+          type: string
+      allOf:
+        - $ref: '#/components/schemas/Entity'
+    PizzaSpeziale:
+      type: object
+      properties:
+        toppings:
+          type: string
+      allOf:
+        - $ref: '#/components/schemas/Pizza'
 
   requestBodies:
     Foo:

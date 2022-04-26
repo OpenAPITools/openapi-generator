@@ -8,7 +8,6 @@
 """
 
 
-
 class OpenApiException(Exception):
     """The base exception class for all OpenAPIExceptions"""
 

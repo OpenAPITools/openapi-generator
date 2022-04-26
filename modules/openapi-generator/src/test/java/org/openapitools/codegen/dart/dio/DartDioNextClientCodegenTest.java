@@ -17,7 +17,6 @@
 package org.openapitools.codegen.dart.dio;
 
 import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.languages.DartDioClientCodegen;
 import org.openapitools.codegen.languages.DartDioNextClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -25,7 +24,6 @@ import org.testng.annotations.Test;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +42,7 @@ public class DartDioNextClientCodegenTest {
 
     @Test
     public void testSettersForConfigValues() throws Exception {
-        final DartDioClientCodegen codegen = new DartDioClientCodegen();
+        final DartDioNextClientCodegen codegen = new DartDioNextClientCodegen();
         codegen.setHideGenerationTimestamp(false);
         codegen.processOpts();
 
@@ -54,7 +52,7 @@ public class DartDioNextClientCodegenTest {
 
     @Test
     public void testAdditionalPropertiesPutForConfigValues() throws Exception {
-        final DartDioClientCodegen codegen = new DartDioClientCodegen();
+        final DartDioNextClientCodegen codegen = new DartDioNextClientCodegen();
         codegen.additionalProperties().put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, false);
         codegen.processOpts();
 
@@ -63,10 +61,10 @@ public class DartDioNextClientCodegenTest {
     }
 
     @Test
-    public void testKeywords() throws Exception {
-        final DartDioClientCodegen codegen = new DartDioClientCodegen();
+    public void testKeywords() {
+        final DartDioNextClientCodegen codegen = new DartDioNextClientCodegen();
 
-        List<String> reservedWordsList = new ArrayList<String>();
+        List<String> reservedWordsList = new ArrayList<>();
         try {
             BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream("src/main/resources/dart/dart-keywords.txt"), StandardCharsets.UTF_8));
             while(reader.ready()) { reservedWordsList.add(reader.readLine()); }
