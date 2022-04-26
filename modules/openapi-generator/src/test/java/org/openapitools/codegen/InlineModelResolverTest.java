@@ -995,7 +995,20 @@ public class InlineModelResolverTest {
     }
 
     @Test
-    public void regression_6905() {
+    public void testInlineSchemaNameMapping() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_resolver.yaml");
+        InlineModelResolver resolver = new InlineModelResolver();
+        Map<String, String> inlineSchemaNames = new HashMap<>();
+        inlineSchemaNames.put("inline_object_2", "SomethingMapped");
+        inlineSchemaNames.put("inline_object_4", "nothing_new");
+        resolver.setInlineSchemaNameMapping(inlineSchemaNames);
+        resolver.flatten(openAPI);
 
+        Schema schema = openAPI.getComponents().getSchemas().get("SomethingMapped");
+        assertTrue(schema.getProperties().get("street") instanceof StringSchema);
+        assertTrue(schema.getProperties().get("city") instanceof StringSchema);
+
+        Schema nothingNew = openAPI.getComponents().getSchemas().get("nothing_new");
+        assertTrue(nothingNew.getProperties().get("arbitrary_request_body_array_property") instanceof ObjectSchema);
     }
 }
