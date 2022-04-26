@@ -53,7 +53,6 @@ open class DefaultApi(
         val localVariableBody = apa
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
-
         val localVariableHeaders = mutableMapOf<String, String>()
 
         val localVariableConfig = RequestConfig<kotlin.Any?>(
