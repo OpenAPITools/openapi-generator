@@ -215,6 +215,8 @@ class ApiClient {
           return valueString == 'true' || valueString == '1';
         case 'AdditionalPropertiesClass':
           return AdditionalPropertiesClass.fromJson(value);
+        case 'AllOfWithSingleRef':
+          return AllOfWithSingleRef.fromJson(value);
         case 'Animal':
           return Animal.fromJson(value);
         case 'ApiResponse':
@@ -299,6 +301,8 @@ class ApiClient {
           return Pet.fromJson(value);
         case 'ReadOnlyFirst':
           return ReadOnlyFirst.fromJson(value);
+        case 'SingleRefType':
+          return SingleRefTypeTypeTransformer().decode(value);
         case 'SpecialModelName':
           return SpecialModelName.fromJson(value);
         case 'Tag':

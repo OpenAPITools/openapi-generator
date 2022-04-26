@@ -52,7 +52,7 @@ public class CatAllOf {
     @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_DECLAWED)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public Boolean getDeclawed() {
+    public Boolean getDeclawed() {
         return declawed;
     }
 

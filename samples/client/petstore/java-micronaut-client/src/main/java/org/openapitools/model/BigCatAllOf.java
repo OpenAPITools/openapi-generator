@@ -87,7 +87,7 @@ public class BigCatAllOf {
     @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_KIND)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public KindEnum getKind() {
+    public KindEnum getKind() {
         return kind;
     }
 

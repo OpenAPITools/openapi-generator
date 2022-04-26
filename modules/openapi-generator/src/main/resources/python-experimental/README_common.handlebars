@@ -88,7 +88,7 @@ Class | Method | HTTP request | Description
 
 ## Author
 
-{{#with apiInfo}}{{#each apis}}{{#unless hasMore}}{{infoEmail}}
+{{#with apiInfo}}{{#each apis}}{{#unless hasMore}}{{#if infoEmail}}{{infoEmail}}{{/if}}
 {{/unless}}{{/each}}{{/with}}
 
 ## Notes for Large OpenAPI documents

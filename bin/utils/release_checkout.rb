@@ -9,7 +9,7 @@ require 'net/http'
 def check_sbt_openapi_generator
   print "Checking sbt-openapi-generator... "
 
-  url = "https://raw.githubusercontent.com/upstart-commerce/sbt-openapi-generator/master/build.sbt"
+  url = "https://raw.githubusercontent.com/OpenAPITools/sbt-openapi-generator/master/build.sbt"
   open(url) do |f|
     content = f.read
     if !content.nil? && content.include?($version)

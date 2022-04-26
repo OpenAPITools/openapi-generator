@@ -89,7 +89,7 @@ public class BigCat extends Cat {
     @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_KIND)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public KindEnum getKind() {
+    public KindEnum getKind() {
         return kind;
     }
 
@@ -138,4 +138,8 @@ public class BigCat extends Cat {
         return o.toString().replace("\n", "\n    ");
     }
 
+    @Override
+    public <T> T accept(Cat.Visitor<T> visitor) {
+        return visitor.visitBigCat(this);
+    }
 }

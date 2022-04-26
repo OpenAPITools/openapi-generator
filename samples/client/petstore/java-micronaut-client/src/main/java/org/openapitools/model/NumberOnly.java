@@ -52,7 +52,7 @@ public class NumberOnly {
     @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_JUST_NUMBER)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public BigDecimal getJustNumber() {
+    public BigDecimal getJustNumber() {
         return justNumber;
     }
 

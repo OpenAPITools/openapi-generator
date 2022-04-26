@@ -59,9 +59,9 @@ public:
     QString getParamStyleDelimiter(const QString &style, const QString &name, bool isExplode);
 
     /**
-    * @param[in]  body PFXPet [required]
+    * @param[in]  pfx_pet PFXPet [required]
     */
-    void addPet(const PFXPet &body);
+    void addPet(const PFXPet &pfx_pet);
 
     /**
     * @param[in]  pet_id qint64 [required]
@@ -85,9 +85,9 @@ public:
     void getPetById(const qint64 &pet_id);
 
     /**
-    * @param[in]  body PFXPet [required]
+    * @param[in]  pfx_pet PFXPet [required]
     */
-    void updatePet(const PFXPet &body);
+    void updatePet(const PFXPet &pfx_pet);
 
     /**
     * @param[in]  pet_id qint64 [required]

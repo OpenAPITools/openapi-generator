@@ -52,7 +52,7 @@ public class ModelList {
     @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_123LIST)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public String get123list() {
+    public String get123list() {
         return _123list;
     }
 

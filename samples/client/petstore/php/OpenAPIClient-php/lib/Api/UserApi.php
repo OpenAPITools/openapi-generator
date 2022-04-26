@@ -29,8 +29,8 @@ namespace OpenAPI\Client\Api;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
-use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Exception\ConnectException;
+use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7\MultipartStream;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\RequestOptions;
@@ -314,7 +314,7 @@ class UserApi
 
             } else {
                 // for HTTP post (form)
-                $httpBody = ObjectSerializer::buildQuery($queryParams);
+                $httpBody = ObjectSerializer::buildQuery($formParams);
             }
         }
 
@@ -538,7 +538,7 @@ class UserApi
 
             } else {
                 // for HTTP post (form)
-                $httpBody = ObjectSerializer::buildQuery($queryParams);
+                $httpBody = ObjectSerializer::buildQuery($formParams);
             }
         }
 
@@ -762,7 +762,7 @@ class UserApi
 
             } else {
                 // for HTTP post (form)
-                $httpBody = ObjectSerializer::buildQuery($queryParams);
+                $httpBody = ObjectSerializer::buildQuery($formParams);
             }
         }
 
@@ -988,7 +988,7 @@ class UserApi
 
             } else {
                 // for HTTP post (form)
-                $httpBody = ObjectSerializer::buildQuery($queryParams);
+                $httpBody = ObjectSerializer::buildQuery($formParams);
             }
         }
 
@@ -1086,6 +1086,9 @@ class UserApi
                         $content = $response->getBody(); //stream goes to serializer
                     } else {
                         $content = (string) $response->getBody();
+                        if ('\OpenAPI\Client\Model\User' !== 'string') {
+                            $content = json_decode($content);
+                        }
                     }
 
                     return [
@@ -1100,6 +1103,9 @@ class UserApi
                 $content = $response->getBody(); //stream goes to serializer
             } else {
                 $content = (string) $response->getBody();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
             }
 
             return [
@@ -1166,6 +1172,9 @@ class UserApi
                         $content = $response->getBody(); //stream goes to serializer
                     } else {
                         $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
                     }
 
                     return [
@@ -1259,7 +1268,7 @@ class UserApi
 
             } else {
                 // for HTTP post (form)
-                $httpBody = ObjectSerializer::buildQuery($queryParams);
+                $httpBody = ObjectSerializer::buildQuery($formParams);
             }
         }
 
@@ -1359,6 +1368,9 @@ class UserApi
                         $content = $response->getBody(); //stream goes to serializer
                     } else {
                         $content = (string) $response->getBody();
+                        if ('string' !== 'string') {
+                            $content = json_decode($content);
+                        }
                     }
 
                     return [
@@ -1373,6 +1385,9 @@ class UserApi
                 $content = $response->getBody(); //stream goes to serializer
             } else {
                 $content = (string) $response->getBody();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
             }
 
             return [
@@ -1441,6 +1456,9 @@ class UserApi
                         $content = $response->getBody(); //stream goes to serializer
                     } else {
                         $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
                     }
 
                     return [
@@ -1503,7 +1521,8 @@ class UserApi
             'username', // param base name
             'string', // openApiType
             'form', // style
-            true // explode
+            true, // explode
+            true // required
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -1511,7 +1530,8 @@ class UserApi
             'password', // param base name
             'string', // openApiType
             'form', // style
-            true // explode
+            true, // explode
+            true // required
         ) ?? []);
 
 
@@ -1549,7 +1569,7 @@ class UserApi
 
             } else {
                 // for HTTP post (form)
-                $httpBody = ObjectSerializer::buildQuery($queryParams);
+                $httpBody = ObjectSerializer::buildQuery($formParams);
             }
         }
 
@@ -1756,7 +1776,7 @@ class UserApi
 
             } else {
                 // for HTTP post (form)
-                $httpBody = ObjectSerializer::buildQuery($queryParams);
+                $httpBody = ObjectSerializer::buildQuery($formParams);
             }
         }
 
@@ -1999,7 +2019,7 @@ class UserApi
 
             } else {
                 // for HTTP post (form)
-                $httpBody = ObjectSerializer::buildQuery($queryParams);
+                $httpBody = ObjectSerializer::buildQuery($formParams);
             }
         }
 

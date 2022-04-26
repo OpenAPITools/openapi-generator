@@ -3,6 +3,7 @@
 README.md
 analysis_options.yaml
 doc/AdditionalPropertiesClass.md
+doc/AllOfWithSingleRef.md
 doc/Animal.md
 doc/AnotherFakeApi.md
 doc/ApiResponse.md
@@ -50,6 +51,7 @@ doc/OuterObjectWithEnumProperty.md
 doc/Pet.md
 doc/PetApi.md
 doc/ReadOnlyFirst.md
+doc/SingleRefType.md
 doc/SpecialModelName.md
 doc/StoreApi.md
 doc/Tag.md
@@ -73,6 +75,7 @@ lib/auth/http_basic_auth.dart
 lib/auth/http_bearer_auth.dart
 lib/auth/oauth.dart
 lib/model/additional_properties_class.dart
+lib/model/all_of_with_single_ref.dart
 lib/model/animal.dart
 lib/model/api_response.dart
 lib/model/array_of_array_of_number_only.dart
@@ -115,6 +118,7 @@ lib/model/outer_enum_integer_default_value.dart
 lib/model/outer_object_with_enum_property.dart
 lib/model/pet.dart
 lib/model/read_only_first.dart
+lib/model/single_ref_type.dart
 lib/model/special_model_name.dart
 lib/model/tag.dart
 lib/model/user.dart

@@ -48,14 +48,14 @@ class HasOnlyReadOnly {
   String toString() => 'HasOnlyReadOnly[bar=$bar, foo=$foo]';
 
   Map<String, dynamic> toJson() {
-    final json = <String, dynamic>{};
+    final _json = <String, dynamic>{};
     if (bar != null) {
-      json[r'bar'] = bar;
+      _json[r'bar'] = bar;
     }
     if (foo != null) {
-      json[r'foo'] = foo;
+      _json[r'foo'] = foo;
     }
-    return json;
+    return _json;
   }
 
   /// Returns a new [HasOnlyReadOnly] instance and imports its values from

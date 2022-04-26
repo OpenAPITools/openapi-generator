@@ -56,7 +56,7 @@ class PetApi(baseUrl: String) {
     basicRequest
       .method(Method.DELETE, uri"$baseUrl/pet/${petId}")
       .contentType("application/json")
-      .header("api_key", apiKey)
+      .header("api_key", apiKey.toString)
       .response(asJson[Unit])
 
   /**

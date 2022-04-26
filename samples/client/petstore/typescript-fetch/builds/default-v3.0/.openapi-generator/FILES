@@ -8,6 +8,7 @@ apis/UserApi.ts
 apis/index.ts
 index.ts
 models/AdditionalPropertiesClass.ts
+models/AllOfWithSingleRef.ts
 models/Animal.ts
 models/ArrayOfArrayOfNumberOnly.ts
 models/ArrayOfNumberOnly.ts
@@ -50,6 +51,7 @@ models/OuterObjectWithEnumProperty.ts
 models/Pet.ts
 models/ReadOnlyFirst.ts
 models/Return.ts
+models/SingleRefType.ts
 models/SpecialModelName.ts
 models/Tag.ts
 models/User.ts

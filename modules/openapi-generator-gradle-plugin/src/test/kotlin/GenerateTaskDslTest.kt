@@ -69,6 +69,55 @@ class GenerateTaskDslTest : TestBase() {
     }
 
     @Test
+    fun `should apply prefix & suffix config parameters`() {
+        // Arrange
+        val projectFiles = mapOf(
+                "spec.yaml" to javaClass.classLoader.getResourceAsStream("specs/petstore-v3.0.yaml")
+        )
+        withProject("""
+        plugins {
+          id 'org.openapi.generator'
+        }
+        openApiGenerate {
+            generatorName = "java"
+            inputSpec = file("spec.yaml").absolutePath
+            outputDir = file("build/java").absolutePath
+            apiPackage = "org.openapitools.example.api"
+            invokerPackage = "org.openapitools.example.invoker"
+            modelPackage = "org.openapitools.example.model"
+            modelNamePrefix = "ModelPref"
+            modelNameSuffix = "Suff"
+            apiNameSuffix = "ApiClassSuffix"
+            configOptions = [
+                    dateLibrary: "java8"
+            ]
+        }
+    """.trimIndent(), projectFiles)
+
+        // Act
+        val result = GradleRunner.create()
+                .withProjectDir(temp)
+                .withArguments("openApiGenerate")
+                .withPluginClasspath()
+                .build()
+
+        // Assert
+        assertTrue(result.output.contains("Successfully generated code to"), "User friendly generate notice is missing.")
+
+        listOf(
+                "build/java/src/main/java/org/openapitools/example/model/ModelPrefPetSuff.java",
+                "build/java/src/main/java/org/openapitools/example/model/ModelPrefErrorSuff.java",
+                "build/java/src/main/java/org/openapitools/example/api/PetsApiClassSuffix.java"
+        ).map {
+            val f = File(temp, it)
+            assertTrue(f.exists() && f.isFile, "An expected file was not generated when invoking the generation. - " + f)
+        }
+
+        assertEquals(TaskOutcome.SUCCESS, result.task(":openApiGenerate")?.outcome,
+                "Expected a successful run, but found ${result.task(":openApiGenerate")?.outcome}")
+    }
+
+    @Test
     fun `openApiGenerate should used up-to-date instead of regenerate`() {
         // Arrange
         val projectFiles = mapOf(

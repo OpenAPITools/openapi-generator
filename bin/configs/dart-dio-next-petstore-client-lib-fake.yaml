@@ -8,3 +8,4 @@ typeMappings:
   EnumClass: "ModelEnumClass"
 additionalProperties:
   hideGenerationTimestamp: "true"
+  enumUnknownDefaultCase: "true"

@@ -12,6 +12,9 @@ import org.openapitools.model.Bar;
 import org.openapitools.model.BarCreate;
 import org.openapitools.model.Extensible;
 import org.openapitools.model.Foo;
+import org.openapitools.model.Pasta;
+import org.openapitools.model.Pizza;
+import org.openapitools.model.PizzaSpeziale;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -34,7 +37,10 @@ import javax.annotation.Generated;
 @JsonSubTypes({
   @JsonSubTypes.Type(value = Bar.class, name = "Bar"),
   @JsonSubTypes.Type(value = BarCreate.class, name = "Bar_Create"),
-  @JsonSubTypes.Type(value = Foo.class, name = "Foo")
+  @JsonSubTypes.Type(value = Foo.class, name = "Foo"),
+  @JsonSubTypes.Type(value = Pasta.class, name = "Pasta"),
+  @JsonSubTypes.Type(value = Pizza.class, name = "Pizza"),
+  @JsonSubTypes.Type(value = PizzaSpeziale.class, name = "PizzaSpeziale")
 })
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")

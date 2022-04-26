@@ -1,5 +1,6 @@
 Model/200Response.sql
 Model/AdditionalPropertiesClass.sql
+Model/AllOfWithSingleRef.sql
 Model/Animal.sql
 Model/ApiResponse.sql
 Model/ArrayOfArrayOfNumberOnly.sql
@@ -41,6 +42,7 @@ Model/OuterObjectWithEnumProperty.sql
 Model/Pet.sql
 Model/ReadOnlyFirst.sql
 Model/Return.sql
+Model/SingleRefType.sql
 Model/SpecialModelName.sql
 Model/Tag.sql
 Model/User.sql

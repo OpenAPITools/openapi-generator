@@ -2,7 +2,6 @@
 
 from collections import defaultdict
 from decimal import Decimal
-import sys
 import typing
 from unittest.mock import patch
 import unittest
@@ -18,7 +17,6 @@ from petstore_api.model.array_with_validations_in_items import (
 from petstore_api.model.foo import Foo
 from petstore_api.model.animal import Animal
 from petstore_api.model.dog import Dog
-from petstore_api.model.dog_all_of import DogAllOf
 from petstore_api.model.boolean_enum import BooleanEnum
 from petstore_api.model.pig import Pig
 from petstore_api.model.danish_pig import DanishPig
@@ -32,11 +30,6 @@ from petstore_api.schemas import (
     NumberSchema,
     Schema,
     ValidationMetadata,
-    Int64Schema,
-    StrBase,
-    NumberBase,
-    DictBase,
-    ListBase,
     frozendict,
 )
 
@@ -105,7 +98,7 @@ class TestValidateResults(unittest.TestCase):
             frozendict(className="Dog", color="black"), validation_metadata=vm
         )
         assert path_to_schemas == {
-            ("args[0]",): set([Animal, Dog, DogAllOf, frozendict]),
+            ("args[0]",): set([Animal, Dog, Dog._composed_schemas['allOf'][1], frozendict]),
             ("args[0]", "className"): set([StrSchema, AnyTypeSchema, str]),
             ("args[0]", "color"): set([StrSchema, AnyTypeSchema, str]),
         }

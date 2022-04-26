@@ -46,6 +46,7 @@ public class CodeGenMojoTest extends BaseTestCase {
         mojo.execute();
         assertEquals("java", getVariableValueFromObject(mojo, "generatorName"));
         assertEquals("jersey2", getVariableValueFromObject(mojo, "library"));
+        assertEquals("Suffix", getVariableValueFromObject(mojo, "apiNameSuffix"));
         assertEquals("remote.org.openapitools.client.api", getVariableValueFromObject(mojo, "apiPackage"));
         assertEquals("remote.org.openapitools.client.model", getVariableValueFromObject(mojo, "modelPackage"));
         assertEquals("remote.org.openapitools.client", getVariableValueFromObject(mojo, "invokerPackage"));

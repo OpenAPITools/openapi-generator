@@ -3,6 +3,7 @@
 README.md
 bin/autodoc
 docs/AdditionalPropertiesClass.md
+docs/AllOfWithSingleRef.md
 docs/Animal.md
 docs/AnotherFakeApi.md
 docs/ApiResponse.md
@@ -50,6 +51,7 @@ docs/OuterObjectWithEnumProperty.md
 docs/Pet.md
 docs/PetApi.md
 docs/ReadOnlyFirst.md
+docs/SingleRefType.md
 docs/SpecialModelName.md
 docs/StoreApi.md
 docs/Tag.md
@@ -64,6 +66,7 @@ lib/WWW/OpenAPIClient/DefaultApi.pm
 lib/WWW/OpenAPIClient/FakeApi.pm
 lib/WWW/OpenAPIClient/FakeClassnameTags123Api.pm
 lib/WWW/OpenAPIClient/Object/AdditionalPropertiesClass.pm
+lib/WWW/OpenAPIClient/Object/AllOfWithSingleRef.pm
 lib/WWW/OpenAPIClient/Object/Animal.pm
 lib/WWW/OpenAPIClient/Object/ApiResponse.pm
 lib/WWW/OpenAPIClient/Object/ArrayOfArrayOfNumberOnly.pm
@@ -106,6 +109,7 @@ lib/WWW/OpenAPIClient/Object/OuterEnumIntegerDefaultValue.pm
 lib/WWW/OpenAPIClient/Object/OuterObjectWithEnumProperty.pm
 lib/WWW/OpenAPIClient/Object/Pet.pm
 lib/WWW/OpenAPIClient/Object/ReadOnlyFirst.pm
+lib/WWW/OpenAPIClient/Object/SingleRefType.pm
 lib/WWW/OpenAPIClient/Object/SpecialModelName.pm
 lib/WWW/OpenAPIClient/Object/Tag.pm
 lib/WWW/OpenAPIClient/Object/User.pm
