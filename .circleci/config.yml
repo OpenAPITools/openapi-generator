@@ -60,7 +60,7 @@ commands: # a reusable command with parameters
             # You can probably delete some of these entries
             - vendor/bundle
             - ~/.nvm
-            - ~/. pyenv
+            - ~/.pyenv
             - ~/virtualenvs
             - ~/.m2
             - ~/.ivy2
@@ -81,7 +81,7 @@ commands: # a reusable command with parameters
             # You can probably delete some of these entries
             - vendor/bundle
             - ~/.nvm
-            - ~/. pyenv
+            - ~/.pyenv
             - ~/virtualenvs
             - ~/.m2
             - ~/.ivy2
