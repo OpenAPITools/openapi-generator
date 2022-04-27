@@ -93,6 +93,7 @@ module Petstore
       header_params = @default_headers.merge(opts[:header_params] || {})
       query_params = opts[:query_params] || {}
       form_params = opts[:form_params] || {}
+      follow_location = opts[:follow_location] || true
 
 
       # set ssl_verifyhosts option based on @config.verify_ssl_host (true/false)
@@ -108,7 +109,8 @@ module Petstore
         :ssl_verifyhost => _verify_ssl_host,
         :sslcert => @config.cert_file,
         :sslkey => @config.key_file,
-        :verbose => @config.debugging
+        :verbose => @config.debugging,
+        :followlocation => follow_location
       }
 
       # set custom cert, if provided

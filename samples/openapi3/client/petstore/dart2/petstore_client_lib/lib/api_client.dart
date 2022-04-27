@@ -11,11 +11,7 @@
 part of openapi.api;
 
 class ApiClient {
-  ApiClient({this.basePath = 'http://petstore.swagger.io/v2'}) {
-    // Setup authentications (key: authentication name, value: authentication).
-    _authentications[r'api_key'] = ApiKeyAuth('header', 'api_key');
-    _authentications[r'petstore_auth'] = OAuth();
-  }
+  ApiClient({this.basePath = 'http://petstore.swagger.io/v2', this.authentication});
 
   final String basePath;
 
@@ -32,22 +28,13 @@ class ApiClient {
   }
 
   final _defaultHeaderMap = <String, String>{};
-  final _authentications = <String, Authentication>{};
+  final Authentication? authentication;
 
   void addDefaultHeader(String key, String value) {
      _defaultHeaderMap[key] = value;
   }
 
   Map<String,String> get defaultHeaderMap => _defaultHeaderMap;
-
-  /// Returns an unmodifiable [Map] of the authentications, since none should be added
-  /// or deleted.
-  Map<String, Authentication> get authentications => Map.unmodifiable(_authentications);
-
-  T? getAuthentication<T extends Authentication>(String name) {
-    final authentication = _authentications[name];
-    return authentication is T ? authentication : null;
-  }
 
   // We don't use a Map<String, String> for queryParams.
   // If collectionFormat is 'multi', a key might appear multiple times.
@@ -59,9 +46,8 @@ class ApiClient {
     Map<String, String> headerParams,
     Map<String, String> formParams,
     String? contentType,
-    List<String> authNames,
   ) async {
-    _updateParamsForAuth(authNames, queryParams, headerParams);
+    _updateParamsForAuth(queryParams, headerParams);
 
     headerParams.addAll(_defaultHeaderMap);
     if (contentType != null) {
@@ -180,18 +166,12 @@ class ApiClient {
   String serialize(Object? value) => value == null ? '' : json.encode(value);
 
   /// Update query and header parameters based on authentication settings.
-  /// @param authNames The authentications to apply
   void _updateParamsForAuth(
-    List<String> authNames,
     List<QueryParam> queryParams,
     Map<String, String> headerParams,
   ) {
-    for(final authName in authNames) {
-      final auth = _authentications[authName];
-      if (auth == null) {
-        throw ArgumentError('Authentication undefined: $authName');
-      }
-      auth.applyToParams(queryParams, headerParams);
+    if (authentication != null) {
+      authentication!.applyToParams(queryParams, headerParams);
     }
   }
 

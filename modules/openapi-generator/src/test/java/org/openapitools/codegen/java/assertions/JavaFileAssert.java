@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.Assertions;
+import org.assertj.core.util.CanIgnoreReturnValue;
 
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
@@ -17,6 +18,7 @@ import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.nodeTypes.NodeWithName;
 
+@CanIgnoreReturnValue
 public class JavaFileAssert extends AbstractAssert<JavaFileAssert, CompilationUnit> {
 
     private JavaFileAssert(final CompilationUnit actual) {

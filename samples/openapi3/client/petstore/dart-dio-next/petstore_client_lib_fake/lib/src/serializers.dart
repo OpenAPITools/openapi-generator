@@ -13,6 +13,7 @@ import 'package:openapi/src/date_serializer.dart';
 import 'package:openapi/src/model/date.dart';
 
 import 'package:openapi/src/model/additional_properties_class.dart';
+import 'package:openapi/src/model/all_of_with_single_ref.dart';
 import 'package:openapi/src/model/animal.dart';
 import 'package:openapi/src/model/api_response.dart';
 import 'package:openapi/src/model/array_of_array_of_number_only.dart';
@@ -55,15 +56,16 @@ import 'package:openapi/src/model/outer_enum_integer_default_value.dart';
 import 'package:openapi/src/model/outer_object_with_enum_property.dart';
 import 'package:openapi/src/model/pet.dart';
 import 'package:openapi/src/model/read_only_first.dart';
+import 'package:openapi/src/model/single_ref_type.dart';
 import 'package:openapi/src/model/special_model_name.dart';
 import 'package:openapi/src/model/tag.dart';
 import 'package:openapi/src/model/user.dart';
-import 'package:openapi/src/model/user_type.dart';
 
 part 'serializers.g.dart';
 
 @SerializersFor([
   AdditionalPropertiesClass,
+  AllOfWithSingleRef,
   Animal,
   ApiResponse,
   ArrayOfArrayOfNumberOnly,
@@ -106,10 +108,10 @@ part 'serializers.g.dart';
   OuterObjectWithEnumProperty,
   Pet,
   ReadOnlyFirst,
+  SingleRefType,
   SpecialModelName,
   Tag,
   User,
-  UserType,
 ])
 Serializers serializers = (_$serializers.toBuilder()
       ..addBuilderFactory(

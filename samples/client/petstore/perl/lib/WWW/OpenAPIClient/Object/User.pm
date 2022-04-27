@@ -30,7 +30,6 @@ use Log::Any qw($log);
 use Date::Parse;
 use DateTime;
 
-use WWW::OpenAPIClient::Object::UserType;
 
 use base ("Class::Accessor", "Class::Data::Inheritable");
 
@@ -217,13 +216,6 @@ __PACKAGE__->method_documentation({
         format => '',
         read_only => '',
             },
-    'user_type' => {
-        datatype => 'UserType',
-        base_name => 'userType',
-        description => '',
-        format => '',
-        read_only => '',
-            },
 });
 
 __PACKAGE__->openapi_types( {
@@ -234,8 +226,7 @@ __PACKAGE__->openapi_types( {
     'email' => 'string',
     'password' => 'string',
     'phone' => 'string',
-    'user_status' => 'int',
-    'user_type' => 'UserType'
+    'user_status' => 'int'
 } );
 
 __PACKAGE__->attribute_map( {
@@ -246,8 +237,7 @@ __PACKAGE__->attribute_map( {
     'email' => 'email',
     'password' => 'password',
     'phone' => 'phone',
-    'user_status' => 'userStatus',
-    'user_type' => 'userType'
+    'user_status' => 'userStatus'
 } );
 
 __PACKAGE__->mk_accessors(keys %{__PACKAGE__->attribute_map});

@@ -2,7 +2,6 @@
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
 
-import 'package:openapi/src/model/user_type.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'user.g.dart';
@@ -32,8 +31,6 @@ class User {
      this.phone,
 
      this.userStatus,
-
-     this.userType,
   });
 
   @JsonKey(
@@ -133,18 +130,6 @@ class User {
 
 
 
-  @JsonKey(
-    
-    name: r'userType',
-    required: false,
-    includeIfNull: false
-  )
-
-
-  final UserType? userType;
-
-
-
   @override
   bool operator ==(Object other) => identical(this, other) || other is User &&
      other.id == id &&
@@ -154,8 +139,7 @@ class User {
      other.email == email &&
      other.password == password &&
      other.phone == phone &&
-     other.userStatus == userStatus &&
-     other.userType == userType;
+     other.userStatus == userStatus;
 
   @override
   int get hashCode =>
@@ -166,8 +150,7 @@ class User {
     (email == null ? 0 : email.hashCode) +
     (password == null ? 0 : password.hashCode) +
     (phone == null ? 0 : phone.hashCode) +
-    (userStatus == null ? 0 : userStatus.hashCode) +
-    (userType == null ? 0 : userType.hashCode);
+    (userStatus == null ? 0 : userStatus.hashCode);
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 
@@ -179,6 +162,4 @@ class User {
   }
 
 }
-
-
 

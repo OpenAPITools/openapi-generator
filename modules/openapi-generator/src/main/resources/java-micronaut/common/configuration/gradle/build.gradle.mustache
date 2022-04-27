@@ -40,7 +40,9 @@ dependencies {
     implementation("io.micronaut.security:micronaut-security")
     implementation("io.micronaut.security:micronaut-security-oauth2")
     {{/useAuth}}
+    {{#reactive}}
     implementation("io.micronaut.reactor:micronaut-reactor")
+    {{/reactive}}
     implementation("io.swagger:swagger-annotations:1.5.9")
     runtimeOnly("ch.qos.logback:logback-classic")
 }

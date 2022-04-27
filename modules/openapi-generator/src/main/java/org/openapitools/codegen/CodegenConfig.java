@@ -141,6 +141,8 @@ public interface CodegenConfig {
 
     Map<String, String> importMapping();
 
+    Map<String, String> inlineSchemaNameMapping();
+
     Map<String, String> apiTemplateFiles();
 
     Map<String, String> modelTemplateFiles();
@@ -181,7 +183,7 @@ public interface CodegenConfig {
 
     String toModelImport(String name);
 
-    Map<String,String> toModelImportMap(String name);
+    Map<String, String> toModelImportMap(String name);
 
     String toApiImport(String name);
 
@@ -284,6 +286,7 @@ public interface CodegenConfig {
 
     /**
      * Set the OpenAPI instance. This method needs to be called right after the instantiation of the Codegen class.
+     *
      * @param openAPI specification being generated
      */
     void setOpenAPI(OpenAPI openAPI);
@@ -319,4 +322,6 @@ public interface CodegenConfig {
     String generatorLanguageVersion();
 
     List<VendorExtension> getSupportedVendorExtensions();
+
+    boolean getUseInlineModelResolver();
 }

@@ -113,7 +113,7 @@ public class Pet {
     @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_ID)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public Long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -137,7 +137,7 @@ public class Pet {
     @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_CATEGORY)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public Category getCategory() {
+    public Category getCategory() {
         return category;
     }
 
@@ -160,7 +160,7 @@ public class Pet {
     @ApiModelProperty(example = "doggie", required = true, value = "")
     @JsonProperty(JSON_PROPERTY_NAME)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
-       public String getName() {
+    public String getName() {
         return name;
     }
 
@@ -188,7 +188,7 @@ public class Pet {
     @ApiModelProperty(required = true, value = "")
     @JsonProperty(JSON_PROPERTY_PHOTO_URLS)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
-       public List<String> getPhotoUrls() {
+    public List<String> getPhotoUrls() {
         return photoUrls;
     }
 
@@ -219,7 +219,7 @@ public class Pet {
     @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_TAGS)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public List<Tag> getTags() {
+    public List<Tag> getTags() {
         return tags;
     }
 
@@ -242,7 +242,7 @@ public class Pet {
     @ApiModelProperty(value = "pet status in the store")
     @JsonProperty(JSON_PROPERTY_STATUS)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public StatusEnum getStatus() {
+    public StatusEnum getStatus() {
         return status;
     }
 

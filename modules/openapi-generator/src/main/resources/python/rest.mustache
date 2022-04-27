@@ -290,10 +290,10 @@ def is_ipv4(target):
     """ Test if IPv4 address or not
     """
     try:
-       chk = ipaddress.IPv4Address(target)
-       return True
+        chk = ipaddress.IPv4Address(target)
+        return True
     except ipaddress.AddressValueError:
-       return False
+        return False
 
 def in_ipv4net(target, net):
     """ Test if target belongs to given IPv4 network
@@ -333,6 +333,6 @@ def should_bypass_proxies(url, no_proxy=None):
 
     if is_ipv4(parsed.hostname):
         for item in entries:
-           if in_ipv4net(parsed.hostname, item):
-               return True
+            if in_ipv4net(parsed.hostname, item):
+                return True
     return proxy_bypass_environment(parsed.hostname, {'no': no_proxy} )

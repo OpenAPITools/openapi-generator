@@ -60,7 +60,7 @@ public class OuterComposite {
     @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_MY_NUMBER)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public BigDecimal getMyNumber() {
+    public BigDecimal getMyNumber() {
         return myNumber;
     }
 
@@ -83,7 +83,7 @@ public class OuterComposite {
     @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_MY_STRING)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public String getMyString() {
+    public String getMyString() {
         return myString;
     }
 
@@ -106,7 +106,7 @@ public class OuterComposite {
     @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_MY_BOOLEAN)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public Boolean getMyBoolean() {
+    public Boolean getMyBoolean() {
         return myBoolean;
     }
 

@@ -54,7 +54,8 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
     protected String pubAuthorEmail = "author@homepage";
     protected String pubHomepage = "homepage";
     protected boolean useEnumExtension = false;
-    protected String sourceFolder = "";
+    protected String sourceFolder = "src";
+    protected String libPath = "lib" + File.separator;
     protected String apiDocPath = "doc" + File.separator;
     protected String modelDocPath = "doc" + File.separator;
     protected String apiTestPath = "test" + File.separator;
@@ -99,8 +100,8 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         modelTemplateFiles.put("model.mustache", ".dart");
         apiTemplateFiles.put("api.mustache", ".dart");
         embeddedTemplateDir = templateDir = "dart2";
-        apiPackage = "lib.api";
-        modelPackage = "lib.model";
+        apiPackage = "api";
+        modelPackage = "model";
         modelDocTemplateFiles.put("object_doc.mustache", ".md");
         apiDocTemplateFiles.put("api_doc.mustache", ".md");
 
@@ -182,15 +183,15 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         imports.put("Object", "dart:core");
         imports.put("MultipartFile", "package:http/http.dart");
 
-        cliOptions.add(new CliOption(PUB_LIBRARY, "Library name in generated code"));
-        cliOptions.add(new CliOption(PUB_NAME, "Name in generated pubspec"));
-        cliOptions.add(new CliOption(PUB_VERSION, "Version in generated pubspec"));
-        cliOptions.add(new CliOption(PUB_DESCRIPTION, "Description in generated pubspec"));
-        cliOptions.add(new CliOption(PUB_AUTHOR, "Author name in generated pubspec"));
-        cliOptions.add(new CliOption(PUB_AUTHOR_EMAIL, "Email address of the author in generated pubspec"));
-        cliOptions.add(new CliOption(PUB_HOMEPAGE, "Homepage in generated pubspec"));
-        cliOptions.add(new CliOption(USE_ENUM_EXTENSION, "Allow the 'x-enum-values' extension for enums"));
-        cliOptions.add(new CliOption(CodegenConstants.SOURCE_FOLDER, "Source folder for generated code"));
+        addOption(PUB_LIBRARY, "Library name in generated code", pubLibrary);
+        addOption(PUB_NAME, "Name in generated pubspec", pubName);
+        addOption(PUB_VERSION, "Version in generated pubspec", pubVersion);
+        addOption(PUB_DESCRIPTION, "Description in generated pubspec", pubDescription);
+        addOption(PUB_AUTHOR, "Author name in generated pubspec", pubAuthor);
+        addOption(PUB_AUTHOR_EMAIL, "Email address of the author in generated pubspec", pubAuthorEmail);
+        addOption(PUB_HOMEPAGE, "Homepage in generated pubspec", pubHomepage);
+        addOption(USE_ENUM_EXTENSION, "Allow the 'x-enum-values' extension for enums", String.valueOf(useEnumExtension));
+        addOption(CodegenConstants.SOURCE_FOLDER, CodegenConstants.SOURCE_FOLDER_DESC, sourceFolder);
     }
 
     @Override
@@ -211,6 +212,13 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
     @Override
     public void processOpts() {
         super.processOpts();
+
+        // Fix a couple Java notation properties
+        modelPackage = modelPackage.replace('.', '/');
+        apiPackage = apiPackage.replace('.', '/');
+        // And overwrite them in the additional properties
+        additionalProperties.put(CodegenConstants.MODEL_PACKAGE, modelPackage);
+        additionalProperties.put(CodegenConstants.API_PACKAGE, apiPackage);
 
         if (StringUtils.isEmpty(System.getenv("DART_POST_PROCESS_FILE"))) {
             LOGGER.info("Environment variable DART_POST_PROCESS_FILE not defined so the Dart code may not be properly formatted. To define it, try `export DART_POST_PROCESS_FILE=\"/usr/local/bin/dartfmt -w\"` (Linux/Mac)");
@@ -274,8 +282,10 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         }
 
         if (additionalProperties.containsKey(CodegenConstants.SOURCE_FOLDER)) {
-            this.setSourceFolder((String) additionalProperties.get(CodegenConstants.SOURCE_FOLDER));
+            String srcFolder = (String) additionalProperties.get(CodegenConstants.SOURCE_FOLDER);
+            this.setSourceFolder(srcFolder.replace('/', File.separatorChar));
         }
+        additionalProperties.put(CodegenConstants.SOURCE_FOLDER, sourceFolder);
 
         // make api and model doc path available in mustache template
         additionalProperties.put("apiDocPath", apiDocPath);
@@ -307,32 +317,32 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
 
     @Override
     public String apiFileFolder() {
-        return outputFolder + File.separator + sourceFolder + File.separator + apiPackage().replace('.', File.separatorChar);
+        return (outputFolder + File.separator + libPath + sourceFolder + File.separator + apiPackage()).replace('/', File.separatorChar);
     }
 
     @Override
     public String modelFileFolder() {
-        return outputFolder + File.separator + sourceFolder + File.separator + modelPackage().replace('.', File.separatorChar);
+        return (outputFolder + File.separator + libPath + sourceFolder + File.separator + modelPackage()).replace('/', File.separatorChar);
     }
 
     @Override
     public String apiTestFileFolder() {
-        return outputFolder + File.separator + apiTestPath.replace('/', File.separatorChar);
+        return outputFolder + File.separator + apiTestPath;
     }
 
     @Override
     public String modelTestFileFolder() {
-        return outputFolder + File.separator + modelTestPath.replace('/', File.separatorChar);
+        return outputFolder + File.separator + modelTestPath;
     }
 
     @Override
     public String apiDocFileFolder() {
-        return outputFolder + File.separator + apiDocPath.replace('/', File.separatorChar);
+        return outputFolder + File.separator + apiDocPath;
     }
 
     @Override
     public String modelDocFileFolder() {
-        return outputFolder + File.separator + modelDocPath.replace('/', File.separatorChar);
+        return outputFolder + File.separator + modelDocPath;
     }
 
     @Override

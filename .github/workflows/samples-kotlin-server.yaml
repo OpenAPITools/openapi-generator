@@ -21,9 +21,12 @@ jobs:
         sample:
           # server
           - samples/server/petstore/kotlin-springboot
-          - samples/server/petstore/kotlin-springboot-modelMutable
           - samples/server/petstore/kotlin-springboot-delegate
+          - samples/server/petstore/kotlin-springboot-modelMutable
           - samples/server/petstore/kotlin-springboot-reactive
+          - samples/server/petstore/kotlin-springboot-source-swagger1
+          - samples/server/petstore/kotlin-springboot-source-swagger2
+          - samples/server/petstore/kotlin-springboot-springfox
           - samples/server/petstore/kotlin-server/ktor
           - samples/server/petstore/kotlin-server/jaxrs-spec
           - samples/server/petstore/kotlin-server-modelMutable

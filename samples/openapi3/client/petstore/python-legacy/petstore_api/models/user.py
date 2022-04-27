@@ -43,8 +43,7 @@ class User(object):
         'email': 'str',
         'password': 'str',
         'phone': 'str',
-        'user_status': 'int',
-        'user_type': 'UserType'
+        'user_status': 'int'
     }
 
     attribute_map = {
@@ -55,11 +54,10 @@ class User(object):
         'email': 'email',
         'password': 'password',
         'phone': 'phone',
-        'user_status': 'userStatus',
-        'user_type': 'userType'
+        'user_status': 'userStatus'
     }
 
-    def __init__(self, id=None, username=None, first_name=None, last_name=None, email=None, password=None, phone=None, user_status=None, user_type=None, local_vars_configuration=None):  # noqa: E501
+    def __init__(self, id=None, username=None, first_name=None, last_name=None, email=None, password=None, phone=None, user_status=None, local_vars_configuration=None):  # noqa: E501
         """User - a model defined in OpenAPI"""  # noqa: E501
         if local_vars_configuration is None:
             local_vars_configuration = Configuration.get_default_copy()
@@ -73,7 +71,6 @@ class User(object):
         self._password = None
         self._phone = None
         self._user_status = None
-        self._user_type = None
         self.discriminator = None
 
         if id is not None:
@@ -92,7 +89,6 @@ class User(object):
             self.phone = phone
         if user_status is not None:
             self.user_status = user_status
-        self.user_type = user_type
 
     @property
     def id(self):
@@ -263,27 +259,6 @@ class User(object):
         """
 
         self._user_status = user_status
-
-    @property
-    def user_type(self):
-        """Gets the user_type of this User.  # noqa: E501
-
-
-        :return: The user_type of this User.  # noqa: E501
-        :rtype: UserType
-        """
-        return self._user_type
-
-    @user_type.setter
-    def user_type(self, user_type):
-        """Sets the user_type of this User.
-
-
-        :param user_type: The user_type of this User.  # noqa: E501
-        :type user_type: UserType
-        """
-
-        self._user_type = user_type
 
     def to_dict(self, serialize=False):
         """Returns the model properties as a dict"""

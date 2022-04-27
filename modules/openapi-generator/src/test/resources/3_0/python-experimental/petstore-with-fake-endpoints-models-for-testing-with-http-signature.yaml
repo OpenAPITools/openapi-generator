@@ -1730,13 +1730,12 @@ components:
             Here the 'type' attribute is not specified, which means the value can be anything,
             including the null value, string, number, boolean, array or object.
             See https://github.com/OAI/OpenAPI-Specification/issues/1389
-        # TODO: this should be supported, currently there are some issues in the code generation.
-        #anyTypeExceptNullProp:
-        #  description: any type except 'null'
-        #    Here the 'type' attribute is not specified, which means the value can be anything,
-        #    including the null value, string, number, boolean, array or object.
-        #  not:
-        #    type: 'null'
+        anyTypeExceptNullProp:
+          description: any type except 'null'
+            Here the 'type' attribute is not specified, which means the value can be anything,
+            including the null value, string, number, boolean, array or object.
+          not:
+            type: 'null'
         anyTypePropNullable:
           description: test code generation for any type
             Here the 'type' attribute is not specified, which means the value can be anything,
@@ -2688,9 +2687,6 @@ components:
     SomeObject:
       allOf:
         - $ref: '#/components/schemas/ObjectInterface'
-# TODO turn this back on later
-#    AnyType:
-#      description: this should allow any type because type was not specified
     ArrayWithValidationsInItems:
       type: array
       maxItems: 2
@@ -2808,3 +2804,10 @@ components:
           allOf:
             - type: string
               minLength: 1
+    UUIDString:
+      type: string
+      format: uuid
+      minLength: 1
+    AnyTypeNotString:
+      not:
+        type: string

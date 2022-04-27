@@ -1,4 +1,5 @@
 import 'package:openapi/src/model/additional_properties_class.dart';
+import 'package:openapi/src/model/all_of_with_single_ref.dart';
 import 'package:openapi/src/model/animal.dart';
 import 'package:openapi/src/model/api_response.dart';
 import 'package:openapi/src/model/array_of_array_of_number_only.dart';
@@ -41,10 +42,10 @@ import 'package:openapi/src/model/outer_enum_integer_default_value.dart';
 import 'package:openapi/src/model/outer_object_with_enum_property.dart';
 import 'package:openapi/src/model/pet.dart';
 import 'package:openapi/src/model/read_only_first.dart';
+import 'package:openapi/src/model/single_ref_type.dart';
 import 'package:openapi/src/model/special_model_name.dart';
 import 'package:openapi/src/model/tag.dart';
 import 'package:openapi/src/model/user.dart';
-import 'package:openapi/src/model/user_type.dart';
 
 final _regList = RegExp(r'^List<(.*)>$');
 final _regSet = RegExp(r'^Set<(.*)>$');
@@ -67,6 +68,8 @@ final _regMap = RegExp(r'^Map<String,(.*)>$');
           return (value is double ? value : double.parse('$value')) as ReturnType;
         case 'AdditionalPropertiesClass':
           return AdditionalPropertiesClass.fromJson(value as Map<String, dynamic>) as ReturnType;
+        case 'AllOfWithSingleRef':
+          return AllOfWithSingleRef.fromJson(value as Map<String, dynamic>) as ReturnType;
         case 'Animal':
           return Animal.fromJson(value as Map<String, dynamic>) as ReturnType;
         case 'ApiResponse':
@@ -156,15 +159,15 @@ final _regMap = RegExp(r'^Map<String,(.*)>$');
           return Pet.fromJson(value as Map<String, dynamic>) as ReturnType;
         case 'ReadOnlyFirst':
           return ReadOnlyFirst.fromJson(value as Map<String, dynamic>) as ReturnType;
+        case 'SingleRefType':
+          
+          
         case 'SpecialModelName':
           return SpecialModelName.fromJson(value as Map<String, dynamic>) as ReturnType;
         case 'Tag':
           return Tag.fromJson(value as Map<String, dynamic>) as ReturnType;
         case 'User':
           return User.fromJson(value as Map<String, dynamic>) as ReturnType;
-        case 'UserType':
-          
-          
         default:
           RegExpMatch? match;
 

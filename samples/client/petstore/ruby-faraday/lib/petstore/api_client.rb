@@ -16,6 +16,7 @@ require 'logger'
 require 'tempfile'
 require 'time'
 require 'faraday'
+require 'faraday/multipart' if Gem::Version.new(Faraday::VERSION) >= Gem::Version.new('2.0')
 
 module Petstore
   class ApiClient
@@ -47,44 +48,24 @@ module Petstore
     # @return [Array<(Object, Integer, Hash)>] an array of 3 elements:
     #   the data deserialized from response body (could be nil), response status code and response headers.
     def call_api(http_method, path, opts = {})
-      ssl_options = {
-        :ca_file => @config.ssl_ca_file,
-        :verify => @config.ssl_verify,
-        :verify_mode => @config.ssl_verify_mode,
-        :client_cert => @config.ssl_client_cert,
-        :client_key => @config.ssl_client_key
-      }
-      request_options = {
-        :params_encoder => @config.params_encoder
-      }
-      connection = Faraday.new(:url => config.base_url, :ssl => ssl_options, :request => request_options) do |conn|
-        conn.request(:basic_auth, config.username, config.password)
-        @config.configure_middleware(conn)
-        if opts[:header_params]["Content-Type"] == "multipart/form-data"
-          conn.request :multipart
-          conn.request :url_encoded
-        end
-        conn.adapter(Faraday.default_adapter)
-      end
-
       begin
-        response = connection.public_send(http_method.to_sym.downcase) do |req|
+        response = connection(opts).public_send(http_method.to_sym.downcase) do |req|
           build_request(http_method, path, req, opts)
         end
 
-        if @config.debugging
-          @config.logger.debug "HTTP response body ~BEGIN~\n#{response.body}\n~END~\n"
+        if config.debugging
+          config.logger.debug "HTTP response body ~BEGIN~\n#{response.body}\n~END~\n"
         end
 
         unless response.success?
           if response.status == 0
             # Errors from libcurl will be made visible here
-            fail ApiError.new(:code => 0,
-                              :message => response.return_message)
+            fail ApiError.new(code: 0,
+                              message: response.return_message)
           else
-            fail ApiError.new(:code => response.status,
-                              :response_headers => response.headers,
-                              :response_body => response.body),
+            fail ApiError.new(code: response.status,
+                              response_headers: response.headers,
+                              response_body: response.body),
                  response.reason_phrase
           end
         end
@@ -121,17 +102,17 @@ module Petstore
 
       if [:post, :patch, :put, :delete].include?(http_method)
         req_body = build_request_body(header_params, form_params, opts[:body])
-        if @config.debugging
-          @config.logger.debug "HTTP request body param ~BEGIN~\n#{req_body}\n~END~\n"
+        if config.debugging
+          config.logger.debug "HTTP request body param ~BEGIN~\n#{req_body}\n~END~\n"
         end
       end
       request.headers = header_params
       request.body = req_body
 
       # Overload default options only if provided
-      request.options.params_encoder = @config.params_encoder if @config.params_encoder
-      request.options.timeout         = @config.timeout         if @config.timeout
-      request.options.verbose         = @config.debugging       if @config.debugging
+      request.options.params_encoder = config.params_encoder if config.params_encoder
+      request.options.timeout        = config.timeout        if config.timeout
+      request.options.verbose        = config.debugging      if config.debugging
 
       request.url url
       request.params = query_params
@@ -177,6 +158,50 @@ module Petstore
       # handle streaming Responses
       request.options.on_data = Proc.new do |chunk, overall_received_bytes|
         @stream << chunk
+      end
+    end
+
+    def connection(opts)
+      opts[:header_params]['Content-Type'] == 'multipart/form-data' ? connection_multipart : connection_regular
+    end
+
+    def connection_multipart
+      @connection_multipart ||= build_connection do |conn|
+        conn.request :multipart
+        conn.request :url_encoded
+      end
+    end
+
+    def connection_regular
+      @connection_regular ||= build_connection
+    end
+
+    def build_connection
+      Faraday.new(url: config.base_url, ssl: ssl_options) do |conn|
+        basic_auth(conn)
+        config.configure_middleware(conn)
+        yield(conn) if block_given?
+        conn.adapter(Faraday.default_adapter)
+      end
+    end
+
+    def ssl_options
+      {
+        ca_file: config.ssl_ca_file,
+        verify: config.ssl_verify,
+        verify_mode: config.ssl_verify_mode,
+        client_cert: config.ssl_client_cert,
+        client_key: config.ssl_client_key
+      }
+    end
+
+    def basic_auth(conn)
+      if config.username && config.password
+        if Gem::Version.new(Faraday::VERSION) >= Gem::Version.new('2.0')
+          conn.request(:authorization, :basic, config.username, config.password)
+        else
+          conn.request(:basic_auth, config.username, config.password)
+        end
       end
     end
 
