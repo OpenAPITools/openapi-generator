@@ -75,15 +75,16 @@ elif [ "$NODE_INDEX" = "3" ]; then
   mvn --no-snapshot-updates --quiet verify -Psamples.circleci.node3 -Dorg.slf4j.simpleLogger.defaultLogLevel=error
 
 elif [ "$NODE_INDEX" = "4" ]; then
-
   echo "Running node $NODE_INDEX to test 'samples.circleci.node4' defined in pom.xml ..."
+  java -version
+  which mvn
 
   mvn --no-snapshot-updates --quiet verify -Psamples.circleci.node4 -Dorg.slf4j.simpleLogger.defaultLogLevel=error
 
 else
   echo "Running node $NODE_INDEX to test 'samples.circleci.others' defined in pom.xml ..."
-  #sudo update-java-alternatives -s java-1.7.0-openjdk-amd64
   java -version
+  which mvn
 
   mvn --no-snapshot-updates --quiet verify -Psamples.circleci.others -Dorg.slf4j.simpleLogger.defaultLogLevel=error
   mvn --no-snapshot-updates --quiet javadoc:javadoc -Psamples.circleci -Dorg.slf4j.simpleLogger.defaultLogLevel=error
