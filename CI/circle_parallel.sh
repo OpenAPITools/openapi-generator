@@ -78,14 +78,6 @@ elif [ "$NODE_INDEX" = "4" ]; then
 
   echo "Running node $NODE_INDEX to test 'samples.circleci.node4' defined in pom.xml ..."
 
-  # install maven and java so we can use them to run our tests
-  apt-get update && apt-get install -y default-jdk maven sudo
-  java -version
-  export JAVA_HOME=$(readlink -f /usr/bin/java | sed "s:bin/java::")
-  echo $JAVA_HOME
-  # show os version
-  uname -a
-
   mvn --no-snapshot-updates --quiet verify -Psamples.circleci.node4 -Dorg.slf4j.simpleLogger.defaultLogLevel=error
 
 else
