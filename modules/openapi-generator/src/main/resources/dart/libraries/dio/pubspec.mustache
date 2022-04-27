@@ -4,7 +4,12 @@ description: {{pubDescription}}
 homepage: {{pubHomepage}}
 
 environment:
+{{#useBuiltValue}}
   sdk: '>=2.12.0 <3.0.0'
+{{/useBuiltValue}}
+{{#useJsonSerializable}}
+  sdk: '>=2.14.0 <3.0.0'
+{{/useJsonSerializable}}
 
 dependencies:
   dio: '>=4.0.0 <5.0.0'
@@ -12,6 +17,9 @@ dependencies:
   built_value: '>=8.1.0 <9.0.0'
   built_collection: '>=5.1.0 <6.0.0'
 {{/useBuiltValue}}
+{{#useJsonSerializable}}
+  json_annotation: '^4.4.0'
+{{/useJsonSerializable}}
 {{#useDateLibTimeMachine}}
   time_machine: ^0.9.16
 {{/useDateLibTimeMachine}}
@@ -21,4 +29,8 @@ dev_dependencies:
   built_value_generator: '>=8.1.0 <9.0.0'
   build_runner: any
 {{/useBuiltValue}}
+{{#useJsonSerializable}}
+  build_runner: any
+  json_serializable: '^6.1.5'
+{{/useJsonSerializable}}
   test: ^1.16.0

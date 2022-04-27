@@ -56,9 +56,13 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
     public static final String DATE_LIBRARY_DEFAULT = DATE_LIBRARY_CORE;
 
     public static final String SERIALIZATION_LIBRARY_BUILT_VALUE = "built_value";
+    public static final String SERIALIZATION_LIBRARY_JSON_SERIALIZABLE = "json_serializable";
     public static final String SERIALIZATION_LIBRARY_DEFAULT = SERIALIZATION_LIBRARY_BUILT_VALUE;
 
     private static final String DIO_IMPORT = "package:dio/dio.dart";
+    public static final String FINAL_PROPERTIES = "finalProperties";
+    public static final String FINAL_PROPERTIES_DEFAULT_VALUE = "true";
+
     private static final String CLIENT_NAME = "clientName";
 
     private String dateLibrary;
@@ -85,11 +89,17 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
         this.setTemplateDir(embeddedTemplateDir);
 
         supportedLibraries.put(SERIALIZATION_LIBRARY_BUILT_VALUE, "[DEFAULT] built_value");
+        supportedLibraries.put(SERIALIZATION_LIBRARY_JSON_SERIALIZABLE, "[BETA] json_serializable");
         final CliOption serializationLibrary = CliOption.newString(CodegenConstants.SERIALIZATION_LIBRARY, "Specify serialization library");
         serializationLibrary.setEnum(supportedLibraries);
         serializationLibrary.setDefault(SERIALIZATION_LIBRARY_DEFAULT);
         cliOptions.add(serializationLibrary);
 
+        final CliOption finalProperties = CliOption.newBoolean(FINAL_PROPERTIES, "Whether properties are marked as final when using Json Serializable for serialization");
+        finalProperties.setDefault("true");
+        cliOptions.add(finalProperties);
+
+        // Date Library Option
         final CliOption dateOption = CliOption.newString(DATE_LIBRARY, "Specify Date library");
         dateOption.setDefault(DATE_LIBRARY_DEFAULT);
 
@@ -147,6 +157,14 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
         }
         setDateLibrary(additionalProperties.get(DATE_LIBRARY).toString());
 
+        if (!additionalProperties.containsKey(FINAL_PROPERTIES)) {
+            additionalProperties.put(FINAL_PROPERTIES, Boolean.parseBoolean(FINAL_PROPERTIES_DEFAULT_VALUE));
+            LOGGER.debug("finalProperties not set, using default {}", FINAL_PROPERTIES_DEFAULT_VALUE);
+        }
+        else {
+            additionalProperties.put(FINAL_PROPERTIES, Boolean.parseBoolean(additionalProperties.get(FINAL_PROPERTIES).toString()));
+        }
+
         if (!additionalProperties.containsKey(CLIENT_NAME)) {
             final String name = org.openapitools.codegen.utils.StringUtils.camelize(pubName);
             additionalProperties.put(CLIENT_NAME, name);
@@ -177,6 +195,10 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
 
     private void configureSerializationLibrary(String srcFolder) {
         switch (library) {
+            case SERIALIZATION_LIBRARY_JSON_SERIALIZABLE:
+                additionalProperties.put("useJsonSerializable", "true");
+                configureSerializationLibraryJsonSerializable(srcFolder);
+                break;
             default:
             case SERIALIZATION_LIBRARY_BUILT_VALUE:
                 additionalProperties.put("useBuiltValue", "true");
@@ -225,6 +247,18 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
         imports.put("BuiltSet", "package:built_collection/built_collection.dart");
         imports.put("BuiltMap", "package:built_collection/built_collection.dart");
         imports.put("JsonObject", "package:built_value/json_object.dart");
+        imports.put("Uint8List", "dart:typed_data");
+        imports.put("MultipartFile", DIO_IMPORT);
+    }
+
+    private void configureSerializationLibraryJsonSerializable(String srcFolder) {
+        supportingFiles.add(new SupportingFile("serialization/json_serializable/build.yaml.mustache", "" /* main project dir */, "build.yaml"));
+        supportingFiles.add(new SupportingFile("serialization/json_serializable/deserialize.mustache", srcFolder,
+                "deserialize.dart"));
+
+        // most of these are defined in AbstractDartCodegen, we are overriding
+        // just the binary / file handling
+        languageSpecificPrimitives.add("Object");
         imports.put("Uint8List", "dart:typed_data");
         imports.put("MultipartFile", DIO_IMPORT);
     }
@@ -362,27 +396,30 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
                 op.imports.remove("Uint8List");
             }
 
-            for (CodegenParameter param : op.allParams) {
-                // Generate serializer factories for all container type parameters.
-                // But skip binary and file parameters, JSON serializers don't make sense there.
-                if (param.isContainer && !(param.isBinary || param.isFile )) {
-                    addBuiltValueSerializer(new BuiltValueSerializer(
-                            param.isArray,
-                            param.uniqueItems,
-                            param.isMap,
-                            param.items.isNullable,
-                            param.baseType
-                    ));
+            resultImports.addAll(rewriteImports(op.imports, false));
+
+            if (SERIALIZATION_LIBRARY_BUILT_VALUE.equals(library)) {
+
+                for (CodegenParameter param : op.allParams) {
+                    // Generate serializer factories for all container type parameters.
+                    // But skip binary and file parameters, JSON serializers don't make sense there.
+                    if (param.isContainer && !(param.isBinary || param.isFile )) {
+                        addBuiltValueSerializer(new BuiltValueSerializer(
+                                param.isArray,
+                                param.uniqueItems,
+                                param.isMap,
+                                param.items.isNullable,
+                                param.baseType
+                        ));
+                    }
                 }
             }
 
             resultImports.addAll(rewriteImports(op.imports, false));
-            if (op.getHasFormParams() || op.getHasQueryParams()) {
+            if (SERIALIZATION_LIBRARY_BUILT_VALUE.equals(library) && (op.getHasFormParams() || op.getHasQueryParams())) {
                 resultImports.add("package:" + pubName + "/" + sourceFolder + "/api_util.dart");
             }
 
-            // Generate serializer factories for response types.
-            // But skip binary and file response, JSON serializers don't make sense there.
             if (op.returnContainer != null && !(op.isResponseBinary || op.isResponseFile)) {
                 addBuiltValueSerializer(new BuiltValueSerializer(
                         Objects.equals("array", op.returnContainer) || Objects.equals("set", op.returnContainer),
@@ -393,7 +430,6 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
                 ));
             }
         }
-
         // for some reason "import" structure is changed ..
         objs.put("imports", resultImports.stream().sorted().collect(Collectors.toList()));
 
