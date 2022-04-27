@@ -659,6 +659,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [Stingray](http://www.stingray.com)
 - [Suva](https://www.suva.ch/)
 - [Telstra](https://dev.telstra.com)
+- [Tencent](https://www.tencent.com)
 - [The University of Aizu](https://www.u-aizu.ac.jp/en/)
 - [Translucent ApS](https://www.translucent.dk)
 - [TravelTime platform](https://www.traveltimeplatform.com/)
