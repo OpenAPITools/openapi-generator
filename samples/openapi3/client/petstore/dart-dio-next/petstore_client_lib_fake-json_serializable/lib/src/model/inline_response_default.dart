@@ -7,6 +7,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'inline_response_default.g.dart';
 
+
 @JsonSerializable(
   checked: true,
   createToJson: true,
@@ -38,7 +39,7 @@ class InlineResponseDefault {
 
   @override
   int get hashCode =>
-    (string == null ? 0 : string.hashCode);
+    string.hashCode;
 
   factory InlineResponseDefault.fromJson(Map<String, dynamic> json) => _$InlineResponseDefaultFromJson(json);
 

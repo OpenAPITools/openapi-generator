@@ -6,6 +6,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'array_of_number_only.g.dart';
 
+
 @JsonSerializable(
   checked: true,
   createToJson: true,
@@ -37,7 +38,7 @@ class ArrayOfNumberOnly {
 
   @override
   int get hashCode =>
-    (arrayNumber == null ? 0 : arrayNumber.hashCode);
+    arrayNumber.hashCode;
 
   factory ArrayOfNumberOnly.fromJson(Map<String, dynamic> json) => _$ArrayOfNumberOnlyFromJson(json);
 

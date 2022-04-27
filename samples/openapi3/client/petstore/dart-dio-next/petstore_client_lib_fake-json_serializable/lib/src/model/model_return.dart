@@ -6,6 +6,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'model_return.g.dart';
 
+
 @JsonSerializable(
   checked: true,
   createToJson: true,
@@ -37,7 +38,7 @@ class ModelReturn {
 
   @override
   int get hashCode =>
-    (return_ == null ? 0 : return_.hashCode);
+    return_.hashCode;
 
   factory ModelReturn.fromJson(Map<String, dynamic> json) => _$ModelReturnFromJson(json);
 

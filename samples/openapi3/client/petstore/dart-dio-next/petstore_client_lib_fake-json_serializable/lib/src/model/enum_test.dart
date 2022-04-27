@@ -10,6 +10,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'enum_test.g.dart';
 
+
 @JsonSerializable(
   checked: true,
   createToJson: true,
@@ -146,14 +147,14 @@ class EnumTest {
 
   @override
   int get hashCode =>
-    (enumString == null ? 0 : enumString.hashCode) +
-    (enumStringRequired == null ? 0 : enumStringRequired.hashCode) +
-    (enumInteger == null ? 0 : enumInteger.hashCode) +
-    (enumNumber == null ? 0 : enumNumber.hashCode) +
+    enumString.hashCode +
+    enumStringRequired.hashCode +
+    enumInteger.hashCode +
+    enumNumber.hashCode +
     (outerEnum == null ? 0 : outerEnum.hashCode) +
-    (outerEnumInteger == null ? 0 : outerEnumInteger.hashCode) +
-    (outerEnumDefaultValue == null ? 0 : outerEnumDefaultValue.hashCode) +
-    (outerEnumIntegerDefaultValue == null ? 0 : outerEnumIntegerDefaultValue.hashCode);
+    outerEnumInteger.hashCode +
+    outerEnumDefaultValue.hashCode +
+    outerEnumIntegerDefaultValue.hashCode;
 
   factory EnumTest.fromJson(Map<String, dynamic> json) => _$EnumTestFromJson(json);
 

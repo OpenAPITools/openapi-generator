@@ -6,6 +6,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'outer_composite.g.dart';
 
+
 @JsonSerializable(
   checked: true,
   createToJson: true,
@@ -67,9 +68,9 @@ class OuterComposite {
 
   @override
   int get hashCode =>
-    (myNumber == null ? 0 : myNumber.hashCode) +
-    (myString == null ? 0 : myString.hashCode) +
-    (myBoolean == null ? 0 : myBoolean.hashCode);
+    myNumber.hashCode +
+    myString.hashCode +
+    myBoolean.hashCode;
 
   factory OuterComposite.fromJson(Map<String, dynamic> json) => _$OuterCompositeFromJson(json);
 

@@ -6,6 +6,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'enum_arrays.g.dart';
 
+
 @JsonSerializable(
   checked: true,
   createToJson: true,
@@ -52,8 +53,8 @@ class EnumArrays {
 
   @override
   int get hashCode =>
-    (justSymbol == null ? 0 : justSymbol.hashCode) +
-    (arrayEnum == null ? 0 : arrayEnum.hashCode);
+    justSymbol.hashCode +
+    arrayEnum.hashCode;
 
   factory EnumArrays.fromJson(Map<String, dynamic> json) => _$EnumArraysFromJson(json);
 

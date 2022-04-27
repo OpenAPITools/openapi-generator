@@ -6,6 +6,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'animal.g.dart';
 
+
 @JsonSerializable(
   checked: true,
   createToJson: true,
@@ -52,8 +53,8 @@ class Animal {
 
   @override
   int get hashCode =>
-    (className == null ? 0 : className.hashCode) +
-    (color == null ? 0 : color.hashCode);
+    className.hashCode +
+    color.hashCode;
 
   factory Animal.fromJson(Map<String, dynamic> json) => _$AnimalFromJson(json);
 

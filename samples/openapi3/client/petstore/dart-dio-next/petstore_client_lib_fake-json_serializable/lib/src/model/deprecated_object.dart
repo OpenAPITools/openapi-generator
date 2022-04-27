@@ -6,6 +6,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'deprecated_object.g.dart';
 
+
 @JsonSerializable(
   checked: true,
   createToJson: true,
@@ -37,7 +38,7 @@ class DeprecatedObject {
 
   @override
   int get hashCode =>
-    (name == null ? 0 : name.hashCode);
+    name.hashCode;
 
   factory DeprecatedObject.fromJson(Map<String, dynamic> json) => _$DeprecatedObjectFromJson(json);
 

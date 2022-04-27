@@ -7,6 +7,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'mixed_properties_and_additional_properties_class.g.dart';
 
+
 @JsonSerializable(
   checked: true,
   createToJson: true,
@@ -68,9 +69,9 @@ class MixedPropertiesAndAdditionalPropertiesClass {
 
   @override
   int get hashCode =>
-    (uuid == null ? 0 : uuid.hashCode) +
-    (dateTime == null ? 0 : dateTime.hashCode) +
-    (map == null ? 0 : map.hashCode);
+    uuid.hashCode +
+    dateTime.hashCode +
+    map.hashCode;
 
   factory MixedPropertiesAndAdditionalPropertiesClass.fromJson(Map<String, dynamic> json) => _$MixedPropertiesAndAdditionalPropertiesClassFromJson(json);
 

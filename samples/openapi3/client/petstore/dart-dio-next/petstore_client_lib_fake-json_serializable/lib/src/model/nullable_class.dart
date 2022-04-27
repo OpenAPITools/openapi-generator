@@ -6,6 +6,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'nullable_class.g.dart';
 
+
 @JsonSerializable(
   checked: true,
   createToJson: true,
@@ -210,10 +211,10 @@ class NullableClass {
     (datetimeProp == null ? 0 : datetimeProp.hashCode) +
     (arrayNullableProp == null ? 0 : arrayNullableProp.hashCode) +
     (arrayAndItemsNullableProp == null ? 0 : arrayAndItemsNullableProp.hashCode) +
-    (arrayItemsNullable == null ? 0 : arrayItemsNullable.hashCode) +
+    arrayItemsNullable.hashCode +
     (objectNullableProp == null ? 0 : objectNullableProp.hashCode) +
     (objectAndItemsNullableProp == null ? 0 : objectAndItemsNullableProp.hashCode) +
-    (objectItemsNullable == null ? 0 : objectItemsNullable.hashCode);
+    objectItemsNullable.hashCode;
 
   factory NullableClass.fromJson(Map<String, dynamic> json) => _$NullableClassFromJson(json);
 

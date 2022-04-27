@@ -6,6 +6,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'dog_all_of.g.dart';
 
+
 @JsonSerializable(
   checked: true,
   createToJson: true,
@@ -37,7 +38,7 @@ class DogAllOf {
 
   @override
   int get hashCode =>
-    (breed == null ? 0 : breed.hashCode);
+    breed.hashCode;
 
   factory DogAllOf.fromJson(Map<String, dynamic> json) => _$DogAllOfFromJson(json);
 

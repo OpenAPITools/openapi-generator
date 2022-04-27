@@ -6,6 +6,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'health_check_result.g.dart';
 
+
 @JsonSerializable(
   checked: true,
   createToJson: true,

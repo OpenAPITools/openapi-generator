@@ -7,6 +7,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'file_schema_test_class.g.dart';
 
+
 @JsonSerializable(
   checked: true,
   createToJson: true,
@@ -53,8 +54,8 @@ class FileSchemaTestClass {
 
   @override
   int get hashCode =>
-    (file == null ? 0 : file.hashCode) +
-    (files == null ? 0 : files.hashCode);
+    file.hashCode +
+    files.hashCode;
 
   factory FileSchemaTestClass.fromJson(Map<String, dynamic> json) => _$FileSchemaTestClassFromJson(json);
 

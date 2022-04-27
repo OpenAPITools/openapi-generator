@@ -6,6 +6,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'model_file.g.dart';
 
+
 @JsonSerializable(
   checked: true,
   createToJson: true,
@@ -38,7 +39,7 @@ class ModelFile {
 
   @override
   int get hashCode =>
-    (sourceURI == null ? 0 : sourceURI.hashCode);
+    sourceURI.hashCode;
 
   factory ModelFile.fromJson(Map<String, dynamic> json) => _$ModelFileFromJson(json);
 

@@ -8,6 +8,9 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'dog.g.dart';
 
+// ignore_for_file: unused_import
+
+
 @JsonSerializable(
   checked: true,
   createToJson: true,
@@ -69,9 +72,9 @@ class Dog {
 
   @override
   int get hashCode =>
-    (className == null ? 0 : className.hashCode) +
-    (color == null ? 0 : color.hashCode) +
-    (breed == null ? 0 : breed.hashCode);
+    className.hashCode +
+    color.hashCode +
+    breed.hashCode;
 
   factory Dog.fromJson(Map<String, dynamic> json) => _$DogFromJson(json);
 

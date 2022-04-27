@@ -6,6 +6,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'additional_properties_class.g.dart';
 
+
 @JsonSerializable(
   checked: true,
   createToJson: true,
@@ -52,8 +53,8 @@ class AdditionalPropertiesClass {
 
   @override
   int get hashCode =>
-    (mapProperty == null ? 0 : mapProperty.hashCode) +
-    (mapOfMapProperty == null ? 0 : mapOfMapProperty.hashCode);
+    mapProperty.hashCode +
+    mapOfMapProperty.hashCode;
 
   factory AdditionalPropertiesClass.fromJson(Map<String, dynamic> json) => _$AdditionalPropertiesClassFromJson(json);
 

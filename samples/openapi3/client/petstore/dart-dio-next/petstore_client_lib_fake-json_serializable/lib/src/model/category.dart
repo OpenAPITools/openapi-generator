@@ -6,6 +6,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'category.g.dart';
 
+
 @JsonSerializable(
   checked: true,
   createToJson: true,
@@ -52,8 +53,8 @@ class Category {
 
   @override
   int get hashCode =>
-    (id == null ? 0 : id.hashCode) +
-    (name == null ? 0 : name.hashCode);
+    id.hashCode +
+    name.hashCode;
 
   factory Category.fromJson(Map<String, dynamic> json) => _$CategoryFromJson(json);
 

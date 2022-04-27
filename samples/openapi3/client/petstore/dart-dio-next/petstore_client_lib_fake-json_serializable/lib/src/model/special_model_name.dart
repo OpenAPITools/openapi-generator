@@ -6,6 +6,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'special_model_name.g.dart';
 
+
 @JsonSerializable(
   checked: true,
   createToJson: true,
@@ -37,7 +38,7 @@ class SpecialModelName {
 
   @override
   int get hashCode =>
-    (dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket == null ? 0 : dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket.hashCode);
+    dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket.hashCode;
 
   factory SpecialModelName.fromJson(Map<String, dynamic> json) => _$SpecialModelNameFromJson(json);
 

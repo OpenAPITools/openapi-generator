@@ -6,6 +6,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'read_only_first.g.dart';
 
+
 @JsonSerializable(
   checked: true,
   createToJson: true,
@@ -52,8 +53,8 @@ class ReadOnlyFirst {
 
   @override
   int get hashCode =>
-    (bar == null ? 0 : bar.hashCode) +
-    (baz == null ? 0 : baz.hashCode);
+    bar.hashCode +
+    baz.hashCode;
 
   factory ReadOnlyFirst.fromJson(Map<String, dynamic> json) => _$ReadOnlyFirstFromJson(json);
 

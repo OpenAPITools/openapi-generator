@@ -8,6 +8,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'pet.g.dart';
 
+
 @JsonSerializable(
   checked: true,
   createToJson: true,
@@ -115,12 +116,12 @@ class Pet {
 
   @override
   int get hashCode =>
-    (id == null ? 0 : id.hashCode) +
-    (category == null ? 0 : category.hashCode) +
-    (name == null ? 0 : name.hashCode) +
-    (photoUrls == null ? 0 : photoUrls.hashCode) +
-    (tags == null ? 0 : tags.hashCode) +
-    (status == null ? 0 : status.hashCode);
+    id.hashCode +
+    category.hashCode +
+    name.hashCode +
+    photoUrls.hashCode +
+    tags.hashCode +
+    status.hashCode;
 
   factory Pet.fromJson(Map<String, dynamic> json) => _$PetFromJson(json);
 

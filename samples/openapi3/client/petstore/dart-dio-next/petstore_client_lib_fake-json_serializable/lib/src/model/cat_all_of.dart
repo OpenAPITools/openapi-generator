@@ -6,6 +6,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'cat_all_of.g.dart';
 
+
 @JsonSerializable(
   checked: true,
   createToJson: true,
@@ -37,7 +38,7 @@ class CatAllOf {
 
   @override
   int get hashCode =>
-    (declawed == null ? 0 : declawed.hashCode);
+    declawed.hashCode;
 
   factory CatAllOf.fromJson(Map<String, dynamic> json) => _$CatAllOfFromJson(json);
 

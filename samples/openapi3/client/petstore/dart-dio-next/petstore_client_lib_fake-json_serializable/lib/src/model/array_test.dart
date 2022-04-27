@@ -7,6 +7,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'array_test.g.dart';
 
+
 @JsonSerializable(
   checked: true,
   createToJson: true,
@@ -68,9 +69,9 @@ class ArrayTest {
 
   @override
   int get hashCode =>
-    (arrayOfString == null ? 0 : arrayOfString.hashCode) +
-    (arrayArrayOfInteger == null ? 0 : arrayArrayOfInteger.hashCode) +
-    (arrayArrayOfModel == null ? 0 : arrayArrayOfModel.hashCode);
+    arrayOfString.hashCode +
+    arrayArrayOfInteger.hashCode +
+    arrayArrayOfModel.hashCode;
 
   factory ArrayTest.fromJson(Map<String, dynamic> json) => _$ArrayTestFromJson(json);
 

@@ -7,6 +7,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'format_test.g.dart';
 
+
 @JsonSerializable(
   checked: true,
   createToJson: true,
@@ -270,22 +271,22 @@ class FormatTest {
 
   @override
   int get hashCode =>
-    (integer == null ? 0 : integer.hashCode) +
-    (int32 == null ? 0 : int32.hashCode) +
-    (int64 == null ? 0 : int64.hashCode) +
-    (number == null ? 0 : number.hashCode) +
-    (float == null ? 0 : float.hashCode) +
-    (double_ == null ? 0 : double_.hashCode) +
-    (decimal == null ? 0 : decimal.hashCode) +
-    (string == null ? 0 : string.hashCode) +
-    (byte == null ? 0 : byte.hashCode) +
-    (binary == null ? 0 : binary.hashCode) +
-    (date == null ? 0 : date.hashCode) +
-    (dateTime == null ? 0 : dateTime.hashCode) +
-    (uuid == null ? 0 : uuid.hashCode) +
-    (password == null ? 0 : password.hashCode) +
-    (patternWithDigits == null ? 0 : patternWithDigits.hashCode) +
-    (patternWithDigitsAndDelimiter == null ? 0 : patternWithDigitsAndDelimiter.hashCode);
+    integer.hashCode +
+    int32.hashCode +
+    int64.hashCode +
+    number.hashCode +
+    float.hashCode +
+    double_.hashCode +
+    decimal.hashCode +
+    string.hashCode +
+    byte.hashCode +
+    binary.hashCode +
+    date.hashCode +
+    dateTime.hashCode +
+    uuid.hashCode +
+    password.hashCode +
+    patternWithDigits.hashCode +
+    patternWithDigitsAndDelimiter.hashCode;
 
   factory FormatTest.fromJson(Map<String, dynamic> json) => _$FormatTestFromJson(json);
 

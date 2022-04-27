@@ -25,7 +25,6 @@ import 'package:openapi/src/model/map_test.dart';
 import 'package:openapi/src/model/mixed_properties_and_additional_properties_class.dart';
 import 'package:openapi/src/model/model200_response.dart';
 import 'package:openapi/src/model/model_client.dart';
-import 'package:openapi/src/model/model_enum_class.dart';
 import 'package:openapi/src/model/model_file.dart';
 import 'package:openapi/src/model/model_list.dart';
 import 'package:openapi/src/model/model_return.dart';
@@ -35,14 +34,9 @@ import 'package:openapi/src/model/number_only.dart';
 import 'package:openapi/src/model/object_with_deprecated_fields.dart';
 import 'package:openapi/src/model/order.dart';
 import 'package:openapi/src/model/outer_composite.dart';
-import 'package:openapi/src/model/outer_enum.dart';
-import 'package:openapi/src/model/outer_enum_default_value.dart';
-import 'package:openapi/src/model/outer_enum_integer.dart';
-import 'package:openapi/src/model/outer_enum_integer_default_value.dart';
 import 'package:openapi/src/model/outer_object_with_enum_property.dart';
 import 'package:openapi/src/model/pet.dart';
 import 'package:openapi/src/model/read_only_first.dart';
-import 'package:openapi/src/model/single_ref_type.dart';
 import 'package:openapi/src/model/special_model_name.dart';
 import 'package:openapi/src/model/tag.dart';
 import 'package:openapi/src/model/user.dart';
@@ -63,7 +57,6 @@ final _regMap = RegExp(r'^Map<String,(.*)>$');
           }
           final valueString = '$value'.toLowerCase();
           return (valueString == 'true' || valueString == '1') as ReturnType;
-          break;
         case 'double':
           return (value is double ? value : double.parse('$value')) as ReturnType;
         case 'AdditionalPropertiesClass':

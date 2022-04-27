@@ -7,6 +7,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'outer_object_with_enum_property.g.dart';
 
+
 @JsonSerializable(
   checked: true,
   createToJson: true,
@@ -38,7 +39,7 @@ class OuterObjectWithEnumProperty {
 
   @override
   int get hashCode =>
-    (value == null ? 0 : value.hashCode);
+    value.hashCode;
 
   factory OuterObjectWithEnumProperty.fromJson(Map<String, dynamic> json) => _$OuterObjectWithEnumPropertyFromJson(json);
 

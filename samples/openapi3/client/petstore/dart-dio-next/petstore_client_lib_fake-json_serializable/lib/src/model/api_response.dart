@@ -6,6 +6,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'api_response.g.dart';
 
+
 @JsonSerializable(
   checked: true,
   createToJson: true,
@@ -67,9 +68,9 @@ class ApiResponse {
 
   @override
   int get hashCode =>
-    (code == null ? 0 : code.hashCode) +
-    (type == null ? 0 : type.hashCode) +
-    (message == null ? 0 : message.hashCode);
+    code.hashCode +
+    type.hashCode +
+    message.hashCode;
 
   factory ApiResponse.fromJson(Map<String, dynamic> json) => _$ApiResponseFromJson(json);
 

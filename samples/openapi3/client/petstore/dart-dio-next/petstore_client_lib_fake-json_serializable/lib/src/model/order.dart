@@ -6,6 +6,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'order.g.dart';
 
+
 @JsonSerializable(
   checked: true,
   createToJson: true,
@@ -113,12 +114,12 @@ class Order {
 
   @override
   int get hashCode =>
-    (id == null ? 0 : id.hashCode) +
-    (petId == null ? 0 : petId.hashCode) +
-    (quantity == null ? 0 : quantity.hashCode) +
-    (shipDate == null ? 0 : shipDate.hashCode) +
-    (status == null ? 0 : status.hashCode) +
-    (complete == null ? 0 : complete.hashCode);
+    id.hashCode +
+    petId.hashCode +
+    quantity.hashCode +
+    shipDate.hashCode +
+    status.hashCode +
+    complete.hashCode;
 
   factory Order.fromJson(Map<String, dynamic> json) => _$OrderFromJson(json);
 

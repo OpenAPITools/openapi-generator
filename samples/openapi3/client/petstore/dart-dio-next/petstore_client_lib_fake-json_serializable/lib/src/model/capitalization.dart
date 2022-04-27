@@ -6,6 +6,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'capitalization.g.dart';
 
+
 @JsonSerializable(
   checked: true,
   createToJson: true,
@@ -113,12 +114,12 @@ class Capitalization {
 
   @override
   int get hashCode =>
-    (smallCamel == null ? 0 : smallCamel.hashCode) +
-    (capitalCamel == null ? 0 : capitalCamel.hashCode) +
-    (smallSnake == null ? 0 : smallSnake.hashCode) +
-    (capitalSnake == null ? 0 : capitalSnake.hashCode) +
-    (sCAETHFlowPoints == null ? 0 : sCAETHFlowPoints.hashCode) +
-    (ATT_NAME == null ? 0 : ATT_NAME.hashCode);
+    smallCamel.hashCode +
+    capitalCamel.hashCode +
+    smallSnake.hashCode +
+    capitalSnake.hashCode +
+    sCAETHFlowPoints.hashCode +
+    ATT_NAME.hashCode;
 
   factory Capitalization.fromJson(Map<String, dynamic> json) => _$CapitalizationFromJson(json);
 

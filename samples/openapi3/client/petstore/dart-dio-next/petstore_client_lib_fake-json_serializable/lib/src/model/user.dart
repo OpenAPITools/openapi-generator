@@ -6,6 +6,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'user.g.dart';
 
+
 @JsonSerializable(
   checked: true,
   createToJson: true,
@@ -143,14 +144,14 @@ class User {
 
   @override
   int get hashCode =>
-    (id == null ? 0 : id.hashCode) +
-    (username == null ? 0 : username.hashCode) +
-    (firstName == null ? 0 : firstName.hashCode) +
-    (lastName == null ? 0 : lastName.hashCode) +
-    (email == null ? 0 : email.hashCode) +
-    (password == null ? 0 : password.hashCode) +
-    (phone == null ? 0 : phone.hashCode) +
-    (userStatus == null ? 0 : userStatus.hashCode);
+    id.hashCode +
+    username.hashCode +
+    firstName.hashCode +
+    lastName.hashCode +
+    email.hashCode +
+    password.hashCode +
+    phone.hashCode +
+    userStatus.hashCode;
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 

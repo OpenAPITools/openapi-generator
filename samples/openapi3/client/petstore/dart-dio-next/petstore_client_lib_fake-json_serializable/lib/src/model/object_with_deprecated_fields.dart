@@ -7,6 +7,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'object_with_deprecated_fields.g.dart';
 
+
 @JsonSerializable(
   checked: true,
   createToJson: true,
@@ -83,10 +84,10 @@ class ObjectWithDeprecatedFields {
 
   @override
   int get hashCode =>
-    (uuid == null ? 0 : uuid.hashCode) +
-    (id == null ? 0 : id.hashCode) +
-    (deprecatedRef == null ? 0 : deprecatedRef.hashCode) +
-    (bars == null ? 0 : bars.hashCode);
+    uuid.hashCode +
+    id.hashCode +
+    deprecatedRef.hashCode +
+    bars.hashCode;
 
   factory ObjectWithDeprecatedFields.fromJson(Map<String, dynamic> json) => _$ObjectWithDeprecatedFieldsFromJson(json);
 

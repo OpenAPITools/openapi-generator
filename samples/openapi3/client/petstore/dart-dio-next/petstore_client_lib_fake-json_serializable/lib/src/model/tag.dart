@@ -6,6 +6,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'tag.g.dart';
 
+
 @JsonSerializable(
   checked: true,
   createToJson: true,
@@ -52,8 +53,8 @@ class Tag {
 
   @override
   int get hashCode =>
-    (id == null ? 0 : id.hashCode) +
-    (name == null ? 0 : name.hashCode);
+    id.hashCode +
+    name.hashCode;
 
   factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
 

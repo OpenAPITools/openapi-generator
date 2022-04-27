@@ -6,6 +6,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'class_model.g.dart';
 
+
 @JsonSerializable(
   checked: true,
   createToJson: true,
@@ -37,7 +38,7 @@ class ClassModel {
 
   @override
   int get hashCode =>
-    (class_ == null ? 0 : class_.hashCode);
+    class_.hashCode;
 
   factory ClassModel.fromJson(Map<String, dynamic> json) => _$ClassModelFromJson(json);
 

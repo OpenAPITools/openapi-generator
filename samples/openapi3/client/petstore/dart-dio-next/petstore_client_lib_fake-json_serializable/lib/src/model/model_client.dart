@@ -6,6 +6,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'model_client.g.dart';
 
+
 @JsonSerializable(
   checked: true,
   createToJson: true,
@@ -37,7 +38,7 @@ class ModelClient {
 
   @override
   int get hashCode =>
-    (client == null ? 0 : client.hashCode);
+    client.hashCode;
 
   factory ModelClient.fromJson(Map<String, dynamic> json) => _$ModelClientFromJson(json);
 

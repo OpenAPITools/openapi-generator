@@ -7,6 +7,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'all_of_with_single_ref.g.dart';
 
+
 @JsonSerializable(
   checked: true,
   createToJson: true,
@@ -53,7 +54,7 @@ class AllOfWithSingleRef {
 
   @override
   int get hashCode =>
-    (username == null ? 0 : username.hashCode) +
+    username.hashCode +
     (singleRefType == null ? 0 : singleRefType.hashCode);
 
   factory AllOfWithSingleRef.fromJson(Map<String, dynamic> json) => _$AllOfWithSingleRefFromJson(json);

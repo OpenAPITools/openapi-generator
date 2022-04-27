@@ -8,6 +8,9 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'cat.g.dart';
 
+// ignore_for_file: unused_import
+
+
 @JsonSerializable(
   checked: true,
   createToJson: true,
@@ -69,9 +72,9 @@ class Cat {
 
   @override
   int get hashCode =>
-    (className == null ? 0 : className.hashCode) +
-    (color == null ? 0 : color.hashCode) +
-    (declawed == null ? 0 : declawed.hashCode);
+    className.hashCode +
+    color.hashCode +
+    declawed.hashCode;
 
   factory Cat.fromJson(Map<String, dynamic> json) => _$CatFromJson(json);
 

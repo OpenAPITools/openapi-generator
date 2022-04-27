@@ -1,6 +1,8 @@
 {{#models}}
   {{#model}}
+  {{^isEnum}}
 import 'package:{{pubName}}/src/model/{{classFilename}}.dart';
+{{/isEnum}}
 {{/model}}
 {{/models}}
 
@@ -20,7 +22,6 @@ final _regMap = RegExp(r'^Map<String,(.*)>$');
           }
           final valueString = '$value'.toLowerCase();
           return (valueString == 'true' || valueString == '1') as ReturnType;
-          break;
         case 'double':
           return (value is double ? value : double.parse('$value')) as ReturnType;
         {{#models}}

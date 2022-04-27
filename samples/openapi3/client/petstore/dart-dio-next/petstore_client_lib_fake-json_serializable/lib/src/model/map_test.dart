@@ -6,6 +6,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'map_test.g.dart';
 
+
 @JsonSerializable(
   checked: true,
   createToJson: true,
@@ -82,10 +83,10 @@ class MapTest {
 
   @override
   int get hashCode =>
-    (mapMapOfString == null ? 0 : mapMapOfString.hashCode) +
-    (mapOfEnumString == null ? 0 : mapOfEnumString.hashCode) +
-    (directMap == null ? 0 : directMap.hashCode) +
-    (indirectMap == null ? 0 : indirectMap.hashCode);
+    mapMapOfString.hashCode +
+    mapOfEnumString.hashCode +
+    directMap.hashCode +
+    indirectMap.hashCode;
 
   factory MapTest.fromJson(Map<String, dynamic> json) => _$MapTestFromJson(json);
 

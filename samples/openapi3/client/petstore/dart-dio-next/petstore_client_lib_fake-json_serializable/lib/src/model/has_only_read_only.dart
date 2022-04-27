@@ -6,6 +6,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'has_only_read_only.g.dart';
 
+
 @JsonSerializable(
   checked: true,
   createToJson: true,
@@ -52,8 +53,8 @@ class HasOnlyReadOnly {
 
   @override
   int get hashCode =>
-    (bar == null ? 0 : bar.hashCode) +
-    (foo == null ? 0 : foo.hashCode);
+    bar.hashCode +
+    foo.hashCode;
 
   factory HasOnlyReadOnly.fromJson(Map<String, dynamic> json) => _$HasOnlyReadOnlyFromJson(json);
 

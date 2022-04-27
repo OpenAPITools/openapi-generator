@@ -6,6 +6,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'name.g.dart';
 
+
 @JsonSerializable(
   checked: true,
   createToJson: true,
@@ -82,10 +83,10 @@ class Name {
 
   @override
   int get hashCode =>
-    (name == null ? 0 : name.hashCode) +
-    (snakeCase == null ? 0 : snakeCase.hashCode) +
-    (property == null ? 0 : property.hashCode) +
-    (n123number == null ? 0 : n123number.hashCode);
+    name.hashCode +
+    snakeCase.hashCode +
+    property.hashCode +
+    n123number.hashCode;
 
   factory Name.fromJson(Map<String, dynamic> json) => _$NameFromJson(json);
 
