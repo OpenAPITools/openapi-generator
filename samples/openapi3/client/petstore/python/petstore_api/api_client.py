@@ -175,7 +175,7 @@ class ApiClient(object):
             post_params.extend(self.files_parameters(files))
             if header_params['Content-Type'].startswith("multipart"):
                 post_params = self.parameters_to_multipart(post_params,
-                                                          (dict) )
+                                                           (dict))
 
         # body
         if body:
@@ -248,13 +248,14 @@ class ApiClient(object):
         if collection_types is None:
             collection_types = (dict)
         for k, v in params.items() if isinstance(params, dict) else params:  # noqa: E501
-            if isinstance(v, collection_types): # v is instance of collection_type, formatting as application/json
-                 v = json.dumps(v, ensure_ascii=False).encode("utf-8")
-                 field = RequestField(k, v)
-                 field.make_multipart(content_type="application/json; charset=utf-8")
-                 new_params.append(field)
+            if isinstance(
+                     v, collection_types): # v is instance of collection_type, formatting as application/json
+                v = json.dumps(v, ensure_ascii=False).encode("utf-8")
+                field = RequestField(k, v)
+                field.make_multipart(content_type="application/json; charset=utf-8")
+                new_params.append(field)
             else:
-                 new_params.append((k, v))
+                new_params.append((k, v))
         return new_params
 
     @classmethod
@@ -273,8 +274,10 @@ class ApiClient(object):
         """
         if isinstance(obj, (ModelNormal, ModelComposed)):
             return {
-                key: cls.sanitize_for_serialization(val) for key, val in model_to_dict(obj, serialize=True).items()
-            }
+                key: cls.sanitize_for_serialization(val) for key,
+                val in model_to_dict(
+                    obj,
+                    serialize=True).items()}
         elif isinstance(obj, io.IOBase):
             return cls.get_file_data_and_close_file(obj)
         elif isinstance(obj, (str, int, float, none_type, bool)):
@@ -287,7 +290,9 @@ class ApiClient(object):
             return [cls.sanitize_for_serialization(item) for item in obj]
         if isinstance(obj, dict):
             return {key: cls.sanitize_for_serialization(val) for key, val in obj.items()}
-        raise ApiValueError('Unable to prepare type {} for serialization'.format(obj.__class__.__name__))
+        raise ApiValueError(
+            'Unable to prepare type {} for serialization'.format(
+                obj.__class__.__name__))
 
     def deserialize(self, response, response_type, _check_type):
         """Deserializes response into an object.
@@ -531,7 +536,9 @@ class ApiClient(object):
         file_instance.close()
         return file_data
 
-    def files_parameters(self, files: typing.Optional[typing.Dict[str, typing.List[io.IOBase]]] = None):
+    def files_parameters(self,
+                         files: typing.Optional[typing.Dict[str,
+                                                            typing.List[io.IOBase]]] = None):
         """Builds form parameters.
 
         :param files: None or a dict with key=param_name and
@@ -622,13 +629,15 @@ class ApiClient(object):
 
         if request_auths:
             for auth_setting in request_auths:
-                self._apply_auth_params(headers, queries, resource_path, method, body, auth_setting)
+                self._apply_auth_params(
+                    headers, queries, resource_path, method, body, auth_setting)
             return
 
         for auth in auth_settings:
             auth_setting = self.configuration.auth_settings().get(auth)
             if auth_setting:
-                self._apply_auth_params(headers, queries, resource_path, method, body, auth_setting)
+                self._apply_auth_params(
+                    headers, queries, resource_path, method, body, auth_setting)
 
     def _apply_auth_params(self, headers, queries, resource_path, method, body, auth_setting):
         if auth_setting['in'] == 'cookie':
@@ -641,7 +650,7 @@ class ApiClient(object):
                 # that are calculated dynamically.
                 signing_info = self.configuration.signing_info
                 auth_headers = signing_info.get_http_signature_headers(
-                resource_path, method, headers, body, queries)
+                    resource_path, method, headers, body, queries)
                 headers.update(auth_headers)
         elif auth_setting['in'] == 'query':
             queries.append((auth_setting['key'], auth_setting['value']))
