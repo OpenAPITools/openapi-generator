@@ -49,15 +49,15 @@ class DefaultApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
     }
 
     /**
-    * 
-    * 
-    * @return ModelWithEnumPropertyHavingDefault
-    * @throws IllegalStateException If the request is not correctly configured
-    * @throws IOException Rethrows the OkHttp execute method exception
-    * @throws UnsupportedOperationException If the API returns an informational or redirection response
-    * @throws ClientException If the API returns a client error response
-    * @throws ServerException If the API returns a server error response
-    */
+     * 
+     * 
+     * @return ModelWithEnumPropertyHavingDefault
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun operation() : ModelWithEnumPropertyHavingDefault {
@@ -79,12 +79,12 @@ class DefaultApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
     }
 
     /**
-    * 
-    * 
-    * @return ApiResponse<ModelWithEnumPropertyHavingDefault?>
-    * @throws IllegalStateException If the request is not correctly configured
-    * @throws IOException Rethrows the OkHttp execute method exception
-    */
+     * 
+     * 
+     * @return ApiResponse<ModelWithEnumPropertyHavingDefault?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
     fun operationWithHttpInfo() : ApiResponse<ModelWithEnumPropertyHavingDefault?> {
@@ -96,10 +96,10 @@ class DefaultApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
     }
 
     /**
-    * To obtain the request config of the operation operation
-    *
-    * @return RequestConfig
-    */
+     * To obtain the request config of the operation operation
+     *
+     * @return RequestConfig
+     */
     fun operationRequestConfig() : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf()

@@ -35,11 +35,11 @@ class PetApi (
     private val postProcessors :List <(Request<*>) -> Unit> = listOf()) {
 
     /**
-    * Add a new pet to the store
-    * 
-       * @param body Pet object that needs to be added to the store
-       * @return void
-    */
+     * Add a new pet to the store
+     * 
+     * @param body Pet object that needs to be added to the store
+     * @return void
+     */
     suspend fun addPet(body: Pet): Unit {
         val body: Any? = body
         // verify the required parameter 'body' is set
@@ -102,12 +102,12 @@ class PetApi (
         }
     }
     /**
-    * Deletes a pet
-    * 
-       * @param petId Pet id to delete
-       * @param apiKey 
-       * @return void
-    */
+     * Deletes a pet
+     * 
+     * @param petId Pet id to delete
+     * @param apiKey  (optional)
+     * @return void
+     */
     suspend fun deletePet(petId: kotlin.Long, apiKey: kotlin.String? = null): Unit {
         val body: Any? = null
         // verify the required parameter 'petId' is set
@@ -171,11 +171,11 @@ class PetApi (
         }
     }
     /**
-    * Finds Pets by status
-    * Multiple status values can be provided with comma separated strings
-       * @param status Status values that need to be considered for filter
-       * @return kotlin.collections.List<Pet>
-    */
+     * Finds Pets by status
+     * Multiple status values can be provided with comma separated strings
+     * @param status Status values that need to be considered for filter
+     * @return kotlin.collections.List<Pet>
+     */
     suspend fun findPetsByStatus(status: CSVParams): kotlin.collections.List<Pet>? {
         val body: Any? = null
         // verify the required parameter 'status' is set
@@ -239,11 +239,11 @@ class PetApi (
         }
     }
     /**
-    * Finds Pets by tags
-    * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
-       * @param tags Tags to filter by
-       * @return kotlin.collections.List<Pet>
-    */
+     * Finds Pets by tags
+     * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+     * @param tags Tags to filter by
+     * @return kotlin.collections.List<Pet>
+     */
     @Deprecated("This api was deprecated")
     suspend fun findPetsByTags(tags: CSVParams): kotlin.collections.List<Pet>? {
         val body: Any? = null
@@ -308,11 +308,11 @@ class PetApi (
         }
     }
     /**
-    * Find pet by ID
-    * Returns a single pet
-       * @param petId ID of pet to return
-       * @return Pet
-    */
+     * Find pet by ID
+     * Returns a single pet
+     * @param petId ID of pet to return
+     * @return Pet
+     */
     suspend fun getPetById(petId: kotlin.Long): Pet? {
         val body: Any? = null
         // verify the required parameter 'petId' is set
@@ -375,11 +375,11 @@ class PetApi (
         }
     }
     /**
-    * Update an existing pet
-    * 
-       * @param body Pet object that needs to be added to the store
-       * @return void
-    */
+     * Update an existing pet
+     * 
+     * @param body Pet object that needs to be added to the store
+     * @return void
+     */
     suspend fun updatePet(body: Pet): Unit {
         val body: Any? = body
         // verify the required parameter 'body' is set
@@ -442,13 +442,13 @@ class PetApi (
         }
     }
     /**
-    * Updates a pet in the store with form data
-    * 
-       * @param petId ID of pet that needs to be updated
-       * @param name Updated name of the pet
-       * @param status Updated status of the pet
-       * @return void
-    */
+     * Updates a pet in the store with form data
+     * 
+     * @param petId ID of pet that needs to be updated
+     * @param name Updated name of the pet (optional)
+     * @param status Updated status of the pet (optional)
+     * @return void
+     */
     suspend fun updatePetWithForm(petId: kotlin.Long, name: kotlin.String? = null, status: kotlin.String? = null): Unit {
         val body: Any? = null
         // verify the required parameter 'petId' is set
@@ -513,13 +513,13 @@ class PetApi (
         }
     }
     /**
-    * uploads an image
-    * 
-       * @param petId ID of pet to update
-       * @param additionalMetadata Additional data to pass to server
-       * @param file file to upload
-       * @return ModelApiResponse
-    */
+     * uploads an image
+     * 
+     * @param petId ID of pet to update
+     * @param additionalMetadata Additional data to pass to server (optional)
+     * @param file file to upload (optional)
+     * @return ModelApiResponse
+     */
     suspend fun uploadFile(petId: kotlin.Long, additionalMetadata: kotlin.String? = null, file: java.io.File? = null): ModelApiResponse? {
         val body: Any? = null
         // verify the required parameter 'petId' is set

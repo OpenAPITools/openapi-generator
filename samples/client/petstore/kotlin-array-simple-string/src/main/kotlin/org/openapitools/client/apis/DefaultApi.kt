@@ -48,16 +48,16 @@ class DefaultApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
     }
 
     /**
-    * 
-    * 
-    * @param ids  
-    * @return void
-    * @throws IllegalStateException If the request is not correctly configured
-    * @throws IOException Rethrows the OkHttp execute method exception
-    * @throws UnsupportedOperationException If the API returns an informational or redirection response
-    * @throws ClientException If the API returns a client error response
-    * @throws ServerException If the API returns a server error response
-    */
+     * 
+     * 
+     * @param ids 
+     * @return void
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun idsGet(ids: kotlin.collections.List<kotlin.String>) : Unit {
         val localVarResponse = idsGetWithHttpInfo(ids = ids)
@@ -78,13 +78,13 @@ class DefaultApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
     }
 
     /**
-    * 
-    * 
-    * @param ids  
-    * @return ApiResponse<Unit?>
-    * @throws IllegalStateException If the request is not correctly configured
-    * @throws IOException Rethrows the OkHttp execute method exception
-    */
+     * 
+     * 
+     * @param ids 
+     * @return ApiResponse<Unit?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
     @Throws(IllegalStateException::class, IOException::class)
     fun idsGetWithHttpInfo(ids: kotlin.collections.List<kotlin.String>) : ApiResponse<Unit?> {
         val localVariableConfig = idsGetRequestConfig(ids = ids)
@@ -95,11 +95,11 @@ class DefaultApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
     }
 
     /**
-    * To obtain the request config of the operation idsGet
-    *
-    * @param ids  
-    * @return RequestConfig
-    */
+     * To obtain the request config of the operation idsGet
+     *
+     * @param ids 
+     * @return RequestConfig
+     */
     fun idsGetRequestConfig(ids: kotlin.collections.List<kotlin.String>) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf()

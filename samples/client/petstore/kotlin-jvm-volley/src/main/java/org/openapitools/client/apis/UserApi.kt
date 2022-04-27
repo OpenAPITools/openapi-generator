@@ -34,11 +34,11 @@ class UserApi (
     private val postProcessors :List <(Request<*>) -> Unit> = listOf()) {
 
     /**
-    * Create user
-    * This can only be done by the logged in user.
-       * @param body Created user object
-       * @return void
-    */
+     * Create user
+     * This can only be done by the logged in user.
+     * @param body Created user object
+     * @return void
+     */
     suspend fun createUser(body: User): Unit {
         val body: Any? = body
         // verify the required parameter 'body' is set
@@ -101,11 +101,11 @@ class UserApi (
         }
     }
     /**
-    * Creates list of users with given input array
-    * 
-       * @param body List of user object
-       * @return void
-    */
+     * Creates list of users with given input array
+     * 
+     * @param body List of user object
+     * @return void
+     */
     suspend fun createUsersWithArrayInput(body: kotlin.collections.List<User>): Unit {
         val body: Any? = body
         // verify the required parameter 'body' is set
@@ -168,11 +168,11 @@ class UserApi (
         }
     }
     /**
-    * Creates list of users with given input array
-    * 
-       * @param body List of user object
-       * @return void
-    */
+     * Creates list of users with given input array
+     * 
+     * @param body List of user object
+     * @return void
+     */
     suspend fun createUsersWithListInput(body: kotlin.collections.List<User>): Unit {
         val body: Any? = body
         // verify the required parameter 'body' is set
@@ -235,11 +235,11 @@ class UserApi (
         }
     }
     /**
-    * Delete user
-    * This can only be done by the logged in user.
-       * @param username The name that needs to be deleted
-       * @return void
-    */
+     * Delete user
+     * This can only be done by the logged in user.
+     * @param username The name that needs to be deleted
+     * @return void
+     */
     suspend fun deleteUser(username: kotlin.String): Unit {
         val body: Any? = null
         // verify the required parameter 'username' is set
@@ -302,11 +302,11 @@ class UserApi (
         }
     }
     /**
-    * Get user by user name
-    * 
-       * @param username The name that needs to be fetched. Use user1 for testing.
-       * @return User
-    */
+     * Get user by user name
+     * 
+     * @param username The name that needs to be fetched. Use user1 for testing.
+     * @return User
+     */
     suspend fun getUserByName(username: kotlin.String): User? {
         val body: Any? = null
         // verify the required parameter 'username' is set
@@ -369,12 +369,12 @@ class UserApi (
         }
     }
     /**
-    * Logs user into the system
-    * 
-       * @param username The user name for login
-       * @param password The password for login in clear text
-       * @return kotlin.String
-    */
+     * Logs user into the system
+     * 
+     * @param username The user name for login
+     * @param password The password for login in clear text
+     * @return kotlin.String
+     */
     suspend fun loginUser(username: kotlin.String, password: kotlin.String): kotlin.String? {
         val body: Any? = null
         // verify the required parameter 'username' is set
@@ -442,10 +442,10 @@ class UserApi (
         }
     }
     /**
-    * Logs out current logged in user session
-    * 
-       * @return void
-    */
+     * Logs out current logged in user session
+     * 
+     * @return void
+     */
     suspend fun logoutUser(): Unit {
         val body: Any? = null
 
@@ -505,12 +505,12 @@ class UserApi (
         }
     }
     /**
-    * Updated user
-    * This can only be done by the logged in user.
-       * @param username name that need to be deleted
-       * @param body Updated user object
-       * @return void
-    */
+     * Updated user
+     * This can only be done by the logged in user.
+     * @param username name that need to be deleted
+     * @param body Updated user object
+     * @return void
+     */
     suspend fun updateUser(username: kotlin.String, body: User): Unit {
         val body: Any? = body
         // verify the required parameter 'username' is set

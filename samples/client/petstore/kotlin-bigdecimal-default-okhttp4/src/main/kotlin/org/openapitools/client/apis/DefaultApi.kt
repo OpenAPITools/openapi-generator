@@ -49,16 +49,16 @@ class DefaultApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
     }
 
     /**
-    * 
-    * 
-    * @param apa  
-    * @return void
-    * @throws IllegalStateException If the request is not correctly configured
-    * @throws IOException Rethrows the OkHttp execute method exception
-    * @throws UnsupportedOperationException If the API returns an informational or redirection response
-    * @throws ClientException If the API returns a client error response
-    * @throws ServerException If the API returns a server error response
-    */
+     * 
+     * 
+     * @param apa 
+     * @return void
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun testPost(apa: Apa) : Unit {
         val localVarResponse = testPostWithHttpInfo(apa = apa)
@@ -79,13 +79,13 @@ class DefaultApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
     }
 
     /**
-    * 
-    * 
-    * @param apa  
-    * @return ApiResponse<Unit?>
-    * @throws IllegalStateException If the request is not correctly configured
-    * @throws IOException Rethrows the OkHttp execute method exception
-    */
+     * 
+     * 
+     * @param apa 
+     * @return ApiResponse<Unit?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
     @Throws(IllegalStateException::class, IOException::class)
     fun testPostWithHttpInfo(apa: Apa) : ApiResponse<Unit?> {
         val localVariableConfig = testPostRequestConfig(apa = apa)
@@ -96,11 +96,11 @@ class DefaultApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
     }
 
     /**
-    * To obtain the request config of the operation testPost
-    *
-    * @param apa  
-    * @return RequestConfig
-    */
+     * To obtain the request config of the operation testPost
+     *
+     * @param apa 
+     * @return RequestConfig
+     */
     fun testPostRequestConfig(apa: Apa) : RequestConfig<Apa> {
         val localVariableBody = apa
         val localVariableQuery: MultiValueMap = mutableMapOf()
