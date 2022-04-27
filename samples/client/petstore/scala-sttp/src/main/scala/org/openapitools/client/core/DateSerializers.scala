@@ -1,12 +1,14 @@
 package org.openapitools.client.core
 
-import java.time.{LocalDate, LocalDateTime, OffsetDateTime, ZoneId}
+import java.time.{LocalDate, OffsetDateTime}
 import java.time.format.DateTimeFormatter
-import scala.util.Try
 
 object DateSerializers {
     import org.json4s.{Serializer, CustomSerializer, JNull}
     import org.json4s.JsonAST.JString
+    import scala.util.Try
+    import java.time.{LocalDateTime, ZoneId}
+
       case object DateTimeSerializer extends CustomSerializer[OffsetDateTime](_ => ( {
         case JString(s) =>
           Try(OffsetDateTime.parse(s, DateTimeFormatter.ISO_OFFSET_DATE_TIME)) orElse
