@@ -56,6 +56,27 @@ class ParametersTest extends TestCase
         $this->assertSame('{"foo":"bar"}', $request->getBody()->getContents());
     }
 
+    /**
+     * @see https://github.com/OpenAPITools/openapi-generator/pull/11225
+     * @dataProvider provideQueryParameters
+     */
+    public function testQueryParameterCollectionFormatRequest($pipe, $ioutil, $http, $url, $context, $allow_empty, $language, $expected)
+    {
+        $request = $this->fakeApi->testQueryParameterCollectionFormatRequest($pipe, $ioutil, $http, $url, $context, $allow_empty, $language);
+        $this->assertEquals($expected, urldecode($request->getUri()->getQuery()));
+    }
+
+    public function provideQueryParameters()
+    {
+        $array = ['blue', 'black', 'brown'];
+        $object = ['R' => 100, 'G' => 200, 'B' => 150];
+        return [
+            [
+                $array, $array, $array, $array, $array, 'blue', $object, 'pipe=blue|black|brown&ioutil=blue,black,brown&http=blue black brown&url=blue,black,brown&context=blue&context=black&context=brown&R=100&G=200&B=150&allowEmpty=blue',
+            ],
+        ];
+    }
+
 //    missing example for collection path param in config
 //    public function testPathParamCollection()
 //    {

@@ -16,6 +16,8 @@ class ModelEnumClass extends EnumClass {
   static const ModelEnumClass efg = _$efg;
   @BuiltValueEnumConst(wireName: r'(xyz)')
   static const ModelEnumClass leftParenthesisXyzRightParenthesis = _$leftParenthesisXyzRightParenthesis;
+  @BuiltValueEnumConst(wireName: r'unknown_default_open_api', fallback: true)
+  static const ModelEnumClass unknownDefaultOpenApi = _$unknownDefaultOpenApi;
 
   static Serializer<ModelEnumClass> get serializer => _$modelEnumClassSerializer;
 

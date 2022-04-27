@@ -4,5 +4,6 @@ library: spring-cloud
 inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
 templateDir: modules/openapi-generator/src/main/resources/JavaSpring
 additionalProperties:
+  documentationProvider: springfox
   artifactId: petstore-spring-cloud
   hideGenerationTimestamp: "true"

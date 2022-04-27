@@ -495,42 +495,46 @@ class TestFakeApi(unittest.TestCase):
 
         # sample from http://www.jtricks.com/download-text
         file_name = 'content.txt'
-        headers = {'Content-Disposition': 'attachment; filename={}'.format(file_name), 'Content-Type': 'text/plain'}
-        def get_headers():
-            return headers
-        def get_header(name, default=None):
-            return headers.get(name, default)
+        headers_dict = {
+                    'with_filename': {'Content-Disposition': 'attachment; filename={}'.format(file_name), 'Content-Type': 'text/plain'},
+                    'no_filename': {'Content-Disposition': 'attachment;', 'Content-Type': 'text/plain'}
+        }
+        def get_headers(*args):
+            return args
         file_data = (
             "You are reading text file that was supposed to be downloaded\r\n"
             "to your hard disk. If your browser offered to save you the file,"
             "\r\nthen it handled the Content-Disposition header correctly."
         )
-        http_response = HTTPResponse(
-            status=200,
-            reason='OK',
-            data=file_data,
-            getheaders=get_headers,
-            getheader=get_header
-        )
-        # deserialize response to a file
-        mock_response = RESTResponse(http_response)
-        with patch.object(RESTClientObject, 'request') as mock_method:
-            mock_method.return_value = mock_response
-            try:
-                file_object = self.api.download_attachment(file_name='download-text')
-                self.assert_request_called_with(
-                    mock_method,
-                    'http://www.jtricks.com/download-text',
-                    http_method='GET',
-                    accept='text/plain',
-                    content_type=None,
-                )
-                self.assertTrue(isinstance(file_object, file_type))
-                self.assertFalse(file_object.closed)
-                self.assertEqual(file_object.read(), file_data.encode('utf-8'))
-            finally:
-                file_object.close()
-                os.unlink(file_object.name)
+        for key, headers in headers_dict.items():
+            def get_header(name, default=None):
+                return headers_dict[key].get(name, default)
+            http_response = HTTPResponse(
+                status=200,
+                reason='OK',
+                data=file_data,
+                getheaders=get_headers(headers),
+                getheader=get_header
+            )
+            # deserialize response to a file
+            mock_response = RESTResponse(http_response)
+            with patch.object(RESTClientObject, 'request') as mock_method:
+                mock_method.return_value = mock_response
+                try:
+                    file_object = self.api.download_attachment(file_name='download-text')
+                    self.assert_request_called_with(
+                        mock_method,
+                        'http://www.jtricks.com/download-text',
+                        http_method='GET',
+                        accept='text/plain',
+                        content_type=None,
+                    )
+                    self.assertTrue(isinstance(file_object, file_type))
+                    self.assertFalse(file_object.closed)
+                    self.assertEqual(file_object.read(), file_data.encode('utf-8'))
+                finally:
+                    file_object.close()
+                    os.unlink(file_object.name)
 
     def test_upload_download_file(self):
         test_file_dir = os.path.realpath(

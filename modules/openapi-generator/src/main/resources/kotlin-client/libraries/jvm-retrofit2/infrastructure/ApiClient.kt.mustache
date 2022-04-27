@@ -3,7 +3,6 @@ package {{packageName}}.infrastructure
 {{#hasOAuthMethods}}
 import org.apache.oltu.oauth2.client.request.OAuthClientRequest.AuthenticationRequestBuilder
 import org.apache.oltu.oauth2.client.request.OAuthClientRequest.TokenRequestBuilder
-import {{packageName}}.auth.ApiKeyAuth
 import {{packageName}}.auth.OAuth
 import {{packageName}}.auth.OAuth.AccessTokenListener
 import {{packageName}}.auth.OAuthFlow
@@ -18,6 +17,9 @@ import {{packageName}}.auth.HttpBasicAuth
 import {{packageName}}.auth.HttpBearerAuth
 {{/isBasicBearer}}
 {{/isBasic}}
+{{#isApiKey}}
+import {{packageName}}.auth.ApiKeyAuth
+{{/isApiKey}}
 {{/authMethods}}
 {{/hasAuthMethods}}
 

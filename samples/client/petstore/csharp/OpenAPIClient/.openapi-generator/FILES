@@ -5,6 +5,7 @@ README.md
 build.bat
 build.sh
 docs/AdditionalPropertiesClass.md
+docs/AllOfWithSingleRef.md
 docs/Animal.md
 docs/AnotherFakeApi.md
 docs/ApiResponse.md
@@ -52,6 +53,7 @@ docs/Pet.md
 docs/PetApi.md
 docs/ReadOnlyFirst.md
 docs/Return.md
+docs/SingleRefType.md
 docs/SpecialModelName.md
 docs/StoreApi.md
 docs/Tag.md
@@ -77,6 +79,7 @@ src/Org.OpenAPITools/Client/IApiAccessor.cs
 src/Org.OpenAPITools/Client/IReadableConfiguration.cs
 src/Org.OpenAPITools/Client/OpenAPIDateConverter.cs
 src/Org.OpenAPITools/Model/AdditionalPropertiesClass.cs
+src/Org.OpenAPITools/Model/AllOfWithSingleRef.cs
 src/Org.OpenAPITools/Model/Animal.cs
 src/Org.OpenAPITools/Model/ApiResponse.cs
 src/Org.OpenAPITools/Model/ArrayOfArrayOfNumberOnly.cs
@@ -119,6 +122,7 @@ src/Org.OpenAPITools/Model/OuterObjectWithEnumProperty.cs
 src/Org.OpenAPITools/Model/Pet.cs
 src/Org.OpenAPITools/Model/ReadOnlyFirst.cs
 src/Org.OpenAPITools/Model/Return.cs
+src/Org.OpenAPITools/Model/SingleRefType.cs
 src/Org.OpenAPITools/Model/SpecialModelName.cs
 src/Org.OpenAPITools/Model/Tag.cs
 src/Org.OpenAPITools/Model/User.cs

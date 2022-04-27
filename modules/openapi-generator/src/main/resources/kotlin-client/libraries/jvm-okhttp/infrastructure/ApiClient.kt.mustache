@@ -25,6 +25,9 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 {{/jvm-okhttp4}}
 import okhttp3.Request
 import okhttp3.Headers
+{{#jvm-okhttp4}}
+import okhttp3.Headers.Companion.toHeaders
+{{/jvm-okhttp4}}
 import okhttp3.MultipartBody
 import okhttp3.Call
 import okhttp3.Callback
@@ -111,78 +114,62 @@ import com.squareup.moshi.adapter
         return contentType ?: "application/octet-stream"
     }
 
-    protected inline fun <reified T> requestBody(content: T, mediaType: String = JsonMediaType): RequestBody =
+    protected inline fun <reified T> requestBody(content: T, mediaType: String?): RequestBody =
         when {
-            {{#jvm-okhttp3}}
-            content is File -> RequestBody.create(MediaType.parse(mediaType), content)
-            {{/jvm-okhttp3}}
-            {{#jvm-okhttp4}}
-            content is File -> content.asRequestBody(mediaType.toMediaTypeOrNull())
-            {{/jvm-okhttp4}}
-            mediaType == FormDataMediaType -> {
+            mediaType == FormDataMediaType ->
                 MultipartBody.Builder()
                     .setType(MultipartBody.FORM)
                     .apply {
-                        // content's type *must* be Map<String, Any?>
+                        // content's type *must* be Map<String, PartConfig<*>>
                         @Suppress("UNCHECKED_CAST")
-                        (content as Map<String, Any?>).forEach { (key, value) ->
-                            if (value is File) {
-                                val partHeaders = Headers.{{#jvm-okhttp3}}of{{/jvm-okhttp3}}{{#jvm-okhttp4}}headersOf{{/jvm-okhttp4}}(
-                                    "Content-Disposition",
-                                    "form-data; name=\"$key\"; filename=\"${value.name}\""
-                                )
-                                {{#jvm-okhttp3}}
-                                val fileMediaType = MediaType.parse(guessContentTypeFromFile(value))
-                                addPart(partHeaders, RequestBody.create(fileMediaType, value))
-                                {{/jvm-okhttp3}}
-                                {{#jvm-okhttp4}}
-                                val fileMediaType = guessContentTypeFromFile(value).toMediaTypeOrNull()
-                                addPart(partHeaders, value.asRequestBody(fileMediaType))
-                                {{/jvm-okhttp4}}
-                            } else {
-                                val partHeaders = Headers.{{#jvm-okhttp3}}of{{/jvm-okhttp3}}{{#jvm-okhttp4}}headersOf{{/jvm-okhttp4}}(
-                                    "Content-Disposition",
-                                    "form-data; name=\"$key\""
-                                )
-                                addPart(
-                                    partHeaders,
-                                    {{#jvm-okhttp3}}
-                                    RequestBody.create(null, parameterToString(value))
-                                    {{/jvm-okhttp3}}
-                                    {{#jvm-okhttp4}}
-                                    parameterToString(value).toRequestBody(null)
-                                    {{/jvm-okhttp4}}
-                                )
+                        (content as Map<String, PartConfig<*>>).forEach { (name, part) ->
+                            val contentType = part.headers.remove("Content-Type")
+                            val bodies = if (part.body is Iterable<*>) part.body else listOf(part.body)
+                            bodies.forEach { body ->
+                                val headers = part.headers.toMutableMap() +
+                                    ("Content-Disposition" to "form-data; name=\"$name\"" + if (body is File) "; filename=\"${body.name}\"" else "")
+                                addPart({{#jvm-okhttp3}}Headers.of(headers){{/jvm-okhttp3}}{{#jvm-okhttp4}}headers.toHeaders(){{/jvm-okhttp4}},
+                                    requestSingleBody(body, contentType))
                             }
                         }
                     }.build()
-            }
+            else -> requestSingleBody(content, mediaType)
+        }
+
+    protected inline fun <reified T> requestSingleBody(content: T, mediaType: String?): RequestBody =
+        when {
+            {{#jvm-okhttp3}}
+            content is File -> RequestBody.create(MediaType.parse(mediaType ?: guessContentTypeFromFile(content)), content)
+            {{/jvm-okhttp3}}
+            {{#jvm-okhttp4}}
+            content is File -> content.asRequestBody((mediaType ?: guessContentTypeFromFile(content)).toMediaTypeOrNull())
+            {{/jvm-okhttp4}}
             mediaType == FormUrlEncMediaType -> {
                 FormBody.Builder().apply {
-                    // content's type *must* be Map<String, Any?>
+                    // content's type *must* be Map<String, PartConfig<*>>
                     @Suppress("UNCHECKED_CAST")
-                    (content as Map<String, Any?>).forEach { (key, value) ->
-                        add(key, parameterToString(value))
+                    (content as Map<String, PartConfig<*>>).forEach { (name, part) ->
+                        add(name, parameterToString(part.body))
                     }
                 }.build()
             }
-            mediaType.startsWith("application/") && mediaType.endsWith("json") ->
+            mediaType == null || mediaType.startsWith("application/") && mediaType.endsWith("json") ->
             {{#jvm-okhttp3}}
                 if (content == null) {
                     EMPTY_REQUEST
                 } else {
                     RequestBody.create(
                         {{#moshi}}
-                        MediaType.parse(mediaType), Serializer.moshi.adapter(T::class.java).toJson(content)
+                        MediaType.parse(mediaType ?: JsonMediaType), Serializer.moshi.adapter(T::class.java).toJson(content)
                         {{/moshi}}
                         {{#gson}}
-                        MediaType.parse(mediaType), Serializer.gson.toJson(content, T::class.java)
+                        MediaType.parse(mediaType ?: JsonMediaType), Serializer.gson.toJson(content, T::class.java)
                         {{/gson}}
                         {{#jackson}}
-                        MediaType.parse(mediaType), Serializer.jacksonObjectMapper.writeValueAsString(content)
+                        MediaType.parse(mediaType ?: JsonMediaType), Serializer.jacksonObjectMapper.writeValueAsString(content)
                         {{/jackson}}
                         {{#kotlinx_serialization}}
-                        MediaType.parse(mediaType), Serializer.jvmJson.encodeToString(content)
+                        MediaType.parse(mediaType ?: JsonMediaType), Serializer.jvmJson.encodeToString(content)
                         {{/kotlinx_serialization}}
                     )
                 }
@@ -203,9 +190,7 @@ import com.squareup.moshi.adapter
                     {{#kotlinx_serialization}}
                     Serializer.jvmJson.encodeToString(content)
                     {{/kotlinx_serialization}}
-                        .toRequestBody(
-                            mediaType.toMediaTypeOrNull()
-                        )
+                        .toRequestBody((mediaType ?: JsonMediaType).toMediaTypeOrNull())
                 }
             {{/jvm-okhttp4}}
             mediaType == XmlMediaType -> throw UnsupportedOperationException("xml not currently supported.")
@@ -220,13 +205,10 @@ import com.squareup.moshi.adapter
         if(body == null) {
             return null
         }
-        val bodyContent = body.string()
-        if (bodyContent.isEmpty()) {
-            return null
-        }
         if (T::class.java == File::class.java) {
             // return tempfile
             {{^supportAndroidApiLevel25AndBelow}}
+            // Attention: if you are developing an android app that supports API Level 25 and bellow, please check flag supportAndroidApiLevel25AndBelow in https://openapi-generator.tech/docs/generators/kotlin#config-options
             val f = java.nio.file.Files.createTempFile("tmp.{{packageName}}", null).toFile()
             {{/supportAndroidApiLevel25AndBelow}}
             {{#supportAndroidApiLevel25AndBelow}}
@@ -238,14 +220,19 @@ import com.squareup.moshi.adapter
             }
             {{/supportAndroidApiLevel25AndBelow}}
             f.deleteOnExit()
-            val out = BufferedWriter(FileWriter(f))
-            out.write(bodyContent)
-            out.close()
+            body.byteStream().use { java.nio.file.Files.copy(it, f.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING) }
             return f as T
         }
+        val bodyContent = body.string()
+        if (bodyContent.isEmpty()) {
+            return null
+        }
         return when {
-        mediaType==null || (mediaType.startsWith("application/") && mediaType.endsWith("json")) ->
-                {{#moshi}}Serializer.moshi.adapter<T>().fromJson(bodyContent){{/moshi}}{{#gson}}Serializer.gson.fromJson(bodyContent, (object: TypeToken<T>(){}).getType()){{/gson}}{{#jackson}}Serializer.jacksonObjectMapper.readValue(bodyContent, object: TypeReference<T>() {}){{/jackson}}{{#kotlinx_serialization}}Serializer.jvmJson.decodeFromString<T>(bodyContent){{/kotlinx_serialization}}
+            mediaType==null || (mediaType.startsWith("application/") && mediaType.endsWith("json")) ->
+                {{#moshi}}Serializer.moshi.adapter<T>().fromJson(bodyContent){{/moshi}}{{!
+                }}{{#gson}}Serializer.gson.fromJson(bodyContent, (object: TypeToken<T>(){}).getType()){{/gson}}{{!
+                }}{{#jackson}}Serializer.jacksonObjectMapper.readValue(bodyContent, object: TypeReference<T>() {}){{/jackson}}{{!
+                }}{{#kotlinx_serialization}}Serializer.jvmJson.decodeFromString<T>(bodyContent){{/kotlinx_serialization}}
             else ->  throw UnsupportedOperationException("responseBody currently only supports JSON body.")
         }
     }

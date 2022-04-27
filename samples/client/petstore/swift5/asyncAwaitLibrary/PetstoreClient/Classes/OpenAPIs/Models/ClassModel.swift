@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Model for testing model with \&quot;_class\&quot; property */
-public struct ClassModel: Codable, Hashable {
+public struct ClassModel: Codable, JSONEncodable, Hashable {
 
     public var _class: String?
 

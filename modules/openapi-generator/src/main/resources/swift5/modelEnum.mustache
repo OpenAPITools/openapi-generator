@@ -1,4 +1,4 @@
-{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} enum {{classname}}: {{dataType}}, {{#useVapor}}Content, Hashable{{/useVapor}}{{^useVapor}}Codable{{/useVapor}}, CaseIterable{{#enumUnknownDefaultCase}}{{#isInteger}}, CaseIterableDefaultsLast{{/isInteger}}{{#isFloat}}, CaseIterableDefaultsLast{{/isFloat}}{{#isDouble}}, CaseIterableDefaultsLast{{/isDouble}}{{#isString}}, CaseIterableDefaultsLast{{/isString}}{{/enumUnknownDefaultCase}} {
+{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} enum {{classname}}: {{dataType}}, {{#useVapor}}Content, Hashable{{/useVapor}}{{^useVapor}}Codable{{^isString}}{{^isInteger}}{{^isFloat}}{{^isDouble}}, JSONEncodable{{/isDouble}}{{/isFloat}}{{/isInteger}}{{/isString}}{{/useVapor}}, CaseIterable{{#enumUnknownDefaultCase}}{{#isInteger}}, CaseIterableDefaultsLast{{/isInteger}}{{#isFloat}}, CaseIterableDefaultsLast{{/isFloat}}{{#isDouble}}, CaseIterableDefaultsLast{{/isDouble}}{{#isString}}, CaseIterableDefaultsLast{{/isString}}{{/enumUnknownDefaultCase}} {
 {{#allowableValues}}
 {{#enumVars}}
     case {{{name}}} = {{{value}}}

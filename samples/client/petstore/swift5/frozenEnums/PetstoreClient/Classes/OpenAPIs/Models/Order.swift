@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct Order: Codable, Hashable {
+public struct Order: Codable, JSONEncodable, Hashable {
 
     public enum Status: String, Codable, CaseIterable, CaseIterableDefaultsLast {
         case placed = "placed"

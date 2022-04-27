@@ -122,6 +122,8 @@ class MapTestMapOfEnumStringEnum extends EnumClass {
   static const MapTestMapOfEnumStringEnum UPPER = _$mapTestMapOfEnumStringEnum_UPPER;
   @BuiltValueEnumConst(wireName: r'lower')
   static const MapTestMapOfEnumStringEnum lower = _$mapTestMapOfEnumStringEnum_lower;
+  @BuiltValueEnumConst(wireName: r'unknown_default_open_api', fallback: true)
+  static const MapTestMapOfEnumStringEnum unknownDefaultOpenApi = _$mapTestMapOfEnumStringEnum_unknownDefaultOpenApi;
 
   static Serializer<MapTestMapOfEnumStringEnum> get serializer => _$mapTestMapOfEnumStringEnumSerializer;
 

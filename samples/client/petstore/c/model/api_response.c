@@ -42,27 +42,27 @@ cJSON *api_response_convertToJSON(api_response_t *api_response) {
     cJSON *item = cJSON_CreateObject();
 
     // api_response->code
-    if(api_response->code) { 
+    if(api_response->code) {
     if(cJSON_AddNumberToObject(item, "code", api_response->code) == NULL) {
     goto fail; //Numeric
     }
-     } 
+    }
 
 
     // api_response->type
-    if(api_response->type) { 
+    if(api_response->type) {
     if(cJSON_AddStringToObject(item, "type", api_response->type) == NULL) {
     goto fail; //String
     }
-     } 
+    }
 
 
     // api_response->message
-    if(api_response->message) { 
+    if(api_response->message) {
     if(cJSON_AddStringToObject(item, "message", api_response->message) == NULL) {
     goto fail; //String
     }
-     } 
+    }
 
     return item;
 fail:

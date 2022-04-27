@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct EnumTest: Codable, Hashable {
+public struct EnumTest: Codable, JSONEncodable, Hashable {
 
     public enum EnumString: String, Codable, CaseIterable, CaseIterableDefaultsLast {
         case upper = "UPPER"

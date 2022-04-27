@@ -1,5 +1,6 @@
 package org.openapitools.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import io.swagger.annotations.ApiModel;
@@ -24,7 +25,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("Animal")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class Animal  implements Serializable {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+public class Animal  implements Serializable {
   
   private @Valid String className;
   private @Valid String color = "red";
@@ -35,8 +37,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.className = className;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(required = true, value = "")
@@ -57,8 +57,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.color = color;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")

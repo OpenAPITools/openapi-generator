@@ -33,3 +33,13 @@
   image: "img/companies/pexa.png"
   infoLink: "https://www.pexa.com.au/?utm_source=openapi_generator&utm_medium=official_website&utm_campaign=sponsor"
   bronze: true
+-
+  caption: "Numary"
+  image: "img/companies/numary.png"
+  infoLink: "https://www.numary.com/?utm_source=openapi_generator&utm_medium=official_website&utm_campaign=sponsor"
+  bronze: true
+-
+  caption: "OneSignal"
+  image: "img/companies/onesignal.png"
+  infoLink: "https://www.onesignal.com/?utm_source=openapi_generator&utm_medium=official_website&utm_campaign=sponsor"
+  bronze: true

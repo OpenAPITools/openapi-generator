@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct FileSchemaTestClass: Codable, Hashable {
+public struct FileSchemaTestClass: Codable, JSONEncodable, Hashable {
 
     public private(set) var file: File?
     public private(set) var files: [File]?
