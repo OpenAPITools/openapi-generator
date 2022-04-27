@@ -76,15 +76,14 @@ elif [ "$NODE_INDEX" = "3" ]; then
 
 elif [ "$NODE_INDEX" = "4" ]; then
   echo "Running node $NODE_INDEX to test 'samples.circleci.node4' defined in pom.xml ..."
-  java -version
-  which mvn
 
-  mvn --no-snapshot-updates --quiet verify -Psamples.circleci.node4 -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+  #mvn --no-snapshot-updates --quiet verify -Psamples.circleci.node4 -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+  (cd samples/openapi3/client/petstore/python && make test)
+  (cd samples/openapi3/client/petstore/python-experimental && make test)
 
 else
   echo "Running node $NODE_INDEX to test 'samples.circleci.others' defined in pom.xml ..."
   java -version
-  which mvn
 
   mvn --no-snapshot-updates --quiet verify -Psamples.circleci.others -Dorg.slf4j.simpleLogger.defaultLogLevel=error
   mvn --no-snapshot-updates --quiet javadoc:javadoc -Psamples.circleci -Dorg.slf4j.simpleLogger.defaultLogLevel=error
