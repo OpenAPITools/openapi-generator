@@ -41,6 +41,7 @@ Class | Method | HTTP request | Description
 <a name="documentation-for-models"></a>
 ## Documentation for Models
 
+ - [org.openapitools.client.models.Apa](docs/Apa.md)
 
 
 <a name="documentation-for-authorization"></a>

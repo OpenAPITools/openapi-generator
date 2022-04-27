@@ -149,3 +149,23 @@ paths:
       responses:
         "200":
           description: "Success"
+
+definitions:
+  Apa:
+    type: object
+    required:
+      - i0
+      - n0
+    properties:
+      i0:
+        type: integer
+        default: 10
+      i1:
+        type: integer
+        default: 20
+      n0:
+        type: number
+        default: 71
+      n1:
+        type: number
+        default: 68
