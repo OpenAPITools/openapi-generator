@@ -6,3 +6,4 @@ additionalProperties:
   artifactId: kotlin-array-simple-string-jvm-volley
   library: jvm-volley
   serializationLibrary: gson
+  generateRoomModels: false
