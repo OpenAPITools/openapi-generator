@@ -1,10 +1,10 @@
 <project>
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.openapitools</groupId>
-    <artifactId>DartDioNextPetstoreClientLibFakeJsonSerializableTests</artifactId>
+    <artifactId>DartDioPetstoreClientLibFakeJsonSerializableTests</artifactId>
     <packaging>pom</packaging>
     <version>1.0.0-SNAPSHOT</version>
-    <name>DartDioNext Petstore Client Lib Fake Json Serializable</name>
+    <name>DartDio Petstore Client Lib Fake Json Serializable</name>
     <build>
         <plugins>
             <plugin>

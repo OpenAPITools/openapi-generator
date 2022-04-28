@@ -1,13 +1,13 @@
 ---
-title: Documentation for the dart-dio-next Generator
+title: Documentation for the dart-dio Generator
 ---
 
 ## METADATA
 
 | Property | Value | Notes |
 | -------- | ----- | ----- |
-| generator name | dart-dio-next | pass this to the generate command after -g |
-| generator stability | EXPERIMENTAL | |
+| generator name | dart-dio | pass this to the generate command after -g |
+| generator stability | STABLE | |
 | generator type | CLIENT | |
 | generator language | Dart | |
 | generator default templating engine | mustache | |

@@ -17,7 +17,7 @@
 package org.openapitools.codegen.dart.dio;
 
 import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.languages.DartDioNextClientCodegen;
+import org.openapitools.codegen.languages.DartDioClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -29,11 +29,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class DartDioNextClientCodegenTest {
+public class DartDioClientCodegenTest {
 
     @Test
     public void testInitialConfigValues() throws Exception {
-        final DartDioNextClientCodegen codegen = new DartDioNextClientCodegen();
+        final DartDioClientCodegen codegen = new DartDioClientCodegen();
         codegen.processOpts();
 
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
@@ -42,7 +42,7 @@ public class DartDioNextClientCodegenTest {
 
     @Test
     public void testSettersForConfigValues() throws Exception {
-        final DartDioNextClientCodegen codegen = new DartDioNextClientCodegen();
+        final DartDioClientCodegen codegen = new DartDioClientCodegen();
         codegen.setHideGenerationTimestamp(false);
         codegen.processOpts();
 
@@ -52,7 +52,7 @@ public class DartDioNextClientCodegenTest {
 
     @Test
     public void testAdditionalPropertiesPutForConfigValues() throws Exception {
-        final DartDioNextClientCodegen codegen = new DartDioNextClientCodegen();
+        final DartDioClientCodegen codegen = new DartDioClientCodegen();
         codegen.additionalProperties().put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, false);
         codegen.processOpts();
 
@@ -62,7 +62,7 @@ public class DartDioNextClientCodegenTest {
 
     @Test
     public void testKeywords() {
-        final DartDioNextClientCodegen codegen = new DartDioNextClientCodegen();
+        final DartDioClientCodegen codegen = new DartDioClientCodegen();
 
         List<String> reservedWordsList = new ArrayList<>();
         try {
