@@ -55,7 +55,7 @@ public class SwiftAltClientCodegen extends DefaultCodegen implements CodegenConf
     protected String privateFolder = "Sources/Private";
     protected String sourceFolder = "Sources";
     protected String transportFolder = "OpenAPITransport";
-    protected List<String> notCodableTypes = Arrays.asList("Any", "AnyObject", "[String: Any]", "[String: [String: Any]");
+    protected List<String> notCodableTypes = Arrays.asList("Any", "AnyObject", "[String: Any]", "[String: [String: Any]]");
     protected boolean mapFileBinaryToData = true;
 
     /**
@@ -781,6 +781,8 @@ public class SwiftAltClientCodegen extends DefaultCodegen implements CodegenConf
             CodegenModel baseModel = modelMaps.get(cp.items.dataType);
             boolean isBaseTypeEnum = cp.items.isEnum || cp.isEnum || (baseModel != null && baseModel.isEnum);
             cp.vendorExtensions.put("x-swift-is-base-type-enum", isBaseTypeEnum);
+            boolean isBaseTypeUdid = cp.items.isUuid || cp.isUuid;
+            cp.vendorExtensions.put("x-swift-is-base-type-udid", isBaseTypeUdid);
 
             boolean useEncoder = !isBaseTypeEnum && !cp.items.isString || (baseModel != null && !baseModel.isString);
             cp.vendorExtensions.put("x-swift-use-encoder", useEncoder);
@@ -816,7 +818,7 @@ public class SwiftAltClientCodegen extends DefaultCodegen implements CodegenConf
         System.out.println("################################################################################");
         System.out.println("# Thanks for using OpenAPI Generator.                                          #");
         System.out.println("# swift alternative generator is contributed by @dydus0x14 and @ptiz.          #");
-        System.out.println("# swift alternative generator v0.13.0                                          #");
+        System.out.println("# swift alternative generator v0.14.0                                          #");
         System.out.println("################################################################################");
     }
 }
