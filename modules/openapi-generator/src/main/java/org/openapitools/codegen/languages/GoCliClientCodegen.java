@@ -179,6 +179,8 @@ public class GoCliClientCodegen extends PureCloudGoClientCodegen {
 
     private String listWithDefaultValue(String datatype) {
         switch (datatype) {
+            case "[]Object":
+                return "[]Interface{{}}";
             case "[]string":
                 return datatype + "{\"\"}";
             case "[]int":
@@ -200,15 +202,19 @@ public class GoCliClientCodegen extends PureCloudGoClientCodegen {
         super.postProcessModelProperty(model, property);
         String customPropertyName = "x-dataTypeWithDefaults";
         String customValue;
-        if (property.dataType.equals("interface{}"))
+        if (property.dataType.equals("interface{}")) {
             customValue = "Interface{}";
-        else if (property.isMap)
+        } else if (property.isMap) {
             customValue = mapWithDefaultValues(property.dataType);
-        else if (property.isArray)
+        } else if (property.isArray) {
             customValue = listWithDefaultValue(property.dataType);
-        else
+        } else {
             return;
+        }
         property.vendorExtensions.put(customPropertyName, customValue);
+        if (property.dataType.equals("[]Object")) {
+            property.dataType = "[]Interface";
+        }
     }
 
     @Override
