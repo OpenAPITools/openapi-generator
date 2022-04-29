@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.openapitools.codegen.CsharpNetcoreFunctionsServerCodegen;
+package org.openapitools.codegen.csharpnetcorefunctions;
 
 import org.openapitools.codegen.languages.CsharpNetcoreFunctionsServerCodegen;
 import org.testng.Assert;
