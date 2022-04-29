@@ -37,11 +37,11 @@ class {{classname}} (
 
     {{#operation}}
     /**
-    * {{summary}}
-    * {{notes}}
-    {{#allParams}}   * @param {{paramName}} {{description}}
-    {{/allParams}}   * @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
-    */
+     * {{summary}}
+     * {{notes}}
+     {{#allParams}}* @param {{{paramName}}} {{description}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}{{/required}}
+     {{/allParams}}* @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
+     */
     {{#isDeprecated}}
     @Deprecated("This api was deprecated")
     {{/isDeprecated}}

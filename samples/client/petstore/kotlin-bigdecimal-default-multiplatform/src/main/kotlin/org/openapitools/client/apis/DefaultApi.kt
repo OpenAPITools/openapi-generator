@@ -43,7 +43,7 @@ open class DefaultApi(
     /**
      * 
      * 
-     * @param apa  
+     * @param apa 
      * @return void
      */
     open suspend fun testPost(apa: Apa): HttpResponse<Unit> {
