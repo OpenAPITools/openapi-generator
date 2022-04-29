@@ -7,6 +7,7 @@ import re  # noqa: F401
 import sys  # noqa: F401
 import typing
 import urllib3
+import functools  # noqa: F401
 {{#with operation}}
 {{#or headerParams bodyParam produces}}
 from urllib3._collections import HTTPHeaderDict
@@ -182,8 +183,8 @@ class RequestCookieParams(RequestRequiredCookieParams, RequestOptionalCookiePara
 request_body_{{paramName}} = api_client.RequestBody(
     content={
 {{#each content}}
-        '{{{@key}}}': api_client.MediaType(
-            schema={{this.schema.baseName}}),
+        '{{{@key}}}': api_client.MediaType({{#if this.schema}}
+            schema={{this.schema.baseName}}{{/if}}),
 {{/each}}
     },
 {{#if required}}
@@ -285,7 +286,11 @@ class ApiResponseFor{{code}}(api_client.ApiResponse):
 {{#and responseHeaders content}}
     body: typing.Union[
 {{#each content}}
+{{#if this.schema}}
         {{this.schema.baseName}},
+{{else}}
+        Unset,
+{{/if}}
 {{/each}}
     ]
     headers: ResponseHeadersFor{{code}}
@@ -297,7 +302,11 @@ class ApiResponseFor{{code}}(api_client.ApiResponse):
 {{else}}
     body: typing.Union[
 {{#each content}}
+{{#if this.schema}}
         {{this.schema.baseName}},
+{{else}}
+        Unset,
+{{/if}}
 {{/each}}
     ]
     headers: Unset = unset
@@ -323,8 +332,8 @@ _response_for_{{code}} = api_client.OpenApiResponse(
 {{#if @first}}
     content={
 {{/if}}
-        '{{{@key}}}': api_client.MediaType(
-            schema={{this.schema.baseName}}),
+        '{{{@key}}}': api_client.MediaType({{#if this.schema}}
+            schema={{this.schema.baseName}}{{/if}}),
 {{#if @last}}
     },
 {{/if}}

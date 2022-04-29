@@ -70,7 +70,7 @@ public class TypeHolderDefault {
     @ApiModelProperty(required = true, value = "")
     @JsonProperty(JSON_PROPERTY_STRING_ITEM)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
-       public String getStringItem() {
+    public String getStringItem() {
         return stringItem;
     }
 
@@ -93,7 +93,7 @@ public class TypeHolderDefault {
     @ApiModelProperty(required = true, value = "")
     @JsonProperty(JSON_PROPERTY_NUMBER_ITEM)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
-       public BigDecimal getNumberItem() {
+    public BigDecimal getNumberItem() {
         return numberItem;
     }
 
@@ -116,7 +116,7 @@ public class TypeHolderDefault {
     @ApiModelProperty(required = true, value = "")
     @JsonProperty(JSON_PROPERTY_INTEGER_ITEM)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
-       public Integer getIntegerItem() {
+    public Integer getIntegerItem() {
         return integerItem;
     }
 
@@ -139,7 +139,7 @@ public class TypeHolderDefault {
     @ApiModelProperty(required = true, value = "")
     @JsonProperty(JSON_PROPERTY_BOOL_ITEM)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
-       public Boolean getBoolItem() {
+    public Boolean getBoolItem() {
         return boolItem;
     }
 
@@ -167,7 +167,7 @@ public class TypeHolderDefault {
     @ApiModelProperty(required = true, value = "")
     @JsonProperty(JSON_PROPERTY_ARRAY_ITEM)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
-       public List<Integer> getArrayItem() {
+    public List<Integer> getArrayItem() {
         return arrayItem;
     }
 

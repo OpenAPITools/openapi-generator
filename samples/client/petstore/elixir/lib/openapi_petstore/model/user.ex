@@ -16,8 +16,7 @@ defmodule OpenapiPetstore.Model.User do
     :"email",
     :"password",
     :"phone",
-    :"userStatus",
-    :"userType"
+    :"userStatus"
   ]
 
   @type t :: %__MODULE__{
@@ -28,16 +27,13 @@ defmodule OpenapiPetstore.Model.User do
     :"email" => String.t | nil,
     :"password" => String.t | nil,
     :"phone" => String.t | nil,
-    :"userStatus" => integer() | nil,
-    :"userType" => UserType | nil
+    :"userStatus" => integer() | nil
   }
 end
 
 defimpl Poison.Decoder, for: OpenapiPetstore.Model.User do
-  import OpenapiPetstore.Deserializer
-  def decode(value, options) do
+  def decode(value, _options) do
     value
-    |> deserialize(:"userType", :struct, OpenapiPetstore.Model.UserType, options)
   end
 end
 

@@ -12,7 +12,6 @@
  */
 
 import ApiClient from '../ApiClient';
-import UserType from './UserType';
 
 /**
  * The User model module.
@@ -72,9 +71,6 @@ class User {
             if (data.hasOwnProperty('userStatus')) {
                 obj['userStatus'] = ApiClient.convertToType(data['userStatus'], 'Number');
             }
-            if (data.hasOwnProperty('userType')) {
-                obj['userType'] = ApiClient.convertToType(data['userType'], UserType);
-            }
         }
         return obj;
     }
@@ -122,11 +118,6 @@ User.prototype['phone'] = undefined;
  * @member {Number} userStatus
  */
 User.prototype['userStatus'] = undefined;
-
-/**
- * @member {module:model/UserType} userType
- */
-User.prototype['userType'] = undefined;
 
 
 

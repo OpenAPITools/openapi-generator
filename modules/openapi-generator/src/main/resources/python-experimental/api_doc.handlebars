@@ -175,7 +175,7 @@ default | ApiResponseForDefault | {{message}}
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
-body | {{#unless content}}Unset{{else}}typing.Union[{{#each content}}{{this.schema.baseName}}, {{/each}}]{{/unless}} | {{#unless content}}body was not defined{{/unless}} |
+body | {{#unless content}}Unset{{else}}typing.Union[{{#each content}}{{#if this.schema}}{{this.schema.baseName}}{{else}}Unset{{/if}}, {{/each}}]{{/unless}} | {{#unless content}}body was not defined{{/unless}} |
 headers | {{#unless responseHeaders}}Unset{{else}}ResponseHeadersFor{{code}}{{/unless}} | {{#unless responseHeaders}}headers were not defined{{/unless}} |
 {{#each content}}
 {{#with this.schema}}

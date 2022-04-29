@@ -11,6 +11,7 @@ import re  # noqa: F401
 import sys  # noqa: F401
 import typing
 import urllib3
+import functools  # noqa: F401
 
 from petstore_api import api_client, exceptions
 import decimal  # noqa: F401
@@ -29,6 +30,7 @@ from petstore_api.schemas import (  # noqa: F401
     Float32Schema,
     Float64Schema,
     NumberSchema,
+    UUIDSchema,
     DateSchema,
     DateTimeSchema,
     DecimalSchema,
@@ -50,6 +52,7 @@ from petstore_api.schemas import (  # noqa: F401
     Float32Base,
     Float64Base,
     NumberBase,
+    UUIDBase,
     DateBase,
     DateTimeBase,
     BoolBase,
@@ -59,8 +62,6 @@ from petstore_api.schemas import (  # noqa: F401
     _SchemaTypeChecker,
     _SchemaEnumMaker
 )
-
-from petstore_api.model.map_bean import MapBean
 
 # query params
 

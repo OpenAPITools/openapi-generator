@@ -677,6 +677,7 @@ class Encoding:
         self.allow_reserved = allow_reserved
 
 
+@dataclass
 class MediaType:
     """
     Used to store request and response body schema information
@@ -686,14 +687,8 @@ class MediaType:
         The encoding object SHALL only apply to requestBody objects when the media type is
         multipart or application/x-www-form-urlencoded.
     """
-
-    def __init__(
-        self,
-        schema: typing.Type[Schema],
-        encoding: typing.Optional[typing.Dict[str, Encoding]] = None,
-    ):
-        self.schema = schema
-        self.encoding = encoding
+    schema: typing.Optional[typing.Type[Schema]] = None
+    encoding: typing.Optional[typing.Dict[str, Encoding]] = None
 
 
 @dataclass
@@ -812,7 +807,27 @@ class OpenApiResponse(JSONDetector):
         content_type = response.getheader('content-type')
         deserialized_body = unset
         streamed = response.supports_chunked_reads()
+
+        deserialized_headers = unset
+        if self.headers is not None:
+            # TODO add header deserialiation here
+            pass
+
         if self.content is not None:
+            if content_type not in self.content:
+                raise ApiValueError(
+                    f'Invalid content_type={content_type} returned for response with '
+                    'status_code={str(response.status)}'
+                )
+            body_schema = self.content[content_type].schema
+            if body_schema is None:
+                # some specs do not define response content media type schemas
+                return self.response_cls(
+                    response=response,
+                    headers=deserialized_headers,
+                    body=unset
+                )
+
             if self.content_type_is_json(content_type):
                 body_data = self.__deserialize_json(response)
             elif content_type == 'application/octet-stream':
@@ -822,15 +837,10 @@ class OpenApiResponse(JSONDetector):
                 content_type = 'multipart/form-data'
             else:
                 raise NotImplementedError('Deserialization of {} has not yet been implemented'.format(content_type))
-            body_schema = self.content[content_type].schema
             deserialized_body = body_schema._from_openapi_data(
                 body_data, _configuration=configuration)
         elif streamed:
             response.release_conn()
-
-        deserialized_headers = unset
-        if self.headers is not None:
-            deserialized_headers = unset
 
         return self.response_cls(
             response=response,

@@ -29,8 +29,8 @@ namespace OpenAPI\Client\Api;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
-use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Exception\ConnectException;
+use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7\MultipartStream;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\RequestOptions;
@@ -825,7 +825,8 @@ class PetApi
             'status', // param base name
             'array', // openApiType
             'form', // style
-            false // explode
+            false, // explode
+            true // required
         ) ?? []);
 
 
@@ -1115,7 +1116,8 @@ class PetApi
             'tags', // param base name
             'array', // openApiType
             'form', // style
-            false // explode
+            false, // explode
+            true // required
         ) ?? []);
 
 

@@ -57,7 +57,7 @@ public class Model200Response {
     @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_NAME)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public Integer getName() {
+    public Integer getName() {
         return name;
     }
 
@@ -80,7 +80,7 @@ public class Model200Response {
     @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_PROPERTY_CLASS)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public String getPropertyClass() {
+    public String getPropertyClass() {
         return propertyClass;
     }
 

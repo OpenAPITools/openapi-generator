@@ -190,48 +190,48 @@ class FormatTest {
   String toString() => 'FormatTest[integer=$integer, int32=$int32, int64=$int64, number=$number, float=$float, double_=$double_, decimal=$decimal, string=$string, byte=$byte, binary=$binary, date=$date, dateTime=$dateTime, uuid=$uuid, password=$password, patternWithDigits=$patternWithDigits, patternWithDigitsAndDelimiter=$patternWithDigitsAndDelimiter]';
 
   Map<String, dynamic> toJson() {
-    final json = <String, dynamic>{};
+    final _json = <String, dynamic>{};
     if (integer != null) {
-      json[r'integer'] = integer;
+      _json[r'integer'] = integer;
     }
     if (int32 != null) {
-      json[r'int32'] = int32;
+      _json[r'int32'] = int32;
     }
     if (int64 != null) {
-      json[r'int64'] = int64;
+      _json[r'int64'] = int64;
     }
-      json[r'number'] = number;
+      _json[r'number'] = number;
     if (float != null) {
-      json[r'float'] = float;
+      _json[r'float'] = float;
     }
     if (double_ != null) {
-      json[r'double'] = double_;
+      _json[r'double'] = double_;
     }
     if (decimal != null) {
-      json[r'decimal'] = decimal;
+      _json[r'decimal'] = decimal;
     }
     if (string != null) {
-      json[r'string'] = string;
+      _json[r'string'] = string;
     }
-      json[r'byte'] = byte;
+      _json[r'byte'] = byte;
     if (binary != null) {
-      json[r'binary'] = binary;
+      _json[r'binary'] = binary;
     }
-      json[r'date'] = _dateFormatter.format(date.toUtc());
+      _json[r'date'] = _dateFormatter.format(date.toUtc());
     if (dateTime != null) {
-      json[r'dateTime'] = dateTime!.toUtc().toIso8601String();
+      _json[r'dateTime'] = dateTime!.toUtc().toIso8601String();
     }
     if (uuid != null) {
-      json[r'uuid'] = uuid;
+      _json[r'uuid'] = uuid;
     }
-      json[r'password'] = password;
+      _json[r'password'] = password;
     if (patternWithDigits != null) {
-      json[r'pattern_with_digits'] = patternWithDigits;
+      _json[r'pattern_with_digits'] = patternWithDigits;
     }
     if (patternWithDigitsAndDelimiter != null) {
-      json[r'pattern_with_digits_and_delimiter'] = patternWithDigitsAndDelimiter;
+      _json[r'pattern_with_digits_and_delimiter'] = patternWithDigitsAndDelimiter;
     }
-    return json;
+    return _json;
   }
 
   /// Returns a new [FormatTest] instance and imports its values from
