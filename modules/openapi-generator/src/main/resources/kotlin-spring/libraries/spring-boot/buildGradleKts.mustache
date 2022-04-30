@@ -39,7 +39,7 @@ dependencies {
     compile("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:$kotlinxCoroutinesVersion"){{/reactive}}{{#springDocDocumentationProvider}}{{#useSwaggerUI}}
     compile("org.springdoc:springdoc-openapi-{{#reactive}}webflux-{{/reactive}}ui:1.6.8"){{/useSwaggerUI}}{{^useSwaggerUI}}
     compile("org.springdoc:springdoc-openapi-{{#reactive}}webflux{{/reactive}}{{^reactive}}webmvc{{/reactive}}-core:1.6.8"){{/useSwaggerUI}}{{/springDocDocumentationProvider}}{{#springFoxDocumentationProvider}}
-    compile("io.springfox:springfox-swagger2:2.10.5"){{/springFoxDocumentationProvider}}{{#useSwaggerUI}}{{^springDocDocumentationProvider}}
+    compile("io.springfox:springfox-swagger2:2.9.2"){{/springFoxDocumentationProvider}}{{#useSwaggerUI}}{{^springDocDocumentationProvider}}
     compile("org.webjars:swagger-ui:4.10.3")
     compile("org.webjars:webjars-locator-core"){{/springDocDocumentationProvider}}{{/useSwaggerUI}}{{^springFoxDocumentationProvider}}{{^springDocDocumentationProvider}}{{#swagger1AnnotationLibrary}}
     compile("io.swagger:swagger-annotations:1.6.6"){{/swagger1AnnotationLibrary}}{{#swagger2AnnotationLibrary}}
