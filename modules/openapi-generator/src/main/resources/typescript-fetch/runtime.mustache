@@ -203,7 +203,7 @@ function isFormData(value: any): value is FormData {
 
 function isJsonMime(mime?: string): boolean {
     const jsonMime: RegExp = new RegExp('^(application\/json|[^;/ \t]+\/[^;/ \t]+[+]json)[ \t]*(;.*)?$', 'i');
-    return mime !== undefined && (jsonMime.test(mime) || mime.toLowerCase() === 'application/json-patch+json');
+    return mime === undefined || jsonMime.test(mime) || mime.toLowerCase() === 'application/json-patch+json';
 }
 
 export class ResponseError extends Error {
