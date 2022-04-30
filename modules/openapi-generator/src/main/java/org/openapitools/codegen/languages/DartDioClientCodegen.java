@@ -46,9 +46,9 @@ import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
-public class DartDioNextClientCodegen extends AbstractDartCodegen {
+public class DartDioClientCodegen extends AbstractDartCodegen {
 
-    private final Logger LOGGER = LoggerFactory.getLogger(DartDioNextClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(DartDioClientCodegen.class);
 
     public static final String DATE_LIBRARY = "dateLibrary";
     public static final String DATE_LIBRARY_CORE = "core";
@@ -71,7 +71,7 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
 
     private TemplateManager templateManager;
 
-    public DartDioNextClientCodegen() {
+    public DartDioClientCodegen() {
         super();
 
         modifyFeatureSet(features -> features
@@ -81,10 +81,10 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
                 )
         );
         generatorMetadata = GeneratorMetadata.newBuilder()
-                .stability(Stability.EXPERIMENTAL)
+                .stability(Stability.STABLE)
                 .build();
 
-        outputFolder = "generated-code/dart-dio-next";
+        outputFolder = "generated-code/dart-dio";
         embeddedTemplateDir = "dart/libraries/dio";
         this.setTemplateDir(embeddedTemplateDir);
 
@@ -128,7 +128,7 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
 
     @Override
     public String getName() {
-        return "dart-dio-next";
+        return "dart-dio";
     }
 
     @Override
