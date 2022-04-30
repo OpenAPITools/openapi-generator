@@ -42,7 +42,7 @@ open class DefaultApi(
     /**
      * 
      * 
-     * @param ids  
+     * @param ids 
      * @return void
      */
     open suspend fun idsGet(ids: kotlin.collections.List<kotlin.String>): HttpResponse<Unit> {

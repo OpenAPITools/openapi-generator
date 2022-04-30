@@ -33,11 +33,11 @@ class DefaultApi (
     private val postProcessors :List <(Request<*>) -> Unit> = listOf()) {
 
     /**
-    * 
-    * 
-       * @param ids 
-       * @return void
-    */
+     * 
+     * 
+     * @param ids 
+     * @return void
+     */
     suspend fun idsGet(ids: kotlin.collections.List<kotlin.String>): Unit {
         val body: Any? = null
 
