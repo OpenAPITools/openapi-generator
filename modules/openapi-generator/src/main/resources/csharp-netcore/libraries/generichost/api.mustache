@@ -39,7 +39,7 @@ namespace {{packageName}}.{{apiPackage}}
         {{/allParams}}
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;{{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}object{{/returnType}}{{nrt?}}&gt;&gt;</returns>
-        Task<ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}{{nrt?}}>> {{operationId}}WithHttpInfoAsync({{#allParams}}{{#required}}{{#lambda.required}}{{{dataType}}}{{/lambda.required}} {{paramName}}{{^-last}}, {{/-last}}{{/required}}{{^required}}{{#lambda.optional}}{{{dataType}}}{{/lambda.optional}} {{paramName}} = null{{^-last}}, {{/-last}}{{/required}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}System.Threading.CancellationToken? cancellationToken = null);
+        Task<ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}{{nrt?}}>> {{operationId}}WithHttpInfoAsync({{>OperationSignature}});
 
         /// <summary>
         /// {{summary}}
@@ -53,7 +53,7 @@ namespace {{packageName}}.{{apiPackage}}
         {{/allParams}}
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;{{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}object{{/returnType}}&gt;</returns>
-        Task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}> {{operationId}}Async({{#allParams}}{{#required}}{{#lambda.required}}{{{dataType}}}{{/lambda.required}} {{paramName}}{{^-last}}, {{/-last}}{{/required}}{{^required}}{{#lambda.optional}}{{{dataType}}}{{/lambda.optional}} {{paramName}} = null{{^-last}}, {{/-last}}{{/required}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}System.Threading.CancellationToken? cancellationToken = null);{{#nrt}}
+        Task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}> {{operationId}}Async({{>OperationSignature}});{{#nrt}}
 
         /// <summary>
         /// {{summary}}
@@ -66,7 +66,7 @@ namespace {{packageName}}.{{apiPackage}}
         {{/allParams}}
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;{{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}object{{/returnType}}?&gt;</returns>
-        Task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}{{nrt?}}> {{operationId}}OrDefaultAsync({{#allParams}}{{#required}}{{#lambda.required}}{{{dataType}}}{{/lambda.required}} {{paramName}}{{^-last}}, {{/-last}}{{/required}}{{^required}}{{#lambda.optional}}{{{dataType}}}{{/lambda.optional}} {{paramName}} = null{{^-last}}, {{/-last}}{{/required}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}System.Threading.CancellationToken? cancellationToken = null);{{/nrt}}
+        Task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}{{nrt?}}> {{operationId}}OrDefaultAsync({{>OperationSignature}});{{/nrt}}
         {{^-last}}
 
         {{/-last}}
@@ -157,7 +157,7 @@ namespace {{packageName}}.{{apiPackage}}
         {{/allParams}}
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="{{#returnType}}{{.}}{{/returnType}}{{^returnType}}object{{/returnType}}"/>&gt;</returns>
-        public async Task<{{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}object{{/returnType}}> {{operationId}}Async({{#allParams}}{{#required}}{{#lambda.required}}{{{dataType}}}{{/lambda.required}} {{paramName}}{{^-last}}, {{/-last}}{{/required}}{{^required}}{{#lambda.optional}}{{{dataType}}}{{/lambda.optional}} {{paramName}} = null{{^-last}}, {{/-last}}{{/required}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<{{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}object{{/returnType}}> {{operationId}}Async({{>OperationSignature}})
         {
             ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}{{nrt?}}> result = await {{operationId}}WithHttpInfoAsync({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}cancellationToken).ConfigureAwait(false);
 
@@ -186,7 +186,34 @@ namespace {{packageName}}.{{apiPackage}}
         /// <param name="{{paramName}}"></param>
         {{/allParams}}
         /// <returns></returns>
-        public virtual {{>OnOperation}}
+        public virtual {{^allParams}}void{{/allParams}}{{#allParams}}{{#-first}}{{^-last}}({{/-last}}{{/-first}}{{#requiredAndNotNullable}}{{#lambda.required}}{{{dataType}}}{{/lambda.required}}{{^-last}}, {{/-last}}{{/requiredAndNotNullable}}{{^requiredAndNotNullable}}{{#lambda.optional}}{{{dataType}}}{{/lambda.optional}}{{^-last}}, {{/-last}}{{/requiredAndNotNullable}}{{#-last}}{{^-first}}){{/-first}}{{/-last}}{{/allParams}} On{{operationId}}({{#allParams}}{{#requiredAndNotNullable}}{{#lambda.required}}{{{dataType}}}{{/lambda.required}} {{paramName}}{{^-last}}, {{/-last}}{{/requiredAndNotNullable}}{{^requiredAndNotNullable}}{{#lambda.optional}}{{{dataType}}}{{/lambda.optional}} {{paramName}}{{^-last}}, {{/-last}}{{/requiredAndNotNullable}}{{/allParams}})
+        {
+            {{#requiredAndNotNullableParams}}
+            {{#-first}}
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            {{/-first}}
+            {{#nrt}}
+            if ({{paramName}} == null)
+                throw new ArgumentNullException(nameof({{paramName}}));
+
+            {{/nrt}}
+            {{^nrt}}
+            {{^vendorExtensions.x-csharp-value-type}}
+            if ({{paramName}} == null)
+                throw new ArgumentNullException(nameof({{paramName}}));
+
+            {{/vendorExtensions.x-csharp-value-type}}
+            {{/nrt}}
+            {{#-last}}
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            {{/-last}}
+            {{/requiredAndNotNullableParams}}
+            return{{#allParams}} {{#-first}}{{^-last}}({{/-last}}{{/-first}}{{paramName}}{{^-last}},{{/-last}}{{#-last}}{{^-first}}){{/-first}}{{/-last}}{{/allParams}};
+        }
 
         /// <summary>
         /// Processes the server response
@@ -195,7 +222,7 @@ namespace {{packageName}}.{{apiPackage}}
         {{#allParams}}
         /// <param name="{{paramName}}"></param>
         {{/allParams}}
-        public virtual void After{{operationId}}({{#lambda.joinWithComma}}ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}{{nrt?}}> apiResponse  {{#allParams}}{{#required}}{{#lambda.required}}{{{dataType}}}{{/lambda.required}} {{paramName}}  {{/required}}{{^required}}{{#lambda.optional}}{{{dataType}}}{{/lambda.optional}} {{paramName}}  {{/required}}{{/allParams}}{{/lambda.joinWithComma}})
+        public virtual void After{{operationId}}({{#lambda.joinWithComma}}ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}{{nrt?}}> apiResponse  {{#allParams}}{{#requiredAndNotNullable}}{{#lambda.required}}{{{dataType}}}{{/lambda.required}} {{paramName}}  {{/requiredAndNotNullable}}{{^requiredAndNotNullable}}{{#lambda.optional}}{{{dataType}}}{{/lambda.optional}} {{paramName}}  {{/requiredAndNotNullable}}{{/allParams}}{{/lambda.joinWithComma}})
         {
         }
 
@@ -208,7 +235,7 @@ namespace {{packageName}}.{{apiPackage}}
         {{/allParams}}
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="{{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}object{{/returnType}}"/></returns>
-        public async Task<ApiResponse<{{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}object{{/returnType}}{{nrt?}}>> {{operationId}}WithHttpInfoAsync({{#allParams}}{{#required}}{{#lambda.required}}{{{dataType}}}{{/lambda.required}} {{paramName}}{{^-last}}, {{/-last}}{{/required}}{{^required}}{{#lambda.optional}}{{{dataType}}}{{/lambda.optional}} {{paramName}} = null{{^-last}}, {{/-last}}{{/required}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<ApiResponse<{{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}object{{/returnType}}{{nrt?}}>> {{operationId}}WithHttpInfoAsync({{>OperationSignature}})
         {
             try
             {
@@ -223,30 +250,6 @@ namespace {{packageName}}.{{apiPackage}}
                 {{/-first}}
                 {{/allParams}}
 
-                {{#requiredParams}}
-                {{#-first}}
-                #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-                {{/-first}}
-                {{#nrt}}
-                if ({{paramName}} == null)
-                    throw new ArgumentNullException(nameof({{paramName}}));
-
-                {{/nrt}}
-                {{^nrt}}
-                {{^vendorExtensions.x-csharp-value-type}}
-                if ({{paramName}} == null)
-                    throw new ArgumentNullException(nameof({{paramName}}));
-
-                {{/vendorExtensions.x-csharp-value-type}}
-                {{/nrt}}
-                {{#-last}}
-                #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-                {{/-last}}
-                {{/requiredParams}}
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
                     UriBuilder uriBuilder = new UriBuilder();

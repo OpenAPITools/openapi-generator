@@ -343,6 +343,15 @@ namespace Org.OpenAPITools.Api
         /// <returns></returns>
         public virtual User OnCreateUser(User user)
         {
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (user == null)
+                throw new ArgumentNullException(nameof(user));
+
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
             return user;
         }
 
@@ -367,15 +376,6 @@ namespace Org.OpenAPITools.Api
             try
             {
                 user = OnCreateUser(user);
-
-                #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-                if (user == null)
-                    throw new ArgumentNullException(nameof(user));
-
-                #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
@@ -475,6 +475,15 @@ namespace Org.OpenAPITools.Api
         /// <returns></returns>
         public virtual List<User> OnCreateUsersWithArrayInput(List<User> user)
         {
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (user == null)
+                throw new ArgumentNullException(nameof(user));
+
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
             return user;
         }
 
@@ -499,15 +508,6 @@ namespace Org.OpenAPITools.Api
             try
             {
                 user = OnCreateUsersWithArrayInput(user);
-
-                #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-                if (user == null)
-                    throw new ArgumentNullException(nameof(user));
-
-                #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
@@ -607,6 +607,15 @@ namespace Org.OpenAPITools.Api
         /// <returns></returns>
         public virtual List<User> OnCreateUsersWithListInput(List<User> user)
         {
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (user == null)
+                throw new ArgumentNullException(nameof(user));
+
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
             return user;
         }
 
@@ -631,15 +640,6 @@ namespace Org.OpenAPITools.Api
             try
             {
                 user = OnCreateUsersWithListInput(user);
-
-                #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-                if (user == null)
-                    throw new ArgumentNullException(nameof(user));
-
-                #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
@@ -739,6 +739,15 @@ namespace Org.OpenAPITools.Api
         /// <returns></returns>
         public virtual string OnDeleteUser(string username)
         {
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (username == null)
+                throw new ArgumentNullException(nameof(username));
+
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
             return username;
         }
 
@@ -763,15 +772,6 @@ namespace Org.OpenAPITools.Api
             try
             {
                 username = OnDeleteUser(username);
-
-                #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-                if (username == null)
-                    throw new ArgumentNullException(nameof(username));
-
-                #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
@@ -859,6 +859,15 @@ namespace Org.OpenAPITools.Api
         /// <returns></returns>
         public virtual string OnGetUserByName(string username)
         {
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (username == null)
+                throw new ArgumentNullException(nameof(username));
+
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
             return username;
         }
 
@@ -883,15 +892,6 @@ namespace Org.OpenAPITools.Api
             try
             {
                 username = OnGetUserByName(username);
-
-                #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-                if (username == null)
-                    throw new ArgumentNullException(nameof(username));
-
-                #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
@@ -970,6 +970,18 @@ namespace Org.OpenAPITools.Api
         /// <returns></returns>
         public virtual (string, string) OnLoginUser(string username, string password)
         {
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (username == null)
+                throw new ArgumentNullException(nameof(username));
+
+            if (password == null)
+                throw new ArgumentNullException(nameof(password));
+
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
             return (username, password);
         }
 
@@ -998,18 +1010,6 @@ namespace Org.OpenAPITools.Api
                 var validatedParameters = OnLoginUser(username, password);
                 username = validatedParameters.Item1;
                 password = validatedParameters.Item2;
-
-                #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-                if (username == null)
-                    throw new ArgumentNullException(nameof(username));
-
-                if (password == null)
-                    throw new ArgumentNullException(nameof(password));
-
-                #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
@@ -1221,6 +1221,18 @@ namespace Org.OpenAPITools.Api
         /// <returns></returns>
         public virtual (User, string) OnUpdateUser(User user, string username)
         {
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (user == null)
+                throw new ArgumentNullException(nameof(user));
+
+            if (username == null)
+                throw new ArgumentNullException(nameof(username));
+
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
             return (user, username);
         }
 
@@ -1249,18 +1261,6 @@ namespace Org.OpenAPITools.Api
                 var validatedParameters = OnUpdateUser(user, username);
                 user = validatedParameters.Item1;
                 username = validatedParameters.Item2;
-
-                #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-                if (user == null)
-                    throw new ArgumentNullException(nameof(user));
-
-                if (username == null)
-                    throw new ArgumentNullException(nameof(username));
-
-                #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {

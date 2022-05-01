@@ -769,6 +769,8 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         syncBooleanProperty(additionalProperties, CodegenConstants.NON_PUBLIC_API, this::setNonPublicApi, isNonPublicApi());
         syncBooleanProperty(additionalProperties, CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, this::setUseOneOfDiscriminatorLookup, this.useOneOfDiscriminatorLookup);
 
+//        syncBooleanProperty(additionalProperties, "net6.0", );
+
         final String testPackageName = testPackageName();
         String packageFolder = sourceFolder + File.separator + packageName;
         String clientPackageDir = packageFolder + File.separator + clientPackage;
@@ -831,6 +833,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         Collections.sort(op.cookieParams, parameterComparatorByDataType);
         Collections.sort(op.requiredParams, parameterComparatorByDataType);
         Collections.sort(op.optionalParams, parameterComparatorByDataType);
+        Collections.sort(op.requiredAndNotNullableParams, parameterComparatorByDataType);
 
         Comparator<CodegenParameter> comparator = parameterComparatorByRequired.thenComparing(parameterComparatorByDefaultValue);
         Collections.sort(op.allParams, comparator);
@@ -843,6 +846,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         Collections.sort(op.cookieParams, comparator);
         Collections.sort(op.requiredParams, comparator);
         Collections.sort(op.optionalParams, comparator);
+        Collections.sort(op.requiredAndNotNullableParams, comparator);
 
         return op;
     }
@@ -929,11 +933,12 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("IApi.mustache", clientPackageDir, getInterfacePrefix() + "Api.cs"));
         supportingFiles.add(new SupportingFile("JsonSerializerOptionsProvider.mustache", clientPackageDir, "JsonSerializerOptionsProvider.cs"));
 
-        String defaultApiPath = apiFileFolder() + File.separator + "Default" + apiPackage + File.separator + "Default" + apiPackage + ".cs";
+        String defaultApiFolder = sourceFolder + File.separator + packageName + File.separator + "Default" + apiPackage();
+        String defaultApiPath = outputFolder + File.separator + defaultApiFolder + File.separator + "Default" + apiPackage() + ".cs";
         File defaultApisFile = new File(defaultApiPath);
         if (!defaultApisFile.exists()) {
             // // TODO: we should have a file per API
-             supportingFiles.add(new SupportingFile("DefaultApi.mustache", sourceFolder + File.separator + packageName + File.separator + "Default" + apiPackage(), "Default" + apiPackage + ".cs"));
+             supportingFiles.add(new SupportingFile("DefaultApi.mustache", defaultApiFolder, "Default" + apiPackage + ".cs"));
         }
 
         String apiTestFolder = testFolder + File.separator + testPackageName() + File.separator + apiPackage();

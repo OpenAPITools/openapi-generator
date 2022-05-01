@@ -48,6 +48,7 @@ public class CodegenOperation {
     public List<CodegenParameter> cookieParams = new ArrayList<CodegenParameter>();
     public List<CodegenParameter> requiredParams = new ArrayList<CodegenParameter>();
     public List<CodegenParameter> optionalParams = new ArrayList<CodegenParameter>();
+    public List<CodegenParameter> requiredAndNotNullableParams = new ArrayList<CodegenParameter>();
     public List<CodegenSecurity> authMethods;
     public List<Tag> tags;
     public List<CodegenResponse> responses = new ArrayList<CodegenResponse>();
@@ -155,6 +156,10 @@ public class CodegenOperation {
      */
     public boolean getHasOptionalParams() {
         return nonEmpty(optionalParams);
+    }
+
+    public boolean getHasRequiredAndNotNullableParams() {
+        return nonEmpty(requiredAndNotNullableParams);
     }
 
     /**
@@ -342,6 +347,7 @@ public class CodegenOperation {
         sb.append(", cookieParams=").append(cookieParams);
         sb.append(", requiredParams=").append(requiredParams);
         sb.append(", optionalParams=").append(optionalParams);
+        sb.append(", requiredAndNotNullableParams=").append(requiredAndNotNullableParams);
         sb.append(", authMethods=").append(authMethods);
         sb.append(", tags=").append(tags);
         sb.append(", responses=").append(responses);
@@ -419,6 +425,7 @@ public class CodegenOperation {
                 Objects.equals(cookieParams, that.cookieParams) &&
                 Objects.equals(requiredParams, that.requiredParams) &&
                 Objects.equals(optionalParams, that.optionalParams) &&
+                Objects.equals(requiredAndNotNullableParams, that.requiredAndNotNullableParams) &&
                 Objects.equals(authMethods, that.authMethods) &&
                 Objects.equals(tags, that.tags) &&
                 Objects.equals(responses, that.responses) &&
@@ -445,8 +452,8 @@ public class CodegenOperation {
                 isCallbackRequest, uniqueItems, path, operationId, returnType, httpMethod, returnBaseType,
                 returnContainer, summary, unescapedNotes, notes, baseName, defaultResponse, discriminator, consumes,
                 produces, prioritizedContentTypes, servers, bodyParam, allParams, bodyParams, pathParams, queryParams,
-                headerParams, formParams, cookieParams, requiredParams, optionalParams, authMethods, tags,
-                responses, callbacks, imports, examples, requestBodyExamples, externalDocs, vendorExtensions,
+                headerParams, formParams, cookieParams, requiredParams, optionalParams, requiredAndNotNullableParams, authMethods,
+                tags, responses, callbacks, imports, examples, requestBodyExamples, externalDocs, vendorExtensions,
                 nickname, operationIdOriginal, operationIdLowerCase, operationIdCamelCase, operationIdSnakeCase,
                 hasErrorResponseObject);
     }

@@ -419,6 +419,14 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
         return sb.toString();
     }
 
+    public boolean requiredAndNotNullable() {
+        return required && !isNullable;
+    }
+
+    public boolean notRequiredOrIsNullable() {
+        return !required || isNullable;
+    }
+
     @Override
     public String getPattern() {
         return pattern;

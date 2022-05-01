@@ -57,7 +57,7 @@ namespace Org.OpenAPITools.DefaultApi
         /// <returns></returns>
         public override ModelClient OnCall123TestSpecialTags(ModelClient modelClient)
         {
-            return modelClient;
+            return base.OnCall123TestSpecialTags(modelClient);
         }
 
         /// <summary>
@@ -67,6 +67,7 @@ namespace Org.OpenAPITools.DefaultApi
         /// <param name="modelClient"></param>
         public override void AfterCall123TestSpecialTags(ApiResponse<ModelClient> apiResponse, ModelClient modelClient)
         {
+            base.AfterCall123TestSpecialTags(apiResponse, modelClient);
         }
     }
 
@@ -101,7 +102,8 @@ namespace Org.OpenAPITools.DefaultApi
         /// <returns></returns>
         public override void OnFooGet()
         {
-            return;
+            base.OnFooGet();
+
         }
 
         /// <summary>
@@ -110,6 +112,7 @@ namespace Org.OpenAPITools.DefaultApi
         /// <param name="apiResponse"></param>
         public override void AfterFooGet(ApiResponse<InlineResponseDefault> apiResponse)
         {
+            base.AfterFooGet(apiResponse);
         }
     }
 
@@ -144,7 +147,8 @@ namespace Org.OpenAPITools.DefaultApi
         /// <returns></returns>
         public override void OnFakeHealthGet()
         {
-            return;
+            base.OnFakeHealthGet();
+
         }
 
         /// <summary>
@@ -153,6 +157,7 @@ namespace Org.OpenAPITools.DefaultApi
         /// <param name="apiResponse"></param>
         public override void AfterFakeHealthGet(ApiResponse<HealthCheckResult> apiResponse)
         {
+            base.AfterFakeHealthGet(apiResponse);
         }
 
         /// <summary>
@@ -162,7 +167,7 @@ namespace Org.OpenAPITools.DefaultApi
         /// <returns></returns>
         public override bool? OnFakeOuterBooleanSerialize(bool? body)
         {
-            return body;
+            return base.OnFakeOuterBooleanSerialize(body);
         }
 
         /// <summary>
@@ -172,6 +177,7 @@ namespace Org.OpenAPITools.DefaultApi
         /// <param name="body"></param>
         public override void AfterFakeOuterBooleanSerialize(ApiResponse<bool> apiResponse, bool? body)
         {
+            base.AfterFakeOuterBooleanSerialize(apiResponse, body);
         }
 
         /// <summary>
@@ -181,7 +187,7 @@ namespace Org.OpenAPITools.DefaultApi
         /// <returns></returns>
         public override OuterComposite OnFakeOuterCompositeSerialize(OuterComposite outerComposite)
         {
-            return outerComposite;
+            return base.OnFakeOuterCompositeSerialize(outerComposite);
         }
 
         /// <summary>
@@ -191,6 +197,7 @@ namespace Org.OpenAPITools.DefaultApi
         /// <param name="outerComposite"></param>
         public override void AfterFakeOuterCompositeSerialize(ApiResponse<OuterComposite> apiResponse, OuterComposite outerComposite)
         {
+            base.AfterFakeOuterCompositeSerialize(apiResponse, outerComposite);
         }
 
         /// <summary>
@@ -200,7 +207,7 @@ namespace Org.OpenAPITools.DefaultApi
         /// <returns></returns>
         public override decimal? OnFakeOuterNumberSerialize(decimal? body)
         {
-            return body;
+            return base.OnFakeOuterNumberSerialize(body);
         }
 
         /// <summary>
@@ -210,6 +217,7 @@ namespace Org.OpenAPITools.DefaultApi
         /// <param name="body"></param>
         public override void AfterFakeOuterNumberSerialize(ApiResponse<decimal> apiResponse, decimal? body)
         {
+            base.AfterFakeOuterNumberSerialize(apiResponse, body);
         }
 
         /// <summary>
@@ -219,7 +227,7 @@ namespace Org.OpenAPITools.DefaultApi
         /// <returns></returns>
         public override string OnFakeOuterStringSerialize(string body)
         {
-            return body;
+            return base.OnFakeOuterStringSerialize(body);
         }
 
         /// <summary>
@@ -229,6 +237,7 @@ namespace Org.OpenAPITools.DefaultApi
         /// <param name="body"></param>
         public override void AfterFakeOuterStringSerialize(ApiResponse<string> apiResponse, string body)
         {
+            base.AfterFakeOuterStringSerialize(apiResponse, body);
         }
 
         /// <summary>
@@ -237,7 +246,7 @@ namespace Org.OpenAPITools.DefaultApi
         /// <returns></returns>
         public override void OnGetArrayOfEnums()
         {
-            return;
+            
         }
 
         /// <summary>
@@ -246,6 +255,7 @@ namespace Org.OpenAPITools.DefaultApi
         /// <param name="apiResponse"></param>
         public override void AfterGetArrayOfEnums(ApiResponse<List<OuterEnum>> apiResponse)
         {
+            base.AfterGetArrayOfEnums(apiResponse);
         }
 
         /// <summary>
@@ -255,7 +265,7 @@ namespace Org.OpenAPITools.DefaultApi
         /// <returns></returns>
         public override FileSchemaTestClass OnTestBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass)
         {
-            return fileSchemaTestClass;
+            return base.OnTestBodyWithFileSchema(fileSchemaTestClass);
         }
 
         /// <summary>
@@ -265,6 +275,7 @@ namespace Org.OpenAPITools.DefaultApi
         /// <param name="fileSchemaTestClass"></param>
         public override void AfterTestBodyWithFileSchema(ApiResponse<object> apiResponse, FileSchemaTestClass fileSchemaTestClass)
         {
+            base.AfterTestBodyWithFileSchema(apiResponse, fileSchemaTestClass);
         }
 
         /// <summary>
@@ -275,7 +286,7 @@ namespace Org.OpenAPITools.DefaultApi
         /// <returns></returns>
         public override (User, string) OnTestBodyWithQueryParams(User user, string query)
         {
-            return (user, query);
+            return base.OnTestBodyWithQueryParams(user, query);
         }
 
         /// <summary>
@@ -286,6 +297,7 @@ namespace Org.OpenAPITools.DefaultApi
         /// <param name="query"></param>
         public override void AfterTestBodyWithQueryParams(ApiResponse<object> apiResponse, User user, string query)
         {
+            base.AfterTestBodyWithQueryParams(apiResponse, user, query);
         }
 
         /// <summary>
@@ -295,7 +307,7 @@ namespace Org.OpenAPITools.DefaultApi
         /// <returns></returns>
         public override ModelClient OnTestClientModel(ModelClient modelClient)
         {
-            return modelClient;
+            return base.OnTestClientModel(modelClient);
         }
 
         /// <summary>
@@ -305,6 +317,7 @@ namespace Org.OpenAPITools.DefaultApi
         /// <param name="modelClient"></param>
         public override void AfterTestClientModel(ApiResponse<ModelClient> apiResponse, ModelClient modelClient)
         {
+            base.AfterTestClientModel(apiResponse, modelClient);
         }
 
         /// <summary>
@@ -327,7 +340,7 @@ namespace Org.OpenAPITools.DefaultApi
         /// <returns></returns>
         public override (byte[], decimal, double, string, DateTime?, System.IO.Stream, float?, int?, int?, long?, string, string, string, DateTime?) OnTestEndpointParameters(byte[] _byte, decimal number, double _double, string patternWithoutDelimiter, DateTime? date, System.IO.Stream binary, float? _float, int? integer, int? int32, long? int64, string _string, string password, string callback, DateTime? dateTime)
         {
-            return (_byte, number, _double, patternWithoutDelimiter, date, binary, _float, integer, int32, int64, _string, password, callback, dateTime);
+            return base.OnTestEndpointParameters(_byte, number, _double, patternWithoutDelimiter, date, binary, _float, integer, int32, int64, _string, password, callback, dateTime);
         }
 
         /// <summary>
@@ -350,6 +363,7 @@ namespace Org.OpenAPITools.DefaultApi
         /// <param name="dateTime"></param>
         public override void AfterTestEndpointParameters(ApiResponse<object> apiResponse, byte[] _byte, decimal number, double _double, string patternWithoutDelimiter, DateTime? date, System.IO.Stream binary, float? _float, int? integer, int? int32, long? int64, string _string, string password, string callback, DateTime? dateTime)
         {
+            base.AfterTestEndpointParameters(apiResponse, _byte, number, _double, patternWithoutDelimiter, date, binary, _float, integer, int32, int64, _string, password, callback, dateTime);
         }
 
         /// <summary>
@@ -366,7 +380,7 @@ namespace Org.OpenAPITools.DefaultApi
         /// <returns></returns>
         public override (List<string>, List<string>, double?, int?, List<string>, string, string, string) OnTestEnumParameters(List<string> enumHeaderStringArray, List<string> enumQueryStringArray, double? enumQueryDouble, int? enumQueryInteger, List<string> enumFormStringArray, string enumHeaderString, string enumQueryString, string enumFormString)
         {
-            return (enumHeaderStringArray, enumQueryStringArray, enumQueryDouble, enumQueryInteger, enumFormStringArray, enumHeaderString, enumQueryString, enumFormString);
+            return base.OnTestEnumParameters(enumHeaderStringArray, enumQueryStringArray, enumQueryDouble, enumQueryInteger, enumFormStringArray, enumHeaderString, enumQueryString, enumFormString);
         }
 
         /// <summary>
@@ -383,6 +397,7 @@ namespace Org.OpenAPITools.DefaultApi
         /// <param name="enumFormString"></param>
         public override void AfterTestEnumParameters(ApiResponse<object> apiResponse, List<string> enumHeaderStringArray, List<string> enumQueryStringArray, double? enumQueryDouble, int? enumQueryInteger, List<string> enumFormStringArray, string enumHeaderString, string enumQueryString, string enumFormString)
         {
+            base.AfterTestEnumParameters(apiResponse, enumHeaderStringArray, enumQueryStringArray, enumQueryDouble, enumQueryInteger, enumFormStringArray, enumHeaderString, enumQueryString, enumFormString);
         }
 
         /// <summary>
@@ -397,7 +412,7 @@ namespace Org.OpenAPITools.DefaultApi
         /// <returns></returns>
         public override (bool, int, long, bool?, int?, long?) OnTestGroupParameters(bool requiredBooleanGroup, int requiredStringGroup, long requiredInt64Group, bool? booleanGroup, int? stringGroup, long? int64Group)
         {
-            return (requiredBooleanGroup, requiredStringGroup, requiredInt64Group, booleanGroup, stringGroup, int64Group);
+            return base.OnTestGroupParameters(requiredBooleanGroup, requiredStringGroup, requiredInt64Group, booleanGroup, stringGroup, int64Group);
         }
 
         /// <summary>
@@ -412,6 +427,7 @@ namespace Org.OpenAPITools.DefaultApi
         /// <param name="int64Group"></param>
         public override void AfterTestGroupParameters(ApiResponse<object> apiResponse, bool requiredBooleanGroup, int requiredStringGroup, long requiredInt64Group, bool? booleanGroup, int? stringGroup, long? int64Group)
         {
+            base.AfterTestGroupParameters(apiResponse, requiredBooleanGroup, requiredStringGroup, requiredInt64Group, booleanGroup, stringGroup, int64Group);
         }
 
         /// <summary>
@@ -421,7 +437,7 @@ namespace Org.OpenAPITools.DefaultApi
         /// <returns></returns>
         public override Dictionary<string, string> OnTestInlineAdditionalProperties(Dictionary<string, string> requestBody)
         {
-            return requestBody;
+            return base.OnTestInlineAdditionalProperties(requestBody);
         }
 
         /// <summary>
@@ -431,6 +447,7 @@ namespace Org.OpenAPITools.DefaultApi
         /// <param name="requestBody"></param>
         public override void AfterTestInlineAdditionalProperties(ApiResponse<object> apiResponse, Dictionary<string, string> requestBody)
         {
+            base.AfterTestInlineAdditionalProperties(apiResponse, requestBody);
         }
 
         /// <summary>
@@ -441,7 +458,7 @@ namespace Org.OpenAPITools.DefaultApi
         /// <returns></returns>
         public override (string, string) OnTestJsonFormData(string param, string param2)
         {
-            return (param, param2);
+            return base.OnTestJsonFormData(param, param2);
         }
 
         /// <summary>
@@ -452,6 +469,7 @@ namespace Org.OpenAPITools.DefaultApi
         /// <param name="param2"></param>
         public override void AfterTestJsonFormData(ApiResponse<object> apiResponse, string param, string param2)
         {
+            base.AfterTestJsonFormData(apiResponse, param, param2);
         }
 
         /// <summary>
@@ -465,7 +483,7 @@ namespace Org.OpenAPITools.DefaultApi
         /// <returns></returns>
         public override (List<string>, List<string>, List<string>, List<string>, List<string>) OnTestQueryParameterCollectionFormat(List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context)
         {
-            return (pipe, ioutil, http, url, context);
+            return base.OnTestQueryParameterCollectionFormat(pipe, ioutil, http, url, context);
         }
 
         /// <summary>
@@ -479,6 +497,7 @@ namespace Org.OpenAPITools.DefaultApi
         /// <param name="context"></param>
         public override void AfterTestQueryParameterCollectionFormat(ApiResponse<object> apiResponse, List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context)
         {
+            base.AfterTestQueryParameterCollectionFormat(apiResponse, pipe, ioutil, http, url, context);
         }
     }
 
@@ -514,7 +533,7 @@ namespace Org.OpenAPITools.DefaultApi
         /// <returns></returns>
         public override ModelClient OnTestClassname(ModelClient modelClient)
         {
-            return modelClient;
+            return base.OnTestClassname(modelClient);
         }
 
         /// <summary>
@@ -524,6 +543,7 @@ namespace Org.OpenAPITools.DefaultApi
         /// <param name="modelClient"></param>
         public override void AfterTestClassname(ApiResponse<ModelClient> apiResponse, ModelClient modelClient)
         {
+            base.AfterTestClassname(apiResponse, modelClient);
         }
     }
 
@@ -559,7 +579,7 @@ namespace Org.OpenAPITools.DefaultApi
         /// <returns></returns>
         public override Pet OnAddPet(Pet pet)
         {
-            return pet;
+            return base.OnAddPet(pet);
         }
 
         /// <summary>
@@ -569,6 +589,7 @@ namespace Org.OpenAPITools.DefaultApi
         /// <param name="pet"></param>
         public override void AfterAddPet(ApiResponse<object> apiResponse, Pet pet)
         {
+            base.AfterAddPet(apiResponse, pet);
         }
 
         /// <summary>
@@ -579,7 +600,7 @@ namespace Org.OpenAPITools.DefaultApi
         /// <returns></returns>
         public override (long, string) OnDeletePet(long petId, string apiKey)
         {
-            return (petId, apiKey);
+            return base.OnDeletePet(petId, apiKey);
         }
 
         /// <summary>
@@ -590,6 +611,7 @@ namespace Org.OpenAPITools.DefaultApi
         /// <param name="apiKey"></param>
         public override void AfterDeletePet(ApiResponse<object> apiResponse, long petId, string apiKey)
         {
+            base.AfterDeletePet(apiResponse, petId, apiKey);
         }
 
         /// <summary>
@@ -599,7 +621,7 @@ namespace Org.OpenAPITools.DefaultApi
         /// <returns></returns>
         public override List<string> OnFindPetsByStatus(List<string> status)
         {
-            return status;
+            return base.OnFindPetsByStatus(status);
         }
 
         /// <summary>
@@ -609,6 +631,7 @@ namespace Org.OpenAPITools.DefaultApi
         /// <param name="status"></param>
         public override void AfterFindPetsByStatus(ApiResponse<List<Pet>> apiResponse, List<string> status)
         {
+            base.AfterFindPetsByStatus(apiResponse, status);
         }
 
         /// <summary>
@@ -618,7 +641,7 @@ namespace Org.OpenAPITools.DefaultApi
         /// <returns></returns>
         public override List<string> OnFindPetsByTags(List<string> tags)
         {
-            return tags;
+            return base.OnFindPetsByTags(tags);
         }
 
         /// <summary>
@@ -628,6 +651,7 @@ namespace Org.OpenAPITools.DefaultApi
         /// <param name="tags"></param>
         public override void AfterFindPetsByTags(ApiResponse<List<Pet>> apiResponse, List<string> tags)
         {
+            base.AfterFindPetsByTags(apiResponse, tags);
         }
 
         /// <summary>
@@ -637,7 +661,7 @@ namespace Org.OpenAPITools.DefaultApi
         /// <returns></returns>
         public override long OnGetPetById(long petId)
         {
-            return petId;
+            return base.OnGetPetById(petId);
         }
 
         /// <summary>
@@ -647,6 +671,7 @@ namespace Org.OpenAPITools.DefaultApi
         /// <param name="petId"></param>
         public override void AfterGetPetById(ApiResponse<Pet> apiResponse, long petId)
         {
+            base.AfterGetPetById(apiResponse, petId);
         }
 
         /// <summary>
@@ -656,7 +681,7 @@ namespace Org.OpenAPITools.DefaultApi
         /// <returns></returns>
         public override Pet OnUpdatePet(Pet pet)
         {
-            return pet;
+            return base.OnUpdatePet(pet);
         }
 
         /// <summary>
@@ -666,6 +691,7 @@ namespace Org.OpenAPITools.DefaultApi
         /// <param name="pet"></param>
         public override void AfterUpdatePet(ApiResponse<object> apiResponse, Pet pet)
         {
+            base.AfterUpdatePet(apiResponse, pet);
         }
 
         /// <summary>
@@ -677,7 +703,7 @@ namespace Org.OpenAPITools.DefaultApi
         /// <returns></returns>
         public override (long, string, string) OnUpdatePetWithForm(long petId, string name, string status)
         {
-            return (petId, name, status);
+            return base.OnUpdatePetWithForm(petId, name, status);
         }
 
         /// <summary>
@@ -689,6 +715,7 @@ namespace Org.OpenAPITools.DefaultApi
         /// <param name="status"></param>
         public override void AfterUpdatePetWithForm(ApiResponse<object> apiResponse, long petId, string name, string status)
         {
+            base.AfterUpdatePetWithForm(apiResponse, petId, name, status);
         }
 
         /// <summary>
@@ -700,7 +727,7 @@ namespace Org.OpenAPITools.DefaultApi
         /// <returns></returns>
         public override (long, System.IO.Stream, string) OnUploadFile(long petId, System.IO.Stream file, string additionalMetadata)
         {
-            return (petId, file, additionalMetadata);
+            return base.OnUploadFile(petId, file, additionalMetadata);
         }
 
         /// <summary>
@@ -712,6 +739,7 @@ namespace Org.OpenAPITools.DefaultApi
         /// <param name="additionalMetadata"></param>
         public override void AfterUploadFile(ApiResponse<ApiResponse> apiResponse, long petId, System.IO.Stream file, string additionalMetadata)
         {
+            base.AfterUploadFile(apiResponse, petId, file, additionalMetadata);
         }
 
         /// <summary>
@@ -723,7 +751,7 @@ namespace Org.OpenAPITools.DefaultApi
         /// <returns></returns>
         public override (System.IO.Stream, long, string) OnUploadFileWithRequiredFile(System.IO.Stream requiredFile, long petId, string additionalMetadata)
         {
-            return (requiredFile, petId, additionalMetadata);
+            return base.OnUploadFileWithRequiredFile(requiredFile, petId, additionalMetadata);
         }
 
         /// <summary>
@@ -735,6 +763,7 @@ namespace Org.OpenAPITools.DefaultApi
         /// <param name="additionalMetadata"></param>
         public override void AfterUploadFileWithRequiredFile(ApiResponse<ApiResponse> apiResponse, System.IO.Stream requiredFile, long petId, string additionalMetadata)
         {
+            base.AfterUploadFileWithRequiredFile(apiResponse, requiredFile, petId, additionalMetadata);
         }
     }
 
@@ -770,7 +799,7 @@ namespace Org.OpenAPITools.DefaultApi
         /// <returns></returns>
         public override string OnDeleteOrder(string orderId)
         {
-            return orderId;
+            return base.OnDeleteOrder(orderId);
         }
 
         /// <summary>
@@ -780,6 +809,7 @@ namespace Org.OpenAPITools.DefaultApi
         /// <param name="orderId"></param>
         public override void AfterDeleteOrder(ApiResponse<object> apiResponse, string orderId)
         {
+            base.AfterDeleteOrder(apiResponse, orderId);
         }
 
         /// <summary>
@@ -788,7 +818,7 @@ namespace Org.OpenAPITools.DefaultApi
         /// <returns></returns>
         public override void OnGetInventory()
         {
-            return;
+            
         }
 
         /// <summary>
@@ -797,6 +827,7 @@ namespace Org.OpenAPITools.DefaultApi
         /// <param name="apiResponse"></param>
         public override void AfterGetInventory(ApiResponse<Dictionary<string, int>> apiResponse)
         {
+            base.AfterGetInventory(apiResponse);
         }
 
         /// <summary>
@@ -806,7 +837,7 @@ namespace Org.OpenAPITools.DefaultApi
         /// <returns></returns>
         public override long OnGetOrderById(long orderId)
         {
-            return orderId;
+            return base.OnGetOrderById(orderId);
         }
 
         /// <summary>
@@ -816,6 +847,7 @@ namespace Org.OpenAPITools.DefaultApi
         /// <param name="orderId"></param>
         public override void AfterGetOrderById(ApiResponse<Order> apiResponse, long orderId)
         {
+            base.AfterGetOrderById(apiResponse, orderId);
         }
 
         /// <summary>
@@ -825,7 +857,7 @@ namespace Org.OpenAPITools.DefaultApi
         /// <returns></returns>
         public override Order OnPlaceOrder(Order order)
         {
-            return order;
+            return base.OnPlaceOrder(order);
         }
 
         /// <summary>
@@ -835,6 +867,7 @@ namespace Org.OpenAPITools.DefaultApi
         /// <param name="order"></param>
         public override void AfterPlaceOrder(ApiResponse<Order> apiResponse, Order order)
         {
+            base.AfterPlaceOrder(apiResponse, order);
         }
     }
 
@@ -870,7 +903,7 @@ namespace Org.OpenAPITools.DefaultApi
         /// <returns></returns>
         public override User OnCreateUser(User user)
         {
-            return user;
+            return base.OnCreateUser(user);
         }
 
         /// <summary>
@@ -880,6 +913,7 @@ namespace Org.OpenAPITools.DefaultApi
         /// <param name="user"></param>
         public override void AfterCreateUser(ApiResponse<object> apiResponse, User user)
         {
+            base.AfterCreateUser(apiResponse, user);
         }
 
         /// <summary>
@@ -889,7 +923,7 @@ namespace Org.OpenAPITools.DefaultApi
         /// <returns></returns>
         public override List<User> OnCreateUsersWithArrayInput(List<User> user)
         {
-            return user;
+            return base.OnCreateUsersWithArrayInput(user);
         }
 
         /// <summary>
@@ -899,6 +933,7 @@ namespace Org.OpenAPITools.DefaultApi
         /// <param name="user"></param>
         public override void AfterCreateUsersWithArrayInput(ApiResponse<object> apiResponse, List<User> user)
         {
+            base.AfterCreateUsersWithArrayInput(apiResponse, user);
         }
 
         /// <summary>
@@ -908,7 +943,7 @@ namespace Org.OpenAPITools.DefaultApi
         /// <returns></returns>
         public override List<User> OnCreateUsersWithListInput(List<User> user)
         {
-            return user;
+            return base.OnCreateUsersWithListInput(user);
         }
 
         /// <summary>
@@ -918,6 +953,7 @@ namespace Org.OpenAPITools.DefaultApi
         /// <param name="user"></param>
         public override void AfterCreateUsersWithListInput(ApiResponse<object> apiResponse, List<User> user)
         {
+            base.AfterCreateUsersWithListInput(apiResponse, user);
         }
 
         /// <summary>
@@ -927,7 +963,7 @@ namespace Org.OpenAPITools.DefaultApi
         /// <returns></returns>
         public override string OnDeleteUser(string username)
         {
-            return username;
+            return base.OnDeleteUser(username);
         }
 
         /// <summary>
@@ -937,6 +973,7 @@ namespace Org.OpenAPITools.DefaultApi
         /// <param name="username"></param>
         public override void AfterDeleteUser(ApiResponse<object> apiResponse, string username)
         {
+            base.AfterDeleteUser(apiResponse, username);
         }
 
         /// <summary>
@@ -946,7 +983,7 @@ namespace Org.OpenAPITools.DefaultApi
         /// <returns></returns>
         public override string OnGetUserByName(string username)
         {
-            return username;
+            return base.OnGetUserByName(username);
         }
 
         /// <summary>
@@ -956,6 +993,7 @@ namespace Org.OpenAPITools.DefaultApi
         /// <param name="username"></param>
         public override void AfterGetUserByName(ApiResponse<User> apiResponse, string username)
         {
+            base.AfterGetUserByName(apiResponse, username);
         }
 
         /// <summary>
@@ -966,7 +1004,7 @@ namespace Org.OpenAPITools.DefaultApi
         /// <returns></returns>
         public override (string, string) OnLoginUser(string username, string password)
         {
-            return (username, password);
+            return base.OnLoginUser(username, password);
         }
 
         /// <summary>
@@ -977,6 +1015,7 @@ namespace Org.OpenAPITools.DefaultApi
         /// <param name="password"></param>
         public override void AfterLoginUser(ApiResponse<string> apiResponse, string username, string password)
         {
+            base.AfterLoginUser(apiResponse, username, password);
         }
 
         /// <summary>
@@ -985,7 +1024,7 @@ namespace Org.OpenAPITools.DefaultApi
         /// <returns></returns>
         public override void OnLogoutUser()
         {
-            return;
+            
         }
 
         /// <summary>
@@ -994,6 +1033,7 @@ namespace Org.OpenAPITools.DefaultApi
         /// <param name="apiResponse"></param>
         public override void AfterLogoutUser(ApiResponse<object> apiResponse)
         {
+            base.AfterLogoutUser(apiResponse);
         }
 
         /// <summary>
@@ -1004,7 +1044,7 @@ namespace Org.OpenAPITools.DefaultApi
         /// <returns></returns>
         public override (User, string) OnUpdateUser(User user, string username)
         {
-            return (user, username);
+            return base.OnUpdateUser(user, username);
         }
 
         /// <summary>
@@ -1015,6 +1055,7 @@ namespace Org.OpenAPITools.DefaultApi
         /// <param name="username"></param>
         public override void AfterUpdateUser(ApiResponse<object> apiResponse, User user, string username)
         {
+            base.AfterUpdateUser(apiResponse, user, username);
         }
     }
 }

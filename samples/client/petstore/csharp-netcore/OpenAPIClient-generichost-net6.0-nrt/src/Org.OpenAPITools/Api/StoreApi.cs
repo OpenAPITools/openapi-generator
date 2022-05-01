@@ -288,6 +288,15 @@ namespace Org.OpenAPITools.Api
         /// <returns></returns>
         public virtual string OnDeleteOrder(string orderId)
         {
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (orderId == null)
+                throw new ArgumentNullException(nameof(orderId));
+
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
             return orderId;
         }
 
@@ -312,15 +321,6 @@ namespace Org.OpenAPITools.Api
             try
             {
                 orderId = OnDeleteOrder(orderId);
-
-                #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-                if (orderId == null)
-                    throw new ArgumentNullException(nameof(orderId));
-
-                #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
@@ -533,6 +533,15 @@ namespace Org.OpenAPITools.Api
         /// <returns></returns>
         public virtual long OnGetOrderById(long orderId)
         {
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (orderId == null)
+                throw new ArgumentNullException(nameof(orderId));
+
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
             return orderId;
         }
 
@@ -557,15 +566,6 @@ namespace Org.OpenAPITools.Api
             try
             {
                 orderId = OnGetOrderById(orderId);
-
-                #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-                if (orderId == null)
-                    throw new ArgumentNullException(nameof(orderId));
-
-                #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
@@ -663,6 +663,15 @@ namespace Org.OpenAPITools.Api
         /// <returns></returns>
         public virtual Order OnPlaceOrder(Order order)
         {
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (order == null)
+                throw new ArgumentNullException(nameof(order));
+
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
             return order;
         }
 
@@ -687,15 +696,6 @@ namespace Org.OpenAPITools.Api
             try
             {
                 order = OnPlaceOrder(order);
-
-                #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-                if (order == null)
-                    throw new ArgumentNullException(nameof(order));
-
-                #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {

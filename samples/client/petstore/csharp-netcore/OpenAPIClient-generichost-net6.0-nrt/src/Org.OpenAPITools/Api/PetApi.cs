@@ -487,6 +487,15 @@ namespace Org.OpenAPITools.Api
         /// <returns></returns>
         public virtual Pet OnAddPet(Pet pet)
         {
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (pet == null)
+                throw new ArgumentNullException(nameof(pet));
+
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
             return pet;
         }
 
@@ -511,15 +520,6 @@ namespace Org.OpenAPITools.Api
             try
             {
                 pet = OnAddPet(pet);
-
-                #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-                if (pet == null)
-                    throw new ArgumentNullException(nameof(pet));
-
-                #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
@@ -645,6 +645,15 @@ namespace Org.OpenAPITools.Api
         /// <returns></returns>
         public virtual (long, string?) OnDeletePet(long petId, string? apiKey)
         {
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (petId == null)
+                throw new ArgumentNullException(nameof(petId));
+
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
             return (petId, apiKey);
         }
 
@@ -673,15 +682,6 @@ namespace Org.OpenAPITools.Api
                 var validatedParameters = OnDeletePet(petId, apiKey);
                 petId = validatedParameters.Item1;
                 apiKey = validatedParameters.Item2;
-
-                #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-                if (petId == null)
-                    throw new ArgumentNullException(nameof(petId));
-
-                #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
@@ -783,6 +783,15 @@ namespace Org.OpenAPITools.Api
         /// <returns></returns>
         public virtual List<string> OnFindPetsByStatus(List<string> status)
         {
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (status == null)
+                throw new ArgumentNullException(nameof(status));
+
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
             return status;
         }
 
@@ -807,15 +816,6 @@ namespace Org.OpenAPITools.Api
             try
             {
                 status = OnFindPetsByStatus(status);
-
-                #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-                if (status == null)
-                    throw new ArgumentNullException(nameof(status));
-
-                #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
@@ -940,6 +940,15 @@ namespace Org.OpenAPITools.Api
         /// <returns></returns>
         public virtual List<string> OnFindPetsByTags(List<string> tags)
         {
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (tags == null)
+                throw new ArgumentNullException(nameof(tags));
+
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
             return tags;
         }
 
@@ -964,15 +973,6 @@ namespace Org.OpenAPITools.Api
             try
             {
                 tags = OnFindPetsByTags(tags);
-
-                #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-                if (tags == null)
-                    throw new ArgumentNullException(nameof(tags));
-
-                #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
@@ -1097,6 +1097,15 @@ namespace Org.OpenAPITools.Api
         /// <returns></returns>
         public virtual long OnGetPetById(long petId)
         {
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (petId == null)
+                throw new ArgumentNullException(nameof(petId));
+
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
             return petId;
         }
 
@@ -1121,15 +1130,6 @@ namespace Org.OpenAPITools.Api
             try
             {
                 petId = OnGetPetById(petId);
-
-                #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-                if (petId == null)
-                    throw new ArgumentNullException(nameof(petId));
-
-                #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
@@ -1238,6 +1238,15 @@ namespace Org.OpenAPITools.Api
         /// <returns></returns>
         public virtual Pet OnUpdatePet(Pet pet)
         {
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (pet == null)
+                throw new ArgumentNullException(nameof(pet));
+
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
             return pet;
         }
 
@@ -1262,15 +1271,6 @@ namespace Org.OpenAPITools.Api
             try
             {
                 pet = OnUpdatePet(pet);
-
-                #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-                if (pet == null)
-                    throw new ArgumentNullException(nameof(pet));
-
-                #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
@@ -1399,6 +1399,15 @@ namespace Org.OpenAPITools.Api
         /// <returns></returns>
         public virtual (long, string?, string?) OnUpdatePetWithForm(long petId, string? name, string? status)
         {
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (petId == null)
+                throw new ArgumentNullException(nameof(petId));
+
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
             return (petId, name, status);
         }
 
@@ -1430,15 +1439,6 @@ namespace Org.OpenAPITools.Api
                 petId = validatedParameters.Item1;
                 name = validatedParameters.Item2;
                 status = validatedParameters.Item3;
-
-                #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-                if (petId == null)
-                    throw new ArgumentNullException(nameof(petId));
-
-                #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
@@ -1566,6 +1566,15 @@ namespace Org.OpenAPITools.Api
         /// <returns></returns>
         public virtual (long, System.IO.Stream?, string?) OnUploadFile(long petId, System.IO.Stream? file, string? additionalMetadata)
         {
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (petId == null)
+                throw new ArgumentNullException(nameof(petId));
+
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
             return (petId, file, additionalMetadata);
         }
 
@@ -1597,15 +1606,6 @@ namespace Org.OpenAPITools.Api
                 petId = validatedParameters.Item1;
                 file = validatedParameters.Item2;
                 additionalMetadata = validatedParameters.Item3;
-
-                #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-                if (petId == null)
-                    throw new ArgumentNullException(nameof(petId));
-
-                #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
@@ -1742,6 +1742,18 @@ namespace Org.OpenAPITools.Api
         /// <returns></returns>
         public virtual (System.IO.Stream, long, string?) OnUploadFileWithRequiredFile(System.IO.Stream requiredFile, long petId, string? additionalMetadata)
         {
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (requiredFile == null)
+                throw new ArgumentNullException(nameof(requiredFile));
+
+            if (petId == null)
+                throw new ArgumentNullException(nameof(petId));
+
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
             return (requiredFile, petId, additionalMetadata);
         }
 
@@ -1773,18 +1785,6 @@ namespace Org.OpenAPITools.Api
                 requiredFile = validatedParameters.Item1;
                 petId = validatedParameters.Item2;
                 additionalMetadata = validatedParameters.Item3;
-
-                #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-                if (requiredFile == null)
-                    throw new ArgumentNullException(nameof(requiredFile));
-
-                if (petId == null)
-                    throw new ArgumentNullException(nameof(petId));
-
-                #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {

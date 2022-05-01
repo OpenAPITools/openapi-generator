@@ -1260,6 +1260,15 @@ namespace Org.OpenAPITools.Api
         /// <returns></returns>
         public virtual FileSchemaTestClass OnTestBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass)
         {
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (fileSchemaTestClass == null)
+                throw new ArgumentNullException(nameof(fileSchemaTestClass));
+
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
             return fileSchemaTestClass;
         }
 
@@ -1284,15 +1293,6 @@ namespace Org.OpenAPITools.Api
             try
             {
                 fileSchemaTestClass = OnTestBodyWithFileSchema(fileSchemaTestClass);
-
-                #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-                if (fileSchemaTestClass == null)
-                    throw new ArgumentNullException(nameof(fileSchemaTestClass));
-
-                #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
@@ -1395,6 +1395,18 @@ namespace Org.OpenAPITools.Api
         /// <returns></returns>
         public virtual (User, string) OnTestBodyWithQueryParams(User user, string query)
         {
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (user == null)
+                throw new ArgumentNullException(nameof(user));
+
+            if (query == null)
+                throw new ArgumentNullException(nameof(query));
+
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
             return (user, query);
         }
 
@@ -1423,18 +1435,6 @@ namespace Org.OpenAPITools.Api
                 var validatedParameters = OnTestBodyWithQueryParams(user, query);
                 user = validatedParameters.Item1;
                 query = validatedParameters.Item2;
-
-                #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-                if (user == null)
-                    throw new ArgumentNullException(nameof(user));
-
-                if (query == null)
-                    throw new ArgumentNullException(nameof(query));
-
-                #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
@@ -1540,6 +1540,15 @@ namespace Org.OpenAPITools.Api
         /// <returns></returns>
         public virtual ModelClient OnTestClientModel(ModelClient modelClient)
         {
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (modelClient == null)
+                throw new ArgumentNullException(nameof(modelClient));
+
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
             return modelClient;
         }
 
@@ -1564,15 +1573,6 @@ namespace Org.OpenAPITools.Api
             try
             {
                 modelClient = OnTestClientModel(modelClient);
-
-                #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-                if (modelClient == null)
-                    throw new ArgumentNullException(nameof(modelClient));
-
-                #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
@@ -1720,6 +1720,24 @@ namespace Org.OpenAPITools.Api
         /// <returns></returns>
         public virtual (byte[], decimal, double, string, DateTime?, System.IO.Stream, float?, int?, int?, long?, string, string, string, DateTime?) OnTestEndpointParameters(byte[] _byte, decimal number, double _double, string patternWithoutDelimiter, DateTime? date, System.IO.Stream binary, float? _float, int? integer, int? int32, long? int64, string _string, string password, string callback, DateTime? dateTime)
         {
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (_byte == null)
+                throw new ArgumentNullException(nameof(_byte));
+
+            if (number == null)
+                throw new ArgumentNullException(nameof(number));
+
+            if (_double == null)
+                throw new ArgumentNullException(nameof(_double));
+
+            if (patternWithoutDelimiter == null)
+                throw new ArgumentNullException(nameof(patternWithoutDelimiter));
+
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
             return (_byte, number, _double, patternWithoutDelimiter, date, binary, _float, integer, int32, int64, _string, password, callback, dateTime);
         }
 
@@ -1784,24 +1802,6 @@ namespace Org.OpenAPITools.Api
                 password = validatedParameters.Item12;
                 callback = validatedParameters.Item13;
                 dateTime = validatedParameters.Item14;
-
-                #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-                if (_byte == null)
-                    throw new ArgumentNullException(nameof(_byte));
-
-                if (number == null)
-                    throw new ArgumentNullException(nameof(number));
-
-                if (_double == null)
-                    throw new ArgumentNullException(nameof(_double));
-
-                if (patternWithoutDelimiter == null)
-                    throw new ArgumentNullException(nameof(patternWithoutDelimiter));
-
-                #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
@@ -2166,6 +2166,21 @@ namespace Org.OpenAPITools.Api
         /// <returns></returns>
         public virtual (bool, int, long, bool?, int?, long?) OnTestGroupParameters(bool requiredBooleanGroup, int requiredStringGroup, long requiredInt64Group, bool? booleanGroup, int? stringGroup, long? int64Group)
         {
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (requiredBooleanGroup == null)
+                throw new ArgumentNullException(nameof(requiredBooleanGroup));
+
+            if (requiredStringGroup == null)
+                throw new ArgumentNullException(nameof(requiredStringGroup));
+
+            if (requiredInt64Group == null)
+                throw new ArgumentNullException(nameof(requiredInt64Group));
+
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
             return (requiredBooleanGroup, requiredStringGroup, requiredInt64Group, booleanGroup, stringGroup, int64Group);
         }
 
@@ -2206,21 +2221,6 @@ namespace Org.OpenAPITools.Api
                 booleanGroup = validatedParameters.Item4;
                 stringGroup = validatedParameters.Item5;
                 int64Group = validatedParameters.Item6;
-
-                #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-                if (requiredBooleanGroup == null)
-                    throw new ArgumentNullException(nameof(requiredBooleanGroup));
-
-                if (requiredStringGroup == null)
-                    throw new ArgumentNullException(nameof(requiredStringGroup));
-
-                if (requiredInt64Group == null)
-                    throw new ArgumentNullException(nameof(requiredInt64Group));
-
-                #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
@@ -2336,6 +2336,15 @@ namespace Org.OpenAPITools.Api
         /// <returns></returns>
         public virtual Dictionary<string, string> OnTestInlineAdditionalProperties(Dictionary<string, string> requestBody)
         {
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (requestBody == null)
+                throw new ArgumentNullException(nameof(requestBody));
+
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
             return requestBody;
         }
 
@@ -2360,15 +2369,6 @@ namespace Org.OpenAPITools.Api
             try
             {
                 requestBody = OnTestInlineAdditionalProperties(requestBody);
-
-                #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-                if (requestBody == null)
-                    throw new ArgumentNullException(nameof(requestBody));
-
-                #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
@@ -2471,6 +2471,18 @@ namespace Org.OpenAPITools.Api
         /// <returns></returns>
         public virtual (string, string) OnTestJsonFormData(string param, string param2)
         {
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (param == null)
+                throw new ArgumentNullException(nameof(param));
+
+            if (param2 == null)
+                throw new ArgumentNullException(nameof(param2));
+
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
             return (param, param2);
         }
 
@@ -2499,18 +2511,6 @@ namespace Org.OpenAPITools.Api
                 var validatedParameters = OnTestJsonFormData(param, param2);
                 param = validatedParameters.Item1;
                 param2 = validatedParameters.Item2;
-
-                #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-                if (param == null)
-                    throw new ArgumentNullException(nameof(param));
-
-                if (param2 == null)
-                    throw new ArgumentNullException(nameof(param2));
-
-                #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
@@ -2630,6 +2630,27 @@ namespace Org.OpenAPITools.Api
         /// <returns></returns>
         public virtual (List<string>, List<string>, List<string>, List<string>, List<string>) OnTestQueryParameterCollectionFormat(List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context)
         {
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (pipe == null)
+                throw new ArgumentNullException(nameof(pipe));
+
+            if (ioutil == null)
+                throw new ArgumentNullException(nameof(ioutil));
+
+            if (http == null)
+                throw new ArgumentNullException(nameof(http));
+
+            if (url == null)
+                throw new ArgumentNullException(nameof(url));
+
+            if (context == null)
+                throw new ArgumentNullException(nameof(context));
+
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
             return (pipe, ioutil, http, url, context);
         }
 
@@ -2667,27 +2688,6 @@ namespace Org.OpenAPITools.Api
                 http = validatedParameters.Item3;
                 url = validatedParameters.Item4;
                 context = validatedParameters.Item5;
-
-                #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-                if (pipe == null)
-                    throw new ArgumentNullException(nameof(pipe));
-
-                if (ioutil == null)
-                    throw new ArgumentNullException(nameof(ioutil));
-
-                if (http == null)
-                    throw new ArgumentNullException(nameof(http));
-
-                if (url == null)
-                    throw new ArgumentNullException(nameof(url));
-
-                if (context == null)
-                    throw new ArgumentNullException(nameof(context));
-
-                #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
