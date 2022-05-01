@@ -5,7 +5,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.2.0.M3")
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.6.7")
     }
 }
 
@@ -21,21 +21,21 @@ tasks.withType<KotlinCompile> {
 }
 
 plugins {
-    val kotlinVersion = "1.3.30"
+    val kotlinVersion = "1.6.21"
     id("org.jetbrains.kotlin.jvm") version kotlinVersion
     id("org.jetbrains.kotlin.plugin.jpa") version kotlinVersion
     id("org.jetbrains.kotlin.plugin.spring") version kotlinVersion
-    id("org.springframework.boot") version "2.2.0.M3"
-    id("io.spring.dependency-management") version "1.0.5.RELEASE"
+    id("org.springframework.boot") version "2.6.7"
+    id("io.spring.dependency-management") version "1.0.11.RELEASE"
 }
 
 dependencies {
     compile("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     compile("org.jetbrains.kotlin:kotlin-reflect")
     compile("org.springframework.boot:spring-boot-starter-web")
-    compile("org.webjars:swagger-ui:4.8.1")
+    compile("org.webjars:swagger-ui:4.10.3")
     compile("org.webjars:webjars-locator-core")
-    compile("io.swagger.core.v3:swagger-annotations:2.1.13")
+    compile("io.swagger.core.v3:swagger-annotations:2.2.0")
 
     compile("com.google.code.findbugs:jsr305:3.0.2")
     compile("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml")
@@ -43,16 +43,10 @@ dependencies {
     compile("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
     compile("com.fasterxml.jackson.module:jackson-module-kotlin")
     compile("jakarta.validation:jakarta.validation-api")
-    compile("jakarta.annotation:jakarta.annotation-api:1.3.5")
+    compile("jakarta.annotation:jakarta.annotation-api:2.1.0")
 
     testCompile("org.jetbrains.kotlin:kotlin-test-junit5")
     testCompile("org.springframework.boot:spring-boot-starter-test") {
         exclude(module = "junit")
     }
-}
-
-repositories {
-    maven { url = uri("https://repo1.maven.org/maven2") }
-    maven { url = uri("https://repo.spring.io/snapshot") }
-    maven { url = uri("https://repo.spring.io/milestone") }
 }

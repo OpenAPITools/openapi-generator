@@ -479,7 +479,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
     private void processDateLibrary() {
         if (DateLibrary.THREETENBP.value.equals(dateLibrary) || DateLibrary.THREETENBP_LOCALDATETIME.value.equals(dateLibrary)) {
-            processThreeTeBpDate(dateLibrary);
+            processThreeTenBpDate(dateLibrary);
         } else if (DateLibrary.STRING.value.equals(dateLibrary)) {
             processStringDate();
         } else if (DateLibrary.JAVA8.value.equals(dateLibrary) || DateLibrary.JAVA8_LOCALDATETIME.value.equals(dateLibrary)) {
@@ -495,7 +495,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         }
     }
 
-    private void processThreeTeBpDate(String dateLibrary) {
+    private void processThreeTenBpDate(String dateLibrary) {
         additionalProperties.put(DateLibrary.THREETENBP.value, true);
         typeMapping.put("date", "LocalDate");
         importMapping.put("LocalDate", "org.threeten.bp.LocalDate");
