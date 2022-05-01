@@ -7,7 +7,7 @@ defmodule {{moduleName}}.Connection do
   use Tesla
 
   # Add any middleware here (authentication)
-  plug Tesla.Middleware.BaseUrl, "{{{basePath}}}"
+  plug Tesla.Middleware.BaseUrl, Application.get_env(:{{#underscored}}{{appName}}{{/underscored}}, :base_url, "{{{basePath}}}")
   plug Tesla.Middleware.Headers, [{"user-agent", "Elixir"}]
   plug Tesla.Middleware.EncodeJson, engine: Poison
 
