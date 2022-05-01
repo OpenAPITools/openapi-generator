@@ -4180,7 +4180,6 @@ public class DefaultCodegenTest {
         assertEquals(cp.baseName, "SchemaFor201ResponseBodyTextPlain");
         assertTrue(cp.isString);
     }
-
     @Test
     public void testUnalias() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/schema-unalias-test.yml");
@@ -4204,5 +4203,19 @@ public class DefaultCodegenTest {
 
         Assert.assertEquals(codegenParameter.defaultValue, "1971-12-19T03:39:57-08:00");
         Assert.assertEquals(codegenParameter.getSchema(), null);
+    }
+
+    @Test
+    public void testArraySchemaWithIneffectiveConstraints(){
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue6491.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        String modelName = "ArrayWithIneffectiveValidations";
+        Schema sc = openAPI.getComponents().getSchemas().get(modelName);
+        CodegenModel cm = codegen.fromModel(modelName, sc);
+
+
     }
 }

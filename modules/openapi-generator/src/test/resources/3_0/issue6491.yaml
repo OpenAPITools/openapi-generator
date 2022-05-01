@@ -1,0 +1,33 @@
+openapi: 3.0.1
+info:
+  title: My title
+  description: API under test
+  version: 1.0.7
+servers:
+  - url: https://localhost:9999/root
+paths:
+  /location:
+    get:
+      operationId: getLocation
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArrayWithIneffectiveValidations'
+components:
+  schemas:
+    ArrayWithIneffectiveValidations:
+      type: array
+      items: {}
+      minProperties: 1
+      maxProperties: 5
+      minLength: 1
+      maxLength: 5
+      pattern: 'abcde'
+      multipleOf: 3
+      minimum: 1
+      maximum: 10
+      exclusiveMinimum: 0
+      exclusiveMaximum: 100
