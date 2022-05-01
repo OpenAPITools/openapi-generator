@@ -66,8 +66,7 @@ class User implements ModelInterface, ArrayAccess, \JsonSerializable
         'email' => 'string',
         'password' => 'string',
         'phone' => 'string',
-        'user_status' => 'int',
-        'user_type' => 'UserType'
+        'user_status' => 'int'
     ];
 
     /**
@@ -85,8 +84,7 @@ class User implements ModelInterface, ArrayAccess, \JsonSerializable
         'email' => null,
         'password' => null,
         'phone' => null,
-        'user_status' => 'int32',
-        'user_type' => null
+        'user_status' => 'int32'
     ];
 
     /**
@@ -123,8 +121,7 @@ class User implements ModelInterface, ArrayAccess, \JsonSerializable
         'email' => 'email',
         'password' => 'password',
         'phone' => 'phone',
-        'user_status' => 'userStatus',
-        'user_type' => 'userType'
+        'user_status' => 'userStatus'
     ];
 
     /**
@@ -140,8 +137,7 @@ class User implements ModelInterface, ArrayAccess, \JsonSerializable
         'email' => 'setEmail',
         'password' => 'setPassword',
         'phone' => 'setPhone',
-        'user_status' => 'setUserStatus',
-        'user_type' => 'setUserType'
+        'user_status' => 'setUserStatus'
     ];
 
     /**
@@ -157,8 +153,7 @@ class User implements ModelInterface, ArrayAccess, \JsonSerializable
         'email' => 'getEmail',
         'password' => 'getPassword',
         'phone' => 'getPhone',
-        'user_status' => 'getUserStatus',
-        'user_type' => 'getUserType'
+        'user_status' => 'getUserStatus'
     ];
 
     /**
@@ -226,7 +221,6 @@ class User implements ModelInterface, ArrayAccess, \JsonSerializable
         $this->container['password'] = $data['password'] ?? null;
         $this->container['phone'] = $data['phone'] ?? null;
         $this->container['user_status'] = $data['user_status'] ?? null;
-        $this->container['user_type'] = $data['user_type'] ?? null;
     }
 
     /**
@@ -441,30 +435,6 @@ class User implements ModelInterface, ArrayAccess, \JsonSerializable
     public function setUserStatus($user_status)
     {
         $this->container['user_status'] = $user_status;
-
-        return $this;
-    }
-
-    /**
-     * Gets user_type
-     *
-     * @return UserType|null
-     */
-    public function getUserType()
-    {
-        return $this->container['user_type'];
-    }
-
-    /**
-     * Sets user_type
-     *
-     * @param UserType|null $user_type user_type
-     *
-     * @return self
-     */
-    public function setUserType($user_type)
-    {
-        $this->container['user_type'] = $user_type;
 
         return $this;
     }

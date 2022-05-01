@@ -209,7 +209,6 @@ Class | Method | HTTP request | Description
  - [OpenApiPetstore.SpecialModelName](docs/SpecialModelName.md)
  - [OpenApiPetstore.Tag](docs/Tag.md)
  - [OpenApiPetstore.User](docs/User.md)
- - [OpenApiPetstore.UserType](docs/UserType.md)
 
 
 ## Documentation for Authorization

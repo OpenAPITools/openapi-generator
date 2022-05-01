@@ -42,5 +42,5 @@ public interface AnotherFakeApi {
     @Consumes(value={"application/json"})
     Mono<ModelClient> call123testSpecialTags(
         @Body @NotNull @Valid ModelClient _body
-  );
+    );
 }

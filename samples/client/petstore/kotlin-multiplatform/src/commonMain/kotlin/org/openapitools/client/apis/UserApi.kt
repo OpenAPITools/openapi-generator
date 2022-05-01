@@ -43,7 +43,7 @@ open class UserApi(
     /**
      * Create user
      * This can only be done by the logged in user.
-     * @param body Created user object 
+     * @param body Created user object
      * @return void
      */
     open suspend fun createUser(body: User): HttpResponse<Unit> {
@@ -75,7 +75,7 @@ open class UserApi(
     /**
      * Creates list of users with given input array
      * 
-     * @param body List of user object 
+     * @param body List of user object
      * @return void
      */
     open suspend fun createUsersWithArrayInput(body: kotlin.collections.List<User>): HttpResponse<Unit> {
@@ -116,7 +116,7 @@ open class UserApi(
     /**
      * Creates list of users with given input array
      * 
-     * @param body List of user object 
+     * @param body List of user object
      * @return void
      */
     open suspend fun createUsersWithListInput(body: kotlin.collections.List<User>): HttpResponse<Unit> {
@@ -157,7 +157,7 @@ open class UserApi(
     /**
      * Delete user
      * This can only be done by the logged in user.
-     * @param username The name that needs to be deleted 
+     * @param username The name that needs to be deleted
      * @return void
      */
     open suspend fun deleteUser(username: kotlin.String): HttpResponse<Unit> {
@@ -189,7 +189,7 @@ open class UserApi(
     /**
      * Get user by user name
      * 
-     * @param username The name that needs to be fetched. Use user1 for testing. 
+     * @param username The name that needs to be fetched. Use user1 for testing.
      * @return User
      */
     @Suppress("UNCHECKED_CAST")
@@ -222,8 +222,8 @@ open class UserApi(
     /**
      * Logs user into the system
      * 
-     * @param username The user name for login 
-     * @param password The password for login in clear text 
+     * @param username The user name for login
+     * @param password The password for login in clear text
      * @return kotlin.String
      */
     @Suppress("UNCHECKED_CAST")
@@ -289,8 +289,8 @@ open class UserApi(
     /**
      * Updated user
      * This can only be done by the logged in user.
-     * @param username name that need to be deleted 
-     * @param body Updated user object 
+     * @param username name that need to be deleted
+     * @param body Updated user object
      * @return void
      */
     open suspend fun updateUser(username: kotlin.String, body: User): HttpResponse<Unit> {

@@ -64,7 +64,7 @@ public class Name {
     @ApiModelProperty(required = true, value = "")
     @JsonProperty(JSON_PROPERTY_NAME)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
-       public Integer getName() {
+    public Integer getName() {
         return name;
     }
 
@@ -82,7 +82,7 @@ public class Name {
     @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_SNAKE_CASE)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public Integer getSnakeCase() {
+    public Integer getSnakeCase() {
         return snakeCase;
     }
 
@@ -99,7 +99,7 @@ public class Name {
     @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_PROPERTY)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public String getProperty() {
+    public String getProperty() {
         return property;
     }
 
@@ -117,7 +117,7 @@ public class Name {
     @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_123NUMBER)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public Integer get123number() {
+    public Integer get123number() {
         return _123number;
     }
 

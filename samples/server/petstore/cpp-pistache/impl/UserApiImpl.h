@@ -44,8 +44,8 @@ public:
     ~UserApiImpl() override = default;
 
     void create_user(const User &body, Pistache::Http::ResponseWriter &response);
-    void create_users_with_array_input(const std::vector<User> &body, Pistache::Http::ResponseWriter &response);
-    void create_users_with_list_input(const std::vector<User> &body, Pistache::Http::ResponseWriter &response);
+    void create_users_with_array_input(const std::vector<org::openapitools::server::model::User> &body, Pistache::Http::ResponseWriter &response);
+    void create_users_with_list_input(const std::vector<org::openapitools::server::model::User> &body, Pistache::Http::ResponseWriter &response);
     void delete_user(const std::string &username, Pistache::Http::ResponseWriter &response);
     void get_user_by_name(const std::string &username, Pistache::Http::ResponseWriter &response);
     void login_user(const std::optional<std::string> &username, const std::optional<std::string> &password, Pistache::Http::ResponseWriter &response);

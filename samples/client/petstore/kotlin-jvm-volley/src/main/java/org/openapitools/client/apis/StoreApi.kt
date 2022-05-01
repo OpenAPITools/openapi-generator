@@ -34,11 +34,11 @@ class StoreApi (
     private val postProcessors :List <(Request<*>) -> Unit> = listOf()) {
 
     /**
-    * Delete purchase order by ID
-    * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
-       * @param orderId ID of the order that needs to be deleted
-       * @return void
-    */
+     * Delete purchase order by ID
+     * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+     * @param orderId ID of the order that needs to be deleted
+     * @return void
+     */
     suspend fun deleteOrder(orderId: kotlin.String): Unit {
         val body: Any? = null
         // verify the required parameter 'orderId' is set
@@ -101,10 +101,10 @@ class StoreApi (
         }
     }
     /**
-    * Returns pet inventories by status
-    * Returns a map of status codes to quantities
-       * @return kotlin.collections.Map<kotlin.String, kotlin.Int>
-    */
+     * Returns pet inventories by status
+     * Returns a map of status codes to quantities
+     * @return kotlin.collections.Map<kotlin.String, kotlin.Int>
+     */
     suspend fun getInventory(): kotlin.collections.Map<kotlin.String, kotlin.Int>? {
         val body: Any? = null
 
@@ -164,11 +164,11 @@ class StoreApi (
         }
     }
     /**
-    * Find purchase order by ID
-    * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
-       * @param orderId ID of pet that needs to be fetched
-       * @return Order
-    */
+     * Find purchase order by ID
+     * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+     * @param orderId ID of pet that needs to be fetched
+     * @return Order
+     */
     suspend fun getOrderById(orderId: kotlin.Long): Order? {
         val body: Any? = null
         // verify the required parameter 'orderId' is set
@@ -231,11 +231,11 @@ class StoreApi (
         }
     }
     /**
-    * Place an order for a pet
-    * 
-       * @param body order placed for purchasing the pet
-       * @return Order
-    */
+     * Place an order for a pet
+     * 
+     * @param body order placed for purchasing the pet
+     * @return Order
+     */
     suspend fun placeOrder(body: Order): Order? {
         val body: Any? = body
         // verify the required parameter 'body' is set

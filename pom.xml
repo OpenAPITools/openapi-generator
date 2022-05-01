@@ -1,4 +1,5 @@
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <parent>
         <groupId>org.sonatype.oss</groupId>
         <artifactId>oss-parent</artifactId>
@@ -290,7 +291,7 @@
                         <configuration>
                             <rules>
                                 <requireJavaVersion>
-                                  <version>1.8.0</version>
+                                    <version>1.8.0</version>
                                 </requireJavaVersion>
                                 <requireMavenVersion>
                                     <version>3.2.5</version>
@@ -1207,6 +1208,7 @@
                 <!-- comment out due to error `npm run build`
                 <module>samples/client/petstore/typescript-jquery/npm</module>-->
                 <module>samples/client/petstore/typescript-angular-v11-provided-in-root</module>
+                <module>samples/client/petstore/typescript-angular-v13-provided-in-root</module>
                 <module>samples/openapi3/client/petstore/typescript/builds/default</module>
                 <module>samples/openapi3/client/petstore/typescript/tests/default</module>
                 <module>samples/openapi3/client/petstore/typescript/builds/jquery</module>
@@ -1320,7 +1322,8 @@
             </activation>
             <modules>
                 <module>samples/openapi3/client/petstore/dart2/petstore_client_lib</module>
-                <module>samples/openapi3/client/petstore/dart-dio-next/petstore_client_lib_fake</module>
+                <module>samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake</module>
+                <module>samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake-json_serializable</module>
             </modules>
         </profile>
         <profile>
@@ -1470,8 +1473,8 @@
         <jmustache.version>1.14</jmustache.version>
         <junit.version>4.13.2</junit.version>
         <kotlin.version>1.6.10</kotlin.version>
-        <maven-compiler-plugin.version>3.10.0</maven-compiler-plugin.version>
-        <maven-jar-plugin.version>3.2.0</maven-jar-plugin.version>
+        <maven-compiler-plugin.version>3.10.1</maven-compiler-plugin.version>
+        <maven-jar-plugin.version>3.2.2</maven-jar-plugin.version>
         <maven-javadoc-plugin.version>3.3.2</maven-javadoc-plugin.version>
         <maven-project-info-reports-plugin.version>3.0.0</maven-project-info-reports-plugin.version>
         <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
@@ -1480,11 +1483,11 @@
         <pmd-plugin.version>3.12.0</pmd-plugin.version>
         <reflections.version>0.10</reflections.version>
         <rxgen.version>1.3</rxgen.version>
-        <scala-maven-plugin.version>4.3.1</scala-maven-plugin.version>
-        <slf4j.version>1.7.32</slf4j.version>
+        <scala-maven-plugin.version>4.6.1</scala-maven-plugin.version>
+        <slf4j.version>1.7.36</slf4j.version>
         <spotbugs-plugin.version>3.1.12.2</spotbugs-plugin.version>
         <maven-surefire-plugin.version>3.0.0-M6</maven-surefire-plugin.version>
-        <openrewrite.version>7.19.0</openrewrite.version>
+        <openrewrite.version>7.22.0</openrewrite.version>
         <swagger-core.version>2.1.12</swagger-core.version>
         <swagger-parser-groupid.version>io.swagger.parser.v3</swagger-parser-groupid.version>
         <swagger-parser.version>2.0.31</swagger-parser.version>

@@ -444,6 +444,11 @@
   infoLink: "https://dev.telstra.com/"
   pinned: true
 -
+  caption: Tencent
+  image: "img/companies/tencent.png"
+  infoLink: "https://www.tencent.com/"
+  pinned: false
+-
   caption: The University of Aizu
   image: "img/companies/uoa.png"
   infoLink: "https://www.u-aizu.ac.jp/en/"

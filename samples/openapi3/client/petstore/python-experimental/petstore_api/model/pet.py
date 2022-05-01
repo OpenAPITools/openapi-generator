@@ -12,6 +12,7 @@
 import re  # noqa: F401
 import sys  # noqa: F401
 import typing  # noqa: F401
+import functools  # noqa: F401
 
 from frozendict import frozendict  # noqa: F401
 
@@ -31,6 +32,7 @@ from petstore_api.schemas import (  # noqa: F401
     Float32Schema,
     Float64Schema,
     NumberSchema,
+    UUIDSchema,
     DateSchema,
     DateTimeSchema,
     DecimalSchema,
@@ -52,6 +54,7 @@ from petstore_api.schemas import (  # noqa: F401
     Float32Base,
     Float64Base,
     NumberBase,
+    UUIDBase,
     DateBase,
     DateTimeBase,
     BoolBase,
@@ -116,17 +119,17 @@ class Pet(
         @classmethod
         @property
         def AVAILABLE(cls):
-            return cls._enum_by_value["available"]("available")
+            return cls("available")
         
         @classmethod
         @property
         def PENDING(cls):
-            return cls._enum_by_value["pending"]("pending")
+            return cls("pending")
         
         @classmethod
         @property
         def SOLD(cls):
-            return cls._enum_by_value["sold"]("sold")
+            return cls("sold")
 
 
     def __new__(

@@ -70,11 +70,13 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
     // nose is a python testing framework, we use pytest if USE_NOSE is unset
     public static final String USE_NOSE = "useNose";
     public static final String RECURSION_LIMIT = "recursionLimit";
+    public static final String USE_INLINE_MODEL_RESOLVER = "useInlineModelResolver";
 
     protected String packageUrl;
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
-    protected boolean useNose = Boolean.FALSE;
+    protected boolean useNose = false;
+    protected boolean useInlineModelResolver = false;
 
     protected Map<Character, String> regexModifiers;
 
@@ -98,7 +100,11 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
                         SchemaSupportFeature.Simple,
                         SchemaSupportFeature.Composite,
                         SchemaSupportFeature.Polymorphism,
-                        SchemaSupportFeature.Union
+                        SchemaSupportFeature.Union,
+                        SchemaSupportFeature.allOf,
+                        SchemaSupportFeature.anyOf,
+                        SchemaSupportFeature.oneOf,
+                        SchemaSupportFeature.not
                 )
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.Custom))
@@ -108,6 +114,11 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
                         SecurityFeature.ApiKey,
                         SecurityFeature.OAuth2_Implicit
                 ))
+                .includeDataTypeFeatures(
+                        DataTypeFeature.Null,
+                        DataTypeFeature.AnyType,
+                        DataTypeFeature.Uuid
+                )
                 .includeGlobalFeatures(
                         GlobalFeature.ParameterizedServer,
                         GlobalFeature.ParameterStyling
@@ -183,6 +194,8 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         cliOptions.add(CliOption.newBoolean(USE_NOSE, "use the nose test framework").
                 defaultValue(Boolean.FALSE.toString()));
         cliOptions.add(new CliOption(RECURSION_LIMIT, "Set the recursion limit. If not set, use the system default value."));
+        cliOptions.add(CliOption.newBoolean(USE_INLINE_MODEL_RESOLVER, "use the inline model resolver, if true inline complex models will be extracted into components and $refs to them will be used").
+                defaultValue(Boolean.FALSE.toString()));
 
         supportedLibraries.put("urllib3", "urllib3-based client");
         CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use: urllib3");
@@ -251,7 +264,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         }
 
         modelTemplateFiles.put("model." + templateExtension, ".py");
-            apiTemplateFiles.put("api." + templateExtension, ".py");
+        apiTemplateFiles.put("api." + templateExtension, ".py");
         modelTestTemplateFiles.put("model_test." + templateExtension, ".py");
         apiTestTemplateFiles.put("api_test." + templateExtension, ".py");
         modelDocTemplateFiles.put("model_doc." + templateExtension, ".md");
@@ -310,6 +323,10 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
 
         if (additionalProperties.containsKey(USE_NOSE)) {
             setUseNose((String) additionalProperties.get(USE_NOSE));
+        }
+
+        if (additionalProperties.containsKey(USE_INLINE_MODEL_RESOLVER)) {
+            setUseInlineModelResolver((String) additionalProperties.get(USE_INLINE_MODEL_RESOLVER));
         }
 
         // check to see if setRecursionLimit is set and whether it's an integer
@@ -528,12 +545,13 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
                 "Features in this generator:",
                 "- type hints on endpoints and model creation",
                 "- model parameter names use the spec defined keys and cases",
-                "- robust composition (oneOf/anyOf/allOf) where paload data is stored in one instance only",
+                "- robust composition (oneOf/anyOf/allOf/not) where payload data is stored in one instance only",
                 "- endpoint parameter names use the spec defined keys and cases",
                 "- inline schemas are supported at any location including composition",
                 "- multiple content types supported in request body and response bodies",
                 "- run time type checking",
                 "- Sending/receiving decimals as strings supported with type:string format: number -> DecimalSchema",
+                "- Sending/receiving uuids as strings supported with type:string format: uuid -> UUIDSchema",
                 "- quicker load time for python modules (a single endpoint can be imported and used without loading others)",
                 "- all instances of schemas dynamically inherit from all matching schemas so one can use isinstance to check if validation passed",
                 "- composed schemas with type constraints supported (type:object + oneOf/anyOf/allOf)",
@@ -1244,20 +1262,31 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
                 return prefix + modelName + fullSuffix;
             }
         }
-        if (isAnyTypeSchema(p)) {
+        if (ModelUtils.isAnyType(p)) {
             return prefix + "bool, date, datetime, dict, float, int, list, str, none_type" + suffix;
         }
         // Resolve $ref because ModelUtils.isXYZ methods do not automatically resolve references.
         if (ModelUtils.isNullable(ModelUtils.getReferencedSchema(this.openAPI, p))) {
             fullSuffix = ", none_type" + suffix;
         }
-        if (isFreeFormObject(p) && getAdditionalProperties(p) == null) {
-            return prefix + "bool, date, datetime, dict, float, int, list, str" + fullSuffix;
-        } else if (ModelUtils.isNumberSchema(p)) {
+        if (ModelUtils.isNumberSchema(p)) {
             return prefix + "int, float" + fullSuffix;
-        } else if ((ModelUtils.isMapSchema(p) || "object".equals(p.getType())) && getAdditionalProperties(p) != null) {
-            Schema inner = getAdditionalProperties(p);
-            return prefix + "{str: " + getTypeString(inner, "(", ")", referencedModelNames) + "}" + fullSuffix;
+        } else if (ModelUtils.isTypeObjectSchema(p)) {
+            if (p.getAdditionalProperties() != null && p.getAdditionalProperties().equals(false)) {
+                if (p.getProperties() == null) {
+                    // type object with no properties and additionalProperties = false, empty dict only
+                    return prefix + "{str: typing.Any}" + fullSuffix;
+                } else {
+                    // properties only
+                    // TODO add type hints for those properties only as values
+                    return prefix + "{str: typing.Any}" + fullSuffix;
+                }
+            } else {
+                // additionalProperties exists
+                Schema inner = getAdditionalProperties(p);
+                return prefix + "{str: " + getTypeString(inner, "(", ")", referencedModelNames) + "}" + fullSuffix;
+                // TODO add code here to add property values too if they exist
+            }
         } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
@@ -1274,8 +1303,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
             } else {
                 return prefix + getTypeString(inner, "[", "]", referencedModelNames) + fullSuffix;
             }
-        }
-        if (ModelUtils.isFileSchema(p)) {
+        } else if (ModelUtils.isFileSchema(p)) {
             return prefix + "file_type" + fullSuffix;
         }
         String baseType = getSchemaType(p);
@@ -1292,7 +1320,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
     public String getTypeDeclaration(Schema p) {
         // this is used to set dataType, which defines a python tuple of classes
         // in Python we will wrap this in () to make it a tuple but here we
-        // will omit the parens so the generated documentaion will not include
+        // will omit the parens so the generated documentation will not include
         // them
         return getTypeString(p, "", "", null);
     }
@@ -2005,20 +2033,21 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
             property.isBinary = true;
             property.isFile = true; // file = binary in OAS3
         } else if (ModelUtils.isUUIDSchema(p)) {
-            property.isUuid = true;
+            property.setIsString(false); // so the templates only see isUuid
+            property.setIsUuid(true);
         } else if (ModelUtils.isURISchema(p)) {
             property.isUri = true;
         } else if (ModelUtils.isEmailSchema(p)) {
             property.isEmail = true;
         } else if (ModelUtils.isDateSchema(p)) { // date format
-            property.setIsString(false); // for backward compatibility with 2.x
+            property.setIsString(false); // so the templates only see isDate
             property.isDate = true;
         } else if (ModelUtils.isDateTimeSchema(p)) { // date-time format
-            property.setIsString(false); // for backward compatibility with 2.x
+            property.setIsString(false); // so the templates only see isDateTime
             property.isDateTime = true;
         } else if (ModelUtils.isDecimalSchema(p)) { // type: string, format: number
+            property.setIsString(false); // so the templates only see isDecimal
             property.isDecimal = true;
-            property.setIsString(false);
         }
         property.pattern = toRegularExpression(p.getPattern());
     }
@@ -2224,6 +2253,13 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
 
     public void setUseNose(String val) {
         this.useNose = Boolean.parseBoolean(val);
+    }
+
+    @Override
+    public boolean getUseInlineModelResolver() { return useInlineModelResolver; }
+
+    public void setUseInlineModelResolver(String val) {
+        this.useInlineModelResolver = Boolean.parseBoolean(val);
     }
 
     public void setPackageUrl(String packageUrl) {

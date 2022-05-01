@@ -237,4 +237,56 @@ public class MicronautServerCodegenTest extends AbstractMicronautCodegenTest {
         assertFileContainsRegex(controllerPath + "UsersController.java", "IS_ANONYMOUS[^;]{0,100}getUserProfile");
         assertFileContainsRegex(controllerPath + "UsersController.java", "IS_AUTHENTICATED[^;]{0,100}updateProfile");
     }
+
+    @Test
+    public void doGenerateMonoWrapHttpResponse() {
+        JavaMicronautServerCodegen codegen = new JavaMicronautServerCodegen();
+        codegen.additionalProperties().put(JavaMicronautServerCodegen.OPT_REACTIVE, "true");
+        codegen.additionalProperties().put(JavaMicronautServerCodegen.OPT_WRAP_IN_HTTP_RESPONSE, "true");
+        String outputPath = generateFiles(codegen, PETSTORE_PATH, CodegenConstants.MODELS, CodegenConstants.APIS);
+
+        // Constructor should have properties
+        String controllerPath = outputPath + "src/main/java/org/openapitools/controller/";
+        assertFileContains(controllerPath + "PetController.java", "Mono<HttpResponse<Pet>>");
+    }
+
+    @Test
+    public void doGenerateMono() {
+        JavaMicronautServerCodegen codegen = new JavaMicronautServerCodegen();
+        codegen.additionalProperties().put(JavaMicronautServerCodegen.OPT_REACTIVE, "true");
+        codegen.additionalProperties().put(JavaMicronautServerCodegen.OPT_WRAP_IN_HTTP_RESPONSE, "false");
+        String outputPath = generateFiles(codegen, PETSTORE_PATH, CodegenConstants.MODELS, CodegenConstants.APIS);
+
+        // Constructor should have properties
+        String controllerPath = outputPath + "src/main/java/org/openapitools/controller/";
+        assertFileContains(controllerPath + "PetController.java", "Mono<Pet>");
+        assertFileNotContains(controllerPath + "PetController.java", "HttpResponse");
+    }
+
+    @Test
+    public void doGenerateWrapHttpResponse() {
+        JavaMicronautServerCodegen codegen = new JavaMicronautServerCodegen();
+        codegen.additionalProperties().put(JavaMicronautServerCodegen.OPT_REACTIVE, "false");
+        codegen.additionalProperties().put(JavaMicronautServerCodegen.OPT_WRAP_IN_HTTP_RESPONSE, "true");
+        String outputPath = generateFiles(codegen, PETSTORE_PATH, CodegenConstants.MODELS, CodegenConstants.APIS);
+
+        // Constructor should have properties
+        String controllerPath = outputPath + "src/main/java/org/openapitools/controller/";
+        assertFileContains(controllerPath + "PetController.java", "HttpResponse<Pet>");
+        assertFileNotContains(controllerPath + "PetController.java", "Mono");
+    }
+
+    @Test
+    public void doGenerateNoMonoNoWrapHttpResponse() {
+        JavaMicronautServerCodegen codegen = new JavaMicronautServerCodegen();
+        codegen.additionalProperties().put(JavaMicronautServerCodegen.OPT_REACTIVE, "false");
+        codegen.additionalProperties().put(JavaMicronautServerCodegen.OPT_WRAP_IN_HTTP_RESPONSE, "false");
+        String outputPath = generateFiles(codegen, PETSTORE_PATH, CodegenConstants.MODELS, CodegenConstants.APIS);
+
+        // Constructor should have properties
+        String controllerPath = outputPath + "src/main/java/org/openapitools/controller/";
+        assertFileContains(controllerPath + "PetController.java", "Pet");
+        assertFileNotContains(controllerPath + "PetController.java", "Mono");
+        assertFileNotContains(controllerPath + "PetController.java", "HttpResponse");
+    }
 }
