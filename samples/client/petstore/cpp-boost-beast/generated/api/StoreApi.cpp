@@ -197,7 +197,6 @@ StoreApi::getInventory(
 
     std::map<std::string, int32_t> result = std::map<std::string, int32_t>();
     if (statusCode == boost::beast::http::status(200)) {
-        result->fromJsonString(responseBody);
         if (not responseBody.empty()) {
             std::stringstream responseStream(responseBody);
             boost::property_tree::ptree pt;

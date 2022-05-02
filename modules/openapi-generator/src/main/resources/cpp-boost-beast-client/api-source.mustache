@@ -98,6 +98,18 @@ const char* {{classname}}Exception::what() const noexcept
 {{/isPrimitiveType}}
 {{/allParams}}
 {{/hasBodyParam}}
+{{#hasFormParams}}
+    // form param
+    std::stringstream formParams;
+{{#allParams}}
+{{#isFormParam}}
+    formParams << "{{{paramName}}}=";
+    formParams << base64encode({{{paramName}}});
+    {{^-last}}formParams << '&';{{/-last}}
+{{/isFormParam}}
+{{/allParams}}
+    requestBody = formParams.str();
+{{/hasFormParams}}
 {{#hasPathParams}}
     // path params
     const auto formattedPath = boost::format(path){{#pathParams}} % {{{paramName}}}{{/pathParams}};
@@ -161,12 +173,16 @@ const char* {{classname}}Exception::what() const noexcept
     if (statusCode == boost::beast::http::status({{code}})) {
         {{#is2xx}}
         {{#returnType}}
-        {{#isModel}}
         {{#isString}}
         result = responseBody;
         {{/isString}}
+        {{#isModel}}
         {{^isString}}
+        {{^isMap}}
+        {{^isArray}}
         result->fromJsonString(responseBody);
+        {{/isArray}}
+        {{/isMap}}
         {{/isString}}
         {{/isModel}}
         {{#isArray}}
@@ -247,6 +263,10 @@ const char* {{classname}}Exception::what() const noexcept
     queryParamStream << "{{{paramName}}}=" << {{paramName}};
     {{^-last}}queryParamStream << '&';{{/-last}}
     {{/isPrimitiveType}}
+    {{#isContainer}}
+    queryParamStream << "{{{paramName}}}=";
+    queryParamStream << boost::algorithm::join({{{paramName}}}, ",");
+    {{/isContainer}}
     {{/queryParams}}
     path += queryParamStream.str();
     {{/hasQueryParams}}
@@ -292,16 +312,32 @@ const char* {{classname}}Exception::what() const noexcept
     if (statusCode == boost::beast::http::status({{code}})) {
         {{#is2xx}}
         {{#returnType}}
-        {{#isModel}}
         {{#isString}}
         result = responseBody;
         {{/isString}}
+        {{#isModel}}
         {{^isString}}
+        {{^isMap}}
+        {{^isArray}}
         result->fromJsonString(responseBody);
+        {{/isArray}}
+        {{/isMap}}
         {{/isString}}
         {{/isModel}}
+        {{#isArray}}
+        createModelVectorFromJsonString(result, responseBody);
+        {{/isArray}}
         {{#isMap}}
-        // TODO result = convertMapResponse(resultObject);
+        if (not responseBody.empty()) {
+            std::stringstream responseStream(responseBody);
+            boost::property_tree::ptree pt;
+            boost::property_tree::read_json(responseStream, pt);
+            {{#additionalProperties}}
+            for (const auto& kv : pt) {
+                result.insert(std::make_pair(kv.first, boost::lexical_cast<{{{dataType}}}>(kv.second.data())));
+            }
+            {{/additionalProperties}}
+        }
         {{/isMap}}
         {{/returnType}}
         {{/is2xx}}
