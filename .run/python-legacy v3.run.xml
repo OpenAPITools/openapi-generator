@@ -1,0 +1,10 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="python-legacy v3" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="org.openapitools.codegen.OpenAPIGenerator" />
+    <module name="openapi-generator-cli" />
+    <option name="PROGRAM_PARAMETERS" value="generate -i modules/openapi-generator/src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing.yaml -g python-legacy -o samples/openapi3/client/petstore/python-legacy --additional-properties packageName=petstore_api" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
