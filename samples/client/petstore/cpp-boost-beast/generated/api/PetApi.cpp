@@ -397,6 +397,15 @@ PetApi::uploadFile(
     std::string requestBody;
     std::string path = m_context + "/pet/%1%/uploadImage";
     std::map<std::string, std::string> headers;
+    // form param
+    std::stringstream formParams;
+    formParams << "additionalMetadata=";
+    formParams << base64encode(additionalMetadata);
+    formParams << '&';
+    formParams << "file=";
+    formParams << base64encode(file);
+    
+    requestBody = formParams.str();
     // path params
     const auto formattedPath = boost::format(path) % petId;
     path = formattedPath.str();
