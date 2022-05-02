@@ -31,3 +31,47 @@ components:
       maximum: 10
       exclusiveMinimum: 0
       exclusiveMaximum: 100
+
+    ObjectWithIneffectiveValidations:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+      minItems: 1
+      maxItems: 5
+      uniqueItems: true
+      minLength: 1
+      maxLength: 10
+      pattern: 'abcde'
+      multipleOf: 3
+      minimum: 1
+      maximum: 10
+      exclusiveMinimum: 1
+      exclusiveMaximum: 10
+
+
+    StringWithIneffectiveValidations:
+      type: string
+      minItems: 1
+      maxItems: 5
+      uniqueItems: true
+      minProperties: 1
+      maxProperties: 5
+      multipleOf: 3
+      minimum: 1
+      maximum: 10
+      exclusiveMinimum: 0
+      exclusiveMaximum: 100
+
+    IntegerWithIneffectiveValidations:
+      type: integer
+      minItems: 1
+      maxItems: 5
+      uniqueItems: true
+      minProperties: 1
+      maxProperties: 5
+      minLength: 1
+      maxLength: 10
+      pattern: 'abcde'
