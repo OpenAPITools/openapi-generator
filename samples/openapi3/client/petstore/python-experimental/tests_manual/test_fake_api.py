@@ -74,14 +74,15 @@ class TestFakeApi(unittest.TestCase):
         body: typing.Optional[bytes] = None,
         content_type: typing.Optional[str] = 'application/json',
         fields: typing.Optional[tuple[api_client.RequestField, ...]] = None,
-        accept_content_type: str = 'application/json',
+        accept_content_type: typing.Optional[str] = 'application/json',
         stream: bool = False,
         query_params: typing.Optional[typing.Tuple[typing.Tuple[str, str], ...]] = None
     ):
         headers = {
-            'Accept': accept_content_type,
             'User-Agent': 'OpenAPI-Generator/1.0.0/python'
         }
+        if accept_content_type:
+            headers['Accept'] = accept_content_type
         if content_type:
             headers['Content-Type'] = content_type
         kwargs = dict(
@@ -737,6 +738,26 @@ class TestFakeApi(unittest.TestCase):
             # when an incorrect content-type is sent back, and exception is raised
             with self.assertRaises(exceptions.ApiValueError):
                 self.api.response_without_schema()
+
+    def test_delete_coffee(self):
+        with patch.object(RESTClientObject, 'request') as mock_request:
+            body = None
+            mock_request.return_value = self.__response(
+                self.__json_bytes(body),
+            )
+
+            api_response = self.api.delete_coffee(path_params=dict(id='1'))
+            self.__assert_request_called_with(
+                mock_request,
+                'http://petstore.swagger.io:80/v2/fake/deleteCoffee/1',
+                method='DELETE',
+                content_type=None,
+                accept_content_type=None
+            )
+
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, schemas.Unset)
+            assert isinstance(api_response.headers, schemas.Unset)
 
 
 if __name__ == '__main__':
