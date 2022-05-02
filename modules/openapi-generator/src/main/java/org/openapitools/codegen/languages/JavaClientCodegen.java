@@ -40,6 +40,7 @@ import java.io.File;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import static com.google.common.base.CaseFormat.LOWER_CAMEL;
 import static com.google.common.base.CaseFormat.UPPER_UNDERSCORE;
@@ -73,6 +74,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
     public static final String MICROPROFILE_DEFAULT = "default";
     public static final String MICROPROFILE_KUMULUZEE = "kumuluzee";
+    public static final String MICROPROFILE_HELIDON = "helidon";
 
     public static final String FEIGN = "feign";
     public static final String GOOGLE_API_CLIENT = "google-api-client";
@@ -92,6 +94,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public static final String MICROPROFILE_REST_CLIENT_VERSION = "microprofileRestClientVersion";
     public static final String MICROPROFILE_REST_CLIENT_DEFAULT_VERSION = "2.0";
     public static final String MICROPROFILE_REST_CLIENT_DEFAULT_ROOT_PACKAGE = "javax";
+    public static final String JAXRS_IMPL = "jaxrsImpl";
+    public static final String JAXRS_CXF = "cxf";
+    public static final String JAXRS_JERSEY = "jersey";
+    public static final String POM_PARENT = "pomParent";
 
     public static final String SERIALIZATION_LIBRARY_GSON = "gson";
     public static final String SERIALIZATION_LIBRARY_JACKSON = "jackson";
@@ -127,6 +133,20 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
     protected String rootJavaEEPackage;
     protected Map<String, MpRestClientVersion> mpRestClientVersions = new HashMap<>();
+    final protected List<String> jaxrsImpls = new ArrayList<String>() {
+        {
+            add(JAXRS_CXF);
+            add(JAXRS_JERSEY);
+        }
+    };
+
+    final protected Map<String, String> microprofileFrameworkToJaxRsImpl = new HashMap<String, String>() {
+        {
+            put(MICROPROFILE_KUMULUZEE, JAXRS_CXF);
+            put(MICROPROFILE_DEFAULT, JAXRS_CXF);
+            put(MICROPROFILE_HELIDON, JAXRS_JERSEY);
+        }
+    };
 
     private static class MpRestClientVersion {
         public final String rootPackage;
@@ -174,7 +194,8 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(ASYNC_NATIVE, "If true, async handlers will be used, instead of the sync version"));
         cliOptions.add(CliOption.newBoolean(USE_REFLECTION_EQUALS_HASHCODE, "Use org.apache.commons.lang3.builder for equals and hashCode in the models. WARNING: This will fail under a security manager, unless the appropriate permissions are set up correctly and also there's potential performance impact."));
         cliOptions.add(CliOption.newBoolean(CASE_INSENSITIVE_RESPONSE_HEADERS, "Make API response's headers case-insensitive. Available on " + OKHTTP_GSON + ", " + JERSEY2 + " libraries"));
-        cliOptions.add(CliOption.newString(MICROPROFILE_FRAMEWORK, "Framework for microprofile. Possible values \"kumuluzee\""));
+        cliOptions.add(CliOption.newString(MICROPROFILE_FRAMEWORK, "Framework for microprofile. Possible values "
+                + String.join(",", microprofileFrameworkToJaxRsImpl.keySet())));
         cliOptions.add(CliOption.newBoolean(USE_ABSTRACTION_FOR_FILES, "Use alternative types instead of java.io.File to allow passing bytes without a file on disk. Available on resttemplate, webclient, libraries"));
         cliOptions.add(CliOption.newBoolean(DYNAMIC_OPERATIONS, "Generate operations dynamically at runtime from an OAS", this.dynamicOperations));
         cliOptions.add(CliOption.newBoolean(SUPPORT_STREAMING, "Support streaming endpoint (beta)", this.supportStreaming));
@@ -297,12 +318,50 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
         // Microprofile framework
         if (additionalProperties.containsKey(MICROPROFILE_FRAMEWORK)) {
-            if (!MICROPROFILE_KUMULUZEE.equals(microprofileFramework)) {
-                throw new RuntimeException("Invalid microprofileFramework '" + microprofileFramework + "'. Must be 'kumuluzee' or none.");
+            String mpFramework = (String) additionalProperties.get(MICROPROFILE_FRAMEWORK);
+            if (!microprofileFrameworkToJaxRsImpl.containsKey(mpFramework)) {
+                throw new RuntimeException("Invalid microprofileFramework '" + mpFramework + ". Must be one of " + microprofileFrameworkToJaxRsImpl.keySet());
             }
-            this.setMicroprofileFramework(additionalProperties.get(MICROPROFILE_FRAMEWORK).toString());
+            setMicroprofileFramework(mpFramework);
+        } else {
+            // Preserve original behavior to use Kumuluzee for MicroProfile.
+            if (library.equals(MICROPROFILE)) {
+                setMicroprofileFramework(MICROPROFILE_KUMULUZEE);
+                additionalProperties.put(MICROPROFILE_FRAMEWORK, microprofileFramework);
+            }
         }
-        additionalProperties.put(MICROPROFILE_FRAMEWORK, microprofileFramework);
+
+        // The JAX-RS implementation to use depends on which MicroProfile framework is selected (if any).
+        if (microprofileFramework != null) {
+            String jaxrsImpl;
+            if (!additionalProperties.containsKey(JAXRS_IMPL)) {
+                jaxrsImpl = microprofileFrameworkToJaxRsImpl.get(microprofileFramework);
+            } else {
+                jaxrsImpl = (String) additionalProperties.get(JAXRS_IMPL);
+                if (!jaxrsImpls.contains(jaxrsImpl)) {
+                    throw new IllegalArgumentException(
+                            String.format(Locale.ROOT,
+                                          "JAX-RS implementation %s is not supported. Must be one of %s",
+                                          jaxrsImpl,
+                                          jaxrsImpls));
+                }
+            }
+            additionalProperties.put(JAXRS_IMPL, jaxrsImpl);
+            additionalProperties.put("is" + jaxrsImpl.substring(0, 1).toUpperCase(Locale.ROOT) + jaxrsImpl.substring(1), true);
+
+            if (microprofileFramework.equals(MICROPROFILE_HELIDON)) {
+                additionalProperties.computeIfAbsent(JavaJAXRSSpecServerCodegen.HELIDON_VERSION,
+                                                     key -> JavaJAXRSSpecServerCodegen.HELIDON_VERSION_DEFAULT);
+                additionalProperties.put("isHelidon", true);
+                additionalProperties.put(POM_PARENT,
+                                              "  <parent>\n"
+                                            + "    <groupId>io.helidon.applications</groupId>\n"
+                                            + "    <artifactId>helidon-mp</artifactId>\n"
+                                            + "    <version>${helidon.version}</version>\n"
+                                            + "    <relativePath/>\n"
+                                            + "  </parent>");
+            }
+        }
 
         if (!additionalProperties.containsKey(MICROPROFILE_REST_CLIENT_VERSION)) {
             additionalProperties.put(MICROPROFILE_REST_CLIENT_VERSION, MICROPROFILE_REST_CLIENT_DEFAULT_VERSION);

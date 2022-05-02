@@ -38,6 +38,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.regex.Matcher;
@@ -91,7 +92,8 @@ public class JavaClientCodegenTest {
 
         RequestBody body1 = new RequestBody();
         body1.setDescription("A list of ids");
-        body1.setContent(new Content().addMediaType("application/json", new MediaType().schema(new ArraySchema().items(new StringSchema()))));
+        body1.setContent(new Content().addMediaType("application/json",
+                                                    new MediaType().schema(new ArraySchema().items(new StringSchema()))));
         CodegenParameter codegenParameter1 = codegen.fromRequestBody(body1, new HashSet<String>(), null);
         Assert.assertEquals(codegenParameter1.description, "A list of ids");
         Assert.assertEquals(codegenParameter1.dataType, "List<String>");
@@ -99,7 +101,8 @@ public class JavaClientCodegenTest {
 
         RequestBody body2 = new RequestBody();
         body2.setDescription("A list of list of values");
-        body2.setContent(new Content().addMediaType("application/json", new MediaType().schema(new ArraySchema().items(new ArraySchema().items(new IntegerSchema())))));
+        body2.setContent(new Content().addMediaType("application/json",
+                                                    new MediaType().schema(new ArraySchema().items(new ArraySchema().items(new IntegerSchema())))));
         CodegenParameter codegenParameter2 = codegen.fromRequestBody(body2, new HashSet<String>(), null);
         Assert.assertEquals(codegenParameter2.description, "A list of list of values");
         Assert.assertEquals(codegenParameter2.dataType, "List<List<Integer>>");
@@ -107,7 +110,9 @@ public class JavaClientCodegenTest {
 
         RequestBody body3 = new RequestBody();
         body3.setDescription("A list of points");
-        body3.setContent(new Content().addMediaType("application/json", new MediaType().schema(new ArraySchema().items(new ObjectSchema().$ref("#/components/schemas/Point")))));
+        body3.setContent(new Content().addMediaType("application/json",
+                                                    new MediaType().schema(new ArraySchema().items(new ObjectSchema().$ref(
+                                                            "#/components/schemas/Point")))));
         ObjectSchema point = new ObjectSchema();
         point.addProperties("message", new StringSchema());
         point.addProperties("x", new IntegerSchema().format(SchemaTypeUtil.INTEGER32_FORMAT));
@@ -123,7 +128,7 @@ public class JavaClientCodegenTest {
         final JavaClientCodegen codegen = new JavaClientCodegen();
         ComposedSchema schema = new ComposedSchema();
         CodegenModel result = codegen.fromModel("CompSche",
-                schema);
+                                                schema);
         Assert.assertEquals(result.name, "CompSche");
     }
 
@@ -148,7 +153,8 @@ public class JavaClientCodegenTest {
 
         javaClientCodegen.postProcessOperationsWithModels(objs, Collections.emptyList());
 
-        Assert.assertEquals(Arrays.asList(pathParam1, pathParam2, queryParamRequired, queryParamOptional), codegenOperation.allParams);
+        Assert.assertEquals(Arrays.asList(pathParam1, pathParam2, queryParamRequired, queryParamOptional),
+                            codegenOperation.allParams);
     }
 
     @Test
@@ -186,7 +192,8 @@ public class JavaClientCodegenTest {
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "xyz.yyyyy.zzzzzzz.api");
         Assert.assertEquals(codegen.getInvokerPackage(), "xyz.yyyyy.zzzzzzz.invoker");
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "xyz.yyyyy.zzzzzzz.invoker");
-        Assert.assertEquals(codegen.getSerializationLibrary(), JavaClientCodegen.SERIALIZATION_LIBRARY_GSON); // the library JavaClientCodegen.OKHTTP_GSON only supports GSON
+        Assert.assertEquals(codegen.getSerializationLibrary(),
+                            JavaClientCodegen.SERIALIZATION_LIBRARY_GSON); // the library JavaClientCodegen.OKHTTP_GSON only supports GSON
     }
 
     @Test
@@ -207,7 +214,8 @@ public class JavaClientCodegenTest {
         Assert.assertEquals(codegen.apiPackage(), "xyz.yyyyy.zzzzzzz.aaaaa.api");
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "xyz.yyyyy.zzzzzzz.aaaaa.api");
         Assert.assertEquals(codegen.getInvokerPackage(), "xyz.yyyyy.zzzzzzz.iiii.invoker");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "xyz.yyyyy.zzzzzzz.iiii.invoker");
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE),
+                            "xyz.yyyyy.zzzzzzz.iiii.invoker");
         Assert.assertEquals(codegen.getSerializationLibrary(), JavaClientCodegen.SERIALIZATION_LIBRARY_JACKSON);
     }
 
@@ -342,7 +350,8 @@ public class JavaClientCodegenTest {
 
         validateJavaSourceFiles(files);
 
-        TestUtils.assertFileContains(Paths.get(output + "/src/main/java/xyz/abcdef/api/DefaultApi.java"), "public class DefaultApi");
+        TestUtils.assertFileContains(Paths.get(output + "/src/main/java/xyz/abcdef/api/DefaultApi.java"),
+                                     "public class DefaultApi");
 
         output.deleteOnExit();
     }
@@ -414,8 +423,8 @@ public class JavaClientCodegenTest {
         validateJavaSourceFiles(files);
 
         TestUtils.assertFileContains(Paths.get(output + "/src/main/java/zz/yyyy/model/xxxx/SomeObj.java"),
-                "public class SomeObj",
-                "Boolean isActive()");
+                                     "public class SomeObj",
+                                     "Boolean isActive()");
 
         output.deleteOnExit();
     }
@@ -443,15 +452,15 @@ public class JavaClientCodegenTest {
         validateJavaSourceFiles(files);
 
         TestUtils.assertFileContains(Paths.get(output + "/src/main/java/xyz/abcdef/api/DefaultApi.java"),
-                "public class DefaultApi",
-                "import java.net.http.HttpClient;",
-                "import java.net.http.HttpRequest;",
-                "import java.net.http.HttpResponse;");
+                                     "public class DefaultApi",
+                                     "import java.net.http.HttpClient;",
+                                     "import java.net.http.HttpRequest;",
+                                     "import java.net.http.HttpResponse;");
 
         TestUtils.assertFileContains(Paths.get(output + "/src/main/java/xyz/abcdef/ApiClient.java"),
-                "public class ApiClient",
-                "import java.net.http.HttpClient;",
-                "import java.net.http.HttpRequest;");
+                                     "public class ApiClient",
+                                     "import java.net.http.HttpClient;",
+                                     "import java.net.http.HttpRequest;");
     }
 
     @Test
@@ -481,9 +490,9 @@ public class JavaClientCodegenTest {
         validateJavaSourceFiles(files);
 
         TestUtils.assertFileContains(Paths.get(output + "/src/main/java/xyz/abcdef/model/Dog.java"),
-                "import xyz.abcdef.invoker.JSON;");
+                                     "import xyz.abcdef.invoker.JSON;");
         TestUtils.assertFileNotContains(Paths.get(output + "/src/main/java/xyz/abcdef/model/DogAllOf.java"),
-                "import xyz.abcdef.invoker.JSON;");
+                                        "import xyz.abcdef.invoker.JSON;");
     }
 
     @Test
@@ -511,17 +520,17 @@ public class JavaClientCodegenTest {
 
         Path defaultApi = Paths.get(output + "/src/main/java/xyz/abcdef/api/PingApi.java");
         TestUtils.assertFileContains(defaultApi,
-                "public class PingApi",
-                "import java.net.http.HttpClient;",
-                "import java.net.http.HttpRequest;",
-                "import java.net.http.HttpResponse;",
-                "import java.util.concurrent.CompletableFuture;");
+                                     "public class PingApi",
+                                     "import java.net.http.HttpClient;",
+                                     "import java.net.http.HttpRequest;",
+                                     "import java.net.http.HttpResponse;",
+                                     "import java.util.concurrent.CompletableFuture;");
 
         Path apiClient = Paths.get(output + "/src/main/java/xyz/abcdef/ApiClient.java");
         TestUtils.assertFileContains(apiClient,
-                "public class ApiClient",
-                "import java.net.http.HttpClient;",
-                "import java.net.http.HttpRequest;");
+                                     "public class ApiClient",
+                                     "import java.net.http.HttpClient;",
+                                     "import java.net.http.HttpRequest;");
     }
 
     @Test
@@ -553,14 +562,16 @@ public class JavaClientCodegenTest {
         final List<CodegenOperation> codegenOperations = defaultGenerator.processPaths(openAPI.getPaths()).get("Pet");
 
         // Verify GET only has 'read' scope
-        final CodegenOperation getCodegenOperation = codegenOperations.stream().filter(it -> it.httpMethod.equals("GET")).collect(Collectors.toList()).get(0);
+        final CodegenOperation getCodegenOperation = codegenOperations.stream().filter(it -> it.httpMethod.equals("GET"))
+                .collect(Collectors.toList()).get(0);
         assertTrue(getCodegenOperation.hasAuthMethods);
         assertEquals(getCodegenOperation.authMethods.size(), 1);
         final List<Map<String, Object>> getScopes = getCodegenOperation.authMethods.get(0).scopes;
         assertEquals(getScopes.size(), 1, "GET scopes don't match. actual::" + getScopes);
 
         // POST operation should have both 'read' and 'write' scope on it
-        final CodegenOperation postCodegenOperation = codegenOperations.stream().filter(it -> it.httpMethod.equals("POST")).collect(Collectors.toList()).get(0);
+        final CodegenOperation postCodegenOperation = codegenOperations.stream().filter(it -> it.httpMethod.equals("POST"))
+                .collect(Collectors.toList()).get(0);
         assertTrue(postCodegenOperation.hasAuthMethods);
         assertEquals(postCodegenOperation.authMethods.size(), 1);
         final List<Map<String, Object>> postScopes = postCodegenOperation.authMethods.get(0).scopes;
@@ -610,7 +621,8 @@ public class JavaClientCodegenTest {
         defaultGenerator.opts(clientOptInput);
         final List<CodegenOperation> codegenOperations = defaultGenerator.processPaths(openAPI.getPaths()).get("Pet");
 
-        final CodegenOperation getCodegenOperation = codegenOperations.stream().filter(it -> it.httpMethod.equals("GET")).collect(Collectors.toList()).get(0);
+        final CodegenOperation getCodegenOperation = codegenOperations.stream().filter(it -> it.httpMethod.equals("GET"))
+                .collect(Collectors.toList()).get(0);
         assertTrue(getCodegenOperation.hasAuthMethods);
         assertEquals(getCodegenOperation.authMethods.size(), 2);
     }
@@ -912,7 +924,6 @@ public class JavaClientCodegenTest {
         Map<String, Object> properties = new HashMap<>();
         properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
 
-
         File output = Files.createTempDirectory("test").toFile();
         output.deleteOnExit();
 
@@ -923,7 +934,6 @@ public class JavaClientCodegenTest {
                 .setInputSpec("src/test/resources/3_0/form-multipart-binary-array.yaml")
                 .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
-
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(configurator.toClientOptInput()).generate();
         files.forEach(File::deleteOnExit);
@@ -932,17 +942,17 @@ public class JavaClientCodegenTest {
 
         Path defaultApi = Paths.get(output + "/src/main/java/xyz/abcdef/api/MultipartApi.java");
         TestUtils.assertFileContains(defaultApi,
-                //multiple files
-                "multipartArrayWithHttpInfo(List<File> files)",
-                "formParams.addAll(\"files\", files.stream().map(FileSystemResource::new).collect(Collectors.toList()));",
+                                     //multiple files
+                                     "multipartArrayWithHttpInfo(List<File> files)",
+                                     "formParams.addAll(\"files\", files.stream().map(FileSystemResource::new).collect(Collectors.toList()));",
 
-                //mixed
-                "multipartMixedWithHttpInfo(File file, MultipartMixedMarker marker)",
-                "formParams.add(\"file\", new FileSystemResource(file));",
+                                     //mixed
+                                     "multipartMixedWithHttpInfo(File file, MultipartMixedMarker marker)",
+                                     "formParams.add(\"file\", new FileSystemResource(file));",
 
-                //single file
-                "multipartSingleWithHttpInfo(File file)",
-                "formParams.add(\"file\", new FileSystemResource(file));"
+                                     //single file
+                                     "multipartSingleWithHttpInfo(File file)",
+                                     "formParams.add(\"file\", new FileSystemResource(file));"
         );
     }
 
@@ -960,7 +970,6 @@ public class JavaClientCodegenTest {
         Map<String, Object> properties = new HashMap<>();
         properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
 
-
         File output = Files.createTempDirectory("test").toFile();
         output.deleteOnExit();
 
@@ -971,7 +980,6 @@ public class JavaClientCodegenTest {
                 .setInputSpec("src/test/resources/3_0/form-multipart-binary-array.yaml")
                 .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
-
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(configurator.toClientOptInput()).generate();
         files.forEach(File::deleteOnExit);
@@ -980,17 +988,17 @@ public class JavaClientCodegenTest {
 
         Path defaultApi = Paths.get(output + "/src/main/java/xyz/abcdef/api/MultipartApi.java");
         TestUtils.assertFileContains(defaultApi,
-                //multiple files
-                "multipartArray(List<File> files)",
-                "formParams.addAll(\"files\", files.stream().map(FileSystemResource::new).collect(Collectors.toList()));",
+                                     //multiple files
+                                     "multipartArray(List<File> files)",
+                                     "formParams.addAll(\"files\", files.stream().map(FileSystemResource::new).collect(Collectors.toList()));",
 
-                //mixed
-                "multipartMixed(File file, MultipartMixedMarker marker)",
-                "formParams.add(\"file\", new FileSystemResource(file));",
+                                     //mixed
+                                     "multipartMixed(File file, MultipartMixedMarker marker)",
+                                     "formParams.add(\"file\", new FileSystemResource(file));",
 
-                //single file
-                "multipartSingle(File file)",
-                "formParams.add(\"file\", new FileSystemResource(file));"
+                                     //single file
+                                     "multipartSingle(File file)",
+                                     "formParams.add(\"file\", new FileSystemResource(file));"
         );
     }
 
@@ -1015,10 +1023,10 @@ public class JavaClientCodegenTest {
         validateJavaSourceFiles(files);
 
         TestUtils.assertFileContains(Paths.get(output + "/src/main/java/org/openapitools/client/model/RealCommand.java"),
-                "class RealCommand {");
+                                     "class RealCommand {");
 
         TestUtils.assertFileContains(Paths.get(output + "/src/main/java/org/openapitools/client/model/Command.java"),
-                "class Command {");
+                                     "class Command {");
 
         output.deleteOnExit();
     }
@@ -1038,7 +1046,6 @@ public class JavaClientCodegenTest {
         properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
         properties.put(JavaClientCodegen.USE_ABSTRACTION_FOR_FILES, true);
 
-
         File output = Files.createTempDirectory("test").toFile();
         output.deleteOnExit();
 
@@ -1049,7 +1056,6 @@ public class JavaClientCodegenTest {
                 .setInputSpec("src/test/resources/3_0/form-multipart-binary-array.yaml")
                 .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
-
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(configurator.toClientOptInput()).generate();
         files.forEach(File::deleteOnExit);
@@ -1058,20 +1064,20 @@ public class JavaClientCodegenTest {
 
         Path defaultApi = Paths.get(output + "/src/main/java/xyz/abcdef/api/MultipartApi.java");
         TestUtils.assertFileContains(defaultApi,
-                //multiple files
-                "multipartArray(java.util.Collection<org.springframework.core.io.Resource> files)",
-                "multipartArrayWithHttpInfo(java.util.Collection<org.springframework.core.io.Resource> files)",
-                "formParams.addAll(\"files\", files.stream().collect(Collectors.toList()));",
+                                     //multiple files
+                                     "multipartArray(java.util.Collection<org.springframework.core.io.Resource> files)",
+                                     "multipartArrayWithHttpInfo(java.util.Collection<org.springframework.core.io.Resource> files)",
+                                     "formParams.addAll(\"files\", files.stream().collect(Collectors.toList()));",
 
-                //mixed
-                "multipartMixed(org.springframework.core.io.Resource file, MultipartMixedMarker marker)",
-                "multipartMixedWithHttpInfo(org.springframework.core.io.Resource file, MultipartMixedMarker marker)",
-                "formParams.add(\"file\", file);",
+                                     //mixed
+                                     "multipartMixed(org.springframework.core.io.Resource file, MultipartMixedMarker marker)",
+                                     "multipartMixedWithHttpInfo(org.springframework.core.io.Resource file, MultipartMixedMarker marker)",
+                                     "formParams.add(\"file\", file);",
 
-                //single file
-                "multipartSingle(org.springframework.core.io.Resource file)",
-                "multipartSingleWithHttpInfo(org.springframework.core.io.Resource file)",
-                "formParams.add(\"file\", file);"
+                                     //single file
+                                     "multipartSingle(org.springframework.core.io.Resource file)",
+                                     "multipartSingleWithHttpInfo(org.springframework.core.io.Resource file)",
+                                     "formParams.add(\"file\", file);"
         );
     }
 
@@ -1087,7 +1093,8 @@ public class JavaClientCodegenTest {
         defaultGenerator.opts(clientOptInput);
 
         final Map<String, List<CodegenOperation>> paths = defaultGenerator.processPaths(openAPI.getPaths());
-        final List<CodegenOperation> codegenOperations = paths.values().stream().flatMap(Collection::stream).collect(Collectors.toList());
+        final List<CodegenOperation> codegenOperations = paths.values().stream().flatMap(Collection::stream)
+                .collect(Collectors.toList());
 
         final CodegenOperation getWithBasicAuthAndOauth = getByOperationId(codegenOperations, "getWithBasicAuthAndOauth");
         assertEquals(getWithBasicAuthAndOauth.authMethods.size(), 3);
@@ -1116,10 +1123,13 @@ public class JavaClientCodegenTest {
 
     private CodegenOperation getByOperationId(List<CodegenOperation> codegenOperations, String operationId) {
         return getByCriteria(codegenOperations, (co) -> co.operationId.equals(operationId))
-                .orElseThrow(() -> new IllegalStateException(String.format(Locale.ROOT, "Operation with id [%s] does not exist", operationId)));
+                .orElseThrow(() -> new IllegalStateException(String.format(Locale.ROOT,
+                                                                           "Operation with id [%s] does not exist",
+                                                                           operationId)));
     }
 
-    private Optional<CodegenOperation> getByCriteria(List<CodegenOperation> codegenOperations, Predicate<CodegenOperation> filter){
+    private Optional<CodegenOperation> getByCriteria(List<CodegenOperation> codegenOperations,
+                                                     Predicate<CodegenOperation> filter) {
         return codegenOperations.stream()
                 .filter(filter)
                 .findFirst();
@@ -1145,9 +1155,9 @@ public class JavaClientCodegenTest {
         validateJavaSourceFiles(files);
 
         TestUtils.assertFileContains(Paths.get(output + "/src/main/java/org/openapitools/client/api/DefaultApi.java"),
-                "@RequestLine(\"POST /events/{eventId}:undelete\")");
+                                     "@RequestLine(\"POST /events/{eventId}:undelete\")");
         TestUtils.assertFileNotContains(Paths.get(output + "/src/main/java/org/openapitools/client/api/DefaultApi.java"),
-                "event_id");
+                                        "event_id");
 
         output.deleteOnExit();
     }
@@ -1177,7 +1187,6 @@ public class JavaClientCodegenTest {
                 .setInputSpec("src/test/resources/3_0/form-multipart-binary-array.yaml")
                 .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
-
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(configurator.toClientOptInput()).generate();
         files.forEach(File::deleteOnExit);
@@ -1186,17 +1195,17 @@ public class JavaClientCodegenTest {
 
         Path defaultApi = Paths.get(output + "/src/main/java/xyz/abcdef/api/MultipartApi.java");
         TestUtils.assertFileContains(defaultApi,
-                //multiple files
-                "multipartArray(java.util.Collection<org.springframework.core.io.AbstractResource> files)",
-                "formParams.addAll(\"files\", files.stream().collect(Collectors.toList()));",
+                                     //multiple files
+                                     "multipartArray(java.util.Collection<org.springframework.core.io.AbstractResource> files)",
+                                     "formParams.addAll(\"files\", files.stream().collect(Collectors.toList()));",
 
-                //mixed
-                "multipartMixed(org.springframework.core.io.AbstractResource file, MultipartMixedMarker marker)",
-                "formParams.add(\"file\", file);",
+                                     //mixed
+                                     "multipartMixed(org.springframework.core.io.AbstractResource file, MultipartMixedMarker marker)",
+                                     "formParams.add(\"file\", file);",
 
-                //single file
-                "multipartSingle(org.springframework.core.io.AbstractResource file)",
-                "formParams.add(\"file\", file);"
+                                     //single file
+                                     "multipartSingle(org.springframework.core.io.AbstractResource file)",
+                                     "formParams.add(\"file\", file);"
         );
     }
 
@@ -1217,7 +1226,7 @@ public class JavaClientCodegenTest {
                 .setAdditionalProperties(properties)
                 .setInputSpec("src/test/resources/3_0/issue8352.yaml")
                 .setOutputDir(output.getAbsolutePath()
-                        .replace("\\", "/"));
+                                      .replace("\\", "/"));
 
         final DefaultGenerator generator = new DefaultGenerator();
         final List<File> files = generator.opts(configurator.toClientOptInput())
@@ -1227,7 +1236,7 @@ public class JavaClientCodegenTest {
         final Path defaultApi = Paths.get(output + "/src/main/java/xyz/abcdef/ApiClient.java");
         TestUtils.assertFileContains(defaultApi, "value instanceof Map");
     }
-    
+
     /**
      * See https://github.com/OpenAPITools/openapi-generator/issues/8352
      */
@@ -1245,7 +1254,7 @@ public class JavaClientCodegenTest {
                 .setAdditionalProperties(properties)
                 .setInputSpec("src/test/resources/3_0/issue8352.yaml")
                 .setOutputDir(output.getAbsolutePath()
-                        .replace("\\", "/"));
+                                      .replace("\\", "/"));
 
         final DefaultGenerator generator = new DefaultGenerator();
         final List<File> files = generator.opts(configurator.toClientOptInput())
@@ -1284,7 +1293,7 @@ public class JavaClientCodegenTest {
         validateJavaSourceFiles(files);
 
         TestUtils.assertFileContains(Paths.get(output + "/src/main/java/xyz/abcdef/ApiClient.java"),
-                "public static String urlEncode(String s) { return URLEncoder.encode(s, UTF_8).replaceAll(\"\\\\+\", \"%20\"); }");
+                                     "public static String urlEncode(String s) { return URLEncoder.encode(s, UTF_8).replaceAll(\"\\\\+\", \"%20\"); }");
     }
 
     /**
@@ -1313,10 +1322,10 @@ public class JavaClientCodegenTest {
         validateJavaSourceFiles(files);
 
         TestUtils.assertFileContains(Paths.get(output + "/src/main/java/xyz/abcdef/api/DefaultApi.java"),
-                "localVarQueryParams.addAll(ApiClient.parameterToPairs(\"since\", queryObject.getSince()));",
-                "localVarQueryParams.addAll(ApiClient.parameterToPairs(\"sinceBuild\", queryObject.getSinceBuild()));",
-                "localVarQueryParams.addAll(ApiClient.parameterToPairs(\"maxBuilds\", queryObject.getMaxBuilds()));",
-                "localVarQueryParams.addAll(ApiClient.parameterToPairs(\"maxWaitSecs\", queryObject.getMaxWaitSecs()));"
+                                     "localVarQueryParams.addAll(ApiClient.parameterToPairs(\"since\", queryObject.getSince()));",
+                                     "localVarQueryParams.addAll(ApiClient.parameterToPairs(\"sinceBuild\", queryObject.getSinceBuild()));",
+                                     "localVarQueryParams.addAll(ApiClient.parameterToPairs(\"maxBuilds\", queryObject.getMaxBuilds()));",
+                                     "localVarQueryParams.addAll(ApiClient.parameterToPairs(\"maxWaitSecs\", queryObject.getMaxWaitSecs()));"
         );
     }
 
@@ -1394,9 +1403,12 @@ public class JavaClientCodegenTest {
     public void testDefaultMicroprofileRestClientVersion() throws Exception {
         File output = Files.createTempDirectory("test").toFile();
 
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(JavaClientCodegen.MICROPROFILE_FRAMEWORK, JavaClientCodegen.MICROPROFILE_HELIDON);
         final CodegenConfigurator configurator = new CodegenConfigurator()
                 .setGeneratorName("java")
                 .setLibrary(JavaClientCodegen.MICROPROFILE)
+                .setAdditionalProperties(additionalProperties)
                 .setInputSpec("src/test/resources/3_0/petstore.yaml")
                 .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
@@ -1424,6 +1436,7 @@ public class JavaClientCodegenTest {
     public void testMicroprofileRestClientVersion_1_4_1() throws Exception {
         Map<String, Object> properties = new HashMap<>();
         properties.put(JavaClientCodegen.MICROPROFILE_REST_CLIENT_VERSION, "1.4.1");
+        properties.put(JavaClientCodegen.MICROPROFILE_FRAMEWORK, JavaClientCodegen.MICROPROFILE_HELIDON);
 
         File output = Files.createTempDirectory("test").toFile();
 
@@ -1479,6 +1492,7 @@ public class JavaClientCodegenTest {
     public void testMicroprofileRestClientVersion_3_0() throws Exception {
         Map<String, Object> properties = new HashMap<>();
         properties.put(JavaClientCodegen.MICROPROFILE_REST_CLIENT_VERSION, "3.0");
+        properties.put(JavaClientCodegen.MICROPROFILE_FRAMEWORK, JavaClientCodegen.MICROPROFILE_HELIDON);
 
         File output = Files.createTempDirectory("test").toFile();
 
@@ -1568,5 +1582,93 @@ public class JavaClientCodegenTest {
                     .hasParameter("xNonNullHeaderParameter")
                     .assertParameterAnnotations()
                     .containsWithName("NotNull");
+    }
+
+    @Test
+    public void testMPKumuluzeeDefault() throws Exception {
+        File output = Files.createTempDirectory("test").toFile();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.MICROPROFILE)
+                .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        testMPKumuluzee(output, configurator);
+    }
+
+    @Test
+    public void testMPKumuluzeeExplicit() throws Exception {
+        File output = Files.createTempDirectory("test").toFile();
+
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(JavaClientCodegen.MICROPROFILE_FRAMEWORK, JavaClientCodegen.MICROPROFILE_KUMULUZEE);
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setAdditionalProperties(additionalProperties)
+                .setLibrary(JavaClientCodegen.MICROPROFILE)
+                .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        testMPKumuluzee(output, configurator);
+    }
+
+    @Test
+    public void testMPHelidon() throws Exception {
+        File output = Files.createTempDirectory("test").toFile();
+
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(JavaClientCodegen.MICROPROFILE_FRAMEWORK, JavaClientCodegen.MICROPROFILE_HELIDON);
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setAdditionalProperties(additionalProperties)
+                .setLibrary(JavaClientCodegen.MICROPROFILE)
+                .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        testMPHelidon(output, configurator);
+    }
+
+    private void testMPKumuluzee(File output, CodegenConfigurator configurator) {
+        testMP(output, configurator, TestUtils::assertFileContains, TestUtils::assertFileNotContains);
+    }
+
+    private void testMPHelidon(File output, CodegenConfigurator configurator) {
+        testMP(output, configurator, TestUtils::assertFileNotContains, TestUtils::assertFileContains);
+    }
+
+    private void testMP(File output,
+                        CodegenConfigurator configurator,
+                        BiConsumer<Path, String[]> checkCXF,
+                        BiConsumer<Path, String[]> checkJersey) {
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        TestUtils.ensureContainsFile(files, output, "pom.xml");
+
+        validateJavaSourceFiles(files);
+
+        checkCXF.accept(Paths.get(output + "/pom.xml"),
+                        new String[] {
+                            "<groupId>org.apache.cxf</groupId>",
+                            "<artifactId>cxf-rt-rs-extension-providers</artifactId>"});
+        checkJersey.accept(Paths.get(output + "/pom.xml"),
+                                        new String[] {
+                                        "<groupId>org.glassfish.jersey.media</groupId>",
+                                        "<artifactId>jersey-media-multipart</artifactId>"});
+        checkCXF.accept(Paths.get(output + "/src/main/java/org/openapitools/client/api/PetApi.java"),
+                                     new String[] {
+                                     "import org.apache.cxf.jaxrs.ext.multipart.*;",
+                                     "@Multipart"});
+        checkJersey.accept(Paths.get(output + "/src/main/java/org/openapitools/client/api/PetApi.java"),
+                                        new String[] {
+                                        "import org.glassfish.jersey.media.multipart.FormDataParam;",
+                                        "@FormDataParam"});
+
+        output.deleteOnExit();
     }
 }
