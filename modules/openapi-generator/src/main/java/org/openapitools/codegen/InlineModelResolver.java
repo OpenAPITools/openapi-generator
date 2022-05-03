@@ -161,6 +161,7 @@ public class InlineModelResolver {
      * replace inline schemas with $ref to schema to-be-generated.
      *
      * @param schema target schema
+     * @param modelPrefix model name (usually the prefix of the inline model name)
      */
     private void gatherInlineModels(Schema schema, String modelPrefix) {
         if (schema.get$ref() != null) {
@@ -183,13 +184,12 @@ public class InlineModelResolver {
             if (props != null) {
                 for (String propName : props.keySet()) {
                     Schema prop = props.get(propName);
+                    String schemaName = resolveModelName(schema.getTitle(), modelPrefix + "_" + propName);
                     // Recurse to create $refs for inner models
-                    //gatherInlineModels(prop, modelPrefix + StringUtils.camelize(propName));
-                    gatherInlineModels(prop, modelPrefix + "_" + propName);
+                    gatherInlineModels(prop, schemaName);
                     if (isModelNeeded(prop)) {
                         // If this schema should be split into its own model, do so
-                        //Schema refSchema = this.makeSchemaResolve(modelPrefix, StringUtils.camelize(propName), prop);
-                        Schema refSchema = this.makeSchemaResolve(modelPrefix, "_" + propName, prop);
+                        Schema refSchema = this.makeSchemaInComponents(schemaName, prop);
                         props.put(propName, refSchema);
                     } else if (prop instanceof ComposedSchema) {
                         ComposedSchema m = (ComposedSchema) prop;
@@ -206,11 +206,12 @@ public class InlineModelResolver {
             if (schema.getAdditionalProperties() != null) {
                 if (schema.getAdditionalProperties() instanceof Schema) {
                     Schema inner = (Schema) schema.getAdditionalProperties();
+                    String schemaName = resolveModelName(schema.getTitle(), modelPrefix + "_" + "_value");
                     // Recurse to create $refs for inner models
-                    gatherInlineModels(inner, modelPrefix + "_addl_props");
+                    gatherInlineModels(inner, schemaName);
                     if (isModelNeeded(inner)) {
                         // If this schema should be split into its own model, do so
-                        Schema refSchema = this.makeSchemaResolve(modelPrefix, "_addl_props", inner);
+                        Schema refSchema = this.makeSchemaInComponents(schemaName, inner);
                         schema.setAdditionalProperties(refSchema);
                     }
                 }
@@ -236,12 +237,14 @@ public class InlineModelResolver {
                         " items must be defined for array schemas:\n " + schema.toString());
                 return;
             }
+            String schemaName = resolveModelName(schema.getTitle(), modelPrefix + "_" + "_items");
+
             // Recurse to create $refs for inner models
-            gatherInlineModels(items, modelPrefix + "Items");
+            gatherInlineModels(items, schemaName);
 
             if (isModelNeeded(items)) {
                 // If this schema should be split into its own model, do so
-                Schema refSchema = this.makeSchemaResolve(modelPrefix, "_inner", items);
+                Schema refSchema = this.makeSchemaInComponents(schemaName, items);
                 array.setItems(refSchema);
             }
         }
@@ -252,10 +255,11 @@ public class InlineModelResolver {
                 List<Schema> newAllOf = new ArrayList<Schema>();
                 boolean atLeastOneModel = false;
                 for (Schema inner : m.getAllOf()) {
+                    String schemaName = resolveModelName(schema.getTitle(), modelPrefix + "_" + "_allOf");
                     // Recurse to create $refs for inner models
-                    gatherInlineModels(inner, modelPrefix + "_allOf");
+                    gatherInlineModels(inner, schemaName);
                     if (isModelNeeded(inner)) {
-                        Schema refSchema = this.makeSchemaResolve(modelPrefix, "_allOf", inner);
+                        Schema refSchema = this.makeSchemaInComponents(schemaName, inner);
                         newAllOf.add(refSchema); // replace with ref
                         atLeastOneModel = true;
                     } else {
@@ -278,10 +282,11 @@ public class InlineModelResolver {
             if (m.getAnyOf() != null) {
                 List<Schema> newAnyOf = new ArrayList<Schema>();
                 for (Schema inner : m.getAnyOf()) {
+                    String schemaName = resolveModelName(schema.getTitle(), modelPrefix + "_" + "_anyOf");
                     // Recurse to create $refs for inner models
-                    gatherInlineModels(inner, modelPrefix + "_anyOf");
+                    gatherInlineModels(inner, schemaName);
                     if (isModelNeeded(inner)) {
-                        Schema refSchema = this.makeSchemaResolve(modelPrefix, "_anyOf", inner);
+                        Schema refSchema = this.makeSchemaInComponents(schemaName, inner);
                         newAnyOf.add(refSchema); // replace with ref
                     } else {
                         newAnyOf.add(inner);
@@ -292,10 +297,11 @@ public class InlineModelResolver {
             if (m.getOneOf() != null) {
                 List<Schema> newOneOf = new ArrayList<Schema>();
                 for (Schema inner : m.getOneOf()) {
+                    String schemaName = resolveModelName(schema.getTitle(), modelPrefix + "_" + "_oneOf");
                     // Recurse to create $refs for inner models
-                    gatherInlineModels(inner, modelPrefix + "_oneOf");
+                    gatherInlineModels(inner, schemaName);
                     if (isModelNeeded(inner)) {
-                        Schema refSchema = this.makeSchemaResolve(modelPrefix, "_oneOf", inner);
+                        Schema refSchema = this.makeSchemaInComponents(schemaName, inner);
                         newOneOf.add(refSchema); // replace with ref
                     } else {
                         newOneOf.add(inner);
@@ -307,10 +313,11 @@ public class InlineModelResolver {
         // Check not schema
         if (schema.getNot() != null) {
             Schema not = schema.getNot();
+            String schemaName = resolveModelName(schema.getTitle(), modelPrefix + "_" + "_not");
             // Recurse to create $refs for inner models
-            gatherInlineModels(not, modelPrefix + "_not");
+            gatherInlineModels(not, schemaName);
             if (isModelNeeded(not)) {
-                Schema refSchema = this.makeSchemaResolve(modelPrefix, "_not", not);
+                Schema refSchema = this.makeSchemaInComponents(schemaName, not);
                 schema.setNot(refSchema);
             }
         }
@@ -715,21 +722,15 @@ public class InlineModelResolver {
      */
     private String uniqueName(final String name) {
         if (openAPI.getComponents().getSchemas() == null) { // no schema has been created
-            uniqueNames.add(name);
             return name;
         }
 
         String uniqueName = name;
         int count = 0;
         while (true) {
-            if (uniqueNames.contains(uniqueName)) {
-                LOGGER.info("uniqueNames contains {}", uniqueName);
-            }
             if (!openAPI.getComponents().getSchemas().containsKey(uniqueName) && !uniqueNames.contains(uniqueName)) {
-                uniqueNames.add(uniqueName);
                 return uniqueName;
             }
-            LOGGER.info("{} is not unique so +1", uniqueName);
             uniqueName = name + "_" + ++count;
         }
     }
@@ -876,24 +877,6 @@ public class InlineModelResolver {
     }
 
     /**
-     * Resolve namespace conflicts using:
-     * title (if title exists) or
-     * prefix + suffix (if title not specified)
-     *
-     * @param prefix used to form name if no title found in schema
-     * @param suffix used to form name if no title found in schema
-     * @param schema title property used to form name if exists and schema definition used
-     *               to create new schema if doesn't exist
-     * @return a new schema or $ref to an existing one if it was already created
-     */
-    private Schema makeSchemaResolve(String prefix, String suffix, Schema schema) {
-        if (schema.getTitle() == null) {
-            return makeSchemaInComponents(uniqueName(sanitizeName(prefix + suffix)), schema);
-        }
-        return makeSchemaInComponents(uniqueName(sanitizeName(schema.getTitle())), schema);
-    }
-
-    /**
      * Move schema to components (if new) and return $ref to schema or
      * existing schema.
      *
@@ -914,6 +897,7 @@ public class InlineModelResolver {
             refSchema = new Schema().$ref(name);
         }
         this.copyVendorExtensions(schema, refSchema);
+
         return refSchema;
     }
 
@@ -964,6 +948,8 @@ public class InlineModelResolver {
         if (!name.equals(schema.getTitle()) && !inlineSchemaNameMappingValues.contains(name)) {
             LOGGER.info("Inline schema created as {}. To have complete control of the model name, set the `title` field or use the inlineSchemaNameMapping option (--inline-schema-name-mapping in CLI).", name);
         }
+
+        uniqueNames.add(name);
 
         return name;
     }
