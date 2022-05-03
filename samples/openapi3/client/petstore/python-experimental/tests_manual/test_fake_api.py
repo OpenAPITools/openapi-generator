@@ -76,12 +76,12 @@ class TestFakeApi(unittest.TestCase):
         body: typing.Optional[bytes] = None,
         content_type: typing.Optional[str] = 'application/json',
         fields: typing.Optional[tuple[api_client.RequestField, ...]] = None,
-        accept_content_type: typing.Optional[str] = 'application/json',
+        accept_content_type: str = 'application/json',
         stream: bool = False,
         query_params: typing.Optional[typing.Tuple[typing.Tuple[str, str], ...]] = None,
-        preload_content: bool = False
     ):
         headers = {
+            'Accept': accept_content_type,
             'User-Agent': cls.user_agent
         }
         if accept_content_type:
@@ -95,10 +95,8 @@ class TestFakeApi(unittest.TestCase):
             stream=stream,
             timeout=None,
         )
-        if content_type and method != 'GET':
+        if method != 'GET':
             kwargs['body'] = body
-        if preload_content:
-            kwargs['preload_content'] = preload_content
         mock_request.assert_called_with(
             method,
             url,
