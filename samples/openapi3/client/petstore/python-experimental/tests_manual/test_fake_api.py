@@ -78,7 +78,7 @@ class TestFakeApi(unittest.TestCase):
         fields: typing.Optional[tuple[api_client.RequestField, ...]] = None,
         accept_content_type: str = 'application/json',
         stream: bool = False,
-        query_params: typing.Optional[typing.Tuple[typing.Tuple[str, str], ...]] = None,
+        query_params: typing.Optional[typing.Tuple[typing.Tuple[str, str], ...]] = None
     ):
         headers = {
             'Accept': accept_content_type,
