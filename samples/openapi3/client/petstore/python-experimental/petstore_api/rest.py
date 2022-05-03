@@ -134,15 +134,21 @@ class RESTClientObject(object):
                   len(timeout) == 2):
                 timeout = urllib3.Timeout(connect=timeout[0], read=timeout[1])
 
-        if 'Content-Type' not in headers:
-            headers['Content-Type'] = 'application/json'
-
         try:
             # For `POST`, `PUT`, `PATCH`, `OPTIONS`, `DELETE`
             if method in ['POST', 'PUT', 'PATCH', 'OPTIONS', 'DELETE']:
                 if query_params:
                     url += '?' + urlencode(query_params)
-                if headers['Content-Type'] == 'application/x-www-form-urlencoded':  # noqa: E501
+                if 'Content-Type' not in headers and body is None:
+                    r = self.pool_manager.request(
+                        method,
+                        url,
+                        fields=query_params,
+                        preload_content=not stream,
+                        timeout=timeout,
+                        headers=headers
+                    )
+                elif headers['Content-Type'] == 'application/x-www-form-urlencoded':  # noqa: E501
                     r = self.pool_manager.request(
                         method, url,
                         fields=fields,

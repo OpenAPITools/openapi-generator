@@ -1562,7 +1562,7 @@ paths:
     delete:
       operationId: deleteCoffee
       summary: Delete coffee
-      description: Delete the coffee identified by the given id
+      description: Delete the coffee identified by the given id, (delete without request body)
       tags:
         - fake
       parameters:

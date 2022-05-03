@@ -38,6 +38,7 @@ class TestFakeApi(unittest.TestCase):
     json_content_type = 'application/json'
     configuration = petstore_api.Configuration()
     api = FakeApi(api_client=api_client.ApiClient(configuration=configuration))
+    user_agent = 'OpenAPI-Generator/1.0.0/python'
 
     @staticmethod
     def headers_for_content_type(content_type: str) -> dict[str, str]:
@@ -66,8 +67,9 @@ class TestFakeApi(unittest.TestCase):
     def __json_bytes(in_data: typing.Any) -> bytes:
         return json.dumps(in_data, separators=(",", ":"), ensure_ascii=False).encode('utf-8')
 
-    @staticmethod
+    @classmethod
     def __assert_request_called_with(
+        cls,
         mock_request,
         url: str,
         method: str = 'POST',
@@ -76,10 +78,11 @@ class TestFakeApi(unittest.TestCase):
         fields: typing.Optional[tuple[api_client.RequestField, ...]] = None,
         accept_content_type: typing.Optional[str] = 'application/json',
         stream: bool = False,
-        query_params: typing.Optional[typing.Tuple[typing.Tuple[str, str], ...]] = None
+        query_params: typing.Optional[typing.Tuple[typing.Tuple[str, str], ...]] = None,
+        preload_content: bool = False
     ):
         headers = {
-            'User-Agent': 'OpenAPI-Generator/1.0.0/python'
+            'User-Agent': cls.user_agent
         }
         if accept_content_type:
             headers['Accept'] = accept_content_type
@@ -92,7 +95,42 @@ class TestFakeApi(unittest.TestCase):
             stream=stream,
             timeout=None,
         )
-        if method != 'GET':
+        if content_type and method != 'GET':
+            kwargs['body'] = body
+        if preload_content:
+            kwargs['preload_content'] = preload_content
+        mock_request.assert_called_with(
+            method,
+            url,
+            **kwargs
+        )
+
+    @classmethod
+    def __assert_pool_manager_request_called_with(
+        cls,
+        mock_request,
+        url: str,
+        method: str = 'POST',
+        body: typing.Optional[bytes] = None,
+        content_type: typing.Optional[str] = 'application/json',
+        accept_content_type: typing.Optional[str] = 'application/json',
+        stream: bool = False,
+        query_params: typing.Optional[typing.Tuple[typing.Tuple[str, str], ...]] = None,
+    ):
+        headers = {
+            'User-Agent': cls.user_agent
+        }
+        if accept_content_type:
+            headers['Accept'] = accept_content_type
+        if content_type:
+            headers['Content-Type'] = content_type
+        kwargs = dict(
+            headers=HTTPHeaderDict(headers),
+            fields=query_params,
+            preload_content=not stream,
+            timeout=None,
+        )
+        if content_type and method != 'GET':
             kwargs['body'] = body
         mock_request.assert_called_with(
             method,
@@ -739,20 +777,21 @@ class TestFakeApi(unittest.TestCase):
             with self.assertRaises(exceptions.ApiValueError):
                 self.api.response_without_schema()
 
-    def test_delete_coffee(self):
-        with patch.object(RESTClientObject, 'request') as mock_request:
+    def test_delete_endpoint_without_request_body(self):
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+
             body = None
             mock_request.return_value = self.__response(
                 self.__json_bytes(body),
             )
 
             api_response = self.api.delete_coffee(path_params=dict(id='1'))
-            self.__assert_request_called_with(
+            self.__assert_pool_manager_request_called_with(
                 mock_request,
                 'http://petstore.swagger.io:80/v2/fake/deleteCoffee/1',
                 method='DELETE',
                 content_type=None,
-                accept_content_type=None
+                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)

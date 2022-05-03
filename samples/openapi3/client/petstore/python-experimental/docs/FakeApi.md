@@ -832,7 +832,7 @@ No authorization required
 
 Delete coffee
 
-Delete the coffee identified by the given id
+Delete the coffee identified by the given id, (delete without request body)
 
 ### Example
 
