@@ -317,6 +317,38 @@ public class InlineModelResolver {
     }
 
     /**
+     * Flatten inline models in content
+     *
+     * @param content target content
+     * @param name backup name if no title is found
+     */
+    private void flattenContent(Content content, String name) {
+        if (content == null || content.isEmpty()) {
+            return;
+        }
+
+        for (String contentType : content.keySet()) {
+            MediaType mediaType = content.get(contentType);
+            if (mediaType == null) {
+                continue;
+            }
+            Schema schema = mediaType.getSchema();
+            if (schema == null) {
+                continue;
+            }
+            String schemaName = resolveModelName(schema.getTitle(), name);
+            // Recursively gather/make inline models within this schema if any
+            gatherInlineModels(schema, schemaName);
+            if (isModelNeeded(schema)) {
+                // If this schema should be split into its own model, do so
+                //Schema refSchema = this.makeSchema(schemaName, schema);
+                Schema refSchema = this.makeSchemaResolve(schemaName, "_request_body", schema);
+                mediaType.setSchema(refSchema);
+            }
+        }
+    }
+
+    /**
      * Flatten inline models in RequestBody
      *
      * @param pathname  target pathname
@@ -328,6 +360,16 @@ public class InlineModelResolver {
             return;
         }
 
+        // unalias $ref
+        if (requestBody.get$ref() != null) {
+            String ref = ModelUtils.getSimpleRef(requestBody.get$ref());
+            requestBody = openAPI.getComponents().getRequestBodies().get(ref);
+        }
+
+        //String name = operation.getOperationId() == null ? "inline_object" : operation.getOperationId() + "Body";
+        flattenContent(requestBody.getContent(), "inline_object");
+
+        /**
         Schema model = ModelUtils.getSchemaFromRequestBody(requestBody);
         if (model instanceof ObjectSchema) {
             Schema obj = model;
@@ -400,6 +442,8 @@ public class InlineModelResolver {
                 }
             }
         }
+
+         */
     }
 
     /**
