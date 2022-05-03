@@ -336,13 +336,13 @@ public class InlineModelResolver {
             if (schema == null) {
                 continue;
             }
-            String schemaName = resolveModelName(schema.getTitle(), name);
+            String schemaName = resolveModelName(schema.getTitle(), name); // name example: testPost_request
             // Recursively gather/make inline models within this schema if any
             gatherInlineModels(schema, schemaName);
             if (isModelNeeded(schema)) {
                 // If this schema should be split into its own model, do so
                 //Schema refSchema = this.makeSchema(schemaName, schema);
-                Schema refSchema = this.makeSchemaResolve(schemaName, "_request_body", schema);
+                Schema refSchema = this.makeSchemaInComponents(schemaName, schema);
                 mediaType.setSchema(refSchema);
             }
         }
@@ -366,8 +366,8 @@ public class InlineModelResolver {
             requestBody = openAPI.getComponents().getRequestBodies().get(ref);
         }
 
-        //String name = operation.getOperationId() == null ? "inline_object" : operation.getOperationId() + "Body";
-        flattenContent(requestBody.getContent(), "inline_object");
+        String name = operation.getOperationId() == null ? "inline_request" : operation.getOperationId() + "_request";
+        flattenContent(requestBody.getContent(), name);
     }
 
     /**
@@ -659,15 +659,15 @@ public class InlineModelResolver {
      * e.g. io.schema.User_name => io_schema_User_name
      *
      * @param title String title field in the schema if present
-     * @param key   String model name
+     * @param modelName   String model name
      * @return if provided the sanitized {@code title}, else the sanitized {@code key}
      */
-    private String resolveModelName(String title, String key) {
+    private String resolveModelName(String title, String modelName) {
         if (title == null) {
-            if (key == null) {
+            if (modelName == null) {
                 return uniqueName("inline_object");
             }
-            return uniqueName(sanitizeName(key));
+            return uniqueName(sanitizeName(modelName));
         } else {
             return uniqueName(sanitizeName(title));
         }
@@ -699,6 +699,8 @@ public class InlineModelResolver {
      * Sanitizes the input so that it's valid name for a class or interface
      * <p>
      * e.g. 12.schema.User name => _2_schema_User_name
+     *
+     * @param name name to be processed to make sure it's sanitized
      */
     private String sanitizeName(final String name) {
         return name
@@ -706,6 +708,11 @@ public class InlineModelResolver {
                 .replaceAll("[^A-Za-z0-9]", "_"); // e.g. io.schema.User name => io_schema_User_name
     }
 
+    /**
+     * Generate a unique name for the input
+     *
+     * @param name name to be processed to make sure it's unique
+     */
     private String uniqueName(final String name) {
         if (openAPI.getComponents().getSchemas() == null) { // no schema has been created
             uniqueNames.add(name);
@@ -715,10 +722,14 @@ public class InlineModelResolver {
         String uniqueName = name;
         int count = 0;
         while (true) {
+            if (uniqueNames.contains(uniqueName)) {
+                LOGGER.info("uniqueNames contains {}", uniqueName);
+            }
             if (!openAPI.getComponents().getSchemas().containsKey(uniqueName) && !uniqueNames.contains(uniqueName)) {
                 uniqueNames.add(uniqueName);
                 return uniqueName;
             }
+            LOGGER.info("{} is not unique so +1", uniqueName);
             uniqueName = name + "_" + ++count;
         }
     }
