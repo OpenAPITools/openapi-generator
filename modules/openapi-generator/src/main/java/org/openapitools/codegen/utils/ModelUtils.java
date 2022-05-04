@@ -1131,7 +1131,7 @@ public class ModelUtils {
                 }
             } else if (isObjectSchema(ref)) { // model
                 if (ref.getProperties() != null && !ref.getProperties().isEmpty()) { // has at least one property
-                    return schema;
+                    return ref;
                 } else { // free form object (type: object)
                     return unaliasSchema(openAPI, allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())),
                             importMappings);
