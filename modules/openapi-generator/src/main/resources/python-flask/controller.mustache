@@ -111,7 +111,16 @@ def {{operationId}}({{#allParams}}{{paramName}}{{^required}}=None{{/required}}{{
 
     return impl.{{operationId}}(
     {{#allParams}}
-        {{paramName}}{{^required}}={{paramName}}{{/required}},  # noqa: E501
+        {{! path params as positional}}
+        {{#isPathParam}}
+        {{paramName}},  # noqa: E501
+        {{/isPathParam}}
+    {{/allParams}}
+    {{#allParams}}
+        {{! query params etc. as kwargs}}
+        {{^isPathParam}}
+        {{paramName}}={{paramName}},  # noqa: E501
+        {{/isPathParam}}
     {{/allParams}}
     )
 {{/operation}}
