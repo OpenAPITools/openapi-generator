@@ -54,7 +54,7 @@ public class Cat extends Animal {
     @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_DECLAWED)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public Boolean getDeclawed() {
+    public Boolean getDeclawed() {
         return declawed;
     }
 
@@ -103,4 +103,8 @@ public class Cat extends Animal {
         return o.toString().replace("\n", "\n    ");
     }
 
+    @Override
+    public <T> T accept(Animal.Visitor<T> visitor) {
+        return visitor.visitCat(this);
+    }
 }

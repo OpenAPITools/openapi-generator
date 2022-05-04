@@ -27,7 +27,7 @@ import com.samskivert.mustache.Mustache.Compiler;
 import com.samskivert.mustache.Mustache.Lambda;
 
 import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.text.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.openapitools.codegen.CodegenDiscriminator.MappedModel;
@@ -38,6 +38,9 @@ import org.openapitools.codegen.meta.FeatureSet;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.serializer.SerializerUtils;
 import org.openapitools.codegen.templating.MustacheEngineAdapter;
 import org.openapitools.codegen.templating.mustache.*;
@@ -93,7 +96,7 @@ public class DefaultCodegen implements CodegenConfig {
                         DataTypeFeature.Int32, DataTypeFeature.Int64, DataTypeFeature.Float, DataTypeFeature.Double,
                         DataTypeFeature.Decimal, DataTypeFeature.String, DataTypeFeature.Byte, DataTypeFeature.Binary,
                         DataTypeFeature.Boolean, DataTypeFeature.Date, DataTypeFeature.DateTime, DataTypeFeature.Password,
-                        DataTypeFeature.File, DataTypeFeature.Array, DataTypeFeature.Maps, DataTypeFeature.CollectionFormat,
+                        DataTypeFeature.File, DataTypeFeature.Array, DataTypeFeature.Object, DataTypeFeature.Maps, DataTypeFeature.CollectionFormat,
                         DataTypeFeature.CollectionFormatMulti, DataTypeFeature.Enum, DataTypeFeature.ArrayOfEnum, DataTypeFeature.ArrayOfModel,
                         DataTypeFeature.ArrayOfCollectionOfPrimitives, DataTypeFeature.ArrayOfCollectionOfModel, DataTypeFeature.ArrayOfCollectionOfEnum,
                         DataTypeFeature.MapOfEnum, DataTypeFeature.MapOfModel, DataTypeFeature.MapOfCollectionOfPrimitives,
@@ -222,7 +225,7 @@ public class DefaultCodegen implements CodegenConfig {
     // How to encode special characters like $
     // They are translated to words like "Dollar" and prefixed with '
     // Then translated back during JSON encoding and decoding
-    protected Map<String, String> specialCharReplacements = new HashMap<>();
+    protected Map<String, String> specialCharReplacements = new LinkedHashMap<>();
     // When a model is an alias for a simple type
     protected Map<String, String> typeAliases = null;
     protected Boolean prependFormOrBodyParameters = false;
@@ -266,6 +269,8 @@ public class DefaultCodegen implements CodegenConfig {
 
     // A cache to efficiently lookup schema `toModelName()` based on the schema Key
     private final Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
+
+    protected boolean loadDeepObjectIntoItems = true;
 
     @Override
     public List<CliOption> cliOptions() {
@@ -429,19 +434,19 @@ public class DefaultCodegen implements CodegenConfig {
 
     // override with any special post-processing for all models
     @Override
-    @SuppressWarnings({"static-method", "unchecked"})
-    public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
+    @SuppressWarnings("static-method")
+    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
         if (this.useOneOfInterfaces) {
             // First, add newly created oneOf interfaces
             for (CodegenModel cm : addOneOfInterfaces) {
-                Map<String, Object> modelValue = new HashMap<>(additionalProperties());
-                modelValue.put("model", cm);
+                ModelMap modelMapValue = new ModelMap(additionalProperties());
+                modelMapValue.setModel(cm);
 
                 List<Map<String, String>> importsValue = new ArrayList<>();
-                Map<String, Object> objsValue = new HashMap<>();
-                objsValue.put("models", Collections.singletonList(modelValue));
+                ModelsMap objsValue = new ModelsMap();
+                objsValue.setModels(Collections.singletonList(modelMapValue));
                 objsValue.put("package", modelPackage());
-                objsValue.put("imports", importsValue);
+                objsValue.setImports(importsValue);
                 objsValue.put("classname", cm.classname);
                 objsValue.putAll(additionalProperties);
                 objs.put(cm.name, objsValue);
@@ -450,13 +455,10 @@ public class DefaultCodegen implements CodegenConfig {
             // Gather data from all the models that contain oneOf into OneOfImplementorAdditionalData classes
             // (see docstring of that class to find out what information is gathered and why)
             Map<String, OneOfImplementorAdditionalData> additionalDataMap = new HashMap<>();
-            for (Map.Entry<String, Object> modelsEntry : objs.entrySet()) {
-                Map<String, Object> modelsAttrs = (Map<String, Object>) modelsEntry.getValue();
-                List<Object> models = (List<Object>) modelsAttrs.get("models");
-                List<Map<String, String>> modelsImports = (List<Map<String, String>>) modelsAttrs.getOrDefault("imports", new ArrayList<Map<String, String>>());
-                for (Object _mo : models) {
-                    Map<String, Object> mo = (Map<String, Object>) _mo;
-                    CodegenModel cm = (CodegenModel) mo.get("model");
+            for (ModelsMap modelsAttrs : objs.values()) {
+                List<Map<String, String>> modelsImports = modelsAttrs.getImportsOrEmpty();
+                for (ModelMap mo : modelsAttrs.getModels()) {
+                    CodegenModel cm = mo.getModel();
                     if (cm.oneOf.size() > 0) {
                         cm.vendorExtensions.put("x-is-one-of-interface", true);
                         for (String one : cm.oneOf) {
@@ -472,13 +474,11 @@ public class DefaultCodegen implements CodegenConfig {
             }
 
             // Add all the data from OneOfImplementorAdditionalData classes to the implementing models
-            for (Map.Entry<String, Object> modelsEntry : objs.entrySet()) {
-                Map<String, Object> modelsAttrs = (Map<String, Object>) modelsEntry.getValue();
-                List<Object> models = (List<Object>) modelsAttrs.get("models");
-                List<Map<String, String>> imports = (List<Map<String, String>>) modelsAttrs.get("imports");
-                for (Object _implmo : models) {
-                    Map<String, Object> implmo = (Map<String, Object>) _implmo;
-                    CodegenModel implcm = (CodegenModel) implmo.get("model");
+            for (Map.Entry<String, ModelsMap> modelsEntry : objs.entrySet()) {
+                ModelsMap modelsAttrs = modelsEntry.getValue();
+                List<Map<String, String>> imports = modelsAttrs.getImports();
+                for (ModelMap implmo : modelsAttrs.getModels()) {
+                    CodegenModel implcm = implmo.getModel();
                     String modelName = toModelName(implcm.name);
                     if (additionalDataMap.containsKey(modelName)) {
                         additionalDataMap.get(modelName).addToImplementor(this, implcm, imports, addOneOfInterfaceImports);
@@ -511,14 +511,13 @@ public class DefaultCodegen implements CodegenConfig {
      * @param objs Map of models
      * @return map of all models indexed by names
      */
-    public Map<String, CodegenModel> getAllModels(Map<String, Object> objs) {
-        Map<String, CodegenModel> allModels = new HashMap<>();
-        for (Entry<String, Object> entry : objs.entrySet()) {
+    public Map<String, CodegenModel> getAllModels(Map<String, ModelsMap> objs) {
+        Map<String, CodegenModel> allModels = new LinkedHashMap<>();
+        for (Entry<String, ModelsMap> entry : objs.entrySet()) {
             String modelName = toModelName(entry.getKey());
-            Map<String, Object> inner = (Map<String, Object>) entry.getValue();
-            List<Map<String, Object>> models = (List<Map<String, Object>>) inner.get("models");
-            for (Map<String, Object> mo : models) {
-                CodegenModel cm = (CodegenModel) mo.get("model");
+            List<ModelMap> models = entry.getValue().getModels();
+            for (ModelMap mo : models) {
+                CodegenModel cm = mo.getModel();
                 allModels.put(modelName, cm);
             }
         }
@@ -532,7 +531,7 @@ public class DefaultCodegen implements CodegenConfig {
      * @return maps of models with various updates
      */
     @Override
-    public Map<String, Object> updateAllModels(Map<String, Object> objs) {
+    public Map<String, ModelsMap> updateAllModels(Map<String, ModelsMap> objs) {
         Map<String, CodegenModel> allModels = getAllModels(objs);
 
         // Fix up all parent and interface CodegenModel references.
@@ -577,11 +576,9 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         // loop through properties of each model to detect self-reference
-        for (Map.Entry<String, Object> entry : objs.entrySet()) {
-            Map<String, Object> inner = (Map<String, Object>) entry.getValue();
-            List<Map<String, Object>> models = (List<Map<String, Object>>) inner.get("models");
-            for (Map<String, Object> mo : models) {
-                CodegenModel cm = (CodegenModel) mo.get("model");
+        for (ModelsMap entry : objs.values()) {
+            for (ModelMap mo : entry.getModels()) {
+                CodegenModel cm = mo.getModel();
                 removeSelfReferenceImports(cm);
             }
         }
@@ -660,7 +657,7 @@ public class DefaultCodegen implements CodegenConfig {
     // override with any special post-processing
     @Override
     @SuppressWarnings("static-method")
-    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+    public ModelsMap postProcessModels(ModelsMap objs) {
         return objs;
     }
 
@@ -670,11 +667,9 @@ public class DefaultCodegen implements CodegenConfig {
      * @param objs Map of models
      * @return maps of models with better enum support
      */
-    public Map<String, Object> postProcessModelsEnum(Map<String, Object> objs) {
-        List<Object> models = (List<Object>) objs.get("models");
-        for (Object _mo : models) {
-            Map<String, Object> mo = (Map<String, Object>) _mo;
-            CodegenModel cm = (CodegenModel) mo.get("model");
+    public ModelsMap postProcessModelsEnum(ModelsMap objs) {
+        for (ModelMap mo : objs.getModels()) {
+            CodegenModel cm = mo.getModel();
 
             // for enum model
             if (Boolean.TRUE.equals(cm.isEnum) && cm.allowableValues != null) {
@@ -816,7 +811,7 @@ public class DefaultCodegen implements CodegenConfig {
     // override with any special post-processing
     @Override
     @SuppressWarnings("static-method")
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         return objs;
     }
 
@@ -2753,6 +2748,10 @@ public class DefaultCodegen implements CodegenConfig {
                 // NOTE: Date schemas as CodegenModel is a rare use case and may be removed at a later date.
                 m.setIsString(false); // for backward compatibility with 2.x
                 m.isDate = Boolean.TRUE;
+            } else if (ModelUtils.isUUIDSchema(schema)) {
+                // NOTE: UUID schemas as CodegenModel is a rare use case and may be removed at a later date.
+                m.setIsString(false);
+                m.setIsUuid(true);
             }
         } else if (ModelUtils.isNumberSchema(schema)) {
             // NOTE: Number schemas as CodegenModel is a rare use case and may be removed at a later date.
@@ -3198,7 +3197,7 @@ public class DefaultCodegen implements CodegenConfig {
         // FIXME: for now, we assume that the discriminator property is String
         discriminator.setPropertyType(typeMapping.get("string"));
         discriminator.setMapping(sourceDiscriminator.getMapping());
-        List<MappedModel> uniqueDescendants = new ArrayList();
+        List<MappedModel> uniqueDescendants = new ArrayList<>();
         if (sourceDiscriminator.getMapping() != null && !sourceDiscriminator.getMapping().isEmpty()) {
             for (Entry<String, String> e : sourceDiscriminator.getMapping().entrySet()) {
                 String name;
@@ -4714,11 +4713,11 @@ public class DefaultCodegen implements CodegenConfig {
         String parameterDataType = this.getParameterDataType(parameter, parameterSchema);
         if (parameterDataType != null) {
             codegenParameter.dataType = parameterDataType;
+            if (ModelUtils.isObjectSchema(parameterSchema)) {
+                codegenProperty.complexType = codegenParameter.dataType;
+            }
         } else {
             codegenParameter.dataType = codegenProperty.dataType;
-        }
-        if (ModelUtils.isObjectSchema(parameterSchema)) {
-            codegenProperty.complexType = codegenParameter.dataType;
         }
         if (ModelUtils.isSet(parameterSchema)) {
             imports.add(codegenProperty.baseType);
@@ -4756,10 +4755,12 @@ public class DefaultCodegen implements CodegenConfig {
         }
         codegenParameter.pattern = toRegularExpression(parameterSchema.getPattern());
 
-        if (codegenParameter.isQueryParam && codegenParameter.isDeepObject) {
-            Schema schema = ModelUtils.getSchema(openAPI, codegenParameter.dataType);
+        if (codegenParameter.isQueryParam && codegenParameter.isDeepObject && loadDeepObjectIntoItems) {
+            Schema schema = parameterSchema;
+            if (schema.get$ref() != null) {
+                schema = ModelUtils.getReferencedSchema(openAPI, schema);
+            }
             codegenParameter.items = fromProperty(codegenParameter.paramName, schema);
-            // TODO Check why schema is actually null for a schema of type object defined inline
             // https://swagger.io/docs/specification/serialization/
             if (schema != null) {
                 Map<String, Schema<?>> properties = schema.getProperties();
@@ -6756,7 +6757,10 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             }
             String contentType = contentEntry.getKey();
-            CodegenProperty schemaProp = fromProperty(toMediaTypeSchemaName(contentType, mediaTypeSchemaSuffix), mt.getSchema());
+            CodegenProperty schemaProp = null;
+            if (mt.getSchema() != null) {
+                schemaProp = fromProperty(toMediaTypeSchemaName(contentType, mediaTypeSchemaSuffix), mt.getSchema());
+            }
             CodegenMediaType codegenMt = new CodegenMediaType(schemaProp, ceMap);
             cmtContent.put(contentType, codegenMt);
             if (schemaProp != null) {
@@ -7367,14 +7371,28 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     private CodegenComposedSchemas getComposedSchemas(Schema schema) {
-        if (!(schema instanceof ComposedSchema)) {
+        if (!(schema instanceof ComposedSchema) && schema.getNot()==null) {
             return null;
         }
-        ComposedSchema cs = (ComposedSchema) schema;
+        Schema notSchema = schema.getNot();
+        CodegenProperty notProperty = null;
+        if (notSchema != null) {
+            notProperty = fromProperty("NotSchema", notSchema);
+        }
+        List<CodegenProperty> allOf = new ArrayList<>();
+        List<CodegenProperty> oneOf = new ArrayList<>();
+        List<CodegenProperty> anyOf = new ArrayList<>();
+        if (schema instanceof ComposedSchema) {
+            ComposedSchema cs = (ComposedSchema) schema;
+            allOf = getComposedProperties(cs.getAllOf(), "allOf");
+            oneOf = getComposedProperties(cs.getOneOf(), "oneOf");
+            anyOf = getComposedProperties(cs.getAnyOf(), "anyOf");
+        }
         return new CodegenComposedSchemas(
-                getComposedProperties(cs.getAllOf(), "allOf"),
-                getComposedProperties(cs.getOneOf(), "oneOf"),
-                getComposedProperties(cs.getAnyOf(), "anyOf")
+                allOf,
+                oneOf,
+                anyOf,
+                notProperty
         );
     }
 
@@ -7411,4 +7429,7 @@ public class DefaultCodegen implements CodegenConfig {
     public List<VendorExtension> getSupportedVendorExtensions() {
         return new ArrayList<>();
     }
+
+    @Override
+    public boolean getUseInlineModelResolver() { return true; }
 }

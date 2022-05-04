@@ -12,6 +12,7 @@
 import re  # noqa: F401
 import sys  # noqa: F401
 import typing  # noqa: F401
+import functools  # noqa: F401
 
 from frozendict import frozendict  # noqa: F401
 
@@ -31,6 +32,7 @@ from petstore_api.schemas import (  # noqa: F401
     Float32Schema,
     Float64Schema,
     NumberSchema,
+    UUIDSchema,
     DateSchema,
     DateTimeSchema,
     DecimalSchema,
@@ -52,6 +54,7 @@ from petstore_api.schemas import (  # noqa: F401
     Float32Base,
     Float64Base,
     NumberBase,
+    UUIDBase,
     DateBase,
     DateTimeBase,
     BoolBase,
@@ -82,14 +85,14 @@ class IntegerEnum(
     @classmethod
     @property
     def POSITIVE_0(cls):
-        return cls._enum_by_value[0](0)
+        return cls(0)
     
     @classmethod
     @property
     def POSITIVE_1(cls):
-        return cls._enum_by_value[1](1)
+        return cls(1)
     
     @classmethod
     @property
     def POSITIVE_2(cls):
-        return cls._enum_by_value[2](2)
+        return cls(2)

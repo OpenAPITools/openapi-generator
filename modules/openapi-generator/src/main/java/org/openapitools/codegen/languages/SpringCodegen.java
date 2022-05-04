@@ -32,9 +32,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.stream.Collectors;
 import org.apache.commons.lang3.tuple.Pair;
@@ -60,6 +63,10 @@ import org.openapitools.codegen.meta.features.ParameterFeature;
 import org.openapitools.codegen.meta.features.SchemaSupportFeature;
 import org.openapitools.codegen.meta.features.SecurityFeature;
 import org.openapitools.codegen.meta.features.WireFormatFeature;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.templating.mustache.SplitStringLambda;
 import org.openapitools.codegen.templating.mustache.TrimWhitespaceLambda;
 import org.openapitools.codegen.utils.URLPathUtils;
@@ -620,10 +627,10 @@ public class SpringCodegen extends AbstractJavaCodegen
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
-        final Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        final OperationMap operations = objs.getOperations();
         if (operations != null) {
-            final List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
+            final List<CodegenOperation> ops = operations.getOperation();
             for (final CodegenOperation operation : ops) {
                 final List<CodegenResponse> responses = operation.responses;
                 if (responses != null) {
@@ -660,6 +667,7 @@ public class SpringCodegen extends AbstractJavaCodegen
 
                 handleImplicitHeaders(operation);
             }
+            objs.put("tagDescription", ops.get(0).tags.get(0).getDescription());
         }
 
         return objs;
@@ -879,8 +887,66 @@ public class SpringCodegen extends AbstractJavaCodegen
             codegenModel.imports.remove("ApiModelProperty");
             codegenModel.imports.remove("ApiModel");
         }
+
         return codegenModel;
     }
+
+    /**
+     * Analyse and post process all Models.
+     *  Add parentVars to every Model which has a parent. This allows to generate
+     *  fluent setter methods for inherited properties.
+     * @param objs the models map.
+     * @return the processed models map.
+     */
+    @Override
+    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
+        objs = super.postProcessAllModels(objs);
+        objs = super.updateAllModels(objs);
+
+        for (ModelsMap modelsAttrs : objs.values()) {
+            for (ModelMap mo : modelsAttrs.getModels()) {
+                CodegenModel codegenModel = mo.getModel();
+                Set<String> inheritedImports = new HashSet<>();
+                Map<String, CodegenProperty> propertyHash = new HashMap<>(codegenModel.vars.size());
+                for (final CodegenProperty property : codegenModel.vars) {
+                    propertyHash.put(property.name, property);
+                }
+                CodegenModel parentCodegenModel = codegenModel.parentModel;
+                while (parentCodegenModel != null) {
+                    for (final CodegenProperty property : parentCodegenModel.vars) {
+                        // helper list of parentVars simplifies templating
+                        if (!propertyHash.containsKey(property.name)) {
+                            propertyHash.put(property.name, property);
+                            final CodegenProperty parentVar = property.clone();
+                            parentVar.isInherited = true;
+                            LOGGER.info("adding parent variable {}", property.name);
+                            codegenModel.parentVars.add(parentVar);
+                            Set<String> imports = parentVar.getImports(true).stream().filter(Objects::nonNull).collect(Collectors.toSet());
+                            for (String imp: imports) {
+                                // Avoid dupes
+                                if (!codegenModel.getImports().contains(imp)) {
+                                    inheritedImports.add(imp);
+                                    codegenModel.getImports().add(imp);
+                                }
+                            }
+                        }
+                    }
+                    parentCodegenModel = parentCodegenModel.getParentModel();
+                }
+                // There must be a better way ...
+                for (String imp: inheritedImports) {
+                    String qimp = importMapping().get(imp);
+                    if (qimp != null) {
+                        Map<String,String> toAdd = new HashMap<>();
+                        toAdd.put("import", qimp);
+                        modelsAttrs.getImports().add(toAdd);
+                    }
+                }
+            }
+        }
+        return objs;
+    }
+
 
     /*
      * Add dynamic imports based on the parameters and vendor extensions of an operation.
@@ -915,15 +981,13 @@ public class SpringCodegen extends AbstractJavaCodegen
     }
 
     @Override
-    public Map<String, Object> postProcessModelsEnum(Map<String, Object> objs) {
+    public ModelsMap postProcessModelsEnum(ModelsMap objs) {
         objs = super.postProcessModelsEnum(objs);
 
         // Add imports for Jackson
-        final List<Map<String, String>> imports = (List<Map<String, String>>) objs.get("imports");
-        final List<Object> models = (List<Object>) objs.get("models");
-        for (final Object _mo : models) {
-            final Map<String, Object> mo = (Map<String, Object>) _mo;
-            final CodegenModel cm = (CodegenModel) mo.get("model");
+        final List<Map<String, String>> imports = objs.getImports();
+        for (ModelMap mo : objs.getModels()) {
+            CodegenModel cm = mo.getModel();
             // for enum model
             if (Boolean.TRUE.equals(cm.isEnum) && cm.allowableValues != null) {
                 cm.imports.add(importMapping.get("JsonValue"));

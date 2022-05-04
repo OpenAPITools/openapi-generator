@@ -61,7 +61,7 @@ dynamic encodeQueryParameter(
   return serialized;
 }
 
-ListParam<T> encodeCollectionQueryParameter<T>(
+ListParam<Object?> encodeCollectionQueryParameter<T>(
   Serializers serializers,
   dynamic value,
   FullType type, {

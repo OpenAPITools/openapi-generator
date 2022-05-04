@@ -48,14 +48,14 @@ class ReadOnlyFirst {
   String toString() => 'ReadOnlyFirst[bar=$bar, baz=$baz]';
 
   Map<String, dynamic> toJson() {
-    final json = <String, dynamic>{};
+    final _json = <String, dynamic>{};
     if (bar != null) {
-      json[r'bar'] = bar;
+      _json[r'bar'] = bar;
     }
     if (baz != null) {
-      json[r'baz'] = baz;
+      _json[r'baz'] = baz;
     }
-    return json;
+    return _json;
   }
 
   /// Returns a new [ReadOnlyFirst] instance and imports its values from

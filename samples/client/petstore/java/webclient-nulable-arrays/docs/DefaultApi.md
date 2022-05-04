@@ -2,9 +2,9 @@
 
 All URIs are relative to *http://localhost*
 
-Method | HTTP request | Description
-------------- | ------------- | -------------
-[**nullableArrayTestGet**](DefaultApi.md#nullableArrayTestGet) | **GET** /nullable-array-test | 
+| Method | HTTP request | Description |
+|------------- | ------------- | -------------|
+| [**nullableArrayTestGet**](DefaultApi.md#nullableArrayTestGet) | **GET** /nullable-array-test |  |
 
 
 

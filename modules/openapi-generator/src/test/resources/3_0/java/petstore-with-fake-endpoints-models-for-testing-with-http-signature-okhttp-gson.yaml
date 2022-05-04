@@ -2182,3 +2182,26 @@ components:
             - sold
       xml:
         name: Pet
+    ArrayOfInlineAllOf:
+      type: object
+      required:
+        - name
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+          example: doggie
+        array_allof_dog_property:
+          type: array
+          items:
+            allOf:
+              - type: object
+                properties:
+                  breed:
+                    type: string
+              - type: object
+                properties:
+                  color:
+                    type: string

@@ -29,8 +29,8 @@ namespace OpenAPI\Client\Api;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
-use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Exception\ConnectException;
+use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7\MultipartStream;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\RequestOptions;
@@ -182,6 +182,9 @@ class DefaultApi
                         $content = $response->getBody(); //stream goes to serializer
                     } else {
                         $content = (string) $response->getBody();
+                        if ('\OpenAPI\Client\Model\InlineResponseDefault' !== 'string') {
+                            $content = json_decode($content);
+                        }
                     }
 
                     return [
@@ -196,6 +199,9 @@ class DefaultApi
                 $content = $response->getBody(); //stream goes to serializer
             } else {
                 $content = (string) $response->getBody();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
             }
 
             return [
@@ -256,6 +262,9 @@ class DefaultApi
                         $content = $response->getBody(); //stream goes to serializer
                     } else {
                         $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
                     }
 
                     return [
@@ -334,7 +343,7 @@ class DefaultApi
 
             } else {
                 // for HTTP post (form)
-                $httpBody = ObjectSerializer::buildQuery($queryParams);
+                $httpBody = ObjectSerializer::buildQuery($formParams);
             }
         }
 

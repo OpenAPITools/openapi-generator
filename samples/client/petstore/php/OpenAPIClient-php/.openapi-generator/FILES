@@ -11,6 +11,7 @@ docs/Api/PetApi.md
 docs/Api/StoreApi.md
 docs/Api/UserApi.md
 docs/Model/AdditionalPropertiesClass.md
+docs/Model/AllOfWithSingleRef.md
 docs/Model/Animal.md
 docs/Model/ApiResponse.md
 docs/Model/ArrayOfArrayOfNumberOnly.md
@@ -53,6 +54,7 @@ docs/Model/OuterEnumIntegerDefaultValue.md
 docs/Model/OuterObjectWithEnumProperty.md
 docs/Model/Pet.md
 docs/Model/ReadOnlyFirst.md
+docs/Model/SingleRefType.md
 docs/Model/SpecialModelName.md
 docs/Model/Tag.md
 docs/Model/User.md
@@ -68,6 +70,7 @@ lib/ApiException.php
 lib/Configuration.php
 lib/HeaderSelector.php
 lib/Model/AdditionalPropertiesClass.php
+lib/Model/AllOfWithSingleRef.php
 lib/Model/Animal.php
 lib/Model/ApiResponse.php
 lib/Model/ArrayOfArrayOfNumberOnly.php
@@ -111,6 +114,7 @@ lib/Model/OuterEnumIntegerDefaultValue.php
 lib/Model/OuterObjectWithEnumProperty.php
 lib/Model/Pet.php
 lib/Model/ReadOnlyFirst.php
+lib/Model/SingleRefType.php
 lib/Model/SpecialModelName.php
 lib/Model/Tag.php
 lib/Model/User.php

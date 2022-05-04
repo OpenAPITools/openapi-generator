@@ -11,6 +11,7 @@ import re  # noqa: F401
 import sys  # noqa: F401
 import typing
 import urllib3
+import functools  # noqa: F401
 from urllib3._collections import HTTPHeaderDict
 
 from petstore_api import api_client, exceptions
@@ -30,6 +31,7 @@ from petstore_api.schemas import (  # noqa: F401
     Float32Schema,
     Float64Schema,
     NumberSchema,
+    UUIDSchema,
     DateSchema,
     DateTimeSchema,
     DecimalSchema,
@@ -51,6 +53,7 @@ from petstore_api.schemas import (  # noqa: F401
     Float32Base,
     Float64Base,
     NumberBase,
+    UUIDBase,
     DateBase,
     DateTimeBase,
     BoolBase,
@@ -61,8 +64,6 @@ from petstore_api.schemas import (  # noqa: F401
     _SchemaEnumMaker
 )
 
-from petstore_api.model.composition_in_property import CompositionInProperty
-
 # query params
 
 
@@ -72,6 +73,7 @@ class CompositionAtRootSchema(
 
     @classmethod
     @property
+    @functools.cache
     def _composed_schemas(cls):
         # we need this here to make our import statements work
         # we must store _composed_schemas in here so the code is only run
@@ -97,6 +99,8 @@ class CompositionAtRootSchema(
             ],
             'anyOf': [
             ],
+            'not':
+                None
         }
 
     def __new__(
@@ -124,6 +128,7 @@ class CompositionInPropertySchema(
     
         @classmethod
         @property
+        @functools.cache
         def _composed_schemas(cls):
             # we need this here to make our import statements work
             # we must store _composed_schemas in here so the code is only run
@@ -149,6 +154,8 @@ class CompositionInPropertySchema(
                 ],
                 'anyOf': [
                 ],
+                'not':
+                    None
             }
     
         def __new__(
@@ -219,6 +226,7 @@ class SchemaForRequestBodyApplicationJson(
 
     @classmethod
     @property
+    @functools.cache
     def _composed_schemas(cls):
         # we need this here to make our import statements work
         # we must store _composed_schemas in here so the code is only run
@@ -244,6 +252,8 @@ class SchemaForRequestBodyApplicationJson(
             ],
             'anyOf': [
             ],
+            'not':
+                None
         }
 
     def __new__(
@@ -271,6 +281,7 @@ class SchemaForRequestBodyMultipartFormData(
     
         @classmethod
         @property
+        @functools.cache
         def _composed_schemas(cls):
             # we need this here to make our import statements work
             # we must store _composed_schemas in here so the code is only run
@@ -296,6 +307,8 @@ class SchemaForRequestBodyMultipartFormData(
                 ],
                 'anyOf': [
                 ],
+                'not':
+                    None
             }
     
         def __new__(
@@ -346,6 +359,7 @@ class SchemaFor200ResponseBodyApplicationJson(
 
     @classmethod
     @property
+    @functools.cache
     def _composed_schemas(cls):
         # we need this here to make our import statements work
         # we must store _composed_schemas in here so the code is only run
@@ -371,6 +385,8 @@ class SchemaFor200ResponseBodyApplicationJson(
             ],
             'anyOf': [
             ],
+            'not':
+                None
         }
 
     def __new__(
@@ -398,6 +414,7 @@ class SchemaFor200ResponseBodyMultipartFormData(
     
         @classmethod
         @property
+        @functools.cache
         def _composed_schemas(cls):
             # we need this here to make our import statements work
             # we must store _composed_schemas in here so the code is only run
@@ -423,6 +440,8 @@ class SchemaFor200ResponseBodyMultipartFormData(
                 ],
                 'anyOf': [
                 ],
+                'not':
+                    None
             }
     
         def __new__(

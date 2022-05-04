@@ -24,6 +24,10 @@ import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -360,11 +364,9 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
-        @SuppressWarnings("unchecked")
-        Map<String, Object> objectMap = (Map<String, Object>) objs.get("operations");
-        @SuppressWarnings("unchecked")
-        List<CodegenOperation> operations = (List<CodegenOperation>) objectMap.get("operation");
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        OperationMap objectMap = objs.getOperations();
+        List<CodegenOperation> operations = objectMap.getOperation();
         for (CodegenOperation operation : operations) {
             // http method verb conversion (e.g. PUT => Put)
 
@@ -372,7 +374,7 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
         }
 
         // remove model imports to avoid error
-        List<Map<String, String>> imports = (List<Map<String, String>>) objs.get("imports");
+        List<Map<String, String>> imports = objs.getImports();
         if (imports == null)
             return objs;
 
@@ -399,7 +401,7 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
         }
 
         // recursively add import for mapping one type to multiple imports
-        List<Map<String, String>> recursiveImports = (List<Map<String, String>>) objs.get("imports");
+        List<Map<String, String>> recursiveImports = objs.getImports();
         if (recursiveImports == null)
             return objs;
 
@@ -418,7 +420,7 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
     }
 
     @Override
-    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+    public ModelsMap postProcessModels(ModelsMap objs) {
         // remove model imports to avoid error
 //        List<Map<String, String>> imports = (List<Map<String, String>>) objs.get("imports");
 //        final String prefix = modelPackage();
@@ -451,14 +453,14 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
     }
 
     @Override
-    public Map<String, Object> postProcessAllModels(final Map<String, Object> models) {
+    public Map<String, ModelsMap> postProcessAllModels(final Map<String, ModelsMap> models) {
 
-        final Map<String, Object> processed = super.postProcessAllModels(models);
+        final Map<String, ModelsMap> processed = super.postProcessAllModels(models);
         postProcessParentModels(models);
         return processed;
     }
 
-    private void postProcessParentModels(final Map<String, Object> models) {
+    private void postProcessParentModels(final Map<String, ModelsMap> models) {
         for (final String parent : parentModels) {
             final CodegenModel parentModel = ModelUtils.getModelByName(parent, models);
             final Collection<CodegenModel> childrenModels = childrenByParent.get(parent);

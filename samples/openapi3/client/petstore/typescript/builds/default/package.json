@@ -11,6 +11,10 @@
   ],
   "license": "Unlicense",
   "main": "./dist/index.js",
+  "type": "commonjs",
+  "exports": {
+    ".": "./dist/index.js"
+  },
   "typings": "./dist/index.d.ts",
   "scripts": {
     "build": "tsc",
@@ -26,6 +30,7 @@
     "url-parse": "^1.4.3"
   },
   "devDependencies": {
-    "typescript": "^3.9.3"
+    "typescript": "^4.0",
+    "@types/url-parse": "1.4.4"
   }
 }

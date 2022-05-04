@@ -169,6 +169,13 @@ open class GenerateTask : DefaultTask() {
     val modelNameSuffix = project.objects.property<String>()
 
     /**
+     * Suffix that will be appended to all api names. Default is the empty string.
+     */
+    @Optional
+    @Input
+    val apiNameSuffix = project.objects.property<String>()
+
+    /**
      * Sets instantiation type mappings.
      */
     @Optional
@@ -571,6 +578,10 @@ open class GenerateTask : DefaultTask() {
 
             modelNameSuffix.ifNotEmpty { value ->
                 configurator.setModelNameSuffix(value)
+            }
+
+            apiNameSuffix.ifNotEmpty { value ->
+                configurator.setApiNameSuffix(value)
             }
 
             invokerPackage.ifNotEmpty { value ->

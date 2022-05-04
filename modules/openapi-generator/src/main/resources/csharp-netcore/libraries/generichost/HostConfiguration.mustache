@@ -1,8 +1,13 @@
 {{>partial_header}}
+{{#nrt}}
+#nullable enable
 
+{{/nrt}}
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Net.Http;
 using Microsoft.Extensions.DependencyInjection;
 using {{packageName}}.Api;
@@ -16,6 +21,8 @@ namespace {{packageName}}.Client
     public class HostConfiguration
     {
         private readonly IServiceCollection _services;
+        private JsonSerializerOptions _jsonOptions = new JsonSerializerOptions();
+
         internal bool HttpClientsAdded { get; private set; }
 
         /// <summary>
@@ -24,8 +31,32 @@ namespace {{packageName}}.Client
         /// <param name="services"></param>
         public HostConfiguration(IServiceCollection services)
         {
-            _services = services;{{#apiInfo}}{{#apis}}
-            services.AddSingleton<{{interfacePrefix}}{{classname}}, {{classname}}>();{{/apis}}{{/apiInfo}}
+            _services = services;
+            _jsonOptions.Converters.Add(new JsonStringEnumConverter());
+            _jsonOptions.Converters.Add(new OpenAPIDateJsonConverter());
+{{#models}}
+{{#model}}
+{{^isEnum}}
+{{#allOf}}
+{{#-first}}
+            _jsonOptions.Converters.Add(new {{classname}}JsonConverter());
+{{/-first}}
+{{/allOf}}
+{{#anyOf}}
+{{#-first}}
+            _jsonOptions.Converters.Add(new {{classname}}JsonConverter());
+{{/-first}}
+{{/anyOf}}
+{{#oneOf}}
+{{#-first}}
+            _jsonOptions.Converters.Add(new {{classname}}JsonConverter());
+{{/-first}}
+{{/oneOf}}
+{{/isEnum}}
+{{/model}}
+{{/models}}
+            _services.AddSingleton(new JsonSerializerOptionsProvider(_jsonOptions));{{#apiInfo}}{{#apis}}
+            _services.AddSingleton<{{interfacePrefix}}{{classname}}, {{classname}}>();{{/apis}}{{/apiInfo}}
         }
 
         /// <summary>
@@ -61,34 +92,8 @@ namespace {{packageName}}.Client
         /// <param name="client"></param>
         /// <param name="builder"></param>
         /// <returns></returns>
-        public HostConfiguration Add{{apiName}}HttpClients(
-            Action<HttpClient>{{nrt?}} client = null, Action<IHttpClientBuilder>{{nrt?}} builder = null)
+        public HostConfiguration Add{{apiName}}HttpClients(Action<HttpClient>{{nrt?}} client = null, Action<IHttpClientBuilder>{{nrt?}} builder = null)
         {
-            ClientUtils.JsonSerializerOptions.Converters.Add(new OpenAPIDateJsonConverter());
-{{#models}}
-{{#model}}
-{{^isEnum}}
-{{#useGenericHost}}
-{{#allOf}}
-{{#-first}}
-            ClientUtils.JsonSerializerOptions.Converters.Add(new {{classname}}JsonConverter());
-{{/-first}}
-{{/allOf}}
-{{#anyOf}}
-{{#-first}}
-            ClientUtils.JsonSerializerOptions.Converters.Add(new {{classname}}JsonConverter());
-{{/-first}}
-{{/anyOf}}
-{{#oneOf}}
-{{#-first}}
-            ClientUtils.JsonSerializerOptions.Converters.Add(new {{classname}}JsonConverter());
-{{/-first}}
-{{/oneOf}}
-{{/useGenericHost}}
-{{/isEnum}}
-{{/model}}
-{{/models}}
-
             Add{{apiName}}HttpClients<{{#apiInfo}}{{#apis}}{{classname}}{{^-last}}, {{/-last}}{{/apis}}{{/apiInfo}}>(client, builder);
 
             return this;
@@ -99,9 +104,9 @@ namespace {{packageName}}.Client
         /// </summary>
         /// <param name="options"></param>
         /// <returns></returns>
-        public HostConfiguration ConfigureJsonOptions(Action<System.Text.Json.JsonSerializerOptions> options)
+        public HostConfiguration ConfigureJsonOptions(Action<JsonSerializerOptions> options)
         {
-            options(Client.ClientUtils.JsonSerializerOptions);
+            options(_jsonOptions);
 
             return this;
         }
