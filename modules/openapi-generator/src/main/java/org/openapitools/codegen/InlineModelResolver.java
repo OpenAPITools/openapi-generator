@@ -160,7 +160,7 @@ public class InlineModelResolver {
      * Recursively gather inline models that need to be generated and
      * replace inline schemas with $ref to schema to-be-generated.
      *
-     * @param schema target schema
+     * @param schema      target schema
      * @param modelPrefix model name (usually the prefix of the inline model name)
      */
     private void gatherInlineModels(Schema schema, String modelPrefix) {
@@ -327,7 +327,7 @@ public class InlineModelResolver {
      * Flatten inline models in content
      *
      * @param content target content
-     * @param name backup name if no title is found
+     * @param name    backup name if no title is found
      */
     private void flattenContent(Content content, String name) {
         if (content == null || content.isEmpty()) {
@@ -665,8 +665,8 @@ public class InlineModelResolver {
      * <p>
      * e.g. io.schema.User_name => io_schema_User_name
      *
-     * @param title String title field in the schema if present
-     * @param modelName   String model name
+     * @param title     String title field in the schema if present
+     * @param modelName String model name
      * @return if provided the sanitized {@code title}, else the sanitized {@code key}
      */
     private String resolveModelName(String title, String modelName) {
