@@ -50,8 +50,8 @@ class OAuth(
     ) : this(
             OAuthClientRequest.tokenLocation(tokenUrl).setScope(scopes)
     ) {
-        setFlow(flow);
-        authenticationRequestBuilder = OAuthClientRequest.authorizationLocation(authorizationUrl);
+        setFlow(flow)
+        authenticationRequestBuilder = OAuthClientRequest.authorizationLocation(authorizationUrl)
     }
 
     fun setFlow(flow: OAuthFlow) {
@@ -146,6 +146,6 @@ class OAuth(
                 throw IOException(e)
             }
         }
-        return true;
+        return true
     }
 }

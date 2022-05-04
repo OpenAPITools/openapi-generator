@@ -97,7 +97,6 @@ open class DefaultApi(
         qn1?.apply { localVariableQuery["qn1"] = listOf("$qn1") }
         qn2?.apply { localVariableQuery["qn2"] = listOf("$qn2") }
         qn3?.apply { localVariableQuery["qn3"] = listOf("$qn3") }
-
         val localVariableHeaders = mutableMapOf<String, String>()
         hi0?.apply { localVariableHeaders["hi0"] = this.toString() }
         hi1?.apply { localVariableHeaders["hi1"] = this.toString() }

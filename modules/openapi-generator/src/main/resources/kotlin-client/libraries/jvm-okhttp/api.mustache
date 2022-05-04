@@ -66,20 +66,20 @@ import {{packageName}}.infrastructure.toMultiValue
      {{#enumVars}}
          {{^multiplatform}}
          {{#moshi}}
-         @Json(name = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}}) {{&name}}({{{value}}}),
+         @Json(name = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}}) {{&name}}({{{value}}}){{^-last}},{{/-last}}
          {{/moshi}}
          {{#gson}}
-         @SerializedName(value = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}}) {{&name}}({{{value}}}),
+         @SerializedName(value = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}}) {{&name}}({{{value}}}){{^-last}},{{/-last}}
          {{/gson}}
          {{#jackson}}
-         @JsonProperty(value = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}}) {{&name}}({{{value}}}),
+         @JsonProperty(value = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}}) {{&name}}({{{value}}}){{^-last}},{{/-last}}
          {{/jackson}}
          {{#kotlinx_serialization}}
-         @SerialName(value = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}}) {{&name}}({{{value}}}),
+         @SerialName(value = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}}) {{&name}}({{{value}}}){{^-last}},{{/-last}}
          {{/kotlinx_serialization}}
          {{/multiplatform}}
          {{#multiplatform}}
-         @SerialName(value = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}}) {{&name}}({{{value}}}),
+         @SerialName(value = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}}) {{&name}}({{{value}}}){{^-last}},{{/-last}}
          {{/multiplatform}}
      {{/enumVars}}
      {{/allowableValues}}
@@ -109,7 +109,6 @@ import {{packageName}}.infrastructure.toMultiValue
      {{/enumVars}}
      {{/allowableValues}}
      {{/enumUnknownDefaultCase}}
-         ;
      }
 
     {{/isEnum}}

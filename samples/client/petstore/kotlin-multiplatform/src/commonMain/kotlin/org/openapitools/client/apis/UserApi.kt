@@ -53,7 +53,6 @@ open class UserApi(
         val localVariableBody = body
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
-
         val localVariableHeaders = mutableMapOf<String, String>()
 
         val localVariableConfig = RequestConfig<kotlin.Any?>(
@@ -85,7 +84,6 @@ open class UserApi(
         val localVariableBody = CreateUsersWithArrayInputRequest(body)
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
-
         val localVariableHeaders = mutableMapOf<String, String>()
 
         val localVariableConfig = RequestConfig<kotlin.Any?>(
@@ -126,7 +124,6 @@ open class UserApi(
         val localVariableBody = CreateUsersWithListInputRequest(body)
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
-
         val localVariableHeaders = mutableMapOf<String, String>()
 
         val localVariableConfig = RequestConfig<kotlin.Any?>(
@@ -168,7 +165,6 @@ open class UserApi(
             io.ktor.client.utils.EmptyContent
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
-
         val localVariableHeaders = mutableMapOf<String, String>()
 
         val localVariableConfig = RequestConfig<kotlin.Any?>(
@@ -201,7 +197,6 @@ open class UserApi(
             io.ktor.client.utils.EmptyContent
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
-
         val localVariableHeaders = mutableMapOf<String, String>()
 
         val localVariableConfig = RequestConfig<kotlin.Any?>(
@@ -237,7 +232,6 @@ open class UserApi(
         val localVariableQuery = mutableMapOf<String, List<String>>()
         username?.apply { localVariableQuery["username"] = listOf("$username") }
         password?.apply { localVariableQuery["password"] = listOf("$password") }
-
         val localVariableHeaders = mutableMapOf<String, String>()
 
         val localVariableConfig = RequestConfig<kotlin.Any?>(
@@ -268,7 +262,6 @@ open class UserApi(
             io.ktor.client.utils.EmptyContent
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
-
         val localVariableHeaders = mutableMapOf<String, String>()
 
         val localVariableConfig = RequestConfig<kotlin.Any?>(
@@ -300,7 +293,6 @@ open class UserApi(
         val localVariableBody = body
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
-
         val localVariableHeaders = mutableMapOf<String, String>()
 
         val localVariableConfig = RequestConfig<kotlin.Any?>(

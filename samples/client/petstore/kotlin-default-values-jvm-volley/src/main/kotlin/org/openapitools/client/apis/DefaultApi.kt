@@ -7,7 +7,7 @@ import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.toolbox.BaseHttpStack
 import com.android.volley.toolbox.Volley
-import java.util.*;
+import java.util.*
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
@@ -67,76 +67,27 @@ class DefaultApi (
      */
     suspend fun test(pi0: kotlin.Int = 10, pi1: kotlin.Int, pn0: java.math.BigDecimal = java.math.BigDecimal("10.0"), pn1: java.math.BigDecimal, qi0: kotlin.Int? = 10, qi1: kotlin.Int = 71, qi2: kotlin.Int? = null, qi3: kotlin.Int, qn0: java.math.BigDecimal? = java.math.BigDecimal("10.0"), qn1: java.math.BigDecimal = java.math.BigDecimal("71.0"), qn2: java.math.BigDecimal? = null, qn3: java.math.BigDecimal, hi0: kotlin.Int? = 10, hi1: kotlin.Int = 71, hi2: kotlin.Int? = null, hi3: kotlin.Int, hn0: java.math.BigDecimal? = java.math.BigDecimal("10.0"), hn1: java.math.BigDecimal = java.math.BigDecimal("71.0"), hn2: java.math.BigDecimal? = null, hn3: java.math.BigDecimal, fi0: kotlin.Int? = 10, fi1: kotlin.Int = 71, fi2: kotlin.Int? = null, fi3: kotlin.Int, fn0: java.math.BigDecimal? = java.math.BigDecimal("10.0"), fn1: java.math.BigDecimal = java.math.BigDecimal("71.0"), fn2: java.math.BigDecimal? = null, fn3: java.math.BigDecimal): Unit {
         val body: Any? = null
-        // verify the required parameter 'pi0' is set
-        // This is probably taken care of by non-null types anyway
-        requireNotNull(pi0)
-        // verify the required parameter 'pi1' is set
-        // This is probably taken care of by non-null types anyway
-        requireNotNull(pi1)
-        // verify the required parameter 'pn0' is set
-        // This is probably taken care of by non-null types anyway
-        requireNotNull(pn0)
-        // verify the required parameter 'pn1' is set
-        // This is probably taken care of by non-null types anyway
-        requireNotNull(pn1)
-        // verify the required parameter 'qi1' is set
-        // This is probably taken care of by non-null types anyway
-        requireNotNull(qi1)
-        // verify the required parameter 'qi3' is set
-        // This is probably taken care of by non-null types anyway
-        requireNotNull(qi3)
-        // verify the required parameter 'qn1' is set
-        // This is probably taken care of by non-null types anyway
-        requireNotNull(qn1)
-        // verify the required parameter 'qn3' is set
-        // This is probably taken care of by non-null types anyway
-        requireNotNull(qn3)
-        // verify the required parameter 'hi1' is set
-        // This is probably taken care of by non-null types anyway
-        requireNotNull(hi1)
-        // verify the required parameter 'hi3' is set
-        // This is probably taken care of by non-null types anyway
-        requireNotNull(hi3)
-        // verify the required parameter 'hn1' is set
-        // This is probably taken care of by non-null types anyway
-        requireNotNull(hn1)
-        // verify the required parameter 'hn3' is set
-        // This is probably taken care of by non-null types anyway
-        requireNotNull(hn3)
-        // verify the required parameter 'fi1' is set
-        // This is probably taken care of by non-null types anyway
-        requireNotNull(fi1)
-        // verify the required parameter 'fi3' is set
-        // This is probably taken care of by non-null types anyway
-        requireNotNull(fi3)
-        // verify the required parameter 'fn1' is set
-        // This is probably taken care of by non-null types anyway
-        requireNotNull(fn1)
-        // verify the required parameter 'fn3' is set
-        // This is probably taken care of by non-null types anyway
-        requireNotNull(fn3)
 
         val contentTypes : Array<String> = arrayOf("multipart/form-data")
         val contentType: String = if (contentTypes.isNotEmpty()) { contentTypes.first() } else { "application/json" }
 
-        // Do some work or avoid some work based on what we know about the model, 
+        // Do some work or avoid some work based on what we know about the model,
         // before we delegate to a pluggable request factory template
         // The request factory template contains only pure code and no templates
         // to make it easy to override with your own.
 
         // create path and map variables
-        val path = "/test".replace("{" + "pi0" + "}", IRequestFactory.escapeString(pi0.toString())).replace("{" + "pi1" + "}", IRequestFactory.escapeString(pi1.toString())).replace("{" + "pn0" + "}", IRequestFactory.escapeString(pn0.toString())).replace("{" + "pn1" + "}", IRequestFactory.escapeString(pn1.toString()));
+        val path = "/test".replace("{" + "pi0" + "}", IRequestFactory.escapeString(pi0.toString())).replace("{" + "pi1" + "}", IRequestFactory.escapeString(pi1.toString())).replace("{" + "pn0" + "}", IRequestFactory.escapeString(pn0.toString())).replace("{" + "pn1" + "}", IRequestFactory.escapeString(pn1.toString()))
 
-        // form params
         val formParams = mapOf<String, String>(
-                    "fi0" to IRequestFactory.parameterToString(fi0),
-                    "fi1" to IRequestFactory.parameterToString(fi1),
-                    "fi2" to IRequestFactory.parameterToString(fi2),
-                    "fi3" to IRequestFactory.parameterToString(fi3),
-                    "fn0" to IRequestFactory.parameterToString(fn0),
-                    "fn1" to IRequestFactory.parameterToString(fn1),
-                    "fn2" to IRequestFactory.parameterToString(fn2),
-                    "fn3" to IRequestFactory.parameterToString(fn3),
+            "fi0" to IRequestFactory.parameterToString(fi0),
+            "fi1" to IRequestFactory.parameterToString(fi1),
+            "fi2" to IRequestFactory.parameterToString(fi2),
+            "fi3" to IRequestFactory.parameterToString(fi3),
+            "fn0" to IRequestFactory.parameterToString(fn0),
+            "fn1" to IRequestFactory.parameterToString(fn1),
+            "fn2" to IRequestFactory.parameterToString(fn2),
+            "fn3" to IRequestFactory.parameterToString(fn3)
         )
 
 
@@ -144,15 +95,16 @@ class DefaultApi (
         // TODO, if its apikey auth, then add the header names here and the hardcoded auth key
         // Only support hard coded apikey in query param auth for when we do this first path
         val queryParams = mapOf<String, String>(
-            "qi0" to IRequestFactory.parameterToString(qi0),
-            "qi1" to IRequestFactory.parameterToString(qi1),
-            "qi2" to IRequestFactory.parameterToString(qi2),
-            "qi3" to IRequestFactory.parameterToString(qi3),
-            "qn0" to IRequestFactory.parameterToString(qn0),
-            "qn1" to IRequestFactory.parameterToString(qn1),
-            "qn2" to IRequestFactory.parameterToString(qn2),
-            "qn3" to IRequestFactory.parameterToString(qn3),
-        ).filter { it.value.isNotEmpty() }
+                "qi0" to IRequestFactory.parameterToString(qi0),
+                "qi1" to IRequestFactory.parameterToString(qi1),
+                "qi2" to IRequestFactory.parameterToString(qi2),
+                "qi3" to IRequestFactory.parameterToString(qi3),
+                "qn0" to IRequestFactory.parameterToString(qn0),
+                "qn1" to IRequestFactory.parameterToString(qn1),
+                "qn2" to IRequestFactory.parameterToString(qn2),
+                "qn3" to IRequestFactory.parameterToString(qn3)
+            )
+            .filter { it.value.isNotEmpty() }
 
         val headerParams: Map<String, String> = mapOf(
             "hi0" to IRequestFactory.parameterToString(hi0),
@@ -162,7 +114,7 @@ class DefaultApi (
             "hn0" to IRequestFactory.parameterToString(hn0),
             "hn1" to IRequestFactory.parameterToString(hn1),
             "hn2" to IRequestFactory.parameterToString(hn2),
-            "hn3" to IRequestFactory.parameterToString(hn3),
+            "hn3" to IRequestFactory.parameterToString(hn3)
         )
 
         return suspendCoroutine { continuation ->
@@ -190,7 +142,7 @@ class DefaultApi (
                     responseListener,
                     errorListener)
 
-            postProcessors.forEach{ it.invoke(request)}
+            postProcessors.forEach { it.invoke(request) }
 
             requestQueue.value.add(request)
         }

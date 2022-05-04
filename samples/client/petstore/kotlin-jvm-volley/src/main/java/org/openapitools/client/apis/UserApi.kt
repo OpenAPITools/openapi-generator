@@ -7,7 +7,7 @@ import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.toolbox.BaseHttpStack
 import com.android.volley.toolbox.Volley
-import java.util.*;
+import java.util.*
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
@@ -41,34 +41,28 @@ class UserApi (
      */
     suspend fun createUser(body: User): Unit {
         val body: Any? = body
-        // verify the required parameter 'body' is set
-        // This is probably taken care of by non-null types anyway
-        requireNotNull(body)
 
         val contentTypes : Array<String> = arrayOf()
         val contentType: String = if (contentTypes.isNotEmpty()) { contentTypes.first() } else { "application/json" }
 
-        // Do some work or avoid some work based on what we know about the model, 
+        // Do some work or avoid some work based on what we know about the model,
         // before we delegate to a pluggable request factory template
         // The request factory template contains only pure code and no templates
         // to make it easy to override with your own.
 
         // create path and map variables
-        val path = "/user";
+        val path = "/user"
 
-        // form params
-        val formParams = mapOf<String, String>(
-        )
+        val formParams = mapOf<String, String>()
 
 
         // TODO: Cater for allowing empty values
         // TODO, if its apikey auth, then add the header names here and the hardcoded auth key
         // Only support hard coded apikey in query param auth for when we do this first path
-        val queryParams = mapOf<String, String>(
-        ).filter { it.value.isNotEmpty() }
+        val queryParams = mapOf<String, String>()
+            .filter { it.value.isNotEmpty() }
 
-        val headerParams: Map<String, String> = mapOf(
-        )
+        val headerParams: Map<String, String> = mapOf()
 
         return suspendCoroutine { continuation ->
             val responseListener = Response.Listener<Unit> { response ->
@@ -95,7 +89,7 @@ class UserApi (
                     responseListener,
                     errorListener)
 
-            postProcessors.forEach{ it.invoke(request)}
+            postProcessors.forEach { it.invoke(request) }
 
             requestQueue.value.add(request)
         }
@@ -108,34 +102,28 @@ class UserApi (
      */
     suspend fun createUsersWithArrayInput(body: kotlin.collections.List<User>): Unit {
         val body: Any? = body
-        // verify the required parameter 'body' is set
-        // This is probably taken care of by non-null types anyway
-        requireNotNull(body)
 
         val contentTypes : Array<String> = arrayOf()
         val contentType: String = if (contentTypes.isNotEmpty()) { contentTypes.first() } else { "application/json" }
 
-        // Do some work or avoid some work based on what we know about the model, 
+        // Do some work or avoid some work based on what we know about the model,
         // before we delegate to a pluggable request factory template
         // The request factory template contains only pure code and no templates
         // to make it easy to override with your own.
 
         // create path and map variables
-        val path = "/user/createWithArray";
+        val path = "/user/createWithArray"
 
-        // form params
-        val formParams = mapOf<String, String>(
-        )
+        val formParams = mapOf<String, String>()
 
 
         // TODO: Cater for allowing empty values
         // TODO, if its apikey auth, then add the header names here and the hardcoded auth key
         // Only support hard coded apikey in query param auth for when we do this first path
-        val queryParams = mapOf<String, String>(
-        ).filter { it.value.isNotEmpty() }
+        val queryParams = mapOf<String, String>()
+            .filter { it.value.isNotEmpty() }
 
-        val headerParams: Map<String, String> = mapOf(
-        )
+        val headerParams: Map<String, String> = mapOf()
 
         return suspendCoroutine { continuation ->
             val responseListener = Response.Listener<Unit> { response ->
@@ -162,7 +150,7 @@ class UserApi (
                     responseListener,
                     errorListener)
 
-            postProcessors.forEach{ it.invoke(request)}
+            postProcessors.forEach { it.invoke(request) }
 
             requestQueue.value.add(request)
         }
@@ -175,34 +163,28 @@ class UserApi (
      */
     suspend fun createUsersWithListInput(body: kotlin.collections.List<User>): Unit {
         val body: Any? = body
-        // verify the required parameter 'body' is set
-        // This is probably taken care of by non-null types anyway
-        requireNotNull(body)
 
         val contentTypes : Array<String> = arrayOf()
         val contentType: String = if (contentTypes.isNotEmpty()) { contentTypes.first() } else { "application/json" }
 
-        // Do some work or avoid some work based on what we know about the model, 
+        // Do some work or avoid some work based on what we know about the model,
         // before we delegate to a pluggable request factory template
         // The request factory template contains only pure code and no templates
         // to make it easy to override with your own.
 
         // create path and map variables
-        val path = "/user/createWithList";
+        val path = "/user/createWithList"
 
-        // form params
-        val formParams = mapOf<String, String>(
-        )
+        val formParams = mapOf<String, String>()
 
 
         // TODO: Cater for allowing empty values
         // TODO, if its apikey auth, then add the header names here and the hardcoded auth key
         // Only support hard coded apikey in query param auth for when we do this first path
-        val queryParams = mapOf<String, String>(
-        ).filter { it.value.isNotEmpty() }
+        val queryParams = mapOf<String, String>()
+            .filter { it.value.isNotEmpty() }
 
-        val headerParams: Map<String, String> = mapOf(
-        )
+        val headerParams: Map<String, String> = mapOf()
 
         return suspendCoroutine { continuation ->
             val responseListener = Response.Listener<Unit> { response ->
@@ -229,7 +211,7 @@ class UserApi (
                     responseListener,
                     errorListener)
 
-            postProcessors.forEach{ it.invoke(request)}
+            postProcessors.forEach { it.invoke(request) }
 
             requestQueue.value.add(request)
         }
@@ -242,34 +224,28 @@ class UserApi (
      */
     suspend fun deleteUser(username: kotlin.String): Unit {
         val body: Any? = null
-        // verify the required parameter 'username' is set
-        // This is probably taken care of by non-null types anyway
-        requireNotNull(username)
 
         val contentTypes : Array<String> = arrayOf()
         val contentType: String = if (contentTypes.isNotEmpty()) { contentTypes.first() } else { "application/json" }
 
-        // Do some work or avoid some work based on what we know about the model, 
+        // Do some work or avoid some work based on what we know about the model,
         // before we delegate to a pluggable request factory template
         // The request factory template contains only pure code and no templates
         // to make it easy to override with your own.
 
         // create path and map variables
-        val path = "/user/{username}".replace("{" + "username" + "}", IRequestFactory.escapeString(username.toString()));
+        val path = "/user/{username}".replace("{" + "username" + "}", IRequestFactory.escapeString(username.toString()))
 
-        // form params
-        val formParams = mapOf<String, String>(
-        )
+        val formParams = mapOf<String, String>()
 
 
         // TODO: Cater for allowing empty values
         // TODO, if its apikey auth, then add the header names here and the hardcoded auth key
         // Only support hard coded apikey in query param auth for when we do this first path
-        val queryParams = mapOf<String, String>(
-        ).filter { it.value.isNotEmpty() }
+        val queryParams = mapOf<String, String>()
+            .filter { it.value.isNotEmpty() }
 
-        val headerParams: Map<String, String> = mapOf(
-        )
+        val headerParams: Map<String, String> = mapOf()
 
         return suspendCoroutine { continuation ->
             val responseListener = Response.Listener<Unit> { response ->
@@ -296,7 +272,7 @@ class UserApi (
                     responseListener,
                     errorListener)
 
-            postProcessors.forEach{ it.invoke(request)}
+            postProcessors.forEach { it.invoke(request) }
 
             requestQueue.value.add(request)
         }
@@ -309,34 +285,28 @@ class UserApi (
      */
     suspend fun getUserByName(username: kotlin.String): User? {
         val body: Any? = null
-        // verify the required parameter 'username' is set
-        // This is probably taken care of by non-null types anyway
-        requireNotNull(username)
 
         val contentTypes : Array<String> = arrayOf()
         val contentType: String = if (contentTypes.isNotEmpty()) { contentTypes.first() } else { "application/json" }
 
-        // Do some work or avoid some work based on what we know about the model, 
+        // Do some work or avoid some work based on what we know about the model,
         // before we delegate to a pluggable request factory template
         // The request factory template contains only pure code and no templates
         // to make it easy to override with your own.
 
         // create path and map variables
-        val path = "/user/{username}".replace("{" + "username" + "}", IRequestFactory.escapeString(username.toString()));
+        val path = "/user/{username}".replace("{" + "username" + "}", IRequestFactory.escapeString(username.toString()))
 
-        // form params
-        val formParams = mapOf<String, String>(
-        )
+        val formParams = mapOf<String, String>()
 
 
         // TODO: Cater for allowing empty values
         // TODO, if its apikey auth, then add the header names here and the hardcoded auth key
         // Only support hard coded apikey in query param auth for when we do this first path
-        val queryParams = mapOf<String, String>(
-        ).filter { it.value.isNotEmpty() }
+        val queryParams = mapOf<String, String>()
+            .filter { it.value.isNotEmpty() }
 
-        val headerParams: Map<String, String> = mapOf(
-        )
+        val headerParams: Map<String, String> = mapOf()
 
         return suspendCoroutine { continuation ->
             val responseListener = Response.Listener<User> { response ->
@@ -363,7 +333,7 @@ class UserApi (
                     responseListener,
                     errorListener)
 
-            postProcessors.forEach{ it.invoke(request)}
+            postProcessors.forEach { it.invoke(request) }
 
             requestQueue.value.add(request)
         }
@@ -377,39 +347,31 @@ class UserApi (
      */
     suspend fun loginUser(username: kotlin.String, password: kotlin.String): kotlin.String? {
         val body: Any? = null
-        // verify the required parameter 'username' is set
-        // This is probably taken care of by non-null types anyway
-        requireNotNull(username)
-        // verify the required parameter 'password' is set
-        // This is probably taken care of by non-null types anyway
-        requireNotNull(password)
 
         val contentTypes : Array<String> = arrayOf()
         val contentType: String = if (contentTypes.isNotEmpty()) { contentTypes.first() } else { "application/json" }
 
-        // Do some work or avoid some work based on what we know about the model, 
+        // Do some work or avoid some work based on what we know about the model,
         // before we delegate to a pluggable request factory template
         // The request factory template contains only pure code and no templates
         // to make it easy to override with your own.
 
         // create path and map variables
-        val path = "/user/login";
+        val path = "/user/login"
 
-        // form params
-        val formParams = mapOf<String, String>(
-        )
+        val formParams = mapOf<String, String>()
 
 
         // TODO: Cater for allowing empty values
         // TODO, if its apikey auth, then add the header names here and the hardcoded auth key
         // Only support hard coded apikey in query param auth for when we do this first path
         val queryParams = mapOf<String, String>(
-            "username" to IRequestFactory.parameterToString(username),
-            "password" to IRequestFactory.parameterToString(password),
-        ).filter { it.value.isNotEmpty() }
+                "username" to IRequestFactory.parameterToString(username),
+                "password" to IRequestFactory.parameterToString(password)
+            )
+            .filter { it.value.isNotEmpty() }
 
-        val headerParams: Map<String, String> = mapOf(
-        )
+        val headerParams: Map<String, String> = mapOf()
 
         return suspendCoroutine { continuation ->
             val responseListener = Response.Listener<kotlin.String> { response ->
@@ -436,7 +398,7 @@ class UserApi (
                     responseListener,
                     errorListener)
 
-            postProcessors.forEach{ it.invoke(request)}
+            postProcessors.forEach { it.invoke(request) }
 
             requestQueue.value.add(request)
         }
@@ -452,27 +414,24 @@ class UserApi (
         val contentTypes : Array<String> = arrayOf()
         val contentType: String = if (contentTypes.isNotEmpty()) { contentTypes.first() } else { "application/json" }
 
-        // Do some work or avoid some work based on what we know about the model, 
+        // Do some work or avoid some work based on what we know about the model,
         // before we delegate to a pluggable request factory template
         // The request factory template contains only pure code and no templates
         // to make it easy to override with your own.
 
         // create path and map variables
-        val path = "/user/logout";
+        val path = "/user/logout"
 
-        // form params
-        val formParams = mapOf<String, String>(
-        )
+        val formParams = mapOf<String, String>()
 
 
         // TODO: Cater for allowing empty values
         // TODO, if its apikey auth, then add the header names here and the hardcoded auth key
         // Only support hard coded apikey in query param auth for when we do this first path
-        val queryParams = mapOf<String, String>(
-        ).filter { it.value.isNotEmpty() }
+        val queryParams = mapOf<String, String>()
+            .filter { it.value.isNotEmpty() }
 
-        val headerParams: Map<String, String> = mapOf(
-        )
+        val headerParams: Map<String, String> = mapOf()
 
         return suspendCoroutine { continuation ->
             val responseListener = Response.Listener<Unit> { response ->
@@ -499,7 +458,7 @@ class UserApi (
                     responseListener,
                     errorListener)
 
-            postProcessors.forEach{ it.invoke(request)}
+            postProcessors.forEach { it.invoke(request) }
 
             requestQueue.value.add(request)
         }
@@ -513,37 +472,28 @@ class UserApi (
      */
     suspend fun updateUser(username: kotlin.String, body: User): Unit {
         val body: Any? = body
-        // verify the required parameter 'username' is set
-        // This is probably taken care of by non-null types anyway
-        requireNotNull(username)
-        // verify the required parameter 'body' is set
-        // This is probably taken care of by non-null types anyway
-        requireNotNull(body)
 
         val contentTypes : Array<String> = arrayOf()
         val contentType: String = if (contentTypes.isNotEmpty()) { contentTypes.first() } else { "application/json" }
 
-        // Do some work or avoid some work based on what we know about the model, 
+        // Do some work or avoid some work based on what we know about the model,
         // before we delegate to a pluggable request factory template
         // The request factory template contains only pure code and no templates
         // to make it easy to override with your own.
 
         // create path and map variables
-        val path = "/user/{username}".replace("{" + "username" + "}", IRequestFactory.escapeString(username.toString()));
+        val path = "/user/{username}".replace("{" + "username" + "}", IRequestFactory.escapeString(username.toString()))
 
-        // form params
-        val formParams = mapOf<String, String>(
-        )
+        val formParams = mapOf<String, String>()
 
 
         // TODO: Cater for allowing empty values
         // TODO, if its apikey auth, then add the header names here and the hardcoded auth key
         // Only support hard coded apikey in query param auth for when we do this first path
-        val queryParams = mapOf<String, String>(
-        ).filter { it.value.isNotEmpty() }
+        val queryParams = mapOf<String, String>()
+            .filter { it.value.isNotEmpty() }
 
-        val headerParams: Map<String, String> = mapOf(
-        )
+        val headerParams: Map<String, String> = mapOf()
 
         return suspendCoroutine { continuation ->
             val responseListener = Response.Listener<Unit> { response ->
@@ -570,7 +520,7 @@ class UserApi (
                     responseListener,
                     errorListener)
 
-            postProcessors.forEach{ it.invoke(request)}
+            postProcessors.forEach { it.invoke(request) }
 
             requestQueue.value.add(request)
         }

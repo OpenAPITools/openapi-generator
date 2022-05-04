@@ -3,8 +3,8 @@ package org.openapitools.client.apis
 import org.openapitools.client.infrastructure.CollectionFormats.*
 import retrofit2.http.*
 import okhttp3.RequestBody
-import io.reactivex.rxjava3.core.Single;
-import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.core.Completable
 
 import org.openapitools.client.models.User
 
