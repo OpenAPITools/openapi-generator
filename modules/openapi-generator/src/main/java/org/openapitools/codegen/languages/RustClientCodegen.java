@@ -17,6 +17,9 @@
 
 package org.openapitools.codegen.languages;
 
+import com.samskivert.mustache.Mustache.Lambda;
+import com.samskivert.mustache.Mustache;
+import com.samskivert.mustache.Template;
 import com.google.common.base.Strings;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
@@ -34,6 +37,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.Writer;
 import java.util.*;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
@@ -324,6 +329,19 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
             supportingFiles.add(new SupportingFile("request.rs", apiFolder, "request.rs"));
             supportingFiles.add(new SupportingFile(getLibrary() + "/client.mustache", apiFolder, "client.rs"));
         }
+
+        // add lambda for sanitize version (e.g. v1.2.3-beta => 1.2.3-beta)
+        additionalProperties.put("lambdaVersion", new Mustache.Lambda() {
+            @Override
+            public void execute(Template.Fragment fragment, Writer writer) throws IOException {
+                String content = fragment.execute();
+                // remove v or V
+                content = content.trim().replace("v", "");
+                content = content.replace("V", "");
+                writer.write(content);
+            }
+        });
+
     }
 
     private boolean getSupportAsync() {
