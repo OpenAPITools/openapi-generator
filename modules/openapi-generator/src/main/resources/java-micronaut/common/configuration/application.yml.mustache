@@ -1,10 +1,10 @@
 {{!CLIENT CONFIGURATION}}
 {{#client}}
-base-path: "{{{basePath}}}/"
+{{{applicationName}}}-base-path: "{{{basePath}}}"
 
 micronaut:
     application:
-        name: {{artifactId}}
+        name: {{{applicationName}}}
     {{!
     configure authorization from the parameters
     }}{{#configureAuth}}security:
@@ -58,7 +58,7 @@ micronaut:
 
 micronaut:
     application:
-        name: {{artifactId}}
+        name: {{{applicationName}}}
     server:
         port: 8080{{#contextPath}}
         context-path: "{{{contextPath}}}"{{/contextPath}}

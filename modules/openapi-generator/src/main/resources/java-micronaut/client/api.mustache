@@ -28,7 +28,7 @@ import javax.validation.constraints.*;
 {{/useBeanValidation}}
 
 {{>common/generatedAnnotation}}
-@Client("${base-path}")
+@Client("${{openbrace}}{{{applicationName}}}-base-path{{closebrace}}")
 public interface {{classname}} {
 {{#operations}}
     {{#operation}}

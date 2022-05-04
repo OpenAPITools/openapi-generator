@@ -35,6 +35,7 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
     public static final String OPT_DATETIME_FORMAT = "datetimeFormat";
     public static final String OPT_REACTIVE = "reactive";
     public static final String OPT_WRAP_IN_HTTP_RESPONSE = "wrapInHttpResponse";
+    public static final String OPT_APPLICATION_NAME = "applicationName";
 
     protected String title;
     protected boolean useBeanValidation;
@@ -46,6 +47,7 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
     protected String micronautVersion;
     protected boolean reactive;
     protected boolean wrapInHttpResponse;
+    protected String appName;
 
     public static final String CONTENT_TYPE_APPLICATION_FORM_URLENCODED = "application/x-www-form-urlencoded";
     public static final String CONTENT_TYPE_APPLICATION_JSON = "application/json";
@@ -68,7 +70,7 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
         apiPackage = "org.openapitools.api";
         modelPackage = "org.openapitools.model";
         invokerPackage = "org.openapitools";
-        artifactId = "openapi-micronaut";
+        artifactId = "openapi-micronaut-client";
         embeddedTemplateDir = templateDir = "java-micronaut";
         apiDocPath = "docs/apis";
         modelDocPath = "docs/models";
@@ -76,6 +78,7 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
         micronautVersion = "3.3.1";
         reactive = true;
         wrapInHttpResponse = false;
+        appName = artifactId;
 
         // Set implemented features for user information
         modifyFeatureSet(features -> features
@@ -106,6 +109,7 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
 
         cliOptions.add(new CliOption(OPT_TITLE, "Client service name").defaultValue(title));
         cliOptions.add(new CliOption(OPT_MICRONAUT_VERSION, "Micronaut version, only >=3.0.0 versions are supported").defaultValue(micronautVersion));
+        cliOptions.add(new CliOption(OPT_APPLICATION_NAME, "Micronaut application name (Defaults to the " + CodegenConstants.ARTIFACT_ID + " value)").defaultValue(appName));
         cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations", useBeanValidation));
         cliOptions.add(CliOption.newBoolean(USE_OPTIONAL, "Use Optional container for optional parameters", useOptional));
         cliOptions.add(CliOption.newBoolean(OPT_VISITABLE, "Generate visitor for subtypes with a discriminator", visitable));
@@ -166,6 +170,12 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
             micronautVersion = (String) additionalProperties.get(OPT_MICRONAUT_VERSION);
         } else {
             additionalProperties.put(OPT_MICRONAUT_VERSION, micronautVersion);
+        }
+
+        if (additionalProperties.containsKey(OPT_APPLICATION_NAME)) {
+            appName = (String) additionalProperties.get(OPT_APPLICATION_NAME);
+        } else {
+            additionalProperties.put(OPT_APPLICATION_NAME, artifactId);
         }
 
         // Get boolean properties
