@@ -361,7 +361,10 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
                     if (children == null) {
                         parentModel.setChildren(children = new ArrayList<>());
                     }
-                    parentModel.imports.add(cm.getClassFilename() + ".dart");
+                    //only built value support for now
+                    if (SERIALIZATION_LIBRARY_BUILT_VALUE.equals(library)) {
+                        parentModel.imports.add(cm.getClassFilename() + ".dart");
+                    }
                     // every model is iterated exactly once, so children will always have unique
                     // items
                     children.add(cm);
