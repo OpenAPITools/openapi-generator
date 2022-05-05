@@ -1,0 +1,46 @@
+{{!
+    Classes with polymorphism or composition may generate unused imports,
+    these need to be ignored for said classes so that there are no lint errors.
+}}
+{{#parentModel}}
+// ignore_for_file: unused_import
+
+{{/parentModel}}
+/// {{{description}}}{{^description}}{{classname}}{{/description}}
+{{#hasVars}}
+///
+/// Properties:
+{{#allVars}}
+/// * [{{{name}}}] {{#description}}- {{{.}}}{{/description}}
+{{/allVars}}
+{{/hasVars}}
+@BuiltValue(instantiable: false)
+abstract class {{classname}} {{#interfaces}}implements {{{.}}},{{/interfaces}} {
+{{#vars}}
+    {{#description}}
+    /// {{{.}}}
+    {{/description}}
+    @BuiltValueField(wireName: r'{{baseName}}')
+    {{>serialization/built_value/variable_type}}{{^isNullable}}{{^required}}?{{/required}}{{/isNullable}} get {{name}};
+    {{#allowableValues}}
+    // {{#min}}range from {{{min}}} to {{{max}}}{{/min}}{{^min}}enum {{name}}Enum { {{#values}} {{{.}}}, {{/values}} };{{/min}}
+    {{/allowableValues}}
+
+{{/vars}}
+    @BuiltValueHook(initializeBuilder: true)
+    static void _defaults({{{classname}}}Builder b) => b{{#vars}}{{#defaultValue}}
+        ..{{{name}}} = {{#isEnum}}{{^isContainer}}const {{{enumName}}}._({{/isContainer}}{{/isEnum}}{{{defaultValue}}}{{#isEnum}}{{^isContainer}}){{/isContainer}}{{/isEnum}}{{/defaultValue}}{{/vars}};
+
+{{#hasDiscriminatorWithNonEmptyMapping}}
+    @BuiltValueSerializer(custom: true)
+    static StructuredSerializer<{{classname}}> get serializer => _${{classname}}Serializer();
+{{/hasDiscriminatorWithNonEmptyMapping}}
+}
+
+{{!
+    if the class has a discriminator, it can be serialized.
+    otherwise, it's just a normal interface
+}}
+{{#hasDiscriminatorWithNonEmptyMapping}}
+{{>serialization/built_value/class_parent_serializer}}
+{{/hasDiscriminatorWithNonEmptyMapping}}
