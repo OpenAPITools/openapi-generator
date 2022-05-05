@@ -40,7 +40,7 @@ abstract class {{classname}} implements Built<{{classname}}, {{classname}}Builde
     factory {{classname}}([void updates({{classname}}Builder b)]) = _${{classname}};
 
     @BuiltValueSerializer(custom: true)
-    static Serializer<{{classname}}> get serializer => _${{classname}}Serializer();
+    static StructuredSerializer<{{classname}}> get serializer => _${{classname}}Serializer();
 }
 
 {{!
