@@ -33,11 +33,11 @@
         authorizations = {{openbrace}}{{#hasAuthMethods}}
         {{#authMethods}}
             {{#isOAuth}}
-            @Authorization(value = "{{name}}"{{#scopes.size}}, scopes = {
+            @Authorization(value = "{{name}}"{{#scopes.0}}, scopes = {
                 {{#scopes}}
                 @AuthorizationScope(scope = "{{scope}}", description = "{{description}}"){{^-last}},{{/-last}}
                 {{/scopes}}
-            }{{/scopes.size}}){{^-last}},{{/-last}}
+            }{{/scopes.0}}){{^-last}},{{/-last}}
             {{/isOAuth}}
             {{^isOAuth}}
             @Authorization(value = "{{name}}"){{^-last}},{{/-last}}
@@ -59,9 +59,10 @@
         {{#description}}
         description= "{{{.}}}",
         {{/description}}
-        {{#vendorExtensions.x-tags.size}}
-        tags = { {{#vendorExtensions.x-tags}}"{{tag}}"{{^-last}}, {{/-last}}{{/vendorExtensions.x-tags}} },
-        {{/vendorExtensions.x-tags.size}}
+        {{#tags.1}}
+        {{!generate only when at least 2 tags}}
+        tags = { {{#tags}}"{{name}}"{{^-last}}, {{/-last}}{{/tags}} },
+        {{/tags.1}}
         responses = {
             {{#responses}}
             @ApiResponse(responseCode = "{{{code}}}", description = "{{{message}}}"{{#baseType}}, content = {
@@ -83,7 +84,7 @@
         }{{/hasAuthMethods}}
     )
     {{/generateSwagger2Annotations}}
-    {{#implicitHeadersParams.size}}
+    {{#implicitHeadersParams.0}}
         {{#generateSwagger2Annotations}}
     @Parameters({
             {{#implicitHeadersParams}}
@@ -98,4 +99,4 @@
         {{/implicitHeadersParams}}
     })
         {{/generateSwagger1Annotations}}
-    {{/implicitHeadersParams.size}}
+    {{/implicitHeadersParams.0}}

@@ -1,5 +1,6 @@
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -11,11 +12,15 @@ import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.CodegenConstants.INVOKER_PACKAGE;
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen implements BeanValidationFeatures, OptionalFeatures {
     public static final String OPT_TITLE = "title";
@@ -42,6 +47,9 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
     public static final String OPT_GENERATE_SWAGGER_ANNOTATIONS_SWAGGER_2 = "swagger2";
     public static final String OPT_GENERATE_SWAGGER_ANNOTATIONS_TRUE = "true";
     public static final String OPT_GENERATE_SWAGGER_ANNOTATIONS_FALSE = "false";
+    public static final String OPT_GENERATE_OPERATION_ONLY_FOR_FIRST_TAG = "generateOperationOnlyForFirstTag";
+
+    protected final Logger LOGGER = LoggerFactory.getLogger(JavaMicronautAbstractCodegen.class);
 
     protected String title;
     protected boolean useBeanValidation;
@@ -55,6 +63,7 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
     protected boolean wrapInHttpResponse;
     protected String appName;
     protected String generateSwaggerAnnotations;
+    protected boolean generateOperationOnlyForFirstTag;
 
     public static final String CONTENT_TYPE_APPLICATION_FORM_URLENCODED = "application/x-www-form-urlencoded";
     public static final String CONTENT_TYPE_APPLICATION_JSON = "application/json";
@@ -87,6 +96,7 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
         wrapInHttpResponse = false;
         appName = artifactId;
         generateSwaggerAnnotations = OPT_GENERATE_SWAGGER_ANNOTATIONS_SWAGGER_2;
+        generateOperationOnlyForFirstTag = this instanceof JavaMicronautServerCodegen;
 
         // Set implemented features for user information
         modifyFeatureSet(features -> features
@@ -124,6 +134,8 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
         cliOptions.add(CliOption.newBoolean(OPT_REQUIRED_PROPERTIES_IN_CONSTRUCTOR, "Allow only to create models with all the required properties provided in constructor", requiredPropertiesInConstructor));
         cliOptions.add(CliOption.newBoolean(OPT_REACTIVE, "Make the responses use Reactor Mono as wrapper", reactive));
         cliOptions.add(CliOption.newBoolean(OPT_WRAP_IN_HTTP_RESPONSE, "Wrap the response in HttpResponse object", wrapInHttpResponse));
+        cliOptions.add(CliOption.newBoolean(OPT_GENERATE_OPERATION_ONLY_FOR_FIRST_TAG, "When false, the operation method will be duplicated in each of the tags if multiple tags are assigned to this operation. " +
+                "If true, each operation will be generated only once in the first assigned tag.", generateOperationOnlyForFirstTag));
 
         CliOption buildToolOption = new CliOption(OPT_BUILD, "Specify for which build tool to generate files").defaultValue(buildTool);
         Map<String, String> buildToolOptionMap = new HashMap<>();
@@ -225,6 +237,11 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
             this.wrapInHttpResponse = convertPropertyToBoolean(OPT_WRAP_IN_HTTP_RESPONSE);
         }
         writePropertyBack(OPT_WRAP_IN_HTTP_RESPONSE, wrapInHttpResponse);
+
+        if (additionalProperties.containsKey(OPT_GENERATE_OPERATION_ONLY_FOR_FIRST_TAG)) {
+            this.generateOperationOnlyForFirstTag = convertPropertyToBoolean(OPT_GENERATE_OPERATION_ONLY_FOR_FIRST_TAG);
+        }
+        writePropertyBack(OPT_GENERATE_OPERATION_ONLY_FOR_FIRST_TAG, generateOperationOnlyForFirstTag);
 
         // Get enum properties
         if (additionalProperties.containsKey(OPT_BUILD)) {
@@ -420,6 +437,24 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
 
     public boolean isVisitable() {
         return visitable;
+    }
+
+    @Override
+    public String sanitizeTag(String tag) {
+        // Skip sanitization to get the original tag name in the addOperationToGroup() method.
+        // Inside that method tag is manually sanitized.
+        return tag;
+    }
+
+    @Override
+    public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation
+            co, Map<String, List<CodegenOperation>> operations) {
+        if (generateOperationOnlyForFirstTag && !co.tags.get(0).getName().equals(tag)) {
+            // This is not the first assigned to this operation tag;
+            return;
+        }
+
+        super.addOperationToGroup(super.sanitizeTag(tag), resourcePath, operation, co, operations);
     }
 
     @Override
