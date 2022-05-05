@@ -6,7 +6,6 @@ import 'package:built_collection/built_collection.dart';
 import 'package:openapi/src/model/animal.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
-
 part 'mixed_properties_and_additional_properties_class.g.dart';
 
 /// MixedPropertiesAndAdditionalPropertiesClass
@@ -15,16 +14,14 @@ part 'mixed_properties_and_additional_properties_class.g.dart';
 /// * [uuid] 
 /// * [dateTime] 
 /// * [map] 
+@BuiltValue()
 abstract class MixedPropertiesAndAdditionalPropertiesClass implements Built<MixedPropertiesAndAdditionalPropertiesClass, MixedPropertiesAndAdditionalPropertiesClassBuilder> {
     @BuiltValueField(wireName: r'uuid')
     String? get uuid;
-
     @BuiltValueField(wireName: r'dateTime')
     DateTime? get dateTime;
-
     @BuiltValueField(wireName: r'map')
     BuiltMap<String, Animal>? get map;
-
     MixedPropertiesAndAdditionalPropertiesClass._();
 
     @BuiltValueHook(initializeBuilder: true)
@@ -33,8 +30,9 @@ abstract class MixedPropertiesAndAdditionalPropertiesClass implements Built<Mixe
     factory MixedPropertiesAndAdditionalPropertiesClass([void updates(MixedPropertiesAndAdditionalPropertiesClassBuilder b)]) = _$MixedPropertiesAndAdditionalPropertiesClass;
 
     @BuiltValueSerializer(custom: true)
-    static StructuredSerializer<MixedPropertiesAndAdditionalPropertiesClass> get serializer => _$MixedPropertiesAndAdditionalPropertiesClassSerializer();
+    static Serializer<MixedPropertiesAndAdditionalPropertiesClass> get serializer => _$MixedPropertiesAndAdditionalPropertiesClassSerializer();
 }
+
 
 class _$MixedPropertiesAndAdditionalPropertiesClassSerializer implements StructuredSerializer<MixedPropertiesAndAdditionalPropertiesClass> {
     @override
@@ -100,4 +98,7 @@ class _$MixedPropertiesAndAdditionalPropertiesClassSerializer implements Structu
         return result.build();
     }
 }
+
+
+
 

@@ -4,17 +4,16 @@
 
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
-
 part 'model_return.g.dart';
 
 /// Model for testing reserved words
 ///
 /// Properties:
 /// * [return_] 
+@BuiltValue()
 abstract class ModelReturn implements Built<ModelReturn, ModelReturnBuilder> {
     @BuiltValueField(wireName: r'return')
     int? get return_;
-
     ModelReturn._();
 
     @BuiltValueHook(initializeBuilder: true)
@@ -23,8 +22,9 @@ abstract class ModelReturn implements Built<ModelReturn, ModelReturnBuilder> {
     factory ModelReturn([void updates(ModelReturnBuilder b)]) = _$ModelReturn;
 
     @BuiltValueSerializer(custom: true)
-    static StructuredSerializer<ModelReturn> get serializer => _$ModelReturnSerializer();
+    static Serializer<ModelReturn> get serializer => _$ModelReturnSerializer();
 }
+
 
 class _$ModelReturnSerializer implements StructuredSerializer<ModelReturn> {
     @override
@@ -68,4 +68,7 @@ class _$ModelReturnSerializer implements StructuredSerializer<ModelReturn> {
         return result.build();
     }
 }
+
+
+
 

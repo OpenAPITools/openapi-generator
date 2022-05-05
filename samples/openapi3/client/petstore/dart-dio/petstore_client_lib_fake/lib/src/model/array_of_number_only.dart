@@ -5,17 +5,16 @@
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
-
 part 'array_of_number_only.g.dart';
 
 /// ArrayOfNumberOnly
 ///
 /// Properties:
 /// * [arrayNumber] 
+@BuiltValue()
 abstract class ArrayOfNumberOnly implements Built<ArrayOfNumberOnly, ArrayOfNumberOnlyBuilder> {
     @BuiltValueField(wireName: r'ArrayNumber')
     BuiltList<num>? get arrayNumber;
-
     ArrayOfNumberOnly._();
 
     @BuiltValueHook(initializeBuilder: true)
@@ -24,8 +23,9 @@ abstract class ArrayOfNumberOnly implements Built<ArrayOfNumberOnly, ArrayOfNumb
     factory ArrayOfNumberOnly([void updates(ArrayOfNumberOnlyBuilder b)]) = _$ArrayOfNumberOnly;
 
     @BuiltValueSerializer(custom: true)
-    static StructuredSerializer<ArrayOfNumberOnly> get serializer => _$ArrayOfNumberOnlySerializer();
+    static Serializer<ArrayOfNumberOnly> get serializer => _$ArrayOfNumberOnlySerializer();
 }
+
 
 class _$ArrayOfNumberOnlySerializer implements StructuredSerializer<ArrayOfNumberOnly> {
     @override
@@ -69,4 +69,7 @@ class _$ArrayOfNumberOnlySerializer implements StructuredSerializer<ArrayOfNumbe
         return result.build();
     }
 }
+
+
+
 

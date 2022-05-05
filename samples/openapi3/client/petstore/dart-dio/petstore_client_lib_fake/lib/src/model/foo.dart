@@ -4,17 +4,16 @@
 
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
-
 part 'foo.g.dart';
 
 /// Foo
 ///
 /// Properties:
 /// * [bar] 
+@BuiltValue()
 abstract class Foo implements Built<Foo, FooBuilder> {
     @BuiltValueField(wireName: r'bar')
     String? get bar;
-
     Foo._();
 
     @BuiltValueHook(initializeBuilder: true)
@@ -24,8 +23,9 @@ abstract class Foo implements Built<Foo, FooBuilder> {
     factory Foo([void updates(FooBuilder b)]) = _$Foo;
 
     @BuiltValueSerializer(custom: true)
-    static StructuredSerializer<Foo> get serializer => _$FooSerializer();
+    static Serializer<Foo> get serializer => _$FooSerializer();
 }
+
 
 class _$FooSerializer implements StructuredSerializer<Foo> {
     @override
@@ -69,4 +69,7 @@ class _$FooSerializer implements StructuredSerializer<Foo> {
         return result.build();
     }
 }
+
+
+
 

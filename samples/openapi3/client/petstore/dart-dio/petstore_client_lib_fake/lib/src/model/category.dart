@@ -4,7 +4,6 @@
 
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
-
 part 'category.g.dart';
 
 /// Category
@@ -12,13 +11,12 @@ part 'category.g.dart';
 /// Properties:
 /// * [id] 
 /// * [name] 
+@BuiltValue()
 abstract class Category implements Built<Category, CategoryBuilder> {
     @BuiltValueField(wireName: r'id')
     int? get id;
-
     @BuiltValueField(wireName: r'name')
     String get name;
-
     Category._();
 
     @BuiltValueHook(initializeBuilder: true)
@@ -28,8 +26,9 @@ abstract class Category implements Built<Category, CategoryBuilder> {
     factory Category([void updates(CategoryBuilder b)]) = _$Category;
 
     @BuiltValueSerializer(custom: true)
-    static StructuredSerializer<Category> get serializer => _$CategorySerializer();
+    static Serializer<Category> get serializer => _$CategorySerializer();
 }
+
 
 class _$CategorySerializer implements StructuredSerializer<Category> {
     @override
@@ -82,4 +81,7 @@ class _$CategorySerializer implements StructuredSerializer<Category> {
         return result.build();
     }
 }
+
+
+
 

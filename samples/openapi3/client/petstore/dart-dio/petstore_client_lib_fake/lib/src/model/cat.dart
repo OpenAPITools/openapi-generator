@@ -6,7 +6,6 @@ import 'package:openapi/src/model/animal.dart';
 import 'package:openapi/src/model/cat_all_of.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
-
 part 'cat.g.dart';
 
 // ignore_for_file: unused_import
@@ -17,16 +16,8 @@ part 'cat.g.dart';
 /// * [className] 
 /// * [color] 
 /// * [declawed] 
-abstract class Cat implements Built<Cat, CatBuilder> {
-    @BuiltValueField(wireName: r'className')
-    String get className;
-
-    @BuiltValueField(wireName: r'color')
-    String? get color;
-
-    @BuiltValueField(wireName: r'declawed')
-    bool? get declawed;
-
+@BuiltValue()
+abstract class Cat implements Animal, CatAllOf, Built<Cat, CatBuilder> {
     Cat._();
 
     @BuiltValueHook(initializeBuilder: true)
@@ -36,8 +27,9 @@ abstract class Cat implements Built<Cat, CatBuilder> {
     factory Cat([void updates(CatBuilder b)]) = _$Cat;
 
     @BuiltValueSerializer(custom: true)
-    static StructuredSerializer<Cat> get serializer => _$CatSerializer();
+    static Serializer<Cat> get serializer => _$CatSerializer();
 }
+
 
 class _$CatSerializer implements StructuredSerializer<Cat> {
     @override
@@ -101,4 +93,7 @@ class _$CatSerializer implements StructuredSerializer<Cat> {
         return result.build();
     }
 }
+
+
+
 

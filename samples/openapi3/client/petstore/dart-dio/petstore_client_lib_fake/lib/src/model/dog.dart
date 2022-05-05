@@ -6,7 +6,6 @@ import 'package:openapi/src/model/dog_all_of.dart';
 import 'package:openapi/src/model/animal.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
-
 part 'dog.g.dart';
 
 // ignore_for_file: unused_import
@@ -17,16 +16,8 @@ part 'dog.g.dart';
 /// * [className] 
 /// * [color] 
 /// * [breed] 
-abstract class Dog implements Built<Dog, DogBuilder> {
-    @BuiltValueField(wireName: r'className')
-    String get className;
-
-    @BuiltValueField(wireName: r'color')
-    String? get color;
-
-    @BuiltValueField(wireName: r'breed')
-    String? get breed;
-
+@BuiltValue()
+abstract class Dog implements Animal, DogAllOf, Built<Dog, DogBuilder> {
     Dog._();
 
     @BuiltValueHook(initializeBuilder: true)
@@ -36,8 +27,9 @@ abstract class Dog implements Built<Dog, DogBuilder> {
     factory Dog([void updates(DogBuilder b)]) = _$Dog;
 
     @BuiltValueSerializer(custom: true)
-    static StructuredSerializer<Dog> get serializer => _$DogSerializer();
+    static Serializer<Dog> get serializer => _$DogSerializer();
 }
+
 
 class _$DogSerializer implements StructuredSerializer<Dog> {
     @override
@@ -101,4 +93,7 @@ class _$DogSerializer implements StructuredSerializer<Dog> {
         return result.build();
     }
 }
+
+
+
 

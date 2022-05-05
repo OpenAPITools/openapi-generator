@@ -5,7 +5,6 @@
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
-
 part 'map_test.g.dart';
 
 /// MapTest
@@ -15,20 +14,17 @@ part 'map_test.g.dart';
 /// * [mapOfEnumString] 
 /// * [directMap] 
 /// * [indirectMap] 
+@BuiltValue()
 abstract class MapTest implements Built<MapTest, MapTestBuilder> {
     @BuiltValueField(wireName: r'map_map_of_string')
     BuiltMap<String, BuiltMap<String, String>>? get mapMapOfString;
-
     @BuiltValueField(wireName: r'map_of_enum_string')
     BuiltMap<String, MapTestMapOfEnumStringEnum>? get mapOfEnumString;
     // enum mapOfEnumStringEnum {  UPPER,  lower,  };
-
     @BuiltValueField(wireName: r'direct_map')
     BuiltMap<String, bool>? get directMap;
-
     @BuiltValueField(wireName: r'indirect_map')
     BuiltMap<String, bool>? get indirectMap;
-
     MapTest._();
 
     @BuiltValueHook(initializeBuilder: true)
@@ -37,8 +33,9 @@ abstract class MapTest implements Built<MapTest, MapTestBuilder> {
     factory MapTest([void updates(MapTestBuilder b)]) = _$MapTest;
 
     @BuiltValueSerializer(custom: true)
-    static StructuredSerializer<MapTest> get serializer => _$MapTestSerializer();
+    static Serializer<MapTest> get serializer => _$MapTestSerializer();
 }
+
 
 class _$MapTestSerializer implements StructuredSerializer<MapTest> {
     @override
@@ -115,6 +112,9 @@ class _$MapTestSerializer implements StructuredSerializer<MapTest> {
         return result.build();
     }
 }
+
+
+
 
 class MapTestMapOfEnumStringEnum extends EnumClass {
 

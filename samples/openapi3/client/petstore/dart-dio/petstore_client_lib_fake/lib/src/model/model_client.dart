@@ -4,17 +4,16 @@
 
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
-
 part 'model_client.g.dart';
 
 /// ModelClient
 ///
 /// Properties:
 /// * [client] 
+@BuiltValue()
 abstract class ModelClient implements Built<ModelClient, ModelClientBuilder> {
     @BuiltValueField(wireName: r'client')
     String? get client;
-
     ModelClient._();
 
     @BuiltValueHook(initializeBuilder: true)
@@ -23,8 +22,9 @@ abstract class ModelClient implements Built<ModelClient, ModelClientBuilder> {
     factory ModelClient([void updates(ModelClientBuilder b)]) = _$ModelClient;
 
     @BuiltValueSerializer(custom: true)
-    static StructuredSerializer<ModelClient> get serializer => _$ModelClientSerializer();
+    static Serializer<ModelClient> get serializer => _$ModelClientSerializer();
 }
+
 
 class _$ModelClientSerializer implements StructuredSerializer<ModelClient> {
     @override
@@ -68,4 +68,7 @@ class _$ModelClientSerializer implements StructuredSerializer<ModelClient> {
         return result.build();
     }
 }
+
+
+
 

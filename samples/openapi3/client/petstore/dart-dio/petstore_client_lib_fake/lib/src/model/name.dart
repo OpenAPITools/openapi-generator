@@ -4,7 +4,6 @@
 
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
-
 part 'name.g.dart';
 
 /// Model for testing model name same as property name
@@ -14,19 +13,16 @@ part 'name.g.dart';
 /// * [snakeCase] 
 /// * [property] 
 /// * [n123number] 
+@BuiltValue()
 abstract class Name implements Built<Name, NameBuilder> {
     @BuiltValueField(wireName: r'name')
     int get name;
-
     @BuiltValueField(wireName: r'snake_case')
     int? get snakeCase;
-
     @BuiltValueField(wireName: r'property')
     String? get property;
-
     @BuiltValueField(wireName: r'123Number')
     int? get n123number;
-
     Name._();
 
     @BuiltValueHook(initializeBuilder: true)
@@ -35,8 +31,9 @@ abstract class Name implements Built<Name, NameBuilder> {
     factory Name([void updates(NameBuilder b)]) = _$Name;
 
     @BuiltValueSerializer(custom: true)
-    static StructuredSerializer<Name> get serializer => _$NameSerializer();
+    static Serializer<Name> get serializer => _$NameSerializer();
 }
+
 
 class _$NameSerializer implements StructuredSerializer<Name> {
     @override
@@ -111,4 +108,7 @@ class _$NameSerializer implements StructuredSerializer<Name> {
         return result.build();
     }
 }
+
+
+
 

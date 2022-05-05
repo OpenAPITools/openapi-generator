@@ -4,17 +4,16 @@
 
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
-
 part 'model_list.g.dart';
 
 /// ModelList
 ///
 /// Properties:
 /// * [n123list] 
+@BuiltValue()
 abstract class ModelList implements Built<ModelList, ModelListBuilder> {
     @BuiltValueField(wireName: r'123-list')
     String? get n123list;
-
     ModelList._();
 
     @BuiltValueHook(initializeBuilder: true)
@@ -23,8 +22,9 @@ abstract class ModelList implements Built<ModelList, ModelListBuilder> {
     factory ModelList([void updates(ModelListBuilder b)]) = _$ModelList;
 
     @BuiltValueSerializer(custom: true)
-    static StructuredSerializer<ModelList> get serializer => _$ModelListSerializer();
+    static Serializer<ModelList> get serializer => _$ModelListSerializer();
 }
+
 
 class _$ModelListSerializer implements StructuredSerializer<ModelList> {
     @override
@@ -68,4 +68,7 @@ class _$ModelListSerializer implements StructuredSerializer<ModelList> {
         return result.build();
     }
 }
+
+
+
 

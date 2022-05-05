@@ -9,7 +9,6 @@ import 'package:openapi/src/model/outer_enum_integer.dart';
 import 'package:openapi/src/model/outer_enum_integer_default_value.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
-
 part 'enum_test.g.dart';
 
 /// EnumTest
@@ -23,39 +22,32 @@ part 'enum_test.g.dart';
 /// * [outerEnumInteger] 
 /// * [outerEnumDefaultValue] 
 /// * [outerEnumIntegerDefaultValue] 
+@BuiltValue()
 abstract class EnumTest implements Built<EnumTest, EnumTestBuilder> {
     @BuiltValueField(wireName: r'enum_string')
     EnumTestEnumStringEnum? get enumString;
     // enum enumStringEnum {  UPPER,  lower,  ,  };
-
     @BuiltValueField(wireName: r'enum_string_required')
     EnumTestEnumStringRequiredEnum get enumStringRequired;
     // enum enumStringRequiredEnum {  UPPER,  lower,  ,  };
-
     @BuiltValueField(wireName: r'enum_integer')
     EnumTestEnumIntegerEnum? get enumInteger;
     // enum enumIntegerEnum {  1,  -1,  };
-
     @BuiltValueField(wireName: r'enum_number')
     EnumTestEnumNumberEnum? get enumNumber;
     // enum enumNumberEnum {  1.1,  -1.2,  };
-
     @BuiltValueField(wireName: r'outerEnum')
     OuterEnum? get outerEnum;
     // enum outerEnumEnum {  placed,  approved,  delivered,  };
-
     @BuiltValueField(wireName: r'outerEnumInteger')
     OuterEnumInteger? get outerEnumInteger;
     // enum outerEnumIntegerEnum {  0,  1,  2,  };
-
     @BuiltValueField(wireName: r'outerEnumDefaultValue')
     OuterEnumDefaultValue? get outerEnumDefaultValue;
     // enum outerEnumDefaultValueEnum {  placed,  approved,  delivered,  };
-
     @BuiltValueField(wireName: r'outerEnumIntegerDefaultValue')
     OuterEnumIntegerDefaultValue? get outerEnumIntegerDefaultValue;
     // enum outerEnumIntegerDefaultValueEnum {  0,  1,  2,  };
-
     EnumTest._();
 
     @BuiltValueHook(initializeBuilder: true)
@@ -64,8 +56,9 @@ abstract class EnumTest implements Built<EnumTest, EnumTestBuilder> {
     factory EnumTest([void updates(EnumTestBuilder b)]) = _$EnumTest;
 
     @BuiltValueSerializer(custom: true)
-    static StructuredSerializer<EnumTest> get serializer => _$EnumTestSerializer();
+    static Serializer<EnumTest> get serializer => _$EnumTestSerializer();
 }
+
 
 class _$EnumTestSerializer implements StructuredSerializer<EnumTest> {
     @override
@@ -185,6 +178,9 @@ class _$EnumTestSerializer implements StructuredSerializer<EnumTest> {
         return result.build();
     }
 }
+
+
+
 
 class EnumTestEnumStringEnum extends EnumClass {
 

@@ -4,7 +4,6 @@
 
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
-
 part 'model200_response.g.dart';
 
 /// Model for testing model name starting with number
@@ -12,13 +11,12 @@ part 'model200_response.g.dart';
 /// Properties:
 /// * [name] 
 /// * [class_] 
+@BuiltValue()
 abstract class Model200Response implements Built<Model200Response, Model200ResponseBuilder> {
     @BuiltValueField(wireName: r'name')
     int? get name;
-
     @BuiltValueField(wireName: r'class')
     String? get class_;
-
     Model200Response._();
 
     @BuiltValueHook(initializeBuilder: true)
@@ -27,8 +25,9 @@ abstract class Model200Response implements Built<Model200Response, Model200Respo
     factory Model200Response([void updates(Model200ResponseBuilder b)]) = _$Model200Response;
 
     @BuiltValueSerializer(custom: true)
-    static StructuredSerializer<Model200Response> get serializer => _$Model200ResponseSerializer();
+    static Serializer<Model200Response> get serializer => _$Model200ResponseSerializer();
 }
+
 
 class _$Model200ResponseSerializer implements StructuredSerializer<Model200Response> {
     @override
@@ -83,4 +82,7 @@ class _$Model200ResponseSerializer implements StructuredSerializer<Model200Respo
         return result.build();
     }
 }
+
+
+
 

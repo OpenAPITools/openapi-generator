@@ -6,7 +6,6 @@ import 'package:built_collection/built_collection.dart';
 import 'package:openapi/src/model/deprecated_object.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
-
 part 'object_with_deprecated_fields.g.dart';
 
 /// ObjectWithDeprecatedFields
@@ -16,19 +15,16 @@ part 'object_with_deprecated_fields.g.dart';
 /// * [id] 
 /// * [deprecatedRef] 
 /// * [bars] 
+@BuiltValue()
 abstract class ObjectWithDeprecatedFields implements Built<ObjectWithDeprecatedFields, ObjectWithDeprecatedFieldsBuilder> {
     @BuiltValueField(wireName: r'uuid')
     String? get uuid;
-
     @BuiltValueField(wireName: r'id')
     num? get id;
-
     @BuiltValueField(wireName: r'deprecatedRef')
     DeprecatedObject? get deprecatedRef;
-
     @BuiltValueField(wireName: r'bars')
     BuiltList<String>? get bars;
-
     ObjectWithDeprecatedFields._();
 
     @BuiltValueHook(initializeBuilder: true)
@@ -37,8 +33,9 @@ abstract class ObjectWithDeprecatedFields implements Built<ObjectWithDeprecatedF
     factory ObjectWithDeprecatedFields([void updates(ObjectWithDeprecatedFieldsBuilder b)]) = _$ObjectWithDeprecatedFields;
 
     @BuiltValueSerializer(custom: true)
-    static StructuredSerializer<ObjectWithDeprecatedFields> get serializer => _$ObjectWithDeprecatedFieldsSerializer();
+    static Serializer<ObjectWithDeprecatedFields> get serializer => _$ObjectWithDeprecatedFieldsSerializer();
 }
+
 
 class _$ObjectWithDeprecatedFieldsSerializer implements StructuredSerializer<ObjectWithDeprecatedFields> {
     @override
@@ -115,4 +112,7 @@ class _$ObjectWithDeprecatedFieldsSerializer implements StructuredSerializer<Obj
         return result.build();
     }
 }
+
+
+
 

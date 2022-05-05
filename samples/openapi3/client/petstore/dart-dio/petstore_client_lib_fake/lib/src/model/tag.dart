@@ -4,7 +4,6 @@
 
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
-
 part 'tag.g.dart';
 
 /// Tag
@@ -12,13 +11,12 @@ part 'tag.g.dart';
 /// Properties:
 /// * [id] 
 /// * [name] 
+@BuiltValue()
 abstract class Tag implements Built<Tag, TagBuilder> {
     @BuiltValueField(wireName: r'id')
     int? get id;
-
     @BuiltValueField(wireName: r'name')
     String? get name;
-
     Tag._();
 
     @BuiltValueHook(initializeBuilder: true)
@@ -27,8 +25,9 @@ abstract class Tag implements Built<Tag, TagBuilder> {
     factory Tag([void updates(TagBuilder b)]) = _$Tag;
 
     @BuiltValueSerializer(custom: true)
-    static StructuredSerializer<Tag> get serializer => _$TagSerializer();
+    static Serializer<Tag> get serializer => _$TagSerializer();
 }
+
 
 class _$TagSerializer implements StructuredSerializer<Tag> {
     @override
@@ -83,4 +82,7 @@ class _$TagSerializer implements StructuredSerializer<Tag> {
         return result.build();
     }
 }
+
+
+
 

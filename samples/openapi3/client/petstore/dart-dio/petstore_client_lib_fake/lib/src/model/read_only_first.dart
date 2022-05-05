@@ -4,7 +4,6 @@
 
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
-
 part 'read_only_first.g.dart';
 
 /// ReadOnlyFirst
@@ -12,13 +11,12 @@ part 'read_only_first.g.dart';
 /// Properties:
 /// * [bar] 
 /// * [baz] 
+@BuiltValue()
 abstract class ReadOnlyFirst implements Built<ReadOnlyFirst, ReadOnlyFirstBuilder> {
     @BuiltValueField(wireName: r'bar')
     String? get bar;
-
     @BuiltValueField(wireName: r'baz')
     String? get baz;
-
     ReadOnlyFirst._();
 
     @BuiltValueHook(initializeBuilder: true)
@@ -27,8 +25,9 @@ abstract class ReadOnlyFirst implements Built<ReadOnlyFirst, ReadOnlyFirstBuilde
     factory ReadOnlyFirst([void updates(ReadOnlyFirstBuilder b)]) = _$ReadOnlyFirst;
 
     @BuiltValueSerializer(custom: true)
-    static StructuredSerializer<ReadOnlyFirst> get serializer => _$ReadOnlyFirstSerializer();
+    static Serializer<ReadOnlyFirst> get serializer => _$ReadOnlyFirstSerializer();
 }
+
 
 class _$ReadOnlyFirstSerializer implements StructuredSerializer<ReadOnlyFirst> {
     @override
@@ -83,4 +82,7 @@ class _$ReadOnlyFirstSerializer implements StructuredSerializer<ReadOnlyFirst> {
         return result.build();
     }
 }
+
+
+
 

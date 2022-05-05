@@ -4,18 +4,17 @@
 
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
-
 part 'model_file.g.dart';
 
 /// Must be named `File` for test.
 ///
 /// Properties:
 /// * [sourceURI] - Test capitalization
+@BuiltValue()
 abstract class ModelFile implements Built<ModelFile, ModelFileBuilder> {
     /// Test capitalization
     @BuiltValueField(wireName: r'sourceURI')
     String? get sourceURI;
-
     ModelFile._();
 
     @BuiltValueHook(initializeBuilder: true)
@@ -24,8 +23,9 @@ abstract class ModelFile implements Built<ModelFile, ModelFileBuilder> {
     factory ModelFile([void updates(ModelFileBuilder b)]) = _$ModelFile;
 
     @BuiltValueSerializer(custom: true)
-    static StructuredSerializer<ModelFile> get serializer => _$ModelFileSerializer();
+    static Serializer<ModelFile> get serializer => _$ModelFileSerializer();
 }
+
 
 class _$ModelFileSerializer implements StructuredSerializer<ModelFile> {
     @override
@@ -69,4 +69,7 @@ class _$ModelFileSerializer implements StructuredSerializer<ModelFile> {
         return result.build();
     }
 }
+
+
+
 

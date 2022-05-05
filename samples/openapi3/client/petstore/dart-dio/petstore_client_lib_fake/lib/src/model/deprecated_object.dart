@@ -4,17 +4,16 @@
 
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
-
 part 'deprecated_object.g.dart';
 
 /// DeprecatedObject
 ///
 /// Properties:
 /// * [name] 
+@BuiltValue()
 abstract class DeprecatedObject implements Built<DeprecatedObject, DeprecatedObjectBuilder> {
     @BuiltValueField(wireName: r'name')
     String? get name;
-
     DeprecatedObject._();
 
     @BuiltValueHook(initializeBuilder: true)
@@ -23,8 +22,9 @@ abstract class DeprecatedObject implements Built<DeprecatedObject, DeprecatedObj
     factory DeprecatedObject([void updates(DeprecatedObjectBuilder b)]) = _$DeprecatedObject;
 
     @BuiltValueSerializer(custom: true)
-    static StructuredSerializer<DeprecatedObject> get serializer => _$DeprecatedObjectSerializer();
+    static Serializer<DeprecatedObject> get serializer => _$DeprecatedObjectSerializer();
 }
+
 
 class _$DeprecatedObjectSerializer implements StructuredSerializer<DeprecatedObject> {
     @override
@@ -68,4 +68,7 @@ class _$DeprecatedObjectSerializer implements StructuredSerializer<DeprecatedObj
         return result.build();
     }
 }
+
+
+
 

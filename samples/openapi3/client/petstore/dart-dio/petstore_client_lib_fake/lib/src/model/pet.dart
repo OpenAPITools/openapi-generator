@@ -7,7 +7,6 @@ import 'package:openapi/src/model/category.dart';
 import 'package:openapi/src/model/tag.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
-
 part 'pet.g.dart';
 
 /// Pet
@@ -19,27 +18,22 @@ part 'pet.g.dart';
 /// * [photoUrls] 
 /// * [tags] 
 /// * [status] - pet status in the store
+@BuiltValue()
 abstract class Pet implements Built<Pet, PetBuilder> {
     @BuiltValueField(wireName: r'id')
     int? get id;
-
     @BuiltValueField(wireName: r'category')
     Category? get category;
-
     @BuiltValueField(wireName: r'name')
     String get name;
-
     @BuiltValueField(wireName: r'photoUrls')
     BuiltSet<String> get photoUrls;
-
     @BuiltValueField(wireName: r'tags')
     BuiltList<Tag>? get tags;
-
     /// pet status in the store
     @BuiltValueField(wireName: r'status')
     PetStatusEnum? get status;
     // enum statusEnum {  available,  pending,  sold,  };
-
     Pet._();
 
     @BuiltValueHook(initializeBuilder: true)
@@ -48,8 +42,9 @@ abstract class Pet implements Built<Pet, PetBuilder> {
     factory Pet([void updates(PetBuilder b)]) = _$Pet;
 
     @BuiltValueSerializer(custom: true)
-    static StructuredSerializer<Pet> get serializer => _$PetSerializer();
+    static Serializer<Pet> get serializer => _$PetSerializer();
 }
+
 
 class _$PetSerializer implements StructuredSerializer<Pet> {
     @override
@@ -144,6 +139,9 @@ class _$PetSerializer implements StructuredSerializer<Pet> {
         return result.build();
     }
 }
+
+
+
 
 class PetStatusEnum extends EnumClass {
 

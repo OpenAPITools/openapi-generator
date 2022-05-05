@@ -4,7 +4,6 @@
 
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
-
 part 'outer_composite.g.dart';
 
 /// OuterComposite
@@ -13,16 +12,14 @@ part 'outer_composite.g.dart';
 /// * [myNumber] 
 /// * [myString] 
 /// * [myBoolean] 
+@BuiltValue()
 abstract class OuterComposite implements Built<OuterComposite, OuterCompositeBuilder> {
     @BuiltValueField(wireName: r'my_number')
     num? get myNumber;
-
     @BuiltValueField(wireName: r'my_string')
     String? get myString;
-
     @BuiltValueField(wireName: r'my_boolean')
     bool? get myBoolean;
-
     OuterComposite._();
 
     @BuiltValueHook(initializeBuilder: true)
@@ -31,8 +28,9 @@ abstract class OuterComposite implements Built<OuterComposite, OuterCompositeBui
     factory OuterComposite([void updates(OuterCompositeBuilder b)]) = _$OuterComposite;
 
     @BuiltValueSerializer(custom: true)
-    static StructuredSerializer<OuterComposite> get serializer => _$OuterCompositeSerializer();
+    static Serializer<OuterComposite> get serializer => _$OuterCompositeSerializer();
 }
+
 
 class _$OuterCompositeSerializer implements StructuredSerializer<OuterComposite> {
     @override
@@ -98,4 +96,7 @@ class _$OuterCompositeSerializer implements StructuredSerializer<OuterComposite>
         return result.build();
     }
 }
+
+
+
 

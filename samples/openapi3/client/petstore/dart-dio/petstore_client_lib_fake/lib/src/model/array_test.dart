@@ -6,7 +6,6 @@ import 'package:built_collection/built_collection.dart';
 import 'package:openapi/src/model/read_only_first.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
-
 part 'array_test.g.dart';
 
 /// ArrayTest
@@ -15,16 +14,14 @@ part 'array_test.g.dart';
 /// * [arrayOfString] 
 /// * [arrayArrayOfInteger] 
 /// * [arrayArrayOfModel] 
+@BuiltValue()
 abstract class ArrayTest implements Built<ArrayTest, ArrayTestBuilder> {
     @BuiltValueField(wireName: r'array_of_string')
     BuiltList<String>? get arrayOfString;
-
     @BuiltValueField(wireName: r'array_array_of_integer')
     BuiltList<BuiltList<int>>? get arrayArrayOfInteger;
-
     @BuiltValueField(wireName: r'array_array_of_model')
     BuiltList<BuiltList<ReadOnlyFirst>>? get arrayArrayOfModel;
-
     ArrayTest._();
 
     @BuiltValueHook(initializeBuilder: true)
@@ -33,8 +30,9 @@ abstract class ArrayTest implements Built<ArrayTest, ArrayTestBuilder> {
     factory ArrayTest([void updates(ArrayTestBuilder b)]) = _$ArrayTest;
 
     @BuiltValueSerializer(custom: true)
-    static StructuredSerializer<ArrayTest> get serializer => _$ArrayTestSerializer();
+    static Serializer<ArrayTest> get serializer => _$ArrayTestSerializer();
 }
+
 
 class _$ArrayTestSerializer implements StructuredSerializer<ArrayTest> {
     @override
@@ -100,4 +98,7 @@ class _$ArrayTestSerializer implements StructuredSerializer<ArrayTest> {
         return result.build();
     }
 }
+
+
+
 

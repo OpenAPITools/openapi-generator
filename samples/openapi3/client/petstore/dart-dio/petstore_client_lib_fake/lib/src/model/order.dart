@@ -5,7 +5,6 @@
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
-
 part 'order.g.dart';
 
 /// Order
@@ -17,27 +16,22 @@ part 'order.g.dart';
 /// * [shipDate] 
 /// * [status] - Order Status
 /// * [complete] 
+@BuiltValue()
 abstract class Order implements Built<Order, OrderBuilder> {
     @BuiltValueField(wireName: r'id')
     int? get id;
-
     @BuiltValueField(wireName: r'petId')
     int? get petId;
-
     @BuiltValueField(wireName: r'quantity')
     int? get quantity;
-
     @BuiltValueField(wireName: r'shipDate')
     DateTime? get shipDate;
-
     /// Order Status
     @BuiltValueField(wireName: r'status')
     OrderStatusEnum? get status;
     // enum statusEnum {  placed,  approved,  delivered,  };
-
     @BuiltValueField(wireName: r'complete')
     bool? get complete;
-
     Order._();
 
     @BuiltValueHook(initializeBuilder: true)
@@ -47,8 +41,9 @@ abstract class Order implements Built<Order, OrderBuilder> {
     factory Order([void updates(OrderBuilder b)]) = _$Order;
 
     @BuiltValueSerializer(custom: true)
-    static StructuredSerializer<Order> get serializer => _$OrderSerializer();
+    static Serializer<Order> get serializer => _$OrderSerializer();
 }
+
 
 class _$OrderSerializer implements StructuredSerializer<Order> {
     @override
@@ -147,6 +142,9 @@ class _$OrderSerializer implements StructuredSerializer<Order> {
         return result.build();
     }
 }
+
+
+
 
 class OrderStatusEnum extends EnumClass {
 

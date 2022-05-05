@@ -5,7 +5,6 @@
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
-
 part 'enum_arrays.g.dart';
 
 /// EnumArrays
@@ -13,15 +12,14 @@ part 'enum_arrays.g.dart';
 /// Properties:
 /// * [justSymbol] 
 /// * [arrayEnum] 
+@BuiltValue()
 abstract class EnumArrays implements Built<EnumArrays, EnumArraysBuilder> {
     @BuiltValueField(wireName: r'just_symbol')
     EnumArraysJustSymbolEnum? get justSymbol;
     // enum justSymbolEnum {  >=,  $,  };
-
     @BuiltValueField(wireName: r'array_enum')
     BuiltList<EnumArraysArrayEnumEnum>? get arrayEnum;
     // enum arrayEnumEnum {  fish,  crab,  };
-
     EnumArrays._();
 
     @BuiltValueHook(initializeBuilder: true)
@@ -30,8 +28,9 @@ abstract class EnumArrays implements Built<EnumArrays, EnumArraysBuilder> {
     factory EnumArrays([void updates(EnumArraysBuilder b)]) = _$EnumArrays;
 
     @BuiltValueSerializer(custom: true)
-    static StructuredSerializer<EnumArrays> get serializer => _$EnumArraysSerializer();
+    static Serializer<EnumArrays> get serializer => _$EnumArraysSerializer();
 }
+
 
 class _$EnumArraysSerializer implements StructuredSerializer<EnumArrays> {
     @override
@@ -86,6 +85,9 @@ class _$EnumArraysSerializer implements StructuredSerializer<EnumArrays> {
         return result.build();
     }
 }
+
+
+
 
 class EnumArraysJustSymbolEnum extends EnumClass {
 

@@ -7,7 +7,6 @@ import 'package:openapi/src/model/date.dart';
 import 'package:built_value/json_object.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
-
 part 'nullable_class.g.dart';
 
 /// NullableClass
@@ -25,43 +24,32 @@ part 'nullable_class.g.dart';
 /// * [objectNullableProp] 
 /// * [objectAndItemsNullableProp] 
 /// * [objectItemsNullable] 
+@BuiltValue()
 abstract class NullableClass implements Built<NullableClass, NullableClassBuilder> {
     @BuiltValueField(wireName: r'integer_prop')
     int? get integerProp;
-
     @BuiltValueField(wireName: r'number_prop')
     num? get numberProp;
-
     @BuiltValueField(wireName: r'boolean_prop')
     bool? get booleanProp;
-
     @BuiltValueField(wireName: r'string_prop')
     String? get stringProp;
-
     @BuiltValueField(wireName: r'date_prop')
     Date? get dateProp;
-
     @BuiltValueField(wireName: r'datetime_prop')
     DateTime? get datetimeProp;
-
     @BuiltValueField(wireName: r'array_nullable_prop')
     BuiltList<JsonObject>? get arrayNullableProp;
-
     @BuiltValueField(wireName: r'array_and_items_nullable_prop')
     BuiltList<JsonObject?>? get arrayAndItemsNullableProp;
-
     @BuiltValueField(wireName: r'array_items_nullable')
     BuiltList<JsonObject?>? get arrayItemsNullable;
-
     @BuiltValueField(wireName: r'object_nullable_prop')
     BuiltMap<String, JsonObject>? get objectNullableProp;
-
     @BuiltValueField(wireName: r'object_and_items_nullable_prop')
     BuiltMap<String, JsonObject?>? get objectAndItemsNullableProp;
-
     @BuiltValueField(wireName: r'object_items_nullable')
     BuiltMap<String, JsonObject?>? get objectItemsNullable;
-
     NullableClass._();
 
     @BuiltValueHook(initializeBuilder: true)
@@ -70,8 +58,9 @@ abstract class NullableClass implements Built<NullableClass, NullableClassBuilde
     factory NullableClass([void updates(NullableClassBuilder b)]) = _$NullableClass;
 
     @BuiltValueSerializer(custom: true)
-    static StructuredSerializer<NullableClass> get serializer => _$NullableClassSerializer();
+    static Serializer<NullableClass> get serializer => _$NullableClassSerializer();
 }
+
 
 class _$NullableClassSerializer implements StructuredSerializer<NullableClass> {
     @override
@@ -246,4 +235,7 @@ class _$NullableClassSerializer implements StructuredSerializer<NullableClass> {
         return result.build();
     }
 }
+
+
+
 

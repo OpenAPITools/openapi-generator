@@ -5,17 +5,16 @@
 import 'package:openapi/src/model/foo.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
-
 part 'inline_response_default.g.dart';
 
 /// InlineResponseDefault
 ///
 /// Properties:
 /// * [string] 
+@BuiltValue()
 abstract class InlineResponseDefault implements Built<InlineResponseDefault, InlineResponseDefaultBuilder> {
     @BuiltValueField(wireName: r'string')
     Foo? get string;
-
     InlineResponseDefault._();
 
     @BuiltValueHook(initializeBuilder: true)
@@ -24,8 +23,9 @@ abstract class InlineResponseDefault implements Built<InlineResponseDefault, Inl
     factory InlineResponseDefault([void updates(InlineResponseDefaultBuilder b)]) = _$InlineResponseDefault;
 
     @BuiltValueSerializer(custom: true)
-    static StructuredSerializer<InlineResponseDefault> get serializer => _$InlineResponseDefaultSerializer();
+    static Serializer<InlineResponseDefault> get serializer => _$InlineResponseDefaultSerializer();
 }
+
 
 class _$InlineResponseDefaultSerializer implements StructuredSerializer<InlineResponseDefault> {
     @override
@@ -69,4 +69,7 @@ class _$InlineResponseDefaultSerializer implements StructuredSerializer<InlineRe
         return result.build();
     }
 }
+
+
+
 

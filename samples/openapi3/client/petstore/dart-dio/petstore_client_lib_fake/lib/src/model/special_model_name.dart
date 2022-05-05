@@ -4,17 +4,16 @@
 
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
-
 part 'special_model_name.g.dart';
 
 /// SpecialModelName
 ///
 /// Properties:
 /// * [dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket] 
+@BuiltValue()
 abstract class SpecialModelName implements Built<SpecialModelName, SpecialModelNameBuilder> {
     @BuiltValueField(wireName: r'$special[property.name]')
     int? get dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket;
-
     SpecialModelName._();
 
     @BuiltValueHook(initializeBuilder: true)
@@ -23,8 +22,9 @@ abstract class SpecialModelName implements Built<SpecialModelName, SpecialModelN
     factory SpecialModelName([void updates(SpecialModelNameBuilder b)]) = _$SpecialModelName;
 
     @BuiltValueSerializer(custom: true)
-    static StructuredSerializer<SpecialModelName> get serializer => _$SpecialModelNameSerializer();
+    static Serializer<SpecialModelName> get serializer => _$SpecialModelNameSerializer();
 }
+
 
 class _$SpecialModelNameSerializer implements StructuredSerializer<SpecialModelName> {
     @override
@@ -68,4 +68,7 @@ class _$SpecialModelNameSerializer implements StructuredSerializer<SpecialModelN
         return result.build();
     }
 }
+
+
+
 

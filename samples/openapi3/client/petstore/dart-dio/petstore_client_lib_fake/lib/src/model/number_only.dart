@@ -4,17 +4,16 @@
 
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
-
 part 'number_only.g.dart';
 
 /// NumberOnly
 ///
 /// Properties:
 /// * [justNumber] 
+@BuiltValue()
 abstract class NumberOnly implements Built<NumberOnly, NumberOnlyBuilder> {
     @BuiltValueField(wireName: r'JustNumber')
     num? get justNumber;
-
     NumberOnly._();
 
     @BuiltValueHook(initializeBuilder: true)
@@ -23,8 +22,9 @@ abstract class NumberOnly implements Built<NumberOnly, NumberOnlyBuilder> {
     factory NumberOnly([void updates(NumberOnlyBuilder b)]) = _$NumberOnly;
 
     @BuiltValueSerializer(custom: true)
-    static StructuredSerializer<NumberOnly> get serializer => _$NumberOnlySerializer();
+    static Serializer<NumberOnly> get serializer => _$NumberOnlySerializer();
 }
+
 
 class _$NumberOnlySerializer implements StructuredSerializer<NumberOnly> {
     @override
@@ -68,4 +68,7 @@ class _$NumberOnlySerializer implements StructuredSerializer<NumberOnly> {
         return result.build();
     }
 }
+
+
+
 

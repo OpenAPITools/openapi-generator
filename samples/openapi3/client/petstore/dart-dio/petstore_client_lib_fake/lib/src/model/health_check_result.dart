@@ -4,17 +4,16 @@
 
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
-
 part 'health_check_result.g.dart';
 
 /// Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.
 ///
 /// Properties:
 /// * [nullableMessage] 
+@BuiltValue()
 abstract class HealthCheckResult implements Built<HealthCheckResult, HealthCheckResultBuilder> {
     @BuiltValueField(wireName: r'NullableMessage')
     String? get nullableMessage;
-
     HealthCheckResult._();
 
     @BuiltValueHook(initializeBuilder: true)
@@ -23,8 +22,9 @@ abstract class HealthCheckResult implements Built<HealthCheckResult, HealthCheck
     factory HealthCheckResult([void updates(HealthCheckResultBuilder b)]) = _$HealthCheckResult;
 
     @BuiltValueSerializer(custom: true)
-    static StructuredSerializer<HealthCheckResult> get serializer => _$HealthCheckResultSerializer();
+    static Serializer<HealthCheckResult> get serializer => _$HealthCheckResultSerializer();
 }
+
 
 class _$HealthCheckResultSerializer implements StructuredSerializer<HealthCheckResult> {
     @override
@@ -69,4 +69,7 @@ class _$HealthCheckResultSerializer implements StructuredSerializer<HealthCheckR
         return result.build();
     }
 }
+
+
+
 

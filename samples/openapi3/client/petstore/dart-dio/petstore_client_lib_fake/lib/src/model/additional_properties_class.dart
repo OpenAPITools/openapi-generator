@@ -5,7 +5,6 @@
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
-
 part 'additional_properties_class.g.dart';
 
 /// AdditionalPropertiesClass
@@ -13,13 +12,12 @@ part 'additional_properties_class.g.dart';
 /// Properties:
 /// * [mapProperty] 
 /// * [mapOfMapProperty] 
+@BuiltValue()
 abstract class AdditionalPropertiesClass implements Built<AdditionalPropertiesClass, AdditionalPropertiesClassBuilder> {
     @BuiltValueField(wireName: r'map_property')
     BuiltMap<String, String>? get mapProperty;
-
     @BuiltValueField(wireName: r'map_of_map_property')
     BuiltMap<String, BuiltMap<String, String>>? get mapOfMapProperty;
-
     AdditionalPropertiesClass._();
 
     @BuiltValueHook(initializeBuilder: true)
@@ -28,8 +26,9 @@ abstract class AdditionalPropertiesClass implements Built<AdditionalPropertiesCl
     factory AdditionalPropertiesClass([void updates(AdditionalPropertiesClassBuilder b)]) = _$AdditionalPropertiesClass;
 
     @BuiltValueSerializer(custom: true)
-    static StructuredSerializer<AdditionalPropertiesClass> get serializer => _$AdditionalPropertiesClassSerializer();
+    static Serializer<AdditionalPropertiesClass> get serializer => _$AdditionalPropertiesClassSerializer();
 }
+
 
 class _$AdditionalPropertiesClassSerializer implements StructuredSerializer<AdditionalPropertiesClass> {
     @override
@@ -84,4 +83,7 @@ class _$AdditionalPropertiesClassSerializer implements StructuredSerializer<Addi
         return result.build();
     }
 }
+
+
+
 

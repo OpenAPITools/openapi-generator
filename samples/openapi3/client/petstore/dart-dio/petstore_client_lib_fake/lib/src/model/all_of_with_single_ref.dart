@@ -5,7 +5,6 @@
 import 'package:openapi/src/model/single_ref_type.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
-
 part 'all_of_with_single_ref.g.dart';
 
 /// AllOfWithSingleRef
@@ -13,13 +12,12 @@ part 'all_of_with_single_ref.g.dart';
 /// Properties:
 /// * [username] 
 /// * [singleRefType] 
+@BuiltValue()
 abstract class AllOfWithSingleRef implements Built<AllOfWithSingleRef, AllOfWithSingleRefBuilder> {
     @BuiltValueField(wireName: r'username')
     String? get username;
-
     @BuiltValueField(wireName: r'SingleRefType')
     SingleRefType? get singleRefType;
-
     AllOfWithSingleRef._();
 
     @BuiltValueHook(initializeBuilder: true)
@@ -28,8 +26,9 @@ abstract class AllOfWithSingleRef implements Built<AllOfWithSingleRef, AllOfWith
     factory AllOfWithSingleRef([void updates(AllOfWithSingleRefBuilder b)]) = _$AllOfWithSingleRef;
 
     @BuiltValueSerializer(custom: true)
-    static StructuredSerializer<AllOfWithSingleRef> get serializer => _$AllOfWithSingleRefSerializer();
+    static Serializer<AllOfWithSingleRef> get serializer => _$AllOfWithSingleRefSerializer();
 }
+
 
 class _$AllOfWithSingleRefSerializer implements StructuredSerializer<AllOfWithSingleRef> {
     @override
@@ -85,4 +84,7 @@ class _$AllOfWithSingleRefSerializer implements StructuredSerializer<AllOfWithSi
         return result.build();
     }
 }
+
+
+
 

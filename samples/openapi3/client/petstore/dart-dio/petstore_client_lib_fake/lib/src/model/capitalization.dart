@@ -4,7 +4,6 @@
 
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
-
 part 'capitalization.g.dart';
 
 /// Capitalization
@@ -16,26 +15,21 @@ part 'capitalization.g.dart';
 /// * [capitalSnake] 
 /// * [sCAETHFlowPoints] 
 /// * [ATT_NAME] - Name of the pet 
+@BuiltValue()
 abstract class Capitalization implements Built<Capitalization, CapitalizationBuilder> {
     @BuiltValueField(wireName: r'smallCamel')
     String? get smallCamel;
-
     @BuiltValueField(wireName: r'CapitalCamel')
     String? get capitalCamel;
-
     @BuiltValueField(wireName: r'small_Snake')
     String? get smallSnake;
-
     @BuiltValueField(wireName: r'Capital_Snake')
     String? get capitalSnake;
-
     @BuiltValueField(wireName: r'SCA_ETH_Flow_Points')
     String? get sCAETHFlowPoints;
-
     /// Name of the pet 
     @BuiltValueField(wireName: r'ATT_NAME')
     String? get ATT_NAME;
-
     Capitalization._();
 
     @BuiltValueHook(initializeBuilder: true)
@@ -44,8 +38,9 @@ abstract class Capitalization implements Built<Capitalization, CapitalizationBui
     factory Capitalization([void updates(CapitalizationBuilder b)]) = _$Capitalization;
 
     @BuiltValueSerializer(custom: true)
-    static StructuredSerializer<Capitalization> get serializer => _$CapitalizationSerializer();
+    static Serializer<Capitalization> get serializer => _$CapitalizationSerializer();
 }
+
 
 class _$CapitalizationSerializer implements StructuredSerializer<Capitalization> {
     @override
@@ -144,4 +139,7 @@ class _$CapitalizationSerializer implements StructuredSerializer<Capitalization>
         return result.build();
     }
 }
+
+
+
 

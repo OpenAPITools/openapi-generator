@@ -5,18 +5,17 @@
 import 'package:openapi/src/model/outer_enum_integer.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
-
 part 'outer_object_with_enum_property.g.dart';
 
 /// OuterObjectWithEnumProperty
 ///
 /// Properties:
 /// * [value] 
+@BuiltValue()
 abstract class OuterObjectWithEnumProperty implements Built<OuterObjectWithEnumProperty, OuterObjectWithEnumPropertyBuilder> {
     @BuiltValueField(wireName: r'value')
     OuterEnumInteger get value;
     // enum valueEnum {  0,  1,  2,  };
-
     OuterObjectWithEnumProperty._();
 
     @BuiltValueHook(initializeBuilder: true)
@@ -25,8 +24,9 @@ abstract class OuterObjectWithEnumProperty implements Built<OuterObjectWithEnumP
     factory OuterObjectWithEnumProperty([void updates(OuterObjectWithEnumPropertyBuilder b)]) = _$OuterObjectWithEnumProperty;
 
     @BuiltValueSerializer(custom: true)
-    static StructuredSerializer<OuterObjectWithEnumProperty> get serializer => _$OuterObjectWithEnumPropertySerializer();
+    static Serializer<OuterObjectWithEnumProperty> get serializer => _$OuterObjectWithEnumPropertySerializer();
 }
+
 
 class _$OuterObjectWithEnumPropertySerializer implements StructuredSerializer<OuterObjectWithEnumProperty> {
     @override
@@ -68,4 +68,7 @@ class _$OuterObjectWithEnumPropertySerializer implements StructuredSerializer<Ou
         return result.build();
     }
 }
+
+
+
 

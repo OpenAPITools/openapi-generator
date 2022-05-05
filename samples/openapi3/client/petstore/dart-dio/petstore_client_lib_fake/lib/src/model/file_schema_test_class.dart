@@ -6,7 +6,6 @@ import 'package:built_collection/built_collection.dart';
 import 'package:openapi/src/model/model_file.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
-
 part 'file_schema_test_class.g.dart';
 
 /// FileSchemaTestClass
@@ -14,13 +13,12 @@ part 'file_schema_test_class.g.dart';
 /// Properties:
 /// * [file] 
 /// * [files] 
+@BuiltValue()
 abstract class FileSchemaTestClass implements Built<FileSchemaTestClass, FileSchemaTestClassBuilder> {
     @BuiltValueField(wireName: r'file')
     ModelFile? get file;
-
     @BuiltValueField(wireName: r'files')
     BuiltList<ModelFile>? get files;
-
     FileSchemaTestClass._();
 
     @BuiltValueHook(initializeBuilder: true)
@@ -29,8 +27,9 @@ abstract class FileSchemaTestClass implements Built<FileSchemaTestClass, FileSch
     factory FileSchemaTestClass([void updates(FileSchemaTestClassBuilder b)]) = _$FileSchemaTestClass;
 
     @BuiltValueSerializer(custom: true)
-    static StructuredSerializer<FileSchemaTestClass> get serializer => _$FileSchemaTestClassSerializer();
+    static Serializer<FileSchemaTestClass> get serializer => _$FileSchemaTestClassSerializer();
 }
+
 
 class _$FileSchemaTestClassSerializer implements StructuredSerializer<FileSchemaTestClass> {
     @override
@@ -85,4 +84,7 @@ class _$FileSchemaTestClassSerializer implements StructuredSerializer<FileSchema
         return result.build();
     }
 }
+
+
+
 

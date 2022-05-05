@@ -4,7 +4,6 @@
 
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
-
 part 'api_response.g.dart';
 
 /// ApiResponse
@@ -13,16 +12,14 @@ part 'api_response.g.dart';
 /// * [code] 
 /// * [type] 
 /// * [message] 
+@BuiltValue()
 abstract class ApiResponse implements Built<ApiResponse, ApiResponseBuilder> {
     @BuiltValueField(wireName: r'code')
     int? get code;
-
     @BuiltValueField(wireName: r'type')
     String? get type;
-
     @BuiltValueField(wireName: r'message')
     String? get message;
-
     ApiResponse._();
 
     @BuiltValueHook(initializeBuilder: true)
@@ -31,8 +28,9 @@ abstract class ApiResponse implements Built<ApiResponse, ApiResponseBuilder> {
     factory ApiResponse([void updates(ApiResponseBuilder b)]) = _$ApiResponse;
 
     @BuiltValueSerializer(custom: true)
-    static StructuredSerializer<ApiResponse> get serializer => _$ApiResponseSerializer();
+    static Serializer<ApiResponse> get serializer => _$ApiResponseSerializer();
 }
+
 
 class _$ApiResponseSerializer implements StructuredSerializer<ApiResponse> {
     @override
@@ -98,4 +96,7 @@ class _$ApiResponseSerializer implements StructuredSerializer<ApiResponse> {
         return result.build();
     }
 }
+
+
+
 

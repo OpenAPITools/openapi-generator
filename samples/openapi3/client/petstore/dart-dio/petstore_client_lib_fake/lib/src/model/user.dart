@@ -4,7 +4,6 @@
 
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
-
 part 'user.g.dart';
 
 /// User
@@ -18,32 +17,25 @@ part 'user.g.dart';
 /// * [password] 
 /// * [phone] 
 /// * [userStatus] - User Status
+@BuiltValue()
 abstract class User implements Built<User, UserBuilder> {
     @BuiltValueField(wireName: r'id')
     int? get id;
-
     @BuiltValueField(wireName: r'username')
     String? get username;
-
     @BuiltValueField(wireName: r'firstName')
     String? get firstName;
-
     @BuiltValueField(wireName: r'lastName')
     String? get lastName;
-
     @BuiltValueField(wireName: r'email')
     String? get email;
-
     @BuiltValueField(wireName: r'password')
     String? get password;
-
     @BuiltValueField(wireName: r'phone')
     String? get phone;
-
     /// User Status
     @BuiltValueField(wireName: r'userStatus')
     int? get userStatus;
-
     User._();
 
     @BuiltValueHook(initializeBuilder: true)
@@ -52,8 +44,9 @@ abstract class User implements Built<User, UserBuilder> {
     factory User([void updates(UserBuilder b)]) = _$User;
 
     @BuiltValueSerializer(custom: true)
-    static StructuredSerializer<User> get serializer => _$UserSerializer();
+    static Serializer<User> get serializer => _$UserSerializer();
 }
+
 
 class _$UserSerializer implements StructuredSerializer<User> {
     @override
@@ -174,4 +167,7 @@ class _$UserSerializer implements StructuredSerializer<User> {
         return result.build();
     }
 }
+
+
+
 

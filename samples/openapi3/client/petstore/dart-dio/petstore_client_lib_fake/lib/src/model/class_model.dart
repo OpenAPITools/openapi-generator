@@ -4,17 +4,16 @@
 
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
-
 part 'class_model.g.dart';
 
 /// Model for testing model with \"_class\" property
 ///
 /// Properties:
 /// * [class_] 
+@BuiltValue()
 abstract class ClassModel implements Built<ClassModel, ClassModelBuilder> {
     @BuiltValueField(wireName: r'_class')
     String? get class_;
-
     ClassModel._();
 
     @BuiltValueHook(initializeBuilder: true)
@@ -23,8 +22,9 @@ abstract class ClassModel implements Built<ClassModel, ClassModelBuilder> {
     factory ClassModel([void updates(ClassModelBuilder b)]) = _$ClassModel;
 
     @BuiltValueSerializer(custom: true)
-    static StructuredSerializer<ClassModel> get serializer => _$ClassModelSerializer();
+    static Serializer<ClassModel> get serializer => _$ClassModelSerializer();
 }
+
 
 class _$ClassModelSerializer implements StructuredSerializer<ClassModel> {
     @override
@@ -68,4 +68,7 @@ class _$ClassModelSerializer implements StructuredSerializer<ClassModel> {
         return result.build();
     }
 }
+
+
+
 
