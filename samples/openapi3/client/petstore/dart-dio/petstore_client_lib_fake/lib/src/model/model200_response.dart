@@ -4,6 +4,8 @@
 
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
+// ignore_for_file: unused_element, unused_import
+
 part 'model200_response.g.dart';
 
 /// Model for testing model name starting with number

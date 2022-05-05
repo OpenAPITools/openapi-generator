@@ -4,6 +4,8 @@
 
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
+// ignore_for_file: unused_element, unused_import
+
 part 'health_check_result.g.dart';
 
 /// Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.

@@ -5,6 +5,8 @@
 import 'cat.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
+// ignore_for_file: unused_element, unused_import
+
 part 'cat_all_of.g.dart';
 
 /// CatAllOf

@@ -7,6 +7,8 @@ import 'package:openapi/src/model/category.dart';
 import 'package:openapi/src/model/tag.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
+// ignore_for_file: unused_element, unused_import
+
 part 'pet.g.dart';
 
 /// Pet

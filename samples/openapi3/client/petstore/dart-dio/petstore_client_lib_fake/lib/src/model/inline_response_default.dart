@@ -5,6 +5,8 @@
 import 'package:openapi/src/model/foo.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
+// ignore_for_file: unused_element, unused_import
+
 part 'inline_response_default.g.dart';
 
 /// InlineResponseDefault

@@ -1,11 +1,3 @@
-{{!
-    Classes with polymorphism or composition may generate unused imports,
-    these need to be ignored for said classes so that there are no lint errors.
-}}
-{{#parentModel}}
-// ignore_for_file: unused_import
-
-{{/parentModel}}
 /// {{{description}}}{{^description}}{{classname}}{{/description}}
 {{#hasVars}}
 ///

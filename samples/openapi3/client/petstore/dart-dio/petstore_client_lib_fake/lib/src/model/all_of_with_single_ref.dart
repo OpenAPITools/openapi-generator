@@ -5,6 +5,8 @@
 import 'package:openapi/src/model/single_ref_type.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
+// ignore_for_file: unused_element, unused_import
+
 part 'all_of_with_single_ref.g.dart';
 
 /// AllOfWithSingleRef

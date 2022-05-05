@@ -6,9 +6,9 @@ import 'package:openapi/src/model/animal.dart';
 import 'package:openapi/src/model/cat_all_of.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
-part 'cat.g.dart';
+// ignore_for_file: unused_element, unused_import
 
-// ignore_for_file: unused_import
+part 'cat.g.dart';
 
 /// Cat
 ///
