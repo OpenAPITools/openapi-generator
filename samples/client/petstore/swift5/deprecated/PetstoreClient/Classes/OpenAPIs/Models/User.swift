@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** A User who is purchasing from the pet store */
-public struct User: Codable, Hashable {
+public struct User: Codable, JSONEncodable, Hashable {
 
     public var id: Int64?
     public var username: String?

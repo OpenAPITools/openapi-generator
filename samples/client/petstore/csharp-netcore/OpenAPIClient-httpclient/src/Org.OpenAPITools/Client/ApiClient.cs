@@ -100,6 +100,10 @@ namespace Org.OpenAPITools.Client
             {
                 return await response.Content.ReadAsByteArrayAsync();
             }
+            else if (type == typeof(FileParameter))
+            {
+                return new FileParameter(await response.Content.ReadAsStreamAsync());
+            }
 
             // TODO: ? if (type.IsAssignableFrom(typeof(Stream)))
             if (type == typeof(Stream))
@@ -277,10 +281,12 @@ namespace Org.OpenAPITools.Client
             {
                 foreach (var fileParam in options.FileParameters)
                 {
-                    var content = new StreamContent(fileParam.Value.Content);
-                    content.Headers.ContentType = new MediaTypeHeaderValue(fileParam.Value.ContentType);
-                    multipartContent.Add(content, fileParam.Key,
-                        fileParam.Value.Name);
+                    foreach (var file in fileParam.Value)
+                    {
+                        var content = new StreamContent(file.Content);
+                        content.Headers.ContentType = new MediaTypeHeaderValue(file.ContentType);
+                        multipartContent.Add(content, fileParam.Key, file.Name);
+                    }
                 }
             }
             return multipartContent;

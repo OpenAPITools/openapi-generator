@@ -155,7 +155,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
-                let result = body.to_raw();
+                let result = body.into_raw();
                 match result.await {
                             Ok(body) => {
                                 let mut unused_elements: Vec<String> = vec![];
@@ -297,7 +297,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                 // Form Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
-                let result = body.to_raw();
+                let result = body.into_raw();
                 match result.await {
                             Ok(body) => {
                                 use std::io::Read;
@@ -446,7 +446,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
-                let result = body.to_raw();
+                let result = body.into_raw();
                 match result.await {
                             Ok(body) => {
                                 let mut unused_elements: Vec<String> = vec![];
@@ -563,16 +563,16 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 /// Request parser for `Api`.
 pub struct ApiRequestParser;
 impl<T> RequestParser<T> for ApiRequestParser {
-    fn parse_operation_id(request: &Request<T>) -> Result<&'static str, ()> {
+    fn parse_operation_id(request: &Request<T>) -> Option<&'static str> {
         let path = paths::GLOBAL_REGEX_SET.matches(request.uri().path());
         match request.method() {
             // MultipartRelatedRequestPost - POST /multipart_related_request
-            &hyper::Method::POST if path.matched(paths::ID_MULTIPART_RELATED_REQUEST) => Ok("MultipartRelatedRequestPost"),
+            &hyper::Method::POST if path.matched(paths::ID_MULTIPART_RELATED_REQUEST) => Some("MultipartRelatedRequestPost"),
             // MultipartRequestPost - POST /multipart_request
-            &hyper::Method::POST if path.matched(paths::ID_MULTIPART_REQUEST) => Ok("MultipartRequestPost"),
+            &hyper::Method::POST if path.matched(paths::ID_MULTIPART_REQUEST) => Some("MultipartRequestPost"),
             // MultipleIdenticalMimeTypesPost - POST /multiple-identical-mime-types
-            &hyper::Method::POST if path.matched(paths::ID_MULTIPLE_IDENTICAL_MIME_TYPES) => Ok("MultipleIdenticalMimeTypesPost"),
-            _ => Err(()),
+            &hyper::Method::POST if path.matched(paths::ID_MULTIPLE_IDENTICAL_MIME_TYPES) => Some("MultipleIdenticalMimeTypesPost"),
+            _ => None,
         }
     }
 }

@@ -39,6 +39,7 @@ async def add_pet(
         get_token_petstore_auth, scopes=["write:pets", "read:pets"]
     ),
 ) -> Pet:
+    """"""
     ...
 
 
@@ -57,6 +58,7 @@ async def delete_pet(
         get_token_petstore_auth, scopes=["write:pets", "read:pets"]
     ),
 ) -> None:
+    """"""
     ...
 
 
@@ -135,6 +137,7 @@ async def update_pet(
         get_token_petstore_auth, scopes=["write:pets", "read:pets"]
     ),
 ) -> Pet:
+    """"""
     ...
 
 
@@ -154,6 +157,7 @@ async def update_pet_with_form(
         get_token_petstore_auth, scopes=["write:pets", "read:pets"]
     ),
 ) -> None:
+    """"""
     ...
 
 
@@ -173,4 +177,5 @@ async def upload_file(
         get_token_petstore_auth, scopes=["write:pets", "read:pets"]
     ),
 ) -> ApiResponse:
+    """"""
     ...

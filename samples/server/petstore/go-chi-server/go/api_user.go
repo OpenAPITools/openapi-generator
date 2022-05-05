@@ -47,7 +47,7 @@ func NewUserApiController(s UserApiServicer, opts ...UserApiOption) Router {
 	return controller
 }
 
-// Routes returns all of the api route for the UserApiController
+// Routes returns all the api routes for the UserApiController
 func (c *UserApiController) Routes() Routes {
 	return Routes{ 
 		{
@@ -210,8 +210,8 @@ func (c *UserApiController) GetUserByName(w http.ResponseWriter, r *http.Request
 // LoginUser - Logs user into the system
 func (c *UserApiController) LoginUser(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query()
-	usernameParam := query.Get("username")
-	passwordParam := query.Get("password")
+	usernameParam :=  query.Get("username")
+	passwordParam :=  query.Get("password")
 	result, err := c.service.LoginUser(r.Context(), usernameParam, passwordParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {

@@ -355,11 +355,11 @@ if (status != null)
    * 
    * @param petId ID of pet to update (required)
    * @param additionalMetadata Additional data to pass to server (optional)
-   * @param file file to upload (optional)
+   * @param _file file to upload (optional)
    * @return a {@code ModelApiResponse}
    * @throws ApiException if fails to make API call
    */
-  public ModelApiResponse uploadFile(Long petId, String additionalMetadata, File file) throws ApiException {
+  public ModelApiResponse uploadFile(Long petId, String additionalMetadata, File _file) throws ApiException {
     Object localVarPostBody = null;
     
     // verify the required parameter 'petId' is set
@@ -382,8 +382,8 @@ if (status != null)
     
     if (additionalMetadata != null)
       localVarFormParams.put("additionalMetadata", additionalMetadata);
-if (file != null)
-      localVarFormParams.put("file", file);
+if (_file != null)
+      localVarFormParams.put("file", _file);
 
     final String[] localVarAccepts = {
       "application/json"

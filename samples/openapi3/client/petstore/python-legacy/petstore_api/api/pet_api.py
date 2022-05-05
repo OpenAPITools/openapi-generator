@@ -39,6 +39,7 @@ class PetApi(object):
     def add_pet(self, pet, **kwargs):  # noqa: E501
         """Add a new pet to the store  # noqa: E501
 
+          # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
@@ -68,6 +69,7 @@ class PetApi(object):
     def add_pet_with_http_info(self, pet, **kwargs):  # noqa: E501
         """Add a new pet to the store  # noqa: E501
 
+          # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
@@ -125,7 +127,8 @@ class PetApi(object):
                 '_preload_content',
                 '_request_timeout',
                 '_request_auth',
-                '_content_type'
+                '_content_type',
+                '_headers'
             ]
         )
 
@@ -138,8 +141,7 @@ class PetApi(object):
             local_var_params[key] = val
         del local_var_params['kwargs']
         # verify the required parameter 'pet' is set
-        if self.api_client.client_side_validation and ('pet' not in local_var_params or  # noqa: E501
-                                                        local_var_params['pet'] is None):  # noqa: E501
+        if self.api_client.client_side_validation and local_var_params.get('pet') is None:  # noqa: E501
             raise ApiValueError("Missing the required parameter `pet` when calling `add_pet`")  # noqa: E501
 
         collection_formats = {}
@@ -148,7 +150,7 @@ class PetApi(object):
 
         query_params = []
 
-        header_params = {}
+        header_params = dict(local_var_params.get('_headers', {}))
 
         form_params = []
         local_var_files = {}
@@ -157,10 +159,12 @@ class PetApi(object):
         if 'pet' in local_var_params:
             body_params = local_var_params['pet']
         # HTTP header `Content-Type`
-        header_params['Content-Type'] = local_var_params.get('_content_type',
+        content_types_list = local_var_params.get('_content_type',
             self.api_client.select_header_content_type(
                 ['application/json', 'application/xml'],
                 'POST', body_params))  # noqa: E501
+        if content_types_list:
+                header_params['Content-Type'] = content_types_list
 
         # Authentication setting
         auth_settings = ['petstore_auth']  # noqa: E501
@@ -188,6 +192,7 @@ class PetApi(object):
     def delete_pet(self, pet_id, **kwargs):  # noqa: E501
         """Deletes a pet  # noqa: E501
 
+          # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
@@ -219,6 +224,7 @@ class PetApi(object):
     def delete_pet_with_http_info(self, pet_id, **kwargs):  # noqa: E501
         """Deletes a pet  # noqa: E501
 
+          # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
@@ -266,7 +272,8 @@ class PetApi(object):
                 '_preload_content',
                 '_request_timeout',
                 '_request_auth',
-                '_content_type'
+                '_content_type',
+                '_headers'
             ]
         )
 
@@ -279,8 +286,7 @@ class PetApi(object):
             local_var_params[key] = val
         del local_var_params['kwargs']
         # verify the required parameter 'pet_id' is set
-        if self.api_client.client_side_validation and ('pet_id' not in local_var_params or  # noqa: E501
-                                                        local_var_params['pet_id'] is None):  # noqa: E501
+        if self.api_client.client_side_validation and local_var_params.get('pet_id') is None:  # noqa: E501
             raise ApiValueError("Missing the required parameter `pet_id` when calling `delete_pet`")  # noqa: E501
 
         collection_formats = {}
@@ -291,7 +297,7 @@ class PetApi(object):
 
         query_params = []
 
-        header_params = {}
+        header_params = dict(local_var_params.get('_headers', {}))
         if 'api_key' in local_var_params:
             header_params['api_key'] = local_var_params['api_key']  # noqa: E501
 
@@ -399,7 +405,8 @@ class PetApi(object):
                 '_preload_content',
                 '_request_timeout',
                 '_request_auth',
-                '_content_type'
+                '_content_type',
+                '_headers'
             ]
         )
 
@@ -412,8 +419,7 @@ class PetApi(object):
             local_var_params[key] = val
         del local_var_params['kwargs']
         # verify the required parameter 'status' is set
-        if self.api_client.client_side_validation and ('status' not in local_var_params or  # noqa: E501
-                                                        local_var_params['status'] is None):  # noqa: E501
+        if self.api_client.client_side_validation and local_var_params.get('status') is None:  # noqa: E501
             raise ApiValueError("Missing the required parameter `status` when calling `find_pets_by_status`")  # noqa: E501
 
         collection_formats = {}
@@ -421,11 +427,11 @@ class PetApi(object):
         path_params = {}
 
         query_params = []
-        if 'status' in local_var_params and local_var_params['status'] is not None:  # noqa: E501
+        if local_var_params.get('status') is not None:  # noqa: E501
             query_params.append(('status', local_var_params['status']))  # noqa: E501
             collection_formats['status'] = 'csv'  # noqa: E501
 
-        header_params = {}
+        header_params = dict(local_var_params.get('_headers', {}))
 
         form_params = []
         local_var_files = {}
@@ -538,7 +544,8 @@ class PetApi(object):
                 '_preload_content',
                 '_request_timeout',
                 '_request_auth',
-                '_content_type'
+                '_content_type',
+                '_headers'
             ]
         )
 
@@ -551,8 +558,7 @@ class PetApi(object):
             local_var_params[key] = val
         del local_var_params['kwargs']
         # verify the required parameter 'tags' is set
-        if self.api_client.client_side_validation and ('tags' not in local_var_params or  # noqa: E501
-                                                        local_var_params['tags'] is None):  # noqa: E501
+        if self.api_client.client_side_validation and local_var_params.get('tags') is None:  # noqa: E501
             raise ApiValueError("Missing the required parameter `tags` when calling `find_pets_by_tags`")  # noqa: E501
 
         collection_formats = {}
@@ -560,11 +566,11 @@ class PetApi(object):
         path_params = {}
 
         query_params = []
-        if 'tags' in local_var_params and local_var_params['tags'] is not None:  # noqa: E501
+        if local_var_params.get('tags') is not None:  # noqa: E501
             query_params.append(('tags', local_var_params['tags']))  # noqa: E501
             collection_formats['tags'] = 'csv'  # noqa: E501
 
-        header_params = {}
+        header_params = dict(local_var_params.get('_headers', {}))
 
         form_params = []
         local_var_files = {}
@@ -677,7 +683,8 @@ class PetApi(object):
                 '_preload_content',
                 '_request_timeout',
                 '_request_auth',
-                '_content_type'
+                '_content_type',
+                '_headers'
             ]
         )
 
@@ -690,8 +697,7 @@ class PetApi(object):
             local_var_params[key] = val
         del local_var_params['kwargs']
         # verify the required parameter 'pet_id' is set
-        if self.api_client.client_side_validation and ('pet_id' not in local_var_params or  # noqa: E501
-                                                        local_var_params['pet_id'] is None):  # noqa: E501
+        if self.api_client.client_side_validation and local_var_params.get('pet_id') is None:  # noqa: E501
             raise ApiValueError("Missing the required parameter `pet_id` when calling `get_pet_by_id`")  # noqa: E501
 
         collection_formats = {}
@@ -702,7 +708,7 @@ class PetApi(object):
 
         query_params = []
 
-        header_params = {}
+        header_params = dict(local_var_params.get('_headers', {}))
 
         form_params = []
         local_var_files = {}
@@ -741,6 +747,7 @@ class PetApi(object):
     def update_pet(self, pet, **kwargs):  # noqa: E501
         """Update an existing pet  # noqa: E501
 
+          # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
@@ -770,6 +777,7 @@ class PetApi(object):
     def update_pet_with_http_info(self, pet, **kwargs):  # noqa: E501
         """Update an existing pet  # noqa: E501
 
+          # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
@@ -827,7 +835,8 @@ class PetApi(object):
                 '_preload_content',
                 '_request_timeout',
                 '_request_auth',
-                '_content_type'
+                '_content_type',
+                '_headers'
             ]
         )
 
@@ -840,8 +849,7 @@ class PetApi(object):
             local_var_params[key] = val
         del local_var_params['kwargs']
         # verify the required parameter 'pet' is set
-        if self.api_client.client_side_validation and ('pet' not in local_var_params or  # noqa: E501
-                                                        local_var_params['pet'] is None):  # noqa: E501
+        if self.api_client.client_side_validation and local_var_params.get('pet') is None:  # noqa: E501
             raise ApiValueError("Missing the required parameter `pet` when calling `update_pet`")  # noqa: E501
 
         collection_formats = {}
@@ -850,7 +858,7 @@ class PetApi(object):
 
         query_params = []
 
-        header_params = {}
+        header_params = dict(local_var_params.get('_headers', {}))
 
         form_params = []
         local_var_files = {}
@@ -859,10 +867,12 @@ class PetApi(object):
         if 'pet' in local_var_params:
             body_params = local_var_params['pet']
         # HTTP header `Content-Type`
-        header_params['Content-Type'] = local_var_params.get('_content_type',
+        content_types_list = local_var_params.get('_content_type',
             self.api_client.select_header_content_type(
                 ['application/json', 'application/xml'],
                 'PUT', body_params))  # noqa: E501
+        if content_types_list:
+                header_params['Content-Type'] = content_types_list
 
         # Authentication setting
         auth_settings = ['petstore_auth']  # noqa: E501
@@ -890,6 +900,7 @@ class PetApi(object):
     def update_pet_with_form(self, pet_id, **kwargs):  # noqa: E501
         """Updates a pet in the store with form data  # noqa: E501
 
+          # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
@@ -923,6 +934,7 @@ class PetApi(object):
     def update_pet_with_form_with_http_info(self, pet_id, **kwargs):  # noqa: E501
         """Updates a pet in the store with form data  # noqa: E501
 
+          # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
@@ -973,7 +985,8 @@ class PetApi(object):
                 '_preload_content',
                 '_request_timeout',
                 '_request_auth',
-                '_content_type'
+                '_content_type',
+                '_headers'
             ]
         )
 
@@ -986,8 +999,7 @@ class PetApi(object):
             local_var_params[key] = val
         del local_var_params['kwargs']
         # verify the required parameter 'pet_id' is set
-        if self.api_client.client_side_validation and ('pet_id' not in local_var_params or  # noqa: E501
-                                                        local_var_params['pet_id'] is None):  # noqa: E501
+        if self.api_client.client_side_validation and local_var_params.get('pet_id') is None:  # noqa: E501
             raise ApiValueError("Missing the required parameter `pet_id` when calling `update_pet_with_form`")  # noqa: E501
 
         collection_formats = {}
@@ -998,7 +1010,7 @@ class PetApi(object):
 
         query_params = []
 
-        header_params = {}
+        header_params = dict(local_var_params.get('_headers', {}))
 
         form_params = []
         local_var_files = {}
@@ -1009,10 +1021,12 @@ class PetApi(object):
 
         body_params = None
         # HTTP header `Content-Type`
-        header_params['Content-Type'] = local_var_params.get('_content_type',
+        content_types_list = local_var_params.get('_content_type',
             self.api_client.select_header_content_type(
                 ['application/x-www-form-urlencoded'],
                 'POST', body_params))  # noqa: E501
+        if content_types_list:
+                header_params['Content-Type'] = content_types_list
 
         # Authentication setting
         auth_settings = ['petstore_auth']  # noqa: E501
@@ -1039,6 +1053,7 @@ class PetApi(object):
     def upload_file(self, pet_id, **kwargs):  # noqa: E501
         """uploads an image  # noqa: E501
 
+          # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
@@ -1072,6 +1087,7 @@ class PetApi(object):
     def upload_file_with_http_info(self, pet_id, **kwargs):  # noqa: E501
         """uploads an image  # noqa: E501
 
+          # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
@@ -1122,7 +1138,8 @@ class PetApi(object):
                 '_preload_content',
                 '_request_timeout',
                 '_request_auth',
-                '_content_type'
+                '_content_type',
+                '_headers'
             ]
         )
 
@@ -1135,8 +1152,7 @@ class PetApi(object):
             local_var_params[key] = val
         del local_var_params['kwargs']
         # verify the required parameter 'pet_id' is set
-        if self.api_client.client_side_validation and ('pet_id' not in local_var_params or  # noqa: E501
-                                                        local_var_params['pet_id'] is None):  # noqa: E501
+        if self.api_client.client_side_validation and local_var_params.get('pet_id') is None:  # noqa: E501
             raise ApiValueError("Missing the required parameter `pet_id` when calling `upload_file`")  # noqa: E501
 
         collection_formats = {}
@@ -1147,7 +1163,7 @@ class PetApi(object):
 
         query_params = []
 
-        header_params = {}
+        header_params = dict(local_var_params.get('_headers', {}))
 
         form_params = []
         local_var_files = {}
@@ -1162,10 +1178,12 @@ class PetApi(object):
             ['application/json'])  # noqa: E501
 
         # HTTP header `Content-Type`
-        header_params['Content-Type'] = local_var_params.get('_content_type',
+        content_types_list = local_var_params.get('_content_type',
             self.api_client.select_header_content_type(
                 ['multipart/form-data'],
                 'POST', body_params))  # noqa: E501
+        if content_types_list:
+                header_params['Content-Type'] = content_types_list
 
         # Authentication setting
         auth_settings = ['petstore_auth']  # noqa: E501
@@ -1194,6 +1212,7 @@ class PetApi(object):
     def upload_file_with_required_file(self, pet_id, required_file, **kwargs):  # noqa: E501
         """uploads an image (required)  # noqa: E501
 
+          # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
@@ -1227,6 +1246,7 @@ class PetApi(object):
     def upload_file_with_required_file_with_http_info(self, pet_id, required_file, **kwargs):  # noqa: E501
         """uploads an image (required)  # noqa: E501
 
+          # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
@@ -1277,7 +1297,8 @@ class PetApi(object):
                 '_preload_content',
                 '_request_timeout',
                 '_request_auth',
-                '_content_type'
+                '_content_type',
+                '_headers'
             ]
         )
 
@@ -1290,12 +1311,10 @@ class PetApi(object):
             local_var_params[key] = val
         del local_var_params['kwargs']
         # verify the required parameter 'pet_id' is set
-        if self.api_client.client_side_validation and ('pet_id' not in local_var_params or  # noqa: E501
-                                                        local_var_params['pet_id'] is None):  # noqa: E501
+        if self.api_client.client_side_validation and local_var_params.get('pet_id') is None:  # noqa: E501
             raise ApiValueError("Missing the required parameter `pet_id` when calling `upload_file_with_required_file`")  # noqa: E501
         # verify the required parameter 'required_file' is set
-        if self.api_client.client_side_validation and ('required_file' not in local_var_params or  # noqa: E501
-                                                        local_var_params['required_file'] is None):  # noqa: E501
+        if self.api_client.client_side_validation and local_var_params.get('required_file') is None:  # noqa: E501
             raise ApiValueError("Missing the required parameter `required_file` when calling `upload_file_with_required_file`")  # noqa: E501
 
         collection_formats = {}
@@ -1306,7 +1325,7 @@ class PetApi(object):
 
         query_params = []
 
-        header_params = {}
+        header_params = dict(local_var_params.get('_headers', {}))
 
         form_params = []
         local_var_files = {}
@@ -1321,10 +1340,12 @@ class PetApi(object):
             ['application/json'])  # noqa: E501
 
         # HTTP header `Content-Type`
-        header_params['Content-Type'] = local_var_params.get('_content_type',
+        content_types_list = local_var_params.get('_content_type',
             self.api_client.select_header_content_type(
                 ['multipart/form-data'],
                 'POST', body_params))  # noqa: E501
+        if content_types_list:
+                header_params['Content-Type'] = content_types_list
 
         # Authentication setting
         auth_settings = ['petstore_auth']  # noqa: E501

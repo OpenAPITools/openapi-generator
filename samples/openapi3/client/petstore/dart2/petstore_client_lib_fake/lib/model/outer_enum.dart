@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.0
+// @dart=2.12
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -19,7 +19,7 @@ class OuterEnum {
   final String value;
 
   @override
-  String toString() => value ?? '';
+  String toString() => value;
 
   String toJson() => value;
 
@@ -34,13 +34,20 @@ class OuterEnum {
     delivered,
   ];
 
-  static OuterEnum fromJson(dynamic value) =>
-    OuterEnumTypeTransformer().decode(value);
+  static OuterEnum? fromJson(dynamic value) => OuterEnumTypeTransformer().decode(value);
 
-  static List<OuterEnum> listFromJson(dynamic json, {bool emptyIsNull, bool growable,}) =>
-    json is List && json.isNotEmpty
-      ? json.map(OuterEnum.fromJson).toList(growable: true == growable)
-      : true == emptyIsNull ? null : <OuterEnum>[];
+  static List<OuterEnum>? listFromJson(dynamic json, {bool growable = false,}) {
+    final result = <OuterEnum>[];
+    if (json is List && json.isNotEmpty) {
+      for (final row in json) {
+        final value = OuterEnum.fromJson(row);
+        if (value != null) {
+          result.add(value);
+        }
+      }
+    }
+    return result.toList(growable: growable);
+  }
 }
 
 /// Transformation class that can [encode] an instance of [OuterEnum] to String,
@@ -60,14 +67,14 @@ class OuterEnumTypeTransformer {
   ///
   /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
   /// and users are still using an old app with the old code.
-  OuterEnum decode(dynamic data, {bool allowNull}) {
+  OuterEnum? decode(dynamic data, {bool allowNull = true}) {
     if (data != null) {
       switch (data.toString()) {
         case r'placed': return OuterEnum.placed;
         case r'approved': return OuterEnum.approved;
         case r'delivered': return OuterEnum.delivered;
         default:
-          if (allowNull == false) {
+          if (!allowNull) {
             throw ArgumentError('Unknown enum value to decode: $data');
           }
       }
@@ -76,6 +83,6 @@ class OuterEnumTypeTransformer {
   }
 
   /// Singleton [OuterEnumTypeTransformer] instance.
-  static OuterEnumTypeTransformer _instance;
+  static OuterEnumTypeTransformer? _instance;
 }
 

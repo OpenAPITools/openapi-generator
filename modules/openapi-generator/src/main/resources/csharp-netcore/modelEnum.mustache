@@ -8,7 +8,9 @@
     {{#enumVars}}
     {{#-first}}
     {{#isString}}
+    {{^useGenericHost}}
     [JsonConverter(typeof(StringEnumConverter))]
+    {{/useGenericHost}}
     {{/isString}}
     {{/-first}}
     {{/enumVars}}

@@ -12,7 +12,7 @@
 
 package org.openapitools.client.api;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -29,7 +29,8 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
-import org.junit.*;
+
+import org.junit.jupiter.api.*;
 import org.openapitools.client.*;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.auth.*;
@@ -38,7 +39,9 @@ import org.openapitools.client.model.Pet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/** API tests for PetApi */
+/**
+ * API tests for PetApi
+ */
 public class PetApiTest {
 
     private PetApi api = new PetApi();
@@ -47,7 +50,7 @@ public class PetApiTest {
     // to 127.0.0.1
     private static String basePath = "http://petstore.swagger.io:80/v2";
 
-    @Before
+    @BeforeEach
     public void setup() {
         // setup authentication
         ApiKeyAuth apiKeyAuth = (ApiKeyAuth) api.getApiClient().getAuthentication("api_key");
@@ -219,7 +222,8 @@ public class PetApiTest {
         } while (result.isEmpty());
         assertNotNull(exception);
         assertEquals(404, exception.getCode());
-        assertEquals("Not Found", exception.getMessage());
+        String pattern = "^Message: Not Found\\RHTTP response code: 404\\RHTTP response body: .*\\RHTTP response headers: .*$";
+        assertTrue(exception.getMessage().matches(pattern));
         assertEquals("application/json", exception.getResponseHeaders().get("Content-Type").get(0));
         api.deletePet(pet.getId(), null);
     }
@@ -323,21 +327,21 @@ public class PetApiTest {
     }
 
     @Test
-    @Ignore
+    @Disabled
     public void testFindPetsByTags() throws Exception {
         Pet pet = createPet();
         pet.setName("monster");
         pet.setStatus(Pet.StatusEnum.AVAILABLE);
 
-        List<Tag> tags = new ArrayList<Tag>();
-        Tag tag1 = new Tag();
+        List<org.openapitools.client.model.Tag> tags = new ArrayList<org.openapitools.client.model.Tag>();
+        org.openapitools.client.model.Tag tag1 = new org.openapitools.client.model.Tag();
         tag1.setName("friendly");
         tags.add(tag1);
         pet.setTags(tags);
 
         api.updatePet(pet);
 
-        Set<Pet> pets = api.findPetsByTags(new HashSet<>(Arrays.asList("friendly")));
+        List<Pet> pets = api.findPetsByTags((Arrays.asList("friendly")));
         assertNotNull(pets);
 
         boolean found = false;
@@ -368,6 +372,7 @@ public class PetApiTest {
     }
 
     @Test
+    @Disabled
     public void testDeletePet() throws Exception {
         Pet pet = createPet();
         api.addPet(pet);
@@ -410,7 +415,7 @@ public class PetApiTest {
 
         pet2.setName("really-happy");
         pet2.setPhotoUrls(
-                new HashSet<>(Arrays.asList("http://foo.bar.com/1", "http://foo.bar.com/2")));
+                (Arrays.asList("http://foo.bar.com/1", "http://foo.bar.com/2")));
         assertFalse(pet1.equals(pet2));
         assertFalse(pet2.equals(pet1));
         assertFalse(pet1.hashCode() == (pet2.hashCode()));
@@ -419,7 +424,7 @@ public class PetApiTest {
 
         pet1.setName("really-happy");
         pet1.setPhotoUrls(
-                new HashSet<>(Arrays.asList("http://foo.bar.com/1", "http://foo.bar.com/2")));
+                (Arrays.asList("http://foo.bar.com/1", "http://foo.bar.com/2")));
         assertTrue(pet1.equals(pet2));
         assertTrue(pet2.equals(pet1));
         assertTrue(pet1.hashCode() == pet2.hashCode());
@@ -437,8 +442,8 @@ public class PetApiTest {
 
         pet.setCategory(category);
         pet.setStatus(Pet.StatusEnum.AVAILABLE);
-        Set<String> photos =
-                new HashSet<>(Arrays.asList("http://foo.bar.com/1", "http://foo.bar.com/2"));
+        List<String> photos =
+                (Arrays.asList("http://foo.bar.com/1", "http://foo.bar.com/2"));
         pet.setPhotoUrls(photos);
 
         return pet;

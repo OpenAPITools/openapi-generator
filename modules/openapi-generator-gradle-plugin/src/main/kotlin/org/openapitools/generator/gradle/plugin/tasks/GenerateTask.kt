@@ -169,6 +169,13 @@ open class GenerateTask : DefaultTask() {
     val modelNameSuffix = project.objects.property<String>()
 
     /**
+     * Suffix that will be appended to all api names. Default is the empty string.
+     */
+    @Optional
+    @Input
+    val apiNameSuffix = project.objects.property<String>()
+
+    /**
      * Sets instantiation type mappings.
      */
     @Optional
@@ -211,6 +218,13 @@ open class GenerateTask : DefaultTask() {
     @Optional
     @Input
     val importMappings = project.objects.mapProperty<String, String>()
+
+    /**
+     * Specifies mappings between the inline scheme name and the new name
+     */
+    @Optional
+    @Input
+    val inlineSchemaNameMappings = project.objects.mapProperty<String, String>()
 
     /**
      * Root package for generated code.
@@ -573,6 +587,10 @@ open class GenerateTask : DefaultTask() {
                 configurator.setModelNameSuffix(value)
             }
 
+            apiNameSuffix.ifNotEmpty { value ->
+                configurator.setApiNameSuffix(value)
+            }
+
             invokerPackage.ifNotEmpty { value ->
                 configurator.setInvokerPackage(value)
             }
@@ -664,6 +682,12 @@ open class GenerateTask : DefaultTask() {
             if (importMappings.isPresent) {
                 importMappings.get().forEach { entry ->
                     configurator.addImportMapping(entry.key, entry.value)
+                }
+            }
+
+            if (inlineSchemaNameMappings.isPresent) {
+                inlineSchemaNameMappings.get().forEach { entry ->
+                    configurator.addInlineSchemaNameMapping(entry.key, entry.value)
                 }
             }
 

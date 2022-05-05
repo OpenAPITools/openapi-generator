@@ -12,16 +12,18 @@
  * Do not edit the class manually.
  */
 
+
 /**
  * Type of pet part
  * @export
- * @enum {string}
  */
-export enum PetPartType {
-    Curved = 'Curved',
-    Smooth = 'Smooth',
-    Long = 'Long'
-}
+export const PetPartType = {
+    Curved: 'Curved',
+    Smooth: 'Smooth',
+    Long: 'Long'
+} as const;
+export type PetPartType = typeof PetPartType[keyof typeof PetPartType];
+
 
 export function PetPartTypeFromJSON(json: any): PetPartType {
     return PetPartTypeFromJSONTyped(json, false);

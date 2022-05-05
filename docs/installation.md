@@ -54,6 +54,29 @@ Then, **generate** a ruby client from a valid [petstore.yaml](https://raw.github
 openapi-generator generate -i petstore.yaml -g ruby -o /tmp/test/
 ```
 
+## Scoop
+
+> **Platform(s)**: Windows
+
+**Install** via [scoop](https://scoop.sh/):
+
+```
+scoop install openapi-generator-cli
+```
+
+If you don't have java installed, you can also install it via [scoop java bucket](https://github.com/ScoopInstaller/Java/):
+
+```
+scoop bucket add java
+scoop install openjdk
+```
+
+Then, **generate** a ruby client from a valid [petstore.yaml](https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/3_0/petstore.yaml) doc:
+
+```
+openapi-generator-cli generate -i petstore.yaml -g ruby
+```
+
 ## Docker
 
 > **Platform(s)**: Linux, macOS, Windows
@@ -108,7 +131,7 @@ export PATH=${JAVA_HOME}/bin:$PATH
 
 > **Platform(s)**: Linux, macOS, Windows (variable)
 
-One downside to manual JAR downloads is that you don't keep up-to-date with the latest released version. We have a Bash launcher script at [bin/utils/openapi-generator.cli.sh](https://raw.githubusercontent.com/OpenAPITools/openapi-generator/master/bin/utils/openapi-generator-cli.sh) which solves this problem.
+One downside to manual JAR downloads is that you don't keep up-to-date with the latest released version. We have a Bash launcher script at [bin/utils/openapi-generator-cli.sh](https://raw.githubusercontent.com/OpenAPITools/openapi-generator/master/bin/utils/openapi-generator-cli.sh) which solves this problem.
 
 To install the launcher script, copy the contents of the script to a location on your path and make the script executable.
 

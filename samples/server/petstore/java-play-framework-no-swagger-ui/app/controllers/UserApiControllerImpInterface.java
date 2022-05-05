@@ -15,7 +15,9 @@ import play.mvc.Result;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.JsonNode;
 import openapitools.OpenAPIUtils;
+import openapitools.SecurityAPIUtils;
 import static play.mvc.Results.ok;
+import static play.mvc.Results.unauthorized;
 import play.libs.Files.TemporaryFile;
 
 import javax.validation.constraints.*;
@@ -23,11 +25,12 @@ import javax.validation.constraints.*;
 @SuppressWarnings("RedundantThrows")
 public abstract class UserApiControllerImpInterface {
     @Inject private Config configuration;
+    @Inject private SecurityAPIUtils securityAPIUtils;
     private ObjectMapper mapper = new ObjectMapper();
 
     public Result createUserHttp(Http.Request request, User body) throws Exception {
         createUser(request, body);
-return ok();
+        return ok();
 
     }
 
@@ -35,7 +38,7 @@ return ok();
 
     public Result createUsersWithArrayInputHttp(Http.Request request, List<User> body) throws Exception {
         createUsersWithArrayInput(request, body);
-return ok();
+        return ok();
 
     }
 
@@ -43,7 +46,7 @@ return ok();
 
     public Result createUsersWithListInputHttp(Http.Request request, List<User> body) throws Exception {
         createUsersWithListInput(request, body);
-return ok();
+        return ok();
 
     }
 
@@ -51,7 +54,7 @@ return ok();
 
     public Result deleteUserHttp(Http.Request request, String username) throws Exception {
         deleteUser(request, username);
-return ok();
+        return ok();
 
     }
 
@@ -59,11 +62,14 @@ return ok();
 
     public Result getUserByNameHttp(Http.Request request, String username) throws Exception {
         User obj = getUserByName(request, username);
-    if (configuration.getBoolean("useOutputBeanValidation")) {
+
+        if (configuration.getBoolean("useOutputBeanValidation")) {
             OpenAPIUtils.validate(obj);
-    }
-JsonNode result = mapper.valueToTree(obj);
-return ok(result);
+        }
+
+        JsonNode result = mapper.valueToTree(obj);
+
+        return ok(result);
 
     }
 
@@ -71,8 +77,9 @@ return ok(result);
 
     public Result loginUserHttp(Http.Request request, @NotNull String username, @NotNull String password) throws Exception {
         String obj = loginUser(request, username, password);
-JsonNode result = mapper.valueToTree(obj);
-return ok(result);
+        JsonNode result = mapper.valueToTree(obj);
+
+        return ok(result);
 
     }
 
@@ -80,7 +87,7 @@ return ok(result);
 
     public Result logoutUserHttp(Http.Request request) throws Exception {
         logoutUser(request);
-return ok();
+        return ok();
 
     }
 
@@ -88,7 +95,7 @@ return ok();
 
     public Result updateUserHttp(Http.Request request, String username, User body) throws Exception {
         updateUser(request, username, body);
-return ok();
+        return ok();
 
     }
 

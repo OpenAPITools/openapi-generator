@@ -21,7 +21,7 @@ See the [openapi-generator-maven-plugin README](https://github.com/OpenAPITools/
 
 ### sbt Integration
 
-Please refer to https://github.com/upstart-commerce/sbt-openapi-generator
+Please refer to https://github.com/OpenAPITools/sbt-openapi-generator
 
 ### Bazel Integration
 

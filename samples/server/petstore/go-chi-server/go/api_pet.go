@@ -47,7 +47,7 @@ func NewPetApiController(s PetApiServicer, opts ...PetApiOption) Router {
 	return controller
 }
 
-// Routes returns all of the api route for the PetApiController
+// Routes returns all the api routes for the PetApiController
 func (c *PetApiController) Routes() Routes {
 	return Routes{ 
 		{
@@ -148,7 +148,7 @@ func (c *PetApiController) DeletePet(w http.ResponseWriter, r *http.Request) {
 // FindPetsByStatus - Finds Pets by status
 func (c *PetApiController) FindPetsByStatus(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query()
-	statusParam := []string( strings.Split(query.Get("status"), ",") )
+	statusParam := strings.Split(query.Get("status"), ",")
 	result, err := c.service.FindPetsByStatus(r.Context(), statusParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
@@ -164,7 +164,7 @@ func (c *PetApiController) FindPetsByStatus(w http.ResponseWriter, r *http.Reque
 // Deprecated
 func (c *PetApiController) FindPetsByTags(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query()
-	tagsParam := []string( strings.Split(query.Get("tags"), ",") )
+	tagsParam := strings.Split(query.Get("tags"), ",")
 	result, err := c.service.FindPetsByTags(r.Context(), tagsParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
