@@ -31,7 +31,7 @@ abstract class ApiResponse implements Built<ApiResponse, ApiResponseBuilder> {
     factory ApiResponse([void updates(ApiResponseBuilder b)]) = _$ApiResponse;
 
     @BuiltValueSerializer(custom: true)
-    static Serializer<ApiResponse> get serializer => _$ApiResponseSerializer();
+    static StructuredSerializer<ApiResponse> get serializer => _$ApiResponseSerializer();
 }
 
 class _$ApiResponseSerializer implements StructuredSerializer<ApiResponse> {

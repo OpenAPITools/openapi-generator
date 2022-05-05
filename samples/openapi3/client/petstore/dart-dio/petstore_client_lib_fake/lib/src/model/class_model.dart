@@ -23,7 +23,7 @@ abstract class ClassModel implements Built<ClassModel, ClassModelBuilder> {
     factory ClassModel([void updates(ClassModelBuilder b)]) = _$ClassModel;
 
     @BuiltValueSerializer(custom: true)
-    static Serializer<ClassModel> get serializer => _$ClassModelSerializer();
+    static StructuredSerializer<ClassModel> get serializer => _$ClassModelSerializer();
 }
 
 class _$ClassModelSerializer implements StructuredSerializer<ClassModel> {

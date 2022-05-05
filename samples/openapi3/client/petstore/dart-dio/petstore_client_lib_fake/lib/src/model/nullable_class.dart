@@ -70,7 +70,7 @@ abstract class NullableClass implements Built<NullableClass, NullableClassBuilde
     factory NullableClass([void updates(NullableClassBuilder b)]) = _$NullableClass;
 
     @BuiltValueSerializer(custom: true)
-    static Serializer<NullableClass> get serializer => _$NullableClassSerializer();
+    static StructuredSerializer<NullableClass> get serializer => _$NullableClassSerializer();
 }
 
 class _$NullableClassSerializer implements StructuredSerializer<NullableClass> {

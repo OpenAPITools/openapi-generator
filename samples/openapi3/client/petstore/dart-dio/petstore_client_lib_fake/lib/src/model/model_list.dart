@@ -23,7 +23,7 @@ abstract class ModelList implements Built<ModelList, ModelListBuilder> {
     factory ModelList([void updates(ModelListBuilder b)]) = _$ModelList;
 
     @BuiltValueSerializer(custom: true)
-    static Serializer<ModelList> get serializer => _$ModelListSerializer();
+    static StructuredSerializer<ModelList> get serializer => _$ModelListSerializer();
 }
 
 class _$ModelListSerializer implements StructuredSerializer<ModelList> {

@@ -23,7 +23,7 @@ abstract class ModelReturn implements Built<ModelReturn, ModelReturnBuilder> {
     factory ModelReturn([void updates(ModelReturnBuilder b)]) = _$ModelReturn;
 
     @BuiltValueSerializer(custom: true)
-    static Serializer<ModelReturn> get serializer => _$ModelReturnSerializer();
+    static StructuredSerializer<ModelReturn> get serializer => _$ModelReturnSerializer();
 }
 
 class _$ModelReturnSerializer implements StructuredSerializer<ModelReturn> {

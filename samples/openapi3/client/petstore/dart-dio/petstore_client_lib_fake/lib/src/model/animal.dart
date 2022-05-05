@@ -28,7 +28,7 @@ abstract class Animal implements Built<Animal, AnimalBuilder> {
     factory Animal([void updates(AnimalBuilder b)]) = _$Animal;
 
     @BuiltValueSerializer(custom: true)
-    static Serializer<Animal> get serializer => _$AnimalSerializer();
+    static StructuredSerializer<Animal> get serializer => _$AnimalSerializer();
 }
 
 class _$AnimalSerializer implements StructuredSerializer<Animal> {

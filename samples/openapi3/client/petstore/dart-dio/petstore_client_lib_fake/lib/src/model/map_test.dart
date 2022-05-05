@@ -37,7 +37,7 @@ abstract class MapTest implements Built<MapTest, MapTestBuilder> {
     factory MapTest([void updates(MapTestBuilder b)]) = _$MapTest;
 
     @BuiltValueSerializer(custom: true)
-    static Serializer<MapTest> get serializer => _$MapTestSerializer();
+    static StructuredSerializer<MapTest> get serializer => _$MapTestSerializer();
 }
 
 class _$MapTestSerializer implements StructuredSerializer<MapTest> {

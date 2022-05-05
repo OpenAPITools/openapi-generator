@@ -44,7 +44,7 @@ abstract class Capitalization implements Built<Capitalization, CapitalizationBui
     factory Capitalization([void updates(CapitalizationBuilder b)]) = _$Capitalization;
 
     @BuiltValueSerializer(custom: true)
-    static Serializer<Capitalization> get serializer => _$CapitalizationSerializer();
+    static StructuredSerializer<Capitalization> get serializer => _$CapitalizationSerializer();
 }
 
 class _$CapitalizationSerializer implements StructuredSerializer<Capitalization> {

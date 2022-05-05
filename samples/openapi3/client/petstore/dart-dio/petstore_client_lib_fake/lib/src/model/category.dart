@@ -28,7 +28,7 @@ abstract class Category implements Built<Category, CategoryBuilder> {
     factory Category([void updates(CategoryBuilder b)]) = _$Category;
 
     @BuiltValueSerializer(custom: true)
-    static Serializer<Category> get serializer => _$CategorySerializer();
+    static StructuredSerializer<Category> get serializer => _$CategorySerializer();
 }
 
 class _$CategorySerializer implements StructuredSerializer<Category> {

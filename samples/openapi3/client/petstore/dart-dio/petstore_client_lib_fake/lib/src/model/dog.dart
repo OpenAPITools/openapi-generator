@@ -36,7 +36,7 @@ abstract class Dog implements Built<Dog, DogBuilder> {
     factory Dog([void updates(DogBuilder b)]) = _$Dog;
 
     @BuiltValueSerializer(custom: true)
-    static Serializer<Dog> get serializer => _$DogSerializer();
+    static StructuredSerializer<Dog> get serializer => _$DogSerializer();
 }
 
 class _$DogSerializer implements StructuredSerializer<Dog> {

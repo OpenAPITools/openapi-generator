@@ -64,7 +64,7 @@ abstract class EnumTest implements Built<EnumTest, EnumTestBuilder> {
     factory EnumTest([void updates(EnumTestBuilder b)]) = _$EnumTest;
 
     @BuiltValueSerializer(custom: true)
-    static Serializer<EnumTest> get serializer => _$EnumTestSerializer();
+    static StructuredSerializer<EnumTest> get serializer => _$EnumTestSerializer();
 }
 
 class _$EnumTestSerializer implements StructuredSerializer<EnumTest> {

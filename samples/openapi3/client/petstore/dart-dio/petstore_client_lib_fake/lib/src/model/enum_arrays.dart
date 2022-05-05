@@ -30,7 +30,7 @@ abstract class EnumArrays implements Built<EnumArrays, EnumArraysBuilder> {
     factory EnumArrays([void updates(EnumArraysBuilder b)]) = _$EnumArrays;
 
     @BuiltValueSerializer(custom: true)
-    static Serializer<EnumArrays> get serializer => _$EnumArraysSerializer();
+    static StructuredSerializer<EnumArrays> get serializer => _$EnumArraysSerializer();
 }
 
 class _$EnumArraysSerializer implements StructuredSerializer<EnumArrays> {

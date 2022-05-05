@@ -28,7 +28,7 @@ abstract class AllOfWithSingleRef implements Built<AllOfWithSingleRef, AllOfWith
     factory AllOfWithSingleRef([void updates(AllOfWithSingleRefBuilder b)]) = _$AllOfWithSingleRef;
 
     @BuiltValueSerializer(custom: true)
-    static Serializer<AllOfWithSingleRef> get serializer => _$AllOfWithSingleRefSerializer();
+    static StructuredSerializer<AllOfWithSingleRef> get serializer => _$AllOfWithSingleRefSerializer();
 }
 
 class _$AllOfWithSingleRefSerializer implements StructuredSerializer<AllOfWithSingleRef> {

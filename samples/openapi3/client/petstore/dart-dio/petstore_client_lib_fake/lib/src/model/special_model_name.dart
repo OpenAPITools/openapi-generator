@@ -23,7 +23,7 @@ abstract class SpecialModelName implements Built<SpecialModelName, SpecialModelN
     factory SpecialModelName([void updates(SpecialModelNameBuilder b)]) = _$SpecialModelName;
 
     @BuiltValueSerializer(custom: true)
-    static Serializer<SpecialModelName> get serializer => _$SpecialModelNameSerializer();
+    static StructuredSerializer<SpecialModelName> get serializer => _$SpecialModelNameSerializer();
 }
 
 class _$SpecialModelNameSerializer implements StructuredSerializer<SpecialModelName> {

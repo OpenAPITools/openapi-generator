@@ -37,7 +37,7 @@ abstract class ObjectWithDeprecatedFields implements Built<ObjectWithDeprecatedF
     factory ObjectWithDeprecatedFields([void updates(ObjectWithDeprecatedFieldsBuilder b)]) = _$ObjectWithDeprecatedFields;
 
     @BuiltValueSerializer(custom: true)
-    static Serializer<ObjectWithDeprecatedFields> get serializer => _$ObjectWithDeprecatedFieldsSerializer();
+    static StructuredSerializer<ObjectWithDeprecatedFields> get serializer => _$ObjectWithDeprecatedFieldsSerializer();
 }
 
 class _$ObjectWithDeprecatedFieldsSerializer implements StructuredSerializer<ObjectWithDeprecatedFields> {

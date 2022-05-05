@@ -52,7 +52,7 @@ abstract class User implements Built<User, UserBuilder> {
     factory User([void updates(UserBuilder b)]) = _$User;
 
     @BuiltValueSerializer(custom: true)
-    static Serializer<User> get serializer => _$UserSerializer();
+    static StructuredSerializer<User> get serializer => _$UserSerializer();
 }
 
 class _$UserSerializer implements StructuredSerializer<User> {

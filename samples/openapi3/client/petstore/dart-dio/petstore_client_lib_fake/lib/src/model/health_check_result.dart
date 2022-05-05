@@ -23,7 +23,7 @@ abstract class HealthCheckResult implements Built<HealthCheckResult, HealthCheck
     factory HealthCheckResult([void updates(HealthCheckResultBuilder b)]) = _$HealthCheckResult;
 
     @BuiltValueSerializer(custom: true)
-    static Serializer<HealthCheckResult> get serializer => _$HealthCheckResultSerializer();
+    static StructuredSerializer<HealthCheckResult> get serializer => _$HealthCheckResultSerializer();
 }
 
 class _$HealthCheckResultSerializer implements StructuredSerializer<HealthCheckResult> {

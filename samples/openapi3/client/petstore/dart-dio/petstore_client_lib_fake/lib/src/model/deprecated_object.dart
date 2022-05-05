@@ -23,7 +23,7 @@ abstract class DeprecatedObject implements Built<DeprecatedObject, DeprecatedObj
     factory DeprecatedObject([void updates(DeprecatedObjectBuilder b)]) = _$DeprecatedObject;
 
     @BuiltValueSerializer(custom: true)
-    static Serializer<DeprecatedObject> get serializer => _$DeprecatedObjectSerializer();
+    static StructuredSerializer<DeprecatedObject> get serializer => _$DeprecatedObjectSerializer();
 }
 
 class _$DeprecatedObjectSerializer implements StructuredSerializer<DeprecatedObject> {

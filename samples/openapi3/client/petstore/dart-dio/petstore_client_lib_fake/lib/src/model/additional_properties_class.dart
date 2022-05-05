@@ -28,7 +28,7 @@ abstract class AdditionalPropertiesClass implements Built<AdditionalPropertiesCl
     factory AdditionalPropertiesClass([void updates(AdditionalPropertiesClassBuilder b)]) = _$AdditionalPropertiesClass;
 
     @BuiltValueSerializer(custom: true)
-    static Serializer<AdditionalPropertiesClass> get serializer => _$AdditionalPropertiesClassSerializer();
+    static StructuredSerializer<AdditionalPropertiesClass> get serializer => _$AdditionalPropertiesClassSerializer();
 }
 
 class _$AdditionalPropertiesClassSerializer implements StructuredSerializer<AdditionalPropertiesClass> {

@@ -24,7 +24,7 @@ abstract class ModelFile implements Built<ModelFile, ModelFileBuilder> {
     factory ModelFile([void updates(ModelFileBuilder b)]) = _$ModelFile;
 
     @BuiltValueSerializer(custom: true)
-    static Serializer<ModelFile> get serializer => _$ModelFileSerializer();
+    static StructuredSerializer<ModelFile> get serializer => _$ModelFileSerializer();
 }
 
 class _$ModelFileSerializer implements StructuredSerializer<ModelFile> {

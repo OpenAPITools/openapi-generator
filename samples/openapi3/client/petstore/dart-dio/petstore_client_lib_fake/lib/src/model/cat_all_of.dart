@@ -23,7 +23,7 @@ abstract class CatAllOf implements Built<CatAllOf, CatAllOfBuilder> {
     factory CatAllOf([void updates(CatAllOfBuilder b)]) = _$CatAllOf;
 
     @BuiltValueSerializer(custom: true)
-    static Serializer<CatAllOf> get serializer => _$CatAllOfSerializer();
+    static StructuredSerializer<CatAllOf> get serializer => _$CatAllOfSerializer();
 }
 
 class _$CatAllOfSerializer implements StructuredSerializer<CatAllOf> {

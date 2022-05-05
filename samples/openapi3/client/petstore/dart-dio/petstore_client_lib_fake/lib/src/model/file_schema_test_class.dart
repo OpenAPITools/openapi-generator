@@ -29,7 +29,7 @@ abstract class FileSchemaTestClass implements Built<FileSchemaTestClass, FileSch
     factory FileSchemaTestClass([void updates(FileSchemaTestClassBuilder b)]) = _$FileSchemaTestClass;
 
     @BuiltValueSerializer(custom: true)
-    static Serializer<FileSchemaTestClass> get serializer => _$FileSchemaTestClassSerializer();
+    static StructuredSerializer<FileSchemaTestClass> get serializer => _$FileSchemaTestClassSerializer();
 }
 
 class _$FileSchemaTestClassSerializer implements StructuredSerializer<FileSchemaTestClass> {

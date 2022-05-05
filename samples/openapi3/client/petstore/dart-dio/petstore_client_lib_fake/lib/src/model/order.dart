@@ -47,7 +47,7 @@ abstract class Order implements Built<Order, OrderBuilder> {
     factory Order([void updates(OrderBuilder b)]) = _$Order;
 
     @BuiltValueSerializer(custom: true)
-    static Serializer<Order> get serializer => _$OrderSerializer();
+    static StructuredSerializer<Order> get serializer => _$OrderSerializer();
 }
 
 class _$OrderSerializer implements StructuredSerializer<Order> {

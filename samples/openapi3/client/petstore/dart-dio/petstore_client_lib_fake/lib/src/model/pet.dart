@@ -48,7 +48,7 @@ abstract class Pet implements Built<Pet, PetBuilder> {
     factory Pet([void updates(PetBuilder b)]) = _$Pet;
 
     @BuiltValueSerializer(custom: true)
-    static Serializer<Pet> get serializer => _$PetSerializer();
+    static StructuredSerializer<Pet> get serializer => _$PetSerializer();
 }
 
 class _$PetSerializer implements StructuredSerializer<Pet> {

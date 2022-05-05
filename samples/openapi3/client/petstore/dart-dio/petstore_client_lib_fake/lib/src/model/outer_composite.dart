@@ -31,7 +31,7 @@ abstract class OuterComposite implements Built<OuterComposite, OuterCompositeBui
     factory OuterComposite([void updates(OuterCompositeBuilder b)]) = _$OuterComposite;
 
     @BuiltValueSerializer(custom: true)
-    static Serializer<OuterComposite> get serializer => _$OuterCompositeSerializer();
+    static StructuredSerializer<OuterComposite> get serializer => _$OuterCompositeSerializer();
 }
 
 class _$OuterCompositeSerializer implements StructuredSerializer<OuterComposite> {

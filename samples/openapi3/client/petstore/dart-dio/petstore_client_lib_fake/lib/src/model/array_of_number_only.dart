@@ -24,7 +24,7 @@ abstract class ArrayOfNumberOnly implements Built<ArrayOfNumberOnly, ArrayOfNumb
     factory ArrayOfNumberOnly([void updates(ArrayOfNumberOnlyBuilder b)]) = _$ArrayOfNumberOnly;
 
     @BuiltValueSerializer(custom: true)
-    static Serializer<ArrayOfNumberOnly> get serializer => _$ArrayOfNumberOnlySerializer();
+    static StructuredSerializer<ArrayOfNumberOnly> get serializer => _$ArrayOfNumberOnlySerializer();
 }
 
 class _$ArrayOfNumberOnlySerializer implements StructuredSerializer<ArrayOfNumberOnly> {

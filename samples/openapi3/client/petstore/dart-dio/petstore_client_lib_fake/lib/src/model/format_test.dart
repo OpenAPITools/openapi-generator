@@ -87,7 +87,7 @@ abstract class FormatTest implements Built<FormatTest, FormatTestBuilder> {
     factory FormatTest([void updates(FormatTestBuilder b)]) = _$FormatTest;
 
     @BuiltValueSerializer(custom: true)
-    static Serializer<FormatTest> get serializer => _$FormatTestSerializer();
+    static StructuredSerializer<FormatTest> get serializer => _$FormatTestSerializer();
 }
 
 class _$FormatTestSerializer implements StructuredSerializer<FormatTest> {

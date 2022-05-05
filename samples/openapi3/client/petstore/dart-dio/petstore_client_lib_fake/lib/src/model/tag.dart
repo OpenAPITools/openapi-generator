@@ -27,7 +27,7 @@ abstract class Tag implements Built<Tag, TagBuilder> {
     factory Tag([void updates(TagBuilder b)]) = _$Tag;
 
     @BuiltValueSerializer(custom: true)
-    static Serializer<Tag> get serializer => _$TagSerializer();
+    static StructuredSerializer<Tag> get serializer => _$TagSerializer();
 }
 
 class _$TagSerializer implements StructuredSerializer<Tag> {

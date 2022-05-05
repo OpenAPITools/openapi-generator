@@ -27,7 +27,7 @@ abstract class Model200Response implements Built<Model200Response, Model200Respo
     factory Model200Response([void updates(Model200ResponseBuilder b)]) = _$Model200Response;
 
     @BuiltValueSerializer(custom: true)
-    static Serializer<Model200Response> get serializer => _$Model200ResponseSerializer();
+    static StructuredSerializer<Model200Response> get serializer => _$Model200ResponseSerializer();
 }
 
 class _$Model200ResponseSerializer implements StructuredSerializer<Model200Response> {

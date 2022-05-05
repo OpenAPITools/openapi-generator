@@ -23,7 +23,7 @@ abstract class NumberOnly implements Built<NumberOnly, NumberOnlyBuilder> {
     factory NumberOnly([void updates(NumberOnlyBuilder b)]) = _$NumberOnly;
 
     @BuiltValueSerializer(custom: true)
-    static Serializer<NumberOnly> get serializer => _$NumberOnlySerializer();
+    static StructuredSerializer<NumberOnly> get serializer => _$NumberOnlySerializer();
 }
 
 class _$NumberOnlySerializer implements StructuredSerializer<NumberOnly> {

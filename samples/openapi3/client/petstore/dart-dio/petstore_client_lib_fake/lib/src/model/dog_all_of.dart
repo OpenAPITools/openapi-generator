@@ -23,7 +23,7 @@ abstract class DogAllOf implements Built<DogAllOf, DogAllOfBuilder> {
     factory DogAllOf([void updates(DogAllOfBuilder b)]) = _$DogAllOf;
 
     @BuiltValueSerializer(custom: true)
-    static Serializer<DogAllOf> get serializer => _$DogAllOfSerializer();
+    static StructuredSerializer<DogAllOf> get serializer => _$DogAllOfSerializer();
 }
 
 class _$DogAllOfSerializer implements StructuredSerializer<DogAllOf> {

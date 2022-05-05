@@ -24,7 +24,7 @@ abstract class InlineResponseDefault implements Built<InlineResponseDefault, Inl
     factory InlineResponseDefault([void updates(InlineResponseDefaultBuilder b)]) = _$InlineResponseDefault;
 
     @BuiltValueSerializer(custom: true)
-    static Serializer<InlineResponseDefault> get serializer => _$InlineResponseDefaultSerializer();
+    static StructuredSerializer<InlineResponseDefault> get serializer => _$InlineResponseDefaultSerializer();
 }
 
 class _$InlineResponseDefaultSerializer implements StructuredSerializer<InlineResponseDefault> {

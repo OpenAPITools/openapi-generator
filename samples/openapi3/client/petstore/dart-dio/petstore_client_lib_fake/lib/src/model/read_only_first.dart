@@ -27,7 +27,7 @@ abstract class ReadOnlyFirst implements Built<ReadOnlyFirst, ReadOnlyFirstBuilde
     factory ReadOnlyFirst([void updates(ReadOnlyFirstBuilder b)]) = _$ReadOnlyFirst;
 
     @BuiltValueSerializer(custom: true)
-    static Serializer<ReadOnlyFirst> get serializer => _$ReadOnlyFirstSerializer();
+    static StructuredSerializer<ReadOnlyFirst> get serializer => _$ReadOnlyFirstSerializer();
 }
 
 class _$ReadOnlyFirstSerializer implements StructuredSerializer<ReadOnlyFirst> {

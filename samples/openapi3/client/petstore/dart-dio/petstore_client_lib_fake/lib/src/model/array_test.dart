@@ -33,7 +33,7 @@ abstract class ArrayTest implements Built<ArrayTest, ArrayTestBuilder> {
     factory ArrayTest([void updates(ArrayTestBuilder b)]) = _$ArrayTest;
 
     @BuiltValueSerializer(custom: true)
-    static Serializer<ArrayTest> get serializer => _$ArrayTestSerializer();
+    static StructuredSerializer<ArrayTest> get serializer => _$ArrayTestSerializer();
 }
 
 class _$ArrayTestSerializer implements StructuredSerializer<ArrayTest> {

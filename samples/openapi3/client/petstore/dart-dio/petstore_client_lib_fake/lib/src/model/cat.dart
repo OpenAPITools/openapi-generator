@@ -36,7 +36,7 @@ abstract class Cat implements Built<Cat, CatBuilder> {
     factory Cat([void updates(CatBuilder b)]) = _$Cat;
 
     @BuiltValueSerializer(custom: true)
-    static Serializer<Cat> get serializer => _$CatSerializer();
+    static StructuredSerializer<Cat> get serializer => _$CatSerializer();
 }
 
 class _$CatSerializer implements StructuredSerializer<Cat> {

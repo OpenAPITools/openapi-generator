@@ -35,7 +35,7 @@ abstract class Name implements Built<Name, NameBuilder> {
     factory Name([void updates(NameBuilder b)]) = _$Name;
 
     @BuiltValueSerializer(custom: true)
-    static Serializer<Name> get serializer => _$NameSerializer();
+    static StructuredSerializer<Name> get serializer => _$NameSerializer();
 }
 
 class _$NameSerializer implements StructuredSerializer<Name> {

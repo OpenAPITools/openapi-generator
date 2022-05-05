@@ -27,7 +27,7 @@ abstract class HasOnlyReadOnly implements Built<HasOnlyReadOnly, HasOnlyReadOnly
     factory HasOnlyReadOnly([void updates(HasOnlyReadOnlyBuilder b)]) = _$HasOnlyReadOnly;
 
     @BuiltValueSerializer(custom: true)
-    static Serializer<HasOnlyReadOnly> get serializer => _$HasOnlyReadOnlySerializer();
+    static StructuredSerializer<HasOnlyReadOnly> get serializer => _$HasOnlyReadOnlySerializer();
 }
 
 class _$HasOnlyReadOnlySerializer implements StructuredSerializer<HasOnlyReadOnly> {

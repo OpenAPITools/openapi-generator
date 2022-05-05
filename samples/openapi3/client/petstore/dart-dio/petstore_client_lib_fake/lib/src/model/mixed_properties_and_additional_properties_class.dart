@@ -33,7 +33,7 @@ abstract class MixedPropertiesAndAdditionalPropertiesClass implements Built<Mixe
     factory MixedPropertiesAndAdditionalPropertiesClass([void updates(MixedPropertiesAndAdditionalPropertiesClassBuilder b)]) = _$MixedPropertiesAndAdditionalPropertiesClass;
 
     @BuiltValueSerializer(custom: true)
-    static Serializer<MixedPropertiesAndAdditionalPropertiesClass> get serializer => _$MixedPropertiesAndAdditionalPropertiesClassSerializer();
+    static StructuredSerializer<MixedPropertiesAndAdditionalPropertiesClass> get serializer => _$MixedPropertiesAndAdditionalPropertiesClassSerializer();
 }
 
 class _$MixedPropertiesAndAdditionalPropertiesClassSerializer implements StructuredSerializer<MixedPropertiesAndAdditionalPropertiesClass> {

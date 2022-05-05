@@ -24,7 +24,7 @@ abstract class Foo implements Built<Foo, FooBuilder> {
     factory Foo([void updates(FooBuilder b)]) = _$Foo;
 
     @BuiltValueSerializer(custom: true)
-    static Serializer<Foo> get serializer => _$FooSerializer();
+    static StructuredSerializer<Foo> get serializer => _$FooSerializer();
 }
 
 class _$FooSerializer implements StructuredSerializer<Foo> {

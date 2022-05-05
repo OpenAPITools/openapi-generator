@@ -23,7 +23,7 @@ abstract class ModelClient implements Built<ModelClient, ModelClientBuilder> {
     factory ModelClient([void updates(ModelClientBuilder b)]) = _$ModelClient;
 
     @BuiltValueSerializer(custom: true)
-    static Serializer<ModelClient> get serializer => _$ModelClientSerializer();
+    static StructuredSerializer<ModelClient> get serializer => _$ModelClientSerializer();
 }
 
 class _$ModelClientSerializer implements StructuredSerializer<ModelClient> {
