@@ -2,7 +2,12 @@
  * {{#description}}{{.}}{{/description}}{{^description}}{{classname}}{{/description}}
  */
 {{#description}}
+    {{#generateSwagger1Annotations}}
 @ApiModel(description = "{{{description}}}")
+    {{/generateSwagger1Annotations}}
+    {{#generateSwagger2Annotations}}
+@Schema({{#name}}name = "{{name}}", {{/name}}description = "{{{description}}}")
+    {{/generateSwagger2Annotations}}
 {{/description}}
 {{#jackson}}
 @JsonPropertyOrder({
@@ -177,7 +182,13 @@ Declare the class with extends and implements
         {{/maximum}}
      * @return {{name}}
      **/
-{{>common/model/beanValidation}}    @ApiModelProperty({{#example}}example = "{{{example}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}")
+{{>common/model/beanValidation}}{{!
+        }}{{#generateSwagger1Annotations}}
+    @ApiModelProperty({{#example}}example = "{{{example}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}")
+        {{/generateSwagger1Annotations}}
+        {{#generateSwagger2Annotations}}
+    @Schema(name = "{{{baseName}}}", {{#isReadOnly}}accessMode = Schema.AccessMode.READ_ONLY, {{/isReadOnly}}{{#example}}example = "{{{.}}}", {{/example}}{{#description}}description = "{{{.}}}", {{/description}}required = {{{required}}})
+        {{/generateSwagger2Annotations}}
         {{#vendorExtensions.x-extra-annotation}}
     {{{vendorExtensions.x-extra-annotation}}}
         {{/vendorExtensions.x-extra-annotation}}

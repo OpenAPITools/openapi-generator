@@ -12,7 +12,6 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 
@@ -46,7 +45,7 @@ public class JavaMicronautServerCodegen extends JavaMicronautAbstractCodegen {
     public JavaMicronautServerCodegen() {
         super();
 
-        title = "OpenAPI Micronaut Server";;
+        title = "OpenAPI Micronaut Server";
         apiPackage = "org.openapitools.api";
         apiDocPath = "docs/controllers";
 

@@ -1,5 +1,6 @@
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
@@ -36,6 +37,11 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
     public static final String OPT_REACTIVE = "reactive";
     public static final String OPT_WRAP_IN_HTTP_RESPONSE = "wrapInHttpResponse";
     public static final String OPT_APPLICATION_NAME = "applicationName";
+    public static final String OPT_GENERATE_SWAGGER_ANNOTATIONS = "generateSwaggerAnnotations";
+    public static final String OPT_GENERATE_SWAGGER_ANNOTATIONS_SWAGGER_1 = "swagger1";
+    public static final String OPT_GENERATE_SWAGGER_ANNOTATIONS_SWAGGER_2 = "swagger2";
+    public static final String OPT_GENERATE_SWAGGER_ANNOTATIONS_TRUE = "true";
+    public static final String OPT_GENERATE_SWAGGER_ANNOTATIONS_FALSE = "false";
 
     protected String title;
     protected boolean useBeanValidation;
@@ -48,6 +54,7 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
     protected boolean reactive;
     protected boolean wrapInHttpResponse;
     protected String appName;
+    protected String generateSwaggerAnnotations;
 
     public static final String CONTENT_TYPE_APPLICATION_FORM_URLENCODED = "application/x-www-form-urlencoded";
     public static final String CONTENT_TYPE_APPLICATION_JSON = "application/json";
@@ -66,11 +73,11 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
         visitable = false;
         buildTool = OPT_BUILD_ALL;
         testTool = OPT_TEST_JUNIT;
-        outputFolder = "generated-code/java-micronaut-client";
+        outputFolder = "generated-code/java-micronaut";
         apiPackage = "org.openapitools.api";
         modelPackage = "org.openapitools.model";
         invokerPackage = "org.openapitools";
-        artifactId = "openapi-micronaut-client";
+        artifactId = "openapi-micronaut";
         embeddedTemplateDir = templateDir = "java-micronaut";
         apiDocPath = "docs/apis";
         modelDocPath = "docs/models";
@@ -79,6 +86,7 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
         reactive = true;
         wrapInHttpResponse = false;
         appName = artifactId;
+        generateSwaggerAnnotations = OPT_GENERATE_SWAGGER_ANNOTATIONS_SWAGGER_2;
 
         // Set implemented features for user information
         modifyFeatureSet(features -> features
@@ -131,6 +139,15 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
         testToolOptionMap.put(OPT_TEST_SPOCK, "Use Spock as test tool");
         testToolOption.setEnum(testToolOptionMap);
         cliOptions.add(testToolOption);
+
+        CliOption generateSwaggerAnnotationsOption = new CliOption(OPT_GENERATE_SWAGGER_ANNOTATIONS, "Specify if you want to generate swagger annotations and which version").defaultValue(generateSwaggerAnnotations);
+        Map<String, String> generateSwaggerAnnotationsOptionMap = new HashMap<>();
+        generateSwaggerAnnotationsOptionMap.put(OPT_GENERATE_SWAGGER_ANNOTATIONS_SWAGGER_1, "Use io.swagger:swagger-annotations for annotating operations and schemas");
+        generateSwaggerAnnotationsOptionMap.put(OPT_GENERATE_SWAGGER_ANNOTATIONS_SWAGGER_2, "Use o.swagger.core.v3:swagger-annotations for annotating operations and schemas");
+        generateSwaggerAnnotationsOptionMap.put(OPT_GENERATE_SWAGGER_ANNOTATIONS_TRUE, "Equivalent to \"" + OPT_GENERATE_SWAGGER_ANNOTATIONS_SWAGGER_2 + "\"");
+        generateSwaggerAnnotationsOptionMap.put(OPT_GENERATE_SWAGGER_ANNOTATIONS_FALSE, "Do not generate swagger annotations");
+        generateSwaggerAnnotationsOption.setEnum(generateSwaggerAnnotationsOptionMap);
+        cliOptions.add(generateSwaggerAnnotationsOption);
 
         cliOptions.add(new CliOption(OPT_DATE_FORMAT, "Specify the format pattern of date as a string"));
         cliOptions.add(new CliOption(OPT_DATETIME_FORMAT, "Specify the format pattern of date-time as a string"));
@@ -238,6 +255,29 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
             additionalProperties.put("isTestJunit", true);
         } else if (testTool.equals(OPT_TEST_SPOCK)) {
             additionalProperties.put("isTestSpock", true);
+        }
+
+        if (additionalProperties.containsKey(OPT_GENERATE_SWAGGER_ANNOTATIONS)) {
+            String value = String.valueOf(additionalProperties.get(OPT_GENERATE_SWAGGER_ANNOTATIONS));
+            switch (value) {
+                case OPT_GENERATE_SWAGGER_ANNOTATIONS_SWAGGER_1:
+                    this.generateSwaggerAnnotations = OPT_GENERATE_SWAGGER_ANNOTATIONS_SWAGGER_1;
+                    break;
+                case OPT_GENERATE_SWAGGER_ANNOTATIONS_SWAGGER_2:
+                case OPT_GENERATE_SWAGGER_ANNOTATIONS_TRUE:
+                    this.generateSwaggerAnnotations = OPT_GENERATE_SWAGGER_ANNOTATIONS_SWAGGER_2;
+                    break;
+                case OPT_GENERATE_SWAGGER_ANNOTATIONS_FALSE:
+                    this.generateSwaggerAnnotations = OPT_GENERATE_SWAGGER_ANNOTATIONS_FALSE;
+                    break;
+                default:
+                    throw new RuntimeException("Value \"" + value + "\" for the " + OPT_GENERATE_SWAGGER_ANNOTATIONS + " parameter is unsupported or misspelled");
+            }
+        }
+        if (OPT_GENERATE_SWAGGER_ANNOTATIONS_SWAGGER_1.equals(this.generateSwaggerAnnotations)) {
+            additionalProperties.put("generateSwagger1Annotations", true);
+        } else if (OPT_GENERATE_SWAGGER_ANNOTATIONS_SWAGGER_2.equals(this.generateSwaggerAnnotations)) {
+            additionalProperties.put("generateSwagger2Annotations", true);
         }
 
         // Add all the supporting files
@@ -453,6 +493,14 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
         }
 
         return objs;
+    }
+
+    @Override
+    public CodegenModel fromModel(String name, Schema model) {
+        CodegenModel codegenModel = super.fromModel(name, model);
+        codegenModel.imports.remove("ApiModel");
+        codegenModel.imports.remove("ApiModelProperty");
+        return codegenModel;
     }
 
     @Override

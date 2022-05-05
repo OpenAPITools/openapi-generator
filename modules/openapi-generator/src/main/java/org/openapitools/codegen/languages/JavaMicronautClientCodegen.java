@@ -22,6 +22,8 @@ public class JavaMicronautClientCodegen extends JavaMicronautAbstractCodegen {
     public JavaMicronautClientCodegen() {
         super();
 
+        artifactId = "openapi-micronaut-client";
+        outputFolder = "generated-code/java-micronaut-client";
         title = "OpenAPI Micronaut Client";
         configureAuthorization = false;
 
