@@ -43,6 +43,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -332,6 +333,56 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
     }
 
     @Override
+    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
+        objs = super.postProcessAllModels(objs);
+        Map<String, CodegenModel> allModels = new HashMap<>();
+        for (ModelsMap modelsEntries : objs.values()) {
+            for (ModelMap modelsMap : modelsEntries.getModels()) {
+                CodegenModel model = modelsMap.getModel();
+                allModels.put(model.getClassname(), model);
+            }
+        }
+
+        for (CodegenModel cm : allModels.values()) {
+            List<String> interfaces = cm.getInterfaces();
+            if (interfaces != null && !interfaces.isEmpty()) {
+                cm.vendorExtensions.put("x-is-child", true);
+                // has parents, is child
+                List<CodegenModel> parents = new ArrayList<>();
+                Set<String> parentPropNames = new HashSet<>();
+                for (String parentName : interfaces) {
+                    CodegenModel parentModel = allModels.get(parentName);
+                    for (CodegenProperty parentProp : parentModel.getAllVars()) {
+                        parentPropNames.add(parentProp.getName());
+                    }
+                    parents.add(parentModel);
+                    parentModel.vendorExtensions.put("x-is-parent", true);
+                    List<CodegenModel> children = parentModel.getChildren();
+                    if (children == null) {
+                        parentModel.setChildren(children = new ArrayList<>());
+                    }
+                    parentModel.imports.add(cm.getClassFilename() + ".dart");
+                    // every model is iterated exactly once, so children will always have unique
+                    // items
+                    children.add(cm);
+                }
+                cm.setInterfaceModels(parents);
+
+                // check for inherited props
+                for (CodegenProperty prop : Stream.concat(cm.getVars().stream(), cm.getAllVars().stream())
+                        .collect(Collectors.toList())) {
+                    if (parentPropNames.contains(prop.getName())) {
+                        prop.isInherited = true;
+                    }
+                }
+            }
+
+        }
+
+        return objs;
+    }
+
+    @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         super.postProcessModelProperty(model, property);
         if (SERIALIZATION_LIBRARY_BUILT_VALUE.equals(library)) {
@@ -361,7 +412,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         super.postProcessOperationsWithModels(objs, allModels);
         OperationMap operations = objs.getOperations();
-        List<CodegenOperation> operationList =  operations.getOperation();
+        List<CodegenOperation> operationList = operations.getOperation();
 
         Set<String> resultImports = new HashSet<>();
 
@@ -403,7 +454,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
                 for (CodegenParameter param : op.allParams) {
                     // Generate serializer factories for all container type parameters.
                     // But skip binary and file parameters, JSON serializers don't make sense there.
-                    if (param.isContainer && !(param.isBinary || param.isFile )) {
+                    if (param.isContainer && !(param.isBinary || param.isFile)) {
                         addBuiltValueSerializer(new BuiltValueSerializer(
                                 param.isArray,
                                 param.uniqueItems,
