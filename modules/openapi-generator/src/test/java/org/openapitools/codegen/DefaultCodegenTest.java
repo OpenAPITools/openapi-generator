@@ -4125,4 +4125,29 @@ public class DefaultCodegenTest {
         assertEquals(cp.baseName, "SchemaFor201ResponseBodyTextPlain");
         assertTrue(cp.isString);
     }
+
+    @Test
+    public void testUnalias() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/schema-unalias-test.yml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        Schema requestBodySchema = ModelUtils.getSchemaFromRequestBody(
+                openAPI.getPaths().get("/thingy/{date}").getPost().getRequestBody());
+        Assert.assertEquals(requestBodySchema.get$ref(), "#/components/schemas/updatePetWithForm_request");
+        Assert.assertEquals(ModelUtils.getSimpleRef(requestBodySchema.get$ref()), "updatePetWithForm_request");
+        Assert.assertNotNull(openAPI.getComponents().getSchemas().get(ModelUtils.getSimpleRef(requestBodySchema.get$ref())));
+
+        Schema requestBodySchema2 = ModelUtils.unaliasSchema(openAPI, requestBodySchema);
+        // get$ref is not null as unaliasSchem returns the schema with the last $ref to the actual schema
+        Assert.assertNotNull(requestBodySchema2.get$ref());
+        Assert.assertEquals(requestBodySchema2.get$ref(), "#/components/schemas/updatePetWithForm_request");
+
+        Schema requestBodySchema3 = ModelUtils.getReferencedSchema(openAPI, requestBodySchema);
+        CodegenParameter codegenParameter = codegen.fromFormProperty("visitDate",
+                (Schema) requestBodySchema3.getProperties().get("visitDate"), new HashSet<>());
+
+        Assert.assertEquals(codegenParameter.defaultValue, "1971-12-19T03:39:57-08:00");
+        Assert.assertEquals(codegenParameter.getSchema(), null);
+    }
 }
