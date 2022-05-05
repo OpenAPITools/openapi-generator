@@ -1017,7 +1017,7 @@ public class ModelUtils {
      * Return the first defined Schema for a RequestBody
      *
      * @param requestBody request body of the operation
-     * @return firstSchema
+     * @return first schema
      */
     public static Schema getSchemaFromRequestBody(RequestBody requestBody) {
         return getSchemaFromContent(requestBody.getContent());

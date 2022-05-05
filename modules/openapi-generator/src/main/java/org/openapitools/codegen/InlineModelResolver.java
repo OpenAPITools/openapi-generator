@@ -237,7 +237,7 @@ public class InlineModelResolver {
                         " items must be defined for array schemas:\n " + schema.toString());
                 return;
             }
-            String schemaName = resolveModelName(schema.getTitle(), modelPrefix + "_" + "_items");
+            String schemaName = resolveModelName(schema.getTitle(), modelPrefix + "_inner");
 
             // Recurse to create $refs for inner models
             gatherInlineModels(items, schemaName);
@@ -255,7 +255,7 @@ public class InlineModelResolver {
                 List<Schema> newAllOf = new ArrayList<Schema>();
                 boolean atLeastOneModel = false;
                 for (Schema inner : m.getAllOf()) {
-                    String schemaName = resolveModelName(schema.getTitle(), modelPrefix + "_" + "_allOf");
+                    String schemaName = resolveModelName(schema.getTitle(), modelPrefix + "_allOf");
                     // Recurse to create $refs for inner models
                     gatherInlineModels(inner, schemaName);
                     if (isModelNeeded(inner)) {
@@ -282,7 +282,7 @@ public class InlineModelResolver {
             if (m.getAnyOf() != null) {
                 List<Schema> newAnyOf = new ArrayList<Schema>();
                 for (Schema inner : m.getAnyOf()) {
-                    String schemaName = resolveModelName(schema.getTitle(), modelPrefix + "_" + "_anyOf");
+                    String schemaName = resolveModelName(schema.getTitle(), modelPrefix + "_anyOf");
                     // Recurse to create $refs for inner models
                     gatherInlineModels(inner, schemaName);
                     if (isModelNeeded(inner)) {
@@ -297,7 +297,7 @@ public class InlineModelResolver {
             if (m.getOneOf() != null) {
                 List<Schema> newOneOf = new ArrayList<Schema>();
                 for (Schema inner : m.getOneOf()) {
-                    String schemaName = resolveModelName(schema.getTitle(), modelPrefix + "_" + "_oneOf");
+                    String schemaName = resolveModelName(schema.getTitle(), modelPrefix + "_oneOf");
                     // Recurse to create $refs for inner models
                     gatherInlineModels(inner, schemaName);
                     if (isModelNeeded(inner)) {
@@ -313,7 +313,7 @@ public class InlineModelResolver {
         // Check not schema
         if (schema.getNot() != null) {
             Schema not = schema.getNot();
-            String schemaName = resolveModelName(schema.getTitle(), modelPrefix + "_" + "_not");
+            String schemaName = resolveModelName(schema.getTitle(), modelPrefix + "_not");
             // Recurse to create $refs for inner models
             gatherInlineModels(not, schemaName);
             if (isModelNeeded(not)) {

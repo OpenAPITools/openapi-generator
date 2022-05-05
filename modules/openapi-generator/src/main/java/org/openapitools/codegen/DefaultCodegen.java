@@ -6454,9 +6454,14 @@ public class DefaultCodegen implements CodegenConfig {
         if (StringUtils.isNotBlank(name)) {
             schema.setName(name);
             codegenModel = fromModel(name, schema);
+        } else {
+            throw new RuntimeException("addBodyModelSchema name is blank");
         }
         if (codegenModel != null) {
             codegenParameter.isModel = true;
+        } else {
+            LOGGER.info("codegen model is null with schema {}", schema);
+            throw new RuntimeException("codegen model is null");
         }
 
         if (codegenModel != null && (codegenModel.hasVars || forceSimpleRef)) {
