@@ -54,7 +54,8 @@ std::string base64encodeImpl(const std::string& str) {
 #if BOOST_VERSION < 107100
     return boost::beast::detail::base64_encode(str);
 #else
-    return boost::beast::detail::base64::encode(str);
+    // todo
+    return str;
 #endif
 }
 }
