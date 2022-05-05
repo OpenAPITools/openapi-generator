@@ -1066,29 +1066,36 @@ public class ModelUtils {
     }
 
     /**
-     * Is self reference
+     * Has self reference?
      *
-     * @return boolean true if it is a self reference
+     * @param openAPI OpenAPI spec.
+     * @param schema Schema
+     * @return boolean true if it has at least one self reference
      */
-    /*public static boolean hasSelfReference(OpenAPI openAPI,
+    public static boolean hasSelfReference(OpenAPI openAPI,
                                        Schema schema) {
         return hasSelfReference(openAPI, schema, null);
-    }*/
+    }
 
+    /**
+     * Has self reference?
+     *
+     * @param openAPI OpenAPI spec.
+     * @param schema Schema
+     * @param visitedSchemaNames A set of visited schema names
+     * @return boolean true if it has at least one self reference
+     */
     public static boolean hasSelfReference(OpenAPI openAPI,
                                           Schema schema,
                                           Set<String> visitedSchemaNames) {
         if (visitedSchemaNames == null) {
             visitedSchemaNames = new HashSet<String>();
         }
-        //LOGGER.info("processing schema: {}. Processing {}", schema, schema.getName());
 
         if (schema.get$ref() != null) {
             String ref = getSimpleRef(schema.get$ref());
-            //LOGGER.info("visitedSchemaNames: {}. Processing {}", visitedSchemaNames, ref);
             if (!visitedSchemaNames.contains(ref)) {
                 visitedSchemaNames.add(ref);
-                //LOGGER.info("updated visitedSchemaNames: {}. Processing {}", visitedSchemaNames, ref);
                 Schema referencedSchema = getSchemas(openAPI).get(ref);
                 if (referencedSchema != null) {
                     return hasSelfReference(openAPI, referencedSchema, visitedSchemaNames);
@@ -1097,7 +1104,6 @@ public class ModelUtils {
                     return false;
                 }
             } else {
-                //throw new RuntimeException("self reference found " + ref);
                 return true;
             }
         }
@@ -1139,7 +1145,7 @@ public class ModelUtils {
         } else if (schema.getNot() != null) {
             return hasSelfReference(openAPI, schema.getNot(), visitedSchemaNames);
         } else if (schema.getProperties() != null && !schema.getProperties().isEmpty()) {
-            // go through properites to see if there's any self-reference
+            // go through properties to see if there's any self-reference
             for (Schema property : ((Map<String, Schema>)schema.getProperties()).values()) {
                 if (hasSelfReference(openAPI, property, visitedSchemaNames)) {
                     return true;
@@ -1215,11 +1221,13 @@ public class ModelUtils {
                 }
             } else if (isObjectSchema(ref)) { // model
                 if (ref.getProperties() != null && !ref.getProperties().isEmpty()) { // has at least one property
-                    if (hasSelfReference(openAPI, ref, null)) {
+                    if (hasSelfReference(openAPI, ref)) {
                         // it's self referencing so returning itself instead
                         return schema;
                     } else {
-                        return ref;
+                        // TODO we may revise below to return `ref` instead of schema
+                        // which is the last reference to the actual model/object
+                        return schema;
                     }
                 } else { // free form object (type: object)
                     return unaliasSchema(openAPI, allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())),
