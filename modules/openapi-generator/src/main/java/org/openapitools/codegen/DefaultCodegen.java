@@ -6455,13 +6455,13 @@ public class DefaultCodegen implements CodegenConfig {
             schema.setName(name);
             codegenModel = fromModel(name, schema);
         } else {
-            throw new RuntimeException("addBodyModelSchema name is blank");
+            //throw new RuntimeException("addBodyModelSchema name is blank");
         }
         if (codegenModel != null) {
             codegenParameter.isModel = true;
         } else {
             LOGGER.info("codegen model is null with schema {}", schema);
-            throw new RuntimeException("codegen model is null");
+            //throw new RuntimeException("codegen model is null");
         }
 
         if (codegenModel != null && (codegenModel.hasVars || forceSimpleRef)) {

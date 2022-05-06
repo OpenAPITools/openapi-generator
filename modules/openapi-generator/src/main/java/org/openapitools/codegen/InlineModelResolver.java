@@ -184,7 +184,7 @@ public class InlineModelResolver {
             if (props != null) {
                 for (String propName : props.keySet()) {
                     Schema prop = props.get(propName);
-                    String schemaName = resolveModelName(schema.getTitle(), modelPrefix + "_" + propName);
+                    String schemaName = resolveModelName(prop.getTitle(), modelPrefix + "_" + propName);
                     // Recurse to create $refs for inner models
                     gatherInlineModels(prop, schemaName);
                     if (isModelNeeded(prop)) {
@@ -232,12 +232,16 @@ public class InlineModelResolver {
         if (schema instanceof ArraySchema) {
             ArraySchema array = (ArraySchema) schema;
             Schema items = array.getItems();
+            /*if (items.getTitle() != null) {
+                LOGGER.info("schema title {}", items);
+                throw new RuntimeException("getTitle for array item is not null");
+            }*/
             if (items == null) {
                 LOGGER.error("Illegal schema found with array type but no items," +
                         " items must be defined for array schemas:\n " + schema.toString());
                 return;
             }
-            String schemaName = resolveModelName(schema.getTitle(), modelPrefix + "_inner");
+            String schemaName = resolveModelName(items.getTitle(), modelPrefix + "_inner");
 
             // Recurse to create $refs for inner models
             gatherInlineModels(items, schemaName);
@@ -255,7 +259,7 @@ public class InlineModelResolver {
                 List<Schema> newAllOf = new ArrayList<Schema>();
                 boolean atLeastOneModel = false;
                 for (Schema inner : m.getAllOf()) {
-                    String schemaName = resolveModelName(schema.getTitle(), modelPrefix + "_allOf");
+                    String schemaName = resolveModelName(inner.getTitle(), modelPrefix + "_allOf");
                     // Recurse to create $refs for inner models
                     gatherInlineModels(inner, schemaName);
                     if (isModelNeeded(inner)) {
@@ -282,7 +286,7 @@ public class InlineModelResolver {
             if (m.getAnyOf() != null) {
                 List<Schema> newAnyOf = new ArrayList<Schema>();
                 for (Schema inner : m.getAnyOf()) {
-                    String schemaName = resolveModelName(schema.getTitle(), modelPrefix + "_anyOf");
+                    String schemaName = resolveModelName(inner.getTitle(), modelPrefix + "_anyOf");
                     // Recurse to create $refs for inner models
                     gatherInlineModels(inner, schemaName);
                     if (isModelNeeded(inner)) {
@@ -297,7 +301,7 @@ public class InlineModelResolver {
             if (m.getOneOf() != null) {
                 List<Schema> newOneOf = new ArrayList<Schema>();
                 for (Schema inner : m.getOneOf()) {
-                    String schemaName = resolveModelName(schema.getTitle(), modelPrefix + "_oneOf");
+                    String schemaName = resolveModelName(inner.getTitle(), modelPrefix + "_oneOf");
                     // Recurse to create $refs for inner models
                     gatherInlineModels(inner, schemaName);
                     if (isModelNeeded(inner)) {
