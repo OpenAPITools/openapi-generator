@@ -16,11 +16,16 @@
 
 package org.openapitools.generator.gradle.plugin.tasks
 
+import java.io.File;
 import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
+import org.gradle.api.file.Directory;
+import org.gradle.api.file.RegularFile;
+import org.gradle.api.provider.Provider;
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.CacheableTask
 import org.gradle.api.tasks.Input
+import org.gradle.api.tasks.InputDirectory
 import org.gradle.api.tasks.InputFile
 import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.Optional
@@ -78,14 +83,14 @@ open class GenerateTask : DefaultTask() {
      */
     @Optional
     @get:OutputDirectory
-    val outputDir = project.objects.property<String>()
+    val outputDir = project.objects.directoryProperty()
 
     @Suppress("unused")
     @set:Option(option = "input", description = "The input specification.")
     @Internal
     var input: String? = null
         set(value) {
-            inputSpec.set(value)
+            inputSpec.set(File(value))
         }
 
     /**
@@ -93,14 +98,14 @@ open class GenerateTask : DefaultTask() {
      */
     @get:InputFile
     @PathSensitive(PathSensitivity.RELATIVE)
-    val inputSpec = project.objects.property<String>()
+    val inputSpec = project.objects.fileProperty()
 
     /**
      * The template directory holding a custom template.
      */
     @Optional
-    @Input
-    val templateDir = project.objects.property<String?>()
+    @InputDirectory
+    val templateDir = project.objects.directoryProperty()
 
     /**
      * Adds authorization headers when fetching the OpenAPI definitions remotely.
@@ -123,8 +128,8 @@ open class GenerateTask : DefaultTask() {
      * Supported options can be different for each language. Run config-help -g {generator name} command for language specific config options.
      */
     @Optional
-    @Input
-    val configFile = project.objects.property<String>()
+    @InputFile
+    val configFile = project.objects.fileProperty()
 
     /**
      * Specifies if the existing files should be overwritten during the generation.
@@ -307,8 +312,8 @@ open class GenerateTask : DefaultTask() {
      * Specifies an override location for the .openapi-generator-ignore file. Most useful on initial generation.
      */
     @Optional
-    @Input
-    val ignoreFileOverride = project.objects.property<String?>()
+    @InputFile
+    val ignoreFileOverride = project.objects.fileProperty()
 
     /**
      * Remove prefix of operationId, e.g. config_getId => getId
@@ -465,7 +470,7 @@ open class GenerateTask : DefaultTask() {
     @Input
     val engine = project.objects.property<String?>()
 
-    private fun <T : Any?> Property<T>.ifNotEmpty(block: Property<T>.(T) -> Unit) {
+    private fun <T : Any?> Provider<T>.ifNotEmpty(block: Provider<T>.(T) -> Unit) {
         if (isPresent) {
             val item: T? = get()
             if (item != null) {
@@ -486,7 +491,7 @@ open class GenerateTask : DefaultTask() {
     @TaskAction
     fun doWork() {
         val configurator: CodegenConfigurator = if (configFile.isPresent) {
-            CodegenConfigurator.fromFile(configFile.get())
+            CodegenConfigurator.fromFile(configFile.getAsFile().get().getAbsolutePath())
         } else CodegenConfigurator()
 
         try {
@@ -547,7 +552,7 @@ open class GenerateTask : DefaultTask() {
                 configurator.setSkipOverwrite(value ?: false)
             }
 
-            inputSpec.ifNotEmpty { value ->
+            inputSpec.map(RegularFile::getAsFile).map(File::getAbsolutePath).ifNotEmpty { value ->
                 configurator.setInputSpec(value)
             }
 
@@ -555,7 +560,7 @@ open class GenerateTask : DefaultTask() {
                 configurator.setGeneratorName(value)
             }
 
-            outputDir.ifNotEmpty { value ->
+            outputDir.map(Directory::getAsFile).map(File::getAbsolutePath).ifNotEmpty { value ->
                 configurator.setOutputDir(value)
             }
 
@@ -563,7 +568,7 @@ open class GenerateTask : DefaultTask() {
                 configurator.setAuth(value)
             }
 
-            templateDir.ifNotEmpty { value ->
+            templateDir.map(Directory::getAsFile).map(File::getAbsolutePath).ifNotEmpty { value ->
                 configurator.setTemplateDir(value)
             }
 
@@ -631,7 +636,7 @@ open class GenerateTask : DefaultTask() {
                 configurator.setHttpUserAgent(value)
             }
 
-            ignoreFileOverride.ifNotEmpty { value ->
+            ignoreFileOverride.map(RegularFile::getAsFile).map(File::getAbsolutePath).ifNotEmpty { value ->
                 configurator.setIgnoreFileOverride(value)
             }
 

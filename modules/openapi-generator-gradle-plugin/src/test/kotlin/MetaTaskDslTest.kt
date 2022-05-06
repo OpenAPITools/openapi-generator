@@ -13,7 +13,6 @@ class MetaTaskDslTest : TestBase() {
     @Test
     fun `openApiMeta should generate desired project contents`() {
         // Arrange
-        val buildDirReplacement = "\$buildDir/meta"
         withProject("""
             | plugins {
             |   id 'org.openapi.generator'
@@ -22,7 +21,7 @@ class MetaTaskDslTest : TestBase() {
             | openApiMeta {
             |     generatorName = "Sample"
             |     packageName = "org.openapitools.example"
-            |     outputFolder = "$buildDirReplacement".toString()
+            |     outputFolder = project.layout.buildDirectory.dir("meta")
             | }
         """.trimMargin())
 
