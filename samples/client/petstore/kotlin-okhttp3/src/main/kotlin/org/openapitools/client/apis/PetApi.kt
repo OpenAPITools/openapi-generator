@@ -195,7 +195,6 @@ class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
          @Json(name = "available") available("available"),
          @Json(name = "pending") pending("pending"),
          @Json(name = "sold") sold("sold"),
-         ;
      }
 
     /**

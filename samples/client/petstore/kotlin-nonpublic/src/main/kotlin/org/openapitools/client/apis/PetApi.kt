@@ -194,8 +194,7 @@ internal class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(bas
      internal enum class Status_findPetsByStatus(val value: kotlin.String) {
          @Json(name = "available") available("available"),
          @Json(name = "pending") pending("pending"),
-         @Json(name = "sold") sold("sold"),
-         ;
+         @Json(name = "sold") sold("sold")
      }
 
     /**

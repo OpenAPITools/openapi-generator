@@ -194,8 +194,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
      enum class Status_findPetsByStatus(val value: kotlin.String) {
          @SerializedName(value = "available") available("available"),
          @SerializedName(value = "pending") pending("pending"),
-         @SerializedName(value = "sold") sold("sold"),
-         ;
+         @SerializedName(value = "sold") sold("sold")
      }
 
     /**

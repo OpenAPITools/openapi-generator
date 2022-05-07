@@ -54,7 +54,6 @@ open class PetApi(
         val localVariableBody = body
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
-
         val localVariableHeaders = mutableMapOf<String, String>()
 
         val localVariableConfig = RequestConfig<kotlin.Any?>(
@@ -88,7 +87,6 @@ open class PetApi(
             io.ktor.client.utils.EmptyContent
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
-
         val localVariableHeaders = mutableMapOf<String, String>()
         apiKey?.apply { localVariableHeaders["api_key"] = this.toString() }
 
@@ -123,7 +121,6 @@ open class PetApi(
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
         status?.apply { localVariableQuery["status"] = toMultiValue(this, "csv") }
-
         val localVariableHeaders = mutableMapOf<String, String>()
 
         val localVariableConfig = RequestConfig<kotlin.Any?>(
@@ -167,7 +164,6 @@ open class PetApi(
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
         tags?.apply { localVariableQuery["tags"] = toMultiValue(this, "csv") }
-
         val localVariableHeaders = mutableMapOf<String, String>()
 
         val localVariableConfig = RequestConfig<kotlin.Any?>(
@@ -210,7 +206,6 @@ open class PetApi(
             io.ktor.client.utils.EmptyContent
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
-
         val localVariableHeaders = mutableMapOf<String, String>()
 
         val localVariableConfig = RequestConfig<kotlin.Any?>(
@@ -241,7 +236,6 @@ open class PetApi(
         val localVariableBody = body
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
-
         val localVariableHeaders = mutableMapOf<String, String>()
 
         val localVariableConfig = RequestConfig<kotlin.Any?>(
@@ -279,7 +273,6 @@ open class PetApi(
             }.build()
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
-
         val localVariableHeaders = mutableMapOf<String, String>()
 
         val localVariableConfig = RequestConfig<kotlin.Any?>(
@@ -317,7 +310,6 @@ open class PetApi(
             }
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
-
         val localVariableHeaders = mutableMapOf<String, String>()
 
         val localVariableConfig = RequestConfig<kotlin.Any?>(

@@ -1066,6 +1066,96 @@ public class ModelUtils {
     }
 
     /**
+     * Has self reference?
+     *
+     * @param openAPI OpenAPI spec.
+     * @param schema Schema
+     * @return boolean true if it has at least one self reference
+     */
+    public static boolean hasSelfReference(OpenAPI openAPI,
+                                       Schema schema) {
+        return hasSelfReference(openAPI, schema, null);
+    }
+
+    /**
+     * Has self reference?
+     *
+     * @param openAPI OpenAPI spec.
+     * @param schema Schema
+     * @param visitedSchemaNames A set of visited schema names
+     * @return boolean true if it has at least one self reference
+     */
+    public static boolean hasSelfReference(OpenAPI openAPI,
+                                          Schema schema,
+                                          Set<String> visitedSchemaNames) {
+        if (visitedSchemaNames == null) {
+            visitedSchemaNames = new HashSet<String>();
+        }
+
+        if (schema.get$ref() != null) {
+            String ref = getSimpleRef(schema.get$ref());
+            if (!visitedSchemaNames.contains(ref)) {
+                visitedSchemaNames.add(ref);
+                Schema referencedSchema = getSchemas(openAPI).get(ref);
+                if (referencedSchema != null) {
+                    return hasSelfReference(openAPI, referencedSchema, visitedSchemaNames);
+                } else {
+                    LOGGER.error("Failed to obtain schema from `{}` in self reference check", ref);
+                    return false;
+                }
+            } else {
+                return true;
+            }
+        }
+        if (schema instanceof ComposedSchema) {
+            List<Schema> oneOf = ((ComposedSchema) schema).getOneOf();
+            if (oneOf != null) {
+                for (Schema s : oneOf) {
+                    if (hasSelfReference(openAPI, s, visitedSchemaNames)) {
+                        return true;
+                    }
+                }
+            }
+            List<Schema> allOf = ((ComposedSchema) schema).getAllOf();
+            if (allOf != null) {
+                for (Schema s : allOf) {
+                    if (hasSelfReference(openAPI, s, visitedSchemaNames)) {
+                        return true;
+                    }
+                }
+            }
+            List<Schema> anyOf = ((ComposedSchema) schema).getAnyOf();
+            if (anyOf != null) {
+                for (Schema s : anyOf) {
+                    if (hasSelfReference(openAPI, s, visitedSchemaNames)) {
+                        return true;
+                    }
+                }
+            }
+        } else if (isArraySchema(schema)) {
+            Schema itemsSchema = ((ArraySchema) schema).getItems();
+            if (itemsSchema != null) {
+                return hasSelfReference(openAPI, itemsSchema, visitedSchemaNames);
+            }
+        } else if (isMapSchema(schema)) {
+            Object additionalProperties = schema.getAdditionalProperties();
+            if (additionalProperties instanceof Schema) {
+                return hasSelfReference(openAPI, (Schema) additionalProperties, visitedSchemaNames);
+            }
+        } else if (schema.getNot() != null) {
+            return hasSelfReference(openAPI, schema.getNot(), visitedSchemaNames);
+        } else if (schema.getProperties() != null && !schema.getProperties().isEmpty()) {
+            // go through properties to see if there's any self-reference
+            for (Schema property : ((Map<String, Schema>)schema.getProperties()).values()) {
+                if (hasSelfReference(openAPI, property, visitedSchemaNames)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
      * Get the actual schema from aliases. If the provided schema is not an alias, the schema itself will be returned.
      *
      * @param openAPI specification being checked
@@ -1131,7 +1221,14 @@ public class ModelUtils {
                 }
             } else if (isObjectSchema(ref)) { // model
                 if (ref.getProperties() != null && !ref.getProperties().isEmpty()) { // has at least one property
-                    return schema;
+                    if (hasSelfReference(openAPI, ref)) {
+                        // it's self referencing so returning itself instead
+                        return schema;
+                    } else {
+                        // TODO we may revise below to return `ref` instead of schema
+                        // which is the last reference to the actual model/object
+                        return schema;
+                    }
                 } else { // free form object (type: object)
                     return unaliasSchema(openAPI, allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())),
                             importMappings);
