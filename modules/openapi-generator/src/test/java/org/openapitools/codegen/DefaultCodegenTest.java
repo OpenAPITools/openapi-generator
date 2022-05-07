@@ -2348,18 +2348,14 @@ public class DefaultCodegenTest {
         cg.preprocessOpenAPI(openAPI);
 
         // assert names of the response/request schema oneOf interfaces are as expected
-        Assert.assertEquals(
-                openAPI.getPaths()
-                        .get("/state")
-                        .getPost()
-                        .getRequestBody()
-                        .getContent()
-                        .get("application/json")
-                        .getSchema()
-                        .getExtensions(),
-                        //.get("x-one-of-name"),
-                "CreateState"
-        );
+        Schema s = ModelUtils.getReferencedSchema(openAPI, openAPI.getPaths()
+                .get("/state")
+                .getPost()
+                .getRequestBody()
+                .getContent()
+                .get("application/json")
+                .getSchema());
+        Assert.assertEquals(s.getExtensions().get("x-one-of-name"), "CreateStateRequest");
         Assert.assertEquals(
                 openAPI.getPaths()
                         .get("/state")
@@ -2376,7 +2372,8 @@ public class DefaultCodegenTest {
         // for the array schema, assert that a oneOf interface was added to schema map
         Schema items = ((ArraySchema) openAPI.getComponents().getSchemas().get("CustomOneOfArraySchema")).getItems();
         Assert.assertEquals(items.get$ref(), "#/components/schemas/CustomOneOfArraySchema_inner");
-        Schema innerItem = openAPI.getComponents().getSchemas().get("CustomOneOfArraySchema_inner");
+        //Assert.assertEquals(items.get$ref(), "#/components/schemas/createState_request");
+        Schema innerItem = ModelUtils.getReferencedSchema(openAPI, openAPI.getComponents().getSchemas().get("CustomOneOfArraySchema_inner"));
         Assert.assertEquals(innerItem.getExtensions().get("x-one-of-name"), "CustomOneOfArraySchemaInner");
     }
 

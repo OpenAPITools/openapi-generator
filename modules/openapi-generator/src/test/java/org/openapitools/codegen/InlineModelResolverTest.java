@@ -946,7 +946,6 @@ public class InlineModelResolverTest {
         Schema nullablePropertySchema = ModelUtils.getReferencedSchema(openAPI, nullablePropertyReference);
         assertTrue(nullablePropertySchema.getNullable());
 
-
         Schema nullableRequestBodyReference = (Schema) openAPI
                 .getPaths()
                 .get("/nullable_properties")
@@ -958,7 +957,10 @@ public class InlineModelResolverTest {
                 //.getProperties()
                 //.get("nullable_request_body_property");
         Schema nullableRequestBodySchema = ModelUtils.getReferencedSchema(openAPI, nullableRequestBodyReference);
-        assertTrue(((Schema)nullableRequestBodySchema.getProperties().get("nullable_request_body_property")).getNullable());
+        //assertEquals(nullableRequestBodySchema, "");
+        Schema nullableSchema = ModelUtils.getReferencedSchema(openAPI,
+                ((Schema)nullableRequestBodySchema.getProperties().get("nullable_request_body_property")));
+        assertTrue(nullableSchema.getNullable());
     }
 
     @Test
@@ -975,14 +977,15 @@ public class InlineModelResolverTest {
                 .get("{$request.body#/callbackUri}")
                 .getPost()
                 .getRequestBody();
-        assertNotNull(callbackRequestBodyReference.get$ref());
+        assertNotNull(callbackRequestBodyReference.getContent().get("application/json").getSchema().get$ref());
+        assertEquals("#/components/schemas/webhookNotify_request", callbackRequestBodyReference.getContent().get("application/json").getSchema().get$ref());
 
-        RequestBody resolvedCallbackRequestBody = openAPI
+        /*RequestBody resolvedCallbackRequestBody = openAPI
                 .getComponents()
-                .getRequestBodies()
-                .get(ModelUtils.getSimpleRef(callbackRequestBodyReference.get$ref()));
+                .getSchemas()
+                .get(ModelUtils.getSimpleRef(callbackRequestBodyReference.getContent().get("application/json").getSchema().get$ref()));*/
 
-        Schema callbackRequestSchemaReference = resolvedCallbackRequestBody
+        Schema callbackRequestSchemaReference = callbackRequestBodyReference
                 .getContent()
                 .get("application/json")
                 .getSchema();
