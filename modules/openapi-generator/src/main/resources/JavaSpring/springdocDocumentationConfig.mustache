@@ -1,0 +1,49 @@
+package {{configPackage}};
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.info.Contact;
+import io.swagger.v3.oas.models.info.License;
+import io.swagger.v3.oas.models.Components;
+import io.swagger.v3.oas.models.security.SecurityScheme;
+
+@Configuration
+public class SpringDocConfiguration {
+
+    @Bean
+    OpenAPI apiInfo() {
+        return new OpenAPI()
+                .info(
+                        new Info(){{#appName}}
+                                .title("{{appName}}"){{/appName}}{{#appDescription}}
+                                .description("{{appDescription}}"){{/appDescription}}{{#termsOfService}}
+                                .termsOfService("{{termsOfService}}"){{/termsOfService}}{{#openAPI}}{{#info}}{{#contact}}
+                                .contact(
+                                        new Contact(){{#infoName}}
+                                                .name("{{infoName}}"){{/infoName}}{{#infoUrl}}
+                                                .url("{{infoUrl}}"){{/infoUrl}}{{#infoEmail}}
+                                                .email("{{infoEmail}}"){{/infoEmail}}
+                                ){{/contact}}{{#license}}
+                                .license(
+                                        new License()
+                                                {{#licenseInfo}}.name("{{licenseInfo}}")
+                                                {{/licenseInfo}}{{#licenseUrl}}.url("{{licenseUrl}}")
+                                                {{/licenseUrl}}
+                                ){{/license}}{{/info}}{{/openAPI}}
+                                .version("{{appVersion}}")
+                ){{#hasAuthMethods}}
+                .components(
+                        new Components(){{#authMethods}}
+                                .addSecuritySchemes("{{name}}", new SecurityScheme()
+                                        .name("{{name}}")
+                                        .type(SecurityScheme.Type.{{type}})
+                                        .description("Didn't set this up yet or the rest of the weird security scheme stuff"){{#scheme}}
+                                        .scheme("{{scheme}}"){{/scheme}}
+                                ){{/authMethods}}
+                ){{/hasAuthMethods}}
+        ;
+    }
+}
