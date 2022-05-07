@@ -20,6 +20,9 @@ export class IsomorphicFetchHttpLibrary implements HttpLibrary {
             body: body as any,
             headers: request.getHeaders(),
             {{#platforms}}
+            {{#node}}
+            agent: request.getAgent(),
+            {{/node}}
             {{#browser}}
             credentials: "same-origin"
             {{/browser}}

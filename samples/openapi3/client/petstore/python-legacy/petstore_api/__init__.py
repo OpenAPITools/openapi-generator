@@ -20,7 +20,7 @@ __version__ = "1.0.0"
 from petstore_api.api.another_fake_api import AnotherFakeApi
 from petstore_api.api.default_api import DefaultApi
 from petstore_api.api.fake_api import FakeApi
-from petstore_api.api.fake_classname_tags_123_api import FakeClassnameTags123Api
+from petstore_api.api.fake_classname_tags123_api import FakeClassnameTags123Api
 from petstore_api.api.pet_api import PetApi
 from petstore_api.api.store_api import StoreApi
 from petstore_api.api.user_api import UserApi
@@ -36,6 +36,7 @@ from petstore_api.exceptions import ApiAttributeError
 from petstore_api.exceptions import ApiException
 # import models into sdk package
 from petstore_api.models.additional_properties_class import AdditionalPropertiesClass
+from petstore_api.models.all_of_with_single_ref import AllOfWithSingleRef
 from petstore_api.models.animal import Animal
 from petstore_api.models.api_response import ApiResponse
 from petstore_api.models.array_of_array_of_number_only import ArrayOfArrayOfNumberOnly
@@ -78,6 +79,7 @@ from petstore_api.models.outer_enum_integer_default_value import OuterEnumIntege
 from petstore_api.models.outer_object_with_enum_property import OuterObjectWithEnumProperty
 from petstore_api.models.pet import Pet
 from petstore_api.models.read_only_first import ReadOnlyFirst
+from petstore_api.models.single_ref_type import SingleRefType
 from petstore_api.models.special_model_name import SpecialModelName
 from petstore_api.models.tag import Tag
 from petstore_api.models.user import User

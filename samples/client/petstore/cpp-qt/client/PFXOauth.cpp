@@ -1,6 +1,6 @@
 #include "PFXOauth.h"
 
-namespace OpenAPI {
+namespace test_namespace {
 
 /*
  * Base class to perform oauth2 flows
@@ -343,5 +343,4 @@ void ReplyServer::read()
     emit dataReceived(queryParams);
 }
 
-
-}
+} // namespace test_namespace

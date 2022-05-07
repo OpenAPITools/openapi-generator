@@ -68,6 +68,7 @@ public class CodegenConfigurator {
     private Map<String, String> typeMappings = new HashMap<>();
     private Map<String, Object> additionalProperties = new HashMap<>();
     private Map<String, String> importMappings = new HashMap<>();
+    private Map<String, String> inlineSchemaNameMappings = new HashMap<>();
     private Set<String> languageSpecificPrimitives = new HashSet<>();
     private Map<String, String> reservedWordMappings = new HashMap<>();
     private Map<String, String> serverVariables = new HashMap<>();
@@ -79,8 +80,8 @@ public class CodegenConfigurator {
 
     }
 
-    @SuppressWarnings("DuplicatedCode")
     public static CodegenConfigurator fromFile(String configFile, Module... modules) {
+        // NOTE: some config parameters may be missing from the configFile and may be passed in as command line args
 
         if (isNotEmpty(configFile)) {
             DynamicSettings settings = readDynamicSettings(configFile, modules);
@@ -110,6 +111,9 @@ public class CodegenConfigurator {
             }
             if(generatorSettings.getImportMappings() != null) {
                 configurator.importMappings.putAll(generatorSettings.getImportMappings());
+            }
+            if(generatorSettings.getInlineSchemaNameMappings() != null) {
+                configurator.inlineSchemaNameMappings.putAll(generatorSettings.getInlineSchemaNameMappings());
             }
             if(generatorSettings.getLanguageSpecificPrimitives() != null) {
                 configurator.languageSpecificPrimitives.addAll(generatorSettings.getLanguageSpecificPrimitives());
@@ -177,6 +181,12 @@ public class CodegenConfigurator {
     public CodegenConfigurator addImportMapping(String key, String value) {
         this.importMappings.put(key, value);
         generatorSettingsBuilder.withImportMapping(key, value);
+        return this;
+    }
+
+    public CodegenConfigurator addInlineSchemaNameMapping(String key, String value) {
+        this.inlineSchemaNameMappings.put(key, value);
+        generatorSettingsBuilder.withInlineSchemaNameMapping(key, value);
         return this;
     }
 
@@ -334,6 +344,12 @@ public class CodegenConfigurator {
         return this;
     }
 
+    public CodegenConfigurator setInlineSchemaNameMappings(Map<String, String> inlineSchemaNameMappings) {
+        this.inlineSchemaNameMappings = inlineSchemaNameMappings;
+        generatorSettingsBuilder.withInlineSchemaNameMappings(inlineSchemaNameMappings);
+        return this;
+    }
+
     public CodegenConfigurator setInputSpec(String inputSpec) {
         this.inputSpec = inputSpec;
         workflowSettingsBuilder.withInputSpec(inputSpec);
@@ -482,15 +498,17 @@ public class CodegenConfigurator {
         Validate.notEmpty(generatorName, "generator name must be specified");
         Validate.notEmpty(inputSpec, "input spec must be specified");
 
+        GeneratorSettings generatorSettings = generatorSettingsBuilder.build();
+        CodegenConfig config = CodegenConfigLoader.forName(generatorSettings.getGeneratorName());
         if (isEmpty(templatingEngineName)) {
-            // Built-in templates are mustache, but allow users to use a simplified handlebars engine for their custom templates.
-            workflowSettingsBuilder.withTemplatingEngineName("mustache");
+            // if templatingEngineName is empty check the config for a default
+            String defaultTemplatingEngine = config.defaultTemplatingEngine();
+            workflowSettingsBuilder.withTemplatingEngineName(defaultTemplatingEngine);
         } else {
             workflowSettingsBuilder.withTemplatingEngineName(templatingEngineName);
         }
 
         // at this point, all "additionalProperties" are set, and are now immutable per GeneratorSettings instance.
-        GeneratorSettings generatorSettings = generatorSettingsBuilder.build();
         WorkflowSettings workflowSettings = workflowSettingsBuilder.build();
 
         if (workflowSettings.isVerbose()) {
@@ -608,6 +626,7 @@ public class CodegenConfigurator {
         config.instantiationTypes().putAll(generatorSettings.getInstantiationTypes());
         config.typeMapping().putAll(generatorSettings.getTypeMappings());
         config.importMapping().putAll(generatorSettings.getImportMappings());
+        config.inlineSchemaNameMapping().putAll(generatorSettings.getInlineSchemaNameMappings());
         config.languageSpecificPrimitives().addAll(generatorSettings.getLanguageSpecificPrimitives());
         config.reservedWordsMappings().putAll(generatorSettings.getReservedWordMappings());
         config.additionalProperties().putAll(generatorSettings.getAdditionalProperties());

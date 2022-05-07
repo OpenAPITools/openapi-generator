@@ -5,6 +5,7 @@ import org.openapitools.model.*;
 
 
 import java.util.List;
+import java.time.OffsetDateTime;
 import org.openapitools.model.User;
 
 import java.util.List;

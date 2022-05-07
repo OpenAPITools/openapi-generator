@@ -1,6 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 export * from './AdditionalPropertiesClass';
+export * from './AllOfWithSingleRef';
 export * from './Animal';
 export * from './ArrayOfArrayOfNumberOnly';
 export * from './ArrayOfNumberOnly';
@@ -43,6 +44,7 @@ export * from './OuterObjectWithEnumProperty';
 export * from './Pet';
 export * from './ReadOnlyFirst';
 export * from './Return';
+export * from './SingleRefType';
 export * from './SpecialModelName';
 export * from './Tag';
 export * from './User';

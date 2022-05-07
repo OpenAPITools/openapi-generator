@@ -12,21 +12,13 @@ import io.swagger.annotations.*;
 @ApiModel(description="A User who is purchasing from the pet store")@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyEapServerCodegen")
 public class User   {
   
-
   private Long id;
-
   private String username;
-
   private String firstName;
-
   private String lastName;
-
   private String email;
-
   private String password;
-
   private String phone;
-
   private Integer userStatus;
 
   /**

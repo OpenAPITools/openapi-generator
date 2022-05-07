@@ -226,7 +226,7 @@ QString PFXUserApi::getParamStyleDelimiter(const QString &style, const QString &
     }
 }
 
-void PFXUserApi::createUser(const PFXUser &body) {
+void PFXUserApi::createUser(const PFXUser &pfx_user) {
     QString fullPath = QString(_serverConfigs["createUser"][_serverIndices.value("createUser")].URL()+"/user");
     
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
@@ -236,7 +236,7 @@ void PFXUserApi::createUser(const PFXUser &body) {
 
     {
 
-        QByteArray output = body.asJson().toUtf8();
+        QByteArray output = pfx_user.asJson().toUtf8();
         input.request_body.append(output);
     }
 #if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
@@ -278,7 +278,7 @@ void PFXUserApi::createUserCallback(PFXHttpRequestWorker *worker) {
     }
 }
 
-void PFXUserApi::createUsersWithArrayInput(const QList<PFXUser> &body) {
+void PFXUserApi::createUsersWithArrayInput(const QList<PFXUser> &pfx_user) {
     QString fullPath = QString(_serverConfigs["createUsersWithArrayInput"][_serverIndices.value("createUsersWithArrayInput")].URL()+"/user/createWithArray");
     
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
@@ -287,7 +287,7 @@ void PFXUserApi::createUsersWithArrayInput(const QList<PFXUser> &body) {
     PFXHttpRequestInput input(fullPath, "POST");
 
     {
-        QJsonDocument doc(::test_namespace::toJsonValue(body).toArray());
+        QJsonDocument doc(::test_namespace::toJsonValue(pfx_user).toArray());
         QByteArray bytes = doc.toJson();
         input.request_body.append(bytes);
     }
@@ -330,7 +330,7 @@ void PFXUserApi::createUsersWithArrayInputCallback(PFXHttpRequestWorker *worker)
     }
 }
 
-void PFXUserApi::createUsersWithListInput(const QList<PFXUser> &body) {
+void PFXUserApi::createUsersWithListInput(const QList<PFXUser> &pfx_user) {
     QString fullPath = QString(_serverConfigs["createUsersWithListInput"][_serverIndices.value("createUsersWithListInput")].URL()+"/user/createWithList");
     
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
@@ -339,7 +339,7 @@ void PFXUserApi::createUsersWithListInput(const QList<PFXUser> &body) {
     PFXHttpRequestInput input(fullPath, "POST");
 
     {
-        QJsonDocument doc(::test_namespace::toJsonValue(body).toArray());
+        QJsonDocument doc(::test_namespace::toJsonValue(pfx_user).toArray());
         QByteArray bytes = doc.toJson();
         input.request_body.append(bytes);
     }
@@ -390,7 +390,7 @@ void PFXUserApi::deleteUser(const QString &username) {
         QString usernamePathParam("{");
         usernamePathParam.append("username").append("}");
         QString pathPrefix, pathSuffix, pathDelimiter;
-        QString pathStyle = "";
+        QString pathStyle = "simple";
         if (pathStyle == "")
             pathStyle = "simple";
         pathPrefix = getParamStylePrefix(pathStyle);
@@ -452,7 +452,7 @@ void PFXUserApi::getUserByName(const QString &username) {
         QString usernamePathParam("{");
         usernamePathParam.append("username").append("}");
         QString pathPrefix, pathSuffix, pathDelimiter;
-        QString pathStyle = "";
+        QString pathStyle = "simple";
         if (pathStyle == "")
             pathStyle = "simple";
         pathPrefix = getParamStylePrefix(pathStyle);
@@ -513,12 +513,12 @@ void PFXUserApi::loginUser(const QString &username, const QString &password) {
     QString queryPrefix, querySuffix, queryDelimiter, queryStyle;
     
     {
-        queryStyle = "";
+        queryStyle = "form";
         if (queryStyle == "")
             queryStyle = "form";
         queryPrefix = getParamStylePrefix(queryStyle);
         querySuffix = getParamStyleSuffix(queryStyle);
-        queryDelimiter = getParamStyleDelimiter(queryStyle, "username", false);
+        queryDelimiter = getParamStyleDelimiter(queryStyle, "username", true);
         if (fullPath.indexOf("?") > 0)
             fullPath.append(queryPrefix);
         else
@@ -528,12 +528,12 @@ void PFXUserApi::loginUser(const QString &username, const QString &password) {
     }
     
     {
-        queryStyle = "";
+        queryStyle = "form";
         if (queryStyle == "")
             queryStyle = "form";
         queryPrefix = getParamStylePrefix(queryStyle);
         querySuffix = getParamStyleSuffix(queryStyle);
-        queryDelimiter = getParamStyleDelimiter(queryStyle, "password", false);
+        queryDelimiter = getParamStyleDelimiter(queryStyle, "password", true);
         if (fullPath.indexOf("?") > 0)
             fullPath.append(queryPrefix);
         else
@@ -636,7 +636,7 @@ void PFXUserApi::logoutUserCallback(PFXHttpRequestWorker *worker) {
     }
 }
 
-void PFXUserApi::updateUser(const QString &username, const PFXUser &body) {
+void PFXUserApi::updateUser(const QString &username, const PFXUser &pfx_user) {
     QString fullPath = QString(_serverConfigs["updateUser"][_serverIndices.value("updateUser")].URL()+"/user/{username}");
     
     
@@ -644,7 +644,7 @@ void PFXUserApi::updateUser(const QString &username, const PFXUser &body) {
         QString usernamePathParam("{");
         usernamePathParam.append("username").append("}");
         QString pathPrefix, pathSuffix, pathDelimiter;
-        QString pathStyle = "";
+        QString pathStyle = "simple";
         if (pathStyle == "")
             pathStyle = "simple";
         pathPrefix = getParamStylePrefix(pathStyle);
@@ -660,7 +660,7 @@ void PFXUserApi::updateUser(const QString &username, const PFXUser &body) {
 
     {
 
-        QByteArray output = body.asJson().toUtf8();
+        QByteArray output = pfx_user.asJson().toUtf8();
         input.request_body.append(output);
     }
 #if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
@@ -713,7 +713,7 @@ void PFXUserApi::tokenAvailable(){
             _latestWorker->execute(&_latestInput);
         }else{
             _implicitFlow.removeToken(_latestScope.join(" "));
-            qDebug() << "Could not retreive a valid token";
+            qDebug() << "Could not retrieve a valid token";
         }
         break;
     case 2: //authorization flow
@@ -723,7 +723,7 @@ void PFXUserApi::tokenAvailable(){
             _latestWorker->execute(&_latestInput);
         }else{
             _authFlow.removeToken(_latestScope.join(" "));    
-            qDebug() << "Could not retreive a valid token";
+            qDebug() << "Could not retrieve a valid token";
         }
         break;
     case 3: //client credentials flow
@@ -733,7 +733,7 @@ void PFXUserApi::tokenAvailable(){
             _latestWorker->execute(&_latestInput);
         }else{
             _credentialFlow.removeToken(_latestScope.join(" "));    
-            qDebug() << "Could not retreive a valid token";
+            qDebug() << "Could not retrieve a valid token";
         }
         break;
     case 4: //resource owner password flow
@@ -743,7 +743,7 @@ void PFXUserApi::tokenAvailable(){
             _latestWorker->execute(&_latestInput);
         }else{
             _credentialFlow.removeToken(_latestScope.join(" "));    
-            qDebug() << "Could not retreive a valid token";
+            qDebug() << "Could not retrieve a valid token";
         }
         break;
     default:

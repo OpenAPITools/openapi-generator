@@ -49,6 +49,11 @@
   infoLink: "https://b-com.com/en"
   pinned: false
 -
+  caption: "百度营销"
+  image: "img/companies/ebaidu.jpeg"
+  infoLink: "https://e.baidu.com"
+  pinned: false
+-
   caption: "Banzai Cloud"
   image: "img/companies/banzai_cloud.png"
   infoLink: "https://banzaicloud.com/"
@@ -284,6 +289,11 @@
   infoLink: "https://www.mailslurp.com/"
   pinned: false
 -
+  caption: Mastercard
+  image: "img/companies/mastercard.png"
+  infoLink: "https://developers.mastercard.com"
+  pinned: false
+-
   caption: "Médiavision"
   image: "img/companies/mediavision.jpeg"
   infoLink: "https://www.mediavision.fr/"
@@ -312,6 +322,11 @@
   caption: Nokia 
   image: "img/companies/nokia.png"
   infoLink: "https://www.nokia.com/"
+  pinned: false
+-
+  caption: OneSignal
+  image: "img/companies/onesignal.png"
+  infoLink: "https://www.onesignal.com/"
   pinned: false
 -
   caption: Options Clearing Corporation (OCC)
@@ -428,6 +443,11 @@
   image: "img/companies/telstra.svg"
   infoLink: "https://dev.telstra.com/"
   pinned: true
+-
+  caption: Tencent
+  image: "img/companies/tencent.png"
+  infoLink: "https://www.tencent.com/"
+  pinned: false
 -
   caption: The University of Aizu
   image: "img/companies/uoa.png"

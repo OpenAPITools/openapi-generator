@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-internal struct CatAllOf: Codable, Hashable {
+internal struct CatAllOf: Codable, JSONEncodable, Hashable {
 
     internal var declawed: Bool?
 

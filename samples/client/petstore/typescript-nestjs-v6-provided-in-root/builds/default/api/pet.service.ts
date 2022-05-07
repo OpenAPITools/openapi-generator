@@ -153,8 +153,8 @@ export class PetService {
         }
 
         let queryParameters = {};
-        if (status !== undefined && status !== null) {
-            queryParameters['status'] = <any>status;
+        if (status) {
+            queryParameters['status'] = status.join(COLLECTION_FORMATS['csv']);
         }
 
         let headers = this.defaultHeaders;
@@ -203,8 +203,8 @@ export class PetService {
         }
 
         let queryParameters = {};
-        if (tags !== undefined && tags !== null) {
-            queryParameters['tags'] = <any>tags;
+        if (tags) {
+            queryParameters['tags'] = tags.join(COLLECTION_FORMATS['csv']);
         }
 
         let headers = this.defaultHeaders;

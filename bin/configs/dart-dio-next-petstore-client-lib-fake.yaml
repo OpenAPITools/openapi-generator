@@ -1,5 +1,5 @@
-generatorName: dart-dio-next
-outputDir: samples/openapi3/client/petstore/dart-dio-next/petstore_client_lib_fake
+generatorName: dart-dio
+outputDir: samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake
 inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing.yaml
 templateDir: modules/openapi-generator/src/main/resources/dart/libraries/dio
 typeMappings:
@@ -8,3 +8,4 @@ typeMappings:
   EnumClass: "ModelEnumClass"
 additionalProperties:
   hideGenerationTimestamp: "true"
+  enumUnknownDefaultCase: "true"

@@ -9,17 +9,21 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.HashMap;
 import java.util.Map;
 import org.openapitools.jackson.nullable.JsonNullable;
+import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 
 import java.util.*;
+import javax.annotation.Generated;
 
 /**
  * AdditionalPropertiesString
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class AdditionalPropertiesString extends HashMap<String, String>  {
+
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+public class AdditionalPropertiesString extends HashMap<String, String> {
+
   @JsonProperty("name")
   private String name;
 
@@ -32,9 +36,8 @@ public class AdditionalPropertiesString extends HashMap<String, String>  {
    * Get name
    * @return name
   */
+  
   @ApiModelProperty(value = "")
-
-
   public String getName() {
     return name;
   }
@@ -42,7 +45,6 @@ public class AdditionalPropertiesString extends HashMap<String, String>  {
   public void setName(String name) {
     this.name = name;
   }
-
 
   @Override
   public boolean equals(Object o) {

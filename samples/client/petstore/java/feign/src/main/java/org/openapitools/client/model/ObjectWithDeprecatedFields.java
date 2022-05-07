@@ -38,7 +38,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   ObjectWithDeprecatedFields.JSON_PROPERTY_DEPRECATED_REF,
   ObjectWithDeprecatedFields.JSON_PROPERTY_BARS
 })
-@JsonTypeName("ObjectWithDeprecatedFields")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ObjectWithDeprecatedFields {
   public static final String JSON_PROPERTY_UUID = "uuid";
@@ -149,7 +148,7 @@ public class ObjectWithDeprecatedFields {
 
   public ObjectWithDeprecatedFields addBarsItem(String barsItem) {
     if (this.bars == null) {
-      this.bars = new ArrayList<String>();
+      this.bars = new ArrayList<>();
     }
     this.bars.add(barsItem);
     return this;

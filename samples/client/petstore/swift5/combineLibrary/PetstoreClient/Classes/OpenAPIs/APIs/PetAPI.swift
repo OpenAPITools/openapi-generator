@@ -19,15 +19,14 @@ open class PetAPI {
      Add a new pet to the store
      
      - parameter body: (body) Pet object that needs to be added to the store 
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: AnyPublisher<Void, Error>
      */
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func addPet(body: Pet, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> AnyPublisher<Void, Error> {
-        var task: URLSessionTask?
+    open class func addPet(body: Pet) -> AnyPublisher<Void, Error> {
+        var requestTask: RequestTask?
         return Future<Void, Error> { promise in
-            task = addPetWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
+            requestTask = addPetWithRequestBuilder(body: body).execute { result in
                 switch result {
                 case .success:
                     promise(.success(()))
@@ -37,7 +36,7 @@ open class PetAPI {
             }
         }
         .handleEvents(receiveCancel: {
-            task?.cancel()
+            requestTask?.cancel()
         })
         .eraseToAnyPublisher()
     }
@@ -75,15 +74,14 @@ open class PetAPI {
      
      - parameter petId: (path) Pet id to delete 
      - parameter apiKey: (header)  (optional)
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: AnyPublisher<Void, Error>
      */
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func deletePet(petId: Int64, apiKey: String? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> AnyPublisher<Void, Error> {
-        var task: URLSessionTask?
+    open class func deletePet(petId: Int64, apiKey: String? = nil) -> AnyPublisher<Void, Error> {
+        var requestTask: RequestTask?
         return Future<Void, Error> { promise in
-            task = deletePetWithRequestBuilder(petId: petId, apiKey: apiKey).execute(apiResponseQueue) { result in
+            requestTask = deletePetWithRequestBuilder(petId: petId, apiKey: apiKey).execute { result in
                 switch result {
                 case .success:
                     promise(.success(()))
@@ -93,7 +91,7 @@ open class PetAPI {
             }
         }
         .handleEvents(receiveCancel: {
-            task?.cancel()
+            requestTask?.cancel()
         })
         .eraseToAnyPublisher()
     }
@@ -143,15 +141,14 @@ open class PetAPI {
      Finds Pets by status
      
      - parameter status: (query) Status values that need to be considered for filter 
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: AnyPublisher<[Pet], Error>
      */
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func findPetsByStatus(status: [Status_findPetsByStatus], apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> AnyPublisher<[Pet], Error> {
-        var task: URLSessionTask?
+    open class func findPetsByStatus(status: [Status_findPetsByStatus]) -> AnyPublisher<[Pet], Error> {
+        var requestTask: RequestTask?
         return Future<[Pet], Error> { promise in
-            task = findPetsByStatusWithRequestBuilder(status: status).execute(apiResponseQueue) { result in
+            requestTask = findPetsByStatusWithRequestBuilder(status: status).execute { result in
                 switch result {
                 case let .success(response):
                     promise(.success(response.body))
@@ -161,7 +158,7 @@ open class PetAPI {
             }
         }
         .handleEvents(receiveCancel: {
-            task?.cancel()
+            requestTask?.cancel()
         })
         .eraseToAnyPublisher()
     }
@@ -202,16 +199,15 @@ open class PetAPI {
      Finds Pets by tags
      
      - parameter tags: (query) Tags to filter by 
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: AnyPublisher<[Pet], Error>
      */
     #if canImport(Combine)
     @available(*, deprecated, message: "This operation is deprecated.")
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func findPetsByTags(tags: [String], apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> AnyPublisher<[Pet], Error> {
-        var task: URLSessionTask?
+    open class func findPetsByTags(tags: [String]) -> AnyPublisher<[Pet], Error> {
+        var requestTask: RequestTask?
         return Future<[Pet], Error> { promise in
-            task = findPetsByTagsWithRequestBuilder(tags: tags).execute(apiResponseQueue) { result in
+            requestTask = findPetsByTagsWithRequestBuilder(tags: tags).execute { result in
                 switch result {
                 case let .success(response):
                     promise(.success(response.body))
@@ -221,7 +217,7 @@ open class PetAPI {
             }
         }
         .handleEvents(receiveCancel: {
-            task?.cancel()
+            requestTask?.cancel()
         })
         .eraseToAnyPublisher()
     }
@@ -263,15 +259,14 @@ open class PetAPI {
      Find pet by ID
      
      - parameter petId: (path) ID of pet to return 
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: AnyPublisher<Pet, Error>
      */
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getPetById(petId: Int64, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> AnyPublisher<Pet, Error> {
-        var task: URLSessionTask?
+    open class func getPetById(petId: Int64) -> AnyPublisher<Pet, Error> {
+        var requestTask: RequestTask?
         return Future<Pet, Error> { promise in
-            task = getPetByIdWithRequestBuilder(petId: petId).execute(apiResponseQueue) { result in
+            requestTask = getPetByIdWithRequestBuilder(petId: petId).execute { result in
                 switch result {
                 case let .success(response):
                     promise(.success(response.body))
@@ -281,7 +276,7 @@ open class PetAPI {
             }
         }
         .handleEvents(receiveCancel: {
-            task?.cancel()
+            requestTask?.cancel()
         })
         .eraseToAnyPublisher()
     }
@@ -322,15 +317,14 @@ open class PetAPI {
      Update an existing pet
      
      - parameter body: (body) Pet object that needs to be added to the store 
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: AnyPublisher<Void, Error>
      */
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func updatePet(body: Pet, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> AnyPublisher<Void, Error> {
-        var task: URLSessionTask?
+    open class func updatePet(body: Pet) -> AnyPublisher<Void, Error> {
+        var requestTask: RequestTask?
         return Future<Void, Error> { promise in
-            task = updatePetWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
+            requestTask = updatePetWithRequestBuilder(body: body).execute { result in
                 switch result {
                 case .success:
                     promise(.success(()))
@@ -340,7 +334,7 @@ open class PetAPI {
             }
         }
         .handleEvents(receiveCancel: {
-            task?.cancel()
+            requestTask?.cancel()
         })
         .eraseToAnyPublisher()
     }
@@ -379,15 +373,14 @@ open class PetAPI {
      - parameter petId: (path) ID of pet that needs to be updated 
      - parameter name: (form) Updated name of the pet (optional)
      - parameter status: (form) Updated status of the pet (optional)
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: AnyPublisher<Void, Error>
      */
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func updatePetWithForm(petId: Int64, name: String? = nil, status: String? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> AnyPublisher<Void, Error> {
-        var task: URLSessionTask?
+    open class func updatePetWithForm(petId: Int64, name: String? = nil, status: String? = nil) -> AnyPublisher<Void, Error> {
+        var requestTask: RequestTask?
         return Future<Void, Error> { promise in
-            task = updatePetWithFormWithRequestBuilder(petId: petId, name: name, status: status).execute(apiResponseQueue) { result in
+            requestTask = updatePetWithFormWithRequestBuilder(petId: petId, name: name, status: status).execute { result in
                 switch result {
                 case .success:
                     promise(.success(()))
@@ -397,7 +390,7 @@ open class PetAPI {
             }
         }
         .handleEvents(receiveCancel: {
-            task?.cancel()
+            requestTask?.cancel()
         })
         .eraseToAnyPublisher()
     }
@@ -447,15 +440,14 @@ open class PetAPI {
      - parameter petId: (path) ID of pet to update 
      - parameter additionalMetadata: (form) Additional data to pass to server (optional)
      - parameter file: (form) file to upload (optional)
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: AnyPublisher<ApiResponse, Error>
      */
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func uploadFile(petId: Int64, additionalMetadata: String? = nil, file: URL? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> AnyPublisher<ApiResponse, Error> {
-        var task: URLSessionTask?
+    open class func uploadFile(petId: Int64, additionalMetadata: String? = nil, file: URL? = nil) -> AnyPublisher<ApiResponse, Error> {
+        var requestTask: RequestTask?
         return Future<ApiResponse, Error> { promise in
-            task = uploadFileWithRequestBuilder(petId: petId, additionalMetadata: additionalMetadata, file: file).execute(apiResponseQueue) { result in
+            requestTask = uploadFileWithRequestBuilder(petId: petId, additionalMetadata: additionalMetadata, file: file).execute { result in
                 switch result {
                 case let .success(response):
                     promise(.success(response.body))
@@ -465,7 +457,7 @@ open class PetAPI {
             }
         }
         .handleEvents(receiveCancel: {
-            task?.cancel()
+            requestTask?.cancel()
         })
         .eraseToAnyPublisher()
     }
@@ -515,15 +507,14 @@ open class PetAPI {
      - parameter petId: (path) ID of pet to update 
      - parameter requiredFile: (form) file to upload 
      - parameter additionalMetadata: (form) Additional data to pass to server (optional)
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: AnyPublisher<ApiResponse, Error>
      */
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func uploadFileWithRequiredFile(petId: Int64, requiredFile: URL, additionalMetadata: String? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> AnyPublisher<ApiResponse, Error> {
-        var task: URLSessionTask?
+    open class func uploadFileWithRequiredFile(petId: Int64, requiredFile: URL, additionalMetadata: String? = nil) -> AnyPublisher<ApiResponse, Error> {
+        var requestTask: RequestTask?
         return Future<ApiResponse, Error> { promise in
-            task = uploadFileWithRequiredFileWithRequestBuilder(petId: petId, requiredFile: requiredFile, additionalMetadata: additionalMetadata).execute(apiResponseQueue) { result in
+            requestTask = uploadFileWithRequiredFileWithRequestBuilder(petId: petId, requiredFile: requiredFile, additionalMetadata: additionalMetadata).execute { result in
                 switch result {
                 case let .success(response):
                     promise(.success(response.body))
@@ -533,7 +524,7 @@ open class PetAPI {
             }
         }
         .handleEvents(receiveCancel: {
-            task?.cancel()
+            requestTask?.cancel()
         })
         .eraseToAnyPublisher()
     }

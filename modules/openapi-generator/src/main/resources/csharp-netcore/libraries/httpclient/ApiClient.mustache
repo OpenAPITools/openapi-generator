@@ -20,9 +20,6 @@ using System.Web;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using ErrorEventArgs = Newtonsoft.Json.Serialization.ErrorEventArgs;
-{{#useWebRequest}}
-using System.Net.Http;
-{{/useWebRequest}}
 using System.Net.Http;
 using System.Net.Http.Headers;
 {{#supportsRetry}}
@@ -99,6 +96,10 @@ namespace {{packageName}}.Client
             if (type == typeof(byte[])) // return byte array
             {
                 return await response.Content.ReadAsByteArrayAsync();
+            }
+            else if (type == typeof(FileParameter))
+            {
+                return new FileParameter(await response.Content.ReadAsStreamAsync());
             }
 
             // TODO: ? if (type.IsAssignableFrom(typeof(Stream)))
@@ -278,10 +279,12 @@ namespace {{packageName}}.Client
             {
                 foreach (var fileParam in options.FileParameters)
                 {
-                    var content = new StreamContent(fileParam.Value.Content);
-                    content.Headers.ContentType = new MediaTypeHeaderValue(fileParam.Value.ContentType);
-                    multipartContent.Add(content, fileParam.Key,
-                        fileParam.Value.Name);
+                    foreach (var file in fileParam.Value)
+                    {
+                        var content = new StreamContent(file.Content);
+                        content.Headers.ContentType = new MediaTypeHeaderValue(file.ContentType);
+                        multipartContent.Add(content, fileParam.Key, file.Name);
+                    }
                 }
             }
             return multipartContent;

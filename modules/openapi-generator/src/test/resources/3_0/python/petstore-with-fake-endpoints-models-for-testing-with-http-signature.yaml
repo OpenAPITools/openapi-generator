@@ -2495,3 +2495,12 @@ components:
       type: boolean
       enum:
         - true
+    FooObject:
+      type: object
+      properties:
+        prop1:
+          type: array
+          items:
+            type: object
+        prop2:
+          type: object

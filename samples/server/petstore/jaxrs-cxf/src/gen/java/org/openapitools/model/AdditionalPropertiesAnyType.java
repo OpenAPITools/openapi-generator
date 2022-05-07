@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+
 public class AdditionalPropertiesAnyType extends HashMap<String, Object> {
   
   @ApiModelProperty(value = "")

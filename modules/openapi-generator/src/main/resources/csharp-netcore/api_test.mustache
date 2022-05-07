@@ -28,11 +28,15 @@ namespace {{packageName}}.Test.Api
     /// </remarks>
     public class {{classname}}Tests : IDisposable
     {
+        {{^nonPublicApi}}
         private {{classname}} instance;
 
+        {{/nonPublicApi}}
         public {{classname}}Tests()
         {
+            {{^nonPublicApi}}
             instance = new {{classname}}();
+            {{/nonPublicApi}}
         }
 
         public void Dispose()
