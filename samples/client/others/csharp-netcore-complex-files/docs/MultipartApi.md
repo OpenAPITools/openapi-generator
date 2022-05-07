@@ -80,7 +80,7 @@ No authorization required
 
 <a name="multipartmixed"></a>
 # **MultipartMixed**
-> void MultipartMixed (MultipartMixedStatus status, System.IO.Stream file, MultipartMixedMarker marker = null)
+> void MultipartMixed (MultipartMixedStatus status, System.IO.Stream file, MultipartMixedRequestMarker marker = null)
 
 
 
@@ -105,7 +105,7 @@ namespace Example
             var apiInstance = new MultipartApi(config);
             var status = (MultipartMixedStatus) "ALLOWED";  // MultipartMixedStatus | 
             var file = new System.IO.MemoryStream(System.IO.File.ReadAllBytes("/path/to/file.txt"));  // System.IO.Stream | a file
-            var marker = new MultipartMixedMarker(); // MultipartMixedMarker |  (optional) 
+            var marker = new MultipartMixedRequestMarker(); // MultipartMixedRequestMarker |  (optional) 
 
             try
             {
@@ -128,7 +128,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **status** | **MultipartMixedStatus**|  | 
  **file** | **System.IO.Stream****System.IO.Stream**| a file | 
- **marker** | [**MultipartMixedMarker**](MultipartMixedMarker.md)|  | [optional] 
+ **marker** | [**MultipartMixedRequestMarker**](MultipartMixedRequestMarker.md)|  | [optional] 
 
 ### Return type
 

@@ -104,7 +104,7 @@ Method | HTTP request | Description
 
 ## Documentation For Models
 
- - [InlineObject](docs/InlineObject.md)
+ - [InlineRequest](docs/InlineRequest.md)
  - [MultipartRelatedRequest](docs/MultipartRelatedRequest.md)
  - [MultipartRequestObjectField](docs/MultipartRequestObjectField.md)
 

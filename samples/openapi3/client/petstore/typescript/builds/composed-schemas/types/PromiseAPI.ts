@@ -6,7 +6,9 @@ import { Cat } from '../models/Cat';
 import { CatAllOf } from '../models/CatAllOf';
 import { Dog } from '../models/Dog';
 import { DogAllOf } from '../models/DogAllOf';
-import { InlineObject } from '../models/InlineObject';
+import { InlineRequest } from '../models/InlineRequest';
+import { InlineRequest1 } from '../models/InlineRequest1';
+import { InlineRequest2 } from '../models/InlineRequest2';
 import { PetByAge } from '../models/PetByAge';
 import { PetByType } from '../models/PetByType';
 import { ObservableDefaultApi } from './ObservableAPI';
@@ -24,26 +26,26 @@ export class PromiseDefaultApi {
     }
 
     /**
-     * @param inlineObject 
+     * @param inlineRequest2 
      */
-    public filePost(inlineObject?: InlineObject, _options?: Configuration): Promise<void> {
-        const result = this.api.filePost(inlineObject, _options);
+    public filePost(inlineRequest2?: InlineRequest2, _options?: Configuration): Promise<void> {
+        const result = this.api.filePost(inlineRequest2, _options);
         return result.toPromise();
     }
 
     /**
-     * @param petByAgePetByType 
+     * @param inlineRequest1 
      */
-    public petsFilteredPatch(petByAgePetByType?: PetByAge | PetByType, _options?: Configuration): Promise<void> {
-        const result = this.api.petsFilteredPatch(petByAgePetByType, _options);
+    public petsFilteredPatch(inlineRequest1?: InlineRequest1, _options?: Configuration): Promise<void> {
+        const result = this.api.petsFilteredPatch(inlineRequest1, _options);
         return result.toPromise();
     }
 
     /**
-     * @param catDog 
+     * @param inlineRequest 
      */
-    public petsPatch(catDog?: Cat | Dog, _options?: Configuration): Promise<void> {
-        const result = this.api.petsPatch(catDog, _options);
+    public petsPatch(inlineRequest?: InlineRequest, _options?: Configuration): Promise<void> {
+        const result = this.api.petsPatch(inlineRequest, _options);
         return result.toPromise();
     }
 
