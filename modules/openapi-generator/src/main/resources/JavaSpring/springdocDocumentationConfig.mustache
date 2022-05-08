@@ -38,10 +38,14 @@ public class SpringDocConfiguration {
                 .components(
                         new Components(){{#authMethods}}
                                 .addSecuritySchemes("{{name}}", new SecurityScheme()
-                                        .name("{{name}}")
-                                        .type(SecurityScheme.Type.{{type}})
-                                        .description("Didn't set this up yet or the rest of the weird security scheme stuff"){{#scheme}}
-                                        .scheme("{{scheme}}"){{/scheme}}
+                                        .type(SecurityScheme.Type.{{type}}){{#scheme}}
+                                        .scheme("{{scheme}}"){{/scheme}}{{#keyParamName}}
+                                        .name("{{keyParamName}}"){{/keyParamName}}{{#isKeyInHeader}}
+                                        .in(SecurityScheme.In.HEADER){{/isKeyInHeader}}{{#isKeyInQuery}}
+                                        .in(SecurityScheme.In.QUERY){{/isKeyInQuery}}{{#isKeyInCookie}}
+                                        .in(SecurityScheme.In.COOKIE){{/isKeyInCookie}}{{#bearerFormat}}
+                                        .bearerFormat("{{bearerFormat}}"){{/bearerFormat}}{{#openIdConnectUrl}}
+                                        .openIdConnectUrl("{{openIdConnectUrl}}"){{/openIdConnectUrl}}
                                 ){{/authMethods}}
                 ){{/hasAuthMethods}}
         ;
