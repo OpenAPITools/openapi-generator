@@ -19,7 +19,7 @@ public class SpringDocConfiguration {
                 .info(
                         new Info(){{#appName}}
                                 .title("{{appName}}"){{/appName}}{{#appDescription}}
-                                .description("{{appDescription}}"){{/appDescription}}{{#termsOfService}}
+                                .description("{{{appDescription}}}"){{/appDescription}}{{#termsOfService}}
                                 .termsOfService("{{termsOfService}}"){{/termsOfService}}{{#openAPI}}{{#info}}{{#contact}}
                                 .contact(
                                         new Contact(){{#infoName}}
