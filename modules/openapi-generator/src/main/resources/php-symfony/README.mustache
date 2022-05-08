@@ -19,7 +19,7 @@ For more information, please visit [{{{infoUrl}}}]({{{infoUrl}}})
 
 ## Requirements
 
-PHP 8.1.1 and later
+PHP 8.0 and later
 
 ## Installation & Usage
 
@@ -56,26 +56,20 @@ composer install
 
 Step 1: Please follow the [installation procedure](#installation--usage) first.
 
-Step 2: Enable the bundle in the kernel:
+Step 2: Enable the bundle in the bundle configuration:
 
 ```php
-<?php
-// app/AppKernel.php
-
-public function registerBundles()
-{
-    $bundles = array(
-        // ...
-        new {{invokerPackage}}\{{bundleClassName}}(),
-        // ...
-    );
-}
+// app/config/bundles.php
+return [
+    // ...
+    {{invokerPackage}}\{{bundleClassName}}::class => ['all' => true],
+];
 ```
 
 Step 3: Register the routes:
 
 ```yaml
-# app/config/routing.yml
+# app/config/routes.yaml
 {{bundleAlias}}:
     resource: "@{{bundleName}}Bundle/Resources/config/routing.yml"
 ```
