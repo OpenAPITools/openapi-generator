@@ -1,0 +1,101 @@
+{{>licenseInfo}}
+{{#models}}{{#model}}/*
+ * {{classname}}.h
+ *
+ * {{description}}
+ */
+
+#ifndef BOOST_BEAST_OPENAPI_CLIENT_{{classname}}_MODEL_H_
+#define BOOST_BEAST_OPENAPI_CLIENT_{{classname}}_MODEL_H_
+
+
+{{#imports}}{{{this}}}
+{{/imports}}
+#include <memory>
+#include <vector>
+{{#hasEnums}}
+#include <array>
+{{/hasEnums}}
+#include <boost/property_tree/ptree.hpp>
+
+{{#modelNamespaceDeclarations}}
+namespace {{this}} {
+{{/modelNamespaceDeclarations}}
+
+/// <summary>
+/// {{description}}
+/// </summary>
+{{#circularReferences}}
+class  {{{this}}};
+{{/circularReferences}}
+class {{declspec}} {{classname}} {{#interfaces}}{{#-first}}:{{/-first}}{{^-first}},{{/-first}} public {{{this}}}{{/interfaces}}
+{
+public:
+    {{classname}}() = default;
+    explicit {{classname}}(boost::property_tree::ptree const& pt);
+    virtual ~{{classname}}() = default;
+
+    std::string toJsonString(bool prettyJson = false) const;
+    void fromJsonString(std::string const& jsonString);
+    boost::property_tree::ptree toPropertyTree() const;
+    void fromPropertyTree(boost::property_tree::ptree const& pt);
+
+    /////////////////////////////////////////////
+    /// {{classname}} members
+    {{#vars}}
+
+    /// <summary>
+    /// {{description}}
+    /// </summary>
+    {{{dataType}}} {{getter}}() const;
+    void {{setter}}({{{dataType}}} value);
+    {{/vars}}
+
+protected:
+    //////////////////////////////////////
+    // Override these for customization //
+    //////////////////////////////////////
+
+    virtual std::string toJsonString_internal(bool prettyJson = false) const;
+    virtual void fromJsonString_internal(std::string const& jsonString);
+    virtual boost::property_tree::ptree toPropertyTree_internal() const;
+    virtual void fromPropertyTree_internal(boost::property_tree::ptree const& pt);
+
+
+protected:
+    {{#vars}}
+    {{^isContainer}}
+    {{^isModel}}
+    {{{dataType}}} m_{{name}} = {{{defaultValue}}};
+    {{/isModel}}
+    {{#isModel}}
+    {{{dataType}}} m_{{name}};
+    {{/isModel}}
+    {{/isContainer}}
+    {{#isContainer}}
+    {{{dataType}}} m_{{name}};
+    {{/isContainer}}
+    {{/vars}}
+    {{#vars}}
+    {{#isEnum}}
+    const std::array<std::string, {{#allowableValues}}{{#enumVars}}{{#-last}}{{-index}}{{/-last}}{{/enumVars}}{{/allowableValues}}> m_{{enumName}} = {
+          {{#allowableValues}}{{#enumVars}}"{{{value}}}"{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}
+    };
+
+    {{/isEnum}}
+    {{/vars}}
+};
+
+std::string createJsonStringFromModelVector(const std::vector<std::shared_ptr<{{classname}}>>& data);
+
+void createModelVectorFromJsonString(std::vector<std::shared_ptr<{{{classname}}}>>& vec, const std::string& json);
+
+
+{{#modelNamespaceDeclarations}}
+}
+{{/modelNamespaceDeclarations}}
+
+{{/model}}
+{{/models}}
+
+#endif /* BOOST_BEAST_OPENAPI_CLIENT_{{classname}}_MODEL_H_ */

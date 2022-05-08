@@ -1,0 +1,132 @@
+---
+plugin: openapi
+specFile:   ./petstore.yaml
+
+security:
+  default: Permit
+
+resources:
+  - path: "/v2/pet/1"
+    method: GET
+    response:
+      statusCode: 400
+  - path: "/v2/pet/2"
+    method: GET
+    response:
+      statusCode: 404
+  - path: "/v2/pet"
+    method: PUT
+    requestHeaders:
+      Accept: "application/json"
+    requestBody:
+      jsonPath: $.id
+      value: "1"
+    response:
+      statusCode: 200
+      headers:
+        Content-Type: "application/json"
+      staticData: '{ "id": "1", "name": "cat", "status": "available" }'
+  - path: "/v2/pet"
+    method: PUT
+    requestHeaders:
+      Accept: "application/json"
+    requestBody:
+      jsonPath: $.id
+      value: "400"
+    response:
+      statusCode: 400
+  - path: "/v2/pet"
+    method: PUT
+    requestHeaders:
+      Accept: "application/json"
+    requestBody:
+      jsonPath: $.id
+      value: "404"
+    response:
+      statusCode: 404
+  - path: "/v2/pet"
+    method: PUT
+    requestHeaders:
+      Accept: "application/json"
+    requestBody:
+      jsonPath: $.id
+      value: "405"
+    response:
+      statusCode: 405
+  - path: "/v2/pet/42"
+    method: POST
+    response:
+      statusCode: 200
+  - path: "/v2/pet/50"
+    method: DELETE
+    response:
+      statusCode: 200
+  - path: "/v2/pet/findByStatus"
+    method: GET
+    queryParams:
+      status: available
+    response:
+      statusCode: 200
+      headers:
+        Content-Type: "application/json"
+      staticData: |
+        [{ "id": 1, "name": "cat", "status": "available", "photoUrls":[""] },
+         { "id": 2, "name": "dog", "status": "available", "photoUrls":[""] }]
+  - path: "/v2/pet/findByStatus"
+    method: GET
+    queryParams:
+      status: "available,sold"
+    response:
+      statusCode: 200
+      headers:
+        Content-Type: "application/json"
+      staticData: |
+        [{ "id": 1, "name": "cat", "status": "available", "photoUrls":[""] },
+         { "id": 2, "name": "dog", "status": "available", "photoUrls":[""] },
+         { "id": 3, "name": "mouse", "status": "sold", "photoUrls":[""] }]
+  - path: "/v2/store/order/order_id_ok"
+    method: DELETE
+    response:
+      statusCode: 200
+  - path: "/v2/store/order/order_id_invalid"
+    method: DELETE
+    response:
+      statusCode: 400
+  - path: "/v2/store/order/order_id_not_found"
+    method: DELETE
+    response:
+      statusCode: 404
+  - path: "/v2/store/inventory"
+    method: GET
+    response:
+      statusCode: 200
+      headers:
+        Content-Type: "application/json"
+      staticData: |
+        { "dogs": 2, "cats": 3 }
+  - path: "/v2/user/me"
+    method: DELETE
+    response:
+      statusCode: 200
+  - path: "/v2/user/user_name_invalid"
+    method: DELETE
+    response:
+      statusCode: 400
+  - path: "/v2/user/user_name_not_found"
+    method: DELETE
+    response:
+      statusCode: 404
+  - path: "/v2/user/me"
+    method: PUT
+    response:
+      statusCode: 200
+  - path: "/v2/user/login"
+    method: GET
+    queryParams:
+      username: "me"
+      password: "pa55w0rd"
+    response:
+      statusCode: 200
+      headers:
+        Content-Type: "application/json"
+      staticData: "token"

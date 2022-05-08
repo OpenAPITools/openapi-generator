@@ -1,0 +1,16 @@
+{
+    "id": "1",
+    "name": "MyName",
+    "tags": [
+        {
+            "id": "1",
+            "name": "tag1"
+        },
+        {
+            "id": "2",
+            "name": "tag2"
+        }
+    ],
+    "status": ""
+}
+

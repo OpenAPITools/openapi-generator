@@ -188,7 +188,9 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
                 || languageSpecificPrimitives.contains(type)) {
             return type;
         } else {
-            return sanitizeName(modelNamePrefix + Character.toUpperCase(type.charAt(0)) + type.substring(1));
+            String sanitized = sanitizeName(modelNamePrefix + Character.toUpperCase(type.charAt(0)) + type.substring(1));
+            sanitized = sanitized.replaceFirst("^([0-9_])", "M$1");
+            return sanitized;
         }
     }
 
