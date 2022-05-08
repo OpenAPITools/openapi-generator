@@ -14,8 +14,6 @@ package org.openapitools.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.*;
 
 import javax.validation.constraints.*;
@@ -68,7 +66,6 @@ public class Capitalization {
      * @return smallCamel
      **/
     @Nullable
-    @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_SMALL_CAMEL)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public String getSmallCamel() {
@@ -91,7 +88,6 @@ public class Capitalization {
      * @return capitalCamel
      **/
     @Nullable
-    @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_CAPITAL_CAMEL)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public String getCapitalCamel() {
@@ -114,7 +110,6 @@ public class Capitalization {
      * @return smallSnake
      **/
     @Nullable
-    @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_SMALL_SNAKE)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public String getSmallSnake() {
@@ -137,7 +132,6 @@ public class Capitalization {
      * @return capitalSnake
      **/
     @Nullable
-    @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_CAPITAL_SNAKE)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public String getCapitalSnake() {
@@ -160,7 +154,6 @@ public class Capitalization {
      * @return scAETHFlowPoints
      **/
     @Nullable
-    @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_SC_A_E_T_H_FLOW_POINTS)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public String getScAETHFlowPoints() {
@@ -183,7 +176,6 @@ public class Capitalization {
      * @return ATT_NAME
      **/
     @Nullable
-    @ApiModelProperty(value = "Name of the pet ")
     @JsonProperty(JSON_PROPERTY_A_T_T_N_A_M_E)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public String getATTNAME() {

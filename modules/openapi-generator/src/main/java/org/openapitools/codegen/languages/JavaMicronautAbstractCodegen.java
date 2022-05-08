@@ -93,7 +93,7 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
         apiDocPath = "docs/apis";
         modelDocPath = "docs/models";
         dateLibrary = OPT_DATE_LIBRARY_JAVA8;
-        micronautVersion = "3.3.1";
+        micronautVersion = "3.4.3";
         reactive = true;
         wrapInHttpResponse = false;
         appName = artifactId;
@@ -158,7 +158,7 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
         CliOption generateSwaggerAnnotationsOption = new CliOption(OPT_GENERATE_SWAGGER_ANNOTATIONS, "Specify if you want to generate swagger annotations and which version").defaultValue(generateSwaggerAnnotations);
         Map<String, String> generateSwaggerAnnotationsOptionMap = new HashMap<>();
         generateSwaggerAnnotationsOptionMap.put(OPT_GENERATE_SWAGGER_ANNOTATIONS_SWAGGER_1, "Use io.swagger:swagger-annotations for annotating operations and schemas");
-        generateSwaggerAnnotationsOptionMap.put(OPT_GENERATE_SWAGGER_ANNOTATIONS_SWAGGER_2, "Use o.swagger.core.v3:swagger-annotations for annotating operations and schemas");
+        generateSwaggerAnnotationsOptionMap.put(OPT_GENERATE_SWAGGER_ANNOTATIONS_SWAGGER_2, "Use io.swagger.core.v3:swagger-annotations for annotating operations and schemas");
         generateSwaggerAnnotationsOptionMap.put(OPT_GENERATE_SWAGGER_ANNOTATIONS_TRUE, "Equivalent to \"" + OPT_GENERATE_SWAGGER_ANNOTATIONS_SWAGGER_2 + "\"");
         generateSwaggerAnnotationsOptionMap.put(OPT_GENERATE_SWAGGER_ANNOTATIONS_FALSE, "Do not generate swagger annotations");
         generateSwaggerAnnotationsOption.setEnum(generateSwaggerAnnotationsOptionMap);

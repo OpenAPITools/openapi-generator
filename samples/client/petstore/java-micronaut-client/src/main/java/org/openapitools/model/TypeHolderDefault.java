@@ -14,8 +14,6 @@ package org.openapitools.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -67,7 +65,6 @@ public class TypeHolderDefault {
      * @return stringItem
      **/
     @NotNull
-    @ApiModelProperty(required = true, value = "")
     @JsonProperty(JSON_PROPERTY_STRING_ITEM)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
     public String getStringItem() {
@@ -90,7 +87,6 @@ public class TypeHolderDefault {
      * @return numberItem
      **/
     @NotNull
-    @ApiModelProperty(required = true, value = "")
     @JsonProperty(JSON_PROPERTY_NUMBER_ITEM)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
     public BigDecimal getNumberItem() {
@@ -113,7 +109,6 @@ public class TypeHolderDefault {
      * @return integerItem
      **/
     @NotNull
-    @ApiModelProperty(required = true, value = "")
     @JsonProperty(JSON_PROPERTY_INTEGER_ITEM)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
     public Integer getIntegerItem() {
@@ -136,7 +131,6 @@ public class TypeHolderDefault {
      * @return boolItem
      **/
     @NotNull
-    @ApiModelProperty(required = true, value = "")
     @JsonProperty(JSON_PROPERTY_BOOL_ITEM)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
     public Boolean getBoolItem() {
@@ -164,7 +158,6 @@ public class TypeHolderDefault {
      * @return arrayItem
      **/
     @NotNull
-    @ApiModelProperty(required = true, value = "")
     @JsonProperty(JSON_PROPERTY_ARRAY_ITEM)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
     public List<Integer> getArrayItem() {

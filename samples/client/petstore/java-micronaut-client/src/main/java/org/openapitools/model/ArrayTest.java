@@ -14,8 +14,6 @@ package org.openapitools.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
 import org.openapitools.model.ReadOnlyFirst;
@@ -67,7 +65,6 @@ public class ArrayTest {
      * @return arrayOfString
      **/
     @Nullable
-    @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_ARRAY_OF_STRING)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public List<String> getArrayOfString() {
@@ -98,7 +95,6 @@ public class ArrayTest {
      * @return arrayArrayOfInteger
      **/
     @Nullable
-    @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public List<List<Long>> getArrayArrayOfInteger() {
@@ -129,7 +125,6 @@ public class ArrayTest {
      * @return arrayArrayOfModel
      **/
     @Nullable
-    @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public List<List<ReadOnlyFirst>> getArrayArrayOfModel() {

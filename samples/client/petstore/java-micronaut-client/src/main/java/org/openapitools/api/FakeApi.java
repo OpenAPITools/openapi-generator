@@ -36,7 +36,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 @Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen")
-@Client("${base-path}")
+@Client("${petstore-micronaut-base-path}")
 public interface FakeApi {
     /**
      * creates an XmlItem
@@ -50,6 +50,7 @@ public interface FakeApi {
     Mono<Void> createXmlItem(
         @Body @NotNull @Valid XmlItem xmlItem
     );
+
     /**
      * Test serialization of outer boolean types
      *
@@ -62,6 +63,7 @@ public interface FakeApi {
     Mono<Boolean> fakeOuterBooleanSerialize(
         @Body @Nullable Boolean _body
     );
+
     /**
      * Test serialization of object with outer number type
      *
@@ -74,6 +76,7 @@ public interface FakeApi {
     Mono<OuterComposite> fakeOuterCompositeSerialize(
         @Body @Nullable @Valid OuterComposite _body
     );
+
     /**
      * Test serialization of outer number types
      *
@@ -86,6 +89,7 @@ public interface FakeApi {
     Mono<BigDecimal> fakeOuterNumberSerialize(
         @Body @Nullable BigDecimal _body
     );
+
     /**
      * Test serialization of outer string types
      *
@@ -98,6 +102,7 @@ public interface FakeApi {
     Mono<String> fakeOuterStringSerialize(
         @Body @Nullable String _body
     );
+
     /**
      * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
      *
@@ -109,6 +114,7 @@ public interface FakeApi {
     Mono<Void> testBodyWithFileSchema(
         @Body @NotNull @Valid FileSchemaTestClass _body
     );
+
     /**
      * testBodyWithQueryParams
      *
@@ -122,6 +128,7 @@ public interface FakeApi {
         @QueryValue(value="query") @NotNull String query, 
         @Body @NotNull @Valid User _body
     );
+
     /**
      * To test \&quot;client\&quot; model
      * To test \&quot;client\&quot; model
@@ -135,6 +142,7 @@ public interface FakeApi {
     Mono<ModelClient> testClientModel(
         @Body @NotNull @Valid ModelClient _body
     );
+
     /**
      * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
      * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
@@ -173,6 +181,7 @@ public interface FakeApi {
         @Nullable @Size(min=10, max=64) String password, 
         @Nullable String paramCallback
     );
+
     /**
      * To test enum parameters
      * To test enum parameters
@@ -199,6 +208,7 @@ public interface FakeApi {
         @Nullable List<String> enumFormStringArray, 
         @Nullable String enumFormString
     );
+
     /**
      * Fake endpoint to test group parameters (optional)
      * Fake endpoint to test group parameters (optional)
@@ -220,6 +230,7 @@ public interface FakeApi {
         @Header(name="boolean_group") @Nullable Boolean booleanGroup, 
         @QueryValue(value="int64_group") @Nullable Long int64Group
     );
+
     /**
      * test inline additionalProperties
      *
@@ -231,6 +242,7 @@ public interface FakeApi {
     Mono<Void> testInlineAdditionalProperties(
         @Body @NotNull Map<String, String> param
     );
+
     /**
      * test json serialization of form data
      *
@@ -244,6 +256,7 @@ public interface FakeApi {
         @NotNull String param, 
         @NotNull String param2
     );
+
     /**
      * To test the collection format in query parameters
      *
@@ -262,4 +275,5 @@ public interface FakeApi {
         @QueryValue(value="url") @NotNull List<String> url, 
         @QueryValue(value="context") @NotNull List<String> context
     );
+
 }

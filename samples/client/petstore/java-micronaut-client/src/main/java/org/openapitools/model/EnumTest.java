@@ -15,8 +15,6 @@ package org.openapitools.model;
 import java.util.Objects;
 import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.model.OuterEnum;
 import com.fasterxml.jackson.annotation.*;
 
@@ -200,7 +198,6 @@ public class EnumTest {
      * @return enumString
      **/
     @Nullable
-    @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_ENUM_STRING)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public EnumStringEnum getEnumString() {
@@ -223,7 +220,6 @@ public class EnumTest {
      * @return enumStringRequired
      **/
     @NotNull
-    @ApiModelProperty(required = true, value = "")
     @JsonProperty(JSON_PROPERTY_ENUM_STRING_REQUIRED)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
     public EnumStringRequiredEnum getEnumStringRequired() {
@@ -246,7 +242,6 @@ public class EnumTest {
      * @return enumInteger
      **/
     @Nullable
-    @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_ENUM_INTEGER)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public EnumIntegerEnum getEnumInteger() {
@@ -269,7 +264,6 @@ public class EnumTest {
      * @return enumNumber
      **/
     @Nullable
-    @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_ENUM_NUMBER)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public EnumNumberEnum getEnumNumber() {
@@ -292,7 +286,6 @@ public class EnumTest {
      * @return outerEnum
      **/
     @Nullable
-    @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_OUTER_ENUM)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public OuterEnum getOuterEnum() {

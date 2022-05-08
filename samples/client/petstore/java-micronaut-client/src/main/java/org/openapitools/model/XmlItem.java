@@ -14,8 +14,6 @@ package org.openapitools.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -163,7 +161,6 @@ public class XmlItem {
      * @return attributeString
      **/
     @Nullable
-    @ApiModelProperty(example = "string", value = "")
     @JsonProperty(JSON_PROPERTY_ATTRIBUTE_STRING)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public String getAttributeString() {
@@ -186,7 +183,6 @@ public class XmlItem {
      * @return attributeNumber
      **/
     @Nullable
-    @ApiModelProperty(example = "1.234", value = "")
     @JsonProperty(JSON_PROPERTY_ATTRIBUTE_NUMBER)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public BigDecimal getAttributeNumber() {
@@ -209,7 +205,6 @@ public class XmlItem {
      * @return attributeInteger
      **/
     @Nullable
-    @ApiModelProperty(example = "-2", value = "")
     @JsonProperty(JSON_PROPERTY_ATTRIBUTE_INTEGER)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public Integer getAttributeInteger() {
@@ -232,7 +227,6 @@ public class XmlItem {
      * @return attributeBoolean
      **/
     @Nullable
-    @ApiModelProperty(example = "true", value = "")
     @JsonProperty(JSON_PROPERTY_ATTRIBUTE_BOOLEAN)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public Boolean getAttributeBoolean() {
@@ -263,7 +257,6 @@ public class XmlItem {
      * @return wrappedArray
      **/
     @Nullable
-    @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_WRAPPED_ARRAY)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public List<Integer> getWrappedArray() {
@@ -286,7 +279,6 @@ public class XmlItem {
      * @return nameString
      **/
     @Nullable
-    @ApiModelProperty(example = "string", value = "")
     @JsonProperty(JSON_PROPERTY_NAME_STRING)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public String getNameString() {
@@ -309,7 +301,6 @@ public class XmlItem {
      * @return nameNumber
      **/
     @Nullable
-    @ApiModelProperty(example = "1.234", value = "")
     @JsonProperty(JSON_PROPERTY_NAME_NUMBER)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public BigDecimal getNameNumber() {
@@ -332,7 +323,6 @@ public class XmlItem {
      * @return nameInteger
      **/
     @Nullable
-    @ApiModelProperty(example = "-2", value = "")
     @JsonProperty(JSON_PROPERTY_NAME_INTEGER)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public Integer getNameInteger() {
@@ -355,7 +345,6 @@ public class XmlItem {
      * @return nameBoolean
      **/
     @Nullable
-    @ApiModelProperty(example = "true", value = "")
     @JsonProperty(JSON_PROPERTY_NAME_BOOLEAN)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public Boolean getNameBoolean() {
@@ -386,7 +375,6 @@ public class XmlItem {
      * @return nameArray
      **/
     @Nullable
-    @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_NAME_ARRAY)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public List<Integer> getNameArray() {
@@ -417,7 +405,6 @@ public class XmlItem {
      * @return nameWrappedArray
      **/
     @Nullable
-    @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_NAME_WRAPPED_ARRAY)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public List<Integer> getNameWrappedArray() {
@@ -440,7 +427,6 @@ public class XmlItem {
      * @return prefixString
      **/
     @Nullable
-    @ApiModelProperty(example = "string", value = "")
     @JsonProperty(JSON_PROPERTY_PREFIX_STRING)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public String getPrefixString() {
@@ -463,7 +449,6 @@ public class XmlItem {
      * @return prefixNumber
      **/
     @Nullable
-    @ApiModelProperty(example = "1.234", value = "")
     @JsonProperty(JSON_PROPERTY_PREFIX_NUMBER)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public BigDecimal getPrefixNumber() {
@@ -486,7 +471,6 @@ public class XmlItem {
      * @return prefixInteger
      **/
     @Nullable
-    @ApiModelProperty(example = "-2", value = "")
     @JsonProperty(JSON_PROPERTY_PREFIX_INTEGER)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public Integer getPrefixInteger() {
@@ -509,7 +493,6 @@ public class XmlItem {
      * @return prefixBoolean
      **/
     @Nullable
-    @ApiModelProperty(example = "true", value = "")
     @JsonProperty(JSON_PROPERTY_PREFIX_BOOLEAN)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public Boolean getPrefixBoolean() {
@@ -540,7 +523,6 @@ public class XmlItem {
      * @return prefixArray
      **/
     @Nullable
-    @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_PREFIX_ARRAY)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public List<Integer> getPrefixArray() {
@@ -571,7 +553,6 @@ public class XmlItem {
      * @return prefixWrappedArray
      **/
     @Nullable
-    @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_PREFIX_WRAPPED_ARRAY)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public List<Integer> getPrefixWrappedArray() {
@@ -594,7 +575,6 @@ public class XmlItem {
      * @return namespaceString
      **/
     @Nullable
-    @ApiModelProperty(example = "string", value = "")
     @JsonProperty(JSON_PROPERTY_NAMESPACE_STRING)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public String getNamespaceString() {
@@ -617,7 +597,6 @@ public class XmlItem {
      * @return namespaceNumber
      **/
     @Nullable
-    @ApiModelProperty(example = "1.234", value = "")
     @JsonProperty(JSON_PROPERTY_NAMESPACE_NUMBER)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public BigDecimal getNamespaceNumber() {
@@ -640,7 +619,6 @@ public class XmlItem {
      * @return namespaceInteger
      **/
     @Nullable
-    @ApiModelProperty(example = "-2", value = "")
     @JsonProperty(JSON_PROPERTY_NAMESPACE_INTEGER)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public Integer getNamespaceInteger() {
@@ -663,7 +641,6 @@ public class XmlItem {
      * @return namespaceBoolean
      **/
     @Nullable
-    @ApiModelProperty(example = "true", value = "")
     @JsonProperty(JSON_PROPERTY_NAMESPACE_BOOLEAN)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public Boolean getNamespaceBoolean() {
@@ -694,7 +671,6 @@ public class XmlItem {
      * @return namespaceArray
      **/
     @Nullable
-    @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_NAMESPACE_ARRAY)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public List<Integer> getNamespaceArray() {
@@ -725,7 +701,6 @@ public class XmlItem {
      * @return namespaceWrappedArray
      **/
     @Nullable
-    @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_NAMESPACE_WRAPPED_ARRAY)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public List<Integer> getNamespaceWrappedArray() {
@@ -748,7 +723,6 @@ public class XmlItem {
      * @return prefixNsString
      **/
     @Nullable
-    @ApiModelProperty(example = "string", value = "")
     @JsonProperty(JSON_PROPERTY_PREFIX_NS_STRING)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public String getPrefixNsString() {
@@ -771,7 +745,6 @@ public class XmlItem {
      * @return prefixNsNumber
      **/
     @Nullable
-    @ApiModelProperty(example = "1.234", value = "")
     @JsonProperty(JSON_PROPERTY_PREFIX_NS_NUMBER)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public BigDecimal getPrefixNsNumber() {
@@ -794,7 +767,6 @@ public class XmlItem {
      * @return prefixNsInteger
      **/
     @Nullable
-    @ApiModelProperty(example = "-2", value = "")
     @JsonProperty(JSON_PROPERTY_PREFIX_NS_INTEGER)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public Integer getPrefixNsInteger() {
@@ -817,7 +789,6 @@ public class XmlItem {
      * @return prefixNsBoolean
      **/
     @Nullable
-    @ApiModelProperty(example = "true", value = "")
     @JsonProperty(JSON_PROPERTY_PREFIX_NS_BOOLEAN)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public Boolean getPrefixNsBoolean() {
@@ -848,7 +819,6 @@ public class XmlItem {
      * @return prefixNsArray
      **/
     @Nullable
-    @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_PREFIX_NS_ARRAY)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public List<Integer> getPrefixNsArray() {
@@ -879,7 +849,6 @@ public class XmlItem {
      * @return prefixNsWrappedArray
      **/
     @Nullable
-    @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_PREFIX_NS_WRAPPED_ARRAY)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public List<Integer> getPrefixNsWrappedArray() {

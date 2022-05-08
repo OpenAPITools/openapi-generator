@@ -15,8 +15,6 @@ package org.openapitools.model;
 import java.util.Objects;
 import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.File;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -110,7 +108,6 @@ public class FormatTest {
     @Nullable
     @Min(10)
     @Max(100)
-    @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_INTEGER)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public Integer getInteger() {
@@ -137,7 +134,6 @@ public class FormatTest {
     @Nullable
     @Min(20)
     @Max(200)
-    @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_INT32)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public Integer getInt32() {
@@ -160,7 +156,6 @@ public class FormatTest {
      * @return int64
      **/
     @Nullable
-    @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_INT64)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public Long getInt64() {
@@ -187,7 +182,6 @@ public class FormatTest {
     @NotNull
     @DecimalMin("32.1")
     @DecimalMax("543.2")
-    @ApiModelProperty(required = true, value = "")
     @JsonProperty(JSON_PROPERTY_NUMBER)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
     public BigDecimal getNumber() {
@@ -214,7 +208,6 @@ public class FormatTest {
     @Nullable
     @DecimalMin("54.3")
     @DecimalMax("987.6")
-    @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_FLOAT)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public Float getFloat() {
@@ -241,7 +234,6 @@ public class FormatTest {
     @Nullable
     @DecimalMin("67.8")
     @DecimalMax("123.4")
-    @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_DOUBLE)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public Double getDouble() {
@@ -265,7 +257,6 @@ public class FormatTest {
      **/
     @Nullable
     @Pattern(regexp="/[a-z]/i")
-    @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_STRING)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public String getString() {
@@ -288,7 +279,6 @@ public class FormatTest {
      * @return _byte
      **/
     @NotNull
-    @ApiModelProperty(required = true, value = "")
     @JsonProperty(JSON_PROPERTY_BYTE)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
     public byte[] getByte() {
@@ -311,7 +301,6 @@ public class FormatTest {
      * @return binary
      **/
     @Nullable
-    @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_BINARY)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public File getBinary() {
@@ -334,7 +323,6 @@ public class FormatTest {
      * @return date
      **/
     @NotNull
-    @ApiModelProperty(required = true, value = "")
     @JsonProperty(JSON_PROPERTY_DATE)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
@@ -359,7 +347,6 @@ public class FormatTest {
      * @return dateTime
      **/
     @Nullable
-    @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_DATE_TIME)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXXX")
@@ -384,7 +371,6 @@ public class FormatTest {
      * @return uuid
      **/
     @Nullable
-    @ApiModelProperty(example = "72f98069-206d-4f12-9f12-3d1e525a8e84", value = "")
     @JsonProperty(JSON_PROPERTY_UUID)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public UUID getUuid() {
@@ -408,7 +394,6 @@ public class FormatTest {
      **/
     @NotNull
     @Size(min=10, max=64)
-    @ApiModelProperty(required = true, value = "")
     @JsonProperty(JSON_PROPERTY_PASSWORD)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
     public String getPassword() {
@@ -431,7 +416,6 @@ public class FormatTest {
      * @return bigDecimal
      **/
     @Nullable
-    @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_BIG_DECIMAL)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public BigDecimal getBigDecimal() {

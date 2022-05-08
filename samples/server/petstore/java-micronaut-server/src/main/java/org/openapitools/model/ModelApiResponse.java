@@ -15,19 +15,18 @@ package org.openapitools.model;
 import java.util.Objects;
 import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.*;
 
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 import io.micronaut.core.annotation.*;
 import javax.annotation.Generated;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * Describes the result of uploading an image resource
  */
-@ApiModel(description = "Describes the result of uploading an image resource")
+@Schema(name = "ApiResponse", description = "Describes the result of uploading an image resource")
 @JsonPropertyOrder({
   ModelApiResponse.JSON_PROPERTY_CODE,
   ModelApiResponse.JSON_PROPERTY_TYPE,
@@ -59,7 +58,7 @@ public class ModelApiResponse {
      * @return code
      **/
     @Nullable
-    @ApiModelProperty(value = "")
+    @Schema(name = "code", required = false)
     @JsonProperty(JSON_PROPERTY_CODE)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public Integer getCode() {
@@ -82,7 +81,7 @@ public class ModelApiResponse {
      * @return type
      **/
     @Nullable
-    @ApiModelProperty(value = "")
+    @Schema(name = "type", required = false)
     @JsonProperty(JSON_PROPERTY_TYPE)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public String getType() {
@@ -105,7 +104,7 @@ public class ModelApiResponse {
      * @return message
      **/
     @Nullable
-    @ApiModelProperty(value = "")
+    @Schema(name = "message", required = false)
     @JsonProperty(JSON_PROPERTY_MESSAGE)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public String getMessage() {

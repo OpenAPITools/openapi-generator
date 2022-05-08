@@ -14,8 +14,6 @@ package org.openapitools.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
@@ -100,7 +98,6 @@ public class AdditionalPropertiesClass {
      * @return mapString
      **/
     @Nullable
-    @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_MAP_STRING)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public Map<String, String> getMapString() {
@@ -131,7 +128,6 @@ public class AdditionalPropertiesClass {
      * @return mapNumber
      **/
     @Nullable
-    @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_MAP_NUMBER)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public Map<String, BigDecimal> getMapNumber() {
@@ -162,7 +158,6 @@ public class AdditionalPropertiesClass {
      * @return mapInteger
      **/
     @Nullable
-    @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_MAP_INTEGER)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public Map<String, Integer> getMapInteger() {
@@ -193,7 +188,6 @@ public class AdditionalPropertiesClass {
      * @return mapBoolean
      **/
     @Nullable
-    @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_MAP_BOOLEAN)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public Map<String, Boolean> getMapBoolean() {
@@ -224,7 +218,6 @@ public class AdditionalPropertiesClass {
      * @return mapArrayInteger
      **/
     @Nullable
-    @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_MAP_ARRAY_INTEGER)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public Map<String, List<Integer>> getMapArrayInteger() {
@@ -255,7 +248,6 @@ public class AdditionalPropertiesClass {
      * @return mapArrayAnytype
      **/
     @Nullable
-    @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_MAP_ARRAY_ANYTYPE)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public Map<String, List<Object>> getMapArrayAnytype() {
@@ -286,7 +278,6 @@ public class AdditionalPropertiesClass {
      * @return mapMapString
      **/
     @Nullable
-    @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_MAP_MAP_STRING)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public Map<String, Map<String, String>> getMapMapString() {
@@ -317,7 +308,6 @@ public class AdditionalPropertiesClass {
      * @return mapMapAnytype
      **/
     @Nullable
-    @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_MAP_MAP_ANYTYPE)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public Map<String, Map<String, Object>> getMapMapAnytype() {
@@ -340,7 +330,6 @@ public class AdditionalPropertiesClass {
      * @return anytype1
      **/
     @Nullable
-    @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_ANYTYPE1)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public Object getAnytype1() {
@@ -363,7 +352,6 @@ public class AdditionalPropertiesClass {
      * @return anytype2
      **/
     @Nullable
-    @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_ANYTYPE2)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public Object getAnytype2() {
@@ -386,7 +374,6 @@ public class AdditionalPropertiesClass {
      * @return anytype3
      **/
     @Nullable
-    @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_ANYTYPE3)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public Object getAnytype3() {

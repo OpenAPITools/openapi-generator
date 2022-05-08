@@ -375,7 +375,9 @@ Declare the class with extends and implements
      * @param <T> the return type of the visitor
      * @return the result from the visitor
      */
-    public abstract <T> T accept(Visitor<T> visitor);
+    public <T> T accept(Visitor<T> visitor) {
+        return visitor.visit{{classname}}(this);
+    }
 
     /**
      * A {{classname}} visitor implementation allows visiting the various {{classname}} types.
@@ -386,6 +388,7 @@ Declare the class with extends and implements
         {{#discriminator.mappedModels}}
         R visit{{modelName}}({{modelName}} value);
         {{/discriminator.mappedModels}}
+        R visit{{classname}}({{classname}} value);
     }
 
     {{/discriminator}}

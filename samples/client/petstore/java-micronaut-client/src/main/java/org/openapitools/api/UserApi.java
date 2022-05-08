@@ -29,7 +29,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 @Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen")
-@Client("${base-path}")
+@Client("${petstore-micronaut-base-path}")
 public interface UserApi {
     /**
      * Create user
@@ -43,6 +43,7 @@ public interface UserApi {
     Mono<Void> createUser(
         @Body @NotNull @Valid User _body
     );
+
     /**
      * Creates list of users with given input array
      *
@@ -54,6 +55,7 @@ public interface UserApi {
     Mono<Void> createUsersWithArrayInput(
         @Body @NotNull List<User> _body
     );
+
     /**
      * Creates list of users with given input array
      *
@@ -65,6 +67,7 @@ public interface UserApi {
     Mono<Void> createUsersWithListInput(
         @Body @NotNull List<User> _body
     );
+
     /**
      * Delete user
      * This can only be done by the logged in user.
@@ -76,6 +79,7 @@ public interface UserApi {
     Mono<Void> deleteUser(
         @PathVariable(name="username") @NotNull String username
     );
+
     /**
      * Get user by user name
      *
@@ -87,6 +91,7 @@ public interface UserApi {
     Mono<User> getUserByName(
         @PathVariable(name="username") @NotNull String username
     );
+
     /**
      * Logs user into the system
      *
@@ -100,6 +105,7 @@ public interface UserApi {
         @QueryValue(value="username") @NotNull String username, 
         @QueryValue(value="password") @NotNull String password
     );
+
     /**
      * Logs out current logged in user session
      *
@@ -107,6 +113,7 @@ public interface UserApi {
     @Get(uri="/user/logout")
     @Consumes(value={"application/json"})
     Mono<Void> logoutUser();
+
     /**
      * Updated user
      * This can only be done by the logged in user.
@@ -121,4 +128,5 @@ public interface UserApi {
         @PathVariable(name="username") @NotNull String username, 
         @Body @NotNull @Valid User _body
     );
+
 }

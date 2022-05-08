@@ -28,7 +28,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 @Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen")
-@Client("${base-path}")
+@Client("${petstore-micronaut-base-path}")
 public interface AnotherFakeApi {
     /**
      * To test special tags
@@ -43,4 +43,5 @@ public interface AnotherFakeApi {
     Mono<ModelClient> call123testSpecialTags(
         @Body @NotNull @Valid ModelClient _body
     );
+
 }

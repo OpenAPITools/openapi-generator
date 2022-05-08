@@ -14,8 +14,6 @@ package org.openapitools.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -104,7 +102,6 @@ public class MapTest {
      * @return mapMapOfString
      **/
     @Nullable
-    @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_MAP_MAP_OF_STRING)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public Map<String, Map<String, String>> getMapMapOfString() {
@@ -135,7 +132,6 @@ public class MapTest {
      * @return mapOfEnumString
      **/
     @Nullable
-    @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_MAP_OF_ENUM_STRING)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public Map<String, InnerEnum> getMapOfEnumString() {
@@ -166,7 +162,6 @@ public class MapTest {
      * @return directMap
      **/
     @Nullable
-    @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_DIRECT_MAP)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public Map<String, Boolean> getDirectMap() {
@@ -197,7 +192,6 @@ public class MapTest {
      * @return indirectMap
      **/
     @Nullable
-    @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_INDIRECT_MAP)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public Map<String, Boolean> getIndirectMap() {
