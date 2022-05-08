@@ -1126,7 +1126,8 @@
                 </property>
             </activation>
             <modules>
-                <module>samples/client/petstore/cpp-qt</module>
+                <!-- comment out as newer version of qt needed in travis
+                <module>samples/client/petstore/cpp-qt</module>-->
                 <module>samples/client/petstore/php/OpenAPIClient-php</module>
                 <!-- TODO: move to github action or circleci
                 <module>samples/client/petstore/crystal</module>-->
