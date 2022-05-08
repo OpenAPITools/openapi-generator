@@ -19,7 +19,7 @@ public class SpringDocConfiguration {
                 .info(
                         new Info()
                                 .title("OpenAPI Petstore")
-                                .description("This is a sample server Petstore server. For this sample, you can use the api key &#x60;special-key&#x60; to test the authorization filters.")
+                                .description("This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.")
                                 .license(
                                         new License()
                                                 .name("Apache-2.0")
