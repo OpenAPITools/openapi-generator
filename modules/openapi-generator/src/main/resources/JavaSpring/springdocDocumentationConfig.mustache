@@ -18,8 +18,8 @@ public class SpringDocConfiguration {
         return new OpenAPI()
                 .info(
                         new Info(){{#appName}}
-                                .title("{{appName}}"){{/appName}}{{#appDescription}}
-                                .description("{{{appDescription}}}"){{/appDescription}}{{#termsOfService}}
+                                .title("{{appName}}"){{/appName}}
+                                .description("{{{appDescription}}}"){{#termsOfService}}
                                 .termsOfService("{{termsOfService}}"){{/termsOfService}}{{#openAPI}}{{#info}}{{#contact}}
                                 .contact(
                                         new Contact(){{#infoName}}
