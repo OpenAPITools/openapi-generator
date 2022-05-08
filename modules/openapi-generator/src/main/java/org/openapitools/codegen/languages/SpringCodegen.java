@@ -228,7 +228,7 @@ public class SpringCodegen extends AbstractJavaCodegen
 
     @Override
     public String getHelp() {
-        return "Generates a Java SpringBoot Server application using the SpringFox integration.";
+        return "Generates a Java SpringBoot Server application using the SpringDoc integration.";
     }
 
     @Override
