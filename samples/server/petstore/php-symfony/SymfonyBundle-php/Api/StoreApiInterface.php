@@ -62,7 +62,7 @@ interface StoreApiInterface
      *
      * @return void
      */
-    public function deleteOrder($orderId, &$responseCode, array &$responseHeaders): array|void;
+    public function deleteOrder($orderId, &$responseCode, array &$responseHeaders): void;
 
 
     /**

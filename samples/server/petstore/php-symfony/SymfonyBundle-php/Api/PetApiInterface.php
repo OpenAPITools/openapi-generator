@@ -95,7 +95,7 @@ interface PetApiInterface
      *
      * @return void
      */
-    public function deletePet($petId, $apiKey = null, &$responseCode, array &$responseHeaders): array|void;
+    public function deletePet($petId, $apiKey = null, &$responseCode, array &$responseHeaders): void;
 
 
     /**
@@ -163,7 +163,7 @@ interface PetApiInterface
      *
      * @return void
      */
-    public function updatePetWithForm($petId, $name = null, $status = null, &$responseCode, array &$responseHeaders): array|void;
+    public function updatePetWithForm($petId, $name = null, $status = null, &$responseCode, array &$responseHeaders): void;
 
 
     /**

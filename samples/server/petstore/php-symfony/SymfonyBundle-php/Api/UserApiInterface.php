@@ -62,7 +62,7 @@ interface UserApiInterface
      *
      * @return void
      */
-    public function createUser(User $user, &$responseCode, array &$responseHeaders): array|void;
+    public function createUser(User $user, &$responseCode, array &$responseHeaders): void;
 
 
     /**
@@ -75,7 +75,7 @@ interface UserApiInterface
      *
      * @return void
      */
-    public function createUsersWithArrayInput(array $user, &$responseCode, array &$responseHeaders): array|void;
+    public function createUsersWithArrayInput(array $user, &$responseCode, array &$responseHeaders): void;
 
 
     /**
@@ -88,7 +88,7 @@ interface UserApiInterface
      *
      * @return void
      */
-    public function createUsersWithListInput(array $user, &$responseCode, array &$responseHeaders): array|void;
+    public function createUsersWithListInput(array $user, &$responseCode, array &$responseHeaders): void;
 
 
     /**
@@ -101,7 +101,7 @@ interface UserApiInterface
      *
      * @return void
      */
-    public function deleteUser($username, &$responseCode, array &$responseHeaders): array|void;
+    public function deleteUser($username, &$responseCode, array &$responseHeaders): void;
 
 
     /**
@@ -140,7 +140,7 @@ interface UserApiInterface
      *
      * @return void
      */
-    public function logoutUser(&$responseCode, array &$responseHeaders): array|void;
+    public function logoutUser(&$responseCode, array &$responseHeaders): void;
 
 
     /**
@@ -154,6 +154,6 @@ interface UserApiInterface
      *
      * @return void
      */
-    public function updateUser($username, User $user, &$responseCode, array &$responseHeaders): array|void;
+    public function updateUser($username, User $user, &$responseCode, array &$responseHeaders): void;
 
 }
