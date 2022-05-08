@@ -37,14 +37,16 @@ public class SpringDocConfiguration {
                 ){{#hasAuthMethods}}
                 .components(
                         new Components(){{#authMethods}}
-                                .addSecuritySchemes("{{name}}", new SecurityScheme()
-                                        .type(SecurityScheme.Type.{{type}}){{#scheme}}
-                                        .scheme("{{scheme}}"){{/scheme}}{{#keyParamName}}
-                                        .name("{{keyParamName}}"){{/keyParamName}}{{#isKeyInHeader}}
+                                .addSecuritySchemes("{{name}}", new SecurityScheme(){{#isBasic}}
+                                        .type(SecurityScheme.Type.HTTP)
+                                        .scheme("{{scheme}}"){{#bearerFormat}}
+                                        .bearerFormat("{{bearerFormat}}"){{/bearerFormat}}{{/isBasic}}{{#isApiKey}}
+                                        .type(SecurityScheme.Type.APIKEY){{#isKeyInHeader}}
                                         .in(SecurityScheme.In.HEADER){{/isKeyInHeader}}{{#isKeyInQuery}}
                                         .in(SecurityScheme.In.QUERY){{/isKeyInQuery}}{{#isKeyInCookie}}
-                                        .in(SecurityScheme.In.COOKIE){{/isKeyInCookie}}{{#bearerFormat}}
-                                        .bearerFormat("{{bearerFormat}}"){{/bearerFormat}}
+                                        .in(SecurityScheme.In.COOKIE){{/isKeyInCookie}}
+                                        .name("{{keyParamName}}"){{/isApiKey}}{{#isOAuth}}
+                                        .type(SecurityScheme.Type.OAUTH2){{/isOAuth}}
                                 ){{/authMethods}}
                 ){{/hasAuthMethods}}
         ;
