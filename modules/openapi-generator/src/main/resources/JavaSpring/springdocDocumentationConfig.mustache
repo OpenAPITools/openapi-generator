@@ -44,8 +44,7 @@ public class SpringDocConfiguration {
                                         .in(SecurityScheme.In.HEADER){{/isKeyInHeader}}{{#isKeyInQuery}}
                                         .in(SecurityScheme.In.QUERY){{/isKeyInQuery}}{{#isKeyInCookie}}
                                         .in(SecurityScheme.In.COOKIE){{/isKeyInCookie}}{{#bearerFormat}}
-                                        .bearerFormat("{{bearerFormat}}"){{/bearerFormat}}{{#openIdConnectUrl}}
-                                        .openIdConnectUrl("{{openIdConnectUrl}}"){{/openIdConnectUrl}}
+                                        .bearerFormat("{{bearerFormat}}"){{/bearerFormat}}
                                 ){{/authMethods}}
                 ){{/hasAuthMethods}}
         ;
