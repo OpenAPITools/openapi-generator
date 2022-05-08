@@ -50,6 +50,19 @@ paths:
         - petstore_auth:
             - write:pets
             - read:pets
+  /pet/all:
+    get:
+      summary: Get all pets in an array
+      operationId: allPets
+      tags:
+        - pet
+      responses:
+        '200':
+          description: An array of all pets
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PetArray'
   /pet/findByStatus:
     get:
       tags:
@@ -678,6 +691,12 @@ components:
             - sold
       xml:
         name: Pet
+    PetArray:
+      title: An Array of pets
+      type: array
+      items:
+        $ref: '#/components/schemas/Pet'
+      uniqueItems: true
     ApiResponse:
       title: An uploaded response
       description: Describes the result of uploading an image resource
