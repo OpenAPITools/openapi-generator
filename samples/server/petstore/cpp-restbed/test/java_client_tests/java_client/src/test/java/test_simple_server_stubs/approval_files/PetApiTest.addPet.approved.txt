@@ -1,0 +1,14 @@
+{
+  "id" : 12,
+  "category" : {
+    "id" : 1,
+    "name" : "MyCategory"
+  },
+  "name" : "MyPet",
+  "photoUrls" : [ "myUrl" ],
+  "tags" : [ {
+    "id" : 0,
+    "name" : "MyTag"
+  } ],
+  "status" : "sold"
+}

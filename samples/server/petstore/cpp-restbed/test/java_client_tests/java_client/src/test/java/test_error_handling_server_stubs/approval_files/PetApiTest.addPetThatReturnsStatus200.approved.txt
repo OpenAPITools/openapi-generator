@@ -1,0 +1,11 @@
+{
+  "id" : 0,
+  "category" : {
+    "id" : 0,
+    "name" : ""
+  },
+  "name" : "ReturnsStatus200",
+  "photoUrls" : [ ],
+  "tags" : null,
+  "status" : "available"
+}

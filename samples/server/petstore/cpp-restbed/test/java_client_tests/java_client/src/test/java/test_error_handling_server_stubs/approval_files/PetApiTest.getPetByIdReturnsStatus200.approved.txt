@@ -1,0 +1,8 @@
+{
+  "id" : 0,
+  "category" : null,
+  "name" : "MyPuppy",
+  "photoUrls" : [ ],
+  "tags" : null,
+  "status" : "available"
+}
