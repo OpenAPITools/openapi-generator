@@ -42,11 +42,11 @@ class OuterEnumIntegerDefaultValue
     /**
      * Possible values of this enum
      */
-    const NUMBER_0 = 0;
+    public const NUMBER_0 = 0;
 
-    const NUMBER_1 = 1;
+    public const NUMBER_1 = 1;
 
-    const NUMBER_2 = 2;
+    public const NUMBER_2 = 2;
 
     /**
      * Gets allowable values of the enum

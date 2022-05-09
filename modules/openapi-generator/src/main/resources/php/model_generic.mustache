@@ -127,7 +127,7 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}}{{/parentSchema}}{{^par
     {{#isEnum}}
     {{#allowableValues}}
     {{#enumVars}}
-    const {{enumName}}_{{{name}}} = {{{value}}};
+    public const {{enumName}}_{{{name}}} = {{{value}}};
     {{/enumVars}}
     {{/allowableValues}}
     {{/isEnum}}

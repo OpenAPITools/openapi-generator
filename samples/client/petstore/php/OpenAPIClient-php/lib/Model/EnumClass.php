@@ -42,11 +42,11 @@ class EnumClass
     /**
      * Possible values of this enum
      */
-    const ABC = '_abc';
+    public const ABC = '_abc';
 
-    const EFG = '-efg';
+    public const EFG = '-efg';
 
-    const XYZ = '(xyz)';
+    public const XYZ = '(xyz)';
 
     /**
      * Gets allowable values of the enum
