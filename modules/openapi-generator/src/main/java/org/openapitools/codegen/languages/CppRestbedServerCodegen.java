@@ -31,6 +31,8 @@ import org.openapitools.codegen.utils.ModelUtils;
 import java.io.File;
 import java.util.*;
 import java.util.Map.Entry;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
@@ -38,6 +40,8 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
 
     public static final String DECLSPEC = "declspec";
     public static final String DEFAULT_INCLUDE = "defaultInclude";
+    private static final String OPEN_API_PATH_PARAM_PATTERN = "^\\{(.*)\\}$";
+    private static final String X_CODEGEN_OTHER_METHODS = "x-codegen-other-methods";
 
     protected String packageVersion = "1.0.0";
     protected String declspec = "";
@@ -284,6 +288,32 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
         return toApiName(name);
     }
 
+
+    private String capitalizeFirstChar(String str) {
+        if (str.length() > 1) {
+            return Character.toUpperCase(str.charAt(0)) + str.substring(1);
+        } else {
+            return str.toUpperCase(Locale.ENGLISH);
+        }
+    }
+
+    private String convertPathSegmentToResourceNamePart(String pathSegment) {
+        String convertedSegnemt = pathSegment;
+        if (pathSegment.matches(OPEN_API_PATH_PARAM_PATTERN)) {
+            convertedSegnemt = pathSegment.substring(1, pathSegment.length() - 1);
+        }
+        return capitalizeFirstChar(convertedSegnemt);
+    }
+
+    private String convertPathParamPattern(String pathSegment) {
+        if (pathSegment.matches(OPEN_API_PATH_PARAM_PATTERN)) {
+            String pattern = pathSegment.substring(0, pathSegment.length() - 1);
+            pattern += ": .*}";
+            return pattern;
+        }
+        return pathSegment;
+    }
+
     @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         OperationMap operations = objs.getOperations();
@@ -291,51 +321,44 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
         List<CodegenOperation> newOpList = new ArrayList<>();
 
         for (CodegenOperation op : operationList) {
-            String path = op.path;
-
-            String[] items = path.split("/", -1);
+            String[] pathSegments = op.path.split("/", -1);
             String resourceNameCamelCase = "";
-            op.path = "";
-            for (String item : items) {
-                if (item.length() > 1) {
-                    if (item.matches("^\\{(.*)\\}$")) {
-                        String tmpResourceName = item.substring(1, item.length() - 1);
-                        resourceNameCamelCase += Character.toUpperCase(tmpResourceName.charAt(0)) + tmpResourceName.substring(1);
-                        item = item.substring(0, item.length() - 1);
-                        item += ": .*}";
-                    } else {
-                        resourceNameCamelCase += Character.toUpperCase(item.charAt(0)) + item.substring(1);
+            StringJoiner joiner = new StringJoiner("/");
+            for (String pathSegment : pathSegments) {
+                resourceNameCamelCase += convertPathSegmentToResourceNamePart(pathSegment);
+                String convertedPathSegment = convertPathParamPattern(pathSegment);
+                joiner.add(convertedPathSegment);
                     }
-                } else if (item.length() == 1) {
-                    resourceNameCamelCase += Character.toUpperCase(item.charAt(0));
-                }
-                op.path += item + "/";
-            }
+
+            op.path = joiner.toString();
             op.vendorExtensions.put("x-codegen-resource-name", resourceNameCamelCase);
 
-            boolean foundInNewList = false;
-            for (CodegenOperation op1 : newOpList) {
-                if (!foundInNewList) {
-                    if (op1.path.equals(op.path)) {
-                        foundInNewList = true;
-                        final String X_CODEGEN_OTHER_METHODS = "x-codegen-other-methods";
-                        @SuppressWarnings("unchecked")
-                        List<CodegenOperation> currentOtherMethodList = (List<CodegenOperation>) op1.vendorExtensions.get(X_CODEGEN_OTHER_METHODS);
-                        if (currentOtherMethodList == null) {
-                            currentOtherMethodList = new ArrayList<>();
-                        }
+
+            CodegenOperation op1 = newOpList.stream()
+                    .filter(opInList -> opInList.path.equals(op.path))
+                    .findAny()
+                    .orElse(null);
+
+            if (op1 != null) {
+                List<CodegenOperation> currentOtherMethodList = getCodegenXCodegenOtherMethodsOperations(op1);
                         op.operationIdCamelCase = op1.operationIdCamelCase;
                         currentOtherMethodList.add(op);
                         op1.vendorExtensions.put(X_CODEGEN_OTHER_METHODS, currentOtherMethodList);
                     }
-                }
-            }
-            if (!foundInNewList) {
+            else {
                 newOpList.add(op);
             }
         }
         operations.setOperation(newOpList);
         return objs;
+    }
+
+    private List<CodegenOperation> getCodegenXCodegenOtherMethodsOperations(CodegenOperation newOperation) {
+        List<CodegenOperation> currentOtherMethodList = (List<CodegenOperation>) newOperation.vendorExtensions.get(X_CODEGEN_OTHER_METHODS);
+        if (currentOtherMethodList == null) {
+            currentOtherMethodList = new ArrayList<>();
+        }
+        return currentOtherMethodList;
     }
 
     /**
