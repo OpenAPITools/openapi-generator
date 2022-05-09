@@ -1092,7 +1092,7 @@ public class ModelUtils {
      * @return boolean true if it has at least one self reference
      */
     public static boolean hasSelfReference(OpenAPI openAPI,
-                                       Schema schema) {
+                                           Schema schema) {
         return hasSelfReference(openAPI, schema, null);
     }
 
@@ -1105,8 +1105,8 @@ public class ModelUtils {
      * @return boolean true if it has at least one self reference
      */
     public static boolean hasSelfReference(OpenAPI openAPI,
-                                          Schema schema,
-                                          Set<String> visitedSchemaNames) {
+                                           Schema schema,
+                                           Set<String> visitedSchemaNames) {
         if (visitedSchemaNames == null) {
             visitedSchemaNames = new HashSet<String>();
         }
@@ -1165,7 +1165,7 @@ public class ModelUtils {
             return hasSelfReference(openAPI, schema.getNot(), visitedSchemaNames);
         } else if (schema.getProperties() != null && !schema.getProperties().isEmpty()) {
             // go through properties to see if there's any self-reference
-            for (Schema property : ((Map<String, Schema>)schema.getProperties()).values()) {
+            for (Schema property : ((Map<String, Schema>) schema.getProperties()).values()) {
                 if (hasSelfReference(openAPI, property, visitedSchemaNames)) {
                     return true;
                 }
@@ -1352,7 +1352,7 @@ public class ModelUtils {
 
         Map<String, List<Entry<String, Schema>>> groupedByParent = allSchemas.entrySet().stream()
                 .filter(entry -> isComposedSchema(entry.getValue()))
-                .filter(entry -> getParentName((ComposedSchema) entry.getValue(), allSchemas)!=null)
+                .filter(entry -> getParentName((ComposedSchema) entry.getValue(), allSchemas) != null)
                 .collect(Collectors.groupingBy(entry -> getParentName((ComposedSchema) entry.getValue(), allSchemas)));
 
         return groupedByParent.entrySet().stream()
@@ -1451,7 +1451,7 @@ public class ModelUtils {
             // allOf with a single $ref (no discriminator)
             // TODO to be removed in 5.x or 6.x release
             LOGGER.info("[deprecated] inheritance without use of 'discriminator.propertyName' has been deprecated" +
-                    " in the 5.x release. Composed schema name: {}. Title: {}",
+                            " in the 5.x release. Composed schema name: {}. Title: {}",
                     composedSchema.getName(), composedSchema.getTitle());
         }
 
@@ -1507,8 +1507,7 @@ public class ModelUtils {
     private static boolean hasOrInheritsDiscriminator(Schema schema, Map<String, Schema> allSchemas) {
         if (schema.getDiscriminator() != null && StringUtils.isNotEmpty(schema.getDiscriminator().getPropertyName())) {
             return true;
-        }
-        else if (StringUtils.isNotEmpty(schema.get$ref())) {
+        } else if (StringUtils.isNotEmpty(schema.get$ref())) {
             String parentName = getSimpleRef(schema.get$ref());
             Schema s = allSchemas.get(parentName);
             if (s != null) {
@@ -1622,6 +1621,7 @@ public class ModelUtils {
      * For when a type is not defined on a schema
      * Note: properties, additionalProperties, enums, validations, items, and composed schemas (oneOf/anyOf/allOf)
      * can be defined or omitted on these any type schemas
+     *
      * @param schema the schema that we are checking
      * @return boolean
      */
@@ -1631,213 +1631,163 @@ public class ModelUtils {
 
     public static void syncValidationProperties(Schema schema, IJsonSchemaValidationProperties target) {
         // TODO move this method to IJsonSchemaValidationProperties
-        if (schema != null && target != null) {
-            if (isNullType(schema) || schema.get$ref() != null || isBooleanSchema(schema)) {
-                return;
-            }
-            Integer minItems = schema.getMinItems();
-            Integer maxItems = schema.getMaxItems();
-            Boolean uniqueItems = schema.getUniqueItems();
-            Integer minProperties = schema.getMinProperties();
-            Integer maxProperties = schema.getMaxProperties();
-            Integer minLength = schema.getMinLength();
-            Integer maxLength = schema.getMaxLength();
-            String pattern = schema.getPattern();
-            BigDecimal multipleOf = schema.getMultipleOf();
-            BigDecimal minimum = schema.getMinimum();
-            BigDecimal maximum = schema.getMaximum();
-            Boolean exclusiveMinimum = schema.getExclusiveMinimum();
-            Boolean exclusiveMaximum = schema.getExclusiveMaximum();
+        if(schema == null ||
+                target == null ||
+                isNullType(schema) ||
+                schema.get$ref() != null ||
+                isBooleanSchema(schema))
+            return;
+        SchemaValidations.ValidationSetBuilder vSB = new SchemaValidations.ValidationSetBuilder();
 
-            if (isArraySchema(schema)) {
-                setArrayValidations(schema, target);
-            } else if (isTypeObjectSchema(schema)) {
-                setObjectValidations(schema, target);
-            } else if (isStringSchema(schema)) {
-                setStringValidations(schema, target);
-                if (isDecimalSchema(schema)) {
-                    setNumericValidations(schema, target);
-                }
-            } else if (isNumberSchema(schema) || isIntegerSchema(schema)) {
-                setNumericValidations(schema, target);
-            } else if (isAnyType(schema)) {
-                // anyType can have any validations set on it
-                setArrayValidations(schema, target);
-                setObjectValidations(schema, target);
-                setStringValidations(schema, target);
-                setNumericValidations(schema, target);
-            }
+        Integer minItems = schema.getMinItems();
+        if(minItems!=null) vSB.withMinItems();
 
-            if (maxItems != null || minItems != null || minProperties != null || maxProperties != null || minLength != null || maxLength != null || multipleOf != null || pattern != null || minimum != null || maximum != null || exclusiveMinimum != null || exclusiveMaximum != null || uniqueItems != null) {
-                target.setHasValidation(true);
+        Integer maxItems = schema.getMaxItems();
+        if(maxItems!=null) vSB.withMaxItems();
+
+        Boolean uniqueItems = schema.getUniqueItems();
+        if(uniqueItems!=null) vSB.withUniqueItems();
+
+        Integer minProperties = schema.getMinProperties();
+        if(minProperties!=null) vSB.withMinProperties();
+
+        Integer maxProperties = schema.getMaxProperties();
+        if(maxProperties!=null) vSB.withMaxProperties();
+
+        Integer minLength = schema.getMinLength();
+        if(minLength!=null) vSB.withMinLength();
+
+        Integer maxLength = schema.getMaxLength();
+        if(maxLength!=null) vSB.withMaxLength();
+
+        String pattern = schema.getPattern();
+        if(pattern!=null) vSB.withPattern();
+
+        BigDecimal multipleOf = schema.getMultipleOf();
+        if(multipleOf!=null) vSB.withMultipleOf();
+
+        BigDecimal minimum = schema.getMinimum();
+        if(minimum!=null) vSB.withMinimum();
+
+        BigDecimal maximum = schema.getMaximum();
+        if(maximum!=null) vSB.withMaximum();
+
+        Boolean exclusiveMinimum = schema.getExclusiveMinimum();
+        if(exclusiveMinimum!=null) vSB.withExclusiveMinimum();
+
+        Boolean exclusiveMaximum = schema.getExclusiveMaximum();
+        if(exclusiveMaximum!=null) vSB.withExclusiveMaximum();
+
+        Set<String> setValidations = vSB.build();
+
+        if (isArraySchema(schema)) {
+            logWarnMessagesForIneffectiveValidations(setValidations, schema, SchemaValidations.ARRAY_VALIDATIONS);
+            setArrayValidations(schema, target);
+        } else if (isTypeObjectSchema(schema)) {
+            logWarnMessagesForIneffectiveValidations(setValidations, schema, SchemaValidations.OBJECT_VALIDATIONS);
+            setObjectValidations(schema, target);
+        } else if (isStringSchema(schema)) {
+            setStringValidations(schema, target);
+            if (isDecimalSchema(schema)) {
+                setNumericValidations(schema, target);
+                logWarnMessagesForIneffectiveValidations(setValidations, schema, SchemaValidations.ARRAY_VALIDATIONS);
             }
+            else
+                logWarnMessagesForIneffectiveValidations(setValidations, schema, SchemaValidations.ARRAY_VALIDATIONS);
+
+        } else if (isNumberSchema(schema) || isIntegerSchema(schema)) {
+            setNumericValidations(schema, target);
+            logWarnMessagesForIneffectiveValidations(setValidations, schema, SchemaValidations.NUMERIC_VALIDATIONS);
+        } else if (isAnyType(schema)) {
+            // anyType can have any validations set on it
+            setArrayValidations(schema, target);
+            setObjectValidations(schema, target);
+            setStringValidations(schema, target);
+            setNumericValidations(schema, target);
+            logWarnMessagesForIneffectiveValidations(setValidations, schema, SchemaValidations.ALL_VALIDATIONS);
         }
+
+        if(!setValidations.isEmpty())
+            target.setHasValidation(true);
     }
 
     private static void setArrayValidations(Schema schema, IJsonSchemaValidationProperties target) {
 
-        boolean hasValidation=false;
+        boolean hasValidation = false;
 
         Integer minItems = schema.getMinItems();
         Integer maxItems = schema.getMaxItems();
         Boolean uniqueItems = schema.getUniqueItems();
-        Integer minProperties = schema.getMinProperties();
-        Integer maxProperties = schema.getMaxProperties();
-        Integer minLength = schema.getMinLength();
-        Integer maxLength = schema.getMaxLength();
-        String pattern = schema.getPattern();
-        BigDecimal multipleOf = schema.getMultipleOf();
-        BigDecimal minimum = schema.getMinimum();
-        BigDecimal maximum = schema.getMaximum();
-        Boolean exclusiveMinimum = schema.getExclusiveMinimum();
-        Boolean exclusiveMaximum = schema.getExclusiveMaximum();
 
-        // Generate Warn Messages for Validation constraints that have no effect on the datatype
-        if(minProperties!=null) LOGGER.warn("Validation constraint 'minProperties' has no effect on Array Schema. Ignoring!");
-        if(maxProperties!=null) LOGGER.warn("Validation constraint 'maxProperties' has no effect on Array Schema. Ignoring!");
-        if(minLength!=null) LOGGER.warn("Validation constraint 'minLength' has no effect on Array Schema. Ignoring!");
-        if(maxLength!=null) LOGGER.warn("Validation constraint 'maxLength' has no effect on Array Schema. Ignoring!");
-        if(pattern!=null) LOGGER.warn("Validation constraint 'pattern' has no effect on Array Schema. Ignoring!");
-        if(multipleOf!=null) LOGGER.warn("Validation constraint 'multipleOf' has no effect on Array Schema. Ignoring!");
-        if(minimum!=null) LOGGER.warn("Validation constraint 'minimum' has no effect on Array Schema. Ignoring!");
-        if(maximum!=null) LOGGER.warn("Validation constraint 'maximum' has no effect on Array Schema. Ignoring!");
-        if(exclusiveMinimum!=null) LOGGER.warn("Validation constraint 'exclusiveMinimum' has no effect on Array Schema. Ignoring!");
-        if(exclusiveMaximum!=null) LOGGER.warn("Validation constraint 'exclusiveMaximum' has no effect on Array Schema. Ignoring!");
-
-        if (minItems != null){
+        if (minItems != null) {
             target.setMinItems(minItems);
-            hasValidation=true;
+            hasValidation = true;
         }
-        if (maxItems != null){
+        if (maxItems != null) {
             target.setMaxItems(maxItems);
-            hasValidation=true;
+            hasValidation = true;
         }
-        if (uniqueItems != null){
+        if (uniqueItems != null) {
             target.setUniqueItems(uniqueItems);
-            hasValidation=true;
+            hasValidation = true;
         }
         target.setHasValidation(hasValidation);
     }
 
     private static void setObjectValidations(Schema schema, IJsonSchemaValidationProperties target) {
 
-        boolean hasValidation=false;
+        boolean hasValidation = false;
 
-        Integer minItems = schema.getMinItems();
-        Integer maxItems = schema.getMaxItems();
-        Boolean uniqueItems = schema.getUniqueItems();
         Integer minProperties = schema.getMinProperties();
         Integer maxProperties = schema.getMaxProperties();
-        Integer minLength = schema.getMinLength();
-        Integer maxLength = schema.getMaxLength();
-        String pattern = schema.getPattern();
-        BigDecimal multipleOf = schema.getMultipleOf();
-        BigDecimal minimum = schema.getMinimum();
-        BigDecimal maximum = schema.getMaximum();
-        Boolean exclusiveMinimum = schema.getExclusiveMinimum();
-        Boolean exclusiveMaximum = schema.getExclusiveMaximum();
 
-        // Generate Warn Messages for Validation constraints that have no effect on the datatype
-        if(minItems!=null) LOGGER.warn("Validation constraint 'minItems' has no effect on Object Schema. Ignoring!");
-        if(maxItems!=null) LOGGER.warn("Validation constraint 'maxItems' has no effect on Object Schema. Ignoring!");
-        if(uniqueItems!=null) LOGGER.warn("Validation constraint 'uniqueItems' has no effect on Object Schema. Ignoring!");
-        if(minLength!=null) LOGGER.warn("Validation constraint 'minLength' has no effect on Object Schema. Ignoring!");
-        if(maxLength!=null) LOGGER.warn("Validation constraint 'maxLength' has no effect on Object Schema. Ignoring!");
-        if(pattern!=null) LOGGER.warn("Validation constraint 'pattern' has no effect on Object Schema. Ignoring!");
-        if(multipleOf!=null) LOGGER.warn("Validation constraint 'multipleOf' has no effect on Object Schema. Ignoring!");
-        if(minimum!=null) LOGGER.warn("Validation constraint 'minimum' has no effect on Object Schema. Ignoring!");
-        if(maximum!=null) LOGGER.warn("Validation constraint 'maximum' has no effect on Object Schema. Ignoring!");
-        if(exclusiveMinimum!=null) LOGGER.warn("Validation constraint 'exclusiveMinimum' has no effect on Object Schema. Ignoring!");
-        if(exclusiveMaximum!=null) LOGGER.warn("Validation constraint 'exclusiveMaximum' has no effect on Object Schema. Ignoring!");
-        
-        if (minProperties != null){
+        if (minProperties != null) {
             target.setMinProperties(minProperties);
-            hasValidation=true;
+            hasValidation = true;
         }
-        if (maxProperties != null){
+        if (maxProperties != null) {
             target.setMaxProperties(maxProperties);
-            hasValidation=true;
+            hasValidation = true;
         }
         target.setHasValidation(hasValidation);
     }
 
     private static void setStringValidations(Schema schema, IJsonSchemaValidationProperties target) {
 
-        boolean hasValidation=false;
+        boolean hasValidation = false;
 
-        Integer minItems = schema.getMinItems();
-        Integer maxItems = schema.getMaxItems();
-        Boolean uniqueItems = schema.getUniqueItems();
-        Integer minProperties = schema.getMinProperties();
-        Integer maxProperties = schema.getMaxProperties();
         Integer minLength = schema.getMinLength();
         Integer maxLength = schema.getMaxLength();
         String pattern = schema.getPattern();
-        BigDecimal multipleOf = schema.getMultipleOf();
-        BigDecimal minimum = schema.getMinimum();
-        BigDecimal maximum = schema.getMaximum();
-        Boolean exclusiveMinimum = schema.getExclusiveMinimum();
-        Boolean exclusiveMaximum = schema.getExclusiveMaximum();
 
-        // Generate Warn Messages for Validation constraints that have no effect on the datatype
-        if(minItems!=null) LOGGER.warn("Validation constraint 'minItems' has no effect on String Schema. Ignoring!");
-        if(maxItems!=null) LOGGER.warn("Validation constraint 'maxItems' has no effect on String Schema. Ignoring!");
-        if(uniqueItems!=null) LOGGER.warn("Validation constraint 'uniqueItems' has no effect on String Schema. Ignoring!");
-        if(minProperties!=null) LOGGER.warn("Validation constraint 'minProperties' has no effect on String Schema. Ignoring!");
-        if(maxProperties!=null) LOGGER.warn("Validation constraint 'maxProperties' has no effect on String Schema. Ignoring!");
-        if(multipleOf!=null) LOGGER.warn("Validation constraint 'multipleOf' has no effect on String Schema. Ignoring!");
-        if(minimum!=null) LOGGER.warn("Validation constraint 'minimum' has no effect on String Schema. Ignoring!");
-        if(maximum!=null) LOGGER.warn("Validation constraint 'maximum' has no effect on String Schema. Ignoring!");
-        if(exclusiveMinimum!=null) LOGGER.warn("Validation constraint 'exclusiveMinimum' has no effect on String Schema. Ignoring!");
-        if(exclusiveMaximum!=null) LOGGER.warn("Validation constraint 'exclusiveMaximum' has no effect on String Schema. Ignoring!");
-        
-        if (minLength != null){
+        if (minLength != null) {
             target.setMinLength(minLength);
-            hasValidation=true;
+            hasValidation = true;
         }
-        if (maxLength != null){
+        if (maxLength != null) {
             target.setMaxLength(maxLength);
-            hasValidation=true;
+            hasValidation = true;
         }
         if (pattern != null) {
             target.setPattern(pattern);
-            hasValidation=true;
+            hasValidation = true;
         }
         target.setHasValidation(hasValidation);
     }
 
     private static void setNumericValidations(Schema schema, IJsonSchemaValidationProperties target) {
 
-        boolean hasValidation=false;
+        boolean hasValidation = false;
 
-        Integer minItems = schema.getMinItems();
-        Integer maxItems = schema.getMaxItems();
-        Boolean uniqueItems = schema.getUniqueItems();
-        Integer minProperties = schema.getMinProperties();
-        Integer maxProperties = schema.getMaxProperties();
-        Integer minLength = schema.getMinLength();
-        Integer maxLength = schema.getMaxLength();
-        String pattern = schema.getPattern();
         BigDecimal multipleOf = schema.getMultipleOf();
         BigDecimal minimum = schema.getMinimum();
         BigDecimal maximum = schema.getMaximum();
         Boolean exclusiveMinimum = schema.getExclusiveMinimum();
         Boolean exclusiveMaximum = schema.getExclusiveMaximum();
 
-        // Generate Warn Messages for Validation constraints that have no effect on the datatype
-        if(minItems!=null) LOGGER.warn("Validation constraint 'minItems' has no effect on Schema of Numeric type. Ignoring!");
-        if(maxItems!=null) LOGGER.warn("Validation constraint 'maxItems' has no effect on Schema of Numeric type. Ignoring!");
-        if(uniqueItems!=null) LOGGER.warn("Validation constraint 'uniqueItems' has no effect on Schema of Numeric type. Ignoring!");
-        if(minProperties!=null) LOGGER.warn("Validation constraint 'minProperties' has no effect on Schema of Numeric type. Ignoring!");
-        if(maxProperties!=null) LOGGER.warn("Validation constraint 'maxProperties' has no effect on Schema of Numeric type. Ignoring!");
-        if(minLength!=null) LOGGER.warn("Validation constraint 'minLength' has no effect on Schema of Numeric type. Ignoring!");
-        if(maxLength!=null) LOGGER.warn("Validation constraint 'maxLength' has no effect on Schema of Numeric type. Ignoring!");
-        if(pattern!=null) LOGGER.warn("Validation constraint 'pattern' has no effect on Schema of Numeric type. Ignoring!");
-        
-        
         if (multipleOf != null) {
             target.setMultipleOf(multipleOf);
-            hasValidation=true;
+            hasValidation = true;
         }
         if (minimum != null) {
             if (isIntegerSchema(schema)) {
@@ -1846,7 +1796,7 @@ public class ModelUtils {
                 target.setMinimum(String.valueOf(minimum));
             }
             if (exclusiveMinimum != null) target.setExclusiveMinimum(exclusiveMinimum);
-            hasValidation=true;
+            hasValidation = true;
         }
         if (maximum != null) {
             if (isIntegerSchema(schema)) {
@@ -1855,14 +1805,23 @@ public class ModelUtils {
                 target.setMaximum(String.valueOf(maximum));
             }
             if (exclusiveMaximum != null) target.setExclusiveMaximum(exclusiveMaximum);
-            hasValidation=true;
+            hasValidation = true;
         }
         target.setHasValidation(hasValidation);
     }
 
+    private static void logWarnMessagesForIneffectiveValidations(Set<String> setValidations, Schema schema, Set<String> effectiveValidations){
+        setValidations.removeAll(effectiveValidations);
+        setValidations.stream().forEach(validation-> {
+            LOGGER.warn("Validation '" + validation + "' has no effect on schema. Ignoring!");
+        });
+
+
+    }
+
     private static ObjectMapper getRightMapper(String data) {
         ObjectMapper mapper;
-        if(data.trim().startsWith("{")) {
+        if (data.trim().startsWith("{")) {
             mapper = JSON_MAPPER;
         } else {
             mapper = YAML_MAPPER;
@@ -1874,15 +1833,13 @@ public class ModelUtils {
      * Parse and return a JsonNode representation of the input OAS document.
      *
      * @param location the URL of the OAS document.
-     * @param auths the list of authorization values to access the remote URL.
-     *
-     * @throws java.lang.Exception if an error occurs while retrieving the OpenAPI document.
-     *
+     * @param auths    the list of authorization values to access the remote URL.
      * @return A JsonNode representation of the input OAS document.
+     * @throws java.lang.Exception if an error occurs while retrieving the OpenAPI document.
      */
     public static JsonNode readWithInfo(String location, List<AuthorizationValue> auths) throws Exception {
         String data;
-        location = location.replaceAll("\\\\","/");
+        location = location.replaceAll("\\\\", "/");
         if (location.toLowerCase(Locale.ROOT).startsWith("http")) {
             data = RemoteUrl.urlToString(location, auths);
         } else {
@@ -1936,5 +1893,108 @@ public class ModelUtils {
         //GlobalSettings.setProperty(openapiDocVersion, version);
 
         return new SemVer(version);
+    }
+
+    private static final class SchemaValidations {
+
+        public static Set<String> ARRAY_VALIDATIONS = new ValidationSetBuilder()
+                .withMinItems()
+                .withMaxItems()
+                .withUniqueItems()
+                .build();
+        public static Set<String> OBJECT_VALIDATIONS = new ValidationSetBuilder()
+                .withMinProperties()
+                .withMaxProperties()
+                .build();
+        public static Set<String> STRING_VALIDATIONS = new ValidationSetBuilder()
+                .withMinLength()
+                .withMaxLength()
+                .withPattern()
+                .build();
+        public static Set<String> NUMERIC_VALIDATIONS = new ValidationSetBuilder()
+                .withMultipleOf()
+                .withMinimum()
+                .withMaximum()
+                .withExclusiveMinimum()
+                .withExclusiveMaximum()
+                .build();
+
+        public static Set<String> ALL_VALIDATIONS;
+        static {
+            ALL_VALIDATIONS = new HashSet<>(ARRAY_VALIDATIONS);
+            ALL_VALIDATIONS.addAll(OBJECT_VALIDATIONS);
+            ALL_VALIDATIONS.addAll(STRING_VALIDATIONS);
+            ALL_VALIDATIONS.addAll(NUMERIC_VALIDATIONS);
+        }
+
+        SchemaValidations() {
+        }
+
+
+        public static class ValidationSetBuilder {
+            Set<String> validationSet;
+
+            ValidationSetBuilder() {
+                this.validationSet = new HashSet<String>();
+            }
+
+            public ValidationSetBuilder withMinItems() {
+                this.validationSet.add("minItems");
+                return this;
+            }
+
+            public ValidationSetBuilder withMaxItems() {
+                this.validationSet.add("maxItems");
+                return this;
+            }
+            public ValidationSetBuilder withUniqueItems() {
+                this.validationSet.add("uniqueItems");
+                return this;
+            }
+            public ValidationSetBuilder withMinProperties() {
+                this.validationSet.add("minProperties");
+                return this;
+            }
+            public ValidationSetBuilder withMaxProperties() {
+                this.validationSet.add("maxProperties");
+                return this;
+            }
+            public ValidationSetBuilder withMinLength() {
+                this.validationSet.add("minLength");
+                return this;
+            }
+            public ValidationSetBuilder withMaxLength() {
+                this.validationSet.add("maxLength");
+                return this;
+            }
+            public ValidationSetBuilder withPattern() {
+                this.validationSet.add("pattern");
+                return this;
+            }
+            public ValidationSetBuilder withMultipleOf() {
+                this.validationSet.add("multipleOf");
+                return this;
+            }
+            public ValidationSetBuilder withMinimum() {
+                this.validationSet.add("minimum");
+                return this;
+            }
+            public ValidationSetBuilder withMaximum() {
+                this.validationSet.add("maximum");
+                return this;
+            }
+            public ValidationSetBuilder withExclusiveMinimum() {
+                this.validationSet.add("exclusiveMinimum");
+                return this;
+            }
+            public ValidationSetBuilder withExclusiveMaximum() {
+                this.validationSet.add("exclusiveMaximum");
+                return this;
+            }
+
+            public Set<String> build() {
+                return this.validationSet;
+            }
+        }
     }
 }
