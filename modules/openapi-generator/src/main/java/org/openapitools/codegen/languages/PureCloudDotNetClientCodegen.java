@@ -137,6 +137,10 @@ public class PureCloudDotNetClientCodegen extends CSharpClientCodegen {
         super.postProcessModelProperty(model, property);
 
         property.name = property.name.replaceAll("^_", "");
+
+        if (property.name.equals("524ae5d76c2fdb55822c6061")) {
+            property.name = "apps" +property.name;
+        }
     }
 
     @Override
