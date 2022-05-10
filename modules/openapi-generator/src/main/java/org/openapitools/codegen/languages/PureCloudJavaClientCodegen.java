@@ -23,6 +23,10 @@ public class PureCloudJavaClientCodegen extends JavaClientCodegen {
     public PureCloudJavaClientCodegen() {
         super();
 
+        this.setInvokerPackage("com.mypurecloud.sdk.v2");
+        this.setApiPackage("com.mypurecloud.sdk.v2.api");
+        this.setModelPackage("com.mypurecloud.sdk.v2.model");
+
         // Use default templates
         embeddedTemplateDir = templateDir = "Java";
 
@@ -71,6 +75,15 @@ public class PureCloudJavaClientCodegen extends JavaClientCodegen {
                 cp.dataType = "Object";
             }
         }
+
+        Set<String> imports = new HashSet<>();
+        for (String im : op.imports) {
+            if (isReservedWord(im)) {
+                im = "Model" + im;
+            }
+            imports.add(im);
+        }
+        op.imports = imports;
 
         if (op.hasRequiredParams) {
             for (CodegenParameter cp : op.requiredParams) {
@@ -213,7 +226,26 @@ public class PureCloudJavaClientCodegen extends JavaClientCodegen {
     public CodegenModel fromModel(String name, Schema schema) {
         CodegenModel codegenModel = super.fromModel(name, schema);
 
+        for (CodegenProperty cp : codegenModel.vars) {
+            cp.datatypeWithEnum = cp.datatypeWithEnum.replaceAll("_+$", "");
+        }
+
+        Set<String> imports = new HashSet<>();
+        for (String im : codegenModel.imports) {
+            imports.add(im.replaceAll("_+$", ""));
+        }
+        codegenModel.imports = imports;
+
         codegenModel.isPagedResource = true;
+
+        for (CodegenProperty var : codegenModel.vars) {
+            var.datatypeWithEnum = var.datatypeWithEnum
+                    .replaceAll("_+$", "")
+                    .replaceAll("_+(>)", "$1");
+            var.defaultValue = var.defaultValue
+                    .replaceAll("_+$", "")
+                    .replaceAll("_+(>)", "$1");
+        }
 
         for (String s : Arrays.asList("pageSize","pageNumber","total","selfUri","firstUri","previousUri","nextUri","lastUri","pageCount", "entities")) {
             if (codegenModel.allVars.stream().noneMatch(var -> var.name.equals(s))) {

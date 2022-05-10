@@ -4764,6 +4764,7 @@ public abstract class DefaultCodegen implements CodegenConfig {
                 counter++;
             }
         }
+        uniqueName = uniqueName.replaceAll("_([0-9])", "$1");
         if (!co.operationId.equals(uniqueName)) {
             LOGGER.warn("generated unique operationId `" + uniqueName + "`");
         }

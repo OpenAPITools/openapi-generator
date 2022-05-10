@@ -38,6 +38,10 @@ public class PrefixNumberWithValue implements Mustache.Lambda {
                 // NOOP
             }
         }
+        line = line
+                .replace(" ", "_")
+                .replaceAll("_+", "_")
+                .replaceAll("([0-9]_)", "_$1");
         writer.write(line);
     }
 }
