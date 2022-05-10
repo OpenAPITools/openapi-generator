@@ -55,7 +55,7 @@ public class ModelFile {
 
     @JsonProperty(JSON_PROPERTY_SOURCE_U_R_I)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public void setSourceURI(String sourceURI) {
+    public void setSourceURI(String sourceURI) {
         this.sourceURI = sourceURI;
     }
 

@@ -55,7 +55,7 @@ public class ModelList {
 
     @JsonProperty(JSON_PROPERTY_123LIST)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public void set123list(String _123list) {
+    public void set123list(String _123list) {
         this._123list = _123list;
     }
 

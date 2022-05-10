@@ -62,7 +62,7 @@ public class FileSchemaTestClass {
 
     @JsonProperty(JSON_PROPERTY_FILE)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public void setFile(ModelFile _file) {
+    public void setFile(ModelFile _file) {
         this._file = _file;
     }
 
@@ -92,7 +92,7 @@ public class FileSchemaTestClass {
 
     @JsonProperty(JSON_PROPERTY_FILES)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public void setFiles(List<ModelFile> files) {
+    public void setFiles(List<ModelFile> files) {
         this.files = files;
     }
 
