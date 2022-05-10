@@ -217,13 +217,6 @@ namespace Org.OpenAPITools.Model
     public class UserJsonConverter : JsonConverter<User>
     {
         /// <summary>
-        /// Returns a boolean if the type is compatible with this converter.
-        /// </summary>
-        /// <param name="typeToConvert"></param>
-        /// <returns></returns>
-        public override bool CanConvert(Type typeToConvert) => typeof(User).IsAssignableFrom(typeToConvert);
-
-        /// <summary>
         /// A Json reader.
         /// </summary>
         /// <param name="reader"></param>
@@ -237,6 +230,8 @@ namespace Org.OpenAPITools.Model
 
             if (reader.TokenType != JsonTokenType.StartObject && reader.TokenType != JsonTokenType.StartArray)
                 throw new JsonException();
+
+            JsonTokenType startingTokenType = reader.TokenType;
 
             string email = default;
             string firstName = default;
@@ -253,7 +248,10 @@ namespace Org.OpenAPITools.Model
 
             while (reader.Read())
             {
-                if ((reader.TokenType == JsonTokenType.EndObject || reader.TokenType == JsonTokenType.EndArray) && currentDepth == reader.CurrentDepth)
+                if (startingTokenType == JsonTokenType.StartObject && reader.TokenType == JsonTokenType.EndObject && currentDepth == reader.CurrentDepth)
+                    break;
+
+                if (startingTokenType == JsonTokenType.StartArray && reader.TokenType == JsonTokenType.EndArray && currentDepth == reader.CurrentDepth)
                     break;
 
                 if (reader.TokenType == JsonTokenType.PropertyName)
@@ -319,7 +317,26 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, User user, JsonSerializerOptions options)
         {
-            JsonSerializer.Serialize(writer, user);
+            writer.WriteStartObject();
+
+            writer.WriteString("email", user.Email);
+            writer.WriteString("firstName", user.FirstName);
+            writer.WriteNumber("id", (int)user.Id);
+            writer.WriteString("lastName", user.LastName);
+            writer.WritePropertyName("objectWithNoDeclaredProps");
+            JsonSerializer.Serialize(writer, user.ObjectWithNoDeclaredProps, options);
+            writer.WriteString("password", user.Password);
+            writer.WriteString("phone", user.Phone);
+            writer.WriteNumber("userStatus", (int)user.UserStatus);
+            writer.WriteString("username", user.Username);
+            writer.WritePropertyName("anyTypeProp");
+            JsonSerializer.Serialize(writer, user.AnyTypeProp, options);
+            writer.WritePropertyName("anyTypePropNullable");
+            JsonSerializer.Serialize(writer, user.AnyTypePropNullable, options);
+            writer.WritePropertyName("objectWithNoDeclaredPropsNullable");
+            JsonSerializer.Serialize(writer, user.ObjectWithNoDeclaredPropsNullable, options);
+
+            writer.WriteEndObject();
         }
     }
 }

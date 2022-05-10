@@ -60,6 +60,20 @@ namespace Org.OpenAPITools.Model
             return null;
         }
 
+        public static string ToJsonValue(OuterEnum value)
+        {
+            if (value == OuterEnum.Placed)
+                return "placed";
+
+            if (value == OuterEnum.Approved)
+                return "approved";
+
+            if (value == OuterEnum.Delivered)
+                return "delivered";
+
+            throw new NotImplementedException($"Value could not be handled: '{value}'");
+        }
+
         /// <summary>
         /// Returns a  from the Json object
         /// </summary>

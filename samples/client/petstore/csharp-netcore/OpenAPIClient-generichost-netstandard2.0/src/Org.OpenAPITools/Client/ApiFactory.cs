@@ -1,5 +1,6 @@
-using Microsoft.Extensions.DependencyInjection;
 using System;
+using Microsoft.Extensions.DependencyInjection;
+
 
 namespace Org.OpenAPITools.Client
 {
@@ -13,7 +14,7 @@ namespace Org.OpenAPITools.Client
         /// </summary>
         /// <typeparam name="IResult"></typeparam>
         /// <returns></returns>
-        IResult Create<IResult>() where IResult : IApi;
+        IResult Create<IResult>() where IResult : IDefaultApi.IApi;
     }
 
     /// <summary>
@@ -40,7 +41,7 @@ namespace Org.OpenAPITools.Client
         /// </summary>
         /// <typeparam name="IResult"></typeparam>
         /// <returns></returns>
-        public IResult Create<IResult>() where IResult : IApi
+        public IResult Create<IResult>() where IResult : IDefaultApi.IApi
         {
             return Services.GetRequiredService<IResult>();
         }

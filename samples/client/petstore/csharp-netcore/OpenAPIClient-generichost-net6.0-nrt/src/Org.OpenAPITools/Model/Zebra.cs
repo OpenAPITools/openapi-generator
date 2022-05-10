@@ -80,7 +80,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static TypeEnum? TypeEnumFromString(string value)
+        public static TypeEnum TypeEnumFromString(string value)
         {
             if (value == "plains")
                 return TypeEnum.Plains;
@@ -91,7 +91,27 @@ namespace Org.OpenAPITools.Model
             if (value == "grevys")
                 return TypeEnum.Grevys;
 
-            return null;
+            throw new NotImplementedException($"Could not convert value to type TypeEnum: '{value}'");
+        }
+
+        /// <summary>
+        /// Returns equivalent json value
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public static string TypeEnumToJsonValue(TypeEnum value)
+        {
+            if (value == TypeEnum.Plains)
+                return "plains";
+
+            if (value == TypeEnum.Mountain)
+                return "mountain";
+
+            if (value == TypeEnum.Grevys)
+                return "grevys";
+
+            throw new NotImplementedException($"Value could not be handled: '{value}'");
         }
 
         /// <summary>
@@ -144,13 +164,6 @@ namespace Org.OpenAPITools.Model
     public class ZebraJsonConverter : JsonConverter<Zebra>
     {
         /// <summary>
-        /// Returns a boolean if the type is compatible with this converter.
-        /// </summary>
-        /// <param name="typeToConvert"></param>
-        /// <returns></returns>
-        public override bool CanConvert(Type typeToConvert) => typeof(Zebra).IsAssignableFrom(typeToConvert);
-
-        /// <summary>
         /// A Json reader.
         /// </summary>
         /// <param name="reader"></param>
@@ -165,12 +178,17 @@ namespace Org.OpenAPITools.Model
             if (reader.TokenType != JsonTokenType.StartObject && reader.TokenType != JsonTokenType.StartArray)
                 throw new JsonException();
 
+            JsonTokenType startingTokenType = reader.TokenType;
+
             string className = default;
-            Zebra.TypeEnum? type = default;
+            Zebra.TypeEnum type = default;
 
             while (reader.Read())
             {
-                if ((reader.TokenType == JsonTokenType.EndObject || reader.TokenType == JsonTokenType.EndArray) && currentDepth == reader.CurrentDepth)
+                if (startingTokenType == JsonTokenType.StartObject && reader.TokenType == JsonTokenType.EndObject && currentDepth == reader.CurrentDepth)
+                    break;
+
+                if (startingTokenType == JsonTokenType.StartArray && reader.TokenType == JsonTokenType.EndArray && currentDepth == reader.CurrentDepth)
                     break;
 
                 if (reader.TokenType == JsonTokenType.PropertyName)
@@ -191,7 +209,7 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            return new Zebra(className, type.Value);
+            return new Zebra(className, type);
         }
 
         /// <summary>
@@ -203,7 +221,16 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, Zebra zebra, JsonSerializerOptions options)
         {
-            JsonSerializer.Serialize(writer, zebra);
+            writer.WriteStartObject();
+
+            writer.WriteString("className", zebra.ClassName);
+            var typeRawValue = Zebra.TypeEnumToJsonValue(zebra.Type);
+            if (typeRawValue != null)
+                writer.WriteString("type", typeRawValue);
+            else
+                writer.WriteNull("type");
+
+            writer.WriteEndObject();
         }
     }
 }

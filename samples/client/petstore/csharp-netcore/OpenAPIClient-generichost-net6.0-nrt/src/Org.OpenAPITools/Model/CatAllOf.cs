@@ -91,13 +91,6 @@ namespace Org.OpenAPITools.Model
     public class CatAllOfJsonConverter : JsonConverter<CatAllOf>
     {
         /// <summary>
-        /// Returns a boolean if the type is compatible with this converter.
-        /// </summary>
-        /// <param name="typeToConvert"></param>
-        /// <returns></returns>
-        public override bool CanConvert(Type typeToConvert) => typeof(CatAllOf).IsAssignableFrom(typeToConvert);
-
-        /// <summary>
         /// A Json reader.
         /// </summary>
         /// <param name="reader"></param>
@@ -112,11 +105,16 @@ namespace Org.OpenAPITools.Model
             if (reader.TokenType != JsonTokenType.StartObject && reader.TokenType != JsonTokenType.StartArray)
                 throw new JsonException();
 
+            JsonTokenType startingTokenType = reader.TokenType;
+
             bool declawed = default;
 
             while (reader.Read())
             {
-                if ((reader.TokenType == JsonTokenType.EndObject || reader.TokenType == JsonTokenType.EndArray) && currentDepth == reader.CurrentDepth)
+                if (startingTokenType == JsonTokenType.StartObject && reader.TokenType == JsonTokenType.EndObject && currentDepth == reader.CurrentDepth)
+                    break;
+
+                if (startingTokenType == JsonTokenType.StartArray && reader.TokenType == JsonTokenType.EndArray && currentDepth == reader.CurrentDepth)
                     break;
 
                 if (reader.TokenType == JsonTokenType.PropertyName)
@@ -145,7 +143,11 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, CatAllOf catAllOf, JsonSerializerOptions options)
         {
-            JsonSerializer.Serialize(writer, catAllOf);
+            writer.WriteStartObject();
+
+            writer.WriteBoolean("declawed", catAllOf.Declawed);
+
+            writer.WriteEndObject();
         }
     }
 }

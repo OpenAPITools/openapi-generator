@@ -68,12 +68,26 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static PetTypeEnum? PetTypeEnumFromString(string value)
+        public static PetTypeEnum PetTypeEnumFromString(string value)
         {
             if (value == "ChildCat")
                 return PetTypeEnum.ChildCat;
 
-            return null;
+            throw new NotImplementedException($"Could not convert value to type PetTypeEnum: '{value}'");
+        }
+
+        /// <summary>
+        /// Returns equivalent json value
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public static string PetTypeEnumToJsonValue(PetTypeEnum value)
+        {
+            if (value == PetTypeEnum.ChildCat)
+                return "ChildCat";
+
+            throw new NotImplementedException($"Value could not be handled: '{value}'");
         }
 
         /// <summary>
@@ -125,13 +139,6 @@ namespace Org.OpenAPITools.Model
     public class ChildCatAllOfJsonConverter : JsonConverter<ChildCatAllOf>
     {
         /// <summary>
-        /// Returns a boolean if the type is compatible with this converter.
-        /// </summary>
-        /// <param name="typeToConvert"></param>
-        /// <returns></returns>
-        public override bool CanConvert(Type typeToConvert) => typeof(ChildCatAllOf).IsAssignableFrom(typeToConvert);
-
-        /// <summary>
         /// A Json reader.
         /// </summary>
         /// <param name="reader"></param>
@@ -146,12 +153,17 @@ namespace Org.OpenAPITools.Model
             if (reader.TokenType != JsonTokenType.StartObject && reader.TokenType != JsonTokenType.StartArray)
                 throw new JsonException();
 
+            JsonTokenType startingTokenType = reader.TokenType;
+
             string name = default;
-            ChildCatAllOf.PetTypeEnum? petType = default;
+            ChildCatAllOf.PetTypeEnum petType = default;
 
             while (reader.Read())
             {
-                if ((reader.TokenType == JsonTokenType.EndObject || reader.TokenType == JsonTokenType.EndArray) && currentDepth == reader.CurrentDepth)
+                if (startingTokenType == JsonTokenType.StartObject && reader.TokenType == JsonTokenType.EndObject && currentDepth == reader.CurrentDepth)
+                    break;
+
+                if (startingTokenType == JsonTokenType.StartArray && reader.TokenType == JsonTokenType.EndArray && currentDepth == reader.CurrentDepth)
                     break;
 
                 if (reader.TokenType == JsonTokenType.PropertyName)
@@ -172,7 +184,7 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            return new ChildCatAllOf(name, petType.Value);
+            return new ChildCatAllOf(name, petType);
         }
 
         /// <summary>
@@ -184,7 +196,16 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, ChildCatAllOf childCatAllOf, JsonSerializerOptions options)
         {
-            JsonSerializer.Serialize(writer, childCatAllOf);
+            writer.WriteStartObject();
+
+            writer.WriteString("name", childCatAllOf.Name);
+            var petTypeRawValue = ChildCatAllOf.PetTypeEnumToJsonValue(childCatAllOf.PetType);
+            if (petTypeRawValue != null)
+                writer.WriteString("pet_type", petTypeRawValue);
+            else
+                writer.WriteNull("pet_type");
+
+            writer.WriteEndObject();
         }
     }
 }

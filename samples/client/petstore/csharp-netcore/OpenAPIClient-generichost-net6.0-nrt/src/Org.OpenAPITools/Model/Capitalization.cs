@@ -152,13 +152,6 @@ namespace Org.OpenAPITools.Model
     public class CapitalizationJsonConverter : JsonConverter<Capitalization>
     {
         /// <summary>
-        /// Returns a boolean if the type is compatible with this converter.
-        /// </summary>
-        /// <param name="typeToConvert"></param>
-        /// <returns></returns>
-        public override bool CanConvert(Type typeToConvert) => typeof(Capitalization).IsAssignableFrom(typeToConvert);
-
-        /// <summary>
         /// A Json reader.
         /// </summary>
         /// <param name="reader"></param>
@@ -173,6 +166,8 @@ namespace Org.OpenAPITools.Model
             if (reader.TokenType != JsonTokenType.StartObject && reader.TokenType != JsonTokenType.StartArray)
                 throw new JsonException();
 
+            JsonTokenType startingTokenType = reader.TokenType;
+
             string aTTNAME = default;
             string capitalCamel = default;
             string capitalSnake = default;
@@ -182,7 +177,10 @@ namespace Org.OpenAPITools.Model
 
             while (reader.Read())
             {
-                if ((reader.TokenType == JsonTokenType.EndObject || reader.TokenType == JsonTokenType.EndArray) && currentDepth == reader.CurrentDepth)
+                if (startingTokenType == JsonTokenType.StartObject && reader.TokenType == JsonTokenType.EndObject && currentDepth == reader.CurrentDepth)
+                    break;
+
+                if (startingTokenType == JsonTokenType.StartArray && reader.TokenType == JsonTokenType.EndArray && currentDepth == reader.CurrentDepth)
                     break;
 
                 if (reader.TokenType == JsonTokenType.PropertyName)
@@ -226,7 +224,16 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, Capitalization capitalization, JsonSerializerOptions options)
         {
-            JsonSerializer.Serialize(writer, capitalization);
+            writer.WriteStartObject();
+
+            writer.WriteString("ATT_NAME", capitalization.ATT_NAME);
+            writer.WriteString("CapitalCamel", capitalization.CapitalCamel);
+            writer.WriteString("Capital_Snake", capitalization.CapitalSnake);
+            writer.WriteString("SCA_ETH_Flow_Points", capitalization.SCAETHFlowPoints);
+            writer.WriteString("smallCamel", capitalization.SmallCamel);
+            writer.WriteString("small_Snake", capitalization.SmallSnake);
+
+            writer.WriteEndObject();
         }
     }
 }

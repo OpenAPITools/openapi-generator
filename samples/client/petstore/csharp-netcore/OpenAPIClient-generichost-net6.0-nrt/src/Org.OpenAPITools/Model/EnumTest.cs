@@ -107,7 +107,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static EnumIntegerEnum? EnumIntegerEnumFromString(string value)
+        public static EnumIntegerEnum EnumIntegerEnumFromString(string value)
         {
             if (value == (1).ToString())
                 return EnumIntegerEnum.NUMBER_1;
@@ -115,7 +115,18 @@ namespace Org.OpenAPITools.Model
             if (value == (-1).ToString())
                 return EnumIntegerEnum.NUMBER_MINUS_1;
 
-            return null;
+            throw new NotImplementedException($"Could not convert value to type EnumIntegerEnum: '{value}'");
+        }
+
+        /// <summary>
+        /// Returns equivalent json value
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public static int EnumIntegerEnumToJsonValue(EnumIntegerEnum value)
+        {
+            return (int) value;
         }
 
         /// <summary>
@@ -145,7 +156,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static EnumIntegerOnlyEnum? EnumIntegerOnlyEnumFromString(string value)
+        public static EnumIntegerOnlyEnum EnumIntegerOnlyEnumFromString(string value)
         {
             if (value == (2).ToString())
                 return EnumIntegerOnlyEnum.NUMBER_2;
@@ -153,7 +164,18 @@ namespace Org.OpenAPITools.Model
             if (value == (-2).ToString())
                 return EnumIntegerOnlyEnum.NUMBER_MINUS_2;
 
-            return null;
+            throw new NotImplementedException($"Could not convert value to type EnumIntegerOnlyEnum: '{value}'");
+        }
+
+        /// <summary>
+        /// Returns equivalent json value
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public static int EnumIntegerOnlyEnumToJsonValue(EnumIntegerOnlyEnum value)
+        {
+            return (int) value;
         }
 
         /// <summary>
@@ -183,7 +205,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static EnumNumberEnum? EnumNumberEnumFromString(string value)
+        public static EnumNumberEnum EnumNumberEnumFromString(string value)
         {
             if (value == "1.1")
                 return EnumNumberEnum.NUMBER_1_DOT_1;
@@ -191,7 +213,24 @@ namespace Org.OpenAPITools.Model
             if (value == "-1.2")
                 return EnumNumberEnum.NUMBER_MINUS_1_DOT_2;
 
-            return null;
+            throw new NotImplementedException($"Could not convert value to type EnumNumberEnum: '{value}'");
+        }
+
+        /// <summary>
+        /// Returns equivalent json value
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public static string EnumNumberEnumToJsonValue(EnumNumberEnum value)
+        {
+            if (value == EnumNumberEnum.NUMBER_1_DOT_1)
+                return "1.1";
+
+            if (value == EnumNumberEnum.NUMBER_MINUS_1_DOT_2)
+                return "-1.2";
+
+            throw new NotImplementedException($"Value could not be handled: '{value}'");
         }
 
         /// <summary>
@@ -226,7 +265,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static EnumStringEnum? EnumStringEnumFromString(string value)
+        public static EnumStringEnum EnumStringEnumFromString(string value)
         {
             if (value == "UPPER")
                 return EnumStringEnum.UPPER;
@@ -237,7 +276,27 @@ namespace Org.OpenAPITools.Model
             if (value == "")
                 return EnumStringEnum.Empty;
 
-            return null;
+            throw new NotImplementedException($"Could not convert value to type EnumStringEnum: '{value}'");
+        }
+
+        /// <summary>
+        /// Returns equivalent json value
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public static string EnumStringEnumToJsonValue(EnumStringEnum value)
+        {
+            if (value == EnumStringEnum.UPPER)
+                return "UPPER";
+
+            if (value == EnumStringEnum.Lower)
+                return "lower";
+
+            if (value == EnumStringEnum.Empty)
+                return "";
+
+            throw new NotImplementedException($"Value could not be handled: '{value}'");
         }
 
         /// <summary>
@@ -272,7 +331,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static EnumStringRequiredEnum? EnumStringRequiredEnumFromString(string value)
+        public static EnumStringRequiredEnum EnumStringRequiredEnumFromString(string value)
         {
             if (value == "UPPER")
                 return EnumStringRequiredEnum.UPPER;
@@ -283,7 +342,27 @@ namespace Org.OpenAPITools.Model
             if (value == "")
                 return EnumStringRequiredEnum.Empty;
 
-            return null;
+            throw new NotImplementedException($"Could not convert value to type EnumStringRequiredEnum: '{value}'");
+        }
+
+        /// <summary>
+        /// Returns equivalent json value
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public static string EnumStringRequiredEnumToJsonValue(EnumStringRequiredEnum value)
+        {
+            if (value == EnumStringRequiredEnum.UPPER)
+                return "UPPER";
+
+            if (value == EnumStringRequiredEnum.Lower)
+                return "lower";
+
+            if (value == EnumStringRequiredEnum.Empty)
+                return "";
+
+            throw new NotImplementedException($"Value could not be handled: '{value}'");
         }
 
         /// <summary>
@@ -360,13 +439,6 @@ namespace Org.OpenAPITools.Model
     public class EnumTestJsonConverter : JsonConverter<EnumTest>
     {
         /// <summary>
-        /// Returns a boolean if the type is compatible with this converter.
-        /// </summary>
-        /// <param name="typeToConvert"></param>
-        /// <returns></returns>
-        public override bool CanConvert(Type typeToConvert) => typeof(EnumTest).IsAssignableFrom(typeToConvert);
-
-        /// <summary>
         /// A Json reader.
         /// </summary>
         /// <param name="reader"></param>
@@ -381,19 +453,24 @@ namespace Org.OpenAPITools.Model
             if (reader.TokenType != JsonTokenType.StartObject && reader.TokenType != JsonTokenType.StartArray)
                 throw new JsonException();
 
-            EnumTest.EnumIntegerEnum? enumInteger = default;
-            EnumTest.EnumIntegerOnlyEnum? enumIntegerOnly = default;
-            EnumTest.EnumNumberEnum? enumNumber = default;
-            EnumTest.EnumStringEnum? enumString = default;
-            EnumTest.EnumStringRequiredEnum? enumStringRequired = default;
-            OuterEnumDefaultValue? outerEnumDefaultValue = default;
-            OuterEnumInteger? outerEnumInteger = default;
-            OuterEnumIntegerDefaultValue? outerEnumIntegerDefaultValue = default;
+            JsonTokenType startingTokenType = reader.TokenType;
+
+            EnumTest.EnumIntegerEnum enumInteger = default;
+            EnumTest.EnumIntegerOnlyEnum enumIntegerOnly = default;
+            EnumTest.EnumNumberEnum enumNumber = default;
+            EnumTest.EnumStringEnum enumString = default;
+            EnumTest.EnumStringRequiredEnum enumStringRequired = default;
+            OuterEnumDefaultValue outerEnumDefaultValue = default;
+            OuterEnumInteger outerEnumInteger = default;
+            OuterEnumIntegerDefaultValue outerEnumIntegerDefaultValue = default;
             OuterEnum? outerEnum = default;
 
             while (reader.Read())
             {
-                if ((reader.TokenType == JsonTokenType.EndObject || reader.TokenType == JsonTokenType.EndArray) && currentDepth == reader.CurrentDepth)
+                if (startingTokenType == JsonTokenType.StartObject && reader.TokenType == JsonTokenType.EndObject && currentDepth == reader.CurrentDepth)
+                    break;
+
+                if (startingTokenType == JsonTokenType.StartArray && reader.TokenType == JsonTokenType.EndArray && currentDepth == reader.CurrentDepth)
                     break;
 
                 if (reader.TokenType == JsonTokenType.PropertyName)
@@ -440,7 +517,7 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            return new EnumTest(enumInteger.Value, enumIntegerOnly.Value, enumNumber.Value, enumString.Value, enumStringRequired.Value, outerEnumDefaultValue.Value, outerEnumInteger.Value, outerEnumIntegerDefaultValue.Value, outerEnum.Value);
+            return new EnumTest(enumInteger, enumIntegerOnly, enumNumber, enumString, enumStringRequired, outerEnumDefaultValue, outerEnumInteger, outerEnumIntegerDefaultValue, outerEnum);
         }
 
         /// <summary>
@@ -452,7 +529,45 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, EnumTest enumTest, JsonSerializerOptions options)
         {
-            JsonSerializer.Serialize(writer, enumTest);
+            writer.WriteStartObject();
+
+            writer.WriteNumber("enum_integer", (int)enumTest.EnumInteger);
+            writer.WriteNumber("enum_integer_only", (int)enumTest.EnumIntegerOnly);
+            writer.WriteNumber("enum_number", (int)enumTest.EnumNumber);
+            var enumStringRawValue = EnumTest.EnumStringEnumToJsonValue(enumTest.EnumString);
+            if (enumStringRawValue != null)
+                writer.WriteString("enum_string", enumStringRawValue);
+            else
+                writer.WriteNull("enum_string");
+            var enumStringRequiredRawValue = EnumTest.EnumStringRequiredEnumToJsonValue(enumTest.EnumStringRequired);
+            if (enumStringRequiredRawValue != null)
+                writer.WriteString("enum_string_required", enumStringRequiredRawValue);
+            else
+                writer.WriteNull("enum_string_required");
+            var outerEnumDefaultValueRawValue = OuterEnumDefaultValueConverter.ToJsonValue(enumTest.OuterEnumDefaultValue);
+            if (outerEnumDefaultValueRawValue != null)
+                writer.WriteString("outerEnumDefaultValue", outerEnumDefaultValueRawValue);
+            else
+                writer.WriteNull("outerEnumDefaultValue");
+            var outerEnumIntegerRawValue = OuterEnumIntegerConverter.ToJsonValue(enumTest.OuterEnumInteger);
+            if (outerEnumIntegerRawValue != null)
+                writer.WriteNumber("outerEnumInteger", outerEnumIntegerRawValue);
+            else
+                writer.WriteNull("outerEnumInteger");
+            var outerEnumIntegerDefaultValueRawValue = OuterEnumIntegerDefaultValueConverter.ToJsonValue(enumTest.OuterEnumIntegerDefaultValue);
+            if (outerEnumIntegerDefaultValueRawValue != null)
+                writer.WriteNumber("outerEnumIntegerDefaultValue", outerEnumIntegerDefaultValueRawValue);
+            else
+                writer.WriteNull("outerEnumIntegerDefaultValue");
+            if (enumTest.OuterEnum == null)
+                writer.WriteNull("outerEnum");
+            var outerEnumRawValue = OuterEnumConverter.ToJsonValue(enumTest.OuterEnum.Value);
+            if (outerEnumRawValue != null)
+                writer.WriteString("outerEnum", outerEnumRawValue);
+            else
+                writer.WriteNull("outerEnum");
+
+            writer.WriteEndObject();
         }
     }
 }

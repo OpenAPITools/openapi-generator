@@ -10,10 +10,9 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Net.Http;
 using Microsoft.Extensions.DependencyInjection;
-using {{packageName}}.Api;
-using {{packageName}}.Model;
+using {{packageName}}.{{modelPackage}};
 
-namespace {{packageName}}.Client
+namespace {{packageName}}.{{clientPackage}}
 {
     /// <summary>
     /// Provides hosting configuration for {{packageName}}
@@ -21,7 +20,7 @@ namespace {{packageName}}.Client
     {{>visibility}} class HostConfiguration<{{#apiInfo}}{{#apis}}T{{classname}}{{^-last}}, {{/-last}}{{/apis}}{{/apiInfo}}>
         {{#apiInfo}}
         {{#apis}}
-        where T{{classname}} : class, {{interfacePrefix}}{{classname}}
+        where T{{classname}} : class, {{interfacePrefix}}{{derivedApiPackage}}.{{interfacePrefix}}{{classname}}
         {{/apis}}
         {{/apiInfo}}
     {
@@ -38,7 +37,8 @@ namespace {{packageName}}.Client
         {
             _services = services;
             _jsonOptions.Converters.Add(new JsonStringEnumConverter());
-            _jsonOptions.Converters.Add(new OpenAPIDateJsonConverter());
+            _jsonOptions.Converters.Add(new DateTimeJsonConverter());
+            _jsonOptions.Converters.Add(new DateTimeNullableJsonConverter());
             {{#models}}
             {{#model}}
             {{#isEnum}}
@@ -51,7 +51,6 @@ namespace {{packageName}}.Client
             {{/model}}
             {{/models}}
             _services.AddSingleton(new JsonSerializerOptionsProvider(_jsonOptions));
-            _services.AddSingleton<IEventHub, EventHub>();
             _services.AddSingleton<IApiFactory, ApiFactory>();{{#apiInfo}}{{#apis}}
             _services.AddTransient<T{{classname}}, T{{classname}}>();{{/apis}}{{/apiInfo}}
         }
@@ -71,7 +70,7 @@ namespace {{packageName}}.Client
 
             List<IHttpClientBuilder> builders = new List<IHttpClientBuilder>();
 
-            {{#apiInfo}}{{#apis}}builders.Add(_services.AddHttpClient<{{interfacePrefix}}{{classname}}, T{{classname}}>(client));
+            {{#apiInfo}}{{#apis}}builders.Add(_services.AddHttpClient<{{interfacePrefix}}{{derivedApiPackage}}.{{interfacePrefix}}{{classname}}, T{{classname}}>(client));
             {{/apis}}{{/apiInfo}}
             if (builder != null)
                 foreach (IHttpClientBuilder instance in builders)

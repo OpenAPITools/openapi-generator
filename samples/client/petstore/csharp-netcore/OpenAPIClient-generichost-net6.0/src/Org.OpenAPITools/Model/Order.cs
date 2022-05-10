@@ -99,7 +99,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static StatusEnum? StatusEnumFromString(string value)
+        public static StatusEnum StatusEnumFromString(string value)
         {
             if (value == "placed")
                 return StatusEnum.Placed;
@@ -110,7 +110,27 @@ namespace Org.OpenAPITools.Model
             if (value == "delivered")
                 return StatusEnum.Delivered;
 
-            return null;
+            throw new NotImplementedException($"Could not convert value to type StatusEnum: '{value}'");
+        }
+
+        /// <summary>
+        /// Returns equivalent json value
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public static string StatusEnumToJsonValue(StatusEnum value)
+        {
+            if (value == StatusEnum.Placed)
+                return "placed";
+
+            if (value == StatusEnum.Approved)
+                return "approved";
+
+            if (value == StatusEnum.Delivered)
+                return "delivered";
+
+            throw new NotImplementedException($"Value could not be handled: '{value}'");
         }
 
         /// <summary>
@@ -191,13 +211,6 @@ namespace Org.OpenAPITools.Model
     public class OrderJsonConverter : JsonConverter<Order>
     {
         /// <summary>
-        /// Returns a boolean if the type is compatible with this converter.
-        /// </summary>
-        /// <param name="typeToConvert"></param>
-        /// <returns></returns>
-        public override bool CanConvert(Type typeToConvert) => typeof(Order).IsAssignableFrom(typeToConvert);
-
-        /// <summary>
         /// A Json reader.
         /// </summary>
         /// <param name="reader"></param>
@@ -212,16 +225,21 @@ namespace Org.OpenAPITools.Model
             if (reader.TokenType != JsonTokenType.StartObject && reader.TokenType != JsonTokenType.StartArray)
                 throw new JsonException();
 
+            JsonTokenType startingTokenType = reader.TokenType;
+
             long id = default;
             long petId = default;
             int quantity = default;
             DateTime shipDate = default;
-            Order.StatusEnum? status = default;
+            Order.StatusEnum status = default;
             bool complete = default;
 
             while (reader.Read())
             {
-                if ((reader.TokenType == JsonTokenType.EndObject || reader.TokenType == JsonTokenType.EndArray) && currentDepth == reader.CurrentDepth)
+                if (startingTokenType == JsonTokenType.StartObject && reader.TokenType == JsonTokenType.EndObject && currentDepth == reader.CurrentDepth)
+                    break;
+
+                if (startingTokenType == JsonTokenType.StartArray && reader.TokenType == JsonTokenType.EndArray && currentDepth == reader.CurrentDepth)
                     break;
 
                 if (reader.TokenType == JsonTokenType.PropertyName)
@@ -255,7 +273,7 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            return new Order(id, petId, quantity, shipDate, status.Value, complete);
+            return new Order(id, petId, quantity, shipDate, status, complete);
         }
 
         /// <summary>
@@ -267,7 +285,21 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, Order order, JsonSerializerOptions options)
         {
-            JsonSerializer.Serialize(writer, order);
+            writer.WriteStartObject();
+
+            writer.WriteNumber("id", (int)order.Id);
+            writer.WriteNumber("petId", (int)order.PetId);
+            writer.WriteNumber("quantity", (int)order.Quantity);
+            writer.WritePropertyName("shipDate");
+            JsonSerializer.Serialize(writer, order.ShipDate, options);
+            var statusRawValue = Order.StatusEnumToJsonValue(order.Status);
+            if (statusRawValue != null)
+                writer.WriteString("status", statusRawValue);
+            else
+                writer.WriteNull("status");
+            writer.WriteBoolean("complete", order.Complete);
+
+            writer.WriteEndObject();
         }
     }
 }

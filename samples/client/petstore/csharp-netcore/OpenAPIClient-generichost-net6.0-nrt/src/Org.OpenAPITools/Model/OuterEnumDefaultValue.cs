@@ -48,7 +48,7 @@ namespace Org.OpenAPITools.Model
 
     public class OuterEnumDefaultValueConverter : JsonConverter<OuterEnumDefaultValue>
     {
-        public static OuterEnumDefaultValue? FromString(string value)
+        public static OuterEnumDefaultValue FromString(string value)
         {
             if (value == "placed")
                 return OuterEnumDefaultValue.Placed;
@@ -59,7 +59,21 @@ namespace Org.OpenAPITools.Model
             if (value == "delivered")
                 return OuterEnumDefaultValue.Delivered;
 
-            return null;
+            throw new NotImplementedException($"Could not convert value to type OuterEnumDefaultValue: '{value}'");
+        }
+
+        public static string ToJsonValue(OuterEnumDefaultValue value)
+        {
+            if (value == OuterEnumDefaultValue.Placed)
+                return "placed";
+
+            if (value == OuterEnumDefaultValue.Approved)
+                return "approved";
+
+            if (value == OuterEnumDefaultValue.Delivered)
+                return "delivered";
+
+            throw new NotImplementedException($"Value could not be handled: '{value}'");
         }
 
         /// <summary>

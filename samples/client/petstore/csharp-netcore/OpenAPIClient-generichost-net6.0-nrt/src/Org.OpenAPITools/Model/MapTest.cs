@@ -85,7 +85,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static InnerEnum? InnerEnumFromString(string value)
+        public static InnerEnum InnerEnumFromString(string value)
         {
             if (value == "UPPER")
                 return InnerEnum.UPPER;
@@ -93,7 +93,24 @@ namespace Org.OpenAPITools.Model
             if (value == "lower")
                 return InnerEnum.Lower;
 
-            return null;
+            throw new NotImplementedException($"Could not convert value to type InnerEnum: '{value}'");
+        }
+
+        /// <summary>
+        /// Returns equivalent json value
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public static string InnerEnumToJsonValue(InnerEnum value)
+        {
+            if (value == InnerEnum.UPPER)
+                return "UPPER";
+
+            if (value == InnerEnum.Lower)
+                return "lower";
+
+            throw new NotImplementedException($"Value could not be handled: '{value}'");
         }
 
         /// <summary>
@@ -159,13 +176,6 @@ namespace Org.OpenAPITools.Model
     public class MapTestJsonConverter : JsonConverter<MapTest>
     {
         /// <summary>
-        /// Returns a boolean if the type is compatible with this converter.
-        /// </summary>
-        /// <param name="typeToConvert"></param>
-        /// <returns></returns>
-        public override bool CanConvert(Type typeToConvert) => typeof(MapTest).IsAssignableFrom(typeToConvert);
-
-        /// <summary>
         /// A Json reader.
         /// </summary>
         /// <param name="reader"></param>
@@ -180,6 +190,8 @@ namespace Org.OpenAPITools.Model
             if (reader.TokenType != JsonTokenType.StartObject && reader.TokenType != JsonTokenType.StartArray)
                 throw new JsonException();
 
+            JsonTokenType startingTokenType = reader.TokenType;
+
             Dictionary<string, bool> directMap = default;
             Dictionary<string, bool> indirectMap = default;
             Dictionary<string, Dictionary<string, string>> mapMapOfString = default;
@@ -187,7 +199,10 @@ namespace Org.OpenAPITools.Model
 
             while (reader.Read())
             {
-                if ((reader.TokenType == JsonTokenType.EndObject || reader.TokenType == JsonTokenType.EndArray) && currentDepth == reader.CurrentDepth)
+                if (startingTokenType == JsonTokenType.StartObject && reader.TokenType == JsonTokenType.EndObject && currentDepth == reader.CurrentDepth)
+                    break;
+
+                if (startingTokenType == JsonTokenType.StartArray && reader.TokenType == JsonTokenType.EndArray && currentDepth == reader.CurrentDepth)
                     break;
 
                 if (reader.TokenType == JsonTokenType.PropertyName)
@@ -229,7 +244,18 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, MapTest mapTest, JsonSerializerOptions options)
         {
-            JsonSerializer.Serialize(writer, mapTest);
+            writer.WriteStartObject();
+
+            writer.WritePropertyName("direct_map");
+            JsonSerializer.Serialize(writer, mapTest.DirectMap, options);
+            writer.WritePropertyName("indirect_map");
+            JsonSerializer.Serialize(writer, mapTest.IndirectMap, options);
+            writer.WritePropertyName("map_map_of_string");
+            JsonSerializer.Serialize(writer, mapTest.MapMapOfString, options);
+            writer.WritePropertyName("map_of_enum_string");
+            JsonSerializer.Serialize(writer, mapTest.MapOfEnumString, options);
+
+            writer.WriteEndObject();
         }
     }
 }

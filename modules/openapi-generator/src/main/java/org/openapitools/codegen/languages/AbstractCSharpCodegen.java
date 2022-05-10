@@ -672,6 +672,15 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                         var.vendorExtensions.put("x-csharp-value-type", true);
                     }
                 }
+
+                // https://github.com/OpenAPITools/openapi-generator/issues/12324
+                // we should not need to iterate both vars and allVars
+                // the collections dont have the same instance, so we have to do it again
+                for (CodegenProperty var : model.allVars) {
+                    if (!var.isContainer && (nullableType.contains(var.dataType) || var.isEnum)) {
+                        var.vendorExtensions.put("x-csharp-value-type", true);
+                    }
+                }
             }
         }
     }

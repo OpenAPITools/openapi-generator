@@ -14,7 +14,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Net.Http;
 using Microsoft.Extensions.DependencyInjection;
-using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Model;
 
 namespace Org.OpenAPITools.Client
@@ -23,13 +22,13 @@ namespace Org.OpenAPITools.Client
     /// Provides hosting configuration for Org.OpenAPITools
     /// </summary>
     public class HostConfiguration<TAnotherFakeApi, TDefaultApi, TFakeApi, TFakeClassnameTags123Api, TPetApi, TStoreApi, TUserApi>
-        where TAnotherFakeApi : class, IAnotherFakeApi
-        where TDefaultApi : class, IDefaultApi
-        where TFakeApi : class, IFakeApi
-        where TFakeClassnameTags123Api : class, IFakeClassnameTags123Api
-        where TPetApi : class, IPetApi
-        where TStoreApi : class, IStoreApi
-        where TUserApi : class, IUserApi
+        where TAnotherFakeApi : class, IDefaultApi.IAnotherFakeApi
+        where TDefaultApi : class, IDefaultApi.IDefaultApi
+        where TFakeApi : class, IDefaultApi.IFakeApi
+        where TFakeClassnameTags123Api : class, IDefaultApi.IFakeClassnameTags123Api
+        where TPetApi : class, IDefaultApi.IPetApi
+        where TStoreApi : class, IDefaultApi.IStoreApi
+        where TUserApi : class, IDefaultApi.IUserApi
     {
         private readonly IServiceCollection _services;
         private readonly JsonSerializerOptions _jsonOptions = new JsonSerializerOptions();
@@ -44,7 +43,8 @@ namespace Org.OpenAPITools.Client
         {
             _services = services;
             _jsonOptions.Converters.Add(new JsonStringEnumConverter());
-            _jsonOptions.Converters.Add(new OpenAPIDateJsonConverter());
+            _jsonOptions.Converters.Add(new DateTimeJsonConverter());
+            _jsonOptions.Converters.Add(new DateTimeNullableJsonConverter());
             _jsonOptions.Converters.Add(new AdditionalPropertiesClassJsonConverter());
             _jsonOptions.Converters.Add(new AnimalJsonConverter());
             _jsonOptions.Converters.Add(new ApiResponseJsonConverter());
@@ -128,7 +128,6 @@ namespace Org.OpenAPITools.Client
             _jsonOptions.Converters.Add(new WhaleJsonConverter());
             _jsonOptions.Converters.Add(new ZebraJsonConverter());
             _services.AddSingleton(new JsonSerializerOptionsProvider(_jsonOptions));
-            _services.AddSingleton<IEventHub, EventHub>();
             _services.AddSingleton<IApiFactory, ApiFactory>();
             _services.AddTransient<TAnotherFakeApi, TAnotherFakeApi>();
             _services.AddTransient<TDefaultApi, TDefaultApi>();
@@ -154,13 +153,13 @@ namespace Org.OpenAPITools.Client
 
             List<IHttpClientBuilder> builders = new List<IHttpClientBuilder>();
 
-            builders.Add(_services.AddHttpClient<IAnotherFakeApi, TAnotherFakeApi>(client));
-            builders.Add(_services.AddHttpClient<IDefaultApi, TDefaultApi>(client));
-            builders.Add(_services.AddHttpClient<IFakeApi, TFakeApi>(client));
-            builders.Add(_services.AddHttpClient<IFakeClassnameTags123Api, TFakeClassnameTags123Api>(client));
-            builders.Add(_services.AddHttpClient<IPetApi, TPetApi>(client));
-            builders.Add(_services.AddHttpClient<IStoreApi, TStoreApi>(client));
-            builders.Add(_services.AddHttpClient<IUserApi, TUserApi>(client));
+            builders.Add(_services.AddHttpClient<IDefaultApi.IAnotherFakeApi, TAnotherFakeApi>(client));
+            builders.Add(_services.AddHttpClient<IDefaultApi.IDefaultApi, TDefaultApi>(client));
+            builders.Add(_services.AddHttpClient<IDefaultApi.IFakeApi, TFakeApi>(client));
+            builders.Add(_services.AddHttpClient<IDefaultApi.IFakeClassnameTags123Api, TFakeClassnameTags123Api>(client));
+            builders.Add(_services.AddHttpClient<IDefaultApi.IPetApi, TPetApi>(client));
+            builders.Add(_services.AddHttpClient<IDefaultApi.IStoreApi, TStoreApi>(client));
+            builders.Add(_services.AddHttpClient<IDefaultApi.IUserApi, TUserApi>(client));
             
             if (builder != null)
                 foreach (IHttpClientBuilder instance in builders)

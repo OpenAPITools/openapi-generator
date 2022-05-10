@@ -48,7 +48,7 @@ namespace Org.OpenAPITools.Model
 
     public class EnumClassConverter : JsonConverter<EnumClass>
     {
-        public static EnumClass? FromString(string value)
+        public static EnumClass FromString(string value)
         {
             if (value == "_abc")
                 return EnumClass.Abc;
@@ -59,7 +59,21 @@ namespace Org.OpenAPITools.Model
             if (value == "(xyz)")
                 return EnumClass.Xyz;
 
-            return null;
+            throw new NotImplementedException($"Could not convert value to type EnumClass: '{value}'");
+        }
+
+        public static string ToJsonValue(EnumClass value)
+        {
+            if (value == EnumClass.Abc)
+                return "_abc";
+
+            if (value == EnumClass.Efg)
+                return "-efg";
+
+            if (value == EnumClass.Xyz)
+                return "(xyz)";
+
+            throw new NotImplementedException($"Value could not be handled: '{value}'");
         }
 
         /// <summary>

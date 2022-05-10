@@ -101,7 +101,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static StatusEnum? StatusEnumFromString(string value)
+        public static StatusEnum StatusEnumFromString(string value)
         {
             if (value == "available")
                 return StatusEnum.Available;
@@ -112,7 +112,27 @@ namespace Org.OpenAPITools.Model
             if (value == "sold")
                 return StatusEnum.Sold;
 
-            return null;
+            throw new NotImplementedException($"Could not convert value to type StatusEnum: '{value}'");
+        }
+
+        /// <summary>
+        /// Returns equivalent json value
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public static string StatusEnumToJsonValue(StatusEnum value)
+        {
+            if (value == StatusEnum.Available)
+                return "available";
+
+            if (value == StatusEnum.Pending)
+                return "pending";
+
+            if (value == StatusEnum.Sold)
+                return "sold";
+
+            throw new NotImplementedException($"Value could not be handled: '{value}'");
         }
 
         /// <summary>
@@ -193,13 +213,6 @@ namespace Org.OpenAPITools.Model
     public class PetJsonConverter : JsonConverter<Pet>
     {
         /// <summary>
-        /// Returns a boolean if the type is compatible with this converter.
-        /// </summary>
-        /// <param name="typeToConvert"></param>
-        /// <returns></returns>
-        public override bool CanConvert(Type typeToConvert) => typeof(Pet).IsAssignableFrom(typeToConvert);
-
-        /// <summary>
         /// A Json reader.
         /// </summary>
         /// <param name="reader"></param>
@@ -214,16 +227,21 @@ namespace Org.OpenAPITools.Model
             if (reader.TokenType != JsonTokenType.StartObject && reader.TokenType != JsonTokenType.StartArray)
                 throw new JsonException();
 
+            JsonTokenType startingTokenType = reader.TokenType;
+
             Category category = default;
             long id = default;
             string name = default;
             List<string> photoUrls = default;
-            Pet.StatusEnum? status = default;
+            Pet.StatusEnum status = default;
             List<Tag> tags = default;
 
             while (reader.Read())
             {
-                if ((reader.TokenType == JsonTokenType.EndObject || reader.TokenType == JsonTokenType.EndArray) && currentDepth == reader.CurrentDepth)
+                if (startingTokenType == JsonTokenType.StartObject && reader.TokenType == JsonTokenType.EndObject && currentDepth == reader.CurrentDepth)
+                    break;
+
+                if (startingTokenType == JsonTokenType.StartArray && reader.TokenType == JsonTokenType.EndArray && currentDepth == reader.CurrentDepth)
                     break;
 
                 if (reader.TokenType == JsonTokenType.PropertyName)
@@ -259,7 +277,7 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            return new Pet(category, id, name, photoUrls, status.Value, tags);
+            return new Pet(category, id, name, photoUrls, status, tags);
         }
 
         /// <summary>
@@ -271,7 +289,23 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, Pet pet, JsonSerializerOptions options)
         {
-            JsonSerializer.Serialize(writer, pet);
+            writer.WriteStartObject();
+
+            writer.WritePropertyName("category");
+            JsonSerializer.Serialize(writer, pet.Category, options);
+            writer.WriteNumber("id", (int)pet.Id);
+            writer.WriteString("name", pet.Name);
+            writer.WritePropertyName("photoUrls");
+            JsonSerializer.Serialize(writer, pet.PhotoUrls, options);
+            var statusRawValue = Pet.StatusEnumToJsonValue(pet.Status);
+            if (statusRawValue != null)
+                writer.WriteString("status", statusRawValue);
+            else
+                writer.WriteNull("status");
+            writer.WritePropertyName("tags");
+            JsonSerializer.Serialize(writer, pet.Tags, options);
+
+            writer.WriteEndObject();
         }
     }
 }

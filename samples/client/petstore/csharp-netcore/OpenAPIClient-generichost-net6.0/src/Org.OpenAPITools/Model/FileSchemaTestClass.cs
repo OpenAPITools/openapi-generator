@@ -101,13 +101,6 @@ namespace Org.OpenAPITools.Model
     public class FileSchemaTestClassJsonConverter : JsonConverter<FileSchemaTestClass>
     {
         /// <summary>
-        /// Returns a boolean if the type is compatible with this converter.
-        /// </summary>
-        /// <param name="typeToConvert"></param>
-        /// <returns></returns>
-        public override bool CanConvert(Type typeToConvert) => typeof(FileSchemaTestClass).IsAssignableFrom(typeToConvert);
-
-        /// <summary>
         /// A Json reader.
         /// </summary>
         /// <param name="reader"></param>
@@ -122,12 +115,17 @@ namespace Org.OpenAPITools.Model
             if (reader.TokenType != JsonTokenType.StartObject && reader.TokenType != JsonTokenType.StartArray)
                 throw new JsonException();
 
+            JsonTokenType startingTokenType = reader.TokenType;
+
             File file = default;
             List<File> files = default;
 
             while (reader.Read())
             {
-                if ((reader.TokenType == JsonTokenType.EndObject || reader.TokenType == JsonTokenType.EndArray) && currentDepth == reader.CurrentDepth)
+                if (startingTokenType == JsonTokenType.StartObject && reader.TokenType == JsonTokenType.EndObject && currentDepth == reader.CurrentDepth)
+                    break;
+
+                if (startingTokenType == JsonTokenType.StartArray && reader.TokenType == JsonTokenType.EndArray && currentDepth == reader.CurrentDepth)
                     break;
 
                 if (reader.TokenType == JsonTokenType.PropertyName)
@@ -161,7 +159,14 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, FileSchemaTestClass fileSchemaTestClass, JsonSerializerOptions options)
         {
-            JsonSerializer.Serialize(writer, fileSchemaTestClass);
+            writer.WriteStartObject();
+
+            writer.WritePropertyName("file");
+            JsonSerializer.Serialize(writer, fileSchemaTestClass.File, options);
+            writer.WritePropertyName("files");
+            JsonSerializer.Serialize(writer, fileSchemaTestClass.Files, options);
+
+            writer.WriteEndObject();
         }
     }
 }

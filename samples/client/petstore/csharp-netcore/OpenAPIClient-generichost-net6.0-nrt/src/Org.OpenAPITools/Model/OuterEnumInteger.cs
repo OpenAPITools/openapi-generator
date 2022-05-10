@@ -48,7 +48,7 @@ namespace Org.OpenAPITools.Model
 
     public class OuterEnumIntegerConverter : JsonConverter<OuterEnumInteger>
     {
-        public static OuterEnumInteger? FromString(string value)
+        public static OuterEnumInteger FromString(string value)
         {
             if (value == (0).ToString())
                 return OuterEnumInteger.NUMBER_0;
@@ -59,7 +59,12 @@ namespace Org.OpenAPITools.Model
             if (value == (2).ToString())
                 return OuterEnumInteger.NUMBER_2;
 
-            return null;
+            throw new NotImplementedException($"Could not convert value to type OuterEnumInteger: '{value}'");
+        }
+
+        public static int ToJsonValue(OuterEnumInteger value)
+        {
+            return (int) value;
         }
 
         /// <summary>

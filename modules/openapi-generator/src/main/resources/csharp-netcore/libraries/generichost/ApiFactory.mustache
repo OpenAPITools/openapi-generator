@@ -1,7 +1,8 @@
-using Microsoft.Extensions.DependencyInjection;
 using System;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace {{packageName}}.Client
+
+namespace {{packageName}}.{{clientPackage}}
 {
     /// <summary>
     /// An IApiFactory interface
@@ -13,7 +14,7 @@ namespace {{packageName}}.Client
         /// </summary>
         /// <typeparam name="IResult"></typeparam>
         /// <returns></returns>
-        IResult Create<IResult>() where IResult : IApi;
+        IResult Create<IResult>() where IResult : {{interfacePrefix}}{{derivedApiPackage}}.IApi;
     }
 
     /// <summary>
@@ -40,7 +41,7 @@ namespace {{packageName}}.Client
         /// </summary>
         /// <typeparam name="IResult"></typeparam>
         /// <returns></returns>
-        public IResult Create<IResult>() where IResult : IApi
+        public IResult Create<IResult>() where IResult : {{interfacePrefix}}{{derivedApiPackage}}.IApi
         {
             return Services.GetRequiredService<IResult>();
         }

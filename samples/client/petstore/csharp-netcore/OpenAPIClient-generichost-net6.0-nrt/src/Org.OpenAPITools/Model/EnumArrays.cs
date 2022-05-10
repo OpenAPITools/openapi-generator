@@ -75,7 +75,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static ArrayEnumEnum? ArrayEnumEnumFromString(string value)
+        public static ArrayEnumEnum ArrayEnumEnumFromString(string value)
         {
             if (value == "fish")
                 return ArrayEnumEnum.Fish;
@@ -83,7 +83,24 @@ namespace Org.OpenAPITools.Model
             if (value == "crab")
                 return ArrayEnumEnum.Crab;
 
-            return null;
+            throw new NotImplementedException($"Could not convert value to type ArrayEnumEnum: '{value}'");
+        }
+
+        /// <summary>
+        /// Returns equivalent json value
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public static string ArrayEnumEnumToJsonValue(ArrayEnumEnum value)
+        {
+            if (value == ArrayEnumEnum.Fish)
+                return "fish";
+
+            if (value == ArrayEnumEnum.Crab)
+                return "crab";
+
+            throw new NotImplementedException($"Value could not be handled: '{value}'");
         }
 
         /// <summary>
@@ -107,7 +124,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static JustSymbolEnum? JustSymbolEnumFromString(string value)
+        public static JustSymbolEnum JustSymbolEnumFromString(string value)
         {
             if (value == ">=")
                 return JustSymbolEnum.GreaterThanOrEqualTo;
@@ -115,7 +132,24 @@ namespace Org.OpenAPITools.Model
             if (value == "$")
                 return JustSymbolEnum.Dollar;
 
-            return null;
+            throw new NotImplementedException($"Could not convert value to type JustSymbolEnum: '{value}'");
+        }
+
+        /// <summary>
+        /// Returns equivalent json value
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public static string JustSymbolEnumToJsonValue(JustSymbolEnum value)
+        {
+            if (value == JustSymbolEnum.GreaterThanOrEqualTo)
+                return "&gt;&#x3D;";
+
+            if (value == JustSymbolEnum.Dollar)
+                return "$";
+
+            throw new NotImplementedException($"Value could not be handled: '{value}'");
         }
 
         /// <summary>
@@ -167,13 +201,6 @@ namespace Org.OpenAPITools.Model
     public class EnumArraysJsonConverter : JsonConverter<EnumArrays>
     {
         /// <summary>
-        /// Returns a boolean if the type is compatible with this converter.
-        /// </summary>
-        /// <param name="typeToConvert"></param>
-        /// <returns></returns>
-        public override bool CanConvert(Type typeToConvert) => typeof(EnumArrays).IsAssignableFrom(typeToConvert);
-
-        /// <summary>
         /// A Json reader.
         /// </summary>
         /// <param name="reader"></param>
@@ -188,12 +215,17 @@ namespace Org.OpenAPITools.Model
             if (reader.TokenType != JsonTokenType.StartObject && reader.TokenType != JsonTokenType.StartArray)
                 throw new JsonException();
 
+            JsonTokenType startingTokenType = reader.TokenType;
+
             List<EnumArrays.ArrayEnumEnum> arrayEnum = default;
-            EnumArrays.JustSymbolEnum? justSymbol = default;
+            EnumArrays.JustSymbolEnum justSymbol = default;
 
             while (reader.Read())
             {
-                if ((reader.TokenType == JsonTokenType.EndObject || reader.TokenType == JsonTokenType.EndArray) && currentDepth == reader.CurrentDepth)
+                if (startingTokenType == JsonTokenType.StartObject && reader.TokenType == JsonTokenType.EndObject && currentDepth == reader.CurrentDepth)
+                    break;
+
+                if (startingTokenType == JsonTokenType.StartArray && reader.TokenType == JsonTokenType.EndArray && currentDepth == reader.CurrentDepth)
                     break;
 
                 if (reader.TokenType == JsonTokenType.PropertyName)
@@ -215,7 +247,7 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            return new EnumArrays(arrayEnum, justSymbol.Value);
+            return new EnumArrays(arrayEnum, justSymbol);
         }
 
         /// <summary>
@@ -227,7 +259,17 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, EnumArrays enumArrays, JsonSerializerOptions options)
         {
-            JsonSerializer.Serialize(writer, enumArrays);
+            writer.WriteStartObject();
+
+            writer.WritePropertyName("array_enum");
+            JsonSerializer.Serialize(writer, enumArrays.ArrayEnum, options);
+            var justSymbolRawValue = EnumArrays.JustSymbolEnumToJsonValue(enumArrays.JustSymbol);
+            if (justSymbolRawValue != null)
+                writer.WriteString("just_symbol", justSymbolRawValue);
+            else
+                writer.WriteNull("just_symbol");
+
+            writer.WriteEndObject();
         }
     }
 }

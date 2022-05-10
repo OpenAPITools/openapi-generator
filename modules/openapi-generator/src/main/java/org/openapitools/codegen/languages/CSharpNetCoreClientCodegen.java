@@ -83,9 +83,10 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     private static FrameworkStrategy defaultFramework = FrameworkStrategy.NETSTANDARD_2_0;
     protected final Map<String, String> frameworks;
     protected String packageGuid = "{" + java.util.UUID.randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
-    protected String clientPackage = "Org.OpenAPITools.Client";
-    protected String apiDocPath = "docs/";
-    protected String modelDocPath = "docs/";
+    protected String clientPackage = "Client";
+    protected String derivedApiPackage = "DefaultApi";
+    protected String apiDocPath = "docs" + File.separator;
+    protected String modelDocPath = "docs" + File.separator;
 
     // Defines TargetFrameworkVersion in csproj files
     protected String targetFramework = defaultFramework.name;
@@ -675,8 +676,6 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             setModelPackage("Model");
         }
 
-        clientPackage = "Client";
-
         if (GENERICHOST.equals(getLibrary())) {
             setLibrary(GENERICHOST);
             additionalProperties.put("useGenericHost", true);
@@ -690,7 +689,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             additionalProperties.put("useHttpClient", true);
             needsUriBuilder = true;
         } else {
-            throw new RuntimeException("Invalid HTTP library " + getLibrary() + ". Only restsharp, httpclient are supported.");
+            throw new RuntimeException("Invalid HTTP library " + getLibrary() + ". Only restsharp, httpclient, and generichost are supported.");
         }
 
         String inputFramework = (String) additionalProperties.getOrDefault(CodegenConstants.DOTNET_FRAMEWORK, defaultFramework.name);
@@ -752,8 +751,12 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         final AtomicReference<Boolean> excludeTests = new AtomicReference<>();
         syncBooleanProperty(additionalProperties, CodegenConstants.EXCLUDE_TESTS, excludeTests::set, false);
 
-        syncStringProperty(additionalProperties, "clientPackage", (s) -> { }, clientPackage);
+        syncStringProperty(additionalProperties, "clientPackage", this::setClientPackage, clientPackage);
 
+        if (GENERICHOST.equals(getLibrary())) {
+            apiPackage = "BaseApi";
+            syncStringProperty(additionalProperties, "derivedApiPackage", this::setDerivedApiPackage, derivedApiPackage);
+        }
         syncStringProperty(additionalProperties, CodegenConstants.API_PACKAGE, this::setApiPackage, apiPackage);
         syncStringProperty(additionalProperties, CodegenConstants.MODEL_PACKAGE, this::setModelPackage, modelPackage);
         syncStringProperty(additionalProperties, CodegenConstants.OPTIONAL_PROJECT_GUID, this::setPackageGuid, packageGuid);
@@ -768,8 +771,6 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         syncBooleanProperty(additionalProperties, CodegenConstants.OPTIONAL_METHOD_ARGUMENT, this::setOptionalMethodArgumentFlag, optionalMethodArgumentFlag);
         syncBooleanProperty(additionalProperties, CodegenConstants.NON_PUBLIC_API, this::setNonPublicApi, isNonPublicApi());
         syncBooleanProperty(additionalProperties, CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, this::setUseOneOfDiscriminatorLookup, this.useOneOfDiscriminatorLookup);
-
-//        syncBooleanProperty(additionalProperties, "net6.0", );
 
         final String testPackageName = testPackageName();
         String packageFolder = sourceFolder + File.separator + packageName;
@@ -810,6 +811,14 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             additionalProperties.put("apiDocPath", apiDocPath);
             additionalProperties.put("modelDocPath", modelDocPath);
         }
+    }
+
+    public void setClientPackage(String clientPackage) {
+        this.clientPackage = clientPackage;
+    }
+
+    public void setDerivedApiPackage(String derivedApiPackage) {
+        this.derivedApiPackage = derivedApiPackage;
     }
 
     @Override
@@ -926,19 +935,27 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("ApiResponse`1.mustache", clientPackageDir, "ApiResponse`1.cs"));
         supportingFiles.add(new SupportingFile("ClientUtils.mustache", clientPackageDir, "ClientUtils.cs"));
         supportingFiles.add(new SupportingFile("HostConfiguration.mustache", clientPackageDir, "HostConfiguration.cs"));
-        supportingFiles.add(new SupportingFile("EventHub.mustache", clientPackageDir, "EventHub.cs"));
         supportingFiles.add(new SupportingFile("ApiFactory.mustache", clientPackageDir, "ApiFactory.cs"));
-        supportingFiles.add(new SupportingFile("OpenAPIDateConverter.mustache", clientPackageDir, "OpenAPIDateJsonConverter.cs"));
+        supportingFiles.add(new SupportingFile("DateTimeJsonConverter.mustache", clientPackageDir, "DateTimeJsonConverter.cs"));
+        supportingFiles.add(new SupportingFile("DateTimeNullableJsonConverter.mustache", clientPackageDir, "DateTimeNullableJsonConverter.cs"));
         supportingFiles.add(new SupportingFile("ApiResponseEventArgs.mustache", clientPackageDir, "ApiResponseEventArgs.cs"));
-        supportingFiles.add(new SupportingFile("IApi.mustache", clientPackageDir, getInterfacePrefix() + "Api.cs"));
         supportingFiles.add(new SupportingFile("JsonSerializerOptionsProvider.mustache", clientPackageDir, "JsonSerializerOptionsProvider.cs"));
 
-        String defaultApiFolder = sourceFolder + File.separator + packageName + File.separator + "Default" + apiPackage();
-        String defaultApiPath = outputFolder + File.separator + defaultApiFolder + File.separator + "Default" + apiPackage() + ".cs";
-        File defaultApisFile = new File(defaultApiPath);
-        if (!defaultApisFile.exists()) {
-            // // TODO: we should have a file per API
-             supportingFiles.add(new SupportingFile("DefaultApi.mustache", defaultApiFolder, "Default" + apiPackage + ".cs"));
+        supportingFiles.add(new SupportingFile("IApi.mustache", sourceFolder + File.separator + packageName + File.separator + apiPackage(), getInterfacePrefix() + "Api.cs"));
+
+        // extensions
+        String extensionsFolder = sourceFolder + File.separator + packageName + File.separator + "Extensions";
+        supportingFiles.add(new SupportingFile("IHttpClientBuilderExtensions.mustache", extensionsFolder, "IHttpClientBuilderExtensions.cs"));
+        supportingFiles.add(new SupportingFile("IHostBuilderExtensions.mustache", extensionsFolder, "IHostBuilderExtensions.cs"));
+        supportingFiles.add(new SupportingFile("IServiceCollectionExtensions.mustache", extensionsFolder, "IServiceCollectionExtensions.cs"));
+
+        // derived Apis
+        String derivedApiFolder = sourceFolder + File.separator + packageName + File.separator + derivedApiPackage;
+        String derivedApiPath = outputFolder + File.separator + derivedApiFolder + File.separator + derivedApiPackage + ".cs";
+        File derivedApisFile = new File(derivedApiPath);
+        if (!derivedApisFile.exists()) {
+            // TODO: we should have a file per API
+             supportingFiles.add(new SupportingFile("DerivedApi.mustache", derivedApiFolder, derivedApiPackage + ".cs"));
         }
 
         String apiTestFolder = testFolder + File.separator + testPackageName() + File.separator + apiPackage();
@@ -1450,7 +1467,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             CodegenModel model = ModelUtils.getModelByName(entry.getKey(), objs);
             allModels.add(model);
 
-            // TODO: why do these collections contain different instances?
+            // https://github.com/OpenAPITools/openapi-generator/issues/12324
             // fixing allVars should suffice instead of patching every collection
             for (CodegenProperty property : model.allVars){
                 patchProperty(model, property);

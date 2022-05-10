@@ -164,13 +164,6 @@ namespace Org.OpenAPITools.Model
     public class NameJsonConverter : JsonConverter<Name>
     {
         /// <summary>
-        /// Returns a boolean if the type is compatible with this converter.
-        /// </summary>
-        /// <param name="typeToConvert"></param>
-        /// <returns></returns>
-        public override bool CanConvert(Type typeToConvert) => typeof(Name).IsAssignableFrom(typeToConvert);
-
-        /// <summary>
         /// A Json reader.
         /// </summary>
         /// <param name="reader"></param>
@@ -185,6 +178,8 @@ namespace Org.OpenAPITools.Model
             if (reader.TokenType != JsonTokenType.StartObject && reader.TokenType != JsonTokenType.StartArray)
                 throw new JsonException();
 
+            JsonTokenType startingTokenType = reader.TokenType;
+
             int nameProperty = default;
             string property = default;
             int snakeCase = default;
@@ -192,7 +187,10 @@ namespace Org.OpenAPITools.Model
 
             while (reader.Read())
             {
-                if ((reader.TokenType == JsonTokenType.EndObject || reader.TokenType == JsonTokenType.EndArray) && currentDepth == reader.CurrentDepth)
+                if (startingTokenType == JsonTokenType.StartObject && reader.TokenType == JsonTokenType.EndObject && currentDepth == reader.CurrentDepth)
+                    break;
+
+                if (startingTokenType == JsonTokenType.StartArray && reader.TokenType == JsonTokenType.EndArray && currentDepth == reader.CurrentDepth)
                     break;
 
                 if (reader.TokenType == JsonTokenType.PropertyName)
@@ -230,7 +228,14 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, Name name, JsonSerializerOptions options)
         {
-            JsonSerializer.Serialize(writer, name);
+            writer.WriteStartObject();
+
+            writer.WriteNumber("name", (int)name.NameProperty);
+            writer.WriteString("property", name.Property);
+            writer.WriteNumber("snake_case", (int)name.SnakeCase);
+            writer.WriteNumber("123Number", (int)name._123Number);
+
+            writer.WriteEndObject();
         }
     }
 }

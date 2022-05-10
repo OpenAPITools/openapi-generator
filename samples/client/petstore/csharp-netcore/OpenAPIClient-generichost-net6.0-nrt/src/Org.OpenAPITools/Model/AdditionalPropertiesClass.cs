@@ -173,13 +173,6 @@ namespace Org.OpenAPITools.Model
     public class AdditionalPropertiesClassJsonConverter : JsonConverter<AdditionalPropertiesClass>
     {
         /// <summary>
-        /// Returns a boolean if the type is compatible with this converter.
-        /// </summary>
-        /// <param name="typeToConvert"></param>
-        /// <returns></returns>
-        public override bool CanConvert(Type typeToConvert) => typeof(AdditionalPropertiesClass).IsAssignableFrom(typeToConvert);
-
-        /// <summary>
         /// A Json reader.
         /// </summary>
         /// <param name="reader"></param>
@@ -194,6 +187,8 @@ namespace Org.OpenAPITools.Model
             if (reader.TokenType != JsonTokenType.StartObject && reader.TokenType != JsonTokenType.StartArray)
                 throw new JsonException();
 
+            JsonTokenType startingTokenType = reader.TokenType;
+
             Object emptyMap = default;
             Dictionary<string, Dictionary<string, string>> mapOfMapProperty = default;
             Dictionary<string, string> mapProperty = default;
@@ -205,7 +200,10 @@ namespace Org.OpenAPITools.Model
 
             while (reader.Read())
             {
-                if ((reader.TokenType == JsonTokenType.EndObject || reader.TokenType == JsonTokenType.EndArray) && currentDepth == reader.CurrentDepth)
+                if (startingTokenType == JsonTokenType.StartObject && reader.TokenType == JsonTokenType.EndObject && currentDepth == reader.CurrentDepth)
+                    break;
+
+                if (startingTokenType == JsonTokenType.StartArray && reader.TokenType == JsonTokenType.EndArray && currentDepth == reader.CurrentDepth)
                     break;
 
                 if (reader.TokenType == JsonTokenType.PropertyName)
@@ -263,7 +261,26 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, AdditionalPropertiesClass additionalPropertiesClass, JsonSerializerOptions options)
         {
-            JsonSerializer.Serialize(writer, additionalPropertiesClass);
+            writer.WriteStartObject();
+
+            writer.WritePropertyName("empty_map");
+            JsonSerializer.Serialize(writer, additionalPropertiesClass.EmptyMap, options);
+            writer.WritePropertyName("map_of_map_property");
+            JsonSerializer.Serialize(writer, additionalPropertiesClass.MapOfMapProperty, options);
+            writer.WritePropertyName("map_property");
+            JsonSerializer.Serialize(writer, additionalPropertiesClass.MapProperty, options);
+            writer.WritePropertyName("map_with_undeclared_properties_anytype_1");
+            JsonSerializer.Serialize(writer, additionalPropertiesClass.MapWithUndeclaredPropertiesAnytype1, options);
+            writer.WritePropertyName("map_with_undeclared_properties_anytype_2");
+            JsonSerializer.Serialize(writer, additionalPropertiesClass.MapWithUndeclaredPropertiesAnytype2, options);
+            writer.WritePropertyName("map_with_undeclared_properties_anytype_3");
+            JsonSerializer.Serialize(writer, additionalPropertiesClass.MapWithUndeclaredPropertiesAnytype3, options);
+            writer.WritePropertyName("map_with_undeclared_properties_string");
+            JsonSerializer.Serialize(writer, additionalPropertiesClass.MapWithUndeclaredPropertiesString, options);
+            writer.WritePropertyName("anytype_1");
+            JsonSerializer.Serialize(writer, additionalPropertiesClass.Anytype1, options);
+
+            writer.WriteEndObject();
         }
     }
 }

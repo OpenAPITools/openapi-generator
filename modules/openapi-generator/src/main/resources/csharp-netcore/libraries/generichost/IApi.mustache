@@ -1,6 +1,6 @@
 using System.Net.Http;
 
-namespace {{packageName}}.Client
+namespace {{packageName}}.{{interfacePrefix}}{{derivedApiPackage}}
 {
     /// <summary>
     /// Any Api client
@@ -11,11 +11,5 @@ namespace {{packageName}}.Client
         /// The HttpClient
         /// </summary>
         HttpClient HttpClient { get; }
-
-        /// <summary>
-        /// The EventHub
-        /// If you store these event args, be sure to purge old event args to prevent a memory leak.
-        /// </summary>
-        IEventHub EventHub { get; }
     }
 }

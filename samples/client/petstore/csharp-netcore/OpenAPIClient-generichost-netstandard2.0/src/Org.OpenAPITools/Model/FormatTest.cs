@@ -364,13 +364,6 @@ namespace Org.OpenAPITools.Model
     public class FormatTestJsonConverter : JsonConverter<FormatTest>
     {
         /// <summary>
-        /// Returns a boolean if the type is compatible with this converter.
-        /// </summary>
-        /// <param name="typeToConvert"></param>
-        /// <returns></returns>
-        public override bool CanConvert(Type typeToConvert) => typeof(FormatTest).IsAssignableFrom(typeToConvert);
-
-        /// <summary>
         /// A Json reader.
         /// </summary>
         /// <param name="reader"></param>
@@ -384,6 +377,8 @@ namespace Org.OpenAPITools.Model
 
             if (reader.TokenType != JsonTokenType.StartObject && reader.TokenType != JsonTokenType.StartArray)
                 throw new JsonException();
+
+            JsonTokenType startingTokenType = reader.TokenType;
 
             System.IO.Stream binary = default;
             byte[] _byte = default;
@@ -404,7 +399,10 @@ namespace Org.OpenAPITools.Model
 
             while (reader.Read())
             {
-                if ((reader.TokenType == JsonTokenType.EndObject || reader.TokenType == JsonTokenType.EndArray) && currentDepth == reader.CurrentDepth)
+                if (startingTokenType == JsonTokenType.StartObject && reader.TokenType == JsonTokenType.EndObject && currentDepth == reader.CurrentDepth)
+                    break;
+
+                if (startingTokenType == JsonTokenType.StartArray && reader.TokenType == JsonTokenType.EndArray && currentDepth == reader.CurrentDepth)
                     break;
 
                 if (reader.TokenType == JsonTokenType.PropertyName)
@@ -483,7 +481,31 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, FormatTest formatTest, JsonSerializerOptions options)
         {
-            JsonSerializer.Serialize(writer, formatTest);
+            writer.WriteStartObject();
+
+            writer.WritePropertyName("binary");
+            JsonSerializer.Serialize(writer, formatTest.Binary, options);
+            writer.WritePropertyName("byte");
+            JsonSerializer.Serialize(writer, formatTest.Byte, options);
+            writer.WritePropertyName("date");
+            JsonSerializer.Serialize(writer, formatTest.Date, options);
+            writer.WritePropertyName("dateTime");
+            JsonSerializer.Serialize(writer, formatTest.DateTime, options);
+            writer.WritePropertyName("decimal");
+            JsonSerializer.Serialize(writer, formatTest.Decimal, options);
+            writer.WriteNumber("double", (int)formatTest.Double);
+            writer.WriteNumber("float", (int)formatTest.Float);
+            writer.WriteNumber("int32", (int)formatTest.Int32);
+            writer.WriteNumber("int64", (int)formatTest.Int64);
+            writer.WriteNumber("integer", (int)formatTest.Integer);
+            writer.WriteNumber("number", (int)formatTest.Number);
+            writer.WriteString("password", formatTest.Password);
+            writer.WriteString("pattern_with_digits", formatTest.PatternWithDigits);
+            writer.WriteString("pattern_with_digits_and_delimiter", formatTest.PatternWithDigitsAndDelimiter);
+            writer.WriteString("string", formatTest.String);
+            writer.WriteString("uuid", formatTest.Uuid);
+
+            writer.WriteEndObject();
         }
     }
 }

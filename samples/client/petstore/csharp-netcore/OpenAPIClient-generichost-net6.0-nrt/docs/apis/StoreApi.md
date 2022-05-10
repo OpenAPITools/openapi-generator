@@ -1,4 +1,4 @@
-# Org.OpenAPITools.Api.StoreApi
+# Org.OpenAPITools.BaseApi.StoreApi
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
 
@@ -22,7 +22,7 @@ For valid response try integer IDs with value < 1000. Anything above 1000 or non
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using Org.OpenAPITools.Api;
+using Org.OpenAPITools.BaseApi;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
 
@@ -93,7 +93,7 @@ Returns a map of status codes to quantities
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using Org.OpenAPITools.Api;
+using Org.OpenAPITools.BaseApi;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
 
@@ -165,7 +165,7 @@ For valid response try integer IDs with value <= 5 or > 10. Other values will ge
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using Org.OpenAPITools.Api;
+using Org.OpenAPITools.BaseApi;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
 
@@ -236,7 +236,7 @@ Place an order for a pet
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using Org.OpenAPITools.Api;
+using Org.OpenAPITools.BaseApi;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
 
