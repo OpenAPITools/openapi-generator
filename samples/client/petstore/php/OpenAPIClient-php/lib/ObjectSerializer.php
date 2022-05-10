@@ -28,8 +28,8 @@
 
 namespace OpenAPI\Client;
 
-use OpenAPI\Client\Model\ModelInterface;
 use GuzzleHttp\Psr7\Utils;
+use OpenAPI\Client\Model\ModelInterface;
 
 /**
  * ObjectSerializer Class Doc Comment
@@ -166,6 +166,7 @@ class ObjectSerializer
      * @param string $openApiType OpenAPIType eg. array or object
      * @param string $style       Parameter serialization style
      * @param bool   $explode     Parameter explode option
+     * @param bool   $required    Whether query param is required or not
      *
      * @return array
      */
@@ -174,10 +175,19 @@ class ObjectSerializer
         string $paramName,
         string $openApiType = 'string',
         string $style = 'form',
-        bool $explode = true
+        bool $explode = true,
+        bool $required = true
     ): array {
-        // return empty string
-        if (empty($value)) return ["{$paramName}" => ''];
+        if (
+            empty($value)
+            && ($value !== false || $openApiType !== 'boolean') // if $value === false and $openApiType ==='boolean' it isn't empty
+        ) {
+            if ($required) {
+                return ["{$paramName}" => ''];
+            } else {
+                return [];
+            }
+        }
 
         $query = [];
         $value = (in_array($openApiType, ['object', 'array'], true)) ? (array)$value : $value;
@@ -359,7 +369,7 @@ class ObjectSerializer
         if ($class === 'object') {
             settype($data, 'array');
             return $data;
-        } else if ($class === 'mixed') {
+        } elseif ($class === 'mixed') {
             settype($data, gettype($data));
             return $data;
         }

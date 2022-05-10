@@ -60,6 +60,7 @@ public class ModelUtilsTest {
                 "SomeObj18",
                 "Common18",
                 "SomeObj18_allOf",
+                "inline_request",
                 "Obj19ByAge",
                 "Obj19ByType",
                 "SomeObj20",
@@ -78,7 +79,7 @@ public class ModelUtilsTest {
                 "AChild30",
                 "BChild30"
         );
-        Assert.assertEquals(allUsedSchemas.size(), expectedAllUsedSchemas.size());
+        Assert.assertEquals(allUsedSchemas, expectedAllUsedSchemas);
         Assert.assertTrue(allUsedSchemas.containsAll(expectedAllUsedSchemas));
     }
 

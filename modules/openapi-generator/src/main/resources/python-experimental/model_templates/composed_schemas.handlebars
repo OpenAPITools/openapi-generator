@@ -1,5 +1,6 @@
 @classmethod
 @property
+@functools.cache
 def _composed_schemas(cls):
     # we need this here to make our import statements work
     # we must store _composed_schemas in here so the code is only run

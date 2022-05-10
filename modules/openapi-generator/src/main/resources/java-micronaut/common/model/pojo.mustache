@@ -355,4 +355,36 @@ Declare the class with extends and implements
         }
     };
     {{/parcelableModel}}
+    {{#visitable}}
+    {{#discriminator}}
+    /**
+     * Accept the visitor and invoke it for the specific {{classname}} type.
+     *
+     * @param visitor the {{classname}} visitor
+     * @param <T> the return type of the visitor
+     * @return the result from the visitor
+     */
+    public abstract <T> T accept(Visitor<T> visitor);
+
+    /**
+     * A {{classname}} visitor implementation allows visiting the various {{classname}} types.
+     *
+     * @param <R> the return type of the visitor
+     */
+    public interface Visitor<R> {
+        {{#discriminator.mappedModels}}
+        R visit{{modelName}}({{modelName}} value);
+        {{/discriminator.mappedModels}}
+    }
+
+    {{/discriminator}}
+    {{#parent}}
+        {{#interfaces.0}}
+    @Override
+    public <T> T accept({{{parent}}}.Visitor<T> visitor) {
+        return visitor.visit{{classname}}(this);
+    }
+        {{/interfaces.0}}
+    {{/parent}}
+    {{/visitable}}
 }

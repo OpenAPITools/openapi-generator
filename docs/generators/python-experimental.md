@@ -27,6 +27,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |packageVersion|python package version.| |1.0.0|
 |projectName|python project name in setup.py (e.g. petstore-api).| |null|
 |recursionLimit|Set the recursion limit. If not set, use the system default value.| |null|
+|useInlineModelResolver|use the inline model resolver, if true inline complex models will be extracted into components and $refs to them will be used| |false|
 |useNose|use the nose test framework| |false|
 
 ## IMPORT MAPPING

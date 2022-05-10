@@ -1,5 +1,5 @@
 .gitignore
-.php_cs
+.php-cs-fixer.dist.php
 .travis.yml
 README.md
 composer.json

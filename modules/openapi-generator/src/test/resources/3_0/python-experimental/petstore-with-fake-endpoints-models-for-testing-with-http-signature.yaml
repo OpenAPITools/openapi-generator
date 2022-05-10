@@ -1558,6 +1558,25 @@ paths:
           content:
             application/json: {}
             application/xml: {}
+  /fake/deleteCoffee/{id}:
+    delete:
+      operationId: deleteCoffee
+      summary: Delete coffee
+      description: Delete the coffee identified by the given id, (delete without request body)
+      tags:
+        - fake
+      parameters:
+        - name: id
+          in: path
+          description: The internal object id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+        default:
+          description: Unexpected error
 servers:
   - url: 'http://{server}.swagger.io:{port}/v2'
     description: petstore server

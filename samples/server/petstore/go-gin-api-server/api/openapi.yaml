@@ -232,18 +232,10 @@ paths:
           type: integer
         style: simple
       requestBody:
-        $ref: '#/components/requestBodies/inline_object'
         content:
           application/x-www-form-urlencoded:
             schema:
-              properties:
-                name:
-                  description: Updated name of the pet
-                  type: string
-                status:
-                  description: Updated status of the pet
-                  type: string
-              type: object
+              $ref: '#/components/schemas/updatePetWithForm_request'
       responses:
         "405":
           description: Invalid input
@@ -269,19 +261,10 @@ paths:
           type: integer
         style: simple
       requestBody:
-        $ref: '#/components/requestBodies/inline_object_1'
         content:
           multipart/form-data:
             schema:
-              properties:
-                additionalMetadata:
-                  description: Additional data to pass to server
-                  type: string
-                file:
-                  description: file to upload
-                  format: binary
-                  type: string
-              type: object
+              $ref: '#/components/schemas/uploadFile_request'
       responses:
         "200":
           content:
@@ -617,16 +600,6 @@ components:
             $ref: '#/components/schemas/Pet'
       description: Pet object that needs to be added to the store
       required: true
-    inline_object:
-      content:
-        application/x-www-form-urlencoded:
-          schema:
-            $ref: '#/components/schemas/inline_object'
-    inline_object_1:
-      content:
-        multipart/form-data:
-          schema:
-            $ref: '#/components/schemas/inline_object_1'
   schemas:
     Order:
       description: An order for a pets from the pet store
@@ -801,7 +774,7 @@ components:
           type: string
       title: An uploaded response
       type: object
-    inline_object:
+    updatePetWithForm_request:
       properties:
         name:
           description: Updated name of the pet
@@ -810,7 +783,7 @@ components:
           description: Updated status of the pet
           type: string
       type: object
-    inline_object_1:
+    uploadFile_request:
       properties:
         additionalMetadata:
           description: Additional data to pass to server

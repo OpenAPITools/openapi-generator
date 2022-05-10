@@ -89,6 +89,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |title|server title name or client service name| |OpenAPI Spring|
 |unhandledException|Declare operation methods to throw a generic exception and allow unhandled exceptions (useful for Spring `@ControllerAdvice` directives).| |false|
 |useBeanValidation|Use BeanValidation API annotations| |true|
+|useFeignClientUrl|Whether to generate Feign client with url parameter.| |true|
 |useOptional|Use Optional container for optional parameters| |false|
 |useSpringController|Annotate the generated API as a Spring Controller| |false|
 |useSwaggerUI|Open the OpenApi specification in swagger-ui. Will also import and configure needed dependencies| |true|

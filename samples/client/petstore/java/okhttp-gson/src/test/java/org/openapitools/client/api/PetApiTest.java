@@ -222,7 +222,8 @@ public class PetApiTest {
         } while (result.isEmpty());
         assertNotNull(exception);
         assertEquals(404, exception.getCode());
-        assertEquals("Not Found", exception.getMessage());
+        String pattern = "^Message: Not Found\\RHTTP response code: 404\\RHTTP response body: .*\\RHTTP response headers: .*$";
+        assertTrue(exception.getMessage().matches(pattern));
         assertEquals("application/json", exception.getResponseHeaders().get("Content-Type").get(0));
         api.deletePet(pet.getId(), null);
     }

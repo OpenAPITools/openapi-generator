@@ -1,0 +1,11 @@
+{{#enumName}}
+{{#description}}/// {{{description}}}{{/description}}
+enum {{{ enumName }}} {
+{{#allowableValues}}
+{{#enumVars}}
+  @JsonValue({{#isString}}r{{/isString}}{{{value}}})
+  {{{name}}},
+{{/enumVars}}
+{{/allowableValues}}
+}
+{{/enumName}}

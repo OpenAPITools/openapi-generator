@@ -512,6 +512,10 @@ namespace Org.OpenAPITools.Client
             {
                 response.Data = (T)(object)new MemoryStream(response.RawBytes);
             }
+            else if (typeof(T).Name == "Byte[]") // for byte response
+            {
+                response.Data = (T)(object)response.RawBytes;
+            }
 
             InterceptResponse(req, response);
 
@@ -624,6 +628,10 @@ namespace Org.OpenAPITools.Client
             else if (typeof(T).Name == "Stream") // for binary response
             {
                 response.Data = (T)(object)new MemoryStream(response.RawBytes);
+            }
+            else if (typeof(T).Name == "Byte[]") // for byte response
+            {
+                response.Data = (T)(object)response.RawBytes;
             }
 
             InterceptResponse(req, response);
