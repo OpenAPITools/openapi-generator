@@ -1170,6 +1170,9 @@ public class DefaultGenerator implements Generator {
 
                         Map<String, Schema> properties = mapProperties(model);
                         if(!properties.isEmpty()) {
+                            if(schema.getProperties() == null) {
+                                properties.putAll(schema.getProperties());
+                            }
                             schema.setProperties(properties);
                         }
                     }

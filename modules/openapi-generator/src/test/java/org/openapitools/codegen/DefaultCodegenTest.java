@@ -3382,12 +3382,12 @@ public class DefaultCodegenTest {
                 "ObjectHasPropertiesHasRequired", // False because this is extracted into another component and is a ref
                 "ComposedHasAllofReqPropNoPropertiesNoRequired",
                 "ComposedHasAllofReqPropHasPropertiesNoRequired",
-                "ComposedHasAllofReqPropNoPropertiesHasRequired"  // TODO: hasRequired should be true, fix this
-        ));
-        HashSet<String> modelNamesWithRequired = new HashSet(Arrays.asList(
+                "ComposedHasAllofReqPropNoPropertiesHasRequired",  // TODO: hasRequired should be true, fix this
                 "ComposedNoAllofPropsHasPropertiesHasRequired",
                 "ComposedHasAllofOptPropHasPropertiesHasRequired",
                 "ComposedHasAllofReqPropHasPropertiesHasRequired"
+        ));
+        HashSet<String> modelNamesWithRequired = new HashSet(Arrays.asList(
         ));
         for (CodegenProperty var : cm.getVars()) {
             boolean hasRequired = var.getHasRequired();
