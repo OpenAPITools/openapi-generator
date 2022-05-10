@@ -52,6 +52,7 @@ public class PythonFlaskConnexionServerCodegen extends AbstractPythonConnexionSe
         supportingFiles.add(new SupportingFile("encoder.mustache", packagePath(), "encoder.py"));
         supportingFiles.add(new SupportingFile("__init__test.mustache", packagePath() + File.separatorChar + testPackage, "__init__.py"));
         supportingFiles.add(new SupportingFile("__init__.mustache", packagePath(), "__init__.py"));
+        supportingFiles.add(new SupportingFile("__init__impl.mustache", packagePath() + File.separatorChar + "impl", "__init__.py"));
         testPackage = packageName + "." + testPackage;
     }
 
