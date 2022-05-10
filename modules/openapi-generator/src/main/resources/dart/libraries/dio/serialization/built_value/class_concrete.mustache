@@ -1,0 +1,87 @@
+/// a concrete implmentation of [{{classname}}], since [{{classname}}] is not instantiable
+@BuiltValue(instantiable: true)
+abstract class ${{classname}} implements {{classname}}, Built<${{classname}}, ${{classname}}Builder> {
+  ${{classname}}._();
+
+  factory ${{classname}}([void Function(${{classname}}Builder)? updates]) = _$${{classname}};
+
+  @BuiltValueHook(initializeBuilder: true)
+  static void _defaults(${{classname}}Builder b) => b;
+  @BuiltValueSerializer(custom: true)
+  static Serializer<${{classname}}> get serializer => _$${{classname}}Serializer();
+}
+
+class _$${{classname}}Serializer implements PrimitiveSerializer<${{classname}}> {
+    @override
+    final Iterable<Type> types = const [${{classname}}, _$${{classname}}];
+
+    @override
+    final String wireName = r'${{classname}}';
+
+
+
+    @override
+    Object serialize(Serializers serializers, ${{{classname}}} object,
+        {FullType specifiedType = FullType.unspecified}) {        
+        return serializers.serialize(object, specifiedType: FullType({{classname}}))!;
+    }
+
+    {{#vendorExtensions.x-has-self-and-ancestor-only-props}}
+    void _deserializeProperties(Serializers serializers, Object serialized,
+        {FullType specifiedType = FullType.unspecified, required List<Object?> serializedList,required ${{classname}}Builder result, required List<Object?> unhandled}) {
+        for (var i = 0; i < serializedList.length; i += 2) {
+            final key = serializedList[i] as String;
+            final value = serializedList[i + 1];
+            switch (key) {
+                {{#vendorExtensions.x-self-and-ancestor-only-props}}
+                 case r'{{baseName}}':
+                    final valueDes = serializers.deserialize(value,
+                        specifiedType: const {{>serialization/built_value/variable_serializer_type}}) as {{>serialization/built_value/variable_type}};
+                    {{#isNullable}}
+                    if (valueDes == null) continue;
+                    {{/isNullable}}
+                    {{#isContainer}}
+                    result.{{{name}}}.replace(valueDes);
+                    {{/isContainer}}
+                    {{^isContainer}}
+                    {{#isEnum}}
+                    result.{{{name}}} = valueDes;
+                    {{/isEnum}}
+                    {{^isEnum}}
+                    {{#isModel}}
+                    {{#isPrimitiveType}}
+                    {{! These are models that have been manually marked as primitive via generator param. }}
+                    result.{{{name}}} = valueDes;
+                    {{/isPrimitiveType}}
+                    {{^isPrimitiveType}}
+                    result.{{{name}}}.replace(valueDes);
+                    {{/isPrimitiveType}}
+                    {{/isModel}}
+                    {{^isModel}}
+                    result.{{{name}}} = valueDes;
+                    {{/isModel}}
+                    {{/isEnum}}
+                    {{/isContainer}}
+                    break;
+                {{/vendorExtensions.x-self-and-ancestor-only-props}}
+                default:
+                  unhandled.add(key);
+                  unhandled.add(value);
+                  break;
+            }
+        }
+    }
+    {{/vendorExtensions.x-has-self-and-ancestor-only-props}}
+    @override
+    ${{classname}} deserialize(Serializers serializers, Object serialized,
+        {FullType specifiedType = FullType.unspecified}) {
+        final result = ${{classname}}Builder();
+        {{#vendorExtensions.x-has-self-and-ancestor-only-props}}
+        final serializedList = (serialized as Iterable<Object?>).toList();
+        final unhandled = <Object?>[];
+        _deserializeProperties(serializers, serialized, specifiedType: specifiedType, serializedList: serializedList, unhandled: unhandled, result: result);
+        {{/vendorExtensions.x-has-self-and-ancestor-only-props}}        
+        {{! when discriminator is involved, read it, then return based on value }}
+        return result.build();        
+    }
+}

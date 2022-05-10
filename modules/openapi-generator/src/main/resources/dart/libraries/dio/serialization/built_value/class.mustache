@@ -1,32 +1,21 @@
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
+import 'package:one_of/one_of.dart';
+import 'package:one_of/any_of.dart';
 // ignore_for_file: unused_element, unused_import
 
 {{#imports}}
 {{/imports}}
 part '{{classFilename}}.g.dart';
 
-{{#vendorExtensions.x-is-parent}}{{>serialization/built_value/class_parent}}{{/vendorExtensions.x-is-parent}}{{^vendorExtensions.x-is-parent}}{{>serialization/built_value/class_child}}{{/vendorExtensions.x-is-parent}}
+{{>serialization/built_value/class_header}} {
+{{>serialization/built_value/class_members}}
+}
 
-{{!
-    Generate an enum for any variables that are declared as inline enums
-    isEnum is only true for inline variables that are enums.
-    If an enum is declared as a definition, isEnum is false and the enum is generated from the
-    enum.mustache template.
-}}
-{{#vars}}
-    {{^isModel}}
-    {{#isEnum}}
-        {{^isContainer}}
+{{>serialization/built_value/class_serializer}}
 
-{{>serialization/built_value/enum_inline}}
-        {{/isContainer}}
-        {{#isContainer}}
-            {{#mostInnerItems}}
+{{#vendorExtensions.x-is-parent}}
+{{>serialization/built_value/class_concrete}}
+{{/vendorExtensions.x-is-parent}}
 
-{{>serialization/built_value/enum_inline}}
-            {{/mostInnerItems}}
-        {{/isContainer}}
-    {{/isEnum}}
-    {{/isModel}}
-{{/vars}}
+{{>serialization/built_value/class_inline_enums}}
