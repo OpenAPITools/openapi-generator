@@ -4,6 +4,8 @@
 
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
+import 'package:one_of/one_of.dart';
+import 'package:one_of/any_of.dart';
 // ignore_for_file: unused_element, unused_import
 
 part 'read_only_first.g.dart';
@@ -19,68 +21,79 @@ abstract class ReadOnlyFirst implements Built<ReadOnlyFirst, ReadOnlyFirstBuilde
     String? get bar;
     @BuiltValueField(wireName: r'baz')
     String? get baz;
+
+
     ReadOnlyFirst._();
+    
+    factory ReadOnlyFirst([void updates(ReadOnlyFirstBuilder b)]) = _$ReadOnlyFirst;
 
     @BuiltValueHook(initializeBuilder: true)
     static void _defaults(ReadOnlyFirstBuilder b) => b;
 
-    factory ReadOnlyFirst([void updates(ReadOnlyFirstBuilder b)]) = _$ReadOnlyFirst;
-
     @BuiltValueSerializer(custom: true)
     static Serializer<ReadOnlyFirst> get serializer => _$ReadOnlyFirstSerializer();
+
+
 }
 
-
-class _$ReadOnlyFirstSerializer implements StructuredSerializer<ReadOnlyFirst> {
+class _$ReadOnlyFirstSerializer implements PrimitiveSerializer<ReadOnlyFirst> {
     @override
     final Iterable<Type> types = const [ReadOnlyFirst, _$ReadOnlyFirst];
 
     @override
     final String wireName = r'ReadOnlyFirst';
 
-    @override
-    Iterable<Object?> serialize(Serializers serializers, ReadOnlyFirst object,
-        {FullType specifiedType = FullType.unspecified}) {
-        final result = <Object?>[];
+    Iterable<Object?> _serializeProperties(Serializers serializers, ReadOnlyFirst object,
+        {FullType specifiedType = FullType.unspecified}) sync* {        
         if (object.bar != null) {
-            result
-                ..add(r'bar')
-                ..add(serializers.serialize(object.bar,
-                    specifiedType: const FullType(String)));
+            yield r'bar';
+            yield serializers.serialize(object.bar,
+                    specifiedType: const FullType(String));
         }
         if (object.baz != null) {
-            result
-                ..add(r'baz')
-                ..add(serializers.serialize(object.baz,
-                    specifiedType: const FullType(String)));
+            yield r'baz';
+            yield serializers.serialize(object.baz,
+                    specifiedType: const FullType(String));
         }
-        return result;
     }
 
     @override
-    ReadOnlyFirst deserialize(Serializers serializers, Iterable<Object?> serialized,
+    Object serialize(Serializers serializers, ReadOnlyFirst object,
         {FullType specifiedType = FullType.unspecified}) {
-        final result = ReadOnlyFirstBuilder();
+        return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+    }
 
-        final iterator = serialized.iterator;
-        while (iterator.moveNext()) {
-            final key = iterator.current as String;
-            iterator.moveNext();
-            final Object? value = iterator.current;
-            
+    void _deserializeProperties(Serializers serializers, Object serialized,
+        {FullType specifiedType = FullType.unspecified, required List<Object?> serializedList,required ReadOnlyFirstBuilder result, required List<Object?> unhandled}) {
+        for (var i = 0; i < serializedList.length; i += 2) {
+            final key = serializedList[i] as String;
+            final value = serializedList[i + 1];
             switch (key) {
-                case r'bar':
+                 case r'bar':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String)) as String;
                     result.bar = valueDes;
                     break;
-                case r'baz':
+                 case r'baz':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String)) as String;
                     result.baz = valueDes;
                     break;
+                default:
+                  unhandled.add(key);
+                  unhandled.add(value);
+                  break;
             }
         }
+    }
+    
+    @override
+    ReadOnlyFirst deserialize(Serializers serializers, Object serialized,
+        {FullType specifiedType = FullType.unspecified}) {
+        final result = ReadOnlyFirstBuilder();
+        final serializedList = (serialized as Iterable<Object?>).toList();        
+        final unhandled = <Object?>[];
+        _deserializeProperties(serializers, serialized, specifiedType: specifiedType, serializedList: serializedList, unhandled: unhandled, result: result);        
         return result.build();
     }
 }

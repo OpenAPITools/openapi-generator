@@ -6,6 +6,8 @@ import 'package:built_collection/built_collection.dart';
 import 'package:openapi/src/model/model_file.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
+import 'package:one_of/one_of.dart';
+import 'package:one_of/any_of.dart';
 // ignore_for_file: unused_element, unused_import
 
 part 'file_schema_test_class.g.dart';
@@ -21,68 +23,79 @@ abstract class FileSchemaTestClass implements Built<FileSchemaTestClass, FileSch
     ModelFile? get file;
     @BuiltValueField(wireName: r'files')
     BuiltList<ModelFile>? get files;
+
+
     FileSchemaTestClass._();
+    
+    factory FileSchemaTestClass([void updates(FileSchemaTestClassBuilder b)]) = _$FileSchemaTestClass;
 
     @BuiltValueHook(initializeBuilder: true)
     static void _defaults(FileSchemaTestClassBuilder b) => b;
 
-    factory FileSchemaTestClass([void updates(FileSchemaTestClassBuilder b)]) = _$FileSchemaTestClass;
-
     @BuiltValueSerializer(custom: true)
     static Serializer<FileSchemaTestClass> get serializer => _$FileSchemaTestClassSerializer();
+
+
 }
 
-
-class _$FileSchemaTestClassSerializer implements StructuredSerializer<FileSchemaTestClass> {
+class _$FileSchemaTestClassSerializer implements PrimitiveSerializer<FileSchemaTestClass> {
     @override
     final Iterable<Type> types = const [FileSchemaTestClass, _$FileSchemaTestClass];
 
     @override
     final String wireName = r'FileSchemaTestClass';
 
-    @override
-    Iterable<Object?> serialize(Serializers serializers, FileSchemaTestClass object,
-        {FullType specifiedType = FullType.unspecified}) {
-        final result = <Object?>[];
+    Iterable<Object?> _serializeProperties(Serializers serializers, FileSchemaTestClass object,
+        {FullType specifiedType = FullType.unspecified}) sync* {        
         if (object.file != null) {
-            result
-                ..add(r'file')
-                ..add(serializers.serialize(object.file,
-                    specifiedType: const FullType(ModelFile)));
+            yield r'file';
+            yield serializers.serialize(object.file,
+                    specifiedType: const FullType(ModelFile));
         }
         if (object.files != null) {
-            result
-                ..add(r'files')
-                ..add(serializers.serialize(object.files,
-                    specifiedType: const FullType(BuiltList, [FullType(ModelFile)])));
+            yield r'files';
+            yield serializers.serialize(object.files,
+                    specifiedType: const FullType(BuiltList, [FullType(ModelFile)]));
         }
-        return result;
     }
 
     @override
-    FileSchemaTestClass deserialize(Serializers serializers, Iterable<Object?> serialized,
+    Object serialize(Serializers serializers, FileSchemaTestClass object,
         {FullType specifiedType = FullType.unspecified}) {
-        final result = FileSchemaTestClassBuilder();
+        return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+    }
 
-        final iterator = serialized.iterator;
-        while (iterator.moveNext()) {
-            final key = iterator.current as String;
-            iterator.moveNext();
-            final Object? value = iterator.current;
-            
+    void _deserializeProperties(Serializers serializers, Object serialized,
+        {FullType specifiedType = FullType.unspecified, required List<Object?> serializedList,required FileSchemaTestClassBuilder result, required List<Object?> unhandled}) {
+        for (var i = 0; i < serializedList.length; i += 2) {
+            final key = serializedList[i] as String;
+            final value = serializedList[i + 1];
             switch (key) {
-                case r'file':
+                 case r'file':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(ModelFile)) as ModelFile;
                     result.file.replace(valueDes);
                     break;
-                case r'files':
+                 case r'files':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(BuiltList, [FullType(ModelFile)])) as BuiltList<ModelFile>;
                     result.files.replace(valueDes);
                     break;
+                default:
+                  unhandled.add(key);
+                  unhandled.add(value);
+                  break;
             }
         }
+    }
+    
+    @override
+    FileSchemaTestClass deserialize(Serializers serializers, Object serialized,
+        {FullType specifiedType = FullType.unspecified}) {
+        final result = FileSchemaTestClassBuilder();
+        final serializedList = (serialized as Iterable<Object?>).toList();        
+        final unhandled = <Object?>[];
+        _deserializeProperties(serializers, serialized, specifiedType: specifiedType, serializedList: serializedList, unhandled: unhandled, result: result);        
         return result.build();
     }
 }

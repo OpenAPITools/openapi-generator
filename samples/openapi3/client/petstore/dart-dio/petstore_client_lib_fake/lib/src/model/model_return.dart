@@ -4,6 +4,8 @@
 
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
+import 'package:one_of/one_of.dart';
+import 'package:one_of/any_of.dart';
 // ignore_for_file: unused_element, unused_import
 
 part 'model_return.g.dart';
@@ -16,57 +18,69 @@ part 'model_return.g.dart';
 abstract class ModelReturn implements Built<ModelReturn, ModelReturnBuilder> {
     @BuiltValueField(wireName: r'return')
     int? get return_;
+
+
     ModelReturn._();
+    
+    factory ModelReturn([void updates(ModelReturnBuilder b)]) = _$ModelReturn;
 
     @BuiltValueHook(initializeBuilder: true)
     static void _defaults(ModelReturnBuilder b) => b;
 
-    factory ModelReturn([void updates(ModelReturnBuilder b)]) = _$ModelReturn;
-
     @BuiltValueSerializer(custom: true)
     static Serializer<ModelReturn> get serializer => _$ModelReturnSerializer();
+
+
 }
 
-
-class _$ModelReturnSerializer implements StructuredSerializer<ModelReturn> {
+class _$ModelReturnSerializer implements PrimitiveSerializer<ModelReturn> {
     @override
     final Iterable<Type> types = const [ModelReturn, _$ModelReturn];
 
     @override
     final String wireName = r'ModelReturn';
 
-    @override
-    Iterable<Object?> serialize(Serializers serializers, ModelReturn object,
-        {FullType specifiedType = FullType.unspecified}) {
-        final result = <Object?>[];
+    Iterable<Object?> _serializeProperties(Serializers serializers, ModelReturn object,
+        {FullType specifiedType = FullType.unspecified}) sync* {        
         if (object.return_ != null) {
-            result
-                ..add(r'return')
-                ..add(serializers.serialize(object.return_,
-                    specifiedType: const FullType(int)));
+            yield r'return';
+            yield serializers.serialize(object.return_,
+                    specifiedType: const FullType(int));
         }
-        return result;
     }
 
     @override
-    ModelReturn deserialize(Serializers serializers, Iterable<Object?> serialized,
+    Object serialize(Serializers serializers, ModelReturn object,
         {FullType specifiedType = FullType.unspecified}) {
-        final result = ModelReturnBuilder();
+        return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+    }
 
-        final iterator = serialized.iterator;
-        while (iterator.moveNext()) {
-            final key = iterator.current as String;
-            iterator.moveNext();
-            final Object? value = iterator.current;
-            
+    void _deserializeProperties(Serializers serializers, Object serialized,
+        {FullType specifiedType = FullType.unspecified, required List<Object?> serializedList,required ModelReturnBuilder result, required List<Object?> unhandled}) {
+        for (var i = 0; i < serializedList.length; i += 2) {
+            final key = serializedList[i] as String;
+            final value = serializedList[i + 1];
             switch (key) {
-                case r'return':
+                 case r'return':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(int)) as int;
                     result.return_ = valueDes;
                     break;
+                default:
+                  unhandled.add(key);
+                  unhandled.add(value);
+                  break;
             }
         }
+    }
+    
+    @override
+    ModelReturn deserialize(Serializers serializers, Object serialized,
+        {FullType specifiedType = FullType.unspecified}) {
+        final result = ModelReturnBuilder();
+        final serializedList = (serialized as Iterable<Object?>).toList();        
+        final unhandled = <Object?>[];
+        _deserializeProperties(serializers, serialized, specifiedType: specifiedType, serializedList: serializedList, unhandled: unhandled, result: result);        
         return result.build();
     }
 }

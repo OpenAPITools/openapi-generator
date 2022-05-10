@@ -6,6 +6,8 @@ import 'package:built_collection/built_collection.dart';
 import 'package:openapi/src/model/read_only_first.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
+import 'package:one_of/one_of.dart';
+import 'package:one_of/any_of.dart';
 // ignore_for_file: unused_element, unused_import
 
 part 'array_test.g.dart';
@@ -24,79 +26,89 @@ abstract class ArrayTest implements Built<ArrayTest, ArrayTestBuilder> {
     BuiltList<BuiltList<int>>? get arrayArrayOfInteger;
     @BuiltValueField(wireName: r'array_array_of_model')
     BuiltList<BuiltList<ReadOnlyFirst>>? get arrayArrayOfModel;
+
+
     ArrayTest._();
+    
+    factory ArrayTest([void updates(ArrayTestBuilder b)]) = _$ArrayTest;
 
     @BuiltValueHook(initializeBuilder: true)
     static void _defaults(ArrayTestBuilder b) => b;
 
-    factory ArrayTest([void updates(ArrayTestBuilder b)]) = _$ArrayTest;
-
     @BuiltValueSerializer(custom: true)
     static Serializer<ArrayTest> get serializer => _$ArrayTestSerializer();
+
+
 }
 
-
-class _$ArrayTestSerializer implements StructuredSerializer<ArrayTest> {
+class _$ArrayTestSerializer implements PrimitiveSerializer<ArrayTest> {
     @override
     final Iterable<Type> types = const [ArrayTest, _$ArrayTest];
 
     @override
     final String wireName = r'ArrayTest';
 
-    @override
-    Iterable<Object?> serialize(Serializers serializers, ArrayTest object,
-        {FullType specifiedType = FullType.unspecified}) {
-        final result = <Object?>[];
+    Iterable<Object?> _serializeProperties(Serializers serializers, ArrayTest object,
+        {FullType specifiedType = FullType.unspecified}) sync* {        
         if (object.arrayOfString != null) {
-            result
-                ..add(r'array_of_string')
-                ..add(serializers.serialize(object.arrayOfString,
-                    specifiedType: const FullType(BuiltList, [FullType(String)])));
+            yield r'array_of_string';
+            yield serializers.serialize(object.arrayOfString,
+                    specifiedType: const FullType(BuiltList, [FullType(String)]));
         }
         if (object.arrayArrayOfInteger != null) {
-            result
-                ..add(r'array_array_of_integer')
-                ..add(serializers.serialize(object.arrayArrayOfInteger,
-                    specifiedType: const FullType(BuiltList, [FullType(BuiltList, [FullType(int)])])));
+            yield r'array_array_of_integer';
+            yield serializers.serialize(object.arrayArrayOfInteger,
+                    specifiedType: const FullType(BuiltList, [FullType(BuiltList, [FullType(int)])]));
         }
         if (object.arrayArrayOfModel != null) {
-            result
-                ..add(r'array_array_of_model')
-                ..add(serializers.serialize(object.arrayArrayOfModel,
-                    specifiedType: const FullType(BuiltList, [FullType(BuiltList, [FullType(ReadOnlyFirst)])])));
+            yield r'array_array_of_model';
+            yield serializers.serialize(object.arrayArrayOfModel,
+                    specifiedType: const FullType(BuiltList, [FullType(BuiltList, [FullType(ReadOnlyFirst)])]));
         }
-        return result;
     }
 
     @override
-    ArrayTest deserialize(Serializers serializers, Iterable<Object?> serialized,
+    Object serialize(Serializers serializers, ArrayTest object,
         {FullType specifiedType = FullType.unspecified}) {
-        final result = ArrayTestBuilder();
+        return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+    }
 
-        final iterator = serialized.iterator;
-        while (iterator.moveNext()) {
-            final key = iterator.current as String;
-            iterator.moveNext();
-            final Object? value = iterator.current;
-            
+    void _deserializeProperties(Serializers serializers, Object serialized,
+        {FullType specifiedType = FullType.unspecified, required List<Object?> serializedList,required ArrayTestBuilder result, required List<Object?> unhandled}) {
+        for (var i = 0; i < serializedList.length; i += 2) {
+            final key = serializedList[i] as String;
+            final value = serializedList[i + 1];
             switch (key) {
-                case r'array_of_string':
+                 case r'array_of_string':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(BuiltList, [FullType(String)])) as BuiltList<String>;
                     result.arrayOfString.replace(valueDes);
                     break;
-                case r'array_array_of_integer':
+                 case r'array_array_of_integer':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(BuiltList, [FullType(BuiltList, [FullType(int)])])) as BuiltList<BuiltList<int>>;
                     result.arrayArrayOfInteger.replace(valueDes);
                     break;
-                case r'array_array_of_model':
+                 case r'array_array_of_model':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(BuiltList, [FullType(BuiltList, [FullType(ReadOnlyFirst)])])) as BuiltList<BuiltList<ReadOnlyFirst>>;
                     result.arrayArrayOfModel.replace(valueDes);
                     break;
+                default:
+                  unhandled.add(key);
+                  unhandled.add(value);
+                  break;
             }
         }
+    }
+    
+    @override
+    ArrayTest deserialize(Serializers serializers, Object serialized,
+        {FullType specifiedType = FullType.unspecified}) {
+        final result = ArrayTestBuilder();
+        final serializedList = (serialized as Iterable<Object?>).toList();        
+        final unhandled = <Object?>[];
+        _deserializeProperties(serializers, serialized, specifiedType: specifiedType, serializedList: serializedList, unhandled: unhandled, result: result);        
         return result.build();
     }
 }

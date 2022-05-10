@@ -4,6 +4,8 @@
 
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
+import 'package:one_of/one_of.dart';
+import 'package:one_of/any_of.dart';
 // ignore_for_file: unused_element, unused_import
 
 part 'class_model.g.dart';
@@ -16,57 +18,69 @@ part 'class_model.g.dart';
 abstract class ClassModel implements Built<ClassModel, ClassModelBuilder> {
     @BuiltValueField(wireName: r'_class')
     String? get class_;
+
+
     ClassModel._();
+    
+    factory ClassModel([void updates(ClassModelBuilder b)]) = _$ClassModel;
 
     @BuiltValueHook(initializeBuilder: true)
     static void _defaults(ClassModelBuilder b) => b;
 
-    factory ClassModel([void updates(ClassModelBuilder b)]) = _$ClassModel;
-
     @BuiltValueSerializer(custom: true)
     static Serializer<ClassModel> get serializer => _$ClassModelSerializer();
+
+
 }
 
-
-class _$ClassModelSerializer implements StructuredSerializer<ClassModel> {
+class _$ClassModelSerializer implements PrimitiveSerializer<ClassModel> {
     @override
     final Iterable<Type> types = const [ClassModel, _$ClassModel];
 
     @override
     final String wireName = r'ClassModel';
 
-    @override
-    Iterable<Object?> serialize(Serializers serializers, ClassModel object,
-        {FullType specifiedType = FullType.unspecified}) {
-        final result = <Object?>[];
+    Iterable<Object?> _serializeProperties(Serializers serializers, ClassModel object,
+        {FullType specifiedType = FullType.unspecified}) sync* {        
         if (object.class_ != null) {
-            result
-                ..add(r'_class')
-                ..add(serializers.serialize(object.class_,
-                    specifiedType: const FullType(String)));
+            yield r'_class';
+            yield serializers.serialize(object.class_,
+                    specifiedType: const FullType(String));
         }
-        return result;
     }
 
     @override
-    ClassModel deserialize(Serializers serializers, Iterable<Object?> serialized,
+    Object serialize(Serializers serializers, ClassModel object,
         {FullType specifiedType = FullType.unspecified}) {
-        final result = ClassModelBuilder();
+        return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+    }
 
-        final iterator = serialized.iterator;
-        while (iterator.moveNext()) {
-            final key = iterator.current as String;
-            iterator.moveNext();
-            final Object? value = iterator.current;
-            
+    void _deserializeProperties(Serializers serializers, Object serialized,
+        {FullType specifiedType = FullType.unspecified, required List<Object?> serializedList,required ClassModelBuilder result, required List<Object?> unhandled}) {
+        for (var i = 0; i < serializedList.length; i += 2) {
+            final key = serializedList[i] as String;
+            final value = serializedList[i + 1];
             switch (key) {
-                case r'_class':
+                 case r'_class':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String)) as String;
                     result.class_ = valueDes;
                     break;
+                default:
+                  unhandled.add(key);
+                  unhandled.add(value);
+                  break;
             }
         }
+    }
+    
+    @override
+    ClassModel deserialize(Serializers serializers, Object serialized,
+        {FullType specifiedType = FullType.unspecified}) {
+        final result = ClassModelBuilder();
+        final serializedList = (serialized as Iterable<Object?>).toList();        
+        final unhandled = <Object?>[];
+        _deserializeProperties(serializers, serialized, specifiedType: specifiedType, serializedList: serializedList, unhandled: unhandled, result: result);        
         return result.build();
     }
 }

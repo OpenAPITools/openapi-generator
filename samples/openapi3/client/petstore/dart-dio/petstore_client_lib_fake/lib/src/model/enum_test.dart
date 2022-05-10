@@ -9,6 +9,8 @@ import 'package:openapi/src/model/outer_enum_integer.dart';
 import 'package:openapi/src/model/outer_enum_integer_default_value.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
+import 'package:one_of/one_of.dart';
+import 'package:one_of/any_of.dart';
 // ignore_for_file: unused_element, unused_import
 
 part 'enum_test.g.dart';
@@ -50,137 +52,141 @@ abstract class EnumTest implements Built<EnumTest, EnumTestBuilder> {
     @BuiltValueField(wireName: r'outerEnumIntegerDefaultValue')
     OuterEnumIntegerDefaultValue? get outerEnumIntegerDefaultValue;
     // enum outerEnumIntegerDefaultValueEnum {  0,  1,  2,  };
+
+
     EnumTest._();
+    
+    factory EnumTest([void updates(EnumTestBuilder b)]) = _$EnumTest;
 
     @BuiltValueHook(initializeBuilder: true)
     static void _defaults(EnumTestBuilder b) => b;
 
-    factory EnumTest([void updates(EnumTestBuilder b)]) = _$EnumTest;
-
     @BuiltValueSerializer(custom: true)
     static Serializer<EnumTest> get serializer => _$EnumTestSerializer();
+
+
 }
 
-
-class _$EnumTestSerializer implements StructuredSerializer<EnumTest> {
+class _$EnumTestSerializer implements PrimitiveSerializer<EnumTest> {
     @override
     final Iterable<Type> types = const [EnumTest, _$EnumTest];
 
     @override
     final String wireName = r'EnumTest';
 
-    @override
-    Iterable<Object?> serialize(Serializers serializers, EnumTest object,
-        {FullType specifiedType = FullType.unspecified}) {
-        final result = <Object?>[];
+    Iterable<Object?> _serializeProperties(Serializers serializers, EnumTest object,
+        {FullType specifiedType = FullType.unspecified}) sync* {        
         if (object.enumString != null) {
-            result
-                ..add(r'enum_string')
-                ..add(serializers.serialize(object.enumString,
-                    specifiedType: const FullType(EnumTestEnumStringEnum)));
+            yield r'enum_string';
+            yield serializers.serialize(object.enumString,
+                    specifiedType: const FullType(EnumTestEnumStringEnum));
         }
-        result
-            ..add(r'enum_string_required')
-            ..add(serializers.serialize(object.enumStringRequired,
-                specifiedType: const FullType(EnumTestEnumStringRequiredEnum)));
+        yield r'enum_string_required';
+        yield serializers.serialize(object.enumStringRequired,
+                specifiedType: const FullType(EnumTestEnumStringRequiredEnum));
         if (object.enumInteger != null) {
-            result
-                ..add(r'enum_integer')
-                ..add(serializers.serialize(object.enumInteger,
-                    specifiedType: const FullType(EnumTestEnumIntegerEnum)));
+            yield r'enum_integer';
+            yield serializers.serialize(object.enumInteger,
+                    specifiedType: const FullType(EnumTestEnumIntegerEnum));
         }
         if (object.enumNumber != null) {
-            result
-                ..add(r'enum_number')
-                ..add(serializers.serialize(object.enumNumber,
-                    specifiedType: const FullType(EnumTestEnumNumberEnum)));
+            yield r'enum_number';
+            yield serializers.serialize(object.enumNumber,
+                    specifiedType: const FullType(EnumTestEnumNumberEnum));
         }
         if (object.outerEnum != null) {
-            result
-                ..add(r'outerEnum')
-                ..add(serializers.serialize(object.outerEnum,
-                    specifiedType: const FullType.nullable(OuterEnum)));
+            yield r'outerEnum';
+            yield serializers.serialize(object.outerEnum,
+                    specifiedType: const FullType.nullable(OuterEnum));
         }
         if (object.outerEnumInteger != null) {
-            result
-                ..add(r'outerEnumInteger')
-                ..add(serializers.serialize(object.outerEnumInteger,
-                    specifiedType: const FullType(OuterEnumInteger)));
+            yield r'outerEnumInteger';
+            yield serializers.serialize(object.outerEnumInteger,
+                    specifiedType: const FullType(OuterEnumInteger));
         }
         if (object.outerEnumDefaultValue != null) {
-            result
-                ..add(r'outerEnumDefaultValue')
-                ..add(serializers.serialize(object.outerEnumDefaultValue,
-                    specifiedType: const FullType(OuterEnumDefaultValue)));
+            yield r'outerEnumDefaultValue';
+            yield serializers.serialize(object.outerEnumDefaultValue,
+                    specifiedType: const FullType(OuterEnumDefaultValue));
         }
         if (object.outerEnumIntegerDefaultValue != null) {
-            result
-                ..add(r'outerEnumIntegerDefaultValue')
-                ..add(serializers.serialize(object.outerEnumIntegerDefaultValue,
-                    specifiedType: const FullType(OuterEnumIntegerDefaultValue)));
+            yield r'outerEnumIntegerDefaultValue';
+            yield serializers.serialize(object.outerEnumIntegerDefaultValue,
+                    specifiedType: const FullType(OuterEnumIntegerDefaultValue));
         }
-        return result;
     }
 
     @override
-    EnumTest deserialize(Serializers serializers, Iterable<Object?> serialized,
+    Object serialize(Serializers serializers, EnumTest object,
         {FullType specifiedType = FullType.unspecified}) {
-        final result = EnumTestBuilder();
+        return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+    }
 
-        final iterator = serialized.iterator;
-        while (iterator.moveNext()) {
-            final key = iterator.current as String;
-            iterator.moveNext();
-            final Object? value = iterator.current;
-            
+    void _deserializeProperties(Serializers serializers, Object serialized,
+        {FullType specifiedType = FullType.unspecified, required List<Object?> serializedList,required EnumTestBuilder result, required List<Object?> unhandled}) {
+        for (var i = 0; i < serializedList.length; i += 2) {
+            final key = serializedList[i] as String;
+            final value = serializedList[i + 1];
             switch (key) {
-                case r'enum_string':
+                 case r'enum_string':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(EnumTestEnumStringEnum)) as EnumTestEnumStringEnum;
                     result.enumString = valueDes;
                     break;
-                case r'enum_string_required':
+                 case r'enum_string_required':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(EnumTestEnumStringRequiredEnum)) as EnumTestEnumStringRequiredEnum;
                     result.enumStringRequired = valueDes;
                     break;
-                case r'enum_integer':
+                 case r'enum_integer':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(EnumTestEnumIntegerEnum)) as EnumTestEnumIntegerEnum;
                     result.enumInteger = valueDes;
                     break;
-                case r'enum_number':
+                 case r'enum_number':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(EnumTestEnumNumberEnum)) as EnumTestEnumNumberEnum;
                     result.enumNumber = valueDes;
                     break;
-                case r'outerEnum':
+                 case r'outerEnum':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType.nullable(OuterEnum)) as OuterEnum?;
                     if (valueDes == null) continue;
                     result.outerEnum = valueDes;
                     break;
-                case r'outerEnumInteger':
+                 case r'outerEnumInteger':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(OuterEnumInteger)) as OuterEnumInteger;
                     result.outerEnumInteger = valueDes;
                     break;
-                case r'outerEnumDefaultValue':
+                 case r'outerEnumDefaultValue':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(OuterEnumDefaultValue)) as OuterEnumDefaultValue;
                     result.outerEnumDefaultValue = valueDes;
                     break;
-                case r'outerEnumIntegerDefaultValue':
+                 case r'outerEnumIntegerDefaultValue':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(OuterEnumIntegerDefaultValue)) as OuterEnumIntegerDefaultValue;
                     result.outerEnumIntegerDefaultValue = valueDes;
                     break;
+                default:
+                  unhandled.add(key);
+                  unhandled.add(value);
+                  break;
             }
         }
+    }
+    
+    @override
+    EnumTest deserialize(Serializers serializers, Object serialized,
+        {FullType specifiedType = FullType.unspecified}) {
+        final result = EnumTestBuilder();
+        final serializedList = (serialized as Iterable<Object?>).toList();        
+        final unhandled = <Object?>[];
+        _deserializeProperties(serializers, serialized, specifiedType: specifiedType, serializedList: serializedList, unhandled: unhandled, result: result);        
         return result.build();
     }
 }
-
 
 
 
@@ -255,4 +261,5 @@ class EnumTestEnumNumberEnum extends EnumClass {
   static BuiltSet<EnumTestEnumNumberEnum> get values => _$enumTestEnumNumberEnumValues;
   static EnumTestEnumNumberEnum valueOf(String name) => _$enumTestEnumNumberEnumValueOf(name);
 }
+
 

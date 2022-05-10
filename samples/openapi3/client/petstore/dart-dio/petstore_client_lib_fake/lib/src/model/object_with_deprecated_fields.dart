@@ -6,6 +6,8 @@ import 'package:built_collection/built_collection.dart';
 import 'package:openapi/src/model/deprecated_object.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
+import 'package:one_of/one_of.dart';
+import 'package:one_of/any_of.dart';
 // ignore_for_file: unused_element, unused_import
 
 part 'object_with_deprecated_fields.g.dart';
@@ -27,90 +29,99 @@ abstract class ObjectWithDeprecatedFields implements Built<ObjectWithDeprecatedF
     DeprecatedObject? get deprecatedRef;
     @BuiltValueField(wireName: r'bars')
     BuiltList<String>? get bars;
+
+
     ObjectWithDeprecatedFields._();
+    
+    factory ObjectWithDeprecatedFields([void updates(ObjectWithDeprecatedFieldsBuilder b)]) = _$ObjectWithDeprecatedFields;
 
     @BuiltValueHook(initializeBuilder: true)
     static void _defaults(ObjectWithDeprecatedFieldsBuilder b) => b;
 
-    factory ObjectWithDeprecatedFields([void updates(ObjectWithDeprecatedFieldsBuilder b)]) = _$ObjectWithDeprecatedFields;
-
     @BuiltValueSerializer(custom: true)
     static Serializer<ObjectWithDeprecatedFields> get serializer => _$ObjectWithDeprecatedFieldsSerializer();
+
+
 }
 
-
-class _$ObjectWithDeprecatedFieldsSerializer implements StructuredSerializer<ObjectWithDeprecatedFields> {
+class _$ObjectWithDeprecatedFieldsSerializer implements PrimitiveSerializer<ObjectWithDeprecatedFields> {
     @override
     final Iterable<Type> types = const [ObjectWithDeprecatedFields, _$ObjectWithDeprecatedFields];
 
     @override
     final String wireName = r'ObjectWithDeprecatedFields';
 
-    @override
-    Iterable<Object?> serialize(Serializers serializers, ObjectWithDeprecatedFields object,
-        {FullType specifiedType = FullType.unspecified}) {
-        final result = <Object?>[];
+    Iterable<Object?> _serializeProperties(Serializers serializers, ObjectWithDeprecatedFields object,
+        {FullType specifiedType = FullType.unspecified}) sync* {        
         if (object.uuid != null) {
-            result
-                ..add(r'uuid')
-                ..add(serializers.serialize(object.uuid,
-                    specifiedType: const FullType(String)));
+            yield r'uuid';
+            yield serializers.serialize(object.uuid,
+                    specifiedType: const FullType(String));
         }
         if (object.id != null) {
-            result
-                ..add(r'id')
-                ..add(serializers.serialize(object.id,
-                    specifiedType: const FullType(num)));
+            yield r'id';
+            yield serializers.serialize(object.id,
+                    specifiedType: const FullType(num));
         }
         if (object.deprecatedRef != null) {
-            result
-                ..add(r'deprecatedRef')
-                ..add(serializers.serialize(object.deprecatedRef,
-                    specifiedType: const FullType(DeprecatedObject)));
+            yield r'deprecatedRef';
+            yield serializers.serialize(object.deprecatedRef,
+                    specifiedType: const FullType(DeprecatedObject));
         }
         if (object.bars != null) {
-            result
-                ..add(r'bars')
-                ..add(serializers.serialize(object.bars,
-                    specifiedType: const FullType(BuiltList, [FullType(String)])));
+            yield r'bars';
+            yield serializers.serialize(object.bars,
+                    specifiedType: const FullType(BuiltList, [FullType(String)]));
         }
-        return result;
     }
 
     @override
-    ObjectWithDeprecatedFields deserialize(Serializers serializers, Iterable<Object?> serialized,
+    Object serialize(Serializers serializers, ObjectWithDeprecatedFields object,
         {FullType specifiedType = FullType.unspecified}) {
-        final result = ObjectWithDeprecatedFieldsBuilder();
+        return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+    }
 
-        final iterator = serialized.iterator;
-        while (iterator.moveNext()) {
-            final key = iterator.current as String;
-            iterator.moveNext();
-            final Object? value = iterator.current;
-            
+    void _deserializeProperties(Serializers serializers, Object serialized,
+        {FullType specifiedType = FullType.unspecified, required List<Object?> serializedList,required ObjectWithDeprecatedFieldsBuilder result, required List<Object?> unhandled}) {
+        for (var i = 0; i < serializedList.length; i += 2) {
+            final key = serializedList[i] as String;
+            final value = serializedList[i + 1];
             switch (key) {
-                case r'uuid':
+                 case r'uuid':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String)) as String;
                     result.uuid = valueDes;
                     break;
-                case r'id':
+                 case r'id':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(num)) as num;
                     result.id = valueDes;
                     break;
-                case r'deprecatedRef':
+                 case r'deprecatedRef':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(DeprecatedObject)) as DeprecatedObject;
                     result.deprecatedRef.replace(valueDes);
                     break;
-                case r'bars':
+                 case r'bars':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(BuiltList, [FullType(String)])) as BuiltList<String>;
                     result.bars.replace(valueDes);
                     break;
+                default:
+                  unhandled.add(key);
+                  unhandled.add(value);
+                  break;
             }
         }
+    }
+    
+    @override
+    ObjectWithDeprecatedFields deserialize(Serializers serializers, Object serialized,
+        {FullType specifiedType = FullType.unspecified}) {
+        final result = ObjectWithDeprecatedFieldsBuilder();
+        final serializedList = (serialized as Iterable<Object?>).toList();        
+        final unhandled = <Object?>[];
+        _deserializeProperties(serializers, serialized, specifiedType: specifiedType, serializedList: serializedList, unhandled: unhandled, result: result);        
         return result.build();
     }
 }

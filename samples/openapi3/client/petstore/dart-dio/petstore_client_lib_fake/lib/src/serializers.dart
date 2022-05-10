@@ -4,6 +4,8 @@
 
 // ignore_for_file: unused_import
 
+import 'package:one_of_serializer/any_of_serializer.dart';
+import 'package:one_of_serializer/one_of_serializer.dart';
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/json_object.dart';
 import 'package:built_value/serializer.dart';
@@ -66,19 +68,19 @@ part 'serializers.g.dart';
 @SerializersFor([
   AdditionalPropertiesClass,
   AllOfWithSingleRef,
-  Animal,
+  Animal,$Animal,
   ApiResponse,
   ArrayOfArrayOfNumberOnly,
   ArrayOfNumberOnly,
   ArrayTest,
   Capitalization,
   Cat,
-  CatAllOf,
+  CatAllOf,$CatAllOf,
   Category,
   ClassModel,
   DeprecatedObject,
   Dog,
-  DogAllOf,
+  DogAllOf,$DogAllOf,
   EnumArrays,
   EnumTest,
   FileSchemaTestClass,

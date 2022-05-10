@@ -4,6 +4,8 @@
 
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
+import 'package:one_of/one_of.dart';
+import 'package:one_of/any_of.dart';
 // ignore_for_file: unused_element, unused_import
 
 part 'outer_composite.g.dart';
@@ -22,79 +24,89 @@ abstract class OuterComposite implements Built<OuterComposite, OuterCompositeBui
     String? get myString;
     @BuiltValueField(wireName: r'my_boolean')
     bool? get myBoolean;
+
+
     OuterComposite._();
+    
+    factory OuterComposite([void updates(OuterCompositeBuilder b)]) = _$OuterComposite;
 
     @BuiltValueHook(initializeBuilder: true)
     static void _defaults(OuterCompositeBuilder b) => b;
 
-    factory OuterComposite([void updates(OuterCompositeBuilder b)]) = _$OuterComposite;
-
     @BuiltValueSerializer(custom: true)
     static Serializer<OuterComposite> get serializer => _$OuterCompositeSerializer();
+
+
 }
 
-
-class _$OuterCompositeSerializer implements StructuredSerializer<OuterComposite> {
+class _$OuterCompositeSerializer implements PrimitiveSerializer<OuterComposite> {
     @override
     final Iterable<Type> types = const [OuterComposite, _$OuterComposite];
 
     @override
     final String wireName = r'OuterComposite';
 
-    @override
-    Iterable<Object?> serialize(Serializers serializers, OuterComposite object,
-        {FullType specifiedType = FullType.unspecified}) {
-        final result = <Object?>[];
+    Iterable<Object?> _serializeProperties(Serializers serializers, OuterComposite object,
+        {FullType specifiedType = FullType.unspecified}) sync* {        
         if (object.myNumber != null) {
-            result
-                ..add(r'my_number')
-                ..add(serializers.serialize(object.myNumber,
-                    specifiedType: const FullType(num)));
+            yield r'my_number';
+            yield serializers.serialize(object.myNumber,
+                    specifiedType: const FullType(num));
         }
         if (object.myString != null) {
-            result
-                ..add(r'my_string')
-                ..add(serializers.serialize(object.myString,
-                    specifiedType: const FullType(String)));
+            yield r'my_string';
+            yield serializers.serialize(object.myString,
+                    specifiedType: const FullType(String));
         }
         if (object.myBoolean != null) {
-            result
-                ..add(r'my_boolean')
-                ..add(serializers.serialize(object.myBoolean,
-                    specifiedType: const FullType(bool)));
+            yield r'my_boolean';
+            yield serializers.serialize(object.myBoolean,
+                    specifiedType: const FullType(bool));
         }
-        return result;
     }
 
     @override
-    OuterComposite deserialize(Serializers serializers, Iterable<Object?> serialized,
+    Object serialize(Serializers serializers, OuterComposite object,
         {FullType specifiedType = FullType.unspecified}) {
-        final result = OuterCompositeBuilder();
+        return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+    }
 
-        final iterator = serialized.iterator;
-        while (iterator.moveNext()) {
-            final key = iterator.current as String;
-            iterator.moveNext();
-            final Object? value = iterator.current;
-            
+    void _deserializeProperties(Serializers serializers, Object serialized,
+        {FullType specifiedType = FullType.unspecified, required List<Object?> serializedList,required OuterCompositeBuilder result, required List<Object?> unhandled}) {
+        for (var i = 0; i < serializedList.length; i += 2) {
+            final key = serializedList[i] as String;
+            final value = serializedList[i + 1];
             switch (key) {
-                case r'my_number':
+                 case r'my_number':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(num)) as num;
                     result.myNumber = valueDes;
                     break;
-                case r'my_string':
+                 case r'my_string':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String)) as String;
                     result.myString = valueDes;
                     break;
-                case r'my_boolean':
+                 case r'my_boolean':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(bool)) as bool;
                     result.myBoolean = valueDes;
                     break;
+                default:
+                  unhandled.add(key);
+                  unhandled.add(value);
+                  break;
             }
         }
+    }
+    
+    @override
+    OuterComposite deserialize(Serializers serializers, Object serialized,
+        {FullType specifiedType = FullType.unspecified}) {
+        final result = OuterCompositeBuilder();
+        final serializedList = (serialized as Iterable<Object?>).toList();        
+        final unhandled = <Object?>[];
+        _deserializeProperties(serializers, serialized, specifiedType: specifiedType, serializedList: serializedList, unhandled: unhandled, result: result);        
         return result.build();
     }
 }

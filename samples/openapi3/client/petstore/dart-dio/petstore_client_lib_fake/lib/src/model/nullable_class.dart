@@ -7,6 +7,8 @@ import 'package:openapi/src/model/date.dart';
 import 'package:built_value/json_object.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
+import 'package:one_of/one_of.dart';
+import 'package:one_of/any_of.dart';
 // ignore_for_file: unused_element, unused_import
 
 part 'nullable_class.g.dart';
@@ -52,188 +54,189 @@ abstract class NullableClass implements Built<NullableClass, NullableClassBuilde
     BuiltMap<String, JsonObject?>? get objectAndItemsNullableProp;
     @BuiltValueField(wireName: r'object_items_nullable')
     BuiltMap<String, JsonObject?>? get objectItemsNullable;
+
+
     NullableClass._();
+    
+    factory NullableClass([void updates(NullableClassBuilder b)]) = _$NullableClass;
 
     @BuiltValueHook(initializeBuilder: true)
     static void _defaults(NullableClassBuilder b) => b;
 
-    factory NullableClass([void updates(NullableClassBuilder b)]) = _$NullableClass;
-
     @BuiltValueSerializer(custom: true)
     static Serializer<NullableClass> get serializer => _$NullableClassSerializer();
+
+
 }
 
-
-class _$NullableClassSerializer implements StructuredSerializer<NullableClass> {
+class _$NullableClassSerializer implements PrimitiveSerializer<NullableClass> {
     @override
     final Iterable<Type> types = const [NullableClass, _$NullableClass];
 
     @override
     final String wireName = r'NullableClass';
 
-    @override
-    Iterable<Object?> serialize(Serializers serializers, NullableClass object,
-        {FullType specifiedType = FullType.unspecified}) {
-        final result = <Object?>[];
+    Iterable<Object?> _serializeProperties(Serializers serializers, NullableClass object,
+        {FullType specifiedType = FullType.unspecified}) sync* {        
         if (object.integerProp != null) {
-            result
-                ..add(r'integer_prop')
-                ..add(serializers.serialize(object.integerProp,
-                    specifiedType: const FullType.nullable(int)));
+            yield r'integer_prop';
+            yield serializers.serialize(object.integerProp,
+                    specifiedType: const FullType.nullable(int));
         }
         if (object.numberProp != null) {
-            result
-                ..add(r'number_prop')
-                ..add(serializers.serialize(object.numberProp,
-                    specifiedType: const FullType.nullable(num)));
+            yield r'number_prop';
+            yield serializers.serialize(object.numberProp,
+                    specifiedType: const FullType.nullable(num));
         }
         if (object.booleanProp != null) {
-            result
-                ..add(r'boolean_prop')
-                ..add(serializers.serialize(object.booleanProp,
-                    specifiedType: const FullType.nullable(bool)));
+            yield r'boolean_prop';
+            yield serializers.serialize(object.booleanProp,
+                    specifiedType: const FullType.nullable(bool));
         }
         if (object.stringProp != null) {
-            result
-                ..add(r'string_prop')
-                ..add(serializers.serialize(object.stringProp,
-                    specifiedType: const FullType.nullable(String)));
+            yield r'string_prop';
+            yield serializers.serialize(object.stringProp,
+                    specifiedType: const FullType.nullable(String));
         }
         if (object.dateProp != null) {
-            result
-                ..add(r'date_prop')
-                ..add(serializers.serialize(object.dateProp,
-                    specifiedType: const FullType.nullable(Date)));
+            yield r'date_prop';
+            yield serializers.serialize(object.dateProp,
+                    specifiedType: const FullType.nullable(Date));
         }
         if (object.datetimeProp != null) {
-            result
-                ..add(r'datetime_prop')
-                ..add(serializers.serialize(object.datetimeProp,
-                    specifiedType: const FullType.nullable(DateTime)));
+            yield r'datetime_prop';
+            yield serializers.serialize(object.datetimeProp,
+                    specifiedType: const FullType.nullable(DateTime));
         }
         if (object.arrayNullableProp != null) {
-            result
-                ..add(r'array_nullable_prop')
-                ..add(serializers.serialize(object.arrayNullableProp,
-                    specifiedType: const FullType.nullable(BuiltList, [FullType(JsonObject)])));
+            yield r'array_nullable_prop';
+            yield serializers.serialize(object.arrayNullableProp,
+                    specifiedType: const FullType.nullable(BuiltList, [FullType(JsonObject)]));
         }
         if (object.arrayAndItemsNullableProp != null) {
-            result
-                ..add(r'array_and_items_nullable_prop')
-                ..add(serializers.serialize(object.arrayAndItemsNullableProp,
-                    specifiedType: const FullType.nullable(BuiltList, [FullType.nullable(JsonObject)])));
+            yield r'array_and_items_nullable_prop';
+            yield serializers.serialize(object.arrayAndItemsNullableProp,
+                    specifiedType: const FullType.nullable(BuiltList, [FullType.nullable(JsonObject)]));
         }
         if (object.arrayItemsNullable != null) {
-            result
-                ..add(r'array_items_nullable')
-                ..add(serializers.serialize(object.arrayItemsNullable,
-                    specifiedType: const FullType(BuiltList, [FullType.nullable(JsonObject)])));
+            yield r'array_items_nullable';
+            yield serializers.serialize(object.arrayItemsNullable,
+                    specifiedType: const FullType(BuiltList, [FullType.nullable(JsonObject)]));
         }
         if (object.objectNullableProp != null) {
-            result
-                ..add(r'object_nullable_prop')
-                ..add(serializers.serialize(object.objectNullableProp,
-                    specifiedType: const FullType.nullable(BuiltMap, [FullType(String), FullType(JsonObject)])));
+            yield r'object_nullable_prop';
+            yield serializers.serialize(object.objectNullableProp,
+                    specifiedType: const FullType.nullable(BuiltMap, [FullType(String), FullType(JsonObject)]));
         }
         if (object.objectAndItemsNullableProp != null) {
-            result
-                ..add(r'object_and_items_nullable_prop')
-                ..add(serializers.serialize(object.objectAndItemsNullableProp,
-                    specifiedType: const FullType.nullable(BuiltMap, [FullType(String), FullType.nullable(JsonObject)])));
+            yield r'object_and_items_nullable_prop';
+            yield serializers.serialize(object.objectAndItemsNullableProp,
+                    specifiedType: const FullType.nullable(BuiltMap, [FullType(String), FullType.nullable(JsonObject)]));
         }
         if (object.objectItemsNullable != null) {
-            result
-                ..add(r'object_items_nullable')
-                ..add(serializers.serialize(object.objectItemsNullable,
-                    specifiedType: const FullType(BuiltMap, [FullType(String), FullType.nullable(JsonObject)])));
+            yield r'object_items_nullable';
+            yield serializers.serialize(object.objectItemsNullable,
+                    specifiedType: const FullType(BuiltMap, [FullType(String), FullType.nullable(JsonObject)]));
         }
-        return result;
     }
 
     @override
-    NullableClass deserialize(Serializers serializers, Iterable<Object?> serialized,
+    Object serialize(Serializers serializers, NullableClass object,
         {FullType specifiedType = FullType.unspecified}) {
-        final result = NullableClassBuilder();
+        return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+    }
 
-        final iterator = serialized.iterator;
-        while (iterator.moveNext()) {
-            final key = iterator.current as String;
-            iterator.moveNext();
-            final Object? value = iterator.current;
-            
+    void _deserializeProperties(Serializers serializers, Object serialized,
+        {FullType specifiedType = FullType.unspecified, required List<Object?> serializedList,required NullableClassBuilder result, required List<Object?> unhandled}) {
+        for (var i = 0; i < serializedList.length; i += 2) {
+            final key = serializedList[i] as String;
+            final value = serializedList[i + 1];
             switch (key) {
-                case r'integer_prop':
+                 case r'integer_prop':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType.nullable(int)) as int?;
                     if (valueDes == null) continue;
                     result.integerProp = valueDes;
                     break;
-                case r'number_prop':
+                 case r'number_prop':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType.nullable(num)) as num?;
                     if (valueDes == null) continue;
                     result.numberProp = valueDes;
                     break;
-                case r'boolean_prop':
+                 case r'boolean_prop':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType.nullable(bool)) as bool?;
                     if (valueDes == null) continue;
                     result.booleanProp = valueDes;
                     break;
-                case r'string_prop':
+                 case r'string_prop':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType.nullable(String)) as String?;
                     if (valueDes == null) continue;
                     result.stringProp = valueDes;
                     break;
-                case r'date_prop':
+                 case r'date_prop':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType.nullable(Date)) as Date?;
                     if (valueDes == null) continue;
                     result.dateProp = valueDes;
                     break;
-                case r'datetime_prop':
+                 case r'datetime_prop':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType.nullable(DateTime)) as DateTime?;
                     if (valueDes == null) continue;
                     result.datetimeProp = valueDes;
                     break;
-                case r'array_nullable_prop':
+                 case r'array_nullable_prop':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType.nullable(BuiltList, [FullType(JsonObject)])) as BuiltList<JsonObject>?;
                     if (valueDes == null) continue;
                     result.arrayNullableProp.replace(valueDes);
                     break;
-                case r'array_and_items_nullable_prop':
+                 case r'array_and_items_nullable_prop':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType.nullable(BuiltList, [FullType.nullable(JsonObject)])) as BuiltList<JsonObject?>?;
                     if (valueDes == null) continue;
                     result.arrayAndItemsNullableProp.replace(valueDes);
                     break;
-                case r'array_items_nullable':
+                 case r'array_items_nullable':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(BuiltList, [FullType.nullable(JsonObject)])) as BuiltList<JsonObject?>;
                     result.arrayItemsNullable.replace(valueDes);
                     break;
-                case r'object_nullable_prop':
+                 case r'object_nullable_prop':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType.nullable(BuiltMap, [FullType(String), FullType(JsonObject)])) as BuiltMap<String, JsonObject>?;
                     if (valueDes == null) continue;
                     result.objectNullableProp.replace(valueDes);
                     break;
-                case r'object_and_items_nullable_prop':
+                 case r'object_and_items_nullable_prop':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType.nullable(BuiltMap, [FullType(String), FullType.nullable(JsonObject)])) as BuiltMap<String, JsonObject?>?;
                     if (valueDes == null) continue;
                     result.objectAndItemsNullableProp.replace(valueDes);
                     break;
-                case r'object_items_nullable':
+                 case r'object_items_nullable':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(BuiltMap, [FullType(String), FullType.nullable(JsonObject)])) as BuiltMap<String, JsonObject?>;
                     result.objectItemsNullable.replace(valueDes);
                     break;
+                default:
+                  unhandled.add(key);
+                  unhandled.add(value);
+                  break;
             }
         }
+    }
+    
+    @override
+    NullableClass deserialize(Serializers serializers, Object serialized,
+        {FullType specifiedType = FullType.unspecified}) {
+        final result = NullableClassBuilder();
+        final serializedList = (serialized as Iterable<Object?>).toList();        
+        final unhandled = <Object?>[];
+        _deserializeProperties(serializers, serialized, specifiedType: specifiedType, serializedList: serializedList, unhandled: unhandled, result: result);        
         return result.build();
     }
 }

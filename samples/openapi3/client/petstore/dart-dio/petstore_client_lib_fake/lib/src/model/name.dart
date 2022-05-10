@@ -4,6 +4,8 @@
 
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
+import 'package:one_of/one_of.dart';
+import 'package:one_of/any_of.dart';
 // ignore_for_file: unused_element, unused_import
 
 part 'name.g.dart';
@@ -25,88 +27,97 @@ abstract class Name implements Built<Name, NameBuilder> {
     String? get property;
     @BuiltValueField(wireName: r'123Number')
     int? get n123number;
+
+
     Name._();
+    
+    factory Name([void updates(NameBuilder b)]) = _$Name;
 
     @BuiltValueHook(initializeBuilder: true)
     static void _defaults(NameBuilder b) => b;
 
-    factory Name([void updates(NameBuilder b)]) = _$Name;
-
     @BuiltValueSerializer(custom: true)
     static Serializer<Name> get serializer => _$NameSerializer();
+
+
 }
 
-
-class _$NameSerializer implements StructuredSerializer<Name> {
+class _$NameSerializer implements PrimitiveSerializer<Name> {
     @override
     final Iterable<Type> types = const [Name, _$Name];
 
     @override
     final String wireName = r'Name';
 
-    @override
-    Iterable<Object?> serialize(Serializers serializers, Name object,
-        {FullType specifiedType = FullType.unspecified}) {
-        final result = <Object?>[];
-        result
-            ..add(r'name')
-            ..add(serializers.serialize(object.name,
-                specifiedType: const FullType(int)));
+    Iterable<Object?> _serializeProperties(Serializers serializers, Name object,
+        {FullType specifiedType = FullType.unspecified}) sync* {        
+        yield r'name';
+        yield serializers.serialize(object.name,
+                specifiedType: const FullType(int));
         if (object.snakeCase != null) {
-            result
-                ..add(r'snake_case')
-                ..add(serializers.serialize(object.snakeCase,
-                    specifiedType: const FullType(int)));
+            yield r'snake_case';
+            yield serializers.serialize(object.snakeCase,
+                    specifiedType: const FullType(int));
         }
         if (object.property != null) {
-            result
-                ..add(r'property')
-                ..add(serializers.serialize(object.property,
-                    specifiedType: const FullType(String)));
+            yield r'property';
+            yield serializers.serialize(object.property,
+                    specifiedType: const FullType(String));
         }
         if (object.n123number != null) {
-            result
-                ..add(r'123Number')
-                ..add(serializers.serialize(object.n123number,
-                    specifiedType: const FullType(int)));
+            yield r'123Number';
+            yield serializers.serialize(object.n123number,
+                    specifiedType: const FullType(int));
         }
-        return result;
     }
 
     @override
-    Name deserialize(Serializers serializers, Iterable<Object?> serialized,
+    Object serialize(Serializers serializers, Name object,
         {FullType specifiedType = FullType.unspecified}) {
-        final result = NameBuilder();
+        return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+    }
 
-        final iterator = serialized.iterator;
-        while (iterator.moveNext()) {
-            final key = iterator.current as String;
-            iterator.moveNext();
-            final Object? value = iterator.current;
-            
+    void _deserializeProperties(Serializers serializers, Object serialized,
+        {FullType specifiedType = FullType.unspecified, required List<Object?> serializedList,required NameBuilder result, required List<Object?> unhandled}) {
+        for (var i = 0; i < serializedList.length; i += 2) {
+            final key = serializedList[i] as String;
+            final value = serializedList[i + 1];
             switch (key) {
-                case r'name':
+                 case r'name':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(int)) as int;
                     result.name = valueDes;
                     break;
-                case r'snake_case':
+                 case r'snake_case':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(int)) as int;
                     result.snakeCase = valueDes;
                     break;
-                case r'property':
+                 case r'property':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String)) as String;
                     result.property = valueDes;
                     break;
-                case r'123Number':
+                 case r'123Number':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(int)) as int;
                     result.n123number = valueDes;
                     break;
+                default:
+                  unhandled.add(key);
+                  unhandled.add(value);
+                  break;
             }
         }
+    }
+    
+    @override
+    Name deserialize(Serializers serializers, Object serialized,
+        {FullType specifiedType = FullType.unspecified}) {
+        final result = NameBuilder();
+        final serializedList = (serialized as Iterable<Object?>).toList();        
+        final unhandled = <Object?>[];
+        _deserializeProperties(serializers, serialized, specifiedType: specifiedType, serializedList: serializedList, unhandled: unhandled, result: result);        
         return result.build();
     }
 }

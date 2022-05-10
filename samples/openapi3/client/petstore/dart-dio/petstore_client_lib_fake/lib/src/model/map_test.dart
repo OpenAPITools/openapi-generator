@@ -5,6 +5,8 @@
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
+import 'package:one_of/one_of.dart';
+import 'package:one_of/any_of.dart';
 // ignore_for_file: unused_element, unused_import
 
 part 'map_test.g.dart';
@@ -27,94 +29,102 @@ abstract class MapTest implements Built<MapTest, MapTestBuilder> {
     BuiltMap<String, bool>? get directMap;
     @BuiltValueField(wireName: r'indirect_map')
     BuiltMap<String, bool>? get indirectMap;
+
+
     MapTest._();
+    
+    factory MapTest([void updates(MapTestBuilder b)]) = _$MapTest;
 
     @BuiltValueHook(initializeBuilder: true)
     static void _defaults(MapTestBuilder b) => b;
 
-    factory MapTest([void updates(MapTestBuilder b)]) = _$MapTest;
-
     @BuiltValueSerializer(custom: true)
     static Serializer<MapTest> get serializer => _$MapTestSerializer();
+
+
 }
 
-
-class _$MapTestSerializer implements StructuredSerializer<MapTest> {
+class _$MapTestSerializer implements PrimitiveSerializer<MapTest> {
     @override
     final Iterable<Type> types = const [MapTest, _$MapTest];
 
     @override
     final String wireName = r'MapTest';
 
-    @override
-    Iterable<Object?> serialize(Serializers serializers, MapTest object,
-        {FullType specifiedType = FullType.unspecified}) {
-        final result = <Object?>[];
+    Iterable<Object?> _serializeProperties(Serializers serializers, MapTest object,
+        {FullType specifiedType = FullType.unspecified}) sync* {        
         if (object.mapMapOfString != null) {
-            result
-                ..add(r'map_map_of_string')
-                ..add(serializers.serialize(object.mapMapOfString,
-                    specifiedType: const FullType(BuiltMap, [FullType(String), FullType(BuiltMap, [FullType(String), FullType(String)])])));
+            yield r'map_map_of_string';
+            yield serializers.serialize(object.mapMapOfString,
+                    specifiedType: const FullType(BuiltMap, [FullType(String), FullType(BuiltMap, [FullType(String), FullType(String)])]));
         }
         if (object.mapOfEnumString != null) {
-            result
-                ..add(r'map_of_enum_string')
-                ..add(serializers.serialize(object.mapOfEnumString,
-                    specifiedType: const FullType(BuiltMap, [FullType(String), FullType(MapTestMapOfEnumStringEnum)])));
+            yield r'map_of_enum_string';
+            yield serializers.serialize(object.mapOfEnumString,
+                    specifiedType: const FullType(BuiltMap, [FullType(String), FullType(MapTestMapOfEnumStringEnum)]));
         }
         if (object.directMap != null) {
-            result
-                ..add(r'direct_map')
-                ..add(serializers.serialize(object.directMap,
-                    specifiedType: const FullType(BuiltMap, [FullType(String), FullType(bool)])));
+            yield r'direct_map';
+            yield serializers.serialize(object.directMap,
+                    specifiedType: const FullType(BuiltMap, [FullType(String), FullType(bool)]));
         }
         if (object.indirectMap != null) {
-            result
-                ..add(r'indirect_map')
-                ..add(serializers.serialize(object.indirectMap,
-                    specifiedType: const FullType(BuiltMap, [FullType(String), FullType(bool)])));
+            yield r'indirect_map';
+            yield serializers.serialize(object.indirectMap,
+                    specifiedType: const FullType(BuiltMap, [FullType(String), FullType(bool)]));
         }
-        return result;
     }
 
     @override
-    MapTest deserialize(Serializers serializers, Iterable<Object?> serialized,
+    Object serialize(Serializers serializers, MapTest object,
         {FullType specifiedType = FullType.unspecified}) {
-        final result = MapTestBuilder();
+        return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+    }
 
-        final iterator = serialized.iterator;
-        while (iterator.moveNext()) {
-            final key = iterator.current as String;
-            iterator.moveNext();
-            final Object? value = iterator.current;
-            
+    void _deserializeProperties(Serializers serializers, Object serialized,
+        {FullType specifiedType = FullType.unspecified, required List<Object?> serializedList,required MapTestBuilder result, required List<Object?> unhandled}) {
+        for (var i = 0; i < serializedList.length; i += 2) {
+            final key = serializedList[i] as String;
+            final value = serializedList[i + 1];
             switch (key) {
-                case r'map_map_of_string':
+                 case r'map_map_of_string':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(BuiltMap, [FullType(String), FullType(BuiltMap, [FullType(String), FullType(String)])])) as BuiltMap<String, BuiltMap<String, String>>;
                     result.mapMapOfString.replace(valueDes);
                     break;
-                case r'map_of_enum_string':
+                 case r'map_of_enum_string':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(BuiltMap, [FullType(String), FullType(MapTestMapOfEnumStringEnum)])) as BuiltMap<String, MapTestMapOfEnumStringEnum>;
                     result.mapOfEnumString.replace(valueDes);
                     break;
-                case r'direct_map':
+                 case r'direct_map':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(BuiltMap, [FullType(String), FullType(bool)])) as BuiltMap<String, bool>;
                     result.directMap.replace(valueDes);
                     break;
-                case r'indirect_map':
+                 case r'indirect_map':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(BuiltMap, [FullType(String), FullType(bool)])) as BuiltMap<String, bool>;
                     result.indirectMap.replace(valueDes);
                     break;
+                default:
+                  unhandled.add(key);
+                  unhandled.add(value);
+                  break;
             }
         }
+    }
+    
+    @override
+    MapTest deserialize(Serializers serializers, Object serialized,
+        {FullType specifiedType = FullType.unspecified}) {
+        final result = MapTestBuilder();
+        final serializedList = (serialized as Iterable<Object?>).toList();        
+        final unhandled = <Object?>[];
+        _deserializeProperties(serializers, serialized, specifiedType: specifiedType, serializedList: serializedList, unhandled: unhandled, result: result);        
         return result.build();
     }
 }
-
 
 
 
@@ -134,4 +144,5 @@ class MapTestMapOfEnumStringEnum extends EnumClass {
   static BuiltSet<MapTestMapOfEnumStringEnum> get values => _$mapTestMapOfEnumStringEnumValues;
   static MapTestMapOfEnumStringEnum valueOf(String name) => _$mapTestMapOfEnumStringEnumValueOf(name);
 }
+
 

@@ -4,6 +4,8 @@
 
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
+import 'package:one_of/one_of.dart';
+import 'package:one_of/any_of.dart';
 // ignore_for_file: unused_element, unused_import
 
 part 'foo.g.dart';
@@ -16,58 +18,70 @@ part 'foo.g.dart';
 abstract class Foo implements Built<Foo, FooBuilder> {
     @BuiltValueField(wireName: r'bar')
     String? get bar;
+
+
     Foo._();
+    
+    factory Foo([void updates(FooBuilder b)]) = _$Foo;
 
     @BuiltValueHook(initializeBuilder: true)
     static void _defaults(FooBuilder b) => b
         ..bar = 'bar';
 
-    factory Foo([void updates(FooBuilder b)]) = _$Foo;
-
     @BuiltValueSerializer(custom: true)
     static Serializer<Foo> get serializer => _$FooSerializer();
+
+
 }
 
-
-class _$FooSerializer implements StructuredSerializer<Foo> {
+class _$FooSerializer implements PrimitiveSerializer<Foo> {
     @override
     final Iterable<Type> types = const [Foo, _$Foo];
 
     @override
     final String wireName = r'Foo';
 
-    @override
-    Iterable<Object?> serialize(Serializers serializers, Foo object,
-        {FullType specifiedType = FullType.unspecified}) {
-        final result = <Object?>[];
+    Iterable<Object?> _serializeProperties(Serializers serializers, Foo object,
+        {FullType specifiedType = FullType.unspecified}) sync* {        
         if (object.bar != null) {
-            result
-                ..add(r'bar')
-                ..add(serializers.serialize(object.bar,
-                    specifiedType: const FullType(String)));
+            yield r'bar';
+            yield serializers.serialize(object.bar,
+                    specifiedType: const FullType(String));
         }
-        return result;
     }
 
     @override
-    Foo deserialize(Serializers serializers, Iterable<Object?> serialized,
+    Object serialize(Serializers serializers, Foo object,
         {FullType specifiedType = FullType.unspecified}) {
-        final result = FooBuilder();
+        return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+    }
 
-        final iterator = serialized.iterator;
-        while (iterator.moveNext()) {
-            final key = iterator.current as String;
-            iterator.moveNext();
-            final Object? value = iterator.current;
-            
+    void _deserializeProperties(Serializers serializers, Object serialized,
+        {FullType specifiedType = FullType.unspecified, required List<Object?> serializedList,required FooBuilder result, required List<Object?> unhandled}) {
+        for (var i = 0; i < serializedList.length; i += 2) {
+            final key = serializedList[i] as String;
+            final value = serializedList[i + 1];
             switch (key) {
-                case r'bar':
+                 case r'bar':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String)) as String;
                     result.bar = valueDes;
                     break;
+                default:
+                  unhandled.add(key);
+                  unhandled.add(value);
+                  break;
             }
         }
+    }
+    
+    @override
+    Foo deserialize(Serializers serializers, Object serialized,
+        {FullType specifiedType = FullType.unspecified}) {
+        final result = FooBuilder();
+        final serializedList = (serialized as Iterable<Object?>).toList();        
+        final unhandled = <Object?>[];
+        _deserializeProperties(serializers, serialized, specifiedType: specifiedType, serializedList: serializedList, unhandled: unhandled, result: result);        
         return result.build();
     }
 }
