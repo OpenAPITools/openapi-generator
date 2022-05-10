@@ -7,7 +7,9 @@ import { Cat } from '../models/Cat';
 import { CatAllOf } from '../models/CatAllOf';
 import { Dog } from '../models/Dog';
 import { DogAllOf } from '../models/DogAllOf';
-import { InlineObject } from '../models/InlineObject';
+import { InlineRequest } from '../models/InlineRequest';
+import { InlineRequest1 } from '../models/InlineRequest1';
+import { InlineRequest2 } from '../models/InlineRequest2';
 import { PetByAge } from '../models/PetByAge';
 import { PetByType } from '../models/PetByType';
 
@@ -28,10 +30,10 @@ export class ObservableDefaultApi {
     }
 
     /**
-     * @param inlineObject 
+     * @param inlineRequest2 
      */
-    public filePost(inlineObject?: InlineObject, _options?: Configuration): Observable<void> {
-        const requestContextPromise = this.requestFactory.filePost(inlineObject, _options);
+    public filePost(inlineRequest2?: InlineRequest2, _options?: Configuration): Observable<void> {
+        const requestContextPromise = this.requestFactory.filePost(inlineRequest2, _options);
 
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
@@ -50,10 +52,10 @@ export class ObservableDefaultApi {
     }
 
     /**
-     * @param petByAgePetByType 
+     * @param inlineRequest1 
      */
-    public petsFilteredPatch(petByAgePetByType?: PetByAge | PetByType, _options?: Configuration): Observable<void> {
-        const requestContextPromise = this.requestFactory.petsFilteredPatch(petByAgePetByType, _options);
+    public petsFilteredPatch(inlineRequest1?: InlineRequest1, _options?: Configuration): Observable<void> {
+        const requestContextPromise = this.requestFactory.petsFilteredPatch(inlineRequest1, _options);
 
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
@@ -72,10 +74,10 @@ export class ObservableDefaultApi {
     }
 
     /**
-     * @param catDog 
+     * @param inlineRequest 
      */
-    public petsPatch(catDog?: Cat | Dog, _options?: Configuration): Observable<void> {
-        const requestContextPromise = this.requestFactory.petsPatch(catDog, _options);
+    public petsPatch(inlineRequest?: InlineRequest, _options?: Configuration): Observable<void> {
+        const requestContextPromise = this.requestFactory.petsPatch(inlineRequest, _options);
 
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);

@@ -231,7 +231,8 @@ public class DefaultCodegenTest {
         final DefaultCodegen codegen = new DefaultCodegen();
         codegen.setOpenAPI(openAPI);
 
-        Schema requestBodySchema = ModelUtils.getSchemaFromRequestBody(openAPI.getPaths().get("/fake").getGet().getRequestBody());
+        Schema requestBodySchema = ModelUtils.getReferencedSchema(openAPI,
+                ModelUtils.getSchemaFromRequestBody(openAPI.getPaths().get("/fake").getGet().getRequestBody()));
         CodegenParameter codegenParameter = codegen.fromFormProperty("enum_form_string", (Schema) requestBodySchema.getProperties().get("enum_form_string"), new HashSet<String>());
 
         Assert.assertEquals(codegenParameter.defaultValue, "-efg");
@@ -245,6 +246,8 @@ public class DefaultCodegenTest {
         codegen.setOpenAPI(openAPI);
 
         Schema requestBodySchema = ModelUtils.getSchemaFromRequestBody(openAPI.getPaths().get("/thingy/{date}").getPost().getRequestBody());
+        // dereference
+        requestBodySchema = ModelUtils.getReferencedSchema(openAPI, requestBodySchema);
         CodegenParameter codegenParameter = codegen.fromFormProperty("visitDate", (Schema) requestBodySchema.getProperties().get("visitDate"),
                 new HashSet<>());
 
@@ -613,7 +616,8 @@ public class DefaultCodegenTest {
         final DefaultCodegen codegen = new DefaultCodegen();
 
         Operation operation = openAPI.getPaths().get("/state").getPost();
-        Schema schema = ModelUtils.getSchemaFromRequestBody(operation.getRequestBody());
+        Schema schema = ModelUtils.getReferencedSchema(openAPI,
+                ModelUtils.getSchemaFromRequestBody(operation.getRequestBody()));
         String type = codegen.getSchemaType(schema);
 
         Assert.assertNotNull(type);
@@ -2344,18 +2348,14 @@ public class DefaultCodegenTest {
         cg.preprocessOpenAPI(openAPI);
 
         // assert names of the response/request schema oneOf interfaces are as expected
-        Assert.assertEquals(
-                openAPI.getPaths()
-                        .get("/state")
-                        .getPost()
-                        .getRequestBody()
-                        .getContent()
-                        .get("application/json")
-                        .getSchema()
-                        .getExtensions()
-                        .get("x-one-of-name"),
-                "CreateState"
-        );
+        Schema s = ModelUtils.getReferencedSchema(openAPI, openAPI.getPaths()
+                .get("/state")
+                .getPost()
+                .getRequestBody()
+                .getContent()
+                .get("application/json")
+                .getSchema());
+        Assert.assertEquals(s.getExtensions().get("x-one-of-name"), "CreateStateRequest");
         Assert.assertEquals(
                 openAPI.getPaths()
                         .get("/state")
@@ -2372,7 +2372,8 @@ public class DefaultCodegenTest {
         // for the array schema, assert that a oneOf interface was added to schema map
         Schema items = ((ArraySchema) openAPI.getComponents().getSchemas().get("CustomOneOfArraySchema")).getItems();
         Assert.assertEquals(items.get$ref(), "#/components/schemas/CustomOneOfArraySchema_inner");
-        Schema innerItem = openAPI.getComponents().getSchemas().get("CustomOneOfArraySchema_inner");
+        //Assert.assertEquals(items.get$ref(), "#/components/schemas/createState_request");
+        Schema innerItem = ModelUtils.getReferencedSchema(openAPI, openAPI.getComponents().getSchemas().get("CustomOneOfArraySchema_inner"));
         Assert.assertEquals(innerItem.getExtensions().get("x-one-of-name"), "CustomOneOfArraySchemaInner");
     }
 

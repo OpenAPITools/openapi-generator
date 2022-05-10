@@ -536,7 +536,7 @@ impl<S, C> Api<C> for Client<S, C> where
 
     async fn dummy_put(
         &self,
-        param_nested_response: models::InlineObject,
+        param_nested_response: models::DummyPutRequest,
         context: &C) -> Result<DummyPutResponse, ApiError>
     {
         let mut client_service = self.client_service.clone();

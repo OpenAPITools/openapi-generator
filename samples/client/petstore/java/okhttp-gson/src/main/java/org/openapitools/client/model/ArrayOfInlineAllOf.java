@@ -25,7 +25,7 @@ import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import org.openapitools.client.model.ArrayOfInlineAllOfArrayAllofDogPropertyItemsAllOf1;
+import org.openapitools.client.model.ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf;
 import org.openapitools.client.model.DogAllOf;
 
 import com.google.gson.Gson;

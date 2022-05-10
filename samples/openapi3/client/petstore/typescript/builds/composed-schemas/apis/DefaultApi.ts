@@ -8,11 +8,9 @@ import {canConsumeForm, isCodeInRange} from '../util';
 import {SecurityAuthentication} from '../auth/auth';
 
 
-import { Cat } from '../models/Cat';
-import { Dog } from '../models/Dog';
-import { InlineObject } from '../models/InlineObject';
-import { PetByAge } from '../models/PetByAge';
-import { PetByType } from '../models/PetByType';
+import { InlineRequest } from '../models/InlineRequest';
+import { InlineRequest1 } from '../models/InlineRequest1';
+import { InlineRequest2 } from '../models/InlineRequest2';
 
 /**
  * no description
@@ -20,9 +18,9 @@ import { PetByType } from '../models/PetByType';
 export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
 
     /**
-     * @param inlineObject 
+     * @param inlineRequest2 
      */
-    public async filePost(inlineObject?: InlineObject, _options?: Configuration): Promise<RequestContext> {
+    public async filePost(inlineRequest2?: InlineRequest2, _options?: Configuration): Promise<RequestContext> {
         let _config = _options || this.configuration;
 
 
@@ -40,7 +38,7 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
         ]);
         requestContext.setHeaderParam("Content-Type", contentType);
         const serializedBody = ObjectSerializer.stringify(
-            ObjectSerializer.serialize(inlineObject, "InlineObject", ""),
+            ObjectSerializer.serialize(inlineRequest2, "InlineRequest2", ""),
             contentType
         );
         requestContext.setBody(serializedBody);
@@ -55,9 +53,9 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
     }
 
     /**
-     * @param petByAgePetByType 
+     * @param inlineRequest1 
      */
-    public async petsFilteredPatch(petByAgePetByType?: PetByAge | PetByType, _options?: Configuration): Promise<RequestContext> {
+    public async petsFilteredPatch(inlineRequest1?: InlineRequest1, _options?: Configuration): Promise<RequestContext> {
         let _config = _options || this.configuration;
 
 
@@ -75,7 +73,7 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
         ]);
         requestContext.setHeaderParam("Content-Type", contentType);
         const serializedBody = ObjectSerializer.stringify(
-            ObjectSerializer.serialize(petByAgePetByType, "PetByAge | PetByType", ""),
+            ObjectSerializer.serialize(inlineRequest1, "InlineRequest1", ""),
             contentType
         );
         requestContext.setBody(serializedBody);
@@ -90,9 +88,9 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
     }
 
     /**
-     * @param catDog 
+     * @param inlineRequest 
      */
-    public async petsPatch(catDog?: Cat | Dog, _options?: Configuration): Promise<RequestContext> {
+    public async petsPatch(inlineRequest?: InlineRequest, _options?: Configuration): Promise<RequestContext> {
         let _config = _options || this.configuration;
 
 
@@ -110,7 +108,7 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
         ]);
         requestContext.setHeaderParam("Content-Type", contentType);
         const serializedBody = ObjectSerializer.stringify(
-            ObjectSerializer.serialize(catDog, "Cat | Dog", ""),
+            ObjectSerializer.serialize(inlineRequest, "InlineRequest", ""),
             contentType
         );
         requestContext.setBody(serializedBody);

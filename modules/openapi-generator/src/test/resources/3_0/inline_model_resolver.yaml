@@ -382,7 +382,7 @@ components:
         title: ArbitraryObjectModelWithArrayInlineWithTitleInner
         type: object
         properties:
-          arbitrary_object_model_with_array_inline_with_title:
+          arbitrary_object_model_with_array_inline_with_title_property:
             type: object
     EmptyExampleOnStringTypeModels:
       type: string

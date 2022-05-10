@@ -44,7 +44,6 @@ from petstore_api.model.enum_arrays import EnumArrays
 from petstore_api.model.enum_class import EnumClass
 from petstore_api.model.enum_test import EnumTest
 from petstore_api.model.equilateral_triangle import EquilateralTriangle
-from petstore_api.model.fake_post_inline_additional_properties_payload_array_data import FakePostInlineAdditionalPropertiesPayloadArrayData
 from petstore_api.model.file import File
 from petstore_api.model.file_schema_test_class import FileSchemaTestClass
 from petstore_api.model.foo import Foo
@@ -58,7 +57,6 @@ from petstore_api.model.grandparent_animal import GrandparentAnimal
 from petstore_api.model.has_only_read_only import HasOnlyReadOnly
 from petstore_api.model.health_check_result import HealthCheckResult
 from petstore_api.model.inline_additional_properties_ref_payload import InlineAdditionalPropertiesRefPayload
-from petstore_api.model.inline_object6 import InlineObject6
 from petstore_api.model.inline_response_default import InlineResponseDefault
 from petstore_api.model.integer_enum import IntegerEnum
 from petstore_api.model.integer_enum_one_value import IntegerEnumOneValue
@@ -84,6 +82,8 @@ from petstore_api.model.order import Order
 from petstore_api.model.parent_pet import ParentPet
 from petstore_api.model.pet import Pet
 from petstore_api.model.pig import Pig
+from petstore_api.model.post_inline_additional_properties_payload_request import PostInlineAdditionalPropertiesPayloadRequest
+from petstore_api.model.post_inline_additional_properties_payload_request_array_data_inner import PostInlineAdditionalPropertiesPayloadRequestArrayDataInner
 from petstore_api.model.quadrilateral import Quadrilateral
 from petstore_api.model.quadrilateral_interface import QuadrilateralInterface
 from petstore_api.model.read_only_first import ReadOnlyFirst
