@@ -3,7 +3,7 @@
 Cargo.toml
 README.md
 api/openapi.yaml
-docs/InlineObject.md
+docs/InlineRequest.md
 docs/default_api.md
 examples/ca.pem
 examples/client/main.rs

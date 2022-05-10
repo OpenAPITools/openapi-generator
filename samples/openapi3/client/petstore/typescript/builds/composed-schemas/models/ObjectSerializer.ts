@@ -2,7 +2,9 @@ export * from './Cat';
 export * from './CatAllOf';
 export * from './Dog';
 export * from './DogAllOf';
-export * from './InlineObject';
+export * from './InlineRequest';
+export * from './InlineRequest1';
+export * from './InlineRequest2';
 export * from './PetByAge';
 export * from './PetByType';
 
@@ -10,7 +12,9 @@ import { Cat } from './Cat';
 import { CatAllOf } from './CatAllOf';
 import { Dog , DogBreedEnum   } from './Dog';
 import { DogAllOf , DogAllOfBreedEnum   } from './DogAllOf';
-import { InlineObject } from './InlineObject';
+import { InlineRequest   , InlineRequestBreedEnum   } from './InlineRequest';
+import { InlineRequest1  , InlineRequest1PetTypeEnum    } from './InlineRequest1';
+import { InlineRequest2 } from './InlineRequest2';
 import { PetByAge } from './PetByAge';
 import { PetByType, PetByTypePetTypeEnum    } from './PetByType';
 
@@ -36,6 +40,8 @@ const supportedMediaTypes: { [mediaType: string]: number } = {
 let enumsMap: Set<string> = new Set<string>([
     "DogBreedEnum",
     "DogAllOfBreedEnum",
+    "InlineRequestBreedEnum",
+    "InlineRequest1PetTypeEnum",
     "PetByTypePetTypeEnum",
 ]);
 
@@ -44,7 +50,9 @@ let typeMap: {[index: string]: any} = {
     "CatAllOf": CatAllOf,
     "Dog": Dog,
     "DogAllOf": DogAllOf,
-    "InlineObject": InlineObject,
+    "InlineRequest": InlineRequest,
+    "InlineRequest1": InlineRequest1,
+    "InlineRequest2": InlineRequest2,
     "PetByAge": PetByAge,
     "PetByType": PetByType,
 }

@@ -89,7 +89,7 @@ pub trait Api<C: Send + Sync> {
 
     async fn dummy_put(
         &self,
-        nested_response: models::InlineObject,
+        nested_response: models::DummyPutRequest,
         context: &C) -> Result<DummyPutResponse, ApiError>;
 
     /// Get a file
@@ -144,7 +144,7 @@ pub trait ApiNoContext<C: Send + Sync> {
 
     async fn dummy_put(
         &self,
-        nested_response: models::InlineObject,
+        nested_response: models::DummyPutRequest,
         ) -> Result<DummyPutResponse, ApiError>;
 
     /// Get a file
@@ -222,7 +222,7 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for Contex
 
     async fn dummy_put(
         &self,
-        nested_response: models::InlineObject,
+        nested_response: models::DummyPutRequest,
         ) -> Result<DummyPutResponse, ApiError>
     {
         let context = self.context().clone();

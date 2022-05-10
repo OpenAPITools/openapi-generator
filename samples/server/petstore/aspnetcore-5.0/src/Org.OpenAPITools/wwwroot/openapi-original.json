@@ -301,21 +301,10 @@
           "style" : "simple"
         } ],
         "requestBody" : {
-          "$ref" : "#/components/requestBodies/inline_object",
           "content" : {
             "application/x-www-form-urlencoded" : {
               "schema" : {
-                "properties" : {
-                  "name" : {
-                    "description" : "Updated name of the pet",
-                    "type" : "string"
-                  },
-                  "status" : {
-                    "description" : "Updated status of the pet",
-                    "type" : "string"
-                  }
-                },
-                "type" : "object"
+                "$ref" : "#/components/schemas/updatePetWithForm_request"
               }
             }
           }
@@ -349,22 +338,10 @@
           "style" : "simple"
         } ],
         "requestBody" : {
-          "$ref" : "#/components/requestBodies/inline_object_1",
           "content" : {
             "multipart/form-data" : {
               "schema" : {
-                "properties" : {
-                  "additionalMetadata" : {
-                    "description" : "Additional data to pass to server",
-                    "type" : "string"
-                  },
-                  "file" : {
-                    "description" : "file to upload",
-                    "format" : "binary",
-                    "type" : "string"
-                  }
-                },
-                "type" : "object"
+                "$ref" : "#/components/schemas/uploadFile_request"
               }
             }
           }
@@ -825,24 +802,6 @@
         },
         "description" : "Pet object that needs to be added to the store",
         "required" : true
-      },
-      "inline_object" : {
-        "content" : {
-          "application/x-www-form-urlencoded" : {
-            "schema" : {
-              "$ref" : "#/components/schemas/inline_object"
-            }
-          }
-        }
-      },
-      "inline_object_1" : {
-        "content" : {
-          "multipart/form-data" : {
-            "schema" : {
-              "$ref" : "#/components/schemas/inline_object_1"
-            }
-          }
-        }
       }
     },
     "schemas" : {
@@ -1066,7 +1025,7 @@
         "title" : "An uploaded response",
         "type" : "object"
       },
-      "inline_object" : {
+      "updatePetWithForm_request" : {
         "properties" : {
           "name" : {
             "description" : "Updated name of the pet",
@@ -1079,7 +1038,7 @@
         },
         "type" : "object"
       },
-      "inline_object_1" : {
+      "uploadFile_request" : {
         "properties" : {
           "additionalMetadata" : {
             "description" : "Additional data to pass to server",
