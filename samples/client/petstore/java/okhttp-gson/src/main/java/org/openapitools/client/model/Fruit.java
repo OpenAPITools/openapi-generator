@@ -106,6 +106,7 @@ public class Fruit extends AbstractOpenApiSchema {
                     JsonObject jsonObject = elementAdapter.read(in).getAsJsonObject();
 
                     int match = 0;
+                    ArrayList<String> errorMessages = new ArrayList<>();
                     TypeAdapter actualAdapter = elementAdapter;
 
                     // deserialize Apple
@@ -117,6 +118,7 @@ public class Fruit extends AbstractOpenApiSchema {
                         log.log(Level.FINER, "Input data matches schema 'Apple'");
                     } catch (Exception e) {
                         // deserialization failed, continue
+                        errorMessages.add(String.format("Deserialization for Apple failed with `%s`.", e.getMessage()));
                         log.log(Level.FINER, "Input data does not match schema 'Apple'", e);
                     }
 
@@ -129,6 +131,7 @@ public class Fruit extends AbstractOpenApiSchema {
                         log.log(Level.FINER, "Input data matches schema 'Banana'");
                     } catch (Exception e) {
                         // deserialization failed, continue
+                        errorMessages.add(String.format("Deserialization for Banana failed with `%s`.", e.getMessage()));
                         log.log(Level.FINER, "Input data does not match schema 'Banana'", e);
                     }
 
@@ -138,7 +141,7 @@ public class Fruit extends AbstractOpenApiSchema {
                         return ret;
                     }
 
-                    throw new IOException(String.format("Failed deserialization for Fruit: %d classes match result, expected 1. JSON: %s", match, jsonObject.toString()));
+                    throw new IOException(String.format("Failed deserialization for Fruit: %d classes match result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", match, errorMessages, jsonObject.toString()));
                 }
             }.nullSafe();
         }
@@ -239,11 +242,13 @@ public class Fruit extends AbstractOpenApiSchema {
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
     // validate oneOf schemas one by one
     int validCount = 0;
+    ArrayList<String> errorMessages = new ArrayList<>();
     // validate the json string with Apple
     try {
       Apple.validateJsonObject(jsonObj);
       validCount++;
     } catch (Exception e) {
+      errorMessages.add(String.format("Deserialization for Apple failed with `%s`.", e.getMessage()));
       // continue to the next one
     }
     // validate the json string with Banana
@@ -251,10 +256,11 @@ public class Fruit extends AbstractOpenApiSchema {
       Banana.validateJsonObject(jsonObj);
       validCount++;
     } catch (Exception e) {
+      errorMessages.add(String.format("Deserialization for Banana failed with `%s`.", e.getMessage()));
       // continue to the next one
     }
     if (validCount != 1) {
-      throw new IOException(String.format("The JSON string is invalid for Fruit with oneOf schemas: Apple, Banana. %d class(es) match the result, expected 1. JSON: %s", validCount, jsonObj.toString()));
+      throw new IOException(String.format("The JSON string is invalid for Fruit with oneOf schemas: Apple, Banana. %d class(es) match the result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", validCount, errorMessages, jsonObj.toString()));
     }
   }
 
