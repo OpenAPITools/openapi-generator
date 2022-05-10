@@ -963,8 +963,7 @@ public class DefaultGenerator implements Generator {
         // models
         List<String> filteredSchemas = ModelUtils.getSchemasUsedOnlyInFormParam(openAPI);
         List<Object> allModels = new ArrayList<>();
-        Thread generateModelsThread = new Thread(() -> generateModels(files, allModels, filteredSchemas));
-        generateModelsThread.start();
+        generateModels(files, allModels, filteredSchemas);
 
         // apis
         List<Object> allOperations = new ArrayList<>();
@@ -972,27 +971,15 @@ public class DefaultGenerator implements Generator {
         // the api operations which will be added to the supportingFile data structure
         List<Object> allApiOperations = generateAllApiOperations(allOperations, allModels);
 
-        Thread generateApisThread = new Thread(() -> generateApis(files, allOperations, allModels));
-        generateApisThread.start();
+        generateApis(files, allOperations, allModels);
 
         // operations
-        Thread generateOperationsThread = new Thread(() -> generateOperations(files, allModels));
-        generateOperationsThread.start();
+        generateOperations(files, allModels);
 
         // supporting files
         // using the generated api operations "allApiOperations" instead of the empty list "allOperations"
         Map<String, Object> bundle = buildSupportFileBundle(allApiOperations, allModels);
-        Thread generateSupportingFilesThread = new Thread(() -> generateSupportingFiles(files, bundle));
-        generateSupportingFilesThread.start();
-
-        try {
-            generateModelsThread.join();
-            generateApisThread.join();
-            generateOperationsThread.join();
-            generateSupportingFilesThread.join();
-        } catch (InterruptedException e) {
-            throw new RuntimeException("Interrupted while joining generate threads");
-        }
+        generateSupportingFiles(files, bundle);
 
         if(dryRun) {
             boolean verbose = Boolean.parseBoolean(GlobalSettings.getProperty("verbose"));
