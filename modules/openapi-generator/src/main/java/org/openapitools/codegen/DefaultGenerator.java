@@ -1145,16 +1145,21 @@ public class DefaultGenerator implements Generator {
             for (Parameter parameter : operation.getParameters()) {
                 operationParameters.add(generateParameterId(parameter));
 
+                /*
+                  Expand query parameters whose schema is defined by $ref. Find the referenced model, map its properties and add them to the schema.
+                 */
                 if ((parameter instanceof QueryParameter || "query".equalsIgnoreCase(parameter.getIn()))
                         && parameter.getSchema() != null && parameter.getSchema().get$ref() != null
                         && Parameter.StyleEnum.DEEPOBJECT != parameter.getStyle()) {
 
+                    // Find the referenced model
                     Optional<CodegenModel> matchedModel = allModels.stream()
                         .map(ModelMap::getModel)
                         .filter(codegenModel -> codegenModel != null
                             && codegenModel.getName() != null
                             && codegenModel.getName().equalsIgnoreCase(parameter.getName())).findFirst();
 
+                    // If the model is present map its properties and add them to the schema
                     if (matchedModel.isPresent()) {
                         CodegenModel model = matchedModel.get();
 
@@ -1224,6 +1229,12 @@ public class DefaultGenerator implements Generator {
 
     }
 
+    /***
+     * Map all properties of a given input to corresponding schemas
+     *
+     * @param model the model to be mapped
+     * @return a map containing property name and its corresponding schema
+     */
     private Map<String, Schema> mapProperties(CodegenModel model) {
         Map<String, Schema> properties = new LinkedHashMap<>();
 
@@ -1238,6 +1249,12 @@ public class DefaultGenerator implements Generator {
         return properties;
     }
 
+    /**
+     * Map a given property to a schema by accounting for its openApi type
+     *
+     * @param property the property to be mapped
+     * @return the mapped schema, null if the openApi type is not supported
+     */
     private Schema mapToSchema(CodegenProperty property) {
         switch (property.openApiType) {
             case "string":
