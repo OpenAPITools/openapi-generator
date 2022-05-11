@@ -126,110 +126,10 @@ void {{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource::defaultS
 
 void {{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource::handler_{{httpMethod}}_internal(const std::shared_ptr<restbed::Session> session)
 {
-    const auto request = session->get_request();
-    {{#hasBodyParam}}
-    int content_length = request->get_header("Content-Length", 0);
-    session->fetch(content_length,
-        [this](const std::shared_ptr<restbed::Session> session,
-            const restbed::Bytes& body) {
+    {{#lambda.indented}}
+    {{>api-source-HandlerBody}}
+    {{/lambda.indented}}
 
-                std::string bodyContent = restbed::String::format(
-                    "%.*s\n", (int)body.size(), body.data());
-
-    // Get body params or form params here from the body content string
-    {{#allParams}}
-    {{#isModel}}
-    auto {{paramName}} = extractJsonModelBodyParam<{{{baseType}}}>(bodyContent);
-    {{/isModel}}
-    {{#isArray}}
-    auto {{paramName}} = extractJsonArrayBodyParam<{{{baseType}}}>(bodyContent);
-    {{/isArray}}
-    {{/allParams}}
-    {{/hasBodyParam}}
-
-    {{#hasPathParams}}
-    // Getting the path params
-    {{#pathParams}}
-    {{#isPrimitiveType}}
-    const {{{dataType}}} {{{paramName}}} = getPathParam_{{paramName}}(request);
-    {{/isPrimitiveType}}
-    {{/pathParams}}
-    {{/hasPathParams}}
-
-    {{#hasQueryParams}}
-    // Getting the query params
-    {{#queryParams}}
-    {{#isPrimitiveType}}
-    const {{{dataType}}} {{{paramName}}} = getQueryParam_{{paramName}}(request);
-    {{/isPrimitiveType}}
-    {{/queryParams}}
-    {{/hasQueryParams}}
-
-    {{#hasHeaderParams}}
-    // Getting the headers
-    {{#headerParams}}
-    {{#isPrimitiveType}}
-    const {{{dataType}}} {{{paramName}}} = getHeader_{{baseName}}(request);
-    {{/isPrimitiveType}}
-    {{/headerParams}}
-    {{/hasHeaderParams}}
-
-    int status_code = 500;
-    {{#returnType}}
-    {{{.}}} resultObject = {{{defaultResponse}}};
-    {{/returnType}}
-    std::string result = "";
-
-    try {
-        {{#returnType}}
-        std::tie(status_code, resultObject) =
-        {{/returnType}}
-        {{^returnType}}
-         status_code =
-         {{/returnType}}
-             handler_{{httpMethod}}({{#allParams}}{{paramName}}{{^-last}}, {{ / -last}}{{ / allParams}});
-    }
-    catch(const {{classname}}Exception& e) {
-        std::tie(status_code, result) = handle{{classname}}Exception(e);
-    }
-    catch(const std::exception& e) {
-        std::tie(status_code, result) = handleStdException(e);
-    }
-    catch(...) {
-        std::tie(status_code, result) = handleUnspecifiedException();
-    }
-
-    {{#responses}}
-    if (status_code == {{code}}) {
-        {{#returnType}}
-        {{#isModel}}
-        {{#isString}}
-        result = resultObject;
-        {{/isString}}
-        {{^isString}}
-        result = resultObject->toJsonString();
-        {{/isString}}
-        {{/isModel}}
-        {{#isMap}}
-        result = convertMapResponse(resultObject);
-        {{/isMap}}
-        {{/returnType}}
-        {{#headers}}
-        // Description: {{{description}}}
-        setResponseHeader(session, "{{baseName}}");
-        {{/headers}}
-
-        {{#primitiveType}}
-        const constexpr auto contentType = "text/plain";
-        {{/primitiveType}}
-        {{^primitiveType}}
-        const constexpr auto contentType = "application/json";
-        {{/primitiveType}}
-        returnResponse(session, {{code}}, result.empty() ? "{{message}}" : result, contentType);
-        return;
-    }
-    {{/responses}}
-    defaultSessionClose(session, status_code, result);
     {{#hasBodyParam}}
     });
     {{/hasBodyParam}}
@@ -239,120 +139,10 @@ void {{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource::handler_
 {{#vendorExtensions.x-codegen-other-methods}}
 // x-extension
 void {{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource::handler_{{httpMethod}}_internal(const std::shared_ptr<restbed::Session> session) {
+    {{#lambda.indented}}
+    {{>api-source-HandlerBody}}
+    {{/lambda.indented}}
 
-    const auto request = session->get_request();
-    {{#hasBodyParam}}
-    int content_length = request->get_header("Content-Length", 0);
-    session->fetch(content_length,
-        [this](const std::shared_ptr<restbed::Session> session,
-            const restbed::Bytes& body) {
-
-                std::string bodyContent = restbed::String::format(
-                    "%.*s\n", (int)body.size(), body.data());
-
-    // body params or form params here from the body content string
-    {{#allParams}}
-    {{#isModel}}
-    auto {{paramName}} = extractJsonModelBodyParam<{{{baseType}}}>(bodyContent);
-    {{/isModel}}
-    {{#isArray}}
-    auto {{paramName}} = extractJsonArrayBodyParam<{{{baseType}}}>(bodyContent);
-    {{/isArray}}
-    {{^isModel}}
-    {{^isArray}}
-    auto {{paramName}} = std::make_shared<{{{baseType}}}>(bodyContent);
-    {{/isArray}}
-    {{/isModel}}
-    {{/allParams}}
-    {{/hasBodyParam}}
-
-    {{#hasPathParams}}
-    // Getting the path params
-    {{#pathParams}}
-    {{#isPrimitiveType}}
-    const {{{dataType}}} {{{paramName}}} = getPathParam_{{paramName}}_x_extension(request);
-
-    {{/isPrimitiveType}}
-    {{/pathParams}}
-    {{/hasPathParams}}
-    {{#hasQueryParams}}
-    // Getting the query params
-    {{#queryParams}}
-    {{#isPrimitiveType}}
-    const {{{dataType}}} {{{paramName}}} = getQueryParam_{{paramName}}_x_extension(request);
-
-    {{/isPrimitiveType}}
-    {{/queryParams}}
-    {{/hasQueryParams}}
-    {{#hasHeaderParams}}
-    // Getting the headers
-    {{#headerParams}}
-    {{#isPrimitiveType}}
-    const {{{dataType}}} {{{paramName}}} = getHeader_{{baseName}}_x_extension(request);
-
-    {{/isPrimitiveType}}
-    {{/headerParams}}
-    {{/hasHeaderParams}}
-
-    int status_code = 500;
-    {{#returnType}}
-    {{{.}}} resultObject = {{{defaultResponse}}};
-    {{/returnType}}
-    std::string result = "";
-
-    try {
-        {{#returnType}}
-        std::tie(status_code, resultObject) =
-        {{/returnType}}
-        {{^returnType}}
-        status_code =
-        {{/returnType}}
-            handler_{{httpMethod}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
-    }
-    catch(const {{classname}}Exception& e) {
-        std::tie(status_code, result) = handle{{classname}}Exception(e);
-    }
-    catch(const std::exception& e) {
-        std::tie(status_code, result) = handleStdException(e);
-    }
-    catch(...) {
-        std::tie(status_code, result) = handleUnspecifiedException();
-    }
-
-    {{#responses}}
-    if (status_code == {{code}}) {
-        {{#returnType}}
-        {{#isModel}}
-        {{#isString}}
-        result = resultObject;
-        {{/isString}}
-        {{^isString}}
-        result = resultObject->toJsonString();
-        {{/isString}}
-        {{/isModel}}
-        {{#isMap}}
-        result = convertMapResponse(resultObject);
-        {{/isMap}}
-        {{/returnType}}
-        {{#headers}}
-        // Description: {{{description}}}
-        setResponseHeader(session, "{{baseName}}");
-        {{/headers}}
-
-        {{#primitiveType}}
-        const constexpr auto contentType = "text/plain";
-        {{/primitiveType}}
-        {{^primitiveType}}
-        const constexpr auto contentType = "application/json";
-        {{/primitiveType}}
-        returnResponse(session, {{code}}, result.empty() ? "{{message}}" : result, contentType);
-        return;
-    }
-    {{/responses}}
-    defaultSessionClose(session, status_code, result);
-    {{#hasBodyParam}}
-    });
-    {{/hasBodyParam}}
 }
 {{/vendorExtensions.x-codegen-other-methods}}
 
@@ -369,6 +159,29 @@ void {{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource::handler_
     throw {{classname}}Exception(501, "Not implemented");
 }
 {{/vendorExtensions.x-codegen-other-methods}}
+
+std::string {{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource::extractBodyContent(const std::shared_ptr<restbed::Session>& session) {
+  const auto request = session->get_request();
+  int content_length = request->get_header("Content-Length", 0);
+  std::string bodyContent;
+  session->fetch(content_length,
+                 [&bodyContent](const std::shared_ptr<restbed::Session> session,
+                                const restbed::Bytes &body) {
+                   bodyContent = restbed::String::format(
+                       "%.*s\n", (int)body.size(), body.data());
+                 });
+  return bodyContent;
+}
+
+std::string {{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource::extractFormParamsFromBody(const std::string& paramName, const std::string& body) {
+    const auto uri = restbed::Uri("urlencoded?" + body, true);
+    const auto params = uri.get_query_parameters();
+    const auto result = params.find(paramName);
+    if (result != params.cend()) {
+        return result->second;
+    }
+    return "";
+}
 {{/operation}}
 
 {{classname}}::{{classname}}(std::shared_ptr<restbed::Service> const& restbedService)

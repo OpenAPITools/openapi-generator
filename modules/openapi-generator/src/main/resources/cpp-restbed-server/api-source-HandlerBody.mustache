@@ -1,0 +1,109 @@
+const auto request = session->get_request();
+{{#hasBodyParam}}
+// body params or form params here from the body content string
+std::string bodyContent = extractBodyContent(session);
+{{#bodyParams}}
+{{#isModel}}
+auto {{paramName}} = extractJsonModelBodyParam<{{{baseType}}}>(bodyContent);
+{{/isModel}}
+{{#isArray}}
+auto {{paramName}} = extractJsonArrayBodyParam<{{{baseType}}}>(bodyContent);
+{{/isArray}}
+{{^isModel}}
+{{^isArray}}
+auto {{paramName}} = bodyContent;
+{{/isArray}}
+{{/isModel}}
+{{/bodyParams}}
+{{/hasBodyParam}}
+{{#hasFormParams}}
+{{#formParams}}
+auto {{paramName}} = extractFormParamsFromBody("{{paramName}}", extractBodyContent(session));
+{{/formParams}}
+{{/hasFormParams}}
+{{#hasPathParams}}
+// Getting the path params
+{{#pathParams}}
+{{#isPrimitiveType}}
+const {{{dataType}}} {{{paramName}}} = request->get_path_parameter("{{{paramName}}}", {{{defaultValue}}});
+{{/isPrimitiveType}}
+{{/pathParams}}
+{{/hasPathParams}}
+{{#hasQueryParams}}
+// Getting the query params
+{{#queryParams}}
+{{#isPrimitiveType}}
+const {{{dataType}}} {{{paramName}}} = request->get_query_parameter("{{{paramName}}}", {{{defaultValue}}});
+{{/isPrimitiveType}}
+{{^isPrimitiveType}}
+const std::string {{{paramName}}}_raw = request->get_query_parameter("{{{paramName}}}");
+{{{dataType}}} {{{paramName}}};
+boost::split({{{paramName}}}, {{{paramName}}}_raw, boost::is_any_of(","));
+{{/isPrimitiveType}}
+{{/queryParams}}
+{{/hasQueryParams}}
+{{#hasHeaderParams}}
+// Getting the headers
+{{#headerParams}}
+{{#isPrimitiveType}}
+const {{{dataType}}} {{{paramName}}} = request->get_header("{{{baseName}}}", {{{defaultValue}}});
+{{/isPrimitiveType}}
+{{/headerParams}}
+{{/hasHeaderParams}}
+
+int status_code = 500;
+{{#returnType}}
+{{{.}}} resultObject = {{{defaultResponse}}};
+{{/returnType}}
+std::string result = "";
+
+try {
+{{#returnType}}
+    std::tie(status_code, resultObject) =
+{{/returnType}}
+{{^returnType}}
+    status_code =
+{{/returnType}}
+        handler_{{httpMethod}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
+}
+catch(const {{classname}}Exception& e) {
+    std::tie(status_code, result) = handle{{classname}}Exception(e);
+}
+catch(const std::exception& e) {
+    std::tie(status_code, result) = handleStdException(e);
+}
+catch(...) {
+    std::tie(status_code, result) = handleUnspecifiedException();
+}
+
+{{#responses}}
+if (status_code == {{code}}) {
+{{#returnType}}
+{{#isModel}}
+{{#isString}}
+    result = resultObject;
+{{/isString}}
+{{^isString}}
+    result = resultObject->toJsonString();
+{{/isString}}
+{{/isModel}}
+{{#isMap}}
+    result = convertMapResponse(resultObject);
+{{/isMap}}
+{{/returnType}}
+{{#headers}}
+    // Description: {{{description}}}
+    setResponseHeader(session, "{{baseName}}");
+{{/headers}}
+
+{{#primitiveType}}
+    const constexpr auto contentType = "text/plain";
+{{/primitiveType}}
+{{^primitiveType}}
+    const constexpr auto contentType = "application/json";
+{{/primitiveType}}
+    returnResponse(session, {{code}}, result.empty() ? "{{message}}" : result, contentType);
+    return;
+}
+{{/responses}}
+defaultSessionClose(session, status_code, result);
