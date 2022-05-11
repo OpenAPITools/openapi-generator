@@ -61,8 +61,8 @@ micronaut:
   application:
     name: {{{applicationName}}}
   server:
-    port: 8080{{#contextPath.size}}
-    context-path: "{{{contextPath}}}"{{/contextPath.size}}
+    port: 8080
+    context-path: "{{{contextPath}}}/"
   security:
     # authentication: bearer | cookie | session | idtoken
 {{/server}}
