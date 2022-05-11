@@ -93,13 +93,18 @@ export class PetApi extends runtime.BaseAPI {
             headerParameters["Authorization"] = await this.configuration.accessToken("petstore_auth", ["write:pets", "read:pets"]);
         }
 
-        const response = await this.request({
+
+
+        const body: any = PetToJSON(requestParameters.pet);
+
+        const request: runtime.RequestOpts = {
             path: `/pet`,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: PetToJSON(requestParameters.pet),
-        }, initOverrides);
+            body: body,
+        }
+        const response = await this.request(request, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
@@ -134,12 +139,16 @@ export class PetApi extends runtime.BaseAPI {
             headerParameters["Authorization"] = await this.configuration.accessToken("petstore_auth", ["write:pets", "read:pets"]);
         }
 
-        const response = await this.request({
+
+
+
+        const request: runtime.RequestOpts = {
             path: `/pet/{petId}`.replace(`{${"petId"}}`, encodeURIComponent(String(requestParameters.petId))),
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        }
+        const response = await this.request(request, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
@@ -174,12 +183,16 @@ export class PetApi extends runtime.BaseAPI {
             headerParameters["Authorization"] = await this.configuration.accessToken("petstore_auth", ["write:pets", "read:pets"]);
         }
 
-        const response = await this.request({
+
+
+
+        const request: runtime.RequestOpts = {
             path: `/pet/findByStatus`,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        }
+        const response = await this.request(request, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(PetFromJSON));
     }
@@ -215,12 +228,16 @@ export class PetApi extends runtime.BaseAPI {
             headerParameters["Authorization"] = await this.configuration.accessToken("petstore_auth", ["write:pets", "read:pets"]);
         }
 
-        const response = await this.request({
+
+
+
+        const request: runtime.RequestOpts = {
             path: `/pet/findByTags`,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        }
+        const response = await this.request(request, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => new Set(jsonValue.map(PetFromJSON)));
     }
@@ -251,12 +268,16 @@ export class PetApi extends runtime.BaseAPI {
             headerParameters["api_key"] = this.configuration.apiKey("api_key"); // api_key authentication
         }
 
-        const response = await this.request({
+
+
+
+        const request: runtime.RequestOpts = {
             path: `/pet/{petId}`.replace(`{${"petId"}}`, encodeURIComponent(String(requestParameters.petId))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        }
+        const response = await this.request(request, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => PetFromJSON(jsonValue));
     }
@@ -290,13 +311,18 @@ export class PetApi extends runtime.BaseAPI {
             headerParameters["Authorization"] = await this.configuration.accessToken("petstore_auth", ["write:pets", "read:pets"]);
         }
 
-        const response = await this.request({
+
+
+        const body: any = PetToJSON(requestParameters.pet);
+
+        const request: runtime.RequestOpts = {
             path: `/pet`,
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,
-            body: PetToJSON(requestParameters.pet),
-        }, initOverrides);
+            body: body,
+        }
+        const response = await this.request(request, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
@@ -349,13 +375,18 @@ export class PetApi extends runtime.BaseAPI {
             formParams.append('status', requestParameters.status as any);
         }
 
-        const response = await this.request({
+
+
+        const body: any = formParams;
+
+        const request: runtime.RequestOpts = {
             path: `/pet/{petId}`.replace(`{${"petId"}}`, encodeURIComponent(String(requestParameters.petId))),
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: formParams,
-        }, initOverrides);
+            body: body,
+        }
+        const response = await this.request(request, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
@@ -410,13 +441,18 @@ export class PetApi extends runtime.BaseAPI {
             formParams.append('file', requestParameters.file as any);
         }
 
-        const response = await this.request({
+
+
+        const body: any = formParams;
+
+        const request: runtime.RequestOpts = {
             path: `/pet/{petId}/uploadImage`.replace(`{${"petId"}}`, encodeURIComponent(String(requestParameters.petId))),
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: formParams,
-        }, initOverrides);
+            body: body,
+        }
+        const response = await this.request(request, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ModelApiResponseFromJSON(jsonValue));
     }
@@ -476,13 +512,18 @@ export class PetApi extends runtime.BaseAPI {
             formParams.append('requiredFile', requestParameters.requiredFile as any);
         }
 
-        const response = await this.request({
+
+
+        const body: any = formParams;
+
+        const request: runtime.RequestOpts = {
             path: `/fake/{petId}/uploadImageWithRequiredFile`.replace(`{${"petId"}}`, encodeURIComponent(String(requestParameters.petId))),
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: formParams,
-        }, initOverrides);
+            body: body,
+        }
+        const response = await this.request(request, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ModelApiResponseFromJSON(jsonValue));
     }

@@ -81,12 +81,16 @@ export class DefaultApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
+
+
+
+        const request: runtime.RequestOpts = {
             path: `/fake/enum-request-inline`,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        }
+        const response = await this.request(request, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => FakeEnumRequestGetInline200ResponseFromJSON(jsonValue));
     }
@@ -121,12 +125,16 @@ export class DefaultApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
+
+
+
+        const request: runtime.RequestOpts = {
             path: `/fake/enum-request-ref`,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        }
+        const response = await this.request(request, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => EnumPatternObjectFromJSON(jsonValue));
     }
@@ -147,13 +155,18 @@ export class DefaultApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        const response = await this.request({
+
+
+        const body: any = FakeEnumRequestGetInline200ResponseToJSON(requestParameters.fakeEnumRequestGetInline200Response);
+
+        const request: runtime.RequestOpts = {
             path: `/fake/enum-request-inline`,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: FakeEnumRequestGetInline200ResponseToJSON(requestParameters.fakeEnumRequestGetInline200Response),
-        }, initOverrides);
+            body: body,
+        }
+        const response = await this.request(request, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => FakeEnumRequestGetInline200ResponseFromJSON(jsonValue));
     }
@@ -174,13 +187,18 @@ export class DefaultApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        const response = await this.request({
+
+
+        const body: any = EnumPatternObjectToJSON(requestParameters.enumPatternObject);
+
+        const request: runtime.RequestOpts = {
             path: `/fake/enum-request-ref`,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: EnumPatternObjectToJSON(requestParameters.enumPatternObject),
-        }, initOverrides);
+            body: body,
+        }
+        const response = await this.request(request, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => EnumPatternObjectFromJSON(jsonValue));
     }

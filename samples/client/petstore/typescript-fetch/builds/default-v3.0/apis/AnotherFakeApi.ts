@@ -46,13 +46,18 @@ export class AnotherFakeApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        const response = await this.request({
+
+
+        const body: any = ClientToJSON(requestParameters.client);
+
+        const request: runtime.RequestOpts = {
             path: `/another-fake/dummy`,
             method: 'PATCH',
             headers: headerParameters,
             query: queryParameters,
-            body: ClientToJSON(requestParameters.client),
-        }, initOverrides);
+            body: body,
+        }
+        const response = await this.request(request, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ClientFromJSON(jsonValue));
     }

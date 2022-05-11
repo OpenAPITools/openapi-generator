@@ -50,12 +50,16 @@ export class BehaviorApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
+
+
+
+        const request: runtime.RequestOpts = {
             path: `/fake_behavior/{behavior-id}/permissions`.replace(`{${"behavior-id"}}`, encodeURIComponent(String(requestParameters.behaviorId))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        }
+        const response = await this.request(request, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => GetBehaviorPermissionsResponseFromJSON(jsonValue));
     }
@@ -80,12 +84,16 @@ export class BehaviorApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
+
+
+
+        const request: runtime.RequestOpts = {
             path: `/fake_behavior/{behavior-id}/type`.replace(`{${"behavior-id"}}`, encodeURIComponent(String(requestParameters.behaviorId))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        }
+        const response = await this.request(request, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => GetBehaviorTypeResponseFromJSON(jsonValue));
     }
