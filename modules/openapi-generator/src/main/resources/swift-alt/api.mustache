@@ -138,7 +138,7 @@ open class {{classname}} {
                 let multipartBoundary = String(format: "Boundary+%08X%08X", arc4random(), arc4random())
                 var multipartData = Data()
                 {{#formParams}}
-    {{> toMultipartFormDataAppend}}
+{{> toMultipartFormDataAppend}}
                 {{/formParams}}
                 multipartData.append("\r\n--\(multipartBoundary)--\r\n".data(using: .utf8) ?? Data())
                 request.httpBody = multipartData
