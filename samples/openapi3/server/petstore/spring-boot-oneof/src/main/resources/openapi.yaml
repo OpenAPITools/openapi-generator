@@ -150,7 +150,7 @@ components:
       - $ref: '#/components/schemas/Foo'
       - $ref: '#/components/schemas/FooRef'
       type: object
-      x-one-of-name: BarCreateFooOneOf
+      x-one-of-name: FooRefOrValue
     Foo:
       allOf:
       - $ref: '#/components/schemas/Entity'

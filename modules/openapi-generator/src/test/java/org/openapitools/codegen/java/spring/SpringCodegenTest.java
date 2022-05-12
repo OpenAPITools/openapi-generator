@@ -1020,8 +1020,8 @@ public class SpringCodegenTest {
 
         generator.opts(input).generate();
 
-        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/Foo.java"), "public class Foo extends Entity implements BarCreateFooOneOf, BarFooOneOf, FooRefOrValue");
-        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/FooRef.java"), "public class FooRef extends EntityRef implements BarCreateFooOneOf, BarFooOneOf, FooRefOrValue");
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/Foo.java"), "public class Foo extends Entity implements FooRefOrValue");
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/FooRef.java"), "public class FooRef extends EntityRef implements FooRefOrValue");
         assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/FooRefOrValue.java"), "public interface FooRefOrValue");
         // previous bugs
         assertFileNotContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/BarRef.java"), "atTypesuper.hashCode");
