@@ -160,6 +160,26 @@ paths:
           # Swagger parser doesn't use MapSchema currently,
           # so we need to set a MapSchema instance as the schema manually for testing.
           # see InlineModelResolverTest#resolveInlineMapSchemaInResponse()
+  /resolve_inline_request_body_allof:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              allOf:
+              - type: object
+                properties:
+                  name:
+                    type: string
+                  address:
+                    type: object
+                    properties:
+                      street:
+                        type: string
+      operationId: resolveInlineRequestBodyAllOf
+      responses:
+        '200':
+          description: OK
   /arbitrary_object_request_body:
     post:
       requestBody:

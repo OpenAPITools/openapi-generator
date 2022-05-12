@@ -1019,4 +1019,22 @@ public class InlineModelResolverTest {
         Schema nothingNew = openAPI.getComponents().getSchemas().get("nothing_new");
         assertTrue(nothingNew.getProperties().get("arbitrary_request_body_array_property") instanceof ObjectSchema);
     }
+
+    @Test
+    public void resolveInlineRequestBodyAllOf() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_resolver.yaml");
+        new InlineModelResolver().flatten(openAPI);
+
+        RequestBody requestBodyReference = openAPI.getPaths().get("/resolve_inline_request_body_allof").getPost().getRequestBody();
+        assertEquals("#/components/schemas/resolveInlineRequestBodyAllOf_request",
+                requestBodyReference.getContent().get("application/json").getSchema().get$ref());
+        //assertEquals("#/components/schemas/resolveInlineRequestBodyAllOf_request", requestBodyReference.get$ref());
+
+        ComposedSchema allOfModel =(ComposedSchema) openAPI.getComponents().getSchemas().get("resolveInlineRequestBodyAllOf_request");
+        assertEquals("#/components/schemas/resolveInlineRequestBody_request", allOfModel.getAllOf().get(0).get$ref());
+        //Schema allOfModel = ModelUtils.getReferencedSchema(openAPI, requestBodyReference.get$ref());
+
+        //RequestBody referencedRequestBody = ModelUtils.getReferencedRequestBody(openAPI, requestBodyReference);
+        //assertTrue(referencedRequestBody.getRequired());
+    }
 }
