@@ -517,8 +517,8 @@ public class SpringCodegenTest {
         generator.opts(input).generate();
 
         JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/ExampleApi.java"))
-            .assertMethod("exampleApiPost", "InlineRequest")
-            .hasParameter("inlineRequest")
+            .assertMethod("exampleApiPost", "ExampleApiPostRequest")
+            .hasParameter("exampleApiPostRequest")
             .assertParameterAnnotations()
             .containsWithNameAndAttributes("RequestBody", ImmutableMap.of("required", "false"));
 
@@ -950,7 +950,7 @@ public class SpringCodegenTest {
     }
 
     @Test
-    public void oneOf_5381() throws IOException {
+    public void testOneOf5381() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
         String outputPath = output.getAbsolutePath().replace('\\', '/');
@@ -988,7 +988,7 @@ public class SpringCodegenTest {
     }
 
     @Test
-    public void oneOf_allOf() throws IOException {
+    public void testOneOfAndAllOf() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
         String outputPath = output.getAbsolutePath().replace('\\', '/');
@@ -1007,7 +1007,7 @@ public class SpringCodegenTest {
         DefaultGenerator generator = new DefaultGenerator();
         codegen.setHateoas(true);
         generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
-//        generator.setGeneratorPropertyDefault(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, "true");
+        //generator.setGeneratorPropertyDefault(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, "true");
         generator.setGeneratorPropertyDefault(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, "false");
 
         codegen.setUseOneOfInterfaces(true);
@@ -1020,8 +1020,8 @@ public class SpringCodegenTest {
 
         generator.opts(input).generate();
 
-        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/Foo.java"), "public class Foo extends Entity implements FooRefOrValue");
-        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/FooRef.java"), "public class FooRef extends EntityRef implements FooRefOrValue");
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/Foo.java"), "public class Foo extends Entity implements BarCreateFooOneOf, BarFooOneOf, FooRefOrValue");
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/FooRef.java"), "public class FooRef extends EntityRef implements BarCreateFooOneOf, BarFooOneOf, FooRefOrValue");
         assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/FooRefOrValue.java"), "public interface FooRefOrValue");
         // previous bugs
         assertFileNotContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/BarRef.java"), "atTypesuper.hashCode");

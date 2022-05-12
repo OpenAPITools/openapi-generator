@@ -893,7 +893,7 @@ public class DefaultCodegen implements CodegenConfig {
             // go through all gathered schemas and add them as interfaces to be created
             for (Map.Entry<String, Schema> e : schemas.entrySet()) {
                 String n = toModelName(e.getKey());
-                Schema s = e.getValue();
+                Schema s = ModelUtils.getReferencedSchema(openAPI, e.getValue());
                 String nOneOf = toModelName(n + "OneOf");
                 if (ModelUtils.isComposedSchema(s)) {
                     if (e.getKey().contains("/")) {
