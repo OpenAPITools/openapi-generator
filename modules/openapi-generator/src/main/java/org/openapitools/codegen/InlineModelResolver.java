@@ -138,7 +138,7 @@ public class InlineModelResolver {
             if (m.getAllOf() != null && !m.getAllOf().isEmpty()) {
                 // check to ensure at least of the allOf item is model
                 for (Schema inner : m.getAllOf()) {
-                    if (isModelNeeded(inner)) {
+                    if (isModelNeeded(ModelUtils.getReferencedSchema(openAPI, inner))) {
                         return true;
                     }
                 }

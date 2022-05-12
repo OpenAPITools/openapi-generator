@@ -160,7 +160,7 @@ public class GoClientCodegenTest {
         List<File> files = generator.opts(configurator.toClientOptInput()).generate();
         files.forEach(File::deleteOnExit);
 
-        TestUtils.assertFileContains(Paths.get(output + "/model_example.go"), "Child NullableChild");
+        TestUtils.assertFileContains(Paths.get(output + "/model_example.go"), "Child NullableExampleChild");
     }
 
     @Test

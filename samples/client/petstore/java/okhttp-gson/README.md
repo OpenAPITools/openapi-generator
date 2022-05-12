@@ -162,6 +162,7 @@ Class | Method | HTTP request | Description
  - [AppleReq](docs/AppleReq.md)
  - [ArrayOfArrayOfNumberOnly](docs/ArrayOfArrayOfNumberOnly.md)
  - [ArrayOfInlineAllOf](docs/ArrayOfInlineAllOf.md)
+ - [ArrayOfInlineAllOfArrayAllofDogPropertyInner](docs/ArrayOfInlineAllOfArrayAllofDogPropertyInner.md)
  - [ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf](docs/ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf.md)
  - [ArrayOfNumberOnly](docs/ArrayOfNumberOnly.md)
  - [ArrayTest](docs/ArrayTest.md)
