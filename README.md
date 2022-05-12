@@ -681,6 +681,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [YITU Technology](https://www.yitutech.com/)
 - [Yelp](https://www.yelp.com/)
 - [Zalando](https://www.zalando.com)
+- [3DS Outscale](https://www.outscale.com/)
 
 ## [5 - Presentations/Videos/Tutorials/Books](#table-of-contents)
 
