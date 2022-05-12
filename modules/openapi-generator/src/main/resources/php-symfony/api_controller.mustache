@@ -82,7 +82,7 @@ class {{controllerName}} extends Controller
         {{/returnType}}
         // Handle authentication
         {{#authMethods}}
-        // Authentication '{{name}}' required
+        // Authentication '{{#isBasic}}basic{{/isBasic}}{{#isApiKey}}api_key{{/isApiKey}}{{#isOAuth}}oAuth{{/isOAuth}}' required
         {{#isApiKey}}
         {{#isKeyInHeader}}
         // Set key with prefix in header
@@ -168,8 +168,8 @@ class {{controllerName}} extends Controller
             $handler = $this->getApiHandler();
 
             {{#authMethods}}
-            // Set authentication method '{{name}}'
-            $handler->set{{name}}($security{{name}});
+            // Set authentication method '{{#isBasic}}basic{{/isBasic}}{{#isApiKey}}api_key{{/isApiKey}}{{#isOAuth}}oAuth{{/isOAuth}}'
+            $handler->set_{{#isBasic}}basic{{/isBasic}}{{#isApiKey}}api_key{{/isApiKey}}{{#isOAuth}}oAuth{{/isOAuth}}_auth($security{{name}});
             {{/authMethods}}
 
             // Make the call to the business logic
