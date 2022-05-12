@@ -100,7 +100,7 @@ public class InlineModelResolver {
             if (path.getDelete() != null) {
                 name = pathname + "_delete";
             } else if (path.getGet() != null) {
-                name= pathname + "_get";
+                name = pathname + "_get";
             } else if (path.getHead() != null) {
                 name = pathname + "_head";
             } else if (path.getOptions() != null) {
@@ -386,7 +386,7 @@ public class InlineModelResolver {
     /**
      * Flatten inline models in RequestBody
      *
-     * @param modelName  inline model name prefix
+     * @param modelName inline model name prefix
      * @param operation target operation
      */
     private void flattenRequestBody(String modelName, Operation operation) {
@@ -462,7 +462,7 @@ public class InlineModelResolver {
     /**
      * Flatten inline models in ApiResponses
      *
-     * @param modelName  model name prefix
+     * @param modelName model name prefix
      * @param operation target operation
      */
     private void flattenResponses(String modelName, Operation operation) {
@@ -476,7 +476,7 @@ public class InlineModelResolver {
             ApiResponse response = responsesEntry.getValue();
 
             flattenContent(response.getContent(),
-                    (operation.getOperationId() == null ? modelName : operation.getOperationId())  + "_" + key + "_response");
+                    (operation.getOperationId() == null ? modelName : operation.getOperationId()) + "_" + key + "_response");
         }
     }
 

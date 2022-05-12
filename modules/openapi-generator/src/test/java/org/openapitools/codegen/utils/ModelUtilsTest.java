@@ -218,11 +218,11 @@ public class ModelUtilsTest {
     }
 
     @Test
-    public void testAliasedTypeIsNotUnaliasedIfUsedForImportMapping(){
+    public void testAliasedTypeIsNotUnaliasedIfUsedForImportMapping() {
         Schema emailSchema = new Schema().$ref("#/components/schemas/Email").type("string");
         StringSchema stringSchema = new StringSchema();
         HashMap<String, String> importMappings = new HashMap<>();
-        importMappings.put("Email","foo.bar.Email");
+        importMappings.put("Email", "foo.bar.Email");
 
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("Email", stringSchema);
 

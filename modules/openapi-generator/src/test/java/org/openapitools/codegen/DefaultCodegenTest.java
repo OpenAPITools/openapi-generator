@@ -2366,8 +2366,6 @@ public class DefaultCodegenTest {
                         .getContent()
                         .get("application/json")
                         .getSchema().get$ref(),
-                        //.getExtensions()
-                        //.get("x-one-of-name"),
                 "#/components/schemas/getState_200_response"
         );
         Schema getState200 = openAPI.getComponents().getSchemas().get("getState_200_response");
