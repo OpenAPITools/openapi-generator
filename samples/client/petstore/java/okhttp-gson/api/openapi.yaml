@@ -2181,9 +2181,7 @@ components:
           type: string
         array_allof_dog_property:
           items:
-            allOf:
-            - $ref: '#/components/schemas/Dog_allOf'
-            - $ref: '#/components/schemas/ArrayOfInlineAllOf_array_allof_dog_property_inner_allOf'
+            $ref: '#/components/schemas/ArrayOfInlineAllOf_array_allof_dog_property_inner'
           type: array
       required:
       - name
@@ -2348,6 +2346,10 @@ components:
         color:
           type: string
       type: object
+    ArrayOfInlineAllOf_array_allof_dog_property_inner:
+      allOf:
+      - $ref: '#/components/schemas/Dog_allOf'
+      - $ref: '#/components/schemas/ArrayOfInlineAllOf_array_allof_dog_property_inner_allOf'
   securitySchemes:
     petstore_auth:
       flows:
