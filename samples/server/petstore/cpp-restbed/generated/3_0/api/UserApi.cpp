@@ -87,49 +87,50 @@ std::string convertMapResponse(const std::map<KEY_T, VAL_T>& map)
     return result;
 }
 
-UserApiUserResource::UserApiUserResource(const std::string& context /* = "/v2" */)
+namespace UserApiResources {
+UserResource::UserResource(const std::string& context /* = "/v2" */)
 {
 	this->set_path(context + "/user");
 	this->set_method_handler("POST",
-		std::bind(&UserApiUserResource::handler_POST_internal, this,
+		std::bind(&UserResource::handler_POST_internal, this,
 			std::placeholders::_1));
 }
 
-UserApiUserResource::~UserApiUserResource()
+UserResource::~UserResource()
 {
 }
 
-std::pair<int, std::string> UserApiUserResource::handleUserApiException(const UserApiException& e)
+std::pair<int, std::string> UserResource::handleUserApiException(const UserApiException& e)
 {
     return std::make_pair<int, std::string>(e.getStatus(), e.what());
 }
 
-std::pair<int, std::string> UserApiUserResource::handleStdException(const std::exception& e)
+std::pair<int, std::string> UserResource::handleStdException(const std::exception& e)
 {
     return std::make_pair<int, std::string>(500, e.what());
 }
 
-std::pair<int, std::string> UserApiUserResource::handleUnspecifiedException()
+std::pair<int, std::string> UserResource::handleUnspecifiedException()
 {
     return std::make_pair<int, std::string>(500, "Unknown exception occurred");
 }
 
-void UserApiUserResource::setResponseHeader(const std::shared_ptr<restbed::Session>& session, const std::string& header)
+void UserResource::setResponseHeader(const std::shared_ptr<restbed::Session>& session, const std::string& header)
 {
     session->set_header(header, "");
 }
 
-void UserApiUserResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, const std::string& contentType)
+void UserResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, const std::string& contentType)
 {
     session->close(status, result, { {"Connection", "close"}, {"Content-Type", contentType} });
 }
 
-void UserApiUserResource::defaultSessionClose(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result)
+void UserResource::defaultSessionClose(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result)
 {
     session->close(status, result, { {"Connection", "close"} });
 }
 
-void UserApiUserResource::handler_POST_internal(const std::shared_ptr<restbed::Session> session)
+void UserResource::handler_POST_internal(const std::shared_ptr<restbed::Session> session)
 {
     const auto request = session->get_request();
     // body params or form params here from the body content string
@@ -163,14 +164,14 @@ void UserApiUserResource::handler_POST_internal(const std::shared_ptr<restbed::S
 }
 
 
-int UserApiUserResource::handler_POST(
+int UserResource::handler_POST(
         std::shared_ptr<User> const & user)
 {
-    throw UserApiException(501, "Not implemented");
+    return handler_POST_func(user);
 }
 
 
-std::string UserApiUserResource::extractBodyContent(const std::shared_ptr<restbed::Session>& session) {
+std::string UserResource::extractBodyContent(const std::shared_ptr<restbed::Session>& session) {
   const auto request = session->get_request();
   int content_length = request->get_header("Content-Length", 0);
   std::string bodyContent;
@@ -183,7 +184,7 @@ std::string UserApiUserResource::extractBodyContent(const std::shared_ptr<restbe
   return bodyContent;
 }
 
-std::string UserApiUserResource::extractFormParamsFromBody(const std::string& paramName, const std::string& body) {
+std::string UserResource::extractFormParamsFromBody(const std::string& paramName, const std::string& body) {
     const auto uri = restbed::Uri("urlencoded?" + body, true);
     const auto params = uri.get_query_parameters();
     const auto result = params.find(paramName);
@@ -192,49 +193,49 @@ std::string UserApiUserResource::extractFormParamsFromBody(const std::string& pa
     }
     return "";
 }
-UserApiUserCreateWithArrayResource::UserApiUserCreateWithArrayResource(const std::string& context /* = "/v2" */)
+UserCreateWithArrayResource::UserCreateWithArrayResource(const std::string& context /* = "/v2" */)
 {
 	this->set_path(context + "/user/createWithArray");
 	this->set_method_handler("POST",
-		std::bind(&UserApiUserCreateWithArrayResource::handler_POST_internal, this,
+		std::bind(&UserCreateWithArrayResource::handler_POST_internal, this,
 			std::placeholders::_1));
 }
 
-UserApiUserCreateWithArrayResource::~UserApiUserCreateWithArrayResource()
+UserCreateWithArrayResource::~UserCreateWithArrayResource()
 {
 }
 
-std::pair<int, std::string> UserApiUserCreateWithArrayResource::handleUserApiException(const UserApiException& e)
+std::pair<int, std::string> UserCreateWithArrayResource::handleUserApiException(const UserApiException& e)
 {
     return std::make_pair<int, std::string>(e.getStatus(), e.what());
 }
 
-std::pair<int, std::string> UserApiUserCreateWithArrayResource::handleStdException(const std::exception& e)
+std::pair<int, std::string> UserCreateWithArrayResource::handleStdException(const std::exception& e)
 {
     return std::make_pair<int, std::string>(500, e.what());
 }
 
-std::pair<int, std::string> UserApiUserCreateWithArrayResource::handleUnspecifiedException()
+std::pair<int, std::string> UserCreateWithArrayResource::handleUnspecifiedException()
 {
     return std::make_pair<int, std::string>(500, "Unknown exception occurred");
 }
 
-void UserApiUserCreateWithArrayResource::setResponseHeader(const std::shared_ptr<restbed::Session>& session, const std::string& header)
+void UserCreateWithArrayResource::setResponseHeader(const std::shared_ptr<restbed::Session>& session, const std::string& header)
 {
     session->set_header(header, "");
 }
 
-void UserApiUserCreateWithArrayResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, const std::string& contentType)
+void UserCreateWithArrayResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, const std::string& contentType)
 {
     session->close(status, result, { {"Connection", "close"}, {"Content-Type", contentType} });
 }
 
-void UserApiUserCreateWithArrayResource::defaultSessionClose(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result)
+void UserCreateWithArrayResource::defaultSessionClose(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result)
 {
     session->close(status, result, { {"Connection", "close"} });
 }
 
-void UserApiUserCreateWithArrayResource::handler_POST_internal(const std::shared_ptr<restbed::Session> session)
+void UserCreateWithArrayResource::handler_POST_internal(const std::shared_ptr<restbed::Session> session)
 {
     const auto request = session->get_request();
     // body params or form params here from the body content string
@@ -268,14 +269,14 @@ void UserApiUserCreateWithArrayResource::handler_POST_internal(const std::shared
 }
 
 
-int UserApiUserCreateWithArrayResource::handler_POST(
+int UserCreateWithArrayResource::handler_POST(
         std::vector<std::shared_ptr<User>> const & user)
 {
-    throw UserApiException(501, "Not implemented");
+    return handler_POST_func(user);
 }
 
 
-std::string UserApiUserCreateWithArrayResource::extractBodyContent(const std::shared_ptr<restbed::Session>& session) {
+std::string UserCreateWithArrayResource::extractBodyContent(const std::shared_ptr<restbed::Session>& session) {
   const auto request = session->get_request();
   int content_length = request->get_header("Content-Length", 0);
   std::string bodyContent;
@@ -288,7 +289,7 @@ std::string UserApiUserCreateWithArrayResource::extractBodyContent(const std::sh
   return bodyContent;
 }
 
-std::string UserApiUserCreateWithArrayResource::extractFormParamsFromBody(const std::string& paramName, const std::string& body) {
+std::string UserCreateWithArrayResource::extractFormParamsFromBody(const std::string& paramName, const std::string& body) {
     const auto uri = restbed::Uri("urlencoded?" + body, true);
     const auto params = uri.get_query_parameters();
     const auto result = params.find(paramName);
@@ -297,49 +298,49 @@ std::string UserApiUserCreateWithArrayResource::extractFormParamsFromBody(const 
     }
     return "";
 }
-UserApiUserCreateWithListResource::UserApiUserCreateWithListResource(const std::string& context /* = "/v2" */)
+UserCreateWithListResource::UserCreateWithListResource(const std::string& context /* = "/v2" */)
 {
 	this->set_path(context + "/user/createWithList");
 	this->set_method_handler("POST",
-		std::bind(&UserApiUserCreateWithListResource::handler_POST_internal, this,
+		std::bind(&UserCreateWithListResource::handler_POST_internal, this,
 			std::placeholders::_1));
 }
 
-UserApiUserCreateWithListResource::~UserApiUserCreateWithListResource()
+UserCreateWithListResource::~UserCreateWithListResource()
 {
 }
 
-std::pair<int, std::string> UserApiUserCreateWithListResource::handleUserApiException(const UserApiException& e)
+std::pair<int, std::string> UserCreateWithListResource::handleUserApiException(const UserApiException& e)
 {
     return std::make_pair<int, std::string>(e.getStatus(), e.what());
 }
 
-std::pair<int, std::string> UserApiUserCreateWithListResource::handleStdException(const std::exception& e)
+std::pair<int, std::string> UserCreateWithListResource::handleStdException(const std::exception& e)
 {
     return std::make_pair<int, std::string>(500, e.what());
 }
 
-std::pair<int, std::string> UserApiUserCreateWithListResource::handleUnspecifiedException()
+std::pair<int, std::string> UserCreateWithListResource::handleUnspecifiedException()
 {
     return std::make_pair<int, std::string>(500, "Unknown exception occurred");
 }
 
-void UserApiUserCreateWithListResource::setResponseHeader(const std::shared_ptr<restbed::Session>& session, const std::string& header)
+void UserCreateWithListResource::setResponseHeader(const std::shared_ptr<restbed::Session>& session, const std::string& header)
 {
     session->set_header(header, "");
 }
 
-void UserApiUserCreateWithListResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, const std::string& contentType)
+void UserCreateWithListResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, const std::string& contentType)
 {
     session->close(status, result, { {"Connection", "close"}, {"Content-Type", contentType} });
 }
 
-void UserApiUserCreateWithListResource::defaultSessionClose(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result)
+void UserCreateWithListResource::defaultSessionClose(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result)
 {
     session->close(status, result, { {"Connection", "close"} });
 }
 
-void UserApiUserCreateWithListResource::handler_POST_internal(const std::shared_ptr<restbed::Session> session)
+void UserCreateWithListResource::handler_POST_internal(const std::shared_ptr<restbed::Session> session)
 {
     const auto request = session->get_request();
     // body params or form params here from the body content string
@@ -373,14 +374,14 @@ void UserApiUserCreateWithListResource::handler_POST_internal(const std::shared_
 }
 
 
-int UserApiUserCreateWithListResource::handler_POST(
+int UserCreateWithListResource::handler_POST(
         std::vector<std::shared_ptr<User>> const & user)
 {
-    throw UserApiException(501, "Not implemented");
+    return handler_POST_func(user);
 }
 
 
-std::string UserApiUserCreateWithListResource::extractBodyContent(const std::shared_ptr<restbed::Session>& session) {
+std::string UserCreateWithListResource::extractBodyContent(const std::shared_ptr<restbed::Session>& session) {
   const auto request = session->get_request();
   int content_length = request->get_header("Content-Length", 0);
   std::string bodyContent;
@@ -393,7 +394,7 @@ std::string UserApiUserCreateWithListResource::extractBodyContent(const std::sha
   return bodyContent;
 }
 
-std::string UserApiUserCreateWithListResource::extractFormParamsFromBody(const std::string& paramName, const std::string& body) {
+std::string UserCreateWithListResource::extractFormParamsFromBody(const std::string& paramName, const std::string& body) {
     const auto uri = restbed::Uri("urlencoded?" + body, true);
     const auto params = uri.get_query_parameters();
     const auto result = params.find(paramName);
@@ -402,55 +403,55 @@ std::string UserApiUserCreateWithListResource::extractFormParamsFromBody(const s
     }
     return "";
 }
-UserApiUserUsernameResource::UserApiUserUsernameResource(const std::string& context /* = "/v2" */)
+UserUsernameResource::UserUsernameResource(const std::string& context /* = "/v2" */)
 {
 	this->set_path(context + "/user/{username: .*}");
 	this->set_method_handler("DELETE",
-		std::bind(&UserApiUserUsernameResource::handler_DELETE_internal, this,
+		std::bind(&UserUsernameResource::handler_DELETE_internal, this,
 			std::placeholders::_1));
 	this->set_method_handler("GET",
-		std::bind(&UserApiUserUsernameResource::handler_GET_internal, this,
+		std::bind(&UserUsernameResource::handler_GET_internal, this,
 			std::placeholders::_1));
 	this->set_method_handler("PUT",
-		std::bind(&UserApiUserUsernameResource::handler_PUT_internal, this,
+		std::bind(&UserUsernameResource::handler_PUT_internal, this,
 			std::placeholders::_1));
 }
 
-UserApiUserUsernameResource::~UserApiUserUsernameResource()
+UserUsernameResource::~UserUsernameResource()
 {
 }
 
-std::pair<int, std::string> UserApiUserUsernameResource::handleUserApiException(const UserApiException& e)
+std::pair<int, std::string> UserUsernameResource::handleUserApiException(const UserApiException& e)
 {
     return std::make_pair<int, std::string>(e.getStatus(), e.what());
 }
 
-std::pair<int, std::string> UserApiUserUsernameResource::handleStdException(const std::exception& e)
+std::pair<int, std::string> UserUsernameResource::handleStdException(const std::exception& e)
 {
     return std::make_pair<int, std::string>(500, e.what());
 }
 
-std::pair<int, std::string> UserApiUserUsernameResource::handleUnspecifiedException()
+std::pair<int, std::string> UserUsernameResource::handleUnspecifiedException()
 {
     return std::make_pair<int, std::string>(500, "Unknown exception occurred");
 }
 
-void UserApiUserUsernameResource::setResponseHeader(const std::shared_ptr<restbed::Session>& session, const std::string& header)
+void UserUsernameResource::setResponseHeader(const std::shared_ptr<restbed::Session>& session, const std::string& header)
 {
     session->set_header(header, "");
 }
 
-void UserApiUserUsernameResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, const std::string& contentType)
+void UserUsernameResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, const std::string& contentType)
 {
     session->close(status, result, { {"Connection", "close"}, {"Content-Type", contentType} });
 }
 
-void UserApiUserUsernameResource::defaultSessionClose(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result)
+void UserUsernameResource::defaultSessionClose(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result)
 {
     session->close(status, result, { {"Connection", "close"} });
 }
 
-void UserApiUserUsernameResource::handler_DELETE_internal(const std::shared_ptr<restbed::Session> session)
+void UserUsernameResource::handler_DELETE_internal(const std::shared_ptr<restbed::Session> session)
 {
     const auto request = session->get_request();
     // Getting the path params
@@ -489,7 +490,7 @@ void UserApiUserUsernameResource::handler_DELETE_internal(const std::shared_ptr<
 }
 
 // x-extension
-void UserApiUserUsernameResource::handler_GET_internal(const std::shared_ptr<restbed::Session> session) {
+void UserUsernameResource::handler_GET_internal(const std::shared_ptr<restbed::Session> session) {
     const auto request = session->get_request();
     // Getting the path params
     const std::string username = request->get_path_parameter("username", "");
@@ -534,7 +535,7 @@ void UserApiUserUsernameResource::handler_GET_internal(const std::shared_ptr<res
     defaultSessionClose(session, status_code, result);
 }
 // x-extension
-void UserApiUserUsernameResource::handler_PUT_internal(const std::shared_ptr<restbed::Session> session) {
+void UserUsernameResource::handler_PUT_internal(const std::shared_ptr<restbed::Session> session) {
     const auto request = session->get_request();
     // body params or form params here from the body content string
     std::string bodyContent = extractBodyContent(session);
@@ -574,24 +575,24 @@ void UserApiUserUsernameResource::handler_PUT_internal(const std::shared_ptr<res
     defaultSessionClose(session, status_code, result);
 }
 
-int UserApiUserUsernameResource::handler_DELETE(
+int UserUsernameResource::handler_DELETE(
         std::string const & username)
 {
-    throw UserApiException(501, "Not implemented");
+    return handler_DELETE_func(username);
 }
 
-std::pair<int, std::shared_ptr<User>> UserApiUserUsernameResource::handler_GET(
+std::pair<int, std::shared_ptr<User>> UserUsernameResource::handler_GET(
     std::string const & username)
 {
-    throw UserApiException(501, "Not implemented");
+    return handler_GET_func(username);
 }
-int UserApiUserUsernameResource::handler_PUT(
+int UserUsernameResource::handler_PUT(
     std::string const & username, std::shared_ptr<User> const & user)
 {
-    throw UserApiException(501, "Not implemented");
+    return handler_PUT_func(username, user);
 }
 
-std::string UserApiUserUsernameResource::extractBodyContent(const std::shared_ptr<restbed::Session>& session) {
+std::string UserUsernameResource::extractBodyContent(const std::shared_ptr<restbed::Session>& session) {
   const auto request = session->get_request();
   int content_length = request->get_header("Content-Length", 0);
   std::string bodyContent;
@@ -604,7 +605,7 @@ std::string UserApiUserUsernameResource::extractBodyContent(const std::shared_pt
   return bodyContent;
 }
 
-std::string UserApiUserUsernameResource::extractFormParamsFromBody(const std::string& paramName, const std::string& body) {
+std::string UserUsernameResource::extractFormParamsFromBody(const std::string& paramName, const std::string& body) {
     const auto uri = restbed::Uri("urlencoded?" + body, true);
     const auto params = uri.get_query_parameters();
     const auto result = params.find(paramName);
@@ -613,49 +614,49 @@ std::string UserApiUserUsernameResource::extractFormParamsFromBody(const std::st
     }
     return "";
 }
-UserApiUserLoginResource::UserApiUserLoginResource(const std::string& context /* = "/v2" */)
+UserLoginResource::UserLoginResource(const std::string& context /* = "/v2" */)
 {
 	this->set_path(context + "/user/login");
 	this->set_method_handler("GET",
-		std::bind(&UserApiUserLoginResource::handler_GET_internal, this,
+		std::bind(&UserLoginResource::handler_GET_internal, this,
 			std::placeholders::_1));
 }
 
-UserApiUserLoginResource::~UserApiUserLoginResource()
+UserLoginResource::~UserLoginResource()
 {
 }
 
-std::pair<int, std::string> UserApiUserLoginResource::handleUserApiException(const UserApiException& e)
+std::pair<int, std::string> UserLoginResource::handleUserApiException(const UserApiException& e)
 {
     return std::make_pair<int, std::string>(e.getStatus(), e.what());
 }
 
-std::pair<int, std::string> UserApiUserLoginResource::handleStdException(const std::exception& e)
+std::pair<int, std::string> UserLoginResource::handleStdException(const std::exception& e)
 {
     return std::make_pair<int, std::string>(500, e.what());
 }
 
-std::pair<int, std::string> UserApiUserLoginResource::handleUnspecifiedException()
+std::pair<int, std::string> UserLoginResource::handleUnspecifiedException()
 {
     return std::make_pair<int, std::string>(500, "Unknown exception occurred");
 }
 
-void UserApiUserLoginResource::setResponseHeader(const std::shared_ptr<restbed::Session>& session, const std::string& header)
+void UserLoginResource::setResponseHeader(const std::shared_ptr<restbed::Session>& session, const std::string& header)
 {
     session->set_header(header, "");
 }
 
-void UserApiUserLoginResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, const std::string& contentType)
+void UserLoginResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, const std::string& contentType)
 {
     session->close(status, result, { {"Connection", "close"}, {"Content-Type", contentType} });
 }
 
-void UserApiUserLoginResource::defaultSessionClose(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result)
+void UserLoginResource::defaultSessionClose(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result)
 {
     session->close(status, result, { {"Connection", "close"} });
 }
 
-void UserApiUserLoginResource::handler_GET_internal(const std::shared_ptr<restbed::Session> session)
+void UserLoginResource::handler_GET_internal(const std::shared_ptr<restbed::Session> session)
 {
     const auto request = session->get_request();
     // Getting the query params
@@ -703,14 +704,14 @@ void UserApiUserLoginResource::handler_GET_internal(const std::shared_ptr<restbe
 }
 
 
-std::pair<int, std::string> UserApiUserLoginResource::handler_GET(
+std::pair<int, std::string> UserLoginResource::handler_GET(
         std::string const & username, std::string const & password)
 {
-    throw UserApiException(501, "Not implemented");
+    return handler_GET_func(username, password);
 }
 
 
-std::string UserApiUserLoginResource::extractBodyContent(const std::shared_ptr<restbed::Session>& session) {
+std::string UserLoginResource::extractBodyContent(const std::shared_ptr<restbed::Session>& session) {
   const auto request = session->get_request();
   int content_length = request->get_header("Content-Length", 0);
   std::string bodyContent;
@@ -723,7 +724,7 @@ std::string UserApiUserLoginResource::extractBodyContent(const std::shared_ptr<r
   return bodyContent;
 }
 
-std::string UserApiUserLoginResource::extractFormParamsFromBody(const std::string& paramName, const std::string& body) {
+std::string UserLoginResource::extractFormParamsFromBody(const std::string& paramName, const std::string& body) {
     const auto uri = restbed::Uri("urlencoded?" + body, true);
     const auto params = uri.get_query_parameters();
     const auto result = params.find(paramName);
@@ -732,49 +733,49 @@ std::string UserApiUserLoginResource::extractFormParamsFromBody(const std::strin
     }
     return "";
 }
-UserApiUserLogoutResource::UserApiUserLogoutResource(const std::string& context /* = "/v2" */)
+UserLogoutResource::UserLogoutResource(const std::string& context /* = "/v2" */)
 {
 	this->set_path(context + "/user/logout");
 	this->set_method_handler("GET",
-		std::bind(&UserApiUserLogoutResource::handler_GET_internal, this,
+		std::bind(&UserLogoutResource::handler_GET_internal, this,
 			std::placeholders::_1));
 }
 
-UserApiUserLogoutResource::~UserApiUserLogoutResource()
+UserLogoutResource::~UserLogoutResource()
 {
 }
 
-std::pair<int, std::string> UserApiUserLogoutResource::handleUserApiException(const UserApiException& e)
+std::pair<int, std::string> UserLogoutResource::handleUserApiException(const UserApiException& e)
 {
     return std::make_pair<int, std::string>(e.getStatus(), e.what());
 }
 
-std::pair<int, std::string> UserApiUserLogoutResource::handleStdException(const std::exception& e)
+std::pair<int, std::string> UserLogoutResource::handleStdException(const std::exception& e)
 {
     return std::make_pair<int, std::string>(500, e.what());
 }
 
-std::pair<int, std::string> UserApiUserLogoutResource::handleUnspecifiedException()
+std::pair<int, std::string> UserLogoutResource::handleUnspecifiedException()
 {
     return std::make_pair<int, std::string>(500, "Unknown exception occurred");
 }
 
-void UserApiUserLogoutResource::setResponseHeader(const std::shared_ptr<restbed::Session>& session, const std::string& header)
+void UserLogoutResource::setResponseHeader(const std::shared_ptr<restbed::Session>& session, const std::string& header)
 {
     session->set_header(header, "");
 }
 
-void UserApiUserLogoutResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, const std::string& contentType)
+void UserLogoutResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, const std::string& contentType)
 {
     session->close(status, result, { {"Connection", "close"}, {"Content-Type", contentType} });
 }
 
-void UserApiUserLogoutResource::defaultSessionClose(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result)
+void UserLogoutResource::defaultSessionClose(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result)
 {
     session->close(status, result, { {"Connection", "close"} });
 }
 
-void UserApiUserLogoutResource::handler_GET_internal(const std::shared_ptr<restbed::Session> session)
+void UserLogoutResource::handler_GET_internal(const std::shared_ptr<restbed::Session> session)
 {
     const auto request = session->get_request();
     
@@ -805,14 +806,14 @@ void UserApiUserLogoutResource::handler_GET_internal(const std::shared_ptr<restb
 }
 
 
-int UserApiUserLogoutResource::handler_GET(
+int UserLogoutResource::handler_GET(
         )
 {
-    throw UserApiException(501, "Not implemented");
+    return handler_GET_func();
 }
 
 
-std::string UserApiUserLogoutResource::extractBodyContent(const std::shared_ptr<restbed::Session>& session) {
+std::string UserLogoutResource::extractBodyContent(const std::shared_ptr<restbed::Session>& session) {
   const auto request = session->get_request();
   int content_length = request->get_header("Content-Length", 0);
   std::string bodyContent;
@@ -825,7 +826,7 @@ std::string UserApiUserLogoutResource::extractBodyContent(const std::shared_ptr<
   return bodyContent;
 }
 
-std::string UserApiUserLogoutResource::extractFormParamsFromBody(const std::string& paramName, const std::string& body) {
+std::string UserLogoutResource::extractFormParamsFromBody(const std::string& paramName, const std::string& body) {
     const auto uri = restbed::Uri("urlencoded?" + body, true);
     const auto params = uri.get_query_parameters();
     const auto result = params.find(paramName);
@@ -835,6 +836,8 @@ std::string UserApiUserLogoutResource::extractFormParamsFromBody(const std::stri
     return "";
 }
 
+} /* namespace UserApiResources */
+
 UserApi::UserApi(std::shared_ptr<restbed::Service> const& restbedService)
 : m_service(restbedService)
 {
@@ -842,50 +845,110 @@ UserApi::UserApi(std::shared_ptr<restbed::Service> const& restbedService)
 
 UserApi::~UserApi() {}
 
-void UserApi::setUserApiUserResource(std::shared_ptr<UserApiUserResource> spUserApiUserResource) {
-    m_spUserApiUserResource = spUserApiUserResource;
-    m_service->publish(m_spUserApiUserResource);
+std::shared_ptr<UserApiResources::UserResource> UserApi::getUserResource() {
+    if (!m_spUserResource) {
+        setResource(std::make_shared<UserApiResources::UserResource>());
+    }
+    return m_spUserResource;
 }
-void UserApi::setUserApiUserCreateWithArrayResource(std::shared_ptr<UserApiUserCreateWithArrayResource> spUserApiUserCreateWithArrayResource) {
-    m_spUserApiUserCreateWithArrayResource = spUserApiUserCreateWithArrayResource;
-    m_service->publish(m_spUserApiUserCreateWithArrayResource);
+std::shared_ptr<UserApiResources::UserCreateWithArrayResource> UserApi::getUserCreateWithArrayResource() {
+    if (!m_spUserCreateWithArrayResource) {
+        setResource(std::make_shared<UserApiResources::UserCreateWithArrayResource>());
+    }
+    return m_spUserCreateWithArrayResource;
 }
-void UserApi::setUserApiUserCreateWithListResource(std::shared_ptr<UserApiUserCreateWithListResource> spUserApiUserCreateWithListResource) {
-    m_spUserApiUserCreateWithListResource = spUserApiUserCreateWithListResource;
-    m_service->publish(m_spUserApiUserCreateWithListResource);
+std::shared_ptr<UserApiResources::UserCreateWithListResource> UserApi::getUserCreateWithListResource() {
+    if (!m_spUserCreateWithListResource) {
+        setResource(std::make_shared<UserApiResources::UserCreateWithListResource>());
+    }
+    return m_spUserCreateWithListResource;
 }
-void UserApi::setUserApiUserUsernameResource(std::shared_ptr<UserApiUserUsernameResource> spUserApiUserUsernameResource) {
-    m_spUserApiUserUsernameResource = spUserApiUserUsernameResource;
-    m_service->publish(m_spUserApiUserUsernameResource);
+std::shared_ptr<UserApiResources::UserUsernameResource> UserApi::getUserUsernameResource() {
+    if (!m_spUserUsernameResource) {
+        setResource(std::make_shared<UserApiResources::UserUsernameResource>());
+    }
+    return m_spUserUsernameResource;
 }
-void UserApi::setUserApiUserLoginResource(std::shared_ptr<UserApiUserLoginResource> spUserApiUserLoginResource) {
-    m_spUserApiUserLoginResource = spUserApiUserLoginResource;
-    m_service->publish(m_spUserApiUserLoginResource);
+std::shared_ptr<UserApiResources::UserLoginResource> UserApi::getUserLoginResource() {
+    if (!m_spUserLoginResource) {
+        setResource(std::make_shared<UserApiResources::UserLoginResource>());
+    }
+    return m_spUserLoginResource;
 }
-void UserApi::setUserApiUserLogoutResource(std::shared_ptr<UserApiUserLogoutResource> spUserApiUserLogoutResource) {
-    m_spUserApiUserLogoutResource = spUserApiUserLogoutResource;
-    m_service->publish(m_spUserApiUserLogoutResource);
+std::shared_ptr<UserApiResources::UserLogoutResource> UserApi::getUserLogoutResource() {
+    if (!m_spUserLogoutResource) {
+        setResource(std::make_shared<UserApiResources::UserLogoutResource>());
+    }
+    return m_spUserLogoutResource;
+}
+void UserApi::setResource(std::shared_ptr<UserApiResources::UserResource> resource) {
+    m_spUserResource = resource;
+    m_service->publish(m_spUserResource);
+}
+void UserApi::setResource(std::shared_ptr<UserApiResources::UserCreateWithArrayResource> resource) {
+    m_spUserCreateWithArrayResource = resource;
+    m_service->publish(m_spUserCreateWithArrayResource);
+}
+void UserApi::setResource(std::shared_ptr<UserApiResources::UserCreateWithListResource> resource) {
+    m_spUserCreateWithListResource = resource;
+    m_service->publish(m_spUserCreateWithListResource);
+}
+void UserApi::setResource(std::shared_ptr<UserApiResources::UserUsernameResource> resource) {
+    m_spUserUsernameResource = resource;
+    m_service->publish(m_spUserUsernameResource);
+}
+void UserApi::setResource(std::shared_ptr<UserApiResources::UserLoginResource> resource) {
+    m_spUserLoginResource = resource;
+    m_service->publish(m_spUserLoginResource);
+}
+void UserApi::setResource(std::shared_ptr<UserApiResources::UserLogoutResource> resource) {
+    m_spUserLogoutResource = resource;
+    m_service->publish(m_spUserLogoutResource);
+}
+void UserApi::setUserApiUserResource(std::shared_ptr<UserApiResources::UserResource> spUserResource) {
+    m_spUserResource = spUserResource;
+    m_service->publish(m_spUserResource);
+}
+void UserApi::setUserApiUserCreateWithArrayResource(std::shared_ptr<UserApiResources::UserCreateWithArrayResource> spUserCreateWithArrayResource) {
+    m_spUserCreateWithArrayResource = spUserCreateWithArrayResource;
+    m_service->publish(m_spUserCreateWithArrayResource);
+}
+void UserApi::setUserApiUserCreateWithListResource(std::shared_ptr<UserApiResources::UserCreateWithListResource> spUserCreateWithListResource) {
+    m_spUserCreateWithListResource = spUserCreateWithListResource;
+    m_service->publish(m_spUserCreateWithListResource);
+}
+void UserApi::setUserApiUserUsernameResource(std::shared_ptr<UserApiResources::UserUsernameResource> spUserUsernameResource) {
+    m_spUserUsernameResource = spUserUsernameResource;
+    m_service->publish(m_spUserUsernameResource);
+}
+void UserApi::setUserApiUserLoginResource(std::shared_ptr<UserApiResources::UserLoginResource> spUserLoginResource) {
+    m_spUserLoginResource = spUserLoginResource;
+    m_service->publish(m_spUserLoginResource);
+}
+void UserApi::setUserApiUserLogoutResource(std::shared_ptr<UserApiResources::UserLogoutResource> spUserLogoutResource) {
+    m_spUserLogoutResource = spUserLogoutResource;
+    m_service->publish(m_spUserLogoutResource);
 }
 
 
 void UserApi::publishDefaultResources() {
-    if (!m_spUserApiUserResource) {
-        setUserApiUserResource(std::make_shared<UserApiUserResource>());
+    if (!m_spUserResource) {
+        setResource(std::make_shared<UserApiResources::UserResource>());
     }
-    if (!m_spUserApiUserCreateWithArrayResource) {
-        setUserApiUserCreateWithArrayResource(std::make_shared<UserApiUserCreateWithArrayResource>());
+    if (!m_spUserCreateWithArrayResource) {
+        setResource(std::make_shared<UserApiResources::UserCreateWithArrayResource>());
     }
-    if (!m_spUserApiUserCreateWithListResource) {
-        setUserApiUserCreateWithListResource(std::make_shared<UserApiUserCreateWithListResource>());
+    if (!m_spUserCreateWithListResource) {
+        setResource(std::make_shared<UserApiResources::UserCreateWithListResource>());
     }
-    if (!m_spUserApiUserUsernameResource) {
-        setUserApiUserUsernameResource(std::make_shared<UserApiUserUsernameResource>());
+    if (!m_spUserUsernameResource) {
+        setResource(std::make_shared<UserApiResources::UserUsernameResource>());
     }
-    if (!m_spUserApiUserLoginResource) {
-        setUserApiUserLoginResource(std::make_shared<UserApiUserLoginResource>());
+    if (!m_spUserLoginResource) {
+        setResource(std::make_shared<UserApiResources::UserLoginResource>());
     }
-    if (!m_spUserApiUserLogoutResource) {
-        setUserApiUserLogoutResource(std::make_shared<UserApiUserLogoutResource>());
+    if (!m_spUserLogoutResource) {
+        setResource(std::make_shared<UserApiResources::UserLogoutResource>());
     }
 }
 

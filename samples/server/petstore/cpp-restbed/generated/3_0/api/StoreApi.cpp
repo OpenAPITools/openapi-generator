@@ -87,52 +87,53 @@ std::string convertMapResponse(const std::map<KEY_T, VAL_T>& map)
     return result;
 }
 
-StoreApiStoreOrderOrderIdResource::StoreApiStoreOrderOrderIdResource(const std::string& context /* = "/v2" */)
+namespace StoreApiResources {
+StoreOrderOrderIdResource::StoreOrderOrderIdResource(const std::string& context /* = "/v2" */)
 {
 	this->set_path(context + "/store/order/{orderId: .*}");
 	this->set_method_handler("DELETE",
-		std::bind(&StoreApiStoreOrderOrderIdResource::handler_DELETE_internal, this,
+		std::bind(&StoreOrderOrderIdResource::handler_DELETE_internal, this,
 			std::placeholders::_1));
 	this->set_method_handler("GET",
-		std::bind(&StoreApiStoreOrderOrderIdResource::handler_GET_internal, this,
+		std::bind(&StoreOrderOrderIdResource::handler_GET_internal, this,
 			std::placeholders::_1));
 }
 
-StoreApiStoreOrderOrderIdResource::~StoreApiStoreOrderOrderIdResource()
+StoreOrderOrderIdResource::~StoreOrderOrderIdResource()
 {
 }
 
-std::pair<int, std::string> StoreApiStoreOrderOrderIdResource::handleStoreApiException(const StoreApiException& e)
+std::pair<int, std::string> StoreOrderOrderIdResource::handleStoreApiException(const StoreApiException& e)
 {
     return std::make_pair<int, std::string>(e.getStatus(), e.what());
 }
 
-std::pair<int, std::string> StoreApiStoreOrderOrderIdResource::handleStdException(const std::exception& e)
+std::pair<int, std::string> StoreOrderOrderIdResource::handleStdException(const std::exception& e)
 {
     return std::make_pair<int, std::string>(500, e.what());
 }
 
-std::pair<int, std::string> StoreApiStoreOrderOrderIdResource::handleUnspecifiedException()
+std::pair<int, std::string> StoreOrderOrderIdResource::handleUnspecifiedException()
 {
     return std::make_pair<int, std::string>(500, "Unknown exception occurred");
 }
 
-void StoreApiStoreOrderOrderIdResource::setResponseHeader(const std::shared_ptr<restbed::Session>& session, const std::string& header)
+void StoreOrderOrderIdResource::setResponseHeader(const std::shared_ptr<restbed::Session>& session, const std::string& header)
 {
     session->set_header(header, "");
 }
 
-void StoreApiStoreOrderOrderIdResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, const std::string& contentType)
+void StoreOrderOrderIdResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, const std::string& contentType)
 {
     session->close(status, result, { {"Connection", "close"}, {"Content-Type", contentType} });
 }
 
-void StoreApiStoreOrderOrderIdResource::defaultSessionClose(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result)
+void StoreOrderOrderIdResource::defaultSessionClose(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result)
 {
     session->close(status, result, { {"Connection", "close"} });
 }
 
-void StoreApiStoreOrderOrderIdResource::handler_DELETE_internal(const std::shared_ptr<restbed::Session> session)
+void StoreOrderOrderIdResource::handler_DELETE_internal(const std::shared_ptr<restbed::Session> session)
 {
     const auto request = session->get_request();
     // Getting the path params
@@ -171,7 +172,7 @@ void StoreApiStoreOrderOrderIdResource::handler_DELETE_internal(const std::share
 }
 
 // x-extension
-void StoreApiStoreOrderOrderIdResource::handler_GET_internal(const std::shared_ptr<restbed::Session> session) {
+void StoreOrderOrderIdResource::handler_GET_internal(const std::shared_ptr<restbed::Session> session) {
     const auto request = session->get_request();
     // Getting the path params
     const int64_t orderId = request->get_path_parameter("orderId", 0L);
@@ -216,19 +217,19 @@ void StoreApiStoreOrderOrderIdResource::handler_GET_internal(const std::shared_p
     defaultSessionClose(session, status_code, result);
 }
 
-int StoreApiStoreOrderOrderIdResource::handler_DELETE(
+int StoreOrderOrderIdResource::handler_DELETE(
         std::string const & orderId)
 {
-    throw StoreApiException(501, "Not implemented");
+    return handler_DELETE_func(orderId);
 }
 
-std::pair<int, std::shared_ptr<Order>> StoreApiStoreOrderOrderIdResource::handler_GET(
+std::pair<int, std::shared_ptr<Order>> StoreOrderOrderIdResource::handler_GET(
     int64_t const & orderId)
 {
-    throw StoreApiException(501, "Not implemented");
+    return handler_GET_func(orderId);
 }
 
-std::string StoreApiStoreOrderOrderIdResource::extractBodyContent(const std::shared_ptr<restbed::Session>& session) {
+std::string StoreOrderOrderIdResource::extractBodyContent(const std::shared_ptr<restbed::Session>& session) {
   const auto request = session->get_request();
   int content_length = request->get_header("Content-Length", 0);
   std::string bodyContent;
@@ -241,7 +242,7 @@ std::string StoreApiStoreOrderOrderIdResource::extractBodyContent(const std::sha
   return bodyContent;
 }
 
-std::string StoreApiStoreOrderOrderIdResource::extractFormParamsFromBody(const std::string& paramName, const std::string& body) {
+std::string StoreOrderOrderIdResource::extractFormParamsFromBody(const std::string& paramName, const std::string& body) {
     const auto uri = restbed::Uri("urlencoded?" + body, true);
     const auto params = uri.get_query_parameters();
     const auto result = params.find(paramName);
@@ -250,49 +251,49 @@ std::string StoreApiStoreOrderOrderIdResource::extractFormParamsFromBody(const s
     }
     return "";
 }
-StoreApiStoreInventoryResource::StoreApiStoreInventoryResource(const std::string& context /* = "/v2" */)
+StoreInventoryResource::StoreInventoryResource(const std::string& context /* = "/v2" */)
 {
 	this->set_path(context + "/store/inventory");
 	this->set_method_handler("GET",
-		std::bind(&StoreApiStoreInventoryResource::handler_GET_internal, this,
+		std::bind(&StoreInventoryResource::handler_GET_internal, this,
 			std::placeholders::_1));
 }
 
-StoreApiStoreInventoryResource::~StoreApiStoreInventoryResource()
+StoreInventoryResource::~StoreInventoryResource()
 {
 }
 
-std::pair<int, std::string> StoreApiStoreInventoryResource::handleStoreApiException(const StoreApiException& e)
+std::pair<int, std::string> StoreInventoryResource::handleStoreApiException(const StoreApiException& e)
 {
     return std::make_pair<int, std::string>(e.getStatus(), e.what());
 }
 
-std::pair<int, std::string> StoreApiStoreInventoryResource::handleStdException(const std::exception& e)
+std::pair<int, std::string> StoreInventoryResource::handleStdException(const std::exception& e)
 {
     return std::make_pair<int, std::string>(500, e.what());
 }
 
-std::pair<int, std::string> StoreApiStoreInventoryResource::handleUnspecifiedException()
+std::pair<int, std::string> StoreInventoryResource::handleUnspecifiedException()
 {
     return std::make_pair<int, std::string>(500, "Unknown exception occurred");
 }
 
-void StoreApiStoreInventoryResource::setResponseHeader(const std::shared_ptr<restbed::Session>& session, const std::string& header)
+void StoreInventoryResource::setResponseHeader(const std::shared_ptr<restbed::Session>& session, const std::string& header)
 {
     session->set_header(header, "");
 }
 
-void StoreApiStoreInventoryResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, const std::string& contentType)
+void StoreInventoryResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, const std::string& contentType)
 {
     session->close(status, result, { {"Connection", "close"}, {"Content-Type", contentType} });
 }
 
-void StoreApiStoreInventoryResource::defaultSessionClose(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result)
+void StoreInventoryResource::defaultSessionClose(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result)
 {
     session->close(status, result, { {"Connection", "close"} });
 }
 
-void StoreApiStoreInventoryResource::handler_GET_internal(const std::shared_ptr<restbed::Session> session)
+void StoreInventoryResource::handler_GET_internal(const std::shared_ptr<restbed::Session> session)
 {
     const auto request = session->get_request();
     
@@ -325,14 +326,14 @@ void StoreApiStoreInventoryResource::handler_GET_internal(const std::shared_ptr<
 }
 
 
-std::pair<int, std::map<std::string, int32_t>> StoreApiStoreInventoryResource::handler_GET(
+std::pair<int, std::map<std::string, int32_t>> StoreInventoryResource::handler_GET(
         )
 {
-    throw StoreApiException(501, "Not implemented");
+    return handler_GET_func();
 }
 
 
-std::string StoreApiStoreInventoryResource::extractBodyContent(const std::shared_ptr<restbed::Session>& session) {
+std::string StoreInventoryResource::extractBodyContent(const std::shared_ptr<restbed::Session>& session) {
   const auto request = session->get_request();
   int content_length = request->get_header("Content-Length", 0);
   std::string bodyContent;
@@ -345,7 +346,7 @@ std::string StoreApiStoreInventoryResource::extractBodyContent(const std::shared
   return bodyContent;
 }
 
-std::string StoreApiStoreInventoryResource::extractFormParamsFromBody(const std::string& paramName, const std::string& body) {
+std::string StoreInventoryResource::extractFormParamsFromBody(const std::string& paramName, const std::string& body) {
     const auto uri = restbed::Uri("urlencoded?" + body, true);
     const auto params = uri.get_query_parameters();
     const auto result = params.find(paramName);
@@ -354,49 +355,49 @@ std::string StoreApiStoreInventoryResource::extractFormParamsFromBody(const std:
     }
     return "";
 }
-StoreApiStoreOrderResource::StoreApiStoreOrderResource(const std::string& context /* = "/v2" */)
+StoreOrderResource::StoreOrderResource(const std::string& context /* = "/v2" */)
 {
 	this->set_path(context + "/store/order");
 	this->set_method_handler("POST",
-		std::bind(&StoreApiStoreOrderResource::handler_POST_internal, this,
+		std::bind(&StoreOrderResource::handler_POST_internal, this,
 			std::placeholders::_1));
 }
 
-StoreApiStoreOrderResource::~StoreApiStoreOrderResource()
+StoreOrderResource::~StoreOrderResource()
 {
 }
 
-std::pair<int, std::string> StoreApiStoreOrderResource::handleStoreApiException(const StoreApiException& e)
+std::pair<int, std::string> StoreOrderResource::handleStoreApiException(const StoreApiException& e)
 {
     return std::make_pair<int, std::string>(e.getStatus(), e.what());
 }
 
-std::pair<int, std::string> StoreApiStoreOrderResource::handleStdException(const std::exception& e)
+std::pair<int, std::string> StoreOrderResource::handleStdException(const std::exception& e)
 {
     return std::make_pair<int, std::string>(500, e.what());
 }
 
-std::pair<int, std::string> StoreApiStoreOrderResource::handleUnspecifiedException()
+std::pair<int, std::string> StoreOrderResource::handleUnspecifiedException()
 {
     return std::make_pair<int, std::string>(500, "Unknown exception occurred");
 }
 
-void StoreApiStoreOrderResource::setResponseHeader(const std::shared_ptr<restbed::Session>& session, const std::string& header)
+void StoreOrderResource::setResponseHeader(const std::shared_ptr<restbed::Session>& session, const std::string& header)
 {
     session->set_header(header, "");
 }
 
-void StoreApiStoreOrderResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, const std::string& contentType)
+void StoreOrderResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, const std::string& contentType)
 {
     session->close(status, result, { {"Connection", "close"}, {"Content-Type", contentType} });
 }
 
-void StoreApiStoreOrderResource::defaultSessionClose(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result)
+void StoreOrderResource::defaultSessionClose(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result)
 {
     session->close(status, result, { {"Connection", "close"} });
 }
 
-void StoreApiStoreOrderResource::handler_POST_internal(const std::shared_ptr<restbed::Session> session)
+void StoreOrderResource::handler_POST_internal(const std::shared_ptr<restbed::Session> session)
 {
     const auto request = session->get_request();
     // body params or form params here from the body content string
@@ -438,14 +439,14 @@ void StoreApiStoreOrderResource::handler_POST_internal(const std::shared_ptr<res
 }
 
 
-std::pair<int, std::shared_ptr<Order>> StoreApiStoreOrderResource::handler_POST(
+std::pair<int, std::shared_ptr<Order>> StoreOrderResource::handler_POST(
         std::shared_ptr<Order> const & order)
 {
-    throw StoreApiException(501, "Not implemented");
+    return handler_POST_func(order);
 }
 
 
-std::string StoreApiStoreOrderResource::extractBodyContent(const std::shared_ptr<restbed::Session>& session) {
+std::string StoreOrderResource::extractBodyContent(const std::shared_ptr<restbed::Session>& session) {
   const auto request = session->get_request();
   int content_length = request->get_header("Content-Length", 0);
   std::string bodyContent;
@@ -458,7 +459,7 @@ std::string StoreApiStoreOrderResource::extractBodyContent(const std::shared_ptr
   return bodyContent;
 }
 
-std::string StoreApiStoreOrderResource::extractFormParamsFromBody(const std::string& paramName, const std::string& body) {
+std::string StoreOrderResource::extractFormParamsFromBody(const std::string& paramName, const std::string& body) {
     const auto uri = restbed::Uri("urlencoded?" + body, true);
     const auto params = uri.get_query_parameters();
     const auto result = params.find(paramName);
@@ -468,6 +469,8 @@ std::string StoreApiStoreOrderResource::extractFormParamsFromBody(const std::str
     return "";
 }
 
+} /* namespace StoreApiResources */
+
 StoreApi::StoreApi(std::shared_ptr<restbed::Service> const& restbedService)
 : m_service(restbedService)
 {
@@ -475,29 +478,59 @@ StoreApi::StoreApi(std::shared_ptr<restbed::Service> const& restbedService)
 
 StoreApi::~StoreApi() {}
 
-void StoreApi::setStoreApiStoreOrderOrderIdResource(std::shared_ptr<StoreApiStoreOrderOrderIdResource> spStoreApiStoreOrderOrderIdResource) {
-    m_spStoreApiStoreOrderOrderIdResource = spStoreApiStoreOrderOrderIdResource;
-    m_service->publish(m_spStoreApiStoreOrderOrderIdResource);
+std::shared_ptr<StoreApiResources::StoreOrderOrderIdResource> StoreApi::getStoreOrderOrderIdResource() {
+    if (!m_spStoreOrderOrderIdResource) {
+        setResource(std::make_shared<StoreApiResources::StoreOrderOrderIdResource>());
+    }
+    return m_spStoreOrderOrderIdResource;
 }
-void StoreApi::setStoreApiStoreInventoryResource(std::shared_ptr<StoreApiStoreInventoryResource> spStoreApiStoreInventoryResource) {
-    m_spStoreApiStoreInventoryResource = spStoreApiStoreInventoryResource;
-    m_service->publish(m_spStoreApiStoreInventoryResource);
+std::shared_ptr<StoreApiResources::StoreInventoryResource> StoreApi::getStoreInventoryResource() {
+    if (!m_spStoreInventoryResource) {
+        setResource(std::make_shared<StoreApiResources::StoreInventoryResource>());
+    }
+    return m_spStoreInventoryResource;
 }
-void StoreApi::setStoreApiStoreOrderResource(std::shared_ptr<StoreApiStoreOrderResource> spStoreApiStoreOrderResource) {
-    m_spStoreApiStoreOrderResource = spStoreApiStoreOrderResource;
-    m_service->publish(m_spStoreApiStoreOrderResource);
+std::shared_ptr<StoreApiResources::StoreOrderResource> StoreApi::getStoreOrderResource() {
+    if (!m_spStoreOrderResource) {
+        setResource(std::make_shared<StoreApiResources::StoreOrderResource>());
+    }
+    return m_spStoreOrderResource;
+}
+void StoreApi::setResource(std::shared_ptr<StoreApiResources::StoreOrderOrderIdResource> resource) {
+    m_spStoreOrderOrderIdResource = resource;
+    m_service->publish(m_spStoreOrderOrderIdResource);
+}
+void StoreApi::setResource(std::shared_ptr<StoreApiResources::StoreInventoryResource> resource) {
+    m_spStoreInventoryResource = resource;
+    m_service->publish(m_spStoreInventoryResource);
+}
+void StoreApi::setResource(std::shared_ptr<StoreApiResources::StoreOrderResource> resource) {
+    m_spStoreOrderResource = resource;
+    m_service->publish(m_spStoreOrderResource);
+}
+void StoreApi::setStoreApiStoreOrderOrderIdResource(std::shared_ptr<StoreApiResources::StoreOrderOrderIdResource> spStoreOrderOrderIdResource) {
+    m_spStoreOrderOrderIdResource = spStoreOrderOrderIdResource;
+    m_service->publish(m_spStoreOrderOrderIdResource);
+}
+void StoreApi::setStoreApiStoreInventoryResource(std::shared_ptr<StoreApiResources::StoreInventoryResource> spStoreInventoryResource) {
+    m_spStoreInventoryResource = spStoreInventoryResource;
+    m_service->publish(m_spStoreInventoryResource);
+}
+void StoreApi::setStoreApiStoreOrderResource(std::shared_ptr<StoreApiResources::StoreOrderResource> spStoreOrderResource) {
+    m_spStoreOrderResource = spStoreOrderResource;
+    m_service->publish(m_spStoreOrderResource);
 }
 
 
 void StoreApi::publishDefaultResources() {
-    if (!m_spStoreApiStoreOrderOrderIdResource) {
-        setStoreApiStoreOrderOrderIdResource(std::make_shared<StoreApiStoreOrderOrderIdResource>());
+    if (!m_spStoreOrderOrderIdResource) {
+        setResource(std::make_shared<StoreApiResources::StoreOrderOrderIdResource>());
     }
-    if (!m_spStoreApiStoreInventoryResource) {
-        setStoreApiStoreInventoryResource(std::make_shared<StoreApiStoreInventoryResource>());
+    if (!m_spStoreInventoryResource) {
+        setResource(std::make_shared<StoreApiResources::StoreInventoryResource>());
     }
-    if (!m_spStoreApiStoreOrderResource) {
-        setStoreApiStoreOrderResource(std::make_shared<StoreApiStoreOrderResource>());
+    if (!m_spStoreOrderResource) {
+        setResource(std::make_shared<StoreApiResources::StoreOrderResource>());
     }
 }
 

@@ -3,6 +3,9 @@
 #include "api/UserApi.h"
 
 using namespace org::openapitools::server::api;
+using namespace org::openapitools::server::api::PetApiResources;
+using namespace org::openapitools::server::api::StoreApiResources;
+using namespace org::openapitools::server::api::UserApiResources;
 
 std::shared_ptr<Pet> createPetForTesting_1() {
   auto pet = std::make_shared<Pet>();
@@ -20,7 +23,7 @@ std::shared_ptr<Pet> createPetForTesting_2() {
   return pet;
 }
 
-class MyPetApiPetResource : public PetApiPetResource {
+class MyPetApiPetResource : public PetResource {
 public:
   std::pair<int, std::shared_ptr<Pet>>
   handler_POST(const std::shared_ptr<Pet> &Pet) override {
@@ -33,7 +36,7 @@ public:
   }
 };
 
-class MyPetApiPetPetIdResource : public PetApiPetPetIdResource {
+class MyPetApiPetPetIdResource : public PetPetIdResource {
 public:
   int handler_DELETE(const int64_t &petId,
                      const std::string &api_key) override {
@@ -48,7 +51,7 @@ public:
   }
 };
 
-class MyStoreApiStoreOrderOrderIdResource : public StoreApiStoreOrderOrderIdResource {
+class MyStoreApiStoreOrderOrderIdResource : public StoreOrderOrderIdResource {
 public:
   int handler_DELETE(const std::string &orderId) override {
     return 200;
@@ -68,7 +71,7 @@ public:
   }
 };
 
-class MyStoreApiStoreInventoryResource : public StoreApiStoreInventoryResource {
+class MyStoreApiStoreInventoryResource : public StoreInventoryResource {
 public:
   std::pair<int, std::map<std::string, int32_t>> handler_GET() override {
     std::map<std::string, int32_t> result {{"MyPet", 123}, {"OtherPet", 99}};
@@ -76,7 +79,7 @@ public:
   }
 };
 
-class MyStoreApiStoreOrderResource: public StoreApiStoreOrderResource {
+class MyStoreApiStoreOrderResource: public StoreOrderResource {
 public:
   std::pair<int, std::shared_ptr<Order>>
   handler_POST(const std::shared_ptr<Order> &order) override {
@@ -86,7 +89,7 @@ public:
   }
 };
 
-class MyUserApiUserResource : public UserApiUserResource {
+class MyUserApiUserResource : public UserResource {
 public:
   int handler_POST(const std::shared_ptr<User> &User) override {
     return 200;
@@ -94,21 +97,21 @@ public:
 };
 
 
-class MyUserApiUserCreateWithArrayResource : public UserApiUserCreateWithArrayResource {
+class MyUserApiUserCreateWithArrayResource : public UserCreateWithArrayResource {
 public:
   int handler_POST(const std::vector<std::shared_ptr<User>> &User) override {
     return 200;
   }
 };
 
-class MyUserApiUserCreateWithListResource : public UserApiUserCreateWithListResource {
+class MyUserApiUserCreateWithListResource : public UserCreateWithListResource {
 public:
   int handler_POST(const std::vector<std::shared_ptr<User>> &User) override {
     return 200;
   }
 };
 
-class MyUserApiUserLoginResource : public UserApiUserLoginResource {
+class MyUserApiUserLoginResource : public UserLoginResource {
 public:
   std::pair<int, std::string>
   handler_GET(const std::string &username,
@@ -117,7 +120,7 @@ public:
   }
 };
 
-class MyUserApiUserLogoutResource : public UserApiUserLogoutResource {
+class MyUserApiUserLogoutResource : public UserLogoutResource {
 public:
   int handler_GET() override {
     return 200;
@@ -128,20 +131,20 @@ int main() {
   const auto service = std::make_shared<restbed::Service>();
 
   auto petApi = PetApi(service);
-  petApi.setPetApiPetPetIdResource(std::make_shared<MyPetApiPetPetIdResource>());
-  petApi.setPetApiPetResource(std::make_shared<MyPetApiPetResource>());
+  petApi.setResource(std::make_shared<MyPetApiPetPetIdResource>());
+  petApi.setResource(std::make_shared<MyPetApiPetResource>());
 
   auto storeApi = StoreApi(service);
-  storeApi.setStoreApiStoreOrderOrderIdResource(std::make_shared<MyStoreApiStoreOrderOrderIdResource>());
-  storeApi.setStoreApiStoreInventoryResource(std::make_shared<MyStoreApiStoreInventoryResource>());
-  storeApi.setStoreApiStoreOrderResource(std::make_shared<MyStoreApiStoreOrderResource>());
+  storeApi.setResource(std::make_shared<MyStoreApiStoreOrderOrderIdResource>());
+  storeApi.setResource(std::make_shared<MyStoreApiStoreInventoryResource>());
+  storeApi.setResource(std::make_shared<MyStoreApiStoreOrderResource>());
 
   auto userApi = UserApi(service);
-  userApi.setUserApiUserResource(std::make_shared<MyUserApiUserResource>());
-  userApi.setUserApiUserCreateWithArrayResource(std::make_shared<MyUserApiUserCreateWithArrayResource>());
-  userApi.setUserApiUserCreateWithListResource(std::make_shared<MyUserApiUserCreateWithListResource>());
-  userApi.setUserApiUserLoginResource(std::make_shared<MyUserApiUserLoginResource>());
-  userApi.setUserApiUserLogoutResource(std::make_shared<MyUserApiUserLogoutResource>());
+  userApi.setResource(std::make_shared<MyUserApiUserResource>());
+  userApi.setResource(std::make_shared<MyUserApiUserCreateWithArrayResource>());
+  userApi.setResource(std::make_shared<MyUserApiUserCreateWithListResource>());
+  userApi.setResource(std::make_shared<MyUserApiUserLoginResource>());
+  userApi.setResource(std::make_shared<MyUserApiUserLogoutResource>());
 
   const auto settings = std::make_shared<restbed::Settings>();
   settings->set_port(1235);

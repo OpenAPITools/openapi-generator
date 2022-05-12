@@ -1,4 +1,4 @@
-    set(TARGET_NAME simple_server_stubs)
+set(TARGET_NAME simple_server_stubs)
 
 add_executable(${TARGET_NAME})
 

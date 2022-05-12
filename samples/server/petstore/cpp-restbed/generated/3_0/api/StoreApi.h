@@ -23,6 +23,7 @@
 #include <memory>
 #include <utility>
 #include <exception>
+#include <functional>
 
 #include <corvusoft/restbed/session.hpp>
 #include <corvusoft/restbed/resource.hpp>
@@ -57,21 +58,37 @@ private:
     std::string m_what;
 };
 
+namespace StoreApiResources {
 /// <summary>
 /// Delete purchase order by ID
 /// </summary>
 /// <remarks>
 /// For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
 /// </remarks>
-class  StoreApiStoreOrderOrderIdResource: public restbed::Resource
+class  StoreOrderOrderIdResource: public restbed::Resource
 {
 public:
-    StoreApiStoreOrderOrderIdResource(const std::string& context = "/v2");
-    virtual ~StoreApiStoreOrderOrderIdResource();
+    StoreOrderOrderIdResource(const std::string& context = "/v2");
+    virtual ~StoreOrderOrderIdResource();
+
+    /////////////////////////////////////////////////////
+    // Set these to implement the server functionality //
+    /////////////////////////////////////////////////////
+    std::function<int(
+        std::string const & orderId)> handler_DELETE_func =
+            [](std::string const &) -> int
+                { throw StoreApiException(501, "Not implemented"); };
+
+    std::function<std::pair<int, std::shared_ptr<Order>>(
+        int64_t const & orderId)> handler_GET_func =
+            [](int64_t const &) -> std::pair<int, std::shared_ptr<Order>>
+                { throw StoreApiException(501, "Not implemented"); };
+
 
 protected:
     //////////////////////////////////////////////////////////
-    // Override these to implement the server functionality //
+    // As an alternative to setting the `std::function`s    //
+    // override these to implement the server functionality //
     //////////////////////////////////////////////////////////
 
     virtual int handler_DELETE(
@@ -105,22 +122,31 @@ private:
     void handler_GET_internal(const std::shared_ptr<restbed::Session> session);
 };
 
-
 /// <summary>
 /// Returns pet inventories by status
 /// </summary>
 /// <remarks>
 /// Returns a map of status codes to quantities
 /// </remarks>
-class  StoreApiStoreInventoryResource: public restbed::Resource
+class  StoreInventoryResource: public restbed::Resource
 {
 public:
-    StoreApiStoreInventoryResource(const std::string& context = "/v2");
-    virtual ~StoreApiStoreInventoryResource();
+    StoreInventoryResource(const std::string& context = "/v2");
+    virtual ~StoreInventoryResource();
+
+    /////////////////////////////////////////////////////
+    // Set these to implement the server functionality //
+    /////////////////////////////////////////////////////
+    std::function<std::pair<int, std::map<std::string, int32_t>>(
+        )> handler_GET_func =
+            []() -> std::pair<int, std::map<std::string, int32_t>>
+                { throw StoreApiException(501, "Not implemented"); };
+
 
 protected:
     //////////////////////////////////////////////////////////
-    // Override these to implement the server functionality //
+    // As an alternative to setting the `std::function`s    //
+    // override these to implement the server functionality //
     //////////////////////////////////////////////////////////
 
     virtual std::pair<int, std::map<std::string, int32_t>> handler_GET(
@@ -151,22 +177,31 @@ private:
     void handler_GET_internal(const std::shared_ptr<restbed::Session> session);
 };
 
-
 /// <summary>
 /// Place an order for a pet
 /// </summary>
 /// <remarks>
 /// 
 /// </remarks>
-class  StoreApiStoreOrderResource: public restbed::Resource
+class  StoreOrderResource: public restbed::Resource
 {
 public:
-    StoreApiStoreOrderResource(const std::string& context = "/v2");
-    virtual ~StoreApiStoreOrderResource();
+    StoreOrderResource(const std::string& context = "/v2");
+    virtual ~StoreOrderResource();
+
+    /////////////////////////////////////////////////////
+    // Set these to implement the server functionality //
+    /////////////////////////////////////////////////////
+    std::function<std::pair<int, std::shared_ptr<Order>>(
+        std::shared_ptr<Order> const & order)> handler_POST_func =
+            [](std::shared_ptr<Order> const &) -> std::pair<int, std::shared_ptr<Order>>
+                { throw StoreApiException(501, "Not implemented"); };
+
 
 protected:
     //////////////////////////////////////////////////////////
-    // Override these to implement the server functionality //
+    // As an alternative to setting the `std::function`s    //
+    // override these to implement the server functionality //
     //////////////////////////////////////////////////////////
 
     virtual std::pair<int, std::shared_ptr<Order>> handler_POST(
@@ -197,7 +232,11 @@ private:
     void handler_POST_internal(const std::shared_ptr<restbed::Session> session);
 };
 
+} /* namespace StoreApiResources */
 
+using StoreApiStoreOrderOrderIdResource [[deprecated]] = StoreApiResources::StoreOrderOrderIdResource;
+using StoreApiStoreInventoryResource [[deprecated]] = StoreApiResources::StoreInventoryResource;
+using StoreApiStoreOrderResource [[deprecated]] = StoreApiResources::StoreOrderResource;
 
 //
 // The restbed service to actually implement the REST server
@@ -208,18 +247,28 @@ public:
     explicit StoreApi(std::shared_ptr<restbed::Service> const& restbedService);
 	virtual ~StoreApi();
 
-    virtual void setStoreApiStoreOrderOrderIdResource(std::shared_ptr<StoreApiStoreOrderOrderIdResource> spStoreApiStoreOrderOrderIdResource);
-    virtual void setStoreApiStoreInventoryResource(std::shared_ptr<StoreApiStoreInventoryResource> spStoreApiStoreInventoryResource);
-    virtual void setStoreApiStoreOrderResource(std::shared_ptr<StoreApiStoreOrderResource> spStoreApiStoreOrderResource);
+    std::shared_ptr<StoreApiResources::StoreOrderOrderIdResource> getStoreOrderOrderIdResource();
+    std::shared_ptr<StoreApiResources::StoreInventoryResource> getStoreInventoryResource();
+    std::shared_ptr<StoreApiResources::StoreOrderResource> getStoreOrderResource();
+
+    void setResource(std::shared_ptr<StoreApiResources::StoreOrderOrderIdResource> resource);
+    void setResource(std::shared_ptr<StoreApiResources::StoreInventoryResource> resource);
+    void setResource(std::shared_ptr<StoreApiResources::StoreOrderResource> resource);
+    [[deprecated("use setResource()")]]
+    virtual void setStoreApiStoreOrderOrderIdResource(std::shared_ptr<StoreApiResources::StoreOrderOrderIdResource> spStoreApiStoreOrderOrderIdResource);
+    [[deprecated("use setResource()")]]
+    virtual void setStoreApiStoreInventoryResource(std::shared_ptr<StoreApiResources::StoreInventoryResource> spStoreApiStoreInventoryResource);
+    [[deprecated("use setResource()")]]
+    virtual void setStoreApiStoreOrderResource(std::shared_ptr<StoreApiResources::StoreOrderResource> spStoreApiStoreOrderResource);
 
     virtual void publishDefaultResources();
 
     virtual std::shared_ptr<restbed::Service> service();
 
 protected:
-	std::shared_ptr<StoreApiStoreOrderOrderIdResource> m_spStoreApiStoreOrderOrderIdResource;
-	std::shared_ptr<StoreApiStoreInventoryResource> m_spStoreApiStoreInventoryResource;
-	std::shared_ptr<StoreApiStoreOrderResource> m_spStoreApiStoreOrderResource;
+	std::shared_ptr<StoreApiResources::StoreOrderOrderIdResource> m_spStoreOrderOrderIdResource;
+	std::shared_ptr<StoreApiResources::StoreInventoryResource> m_spStoreInventoryResource;
+	std::shared_ptr<StoreApiResources::StoreOrderResource> m_spStoreOrderResource;
 
 private:
     std::shared_ptr<restbed::Service> m_service;

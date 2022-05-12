@@ -23,6 +23,7 @@
 #include <memory>
 #include <utility>
 #include <exception>
+#include <functional>
 
 #include <corvusoft/restbed/session.hpp>
 #include <corvusoft/restbed/resource.hpp>
@@ -57,21 +58,32 @@ private:
     std::string m_what;
 };
 
+namespace UserApiResources {
 /// <summary>
 /// Create user
 /// </summary>
 /// <remarks>
 /// This can only be done by the logged in user.
 /// </remarks>
-class  UserApiUserResource: public restbed::Resource
+class  UserResource: public restbed::Resource
 {
 public:
-    UserApiUserResource(const std::string& context = "/v2");
-    virtual ~UserApiUserResource();
+    UserResource(const std::string& context = "/v2");
+    virtual ~UserResource();
+
+    /////////////////////////////////////////////////////
+    // Set these to implement the server functionality //
+    /////////////////////////////////////////////////////
+    std::function<int(
+        std::shared_ptr<User> const & user)> handler_POST_func =
+            [](std::shared_ptr<User> const &) -> int
+                { throw UserApiException(501, "Not implemented"); };
+
 
 protected:
     //////////////////////////////////////////////////////////
-    // Override these to implement the server functionality //
+    // As an alternative to setting the `std::function`s    //
+    // override these to implement the server functionality //
     //////////////////////////////////////////////////////////
 
     virtual int handler_POST(
@@ -102,22 +114,31 @@ private:
     void handler_POST_internal(const std::shared_ptr<restbed::Session> session);
 };
 
-
 /// <summary>
 /// Creates list of users with given input array
 /// </summary>
 /// <remarks>
 /// 
 /// </remarks>
-class  UserApiUserCreateWithArrayResource: public restbed::Resource
+class  UserCreateWithArrayResource: public restbed::Resource
 {
 public:
-    UserApiUserCreateWithArrayResource(const std::string& context = "/v2");
-    virtual ~UserApiUserCreateWithArrayResource();
+    UserCreateWithArrayResource(const std::string& context = "/v2");
+    virtual ~UserCreateWithArrayResource();
+
+    /////////////////////////////////////////////////////
+    // Set these to implement the server functionality //
+    /////////////////////////////////////////////////////
+    std::function<int(
+        std::vector<std::shared_ptr<User>> const & user)> handler_POST_func =
+            [](std::vector<std::shared_ptr<User>> const &) -> int
+                { throw UserApiException(501, "Not implemented"); };
+
 
 protected:
     //////////////////////////////////////////////////////////
-    // Override these to implement the server functionality //
+    // As an alternative to setting the `std::function`s    //
+    // override these to implement the server functionality //
     //////////////////////////////////////////////////////////
 
     virtual int handler_POST(
@@ -148,22 +169,31 @@ private:
     void handler_POST_internal(const std::shared_ptr<restbed::Session> session);
 };
 
-
 /// <summary>
 /// Creates list of users with given input array
 /// </summary>
 /// <remarks>
 /// 
 /// </remarks>
-class  UserApiUserCreateWithListResource: public restbed::Resource
+class  UserCreateWithListResource: public restbed::Resource
 {
 public:
-    UserApiUserCreateWithListResource(const std::string& context = "/v2");
-    virtual ~UserApiUserCreateWithListResource();
+    UserCreateWithListResource(const std::string& context = "/v2");
+    virtual ~UserCreateWithListResource();
+
+    /////////////////////////////////////////////////////
+    // Set these to implement the server functionality //
+    /////////////////////////////////////////////////////
+    std::function<int(
+        std::vector<std::shared_ptr<User>> const & user)> handler_POST_func =
+            [](std::vector<std::shared_ptr<User>> const &) -> int
+                { throw UserApiException(501, "Not implemented"); };
+
 
 protected:
     //////////////////////////////////////////////////////////
-    // Override these to implement the server functionality //
+    // As an alternative to setting the `std::function`s    //
+    // override these to implement the server functionality //
     //////////////////////////////////////////////////////////
 
     virtual int handler_POST(
@@ -193,7 +223,6 @@ protected:
 private:
     void handler_POST_internal(const std::shared_ptr<restbed::Session> session);
 };
-
 
 /// <summary>
 /// Delete user
@@ -201,15 +230,35 @@ private:
 /// <remarks>
 /// This can only be done by the logged in user.
 /// </remarks>
-class  UserApiUserUsernameResource: public restbed::Resource
+class  UserUsernameResource: public restbed::Resource
 {
 public:
-    UserApiUserUsernameResource(const std::string& context = "/v2");
-    virtual ~UserApiUserUsernameResource();
+    UserUsernameResource(const std::string& context = "/v2");
+    virtual ~UserUsernameResource();
+
+    /////////////////////////////////////////////////////
+    // Set these to implement the server functionality //
+    /////////////////////////////////////////////////////
+    std::function<int(
+        std::string const & username)> handler_DELETE_func =
+            [](std::string const &) -> int
+                { throw UserApiException(501, "Not implemented"); };
+
+    std::function<std::pair<int, std::shared_ptr<User>>(
+        std::string const & username)> handler_GET_func =
+            [](std::string const &) -> std::pair<int, std::shared_ptr<User>>
+                { throw UserApiException(501, "Not implemented"); };
+
+    std::function<int(
+        std::string const & username, std::shared_ptr<User> const & user)> handler_PUT_func =
+            [](std::string const &, std::shared_ptr<User> const &) -> int
+                { throw UserApiException(501, "Not implemented"); };
+
 
 protected:
     //////////////////////////////////////////////////////////
-    // Override these to implement the server functionality //
+    // As an alternative to setting the `std::function`s    //
+    // override these to implement the server functionality //
     //////////////////////////////////////////////////////////
 
     virtual int handler_DELETE(
@@ -246,22 +295,31 @@ private:
     void handler_PUT_internal(const std::shared_ptr<restbed::Session> session);
 };
 
-
 /// <summary>
 /// Logs user into the system
 /// </summary>
 /// <remarks>
 /// 
 /// </remarks>
-class  UserApiUserLoginResource: public restbed::Resource
+class  UserLoginResource: public restbed::Resource
 {
 public:
-    UserApiUserLoginResource(const std::string& context = "/v2");
-    virtual ~UserApiUserLoginResource();
+    UserLoginResource(const std::string& context = "/v2");
+    virtual ~UserLoginResource();
+
+    /////////////////////////////////////////////////////
+    // Set these to implement the server functionality //
+    /////////////////////////////////////////////////////
+    std::function<std::pair<int, std::string>(
+        std::string const & username, std::string const & password)> handler_GET_func =
+            [](std::string const &, std::string const &) -> std::pair<int, std::string>
+                { throw UserApiException(501, "Not implemented"); };
+
 
 protected:
     //////////////////////////////////////////////////////////
-    // Override these to implement the server functionality //
+    // As an alternative to setting the `std::function`s    //
+    // override these to implement the server functionality //
     //////////////////////////////////////////////////////////
 
     virtual std::pair<int, std::string> handler_GET(
@@ -292,22 +350,31 @@ private:
     void handler_GET_internal(const std::shared_ptr<restbed::Session> session);
 };
 
-
 /// <summary>
 /// Logs out current logged in user session
 /// </summary>
 /// <remarks>
 /// 
 /// </remarks>
-class  UserApiUserLogoutResource: public restbed::Resource
+class  UserLogoutResource: public restbed::Resource
 {
 public:
-    UserApiUserLogoutResource(const std::string& context = "/v2");
-    virtual ~UserApiUserLogoutResource();
+    UserLogoutResource(const std::string& context = "/v2");
+    virtual ~UserLogoutResource();
+
+    /////////////////////////////////////////////////////
+    // Set these to implement the server functionality //
+    /////////////////////////////////////////////////////
+    std::function<int(
+        )> handler_GET_func =
+            []() -> int
+                { throw UserApiException(501, "Not implemented"); };
+
 
 protected:
     //////////////////////////////////////////////////////////
-    // Override these to implement the server functionality //
+    // As an alternative to setting the `std::function`s    //
+    // override these to implement the server functionality //
     //////////////////////////////////////////////////////////
 
     virtual int handler_GET(
@@ -338,7 +405,14 @@ private:
     void handler_GET_internal(const std::shared_ptr<restbed::Session> session);
 };
 
+} /* namespace UserApiResources */
 
+using UserApiUserResource [[deprecated]] = UserApiResources::UserResource;
+using UserApiUserCreateWithArrayResource [[deprecated]] = UserApiResources::UserCreateWithArrayResource;
+using UserApiUserCreateWithListResource [[deprecated]] = UserApiResources::UserCreateWithListResource;
+using UserApiUserUsernameResource [[deprecated]] = UserApiResources::UserUsernameResource;
+using UserApiUserLoginResource [[deprecated]] = UserApiResources::UserLoginResource;
+using UserApiUserLogoutResource [[deprecated]] = UserApiResources::UserLogoutResource;
 
 //
 // The restbed service to actually implement the REST server
@@ -349,24 +423,43 @@ public:
     explicit UserApi(std::shared_ptr<restbed::Service> const& restbedService);
 	virtual ~UserApi();
 
-    virtual void setUserApiUserResource(std::shared_ptr<UserApiUserResource> spUserApiUserResource);
-    virtual void setUserApiUserCreateWithArrayResource(std::shared_ptr<UserApiUserCreateWithArrayResource> spUserApiUserCreateWithArrayResource);
-    virtual void setUserApiUserCreateWithListResource(std::shared_ptr<UserApiUserCreateWithListResource> spUserApiUserCreateWithListResource);
-    virtual void setUserApiUserUsernameResource(std::shared_ptr<UserApiUserUsernameResource> spUserApiUserUsernameResource);
-    virtual void setUserApiUserLoginResource(std::shared_ptr<UserApiUserLoginResource> spUserApiUserLoginResource);
-    virtual void setUserApiUserLogoutResource(std::shared_ptr<UserApiUserLogoutResource> spUserApiUserLogoutResource);
+    std::shared_ptr<UserApiResources::UserResource> getUserResource();
+    std::shared_ptr<UserApiResources::UserCreateWithArrayResource> getUserCreateWithArrayResource();
+    std::shared_ptr<UserApiResources::UserCreateWithListResource> getUserCreateWithListResource();
+    std::shared_ptr<UserApiResources::UserUsernameResource> getUserUsernameResource();
+    std::shared_ptr<UserApiResources::UserLoginResource> getUserLoginResource();
+    std::shared_ptr<UserApiResources::UserLogoutResource> getUserLogoutResource();
+
+    void setResource(std::shared_ptr<UserApiResources::UserResource> resource);
+    void setResource(std::shared_ptr<UserApiResources::UserCreateWithArrayResource> resource);
+    void setResource(std::shared_ptr<UserApiResources::UserCreateWithListResource> resource);
+    void setResource(std::shared_ptr<UserApiResources::UserUsernameResource> resource);
+    void setResource(std::shared_ptr<UserApiResources::UserLoginResource> resource);
+    void setResource(std::shared_ptr<UserApiResources::UserLogoutResource> resource);
+    [[deprecated("use setResource()")]]
+    virtual void setUserApiUserResource(std::shared_ptr<UserApiResources::UserResource> spUserApiUserResource);
+    [[deprecated("use setResource()")]]
+    virtual void setUserApiUserCreateWithArrayResource(std::shared_ptr<UserApiResources::UserCreateWithArrayResource> spUserApiUserCreateWithArrayResource);
+    [[deprecated("use setResource()")]]
+    virtual void setUserApiUserCreateWithListResource(std::shared_ptr<UserApiResources::UserCreateWithListResource> spUserApiUserCreateWithListResource);
+    [[deprecated("use setResource()")]]
+    virtual void setUserApiUserUsernameResource(std::shared_ptr<UserApiResources::UserUsernameResource> spUserApiUserUsernameResource);
+    [[deprecated("use setResource()")]]
+    virtual void setUserApiUserLoginResource(std::shared_ptr<UserApiResources::UserLoginResource> spUserApiUserLoginResource);
+    [[deprecated("use setResource()")]]
+    virtual void setUserApiUserLogoutResource(std::shared_ptr<UserApiResources::UserLogoutResource> spUserApiUserLogoutResource);
 
     virtual void publishDefaultResources();
 
     virtual std::shared_ptr<restbed::Service> service();
 
 protected:
-	std::shared_ptr<UserApiUserResource> m_spUserApiUserResource;
-	std::shared_ptr<UserApiUserCreateWithArrayResource> m_spUserApiUserCreateWithArrayResource;
-	std::shared_ptr<UserApiUserCreateWithListResource> m_spUserApiUserCreateWithListResource;
-	std::shared_ptr<UserApiUserUsernameResource> m_spUserApiUserUsernameResource;
-	std::shared_ptr<UserApiUserLoginResource> m_spUserApiUserLoginResource;
-	std::shared_ptr<UserApiUserLogoutResource> m_spUserApiUserLogoutResource;
+	std::shared_ptr<UserApiResources::UserResource> m_spUserResource;
+	std::shared_ptr<UserApiResources::UserCreateWithArrayResource> m_spUserCreateWithArrayResource;
+	std::shared_ptr<UserApiResources::UserCreateWithListResource> m_spUserCreateWithListResource;
+	std::shared_ptr<UserApiResources::UserUsernameResource> m_spUserUsernameResource;
+	std::shared_ptr<UserApiResources::UserLoginResource> m_spUserLoginResource;
+	std::shared_ptr<UserApiResources::UserLogoutResource> m_spUserLogoutResource;
 
 private:
     std::shared_ptr<restbed::Service> m_service;

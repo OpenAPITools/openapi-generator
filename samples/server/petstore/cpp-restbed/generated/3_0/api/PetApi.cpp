@@ -87,52 +87,53 @@ std::string convertMapResponse(const std::map<KEY_T, VAL_T>& map)
     return result;
 }
 
-PetApiPetResource::PetApiPetResource(const std::string& context /* = "/v2" */)
+namespace PetApiResources {
+PetResource::PetResource(const std::string& context /* = "/v2" */)
 {
 	this->set_path(context + "/pet");
 	this->set_method_handler("POST",
-		std::bind(&PetApiPetResource::handler_POST_internal, this,
+		std::bind(&PetResource::handler_POST_internal, this,
 			std::placeholders::_1));
 	this->set_method_handler("PUT",
-		std::bind(&PetApiPetResource::handler_PUT_internal, this,
+		std::bind(&PetResource::handler_PUT_internal, this,
 			std::placeholders::_1));
 }
 
-PetApiPetResource::~PetApiPetResource()
+PetResource::~PetResource()
 {
 }
 
-std::pair<int, std::string> PetApiPetResource::handlePetApiException(const PetApiException& e)
+std::pair<int, std::string> PetResource::handlePetApiException(const PetApiException& e)
 {
     return std::make_pair<int, std::string>(e.getStatus(), e.what());
 }
 
-std::pair<int, std::string> PetApiPetResource::handleStdException(const std::exception& e)
+std::pair<int, std::string> PetResource::handleStdException(const std::exception& e)
 {
     return std::make_pair<int, std::string>(500, e.what());
 }
 
-std::pair<int, std::string> PetApiPetResource::handleUnspecifiedException()
+std::pair<int, std::string> PetResource::handleUnspecifiedException()
 {
     return std::make_pair<int, std::string>(500, "Unknown exception occurred");
 }
 
-void PetApiPetResource::setResponseHeader(const std::shared_ptr<restbed::Session>& session, const std::string& header)
+void PetResource::setResponseHeader(const std::shared_ptr<restbed::Session>& session, const std::string& header)
 {
     session->set_header(header, "");
 }
 
-void PetApiPetResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, const std::string& contentType)
+void PetResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, const std::string& contentType)
 {
     session->close(status, result, { {"Connection", "close"}, {"Content-Type", contentType} });
 }
 
-void PetApiPetResource::defaultSessionClose(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result)
+void PetResource::defaultSessionClose(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result)
 {
     session->close(status, result, { {"Connection", "close"} });
 }
 
-void PetApiPetResource::handler_POST_internal(const std::shared_ptr<restbed::Session> session)
+void PetResource::handler_POST_internal(const std::shared_ptr<restbed::Session> session)
 {
     const auto request = session->get_request();
     // body params or form params here from the body content string
@@ -174,7 +175,7 @@ void PetApiPetResource::handler_POST_internal(const std::shared_ptr<restbed::Ses
 }
 
 // x-extension
-void PetApiPetResource::handler_PUT_internal(const std::shared_ptr<restbed::Session> session) {
+void PetResource::handler_PUT_internal(const std::shared_ptr<restbed::Session> session) {
     const auto request = session->get_request();
     // body params or form params here from the body content string
     std::string bodyContent = extractBodyContent(session);
@@ -226,19 +227,19 @@ void PetApiPetResource::handler_PUT_internal(const std::shared_ptr<restbed::Sess
     defaultSessionClose(session, status_code, result);
 }
 
-std::pair<int, std::shared_ptr<Pet>> PetApiPetResource::handler_POST(
+std::pair<int, std::shared_ptr<Pet>> PetResource::handler_POST(
         std::shared_ptr<Pet> const & pet)
 {
-    throw PetApiException(501, "Not implemented");
+    return handler_POST_func(pet);
 }
 
-std::pair<int, std::shared_ptr<Pet>> PetApiPetResource::handler_PUT(
+std::pair<int, std::shared_ptr<Pet>> PetResource::handler_PUT(
     std::shared_ptr<Pet> const & pet)
 {
-    throw PetApiException(501, "Not implemented");
+    return handler_PUT_func(pet);
 }
 
-std::string PetApiPetResource::extractBodyContent(const std::shared_ptr<restbed::Session>& session) {
+std::string PetResource::extractBodyContent(const std::shared_ptr<restbed::Session>& session) {
   const auto request = session->get_request();
   int content_length = request->get_header("Content-Length", 0);
   std::string bodyContent;
@@ -251,7 +252,7 @@ std::string PetApiPetResource::extractBodyContent(const std::shared_ptr<restbed:
   return bodyContent;
 }
 
-std::string PetApiPetResource::extractFormParamsFromBody(const std::string& paramName, const std::string& body) {
+std::string PetResource::extractFormParamsFromBody(const std::string& paramName, const std::string& body) {
     const auto uri = restbed::Uri("urlencoded?" + body, true);
     const auto params = uri.get_query_parameters();
     const auto result = params.find(paramName);
@@ -260,55 +261,55 @@ std::string PetApiPetResource::extractFormParamsFromBody(const std::string& para
     }
     return "";
 }
-PetApiPetPetIdResource::PetApiPetPetIdResource(const std::string& context /* = "/v2" */)
+PetPetIdResource::PetPetIdResource(const std::string& context /* = "/v2" */)
 {
 	this->set_path(context + "/pet/{petId: .*}");
 	this->set_method_handler("DELETE",
-		std::bind(&PetApiPetPetIdResource::handler_DELETE_internal, this,
+		std::bind(&PetPetIdResource::handler_DELETE_internal, this,
 			std::placeholders::_1));
 	this->set_method_handler("GET",
-		std::bind(&PetApiPetPetIdResource::handler_GET_internal, this,
+		std::bind(&PetPetIdResource::handler_GET_internal, this,
 			std::placeholders::_1));
 	this->set_method_handler("POST",
-		std::bind(&PetApiPetPetIdResource::handler_POST_internal, this,
+		std::bind(&PetPetIdResource::handler_POST_internal, this,
 			std::placeholders::_1));
 }
 
-PetApiPetPetIdResource::~PetApiPetPetIdResource()
+PetPetIdResource::~PetPetIdResource()
 {
 }
 
-std::pair<int, std::string> PetApiPetPetIdResource::handlePetApiException(const PetApiException& e)
+std::pair<int, std::string> PetPetIdResource::handlePetApiException(const PetApiException& e)
 {
     return std::make_pair<int, std::string>(e.getStatus(), e.what());
 }
 
-std::pair<int, std::string> PetApiPetPetIdResource::handleStdException(const std::exception& e)
+std::pair<int, std::string> PetPetIdResource::handleStdException(const std::exception& e)
 {
     return std::make_pair<int, std::string>(500, e.what());
 }
 
-std::pair<int, std::string> PetApiPetPetIdResource::handleUnspecifiedException()
+std::pair<int, std::string> PetPetIdResource::handleUnspecifiedException()
 {
     return std::make_pair<int, std::string>(500, "Unknown exception occurred");
 }
 
-void PetApiPetPetIdResource::setResponseHeader(const std::shared_ptr<restbed::Session>& session, const std::string& header)
+void PetPetIdResource::setResponseHeader(const std::shared_ptr<restbed::Session>& session, const std::string& header)
 {
     session->set_header(header, "");
 }
 
-void PetApiPetPetIdResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, const std::string& contentType)
+void PetPetIdResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, const std::string& contentType)
 {
     session->close(status, result, { {"Connection", "close"}, {"Content-Type", contentType} });
 }
 
-void PetApiPetPetIdResource::defaultSessionClose(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result)
+void PetPetIdResource::defaultSessionClose(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result)
 {
     session->close(status, result, { {"Connection", "close"} });
 }
 
-void PetApiPetPetIdResource::handler_DELETE_internal(const std::shared_ptr<restbed::Session> session)
+void PetPetIdResource::handler_DELETE_internal(const std::shared_ptr<restbed::Session> session)
 {
     const auto request = session->get_request();
     // Getting the path params
@@ -343,7 +344,7 @@ void PetApiPetPetIdResource::handler_DELETE_internal(const std::shared_ptr<restb
 }
 
 // x-extension
-void PetApiPetPetIdResource::handler_GET_internal(const std::shared_ptr<restbed::Session> session) {
+void PetPetIdResource::handler_GET_internal(const std::shared_ptr<restbed::Session> session) {
     const auto request = session->get_request();
     // Getting the path params
     const int64_t petId = request->get_path_parameter("petId", 0L);
@@ -388,7 +389,7 @@ void PetApiPetPetIdResource::handler_GET_internal(const std::shared_ptr<restbed:
     defaultSessionClose(session, status_code, result);
 }
 // x-extension
-void PetApiPetPetIdResource::handler_POST_internal(const std::shared_ptr<restbed::Session> session) {
+void PetPetIdResource::handler_POST_internal(const std::shared_ptr<restbed::Session> session) {
     const auto request = session->get_request();
     auto name = extractFormParamsFromBody("name", extractBodyContent(session));
     auto status = extractFormParamsFromBody("status", extractBodyContent(session));
@@ -421,24 +422,24 @@ void PetApiPetPetIdResource::handler_POST_internal(const std::shared_ptr<restbed
     defaultSessionClose(session, status_code, result);
 }
 
-int PetApiPetPetIdResource::handler_DELETE(
+int PetPetIdResource::handler_DELETE(
         int64_t const & petId, std::string const & apiKey)
 {
-    throw PetApiException(501, "Not implemented");
+    return handler_DELETE_func(petId, apiKey);
 }
 
-std::pair<int, std::shared_ptr<Pet>> PetApiPetPetIdResource::handler_GET(
+std::pair<int, std::shared_ptr<Pet>> PetPetIdResource::handler_GET(
     int64_t const & petId)
 {
-    throw PetApiException(501, "Not implemented");
+    return handler_GET_func(petId);
 }
-int PetApiPetPetIdResource::handler_POST(
+int PetPetIdResource::handler_POST(
     int64_t const & petId, std::string const & name, std::string const & status)
 {
-    throw PetApiException(501, "Not implemented");
+    return handler_POST_func(petId, name, status);
 }
 
-std::string PetApiPetPetIdResource::extractBodyContent(const std::shared_ptr<restbed::Session>& session) {
+std::string PetPetIdResource::extractBodyContent(const std::shared_ptr<restbed::Session>& session) {
   const auto request = session->get_request();
   int content_length = request->get_header("Content-Length", 0);
   std::string bodyContent;
@@ -451,7 +452,7 @@ std::string PetApiPetPetIdResource::extractBodyContent(const std::shared_ptr<res
   return bodyContent;
 }
 
-std::string PetApiPetPetIdResource::extractFormParamsFromBody(const std::string& paramName, const std::string& body) {
+std::string PetPetIdResource::extractFormParamsFromBody(const std::string& paramName, const std::string& body) {
     const auto uri = restbed::Uri("urlencoded?" + body, true);
     const auto params = uri.get_query_parameters();
     const auto result = params.find(paramName);
@@ -460,49 +461,49 @@ std::string PetApiPetPetIdResource::extractFormParamsFromBody(const std::string&
     }
     return "";
 }
-PetApiPetFindByStatusResource::PetApiPetFindByStatusResource(const std::string& context /* = "/v2" */)
+PetFindByStatusResource::PetFindByStatusResource(const std::string& context /* = "/v2" */)
 {
 	this->set_path(context + "/pet/findByStatus");
 	this->set_method_handler("GET",
-		std::bind(&PetApiPetFindByStatusResource::handler_GET_internal, this,
+		std::bind(&PetFindByStatusResource::handler_GET_internal, this,
 			std::placeholders::_1));
 }
 
-PetApiPetFindByStatusResource::~PetApiPetFindByStatusResource()
+PetFindByStatusResource::~PetFindByStatusResource()
 {
 }
 
-std::pair<int, std::string> PetApiPetFindByStatusResource::handlePetApiException(const PetApiException& e)
+std::pair<int, std::string> PetFindByStatusResource::handlePetApiException(const PetApiException& e)
 {
     return std::make_pair<int, std::string>(e.getStatus(), e.what());
 }
 
-std::pair<int, std::string> PetApiPetFindByStatusResource::handleStdException(const std::exception& e)
+std::pair<int, std::string> PetFindByStatusResource::handleStdException(const std::exception& e)
 {
     return std::make_pair<int, std::string>(500, e.what());
 }
 
-std::pair<int, std::string> PetApiPetFindByStatusResource::handleUnspecifiedException()
+std::pair<int, std::string> PetFindByStatusResource::handleUnspecifiedException()
 {
     return std::make_pair<int, std::string>(500, "Unknown exception occurred");
 }
 
-void PetApiPetFindByStatusResource::setResponseHeader(const std::shared_ptr<restbed::Session>& session, const std::string& header)
+void PetFindByStatusResource::setResponseHeader(const std::shared_ptr<restbed::Session>& session, const std::string& header)
 {
     session->set_header(header, "");
 }
 
-void PetApiPetFindByStatusResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, const std::string& contentType)
+void PetFindByStatusResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, const std::string& contentType)
 {
     session->close(status, result, { {"Connection", "close"}, {"Content-Type", contentType} });
 }
 
-void PetApiPetFindByStatusResource::defaultSessionClose(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result)
+void PetFindByStatusResource::defaultSessionClose(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result)
 {
     session->close(status, result, { {"Connection", "close"} });
 }
 
-void PetApiPetFindByStatusResource::handler_GET_internal(const std::shared_ptr<restbed::Session> session)
+void PetFindByStatusResource::handler_GET_internal(const std::shared_ptr<restbed::Session> session)
 {
     const auto request = session->get_request();
     // Getting the query params
@@ -544,14 +545,14 @@ void PetApiPetFindByStatusResource::handler_GET_internal(const std::shared_ptr<r
 }
 
 
-std::pair<int, std::vector<std::shared_ptr<Pet>>> PetApiPetFindByStatusResource::handler_GET(
+std::pair<int, std::vector<std::shared_ptr<Pet>>> PetFindByStatusResource::handler_GET(
         std::vector<std::string> const & status)
 {
-    throw PetApiException(501, "Not implemented");
+    return handler_GET_func(status);
 }
 
 
-std::string PetApiPetFindByStatusResource::extractBodyContent(const std::shared_ptr<restbed::Session>& session) {
+std::string PetFindByStatusResource::extractBodyContent(const std::shared_ptr<restbed::Session>& session) {
   const auto request = session->get_request();
   int content_length = request->get_header("Content-Length", 0);
   std::string bodyContent;
@@ -564,7 +565,7 @@ std::string PetApiPetFindByStatusResource::extractBodyContent(const std::shared_
   return bodyContent;
 }
 
-std::string PetApiPetFindByStatusResource::extractFormParamsFromBody(const std::string& paramName, const std::string& body) {
+std::string PetFindByStatusResource::extractFormParamsFromBody(const std::string& paramName, const std::string& body) {
     const auto uri = restbed::Uri("urlencoded?" + body, true);
     const auto params = uri.get_query_parameters();
     const auto result = params.find(paramName);
@@ -573,49 +574,49 @@ std::string PetApiPetFindByStatusResource::extractFormParamsFromBody(const std::
     }
     return "";
 }
-PetApiPetFindByTagsResource::PetApiPetFindByTagsResource(const std::string& context /* = "/v2" */)
+PetFindByTagsResource::PetFindByTagsResource(const std::string& context /* = "/v2" */)
 {
 	this->set_path(context + "/pet/findByTags");
 	this->set_method_handler("GET",
-		std::bind(&PetApiPetFindByTagsResource::handler_GET_internal, this,
+		std::bind(&PetFindByTagsResource::handler_GET_internal, this,
 			std::placeholders::_1));
 }
 
-PetApiPetFindByTagsResource::~PetApiPetFindByTagsResource()
+PetFindByTagsResource::~PetFindByTagsResource()
 {
 }
 
-std::pair<int, std::string> PetApiPetFindByTagsResource::handlePetApiException(const PetApiException& e)
+std::pair<int, std::string> PetFindByTagsResource::handlePetApiException(const PetApiException& e)
 {
     return std::make_pair<int, std::string>(e.getStatus(), e.what());
 }
 
-std::pair<int, std::string> PetApiPetFindByTagsResource::handleStdException(const std::exception& e)
+std::pair<int, std::string> PetFindByTagsResource::handleStdException(const std::exception& e)
 {
     return std::make_pair<int, std::string>(500, e.what());
 }
 
-std::pair<int, std::string> PetApiPetFindByTagsResource::handleUnspecifiedException()
+std::pair<int, std::string> PetFindByTagsResource::handleUnspecifiedException()
 {
     return std::make_pair<int, std::string>(500, "Unknown exception occurred");
 }
 
-void PetApiPetFindByTagsResource::setResponseHeader(const std::shared_ptr<restbed::Session>& session, const std::string& header)
+void PetFindByTagsResource::setResponseHeader(const std::shared_ptr<restbed::Session>& session, const std::string& header)
 {
     session->set_header(header, "");
 }
 
-void PetApiPetFindByTagsResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, const std::string& contentType)
+void PetFindByTagsResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, const std::string& contentType)
 {
     session->close(status, result, { {"Connection", "close"}, {"Content-Type", contentType} });
 }
 
-void PetApiPetFindByTagsResource::defaultSessionClose(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result)
+void PetFindByTagsResource::defaultSessionClose(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result)
 {
     session->close(status, result, { {"Connection", "close"} });
 }
 
-void PetApiPetFindByTagsResource::handler_GET_internal(const std::shared_ptr<restbed::Session> session)
+void PetFindByTagsResource::handler_GET_internal(const std::shared_ptr<restbed::Session> session)
 {
     const auto request = session->get_request();
     // Getting the query params
@@ -657,14 +658,14 @@ void PetApiPetFindByTagsResource::handler_GET_internal(const std::shared_ptr<res
 }
 
 
-std::pair<int, std::vector<std::shared_ptr<Pet>>> PetApiPetFindByTagsResource::handler_GET(
+std::pair<int, std::vector<std::shared_ptr<Pet>>> PetFindByTagsResource::handler_GET(
         std::vector<std::string> const & tags)
 {
-    throw PetApiException(501, "Not implemented");
+    return handler_GET_func(tags);
 }
 
 
-std::string PetApiPetFindByTagsResource::extractBodyContent(const std::shared_ptr<restbed::Session>& session) {
+std::string PetFindByTagsResource::extractBodyContent(const std::shared_ptr<restbed::Session>& session) {
   const auto request = session->get_request();
   int content_length = request->get_header("Content-Length", 0);
   std::string bodyContent;
@@ -677,7 +678,7 @@ std::string PetApiPetFindByTagsResource::extractBodyContent(const std::shared_pt
   return bodyContent;
 }
 
-std::string PetApiPetFindByTagsResource::extractFormParamsFromBody(const std::string& paramName, const std::string& body) {
+std::string PetFindByTagsResource::extractFormParamsFromBody(const std::string& paramName, const std::string& body) {
     const auto uri = restbed::Uri("urlencoded?" + body, true);
     const auto params = uri.get_query_parameters();
     const auto result = params.find(paramName);
@@ -686,49 +687,49 @@ std::string PetApiPetFindByTagsResource::extractFormParamsFromBody(const std::st
     }
     return "";
 }
-PetApiPetPetIdUploadImageResource::PetApiPetPetIdUploadImageResource(const std::string& context /* = "/v2" */)
+PetPetIdUploadImageResource::PetPetIdUploadImageResource(const std::string& context /* = "/v2" */)
 {
 	this->set_path(context + "/pet/{petId: .*}/uploadImage");
 	this->set_method_handler("POST",
-		std::bind(&PetApiPetPetIdUploadImageResource::handler_POST_internal, this,
+		std::bind(&PetPetIdUploadImageResource::handler_POST_internal, this,
 			std::placeholders::_1));
 }
 
-PetApiPetPetIdUploadImageResource::~PetApiPetPetIdUploadImageResource()
+PetPetIdUploadImageResource::~PetPetIdUploadImageResource()
 {
 }
 
-std::pair<int, std::string> PetApiPetPetIdUploadImageResource::handlePetApiException(const PetApiException& e)
+std::pair<int, std::string> PetPetIdUploadImageResource::handlePetApiException(const PetApiException& e)
 {
     return std::make_pair<int, std::string>(e.getStatus(), e.what());
 }
 
-std::pair<int, std::string> PetApiPetPetIdUploadImageResource::handleStdException(const std::exception& e)
+std::pair<int, std::string> PetPetIdUploadImageResource::handleStdException(const std::exception& e)
 {
     return std::make_pair<int, std::string>(500, e.what());
 }
 
-std::pair<int, std::string> PetApiPetPetIdUploadImageResource::handleUnspecifiedException()
+std::pair<int, std::string> PetPetIdUploadImageResource::handleUnspecifiedException()
 {
     return std::make_pair<int, std::string>(500, "Unknown exception occurred");
 }
 
-void PetApiPetPetIdUploadImageResource::setResponseHeader(const std::shared_ptr<restbed::Session>& session, const std::string& header)
+void PetPetIdUploadImageResource::setResponseHeader(const std::shared_ptr<restbed::Session>& session, const std::string& header)
 {
     session->set_header(header, "");
 }
 
-void PetApiPetPetIdUploadImageResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, const std::string& contentType)
+void PetPetIdUploadImageResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, const std::string& contentType)
 {
     session->close(status, result, { {"Connection", "close"}, {"Content-Type", contentType} });
 }
 
-void PetApiPetPetIdUploadImageResource::defaultSessionClose(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result)
+void PetPetIdUploadImageResource::defaultSessionClose(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result)
 {
     session->close(status, result, { {"Connection", "close"} });
 }
 
-void PetApiPetPetIdUploadImageResource::handler_POST_internal(const std::shared_ptr<restbed::Session> session)
+void PetPetIdUploadImageResource::handler_POST_internal(const std::shared_ptr<restbed::Session> session)
 {
     const auto request = session->get_request();
     auto additionalMetadata = extractFormParamsFromBody("additionalMetadata", extractBodyContent(session));
@@ -765,14 +766,14 @@ void PetApiPetPetIdUploadImageResource::handler_POST_internal(const std::shared_
 }
 
 
-std::pair<int, std::shared_ptr<ApiResponse>> PetApiPetPetIdUploadImageResource::handler_POST(
+std::pair<int, std::shared_ptr<ApiResponse>> PetPetIdUploadImageResource::handler_POST(
         int64_t const & petId, std::string const & additionalMetadata, std::string const & file)
 {
-    throw PetApiException(501, "Not implemented");
+    return handler_POST_func(petId, additionalMetadata, file);
 }
 
 
-std::string PetApiPetPetIdUploadImageResource::extractBodyContent(const std::shared_ptr<restbed::Session>& session) {
+std::string PetPetIdUploadImageResource::extractBodyContent(const std::shared_ptr<restbed::Session>& session) {
   const auto request = session->get_request();
   int content_length = request->get_header("Content-Length", 0);
   std::string bodyContent;
@@ -785,7 +786,7 @@ std::string PetApiPetPetIdUploadImageResource::extractBodyContent(const std::sha
   return bodyContent;
 }
 
-std::string PetApiPetPetIdUploadImageResource::extractFormParamsFromBody(const std::string& paramName, const std::string& body) {
+std::string PetPetIdUploadImageResource::extractFormParamsFromBody(const std::string& paramName, const std::string& body) {
     const auto uri = restbed::Uri("urlencoded?" + body, true);
     const auto params = uri.get_query_parameters();
     const auto result = params.find(paramName);
@@ -795,6 +796,8 @@ std::string PetApiPetPetIdUploadImageResource::extractFormParamsFromBody(const s
     return "";
 }
 
+} /* namespace PetApiResources */
+
 PetApi::PetApi(std::shared_ptr<restbed::Service> const& restbedService)
 : m_service(restbedService)
 {
@@ -802,43 +805,93 @@ PetApi::PetApi(std::shared_ptr<restbed::Service> const& restbedService)
 
 PetApi::~PetApi() {}
 
-void PetApi::setPetApiPetResource(std::shared_ptr<PetApiPetResource> spPetApiPetResource) {
-    m_spPetApiPetResource = spPetApiPetResource;
-    m_service->publish(m_spPetApiPetResource);
+std::shared_ptr<PetApiResources::PetResource> PetApi::getPetResource() {
+    if (!m_spPetResource) {
+        setResource(std::make_shared<PetApiResources::PetResource>());
+    }
+    return m_spPetResource;
 }
-void PetApi::setPetApiPetPetIdResource(std::shared_ptr<PetApiPetPetIdResource> spPetApiPetPetIdResource) {
-    m_spPetApiPetPetIdResource = spPetApiPetPetIdResource;
-    m_service->publish(m_spPetApiPetPetIdResource);
+std::shared_ptr<PetApiResources::PetPetIdResource> PetApi::getPetPetIdResource() {
+    if (!m_spPetPetIdResource) {
+        setResource(std::make_shared<PetApiResources::PetPetIdResource>());
+    }
+    return m_spPetPetIdResource;
 }
-void PetApi::setPetApiPetFindByStatusResource(std::shared_ptr<PetApiPetFindByStatusResource> spPetApiPetFindByStatusResource) {
-    m_spPetApiPetFindByStatusResource = spPetApiPetFindByStatusResource;
-    m_service->publish(m_spPetApiPetFindByStatusResource);
+std::shared_ptr<PetApiResources::PetFindByStatusResource> PetApi::getPetFindByStatusResource() {
+    if (!m_spPetFindByStatusResource) {
+        setResource(std::make_shared<PetApiResources::PetFindByStatusResource>());
+    }
+    return m_spPetFindByStatusResource;
 }
-void PetApi::setPetApiPetFindByTagsResource(std::shared_ptr<PetApiPetFindByTagsResource> spPetApiPetFindByTagsResource) {
-    m_spPetApiPetFindByTagsResource = spPetApiPetFindByTagsResource;
-    m_service->publish(m_spPetApiPetFindByTagsResource);
+std::shared_ptr<PetApiResources::PetFindByTagsResource> PetApi::getPetFindByTagsResource() {
+    if (!m_spPetFindByTagsResource) {
+        setResource(std::make_shared<PetApiResources::PetFindByTagsResource>());
+    }
+    return m_spPetFindByTagsResource;
 }
-void PetApi::setPetApiPetPetIdUploadImageResource(std::shared_ptr<PetApiPetPetIdUploadImageResource> spPetApiPetPetIdUploadImageResource) {
-    m_spPetApiPetPetIdUploadImageResource = spPetApiPetPetIdUploadImageResource;
-    m_service->publish(m_spPetApiPetPetIdUploadImageResource);
+std::shared_ptr<PetApiResources::PetPetIdUploadImageResource> PetApi::getPetPetIdUploadImageResource() {
+    if (!m_spPetPetIdUploadImageResource) {
+        setResource(std::make_shared<PetApiResources::PetPetIdUploadImageResource>());
+    }
+    return m_spPetPetIdUploadImageResource;
+}
+void PetApi::setResource(std::shared_ptr<PetApiResources::PetResource> resource) {
+    m_spPetResource = resource;
+    m_service->publish(m_spPetResource);
+}
+void PetApi::setResource(std::shared_ptr<PetApiResources::PetPetIdResource> resource) {
+    m_spPetPetIdResource = resource;
+    m_service->publish(m_spPetPetIdResource);
+}
+void PetApi::setResource(std::shared_ptr<PetApiResources::PetFindByStatusResource> resource) {
+    m_spPetFindByStatusResource = resource;
+    m_service->publish(m_spPetFindByStatusResource);
+}
+void PetApi::setResource(std::shared_ptr<PetApiResources::PetFindByTagsResource> resource) {
+    m_spPetFindByTagsResource = resource;
+    m_service->publish(m_spPetFindByTagsResource);
+}
+void PetApi::setResource(std::shared_ptr<PetApiResources::PetPetIdUploadImageResource> resource) {
+    m_spPetPetIdUploadImageResource = resource;
+    m_service->publish(m_spPetPetIdUploadImageResource);
+}
+void PetApi::setPetApiPetResource(std::shared_ptr<PetApiResources::PetResource> spPetResource) {
+    m_spPetResource = spPetResource;
+    m_service->publish(m_spPetResource);
+}
+void PetApi::setPetApiPetPetIdResource(std::shared_ptr<PetApiResources::PetPetIdResource> spPetPetIdResource) {
+    m_spPetPetIdResource = spPetPetIdResource;
+    m_service->publish(m_spPetPetIdResource);
+}
+void PetApi::setPetApiPetFindByStatusResource(std::shared_ptr<PetApiResources::PetFindByStatusResource> spPetFindByStatusResource) {
+    m_spPetFindByStatusResource = spPetFindByStatusResource;
+    m_service->publish(m_spPetFindByStatusResource);
+}
+void PetApi::setPetApiPetFindByTagsResource(std::shared_ptr<PetApiResources::PetFindByTagsResource> spPetFindByTagsResource) {
+    m_spPetFindByTagsResource = spPetFindByTagsResource;
+    m_service->publish(m_spPetFindByTagsResource);
+}
+void PetApi::setPetApiPetPetIdUploadImageResource(std::shared_ptr<PetApiResources::PetPetIdUploadImageResource> spPetPetIdUploadImageResource) {
+    m_spPetPetIdUploadImageResource = spPetPetIdUploadImageResource;
+    m_service->publish(m_spPetPetIdUploadImageResource);
 }
 
 
 void PetApi::publishDefaultResources() {
-    if (!m_spPetApiPetResource) {
-        setPetApiPetResource(std::make_shared<PetApiPetResource>());
+    if (!m_spPetResource) {
+        setResource(std::make_shared<PetApiResources::PetResource>());
     }
-    if (!m_spPetApiPetPetIdResource) {
-        setPetApiPetPetIdResource(std::make_shared<PetApiPetPetIdResource>());
+    if (!m_spPetPetIdResource) {
+        setResource(std::make_shared<PetApiResources::PetPetIdResource>());
     }
-    if (!m_spPetApiPetFindByStatusResource) {
-        setPetApiPetFindByStatusResource(std::make_shared<PetApiPetFindByStatusResource>());
+    if (!m_spPetFindByStatusResource) {
+        setResource(std::make_shared<PetApiResources::PetFindByStatusResource>());
     }
-    if (!m_spPetApiPetFindByTagsResource) {
-        setPetApiPetFindByTagsResource(std::make_shared<PetApiPetFindByTagsResource>());
+    if (!m_spPetFindByTagsResource) {
+        setResource(std::make_shared<PetApiResources::PetFindByTagsResource>());
     }
-    if (!m_spPetApiPetPetIdUploadImageResource) {
-        setPetApiPetPetIdUploadImageResource(std::make_shared<PetApiPetPetIdUploadImageResource>());
+    if (!m_spPetPetIdUploadImageResource) {
+        setResource(std::make_shared<PetApiResources::PetPetIdUploadImageResource>());
     }
 }
 

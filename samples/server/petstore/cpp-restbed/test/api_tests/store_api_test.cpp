@@ -15,7 +15,7 @@
 using namespace org::openapitools::server::model;
 using namespace org::openapitools::server::api;
 
-class MyStoreApiStoreInventoryResource : public StoreApiStoreInventoryResource {
+class MyStoreApiStoreInventoryResource : public StoreApiResources::StoreInventoryResource {
 public:
   virtual std::pair<int, std::map<std::string, int32_t>> handler_GET() override {
       std::map<std::string, int32_t> map;
@@ -40,8 +40,8 @@ BOOST_AUTO_TEST_CASE(startService)
   auto restbedService = std::make_shared<restbed::Service>();
 
   auto storeApi = StoreApi(restbedService);
-  std::shared_ptr<StoreApiStoreInventoryResource> res = std::make_shared<MyStoreApiStoreInventoryResource>();
-  storeApi.setStoreApiStoreInventoryResource(res);
+  std::shared_ptr<StoreApiResources::StoreInventoryResource> res = std::make_shared<MyStoreApiStoreInventoryResource>();
+  storeApi.setResource(res);
 
   std::thread thread([&]{
     auto settings = std::make_shared<restbed::Settings>();

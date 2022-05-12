@@ -23,6 +23,7 @@
 #include <memory>
 #include <utility>
 #include <exception>
+#include <functional>
 
 #include <corvusoft/restbed/session.hpp>
 #include <corvusoft/restbed/resource.hpp>
@@ -57,21 +58,37 @@ private:
     std::string m_what;
 };
 
+namespace PetApiResources {
 /// <summary>
 /// Add a new pet to the store
 /// </summary>
 /// <remarks>
 /// 
 /// </remarks>
-class  PetApiPetResource: public restbed::Resource
+class  PetResource: public restbed::Resource
 {
 public:
-    PetApiPetResource(const std::string& context = "/v2");
-    virtual ~PetApiPetResource();
+    PetResource(const std::string& context = "/v2");
+    virtual ~PetResource();
+
+    /////////////////////////////////////////////////////
+    // Set these to implement the server functionality //
+    /////////////////////////////////////////////////////
+    std::function<std::pair<int, std::shared_ptr<Pet>>(
+        std::shared_ptr<Pet> const & pet)> handler_POST_func =
+            [](std::shared_ptr<Pet> const &) -> std::pair<int, std::shared_ptr<Pet>>
+                { throw PetApiException(501, "Not implemented"); };
+
+    std::function<std::pair<int, std::shared_ptr<Pet>>(
+        std::shared_ptr<Pet> const & pet)> handler_PUT_func =
+            [](std::shared_ptr<Pet> const &) -> std::pair<int, std::shared_ptr<Pet>>
+                { throw PetApiException(501, "Not implemented"); };
+
 
 protected:
     //////////////////////////////////////////////////////////
-    // Override these to implement the server functionality //
+    // As an alternative to setting the `std::function`s    //
+    // override these to implement the server functionality //
     //////////////////////////////////////////////////////////
 
     virtual std::pair<int, std::shared_ptr<Pet>> handler_POST(
@@ -105,22 +122,41 @@ private:
     void handler_PUT_internal(const std::shared_ptr<restbed::Session> session);
 };
 
-
 /// <summary>
 /// Deletes a pet
 /// </summary>
 /// <remarks>
 /// 
 /// </remarks>
-class  PetApiPetPetIdResource: public restbed::Resource
+class  PetPetIdResource: public restbed::Resource
 {
 public:
-    PetApiPetPetIdResource(const std::string& context = "/v2");
-    virtual ~PetApiPetPetIdResource();
+    PetPetIdResource(const std::string& context = "/v2");
+    virtual ~PetPetIdResource();
+
+    /////////////////////////////////////////////////////
+    // Set these to implement the server functionality //
+    /////////////////////////////////////////////////////
+    std::function<int(
+        int64_t const & petId, std::string const & apiKey)> handler_DELETE_func =
+            [](int64_t const &, std::string const &) -> int
+                { throw PetApiException(501, "Not implemented"); };
+
+    std::function<std::pair<int, std::shared_ptr<Pet>>(
+        int64_t const & petId)> handler_GET_func =
+            [](int64_t const &) -> std::pair<int, std::shared_ptr<Pet>>
+                { throw PetApiException(501, "Not implemented"); };
+
+    std::function<int(
+        int64_t const & petId, std::string const & name, std::string const & status)> handler_POST_func =
+            [](int64_t const &, std::string const &, std::string const &) -> int
+                { throw PetApiException(501, "Not implemented"); };
+
 
 protected:
     //////////////////////////////////////////////////////////
-    // Override these to implement the server functionality //
+    // As an alternative to setting the `std::function`s    //
+    // override these to implement the server functionality //
     //////////////////////////////////////////////////////////
 
     virtual int handler_DELETE(
@@ -157,22 +193,31 @@ private:
     void handler_POST_internal(const std::shared_ptr<restbed::Session> session);
 };
 
-
 /// <summary>
 /// Finds Pets by status
 /// </summary>
 /// <remarks>
 /// Multiple status values can be provided with comma separated strings
 /// </remarks>
-class  PetApiPetFindByStatusResource: public restbed::Resource
+class  PetFindByStatusResource: public restbed::Resource
 {
 public:
-    PetApiPetFindByStatusResource(const std::string& context = "/v2");
-    virtual ~PetApiPetFindByStatusResource();
+    PetFindByStatusResource(const std::string& context = "/v2");
+    virtual ~PetFindByStatusResource();
+
+    /////////////////////////////////////////////////////
+    // Set these to implement the server functionality //
+    /////////////////////////////////////////////////////
+    std::function<std::pair<int, std::vector<std::shared_ptr<Pet>>>(
+        std::vector<std::string> const & status)> handler_GET_func =
+            [](std::vector<std::string> const &) -> std::pair<int, std::vector<std::shared_ptr<Pet>>>
+                { throw PetApiException(501, "Not implemented"); };
+
 
 protected:
     //////////////////////////////////////////////////////////
-    // Override these to implement the server functionality //
+    // As an alternative to setting the `std::function`s    //
+    // override these to implement the server functionality //
     //////////////////////////////////////////////////////////
 
     virtual std::pair<int, std::vector<std::shared_ptr<Pet>>> handler_GET(
@@ -203,22 +248,31 @@ private:
     void handler_GET_internal(const std::shared_ptr<restbed::Session> session);
 };
 
-
 /// <summary>
 /// Finds Pets by tags
 /// </summary>
 /// <remarks>
 /// Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
 /// </remarks>
-class  PetApiPetFindByTagsResource: public restbed::Resource
+class  PetFindByTagsResource: public restbed::Resource
 {
 public:
-    PetApiPetFindByTagsResource(const std::string& context = "/v2");
-    virtual ~PetApiPetFindByTagsResource();
+    PetFindByTagsResource(const std::string& context = "/v2");
+    virtual ~PetFindByTagsResource();
+
+    /////////////////////////////////////////////////////
+    // Set these to implement the server functionality //
+    /////////////////////////////////////////////////////
+    std::function<std::pair<int, std::vector<std::shared_ptr<Pet>>>(
+        std::vector<std::string> const & tags)> handler_GET_func =
+            [](std::vector<std::string> const &) -> std::pair<int, std::vector<std::shared_ptr<Pet>>>
+                { throw PetApiException(501, "Not implemented"); };
+
 
 protected:
     //////////////////////////////////////////////////////////
-    // Override these to implement the server functionality //
+    // As an alternative to setting the `std::function`s    //
+    // override these to implement the server functionality //
     //////////////////////////////////////////////////////////
 
     virtual std::pair<int, std::vector<std::shared_ptr<Pet>>> handler_GET(
@@ -249,22 +303,31 @@ private:
     void handler_GET_internal(const std::shared_ptr<restbed::Session> session);
 };
 
-
 /// <summary>
 /// uploads an image
 /// </summary>
 /// <remarks>
 /// 
 /// </remarks>
-class  PetApiPetPetIdUploadImageResource: public restbed::Resource
+class  PetPetIdUploadImageResource: public restbed::Resource
 {
 public:
-    PetApiPetPetIdUploadImageResource(const std::string& context = "/v2");
-    virtual ~PetApiPetPetIdUploadImageResource();
+    PetPetIdUploadImageResource(const std::string& context = "/v2");
+    virtual ~PetPetIdUploadImageResource();
+
+    /////////////////////////////////////////////////////
+    // Set these to implement the server functionality //
+    /////////////////////////////////////////////////////
+    std::function<std::pair<int, std::shared_ptr<ApiResponse>>(
+        int64_t const & petId, std::string const & additionalMetadata, std::string const & file)> handler_POST_func =
+            [](int64_t const &, std::string const &, std::string const &) -> std::pair<int, std::shared_ptr<ApiResponse>>
+                { throw PetApiException(501, "Not implemented"); };
+
 
 protected:
     //////////////////////////////////////////////////////////
-    // Override these to implement the server functionality //
+    // As an alternative to setting the `std::function`s    //
+    // override these to implement the server functionality //
     //////////////////////////////////////////////////////////
 
     virtual std::pair<int, std::shared_ptr<ApiResponse>> handler_POST(
@@ -295,7 +358,13 @@ private:
     void handler_POST_internal(const std::shared_ptr<restbed::Session> session);
 };
 
+} /* namespace PetApiResources */
 
+using PetApiPetResource [[deprecated]] = PetApiResources::PetResource;
+using PetApiPetPetIdResource [[deprecated]] = PetApiResources::PetPetIdResource;
+using PetApiPetFindByStatusResource [[deprecated]] = PetApiResources::PetFindByStatusResource;
+using PetApiPetFindByTagsResource [[deprecated]] = PetApiResources::PetFindByTagsResource;
+using PetApiPetPetIdUploadImageResource [[deprecated]] = PetApiResources::PetPetIdUploadImageResource;
 
 //
 // The restbed service to actually implement the REST server
@@ -306,22 +375,38 @@ public:
     explicit PetApi(std::shared_ptr<restbed::Service> const& restbedService);
 	virtual ~PetApi();
 
-    virtual void setPetApiPetResource(std::shared_ptr<PetApiPetResource> spPetApiPetResource);
-    virtual void setPetApiPetPetIdResource(std::shared_ptr<PetApiPetPetIdResource> spPetApiPetPetIdResource);
-    virtual void setPetApiPetFindByStatusResource(std::shared_ptr<PetApiPetFindByStatusResource> spPetApiPetFindByStatusResource);
-    virtual void setPetApiPetFindByTagsResource(std::shared_ptr<PetApiPetFindByTagsResource> spPetApiPetFindByTagsResource);
-    virtual void setPetApiPetPetIdUploadImageResource(std::shared_ptr<PetApiPetPetIdUploadImageResource> spPetApiPetPetIdUploadImageResource);
+    std::shared_ptr<PetApiResources::PetResource> getPetResource();
+    std::shared_ptr<PetApiResources::PetPetIdResource> getPetPetIdResource();
+    std::shared_ptr<PetApiResources::PetFindByStatusResource> getPetFindByStatusResource();
+    std::shared_ptr<PetApiResources::PetFindByTagsResource> getPetFindByTagsResource();
+    std::shared_ptr<PetApiResources::PetPetIdUploadImageResource> getPetPetIdUploadImageResource();
+
+    void setResource(std::shared_ptr<PetApiResources::PetResource> resource);
+    void setResource(std::shared_ptr<PetApiResources::PetPetIdResource> resource);
+    void setResource(std::shared_ptr<PetApiResources::PetFindByStatusResource> resource);
+    void setResource(std::shared_ptr<PetApiResources::PetFindByTagsResource> resource);
+    void setResource(std::shared_ptr<PetApiResources::PetPetIdUploadImageResource> resource);
+    [[deprecated("use setResource()")]]
+    virtual void setPetApiPetResource(std::shared_ptr<PetApiResources::PetResource> spPetApiPetResource);
+    [[deprecated("use setResource()")]]
+    virtual void setPetApiPetPetIdResource(std::shared_ptr<PetApiResources::PetPetIdResource> spPetApiPetPetIdResource);
+    [[deprecated("use setResource()")]]
+    virtual void setPetApiPetFindByStatusResource(std::shared_ptr<PetApiResources::PetFindByStatusResource> spPetApiPetFindByStatusResource);
+    [[deprecated("use setResource()")]]
+    virtual void setPetApiPetFindByTagsResource(std::shared_ptr<PetApiResources::PetFindByTagsResource> spPetApiPetFindByTagsResource);
+    [[deprecated("use setResource()")]]
+    virtual void setPetApiPetPetIdUploadImageResource(std::shared_ptr<PetApiResources::PetPetIdUploadImageResource> spPetApiPetPetIdUploadImageResource);
 
     virtual void publishDefaultResources();
 
     virtual std::shared_ptr<restbed::Service> service();
 
 protected:
-	std::shared_ptr<PetApiPetResource> m_spPetApiPetResource;
-	std::shared_ptr<PetApiPetPetIdResource> m_spPetApiPetPetIdResource;
-	std::shared_ptr<PetApiPetFindByStatusResource> m_spPetApiPetFindByStatusResource;
-	std::shared_ptr<PetApiPetFindByTagsResource> m_spPetApiPetFindByTagsResource;
-	std::shared_ptr<PetApiPetPetIdUploadImageResource> m_spPetApiPetPetIdUploadImageResource;
+	std::shared_ptr<PetApiResources::PetResource> m_spPetResource;
+	std::shared_ptr<PetApiResources::PetPetIdResource> m_spPetPetIdResource;
+	std::shared_ptr<PetApiResources::PetFindByStatusResource> m_spPetFindByStatusResource;
+	std::shared_ptr<PetApiResources::PetFindByTagsResource> m_spPetFindByTagsResource;
+	std::shared_ptr<PetApiResources::PetPetIdUploadImageResource> m_spPetPetIdUploadImageResource;
 
 private:
     std::shared_ptr<restbed::Service> m_service;
