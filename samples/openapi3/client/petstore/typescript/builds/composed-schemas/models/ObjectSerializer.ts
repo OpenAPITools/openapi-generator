@@ -2,21 +2,21 @@ export * from './Cat';
 export * from './CatAllOf';
 export * from './Dog';
 export * from './DogAllOf';
-export * from './InlineRequest';
-export * from './InlineRequest1';
-export * from './InlineRequest2';
+export * from './FilePostRequest';
 export * from './PetByAge';
 export * from './PetByType';
+export * from './PetsFilteredPatchRequest';
+export * from './PetsPatchRequest';
 
 import { Cat } from './Cat';
 import { CatAllOf } from './CatAllOf';
 import { Dog , DogBreedEnum   } from './Dog';
 import { DogAllOf , DogAllOfBreedEnum   } from './DogAllOf';
-import { InlineRequest   , InlineRequestBreedEnum   } from './InlineRequest';
-import { InlineRequest1  , InlineRequest1PetTypeEnum    } from './InlineRequest1';
-import { InlineRequest2 } from './InlineRequest2';
+import { FilePostRequest } from './FilePostRequest';
 import { PetByAge } from './PetByAge';
 import { PetByType, PetByTypePetTypeEnum    } from './PetByType';
+import { PetsFilteredPatchRequest  , PetsFilteredPatchRequestPetTypeEnum    } from './PetsFilteredPatchRequest';
+import { PetsPatchRequest   , PetsPatchRequestBreedEnum   } from './PetsPatchRequest';
 
 /* tslint:disable:no-unused-variable */
 let primitives = [
@@ -40,9 +40,9 @@ const supportedMediaTypes: { [mediaType: string]: number } = {
 let enumsMap: Set<string> = new Set<string>([
     "DogBreedEnum",
     "DogAllOfBreedEnum",
-    "InlineRequestBreedEnum",
-    "InlineRequest1PetTypeEnum",
     "PetByTypePetTypeEnum",
+    "PetsFilteredPatchRequestPetTypeEnum",
+    "PetsPatchRequestBreedEnum",
 ]);
 
 let typeMap: {[index: string]: any} = {
@@ -50,11 +50,11 @@ let typeMap: {[index: string]: any} = {
     "CatAllOf": CatAllOf,
     "Dog": Dog,
     "DogAllOf": DogAllOf,
-    "InlineRequest": InlineRequest,
-    "InlineRequest1": InlineRequest1,
-    "InlineRequest2": InlineRequest2,
+    "FilePostRequest": FilePostRequest,
     "PetByAge": PetByAge,
     "PetByType": PetByType,
+    "PetsFilteredPatchRequest": PetsFilteredPatchRequest,
+    "PetsPatchRequest": PetsPatchRequest,
 }
 
 export class ObjectSerializer {

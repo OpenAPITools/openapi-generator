@@ -48,7 +48,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_default'
+                $ref: '#/components/schemas/_foo_get_default_response'
           description: response
       x-accepts: application/json
   /pet:
@@ -1969,7 +1969,7 @@ components:
       - user
       title: SingleRefType
       type: string
-    inline_response_default:
+    _foo_get_default_response:
       example:
         string:
           bar: bar

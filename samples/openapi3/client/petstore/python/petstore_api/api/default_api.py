@@ -21,7 +21,7 @@ from petstore_api.model_utils import (  # noqa: F401
     none_type,
     validate_and_convert_types
 )
-from petstore_api.model.inline_response_default import InlineResponseDefault
+from petstore_api.model.foo_get_default_response import FooGetDefaultResponse
 
 
 class DefaultApi(object):
@@ -37,7 +37,7 @@ class DefaultApi(object):
         self.api_client = api_client
         self.foo_get_endpoint = _Endpoint(
             settings={
-                'response_type': (InlineResponseDefault,),
+                'response_type': (FooGetDefaultResponse,),
                 'auth': [],
                 'endpoint_path': '/foo',
                 'operation_id': 'foo_get',
@@ -124,7 +124,7 @@ class DefaultApi(object):
             async_req (bool): execute request asynchronously
 
         Returns:
-            InlineResponseDefault
+            FooGetDefaultResponse
                 If the method is called asynchronously, returns the request
                 thread.
         """

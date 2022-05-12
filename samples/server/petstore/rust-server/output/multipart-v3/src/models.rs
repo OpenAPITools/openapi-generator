@@ -6,129 +6,6 @@ use crate::header;
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct InlineRequest {
-    #[serde(rename = "binary1")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub binary1: Option<swagger::ByteArray>,
-
-    #[serde(rename = "binary2")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub binary2: Option<swagger::ByteArray>,
-
-}
-
-impl InlineRequest {
-    pub fn new() -> InlineRequest {
-        InlineRequest {
-            binary1: None,
-            binary2: None,
-        }
-    }
-}
-
-/// Converts the InlineRequest value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
-/// Should be implemented in a serde serializer
-impl std::string::ToString for InlineRequest {
-    fn to_string(&self) -> String {
-        let mut params: Vec<String> = vec![];
-        // Skipping binary1 in query parameter serialization
-        // Skipping binary1 in query parameter serialization
-
-        // Skipping binary2 in query parameter serialization
-        // Skipping binary2 in query parameter serialization
-
-        params.join(",").to_string()
-    }
-}
-
-/// Converts Query Parameters representation (style=form, explode=false) to a InlineRequest value
-/// as specified in https://swagger.io/docs/specification/serialization/
-/// Should be implemented in a serde deserializer
-impl std::str::FromStr for InlineRequest {
-    type Err = String;
-
-    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
-        #[derive(Default)]
-        // An intermediate representation of the struct to use for parsing.
-        struct IntermediateRep {
-            pub binary1: Vec<swagger::ByteArray>,
-            pub binary2: Vec<swagger::ByteArray>,
-        }
-
-        let mut intermediate_rep = IntermediateRep::default();
-
-        // Parse into intermediate representation
-        let mut string_iter = s.split(',').into_iter();
-        let mut key_result = string_iter.next();
-
-        while key_result.is_some() {
-            let val = match string_iter.next() {
-                Some(x) => x,
-                None => return std::result::Result::Err("Missing value while parsing InlineRequest".to_string())
-            };
-
-            if let Some(key) = key_result {
-                match key {
-                    "binary1" => return std::result::Result::Err("Parsing binary data in this style is not supported in InlineRequest".to_string()),
-                    "binary2" => return std::result::Result::Err("Parsing binary data in this style is not supported in InlineRequest".to_string()),
-                    _ => return std::result::Result::Err("Unexpected key while parsing InlineRequest".to_string())
-                }
-            }
-
-            // Get the next key
-            key_result = string_iter.next();
-        }
-
-        // Use the intermediate representation to return the struct
-        std::result::Result::Ok(InlineRequest {
-            binary1: intermediate_rep.binary1.into_iter().next(),
-            binary2: intermediate_rep.binary2.into_iter().next(),
-        })
-    }
-}
-
-// Methods for converting between header::IntoHeaderValue<InlineRequest> and hyper::header::HeaderValue
-
-#[cfg(any(feature = "client", feature = "server"))]
-impl std::convert::TryFrom<header::IntoHeaderValue<InlineRequest>> for hyper::header::HeaderValue {
-    type Error = String;
-
-    fn try_from(hdr_value: header::IntoHeaderValue<InlineRequest>) -> std::result::Result<Self, Self::Error> {
-        let hdr_value = hdr_value.to_string();
-        match hyper::header::HeaderValue::from_str(&hdr_value) {
-             std::result::Result::Ok(value) => std::result::Result::Ok(value),
-             std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for InlineRequest - value: {} is invalid {}",
-                     hdr_value, e))
-        }
-    }
-}
-
-#[cfg(any(feature = "client", feature = "server"))]
-impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<InlineRequest> {
-    type Error = String;
-
-    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
-        match hdr_value.to_str() {
-             std::result::Result::Ok(value) => {
-                    match <InlineRequest as std::str::FromStr>::from_str(value) {
-                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
-                        std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into InlineRequest - {}",
-                                value, err))
-                    }
-             },
-             std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Unable to convert header: {:?} to string: {}",
-                     hdr_value, e))
-        }
-    }
-}
-
-
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
-#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct MultipartRelatedRequest {
     #[serde(rename = "object_field")]
     #[serde(skip_serializing_if="Option::is_none")]
@@ -374,6 +251,129 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                         std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
                         std::result::Result::Err(err) => std::result::Result::Err(
                             format!("Unable to convert header value '{}' into MultipartRequestObjectField - {}",
+                                value, err))
+                    }
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {:?} to string: {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+pub struct MultipleIdenticalMimeTypesPostRequest {
+    #[serde(rename = "binary1")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub binary1: Option<swagger::ByteArray>,
+
+    #[serde(rename = "binary2")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub binary2: Option<swagger::ByteArray>,
+
+}
+
+impl MultipleIdenticalMimeTypesPostRequest {
+    pub fn new() -> MultipleIdenticalMimeTypesPostRequest {
+        MultipleIdenticalMimeTypesPostRequest {
+            binary1: None,
+            binary2: None,
+        }
+    }
+}
+
+/// Converts the MultipleIdenticalMimeTypesPostRequest value to the Query Parameters representation (style=form, explode=false)
+/// specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde serializer
+impl std::string::ToString for MultipleIdenticalMimeTypesPostRequest {
+    fn to_string(&self) -> String {
+        let mut params: Vec<String> = vec![];
+        // Skipping binary1 in query parameter serialization
+        // Skipping binary1 in query parameter serialization
+
+        // Skipping binary2 in query parameter serialization
+        // Skipping binary2 in query parameter serialization
+
+        params.join(",").to_string()
+    }
+}
+
+/// Converts Query Parameters representation (style=form, explode=false) to a MultipleIdenticalMimeTypesPostRequest value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
+impl std::str::FromStr for MultipleIdenticalMimeTypesPostRequest {
+    type Err = String;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        #[derive(Default)]
+        // An intermediate representation of the struct to use for parsing.
+        struct IntermediateRep {
+            pub binary1: Vec<swagger::ByteArray>,
+            pub binary2: Vec<swagger::ByteArray>,
+        }
+
+        let mut intermediate_rep = IntermediateRep::default();
+
+        // Parse into intermediate representation
+        let mut string_iter = s.split(',').into_iter();
+        let mut key_result = string_iter.next();
+
+        while key_result.is_some() {
+            let val = match string_iter.next() {
+                Some(x) => x,
+                None => return std::result::Result::Err("Missing value while parsing MultipleIdenticalMimeTypesPostRequest".to_string())
+            };
+
+            if let Some(key) = key_result {
+                match key {
+                    "binary1" => return std::result::Result::Err("Parsing binary data in this style is not supported in MultipleIdenticalMimeTypesPostRequest".to_string()),
+                    "binary2" => return std::result::Result::Err("Parsing binary data in this style is not supported in MultipleIdenticalMimeTypesPostRequest".to_string()),
+                    _ => return std::result::Result::Err("Unexpected key while parsing MultipleIdenticalMimeTypesPostRequest".to_string())
+                }
+            }
+
+            // Get the next key
+            key_result = string_iter.next();
+        }
+
+        // Use the intermediate representation to return the struct
+        std::result::Result::Ok(MultipleIdenticalMimeTypesPostRequest {
+            binary1: intermediate_rep.binary1.into_iter().next(),
+            binary2: intermediate_rep.binary2.into_iter().next(),
+        })
+    }
+}
+
+// Methods for converting between header::IntoHeaderValue<MultipleIdenticalMimeTypesPostRequest> and hyper::header::HeaderValue
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<header::IntoHeaderValue<MultipleIdenticalMimeTypesPostRequest>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_value: header::IntoHeaderValue<MultipleIdenticalMimeTypesPostRequest>) -> std::result::Result<Self, Self::Error> {
+        let hdr_value = hdr_value.to_string();
+        match hyper::header::HeaderValue::from_str(&hdr_value) {
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for MultipleIdenticalMimeTypesPostRequest - value: {} is invalid {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<MultipleIdenticalMimeTypesPostRequest> {
+    type Error = String;
+
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_value.to_str() {
+             std::result::Result::Ok(value) => {
+                    match <MultipleIdenticalMimeTypesPostRequest as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{}' into MultipleIdenticalMimeTypesPostRequest - {}",
                                 value, err))
                     }
              },

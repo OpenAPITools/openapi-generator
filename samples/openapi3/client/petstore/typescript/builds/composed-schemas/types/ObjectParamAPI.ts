@@ -6,11 +6,11 @@ import { Cat } from '../models/Cat';
 import { CatAllOf } from '../models/CatAllOf';
 import { Dog } from '../models/Dog';
 import { DogAllOf } from '../models/DogAllOf';
-import { InlineRequest } from '../models/InlineRequest';
-import { InlineRequest1 } from '../models/InlineRequest1';
-import { InlineRequest2 } from '../models/InlineRequest2';
+import { FilePostRequest } from '../models/FilePostRequest';
 import { PetByAge } from '../models/PetByAge';
 import { PetByType } from '../models/PetByType';
+import { PetsFilteredPatchRequest } from '../models/PetsFilteredPatchRequest';
+import { PetsPatchRequest } from '../models/PetsPatchRequest';
 
 import { ObservableDefaultApi } from "./ObservableAPI";
 import { DefaultApiRequestFactory, DefaultApiResponseProcessor} from "../apis/DefaultApi";
@@ -18,28 +18,28 @@ import { DefaultApiRequestFactory, DefaultApiResponseProcessor} from "../apis/De
 export interface DefaultApiFilePostRequest {
     /**
      * 
-     * @type InlineRequest2
+     * @type FilePostRequest
      * @memberof DefaultApifilePost
      */
-    inlineRequest2?: InlineRequest2
+    filePostRequest?: FilePostRequest
 }
 
 export interface DefaultApiPetsFilteredPatchRequest {
     /**
      * 
-     * @type InlineRequest1
+     * @type PetsFilteredPatchRequest
      * @memberof DefaultApipetsFilteredPatch
      */
-    inlineRequest1?: InlineRequest1
+    petsFilteredPatchRequest?: PetsFilteredPatchRequest
 }
 
 export interface DefaultApiPetsPatchRequest {
     /**
      * 
-     * @type InlineRequest
+     * @type PetsPatchRequest
      * @memberof DefaultApipetsPatch
      */
-    inlineRequest?: InlineRequest
+    petsPatchRequest?: PetsPatchRequest
 }
 
 export class ObjectDefaultApi {
@@ -53,21 +53,21 @@ export class ObjectDefaultApi {
      * @param param the request object
      */
     public filePost(param: DefaultApiFilePostRequest = {}, options?: Configuration): Promise<void> {
-        return this.api.filePost(param.inlineRequest2,  options).toPromise();
+        return this.api.filePost(param.filePostRequest,  options).toPromise();
     }
 
     /**
      * @param param the request object
      */
     public petsFilteredPatch(param: DefaultApiPetsFilteredPatchRequest = {}, options?: Configuration): Promise<void> {
-        return this.api.petsFilteredPatch(param.inlineRequest1,  options).toPromise();
+        return this.api.petsFilteredPatch(param.petsFilteredPatchRequest,  options).toPromise();
     }
 
     /**
      * @param param the request object
      */
     public petsPatch(param: DefaultApiPetsPatchRequest = {}, options?: Configuration): Promise<void> {
-        return this.api.petsPatch(param.inlineRequest,  options).toPromise();
+        return this.api.petsPatch(param.petsPatchRequest,  options).toPromise();
     }
 
 }

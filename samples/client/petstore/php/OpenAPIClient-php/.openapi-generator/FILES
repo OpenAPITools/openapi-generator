@@ -32,10 +32,10 @@ docs/Model/EnumTest.md
 docs/Model/File.md
 docs/Model/FileSchemaTestClass.md
 docs/Model/Foo.md
+docs/Model/FooGetDefaultResponse.md
 docs/Model/FormatTest.md
 docs/Model/HasOnlyReadOnly.md
 docs/Model/HealthCheckResult.md
-docs/Model/InlineResponseDefault.md
 docs/Model/MapTest.md
 docs/Model/MixedPropertiesAndAdditionalPropertiesClass.md
 docs/Model/Model200Response.md
@@ -91,10 +91,10 @@ lib/Model/EnumTest.php
 lib/Model/File.php
 lib/Model/FileSchemaTestClass.php
 lib/Model/Foo.php
+lib/Model/FooGetDefaultResponse.php
 lib/Model/FormatTest.php
 lib/Model/HasOnlyReadOnly.php
 lib/Model/HealthCheckResult.php
-lib/Model/InlineResponseDefault.php
 lib/Model/MapTest.php
 lib/Model/MixedPropertiesAndAdditionalPropertiesClass.php
 lib/Model/Model200Response.php

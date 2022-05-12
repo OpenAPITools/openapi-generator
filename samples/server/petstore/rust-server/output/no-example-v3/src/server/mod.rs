@@ -148,31 +148,31 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                 match result {
                             Ok(body) => {
                                 let mut unused_elements = Vec::new();
-                                let param_inline_request: Option<models::InlineRequest> = if !body.is_empty() {
+                                let param_op_get_request: Option<models::OpGetRequest> = if !body.is_empty() {
                                     let deserializer = &mut serde_json::Deserializer::from_slice(&*body);
                                     match serde_ignored::deserialize(deserializer, |path| {
                                             warn!("Ignoring unknown field in body: {}", path);
                                             unused_elements.push(path.to_string());
                                     }) {
-                                        Ok(param_inline_request) => param_inline_request,
+                                        Ok(param_op_get_request) => param_op_get_request,
                                         Err(e) => return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
-                                                        .body(Body::from(format!("Couldn't parse body parameter InlineRequest - doesn't match schema: {}", e)))
-                                                        .expect("Unable to create Bad Request response for invalid body parameter InlineRequest due to schema")),
+                                                        .body(Body::from(format!("Couldn't parse body parameter OpGetRequest - doesn't match schema: {}", e)))
+                                                        .expect("Unable to create Bad Request response for invalid body parameter OpGetRequest due to schema")),
                                     }
                                 } else {
                                     None
                                 };
-                                let param_inline_request = match param_inline_request {
-                                    Some(param_inline_request) => param_inline_request,
+                                let param_op_get_request = match param_op_get_request {
+                                    Some(param_op_get_request) => param_op_get_request,
                                     None => return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
-                                                        .body(Body::from("Missing required body parameter InlineRequest"))
-                                                        .expect("Unable to create Bad Request response for missing body parameter InlineRequest")),
+                                                        .body(Body::from("Missing required body parameter OpGetRequest"))
+                                                        .expect("Unable to create Bad Request response for missing body parameter OpGetRequest")),
                                 };
 
                                 let result = api_impl.op_get(
-                                            param_inline_request,
+                                            param_op_get_request,
                                         &context
                                     ).await;
                                 let mut response = Response::new(Body::empty());
@@ -207,8 +207,8 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                             },
                             Err(e) => Ok(Response::builder()
                                                 .status(StatusCode::BAD_REQUEST)
-                                                .body(Body::from(format!("Couldn't read body parameter InlineRequest: {}", e)))
-                                                .expect("Unable to create Bad Request response due to unable to read body parameter InlineRequest")),
+                                                .body(Body::from(format!("Couldn't read body parameter OpGetRequest: {}", e)))
+                                                .expect("Unable to create Bad Request response due to unable to read body parameter OpGetRequest")),
                         }
             },
 

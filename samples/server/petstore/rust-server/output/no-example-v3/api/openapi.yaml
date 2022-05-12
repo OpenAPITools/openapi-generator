@@ -11,14 +11,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/inline_request'
+              $ref: '#/components/schemas/_op_get_request'
         required: true
       responses:
         "200":
           description: OK
 components:
   schemas:
-    inline_request:
+    _op_get_request:
       properties:
         propery:
           type: string

@@ -104,9 +104,9 @@ Method | HTTP request | Description
 
 ## Documentation For Models
 
- - [InlineRequest](docs/InlineRequest.md)
  - [MultipartRelatedRequest](docs/MultipartRelatedRequest.md)
  - [MultipartRequestObjectField](docs/MultipartRequestObjectField.md)
+ - [MultipleIdenticalMimeTypesPostRequest](docs/MultipleIdenticalMimeTypesPostRequest.md)
 
 
 ## Documentation For Authorization

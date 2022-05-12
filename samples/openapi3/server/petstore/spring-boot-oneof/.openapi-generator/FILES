@@ -11,6 +11,8 @@ src/main/java/org/openapitools/configuration/HomeController.java
 src/main/java/org/openapitools/model/Addressable.java
 src/main/java/org/openapitools/model/Bar.java
 src/main/java/org/openapitools/model/BarCreate.java
+src/main/java/org/openapitools/model/BarCreateFooOneOf.java
+src/main/java/org/openapitools/model/BarFooOneOf.java
 src/main/java/org/openapitools/model/BarRef.java
 src/main/java/org/openapitools/model/BarRefOrValue.java
 src/main/java/org/openapitools/model/Entity.java

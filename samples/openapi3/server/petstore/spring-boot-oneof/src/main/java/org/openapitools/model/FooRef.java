@@ -24,7 +24,7 @@ import javax.annotation.Generated;
 
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class FooRef extends EntityRef implements FooRefOrValue {
+public class FooRef extends EntityRef implements BarCreateFooOneOf, BarFooOneOf, FooRefOrValue {
 
   @JsonProperty("foorefPropA")
   private String foorefPropA;
