@@ -548,3 +548,9 @@
   image: "img/companies/zozo-technologies.png"
   infoLink: "https://tech.zozo.com/en/"
   pinned: false
+-
+  caption: Deeproute.ai
+  image: "img/companies/deeproute_logo.jpg"
+  infoLink: "https://www.deeproute.ai/"
+  pinned: false
+
