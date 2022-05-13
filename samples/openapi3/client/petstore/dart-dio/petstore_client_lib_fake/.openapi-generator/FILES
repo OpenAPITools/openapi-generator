@@ -24,10 +24,10 @@ doc/FakeApi.md
 doc/FakeClassnameTags123Api.md
 doc/FileSchemaTestClass.md
 doc/Foo.md
+doc/FooGetDefaultResponse.md
 doc/FormatTest.md
 doc/HasOnlyReadOnly.md
 doc/HealthCheckResult.md
-doc/InlineResponseDefault.md
 doc/MapTest.md
 doc/MixedPropertiesAndAdditionalPropertiesClass.md
 doc/Model200Response.md
@@ -92,10 +92,10 @@ lib/src/model/enum_arrays.dart
 lib/src/model/enum_test.dart
 lib/src/model/file_schema_test_class.dart
 lib/src/model/foo.dart
+lib/src/model/foo_get_default_response.dart
 lib/src/model/format_test.dart
 lib/src/model/has_only_read_only.dart
 lib/src/model/health_check_result.dart
-lib/src/model/inline_response_default.dart
 lib/src/model/map_test.dart
 lib/src/model/mixed_properties_and_additional_properties_class.dart
 lib/src/model/model200_response.dart

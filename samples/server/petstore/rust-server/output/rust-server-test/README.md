@@ -118,8 +118,8 @@ Method | HTTP request | Description
  - [AdditionalPropertiesObject](docs/AdditionalPropertiesObject.md)
  - [AllOfObject](docs/AllOfObject.md)
  - [BaseAllOf](docs/BaseAllOf.md)
+ - [DummyPutRequest](docs/DummyPutRequest.md)
  - [GetYamlResponse](docs/GetYamlResponse.md)
- - [InlineObject](docs/InlineObject.md)
  - [ObjectOfObjects](docs/ObjectOfObjects.md)
  - [ObjectOfObjectsInner](docs/ObjectOfObjectsInner.md)
 

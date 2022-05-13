@@ -15,11 +15,11 @@ import java.time.OffsetDateTime
  * @param complete  for example: ''null''
 */
 final case class Order (
-  id: Option[Long],
-  petId: Option[Long],
-  quantity: Option[Int],
-  shipDate: Option[OffsetDateTime],
-  status: Option[String],
-  complete: Option[Boolean]
+  id: Option[Long] = None,
+  petId: Option[Long] = None,
+  quantity: Option[Int] = None,
+  shipDate: Option[OffsetDateTime] = None,
+  status: Option[String] = None,
+  complete: Option[Boolean] = None
 )
 

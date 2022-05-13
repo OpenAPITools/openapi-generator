@@ -82,6 +82,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String CONFIG_PACKAGE = "configPackage";
     public static final String BASE_PACKAGE = "basePackage";
     public static final String INTERFACE_ONLY = "interfaceOnly";
+    public static final String USE_FEIGN_CLIENT_URL = "useFeignClientUrl";
     public static final String DELEGATE_PATTERN = "delegatePattern";
     public static final String SINGLE_CONTENT_TYPES = "singleContentTypes";
     public static final String VIRTUAL_SERVICE = "virtualService";
@@ -106,6 +107,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     protected String configPackage = "org.openapitools.configuration";
     protected String basePackage = "org.openapitools";
     protected boolean interfaceOnly = false;
+    protected boolean useFeignClientUrl = true;
     protected boolean delegatePattern = false;
     protected boolean delegateMethod = false;
     protected boolean singleContentTypes = false;
@@ -166,6 +168,8 @@ public class SpringCodegen extends AbstractJavaCodegen
                 .defaultValue(this.getBasePackage()));
         cliOptions.add(CliOption.newBoolean(INTERFACE_ONLY,
                 "Whether to generate only API interface stubs without the server files.", interfaceOnly));
+        cliOptions.add(CliOption.newBoolean(USE_FEIGN_CLIENT_URL,
+                "Whether to generate Feign client with url parameter.", useFeignClientUrl));
         cliOptions.add(CliOption.newBoolean(DELEGATE_PATTERN,
                 "Whether to generate the server files using the delegate pattern", delegatePattern));
         cliOptions.add(CliOption.newBoolean(SINGLE_CONTENT_TYPES,
@@ -324,6 +328,11 @@ public class SpringCodegen extends AbstractJavaCodegen
         if (additionalProperties.containsKey(INTERFACE_ONLY)) {
             this.setInterfaceOnly(Boolean.parseBoolean(additionalProperties.get(INTERFACE_ONLY).toString()));
         }
+
+        if (additionalProperties.containsKey(USE_FEIGN_CLIENT_URL)) {
+            this.setUseFeignClientUrl(Boolean.parseBoolean(additionalProperties.get(USE_FEIGN_CLIENT_URL).toString()));
+        }
+        writePropertyBack(USE_FEIGN_CLIENT_URL, useFeignClientUrl);
 
         if (additionalProperties.containsKey(DELEGATE_PATTERN)) {
             this.setDelegatePattern(Boolean.parseBoolean(additionalProperties.get(DELEGATE_PATTERN).toString()));
@@ -788,6 +797,10 @@ public class SpringCodegen extends AbstractJavaCodegen
 
     public void setInterfaceOnly(boolean interfaceOnly) {
         this.interfaceOnly = interfaceOnly;
+    }
+
+    public void setUseFeignClientUrl(boolean useFeignClientUrl) {
+        this.useFeignClientUrl = useFeignClientUrl;
     }
 
     public void setDelegatePattern(boolean delegatePattern) {

@@ -187,9 +187,9 @@ class Order implements ModelInterface, ArrayAccess, \JsonSerializable
         return self::$openAPIModelName;
     }
 
-    const STATUS_PLACED = 'placed';
-    const STATUS_APPROVED = 'approved';
-    const STATUS_DELIVERED = 'delivered';
+    public const STATUS_PLACED = 'placed';
+    public const STATUS_APPROVED = 'approved';
+    public const STATUS_DELIVERED = 'delivered';
 
     /**
      * Gets allowable values of the enum

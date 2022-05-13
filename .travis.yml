@@ -108,9 +108,9 @@ before_install:
   #- curl -f -L -o ./rebar3 https://s3.amazonaws.com/rebar3/rebar3 && chmod +x ./rebar3 && ./rebar3 version && export PATH="${TRAVIS_BUILD_DIR}:$PATH"
   # install C++ tools
   - sudo apt install -y --no-install-recommends valgrind cmake build-essential
-  # install Qt5
-  - sudo apt install -y --no-install-recommends qt5-default
   - cmake --version
+  # install Qt5
+  #- sudo apt install -y --no-install-recommends qt5-default
   # -- skip perl test to shorten build time
   # perl dep
   #- cpanm --local-lib=~/perl5 local::lib && eval $(perl -I ~/perl5/lib/perl5/ -Mlocal::lib)
@@ -225,14 +225,14 @@ after_success:
       fi;
     fi;
   ## publish latest website, variables below are secure environment variables which are unavailable to PRs from forks.
-  #- if [ "$TRAVIS_BRANCH" = "master" ] && [ -z $TRAVIS_TAG ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
-  #    cd website;
-  #    git config --global user.name "${GH_NAME}";
-  #    git config --global user.email "${GH_EMAIL}";
-  #    echo "machine github.com login ${GH_NAME} password ${GH_TOKEN}" > ~/.netrc;
-  #    yarn install;
-  #    GIT_USER="${GH_NAME}" yarn run publish-gh-pages;
-  #  fi;
+  - if [ "$TRAVIS_BRANCH" = "master" ] && [ -z $TRAVIS_TAG ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
+      cd website;
+      git config --global user.name "${GH_NAME}";
+      git config --global user.email "${GH_EMAIL}";
+      echo "machine github.com login ${GH_NAME} password ${GH_TOKEN}" > ~/.netrc;
+      yarn install;
+      GIT_USER="${GH_NAME}" yarn run publish-gh-pages;
+    fi;
 
 env:
   - DOCKER_GENERATOR_IMAGE_NAME=openapitools/openapi-generator-online DOCKER_CODEGEN_CLI_IMAGE_NAME=openapitools/openapi-generator-cli NODE_ENV=test CC=gcc-5 CXX=g++-5

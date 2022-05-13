@@ -12,7 +12,8 @@ docs/Apple.md
 docs/AppleReq.md
 docs/ArrayOfArrayOfNumberOnly.md
 docs/ArrayOfInlineAllOf.md
-docs/ArrayOfInlineAllOfArrayAllofDogPropertyItemsAllOf1.md
+docs/ArrayOfInlineAllOfArrayAllofDogPropertyInner.md
+docs/ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf.md
 docs/ArrayOfNumberOnly.md
 docs/ArrayTest.md
 docs/Banana.md
@@ -39,6 +40,7 @@ docs/FakeApi.md
 docs/FakeClassnameTags123Api.md
 docs/FileSchemaTestClass.md
 docs/Foo.md
+docs/FooGetDefaultResponse.md
 docs/FormatTest.md
 docs/Fruit.md
 docs/FruitReq.md
@@ -46,7 +48,6 @@ docs/GmFruit.md
 docs/GrandparentAnimal.md
 docs/HasOnlyReadOnly.md
 docs/HealthCheckResult.md
-docs/InlineResponseDefault.md
 docs/IsoscelesTriangle.md
 docs/Mammal.md
 docs/MapTest.md
@@ -133,7 +134,8 @@ src/main/java/org/openapitools/client/model/Apple.java
 src/main/java/org/openapitools/client/model/AppleReq.java
 src/main/java/org/openapitools/client/model/ArrayOfArrayOfNumberOnly.java
 src/main/java/org/openapitools/client/model/ArrayOfInlineAllOf.java
-src/main/java/org/openapitools/client/model/ArrayOfInlineAllOfArrayAllofDogPropertyItemsAllOf1.java
+src/main/java/org/openapitools/client/model/ArrayOfInlineAllOfArrayAllofDogPropertyInner.java
+src/main/java/org/openapitools/client/model/ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf.java
 src/main/java/org/openapitools/client/model/ArrayOfNumberOnly.java
 src/main/java/org/openapitools/client/model/ArrayTest.java
 src/main/java/org/openapitools/client/model/Banana.java
@@ -157,6 +159,7 @@ src/main/java/org/openapitools/client/model/EnumTest.java
 src/main/java/org/openapitools/client/model/EquilateralTriangle.java
 src/main/java/org/openapitools/client/model/FileSchemaTestClass.java
 src/main/java/org/openapitools/client/model/Foo.java
+src/main/java/org/openapitools/client/model/FooGetDefaultResponse.java
 src/main/java/org/openapitools/client/model/FormatTest.java
 src/main/java/org/openapitools/client/model/Fruit.java
 src/main/java/org/openapitools/client/model/FruitReq.java
@@ -164,7 +167,6 @@ src/main/java/org/openapitools/client/model/GmFruit.java
 src/main/java/org/openapitools/client/model/GrandparentAnimal.java
 src/main/java/org/openapitools/client/model/HasOnlyReadOnly.java
 src/main/java/org/openapitools/client/model/HealthCheckResult.java
-src/main/java/org/openapitools/client/model/InlineResponseDefault.java
 src/main/java/org/openapitools/client/model/IsoscelesTriangle.java
 src/main/java/org/openapitools/client/model/Mammal.java
 src/main/java/org/openapitools/client/model/MapTest.java

@@ -820,7 +820,12 @@ void {{classname}}::{{nickname}}Callback({{prefix}}HttpRequestWorker *worker) {
     foreach (QJsonValue obj, jsonArray) {
         {{{returnBaseType}}} val;
         ::{{cppNamespace}}::fromJsonValue(val, obj);
+        {{#uniqueItems}}
+        output.insert(val);
+        {{/uniqueItems}}
+        {{^uniqueItems}}
         output.append(val);
+        {{/uniqueItems}}
     }
     {{/isArray}}
     {{^isArray}}
