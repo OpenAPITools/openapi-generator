@@ -44,6 +44,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |fullJavaUtil|whether to use fully qualified name for classes under java.util. This option only works for Java API client| |false|
 |generateControllerAsAbstract|Generate an abstract class for controller to be extended. (apiPackage is then used for the abstract class, and controllerPackage is used for implementation that extends it.)| |false|
 |generateControllerFromExamples|Generate the implementation of controller and tests from parameter and return examples that will verify that the api works as desired (for testing)| |false|
+|generateOperationsToReturnNotImplemented|Return HTTP 501 Not Implemented instead of an empty response in the generated controller methods.| |true|
 |groupId|groupId in generated pom.xml| |org.openapitools|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |false|
 |ignoreAnyOfInEnum|Ignore anyOf keyword in enum| |false|

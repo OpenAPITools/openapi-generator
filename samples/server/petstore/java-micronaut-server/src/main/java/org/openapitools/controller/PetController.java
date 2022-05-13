@@ -16,6 +16,8 @@ import io.micronaut.http.annotation.*;
 import io.micronaut.core.annotation.Nullable;
 import io.micronaut.core.convert.format.Format;
 import reactor.core.publisher.Mono;
+import io.micronaut.http.HttpStatus;
+import io.micronaut.http.exceptions.HttpStatusException;
 import io.micronaut.http.multipart.CompletedFileUpload;
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.Pet;
@@ -60,8 +62,9 @@ public class PetController {
         @Body @NotNull @Valid Pet pet
     ) {
         // TODO implement addPet();
-        return Mono.empty();
+        return Mono.error(new HttpStatusException(HttpStatus.NOT_IMPLEMENTED, null));
     }
+
 
     /**
      * Deletes a pet
@@ -90,8 +93,9 @@ public class PetController {
         @Header(value="api_key") @Nullable String apiKey
     ) {
         // TODO implement deletePet();
-        return Mono.empty();
+        return Mono.error(new HttpStatusException(HttpStatus.NOT_IMPLEMENTED, null));
     }
+
 
     /**
      * Finds Pets by status
@@ -121,8 +125,9 @@ public class PetController {
         @QueryValue(value="status") @NotNull List<String> status
     ) {
         // TODO implement findPetsByStatus();
-        return Mono.empty();
+        return Mono.error(new HttpStatusException(HttpStatus.NOT_IMPLEMENTED, null));
     }
+
 
     /**
      * Finds Pets by tags
@@ -152,8 +157,9 @@ public class PetController {
         @QueryValue(value="tags") @NotNull List<String> tags
     ) {
         // TODO implement findPetsByTags();
-        return Mono.empty();
+        return Mono.error(new HttpStatusException(HttpStatus.NOT_IMPLEMENTED, null));
     }
+
 
     /**
      * Find pet by ID
@@ -181,8 +187,9 @@ public class PetController {
         @PathVariable(value="petId") @NotNull Long petId
     ) {
         // TODO implement getPetById();
-        return Mono.empty();
+        return Mono.error(new HttpStatusException(HttpStatus.NOT_IMPLEMENTED, null));
     }
+
 
     /**
      * Update an existing pet
@@ -215,8 +222,9 @@ public class PetController {
         @Body @NotNull @Valid Pet pet
     ) {
         // TODO implement updatePet();
-        return Mono.empty();
+        return Mono.error(new HttpStatusException(HttpStatus.NOT_IMPLEMENTED, null));
     }
+
 
     /**
      * Updates a pet in the store with form data
@@ -248,8 +256,9 @@ public class PetController {
         @Nullable String status
     ) {
         // TODO implement updatePetWithForm();
-        return Mono.empty();
+        return Mono.error(new HttpStatusException(HttpStatus.NOT_IMPLEMENTED, null));
     }
+
 
     /**
      * uploads an image
@@ -283,6 +292,7 @@ public class PetController {
         @Nullable CompletedFileUpload _file
     ) {
         // TODO implement uploadFile();
-        return Mono.empty();
+        return Mono.error(new HttpStatusException(HttpStatus.NOT_IMPLEMENTED, null));
     }
+
 }

@@ -16,6 +16,8 @@ import io.micronaut.http.annotation.*;
 import io.micronaut.core.annotation.Nullable;
 import io.micronaut.core.convert.format.Format;
 import reactor.core.publisher.Mono;
+import io.micronaut.http.HttpStatus;
+import io.micronaut.http.exceptions.HttpStatusException;
 import org.openapitools.model.Order;
 import javax.annotation.Generated;
 import java.util.ArrayList;
@@ -50,8 +52,9 @@ public class StoreController {
         @PathVariable(value="orderId") @NotNull String orderId
     ) {
         // TODO implement deleteOrder();
-        return Mono.empty();
+        return Mono.error(new HttpStatusException(HttpStatus.NOT_IMPLEMENTED, null));
     }
+
 
     /**
      * Returns pet inventories by status
@@ -75,8 +78,9 @@ public class StoreController {
     @Produces(value = {"application/json"})
     public Mono<Map<String, Integer>> getInventory() {
         // TODO implement getInventory();
-        return Mono.empty();
+        return Mono.error(new HttpStatusException(HttpStatus.NOT_IMPLEMENTED, null));
     }
+
 
     /**
      * Find purchase order by ID
@@ -102,8 +106,9 @@ public class StoreController {
         @PathVariable(value="orderId") @NotNull @Min(1L) @Max(5L) Long orderId
     ) {
         // TODO implement getOrderById();
-        return Mono.empty();
+        return Mono.error(new HttpStatusException(HttpStatus.NOT_IMPLEMENTED, null));
     }
+
 
     /**
      * Place an order for a pet
@@ -129,6 +134,7 @@ public class StoreController {
         @Body @NotNull @Valid Order order
     ) {
         // TODO implement placeOrder();
-        return Mono.empty();
+        return Mono.error(new HttpStatusException(HttpStatus.NOT_IMPLEMENTED, null));
     }
+
 }
