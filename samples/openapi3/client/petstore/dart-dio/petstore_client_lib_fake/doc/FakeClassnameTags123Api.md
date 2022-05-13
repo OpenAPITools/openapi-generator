@@ -27,13 +27,13 @@ import 'package:openapi/api.dart';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('api_key_query').apiKeyPrefix = 'Bearer';
 
-var api_instance = new FakeClassnameTags123Api();
-var modelClient = new ModelClient(); // ModelClient | client model
+final api = Openapi().getFakeClassnameTags123Api();
+final ModelClient modelClient = ; // ModelClient | client model
 
 try {
-    var result = api_instance.testClassname(modelClient);
-    print(result);
-} catch (e) {
+    final response = api.testClassname(modelClient);
+    print(response);
+} catch on DioError (e) {
     print('Exception when calling FakeClassnameTags123Api->testClassname: $e\n');
 }
 ```

@@ -10,14 +10,11 @@
 """
 
 
-import sys
 import unittest
 
 import petstore_api
 from petstore_api.model.cat import Cat
-from petstore_api.model.cat_all_of import CatAllOf
 from petstore_api.model.dog import Dog
-from petstore_api.model.dog_all_of import DogAllOf
 from petstore_api.model.animal import Animal
 from petstore_api.schemas import StrSchema, BoolSchema, frozendict
 
@@ -45,7 +42,7 @@ class TestAnimal(unittest.TestCase):
         assert isinstance(animal, Animal)
         assert isinstance(animal, frozendict)
         assert isinstance(animal, Cat)
-        assert isinstance(animal, CatAllOf)
+        assert isinstance(animal, Cat._composed_schemas['allOf'][1])
         assert set(animal.keys()) == {'className', 'color'}
         assert animal.className == 'Cat'
         assert animal.color == 'black'
@@ -57,7 +54,7 @@ class TestAnimal(unittest.TestCase):
         assert isinstance(animal, Animal)
         assert isinstance(animal, frozendict)
         assert isinstance(animal, Cat)
-        assert isinstance(animal, CatAllOf)
+        assert isinstance(animal, Cat._composed_schemas['allOf'][1])
         assert set(animal.keys()) == {'className', 'color', 'declawed'}
         assert animal.className == 'Cat'
         assert animal.color == 'black'
@@ -71,7 +68,7 @@ class TestAnimal(unittest.TestCase):
         assert isinstance(animal, Animal)
         assert isinstance(animal, frozendict)
         assert isinstance(animal, Dog)
-        assert isinstance(animal, DogAllOf)
+        assert isinstance(animal, Dog._composed_schemas['allOf'][1])
         assert set(animal.keys()) == {'className', 'color'}
         assert animal.className == 'Dog'
         assert animal.color == 'black'
@@ -83,7 +80,7 @@ class TestAnimal(unittest.TestCase):
         assert isinstance(animal, Animal)
         assert isinstance(animal, frozendict)
         assert isinstance(animal, Dog)
-        assert isinstance(animal, DogAllOf)
+        assert isinstance(animal, Dog._composed_schemas['allOf'][1])
         assert set(animal.keys()) == {'className', 'color', 'breed'}
         assert animal.className == 'Dog'
         assert animal.color == 'black'

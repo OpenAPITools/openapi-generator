@@ -30,7 +30,7 @@ export interface InlineObject {
      * @type {string}
      * @memberof InlineObject
      */
-    nullableStringEnum?: string | null;
+    nullableStringEnum?: InlineObjectNullableStringEnumEnum;
     /**
      * 
      * @type {number}
@@ -42,7 +42,7 @@ export interface InlineObject {
      * @type {number}
      * @memberof InlineObject
      */
-    nullableNumberEnum?: number | null;
+    nullableNumberEnum?: InlineObjectNullableNumberEnumEnum;
 }
 
 
@@ -50,21 +50,41 @@ export interface InlineObject {
  * @export
  */
 export const InlineObjectStringEnumEnum = {
-    One: 'one' as 'one',
-    Two: 'two' as 'two',
-    Three: 'three' as 'three'
-};
+    One: 'one',
+    Two: 'two',
+    Three: 'three'
+} as const;
 export type InlineObjectStringEnumEnum = typeof InlineObjectStringEnumEnum[keyof typeof InlineObjectStringEnumEnum];
 
 /**
  * @export
  */
+export const InlineObjectNullableStringEnumEnum = {
+    One: 'one',
+    Two: 'two',
+    Three: 'three'
+} as const;
+export type InlineObjectNullableStringEnumEnum = typeof InlineObjectNullableStringEnumEnum[keyof typeof InlineObjectNullableStringEnumEnum];
+
+/**
+ * @export
+ */
 export const InlineObjectNumberEnumEnum = {
-    NUMBER_1: 1 as 1,
-    NUMBER_2: 2 as 2,
-    NUMBER_3: 3 as 3
-};
+    NUMBER_1: 1,
+    NUMBER_2: 2,
+    NUMBER_3: 3
+} as const;
 export type InlineObjectNumberEnumEnum = typeof InlineObjectNumberEnumEnum[keyof typeof InlineObjectNumberEnumEnum];
+
+/**
+ * @export
+ */
+export const InlineObjectNullableNumberEnumEnum = {
+    NUMBER_1: 1,
+    NUMBER_2: 2,
+    NUMBER_3: 3
+} as const;
+export type InlineObjectNullableNumberEnumEnum = typeof InlineObjectNullableNumberEnumEnum[keyof typeof InlineObjectNullableNumberEnumEnum];
 
 
 export function InlineObjectFromJSON(json: any): InlineObject {

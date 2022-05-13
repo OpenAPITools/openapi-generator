@@ -39,13 +39,13 @@ docs/FakeClassnameTags123Api.md
 docs/File.md
 docs/FileSchemaTestClass.md
 docs/Foo.md
+docs/FooGetDefaultResponse.md
 docs/FormatTest.md
 docs/Fruit.md
 docs/FruitReq.md
 docs/GmFruit.md
 docs/HasOnlyReadOnly.md
 docs/HealthCheckResult.md
-docs/InlineResponseDefault.md
 docs/List.md
 docs/Mammal.md
 docs/MapTest.md
@@ -80,6 +80,7 @@ git_push.sh
 go.mod
 go.sum
 model_200_response.go
+model__foo_get_default_response.go
 model__special_model_name_.go
 model_additional_properties_class.go
 model_animal.go
@@ -111,7 +112,6 @@ model_fruit_req.go
 model_gm_fruit.go
 model_has_only_read_only.go
 model_health_check_result.go
-model_inline_response_default.go
 model_list.go
 model_mammal.go
 model_map_test_.go

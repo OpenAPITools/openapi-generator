@@ -26,10 +26,12 @@ docs/Dog.md
 docs/DogAllOf.md
 docs/Drawing.md
 docs/EnumArrays.md
+docs/EnumTest.md
 docs/EquilateralTriangle.md
 docs/File.md
 docs/FileSchemaTestClass.md
 docs/Foo.md
+docs/FooGetDefaultResponse.md
 docs/FormatTest.md
 docs/Fruit.md
 docs/FruitReq.md
@@ -37,7 +39,6 @@ docs/GmFruit.md
 docs/GrandparentAnimal.md
 docs/HasOnlyReadOnly.md
 docs/HealthCheckResult.md
-docs/InlineResponseDefault.md
 docs/IsoscelesTriangle.md
 docs/List.md
 docs/Mammal.md
@@ -50,6 +51,7 @@ docs/NumberOnly.md
 docs/ObjectWithDeprecatedFields.md
 docs/Order.md
 docs/OuterComposite.md
+docs/OuterEnum.md
 docs/PSAnotherFakeApi.md
 docs/PSDefaultApi.md
 docs/PSFakeApi.md
@@ -109,10 +111,12 @@ src/PSPetstore/Model/Dog.ps1
 src/PSPetstore/Model/DogAllOf.ps1
 src/PSPetstore/Model/Drawing.ps1
 src/PSPetstore/Model/EnumArrays.ps1
+src/PSPetstore/Model/EnumTest.ps1
 src/PSPetstore/Model/EquilateralTriangle.ps1
 src/PSPetstore/Model/File.ps1
 src/PSPetstore/Model/FileSchemaTestClass.ps1
 src/PSPetstore/Model/Foo.ps1
+src/PSPetstore/Model/FooGetDefaultResponse.ps1
 src/PSPetstore/Model/FormatTest.ps1
 src/PSPetstore/Model/Fruit.ps1
 src/PSPetstore/Model/FruitReq.ps1
@@ -120,7 +124,6 @@ src/PSPetstore/Model/GmFruit.ps1
 src/PSPetstore/Model/GrandparentAnimal.ps1
 src/PSPetstore/Model/HasOnlyReadOnly.ps1
 src/PSPetstore/Model/HealthCheckResult.ps1
-src/PSPetstore/Model/InlineResponseDefault.ps1
 src/PSPetstore/Model/IsoscelesTriangle.ps1
 src/PSPetstore/Model/List.ps1
 src/PSPetstore/Model/Mammal.ps1
@@ -135,6 +138,7 @@ src/PSPetstore/Model/NumberOnly.ps1
 src/PSPetstore/Model/ObjectWithDeprecatedFields.ps1
 src/PSPetstore/Model/Order.ps1
 src/PSPetstore/Model/OuterComposite.ps1
+src/PSPetstore/Model/OuterEnum.ps1
 src/PSPetstore/Model/ParentPet.ps1
 src/PSPetstore/Model/Pet.ps1
 src/PSPetstore/Model/PetWithRequiredTags.ps1

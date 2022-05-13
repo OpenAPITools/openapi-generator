@@ -38,3 +38,13 @@
   image: "img/companies/numary.png"
   infoLink: "https://www.numary.com/?utm_source=openapi_generator&utm_medium=official_website&utm_campaign=sponsor"
   bronze: true
+-
+  caption: "OneSignal"
+  image: "img/companies/onesignal.png"
+  infoLink: "https://www.onesignal.com/?utm_source=openapi_generator&utm_medium=official_website&utm_campaign=sponsor"
+  bronze: true
+-
+  caption: "Virtualan Software"
+  image: "img/companies/virtualansoftware.png"
+  infoLink: "https://www.virtualansoftware.com/?utm_source=openapi_generator&utm_medium=official_website&utm_campaign=sponsor"
+  bronze: true

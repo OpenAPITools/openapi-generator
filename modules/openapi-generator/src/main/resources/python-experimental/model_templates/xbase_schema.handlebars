@@ -28,6 +28,9 @@ Float32{{#if getHasMultipleTypes}}Base,{{else}}Schema{{/if}}
 {{#isDouble}}
 Float64{{#if getHasMultipleTypes}}Base,{{else}}Schema{{/if}}
 {{/isDouble}}
+{{#if getIsUuid}}
+UUID{{#if getHasMultipleTypes}}Base,{{else}}Schema{{/if}}
+{{/if}}
 {{#if isDate}}
 Date{{#if getHasMultipleTypes}}Base,{{else}}Schema{{/if}}
 {{/if}}

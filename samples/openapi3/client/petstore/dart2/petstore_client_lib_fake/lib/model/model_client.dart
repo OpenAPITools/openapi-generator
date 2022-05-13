@@ -37,11 +37,11 @@ class ModelClient {
   String toString() => 'ModelClient[client=$client]';
 
   Map<String, dynamic> toJson() {
-    final json = <String, dynamic>{};
+    final _json = <String, dynamic>{};
     if (client != null) {
-      json[r'client'] = client;
+      _json[r'client'] = client;
     }
-    return json;
+    return _json;
   }
 
   /// Returns a new [ModelClient] instance and imports its values from

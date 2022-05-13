@@ -59,10 +59,10 @@ export interface AdditionalPropertiesClass {
     'map_with_undeclared_properties_anytype_2'?: object;
     /**
      * 
-     * @type {{ [key: string]: object; }}
+     * @type {{ [key: string]: any; }}
      * @memberof AdditionalPropertiesClass
      */
-    'map_with_undeclared_properties_anytype_3'?: { [key: string]: object; };
+    'map_with_undeclared_properties_anytype_3'?: { [key: string]: any; };
     /**
      * an object with no declared properties and no undeclared properties, hence it\'s an empty map.
      * @type {object}
@@ -721,6 +721,19 @@ export interface Foo {
 /**
  * 
  * @export
+ * @interface FooGetDefaultResponse
+ */
+export interface FooGetDefaultResponse {
+    /**
+     * 
+     * @type {Foo}
+     * @memberof FooGetDefaultResponse
+     */
+    'string'?: Foo;
+}
+/**
+ * 
+ * @export
  * @interface FormatTest
  */
 export interface FormatTest {
@@ -908,19 +921,6 @@ export interface HealthCheckResult {
      * @memberof HealthCheckResult
      */
     'NullableMessage'?: string | null;
-}
-/**
- * 
- * @export
- * @interface InlineResponseDefault
- */
-export interface InlineResponseDefault {
-    /**
-     * 
-     * @type {Foo}
-     * @memberof InlineResponseDefault
-     */
-    'string'?: Foo;
 }
 /**
  * 
@@ -1706,7 +1706,7 @@ export interface Whale {
  * @interface Zebra
  */
 export interface Zebra {
-    [key: string]: object | any;
+    [key: string]: any;
 
     /**
      * 
@@ -1888,7 +1888,7 @@ export const DefaultApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async fooGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<InlineResponseDefault>> {
+        async fooGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FooGetDefaultResponse>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.fooGet(options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -1907,7 +1907,7 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        fooGet(options?: any): AxiosPromise<InlineResponseDefault> {
+        fooGet(options?: any): AxiosPromise<FooGetDefaultResponse> {
             return localVarFp.fooGet(options).then((request) => request(axios, basePath));
         },
     };

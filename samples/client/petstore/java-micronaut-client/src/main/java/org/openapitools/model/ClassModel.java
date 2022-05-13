@@ -52,7 +52,7 @@ public class ClassModel {
     @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_PROPERTY_CLASS)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public String getPropertyClass() {
+    public String getPropertyClass() {
         return propertyClass;
     }
 

@@ -197,16 +197,16 @@ class EnumTest implements ModelInterface, ArrayAccess, \JsonSerializable
         return self::$openAPIModelName;
     }
 
-    const ENUM_STRING_UPPER = 'UPPER';
-    const ENUM_STRING_LOWER = 'lower';
-    const ENUM_STRING_EMPTY = '';
-    const ENUM_STRING_REQUIRED_UPPER = 'UPPER';
-    const ENUM_STRING_REQUIRED_LOWER = 'lower';
-    const ENUM_STRING_REQUIRED_EMPTY = '';
-    const ENUM_INTEGER_1 = 1;
-    const ENUM_INTEGER_MINUS_1 = -1;
-    const ENUM_NUMBER_1_DOT_1 = 1.1;
-    const ENUM_NUMBER_MINUS_1_DOT_2 = -1.2;
+    public const ENUM_STRING_UPPER = 'UPPER';
+    public const ENUM_STRING_LOWER = 'lower';
+    public const ENUM_STRING_EMPTY = '';
+    public const ENUM_STRING_REQUIRED_UPPER = 'UPPER';
+    public const ENUM_STRING_REQUIRED_LOWER = 'lower';
+    public const ENUM_STRING_REQUIRED_EMPTY = '';
+    public const ENUM_INTEGER_1 = 1;
+    public const ENUM_INTEGER_MINUS_1 = -1;
+    public const ENUM_NUMBER_1_DOT_1 = 1.1;
+    public const ENUM_NUMBER_MINUS_1_DOT_2 = -1.2;
 
     /**
      * Gets allowable values of the enum

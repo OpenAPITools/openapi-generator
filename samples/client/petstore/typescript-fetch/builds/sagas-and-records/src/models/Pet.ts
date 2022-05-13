@@ -181,7 +181,6 @@ export const PetStatusEnum = {
     Pending: 'pending',
     Sold: 'sold'
 } as const;
-
 export type PetStatusEnum = typeof PetStatusEnum[keyof typeof PetStatusEnum];
 
 

@@ -52,7 +52,7 @@ public class SpecialModelName {
     @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public Long get$SpecialPropertyName() {
+    public Long get$SpecialPropertyName() {
         return $specialPropertyName;
     }
 

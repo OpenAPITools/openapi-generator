@@ -74,7 +74,8 @@ class RESTClientObject(object):
                 maxsize = 4
 
         # https pool manager
-        if configuration.proxy and not should_bypass_proxies(configuration.host, no_proxy=configuration.no_proxy or ''):
+        if configuration.proxy and not should_bypass_proxies(
+                configuration.host, no_proxy=configuration.no_proxy or ''):
             self.pool_manager = urllib3.ProxyManager(
                 num_pools=pools_size,
                 maxsize=maxsize,
@@ -147,7 +148,8 @@ class RESTClientObject(object):
                     headers['Content-Type'] = 'application/json'
                 if query_params:
                     url += '?' + urlencode(query_params)
-                if ('Content-Type' not in headers) or (re.search('json', headers['Content-Type'], re.IGNORECASE)):
+                if ('Content-Type' not in headers) or (re.search('json',
+                                                                 headers['Content-Type'], re.IGNORECASE)):
                     request_body = None
                     if body is not None:
                         request_body = json.dumps(body)
@@ -294,14 +296,17 @@ class RESTClientObject(object):
                             body=body)
 
 # end of class RESTClientObject
+
+
 def is_ipv4(target):
     """ Test if IPv4 address or not
     """
     try:
-       chk = ipaddress.IPv4Address(target)
-       return True
+        chk = ipaddress.IPv4Address(target)
+        return True
     except ipaddress.AddressValueError:
-       return False
+        return False
+
 
 def in_ipv4net(target, net):
     """ Test if target belongs to given IPv4 network
@@ -317,6 +322,7 @@ def in_ipv4net(target, net):
     except ipaddress.NetmaskValueError:
         return False
 
+
 def should_bypass_proxies(url, no_proxy=None):
     """ Yet another requests.should_bypass_proxies
     Test if proxies should not be used for a particular url.
@@ -329,18 +335,18 @@ def should_bypass_proxies(url, no_proxy=None):
         return True
 
     # special cases
-    if no_proxy in [None , '']:
+    if no_proxy in [None, '']:
         return False
     if no_proxy == '*':
         return True
 
-    no_proxy = no_proxy.lower().replace(' ','');
+    no_proxy = no_proxy.lower().replace(' ', '');
     entries = (
         host for host in no_proxy.split(',') if host
     )
 
     if is_ipv4(parsed.hostname):
         for item in entries:
-           if in_ipv4net(parsed.hostname, item):
-               return True
-    return proxy_bypass_environment(parsed.hostname, {'no': no_proxy} )
+            if in_ipv4net(parsed.hostname, item):
+                return True
+    return proxy_bypass_environment(parsed.hostname, {'no': no_proxy})

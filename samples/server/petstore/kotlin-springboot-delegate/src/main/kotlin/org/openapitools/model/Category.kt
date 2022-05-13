@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull
 import javax.validation.constraints.Pattern
 import javax.validation.constraints.Size
 import javax.validation.Valid
-import io.swagger.annotations.ApiModelProperty
+import io.swagger.v3.oas.annotations.media.Schema
 
 /**
  * A category for a pet
@@ -20,11 +20,11 @@ import io.swagger.annotations.ApiModelProperty
  */
 data class Category(
 
-    @ApiModelProperty(example = "null", value = "")
+    @Schema(example = "null", description = "")
     @field:JsonProperty("id") val id: kotlin.Long? = null,
 
     @get:Pattern(regexp="^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$")
-    @ApiModelProperty(example = "null", value = "")
+    @Schema(example = "null", description = "")
     @field:JsonProperty("name") val name: kotlin.String? = null
 ) {
 

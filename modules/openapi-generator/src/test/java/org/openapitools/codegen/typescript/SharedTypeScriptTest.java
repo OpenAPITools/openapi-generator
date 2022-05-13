@@ -47,9 +47,9 @@ public class SharedTypeScriptTest {
     private void checkAPIFile(List<File> files, String apiFileName) throws IOException {
         File apiFile = files.stream().filter(file->file.getName().contains(apiFileName)).findFirst().get();
         String apiFileContent = FileUtils.readFileToString(apiFile, StandardCharsets.UTF_8);
-        Assert.assertTrue(!apiFileContent.contains("import { OrganizationWrapper | PersonWrapper }"));
+        Assert.assertTrue(!apiFileContent.contains("import { GetCustomer200Response | PersonWrapper }"));
         Assert.assertEquals(StringUtils.countMatches(apiFileContent,"import { PersonWrapper }"),1);
-        Assert.assertEquals(StringUtils.countMatches(apiFileContent,"import { OrganizationWrapper }"),1);
+        Assert.assertEquals(StringUtils.countMatches(apiFileContent,"import { GetCustomer200Response }"),1);
     }
 
     @Test

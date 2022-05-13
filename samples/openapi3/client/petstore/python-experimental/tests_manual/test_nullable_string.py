@@ -10,7 +10,6 @@
 """
 
 
-import sys
 import unittest
 
 import petstore_api
@@ -34,6 +33,7 @@ class TestNullableString(unittest.TestCase):
         assert isinstance(inst, NullableString)
         assert isinstance(inst, Schema)
         assert inst.is_none() is True
+        assert repr(inst) == '<DynamicNullableString: None>'
 
         inst = NullableString('approved')
         assert isinstance(inst, NullableString)

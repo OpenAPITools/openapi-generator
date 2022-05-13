@@ -872,8 +872,11 @@ public class DefaultGenerator implements Generator {
         }
 
         // resolve inline models
-        InlineModelResolver inlineModelResolver = new InlineModelResolver();
-        inlineModelResolver.flatten(openAPI);
+        if (config.getUseInlineModelResolver()) {
+            InlineModelResolver inlineModelResolver = new InlineModelResolver();
+            inlineModelResolver.setInlineSchemaNameMapping(config.inlineSchemaNameMapping());
+            inlineModelResolver.flatten(openAPI);
+        }
 
         configureGeneratorProperties();
         configureOpenAPIInfo();

@@ -1125,7 +1125,8 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
             }
         }
 
-        return objs;
+        // process enum in models
+        return postProcessModelsEnum(objs);
     }
 
     @Override
@@ -1545,4 +1546,30 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
 
     @Override
     public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.POWERSHELL; }
+
+    @Override
+    public String toEnumVarName(String name, String datatype) {
+        if (name.length() == 0) {
+            return "EMPTY";
+        }
+
+        // for symbol, e.g. $, #
+        if (getSymbolName(name) != null) {
+            return (getSymbolName(name)).toUpperCase(Locale.ROOT);
+        }
+
+        // number
+        if ("Int16".equals(datatype) ||  "Int32".equals(datatype)  || "Int64".equals(datatype) ||
+            "UInt16".equals(datatype) ||  "UInt32".equals(datatype)  || "UInt64".equals(datatype) ||
+            "Double".equals(datatype) || "Single".equals(datatype) || "Decimal".equals(datatype)) {
+            String varName = name;
+            varName = varName.replaceAll("-", "MINUS_");
+            varName = varName.replaceAll("\\+", "PLUS_");
+            varName = varName.replaceAll("\\.", "_DOT_");
+            return varName;
+        }
+
+        // remove special character
+        return sanitizeName(name);
+    }
 }

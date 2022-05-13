@@ -1,8 +1,7 @@
     {{^generateControllerFromExamples}}
         {{!The body needs to be implemented by user}}
-        // TODO implement {{nickname}}() body;
-        {{#returnType}}Mono<{{{returnType}}}>{{/returnType}}{{^returnType}}Mono<Object>{{/returnType}} result = Mono.empty();
-        return result;
+        // TODO implement {{nickname}}();
+        {{#reactive}}{{#wrapInHttpResponse}}return Mono.fromCallable(HttpResponse::ok);{{/wrapInHttpResponse}}{{^wrapInHttpResponse}}return Mono.empty();{{/wrapInHttpResponse}}{{/reactive}}{{^reactive}}{{#wrapInHttpResponse}}return HttpResponse.ok();{{/wrapInHttpResponse}}{{^wrapInHttpResponse}}{{#returnType}}return null;{{/returnType}}{{/wrapInHttpResponse}}{{/reactive}}
     {{/generateControllerFromExamples}}
     {{#generateControllerFromExamples}}
         {{!The body is generated to verify that example values are passed correctly}}
@@ -12,6 +11,27 @@
         assert {{paramName}}.equals({{paramName}}Expected) : "The parameter {{paramName}} was expected to match its example value";
             {{/isFile}}
         {{/allParams}}
-
-        return Mono.fromCallable(() -> {{^returnType}}""{{/returnType}}{{#returnType}}{{#vendorExtensions.example}}{{{vendorExtensions.example}}}{{/vendorExtensions.example}}{{^vendorExtensions.example}}null{{/vendorExtensions.example}}{{/returnType}});
+        {{!
+        return type present
+        }}{{#returnType}}return {{!
+        reactive start
+        }}{{#reactive}}Mono.fromCallable(() -> {{/reactive}}{{!
+        wrapInHttpResponse start
+        }}{{#wrapInHttpResponse}}HttpResponse.ok({{/wrapInHttpResponse}}{{!
+        body
+        }}{{#vendorExtensions.example}}{{{vendorExtensions.example}}}{{/vendorExtensions.example}}{{^vendorExtensions.example}}{{^wrapInHttpResponse}}null{{/wrapInHttpResponse}}{{/vendorExtensions.example}}{{!
+        wrapInHttpResponse end
+        }}{{#wrapInHttpResponse}}){{/wrapInHttpResponse}}{{!
+        reactive end
+        }}{{#reactive}}){{/reactive}};{{/returnType}}{{!
+        return type not present
+        }}{{^returnType}}{{!
+        reactive
+        }}{{#reactive}}return {{!
+        wrapInHttpResponse
+        }}{{#wrapInHttpResponse}}Mono.fromCallable(HttpResponse::ok){{/wrapInHttpResponse}}{{^wrapInHttpResponse}}Mono.fromCallable(() -> null){{/wrapInHttpResponse}};{{/reactive}}{{!
+        not reactive
+        }}{{^reactive}}{{!
+        wrapInHttpResponse
+        }}{{#wrapInHttpResponse}}return HttpResponse.ok();{{/wrapInHttpResponse}}{{/reactive}}{{/returnType}}
     {{/generateControllerFromExamples}}

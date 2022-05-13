@@ -4,6 +4,5 @@
 */
 enum class {{classname}}(val value: {{dataType}}) {
 {{#allowableValues}}{{#enumVars}}
-    @JsonProperty({{{value}}}) {{&name}}({{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
-{{/enumVars}}{{/allowableValues}}
+    @JsonProperty({{{value}}}) {{&name}}({{{value}}}){{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}
 }

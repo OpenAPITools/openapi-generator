@@ -38,7 +38,6 @@ class StoreApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    const authNames = <String>[];
     const contentTypes = <String>[];
 
 
@@ -50,7 +49,6 @@ class StoreApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
-      authNames,
     );
   }
 
@@ -85,7 +83,6 @@ class StoreApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    const authNames = <String>['api_key'];
     const contentTypes = <String>[];
 
 
@@ -97,7 +94,6 @@ class StoreApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
-      authNames,
     );
   }
 
@@ -141,7 +137,6 @@ class StoreApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    const authNames = <String>[];
     const contentTypes = <String>[];
 
 
@@ -153,7 +148,6 @@ class StoreApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
-      authNames,
     );
   }
 
@@ -201,7 +195,6 @@ class StoreApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    const authNames = <String>[];
     const contentTypes = <String>['application/json'];
 
 
@@ -213,7 +206,6 @@ class StoreApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
-      authNames,
     );
   }
 

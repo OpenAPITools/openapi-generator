@@ -130,6 +130,13 @@ class TestFakeApi(unittest.TestCase):
         """
         pass
 
+    def test_json_with_charset(self):
+        """Test case for json_with_charset
+
+        json with charset tx and rx  # noqa: E501
+        """
+        pass
+
     def test_mammal(self):
         """Test case for mammal
 
@@ -139,6 +146,13 @@ class TestFakeApi(unittest.TestCase):
     def test_number_with_validations(self):
         """Test case for number_with_validations
 
+        """
+        pass
+
+    def test_object_in_query(self):
+        """Test case for object_in_query
+
+        user list  # noqa: E501
         """
         pass
 
@@ -158,6 +172,20 @@ class TestFakeApi(unittest.TestCase):
     def test_query_parameter_collection_format(self):
         """Test case for query_parameter_collection_format
 
+        """
+        pass
+
+    def test_ref_object_in_query(self):
+        """Test case for ref_object_in_query
+
+        user list  # noqa: E501
+        """
+        pass
+
+    def test_response_without_schema(self):
+        """Test case for response_without_schema
+
+        receives a response without schema  # noqa: E501
         """
         pass
 
