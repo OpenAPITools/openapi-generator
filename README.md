@@ -591,6 +591,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [Cupix](https://www.cupix.com/)
 - [Datadog](https://www.datadoghq.com)
 - [DB Systel](https://www.dbsystel.de)
+- [Deeporute.ai](https://www.deeproute.ai/)
 - [Devsupply](https://www.devsupply.com/)
 - [DocSpring](https://docspring.com/)
 - [dwango](https://dwango.co.jp/)
