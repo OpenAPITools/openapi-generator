@@ -333,7 +333,6 @@ public class {{classname}} {
             return localVarApiClient.executeStream(localVarCall, localVarReturnType);
         } catch (ApiException e) {
             e.setErrorObject(localVarApiClient.getJSON().getGson().fromJson(e.getResponseBody(), new TypeToken<{{{errorObjectType}}}>(){}.getType()));
-            e.setErrorObjectType(new GenericType<{{{errorObjectType}}}>(){});
             throw e;
         }
         {{/errorObjectType}}
@@ -355,7 +354,6 @@ public class {{classname}} {
             return localVarApiClient.execute(localVarCall, localVarReturnType);
         } catch (ApiException e) {
             e.setErrorObject(localVarApiClient.getJSON().getGson().fromJson(e.getResponseBody(), new TypeToken<{{{errorObjectType}}}>(){}.getType()));
-            e.setErrorObjectType(new GenericType<{{{errorObjectType}}}>(){});
             throw e;
         }
         {{/errorObjectType}}
