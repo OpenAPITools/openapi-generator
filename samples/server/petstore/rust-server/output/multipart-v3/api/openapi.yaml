@@ -63,7 +63,7 @@ paths:
                 contentType: application/octet-stream
                 style: form
             schema:
-              $ref: '#/components/schemas/inline_request'
+              $ref: '#/components/schemas/_multiple_identical_mime_types_post_request'
         required: true
       responses:
         "200":
@@ -98,7 +98,7 @@ components:
       required:
       - required_binary_field
       type: object
-    inline_request:
+    _multiple_identical_mime_types_post_request:
       properties:
         binary1:
           format: binary

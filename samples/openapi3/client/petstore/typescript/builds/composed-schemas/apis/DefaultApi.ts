@@ -8,9 +8,9 @@ import {canConsumeForm, isCodeInRange} from '../util';
 import {SecurityAuthentication} from '../auth/auth';
 
 
-import { InlineRequest } from '../models/InlineRequest';
-import { InlineRequest1 } from '../models/InlineRequest1';
-import { InlineRequest2 } from '../models/InlineRequest2';
+import { FilePostRequest } from '../models/FilePostRequest';
+import { PetsFilteredPatchRequest } from '../models/PetsFilteredPatchRequest';
+import { PetsPatchRequest } from '../models/PetsPatchRequest';
 
 /**
  * no description
@@ -18,9 +18,9 @@ import { InlineRequest2 } from '../models/InlineRequest2';
 export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
 
     /**
-     * @param inlineRequest2 
+     * @param filePostRequest 
      */
-    public async filePost(inlineRequest2?: InlineRequest2, _options?: Configuration): Promise<RequestContext> {
+    public async filePost(filePostRequest?: FilePostRequest, _options?: Configuration): Promise<RequestContext> {
         let _config = _options || this.configuration;
 
 
@@ -38,7 +38,7 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
         ]);
         requestContext.setHeaderParam("Content-Type", contentType);
         const serializedBody = ObjectSerializer.stringify(
-            ObjectSerializer.serialize(inlineRequest2, "InlineRequest2", ""),
+            ObjectSerializer.serialize(filePostRequest, "FilePostRequest", ""),
             contentType
         );
         requestContext.setBody(serializedBody);
@@ -53,9 +53,9 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
     }
 
     /**
-     * @param inlineRequest1 
+     * @param petsFilteredPatchRequest 
      */
-    public async petsFilteredPatch(inlineRequest1?: InlineRequest1, _options?: Configuration): Promise<RequestContext> {
+    public async petsFilteredPatch(petsFilteredPatchRequest?: PetsFilteredPatchRequest, _options?: Configuration): Promise<RequestContext> {
         let _config = _options || this.configuration;
 
 
@@ -73,7 +73,7 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
         ]);
         requestContext.setHeaderParam("Content-Type", contentType);
         const serializedBody = ObjectSerializer.stringify(
-            ObjectSerializer.serialize(inlineRequest1, "InlineRequest1", ""),
+            ObjectSerializer.serialize(petsFilteredPatchRequest, "PetsFilteredPatchRequest", ""),
             contentType
         );
         requestContext.setBody(serializedBody);
@@ -88,9 +88,9 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
     }
 
     /**
-     * @param inlineRequest 
+     * @param petsPatchRequest 
      */
-    public async petsPatch(inlineRequest?: InlineRequest, _options?: Configuration): Promise<RequestContext> {
+    public async petsPatch(petsPatchRequest?: PetsPatchRequest, _options?: Configuration): Promise<RequestContext> {
         let _config = _options || this.configuration;
 
 
@@ -108,7 +108,7 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
         ]);
         requestContext.setHeaderParam("Content-Type", contentType);
         const serializedBody = ObjectSerializer.stringify(
-            ObjectSerializer.serialize(inlineRequest, "InlineRequest", ""),
+            ObjectSerializer.serialize(petsPatchRequest, "PetsPatchRequest", ""),
             contentType
         );
         requestContext.setBody(serializedBody);

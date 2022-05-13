@@ -6,11 +6,11 @@ import { Cat } from '../models/Cat';
 import { CatAllOf } from '../models/CatAllOf';
 import { Dog } from '../models/Dog';
 import { DogAllOf } from '../models/DogAllOf';
-import { InlineRequest } from '../models/InlineRequest';
-import { InlineRequest1 } from '../models/InlineRequest1';
-import { InlineRequest2 } from '../models/InlineRequest2';
+import { FilePostRequest } from '../models/FilePostRequest';
 import { PetByAge } from '../models/PetByAge';
 import { PetByType } from '../models/PetByType';
+import { PetsFilteredPatchRequest } from '../models/PetsFilteredPatchRequest';
+import { PetsPatchRequest } from '../models/PetsPatchRequest';
 import { ObservableDefaultApi } from './ObservableAPI';
 
 import { DefaultApiRequestFactory, DefaultApiResponseProcessor} from "../apis/DefaultApi";
@@ -26,26 +26,26 @@ export class PromiseDefaultApi {
     }
 
     /**
-     * @param inlineRequest2 
+     * @param filePostRequest 
      */
-    public filePost(inlineRequest2?: InlineRequest2, _options?: Configuration): Promise<void> {
-        const result = this.api.filePost(inlineRequest2, _options);
+    public filePost(filePostRequest?: FilePostRequest, _options?: Configuration): Promise<void> {
+        const result = this.api.filePost(filePostRequest, _options);
         return result.toPromise();
     }
 
     /**
-     * @param inlineRequest1 
+     * @param petsFilteredPatchRequest 
      */
-    public petsFilteredPatch(inlineRequest1?: InlineRequest1, _options?: Configuration): Promise<void> {
-        const result = this.api.petsFilteredPatch(inlineRequest1, _options);
+    public petsFilteredPatch(petsFilteredPatchRequest?: PetsFilteredPatchRequest, _options?: Configuration): Promise<void> {
+        const result = this.api.petsFilteredPatch(petsFilteredPatchRequest, _options);
         return result.toPromise();
     }
 
     /**
-     * @param inlineRequest 
+     * @param petsPatchRequest 
      */
-    public petsPatch(inlineRequest?: InlineRequest, _options?: Configuration): Promise<void> {
-        const result = this.api.petsPatch(inlineRequest, _options);
+    public petsPatch(petsPatchRequest?: PetsPatchRequest, _options?: Configuration): Promise<void> {
+        const result = this.api.petsPatch(petsPatchRequest, _options);
         return result.toPromise();
     }
 

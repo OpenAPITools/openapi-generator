@@ -28,7 +28,7 @@
   var instance;
 
   beforeEach(function() {
-    instance = new OpenApiPetstore.InlineResponseDefault();
+    instance = new OpenApiPetstore.FooGetDefaultResponse();
   });
 
   var getProperty = function(object, getter, property) {
@@ -47,16 +47,16 @@
       object[property] = value;
   }
 
-  describe('InlineResponseDefault', function() {
-    it('should create an instance of InlineResponseDefault', function() {
-      // uncomment below and update the code to test InlineResponseDefault
-      //var instane = new OpenApiPetstore.InlineResponseDefault();
-      //expect(instance).to.be.a(OpenApiPetstore.InlineResponseDefault);
+  describe('FooGetDefaultResponse', function() {
+    it('should create an instance of FooGetDefaultResponse', function() {
+      // uncomment below and update the code to test FooGetDefaultResponse
+      //var instance = new OpenApiPetstore.FooGetDefaultResponse();
+      //expect(instance).to.be.a(OpenApiPetstore.FooGetDefaultResponse);
     });
 
-    it('should have the property _string (base name: "string")', function() {
-      // uncomment below and update the code to test the property _string
-      //var instance = new OpenApiPetstore.InlineResponseDefault();
+    it('should have the property string (base name: "string")', function() {
+      // uncomment below and update the code to test the property string
+      //var instance = new OpenApiPetstore.FooGetDefaultResponse();
       //expect(instance).to.be();
     });
 

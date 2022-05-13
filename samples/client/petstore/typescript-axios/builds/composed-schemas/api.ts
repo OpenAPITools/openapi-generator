@@ -118,60 +118,15 @@ export const DogAllOfBreedEnum = {
 export type DogAllOfBreedEnum = typeof DogAllOfBreedEnum[keyof typeof DogAllOfBreedEnum];
 
 /**
- * @type InlineRequest
- * @export
- */
-export type InlineRequest = Cat | Dog | any;
-
-/**
  * 
  * @export
- * @interface InlineRequest1
+ * @interface FilePostRequest
  */
-export interface InlineRequest1 {
-    /**
-     * 
-     * @type {number}
-     * @memberof InlineRequest1
-     */
-    'age': number;
-    /**
-     * 
-     * @type {string}
-     * @memberof InlineRequest1
-     */
-    'nickname'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof InlineRequest1
-     */
-    'pet_type': InlineRequest1PetTypeEnum;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof InlineRequest1
-     */
-    'hunts'?: boolean;
-}
-
-export const InlineRequest1PetTypeEnum = {
-    Cat: 'Cat',
-    Dog: 'Dog'
-} as const;
-
-export type InlineRequest1PetTypeEnum = typeof InlineRequest1PetTypeEnum[keyof typeof InlineRequest1PetTypeEnum];
-
-/**
- * 
- * @export
- * @interface InlineRequest2
- */
-export interface InlineRequest2 {
+export interface FilePostRequest {
     /**
      * 
      * @type {any}
-     * @memberof InlineRequest2
+     * @memberof FilePostRequest
      */
     'file'?: any;
 }
@@ -221,6 +176,51 @@ export const PetByTypePetTypeEnum = {
 
 export type PetByTypePetTypeEnum = typeof PetByTypePetTypeEnum[keyof typeof PetByTypePetTypeEnum];
 
+/**
+ * 
+ * @export
+ * @interface PetsFilteredPatchRequest
+ */
+export interface PetsFilteredPatchRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof PetsFilteredPatchRequest
+     */
+    'age': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof PetsFilteredPatchRequest
+     */
+    'nickname'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PetsFilteredPatchRequest
+     */
+    'pet_type': PetsFilteredPatchRequestPetTypeEnum;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof PetsFilteredPatchRequest
+     */
+    'hunts'?: boolean;
+}
+
+export const PetsFilteredPatchRequestPetTypeEnum = {
+    Cat: 'Cat',
+    Dog: 'Dog'
+} as const;
+
+export type PetsFilteredPatchRequestPetTypeEnum = typeof PetsFilteredPatchRequestPetTypeEnum[keyof typeof PetsFilteredPatchRequestPetTypeEnum];
+
+/**
+ * @type PetsPatchRequest
+ * @export
+ */
+export type PetsPatchRequest = Cat | Dog | any;
+
 
 /**
  * DefaultApi - axios parameter creator
@@ -230,11 +230,11 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
     return {
         /**
          * 
-         * @param {InlineRequest2} [inlineRequest2] 
+         * @param {FilePostRequest} [filePostRequest] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        filePost: async (inlineRequest2?: InlineRequest2, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        filePost: async (filePostRequest?: FilePostRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/file`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -254,7 +254,7 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(inlineRequest2, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(filePostRequest, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -263,11 +263,11 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
-         * @param {InlineRequest1} [inlineRequest1] 
+         * @param {PetsFilteredPatchRequest} [petsFilteredPatchRequest] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        petsFilteredPatch: async (inlineRequest1?: InlineRequest1, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        petsFilteredPatch: async (petsFilteredPatchRequest?: PetsFilteredPatchRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/pets-filtered`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -287,7 +287,7 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(inlineRequest1, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(petsFilteredPatchRequest, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -296,11 +296,11 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
-         * @param {InlineRequest} [inlineRequest] 
+         * @param {PetsPatchRequest} [petsPatchRequest] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        petsPatch: async (inlineRequest?: InlineRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        petsPatch: async (petsPatchRequest?: PetsPatchRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/pets`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -320,7 +320,7 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(inlineRequest, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(petsPatchRequest, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -339,32 +339,32 @@ export const DefaultApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
-         * @param {InlineRequest2} [inlineRequest2] 
+         * @param {FilePostRequest} [filePostRequest] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async filePost(inlineRequest2?: InlineRequest2, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.filePost(inlineRequest2, options);
+        async filePost(filePostRequest?: FilePostRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.filePost(filePostRequest, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * 
-         * @param {InlineRequest1} [inlineRequest1] 
+         * @param {PetsFilteredPatchRequest} [petsFilteredPatchRequest] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async petsFilteredPatch(inlineRequest1?: InlineRequest1, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.petsFilteredPatch(inlineRequest1, options);
+        async petsFilteredPatch(petsFilteredPatchRequest?: PetsFilteredPatchRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.petsFilteredPatch(petsFilteredPatchRequest, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * 
-         * @param {InlineRequest} [inlineRequest] 
+         * @param {PetsPatchRequest} [petsPatchRequest] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async petsPatch(inlineRequest?: InlineRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.petsPatch(inlineRequest, options);
+        async petsPatch(petsPatchRequest?: PetsPatchRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.petsPatch(petsPatchRequest, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -379,30 +379,30 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
     return {
         /**
          * 
-         * @param {InlineRequest2} [inlineRequest2] 
+         * @param {FilePostRequest} [filePostRequest] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        filePost(inlineRequest2?: InlineRequest2, options?: any): AxiosPromise<void> {
-            return localVarFp.filePost(inlineRequest2, options).then((request) => request(axios, basePath));
+        filePost(filePostRequest?: FilePostRequest, options?: any): AxiosPromise<void> {
+            return localVarFp.filePost(filePostRequest, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {InlineRequest1} [inlineRequest1] 
+         * @param {PetsFilteredPatchRequest} [petsFilteredPatchRequest] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        petsFilteredPatch(inlineRequest1?: InlineRequest1, options?: any): AxiosPromise<void> {
-            return localVarFp.petsFilteredPatch(inlineRequest1, options).then((request) => request(axios, basePath));
+        petsFilteredPatch(petsFilteredPatchRequest?: PetsFilteredPatchRequest, options?: any): AxiosPromise<void> {
+            return localVarFp.petsFilteredPatch(petsFilteredPatchRequest, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {InlineRequest} [inlineRequest] 
+         * @param {PetsPatchRequest} [petsPatchRequest] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        petsPatch(inlineRequest?: InlineRequest, options?: any): AxiosPromise<void> {
-            return localVarFp.petsPatch(inlineRequest, options).then((request) => request(axios, basePath));
+        petsPatch(petsPatchRequest?: PetsPatchRequest, options?: any): AxiosPromise<void> {
+            return localVarFp.petsPatch(petsPatchRequest, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -416,35 +416,35 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
 export class DefaultApi extends BaseAPI {
     /**
      * 
-     * @param {InlineRequest2} [inlineRequest2] 
+     * @param {FilePostRequest} [filePostRequest] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DefaultApi
      */
-    public filePost(inlineRequest2?: InlineRequest2, options?: AxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).filePost(inlineRequest2, options).then((request) => request(this.axios, this.basePath));
+    public filePost(filePostRequest?: FilePostRequest, options?: AxiosRequestConfig) {
+        return DefaultApiFp(this.configuration).filePost(filePostRequest, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {InlineRequest1} [inlineRequest1] 
+     * @param {PetsFilteredPatchRequest} [petsFilteredPatchRequest] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DefaultApi
      */
-    public petsFilteredPatch(inlineRequest1?: InlineRequest1, options?: AxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).petsFilteredPatch(inlineRequest1, options).then((request) => request(this.axios, this.basePath));
+    public petsFilteredPatch(petsFilteredPatchRequest?: PetsFilteredPatchRequest, options?: AxiosRequestConfig) {
+        return DefaultApiFp(this.configuration).petsFilteredPatch(petsFilteredPatchRequest, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {InlineRequest} [inlineRequest] 
+     * @param {PetsPatchRequest} [petsPatchRequest] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DefaultApi
      */
-    public petsPatch(inlineRequest?: InlineRequest, options?: AxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).petsPatch(inlineRequest, options).then((request) => request(this.axios, this.basePath));
+    public petsPatch(petsPatchRequest?: PetsPatchRequest, options?: AxiosRequestConfig) {
+        return DefaultApiFp(this.configuration).petsPatch(petsPatchRequest, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

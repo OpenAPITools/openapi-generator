@@ -1,12 +1,12 @@
 import 'package:test/test.dart';
 import 'package:openapi/openapi.dart';
 
-// tests for InlineResponseDefault
+// tests for FooGetDefaultResponse
 void main() {
-  final instance = InlineResponseDefaultBuilder();
+  final instance = FooGetDefaultResponseBuilder();
   // TODO add properties to the builder and call build()
 
-  group(InlineResponseDefault, () {
+  group(FooGetDefaultResponse, () {
     // Foo string
     test('to test the property `string`', () async {
       // TODO

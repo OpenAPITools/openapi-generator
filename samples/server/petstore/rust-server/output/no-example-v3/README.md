@@ -99,7 +99,7 @@ Method | HTTP request | Description
 
 ## Documentation For Models
 
- - [InlineRequest](docs/InlineRequest.md)
+ - [OpGetRequest](docs/OpGetRequest.md)
 
 
 ## Documentation For Authorization

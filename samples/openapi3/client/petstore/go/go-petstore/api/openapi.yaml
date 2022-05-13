@@ -48,19 +48,19 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_default'
+                $ref: '#/components/schemas/_foo_get_default_response'
           description: response
         "4XX":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_default'
+                $ref: '#/components/schemas/_foo_get_default_response'
           description: client error
         "404":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_default'
+                $ref: '#/components/schemas/_foo_get_default_response'
           description: not found
   /pet:
     post:
@@ -1953,7 +1953,7 @@ components:
       items:
         type: string
       type: array
-    inline_response_default:
+    _foo_get_default_response:
       example:
         string:
           bar: bar

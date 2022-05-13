@@ -56,11 +56,12 @@ public class ModelUtilsTest {
                 "SomeObj15",
                 "SomeMapObj16",
                 "MapItem16",
+                "p17_200_response",
                 "SomeObj17",
                 "SomeObj18",
                 "Common18",
                 "SomeObj18_allOf",
-                "inline_request",
+                "_some_p19_patch_request",
                 "Obj19ByAge",
                 "Obj19ByType",
                 "SomeObj20",
@@ -217,11 +218,11 @@ public class ModelUtilsTest {
     }
 
     @Test
-    public void testAliasedTypeIsNotUnaliasedIfUsedForImportMapping(){
+    public void testAliasedTypeIsNotUnaliasedIfUsedForImportMapping() {
         Schema emailSchema = new Schema().$ref("#/components/schemas/Email").type("string");
         StringSchema stringSchema = new StringSchema();
         HashMap<String, String> importMappings = new HashMap<>();
-        importMappings.put("Email","foo.bar.Email");
+        importMappings.put("Email", "foo.bar.Email");
 
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("Email", stringSchema);
 

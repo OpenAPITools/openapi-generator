@@ -382,7 +382,7 @@ impl<S, C> Api<C> for Client<S, C> where
 
     async fn op_get(
         &self,
-        param_inline_request: models::InlineRequest,
+        param_op_get_request: models::OpGetRequest,
         context: &C) -> Result<OpGetResponse, ApiError>
     {
         let mut client_service = self.client_service.clone();
@@ -415,7 +415,7 @@ impl<S, C> Api<C> for Client<S, C> where
         };
 
         // Body parameter
-        let body = serde_json::to_string(&param_inline_request).expect("impossible to fail to serialize");
+        let body = serde_json::to_string(&param_op_get_request).expect("impossible to fail to serialize");
 
                 *request.body_mut() = Body::from(body);
 

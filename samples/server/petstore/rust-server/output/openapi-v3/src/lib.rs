@@ -25,7 +25,7 @@ pub enum AnyOfGetResponse {
     ,
     /// AnyOfSuccess
     AnyOfSuccess
-    (swagger::AnyOf2<models::StringObject,models::UuidObject>)
+    (models::AnyOfGet202Response)
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -74,7 +74,7 @@ pub enum MultigetGetResponse {
     ,
     /// XML rsp
     XMLRsp
-    (models::InlineResponse201)
+    (models::MultigetGet201Response)
     ,
     /// octet rsp
     OctetRsp
@@ -107,7 +107,7 @@ pub enum MultipleAuthSchemeGetResponse {
 pub enum OneOfGetResponse {
     /// Success
     Success
-    (swagger::OneOf2<i32,Vec<String>>)
+    (models::OneOfGet200Response)
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]

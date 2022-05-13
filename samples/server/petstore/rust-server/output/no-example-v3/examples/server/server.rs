@@ -104,11 +104,11 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
 {
     async fn op_get(
         &self,
-        inline_request: models::InlineRequest,
+        op_get_request: models::OpGetRequest,
         context: &C) -> Result<OpGetResponse, ApiError>
     {
         let context = context.clone();
-        info!("op_get({:?}) - X-Span-ID: {:?}", inline_request, context.get().0.clone());
+        info!("op_get({:?}) - X-Span-ID: {:?}", op_get_request, context.get().0.clone());
         Err(ApiError("Generic failure".into()))
     }
 
