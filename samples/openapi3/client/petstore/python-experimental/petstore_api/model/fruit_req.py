@@ -12,6 +12,7 @@
 import re  # noqa: F401
 import sys  # noqa: F401
 import typing  # noqa: F401
+import functools  # noqa: F401
 
 from frozendict import frozendict  # noqa: F401
 
@@ -31,6 +32,7 @@ from petstore_api.schemas import (  # noqa: F401
     Float32Schema,
     Float64Schema,
     NumberSchema,
+    UUIDSchema,
     DateSchema,
     DateTimeSchema,
     DecimalSchema,
@@ -52,6 +54,7 @@ from petstore_api.schemas import (  # noqa: F401
     Float32Base,
     Float64Base,
     NumberBase,
+    UUIDBase,
     DateBase,
     DateTimeBase,
     BoolBase,
@@ -74,6 +77,7 @@ class FruitReq(
 
     @classmethod
     @property
+    @functools.cache
     def _composed_schemas(cls):
         # we need this here to make our import statements work
         # we must store _composed_schemas in here so the code is only run
@@ -93,6 +97,8 @@ class FruitReq(
             ],
             'anyOf': [
             ],
+            'not':
+                None
         }
 
     def __new__(

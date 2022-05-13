@@ -42,11 +42,11 @@ class OuterEnumDefaultValue
     /**
      * Possible values of this enum
      */
-    const PLACED = 'placed';
+    public const PLACED = 'placed';
 
-    const APPROVED = 'approved';
+    public const APPROVED = 'approved';
 
-    const DELIVERED = 'delivered';
+    public const DELIVERED = 'delivered';
 
     /**
      * Gets allowable values of the enum

@@ -20,7 +20,6 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
-import java.util.function.Consumer;
 
 {{^fullJavaUtil}}
 import java.util.ArrayList;
@@ -28,6 +27,7 @@ import java.util.StringJoiner;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Consumer;
 {{/fullJavaUtil}}
 {{#asyncNative}}
 
@@ -40,10 +40,10 @@ public class {{classname}} {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
   private final String memberVarBaseUri;
-  private final Consumer<HttpRequest.Builder> memberVarInterceptor;
+  private final {{#fullJavaUtil}}java.util.function.{{/fullJavaUtil}}Consumer<HttpRequest.Builder> memberVarInterceptor;
   private final Duration memberVarReadTimeout;
-  private final Consumer<HttpResponse<InputStream>> memberVarResponseInterceptor;
-  private final Consumer<HttpResponse<String>> memberVarAsyncResponseInterceptor;
+  private final {{#fullJavaUtil}}java.util.function.{{/fullJavaUtil}}Consumer<HttpResponse<InputStream>> memberVarResponseInterceptor;
+  private final {{#fullJavaUtil}}java.util.function.{{/fullJavaUtil}}Consumer<HttpResponse<String>> memberVarAsyncResponseInterceptor;
 
   public {{classname}}() {
     this(new ApiClient());
@@ -351,7 +351,7 @@ public class {{classname}} {
     {{/queryParams}}
 
     if (!localVarQueryParams.isEmpty()) {
-      {{javaUtilPrefix}}StringJoiner queryJoiner = new StringJoiner("&");
+      {{javaUtilPrefix}}StringJoiner queryJoiner = new {{javaUtilPrefix}}StringJoiner("&");
       localVarQueryParams.forEach(p -> queryJoiner.add(p.getName() + '=' + p.getValue()));
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryJoiner.toString()));
     } else {

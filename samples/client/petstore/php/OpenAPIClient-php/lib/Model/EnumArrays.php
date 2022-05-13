@@ -167,10 +167,10 @@ class EnumArrays implements ModelInterface, ArrayAccess, \JsonSerializable
         return self::$openAPIModelName;
     }
 
-    const JUST_SYMBOL_GREATER_THAN_OR_EQUAL_TO = '>=';
-    const JUST_SYMBOL_DOLLAR = '$';
-    const ARRAY_ENUM_FISH = 'fish';
-    const ARRAY_ENUM_CRAB = 'crab';
+    public const JUST_SYMBOL_GREATER_THAN_OR_EQUAL_TO = '>=';
+    public const JUST_SYMBOL_DOLLAR = '$';
+    public const ARRAY_ENUM_FISH = 'fish';
+    public const ARRAY_ENUM_CRAB = 'crab';
 
     /**
      * Gets allowable values of the enum

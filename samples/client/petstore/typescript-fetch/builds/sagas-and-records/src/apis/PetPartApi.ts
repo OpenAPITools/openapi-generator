@@ -44,7 +44,7 @@ export class PetPartApi extends runtime.BaseAPI {
     /**
      * Returns single pet part type for the petPart id.
      */
-    async getFakePetPartTypeRaw(requestParameters: GetFakePetPartTypeRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<GetPetPartTypeResponse>> {
+    async getFakePetPartTypeRaw(requestParameters: GetFakePetPartTypeRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<GetPetPartTypeResponse>> {
         if (requestParameters.fakePetPartId === null || requestParameters.fakePetPartId === undefined) {
             throw new runtime.RequiredError('fakePetPartId','Required parameter requestParameters.fakePetPartId was null or undefined when calling getFakePetPartType.');
         }
@@ -66,7 +66,7 @@ export class PetPartApi extends runtime.BaseAPI {
     /**
      * Returns single pet part type for the petPart id.
      */
-    async getFakePetPartType(fakePetPartId: number, initOverrides?: RequestInit): Promise<GetPetPartTypeResponse> {
+    async getFakePetPartType(fakePetPartId: number, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<GetPetPartTypeResponse> {
         const response = await this.getFakePetPartTypeRaw({ fakePetPartId: fakePetPartId }, initOverrides);
         return await response.value();
     }
@@ -74,7 +74,7 @@ export class PetPartApi extends runtime.BaseAPI {
     /**
      * Get the matching parts for the given pet part.
      */
-    async getMatchingPartsRaw(requestParameters: GetMatchingPartsRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<GetMatchingPartsResponse>> {
+    async getMatchingPartsRaw(requestParameters: GetMatchingPartsRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<GetMatchingPartsResponse>> {
         if (requestParameters.fakePetPartId === null || requestParameters.fakePetPartId === undefined) {
             throw new runtime.RequiredError('fakePetPartId','Required parameter requestParameters.fakePetPartId was null or undefined when calling getMatchingParts.');
         }
@@ -128,7 +128,7 @@ export class PetPartApi extends runtime.BaseAPI {
     /**
      * Get the matching parts for the given pet part.
      */
-    async getMatchingParts(fakePetPartId: number, _long: boolean, smooth: boolean, _short: boolean, name?: string, connectedPart?: string, initOverrides?: RequestInit): Promise<GetMatchingPartsResponse> {
+    async getMatchingParts(fakePetPartId: number, _long: boolean, smooth: boolean, _short: boolean, name?: string, connectedPart?: string, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<GetMatchingPartsResponse> {
         const response = await this.getMatchingPartsRaw({ fakePetPartId: fakePetPartId, _long: _long, smooth: smooth, _short: _short, name: name, connectedPart: connectedPart }, initOverrides);
         return await response.value();
     }

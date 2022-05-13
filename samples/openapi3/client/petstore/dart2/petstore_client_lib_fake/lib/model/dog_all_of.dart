@@ -37,11 +37,11 @@ class DogAllOf {
   String toString() => 'DogAllOf[breed=$breed]';
 
   Map<String, dynamic> toJson() {
-    final json = <String, dynamic>{};
+    final _json = <String, dynamic>{};
     if (breed != null) {
-      json[r'breed'] = breed;
+      _json[r'breed'] = breed;
     }
-    return json;
+    return _json;
   }
 
   /// Returns a new [DogAllOf] instance and imports its values from

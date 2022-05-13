@@ -37,7 +37,6 @@ export const ErrorCode = {
     MinimumVolumeBlocksMusicVolumeDecrease: 'Minimum_Volume_Blocks_Music_Volume_Decrease',
     MaximumVolumeBlocksMusicVolumeIncrease: 'Maximum_Volume_Blocks_Music_Volume_Increase'
 } as const;
-
 export type ErrorCode = typeof ErrorCode[keyof typeof ErrorCode];
 
 

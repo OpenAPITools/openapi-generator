@@ -68,67 +68,67 @@ cJSON *user_convertToJSON(user_t *user) {
     cJSON *item = cJSON_CreateObject();
 
     // user->id
-    if(user->id) { 
+    if(user->id) {
     if(cJSON_AddNumberToObject(item, "id", user->id) == NULL) {
     goto fail; //Numeric
     }
-     } 
+    }
 
 
     // user->username
-    if(user->username) { 
+    if(user->username) {
     if(cJSON_AddStringToObject(item, "username", user->username) == NULL) {
     goto fail; //String
     }
-     } 
+    }
 
 
     // user->first_name
-    if(user->first_name) { 
+    if(user->first_name) {
     if(cJSON_AddStringToObject(item, "firstName", user->first_name) == NULL) {
     goto fail; //String
     }
-     } 
+    }
 
 
     // user->last_name
-    if(user->last_name) { 
+    if(user->last_name) {
     if(cJSON_AddStringToObject(item, "lastName", user->last_name) == NULL) {
     goto fail; //String
     }
-     } 
+    }
 
 
     // user->email
-    if(user->email) { 
+    if(user->email) {
     if(cJSON_AddStringToObject(item, "email", user->email) == NULL) {
     goto fail; //String
     }
-     } 
+    }
 
 
     // user->password
-    if(user->password) { 
+    if(user->password) {
     if(cJSON_AddStringToObject(item, "password", user->password) == NULL) {
     goto fail; //String
     }
-     } 
+    }
 
 
     // user->phone
-    if(user->phone) { 
+    if(user->phone) {
     if(cJSON_AddStringToObject(item, "phone", user->phone) == NULL) {
     goto fail; //String
     }
-     } 
+    }
 
 
     // user->user_status
-    if(user->user_status) { 
+    if(user->user_status) {
     if(cJSON_AddNumberToObject(item, "userStatus", user->user_status) == NULL) {
     goto fail; //Numeric
     }
-     } 
+    }
 
     return item;
 fail:

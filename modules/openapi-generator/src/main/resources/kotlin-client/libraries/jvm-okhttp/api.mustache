@@ -38,6 +38,7 @@ import {{packageName}}.infrastructure.ClientError
 import {{packageName}}.infrastructure.ServerException
 import {{packageName}}.infrastructure.ServerError
 import {{packageName}}.infrastructure.MultiValueMap
+import {{packageName}}.infrastructure.PartConfig
 import {{packageName}}.infrastructure.RequestConfig
 import {{packageName}}.infrastructure.RequestMethod
 import {{packageName}}.infrastructure.ResponseType
@@ -65,20 +66,20 @@ import {{packageName}}.infrastructure.toMultiValue
      {{#enumVars}}
          {{^multiplatform}}
          {{#moshi}}
-         @Json(name = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}}) {{&name}}({{{value}}}),
+         @Json(name = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}}) {{&name}}({{{value}}}){{^-last}},{{/-last}}
          {{/moshi}}
          {{#gson}}
-         @SerializedName(value = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}}) {{&name}}({{{value}}}),
+         @SerializedName(value = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}}) {{&name}}({{{value}}}){{^-last}},{{/-last}}
          {{/gson}}
          {{#jackson}}
-         @JsonProperty(value = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}}) {{&name}}({{{value}}}),
+         @JsonProperty(value = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}}) {{&name}}({{{value}}}){{^-last}},{{/-last}}
          {{/jackson}}
          {{#kotlinx_serialization}}
-         @SerialName(value = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}}) {{&name}}({{{value}}}),
+         @SerialName(value = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}}) {{&name}}({{{value}}}){{^-last}},{{/-last}}
          {{/kotlinx_serialization}}
          {{/multiplatform}}
          {{#multiplatform}}
-         @SerialName(value = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}}) {{&name}}({{{value}}}),
+         @SerialName(value = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}}) {{&name}}({{{value}}}){{^-last}},{{/-last}}
          {{/multiplatform}}
      {{/enumVars}}
      {{/allowableValues}}
@@ -108,28 +109,27 @@ import {{packageName}}.infrastructure.toMultiValue
      {{/enumVars}}
      {{/allowableValues}}
      {{/enumUnknownDefaultCase}}
-         ;
      }
 
     {{/isEnum}}
     {{/allParams}}
     /**
-    * {{summary}}
-    * {{notes}}
-    {{#allParams}}* @param {{{paramName}}} {{description}} {{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
-    {{/allParams}}* @return {{#returnType}}{{{returnType}}}{{#nullableReturnType}} or null{{/nullableReturnType}}{{/returnType}}{{^returnType}}void{{/returnType}}
-    * @throws IllegalStateException If the request is not correctly configured
-    * @throws IOException Rethrows the OkHttp execute method exception
-    * @throws UnsupportedOperationException If the API returns an informational or redirection response
-    * @throws ClientException If the API returns a client error response
-    * @throws ServerException If the API returns a server error response
-    */{{#returnType}}
+     * {{summary}}
+     * {{notes}}
+     {{#allParams}}* @param {{{paramName}}} {{description}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}{{/required}}
+     {{/allParams}}* @return {{#returnType}}{{{returnType}}}{{#nullableReturnType}} or null{{/nullableReturnType}}{{/returnType}}{{^returnType}}void{{/returnType}}
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */{{#returnType}}
     @Suppress("UNCHECKED_CAST"){{/returnType}}
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
     {{#isDeprecated}}
     @Deprecated(message = "This operation is deprecated.")
     {{/isDeprecated}}
-    {{^doNotUseRxAndCoroutines}}{{#useCoroutines}}suspend {{/useCoroutines}}{{/doNotUseRxAndCoroutines}}fun {{operationId}}({{#allParams}}{{{paramName}}}: {{#isEnum}}{{#isContainer}}kotlin.collections.List<{{enumName}}_{{operationId}}>{{/isContainer}}{{^isContainer}}{{enumName}}_{{operationId}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}?{{/required}}{{^-last}}, {{/-last}}{{/allParams}}) : {{#returnType}}{{{returnType}}}{{#nullableReturnType}}?{{/nullableReturnType}}{{/returnType}}{{^returnType}}Unit{{/returnType}}{{^doNotUseRxAndCoroutines}}{{#useCoroutines}} = withContext(Dispatchers.IO){{/useCoroutines}}{{/doNotUseRxAndCoroutines}} {
+    {{^doNotUseRxAndCoroutines}}{{#useCoroutines}}suspend {{/useCoroutines}}{{/doNotUseRxAndCoroutines}}fun {{operationId}}({{#allParams}}{{{paramName}}}: {{#isEnum}}{{#isContainer}}kotlin.collections.List<{{enumName}}_{{operationId}}>{{/isContainer}}{{^isContainer}}{{enumName}}_{{operationId}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{#required}}{{#defaultValue}} = {{^isNumber}}{{{defaultValue}}}{{/isNumber}}{{#isNumber}}{{{dataType}}}("{{{defaultValue}}}"){{/isNumber}}{{/defaultValue}}{{/required}}{{^required}}?{{#defaultValue}} = {{^isNumber}}{{{defaultValue}}}{{/isNumber}}{{#isNumber}}{{{dataType}}}("{{{defaultValue}}}"){{/isNumber}}{{/defaultValue}}{{^defaultValue}} = null{{/defaultValue}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}) : {{#returnType}}{{{returnType}}}{{#nullableReturnType}}?{{/nullableReturnType}}{{/returnType}}{{^returnType}}Unit{{/returnType}}{{^doNotUseRxAndCoroutines}}{{#useCoroutines}} = withContext(Dispatchers.IO){{/useCoroutines}}{{/doNotUseRxAndCoroutines}} {
         {{#isDeprecated}}
         @Suppress("DEPRECATION")
         {{/isDeprecated}}
@@ -151,13 +151,13 @@ import {{packageName}}.infrastructure.toMultiValue
     }
 
     /**
-    * {{summary}}
-    * {{notes}}
-    {{#allParams}}* @param {{{paramName}}} {{description}} {{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
-    {{/allParams}}* @return ApiResponse<{{#returnType}}{{{returnType}}}?{{/returnType}}{{^returnType}}Unit?{{/returnType}}>
-    * @throws IllegalStateException If the request is not correctly configured
-    * @throws IOException Rethrows the OkHttp execute method exception
-    */{{#returnType}}
+     * {{summary}}
+     * {{notes}}
+     {{#allParams}}* @param {{{paramName}}} {{description}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}{{/required}}
+     {{/allParams}}* @return ApiResponse<{{#returnType}}{{{returnType}}}?{{/returnType}}{{^returnType}}Unit?{{/returnType}}>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */{{#returnType}}
     @Suppress("UNCHECKED_CAST"){{/returnType}}
     @Throws(IllegalStateException::class, IOException::class)
     {{#isDeprecated}}
@@ -169,22 +169,28 @@ import {{packageName}}.infrastructure.toMultiValue
         {{/isDeprecated}}
         val localVariableConfig = {{operationId}}RequestConfig({{#allParams}}{{{paramName}}} = {{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}})
 
-        return{{^doNotUseRxAndCoroutines}}{{#useCoroutines}}@withContext{{/useCoroutines}}{{/doNotUseRxAndCoroutines}} request<{{#hasBodyParam}}{{#bodyParams}}{{{dataType}}}{{/bodyParams}}{{/hasBodyParam}}{{^hasBodyParam}}{{^hasFormParams}}Unit{{/hasFormParams}}{{#hasFormParams}}Map<String, Any?>{{/hasFormParams}}{{/hasBodyParam}}, {{{returnType}}}{{^returnType}}Unit{{/returnType}}>(
+        return{{^doNotUseRxAndCoroutines}}{{#useCoroutines}}@withContext{{/useCoroutines}}{{/doNotUseRxAndCoroutines}} request<{{#hasBodyParam}}{{#bodyParams}}{{{dataType}}}{{/bodyParams}}{{/hasBodyParam}}{{^hasBodyParam}}{{^hasFormParams}}Unit{{/hasFormParams}}{{#hasFormParams}}Map<String, PartConfig<*>>{{/hasFormParams}}{{/hasBodyParam}}, {{{returnType}}}{{^returnType}}Unit{{/returnType}}>(
             localVariableConfig
         )
     }
 
     /**
-    * To obtain the request config of the operation {{operationId}}
-    *
-    {{#allParams}}* @param {{{paramName}}} {{description}} {{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
-    {{/allParams}}* @return RequestConfig
-    */
+     * To obtain the request config of the operation {{operationId}}
+     *
+     {{#allParams}}* @param {{{paramName}}} {{description}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}{{/required}}
+     {{/allParams}}* @return RequestConfig
+     */
     {{#isDeprecated}}
     @Deprecated(message = "This operation is deprecated.")
     {{/isDeprecated}}
-    fun {{operationId}}RequestConfig({{#allParams}}{{{paramName}}}: {{#isEnum}}{{#isContainer}}kotlin.collections.List<{{enumName}}_{{operationId}}>{{/isContainer}}{{^isContainer}}{{enumName}}_{{operationId}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}?{{/required}}{{^-last}}, {{/-last}}{{/allParams}}) : RequestConfig<{{#hasBodyParam}}{{#bodyParams}}{{{dataType}}}{{/bodyParams}}{{/hasBodyParam}}{{^hasBodyParam}}{{^hasFormParams}}Unit{{/hasFormParams}}{{#hasFormParams}}Map<String, Any?>{{/hasFormParams}}{{/hasBodyParam}}> {
-        val localVariableBody = {{#hasBodyParam}}{{#bodyParams}}{{{paramName}}}{{/bodyParams}}{{/hasBodyParam}}{{^hasBodyParam}}{{^hasFormParams}}null{{/hasFormParams}}{{#hasFormParams}}mapOf({{#formParams}}"{{{baseName}}}" to {{{paramName}}}{{^-last}}, {{/-last}}{{/formParams}}){{/hasFormParams}}{{/hasBodyParam}}
+    fun {{operationId}}RequestConfig({{#allParams}}{{{paramName}}}: {{#isEnum}}{{#isContainer}}kotlin.collections.List<{{enumName}}_{{operationId}}>{{/isContainer}}{{^isContainer}}{{enumName}}_{{operationId}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}?{{/required}}{{^-last}}, {{/-last}}{{/allParams}}) : RequestConfig<{{#hasBodyParam}}{{#bodyParams}}{{{dataType}}}{{/bodyParams}}{{/hasBodyParam}}{{^hasBodyParam}}{{^hasFormParams}}Unit{{/hasFormParams}}{{#hasFormParams}}Map<String, PartConfig<*>>{{/hasFormParams}}{{/hasBodyParam}}> {
+        val localVariableBody = {{#hasBodyParam}}{{!
+          }}{{#bodyParams}}{{{paramName}}}{{/bodyParams}}{{/hasBodyParam}}{{^hasBodyParam}}{{!
+          }}{{^hasFormParams}}null{{/hasFormParams}}{{!
+          }}{{#hasFormParams}}mapOf({{#formParams}}
+            "{{{baseName}}}" to PartConfig(body = {{{paramName}}}, headers = mutableMapOf({{#contentType}}"Content-Type" to "{{contentType}}"{{/contentType}})),{{!
+            }}{{/formParams}}){{/hasFormParams}}{{!
+        }}{{/hasBodyParam}}
         val localVariableQuery: MultiValueMap = {{^hasQueryParams}}mutableMapOf()
 {{/hasQueryParams}}{{#hasQueryParams}}mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {

@@ -117,6 +117,7 @@ Class | Method | HTTP request | Description
 ## Models
 
 - [AdditionalPropertiesClass](docs/Model/AdditionalPropertiesClass.md)
+- [AllOfWithSingleRef](docs/Model/AllOfWithSingleRef.md)
 - [Animal](docs/Model/Animal.md)
 - [ApiResponse](docs/Model/ApiResponse.md)
 - [ArrayOfArrayOfNumberOnly](docs/Model/ArrayOfArrayOfNumberOnly.md)
@@ -137,10 +138,10 @@ Class | Method | HTTP request | Description
 - [File](docs/Model/File.md)
 - [FileSchemaTestClass](docs/Model/FileSchemaTestClass.md)
 - [Foo](docs/Model/Foo.md)
+- [FooGetDefaultResponse](docs/Model/FooGetDefaultResponse.md)
 - [FormatTest](docs/Model/FormatTest.md)
 - [HasOnlyReadOnly](docs/Model/HasOnlyReadOnly.md)
 - [HealthCheckResult](docs/Model/HealthCheckResult.md)
-- [InlineResponseDefault](docs/Model/InlineResponseDefault.md)
 - [MapTest](docs/Model/MapTest.md)
 - [MixedPropertiesAndAdditionalPropertiesClass](docs/Model/MixedPropertiesAndAdditionalPropertiesClass.md)
 - [Model200Response](docs/Model/Model200Response.md)
@@ -159,6 +160,7 @@ Class | Method | HTTP request | Description
 - [OuterObjectWithEnumProperty](docs/Model/OuterObjectWithEnumProperty.md)
 - [Pet](docs/Model/Pet.md)
 - [ReadOnlyFirst](docs/Model/ReadOnlyFirst.md)
+- [SingleRefType](docs/Model/SingleRefType.md)
 - [SpecialModelName](docs/Model/SpecialModelName.md)
 - [Tag](docs/Model/Tag.md)
 - [User](docs/Model/User.md)

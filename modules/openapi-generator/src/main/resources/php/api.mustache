@@ -20,8 +20,8 @@ namespace {{apiPackage}};
 
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
-use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Exception\ConnectException;
+use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7\MultipartStream;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\RequestOptions;
@@ -511,7 +511,8 @@ use {{invokerPackage}}\ObjectSerializer;
             '{{baseName}}', // param base name
             '{{#schema}}{{openApiType}}{{/schema}}', // openApiType
             '{{style}}', // style
-            {{#isExplode}}true{{/isExplode}}{{^isExplode}}false{{/isExplode}} // explode
+            {{#isExplode}}true{{/isExplode}}{{^isExplode}}false{{/isExplode}}, // explode
+            {{required}} // required
         ) ?? []);
         {{/queryParams}}
 

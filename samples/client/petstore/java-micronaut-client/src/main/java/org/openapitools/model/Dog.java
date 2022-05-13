@@ -54,7 +54,7 @@ public class Dog extends Animal {
     @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_BREED)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public String getBreed() {
+    public String getBreed() {
         return breed;
     }
 
@@ -103,4 +103,8 @@ public class Dog extends Animal {
         return o.toString().replace("\n", "\n    ");
     }
 
+    @Override
+    public <T> T accept(Animal.Visitor<T> visitor) {
+        return visitor.visitDog(this);
+    }
 }

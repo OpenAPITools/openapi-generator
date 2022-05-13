@@ -25,7 +25,7 @@ import javax.annotation.Generated;
 
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class Bar extends Entity {
+public class Bar extends Entity implements BarRefOrValue {
 
   @JsonProperty("id")
   private String id;
@@ -113,6 +113,26 @@ public class Bar extends Entity {
 
   public void setFoo(FooRefOrValue foo) {
     this.foo = foo;
+  }
+
+  public Bar href(String href) {
+    super.setHref(href);
+    return this;
+  }
+
+  public Bar atSchemaLocation(String atSchemaLocation) {
+    super.setAtSchemaLocation(atSchemaLocation);
+    return this;
+  }
+
+  public Bar atBaseType(String atBaseType) {
+    super.setAtBaseType(atBaseType);
+    return this;
+  }
+
+  public Bar atType(String atType) {
+    super.setAtType(atType);
+    return this;
   }
 
   @Override

@@ -517,8 +517,8 @@ public class SpringCodegenTest {
         generator.opts(input).generate();
 
         JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/ExampleApi.java"))
-            .assertMethod("exampleApiPost", "InlineObject")
-            .hasParameter("inlineObject")
+            .assertMethod("exampleApiPost", "ExampleApiPostRequest")
+            .hasParameter("exampleApiPostRequest")
             .assertParameterAnnotations()
             .containsWithNameAndAttributes("RequestBody", ImmutableMap.of("required", "false"));
 
@@ -591,7 +591,7 @@ public class SpringCodegenTest {
 
         // Check that api validates mixed multipart request
         JavaFileAssert.assertThat(files.get("MultipartMixedApi.java"))
-            .assertMethod("multipartMixed", "MultipartMixedStatus", "MultipartFile", "MultipartMixedMarker")
+            .assertMethod("multipartMixed", "MultipartMixedStatus", "MultipartFile", "MultipartMixedRequestMarker")
                 .hasParameter("status").withType("MultipartMixedStatus")
                 .assertParameterAnnotations()
                 .containsWithName("Valid")
@@ -602,7 +602,7 @@ public class SpringCodegenTest {
                 .assertParameterAnnotations()
                 .containsWithNameAndAttributes("RequestPart", ImmutableMap.of("value", "\"file\"", "required", "true"))
             .toParameter().toMethod()
-                .hasParameter("marker").withType("MultipartMixedMarker")
+                .hasParameter("marker").withType("MultipartMixedRequestMarker")
                 .assertParameterAnnotations()
                 .containsWithNameAndAttributes("RequestParam", ImmutableMap.of("value", "\"marker\"", "required", "false"));
     }
@@ -950,7 +950,7 @@ public class SpringCodegenTest {
     }
 
     @Test
-    public void oneOf_5381() throws IOException {
+    public void testOneOf5381() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
         String outputPath = output.getAbsolutePath().replace('\\', '/');
@@ -985,6 +985,49 @@ public class SpringCodegenTest {
         assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/Foo.java"), "public class Foo implements FooRefOrValue");
         assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/FooRef.java"), "public class FooRef implements FooRefOrValue");
         assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/FooRefOrValue.java"), "public interface FooRefOrValue");
+    }
+
+    @Test
+    public void testOneOfAndAllOf() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+        OpenAPI openAPI = new OpenAPIParser()
+            .readLocation("src/test/resources/3_0/oneof_polymorphism_and_inheritance.yaml", null, new ParseOptions()).getOpenAPI();
+
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
+        codegen.setUseOneOfInterfaces(true);
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        codegen.setHateoas(true);
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        //generator.setGeneratorPropertyDefault(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, "false");
+
+        codegen.setUseOneOfInterfaces(true);
+        codegen.setLegacyDiscriminatorBehavior(false);
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+
+        generator.opts(input).generate();
+
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/Foo.java"), "public class Foo extends Entity implements FooRefOrValue");
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/FooRef.java"), "public class FooRef extends EntityRef implements FooRefOrValue");
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/FooRefOrValue.java"), "public interface FooRefOrValue");
+        // previous bugs
+        assertFileNotContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/BarRef.java"), "atTypesuper.hashCode");
+        assertFileNotContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/BarRef.java"), "private String atBaseType");
+        // imports for inherited properties
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/PizzaSpeziale.java"), "import java.math.BigDecimal");
     }
 
     @Test

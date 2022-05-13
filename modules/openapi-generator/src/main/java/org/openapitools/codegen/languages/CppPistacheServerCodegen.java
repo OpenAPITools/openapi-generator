@@ -378,7 +378,8 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
             return toModelName(openAPIType);
         }
 
-        return openAPIType;
+        String namespace = (String)additionalProperties.get("modelNamespace");
+        return namespace + "::" + openAPIType;
     }
 
     @Override

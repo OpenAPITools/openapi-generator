@@ -38,6 +38,7 @@ class TestFakeApi(unittest.TestCase):
     json_content_type = 'application/json'
     configuration = petstore_api.Configuration()
     api = FakeApi(api_client=api_client.ApiClient(configuration=configuration))
+    user_agent = 'OpenAPI-Generator/1.0.0/python'
 
     @staticmethod
     def headers_for_content_type(content_type: str) -> dict[str, str]:
@@ -66,32 +67,73 @@ class TestFakeApi(unittest.TestCase):
     def __json_bytes(in_data: typing.Any) -> bytes:
         return json.dumps(in_data, separators=(",", ":"), ensure_ascii=False).encode('utf-8')
 
-    @staticmethod
+    @classmethod
     def __assert_request_called_with(
+        cls,
         mock_request,
         url: str,
+        method: str = 'POST',
         body: typing.Optional[bytes] = None,
-        content_type: str = 'application/json',
+        content_type: typing.Optional[str] = 'application/json',
         fields: typing.Optional[tuple[api_client.RequestField, ...]] = None,
         accept_content_type: str = 'application/json',
         stream: bool = False,
         query_params: typing.Optional[typing.Tuple[typing.Tuple[str, str], ...]] = None
     ):
-        mock_request.assert_called_with(
-            'POST',
-            url,
-            headers=HTTPHeaderDict(
-                {
-                    'Accept': accept_content_type,
-                    'Content-Type': content_type,
-                    'User-Agent': 'OpenAPI-Generator/1.0.0/python'
-                }
-            ),
-            body=body,
+        headers = {
+            'Accept': accept_content_type,
+            'User-Agent': cls.user_agent
+        }
+        if accept_content_type:
+            headers['Accept'] = accept_content_type
+        if content_type:
+            headers['Content-Type'] = content_type
+        kwargs = dict(
+            headers=HTTPHeaderDict(headers),
             query_params=query_params,
             fields=fields,
             stream=stream,
             timeout=None,
+        )
+        if method != 'GET':
+            kwargs['body'] = body
+        mock_request.assert_called_with(
+            method,
+            url,
+            **kwargs
+        )
+
+    @classmethod
+    def __assert_pool_manager_request_called_with(
+        cls,
+        mock_request,
+        url: str,
+        method: str = 'POST',
+        body: typing.Optional[bytes] = None,
+        content_type: typing.Optional[str] = 'application/json',
+        accept_content_type: typing.Optional[str] = 'application/json',
+        stream: bool = False,
+        query_params: typing.Optional[typing.Tuple[typing.Tuple[str, str], ...]] = None,
+    ):
+        headers = {
+            'User-Agent': cls.user_agent
+        }
+        if accept_content_type:
+            headers['Accept'] = accept_content_type
+        if content_type:
+            headers['Content-Type'] = content_type
+        kwargs = dict(
+            headers=HTTPHeaderDict(headers),
+            fields=query_params,
+            preload_content=not stream,
+            timeout=None,
+        )
+        if content_type and method != 'GET':
+            kwargs['body'] = body
+        mock_request.assert_called_with(
+            method,
+            url,
+            **kwargs
         )
 
     def test_array_model(self):
@@ -593,91 +635,166 @@ class TestFakeApi(unittest.TestCase):
 
     @patch.object(RESTClientObject, 'request')
     def test_inline_composition(self, mock_request):
-        """Test case for inline_composition
+       """Test case for inline_composition
 
-        testing composed schemas at inline locations  # noqa: E501
-        """
-        single_char_str = 'a'
-        json_bytes = self.__json_bytes(single_char_str)
+       testing composed schemas at inline locations  # noqa: E501
+       """
+       single_char_str = 'a'
+       json_bytes = self.__json_bytes(single_char_str)
 
-        # tx and rx json with composition at root level of schema for request + response body
-        content_type = 'application/json'
-        mock_request.return_value = self.__response(
-            json_bytes
-        )
-        api_response = self.api.inline_composition(
-            body=single_char_str,
-            query_params={
-                'compositionAtRoot': single_char_str,
-                'compositionInProperty': {'someProp': single_char_str}
-            },
-            accept_content_types=(content_type,)
-        )
-        self.__assert_request_called_with(
-            mock_request,
-            'http://petstore.swagger.io:80/v2/fake/inlineComposition/',
-            accept_content_type=content_type,
-            content_type=content_type,
-            query_params=(('compositionAtRoot', 'a'), ('someProp', 'a')),
-            body=json_bytes
-        )
-        self.assertEqual(api_response.body, single_char_str)
-        self.assertTrue(isinstance(api_response.body, schemas.StrSchema))
+       # tx and rx json with composition at root level of schema for request + response body
+       content_type = 'application/json'
+       mock_request.return_value = self.__response(
+           json_bytes
+       )
+       api_response = self.api.inline_composition(
+           body=single_char_str,
+           query_params={
+               'compositionAtRoot': single_char_str,
+               'compositionInProperty': {'someProp': single_char_str}
+           },
+           accept_content_types=(content_type,)
+       )
+       self.__assert_request_called_with(
+           mock_request,
+           'http://petstore.swagger.io:80/v2/fake/inlineComposition/',
+           accept_content_type=content_type,
+           content_type=content_type,
+           query_params=(('compositionAtRoot', 'a'), ('someProp', 'a')),
+           body=json_bytes
+       )
+       self.assertEqual(api_response.body, single_char_str)
+       self.assertTrue(isinstance(api_response.body, schemas.StrSchema))
 
-        # tx and rx json with composition at property level of schema for request + response body
-        content_type = 'multipart/form-data'
-        multipart_response = self.__encode_multipart_formdata(fields={'someProp': single_char_str})
-        mock_request.return_value = self.__response(
-            bytes(multipart_response),
-            content_type=multipart_response.get_content_type()
-        )
-        api_response = self.api.inline_composition(
-            body={'someProp': single_char_str},
-            query_params={
-                'compositionAtRoot': single_char_str,
-                'compositionInProperty': {'someProp': single_char_str}
-            },
-            content_type=content_type,
-            accept_content_types=(content_type,)
-        )
-        self.__assert_request_called_with(
-            mock_request,
-            'http://petstore.swagger.io:80/v2/fake/inlineComposition/',
-            accept_content_type=content_type,
-            content_type=content_type,
-            query_params=(('compositionAtRoot', 'a'), ('someProp', 'a')),
-            fields=(
-                api_client.RequestField(
-                    name='someProp',
-                    data=single_char_str,
-                    headers={'Content-Type': 'text/plain'}
-                ),
-            ),
-        )
-        self.assertEqual(api_response.body, {'someProp': single_char_str})
-        self.assertTrue(isinstance(api_response.body.someProp, schemas.StrSchema))
+       # tx and rx json with composition at property level of schema for request + response body
+       content_type = 'multipart/form-data'
+       multipart_response = self.__encode_multipart_formdata(fields={'someProp': single_char_str})
+       mock_request.return_value = self.__response(
+           bytes(multipart_response),
+           content_type=multipart_response.get_content_type()
+       )
+       api_response = self.api.inline_composition(
+           body={'someProp': single_char_str},
+           query_params={
+               'compositionAtRoot': single_char_str,
+               'compositionInProperty': {'someProp': single_char_str}
+           },
+           content_type=content_type,
+           accept_content_types=(content_type,)
+       )
+       self.__assert_request_called_with(
+           mock_request,
+           'http://petstore.swagger.io:80/v2/fake/inlineComposition/',
+           accept_content_type=content_type,
+           content_type=content_type,
+           query_params=(('compositionAtRoot', 'a'), ('someProp', 'a')),
+           fields=(
+               api_client.RequestField(
+                   name='someProp',
+                   data=single_char_str,
+                   headers={'Content-Type': 'text/plain'}
+               ),
+           ),
+       )
+       self.assertEqual(api_response.body, {'someProp': single_char_str})
+       self.assertTrue(isinstance(api_response.body.someProp, schemas.StrSchema))
 
-        # error thrown when a str is input which doesn't meet the composed schema length constraint
-        invalid_value = ''
-        variable_locations = 4
-        for invalid_index in range(variable_locations):
-            values = [single_char_str]*variable_locations
-            values[invalid_index] = invalid_value
+       # error thrown when a str is input which doesn't meet the composed schema length constraint
+       invalid_value = ''
+       variable_locations = 4
+       for invalid_index in range(variable_locations):
+           values = [single_char_str]*variable_locations
+           values[invalid_index] = invalid_value
+           with self.assertRaises(exceptions.ApiValueError):
+               multipart_response = self.__encode_multipart_formdata(fields={'someProp': values[0]})
+               mock_request.return_value = self.__response(
+                   bytes(multipart_response),
+                   content_type=multipart_response.get_content_type()
+               )
+               self.api.inline_composition(
+                   body={'someProp': values[1]},
+                   query_params={
+                       'compositionAtRoot': values[2],
+                       'compositionInProperty': {'someProp': values[3]}
+                   },
+                   content_type=content_type,
+                   accept_content_types=(content_type,)
+               )
+
+    def test_json_with_charset(self):
+        # serialization + deserialization of json with charset works
+        with patch.object(RESTClientObject, 'request') as mock_request:
+            body = None
+            content_type_with_charset = 'application/json; charset=utf-8'
+            mock_request.return_value = self.__response(
+                self.__json_bytes(body),
+                content_type=content_type_with_charset
+            )
+
+            api_response = self.api.json_with_charset(body=body)
+            self.__assert_request_called_with(
+                mock_request,
+                'http://petstore.swagger.io:80/v2/fake/jsonWithCharset',
+                body=self.__json_bytes(body),
+                content_type=content_type_with_charset,
+                accept_content_type=content_type_with_charset
+            )
+
+            assert isinstance(api_response.body, schemas.AnyTypeSchema)
+            assert isinstance(api_response.body, schemas.NoneClass)
+            assert api_response.body.is_none()
+
+    def test_response_without_schema(self):
+        # received response is not loaded into body because there is no deserialization schema defined
+        with patch.object(RESTClientObject, 'request') as mock_request:
+            body = None
+            content_type = 'application/json'
+            mock_request.return_value = self.__response(
+                self.__json_bytes(body),
+            )
+
+            api_response = self.api.response_without_schema()
+            self.__assert_request_called_with(
+                mock_request,
+                'http://petstore.swagger.io:80/v2/fake/responseWithoutSchema',
+                method='GET',
+                accept_content_type='application/json, application/xml',
+                content_type=None
+            )
+
+            assert isinstance(api_response.body, schemas.Unset)
+
+
+        with patch.object(RESTClientObject, 'request') as mock_request:
+            mock_request.return_value = self.__response(
+                'blah',
+                content_type='text/plain'
+            )
+
+            # when an incorrect content-type is sent back, and exception is raised
             with self.assertRaises(exceptions.ApiValueError):
-                multipart_response = self.__encode_multipart_formdata(fields={'someProp': values[0]})
-                mock_request.return_value = self.__response(
-                    bytes(multipart_response),
-                    content_type=multipart_response.get_content_type()
-                )
-                self.api.inline_composition(
-                    body={'someProp': values[1]},
-                    query_params={
-                        'compositionAtRoot': values[2],
-                        'compositionInProperty': {'someProp': values[3]}
-                    },
-                    content_type=content_type,
-                    accept_content_types=(content_type,)
-                )
+                self.api.response_without_schema()
+
+    def test_delete_endpoint_without_request_body(self):
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+
+            body = None
+            mock_request.return_value = self.__response(
+                self.__json_bytes(body),
+            )
+
+            api_response = self.api.delete_coffee(path_params=dict(id='1'))
+            self.__assert_pool_manager_request_called_with(
+                mock_request,
+                'http://petstore.swagger.io:80/v2/fake/deleteCoffee/1',
+                method='DELETE',
+                content_type=None,
+                accept_content_type=None,
+            )
+
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, schemas.Unset)
+            assert isinstance(api_response.headers, schemas.Unset)
 
 
 if __name__ == '__main__':

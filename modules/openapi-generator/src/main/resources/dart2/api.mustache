@@ -86,7 +86,6 @@ class {{{classname}}} {
       {{/headerParams}}
     {{/hasHeaderParams}}
 
-    const authNames = <String>[{{#authMethods}}'{{{name}}}'{{^-last}}, {{/-last}}{{/authMethods}}];
     const contentTypes = <String>[{{#prioritizedContentTypes}}'{{{mediaType}}}'{{^-last}}, {{/-last}}{{/prioritizedContentTypes}}];
 
     {{#isMultipart}}
@@ -129,7 +128,6 @@ class {{{classname}}} {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
-      authNames,
     );
   }
 
