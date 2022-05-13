@@ -4576,7 +4576,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         Schema parameterSchema;
         if (parameter.getSchema() != null) {
-            parameterSchema = parameter.getSchema();
+            parameterSchema = ModelUtils.getReferencedSchema(openAPI, parameter.getSchema());
             CodegenProperty prop = fromProperty(parameter.getName(), parameterSchema);
             codegenParameter.setSchema(prop);
         } else if (parameter.getContent() != null) {

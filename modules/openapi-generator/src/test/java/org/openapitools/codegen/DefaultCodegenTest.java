@@ -2061,11 +2061,13 @@ public class DefaultCodegenTest {
         CodegenParameter parameter = codegen.fromParameter(openAPI.getPaths().get("/pony").getGet().getParameters().get(0), imports);
 
         // TODO: This must be updated to work with flattened inline models
-        Assert.assertEquals(parameter.dataType, "PageQuery1");
+        Assert.assertEquals(parameter, "list_pageQuery_parameter");
+        Assert.assertEquals(parameter.getSchema().dataType, "list_pageQuery_parameter");
         Assert.assertEquals(imports.size(), 1);
-        Assert.assertEquals(imports.iterator().next(), "PageQuery1");
+        Assert.assertEquals(imports.iterator().next(), "list_pageQuery_parameter");
 
         Assert.assertNotNull(parameter.getSchema());
+        Assert.assertEquals(parameter.getSchema(), "object");
         Assert.assertEquals(parameter.getSchema().baseType, "object");
     }
 
