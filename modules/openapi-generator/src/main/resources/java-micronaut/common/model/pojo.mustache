@@ -20,14 +20,13 @@
 {{#additionalModelTypeAnnotations}}
 {{{.}}}
 {{/additionalModelTypeAnnotations}}
-{{>common/generatedAnnotation}}{{#discriminator}}{{>common/model/typeInfoAnnotation}}{{/discriminator}}{{>common/model/xmlAnnotation}}{{#useBeanValidation}}
-@Introspected
-{{/useBeanValidation}}
+{{>common/generatedAnnotation}}{{#discriminator}}{{>common/model/typeInfoAnnotation}}{{/discriminator}}{{>common/model/xmlAnnotation}}
+{{^discriminator}}@Introspected{{/discriminator}}{{#discriminator.containsParent}}@Introspected{{/discriminator.containsParent}}
 {{#vendorExtensions.x-class-extra-annotation}}
 {{{vendorExtensions.x-class-extra-annotation}}}
 {{/vendorExtensions.x-class-extra-annotation}}{{!
 Declare the class with extends and implements
-}}public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#vendorExtensions.x-implements}}{{#-first}}implements {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{#-last}} {{/-last}}{{/vendorExtensions.x-implements}}{
+}}public {{#useSealed}}{{#discriminator}}{{^containsParent}}abstract {{/containsParent}}sealed {{/discriminator}}{{/useSealed}}class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#vendorExtensions.x-implements}}{{#-first}}implements {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{#-last}} {{/-last}}{{/vendorExtensions.x-implements}}{{#useSealed}}{{#discriminator}}permits {{#discriminator.mappedModels}}{{modelName}} {{/discriminator.mappedModels}}{{/discriminator}}{{/useSealed}}{
     {{#serializableModel}}
     private static final long serialVersionUID = 1L;
 
@@ -375,9 +374,21 @@ Declare the class with extends and implements
      * @param <T> the return type of the visitor
      * @return the result from the visitor
      */
-    public <T> T accept(Visitor<T> visitor) {
-        return visitor.visit{{classname}}(this);
+    {{^containsParent}}
+        {{#sealed}}
+    public abstract <T> T accept(Visitor<T> visitor);
+        {{/sealed}}
+        {{^sealed}}
+    public <T> T accept({{{classname}}}.Visitor<T> visitor) {
+      return visitor.visit{{classname}}(this);
     }
+        {{/sealed}}
+    {{/containsParent}}
+    {{#containsParent}}
+    public <T> T accept({{{classname}}}.Visitor<T> visitor) {
+      return visitor.visit{{classname}}(this);
+    }
+    {{/containsParent}}
 
     /**
      * A {{classname}} visitor implementation allows visiting the various {{classname}} types.
@@ -388,7 +399,11 @@ Declare the class with extends and implements
         {{#discriminator.mappedModels}}
         R visit{{modelName}}({{modelName}} value);
         {{/discriminator.mappedModels}}
+        {{^containsParent}}
+          {{^sealed}}
         R visit{{classname}}({{classname}} value);
+          {{/sealed}}
+        {{/containsParent}}
     }
 
     {{/discriminator}}

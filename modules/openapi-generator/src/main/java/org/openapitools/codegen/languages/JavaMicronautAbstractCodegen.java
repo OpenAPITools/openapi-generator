@@ -39,6 +39,7 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
     public static final String OPT_REQUIRED_PROPERTIES_IN_CONSTRUCTOR = "requiredPropertiesInConstructor";
     public static final String OPT_MICRONAUT_VERSION = "micronautVersion";
     public static final String OPT_USE_AUTH = "useAuth";
+    public static final String OPT_USE_SEALED = "useSealed";
     public static final String OPT_VISITABLE = "visitable";
     public static final String OPT_DATE_LIBRARY_JAVA8 = "java8";
     public static final String OPT_DATE_LIBRARY_JAVA8_LOCAL_DATETIME = "java8-localdatetime";
@@ -59,6 +60,7 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
     protected String title;
     protected boolean useBeanValidation;
     protected boolean useOptional;
+    protected boolean useSealed;
     protected boolean visitable;
     protected String buildTool;
     protected String testTool;
@@ -84,6 +86,7 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
         // Set all the fields
         useBeanValidation = true;
         useOptional = false;
+        useSealed = false;
         visitable = false;
         buildTool = OPT_BUILD_ALL;
         testTool = OPT_TEST_JUNIT;
@@ -138,6 +141,7 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
         cliOptions.add(new CliOption(OPT_APPLICATION_NAME, "Micronaut application name (Defaults to the " + CodegenConstants.ARTIFACT_ID + " value)").defaultValue(appName));
         cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations", useBeanValidation));
         cliOptions.add(CliOption.newBoolean(USE_OPTIONAL, "Use Optional container for optional parameters", useOptional));
+        cliOptions.add(CliOption.newBoolean(OPT_USE_SEALED, "Use abstract sealed classes for subtypes with a discriminator", useSealed));
         cliOptions.add(CliOption.newBoolean(OPT_VISITABLE, "Generate visitor for subtypes with a discriminator", visitable));
         cliOptions.add(CliOption.newBoolean(OPT_REQUIRED_PROPERTIES_IN_CONSTRUCTOR, "Allow only to create models with all the required properties provided in constructor", requiredPropertiesInConstructor));
         cliOptions.add(CliOption.newBoolean(OPT_REACTIVE, "Make the responses use Reactor Mono as wrapper", reactive));
@@ -225,6 +229,11 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
             this.setUseOptional(convertPropertyToBoolean(USE_OPTIONAL));
         }
         writePropertyBack(USE_OPTIONAL, useOptional);
+
+        if (additionalProperties.containsKey(OPT_USE_SEALED)) {
+            this.setUseSealed(convertPropertyToBoolean(OPT_USE_SEALED));
+        }
+        writePropertyBack(OPT_USE_SEALED, useSealed);
 
         if (additionalProperties.containsKey(OPT_VISITABLE)) {
             this.setVisitable(convertPropertyToBoolean(OPT_VISITABLE));
@@ -422,6 +431,10 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
         this.useOptional = useOptional;
     }
 
+    public void setUseSealed(boolean useSealed) {
+        this.useSealed = useSealed;
+    }
+
     public void setVisitable(boolean visitable) {
         this.visitable = visitable;
     }
@@ -441,6 +454,10 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
 
     public boolean isUseOptional() {
         return useOptional;
+    }
+
+    public boolean isUseSealed() {
+        return useSealed;
     }
 
     public boolean isVisitable() {
