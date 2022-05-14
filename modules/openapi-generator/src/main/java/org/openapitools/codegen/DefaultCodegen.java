@@ -4683,7 +4683,6 @@ public class DefaultCodegen implements CodegenConfig {
                 codegenParameter.isFreeFormObject = true;
             }
             addVarsRequiredVarsAdditionalProps(parameterSchema, codegenParameter);
-
         } else if (ModelUtils.isNullType(parameterSchema)) {
             ;
         } else if (ModelUtils.isAnyType(parameterSchema)) {
@@ -4796,12 +4795,12 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * Returns the data type of parameter if it's an object/model.
+     * Returns the data type of parameter.
      * Returns null by default to use the CodegenProperty.datatype value
      *
      * @param parameter Parameter
      * @param schema    Schema
-     * @return model name
+     * @return data type
      */
     protected String getParameterDataType(Parameter parameter, Schema schema) {
         Schema unaliasSchema = ModelUtils.unaliasSchema(openAPI, schema);

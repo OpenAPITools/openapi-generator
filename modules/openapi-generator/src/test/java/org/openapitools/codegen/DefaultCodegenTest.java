@@ -3729,8 +3729,7 @@ public class DefaultCodegenTest {
 
         modelName = "ComposedObject";
         m = codegen.fromModel(modelName, openAPI.getComponents().getSchemas().get(modelName));
-        assertFalse(m.getIsMap());
-        assertTrue(m.getIsModel());
+        assertTrue(m.getIsMap());
 
         modelName = "ComposedNumber";
         m = codegen.fromModel(modelName, openAPI.getComponents().getSchemas().get(modelName));
@@ -3773,8 +3772,7 @@ public class DefaultCodegenTest {
         path = "/ComposedObject";
         co = codegen.fromOperation(path, "GET", openAPI.getPaths().get(path).getGet(), null);
         cr = co.responses.get(0);
-        assertTrue(cr.getIsModel());
-        assertFalse(cr.getIsMap());
+        assertTrue(cr.getIsMap());
 
         path = "/ComposedNumber";
         co = codegen.fromOperation(path, "GET", openAPI.getPaths().get(path).getGet(), null);
@@ -3824,8 +3822,7 @@ public class DefaultCodegenTest {
         path = "/ComposedObject";
         co = codegen.fromOperation(path, "GET", openAPI.getPaths().get(path).getGet(), null);
         cp = co.bodyParam;
-        assertTrue(cp.getIsModel());
-        assertFalse(cp.getIsMap());
+        assertTrue(cp.getIsMap());
 
         path = "/ComposedNumber";
         co = codegen.fromOperation(path, "GET", openAPI.getPaths().get(path).getGet(), null);
@@ -3875,8 +3872,7 @@ public class DefaultCodegenTest {
         path = "/ComposedObject";
         co = codegen.fromOperation(path, "GET", openAPI.getPaths().get(path).getGet(), null);
         cp = co.queryParams.get(0);
-        assertTrue(cp.getIsModel());
-        assertFalse(cp.getIsMap());
+        assertTrue(cp.getIsMap());
 
         path = "/ComposedNumber";
         co = codegen.fromOperation(path, "GET", openAPI.getPaths().get(path).getGet(), null);

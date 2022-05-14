@@ -733,6 +733,26 @@ public class ModelUtils {
         return schema instanceof ComposedSchema || schema instanceof ObjectSchema;
     }
 
+    /**
+     * Check to see if the schema is a model with properties only (non-composed model)
+     *
+     * @param schema potentially containing a '$ref'
+     * @return true if it's a model with at least one properties
+     */
+    public static boolean isModelWithPropertiesOnly(Schema schema) {
+        if (schema == null) {
+            return false;
+        }
+
+        // has properties
+        if (null != schema.getProperties() && !schema.getProperties().isEmpty()) {
+            return true;
+        }
+
+        // composed schema is a model, consider very simple ObjectSchema a model
+        return schema instanceof ObjectSchema;
+    }
+
     public static boolean hasValidation(Schema sc) {
         return (
                 sc.getMaxItems() != null ||

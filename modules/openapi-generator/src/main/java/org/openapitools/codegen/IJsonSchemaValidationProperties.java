@@ -168,9 +168,9 @@ public interface IJsonSchemaValidationProperties {
      * @param p the schema which contains the type info
      */
     default void setTypeProperties(Schema p) {
-        /*if (ModelUtils.isModel(p)) {
+        if (ModelUtils.isModelWithPropertiesOnly(p)) {
             setIsModel(true);
-        } else*/ if (ModelUtils.isTypeObjectSchema(p)) {
+        } else if (ModelUtils.isTypeObjectSchema(p)) {
             setIsMap(true);
         } else if (ModelUtils.isArraySchema(p)) {
             setIsArray(true);
