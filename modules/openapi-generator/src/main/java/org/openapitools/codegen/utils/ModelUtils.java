@@ -725,7 +725,7 @@ public class ModelUtils {
         }
 
         // has properties
-        if (null != schema.getProperties()) {
+        if (null != schema.getProperties() && !schema.getProperties().isEmpty()) {
             return true;
         }
 
@@ -749,7 +749,7 @@ public class ModelUtils {
             return true;
         }
 
-        // composed schema is a model, consider very simple ObjectSchema a model
+        // consider very simple ObjectSchema a model
         return schema instanceof ObjectSchema;
     }
 
