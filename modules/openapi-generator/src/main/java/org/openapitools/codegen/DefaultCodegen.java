@@ -4575,7 +4575,13 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         Schema parameterSchema;
+
+        // the parameter model name is obtained from the schema $ref
+        // e.g. #/components/schemas/list_pageQuery_parameter => toModelName(list_pageQuery_parameter)
+        String parameterModelName = null;
+
         if (parameter.getSchema() != null) {
+            parameterModelName = getParameterDataType(parameter ,parameter.getSchema());
             parameterSchema = ModelUtils.getReferencedSchema(openAPI, parameter.getSchema());
             CodegenProperty prop = fromProperty(parameter.getName(), parameterSchema);
             codegenParameter.setSchema(prop);
@@ -4586,7 +4592,8 @@ public class DefaultCodegen implements CodegenConfig {
             }
             Map.Entry<String, MediaType> entry = content.entrySet().iterator().next();
             codegenParameter.contentType = entry.getKey();
-            parameterSchema = entry.getValue().getSchema();
+            parameterModelName = getParameterDataType(parameter, entry.getValue().getSchema());
+            parameterSchema = ModelUtils.getReferencedSchema(openAPI, entry.getValue().getSchema());
         } else {
             parameterSchema = null;
         }
@@ -4676,6 +4683,7 @@ public class DefaultCodegen implements CodegenConfig {
                 codegenParameter.isFreeFormObject = true;
             }
             addVarsRequiredVarsAdditionalProps(parameterSchema, codegenParameter);
+
         } else if (ModelUtils.isNullType(parameterSchema)) {
             ;
         } else if (ModelUtils.isAnyType(parameterSchema)) {
@@ -4703,8 +4711,7 @@ public class DefaultCodegen implements CodegenConfig {
                 itemsProperty = itemsProperty.items;
             }
         } else {
-            // referenced schemas
-            ;
+            throw new RuntimeException("Unknown parameter type found: " + parameterSchema);
         }
 
         CodegenProperty codegenProperty = fromProperty(parameter.getName(), parameterSchema);
@@ -4717,9 +4724,8 @@ public class DefaultCodegen implements CodegenConfig {
         //}
         //codegenProperty.required = true;
 
-        String parameterDataType = this.getParameterDataType(parameter, parameterSchema);
-        if (parameterDataType != null) {
-            codegenParameter.dataType = parameterDataType;
+        if (parameterModelName != null) {
+            codegenParameter.dataType = parameterModelName;
             if (ModelUtils.isObjectSchema(parameterSchema)) {
                 codegenProperty.complexType = codegenParameter.dataType;
             }
@@ -4790,17 +4796,17 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * Returns the data type of a parameter.
+     * Returns the data type of parameter if it's an object/model.
      * Returns null by default to use the CodegenProperty.datatype value
      *
      * @param parameter Parameter
      * @param schema    Schema
-     * @return data type
+     * @return model name
      */
     protected String getParameterDataType(Parameter parameter, Schema schema) {
-        if (parameter.get$ref() != null) {
-            String refName = ModelUtils.getSimpleRef(parameter.get$ref());
-            return toModelName(refName);
+        Schema unaliasSchema = ModelUtils.unaliasSchema(openAPI, schema);
+        if (unaliasSchema.get$ref() != null) {
+            return toModelName(ModelUtils.getSimpleRef(unaliasSchema.get$ref()));
         }
         return null;
     }
