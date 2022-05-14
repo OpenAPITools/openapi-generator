@@ -42,7 +42,7 @@ interface {{classname}}
      *
      * @return void
      */
-    public function set_{{#isBasic}}basic{{/isBasic}}{{#isApiKey}}api_key{{/isApiKey}}{{#isOAuth}}oAuth{{/isOAuth}}_auth($value);
+    public function set_{{#isBasic}}basic{{/isBasic}}{{#isApiKey}}api_key{{/isApiKey}}{{#isOAuth}}oAuth{{/isOAuth}}_{{name}}($value);
     {{/authMethods}}
     {{#operation}}
 
