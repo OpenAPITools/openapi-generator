@@ -69,8 +69,8 @@ namespace Org.OpenAPITools.Controllers
             string exampleJson = null;
             
             var example = exampleJson != null
-            ? JsonConvert.DeserializeObject<Dictionary<Dictionary<string, int>>>(exampleJson)
-            : new Dictionary<Dictionary<string, int>>();
+            ? JsonConvert.DeserializeObject<Dictionary<string, int>>(exampleJson)
+            : new Dictionary<string, int>();
             //TODO: Change the data returned
             return new ObjectResult(example);
         }
