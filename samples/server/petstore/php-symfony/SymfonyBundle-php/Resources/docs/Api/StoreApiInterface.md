@@ -12,11 +12,10 @@ Method | HTTP request | Description
 
 ## Service Declaration
 ```yaml
-# src/Acme/MyBundle/Resources/services.yml
+# config/services.yml
 services:
     # ...
-    acme.my_bundle.api.store:
-        class: Acme\MyBundle\Api\StoreApi
+    Acme\MyBundle\Api\StoreApi:
         tags:
             - { name: "open_api_server.api", api: "store" }
     # ...
@@ -46,7 +45,7 @@ class StoreApi implements StoreApiInterface
     /**
      * Implementation of StoreApiInterface#deleteOrder
      */
-    public function deleteOrder($orderId): array|void
+    public function deleteOrder($orderId, &$responseCode, array &$responseHeaders): void
     {
         // Implement the operation ...
     }
@@ -98,7 +97,7 @@ class StoreApi implements StoreApiInterface
     /**
      * Configure API key authorization: api_key
      */
-    public function setapi_key($apiKey)
+    public function set_api_key_auth($apiKey)
     {
         // Retrieve logged in user from $apiKey ...
     }
@@ -108,7 +107,7 @@ class StoreApi implements StoreApiInterface
     /**
      * Implementation of StoreApiInterface#getInventory
      */
-    public function getInventory(): array|\int
+    public function getInventory(, &$responseCode, array &$responseHeaders): array|\int
     {
         // Implement the operation ...
     }
@@ -159,7 +158,7 @@ class StoreApi implements StoreApiInterface
     /**
      * Implementation of StoreApiInterface#getOrderById
      */
-    public function getOrderById($orderId): array|\OpenAPI\Server\Model\Order
+    public function getOrderById($orderId, &$responseCode, array &$responseHeaders): array|\OpenAPI\Server\Model\Order
     {
         // Implement the operation ...
     }
@@ -211,7 +210,7 @@ class StoreApi implements StoreApiInterface
     /**
      * Implementation of StoreApiInterface#placeOrder
      */
-    public function placeOrder(Order $order): array|\OpenAPI\Server\Model\Order
+    public function placeOrder(Order $order, &$responseCode, array &$responseHeaders): array|\OpenAPI\Server\Model\Order
     {
         // Implement the operation ...
     }

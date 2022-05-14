@@ -16,11 +16,10 @@ Method | HTTP request | Description
 
 ## Service Declaration
 ```yaml
-# src/Acme/MyBundle/Resources/services.yml
+# config/services.yml
 services:
     # ...
-    acme.my_bundle.api.pet:
-        class: Acme\MyBundle\Api\PetApi
+    Acme\MyBundle\Api\PetApi:
         tags:
             - { name: "open_api_server.api", api: "pet" }
     # ...
@@ -46,7 +45,7 @@ class PetApi implements PetApiInterface
     /**
      * Configure OAuth2 access token for authorization: petstore_auth
      */
-    public function setpetstore_auth($oauthToken)
+    public function set_oAuth_auth($oauthToken)
     {
         // Retrieve logged in user from $oauthToken ...
     }
@@ -56,7 +55,7 @@ class PetApi implements PetApiInterface
     /**
      * Implementation of PetApiInterface#addPet
      */
-    public function addPet(Pet $pet): array|\OpenAPI\Server\Model\Pet
+    public function addPet(Pet $pet, &$responseCode, array &$responseHeaders): array|\OpenAPI\Server\Model\Pet
     {
         // Implement the operation ...
     }
@@ -106,7 +105,7 @@ class PetApi implements PetApiInterface
     /**
      * Configure OAuth2 access token for authorization: petstore_auth
      */
-    public function setpetstore_auth($oauthToken)
+    public function set_oAuth_auth($oauthToken)
     {
         // Retrieve logged in user from $oauthToken ...
     }
@@ -116,7 +115,7 @@ class PetApi implements PetApiInterface
     /**
      * Implementation of PetApiInterface#deletePet
      */
-    public function deletePet($petId, $apiKey = null): array|void
+    public function deletePet($petId, $apiKey = null, &$responseCode, array &$responseHeaders): void
     {
         // Implement the operation ...
     }
@@ -169,7 +168,7 @@ class PetApi implements PetApiInterface
     /**
      * Configure OAuth2 access token for authorization: petstore_auth
      */
-    public function setpetstore_auth($oauthToken)
+    public function set_oAuth_auth($oauthToken)
     {
         // Retrieve logged in user from $oauthToken ...
     }
@@ -179,7 +178,7 @@ class PetApi implements PetApiInterface
     /**
      * Implementation of PetApiInterface#findPetsByStatus
      */
-    public function findPetsByStatus(array $status): iterable
+    public function findPetsByStatus(array $status, &$responseCode, array &$responseHeaders): iterable
     {
         // Implement the operation ...
     }
@@ -231,7 +230,7 @@ class PetApi implements PetApiInterface
     /**
      * Configure OAuth2 access token for authorization: petstore_auth
      */
-    public function setpetstore_auth($oauthToken)
+    public function set_oAuth_auth($oauthToken)
     {
         // Retrieve logged in user from $oauthToken ...
     }
@@ -241,7 +240,7 @@ class PetApi implements PetApiInterface
     /**
      * Implementation of PetApiInterface#findPetsByTags
      */
-    public function findPetsByTags(array $tags): iterable
+    public function findPetsByTags(array $tags, &$responseCode, array &$responseHeaders): iterable
     {
         // Implement the operation ...
     }
@@ -293,7 +292,7 @@ class PetApi implements PetApiInterface
     /**
      * Configure API key authorization: api_key
      */
-    public function setapi_key($apiKey)
+    public function set_api_key_auth($apiKey)
     {
         // Retrieve logged in user from $apiKey ...
     }
@@ -303,7 +302,7 @@ class PetApi implements PetApiInterface
     /**
      * Implementation of PetApiInterface#getPetById
      */
-    public function getPetById($petId): array|\OpenAPI\Server\Model\Pet
+    public function getPetById($petId, &$responseCode, array &$responseHeaders): array|\OpenAPI\Server\Model\Pet
     {
         // Implement the operation ...
     }
@@ -353,7 +352,7 @@ class PetApi implements PetApiInterface
     /**
      * Configure OAuth2 access token for authorization: petstore_auth
      */
-    public function setpetstore_auth($oauthToken)
+    public function set_oAuth_auth($oauthToken)
     {
         // Retrieve logged in user from $oauthToken ...
     }
@@ -363,7 +362,7 @@ class PetApi implements PetApiInterface
     /**
      * Implementation of PetApiInterface#updatePet
      */
-    public function updatePet(Pet $pet): array|\OpenAPI\Server\Model\Pet
+    public function updatePet(Pet $pet, &$responseCode, array &$responseHeaders): array|\OpenAPI\Server\Model\Pet
     {
         // Implement the operation ...
     }
@@ -413,7 +412,7 @@ class PetApi implements PetApiInterface
     /**
      * Configure OAuth2 access token for authorization: petstore_auth
      */
-    public function setpetstore_auth($oauthToken)
+    public function set_oAuth_auth($oauthToken)
     {
         // Retrieve logged in user from $oauthToken ...
     }
@@ -423,7 +422,7 @@ class PetApi implements PetApiInterface
     /**
      * Implementation of PetApiInterface#updatePetWithForm
      */
-    public function updatePetWithForm($petId, $name = null, $status = null): array|void
+    public function updatePetWithForm($petId, $name = null, $status = null, &$responseCode, array &$responseHeaders): void
     {
         // Implement the operation ...
     }
@@ -475,7 +474,7 @@ class PetApi implements PetApiInterface
     /**
      * Configure OAuth2 access token for authorization: petstore_auth
      */
-    public function setpetstore_auth($oauthToken)
+    public function set_oAuth_auth($oauthToken)
     {
         // Retrieve logged in user from $oauthToken ...
     }
@@ -485,7 +484,7 @@ class PetApi implements PetApiInterface
     /**
      * Implementation of PetApiInterface#uploadFile
      */
-    public function uploadFile($petId, $additionalMetadata = null, UploadedFile $file = null): array|\OpenAPI\Server\Model\ApiResponse
+    public function uploadFile($petId, $additionalMetadata = null, UploadedFile $file = null, &$responseCode, array &$responseHeaders): array|\OpenAPI\Server\Model\ApiResponse
     {
         // Implement the operation ...
     }

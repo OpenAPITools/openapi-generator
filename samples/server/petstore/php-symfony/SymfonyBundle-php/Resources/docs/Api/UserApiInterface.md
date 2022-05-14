@@ -16,11 +16,10 @@ Method | HTTP request | Description
 
 ## Service Declaration
 ```yaml
-# src/Acme/MyBundle/Resources/services.yml
+# config/services.yml
 services:
     # ...
-    acme.my_bundle.api.user:
-        class: Acme\MyBundle\Api\UserApi
+    Acme\MyBundle\Api\UserApi:
         tags:
             - { name: "open_api_server.api", api: "user" }
     # ...
@@ -48,7 +47,7 @@ class UserApi implements UserApiInterface
     /**
      * Configure API key authorization: api_key
      */
-    public function setapi_key($apiKey)
+    public function set_api_key_auth($apiKey)
     {
         // Retrieve logged in user from $apiKey ...
     }
@@ -58,7 +57,7 @@ class UserApi implements UserApiInterface
     /**
      * Implementation of UserApiInterface#createUser
      */
-    public function createUser(User $user): array|void
+    public function createUser(User $user, &$responseCode, array &$responseHeaders): void
     {
         // Implement the operation ...
     }
@@ -108,7 +107,7 @@ class UserApi implements UserApiInterface
     /**
      * Configure API key authorization: api_key
      */
-    public function setapi_key($apiKey)
+    public function set_api_key_auth($apiKey)
     {
         // Retrieve logged in user from $apiKey ...
     }
@@ -118,7 +117,7 @@ class UserApi implements UserApiInterface
     /**
      * Implementation of UserApiInterface#createUsersWithArrayInput
      */
-    public function createUsersWithArrayInput(array $user): array|void
+    public function createUsersWithArrayInput(array $user, &$responseCode, array &$responseHeaders): void
     {
         // Implement the operation ...
     }
@@ -168,7 +167,7 @@ class UserApi implements UserApiInterface
     /**
      * Configure API key authorization: api_key
      */
-    public function setapi_key($apiKey)
+    public function set_api_key_auth($apiKey)
     {
         // Retrieve logged in user from $apiKey ...
     }
@@ -178,7 +177,7 @@ class UserApi implements UserApiInterface
     /**
      * Implementation of UserApiInterface#createUsersWithListInput
      */
-    public function createUsersWithListInput(array $user): array|void
+    public function createUsersWithListInput(array $user, &$responseCode, array &$responseHeaders): void
     {
         // Implement the operation ...
     }
@@ -230,7 +229,7 @@ class UserApi implements UserApiInterface
     /**
      * Configure API key authorization: api_key
      */
-    public function setapi_key($apiKey)
+    public function set_api_key_auth($apiKey)
     {
         // Retrieve logged in user from $apiKey ...
     }
@@ -240,7 +239,7 @@ class UserApi implements UserApiInterface
     /**
      * Implementation of UserApiInterface#deleteUser
      */
-    public function deleteUser($username): array|void
+    public function deleteUser($username, &$responseCode, array &$responseHeaders): void
     {
         // Implement the operation ...
     }
@@ -292,7 +291,7 @@ class UserApi implements UserApiInterface
     /**
      * Implementation of UserApiInterface#getUserByName
      */
-    public function getUserByName($username): array|\OpenAPI\Server\Model\User
+    public function getUserByName($username, &$responseCode, array &$responseHeaders): array|\OpenAPI\Server\Model\User
     {
         // Implement the operation ...
     }
@@ -344,7 +343,7 @@ class UserApi implements UserApiInterface
     /**
      * Implementation of UserApiInterface#loginUser
      */
-    public function loginUser($username, $password): array|\string
+    public function loginUser($username, $password, &$responseCode, array &$responseHeaders): array|\string
     {
         // Implement the operation ...
     }
@@ -395,7 +394,7 @@ class UserApi implements UserApiInterface
     /**
      * Configure API key authorization: api_key
      */
-    public function setapi_key($apiKey)
+    public function set_api_key_auth($apiKey)
     {
         // Retrieve logged in user from $apiKey ...
     }
@@ -405,7 +404,7 @@ class UserApi implements UserApiInterface
     /**
      * Implementation of UserApiInterface#logoutUser
      */
-    public function logoutUser(): array|void
+    public function logoutUser(, &$responseCode, array &$responseHeaders): void
     {
         // Implement the operation ...
     }
@@ -454,7 +453,7 @@ class UserApi implements UserApiInterface
     /**
      * Configure API key authorization: api_key
      */
-    public function setapi_key($apiKey)
+    public function set_api_key_auth($apiKey)
     {
         // Retrieve logged in user from $apiKey ...
     }
@@ -464,7 +463,7 @@ class UserApi implements UserApiInterface
     /**
      * Implementation of UserApiInterface#updateUser
      */
-    public function updateUser($username, User $user): array|void
+    public function updateUser($username, User $user, &$responseCode, array &$responseHeaders): void
     {
         // Implement the operation ...
     }
