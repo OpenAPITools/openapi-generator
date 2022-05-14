@@ -4,7 +4,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **mapUnderscoremapUnderscoreofUnderscorestring** | **map[String, map[String, string]]** |  | [optional] [default to null]
-**mapUnderscoreofUnderscoreenumUnderscorestring** | **map[String, string]** |  | [optional] [default to null]
+**mapUnderscoreofUnderscoreenumUnderscorestring** | **map[String, InnerEnum]** |  | [optional] [default to null]
 **directUnderscoremap** | **map[String, boolean]** |  | [optional] [default to null]
 **indirectUnderscoremap** | **map[String, boolean]** |  | [optional] [default to null]
 
