@@ -67,33 +67,7 @@ from petstore_api.schemas import (  # noqa: F401
 from petstore_api.model.api_response import ApiResponse
 
 # body param
-
-
-class SchemaForRequestBodyMultipartFormData(
-    DictSchema
-):
-    
-    
-    class files(
-        ListSchema
-    ):
-        _items = BinarySchema
-
-
-    def __new__(
-        cls,
-        *args: typing.Union[dict, frozendict, ],
-        files: typing.Union[files, Unset] = unset,
-        _configuration: typing.Optional[Configuration] = None,
-        **kwargs: typing.Type[Schema],
-    ) -> 'SchemaForRequestBodyMultipartFormData':
-        return super().__new__(
-            cls,
-            *args,
-            files=files,
-            _configuration=_configuration,
-            **kwargs,
-        )
+SchemaForRequestBodyMultipartFormData = Schema
 
 
 request_body_body = api_client.RequestBody(

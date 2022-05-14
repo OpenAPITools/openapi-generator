@@ -12,10 +12,13 @@ package petstore
 
 import (
 	"encoding/json"
+	"reflect"
+	"strings"
 )
 
 // Banana struct for Banana
 type Banana struct {
+	map[string]interface{}
 	LengthCm *float32 `json:"lengthCm,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
@@ -73,6 +76,14 @@ func (o *Banana) SetLengthCm(v float32) {
 
 func (o Banana) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
+	serializedmap[string]interface{}, errmap[string]interface{} := json.Marshal(o.map[string]interface{})
+	if errmap[string]interface{} != nil {
+		return []byte{}, errmap[string]interface{}
+	}
+	errmap[string]interface{} = json.Unmarshal([]byte(serializedmap[string]interface{}), &toSerialize)
+	if errmap[string]interface{} != nil {
+		return []byte{}, errmap[string]interface{}
+	}
 	if o.LengthCm != nil {
 		toSerialize["lengthCm"] = o.LengthCm
 	}
@@ -85,16 +96,53 @@ func (o Banana) MarshalJSON() ([]byte, error) {
 }
 
 func (o *Banana) UnmarshalJSON(bytes []byte) (err error) {
+	type BananaWithoutEmbeddedStruct struct {
+		LengthCm *float32 `json:"lengthCm,omitempty"`
+	}
+
+	varBananaWithoutEmbeddedStruct := BananaWithoutEmbeddedStruct{}
+
+	err = json.Unmarshal(bytes, &varBananaWithoutEmbeddedStruct)
+	if err == nil {
+		varBanana := _Banana{}
+		varBanana.LengthCm = varBananaWithoutEmbeddedStruct.LengthCm
+		*o = Banana(varBanana)
+	} else {
+		return err
+	}
+
 	varBanana := _Banana{}
 
-	if err = json.Unmarshal(bytes, &varBanana); err == nil {
-		*o = Banana(varBanana)
+	err = json.Unmarshal(bytes, &varBanana)
+	if err == nil {
+		o.map[string]interface{} = varBanana.map[string]interface{}
+	} else {
+		return err
 	}
 
 	additionalProperties := make(map[string]interface{})
 
 	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
 		delete(additionalProperties, "lengthCm")
+
+		// remove fields from embedded structs
+		reflectmap[string]interface{} := reflect.ValueOf(o.map[string]interface{})
+		for i := 0; i < reflectmap[string]interface{}.Type().NumField(); i++ {
+			t := reflectmap[string]interface{}.Type().Field(i)
+
+			if jsonTag := t.Tag.Get("json"); jsonTag != "" {
+				fieldName := ""
+				if commaIdx := strings.Index(jsonTag, ","); commaIdx > 0 {
+					fieldName = jsonTag[:commaIdx]
+				} else {
+					fieldName = jsonTag
+				}
+				if fieldName != "AdditionalProperties" {
+					delete(additionalProperties, fieldName)
+				}
+			}
+		}
+
 		o.AdditionalProperties = additionalProperties
 	}
 

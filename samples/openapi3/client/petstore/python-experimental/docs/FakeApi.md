@@ -2446,7 +2446,6 @@ To test the collection format in query parameters
 ```python
 import petstore_api
 from petstore_api.api import fake_api
-from petstore_api.model.string_with_validation import StringWithValidation
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -2538,10 +2537,10 @@ Type | Description | Notes
 **[str]** |  | 
 
 #### RefParamSchema
-Type | Description  | Notes
-------------- | ------------- | -------------
-[**StringWithValidation**](StringWithValidation.md) |  | 
 
+Type | Description | Notes
+------------- | ------------- | -------------
+**str** |  | 
 
 ### Return Types, Responses
 
@@ -2623,7 +2622,7 @@ mapBean | MapBeanSchema | | optional
 #### MapBeanSchema
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**Foo**](Foo.md) |  | 
+[**{str: (bool, date, datetime, dict, float, int, list, str, none_type)}**](Foo.md) |  | 
 
 
 ### Return Types, Responses

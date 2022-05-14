@@ -4710,7 +4710,8 @@ public class DefaultCodegen implements CodegenConfig {
                 itemsProperty = itemsProperty.items;
             }
         } else {
-            throw new RuntimeException("Unknown parameter type found: " + parameterSchema);
+            // referenced schemas
+            ;
         }
 
         CodegenProperty codegenProperty = fromProperty(parameter.getName(), parameterSchema);

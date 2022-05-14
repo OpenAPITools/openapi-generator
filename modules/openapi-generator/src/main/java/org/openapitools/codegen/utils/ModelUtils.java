@@ -748,9 +748,7 @@ public class ModelUtils {
         if (null != schema.getProperties() && !schema.getProperties().isEmpty()) {
             return true;
         }
-
-        // consider very simple ObjectSchema a model
-        return schema instanceof ObjectSchema;
+        return false;
     }
 
     public static boolean hasValidation(Schema sc) {

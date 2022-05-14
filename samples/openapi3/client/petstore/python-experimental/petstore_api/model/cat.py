@@ -86,28 +86,7 @@ class Cat(
         # code would be run when this module is imported, and these composed
         # classes don't exist yet because their module has not finished
         # loading
-        
-        
-        class allOf_1(
-            DictSchema
-        ):
-            declawed = BoolSchema
-        
-        
-            def __new__(
-                cls,
-                *args: typing.Union[dict, frozendict, ],
-                declawed: typing.Union[declawed, Unset] = unset,
-                _configuration: typing.Optional[Configuration] = None,
-                **kwargs: typing.Type[Schema],
-            ) -> 'allOf_1':
-                return super().__new__(
-                    cls,
-                    *args,
-                    declawed=declawed,
-                    _configuration=_configuration,
-                    **kwargs,
-                )
+        allOf_1 = Schema
         return {
             'allOf': [
                 Animal,

@@ -91,31 +91,7 @@ request_path_pet_id = api_client.PathParameter(
     required=True,
 )
 # body param
-
-
-class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
-    DictSchema
-):
-    name = StrSchema
-    status = StrSchema
-
-
-    def __new__(
-        cls,
-        *args: typing.Union[dict, frozendict, ],
-        name: typing.Union[name, Unset] = unset,
-        status: typing.Union[status, Unset] = unset,
-        _configuration: typing.Optional[Configuration] = None,
-        **kwargs: typing.Type[Schema],
-    ) -> 'SchemaForRequestBodyApplicationXWwwFormUrlencoded':
-        return super().__new__(
-            cls,
-            *args,
-            name=name,
-            status=status,
-            _configuration=_configuration,
-            **kwargs,
-        )
+SchemaForRequestBodyApplicationXWwwFormUrlencoded = Schema
 
 
 request_body_body = api_client.RequestBody(

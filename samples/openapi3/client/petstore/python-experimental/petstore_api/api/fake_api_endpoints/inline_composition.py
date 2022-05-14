@@ -115,77 +115,7 @@ class CompositionAtRootSchema(
             _configuration=_configuration,
             **kwargs,
         )
-
-
-class CompositionInPropertySchema(
-    DictSchema
-):
-    
-    
-    class someProp(
-        ComposedSchema
-    ):
-    
-        @classmethod
-        @property
-        @functools.cache
-        def _composed_schemas(cls):
-            # we need this here to make our import statements work
-            # we must store _composed_schemas in here so the code is only run
-            # when we invoke this method. If we kept this at the class
-            # level we would get an error because the class level
-            # code would be run when this module is imported, and these composed
-            # classes don't exist yet because their module has not finished
-            # loading
-            
-            
-            class allOf_0(
-                _SchemaValidator(
-                    min_length=1,
-                ),
-                StrSchema
-            ):
-                pass
-            return {
-                'allOf': [
-                    allOf_0,
-                ],
-                'oneOf': [
-                ],
-                'anyOf': [
-                ],
-                'not':
-                    None
-            }
-    
-        def __new__(
-            cls,
-            *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
-            _configuration: typing.Optional[Configuration] = None,
-            **kwargs: typing.Type[Schema],
-        ) -> 'someProp':
-            return super().__new__(
-                cls,
-                *args,
-                _configuration=_configuration,
-                **kwargs,
-            )
-
-
-    def __new__(
-        cls,
-        *args: typing.Union[dict, frozendict, ],
-        someProp: typing.Union[someProp, Unset] = unset,
-        _configuration: typing.Optional[Configuration] = None,
-        **kwargs: typing.Type[Schema],
-    ) -> 'CompositionInPropertySchema':
-        return super().__new__(
-            cls,
-            *args,
-            someProp=someProp,
-            _configuration=_configuration,
-            **kwargs,
-        )
+CompositionInPropertySchema = Schema
 RequestRequiredQueryParams = typing.TypedDict(
     'RequestRequiredQueryParams',
     {
@@ -268,77 +198,7 @@ class SchemaForRequestBodyApplicationJson(
             _configuration=_configuration,
             **kwargs,
         )
-
-
-class SchemaForRequestBodyMultipartFormData(
-    DictSchema
-):
-    
-    
-    class someProp(
-        ComposedSchema
-    ):
-    
-        @classmethod
-        @property
-        @functools.cache
-        def _composed_schemas(cls):
-            # we need this here to make our import statements work
-            # we must store _composed_schemas in here so the code is only run
-            # when we invoke this method. If we kept this at the class
-            # level we would get an error because the class level
-            # code would be run when this module is imported, and these composed
-            # classes don't exist yet because their module has not finished
-            # loading
-            
-            
-            class allOf_0(
-                _SchemaValidator(
-                    min_length=1,
-                ),
-                StrSchema
-            ):
-                pass
-            return {
-                'allOf': [
-                    allOf_0,
-                ],
-                'oneOf': [
-                ],
-                'anyOf': [
-                ],
-                'not':
-                    None
-            }
-    
-        def __new__(
-            cls,
-            *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
-            _configuration: typing.Optional[Configuration] = None,
-            **kwargs: typing.Type[Schema],
-        ) -> 'someProp':
-            return super().__new__(
-                cls,
-                *args,
-                _configuration=_configuration,
-                **kwargs,
-            )
-
-
-    def __new__(
-        cls,
-        *args: typing.Union[dict, frozendict, ],
-        someProp: typing.Union[someProp, Unset] = unset,
-        _configuration: typing.Optional[Configuration] = None,
-        **kwargs: typing.Type[Schema],
-    ) -> 'SchemaForRequestBodyMultipartFormData':
-        return super().__new__(
-            cls,
-            *args,
-            someProp=someProp,
-            _configuration=_configuration,
-            **kwargs,
-        )
+SchemaForRequestBodyMultipartFormData = Schema
 
 
 request_body_any_type = api_client.RequestBody(
@@ -401,77 +261,7 @@ class SchemaFor200ResponseBodyApplicationJson(
             _configuration=_configuration,
             **kwargs,
         )
-
-
-class SchemaFor200ResponseBodyMultipartFormData(
-    DictSchema
-):
-    
-    
-    class someProp(
-        ComposedSchema
-    ):
-    
-        @classmethod
-        @property
-        @functools.cache
-        def _composed_schemas(cls):
-            # we need this here to make our import statements work
-            # we must store _composed_schemas in here so the code is only run
-            # when we invoke this method. If we kept this at the class
-            # level we would get an error because the class level
-            # code would be run when this module is imported, and these composed
-            # classes don't exist yet because their module has not finished
-            # loading
-            
-            
-            class allOf_0(
-                _SchemaValidator(
-                    min_length=1,
-                ),
-                StrSchema
-            ):
-                pass
-            return {
-                'allOf': [
-                    allOf_0,
-                ],
-                'oneOf': [
-                ],
-                'anyOf': [
-                ],
-                'not':
-                    None
-            }
-    
-        def __new__(
-            cls,
-            *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
-            _configuration: typing.Optional[Configuration] = None,
-            **kwargs: typing.Type[Schema],
-        ) -> 'someProp':
-            return super().__new__(
-                cls,
-                *args,
-                _configuration=_configuration,
-                **kwargs,
-            )
-
-
-    def __new__(
-        cls,
-        *args: typing.Union[dict, frozendict, ],
-        someProp: typing.Union[someProp, Unset] = unset,
-        _configuration: typing.Optional[Configuration] = None,
-        **kwargs: typing.Type[Schema],
-    ) -> 'SchemaFor200ResponseBodyMultipartFormData':
-        return super().__new__(
-            cls,
-            *args,
-            someProp=someProp,
-            _configuration=_configuration,
-            **kwargs,
-        )
+SchemaFor200ResponseBodyMultipartFormData = Schema
 
 
 @dataclass

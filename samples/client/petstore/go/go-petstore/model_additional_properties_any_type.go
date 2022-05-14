@@ -16,6 +16,7 @@ import (
 
 // AdditionalPropertiesAnyType struct for AdditionalPropertiesAnyType
 type AdditionalPropertiesAnyType struct {
+	map[string]map[string]interface{}
 	Name *string `json:"name,omitempty"`
 }
 
@@ -70,6 +71,14 @@ func (o *AdditionalPropertiesAnyType) SetName(v string) {
 
 func (o AdditionalPropertiesAnyType) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
+	serializedmap[string]map[string]interface{}, errmap[string]map[string]interface{} := json.Marshal(o.map[string]map[string]interface{})
+	if errmap[string]map[string]interface{} != nil {
+		return []byte{}, errmap[string]map[string]interface{}
+	}
+	errmap[string]map[string]interface{} = json.Unmarshal([]byte(serializedmap[string]map[string]interface{}), &toSerialize)
+	if errmap[string]map[string]interface{} != nil {
+		return []byte{}, errmap[string]map[string]interface{}
+	}
 	if o.Name != nil {
 		toSerialize["name"] = o.Name
 	}

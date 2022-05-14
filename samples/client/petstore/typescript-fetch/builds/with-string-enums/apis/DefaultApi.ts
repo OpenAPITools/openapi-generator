@@ -37,9 +37,9 @@ export interface FakeEnumRequestGetInlineRequest {
 }
 
 export interface FakeEnumRequestGetRefRequest {
-    stringEnum?: StringEnum;
+    stringEnum?: FakeEnumRequestGetRefStringEnumEnum;
     nullableStringEnum?: StringEnum | null;
-    numberEnum?: NumberEnum;
+    numberEnum?: FakeEnumRequestGetRefNumberEnumEnum;
     nullableNumberEnum?: NumberEnum | null;
 }
 
@@ -206,6 +206,24 @@ export enum FakeEnumRequestGetInlineStringEnumEnum {
   * @enum {string}
   */
 export enum FakeEnumRequestGetInlineNumberEnumEnum {
+    NUMBER_1 = 1,
+    NUMBER_2 = 2,
+    NUMBER_3 = 3
+}
+/**
+  * @export
+  * @enum {string}
+  */
+export enum FakeEnumRequestGetRefStringEnumEnum {
+    One = 'one',
+    Two = 'two',
+    Three = 'three'
+}
+/**
+  * @export
+  * @enum {string}
+  */
+export enum FakeEnumRequestGetRefNumberEnumEnum {
     NUMBER_1 = 1,
     NUMBER_2 = 2,
     NUMBER_3 = 3
