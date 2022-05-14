@@ -16,7 +16,6 @@ import (
 
 // AdditionalPropertiesBoolean struct for AdditionalPropertiesBoolean
 type AdditionalPropertiesBoolean struct {
-	map[string]bool
 	Name *string `json:"name,omitempty"`
 }
 
@@ -71,14 +70,6 @@ func (o *AdditionalPropertiesBoolean) SetName(v string) {
 
 func (o AdditionalPropertiesBoolean) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
-	serializedmap[string]bool, errmap[string]bool := json.Marshal(o.map[string]bool)
-	if errmap[string]bool != nil {
-		return []byte{}, errmap[string]bool
-	}
-	errmap[string]bool = json.Unmarshal([]byte(serializedmap[string]bool), &toSerialize)
-	if errmap[string]bool != nil {
-		return []byte{}, errmap[string]bool
-	}
 	if o.Name != nil {
 		toSerialize["name"] = o.Name
 	}

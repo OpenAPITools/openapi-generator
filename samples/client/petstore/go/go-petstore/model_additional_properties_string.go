@@ -16,7 +16,6 @@ import (
 
 // AdditionalPropertiesString struct for AdditionalPropertiesString
 type AdditionalPropertiesString struct {
-	map[string]string
 	Name *string `json:"name,omitempty"`
 }
 
@@ -71,14 +70,6 @@ func (o *AdditionalPropertiesString) SetName(v string) {
 
 func (o AdditionalPropertiesString) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
-	serializedmap[string]string, errmap[string]string := json.Marshal(o.map[string]string)
-	if errmap[string]string != nil {
-		return []byte{}, errmap[string]string
-	}
-	errmap[string]string = json.Unmarshal([]byte(serializedmap[string]string), &toSerialize)
-	if errmap[string]string != nil {
-		return []byte{}, errmap[string]string
-	}
 	if o.Name != nil {
 		toSerialize["name"] = o.Name
 	}

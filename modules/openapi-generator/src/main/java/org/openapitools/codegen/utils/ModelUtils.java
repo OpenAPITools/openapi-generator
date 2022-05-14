@@ -744,8 +744,9 @@ public class ModelUtils {
             return false;
         }
 
-        // has properties
-        if (null != schema.getProperties() && !schema.getProperties().isEmpty()) {
+        if (null != schema.getProperties() && !schema.getProperties().isEmpty() && // has properties
+                (schema.getAdditionalProperties() == null || // no additionalProperties is set
+                        (schema.getAdditionalProperties() instanceof Boolean && !(Boolean)schema.getAdditionalProperties()))) {
             return true;
         }
         return false;

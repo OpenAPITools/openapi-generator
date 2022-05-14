@@ -17,7 +17,6 @@ import (
 
 // NullableClass struct for NullableClass
 type NullableClass struct {
-	map[string]map[string]interface{}
 	IntegerProp NullableInt32 `json:"integer_prop,omitempty"`
 	NumberProp NullableFloat32 `json:"number_prop,omitempty"`
 	BooleanProp NullableBool `json:"boolean_prop,omitempty"`
@@ -503,14 +502,6 @@ func (o *NullableClass) SetObjectItemsNullable(v map[string]map[string]interface
 
 func (o NullableClass) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
-	serializedmap[string]map[string]interface{}, errmap[string]map[string]interface{} := json.Marshal(o.map[string]map[string]interface{})
-	if errmap[string]map[string]interface{} != nil {
-		return []byte{}, errmap[string]map[string]interface{}
-	}
-	errmap[string]map[string]interface{} = json.Unmarshal([]byte(serializedmap[string]map[string]interface{}), &toSerialize)
-	if errmap[string]map[string]interface{} != nil {
-		return []byte{}, errmap[string]map[string]interface{}
-	}
 	if o.IntegerProp.IsSet() {
 		toSerialize["integer_prop"] = o.IntegerProp.Get()
 	}
