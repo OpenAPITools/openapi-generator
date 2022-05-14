@@ -48,7 +48,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;FooGetDefaultResponse&gt;</returns>
-        Task<FooGetDefaultResponse?> FooGetAsync(System.Threading.CancellationToken? cancellationToken = null);
+        Task<FooGetDefaultResponse> FooGetAsync(System.Threading.CancellationToken? cancellationToken = null);
 
         /// <summary>
         /// 
@@ -59,8 +59,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;FooGetDefaultResponse?&gt;</returns>
         Task<FooGetDefaultResponse?> FooGetOrDefaultAsync(System.Threading.CancellationToken? cancellationToken = null);
-
-            }
+    }
 
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
@@ -137,7 +136,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="FooGetDefaultResponse"/>&gt;</returns>
-        public async Task<FooGetDefaultResponse?> FooGetAsync(System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<FooGetDefaultResponse> FooGetAsync(System.Threading.CancellationToken? cancellationToken = null)
         {
             ApiResponse<FooGetDefaultResponse?> result = await FooGetWithHttpInfoAsync(cancellationToken).ConfigureAwait(false);
 
