@@ -436,7 +436,7 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
                 if ("array".equals(op.returnContainer)) {
                     op.vendorExtensions.put("x-return-type", "iterable");
                 } else {
-                    if (defaultIncludes.contains(type)) {
+                    if (defaultIncludes.contains(op.returnType)) {
                         op.vendorExtensions.put("x-return-type", "array|" + op.returnType);
                     }
                     else {
