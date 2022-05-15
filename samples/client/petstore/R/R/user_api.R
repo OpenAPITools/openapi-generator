@@ -484,8 +484,8 @@ UserApi <- R6::R6Class(
         ApiResponse$new("API server error", resp)
       }
     },
-    GetUserByName = function(username, ...){
-      apiResponse <- self$GetUserByNameWithHttpInfo(username, ...)
+    GetUserByName = function(username, data_file=NULL, ...){
+      apiResponse <- self$GetUserByNameWithHttpInfo(username, data_file=data_file, ...)
       resp <- apiResponse$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         apiResponse$content
@@ -498,7 +498,7 @@ UserApi <- R6::R6Class(
       }
     },
 
-    GetUserByNameWithHttpInfo = function(username, ...){
+    GetUserByNameWithHttpInfo = function(username, data_file=NULL, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
@@ -522,6 +522,11 @@ UserApi <- R6::R6Class(
                                  ...)
 
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
+        # save response in a file
+        if (!is.null(data_file)) {
+            write(httr::content(resp, "text", encoding = "UTF-8", simplifyVector = FALSE), data_file)
+        }
+
         deserializedRespObj <- tryCatch(
           self$apiClient$deserialize(resp, "User", loadNamespace("petstore")),
           error = function(e){
@@ -537,8 +542,8 @@ UserApi <- R6::R6Class(
         ApiResponse$new("API server error", resp)
       }
     },
-    LoginUser = function(username, password, ...){
-      apiResponse <- self$LoginUserWithHttpInfo(username, password, ...)
+    LoginUser = function(username, password, data_file=NULL, ...){
+      apiResponse <- self$LoginUserWithHttpInfo(username, password, data_file=data_file, ...)
       resp <- apiResponse$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         apiResponse$content
@@ -551,7 +556,7 @@ UserApi <- R6::R6Class(
       }
     },
 
-    LoginUserWithHttpInfo = function(username, password, ...){
+    LoginUserWithHttpInfo = function(username, password, data_file=NULL, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
@@ -579,6 +584,11 @@ UserApi <- R6::R6Class(
                                  ...)
 
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
+        # save response in a file
+        if (!is.null(data_file)) {
+            write(httr::content(resp, "text", encoding = "UTF-8", simplifyVector = FALSE), data_file)
+        }
+
         deserializedRespObj <- tryCatch(
           self$apiClient$deserialize(resp, "character", loadNamespace("petstore")),
           error = function(e){
