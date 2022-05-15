@@ -371,6 +371,40 @@ paths:
           description: Invalid ID supplied
         "404":
           description: Order not found
+  /primitives/integer:
+    post:
+      tags:
+        - primitives
+      summary: Post an integer
+      responses:
+        '200':
+          description: OK
+      requestBody:
+        content:
+          text/plain:
+            schema:
+              type: integer
+              minimum: 0
+              maximum: 4294967295
+            examples:
+              example-1:
+                value: 123
+  /primitives/number:
+    put:
+      tags:
+        - primitives
+      summary: Put a number
+      responses:
+        '200':
+          description: OK
+      requestBody:
+        content:
+          text/plain:
+            schema:
+              type: number
+            examples:
+              example-1:
+                value: 123.192318
   /user:
     post:
       tags:

@@ -9,14 +9,14 @@
  * Do not edit the class manually.
  */
 
-#include "PFXStoreApi.h"
+#include "PFXPrimitivesApi.h"
 #include "PFXServerConfiguration.h"
 #include <QJsonArray>
 #include <QJsonDocument>
 
 namespace test_namespace {
 
-PFXStoreApi::PFXStoreApi(const int timeOut)
+PFXPrimitivesApi::PFXPrimitivesApi(const int timeOut)
     : _timeOut(timeOut),
       _manager(nullptr),
       _isResponseCompressionEnabled(false),
@@ -24,10 +24,10 @@ PFXStoreApi::PFXStoreApi(const int timeOut)
     initializeServerConfigs();
 }
 
-PFXStoreApi::~PFXStoreApi() {
+PFXPrimitivesApi::~PFXPrimitivesApi() {
 }
 
-void PFXStoreApi::initializeServerConfigs() {
+void PFXPrimitivesApi::initializeServerConfigs() {
     //Default server
     QList<PFXServerConfiguration> defaultConf = QList<PFXServerConfiguration>();
     //varying endpoint server
@@ -35,59 +35,55 @@ void PFXStoreApi::initializeServerConfigs() {
     QUrl("http://petstore.swagger.io/v2"),
     "No description provided",
     QMap<QString, PFXServerVariable>()));
-    _serverConfigs.insert("deleteOrder", defaultConf);
-    _serverIndices.insert("deleteOrder", 0);
-    _serverConfigs.insert("getInventory", defaultConf);
-    _serverIndices.insert("getInventory", 0);
-    _serverConfigs.insert("getOrderById", defaultConf);
-    _serverIndices.insert("getOrderById", 0);
-    _serverConfigs.insert("placeOrder", defaultConf);
-    _serverIndices.insert("placeOrder", 0);
+    _serverConfigs.insert("primitivesIntegerPost", defaultConf);
+    _serverIndices.insert("primitivesIntegerPost", 0);
+    _serverConfigs.insert("primitivesNumberPut", defaultConf);
+    _serverIndices.insert("primitivesNumberPut", 0);
 }
 
 /**
 * returns 0 on success and -1, -2 or -3 on failure.
 * -1 when the variable does not exist and -2 if the value is not defined in the enum and -3 if the operation or server index is not found
 */
-int PFXStoreApi::setDefaultServerValue(int serverIndex, const QString &operation, const QString &variable, const QString &value) {
+int PFXPrimitivesApi::setDefaultServerValue(int serverIndex, const QString &operation, const QString &variable, const QString &value) {
     auto it = _serverConfigs.find(operation);
     if (it != _serverConfigs.end() && serverIndex < it.value().size()) {
       return _serverConfigs[operation][serverIndex].setDefaultValue(variable,value);
     }
     return -3;
 }
-void PFXStoreApi::setServerIndex(const QString &operation, int serverIndex) {
+void PFXPrimitivesApi::setServerIndex(const QString &operation, int serverIndex) {
     if (_serverIndices.contains(operation) && serverIndex < _serverConfigs.find(operation).value().size()) {
         _serverIndices[operation] = serverIndex;
     }
 }
 
-void PFXStoreApi::setApiKey(const QString &apiKeyName, const QString &apiKey) {
+void PFXPrimitivesApi::setApiKey(const QString &apiKeyName, const QString &apiKey) {
     _apiKeys.insert(apiKeyName,apiKey);
 }
 
-void PFXStoreApi::setBearerToken(const QString &token) {
+void PFXPrimitivesApi::setBearerToken(const QString &token) {
     _bearerToken = token;
 }
 
-void PFXStoreApi::setUsername(const QString &username) {
+void PFXPrimitivesApi::setUsername(const QString &username) {
     _username = username;
 }
 
-void PFXStoreApi::setPassword(const QString &password) {
+void PFXPrimitivesApi::setPassword(const QString &password) {
     _password = password;
 }
 
 
-void PFXStoreApi::setTimeOut(const int timeOut) {
+void PFXPrimitivesApi::setTimeOut(const int timeOut) {
     _timeOut = timeOut;
 }
 
-void PFXStoreApi::setWorkingDirectory(const QString &path) {
+void PFXPrimitivesApi::setWorkingDirectory(const QString &path) {
     _workingDirectory = path;
 }
 
-void PFXStoreApi::setNetworkAccessManager(QNetworkAccessManager* manager) {
+void PFXPrimitivesApi::setNetworkAccessManager(QNetworkAccessManager* manager) {
     _manager = manager;
 }
 
@@ -99,7 +95,7 @@ void PFXStoreApi::setNetworkAccessManager(QNetworkAccessManager* manager) {
     * @param variables A map between a variable name and its value. The value is used for substitution in the server's URL template.
     * returns the index of the new server config on success and -1 if the operation is not found
     */
-int PFXStoreApi::addServerConfiguration(const QString &operation, const QUrl &url, const QString &description, const QMap<QString, PFXServerVariable> &variables) {
+int PFXPrimitivesApi::addServerConfiguration(const QString &operation, const QUrl &url, const QString &description, const QMap<QString, PFXServerVariable> &variables) {
     if (_serverConfigs.contains(operation)) {
         _serverConfigs[operation].append(PFXServerConfiguration(
                     url,
@@ -117,7 +113,7 @@ int PFXStoreApi::addServerConfiguration(const QString &operation, const QUrl &ur
     * @param description A String that describes the server
     * @param variables A map between a variable name and its value. The value is used for substitution in the server's URL template.
     */
-void PFXStoreApi::setNewServerForAllOperations(const QUrl &url, const QString &description, const QMap<QString, PFXServerVariable> &variables) {
+void PFXPrimitivesApi::setNewServerForAllOperations(const QUrl &url, const QString &description, const QMap<QString, PFXServerVariable> &variables) {
 #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
     for (auto keyIt = _serverIndices.keyBegin(); keyIt != _serverIndices.keyEnd(); keyIt++) {
         setServerIndex(*keyIt, addServerConfiguration(*keyIt, url, description, variables));
@@ -135,27 +131,27 @@ void PFXStoreApi::setNewServerForAllOperations(const QUrl &url, const QString &d
     * @param description A String that describes the server
     * @param variables A map between a variable name and its value. The value is used for substitution in the server's URL template.
     */
-void PFXStoreApi::setNewServer(const QString &operation, const QUrl &url, const QString &description, const QMap<QString, PFXServerVariable> &variables) {
+void PFXPrimitivesApi::setNewServer(const QString &operation, const QUrl &url, const QString &description, const QMap<QString, PFXServerVariable> &variables) {
     setServerIndex(operation, addServerConfiguration(operation, url, description, variables));
 }
 
-void PFXStoreApi::addHeaders(const QString &key, const QString &value) {
+void PFXPrimitivesApi::addHeaders(const QString &key, const QString &value) {
     _defaultHeaders.insert(key, value);
 }
 
-void PFXStoreApi::enableRequestCompression() {
+void PFXPrimitivesApi::enableRequestCompression() {
     _isRequestCompressionEnabled = true;
 }
 
-void PFXStoreApi::enableResponseCompression() {
+void PFXPrimitivesApi::enableResponseCompression() {
     _isResponseCompressionEnabled = true;
 }
 
-void PFXStoreApi::abortRequests() {
+void PFXPrimitivesApi::abortRequests() {
     emit abortRequestsSignal();
 }
 
-QString PFXStoreApi::getParamStylePrefix(const QString &style) {
+QString PFXPrimitivesApi::getParamStylePrefix(const QString &style) {
     if (style == "matrix") {
         return ";";
     } else if (style == "label") {
@@ -173,7 +169,7 @@ QString PFXStoreApi::getParamStylePrefix(const QString &style) {
     }
 }
 
-QString PFXStoreApi::getParamStyleSuffix(const QString &style) {
+QString PFXPrimitivesApi::getParamStyleSuffix(const QString &style) {
     if (style == "matrix") {
         return "=";
     } else if (style == "label") {
@@ -191,7 +187,7 @@ QString PFXStoreApi::getParamStyleSuffix(const QString &style) {
     }
 }
 
-QString PFXStoreApi::getParamStyleDelimiter(const QString &style, const QString &name, bool isExplode) {
+QString PFXPrimitivesApi::getParamStyleDelimiter(const QString &style, const QString &name, bool isExplode) {
 
     if (style == "matrix") {
         return (isExplode) ? ";" + name + "=" : ",";
@@ -218,205 +214,17 @@ QString PFXStoreApi::getParamStyleDelimiter(const QString &style, const QString 
     }
 }
 
-void PFXStoreApi::deleteOrder(const QString &order_id) {
-    QString fullPath = QString(_serverConfigs["deleteOrder"][_serverIndices.value("deleteOrder")].URL()+"/store/order/{orderId}");
-    
-    
-    {
-        QString order_idPathParam("{");
-        order_idPathParam.append("orderId").append("}");
-        QString pathPrefix, pathSuffix, pathDelimiter;
-        QString pathStyle = "simple";
-        if (pathStyle == "")
-            pathStyle = "simple";
-        pathPrefix = getParamStylePrefix(pathStyle);
-        pathSuffix = getParamStyleSuffix(pathStyle);
-        pathDelimiter = getParamStyleDelimiter(pathStyle, "orderId", false);
-        QString paramString = (pathStyle == "matrix") ? pathPrefix+"orderId"+pathSuffix : pathPrefix;
-        fullPath.replace(order_idPathParam, paramString+QUrl::toPercentEncoding(::test_namespace::toStringValue(order_id)));
-    }
-    PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
-    worker->setTimeOut(_timeOut);
-    worker->setWorkingDirectory(_workingDirectory);
-    PFXHttpRequestInput input(fullPath, "DELETE");
-
-
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
-    for (auto keyValueIt = _defaultHeaders.keyValueBegin(); keyValueIt != _defaultHeaders.keyValueEnd(); keyValueIt++) {
-        input.headers.insert(keyValueIt->first, keyValueIt->second);
-    }
-#else
-    for (auto key : _defaultHeaders.keys()) {
-        input.headers.insert(key, _defaultHeaders[key]);
-    }
-#endif
-
-    connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXStoreApi::deleteOrderCallback);
-    connect(this, &PFXStoreApi::abortRequestsSignal, worker, &QObject::deleteLater);
-    connect(worker, &QObject::destroyed, this, [this]() {
-        if (findChildren<PFXHttpRequestWorker*>().count() == 0) {
-            emit allPendingRequestsCompleted();
-        }
-    });
-
-    worker->execute(&input);
-}
-
-void PFXStoreApi::deleteOrderCallback(PFXHttpRequestWorker *worker) {
-    QString error_str = worker->error_str;
-    QNetworkReply::NetworkError error_type = worker->error_type;
-
-    if (worker->error_type != QNetworkReply::NoError) {
-        error_str = QString("%1, %2").arg(worker->error_str, QString(worker->response));
-    }
-    worker->deleteLater();
-
-    if (worker->error_type == QNetworkReply::NoError) {
-        emit deleteOrderSignal();
-        emit deleteOrderSignalFull(worker);
-    } else {
-        emit deleteOrderSignalE(error_type, error_str);
-        emit deleteOrderSignalEFull(worker, error_type, error_str);
-    }
-}
-
-void PFXStoreApi::getInventory() {
-    QString fullPath = QString(_serverConfigs["getInventory"][_serverIndices.value("getInventory")].URL()+"/store/inventory");
-    
-    if (_apiKeys.contains("api_key")) {
-        addHeaders("api_key",_apiKeys.find("api_key").value());
-    }
-    
-    PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
-    worker->setTimeOut(_timeOut);
-    worker->setWorkingDirectory(_workingDirectory);
-    PFXHttpRequestInput input(fullPath, "GET");
-
-
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
-    for (auto keyValueIt = _defaultHeaders.keyValueBegin(); keyValueIt != _defaultHeaders.keyValueEnd(); keyValueIt++) {
-        input.headers.insert(keyValueIt->first, keyValueIt->second);
-    }
-#else
-    for (auto key : _defaultHeaders.keys()) {
-        input.headers.insert(key, _defaultHeaders[key]);
-    }
-#endif
-
-    connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXStoreApi::getInventoryCallback);
-    connect(this, &PFXStoreApi::abortRequestsSignal, worker, &QObject::deleteLater);
-    connect(worker, &QObject::destroyed, this, [this]() {
-        if (findChildren<PFXHttpRequestWorker*>().count() == 0) {
-            emit allPendingRequestsCompleted();
-        }
-    });
-
-    worker->execute(&input);
-}
-
-void PFXStoreApi::getInventoryCallback(PFXHttpRequestWorker *worker) {
-    QString error_str = worker->error_str;
-    QNetworkReply::NetworkError error_type = worker->error_type;
-
-    if (worker->error_type != QNetworkReply::NoError) {
-        error_str = QString("%1, %2").arg(worker->error_str, QString(worker->response));
-    }
-    QMap<QString, qint32> output;
-    QString json(worker->response);
-    QByteArray array(json.toStdString().c_str());
-    QJsonDocument doc = QJsonDocument::fromJson(array);
-    QJsonObject obj = doc.object();
-    foreach (QString key, obj.keys()) {
-        qint32 val;
-        ::test_namespace::fromJsonValue(val, obj[key]);
-        output.insert(key, val);
-    }
-    worker->deleteLater();
-
-    if (worker->error_type == QNetworkReply::NoError) {
-        emit getInventorySignal(output);
-        emit getInventorySignalFull(worker, output);
-    } else {
-        emit getInventorySignalE(output, error_type, error_str);
-        emit getInventorySignalEFull(worker, error_type, error_str);
-    }
-}
-
-void PFXStoreApi::getOrderById(const qint64 &order_id) {
-    QString fullPath = QString(_serverConfigs["getOrderById"][_serverIndices.value("getOrderById")].URL()+"/store/order/{orderId}");
-    
-    
-    {
-        QString order_idPathParam("{");
-        order_idPathParam.append("orderId").append("}");
-        QString pathPrefix, pathSuffix, pathDelimiter;
-        QString pathStyle = "simple";
-        if (pathStyle == "")
-            pathStyle = "simple";
-        pathPrefix = getParamStylePrefix(pathStyle);
-        pathSuffix = getParamStyleSuffix(pathStyle);
-        pathDelimiter = getParamStyleDelimiter(pathStyle, "orderId", false);
-        QString paramString = (pathStyle == "matrix") ? pathPrefix+"orderId"+pathSuffix : pathPrefix;
-        fullPath.replace(order_idPathParam, paramString+QUrl::toPercentEncoding(::test_namespace::toStringValue(order_id)));
-    }
-    PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
-    worker->setTimeOut(_timeOut);
-    worker->setWorkingDirectory(_workingDirectory);
-    PFXHttpRequestInput input(fullPath, "GET");
-
-
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
-    for (auto keyValueIt = _defaultHeaders.keyValueBegin(); keyValueIt != _defaultHeaders.keyValueEnd(); keyValueIt++) {
-        input.headers.insert(keyValueIt->first, keyValueIt->second);
-    }
-#else
-    for (auto key : _defaultHeaders.keys()) {
-        input.headers.insert(key, _defaultHeaders[key]);
-    }
-#endif
-
-    connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXStoreApi::getOrderByIdCallback);
-    connect(this, &PFXStoreApi::abortRequestsSignal, worker, &QObject::deleteLater);
-    connect(worker, &QObject::destroyed, this, [this]() {
-        if (findChildren<PFXHttpRequestWorker*>().count() == 0) {
-            emit allPendingRequestsCompleted();
-        }
-    });
-
-    worker->execute(&input);
-}
-
-void PFXStoreApi::getOrderByIdCallback(PFXHttpRequestWorker *worker) {
-    QString error_str = worker->error_str;
-    QNetworkReply::NetworkError error_type = worker->error_type;
-
-    if (worker->error_type != QNetworkReply::NoError) {
-        error_str = QString("%1, %2").arg(worker->error_str, QString(worker->response));
-    }
-    PFXOrder output(QString(worker->response));
-    worker->deleteLater();
-
-    if (worker->error_type == QNetworkReply::NoError) {
-        emit getOrderByIdSignal(output);
-        emit getOrderByIdSignalFull(worker, output);
-    } else {
-        emit getOrderByIdSignalE(output, error_type, error_str);
-        emit getOrderByIdSignalEFull(worker, error_type, error_str);
-    }
-}
-
-void PFXStoreApi::placeOrder(const PFXOrder &pfx_order) {
-    QString fullPath = QString(_serverConfigs["placeOrder"][_serverIndices.value("placeOrder")].URL()+"/store/order");
+void PFXPrimitivesApi::primitivesIntegerPost(const ::test_namespace::OptionalParam<qint32> &body) {
+    QString fullPath = QString(_serverConfigs["primitivesIntegerPost"][_serverIndices.value("primitivesIntegerPost")].URL()+"/primitives/integer");
     
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
     worker->setWorkingDirectory(_workingDirectory);
     PFXHttpRequestInput input(fullPath, "POST");
 
-    {
+    if (body.hasValue()){
 
-        
-        QByteArray output = pfx_order.asJson().toUtf8();
+        QByteArray output = QByteArray::number(body.value());
         input.request_body.append(output);
     }
 #if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
@@ -429,8 +237,8 @@ void PFXStoreApi::placeOrder(const PFXOrder &pfx_order) {
     }
 #endif
 
-    connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXStoreApi::placeOrderCallback);
-    connect(this, &PFXStoreApi::abortRequestsSignal, worker, &QObject::deleteLater);
+    connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPrimitivesApi::primitivesIntegerPostCallback);
+    connect(this, &PFXPrimitivesApi::abortRequestsSignal, worker, &QObject::deleteLater);
     connect(worker, &QObject::destroyed, this, [this]() {
         if (findChildren<PFXHttpRequestWorker*>().count() == 0) {
             emit allPendingRequestsCompleted();
@@ -440,26 +248,77 @@ void PFXStoreApi::placeOrder(const PFXOrder &pfx_order) {
     worker->execute(&input);
 }
 
-void PFXStoreApi::placeOrderCallback(PFXHttpRequestWorker *worker) {
+void PFXPrimitivesApi::primitivesIntegerPostCallback(PFXHttpRequestWorker *worker) {
     QString error_str = worker->error_str;
     QNetworkReply::NetworkError error_type = worker->error_type;
 
     if (worker->error_type != QNetworkReply::NoError) {
         error_str = QString("%1, %2").arg(worker->error_str, QString(worker->response));
     }
-    PFXOrder output(QString(worker->response));
     worker->deleteLater();
 
     if (worker->error_type == QNetworkReply::NoError) {
-        emit placeOrderSignal(output);
-        emit placeOrderSignalFull(worker, output);
+        emit primitivesIntegerPostSignal();
+        emit primitivesIntegerPostSignalFull(worker);
     } else {
-        emit placeOrderSignalE(output, error_type, error_str);
-        emit placeOrderSignalEFull(worker, error_type, error_str);
+        emit primitivesIntegerPostSignalE(error_type, error_str);
+        emit primitivesIntegerPostSignalEFull(worker, error_type, error_str);
     }
 }
 
-void PFXStoreApi::tokenAvailable(){
+void PFXPrimitivesApi::primitivesNumberPut(const ::test_namespace::OptionalParam<double> &body) {
+    QString fullPath = QString(_serverConfigs["primitivesNumberPut"][_serverIndices.value("primitivesNumberPut")].URL()+"/primitives/number");
+    
+    PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
+    worker->setTimeOut(_timeOut);
+    worker->setWorkingDirectory(_workingDirectory);
+    PFXHttpRequestInput input(fullPath, "PUT");
+
+    if (body.hasValue()){
+
+        QByteArray output = QByteArray::number(body.value());
+        input.request_body.append(output);
+    }
+#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
+    for (auto keyValueIt = _defaultHeaders.keyValueBegin(); keyValueIt != _defaultHeaders.keyValueEnd(); keyValueIt++) {
+        input.headers.insert(keyValueIt->first, keyValueIt->second);
+    }
+#else
+    for (auto key : _defaultHeaders.keys()) {
+        input.headers.insert(key, _defaultHeaders[key]);
+    }
+#endif
+
+    connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPrimitivesApi::primitivesNumberPutCallback);
+    connect(this, &PFXPrimitivesApi::abortRequestsSignal, worker, &QObject::deleteLater);
+    connect(worker, &QObject::destroyed, this, [this]() {
+        if (findChildren<PFXHttpRequestWorker*>().count() == 0) {
+            emit allPendingRequestsCompleted();
+        }
+    });
+
+    worker->execute(&input);
+}
+
+void PFXPrimitivesApi::primitivesNumberPutCallback(PFXHttpRequestWorker *worker) {
+    QString error_str = worker->error_str;
+    QNetworkReply::NetworkError error_type = worker->error_type;
+
+    if (worker->error_type != QNetworkReply::NoError) {
+        error_str = QString("%1, %2").arg(worker->error_str, QString(worker->response));
+    }
+    worker->deleteLater();
+
+    if (worker->error_type == QNetworkReply::NoError) {
+        emit primitivesNumberPutSignal();
+        emit primitivesNumberPutSignalFull(worker);
+    } else {
+        emit primitivesNumberPutSignalE(error_type, error_str);
+        emit primitivesNumberPutSignalEFull(worker, error_type, error_str);
+    }
+}
+
+void PFXPrimitivesApi::tokenAvailable(){
   
     oauthToken token; 
     switch (_OauthMethod) {

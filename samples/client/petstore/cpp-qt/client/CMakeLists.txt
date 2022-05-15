@@ -23,6 +23,7 @@ add_library(${PROJECT_NAME}
     PFXTag.cpp
     PFXUser.cpp
     PFXPetApi.cpp
+    PFXPrimitivesApi.cpp
     PFXStoreApi.cpp
     PFXUserApi.cpp
     PFXHelpers.cpp
