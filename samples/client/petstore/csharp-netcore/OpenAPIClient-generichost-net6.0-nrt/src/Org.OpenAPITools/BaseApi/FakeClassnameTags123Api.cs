@@ -131,6 +131,10 @@ namespace Org.OpenAPITools.BaseApi
             OauthTokenProvider = oauthTokenProvider;
         }
 
+        /// <summary>
+        /// Logs the api response
+        /// </summary>
+        /// <param name="args"></param>
         protected virtual void OnApiResponded(ApiResponseEventArgs args)
         {
             Logger.LogInformation("{0,-9} | {1} | {3}", (args.ReceivedAt - args.RequestedAt).TotalSeconds, args.HttpStatus, args.Path);
@@ -208,8 +212,10 @@ namespace Org.OpenAPITools.BaseApi
         /// Processes the server response
         /// </summary>
         /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
         /// <param name="modelClient"></param>
-        protected virtual void OnErrorTestClassname(Exception exception, ModelClient modelClient)
+        protected virtual void OnErrorTestClassname(Exception exception, string pathFormat, string path, ModelClient modelClient)
         {
             Logger.LogError(exception, "An error occured while sending the request to the server.");
         }
@@ -223,13 +229,14 @@ namespace Org.OpenAPITools.BaseApi
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="ModelClient"/></returns>
         public async Task<ApiResponse<ModelClient?>> TestClassnameWithHttpInfoAsync(ModelClient modelClient, System.Threading.CancellationToken? cancellationToken = null)
         {
+            UriBuilder uriBuilder = new UriBuilder();
+
             try
             {
                 modelClient = OnTestClassname(modelClient);
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
-                    UriBuilder uriBuilder = new UriBuilder();
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
                     uriBuilder.Scheme = ClientUtils.SCHEME;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/fake_classname_test";
@@ -297,7 +304,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                OnErrorTestClassname(e, modelClient);
+                OnErrorTestClassname(e, "/fake_classname_test", uriBuilder.Path, modelClient);
                 throw;
             }
         }

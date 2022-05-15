@@ -432,6 +432,10 @@ namespace Org.OpenAPITools.BaseApi
             OauthTokenProvider = oauthTokenProvider;
         }
 
+        /// <summary>
+        /// Logs the api response
+        /// </summary>
+        /// <param name="args"></param>
         protected virtual void OnApiResponded(ApiResponseEventArgs args)
         {
             Logger.LogInformation("{0,-9} | {1} | {3}", (args.ReceivedAt - args.RequestedAt).TotalSeconds, args.HttpStatus, args.Path);
@@ -509,8 +513,10 @@ namespace Org.OpenAPITools.BaseApi
         /// Processes the server response
         /// </summary>
         /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
         /// <param name="pet"></param>
-        protected virtual void OnErrorAddPet(Exception exception, Pet pet)
+        protected virtual void OnErrorAddPet(Exception exception, string pathFormat, string path, Pet pet)
         {
             Logger.LogError(exception, "An error occured while sending the request to the server.");
         }
@@ -524,13 +530,14 @@ namespace Org.OpenAPITools.BaseApi
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
         public async Task<ApiResponse<object?>> AddPetWithHttpInfoAsync(Pet pet, System.Threading.CancellationToken? cancellationToken = null)
         {
+            UriBuilder uriBuilder = new UriBuilder();
+
             try
             {
                 pet = OnAddPet(pet);
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
-                    UriBuilder uriBuilder = new UriBuilder();
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
                     uriBuilder.Scheme = ClientUtils.SCHEME;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/pet";
@@ -597,7 +604,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                OnErrorAddPet(e, pet);
+                OnErrorAddPet(e, "/pet", uriBuilder.Path, pet);
                 throw;
             }
         }
@@ -678,9 +685,11 @@ namespace Org.OpenAPITools.BaseApi
         /// Processes the server response
         /// </summary>
         /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
         /// <param name="petId"></param>
         /// <param name="apiKey"></param>
-        protected virtual void OnErrorDeletePet(Exception exception, long petId, string? apiKey)
+        protected virtual void OnErrorDeletePet(Exception exception, string pathFormat, string path, long petId, string? apiKey)
         {
             Logger.LogError(exception, "An error occured while sending the request to the server.");
         }
@@ -695,6 +704,8 @@ namespace Org.OpenAPITools.BaseApi
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
         public async Task<ApiResponse<object?>> DeletePetWithHttpInfoAsync(long petId, string? apiKey = null, System.Threading.CancellationToken? cancellationToken = null)
         {
+            UriBuilder uriBuilder = new UriBuilder();
+
             try
             {
                 var validatedParameters = OnDeletePet(petId, apiKey);
@@ -703,7 +714,6 @@ namespace Org.OpenAPITools.BaseApi
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
-                    UriBuilder uriBuilder = new UriBuilder();
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
                     uriBuilder.Scheme = ClientUtils.SCHEME;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/pet/{petId}";
@@ -749,7 +759,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                OnErrorDeletePet(e, petId, apiKey);
+                OnErrorDeletePet(e, "/pet/{petId}", uriBuilder.Path, petId, apiKey);
                 throw;
             }
         }
@@ -826,8 +836,10 @@ namespace Org.OpenAPITools.BaseApi
         /// Processes the server response
         /// </summary>
         /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
         /// <param name="status"></param>
-        protected virtual void OnErrorFindPetsByStatus(Exception exception, List<string> status)
+        protected virtual void OnErrorFindPetsByStatus(Exception exception, string pathFormat, string path, List<string> status)
         {
             Logger.LogError(exception, "An error occured while sending the request to the server.");
         }
@@ -841,13 +853,14 @@ namespace Org.OpenAPITools.BaseApi
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="List&lt;Pet&gt;"/></returns>
         public async Task<ApiResponse<List<Pet>?>> FindPetsByStatusWithHttpInfoAsync(List<string> status, System.Threading.CancellationToken? cancellationToken = null)
         {
+            UriBuilder uriBuilder = new UriBuilder();
+
             try
             {
                 status = OnFindPetsByStatus(status);
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
-                    UriBuilder uriBuilder = new UriBuilder();
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
                     uriBuilder.Scheme = ClientUtils.SCHEME;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/pet/findByStatus";
@@ -916,7 +929,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                OnErrorFindPetsByStatus(e, status);
+                OnErrorFindPetsByStatus(e, "/pet/findByStatus", uriBuilder.Path, status);
                 throw;
             }
         }
@@ -993,8 +1006,10 @@ namespace Org.OpenAPITools.BaseApi
         /// Processes the server response
         /// </summary>
         /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
         /// <param name="tags"></param>
-        protected virtual void OnErrorFindPetsByTags(Exception exception, List<string> tags)
+        protected virtual void OnErrorFindPetsByTags(Exception exception, string pathFormat, string path, List<string> tags)
         {
             Logger.LogError(exception, "An error occured while sending the request to the server.");
         }
@@ -1008,13 +1023,14 @@ namespace Org.OpenAPITools.BaseApi
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="List&lt;Pet&gt;"/></returns>
         public async Task<ApiResponse<List<Pet>?>> FindPetsByTagsWithHttpInfoAsync(List<string> tags, System.Threading.CancellationToken? cancellationToken = null)
         {
+            UriBuilder uriBuilder = new UriBuilder();
+
             try
             {
                 tags = OnFindPetsByTags(tags);
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
-                    UriBuilder uriBuilder = new UriBuilder();
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
                     uriBuilder.Scheme = ClientUtils.SCHEME;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/pet/findByTags";
@@ -1083,7 +1099,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                OnErrorFindPetsByTags(e, tags);
+                OnErrorFindPetsByTags(e, "/pet/findByTags", uriBuilder.Path, tags);
                 throw;
             }
         }
@@ -1160,8 +1176,10 @@ namespace Org.OpenAPITools.BaseApi
         /// Processes the server response
         /// </summary>
         /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
         /// <param name="petId"></param>
-        protected virtual void OnErrorGetPetById(Exception exception, long petId)
+        protected virtual void OnErrorGetPetById(Exception exception, string pathFormat, string path, long petId)
         {
             Logger.LogError(exception, "An error occured while sending the request to the server.");
         }
@@ -1175,13 +1193,14 @@ namespace Org.OpenAPITools.BaseApi
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="Pet"/></returns>
         public async Task<ApiResponse<Pet?>> GetPetByIdWithHttpInfoAsync(long petId, System.Threading.CancellationToken? cancellationToken = null)
         {
+            UriBuilder uriBuilder = new UriBuilder();
+
             try
             {
                 petId = OnGetPetById(petId);
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
-                    UriBuilder uriBuilder = new UriBuilder();
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
                     uriBuilder.Scheme = ClientUtils.SCHEME;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/pet/{petId}";
@@ -1234,7 +1253,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                OnErrorGetPetById(e, petId);
+                OnErrorGetPetById(e, "/pet/{petId}", uriBuilder.Path, petId);
                 throw;
             }
         }
@@ -1311,8 +1330,10 @@ namespace Org.OpenAPITools.BaseApi
         /// Processes the server response
         /// </summary>
         /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
         /// <param name="pet"></param>
-        protected virtual void OnErrorUpdatePet(Exception exception, Pet pet)
+        protected virtual void OnErrorUpdatePet(Exception exception, string pathFormat, string path, Pet pet)
         {
             Logger.LogError(exception, "An error occured while sending the request to the server.");
         }
@@ -1326,13 +1347,14 @@ namespace Org.OpenAPITools.BaseApi
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
         public async Task<ApiResponse<object?>> UpdatePetWithHttpInfoAsync(Pet pet, System.Threading.CancellationToken? cancellationToken = null)
         {
+            UriBuilder uriBuilder = new UriBuilder();
+
             try
             {
                 pet = OnUpdatePet(pet);
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
-                    UriBuilder uriBuilder = new UriBuilder();
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
                     uriBuilder.Scheme = ClientUtils.SCHEME;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/pet";
@@ -1399,7 +1421,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                OnErrorUpdatePet(e, pet);
+                OnErrorUpdatePet(e, "/pet", uriBuilder.Path, pet);
                 throw;
             }
         }
@@ -1484,10 +1506,12 @@ namespace Org.OpenAPITools.BaseApi
         /// Processes the server response
         /// </summary>
         /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
         /// <param name="petId"></param>
         /// <param name="name"></param>
         /// <param name="status"></param>
-        protected virtual void OnErrorUpdatePetWithForm(Exception exception, long petId, string? name, string? status)
+        protected virtual void OnErrorUpdatePetWithForm(Exception exception, string pathFormat, string path, long petId, string? name, string? status)
         {
             Logger.LogError(exception, "An error occured while sending the request to the server.");
         }
@@ -1503,6 +1527,8 @@ namespace Org.OpenAPITools.BaseApi
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
         public async Task<ApiResponse<object?>> UpdatePetWithFormWithHttpInfoAsync(long petId, string? name = null, string? status = null, System.Threading.CancellationToken? cancellationToken = null)
         {
+            UriBuilder uriBuilder = new UriBuilder();
+
             try
             {
                 var validatedParameters = OnUpdatePetWithForm(petId, name, status);
@@ -1512,7 +1538,6 @@ namespace Org.OpenAPITools.BaseApi
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
-                    UriBuilder uriBuilder = new UriBuilder();
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
                     uriBuilder.Scheme = ClientUtils.SCHEME;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/pet/{petId}";
@@ -1578,7 +1603,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                OnErrorUpdatePetWithForm(e, petId, name, status);
+                OnErrorUpdatePetWithForm(e, "/pet/{petId}", uriBuilder.Path, petId, name, status);
                 throw;
             }
         }
@@ -1663,10 +1688,12 @@ namespace Org.OpenAPITools.BaseApi
         /// Processes the server response
         /// </summary>
         /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
         /// <param name="petId"></param>
         /// <param name="file"></param>
         /// <param name="additionalMetadata"></param>
-        protected virtual void OnErrorUploadFile(Exception exception, long petId, System.IO.Stream? file, string? additionalMetadata)
+        protected virtual void OnErrorUploadFile(Exception exception, string pathFormat, string path, long petId, System.IO.Stream? file, string? additionalMetadata)
         {
             Logger.LogError(exception, "An error occured while sending the request to the server.");
         }
@@ -1682,6 +1709,8 @@ namespace Org.OpenAPITools.BaseApi
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="ApiResponse"/></returns>
         public async Task<ApiResponse<ApiResponse?>> UploadFileWithHttpInfoAsync(long petId, System.IO.Stream? file = null, string? additionalMetadata = null, System.Threading.CancellationToken? cancellationToken = null)
         {
+            UriBuilder uriBuilder = new UriBuilder();
+
             try
             {
                 var validatedParameters = OnUploadFile(petId, file, additionalMetadata);
@@ -1691,7 +1720,6 @@ namespace Org.OpenAPITools.BaseApi
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
-                    UriBuilder uriBuilder = new UriBuilder();
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
                     uriBuilder.Scheme = ClientUtils.SCHEME;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/pet/{petId}/uploadImage";
@@ -1766,7 +1794,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                OnErrorUploadFile(e, petId, file, additionalMetadata);
+                OnErrorUploadFile(e, "/pet/{petId}/uploadImage", uriBuilder.Path, petId, file, additionalMetadata);
                 throw;
             }
         }
@@ -1854,10 +1882,12 @@ namespace Org.OpenAPITools.BaseApi
         /// Processes the server response
         /// </summary>
         /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
         /// <param name="requiredFile"></param>
         /// <param name="petId"></param>
         /// <param name="additionalMetadata"></param>
-        protected virtual void OnErrorUploadFileWithRequiredFile(Exception exception, System.IO.Stream requiredFile, long petId, string? additionalMetadata)
+        protected virtual void OnErrorUploadFileWithRequiredFile(Exception exception, string pathFormat, string path, System.IO.Stream requiredFile, long petId, string? additionalMetadata)
         {
             Logger.LogError(exception, "An error occured while sending the request to the server.");
         }
@@ -1873,6 +1903,8 @@ namespace Org.OpenAPITools.BaseApi
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="ApiResponse"/></returns>
         public async Task<ApiResponse<ApiResponse?>> UploadFileWithRequiredFileWithHttpInfoAsync(System.IO.Stream requiredFile, long petId, string? additionalMetadata = null, System.Threading.CancellationToken? cancellationToken = null)
         {
+            UriBuilder uriBuilder = new UriBuilder();
+
             try
             {
                 var validatedParameters = OnUploadFileWithRequiredFile(requiredFile, petId, additionalMetadata);
@@ -1882,7 +1914,6 @@ namespace Org.OpenAPITools.BaseApi
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
-                    UriBuilder uriBuilder = new UriBuilder();
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
                     uriBuilder.Scheme = ClientUtils.SCHEME;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/fake/{petId}/uploadImageWithRequiredFile";
@@ -1956,7 +1987,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                OnErrorUploadFileWithRequiredFile(e, requiredFile, petId, additionalMetadata);
+                OnErrorUploadFileWithRequiredFile(e, "/fake/{petId}/uploadImageWithRequiredFile", uriBuilder.Path, requiredFile, petId, additionalMetadata);
                 throw;
             }
         }

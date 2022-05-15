@@ -708,6 +708,10 @@ namespace Org.OpenAPITools.BaseApi
             OauthTokenProvider = oauthTokenProvider;
         }
 
+        /// <summary>
+        /// Logs the api response
+        /// </summary>
+        /// <param name="args"></param>
         protected virtual void OnApiResponded(ApiResponseEventArgs args)
         {
             Logger.LogInformation("{0,-9} | {1} | {3}", (args.ReceivedAt - args.RequestedAt).TotalSeconds, args.HttpStatus, args.Path);
@@ -772,7 +776,9 @@ namespace Org.OpenAPITools.BaseApi
         /// Processes the server response
         /// </summary>
         /// <param name="exception"></param>
-        protected virtual void OnErrorFakeHealthGet(Exception exception)
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
+        protected virtual void OnErrorFakeHealthGet(Exception exception, string pathFormat, string path)
         {
             Logger.LogError(exception, "An error occured while sending the request to the server.");
         }
@@ -785,13 +791,14 @@ namespace Org.OpenAPITools.BaseApi
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="HealthCheckResult"/></returns>
         public async Task<ApiResponse<HealthCheckResult?>> FakeHealthGetWithHttpInfoAsync(System.Threading.CancellationToken? cancellationToken = null)
         {
+            UriBuilder uriBuilder = new UriBuilder();
+
             try
             {
                 OnFakeHealthGet();
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
-                    UriBuilder uriBuilder = new UriBuilder();
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
                     uriBuilder.Scheme = ClientUtils.SCHEME;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/fake/health";
@@ -831,7 +838,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                OnErrorFakeHealthGet(e);
+                OnErrorFakeHealthGet(e, "/fake/health", uriBuilder.Path);
                 throw;
             }
         }
@@ -899,8 +906,10 @@ namespace Org.OpenAPITools.BaseApi
         /// Processes the server response
         /// </summary>
         /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
         /// <param name="body"></param>
-        protected virtual void OnErrorFakeOuterBooleanSerialize(Exception exception, bool? body)
+        protected virtual void OnErrorFakeOuterBooleanSerialize(Exception exception, string pathFormat, string path, bool? body)
         {
             Logger.LogError(exception, "An error occured while sending the request to the server.");
         }
@@ -914,13 +923,14 @@ namespace Org.OpenAPITools.BaseApi
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="bool"/></returns>
         public async Task<ApiResponse<bool?>> FakeOuterBooleanSerializeWithHttpInfoAsync(bool? body = null, System.Threading.CancellationToken? cancellationToken = null)
         {
+            UriBuilder uriBuilder = new UriBuilder();
+
             try
             {
                 body = OnFakeOuterBooleanSerialize(body);
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
-                    UriBuilder uriBuilder = new UriBuilder();
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
                     uriBuilder.Scheme = ClientUtils.SCHEME;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/fake/outer/boolean";
@@ -973,7 +983,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                OnErrorFakeOuterBooleanSerialize(e, body);
+                OnErrorFakeOuterBooleanSerialize(e, "/fake/outer/boolean", uriBuilder.Path, body);
                 throw;
             }
         }
@@ -1041,8 +1051,10 @@ namespace Org.OpenAPITools.BaseApi
         /// Processes the server response
         /// </summary>
         /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
         /// <param name="outerComposite"></param>
-        protected virtual void OnErrorFakeOuterCompositeSerialize(Exception exception, OuterComposite? outerComposite)
+        protected virtual void OnErrorFakeOuterCompositeSerialize(Exception exception, string pathFormat, string path, OuterComposite? outerComposite)
         {
             Logger.LogError(exception, "An error occured while sending the request to the server.");
         }
@@ -1056,13 +1068,14 @@ namespace Org.OpenAPITools.BaseApi
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="OuterComposite"/></returns>
         public async Task<ApiResponse<OuterComposite?>> FakeOuterCompositeSerializeWithHttpInfoAsync(OuterComposite? outerComposite = null, System.Threading.CancellationToken? cancellationToken = null)
         {
+            UriBuilder uriBuilder = new UriBuilder();
+
             try
             {
                 outerComposite = OnFakeOuterCompositeSerialize(outerComposite);
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
-                    UriBuilder uriBuilder = new UriBuilder();
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
                     uriBuilder.Scheme = ClientUtils.SCHEME;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/fake/outer/composite";
@@ -1115,7 +1128,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                OnErrorFakeOuterCompositeSerialize(e, outerComposite);
+                OnErrorFakeOuterCompositeSerialize(e, "/fake/outer/composite", uriBuilder.Path, outerComposite);
                 throw;
             }
         }
@@ -1183,8 +1196,10 @@ namespace Org.OpenAPITools.BaseApi
         /// Processes the server response
         /// </summary>
         /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
         /// <param name="body"></param>
-        protected virtual void OnErrorFakeOuterNumberSerialize(Exception exception, decimal? body)
+        protected virtual void OnErrorFakeOuterNumberSerialize(Exception exception, string pathFormat, string path, decimal? body)
         {
             Logger.LogError(exception, "An error occured while sending the request to the server.");
         }
@@ -1198,13 +1213,14 @@ namespace Org.OpenAPITools.BaseApi
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="decimal"/></returns>
         public async Task<ApiResponse<decimal?>> FakeOuterNumberSerializeWithHttpInfoAsync(decimal? body = null, System.Threading.CancellationToken? cancellationToken = null)
         {
+            UriBuilder uriBuilder = new UriBuilder();
+
             try
             {
                 body = OnFakeOuterNumberSerialize(body);
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
-                    UriBuilder uriBuilder = new UriBuilder();
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
                     uriBuilder.Scheme = ClientUtils.SCHEME;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/fake/outer/number";
@@ -1257,7 +1273,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                OnErrorFakeOuterNumberSerialize(e, body);
+                OnErrorFakeOuterNumberSerialize(e, "/fake/outer/number", uriBuilder.Path, body);
                 throw;
             }
         }
@@ -1325,8 +1341,10 @@ namespace Org.OpenAPITools.BaseApi
         /// Processes the server response
         /// </summary>
         /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
         /// <param name="body"></param>
-        protected virtual void OnErrorFakeOuterStringSerialize(Exception exception, string? body)
+        protected virtual void OnErrorFakeOuterStringSerialize(Exception exception, string pathFormat, string path, string? body)
         {
             Logger.LogError(exception, "An error occured while sending the request to the server.");
         }
@@ -1340,13 +1358,14 @@ namespace Org.OpenAPITools.BaseApi
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="string"/></returns>
         public async Task<ApiResponse<string?>> FakeOuterStringSerializeWithHttpInfoAsync(string? body = null, System.Threading.CancellationToken? cancellationToken = null)
         {
+            UriBuilder uriBuilder = new UriBuilder();
+
             try
             {
                 body = OnFakeOuterStringSerialize(body);
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
-                    UriBuilder uriBuilder = new UriBuilder();
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
                     uriBuilder.Scheme = ClientUtils.SCHEME;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/fake/outer/string";
@@ -1399,7 +1418,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                OnErrorFakeOuterStringSerialize(e, body);
+                OnErrorFakeOuterStringSerialize(e, "/fake/outer/string", uriBuilder.Path, body);
                 throw;
             }
         }
@@ -1463,7 +1482,9 @@ namespace Org.OpenAPITools.BaseApi
         /// Processes the server response
         /// </summary>
         /// <param name="exception"></param>
-        protected virtual void OnErrorGetArrayOfEnums(Exception exception)
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
+        protected virtual void OnErrorGetArrayOfEnums(Exception exception, string pathFormat, string path)
         {
             Logger.LogError(exception, "An error occured while sending the request to the server.");
         }
@@ -1476,13 +1497,14 @@ namespace Org.OpenAPITools.BaseApi
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="List&lt;OuterEnum&gt;"/></returns>
         public async Task<ApiResponse<List<OuterEnum>?>> GetArrayOfEnumsWithHttpInfoAsync(System.Threading.CancellationToken? cancellationToken = null)
         {
+            UriBuilder uriBuilder = new UriBuilder();
+
             try
             {
                 OnGetArrayOfEnums();
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
-                    UriBuilder uriBuilder = new UriBuilder();
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
                     uriBuilder.Scheme = ClientUtils.SCHEME;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/fake/array-of-enums";
@@ -1522,7 +1544,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                OnErrorGetArrayOfEnums(e);
+                OnErrorGetArrayOfEnums(e, "/fake/array-of-enums", uriBuilder.Path);
                 throw;
             }
         }
@@ -1599,8 +1621,10 @@ namespace Org.OpenAPITools.BaseApi
         /// Processes the server response
         /// </summary>
         /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
         /// <param name="fileSchemaTestClass"></param>
-        protected virtual void OnErrorTestBodyWithFileSchema(Exception exception, FileSchemaTestClass fileSchemaTestClass)
+        protected virtual void OnErrorTestBodyWithFileSchema(Exception exception, string pathFormat, string path, FileSchemaTestClass fileSchemaTestClass)
         {
             Logger.LogError(exception, "An error occured while sending the request to the server.");
         }
@@ -1614,13 +1638,14 @@ namespace Org.OpenAPITools.BaseApi
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
         public async Task<ApiResponse<object?>> TestBodyWithFileSchemaWithHttpInfoAsync(FileSchemaTestClass fileSchemaTestClass, System.Threading.CancellationToken? cancellationToken = null)
         {
+            UriBuilder uriBuilder = new UriBuilder();
+
             try
             {
                 fileSchemaTestClass = OnTestBodyWithFileSchema(fileSchemaTestClass);
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
-                    UriBuilder uriBuilder = new UriBuilder();
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
                     uriBuilder.Scheme = ClientUtils.SCHEME;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/fake/body-with-file-schema";
@@ -1664,7 +1689,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                OnErrorTestBodyWithFileSchema(e, fileSchemaTestClass);
+                OnErrorTestBodyWithFileSchema(e, "/fake/body-with-file-schema", uriBuilder.Path, fileSchemaTestClass);
                 throw;
             }
         }
@@ -1748,9 +1773,11 @@ namespace Org.OpenAPITools.BaseApi
         /// Processes the server response
         /// </summary>
         /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
         /// <param name="user"></param>
         /// <param name="query"></param>
-        protected virtual void OnErrorTestBodyWithQueryParams(Exception exception, User user, string query)
+        protected virtual void OnErrorTestBodyWithQueryParams(Exception exception, string pathFormat, string path, User user, string query)
         {
             Logger.LogError(exception, "An error occured while sending the request to the server.");
         }
@@ -1765,6 +1792,8 @@ namespace Org.OpenAPITools.BaseApi
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
         public async Task<ApiResponse<object?>> TestBodyWithQueryParamsWithHttpInfoAsync(User user, string query, System.Threading.CancellationToken? cancellationToken = null)
         {
+            UriBuilder uriBuilder = new UriBuilder();
+
             try
             {
                 var validatedParameters = OnTestBodyWithQueryParams(user, query);
@@ -1773,7 +1802,6 @@ namespace Org.OpenAPITools.BaseApi
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
-                    UriBuilder uriBuilder = new UriBuilder();
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
                     uriBuilder.Scheme = ClientUtils.SCHEME;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/fake/body-with-query-params";
@@ -1823,7 +1851,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                OnErrorTestBodyWithQueryParams(e, user, query);
+                OnErrorTestBodyWithQueryParams(e, "/fake/body-with-query-params", uriBuilder.Path, user, query);
                 throw;
             }
         }
@@ -1900,8 +1928,10 @@ namespace Org.OpenAPITools.BaseApi
         /// Processes the server response
         /// </summary>
         /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
         /// <param name="modelClient"></param>
-        protected virtual void OnErrorTestClientModel(Exception exception, ModelClient modelClient)
+        protected virtual void OnErrorTestClientModel(Exception exception, string pathFormat, string path, ModelClient modelClient)
         {
             Logger.LogError(exception, "An error occured while sending the request to the server.");
         }
@@ -1915,13 +1945,14 @@ namespace Org.OpenAPITools.BaseApi
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="ModelClient"/></returns>
         public async Task<ApiResponse<ModelClient?>> TestClientModelWithHttpInfoAsync(ModelClient modelClient, System.Threading.CancellationToken? cancellationToken = null)
         {
+            UriBuilder uriBuilder = new UriBuilder();
+
             try
             {
                 modelClient = OnTestClientModel(modelClient);
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
-                    UriBuilder uriBuilder = new UriBuilder();
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
                     uriBuilder.Scheme = ClientUtils.SCHEME;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/fake";
@@ -1974,7 +2005,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                OnErrorTestClientModel(e, modelClient);
+                OnErrorTestClientModel(e, "/fake", uriBuilder.Path, modelClient);
                 throw;
             }
         }
@@ -2112,6 +2143,8 @@ namespace Org.OpenAPITools.BaseApi
         /// Processes the server response
         /// </summary>
         /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
         /// <param name="_byte"></param>
         /// <param name="number"></param>
         /// <param name="_double"></param>
@@ -2126,7 +2159,7 @@ namespace Org.OpenAPITools.BaseApi
         /// <param name="password"></param>
         /// <param name="callback"></param>
         /// <param name="dateTime"></param>
-        protected virtual void OnErrorTestEndpointParameters(Exception exception, byte[] _byte, decimal number, double _double, string patternWithoutDelimiter, DateTime? date, System.IO.Stream? binary, float? _float, int? integer, int? int32, long? int64, string? _string, string? password, string? callback, DateTime? dateTime)
+        protected virtual void OnErrorTestEndpointParameters(Exception exception, string pathFormat, string path, byte[] _byte, decimal number, double _double, string patternWithoutDelimiter, DateTime? date, System.IO.Stream? binary, float? _float, int? integer, int? int32, long? int64, string? _string, string? password, string? callback, DateTime? dateTime)
         {
             Logger.LogError(exception, "An error occured while sending the request to the server.");
         }
@@ -2153,6 +2186,8 @@ namespace Org.OpenAPITools.BaseApi
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
         public async Task<ApiResponse<object?>> TestEndpointParametersWithHttpInfoAsync(byte[] _byte, decimal number, double _double, string patternWithoutDelimiter, DateTime? date = null, System.IO.Stream? binary = null, float? _float = null, int? integer = null, int? int32 = null, long? int64 = null, string? _string = null, string? password = null, string? callback = null, DateTime? dateTime = null, System.Threading.CancellationToken? cancellationToken = null)
         {
+            UriBuilder uriBuilder = new UriBuilder();
+
             try
             {
                 var validatedParameters = OnTestEndpointParameters(_byte, number, _double, patternWithoutDelimiter, date, binary, _float, integer, int32, int64, _string, password, callback, dateTime);
@@ -2173,7 +2208,6 @@ namespace Org.OpenAPITools.BaseApi
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
-                    UriBuilder uriBuilder = new UriBuilder();
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
                     uriBuilder.Scheme = ClientUtils.SCHEME;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/fake";
@@ -2270,7 +2304,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                OnErrorTestEndpointParameters(e, _byte, number, _double, patternWithoutDelimiter, date, binary, _float, integer, int32, int64, _string, password, callback, dateTime);
+                OnErrorTestEndpointParameters(e, "/fake", uriBuilder.Path, _byte, number, _double, patternWithoutDelimiter, date, binary, _float, integer, int32, int64, _string, password, callback, dateTime);
                 throw;
             }
         }
@@ -2366,6 +2400,8 @@ namespace Org.OpenAPITools.BaseApi
         /// Processes the server response
         /// </summary>
         /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
         /// <param name="enumHeaderStringArray"></param>
         /// <param name="enumQueryStringArray"></param>
         /// <param name="enumQueryDouble"></param>
@@ -2374,7 +2410,7 @@ namespace Org.OpenAPITools.BaseApi
         /// <param name="enumHeaderString"></param>
         /// <param name="enumQueryString"></param>
         /// <param name="enumFormString"></param>
-        protected virtual void OnErrorTestEnumParameters(Exception exception, List<string>? enumHeaderStringArray, List<string>? enumQueryStringArray, double? enumQueryDouble, int? enumQueryInteger, List<string>? enumFormStringArray, string? enumHeaderString, string? enumQueryString, string? enumFormString)
+        protected virtual void OnErrorTestEnumParameters(Exception exception, string pathFormat, string path, List<string>? enumHeaderStringArray, List<string>? enumQueryStringArray, double? enumQueryDouble, int? enumQueryInteger, List<string>? enumFormStringArray, string? enumHeaderString, string? enumQueryString, string? enumFormString)
         {
             Logger.LogError(exception, "An error occured while sending the request to the server.");
         }
@@ -2395,6 +2431,8 @@ namespace Org.OpenAPITools.BaseApi
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
         public async Task<ApiResponse<object?>> TestEnumParametersWithHttpInfoAsync(List<string>? enumHeaderStringArray = null, List<string>? enumQueryStringArray = null, double? enumQueryDouble = null, int? enumQueryInteger = null, List<string>? enumFormStringArray = null, string? enumHeaderString = null, string? enumQueryString = null, string? enumFormString = null, System.Threading.CancellationToken? cancellationToken = null)
         {
+            UriBuilder uriBuilder = new UriBuilder();
+
             try
             {
                 var validatedParameters = OnTestEnumParameters(enumHeaderStringArray, enumQueryStringArray, enumQueryDouble, enumQueryInteger, enumFormStringArray, enumHeaderString, enumQueryString, enumFormString);
@@ -2409,7 +2447,6 @@ namespace Org.OpenAPITools.BaseApi
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
-                    UriBuilder uriBuilder = new UriBuilder();
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
                     uriBuilder.Scheme = ClientUtils.SCHEME;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/fake";
@@ -2484,7 +2521,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                OnErrorTestEnumParameters(e, enumHeaderStringArray, enumQueryStringArray, enumQueryDouble, enumQueryInteger, enumFormStringArray, enumHeaderString, enumQueryString, enumFormString);
+                OnErrorTestEnumParameters(e, "/fake", uriBuilder.Path, enumHeaderStringArray, enumQueryStringArray, enumQueryDouble, enumQueryInteger, enumFormStringArray, enumHeaderString, enumQueryString, enumFormString);
                 throw;
             }
         }
@@ -2587,13 +2624,15 @@ namespace Org.OpenAPITools.BaseApi
         /// Processes the server response
         /// </summary>
         /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
         /// <param name="requiredBooleanGroup"></param>
         /// <param name="requiredStringGroup"></param>
         /// <param name="requiredInt64Group"></param>
         /// <param name="booleanGroup"></param>
         /// <param name="stringGroup"></param>
         /// <param name="int64Group"></param>
-        protected virtual void OnErrorTestGroupParameters(Exception exception, bool requiredBooleanGroup, int requiredStringGroup, long requiredInt64Group, bool? booleanGroup, int? stringGroup, long? int64Group)
+        protected virtual void OnErrorTestGroupParameters(Exception exception, string pathFormat, string path, bool requiredBooleanGroup, int requiredStringGroup, long requiredInt64Group, bool? booleanGroup, int? stringGroup, long? int64Group)
         {
             Logger.LogError(exception, "An error occured while sending the request to the server.");
         }
@@ -2612,6 +2651,8 @@ namespace Org.OpenAPITools.BaseApi
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
         public async Task<ApiResponse<object?>> TestGroupParametersWithHttpInfoAsync(bool requiredBooleanGroup, int requiredStringGroup, long requiredInt64Group, bool? booleanGroup = null, int? stringGroup = null, long? int64Group = null, System.Threading.CancellationToken? cancellationToken = null)
         {
+            UriBuilder uriBuilder = new UriBuilder();
+
             try
             {
                 var validatedParameters = OnTestGroupParameters(requiredBooleanGroup, requiredStringGroup, requiredInt64Group, booleanGroup, stringGroup, int64Group);
@@ -2624,7 +2665,6 @@ namespace Org.OpenAPITools.BaseApi
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
-                    UriBuilder uriBuilder = new UriBuilder();
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
                     uriBuilder.Scheme = ClientUtils.SCHEME;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/fake";
@@ -2684,7 +2724,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                OnErrorTestGroupParameters(e, requiredBooleanGroup, requiredStringGroup, requiredInt64Group, booleanGroup, stringGroup, int64Group);
+                OnErrorTestGroupParameters(e, "/fake", uriBuilder.Path, requiredBooleanGroup, requiredStringGroup, requiredInt64Group, booleanGroup, stringGroup, int64Group);
                 throw;
             }
         }
@@ -2761,8 +2801,10 @@ namespace Org.OpenAPITools.BaseApi
         /// Processes the server response
         /// </summary>
         /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
         /// <param name="requestBody"></param>
-        protected virtual void OnErrorTestInlineAdditionalProperties(Exception exception, Dictionary<string, string> requestBody)
+        protected virtual void OnErrorTestInlineAdditionalProperties(Exception exception, string pathFormat, string path, Dictionary<string, string> requestBody)
         {
             Logger.LogError(exception, "An error occured while sending the request to the server.");
         }
@@ -2776,13 +2818,14 @@ namespace Org.OpenAPITools.BaseApi
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
         public async Task<ApiResponse<object?>> TestInlineAdditionalPropertiesWithHttpInfoAsync(Dictionary<string, string> requestBody, System.Threading.CancellationToken? cancellationToken = null)
         {
+            UriBuilder uriBuilder = new UriBuilder();
+
             try
             {
                 requestBody = OnTestInlineAdditionalProperties(requestBody);
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
-                    UriBuilder uriBuilder = new UriBuilder();
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
                     uriBuilder.Scheme = ClientUtils.SCHEME;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/fake/inline-additionalProperties";
@@ -2826,7 +2869,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                OnErrorTestInlineAdditionalProperties(e, requestBody);
+                OnErrorTestInlineAdditionalProperties(e, "/fake/inline-additionalProperties", uriBuilder.Path, requestBody);
                 throw;
             }
         }
@@ -2910,9 +2953,11 @@ namespace Org.OpenAPITools.BaseApi
         /// Processes the server response
         /// </summary>
         /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
         /// <param name="param"></param>
         /// <param name="param2"></param>
-        protected virtual void OnErrorTestJsonFormData(Exception exception, string param, string param2)
+        protected virtual void OnErrorTestJsonFormData(Exception exception, string pathFormat, string path, string param, string param2)
         {
             Logger.LogError(exception, "An error occured while sending the request to the server.");
         }
@@ -2927,6 +2972,8 @@ namespace Org.OpenAPITools.BaseApi
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
         public async Task<ApiResponse<object?>> TestJsonFormDataWithHttpInfoAsync(string param, string param2, System.Threading.CancellationToken? cancellationToken = null)
         {
+            UriBuilder uriBuilder = new UriBuilder();
+
             try
             {
                 var validatedParameters = OnTestJsonFormData(param, param2);
@@ -2935,7 +2982,6 @@ namespace Org.OpenAPITools.BaseApi
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
-                    UriBuilder uriBuilder = new UriBuilder();
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
                     uriBuilder.Scheme = ClientUtils.SCHEME;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/fake/jsonFormData";
@@ -2987,7 +3033,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                OnErrorTestJsonFormData(e, param, param2);
+                OnErrorTestJsonFormData(e, "/fake/jsonFormData", uriBuilder.Path, param, param2);
                 throw;
             }
         }
@@ -3092,12 +3138,14 @@ namespace Org.OpenAPITools.BaseApi
         /// Processes the server response
         /// </summary>
         /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
         /// <param name="pipe"></param>
         /// <param name="ioutil"></param>
         /// <param name="http"></param>
         /// <param name="url"></param>
         /// <param name="context"></param>
-        protected virtual void OnErrorTestQueryParameterCollectionFormat(Exception exception, List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context)
+        protected virtual void OnErrorTestQueryParameterCollectionFormat(Exception exception, string pathFormat, string path, List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context)
         {
             Logger.LogError(exception, "An error occured while sending the request to the server.");
         }
@@ -3115,6 +3163,8 @@ namespace Org.OpenAPITools.BaseApi
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
         public async Task<ApiResponse<object?>> TestQueryParameterCollectionFormatWithHttpInfoAsync(List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, System.Threading.CancellationToken? cancellationToken = null)
         {
+            UriBuilder uriBuilder = new UriBuilder();
+
             try
             {
                 var validatedParameters = OnTestQueryParameterCollectionFormat(pipe, ioutil, http, url, context);
@@ -3126,7 +3176,6 @@ namespace Org.OpenAPITools.BaseApi
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
-                    UriBuilder uriBuilder = new UriBuilder();
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
                     uriBuilder.Scheme = ClientUtils.SCHEME;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/fake/test-query-parameters";
@@ -3167,7 +3216,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                OnErrorTestQueryParameterCollectionFormat(e, pipe, ioutil, http, url, context);
+                OnErrorTestQueryParameterCollectionFormat(e, "/fake/test-query-parameters", uriBuilder.Path, pipe, ioutil, http, url, context);
                 throw;
             }
         }

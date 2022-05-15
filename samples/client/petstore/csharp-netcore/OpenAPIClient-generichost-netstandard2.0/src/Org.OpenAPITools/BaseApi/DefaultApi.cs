@@ -116,6 +116,10 @@ namespace Org.OpenAPITools.BaseApi
             OauthTokenProvider = oauthTokenProvider;
         }
 
+        /// <summary>
+        /// Logs the api response
+        /// </summary>
+        /// <param name="args"></param>
         protected virtual void OnApiResponded(ApiResponseEventArgs args)
         {
             Logger.LogInformation("{0,-9} | {1} | {3}", (args.ReceivedAt - args.RequestedAt).TotalSeconds, args.HttpStatus, args.Path);
@@ -180,7 +184,9 @@ namespace Org.OpenAPITools.BaseApi
         /// Processes the server response
         /// </summary>
         /// <param name="exception"></param>
-        protected virtual void OnErrorFooGet(Exception exception)
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
+        protected virtual void OnErrorFooGet(Exception exception, string pathFormat, string path)
         {
             Logger.LogError(exception, "An error occured while sending the request to the server.");
         }
@@ -193,13 +199,14 @@ namespace Org.OpenAPITools.BaseApi
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="InlineResponseDefault"/></returns>
         public async Task<ApiResponse<InlineResponseDefault>> FooGetWithHttpInfoAsync(System.Threading.CancellationToken? cancellationToken = null)
         {
+            UriBuilder uriBuilder = new UriBuilder();
+
             try
             {
                 OnFooGet();
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
-                    UriBuilder uriBuilder = new UriBuilder();
                     uriBuilder.Host = HttpClient.BaseAddress.Host;
                     uriBuilder.Scheme = ClientUtils.SCHEME;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/foo";
@@ -239,7 +246,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                OnErrorFooGet(e);
+                OnErrorFooGet(e, "/foo", uriBuilder.Path);
                 throw;
             }
         }

@@ -379,6 +379,10 @@ namespace Org.OpenAPITools.BaseApi
             OauthTokenProvider = oauthTokenProvider;
         }
 
+        /// <summary>
+        /// Logs the api response
+        /// </summary>
+        /// <param name="args"></param>
         protected virtual void OnApiResponded(ApiResponseEventArgs args)
         {
             Logger.LogInformation("{0,-9} | {1} | {3}", (args.ReceivedAt - args.RequestedAt).TotalSeconds, args.HttpStatus, args.Path);
@@ -456,8 +460,10 @@ namespace Org.OpenAPITools.BaseApi
         /// Processes the server response
         /// </summary>
         /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
         /// <param name="user"></param>
-        protected virtual void OnErrorCreateUser(Exception exception, User user)
+        protected virtual void OnErrorCreateUser(Exception exception, string pathFormat, string path, User user)
         {
             Logger.LogError(exception, "An error occured while sending the request to the server.");
         }
@@ -471,13 +477,14 @@ namespace Org.OpenAPITools.BaseApi
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
         public async Task<ApiResponse<object?>> CreateUserWithHttpInfoAsync(User user, System.Threading.CancellationToken? cancellationToken = null)
         {
+            UriBuilder uriBuilder = new UriBuilder();
+
             try
             {
                 user = OnCreateUser(user);
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
-                    UriBuilder uriBuilder = new UriBuilder();
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
                     uriBuilder.Scheme = ClientUtils.SCHEME;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/user";
@@ -521,7 +528,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                OnErrorCreateUser(e, user);
+                OnErrorCreateUser(e, "/user", uriBuilder.Path, user);
                 throw;
             }
         }
@@ -598,8 +605,10 @@ namespace Org.OpenAPITools.BaseApi
         /// Processes the server response
         /// </summary>
         /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
         /// <param name="user"></param>
-        protected virtual void OnErrorCreateUsersWithArrayInput(Exception exception, List<User> user)
+        protected virtual void OnErrorCreateUsersWithArrayInput(Exception exception, string pathFormat, string path, List<User> user)
         {
             Logger.LogError(exception, "An error occured while sending the request to the server.");
         }
@@ -613,13 +622,14 @@ namespace Org.OpenAPITools.BaseApi
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
         public async Task<ApiResponse<object?>> CreateUsersWithArrayInputWithHttpInfoAsync(List<User> user, System.Threading.CancellationToken? cancellationToken = null)
         {
+            UriBuilder uriBuilder = new UriBuilder();
+
             try
             {
                 user = OnCreateUsersWithArrayInput(user);
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
-                    UriBuilder uriBuilder = new UriBuilder();
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
                     uriBuilder.Scheme = ClientUtils.SCHEME;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/user/createWithArray";
@@ -663,7 +673,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                OnErrorCreateUsersWithArrayInput(e, user);
+                OnErrorCreateUsersWithArrayInput(e, "/user/createWithArray", uriBuilder.Path, user);
                 throw;
             }
         }
@@ -740,8 +750,10 @@ namespace Org.OpenAPITools.BaseApi
         /// Processes the server response
         /// </summary>
         /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
         /// <param name="user"></param>
-        protected virtual void OnErrorCreateUsersWithListInput(Exception exception, List<User> user)
+        protected virtual void OnErrorCreateUsersWithListInput(Exception exception, string pathFormat, string path, List<User> user)
         {
             Logger.LogError(exception, "An error occured while sending the request to the server.");
         }
@@ -755,13 +767,14 @@ namespace Org.OpenAPITools.BaseApi
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
         public async Task<ApiResponse<object?>> CreateUsersWithListInputWithHttpInfoAsync(List<User> user, System.Threading.CancellationToken? cancellationToken = null)
         {
+            UriBuilder uriBuilder = new UriBuilder();
+
             try
             {
                 user = OnCreateUsersWithListInput(user);
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
-                    UriBuilder uriBuilder = new UriBuilder();
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
                     uriBuilder.Scheme = ClientUtils.SCHEME;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/user/createWithList";
@@ -805,7 +818,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                OnErrorCreateUsersWithListInput(e, user);
+                OnErrorCreateUsersWithListInput(e, "/user/createWithList", uriBuilder.Path, user);
                 throw;
             }
         }
@@ -882,8 +895,10 @@ namespace Org.OpenAPITools.BaseApi
         /// Processes the server response
         /// </summary>
         /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
         /// <param name="username"></param>
-        protected virtual void OnErrorDeleteUser(Exception exception, string username)
+        protected virtual void OnErrorDeleteUser(Exception exception, string pathFormat, string path, string username)
         {
             Logger.LogError(exception, "An error occured while sending the request to the server.");
         }
@@ -897,13 +912,14 @@ namespace Org.OpenAPITools.BaseApi
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
         public async Task<ApiResponse<object?>> DeleteUserWithHttpInfoAsync(string username, System.Threading.CancellationToken? cancellationToken = null)
         {
+            UriBuilder uriBuilder = new UriBuilder();
+
             try
             {
                 username = OnDeleteUser(username);
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
-                    UriBuilder uriBuilder = new UriBuilder();
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
                     uriBuilder.Scheme = ClientUtils.SCHEME;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/user/{username}";
@@ -935,7 +951,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                OnErrorDeleteUser(e, username);
+                OnErrorDeleteUser(e, "/user/{username}", uriBuilder.Path, username);
                 throw;
             }
         }
@@ -1012,8 +1028,10 @@ namespace Org.OpenAPITools.BaseApi
         /// Processes the server response
         /// </summary>
         /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
         /// <param name="username"></param>
-        protected virtual void OnErrorGetUserByName(Exception exception, string username)
+        protected virtual void OnErrorGetUserByName(Exception exception, string pathFormat, string path, string username)
         {
             Logger.LogError(exception, "An error occured while sending the request to the server.");
         }
@@ -1027,13 +1045,14 @@ namespace Org.OpenAPITools.BaseApi
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="User"/></returns>
         public async Task<ApiResponse<User?>> GetUserByNameWithHttpInfoAsync(string username, System.Threading.CancellationToken? cancellationToken = null)
         {
+            UriBuilder uriBuilder = new UriBuilder();
+
             try
             {
                 username = OnGetUserByName(username);
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
-                    UriBuilder uriBuilder = new UriBuilder();
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
                     uriBuilder.Scheme = ClientUtils.SCHEME;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/user/{username}";
@@ -1075,7 +1094,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                OnErrorGetUserByName(e, username);
+                OnErrorGetUserByName(e, "/user/{username}", uriBuilder.Path, username);
                 throw;
             }
         }
@@ -1159,9 +1178,11 @@ namespace Org.OpenAPITools.BaseApi
         /// Processes the server response
         /// </summary>
         /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
         /// <param name="username"></param>
         /// <param name="password"></param>
-        protected virtual void OnErrorLoginUser(Exception exception, string username, string password)
+        protected virtual void OnErrorLoginUser(Exception exception, string pathFormat, string path, string username, string password)
         {
             Logger.LogError(exception, "An error occured while sending the request to the server.");
         }
@@ -1176,6 +1197,8 @@ namespace Org.OpenAPITools.BaseApi
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="string"/></returns>
         public async Task<ApiResponse<string?>> LoginUserWithHttpInfoAsync(string username, string password, System.Threading.CancellationToken? cancellationToken = null)
         {
+            UriBuilder uriBuilder = new UriBuilder();
+
             try
             {
                 var validatedParameters = OnLoginUser(username, password);
@@ -1184,7 +1207,6 @@ namespace Org.OpenAPITools.BaseApi
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
-                    UriBuilder uriBuilder = new UriBuilder();
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
                     uriBuilder.Scheme = ClientUtils.SCHEME;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/user/login";
@@ -1232,7 +1254,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                OnErrorLoginUser(e, username, password);
+                OnErrorLoginUser(e, "/user/login", uriBuilder.Path, username, password);
                 throw;
             }
         }
@@ -1296,7 +1318,9 @@ namespace Org.OpenAPITools.BaseApi
         /// Processes the server response
         /// </summary>
         /// <param name="exception"></param>
-        protected virtual void OnErrorLogoutUser(Exception exception)
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
+        protected virtual void OnErrorLogoutUser(Exception exception, string pathFormat, string path)
         {
             Logger.LogError(exception, "An error occured while sending the request to the server.");
         }
@@ -1309,13 +1333,14 @@ namespace Org.OpenAPITools.BaseApi
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
         public async Task<ApiResponse<object?>> LogoutUserWithHttpInfoAsync(System.Threading.CancellationToken? cancellationToken = null)
         {
+            UriBuilder uriBuilder = new UriBuilder();
+
             try
             {
                 OnLogoutUser();
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
-                    UriBuilder uriBuilder = new UriBuilder();
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
                     uriBuilder.Scheme = ClientUtils.SCHEME;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/user/logout";
@@ -1346,7 +1371,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                OnErrorLogoutUser(e);
+                OnErrorLogoutUser(e, "/user/logout", uriBuilder.Path);
                 throw;
             }
         }
@@ -1430,9 +1455,11 @@ namespace Org.OpenAPITools.BaseApi
         /// Processes the server response
         /// </summary>
         /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
         /// <param name="user"></param>
         /// <param name="username"></param>
-        protected virtual void OnErrorUpdateUser(Exception exception, User user, string username)
+        protected virtual void OnErrorUpdateUser(Exception exception, string pathFormat, string path, User user, string username)
         {
             Logger.LogError(exception, "An error occured while sending the request to the server.");
         }
@@ -1447,6 +1474,8 @@ namespace Org.OpenAPITools.BaseApi
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
         public async Task<ApiResponse<object?>> UpdateUserWithHttpInfoAsync(User user, string username, System.Threading.CancellationToken? cancellationToken = null)
         {
+            UriBuilder uriBuilder = new UriBuilder();
+
             try
             {
                 var validatedParameters = OnUpdateUser(user, username);
@@ -1455,7 +1484,6 @@ namespace Org.OpenAPITools.BaseApi
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
-                    UriBuilder uriBuilder = new UriBuilder();
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
                     uriBuilder.Scheme = ClientUtils.SCHEME;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/user/{username}";
@@ -1500,7 +1528,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                OnErrorUpdateUser(e, user, username);
+                OnErrorUpdateUser(e, "/user/{username}", uriBuilder.Path, user, username);
                 throw;
             }
         }

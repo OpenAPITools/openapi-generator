@@ -233,6 +233,10 @@ namespace Org.OpenAPITools.BaseApi
             OauthTokenProvider = oauthTokenProvider;
         }
 
+        /// <summary>
+        /// Logs the api response
+        /// </summary>
+        /// <param name="args"></param>
         protected virtual void OnApiResponded(ApiResponseEventArgs args)
         {
             Logger.LogInformation("{0,-9} | {1} | {3}", (args.ReceivedAt - args.RequestedAt).TotalSeconds, args.HttpStatus, args.Path);
@@ -310,8 +314,10 @@ namespace Org.OpenAPITools.BaseApi
         /// Processes the server response
         /// </summary>
         /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
         /// <param name="orderId"></param>
-        protected virtual void OnErrorDeleteOrder(Exception exception, string orderId)
+        protected virtual void OnErrorDeleteOrder(Exception exception, string pathFormat, string path, string orderId)
         {
             Logger.LogError(exception, "An error occured while sending the request to the server.");
         }
@@ -325,13 +331,14 @@ namespace Org.OpenAPITools.BaseApi
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
         public async Task<ApiResponse<object?>> DeleteOrderWithHttpInfoAsync(string orderId, System.Threading.CancellationToken? cancellationToken = null)
         {
+            UriBuilder uriBuilder = new UriBuilder();
+
             try
             {
                 orderId = OnDeleteOrder(orderId);
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
-                    UriBuilder uriBuilder = new UriBuilder();
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
                     uriBuilder.Scheme = ClientUtils.SCHEME;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/store/order/{order_id}";
@@ -363,7 +370,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                OnErrorDeleteOrder(e, orderId);
+                OnErrorDeleteOrder(e, "/store/order/{order_id}", uriBuilder.Path, orderId);
                 throw;
             }
         }
@@ -427,7 +434,9 @@ namespace Org.OpenAPITools.BaseApi
         /// Processes the server response
         /// </summary>
         /// <param name="exception"></param>
-        protected virtual void OnErrorGetInventory(Exception exception)
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
+        protected virtual void OnErrorGetInventory(Exception exception, string pathFormat, string path)
         {
             Logger.LogError(exception, "An error occured while sending the request to the server.");
         }
@@ -440,13 +449,14 @@ namespace Org.OpenAPITools.BaseApi
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="Dictionary&lt;string, int&gt;"/></returns>
         public async Task<ApiResponse<Dictionary<string, int>?>> GetInventoryWithHttpInfoAsync(System.Threading.CancellationToken? cancellationToken = null)
         {
+            UriBuilder uriBuilder = new UriBuilder();
+
             try
             {
                 OnGetInventory();
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
-                    UriBuilder uriBuilder = new UriBuilder();
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
                     uriBuilder.Scheme = ClientUtils.SCHEME;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/store/inventory";
@@ -497,7 +507,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                OnErrorGetInventory(e);
+                OnErrorGetInventory(e, "/store/inventory", uriBuilder.Path);
                 throw;
             }
         }
@@ -574,8 +584,10 @@ namespace Org.OpenAPITools.BaseApi
         /// Processes the server response
         /// </summary>
         /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
         /// <param name="orderId"></param>
-        protected virtual void OnErrorGetOrderById(Exception exception, long orderId)
+        protected virtual void OnErrorGetOrderById(Exception exception, string pathFormat, string path, long orderId)
         {
             Logger.LogError(exception, "An error occured while sending the request to the server.");
         }
@@ -589,13 +601,14 @@ namespace Org.OpenAPITools.BaseApi
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="Order"/></returns>
         public async Task<ApiResponse<Order?>> GetOrderByIdWithHttpInfoAsync(long orderId, System.Threading.CancellationToken? cancellationToken = null)
         {
+            UriBuilder uriBuilder = new UriBuilder();
+
             try
             {
                 orderId = OnGetOrderById(orderId);
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
-                    UriBuilder uriBuilder = new UriBuilder();
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
                     uriBuilder.Scheme = ClientUtils.SCHEME;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/store/order/{order_id}";
@@ -637,7 +650,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                OnErrorGetOrderById(e, orderId);
+                OnErrorGetOrderById(e, "/store/order/{order_id}", uriBuilder.Path, orderId);
                 throw;
             }
         }
@@ -714,8 +727,10 @@ namespace Org.OpenAPITools.BaseApi
         /// Processes the server response
         /// </summary>
         /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
         /// <param name="order"></param>
-        protected virtual void OnErrorPlaceOrder(Exception exception, Order order)
+        protected virtual void OnErrorPlaceOrder(Exception exception, string pathFormat, string path, Order order)
         {
             Logger.LogError(exception, "An error occured while sending the request to the server.");
         }
@@ -729,13 +744,14 @@ namespace Org.OpenAPITools.BaseApi
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="Order"/></returns>
         public async Task<ApiResponse<Order?>> PlaceOrderWithHttpInfoAsync(Order order, System.Threading.CancellationToken? cancellationToken = null)
         {
+            UriBuilder uriBuilder = new UriBuilder();
+
             try
             {
                 order = OnPlaceOrder(order);
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
-                    UriBuilder uriBuilder = new UriBuilder();
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
                     uriBuilder.Scheme = ClientUtils.SCHEME;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/store/order";
@@ -789,7 +805,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                OnErrorPlaceOrder(e, order);
+                OnErrorPlaceOrder(e, "/store/order", uriBuilder.Path, order);
                 throw;
             }
         }
