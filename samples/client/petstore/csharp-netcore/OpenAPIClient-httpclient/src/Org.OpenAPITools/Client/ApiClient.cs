@@ -507,6 +507,14 @@ namespace Org.OpenAPITools.Client
                     response = await _httpClient.SendAsync(req, finalToken).ConfigureAwait(false);
                 }
             }
+            catch(OperationCanceledException)
+            {
+                if(timeoutTokenSource != null && timeoutTokenSource.IsCancellationRequested)
+                {
+                    throw new TimeoutException($"[{req.Method}] {req.RequestUri} is timeout.");
+                }
+                throw;
+            }
             finally
             {
                 timeoutTokenSource?.Dispose();
