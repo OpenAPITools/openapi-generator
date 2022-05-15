@@ -452,14 +452,6 @@ namespace {{packageName}}.Client
         {
             var deserializer = new CustomJsonCodec(SerializerSettings, configuration);
 
-            var finalToken = cancellationToken;
-
-            if (configuration.Timeout > 0)
-            {
-                var tokenSource = new CancellationTokenSource(configuration.Timeout);
-                finalToken = CancellationTokenSource.CreateLinkedTokenSource(finalToken, tokenSource.Token).Token;
-            }
-
             if (configuration.Proxy != null)
             {
                 if(_httpClientHandler == null) throw new InvalidOperationException("Configuration `Proxy` not supported when the client is explicitly created without an HttpClientHandler, use the proper constructor.");
@@ -486,27 +478,42 @@ namespace {{packageName}}.Client
             InterceptRequest(req);
 
             HttpResponseMessage response;
-{{#supportsRetry}}
-            if (RetryConfiguration.AsyncRetryPolicy != null)
+
+            var timeoutTokenSource = default(CancellationTokenSource);
+            try
             {
-                var policy = RetryConfiguration.AsyncRetryPolicy;
-                var policyResult = await policy
-                    .ExecuteAndCaptureAsync(() => _httpClient.SendAsync(req, finalToken))
-                    .ConfigureAwait(false);
-                response = (policyResult.Outcome == OutcomeType.Successful) ?
-                    policyResult.Result : new HttpResponseMessage()
-                    {
-                        ReasonPhrase = policyResult.FinalException.ToString(),
-                        RequestMessage = req
-                    };
-            }
-            else
-            {
-{{/supportsRetry}}
-                response = await _httpClient.SendAsync(req, finalToken).ConfigureAwait(false);
+                var finalToken = cancellationToken;
+                if (configuration.Timeout > 0)
+                {
+                    timeoutTokenSource = new CancellationTokenSource(configuration.Timeout);
+                    finalToken = CancellationTokenSource.CreateLinkedTokenSource(finalToken, timeoutTokenSource.Token).Token;
+                }
 {{#supportsRetry}}
-            }
+                if (RetryConfiguration.AsyncRetryPolicy != null)
+                {
+                    var policy = RetryConfiguration.AsyncRetryPolicy;
+                    var policyResult = await policy
+                        .ExecuteAndCaptureAsync(() => _httpClient.SendAsync(req, finalToken))
+                        .ConfigureAwait(false);
+                    response = (policyResult.Outcome == OutcomeType.Successful) ?
+                        policyResult.Result : new HttpResponseMessage()
+                        {
+                            ReasonPhrase = policyResult.FinalException.ToString(),
+                            RequestMessage = req
+                        };
+                }
+                else
+                {
 {{/supportsRetry}}
+                    response = await _httpClient.SendAsync(req, finalToken).ConfigureAwait(false);
+{{#supportsRetry}}
+                }
+{{/supportsRetry}}
+            }
+            finally
+            {
+                timeoutTokenSource?.Dispose();
+            }
 
             if (!response.IsSuccessStatusCode)
             {
