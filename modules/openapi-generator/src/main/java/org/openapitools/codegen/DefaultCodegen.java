@@ -4777,13 +4777,17 @@ public class DefaultCodegen implements CodegenConfig {
             // https://swagger.io/docs/specification/serialization/
             if (schema != null) {
                 Map<String, Schema<?>> properties = schema.getProperties();
-                codegenParameter.items.vars =
-                        properties.entrySet().stream()
-                                .map(entry -> {
-                                    CodegenProperty property = fromProperty(entry.getKey(), entry.getValue());
-                                    property.baseName = codegenParameter.baseName + "[" + entry.getKey() + "]";
-                                    return property;
-                                }).collect(Collectors.toList());
+                if (properties != null) {
+                    codegenParameter.items.vars =
+                            properties.entrySet().stream()
+                                    .map(entry -> {
+                                        CodegenProperty property = fromProperty(entry.getKey(), entry.getValue());
+                                        property.baseName = codegenParameter.baseName + "[" + entry.getKey() + "]";
+                                        return property;
+                                    }).collect(Collectors.toList());
+                } else {
+                    //LOGGER.error("properties is null: {}", schema);
+                }
             } else {
                 LOGGER.warn(
                         "No object schema found for deepObject parameter{} deepObject won't have specific properties",
