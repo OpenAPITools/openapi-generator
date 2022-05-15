@@ -2,7 +2,7 @@
 /**
  * NumberOnly
  *
- * PHP version 7.3
+ * PHP version 7.4
  *
  * @category Class
  * @package  OpenAPI\Client
