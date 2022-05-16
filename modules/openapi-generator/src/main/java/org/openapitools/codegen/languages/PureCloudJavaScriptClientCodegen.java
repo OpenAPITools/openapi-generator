@@ -742,6 +742,27 @@ public class PureCloudJavaScriptClientCodegen extends DefaultCodegen implements 
     }
 
     @Override
+    public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
+        super.postProcessSupportingFileData(objs);
+        Map<String, Object> apiInfo = (Map<String, Object>) objs.get("apiInfo");
+        List<HashMap<String, Object>> apiList = (List<HashMap<String, Object>>) apiInfo.get("apis");
+        // removing duplicate apis
+        // external sdk
+        if (apiList.size() == 124) {
+            apiList.subList(62, apiList.size()).clear();
+        }
+        // internal sdk
+        if (apiList.size() == 168) {
+            apiList.subList(84, apiList.size()).clear();
+        }
+        // guest sdk
+        if (apiList.size() == 2) {
+            apiList.subList(1, apiList.size()).clear();
+        }
+        return objs;
+    }
+
+    @Override
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         // Generate and store argument list string of each operation into
         // vendor-extension: x-codegen-argList.
