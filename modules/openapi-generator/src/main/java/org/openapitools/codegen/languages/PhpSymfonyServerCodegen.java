@@ -450,7 +450,7 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
             // Add operation's authentication methods to whole interface
             if (op.authMethods != null) {
                 for (CodegenSecurity am : op.authMethods) {
-                    if (!authMethods.contains(am)) {
+                    if (authMethods.stream().noneMatch(m -> Objects.equals(m.name, am.name))) {
                         authMethods.add(am);
                     }
                 }
