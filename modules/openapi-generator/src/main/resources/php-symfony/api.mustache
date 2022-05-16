@@ -36,13 +36,13 @@ interface {{classname}}
     {{#authMethods}}
 
     /**
-     * Sets authentication method {{#isBasic}}basic{{/isBasic}}{{#isApiKey}}api_key{{/isApiKey}}{{#isOAuth}}oAuth{{/isOAuth}}
+     * Sets authentication method {{name}}
      *
-     * @param string $value Value of the {{#isBasic}}basic{{/isBasic}}{{#isApiKey}}api_key{{/isApiKey}}{{#isOAuth}}oAuth{{/isOAuth}} authentication method.
+     * @param string $value Value of the {{name}} authentication method.
      *
      * @return void
      */
-    public function set_{{#isBasic}}basic{{/isBasic}}{{#isApiKey}}api_key{{/isApiKey}}{{#isOAuth}}oAuth{{/isOAuth}}_auth($value);
+    public function set{{name}}($value);
     {{/authMethods}}
     {{#operation}}
 
