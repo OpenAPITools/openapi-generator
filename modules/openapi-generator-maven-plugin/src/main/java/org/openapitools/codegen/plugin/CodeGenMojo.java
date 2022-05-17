@@ -299,6 +299,12 @@ public class CodeGenMojo extends AbstractMojo {
     private List<String> importMappings;
 
     /**
+     * A map of inline scheme names and the new names
+     */
+    @Parameter(name = "inlineSchemaNameMappings", property = "openapi.generator.maven.plugin.inlineSchemaNameMappings")
+    private List<String> inlineSchemaNameMappings;
+
+    /**
      * A map of swagger spec types and the generated code types to use for them
      */
     @Parameter(name = "typeMappings", property = "openapi.generator.maven.plugin.typeMappings")
@@ -659,6 +665,12 @@ public class CodeGenMojo extends AbstractMojo {
                             configurator);
                 }
 
+                // Retained for backwards-compatibility with configOptions -> inline-schema-name-mappings
+                if (importMappings == null && configOptions.containsKey("inline-schema-name-mappings")) {
+                    applyInlineSchemaNameMappingsKvp(configOptions.get("inline-schema-name-mappings").toString(),
+                            configurator);
+                }
+
                 // Retained for backwards-compatibility with configOptions -> type-mappings
                 if (typeMappings == null && configOptions.containsKey("type-mappings")) {
                     applyTypeMappingsKvp(configOptions.get("type-mappings").toString(), configurator);
@@ -695,6 +707,11 @@ public class CodeGenMojo extends AbstractMojo {
             // Apply Import Mappings
             if (importMappings != null && (configOptions == null || !configOptions.containsKey("import-mappings"))) {
                 applyImportMappingsKvpList(importMappings, configurator);
+            }
+
+            // Apply Inline Schema Name Mappings
+            if (inlineSchemaNameMappings != null && (configOptions == null || !configOptions.containsKey("inline-schema-name-mappings"))) {
+                applyInlineSchemaNameMappingsKvpList(inlineSchemaNameMappings, configurator);
             }
 
             // Apply Type Mappings

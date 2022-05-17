@@ -11,7 +11,6 @@ import javax.validation.constraints.NotNull
 import javax.validation.constraints.Pattern
 import javax.validation.constraints.Size
 import javax.validation.Valid
-import io.swagger.annotations.ApiModelProperty
 
 /**
  * A category for a pet
@@ -20,10 +19,8 @@ import io.swagger.annotations.ApiModelProperty
  */
 data class Category(
 
-    @ApiModelProperty(example = "null", value = "")
     @field:JsonProperty("id") val id: kotlin.Long? = null,
 
-    @ApiModelProperty(example = "null", value = "")
     @field:JsonProperty("name") val name: kotlin.String? = null
 ) {
 

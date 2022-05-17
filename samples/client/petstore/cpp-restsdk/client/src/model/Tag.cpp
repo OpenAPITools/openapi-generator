@@ -63,9 +63,9 @@ bool Tag::fromJson(const web::json::value& val)
         const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("id")));
         if(!fieldValue.is_null())
         {
-            int64_t refVal_id;
-            ok &= ModelBase::fromJson(fieldValue, refVal_id);
-            setId(refVal_id);
+            int64_t refVal_setId;
+            ok &= ModelBase::fromJson(fieldValue, refVal_setId);
+            setId(refVal_setId);
         }
     }
     if(val.has_field(utility::conversions::to_string_t(U("name"))))
@@ -73,9 +73,9 @@ bool Tag::fromJson(const web::json::value& val)
         const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("name")));
         if(!fieldValue.is_null())
         {
-            utility::string_t refVal_name;
-            ok &= ModelBase::fromJson(fieldValue, refVal_name);
-            setName(refVal_name);
+            utility::string_t refVal_setName;
+            ok &= ModelBase::fromJson(fieldValue, refVal_setName);
+            setName(refVal_setName);
         }
     }
     return ok;
@@ -109,15 +109,15 @@ bool Tag::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const util
 
     if(multipart->hasContent(utility::conversions::to_string_t(U("id"))))
     {
-        int64_t refVal_id;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("id"))), refVal_id );
-        setId(refVal_id);
+        int64_t refVal_setId;
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("id"))), refVal_setId );
+        setId(refVal_setId);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("name"))))
     {
-        utility::string_t refVal_name;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("name"))), refVal_name );
-        setName(refVal_name);
+        utility::string_t refVal_setName;
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("name"))), refVal_setName );
+        setName(refVal_setName);
     }
     return ok;
 }

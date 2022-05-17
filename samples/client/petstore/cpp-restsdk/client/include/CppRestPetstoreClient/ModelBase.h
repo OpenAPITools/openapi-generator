@@ -75,6 +75,7 @@ public:
     static web::json::value toJson( const std::shared_ptr<HttpContent>& val );
     template<typename T>
     static web::json::value toJson( const std::shared_ptr<T>& val );
+    static web::json::value toJson( const std::shared_ptr<utility::datetime>& val );
     template<typename T>
     static web::json::value toJson( const std::vector<T>& val );
     template<typename T>
@@ -91,6 +92,7 @@ public:
     static bool fromString( const utility::string_t& val, std::shared_ptr<HttpContent> & );
     template<typename T>
     static bool fromString( const utility::string_t& val, std::shared_ptr<T>& );
+    static bool fromString( const utility::string_t& val, std::shared_ptr<utility::datetime>& outVal );
     template<typename T>
     static bool fromString( const utility::string_t& val, std::vector<T> & );
     template<typename T>
@@ -107,6 +109,7 @@ public:
     static bool fromJson( const web::json::value& val, std::shared_ptr<HttpContent> & );
     template<typename T>
     static bool fromJson( const web::json::value& val, std::shared_ptr<T>& );
+    static bool fromJson( const web::json::value& val, std::shared_ptr<utility::datetime> &outVal );
     template<typename T>
     static bool fromJson( const web::json::value& val, std::vector<T> & );
     template<typename T>
@@ -124,6 +127,7 @@ public:
     static std::shared_ptr<HttpContent> toHttpContent( const utility::string_t& name, const std::shared_ptr<HttpContent>& );
     template <typename T>
     static std::shared_ptr<HttpContent> toHttpContent( const utility::string_t& name, const std::shared_ptr<T>& , const utility::string_t& contentType = utility::conversions::to_string_t("application/json") );
+    static std::shared_ptr<HttpContent> toHttpContent(const utility::string_t& name, const std::shared_ptr<utility::datetime>& value , const utility::string_t& contentType = utility::conversions::to_string_t("application/json") );
     template <typename T>
     static std::shared_ptr<HttpContent> toHttpContent( const utility::string_t& name, const std::vector<T>& value, const utility::string_t& contentType = utility::conversions::to_string_t("") );
     template <typename T>

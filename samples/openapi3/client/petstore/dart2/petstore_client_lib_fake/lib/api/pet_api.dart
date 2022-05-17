@@ -37,7 +37,6 @@ class PetApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    const authNames = <String>['petstore_auth'];
     const contentTypes = <String>['application/json', 'application/xml'];
 
 
@@ -49,7 +48,6 @@ class PetApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
-      authNames,
     );
   }
 
@@ -96,7 +94,6 @@ class PetApi {
       headerParams[r'api_key'] = parameterToString(apiKey);
     }
 
-    const authNames = <String>['petstore_auth'];
     const contentTypes = <String>[];
 
 
@@ -108,7 +105,6 @@ class PetApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
-      authNames,
     );
   }
 
@@ -152,7 +148,6 @@ class PetApi {
 
       queryParams.addAll(_queryParams('csv', 'status', status));
 
-    const authNames = <String>['petstore_auth'];
     const contentTypes = <String>[];
 
 
@@ -164,7 +159,6 @@ class PetApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
-      authNames,
     );
   }
 
@@ -217,7 +211,6 @@ class PetApi {
 
       queryParams.addAll(_queryParams('csv', 'tags', tags));
 
-    const authNames = <String>['petstore_auth'];
     const contentTypes = <String>[];
 
 
@@ -229,7 +222,6 @@ class PetApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
-      authNames,
     );
   }
 
@@ -281,7 +273,6 @@ class PetApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    const authNames = <String>['api_key'];
     const contentTypes = <String>[];
 
 
@@ -293,7 +284,6 @@ class PetApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
-      authNames,
     );
   }
 
@@ -341,7 +331,6 @@ class PetApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    const authNames = <String>['petstore_auth'];
     const contentTypes = <String>['application/json', 'application/xml'];
 
 
@@ -353,7 +342,6 @@ class PetApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
-      authNames,
     );
   }
 
@@ -400,7 +388,6 @@ class PetApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    const authNames = <String>['petstore_auth'];
     const contentTypes = <String>['application/x-www-form-urlencoded'];
 
     if (name != null) {
@@ -418,7 +405,6 @@ class PetApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
-      authNames,
     );
   }
 
@@ -471,7 +457,6 @@ class PetApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    const authNames = <String>['petstore_auth'];
     const contentTypes = <String>['multipart/form-data'];
 
     bool hasFields = false;
@@ -497,7 +482,6 @@ class PetApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
-      authNames,
     );
   }
 
@@ -558,7 +542,6 @@ class PetApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    const authNames = <String>['petstore_auth'];
     const contentTypes = <String>['multipart/form-data'];
 
     bool hasFields = false;
@@ -584,7 +567,6 @@ class PetApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
-      authNames,
     );
   }
 

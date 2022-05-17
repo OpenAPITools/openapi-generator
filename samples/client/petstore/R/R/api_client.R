@@ -41,7 +41,7 @@ ApiClient  <- R6::R6Class(
     # base path of all requests
     basePath = "http://petstore.swagger.io/v2",
     # user agent in the HTTP request
-    userAgent = "OpenAPI-Generator/1.0.0/r",
+    userAgent = "PetstoreAgent",
     # default headers in the HTTP request
     defaultHeaders = NULL,
     # username (HTTP basic authentication)

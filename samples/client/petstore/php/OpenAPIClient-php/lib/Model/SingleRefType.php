@@ -2,7 +2,7 @@
 /**
  * SingleRefType
  *
- * PHP version 7.3
+ * PHP version 7.4
  *
  * @category Class
  * @package  OpenAPI\Client
@@ -42,9 +42,9 @@ class SingleRefType
     /**
      * Possible values of this enum
      */
-    const ADMIN = 'admin';
+    public const ADMIN = 'admin';
 
-    const USER = 'user';
+    public const USER = 'user';
 
     /**
      * Gets allowable values of the enum

@@ -221,8 +221,8 @@ StoreApi <- R6::R6Class(
         ApiResponse$new("API server error", resp)
       }
     },
-    GetInventory = function(...){
-      apiResponse <- self$GetInventoryWithHttpInfo(...)
+    GetInventory = function(data_file=NULL, ...){
+      apiResponse <- self$GetInventoryWithHttpInfo(data_file=data_file, ...)
       resp <- apiResponse$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         apiResponse$content
@@ -235,7 +235,7 @@ StoreApi <- R6::R6Class(
       }
     },
 
-    GetInventoryWithHttpInfo = function(...){
+    GetInventoryWithHttpInfo = function(data_file=NULL, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
@@ -255,6 +255,11 @@ StoreApi <- R6::R6Class(
                                  ...)
 
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
+        # save response in a file
+        if (!is.null(data_file)) {
+            write(httr::content(resp, "text", encoding = "UTF-8", simplifyVector = FALSE), data_file)
+        }
+
         deserializedRespObj <- tryCatch(
           self$apiClient$deserialize(resp, "map(integer)", loadNamespace("petstore")),
           error = function(e){
@@ -270,8 +275,8 @@ StoreApi <- R6::R6Class(
         ApiResponse$new("API server error", resp)
       }
     },
-    GetOrderById = function(order.id, ...){
-      apiResponse <- self$GetOrderByIdWithHttpInfo(order.id, ...)
+    GetOrderById = function(order.id, data_file=NULL, ...){
+      apiResponse <- self$GetOrderByIdWithHttpInfo(order.id, data_file=data_file, ...)
       resp <- apiResponse$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         apiResponse$content
@@ -284,7 +289,7 @@ StoreApi <- R6::R6Class(
       }
     },
 
-    GetOrderByIdWithHttpInfo = function(order.id, ...){
+    GetOrderByIdWithHttpInfo = function(order.id, data_file=NULL, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
@@ -308,6 +313,11 @@ StoreApi <- R6::R6Class(
                                  ...)
 
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
+        # save response in a file
+        if (!is.null(data_file)) {
+            write(httr::content(resp, "text", encoding = "UTF-8", simplifyVector = FALSE), data_file)
+        }
+
         deserializedRespObj <- tryCatch(
           self$apiClient$deserialize(resp, "Order", loadNamespace("petstore")),
           error = function(e){
@@ -323,8 +333,8 @@ StoreApi <- R6::R6Class(
         ApiResponse$new("API server error", resp)
       }
     },
-    PlaceOrder = function(body, ...){
-      apiResponse <- self$PlaceOrderWithHttpInfo(body, ...)
+    PlaceOrder = function(body, data_file=NULL, ...){
+      apiResponse <- self$PlaceOrderWithHttpInfo(body, data_file=data_file, ...)
       resp <- apiResponse$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         apiResponse$content
@@ -337,7 +347,7 @@ StoreApi <- R6::R6Class(
       }
     },
 
-    PlaceOrderWithHttpInfo = function(body, ...){
+    PlaceOrderWithHttpInfo = function(body, data_file=NULL, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
@@ -362,6 +372,11 @@ StoreApi <- R6::R6Class(
                                  ...)
 
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
+        # save response in a file
+        if (!is.null(data_file)) {
+            write(httr::content(resp, "text", encoding = "UTF-8", simplifyVector = FALSE), data_file)
+        }
+
         deserializedRespObj <- tryCatch(
           self$apiClient$deserialize(resp, "Order", loadNamespace("petstore")),
           error = function(e){

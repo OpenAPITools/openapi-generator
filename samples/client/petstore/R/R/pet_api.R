@@ -432,8 +432,8 @@ PetApi <- R6::R6Class(
         ApiResponse$new("API server error", resp)
       }
     },
-    FindPetsByStatus = function(status, ...){
-      apiResponse <- self$FindPetsByStatusWithHttpInfo(status, ...)
+    FindPetsByStatus = function(status, data_file=NULL, ...){
+      apiResponse <- self$FindPetsByStatusWithHttpInfo(status, data_file=data_file, ...)
       resp <- apiResponse$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         apiResponse$content
@@ -446,7 +446,7 @@ PetApi <- R6::R6Class(
       }
     },
 
-    FindPetsByStatusWithHttpInfo = function(status, ...){
+    FindPetsByStatusWithHttpInfo = function(status, data_file=NULL, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
@@ -470,6 +470,11 @@ PetApi <- R6::R6Class(
                                  ...)
 
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
+        # save response in a file
+        if (!is.null(data_file)) {
+            write(httr::content(resp, "text", encoding = "UTF-8", simplifyVector = FALSE), data_file)
+        }
+
         deserializedRespObj <- tryCatch(
           self$apiClient$deserialize(resp, "array[Pet]", loadNamespace("petstore")),
           error = function(e){
@@ -485,8 +490,8 @@ PetApi <- R6::R6Class(
         ApiResponse$new("API server error", resp)
       }
     },
-    FindPetsByTags = function(tags, ...){
-      apiResponse <- self$FindPetsByTagsWithHttpInfo(tags, ...)
+    FindPetsByTags = function(tags, data_file=NULL, ...){
+      apiResponse <- self$FindPetsByTagsWithHttpInfo(tags, data_file=data_file, ...)
       resp <- apiResponse$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         apiResponse$content
@@ -499,7 +504,7 @@ PetApi <- R6::R6Class(
       }
     },
 
-    FindPetsByTagsWithHttpInfo = function(tags, ...){
+    FindPetsByTagsWithHttpInfo = function(tags, data_file=NULL, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
@@ -523,6 +528,11 @@ PetApi <- R6::R6Class(
                                  ...)
 
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
+        # save response in a file
+        if (!is.null(data_file)) {
+            write(httr::content(resp, "text", encoding = "UTF-8", simplifyVector = FALSE), data_file)
+        }
+
         deserializedRespObj <- tryCatch(
           self$apiClient$deserialize(resp, "array[Pet]", loadNamespace("petstore")),
           error = function(e){
@@ -538,8 +548,8 @@ PetApi <- R6::R6Class(
         ApiResponse$new("API server error", resp)
       }
     },
-    GetPetById = function(pet.id, ...){
-      apiResponse <- self$GetPetByIdWithHttpInfo(pet.id, ...)
+    GetPetById = function(pet.id, data_file=NULL, ...){
+      apiResponse <- self$GetPetByIdWithHttpInfo(pet.id, data_file=data_file, ...)
       resp <- apiResponse$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         apiResponse$content
@@ -552,7 +562,7 @@ PetApi <- R6::R6Class(
       }
     },
 
-    GetPetByIdWithHttpInfo = function(pet.id, ...){
+    GetPetByIdWithHttpInfo = function(pet.id, data_file=NULL, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
@@ -580,6 +590,11 @@ PetApi <- R6::R6Class(
                                  ...)
 
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
+        # save response in a file
+        if (!is.null(data_file)) {
+            write(httr::content(resp, "text", encoding = "UTF-8", simplifyVector = FALSE), data_file)
+        }
+
         deserializedRespObj <- tryCatch(
           self$apiClient$deserialize(resp, "Pet", loadNamespace("petstore")),
           error = function(e){
@@ -698,8 +713,8 @@ PetApi <- R6::R6Class(
         ApiResponse$new("API server error", resp)
       }
     },
-    UploadFile = function(pet.id, additional.metadata=NULL, file=NULL, ...){
-      apiResponse <- self$UploadFileWithHttpInfo(pet.id, additional.metadata, file, ...)
+    UploadFile = function(pet.id, additional.metadata=NULL, file=NULL, data_file=NULL, ...){
+      apiResponse <- self$UploadFileWithHttpInfo(pet.id, additional.metadata, file, data_file=data_file, ...)
       resp <- apiResponse$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         apiResponse$content
@@ -712,7 +727,7 @@ PetApi <- R6::R6Class(
       }
     },
 
-    UploadFileWithHttpInfo = function(pet.id, additional.metadata=NULL, file=NULL, ...){
+    UploadFileWithHttpInfo = function(pet.id, additional.metadata=NULL, file=NULL, data_file=NULL, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
@@ -742,6 +757,11 @@ PetApi <- R6::R6Class(
                                  ...)
 
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
+        # save response in a file
+        if (!is.null(data_file)) {
+            write(httr::content(resp, "text", encoding = "UTF-8", simplifyVector = FALSE), data_file)
+        }
+
         deserializedRespObj <- tryCatch(
           self$apiClient$deserialize(resp, "ModelApiResponse", loadNamespace("petstore")),
           error = function(e){
