@@ -3,10 +3,10 @@ petApi <- PetApi$new()
 petId <- 123321
 pet <- Pet$new("name_test",
   photoUrls = list("photo_test", "second test"),
-  category = Category$new(id=450, name="test_cat"),
+  category = Category$new(id = 450, name = "test_cat"),
   id = petId,
   tags = list(
-    Tag$new(id=123, name="tag_test"), Tag$new(id=456, name="unknown")
+    Tag$new(id = 123, name = "tag_test"), Tag$new(id = 456, name = "unknown")
   ),
   status = "available"
 )
@@ -21,7 +21,7 @@ test_that("Test toJSON toJSON fromJSON fromJSONString", {
   pet0 <- Pet$new()
   jsonpet <- pet0$toJSON()
   pet2 <- pet0$fromJSON(
-    jsonlite::toJSON(jsonpet, auto_unbox=TRUE)
+    jsonlite::toJSON(jsonpet, auto_unbox = TRUE)
   )
   expect_equal(pet0, pet2)
   jsonpet <- pet0$toJSONString()
@@ -38,16 +38,16 @@ test_that("Test toJSON toJSON fromJSON fromJSONString", {
 
   pet1 <- Pet$new("name_test",
     list("photo_test", "second test"),
-    category = Category$new(id=450, name="test_cat"),
+    category = Category$new(id = 450, name = "test_cat"),
     id = petId,
     tags = list(
-      Tag$new(id=123, name="tag_test"), Tag$new(id=456, name="unknown")
+      Tag$new(id = 123, name = "tag_test"), Tag$new(id = 456, name = "unknown")
     ),
     status = "available"
   )
   jsonpet <- pet1$toJSON()
   pet2 <- pet1$fromJSON(
-    jsonlite::toJSON(jsonpet, auto_unbox=TRUE)
+    jsonlite::toJSON(jsonpet, auto_unbox = TRUE)
   )
   expect_equal(pet1, pet2)
 
@@ -65,9 +65,9 @@ test_that("Test toJSON toJSON fromJSON fromJSONString", {
 })
 
 test_that("Test Category", {
-  c1 <- Category$new(id=450, name="test_cat")
+  c1 <- Category$new(id = 450, name = "test_cat")
   c2 <- Category$new()
-  c2$fromJSON(jsonlite::toJSON(c1$toJSON(), auto_unbox=TRUE))
+  c2$fromJSON(jsonlite::toJSON(c1$toJSON(), auto_unbox = TRUE))
   expect_equal(c1, c2)
   c2$fromJSONString(c1$toJSONString())
   expect_equal(c1, c2)
@@ -82,18 +82,18 @@ test_that("GetPetById", {
     list("photo_test", "second test")
   )
   expect_equal(response$status, "available")
-  expect_equal(response$category, Category$new(id=450, name="test_cat"))
+  expect_equal(response$category, Category$new(id = 450, name = "test_cat"))
 
   expect_equal(pet$tags, response$tags)
   expect_equal(
     response$tags,
-    list(Tag$new(id=123, name="tag_test"), Tag$new(id=456, name="unknown"))
+    list(Tag$new(id=123, name="tag_test"), Tag$new(id = 456, name = "unknown"))
   )
 })
 
 test_that("GetPetById with data_file", {
   # test to ensure json is saved to the file `get_pet_by_id.json`
-  petResponse <- petApi$GetPetById(petId, data_file="get_pet_by_id.json")
+  pet_response <- petApi$GetPetById(petId, data_file = "get_pet_by_id.json")
   response <- read_json("get_pet_by_id.json")
   expect_true(!is.null(response))
   expect_equal(response$id, petId)
