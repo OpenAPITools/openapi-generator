@@ -7,7 +7,7 @@ import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.toolbox.BaseHttpStack
 import com.android.volley.toolbox.Volley
-import java.util.*;
+import java.util.*
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
@@ -37,11 +37,11 @@ class {{classname}} (
 
     {{#operation}}
     /**
-    * {{summary}}
-    * {{notes}}
-    {{#allParams}}   * @param {{paramName}} {{description}}
-    {{/allParams}}   * @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
-    */
+     * {{summary}}
+     * {{notes}}
+     {{#allParams}}* @param {{{paramName}}} {{description}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}{{/required}}
+     {{/allParams}}* @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
+     */
     {{#isDeprecated}}
     @Deprecated("This api was deprecated")
     {{/isDeprecated}}
@@ -52,47 +52,34 @@ class {{classname}} (
         {{^bodyParam}}
         val body: Any? = null
         {{/bodyParam}}
-        {{#allParams}}
-        {{#required}}
-        // verify the required parameter '{{paramName}}' is set
-        // This is probably taken care of by non-null types anyway
-        requireNotNull({{paramName}})
-        {{/required}}
-        {{/allParams}}
 
         val contentTypes : Array<String> = arrayOf({{#consumes}}"{{{mediaType}}}"{{^-last}},{{/-last}}{{/consumes}})
         val contentType: String = if (contentTypes.isNotEmpty()) { contentTypes.first() } else { "application/json" }
 
-        // Do some work or avoid some work based on what we know about the model, 
+        // Do some work or avoid some work based on what we know about the model,
         // before we delegate to a pluggable request factory template
         // The request factory template contains only pure code and no templates
         // to make it easy to override with your own.
 
         // create path and map variables
-        val path = "{{{path}}}"{{#pathParams}}.replace("{" + "{{baseName}}" + "}", IRequestFactory.escapeString({{{paramName}}}.toString())){{/pathParams}};
+        val path = "{{{path}}}"{{#pathParams}}.replace("{" + "{{baseName}}" + "}", {{#isContainer}}{{paramName}}.joinToString(","){{/isContainer}}{{^isContainer}}IRequestFactory.escapeString({{{paramName}}}.toString()){{/isContainer}}){{/pathParams}}
 
-        // form params
-        val formParams = mapOf<String, String>(
-            {{#formParams}}
-                    "{{baseName}}" to IRequestFactory.parameterToString({{paramName}}),
-            {{/formParams}}
-        )
+        val formParams = mapOf<String, String>({{^formParams}}){{/formParams}}{{#formParams}}
+            "{{baseName}}" to IRequestFactory.parameterToString({{paramName}}){{^-last}},{{/-last}}{{#-last}}
+        ){{/-last}}{{/formParams}}
 
 
         // TODO: Cater for allowing empty values
         // TODO, if its apikey auth, then add the header names here and the hardcoded auth key
         // Only support hard coded apikey in query param auth for when we do this first path
-        val queryParams = mapOf<String, String>(
-            {{#queryParams}}
-            "{{baseName}}" to IRequestFactory.parameterToString({{paramName}}),
-            {{/queryParams}}
-        ).filter { it.value.isNotEmpty() }
+        val queryParams = mapOf<String, String>({{^queryParams}}){{/queryParams}}{{#queryParams}}
+                "{{baseName}}" to IRequestFactory.parameterToString({{paramName}}){{^-last}},{{/-last}}{{#-last}}
+            ){{/-last}}{{/queryParams}}
+            .filter { it.value.isNotEmpty() }
 
-        val headerParams: Map<String, String> = mapOf(
-            {{#headerParams}}
-            "{{baseName}}" to IRequestFactory.parameterToString({{paramName}}),
-            {{/headerParams}}
-        )
+        val headerParams: Map<String, String> = mapOf({{^headerParams}}){{/headerParams}}{{#headerParams}}
+            "{{baseName}}" to IRequestFactory.parameterToString({{paramName}}){{^-last}},{{/-last}}{{#-last}}
+        ){{/-last}}{{/headerParams}}
 
         return suspendCoroutine { continuation ->
             val responseListener = Response.Listener<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Unit{{/returnType}}> { response ->
@@ -119,7 +106,7 @@ class {{classname}} (
                     responseListener,
                     errorListener)
 
-            postProcessors.forEach{ it.invoke(request)}
+            postProcessors.forEach { it.invoke(request) }
 
             requestQueue.value.add(request)
         }

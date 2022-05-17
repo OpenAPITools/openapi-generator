@@ -1,7 +1,7 @@
 <?php
 /**
  * ApiException
- * PHP version 7.3
+ * PHP version 7.4
  *
  * @category Class
  * @package  OpenAPI\Client
@@ -39,7 +39,6 @@ use \Exception;
  */
 class HeaderSelector
 {
-
     /**
      * @param string[] $accept
      * @param string[] $contentTypes

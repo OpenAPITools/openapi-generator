@@ -44,10 +44,10 @@ lib/app/Models/EnumTest.php
 lib/app/Models/File.php
 lib/app/Models/FileSchemaTestClass.php
 lib/app/Models/Foo.php
+lib/app/Models/FooGetDefaultResponse.php
 lib/app/Models/FormatTest.php
 lib/app/Models/HasOnlyReadOnly.php
 lib/app/Models/HealthCheckResult.php
-lib/app/Models/InlineResponseDefault.php
 lib/app/Models/MapTest.php
 lib/app/Models/MixedPropertiesAndAdditionalPropertiesClass.php
 lib/app/Models/Model200Response.php

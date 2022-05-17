@@ -2,7 +2,7 @@
 /**
  * Pet
  *
- * PHP version 7.3
+ * PHP version 7.4
  *
  * @category Class
  * @package  OpenAPI\Client
@@ -187,9 +187,9 @@ class Pet implements ModelInterface, ArrayAccess, \JsonSerializable
         return self::$openAPIModelName;
     }
 
-    const STATUS_AVAILABLE = 'available';
-    const STATUS_PENDING = 'pending';
-    const STATUS_SOLD = 'sold';
+    public const STATUS_AVAILABLE = 'available';
+    public const STATUS_PENDING = 'pending';
+    public const STATUS_SOLD = 'sold';
 
     /**
      * Gets allowable values of the enum

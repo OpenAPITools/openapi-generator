@@ -220,6 +220,13 @@ open class GenerateTask : DefaultTask() {
     val importMappings = project.objects.mapProperty<String, String>()
 
     /**
+     * Specifies mappings between the inline scheme name and the new name
+     */
+    @Optional
+    @Input
+    val inlineSchemaNameMappings = project.objects.mapProperty<String, String>()
+
+    /**
      * Root package for generated code.
      */
     @Optional
@@ -675,6 +682,12 @@ open class GenerateTask : DefaultTask() {
             if (importMappings.isPresent) {
                 importMappings.get().forEach { entry ->
                     configurator.addImportMapping(entry.key, entry.value)
+                }
+            }
+
+            if (inlineSchemaNameMappings.isPresent) {
+                inlineSchemaNameMappings.get().forEach { entry ->
+                    configurator.addInlineSchemaNameMapping(entry.key, entry.value)
                 }
             }
 
