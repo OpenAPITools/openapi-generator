@@ -17,6 +17,10 @@
 
 package org.openapitools.codegen.languages;
 
+import com.samskivert.mustache.Mustache.Lambda;
+import com.samskivert.mustache.Mustache;
+import com.samskivert.mustache.Template;
+
 import io.swagger.v3.oas.models.examples.Example;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
@@ -33,6 +37,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.Writer;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -232,6 +238,17 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("api_client.mustache", File.separator + "R", "api_client.R"));
         supportingFiles.add(new SupportingFile("NAMESPACE.mustache", "", "NAMESPACE"));
         supportingFiles.add(new SupportingFile("testthat.mustache", File.separator + "tests", "testthat.R"));
+
+        // add lambda for mustache templates to fix license field
+        additionalProperties.put("lambdaLicense", new Mustache.Lambda() {
+            @Override
+            public void execute(Template.Fragment fragment, Writer writer) throws IOException {
+                String content = fragment.execute();
+                content = content.trim().replace("Apache-2.0", "Apache License 2.0");
+                writer.write(content);
+            }
+        });
+
     }
 
     @Override

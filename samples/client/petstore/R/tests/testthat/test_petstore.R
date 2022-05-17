@@ -94,7 +94,7 @@ test_that("GetPetById", {
 test_that("GetPetById with data_file", {
   # test to ensure json is saved to the file `get_pet_by_id.json`
   petResponse <- petApi$GetPetById(petId, data_file="get_pet_by_id.json")
-  response <- fromJSON(file = "get_pet_by_id.json")
+  response <- read_json("get_pet_by_id.json")
   expect_true(!is.null(response))
   expect_equal(response$id, petId)
   expect_equal(response$name, "name_test")
