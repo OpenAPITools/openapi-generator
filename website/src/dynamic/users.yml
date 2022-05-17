@@ -379,6 +379,11 @@
   infoLink: "https://github.com/prometheus/alertmanager"
   pinned: false
 -
+  caption: Puppet
+  image: "img/companies/puppet.svg"
+  infoLink: "https://www.puppet.com"
+  pinned: false
+-
   caption: "Qulix Systems"
   image: "img/companies/qulix.png"
   infoLink: "https://www.qulix.com"
