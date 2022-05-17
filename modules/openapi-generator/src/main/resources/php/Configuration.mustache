@@ -59,6 +59,13 @@ class Configuration
     protected $accessToken = '';
 
     /**
+     * Boolean format for query string
+     *
+     * @var string
+     */
+    protected $booleanFormatForQueryString = self::BOOLEAN_FORMAT_INT;
+
+    /**
      * Username for HTTP basic authentication
      *
      * @var string
