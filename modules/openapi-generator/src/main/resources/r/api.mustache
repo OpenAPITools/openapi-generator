@@ -147,7 +147,7 @@
 {{/useRlangExceptionHandling}}
 #' @export
 {{classname}} <- R6::R6Class(
-  '{{classname}}',
+  "{{classname}}",
   public = list(
     api_client = NULL,
     initialize = function(api_client) {
@@ -160,7 +160,7 @@
     },
     {{#operation}}
     {{{operationId}}} = function({{#requiredParams}}{{paramName}}, {{/requiredParams}}{{#optionalParams}}{{paramName}}={{^defaultValue}}NULL{{/defaultValue}}{{{defaultValue}}}, {{/optionalParams}}{{#returnType}}data_file=NULL, {{/returnType}}...) {
-      api_response <- self${{{operationId}}}WithHttpInfo({{#allParams}}{{paramName}}, {{/allParams}}{{#returnType}}data_file=data_file, {{/returnType}}...)
+      api_response <- self${{{operationId}}}WithHttpInfo({{#allParams}}{{paramName}}, {{/allParams}}{{#returnType}}data_file = data_file, {{/returnType}}...)
       resp <- api_response$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         api_response$content
@@ -173,7 +173,7 @@
       }
     },
 
-    {{{operationId}}}WithHttpInfo = function({{#requiredParams}}{{paramName}}, {{/requiredParams}}{{#optionalParams}}{{paramName}}={{^defaultValue}}NULL{{/defaultValue}}{{{defaultValue}}}, {{/optionalParams}}{{#returnType}}data_file=NULL, {{/returnType}}...) {
+    {{{operationId}}}WithHttpInfo = function({{#requiredParams}}{{paramName}}, {{/requiredParams}}{{#optionalParams}}{{paramName}}={{^defaultValue}}NULL{{/defaultValue}}{{{defaultValue}}}, {{/optionalParams}}{{#returnType}}data_file = NULL, {{/returnType}}...) {
       args <- list(...)
       query_params <- list()
       header_params <- c()
@@ -190,11 +190,11 @@
 
       {{/requiredParams}}
       {{#header_params}}
-      header_params['{{baseName}}'] <- `{{paramName}}`
+      header_params["{{baseName}}"] <- `{{paramName}}`
 
       {{/header_params}}
       {{#query_params}}
-      query_params['{{baseName}}'] <- {{paramName}}
+      query_params["{{baseName}}"] <- {{paramName}}
 
       {{/query_params}}
       {{#hasFormParams}}
@@ -215,7 +215,7 @@
       if (!missing(`{{paramName}}`)) {
         {{#isArray}}
         body.items = paste(unlist(lapply({{paramName}}, function(param) {param$toJSONString()})), collapse = ",")
-        body <- paste0('[', body.items, ']')
+        body <- paste0("[", body.items, "]")
         {{/isArray}}
         {{^isArray}}
         body <- `{{paramName}}`$toJSONString()
@@ -244,25 +244,25 @@
       {{#isBasic}}
       {{#isBasicBasic}}
       # HTTP basic auth
-      header_params['Authorization'] <- paste("Basic", base64enc::base64encode(charToRaw(paste(self$api_client$username, self$api_client$password, sep=":"))))
+      header_params["Authorization"] <- paste("Basic", base64enc::base64encode(charToRaw(paste(self$api_client$username, self$api_client$password, sep = ":"))))
       {{/isBasicBasic}}
       {{/isBasic}}
       {{#isApiKey}}
       # API key authentication
       {{#isKeyInHeader}}
       if ("{{{keyParamName}}}" %in% names(self$api_client$api_keys) && nchar(self$api_client$api_keys["{{{keyParamName}}}"]) > 0) {
-        header_params['{{keyParamName}}'] <- paste(unlist(self$api_client$api_keys["{{keyParamName}}"]), collapse='')
+        header_params["{{keyParamName}}"] <- paste(unlist(self$api_client$api_keys["{{keyParamName}}"]), collapse = "")
       }
       {{/isKeyInHeader}}
       {{#isKeyInQuery}}
       if ("{{{keyParamName}}}" %in% names(self$api_client$api_keys) && nchar(self$api_client$api_keys["{{{keyParamName}}}"]) > 0) {
-        query_params['{{keyParamName}}'] <- paste(unlist(self$api_client$api_keys["{{keyParamName}}"]), collapse='')
+        query_params["{{keyParamName}}"] <- paste(unlist(self$api_client$api_keys["{{keyParamName}}"]), collapse = "")
       }
       {{/isKeyInQuery}}
       {{/isApiKey}}
       {{#isOAuth}}
       # OAuth token
-      header_params['Authorization'] <- paste("Bearer", self$api_client$access_token, sep=" ")
+      header_params["Authorization"] <- paste("Bearer", self$api_client$access_token, sep = " ")
       {{/isOAuth}}
       {{/authMethods}}
 
@@ -292,7 +292,7 @@
             write(httr::content(resp, "text", encoding = "UTF-8", simplifyVector = FALSE), data_file)
         }
 
-        deserializedRespObj <- tryCatch(
+        deserialized_resp_obj <- tryCatch(
           self$api_client$deserialize(resp, "{{returnType}}", loadNamespace("{{packageName}}")),
           error = function(e) {
            {{#useDefaultExceptionHandling}}
@@ -303,7 +303,7 @@
            {{/useRlangExceptionHandling}}
           }
         )
-        ApiResponse$new(deserializedRespObj, resp)
+        ApiResponse$new(deserialized_resp_obj, resp)
         {{/isPrimitiveType}}
         {{/returnType}}
         {{^returnType}}

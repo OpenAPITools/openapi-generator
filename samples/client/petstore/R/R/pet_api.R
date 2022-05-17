@@ -319,7 +319,7 @@
 #' @importFrom base64enc base64encode
 #' @export
 PetApi <- R6::R6Class(
-  'PetApi',
+  "PetApi",
   public = list(
     api_client = NULL,
     initialize = function(api_client) {
@@ -361,7 +361,7 @@ PetApi <- R6::R6Class(
 
       url_path <- "/pet"
       # OAuth token
-      header_params['Authorization'] <- paste("Bearer", self$api_client$access_token, sep=" ")
+      header_params["Authorization"] <- paste("Bearer", self$api_client$access_token, sep = " ")
 
       resp <- self$api_client$CallApi(url = paste0(self$api_client$base_path, url_path),
                                  method = "POST",
@@ -410,7 +410,7 @@ PetApi <- R6::R6Class(
       }
 
       # OAuth token
-      header_params['Authorization'] <- paste("Bearer", self$api_client$access_token, sep=" ")
+      header_params["Authorization"] <- paste("Bearer", self$api_client$access_token, sep = " ")
 
       resp <- self$api_client$CallApi(url = paste0(self$api_client$base_path, url_path),
                                  method = "DELETE",
@@ -430,7 +430,7 @@ PetApi <- R6::R6Class(
       }
     },
     FindPetsByStatus = function(status, data_file=NULL, ...) {
-      api_response <- self$FindPetsByStatusWithHttpInfo(status, data_file=data_file, ...)
+      api_response <- self$FindPetsByStatusWithHttpInfo(status, data_file = data_file, ...)
       resp <- api_response$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         api_response$content
@@ -443,7 +443,7 @@ PetApi <- R6::R6Class(
       }
     },
 
-    FindPetsByStatusWithHttpInfo = function(status, data_file=NULL, ...) {
+    FindPetsByStatusWithHttpInfo = function(status, data_file = NULL, ...) {
       args <- list(...)
       query_params <- list()
       header_params <- c()
@@ -455,7 +455,7 @@ PetApi <- R6::R6Class(
       body <- NULL
       url_path <- "/pet/findByStatus"
       # OAuth token
-      header_params['Authorization'] <- paste("Bearer", self$api_client$access_token, sep=" ")
+      header_params["Authorization"] <- paste("Bearer", self$api_client$access_token, sep = " ")
 
       resp <- self$api_client$CallApi(url = paste0(self$api_client$base_path, url_path),
                                  method = "GET",
@@ -470,13 +470,13 @@ PetApi <- R6::R6Class(
             write(httr::content(resp, "text", encoding = "UTF-8", simplifyVector = FALSE), data_file)
         }
 
-        deserializedRespObj <- tryCatch(
+        deserialized_resp_obj <- tryCatch(
           self$api_client$deserialize(resp, "array[Pet]", loadNamespace("petstore")),
           error = function(e) {
              stop("Failed to deserialize response")
           }
         )
-        ApiResponse$new(deserializedRespObj, resp)
+        ApiResponse$new(deserialized_resp_obj, resp)
       } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
         ApiResponse$new(paste("Server returned ", httr::status_code(resp), " response status code."), resp)
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
@@ -486,7 +486,7 @@ PetApi <- R6::R6Class(
       }
     },
     FindPetsByTags = function(tags, data_file=NULL, ...) {
-      api_response <- self$FindPetsByTagsWithHttpInfo(tags, data_file=data_file, ...)
+      api_response <- self$FindPetsByTagsWithHttpInfo(tags, data_file = data_file, ...)
       resp <- api_response$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         api_response$content
@@ -499,7 +499,7 @@ PetApi <- R6::R6Class(
       }
     },
 
-    FindPetsByTagsWithHttpInfo = function(tags, data_file=NULL, ...) {
+    FindPetsByTagsWithHttpInfo = function(tags, data_file = NULL, ...) {
       args <- list(...)
       query_params <- list()
       header_params <- c()
@@ -511,7 +511,7 @@ PetApi <- R6::R6Class(
       body <- NULL
       url_path <- "/pet/findByTags"
       # OAuth token
-      header_params['Authorization'] <- paste("Bearer", self$api_client$access_token, sep=" ")
+      header_params["Authorization"] <- paste("Bearer", self$api_client$access_token, sep = " ")
 
       resp <- self$api_client$CallApi(url = paste0(self$api_client$base_path, url_path),
                                  method = "GET",
@@ -526,13 +526,13 @@ PetApi <- R6::R6Class(
             write(httr::content(resp, "text", encoding = "UTF-8", simplifyVector = FALSE), data_file)
         }
 
-        deserializedRespObj <- tryCatch(
+        deserialized_resp_obj <- tryCatch(
           self$api_client$deserialize(resp, "array[Pet]", loadNamespace("petstore")),
           error = function(e) {
              stop("Failed to deserialize response")
           }
         )
-        ApiResponse$new(deserializedRespObj, resp)
+        ApiResponse$new(deserialized_resp_obj, resp)
       } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
         ApiResponse$new(paste("Server returned ", httr::status_code(resp), " response status code."), resp)
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
@@ -542,7 +542,7 @@ PetApi <- R6::R6Class(
       }
     },
     GetPetById = function(pet.id, data_file=NULL, ...) {
-      api_response <- self$GetPetByIdWithHttpInfo(pet.id, data_file=data_file, ...)
+      api_response <- self$GetPetByIdWithHttpInfo(pet.id, data_file = data_file, ...)
       resp <- api_response$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         api_response$content
@@ -555,7 +555,7 @@ PetApi <- R6::R6Class(
       }
     },
 
-    GetPetByIdWithHttpInfo = function(pet.id, data_file=NULL, ...) {
+    GetPetByIdWithHttpInfo = function(pet.id, data_file = NULL, ...) {
       args <- list(...)
       query_params <- list()
       header_params <- c()
@@ -572,7 +572,7 @@ PetApi <- R6::R6Class(
 
       # API key authentication
       if ("api_key" %in% names(self$api_client$api_keys) && nchar(self$api_client$api_keys["api_key"]) > 0) {
-        header_params['api_key'] <- paste(unlist(self$api_client$api_keys["api_key"]), collapse='')
+        header_params["api_key"] <- paste(unlist(self$api_client$api_keys["api_key"]), collapse = "")
       }
 
       resp <- self$api_client$CallApi(url = paste0(self$api_client$base_path, url_path),
@@ -588,13 +588,13 @@ PetApi <- R6::R6Class(
             write(httr::content(resp, "text", encoding = "UTF-8", simplifyVector = FALSE), data_file)
         }
 
-        deserializedRespObj <- tryCatch(
+        deserialized_resp_obj <- tryCatch(
           self$api_client$deserialize(resp, "Pet", loadNamespace("petstore")),
           error = function(e) {
              stop("Failed to deserialize response")
           }
         )
-        ApiResponse$new(deserializedRespObj, resp)
+        ApiResponse$new(deserialized_resp_obj, resp)
       } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
         ApiResponse$new(paste("Server returned ", httr::status_code(resp), " response status code."), resp)
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
@@ -634,7 +634,7 @@ PetApi <- R6::R6Class(
 
       url_path <- "/pet"
       # OAuth token
-      header_params['Authorization'] <- paste("Bearer", self$api_client$access_token, sep=" ")
+      header_params["Authorization"] <- paste("Bearer", self$api_client$access_token, sep = " ")
 
       resp <- self$api_client$CallApi(url = paste0(self$api_client$base_path, url_path),
                                  method = "PUT",
@@ -687,7 +687,7 @@ PetApi <- R6::R6Class(
       }
 
       # OAuth token
-      header_params['Authorization'] <- paste("Bearer", self$api_client$access_token, sep=" ")
+      header_params["Authorization"] <- paste("Bearer", self$api_client$access_token, sep = " ")
 
       resp <- self$api_client$CallApi(url = paste0(self$api_client$base_path, url_path),
                                  method = "POST",
@@ -707,7 +707,7 @@ PetApi <- R6::R6Class(
       }
     },
     UploadFile = function(pet.id, additional.metadata=NULL, file=NULL, data_file=NULL, ...) {
-      api_response <- self$UploadFileWithHttpInfo(pet.id, additional.metadata, file, data_file=data_file, ...)
+      api_response <- self$UploadFileWithHttpInfo(pet.id, additional.metadata, file, data_file = data_file, ...)
       resp <- api_response$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         api_response$content
@@ -720,7 +720,7 @@ PetApi <- R6::R6Class(
       }
     },
 
-    UploadFileWithHttpInfo = function(pet.id, additional.metadata=NULL, file=NULL, data_file=NULL, ...) {
+    UploadFileWithHttpInfo = function(pet.id, additional.metadata=NULL, file=NULL, data_file = NULL, ...) {
       args <- list(...)
       query_params <- list()
       header_params <- c()
@@ -740,7 +740,7 @@ PetApi <- R6::R6Class(
       }
 
       # OAuth token
-      header_params['Authorization'] <- paste("Bearer", self$api_client$access_token, sep=" ")
+      header_params["Authorization"] <- paste("Bearer", self$api_client$access_token, sep = " ")
 
       resp <- self$api_client$CallApi(url = paste0(self$api_client$base_path, url_path),
                                  method = "POST",
@@ -755,13 +755,13 @@ PetApi <- R6::R6Class(
             write(httr::content(resp, "text", encoding = "UTF-8", simplifyVector = FALSE), data_file)
         }
 
-        deserializedRespObj <- tryCatch(
+        deserialized_resp_obj <- tryCatch(
           self$api_client$deserialize(resp, "ModelApiResponse", loadNamespace("petstore")),
           error = function(e) {
              stop("Failed to deserialize response")
           }
         )
-        ApiResponse$new(deserializedRespObj, resp)
+        ApiResponse$new(deserialized_resp_obj, resp)
       } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
         ApiResponse$new(paste("Server returned ", httr::status_code(resp), " response status code."), resp)
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {

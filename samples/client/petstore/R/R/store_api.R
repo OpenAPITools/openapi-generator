@@ -162,7 +162,7 @@
 #' @importFrom base64enc base64encode
 #' @export
 StoreApi <- R6::R6Class(
-  'StoreApi',
+  "StoreApi",
   public = list(
     api_client = NULL,
     initialize = function(api_client) {
@@ -221,7 +221,7 @@ StoreApi <- R6::R6Class(
       }
     },
     GetInventory = function(data_file=NULL, ...) {
-      api_response <- self$GetInventoryWithHttpInfo(data_file=data_file, ...)
+      api_response <- self$GetInventoryWithHttpInfo(data_file = data_file, ...)
       resp <- api_response$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         api_response$content
@@ -234,7 +234,7 @@ StoreApi <- R6::R6Class(
       }
     },
 
-    GetInventoryWithHttpInfo = function(data_file=NULL, ...) {
+    GetInventoryWithHttpInfo = function(data_file = NULL, ...) {
       args <- list(...)
       query_params <- list()
       header_params <- c()
@@ -243,7 +243,7 @@ StoreApi <- R6::R6Class(
       url_path <- "/store/inventory"
       # API key authentication
       if ("api_key" %in% names(self$api_client$api_keys) && nchar(self$api_client$api_keys["api_key"]) > 0) {
-        header_params['api_key'] <- paste(unlist(self$api_client$api_keys["api_key"]), collapse='')
+        header_params["api_key"] <- paste(unlist(self$api_client$api_keys["api_key"]), collapse = "")
       }
 
       resp <- self$api_client$CallApi(url = paste0(self$api_client$base_path, url_path),
@@ -259,13 +259,13 @@ StoreApi <- R6::R6Class(
             write(httr::content(resp, "text", encoding = "UTF-8", simplifyVector = FALSE), data_file)
         }
 
-        deserializedRespObj <- tryCatch(
+        deserialized_resp_obj <- tryCatch(
           self$api_client$deserialize(resp, "map(integer)", loadNamespace("petstore")),
           error = function(e) {
              stop("Failed to deserialize response")
           }
         )
-        ApiResponse$new(deserializedRespObj, resp)
+        ApiResponse$new(deserialized_resp_obj, resp)
       } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
         ApiResponse$new(paste("Server returned ", httr::status_code(resp), " response status code."), resp)
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
@@ -275,7 +275,7 @@ StoreApi <- R6::R6Class(
       }
     },
     GetOrderById = function(order.id, data_file=NULL, ...) {
-      api_response <- self$GetOrderByIdWithHttpInfo(order.id, data_file=data_file, ...)
+      api_response <- self$GetOrderByIdWithHttpInfo(order.id, data_file = data_file, ...)
       resp <- api_response$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         api_response$content
@@ -288,7 +288,7 @@ StoreApi <- R6::R6Class(
       }
     },
 
-    GetOrderByIdWithHttpInfo = function(order.id, data_file=NULL, ...) {
+    GetOrderByIdWithHttpInfo = function(order.id, data_file = NULL, ...) {
       args <- list(...)
       query_params <- list()
       header_params <- c()
@@ -317,13 +317,13 @@ StoreApi <- R6::R6Class(
             write(httr::content(resp, "text", encoding = "UTF-8", simplifyVector = FALSE), data_file)
         }
 
-        deserializedRespObj <- tryCatch(
+        deserialized_resp_obj <- tryCatch(
           self$api_client$deserialize(resp, "Order", loadNamespace("petstore")),
           error = function(e) {
              stop("Failed to deserialize response")
           }
         )
-        ApiResponse$new(deserializedRespObj, resp)
+        ApiResponse$new(deserialized_resp_obj, resp)
       } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
         ApiResponse$new(paste("Server returned ", httr::status_code(resp), " response status code."), resp)
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
@@ -333,7 +333,7 @@ StoreApi <- R6::R6Class(
       }
     },
     PlaceOrder = function(body, data_file=NULL, ...) {
-      api_response <- self$PlaceOrderWithHttpInfo(body, data_file=data_file, ...)
+      api_response <- self$PlaceOrderWithHttpInfo(body, data_file = data_file, ...)
       resp <- api_response$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         api_response$content
@@ -346,7 +346,7 @@ StoreApi <- R6::R6Class(
       }
     },
 
-    PlaceOrderWithHttpInfo = function(body, data_file=NULL, ...) {
+    PlaceOrderWithHttpInfo = function(body, data_file = NULL, ...) {
       args <- list(...)
       query_params <- list()
       header_params <- c()
@@ -376,13 +376,13 @@ StoreApi <- R6::R6Class(
             write(httr::content(resp, "text", encoding = "UTF-8", simplifyVector = FALSE), data_file)
         }
 
-        deserializedRespObj <- tryCatch(
+        deserialized_resp_obj <- tryCatch(
           self$api_client$deserialize(resp, "Order", loadNamespace("petstore")),
           error = function(e) {
              stop("Failed to deserialize response")
           }
         )
-        ApiResponse$new(deserializedRespObj, resp)
+        ApiResponse$new(deserialized_resp_obj, resp)
       } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
         ApiResponse$new(paste("Server returned ", httr::status_code(resp), " response status code."), resp)
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {

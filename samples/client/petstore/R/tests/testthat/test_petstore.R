@@ -1,19 +1,19 @@
 context("basic functionality")
-petApi <- PetApi$new()
-petId <- 123321
+pet_api <- PetApi$new()
+pet_id <- 123321
 pet <- Pet$new("name_test",
   photoUrls = list("photo_test", "second test"),
   category = Category$new(id = 450, name = "test_cat"),
-  id = petId,
+  id = pet_id,
   tags = list(
     Tag$new(id = 123, name = "tag_test"), Tag$new(id = 456, name = "unknown")
   ),
   status = "available"
 )
-result <- petApi$AddPet(pet)
+result <- pet_api$AddPet(pet)
 
 test_that("AddPet", {
-  expect_equal(petId, 123321)
+  expect_equal(pet_id, 123321)
   expect_equal(result, NULL)
 })
 
@@ -39,7 +39,7 @@ test_that("Test toJSON toJSON fromJSON fromJSONString", {
   pet1 <- Pet$new("name_test",
     list("photo_test", "second test"),
     category = Category$new(id = 450, name = "test_cat"),
-    id = petId,
+    id = pet_id,
     tags = list(
       Tag$new(id = 123, name = "tag_test"), Tag$new(id = 456, name = "unknown")
     ),
@@ -74,8 +74,8 @@ test_that("Test Category", {
 })
 
 test_that("GetPetById", {
-  response <- petApi$GetPetById(petId)
-  expect_equal(response$id, petId)
+  response <- pet_api$GetPetById(pet_id)
+  expect_equal(response$id, pet_id)
   expect_equal(response$name, "name_test")
   expect_equal(
     response$photoUrls,
@@ -87,16 +87,16 @@ test_that("GetPetById", {
   expect_equal(pet$tags, response$tags)
   expect_equal(
     response$tags,
-    list(Tag$new(id=123, name="tag_test"), Tag$new(id = 456, name = "unknown"))
+    list(Tag$new(id = 123, name = "tag_test"), Tag$new(id = 456, name = "unknown"))
   )
 })
 
 test_that("GetPetById with data_file", {
   # test to ensure json is saved to the file `get_pet_by_id.json`
-  pet_response <- petApi$GetPetById(petId, data_file = "get_pet_by_id.json")
+  pet_response <- pet_api$GetPetById(pet_id, data_file = "get_pet_by_id.json")
   response <- read_json("get_pet_by_id.json")
   expect_true(!is.null(response))
-  expect_equal(response$id, petId)
+  expect_equal(response$id, pet_id)
   expect_equal(response$name, "name_test")
 })
 
@@ -105,9 +105,9 @@ test_that("GetPetById with data_file", {
 #  pet <- Pet$new(pet.id, NULL, "name_test2",
 #                 list("photo_test2", "second test2"),
 #                 NULL, NULL)
-#  result <-petApi$AddPet(pet)
+#  result <-pet_api$AddPet(pet)
 #
-#  response <- petApi$GetPetById(pet.id)
+#  response <- pet_api$GetPetById(pet.id)
 #
 #  expect_equal(response$id, pet.id)
 #  expect_equal(response$name, "name_test2")
@@ -118,6 +118,6 @@ test_that("GetPetById with data_file", {
 #})
 
 #test_that("updatePetWithForm", {
-#  response <- petApi$updatePetWithForm(petId, "test", "sold")
+#  response <- pet_api$updatePetWithForm(pet_id, "test", "sold")
 #  expect_equal(response, "Pet updated")
 #})

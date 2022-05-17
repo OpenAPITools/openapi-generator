@@ -279,7 +279,7 @@
 #' @importFrom base64enc base64encode
 #' @export
 UserApi <- R6::R6Class(
-  'UserApi',
+  "UserApi",
   public = list(
     api_client = NULL,
     initialize = function(api_client) {
@@ -363,7 +363,7 @@ UserApi <- R6::R6Class(
 
       if (!missing(`body`)) {
         body.items = paste(unlist(lapply(body, function(param) {param$toJSONString()})), collapse = ",")
-        body <- paste0('[', body.items, ']')
+        body <- paste0("[", body.items, "]")
       } else {
         body <- NULL
       }
@@ -412,7 +412,7 @@ UserApi <- R6::R6Class(
 
       if (!missing(`body`)) {
         body.items = paste(unlist(lapply(body, function(param) {param$toJSONString()})), collapse = ",")
-        body <- paste0('[', body.items, ']')
+        body <- paste0("[", body.items, "]")
       } else {
         body <- NULL
       }
@@ -484,7 +484,7 @@ UserApi <- R6::R6Class(
       }
     },
     GetUserByName = function(username, data_file=NULL, ...) {
-      api_response <- self$GetUserByNameWithHttpInfo(username, data_file=data_file, ...)
+      api_response <- self$GetUserByNameWithHttpInfo(username, data_file = data_file, ...)
       resp <- api_response$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         api_response$content
@@ -497,7 +497,7 @@ UserApi <- R6::R6Class(
       }
     },
 
-    GetUserByNameWithHttpInfo = function(username, data_file=NULL, ...) {
+    GetUserByNameWithHttpInfo = function(username, data_file = NULL, ...) {
       args <- list(...)
       query_params <- list()
       header_params <- c()
@@ -526,13 +526,13 @@ UserApi <- R6::R6Class(
             write(httr::content(resp, "text", encoding = "UTF-8", simplifyVector = FALSE), data_file)
         }
 
-        deserializedRespObj <- tryCatch(
+        deserialized_resp_obj <- tryCatch(
           self$api_client$deserialize(resp, "User", loadNamespace("petstore")),
           error = function(e) {
              stop("Failed to deserialize response")
           }
         )
-        ApiResponse$new(deserializedRespObj, resp)
+        ApiResponse$new(deserialized_resp_obj, resp)
       } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
         ApiResponse$new(paste("Server returned ", httr::status_code(resp), " response status code."), resp)
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
@@ -542,7 +542,7 @@ UserApi <- R6::R6Class(
       }
     },
     LoginUser = function(username, password, data_file=NULL, ...) {
-      api_response <- self$LoginUserWithHttpInfo(username, password, data_file=data_file, ...)
+      api_response <- self$LoginUserWithHttpInfo(username, password, data_file = data_file, ...)
       resp <- api_response$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         api_response$content
@@ -555,7 +555,7 @@ UserApi <- R6::R6Class(
       }
     },
 
-    LoginUserWithHttpInfo = function(username, password, data_file=NULL, ...) {
+    LoginUserWithHttpInfo = function(username, password, data_file = NULL, ...) {
       args <- list(...)
       query_params <- list()
       header_params <- c()
@@ -584,13 +584,13 @@ UserApi <- R6::R6Class(
             write(httr::content(resp, "text", encoding = "UTF-8", simplifyVector = FALSE), data_file)
         }
 
-        deserializedRespObj <- tryCatch(
+        deserialized_resp_obj <- tryCatch(
           self$api_client$deserialize(resp, "character", loadNamespace("petstore")),
           error = function(e) {
              stop("Failed to deserialize response")
           }
         )
-        ApiResponse$new(deserializedRespObj, resp)
+        ApiResponse$new(deserialized_resp_obj, resp)
       } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
         ApiResponse$new(paste("Server returned ", httr::status_code(resp), " response status code."), resp)
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
