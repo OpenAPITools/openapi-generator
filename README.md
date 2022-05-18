@@ -666,6 +666,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [Translucent ApS](https://www.translucent.dk)
 - [TravelTime platform](https://www.traveltimeplatform.com/)
 - [TribalScale](https://www.tribalscale.com)
+- [Trifork](https://trifork.com)
 - [TUI InfoTec GmbH](http://www.tui-infotec.com/)
 - [Twitter](https://twitter.com)
 - [unblu inc.](https://www.unblu.com/)
