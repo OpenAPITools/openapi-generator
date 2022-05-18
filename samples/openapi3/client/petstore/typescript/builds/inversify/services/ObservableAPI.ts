@@ -15,7 +15,7 @@ export abstract class AbstractObservablePetApi {
 
     public abstract deletePet(petId: number, apiKey?: string, options?: Configuration): Observable<void>;
 
-    public abstract findPetsByStatus(status: Array<string>, options?: Configuration): Observable<Array<Pet>>;
+    public abstract findPetsByStatus(status: Array<'available' | 'pending' | 'sold'>, options?: Configuration): Observable<Array<Pet>>;
 
     public abstract findPetsByTags(tags: Array<string>, options?: Configuration): Observable<Array<Pet>>;
 

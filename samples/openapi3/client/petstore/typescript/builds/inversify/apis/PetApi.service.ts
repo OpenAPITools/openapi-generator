@@ -9,7 +9,7 @@ export abstract class AbstractPetApiRequestFactory {
 
     public abstract deletePet(petId: number, apiKey?: string, options?: Configuration): Promise<RequestContext>;
 
-    public abstract findPetsByStatus(status: Array<string>, options?: Configuration): Promise<RequestContext>;
+    public abstract findPetsByStatus(status: Array<'available' | 'pending' | 'sold'>, options?: Configuration): Promise<RequestContext>;
 
     public abstract findPetsByTags(tags: Array<string>, options?: Configuration): Promise<RequestContext>;
 

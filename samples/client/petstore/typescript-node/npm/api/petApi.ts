@@ -230,7 +230,7 @@ export class PetApi {
      * @summary Finds Pets by status
      * @param status Status values that need to be considered for filter
      */
-    public async findPetsByStatus (status: Array<string>, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: Array<Pet>;  }> {
+    public async findPetsByStatus (status: Array<'available' | 'pending' | 'sold'>, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: Array<Pet>;  }> {
         const localVarPath = this.basePath + '/pet/findByStatus';
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this._defaultHeaders);
@@ -249,7 +249,7 @@ export class PetApi {
         }
 
         if (status !== undefined) {
-            localVarQueryParameters['status'] = ObjectSerializer.serialize(status, "Array<string>");
+            localVarQueryParameters['status'] = ObjectSerializer.serialize(status, "Array<'available' | 'pending' | 'sold'>");
         }
 
         (<any>Object).assign(localVarHeaderParams, options.headers);

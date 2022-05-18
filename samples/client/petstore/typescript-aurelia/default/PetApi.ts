@@ -38,7 +38,7 @@ export interface IDeletePetParams {
  * findPetsByStatus - parameters interface
  */
 export interface IFindPetsByStatusParams {
-  status: Array<string>;
+  status: Array<'available' | 'pending' | 'sold'>;
 }
 
 /**

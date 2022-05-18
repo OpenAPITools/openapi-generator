@@ -39,10 +39,10 @@ export interface PetApiDeletePetRequest {
 export interface PetApiFindPetsByStatusRequest {
     /**
      * Status values that need to be considered for filter
-     * @type Array&lt;string&gt;
+     * @type Array&lt;&#39;available&#39; | &#39;pending&#39; | &#39;sold&#39;&gt;
      * @memberof PetApifindPetsByStatus
      */
-    status: Array<string>
+    status: Array<'available' | 'pending' | 'sold'>
 }
 
 export interface PetApiFindPetsByTagsRequest {

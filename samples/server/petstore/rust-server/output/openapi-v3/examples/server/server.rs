@@ -159,7 +159,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
 
     async fn enum_in_path_path_param_get(
         &self,
-        path_param: models::StringEnum,
+        path_param: StringEnum,
         context: &C) -> Result<EnumInPathPathParamGetResponse, ApiError>
     {
         let context = context.clone();
@@ -237,8 +237,8 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     async fn paramget_get(
         &self,
         uuid: Option<uuid::Uuid>,
-        some_object: Option<models::ObjectParam>,
-        some_list: Option<models::MyIdList>,
+        some_object: Option<ObjectParam>,
+        some_list: Option<MyIdList>,
         context: &C) -> Result<ParamgetGetResponse, ApiError>
     {
         let context = context.clone();

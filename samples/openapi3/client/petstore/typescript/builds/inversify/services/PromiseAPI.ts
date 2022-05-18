@@ -14,7 +14,7 @@ export abstract class AbstractPromisePetApi {
 
     public abstract deletePet(petId: number, apiKey?: string, options?: Configuration): Promise<void>;
 
-    public abstract findPetsByStatus(status: Array<string>, options?: Configuration): Promise<Array<Pet>>;
+    public abstract findPetsByStatus(status: Array<'available' | 'pending' | 'sold'>, options?: Configuration): Promise<Array<Pet>>;
 
     public abstract findPetsByTags(tags: Array<string>, options?: Configuration): Promise<Array<Pet>>;
 

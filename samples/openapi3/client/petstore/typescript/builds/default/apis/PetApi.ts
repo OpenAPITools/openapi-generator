@@ -116,7 +116,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
      * Finds Pets by status
      * @param status Status values that need to be considered for filter
      */
-    public async findPetsByStatus(status: Array<string>, _options?: Configuration): Promise<RequestContext> {
+    public async findPetsByStatus(status: Array<'available' | 'pending' | 'sold'>, _options?: Configuration): Promise<RequestContext> {
         let _config = _options || this.configuration;
 
         // verify required parameter 'status' is not null or undefined
@@ -134,7 +134,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 
         // Query Params
         if (status !== undefined) {
-            requestContext.setQueryParam("status", ObjectSerializer.serialize(status, "Array<string>", ""));
+            requestContext.setQueryParam("status", ObjectSerializer.serialize(status, "Array<'available' | 'pending' | 'sold'>", ""));
         }
 
 

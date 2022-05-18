@@ -113,9 +113,9 @@ export class PetService {
      * @param status Status values that need to be considered for filter
      
      */
-    public findPetsByStatus(status: Array<string>, observe?: 'body', headers?: Headers): Observable<Array<Pet>>;
-    public findPetsByStatus(status: Array<string>, observe?: 'response', headers?: Headers): Observable<HttpResponse<Array<Pet>>>;
-    public findPetsByStatus(status: Array<string>, observe: any = 'body', headers: Headers = {}): Observable<any> {
+    public findPetsByStatus(status: Array<'available' | 'pending' | 'sold'>, observe?: 'body', headers?: Headers): Observable<Array<Pet>>;
+    public findPetsByStatus(status: Array<'available' | 'pending' | 'sold'>, observe?: 'response', headers?: Headers): Observable<HttpResponse<Array<Pet>>>;
+    public findPetsByStatus(status: Array<'available' | 'pending' | 'sold'>, observe: any = 'body', headers: Headers = {}): Observable<any> {
         if (status === null || status === undefined){
             throw new Error('Required parameter status was null or undefined when calling findPetsByStatus.');
         }

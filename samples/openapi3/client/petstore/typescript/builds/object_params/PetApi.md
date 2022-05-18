@@ -159,7 +159,7 @@ const configuration = petstore.createConfiguration();
 const apiInstance = new petstore.PetApi(configuration);
 
 let body:petstore.PetApiFindPetsByStatusRequest = {
-  // Array<string> | Status values that need to be considered for filter
+  // Array<'available' | 'pending' | 'sold'> | Status values that need to be considered for filter
   status: [
     "available",
   ],

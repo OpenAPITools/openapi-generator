@@ -48,7 +48,7 @@ export class PromisePetApi {
      * Finds Pets by status
      * @param status Status values that need to be considered for filter
      */
-    public findPetsByStatus(status: Array<string>, _options?: Configuration): Promise<Array<Pet>> {
+    public findPetsByStatus(status: Array<'available' | 'pending' | 'sold'>, _options?: Configuration): Promise<Array<Pet>> {
         const result = this.api.findPetsByStatus(status, _options);
         return result.toPromise();
     }
