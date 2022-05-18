@@ -4580,11 +4580,15 @@ public class DefaultCodegen implements CodegenConfig {
         // e.g. #/components/schemas/list_pageQuery_parameter => toModelName(list_pageQuery_parameter)
         String parameterModelName = null;
 
-        boolean needToSetSchema = false;
         if (parameter.getSchema() != null) {
             parameterSchema = parameter.getSchema();
             parameterModelName = getParameterDataType(parameter, parameterSchema);
-            CodegenProperty prop = fromProperty(parameter.getName(), unaliasSchema(parameterSchema, Collections.emptyMap()));
+            CodegenProperty prop;
+            if (getUseInlineModelResolver()) {
+                prop = fromProperty(parameter.getName(), ModelUtils.getReferencedSchema(openAPI, parameterSchema));
+            } else {
+                prop = fromProperty(parameter.getName(), parameterSchema);
+            }
             codegenParameter.setSchema(prop);
         } else if (parameter.getContent() != null) {
             Content content = parameter.getContent();
