@@ -4579,13 +4579,13 @@ public class DefaultCodegen implements CodegenConfig {
         // the parameter model name is obtained from the schema $ref
         // e.g. #/components/schemas/list_pageQuery_parameter => toModelName(list_pageQuery_parameter)
         String parameterModelName = null;
-        HashMap<String, String> importMapping = new HashMap<>();
 
         boolean needToSetSchema = false;
         if (parameter.getSchema() != null) {
             parameterSchema = parameter.getSchema();
             parameterModelName = getParameterDataType(parameter, parameterSchema);
-            needToSetSchema = true;
+            CodegenProperty prop = fromProperty(parameter.getName(), unaliasSchema(parameterSchema, Collections.emptyMap()));
+            codegenParameter.setSchema(prop);
         } else if (parameter.getContent() != null) {
             Content content = parameter.getContent();
             if (content.size() > 1) {
@@ -4625,11 +4625,6 @@ public class DefaultCodegen implements CodegenConfig {
             parameterSchema = new StringSchema().description("//TODO automatically added by openapi-generator due to missing type definition.");
             finishUpdatingParameter(codegenParameter, parameter);
             return codegenParameter;
-        }
-
-        if (needToSetSchema) {
-            CodegenProperty prop = fromProperty(parameter.getName(), parameterSchema);
-            codegenParameter.setSchema(prop);
         }
 
         ModelUtils.syncValidationProperties(parameterSchema, codegenParameter);
