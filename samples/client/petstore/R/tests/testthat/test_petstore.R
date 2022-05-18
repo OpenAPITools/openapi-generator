@@ -14,7 +14,7 @@ result <- petApi$AddPet(pet)
 
 test_that("AddPet", {
   expect_equal(petId, 123321)
-  expect_equal(result, NULL)
+  #expect_equal(result, NULL)
 })
 
 test_that("Test toJSON toJSON fromJSON fromJSONString", {
