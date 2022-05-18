@@ -4584,6 +4584,7 @@ public class DefaultCodegen implements CodegenConfig {
         boolean needToSetSchema = false;
         if (parameter.getSchema() != null) {
             parameterSchema = parameter.getSchema();
+            parameterModelName = getParameterDataType(parameter, parameterSchema);
             needToSetSchema = true;
         } else if (parameter.getContent() != null) {
             Content content = parameter.getContent();
@@ -4593,6 +4594,7 @@ public class DefaultCodegen implements CodegenConfig {
             Map.Entry<String, MediaType> entry = content.entrySet().iterator().next();
             codegenParameter.contentType = entry.getKey();
             parameterSchema = entry.getValue().getSchema();
+            parameterModelName = getParameterDataType(parameter, parameterSchema);
         } else {
             parameterSchema = null;
         }
