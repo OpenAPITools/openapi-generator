@@ -4579,10 +4579,12 @@ public class DefaultCodegen implements CodegenConfig {
         // the parameter model name is obtained from the schema $ref
         // e.g. #/components/schemas/list_pageQuery_parameter => toModelName(list_pageQuery_parameter)
         String parameterModelName = null;
+        HashMap<String, String> importMapping = new HashMap<>();
 
         if (parameter.getSchema() != null) {
             parameterModelName = getParameterDataType(parameter ,parameter.getSchema());
-            parameterSchema = ModelUtils.getReferencedSchema(openAPI, parameter.getSchema());
+            parameterSchema = unaliasSchema(parameter.getSchema(), importMapping);
+            // parameterSchema = ModelUtils.getReferencedSchema(openAPI, parameter.getSchema());
             CodegenProperty prop = fromProperty(parameter.getName(), parameterSchema);
             codegenParameter.setSchema(prop);
         } else if (parameter.getContent() != null) {
@@ -4593,7 +4595,8 @@ public class DefaultCodegen implements CodegenConfig {
             Map.Entry<String, MediaType> entry = content.entrySet().iterator().next();
             codegenParameter.contentType = entry.getKey();
             parameterModelName = getParameterDataType(parameter, entry.getValue().getSchema());
-            parameterSchema = ModelUtils.getReferencedSchema(openAPI, entry.getValue().getSchema());
+            parameterSchema = unaliasSchema(entry.getValue().getSchema(), importMapping);
+            // parameterSchema = ModelUtils.getReferencedSchema(openAPI, entry.getValue().getSchema());
         } else {
             parameterSchema = null;
         }
@@ -4618,13 +4621,13 @@ public class DefaultCodegen implements CodegenConfig {
             return codegenParameter;
         }
 
-        parameterSchema = unaliasSchema(parameterSchema, Collections.emptyMap());
-        if (parameterSchema == null) {
-            LOGGER.warn("warning!  Schema not found for parameter \" {} \", using String", parameter.getName());
-            parameterSchema = new StringSchema().description("//TODO automatically added by openapi-generator due to missing type definition.");
-            finishUpdatingParameter(codegenParameter, parameter);
-            return codegenParameter;
-        }
+//        parameterSchema = unaliasSchema(parameterSchema, Collections.emptyMap());
+//        if (parameterSchema == null) {
+//            LOGGER.warn("warning!  Schema not found for parameter \" {} \", using String", parameter.getName());
+//            parameterSchema = new StringSchema().description("//TODO automatically added by openapi-generator due to missing type definition.");
+//            finishUpdatingParameter(codegenParameter, parameter);
+//            return codegenParameter;
+//        }
         ModelUtils.syncValidationProperties(parameterSchema, codegenParameter);
         codegenParameter.setTypeProperties(parameterSchema);
         codegenParameter.setComposedSchemas(getComposedSchemas(parameterSchema));
