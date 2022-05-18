@@ -333,7 +333,7 @@ pub trait Api<C: Send + Sync> {
         &self,
         uuid: Option<uuid::Uuid>,
         some_object: Option<ObjectParam>,
-        some_list: Option<MyIdList>,
+        some_list: Option<&MyIdList>,
         context: &C) -> Result<ParamgetGetResponse, ApiError>;
 
     async fn readonly_auth_scheme_get(
@@ -469,7 +469,7 @@ pub trait ApiNoContext<C: Send + Sync> {
         &self,
         uuid: Option<uuid::Uuid>,
         some_object: Option<ObjectParam>,
-        some_list: Option<MyIdList>,
+        some_list: Option<&MyIdList>,
         ) -> Result<ParamgetGetResponse, ApiError>;
 
     async fn readonly_auth_scheme_get(
@@ -664,7 +664,7 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for Contex
         &self,
         uuid: Option<uuid::Uuid>,
         some_object: Option<ObjectParam>,
-        some_list: Option<MyIdList>,
+        some_list: Option<&MyIdList>,
         ) -> Result<ParamgetGetResponse, ApiError>
     {
         let context = self.context().clone();

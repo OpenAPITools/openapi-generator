@@ -64,6 +64,7 @@ To run a client, follow one of the following simple steps:
 cargo run --example client AnyOfGet
 cargo run --example client CallbackWithHeaderPost
 cargo run --example client ComplexQueryParamGet
+cargo run --example client EnumInPathPathParamGet
 cargo run --example client JsonComplexQueryParamGet
 cargo run --example client MandatoryRequestHeaderGet
 cargo run --example client MergePatchJsonGet

@@ -847,27 +847,18 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                     None => None,
                 };
                 let param_some_list = query_params.iter().filter(|e| e.0 == "someList").map(|e| e.1.to_owned())
-                    .nth(0);
-                let param_some_list = match param_some_list {
-                    Some(param_some_list) => {
-                        let param_some_list =
-                            <MyIdList as std::str::FromStr>::from_str
-                                (&param_some_list);
-                        match param_some_list {
-                            Ok(param_some_list) => Some(param_some_list),
-                            Err(e) => return Ok(Response::builder()
-                                .status(StatusCode::BAD_REQUEST)
-                                .body(Body::from(format!("Couldn't parse query parameter someList - doesn't match schema: {}", e)))
-                                .expect("Unable to create Bad Request response for invalid query parameter someList")),
-                        }
-                    },
-                    None => None,
+                    .filter_map(|param_some_list| param_some_list.parse().ok())
+                    .collect::<Vec<_>>();
+                let param_some_list = if !param_some_list.is_empty() {
+                    Some(param_some_list)
+                } else {
+                    None
                 };
 
                                 let result = api_impl.paramget_get(
                                             param_uuid,
                                             param_some_object,
-                                            param_some_list,
+                                            param_some_list.as_ref(),
                                         &context
                                     ).await;
                                 let mut response = Response::new(Body::empty());

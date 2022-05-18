@@ -56,6 +56,7 @@ fn main() {
                 "AnyOfGet",
                 "CallbackWithHeaderPost",
                 "ComplexQueryParamGet",
+                "EnumInPathPathParamGet",
                 "JsonComplexQueryParamGet",
                 "MandatoryRequestHeaderGet",
                 "MergePatchJsonGet",
@@ -142,14 +143,12 @@ fn main() {
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
-        /* Disabled because there's no example.
         Some("EnumInPathPathParamGet") => {
             let result = rt.block_on(client.enum_in_path_path_param_get(
-                  ???
+                  "path_param_example".to_string()
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
-        */
         Some("JsonComplexQueryParamGet") => {
             let result = rt.block_on(client.json_complex_query_param_get(
                   Some(&Vec::new())
@@ -191,7 +190,7 @@ fn main() {
             let result = rt.block_on(client.paramget_get(
                   Some(serde_json::from_str::<uuid::Uuid>(r#"38400000-8cf0-11bd-b23e-10b96e4ef00d"#).expect("Failed to parse JSON example")),
                   None,
-                  None
+                  Some(&Vec::new())
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
