@@ -7,6 +7,8 @@ import Axios, { AxiosRequestConfig, AxiosInstance } from 'axios';
 export const baseURL = '{{basePath}}';
 export const AXIOS_INSTANCE = Axios.create({ baseURL, withCredentials: true });
 
+export type PageParamType = string | number;
+
 export const customInstance = <T>(config: AxiosRequestConfig, customAxiosInstance?: AxiosInstance): Promise<T> => {
   const AXIOS_CUSTOM_INSTANCE = customAxiosInstance || AXIOS_INSTANCE;
   const source = Axios.CancelToken.source();

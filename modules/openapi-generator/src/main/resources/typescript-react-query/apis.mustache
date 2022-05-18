@@ -3,7 +3,7 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { useQuery, useInfiniteQuery, useMutation, UseQueryOptions, UseInfiniteQueryOptions, UseMutationOptions } from 'react-query';
-import Axios from '../runtime';
+import Axios, { PageParamType } from '../runtime';
 import type { AxiosInstance } from 'axios';
 {{#imports.0}}
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -61,11 +61,11 @@ export const {{nickname}}QueryKey = (
   {{#allParams.0}}
   requestParametersQuery: {{operationIdCamelCase}}ForQuery,
   {{/allParams.0}}
-  pageParam = -1,
+  pageParam: PageParamType = -1,
   version = 1,
 ) => [
   `/v${version}{{path}}`,
-  pageParam,
+  String(pageParam),
   {{#allParams.0}}
   ...(requestParametersQuery ? [requestParametersQuery] : [])
   {{/allParams.0}}
@@ -80,12 +80,15 @@ export const use{{vendorExtensions.nickname-capitalized}}InfiniteQuery = <Error 
     query?: UseInfiniteQueryOptions<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Data{{/returnType}}, Error>;
     customAxiosInstance?: AxiosInstance;
   },
-  pageParam = -1,
+  pageParam: PageParamType,
   version = 1,
 ) => {
   const queryKey = {{nickname}}QueryKey({{#allParams.0}}params, {{/allParams.0}}pageParam, version);
   const { query: queryOptions, customAxiosInstance } = options ?? {};
 
+  if (params.continuation_token == undefined) {
+    params.continuation_token = pageParam;
+  }
   const query = useInfiniteQuery<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Data{{/returnType}}, Error>(
     queryKey,
     () => {{nickname}}AxiosRequest({{#allParams.0}}params, {{/allParams.0}}customAxiosInstance),
