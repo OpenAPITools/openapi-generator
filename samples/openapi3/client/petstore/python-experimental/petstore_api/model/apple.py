@@ -67,7 +67,8 @@ from petstore_api.schemas import (  # noqa: F401
 
 
 class Apple(
-    _SchemaTypeChecker(typing.Union[none_type, ]),
+    _SchemaTypeChecker(typing.Union[frozendict, none_type, ]),
+    DictBase,
     NoneBase,
     Schema
 ):
@@ -76,10 +77,38 @@ class Apple(
 
     Do not edit the class manually.
     """
+    _required_property_names = set((
+        'cultivar',
+    ))
+    
+    
+    class cultivar(
+        _SchemaValidator(
+            regex=[{
+                'pattern': r'^[a-zA-Z\s]*$',  # noqa: E501
+            }],
+        ),
+        StrSchema
+    ):
+        pass
+    
+    
+    class origin(
+        _SchemaValidator(
+            regex=[{
+                'pattern': r'^[A-Z\s]*$',  # noqa: E501
+                'flags': (
+                    re.IGNORECASE
+                )
+            }],
+        ),
+        StrSchema
+    ):
+        pass
 
     def __new__(
         cls,
-        *args: typing.Union[None, ],
+        *args: typing.Union[dict, frozendict, None, ],
         origin: typing.Union[origin, Unset] = unset,
         _configuration: typing.Optional[Configuration] = None,
         **kwargs: typing.Type[Schema],
