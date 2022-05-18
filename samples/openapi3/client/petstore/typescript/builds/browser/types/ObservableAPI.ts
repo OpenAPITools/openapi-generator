@@ -80,7 +80,7 @@ export class ObservablePetApi {
      * Finds Pets by status
      * @param status Status values that need to be considered for filter
      */
-    public findPetsByStatus(status: Array<'available' | 'pending' | 'sold'>, _options?: Configuration): Observable<Array<Pet>> {
+    public findPetsByStatus(status: Array<string>, _options?: Configuration): Observable<Array<Pet>> {
         const requestContextPromise = this.requestFactory.findPetsByStatus(status, _options);
 
         // build promise chain

@@ -199,7 +199,7 @@ export class PetApi {
      * @summary Finds Pets by status
      * @param status Status values that need to be considered for filter
      */
-    public findPetsByStatus(status: Array<'available' | 'pending' | 'sold'>, extraJQueryAjaxSettings?: JQueryAjaxSettings): JQuery.Promise<
+    public findPetsByStatus(status: Array<string>, extraJQueryAjaxSettings?: JQueryAjaxSettings): JQuery.Promise<
     { response: JQueryXHR; body: Array<models.Pet>;  },
     { response: JQueryXHR; errorThrown: string }
     > {

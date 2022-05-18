@@ -145,8 +145,8 @@ export class PetService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public findPetsByStatus(status: Array<'available' | 'pending' | 'sold'>, ): Observable<AxiosResponse<Array<Pet>>>;
-    public findPetsByStatus(status: Array<'available' | 'pending' | 'sold'>, ): Observable<any> {
+    public findPetsByStatus(status: Array<string>, ): Observable<AxiosResponse<Array<Pet>>>;
+    public findPetsByStatus(status: Array<string>, ): Observable<any> {
 
         if (status === null || status === undefined) {
             throw new Error('Required parameter status was null or undefined when calling findPetsByStatus.');

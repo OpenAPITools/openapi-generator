@@ -402,7 +402,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                     );
 
                 let param_path_param = match percent_encoding::percent_decode(path_params["path_param"].as_bytes()).decode_utf8() {
-                    Ok(param_path_param) => match param_path_param.parse::<StringEnum>() {
+                    Ok(param_path_param) => match param_path_param.parse::<models::StringEnum>() {
                         Ok(param_path_param) => param_path_param,
                         Err(e) => return Ok(Response::builder()
                                         .status(StatusCode::BAD_REQUEST)
@@ -834,7 +834,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                 let param_some_object = match param_some_object {
                     Some(param_some_object) => {
                         let param_some_object =
-                            <ObjectParam as std::str::FromStr>::from_str
+                            <models::ObjectParam as std::str::FromStr>::from_str
                                 (&param_some_object);
                         match param_some_object {
                             Ok(param_some_object) => Some(param_some_object),
@@ -847,18 +847,27 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                     None => None,
                 };
                 let param_some_list = query_params.iter().filter(|e| e.0 == "someList").map(|e| e.1.to_owned())
-                    .filter_map(|param_some_list| param_some_list.parse().ok())
-                    .collect::<Vec<_>>();
-                let param_some_list = if !param_some_list.is_empty() {
-                    Some(param_some_list)
-                } else {
-                    None
+                    .nth(0);
+                let param_some_list = match param_some_list {
+                    Some(param_some_list) => {
+                        let param_some_list =
+                            <models::MyIdList as std::str::FromStr>::from_str
+                                (&param_some_list);
+                        match param_some_list {
+                            Ok(param_some_list) => Some(param_some_list),
+                            Err(e) => return Ok(Response::builder()
+                                .status(StatusCode::BAD_REQUEST)
+                                .body(Body::from(format!("Couldn't parse query parameter someList - doesn't match schema: {}", e)))
+                                .expect("Unable to create Bad Request response for invalid query parameter someList")),
+                        }
+                    },
+                    None => None,
                 };
 
                                 let result = api_impl.paramget_get(
                                             param_uuid,
                                             param_some_object,
-                                            param_some_list.as_ref(),
+                                            param_some_list,
                                         &context
                                     ).await;
                                 let mut response = Response::new(Body::empty());
