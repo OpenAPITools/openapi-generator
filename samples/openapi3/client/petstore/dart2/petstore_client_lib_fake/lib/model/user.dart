@@ -115,32 +115,32 @@ class User {
   String toString() => 'User[id=$id, username=$username, firstName=$firstName, lastName=$lastName, email=$email, password=$password, phone=$phone, userStatus=$userStatus]';
 
   Map<String, dynamic> toJson() {
-    final json = <String, dynamic>{};
+    final _json = <String, dynamic>{};
     if (id != null) {
-      json[r'id'] = id;
+      _json[r'id'] = id;
     }
     if (username != null) {
-      json[r'username'] = username;
+      _json[r'username'] = username;
     }
     if (firstName != null) {
-      json[r'firstName'] = firstName;
+      _json[r'firstName'] = firstName;
     }
     if (lastName != null) {
-      json[r'lastName'] = lastName;
+      _json[r'lastName'] = lastName;
     }
     if (email != null) {
-      json[r'email'] = email;
+      _json[r'email'] = email;
     }
     if (password != null) {
-      json[r'password'] = password;
+      _json[r'password'] = password;
     }
     if (phone != null) {
-      json[r'phone'] = phone;
+      _json[r'phone'] = phone;
     }
     if (userStatus != null) {
-      json[r'userStatus'] = userStatus;
+      _json[r'userStatus'] = userStatus;
     }
-    return json;
+    return _json;
   }
 
   /// Returns a new [User] instance and imports its values from

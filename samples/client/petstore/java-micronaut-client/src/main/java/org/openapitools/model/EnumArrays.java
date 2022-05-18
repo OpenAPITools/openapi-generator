@@ -123,7 +123,7 @@ public class EnumArrays {
     @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_JUST_SYMBOL)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public JustSymbolEnum getJustSymbol() {
+    public JustSymbolEnum getJustSymbol() {
         return justSymbol;
     }
 
@@ -154,7 +154,7 @@ public class EnumArrays {
     @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_ARRAY_ENUM)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public List<ArrayEnumEnum> getArrayEnum() {
+    public List<ArrayEnumEnum> getArrayEnum() {
         return arrayEnum;
     }
 

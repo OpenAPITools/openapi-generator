@@ -20,7 +20,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/MySchemaName._-Characters'
           description: the response
-      x-contentType: application/json
+      x-content-type: application/json
       x-accepts: application/json
 components:
   schemas:

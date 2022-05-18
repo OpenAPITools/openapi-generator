@@ -16,7 +16,9 @@ import io.micronaut.http.annotation.*;
 import io.micronaut.core.annotation.Nullable;
 import io.micronaut.core.convert.format.Format;
 import reactor.core.publisher.Mono;
-import java.time.LocalDateTime;
+import io.micronaut.http.HttpStatus;
+import io.micronaut.http.exceptions.HttpStatusException;
+import java.time.OffsetDateTime;
 import org.openapitools.model.User;
 import javax.annotation.Generated;
 import java.util.ArrayList;
@@ -28,7 +30,7 @@ import javax.validation.constraints.*;
 import io.swagger.annotations.*;
 
 @Generated(value="org.openapitools.codegen.languages.JavaMicronautServerCodegen")
-@Controller("${context-path}")
+@Controller
 public class UserController {
     /**
      * Create user
@@ -49,13 +51,13 @@ public class UserController {
     @Post(uri="/user")
     @Produces(value = {})
     @Consumes(value = {"application/json"})
-    public Mono<Object> createUser(
+    public Mono<Void> createUser(
         @Body @NotNull @Valid User user
     ) {
-        // TODO implement createUser() body;
-        Mono<Object> result = Mono.empty();
-        return result;
+        // TODO implement createUser();
+        return Mono.error(new HttpStatusException(HttpStatus.NOT_IMPLEMENTED, null));
     }
+
 
     /**
      * Creates list of users with given input array
@@ -76,13 +78,13 @@ public class UserController {
     @Post(uri="/user/createWithArray")
     @Produces(value = {})
     @Consumes(value = {"application/json"})
-    public Mono<Object> createUsersWithArrayInput(
+    public Mono<Void> createUsersWithArrayInput(
         @Body @NotNull List<User> user
     ) {
-        // TODO implement createUsersWithArrayInput() body;
-        Mono<Object> result = Mono.empty();
-        return result;
+        // TODO implement createUsersWithArrayInput();
+        return Mono.error(new HttpStatusException(HttpStatus.NOT_IMPLEMENTED, null));
     }
+
 
     /**
      * Creates list of users with given input array
@@ -103,13 +105,13 @@ public class UserController {
     @Post(uri="/user/createWithList")
     @Produces(value = {})
     @Consumes(value = {"application/json"})
-    public Mono<Object> createUsersWithListInput(
+    public Mono<Void> createUsersWithListInput(
         @Body @NotNull List<User> user
     ) {
-        // TODO implement createUsersWithListInput() body;
-        Mono<Object> result = Mono.empty();
-        return result;
+        // TODO implement createUsersWithListInput();
+        return Mono.error(new HttpStatusException(HttpStatus.NOT_IMPLEMENTED, null));
     }
+
 
     /**
      * Delete user
@@ -130,13 +132,13 @@ public class UserController {
         @ApiResponse(code = 404, message = "User not found")})
     @Delete(uri="/user/{username}")
     @Produces(value = {})
-    public Mono<Object> deleteUser(
+    public Mono<Void> deleteUser(
         @PathVariable(value="username") @NotNull String username
     ) {
-        // TODO implement deleteUser() body;
-        Mono<Object> result = Mono.empty();
-        return result;
+        // TODO implement deleteUser();
+        return Mono.error(new HttpStatusException(HttpStatus.NOT_IMPLEMENTED, null));
     }
+
 
     /**
      * Get user by user name
@@ -161,10 +163,10 @@ public class UserController {
     public Mono<User> getUserByName(
         @PathVariable(value="username") @NotNull String username
     ) {
-        // TODO implement getUserByName() body;
-        Mono<User> result = Mono.empty();
-        return result;
+        // TODO implement getUserByName();
+        return Mono.error(new HttpStatusException(HttpStatus.NOT_IMPLEMENTED, null));
     }
+
 
     /**
      * Logs user into the system
@@ -190,10 +192,10 @@ public class UserController {
         @QueryValue(value="username") @NotNull @Pattern(regexp="^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$") String username, 
         @QueryValue(value="password") @NotNull String password
     ) {
-        // TODO implement loginUser() body;
-        Mono<String> result = Mono.empty();
-        return result;
+        // TODO implement loginUser();
+        return Mono.error(new HttpStatusException(HttpStatus.NOT_IMPLEMENTED, null));
     }
+
 
     /**
      * Logs out current logged in user session
@@ -212,11 +214,11 @@ public class UserController {
         @ApiResponse(code = 0, message = "successful operation")})
     @Get(uri="/user/logout")
     @Produces(value = {})
-    public Mono<Object> logoutUser() {
-        // TODO implement logoutUser() body;
-        Mono<Object> result = Mono.empty();
-        return result;
+    public Mono<Void> logoutUser() {
+        // TODO implement logoutUser();
+        return Mono.error(new HttpStatusException(HttpStatus.NOT_IMPLEMENTED, null));
     }
+
 
     /**
      * Updated user
@@ -239,12 +241,12 @@ public class UserController {
     @Put(uri="/user/{username}")
     @Produces(value = {})
     @Consumes(value = {"application/json"})
-    public Mono<Object> updateUser(
+    public Mono<Void> updateUser(
         @PathVariable(value="username") @NotNull String username, 
         @Body @NotNull @Valid User user
     ) {
-        // TODO implement updateUser() body;
-        Mono<Object> result = Mono.empty();
-        return result;
+        // TODO implement updateUser();
+        return Mono.error(new HttpStatusException(HttpStatus.NOT_IMPLEMENTED, null));
     }
+
 }

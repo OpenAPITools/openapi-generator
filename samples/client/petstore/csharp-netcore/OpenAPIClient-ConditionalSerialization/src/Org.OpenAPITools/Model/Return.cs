@@ -39,6 +39,10 @@ namespace Org.OpenAPITools.Model
         public Return(int _return = default(int))
         {
             this.__Return = _return;
+            if (this._Return != null)
+            {
+                this._flag_Return = true;
+            }
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 

@@ -5,6 +5,8 @@ import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.servers.Server;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.TestUtils;
+import org.openapitools.codegen.languages.JavaMicronautAbstractCodegen;
 import org.openapitools.codegen.languages.JavaMicronautServerCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -13,6 +15,8 @@ import static java.util.stream.Collectors.groupingBy;
 import static org.testng.Assert.assertEquals;
 
 public class MicronautServerCodegenTest extends AbstractMicronautCodegenTest {
+    protected static String ROLES_EXTENSION_TEST_PATH = "src/test/resources/3_0/micronaut/roles-extension-test.yaml";
+
     @Test
     public void clientOptsUnicity() {
         JavaMicronautServerCodegen codegen = new JavaMicronautServerCodegen();
@@ -191,5 +195,98 @@ public class MicronautServerCodegenTest extends AbstractMicronautCodegenTest {
         assertFileNotContainsRegex(modelPath + "User.java", "public User\\([^)]+\\)");
         assertFileContains(modelPath + "Order.java", "public Order()");
         assertFileNotContainsRegex(modelPath + "Order.java", "public Order\\([^)]+\\)");
+    }
+
+    @Test
+    public void testExtraAnnotations() throws Exception {
+        
+        JavaMicronautServerCodegen codegen = new JavaMicronautServerCodegen();
+        String outputPath = generateFiles(codegen, "src/test/resources/3_0/issue_11772.yml", CodegenConstants.MODELS);
+
+        TestUtils.assertExtraAnnotationFiles(outputPath + "/src/main/java/org/openapitools/model");
+
+    }
+
+    @Test
+    public void doNotGenerateAuthRolesWithExtensionWhenNotUseAuth() {
+        JavaMicronautServerCodegen codegen = new JavaMicronautServerCodegen();
+        codegen.additionalProperties().put(JavaMicronautServerCodegen.OPT_USE_AUTH, false);
+        String outputPath = generateFiles(codegen, ROLES_EXTENSION_TEST_PATH, CodegenConstants.MODELS, CodegenConstants.APIS);
+
+        String controllerPath = outputPath + "src/main/java/org/openapitools/controller/";
+        assertFileNotContains(controllerPath + "BooksController.java", "@Secured");
+        assertFileNotContains(controllerPath + "UsersController.java", "@Secured");
+        assertFileNotContains(controllerPath + "ReviewsController.java", "@Secured");
+    }
+
+    @Test
+    public void generateAuthRolesWithExtension() {
+        JavaMicronautServerCodegen codegen = new JavaMicronautServerCodegen();
+        codegen.additionalProperties().put(JavaMicronautServerCodegen.OPT_USE_AUTH, true);
+        String outputPath = generateFiles(codegen, ROLES_EXTENSION_TEST_PATH, CodegenConstants.MODELS, CodegenConstants.APIS);
+
+        String controllerPath = outputPath + "src/main/java/org/openapitools/controller/";
+        assertFileContainsRegex(controllerPath + "BooksController.java", "IS_ANONYMOUS[^;]{0,100}bookSearchGet");
+        assertFileContainsRegex(controllerPath + "BooksController.java", "@Secured\\(\\{\"admin\"\\}\\)[^;]{0,100}createBook");
+        assertFileContainsRegex(controllerPath + "BooksController.java", "IS_ANONYMOUS[^;]{0,100}getBook");
+        assertFileContainsRegex(controllerPath + "BooksController.java", "IS_AUTHENTICATED[^;]{0,100}reserveBook");
+
+        assertFileContainsRegex(controllerPath + "ReviewsController.java", "IS_AUTHENTICATED[^;]{0,100}bookSendReviewPost");
+        assertFileContainsRegex(controllerPath + "ReviewsController.java", "IS_ANONYMOUS[^;]{0,100}bookViewReviewsGet");
+
+        assertFileContainsRegex(controllerPath + "UsersController.java", "IS_ANONYMOUS[^;]{0,100}getUserProfile");
+        assertFileContainsRegex(controllerPath + "UsersController.java", "IS_AUTHENTICATED[^;]{0,100}updateProfile");
+    }
+
+    @Test
+    public void doGenerateMonoWrapHttpResponse() {
+        JavaMicronautServerCodegen codegen = new JavaMicronautServerCodegen();
+        codegen.additionalProperties().put(JavaMicronautServerCodegen.OPT_REACTIVE, "true");
+        codegen.additionalProperties().put(JavaMicronautServerCodegen.OPT_WRAP_IN_HTTP_RESPONSE, "true");
+        String outputPath = generateFiles(codegen, PETSTORE_PATH, CodegenConstants.MODELS, CodegenConstants.APIS);
+
+        // Constructor should have properties
+        String controllerPath = outputPath + "src/main/java/org/openapitools/controller/";
+        assertFileContains(controllerPath + "PetController.java", "Mono<HttpResponse<Pet>>");
+    }
+
+    @Test
+    public void doGenerateMono() {
+        JavaMicronautServerCodegen codegen = new JavaMicronautServerCodegen();
+        codegen.additionalProperties().put(JavaMicronautServerCodegen.OPT_REACTIVE, "true");
+        codegen.additionalProperties().put(JavaMicronautServerCodegen.OPT_WRAP_IN_HTTP_RESPONSE, "false");
+        String outputPath = generateFiles(codegen, PETSTORE_PATH, CodegenConstants.MODELS, CodegenConstants.APIS);
+
+        // Constructor should have properties
+        String controllerPath = outputPath + "src/main/java/org/openapitools/controller/";
+        assertFileContains(controllerPath + "PetController.java", "Mono<Pet>");
+        assertFileNotContains(controllerPath + "PetController.java", "HttpResponse");
+    }
+
+    @Test
+    public void doGenerateWrapHttpResponse() {
+        JavaMicronautServerCodegen codegen = new JavaMicronautServerCodegen();
+        codegen.additionalProperties().put(JavaMicronautServerCodegen.OPT_REACTIVE, "false");
+        codegen.additionalProperties().put(JavaMicronautServerCodegen.OPT_WRAP_IN_HTTP_RESPONSE, "true");
+        String outputPath = generateFiles(codegen, PETSTORE_PATH, CodegenConstants.MODELS, CodegenConstants.APIS);
+
+        // Constructor should have properties
+        String controllerPath = outputPath + "src/main/java/org/openapitools/controller/";
+        assertFileContains(controllerPath + "PetController.java", "HttpResponse<Pet>");
+        assertFileNotContains(controllerPath + "PetController.java", "Mono");
+    }
+
+    @Test
+    public void doGenerateNoMonoNoWrapHttpResponse() {
+        JavaMicronautServerCodegen codegen = new JavaMicronautServerCodegen();
+        codegen.additionalProperties().put(JavaMicronautServerCodegen.OPT_REACTIVE, "false");
+        codegen.additionalProperties().put(JavaMicronautServerCodegen.OPT_WRAP_IN_HTTP_RESPONSE, "false");
+        String outputPath = generateFiles(codegen, PETSTORE_PATH, CodegenConstants.MODELS, CodegenConstants.APIS);
+
+        // Constructor should have properties
+        String controllerPath = outputPath + "src/main/java/org/openapitools/controller/";
+        assertFileContains(controllerPath + "PetController.java", "Pet");
+        assertFileNotContains(controllerPath + "PetController.java", "Mono");
+        assertFileNotContains(controllerPath + "PetController.java", "HttpResponse");
     }
 }

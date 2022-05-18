@@ -17,7 +17,10 @@
 {{/additionalModelTypeAnnotations}}
 {{>common/generatedAnnotation}}{{#discriminator}}{{>common/model/typeInfoAnnotation}}{{/discriminator}}{{>common/model/xmlAnnotation}}{{#useBeanValidation}}
 @Introspected
-{{/useBeanValidation}}{{!
+{{/useBeanValidation}}
+{{#vendorExtensions.x-class-extra-annotation}}
+{{{vendorExtensions.x-class-extra-annotation}}}
+{{/vendorExtensions.x-class-extra-annotation}}{{!
 Declare the class with extends and implements
 }}public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#vendorExtensions.x-implements}}{{#-first}}implements {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{#-last}} {{/-last}}{{/vendorExtensions.x-implements}}{
     {{#serializableModel}}
@@ -57,6 +60,9 @@ Declare the class with extends and implements
                 {{/isContainer}}
             {{/isXmlAttribute}}
         {{/withXml}}
+        {{#vendorExtensions.x-field-extra-annotation}}
+        {{{vendorExtensions.x-field-extra-annotation}}}
+        {{/vendorExtensions.x-field-extra-annotation}}
         {{#vendorExtensions.x-is-jackson-optional-nullable}}
             {{#isContainer}}
     private JsonNullable<{{{datatypeWithEnum}}}> {{name}} = JsonNullable.<{{{datatypeWithEnum}}}>undefined();
@@ -180,7 +186,7 @@ Declare the class with extends and implements
         {{/vendorExtensions.x-is-jackson-optional-nullable}}
         {{^vendorExtensions.x-is-jackson-optional-nullable}}
             {{#jackson}}
-{{>common/model/jackson_annotations}}{{/jackson}}{{/vendorExtensions.x-is-jackson-optional-nullable}}       public {{{datatypeWithEnum}}} {{getter}}() {
+{{>common/model/jackson_annotations}}{{/jackson}}{{/vendorExtensions.x-is-jackson-optional-nullable}}    public {{#useOptional}}{{^required}}Optional<{{/required}}{{/useOptional}}{{{datatypeWithEnum}}}{{#useOptional}}{{^required}}>{{/required}}{{/useOptional}} {{getter}}() {
         {{#vendorExtensions.x-is-jackson-optional-nullable}}
             {{#isReadOnly}}
 {{! A readonly attribute doesn't have setter => jackson will set null directly if explicitly returned by API, so make sure we have an empty JsonNullable}}    if ({{name}} == null) {
@@ -190,7 +196,17 @@ Declare the class with extends and implements
         return {{name}}.orElse(null);
         {{/vendorExtensions.x-is-jackson-optional-nullable}}
         {{^vendorExtensions.x-is-jackson-optional-nullable}}
+          {{#useOptional}}
+            {{#required}}
         return {{name}};
+            {{/required}}
+            {{^required}}
+        return Optional.ofNullable({{name}});
+            {{/required}}
+          {{/useOptional}}
+          {{^useOptional}}
+        return {{name}};
+          {{/useOptional}}
         {{/vendorExtensions.x-is-jackson-optional-nullable}}
     }
 
@@ -339,4 +355,36 @@ Declare the class with extends and implements
         }
     };
     {{/parcelableModel}}
+    {{#visitable}}
+    {{#discriminator}}
+    /**
+     * Accept the visitor and invoke it for the specific {{classname}} type.
+     *
+     * @param visitor the {{classname}} visitor
+     * @param <T> the return type of the visitor
+     * @return the result from the visitor
+     */
+    public abstract <T> T accept(Visitor<T> visitor);
+
+    /**
+     * A {{classname}} visitor implementation allows visiting the various {{classname}} types.
+     *
+     * @param <R> the return type of the visitor
+     */
+    public interface Visitor<R> {
+        {{#discriminator.mappedModels}}
+        R visit{{modelName}}({{modelName}} value);
+        {{/discriminator.mappedModels}}
+    }
+
+    {{/discriminator}}
+    {{#parent}}
+        {{#interfaces.0}}
+    @Override
+    public <T> T accept({{{parent}}}.Visitor<T> visitor) {
+        return visitor.visit{{classname}}(this);
+    }
+        {{/interfaces.0}}
+    {{/parent}}
+    {{/visitable}}
 }

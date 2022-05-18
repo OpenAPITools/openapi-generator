@@ -39,6 +39,10 @@ namespace Org.OpenAPITools.Model
         public NumberOnly(decimal justNumber = default(decimal))
         {
             this._JustNumber = justNumber;
+            if (this.JustNumber != null)
+            {
+                this._flagJustNumber = true;
+            }
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 

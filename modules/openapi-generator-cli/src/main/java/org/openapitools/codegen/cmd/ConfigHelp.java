@@ -24,6 +24,7 @@ import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenConfigLoader;
 import org.openapitools.codegen.GeneratorNotFoundException;
+import org.openapitools.codegen.VendorExtension;
 import org.openapitools.codegen.meta.FeatureSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,7 +37,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static org.apache.commons.lang3.StringEscapeUtils.escapeHtml4;
+import static org.apache.commons.text.StringEscapeUtils.escapeHtml4;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 
 @SuppressWarnings({"unused","java:S106", "java:S1192"})
@@ -70,6 +71,9 @@ public class ConfigHelp extends OpenApiGeneratorCommand {
     @Option(name = {"--import-mappings"}, title = "import mappings", description = "displays the default import mappings (types and aliases, and what imports they will pull into the template)")
     private Boolean importMappings;
 
+    @Option(name = {"--inline-schema-name-mappings"}, title = "inline schema name mappings", description = "displays the inline schema name mappings (none)")
+    private Boolean inlineSchemaNameMappings;
+
     @Option(name = {"--metadata"}, title = "metadata", description = "displays the generator metadata like the help txt for the generator and generator type etc")
     private Boolean metadata;
 
@@ -88,6 +92,10 @@ public class ConfigHelp extends OpenApiGeneratorCommand {
     @Option(name = {
             "--markdown-header"}, title = "markdown header", description = "When format=markdown, include this option to write out markdown headers (e.g. for docusaurus).")
     private Boolean markdownHeader;
+
+    @Option(name = {
+        "--supported-vendor-extensions"}, title = "supported vendor extensions", description = "List supported vendor extensions")
+    private Boolean supportedVendorExtensions;
 
     @Option(name = {"--full-details"}, title = "full generator details", description = "displays CLI options as well as other configs/mappings (implies --instantiation-types, --reserved-words, --language-specific-primitives, --import-mappings, --feature-set)")
     private Boolean fullDetails;
@@ -108,6 +116,7 @@ public class ConfigHelp extends OpenApiGeneratorCommand {
             importMappings = Boolean.TRUE;
             featureSets = Boolean.TRUE;
             metadata = Boolean.TRUE;
+            supportedVendorExtensions = Boolean.TRUE;
         }
 
         try {
@@ -196,6 +205,27 @@ public class ConfigHelp extends OpenApiGeneratorCommand {
             // default
             sb.append(escapeHtml4(langCliOption.getDefault())).append("|").append(newline);
         });
+    }
+
+    private void generateMdSupportedVendorExtensions(StringBuilder sb, CodegenConfig config) {
+        List<VendorExtension> supportedVendorExtensions = config.getSupportedVendorExtensions();
+        if (supportedVendorExtensions.isEmpty()) {
+            return;
+        }
+
+        sb
+            .append(newline).append("## SUPPORTED VENDOR EXTENSIONS").append(newline).append(newline)
+            .append("| Extension name | Description | Applicable for | Default value |").append(newline)
+            .append("| -------------- | ----------- | -------------- | ------------- |").append(newline);
+
+        supportedVendorExtensions.forEach(
+            extension -> sb.append("|").append(extension.getName())
+                .append("|").append(extension.getDescription())
+                .append("|").append(extension.getLevels().stream().map(Objects::toString).collect(Collectors.joining(", ")))
+                .append("|").append(extension.getDefaultValue())
+                .append(newline)
+        );
+        sb.append(newline);
     }
 
     private void generateMdImportMappings(StringBuilder sb, CodegenConfig config) {
@@ -332,6 +362,10 @@ public class ConfigHelp extends OpenApiGeneratorCommand {
         generateMdConfigOptionsHeader(sb, config);
         generateMdConfigOptions(sb, config);
 
+        if (Boolean.TRUE.equals(supportedVendorExtensions)) {
+            generateMdSupportedVendorExtensions(sb, config);
+        }
+
         if (Boolean.TRUE.equals(importMappings)) {
             generateMdImportMappings(sb, config);
         }
@@ -415,6 +449,18 @@ public class ConfigHelp extends OpenApiGeneratorCommand {
                         throw new IllegalStateException(String.format(Locale.ROOT, "Duplicated options! %s and %s", a, b));
                     }, TreeMap::new));
             writePlainTextFromMap(sb, map, optIndent, optNestedIndent, "Type/Alias", "Imports");
+            sb.append(newline);
+        }
+
+        if (Boolean.TRUE.equals(inlineSchemaNameMappings)) {
+            sb.append(newline).append("INLINE SCHEMA NAME MAPPING").append(newline).append(newline);
+            Map<String, String> map = config.inlineSchemaNameMapping()
+                    .entrySet()
+                    .stream()
+                    .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (a, b) -> {
+                        throw new IllegalStateException(String.format(Locale.ROOT, "Duplicated options! %s and %s", a, b));
+                    }, TreeMap::new));
+            writePlainTextFromMap(sb, map, optIndent, optNestedIndent, "Inline scheme name", "Mapped to");
             sb.append(newline);
         }
 

@@ -125,6 +125,7 @@ public class NullableShape extends AbstractOpenApiSchema {
                     }
 
                     int match = 0;
+                    ArrayList<String> errorMessages = new ArrayList<>();
                     TypeAdapter actualAdapter = elementAdapter;
 
                     // deserialize Quadrilateral
@@ -136,6 +137,7 @@ public class NullableShape extends AbstractOpenApiSchema {
                         log.log(Level.FINER, "Input data matches schema 'Quadrilateral'");
                     } catch (Exception e) {
                         // deserialization failed, continue
+                        errorMessages.add(String.format("Deserialization for Quadrilateral failed with `%s`.", e.getMessage()));
                         log.log(Level.FINER, "Input data does not match schema 'Quadrilateral'", e);
                     }
 
@@ -148,6 +150,7 @@ public class NullableShape extends AbstractOpenApiSchema {
                         log.log(Level.FINER, "Input data matches schema 'Triangle'");
                     } catch (Exception e) {
                         // deserialization failed, continue
+                        errorMessages.add(String.format("Deserialization for Triangle failed with `%s`.", e.getMessage()));
                         log.log(Level.FINER, "Input data does not match schema 'Triangle'", e);
                     }
 
@@ -157,7 +160,7 @@ public class NullableShape extends AbstractOpenApiSchema {
                         return ret;
                     }
 
-                    throw new IOException(String.format("Failed deserialization for NullableShape: %d classes match result, expected 1. JSON: %s", match, jsonObject.toString()));
+                    throw new IOException(String.format("Failed deserialization for NullableShape: %d classes match result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", match, errorMessages, jsonObject.toString()));
                 }
             }.nullSafe();
         }
@@ -263,11 +266,13 @@ public class NullableShape extends AbstractOpenApiSchema {
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
     // validate oneOf schemas one by one
     int validCount = 0;
+    ArrayList<String> errorMessages = new ArrayList<>();
     // validate the json string with Quadrilateral
     try {
       Quadrilateral.validateJsonObject(jsonObj);
       validCount++;
     } catch (Exception e) {
+      errorMessages.add(String.format("Deserialization for Quadrilateral failed with `%s`.", e.getMessage()));
       // continue to the next one
     }
     // validate the json string with Triangle
@@ -275,10 +280,11 @@ public class NullableShape extends AbstractOpenApiSchema {
       Triangle.validateJsonObject(jsonObj);
       validCount++;
     } catch (Exception e) {
+      errorMessages.add(String.format("Deserialization for Triangle failed with `%s`.", e.getMessage()));
       // continue to the next one
     }
     if (validCount != 1) {
-      throw new IOException(String.format("The JSON string is invalid for NullableShape with oneOf schemas: Quadrilateral, Triangle. %d class(es) match the result, expected 1. JSON: %s", validCount, jsonObj.toString()));
+      throw new IOException(String.format("The JSON string is invalid for NullableShape with oneOf schemas: Quadrilateral, Triangle. %d class(es) match the result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", validCount, errorMessages, jsonObj.toString()));
     }
   }
 

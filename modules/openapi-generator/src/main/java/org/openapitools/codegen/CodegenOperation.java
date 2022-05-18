@@ -42,6 +42,7 @@ public class CodegenOperation {
     public List<CodegenParameter> pathParams = new ArrayList<CodegenParameter>();
     public List<CodegenParameter> queryParams = new ArrayList<CodegenParameter>();
     public List<CodegenParameter> headerParams = new ArrayList<CodegenParameter>();
+    public List<CodegenParameter> implicitHeadersParams = new ArrayList<CodegenParameter>();
     public List<CodegenParameter> formParams = new ArrayList<CodegenParameter>();
     public List<CodegenParameter> cookieParams = new ArrayList<CodegenParameter>();
     public List<CodegenParameter> requiredParams = new ArrayList<CodegenParameter>();
@@ -67,11 +68,11 @@ public class CodegenOperation {
      * @return true if parameter exists, false otherwise
      */
     private static boolean nonEmpty(List<?> params) {
-        return params != null && params.size() > 0;
+        return params != null && !params.isEmpty();
     }
 
     private static boolean nonEmpty(Map<?, ?> params) {
-        return params != null && params.size() > 0;
+        return params != null && !params.isEmpty();
     }
 
     /**
@@ -188,7 +189,7 @@ public class CodegenOperation {
      * @return true if responses contain a default response, false otherwise
      */
     public boolean getHasDefaultResponse() {
-        return responses.stream().filter(response -> response.isDefault).findFirst().isPresent();
+        return responses.stream().anyMatch(response -> response.isDefault);
     }
 
     /**

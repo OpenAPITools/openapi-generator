@@ -2,7 +2,7 @@
 /**
  * EnumTest
  *
- * PHP version 7.3
+ * PHP version 7.4
  *
  * @category Class
  * @package  OpenAPI\Client
@@ -197,16 +197,16 @@ class EnumTest implements ModelInterface, ArrayAccess, \JsonSerializable
         return self::$openAPIModelName;
     }
 
-    const ENUM_STRING_UPPER = 'UPPER';
-    const ENUM_STRING_LOWER = 'lower';
-    const ENUM_STRING_EMPTY = '';
-    const ENUM_STRING_REQUIRED_UPPER = 'UPPER';
-    const ENUM_STRING_REQUIRED_LOWER = 'lower';
-    const ENUM_STRING_REQUIRED_EMPTY = '';
-    const ENUM_INTEGER_1 = 1;
-    const ENUM_INTEGER_MINUS_1 = -1;
-    const ENUM_NUMBER_1_DOT_1 = 1.1;
-    const ENUM_NUMBER_MINUS_1_DOT_2 = -1.2;
+    public const ENUM_STRING_UPPER = 'UPPER';
+    public const ENUM_STRING_LOWER = 'lower';
+    public const ENUM_STRING_EMPTY = '';
+    public const ENUM_STRING_REQUIRED_UPPER = 'UPPER';
+    public const ENUM_STRING_REQUIRED_LOWER = 'lower';
+    public const ENUM_STRING_REQUIRED_EMPTY = '';
+    public const ENUM_INTEGER_1 = 1;
+    public const ENUM_INTEGER_MINUS_1 = -1;
+    public const ENUM_NUMBER_1_DOT_1 = 1.1;
+    public const ENUM_NUMBER_MINUS_1_DOT_2 = -1.2;
 
     /**
      * Gets allowable values of the enum
@@ -588,7 +588,7 @@ class EnumTest implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return boolean
      */
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         return isset($this->container[$offset]);
     }
@@ -600,6 +600,7 @@ class EnumTest implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return mixed|null
      */
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         return $this->container[$offset] ?? null;
@@ -613,7 +614,7 @@ class EnumTest implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return void
      */
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         if (is_null($offset)) {
             $this->container[] = $value;
@@ -629,7 +630,7 @@ class EnumTest implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return void
      */
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         unset($this->container[$offset]);
     }
@@ -641,6 +642,7 @@ class EnumTest implements ModelInterface, ArrayAccess, \JsonSerializable
      * @return mixed Returns data which can be serialized by json_encode(), which is a value
      * of any type other than a resource.
      */
+    #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
        return ObjectSerializer::sanitizeForSerialization($this);

@@ -33,7 +33,7 @@ import javax.annotation.Generated;
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 @Validated
-@Tag(name = "user", description = "the user API")
+@Tag(name = "user", description = "Operations about user")
 public interface UserApi {
 
     default Optional<NativeWebRequest> getRequest() {
@@ -55,8 +55,6 @@ public interface UserApi {
             @ApiResponse(responseCode = "200", description = "successful operation")
         }
     )
-    @Parameters({
-    })
     @RequestMapping(
         method = RequestMethod.POST,
         value = "/user"
@@ -83,8 +81,6 @@ public interface UserApi {
             @ApiResponse(responseCode = "200", description = "successful operation")
         }
     )
-    @Parameters({
-    })
     @RequestMapping(
         method = RequestMethod.POST,
         value = "/user/createWithArray"
@@ -111,8 +107,6 @@ public interface UserApi {
             @ApiResponse(responseCode = "200", description = "successful operation")
         }
     )
-    @Parameters({
-    })
     @RequestMapping(
         method = RequestMethod.POST,
         value = "/user/createWithList"
@@ -142,8 +136,6 @@ public interface UserApi {
             @ApiResponse(responseCode = "404", description = "User not found")
         }
     )
-    @Parameters({
-    })
     @RequestMapping(
         method = RequestMethod.DELETE,
         value = "/user/{username}"
@@ -177,8 +169,6 @@ public interface UserApi {
             @ApiResponse(responseCode = "404", description = "User not found")
         }
     )
-    @Parameters({
-    })
     @RequestMapping(
         method = RequestMethod.GET,
         value = "/user/{username}",
@@ -226,8 +216,6 @@ public interface UserApi {
             @ApiResponse(responseCode = "400", description = "Invalid username/password supplied")
         }
     )
-    @Parameters({
-    })
     @RequestMapping(
         method = RequestMethod.GET,
         value = "/user/login",
@@ -255,8 +243,6 @@ public interface UserApi {
             @ApiResponse(responseCode = "200", description = "successful operation")
         }
     )
-    @Parameters({
-    })
     @RequestMapping(
         method = RequestMethod.GET,
         value = "/user/logout"
@@ -287,8 +273,6 @@ public interface UserApi {
             @ApiResponse(responseCode = "404", description = "User not found")
         }
     )
-    @Parameters({
-    })
     @RequestMapping(
         method = RequestMethod.PUT,
         value = "/user/{username}"

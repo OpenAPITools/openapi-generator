@@ -48,7 +48,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_default'
+                $ref: '#/components/schemas/_foo_get_default_response'
           description: response
       x-accepts: application/json
   /pet:
@@ -69,7 +69,7 @@ paths:
       summary: Add a new pet to the store
       tags:
       - pet
-      x-contentType: application/json
+      x-content-type: application/json
       x-accepts: application/json
     put:
       description: ""
@@ -92,7 +92,8 @@ paths:
       summary: Update an existing pet
       tags:
       - pet
-      x-contentType: application/json
+      x-webclient-blocking: true
+      x-content-type: application/json
       x-accepts: application/json
     servers:
     - url: http://petstore.swagger.io/v2
@@ -141,6 +142,7 @@ paths:
       summary: Finds Pets by status
       tags:
       - pet
+      x-webclient-blocking: true
       x-accepts: application/json
   /pet/findByTags:
     get:
@@ -185,6 +187,7 @@ paths:
       summary: Finds Pets by tags
       tags:
       - pet
+      x-webclient-blocking: true
       x-accepts: application/json
   /pet/{petId}:
     delete:
@@ -252,6 +255,7 @@ paths:
       summary: Find pet by ID
       tags:
       - pet
+      x-webclient-blocking: true
       x-accepts: application/json
     post:
       description: ""
@@ -267,18 +271,10 @@ paths:
           type: integer
         style: simple
       requestBody:
-        $ref: '#/components/requestBodies/inline_object'
         content:
           application/x-www-form-urlencoded:
             schema:
-              properties:
-                name:
-                  description: Updated name of the pet
-                  type: string
-                status:
-                  description: Updated status of the pet
-                  type: string
-              type: object
+              $ref: '#/components/schemas/updatePetWithForm_request'
       responses:
         "200":
           description: Successful operation
@@ -291,7 +287,7 @@ paths:
       summary: Updates a pet in the store with form data
       tags:
       - pet
-      x-contentType: application/x-www-form-urlencoded
+      x-content-type: application/x-www-form-urlencoded
       x-accepts: application/json
   /pet/{petId}/uploadImage:
     post:
@@ -308,19 +304,10 @@ paths:
           type: integer
         style: simple
       requestBody:
-        $ref: '#/components/requestBodies/inline_object_1'
         content:
           multipart/form-data:
             schema:
-              properties:
-                additionalMetadata:
-                  description: Additional data to pass to server
-                  type: string
-                file:
-                  description: file to upload
-                  format: binary
-                  type: string
-              type: object
+              $ref: '#/components/schemas/uploadFile_request'
       responses:
         "200":
           content:
@@ -335,7 +322,7 @@ paths:
       summary: uploads an image
       tags:
       - pet
-      x-contentType: multipart/form-data
+      x-content-type: multipart/form-data
       x-accepts: application/json
   /store/inventory:
     get:
@@ -383,7 +370,7 @@ paths:
       summary: Place an order for a pet
       tags:
       - store
-      x-contentType: application/json
+      x-content-type: application/json
       x-accepts: application/json
   /store/order/{order_id}:
     delete:
@@ -459,7 +446,7 @@ paths:
       summary: Create user
       tags:
       - user
-      x-contentType: application/json
+      x-content-type: application/json
       x-accepts: application/json
   /user/createWithArray:
     post:
@@ -473,7 +460,7 @@ paths:
       summary: Creates list of users with given input array
       tags:
       - user
-      x-contentType: application/json
+      x-content-type: application/json
       x-accepts: application/json
   /user/createWithList:
     post:
@@ -487,7 +474,7 @@ paths:
       summary: Creates list of users with given input array
       tags:
       - user
-      x-contentType: application/json
+      x-content-type: application/json
       x-accepts: application/json
   /user/login:
     get:
@@ -631,7 +618,7 @@ paths:
       summary: Updated user
       tags:
       - user
-      x-contentType: application/json
+      x-content-type: application/json
       x-accepts: application/json
   /fake_classname_test:
     patch:
@@ -651,7 +638,7 @@ paths:
       summary: To test class name in snake case
       tags:
       - fake_classname_tags 123#$%^
-      x-contentType: application/json
+      x-content-type: application/json
       x-accepts: application/json
   /fake:
     delete:
@@ -800,30 +787,20 @@ paths:
           format: double
           type: number
         style: form
+      - explode: true
+        in: query
+        name: enum_query_model_array
+        required: false
+        schema:
+          items:
+            $ref: '#/components/schemas/EnumClass'
+          type: array
+        style: form
       requestBody:
-        $ref: '#/components/requestBodies/inline_object_2'
         content:
           application/x-www-form-urlencoded:
             schema:
-              properties:
-                enum_form_string_array:
-                  description: Form parameter enum test (string array)
-                  items:
-                    default: $
-                    enum:
-                    - '>'
-                    - $
-                    type: string
-                  type: array
-                enum_form_string:
-                  default: -efg
-                  description: Form parameter enum test (string)
-                  enum:
-                  - _abc
-                  - -efg
-                  - (xyz)
-                  type: string
-              type: object
+              $ref: '#/components/schemas/testEnumParameters_request'
       responses:
         "400":
           description: Invalid request
@@ -832,7 +809,7 @@ paths:
       summary: To test enum parameters
       tags:
       - fake
-      x-contentType: application/x-www-form-urlencoded
+      x-content-type: application/x-www-form-urlencoded
       x-accepts: application/json
     patch:
       description: To test "client" model
@@ -849,7 +826,7 @@ paths:
       summary: To test "client" model
       tags:
       - fake
-      x-contentType: application/json
+      x-content-type: application/json
       x-accepts: application/json
     post:
       description: |
@@ -859,81 +836,10 @@ paths:
         가짜 엔드 포인트
       operationId: testEndpointParameters
       requestBody:
-        $ref: '#/components/requestBodies/inline_object_3'
         content:
           application/x-www-form-urlencoded:
             schema:
-              properties:
-                integer:
-                  description: None
-                  maximum: 100
-                  minimum: 10
-                  type: integer
-                int32:
-                  description: None
-                  format: int32
-                  maximum: 200
-                  minimum: 20
-                  type: integer
-                int64:
-                  description: None
-                  format: int64
-                  type: integer
-                number:
-                  description: None
-                  maximum: 543.2
-                  minimum: 32.1
-                  type: number
-                float:
-                  description: None
-                  format: float
-                  maximum: 987.6
-                  type: number
-                double:
-                  description: None
-                  format: double
-                  maximum: 123.4
-                  minimum: 67.8
-                  type: number
-                string:
-                  description: None
-                  pattern: "/[a-z]/i"
-                  type: string
-                pattern_without_delimiter:
-                  description: None
-                  pattern: "^[A-Z].*"
-                  type: string
-                byte:
-                  description: None
-                  format: byte
-                  type: string
-                binary:
-                  description: None
-                  format: binary
-                  type: string
-                date:
-                  description: None
-                  format: date
-                  type: string
-                dateTime:
-                  description: None
-                  format: date-time
-                  type: string
-                password:
-                  description: None
-                  format: password
-                  maxLength: 64
-                  minLength: 10
-                  type: string
-                callback:
-                  description: None
-                  type: string
-              required:
-              - byte
-              - double
-              - number
-              - pattern_without_delimiter
-              type: object
+              $ref: '#/components/schemas/testEndpointParameters_request'
       responses:
         "400":
           description: Invalid username supplied
@@ -948,7 +854,7 @@ paths:
         가짜 엔드 포인트
       tags:
       - fake
-      x-contentType: application/x-www-form-urlencoded
+      x-content-type: application/x-www-form-urlencoded
       x-accepts: application/json
   /fake/outer/number:
     post:
@@ -969,7 +875,7 @@ paths:
           description: Output number
       tags:
       - fake
-      x-contentType: application/json
+      x-content-type: application/json
       x-accepts: '*/*'
   /fake/property/enum-int:
     post:
@@ -991,7 +897,7 @@ paths:
           description: Output enum (int)
       tags:
       - fake
-      x-contentType: application/json
+      x-content-type: application/json
       x-accepts: '*/*'
   /fake/outer/string:
     post:
@@ -1012,7 +918,7 @@ paths:
           description: Output string
       tags:
       - fake
-      x-contentType: application/json
+      x-content-type: application/json
       x-accepts: '*/*'
   /fake/outer/boolean:
     post:
@@ -1033,7 +939,7 @@ paths:
           description: Output boolean
       tags:
       - fake
-      x-contentType: application/json
+      x-content-type: application/json
       x-accepts: '*/*'
   /fake/outer/composite:
     post:
@@ -1054,35 +960,24 @@ paths:
           description: Output composite
       tags:
       - fake
-      x-contentType: application/json
+      x-content-type: application/json
       x-accepts: '*/*'
   /fake/jsonFormData:
     get:
       description: ""
       operationId: testJsonFormData
       requestBody:
-        $ref: '#/components/requestBodies/inline_object_4'
         content:
           application/x-www-form-urlencoded:
             schema:
-              properties:
-                param:
-                  description: field1
-                  type: string
-                param2:
-                  description: field2
-                  type: string
-              required:
-              - param
-              - param2
-              type: object
+              $ref: '#/components/schemas/testJsonFormData_request'
       responses:
         "200":
           description: successful operation
       summary: test json serialization of form data
       tags:
       - fake
-      x-contentType: application/x-www-form-urlencoded
+      x-content-type: application/x-www-form-urlencoded
       x-accepts: application/json
   /fake/inline-additionalProperties:
     post:
@@ -1103,7 +998,7 @@ paths:
       summary: test inline additionalProperties
       tags:
       - fake
-      x-contentType: application/json
+      x-content-type: application/json
       x-accepts: application/json
   /fake/body-with-query-params:
     put:
@@ -1127,7 +1022,7 @@ paths:
           description: Success
       tags:
       - fake
-      x-contentType: application/json
+      x-content-type: application/json
       x-accepts: application/json
   /another-fake/dummy:
     patch:
@@ -1145,7 +1040,7 @@ paths:
       summary: To test special tags
       tags:
       - $another-fake?
-      x-contentType: application/json
+      x-content-type: application/json
       x-accepts: application/json
   /fake/body-with-file-schema:
     put:
@@ -1163,7 +1058,7 @@ paths:
           description: Success
       tags:
       - fake
-      x-contentType: application/json
+      x-content-type: application/json
       x-accepts: application/json
   /fake/body-with-binary:
     put:
@@ -1183,7 +1078,7 @@ paths:
           description: Success
       tags:
       - fake
-      x-contentType: image/png
+      x-content-type: image/png
       x-accepts: application/json
   /fake/test-query-parameters:
     put:
@@ -1274,21 +1169,10 @@ paths:
           type: integer
         style: simple
       requestBody:
-        $ref: '#/components/requestBodies/inline_object_5'
         content:
           multipart/form-data:
             schema:
-              properties:
-                additionalMetadata:
-                  description: Additional data to pass to server
-                  type: string
-                requiredFile:
-                  description: file to upload
-                  format: binary
-                  type: string
-              required:
-              - requiredFile
-              type: object
+              $ref: '#/components/schemas/uploadFileWithRequiredFile_request'
       responses:
         "200":
           content:
@@ -1303,7 +1187,7 @@ paths:
       summary: uploads an image (required)
       tags:
       - pet
-      x-contentType: multipart/form-data
+      x-content-type: multipart/form-data
       x-accepts: application/json
   /fake/health:
     get:
@@ -1348,7 +1232,7 @@ paths:
       summary: test http signature authentication
       tags:
       - fake
-      x-contentType: application/json
+      x-content-type: application/json
       x-accepts: application/json
 components:
   requestBodies:
@@ -1378,36 +1262,6 @@ components:
             $ref: '#/components/schemas/Pet'
       description: Pet object that needs to be added to the store
       required: true
-    inline_object:
-      content:
-        application/x-www-form-urlencoded:
-          schema:
-            $ref: '#/components/schemas/inline_object'
-    inline_object_1:
-      content:
-        multipart/form-data:
-          schema:
-            $ref: '#/components/schemas/inline_object_1'
-    inline_object_2:
-      content:
-        application/x-www-form-urlencoded:
-          schema:
-            $ref: '#/components/schemas/inline_object_2'
-    inline_object_3:
-      content:
-        application/x-www-form-urlencoded:
-          schema:
-            $ref: '#/components/schemas/inline_object_3'
-    inline_object_4:
-      content:
-        application/x-www-form-urlencoded:
-          schema:
-            $ref: '#/components/schemas/inline_object_4'
-    inline_object_5:
-      content:
-        multipart/form-data:
-          schema:
-            $ref: '#/components/schemas/inline_object_5'
   schemas:
     Foo:
       example:
@@ -2101,7 +1955,21 @@ components:
             $ref: '#/components/schemas/Bar'
           type: array
       type: object
-    inline_response_default:
+    AllOfWithSingleRef:
+      properties:
+        username:
+          type: string
+        SingleRefType:
+          allOf:
+          - $ref: '#/components/schemas/SingleRefType'
+      type: object
+    SingleRefType:
+      enum:
+      - admin
+      - user
+      title: SingleRefType
+      type: string
+    _foo_get_default_response:
       example:
         string:
           bar: bar
@@ -2109,7 +1977,7 @@ components:
         string:
           $ref: '#/components/schemas/Foo'
       type: object
-    inline_object:
+    updatePetWithForm_request:
       properties:
         name:
           description: Updated name of the pet
@@ -2118,7 +1986,7 @@ components:
           description: Updated status of the pet
           type: string
       type: object
-    inline_object_1:
+    uploadFile_request:
       properties:
         additionalMetadata:
           description: Additional data to pass to server
@@ -2128,7 +1996,7 @@ components:
           format: binary
           type: string
       type: object
-    inline_object_2:
+    testEnumParameters_request:
       properties:
         enum_form_string_array:
           description: Form parameter enum test (string array)
@@ -2148,7 +2016,7 @@ components:
           - (xyz)
           type: string
       type: object
-    inline_object_3:
+    testEndpointParameters_request:
       properties:
         integer:
           description: None
@@ -2220,7 +2088,7 @@ components:
       - number
       - pattern_without_delimiter
       type: object
-    inline_object_4:
+    testJsonFormData_request:
       properties:
         param:
           description: field1
@@ -2232,7 +2100,7 @@ components:
       - param
       - param2
       type: object
-    inline_object_5:
+    uploadFileWithRequiredFile_request:
       properties:
         additionalMetadata:
           description: Additional data to pass to server

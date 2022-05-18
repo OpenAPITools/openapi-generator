@@ -16,6 +16,8 @@ import io.micronaut.http.annotation.*;
 import io.micronaut.core.annotation.Nullable;
 import io.micronaut.core.convert.format.Format;
 import reactor.core.publisher.Mono;
+import io.micronaut.http.HttpStatus;
+import io.micronaut.http.exceptions.HttpStatusException;
 import org.openapitools.model.Order;
 import javax.annotation.Generated;
 import java.util.ArrayList;
@@ -27,7 +29,7 @@ import javax.validation.constraints.*;
 import io.swagger.annotations.*;
 
 @Generated(value="org.openapitools.codegen.languages.JavaMicronautServerCodegen")
-@Controller("${context-path}")
+@Controller
 public class StoreController {
     /**
      * Delete purchase order by ID
@@ -46,13 +48,13 @@ public class StoreController {
         @ApiResponse(code = 404, message = "Order not found")})
     @Delete(uri="/store/order/{orderId}")
     @Produces(value = {})
-    public Mono<Object> deleteOrder(
+    public Mono<Void> deleteOrder(
         @PathVariable(value="orderId") @NotNull String orderId
     ) {
-        // TODO implement deleteOrder() body;
-        Mono<Object> result = Mono.empty();
-        return result;
+        // TODO implement deleteOrder();
+        return Mono.error(new HttpStatusException(HttpStatus.NOT_IMPLEMENTED, null));
     }
+
 
     /**
      * Returns pet inventories by status
@@ -75,10 +77,10 @@ public class StoreController {
     @Get(uri="/store/inventory")
     @Produces(value = {"application/json"})
     public Mono<Map<String, Integer>> getInventory() {
-        // TODO implement getInventory() body;
-        Mono<Map<String, Integer>> result = Mono.empty();
-        return result;
+        // TODO implement getInventory();
+        return Mono.error(new HttpStatusException(HttpStatus.NOT_IMPLEMENTED, null));
     }
+
 
     /**
      * Find purchase order by ID
@@ -103,10 +105,10 @@ public class StoreController {
     public Mono<Order> getOrderById(
         @PathVariable(value="orderId") @NotNull @Min(1L) @Max(5L) Long orderId
     ) {
-        // TODO implement getOrderById() body;
-        Mono<Order> result = Mono.empty();
-        return result;
+        // TODO implement getOrderById();
+        return Mono.error(new HttpStatusException(HttpStatus.NOT_IMPLEMENTED, null));
     }
+
 
     /**
      * Place an order for a pet
@@ -131,8 +133,8 @@ public class StoreController {
     public Mono<Order> placeOrder(
         @Body @NotNull @Valid Order order
     ) {
-        // TODO implement placeOrder() body;
-        Mono<Order> result = Mono.empty();
-        return result;
+        // TODO implement placeOrder();
+        return Mono.error(new HttpStatusException(HttpStatus.NOT_IMPLEMENTED, null));
     }
+
 }

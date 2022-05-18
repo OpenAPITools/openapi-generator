@@ -5,7 +5,7 @@ class {{classname}}
      */
     {{#allowableValues}}
     {{#enumVars}}
-    const {{^isString}}NUMBER_{{/isString}}{{{name}}} = {{{value}}};
+    public const {{^isString}}NUMBER_{{/isString}}{{{name}}} = {{{value}}};
 
     {{/enumVars}}
     {{/allowableValues}}

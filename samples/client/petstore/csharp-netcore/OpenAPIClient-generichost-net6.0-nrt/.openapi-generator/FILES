@@ -40,6 +40,7 @@ docs/models/EquilateralTriangle.md
 docs/models/File.md
 docs/models/FileSchemaTestClass.md
 docs/models/Foo.md
+docs/models/FooGetDefaultResponse.md
 docs/models/FormatTest.md
 docs/models/Fruit.md
 docs/models/FruitReq.md
@@ -47,7 +48,6 @@ docs/models/GmFruit.md
 docs/models/GrandparentAnimal.md
 docs/models/HasOnlyReadOnly.md
 docs/models/HealthCheckResult.md
-docs/models/InlineResponseDefault.md
 docs/models/IsoscelesTriangle.md
 docs/models/List.md
 docs/models/Mammal.md
@@ -69,6 +69,7 @@ docs/models/OuterEnumIntegerDefaultValue.md
 docs/models/ParentPet.md
 docs/models/Pet.md
 docs/models/Pig.md
+docs/models/PolymorphicProperty.md
 docs/models/Quadrilateral.md
 docs/models/QuadrilateralInterface.md
 docs/models/ReadOnlyFirst.md
@@ -107,13 +108,13 @@ src/Org.OpenAPITools/Client/HostConfiguration.cs
 src/Org.OpenAPITools/Client/HttpSigningConfiguration.cs
 src/Org.OpenAPITools/Client/HttpSigningToken.cs
 src/Org.OpenAPITools/Client/IApi.cs
+src/Org.OpenAPITools/Client/JsonSerializerOptionsProvider.cs
 src/Org.OpenAPITools/Client/OAuthToken.cs
-src/Org.OpenAPITools/Client/OpenAPIDateConverter.cs
+src/Org.OpenAPITools/Client/OpenAPIDateJsonConverter.cs
 src/Org.OpenAPITools/Client/RateLimitProvider`1.cs
 src/Org.OpenAPITools/Client/TokenBase.cs
 src/Org.OpenAPITools/Client/TokenContainer`1.cs
 src/Org.OpenAPITools/Client/TokenProvider`1.cs
-src/Org.OpenAPITools/Model/AbstractOpenAPISchema.cs
 src/Org.OpenAPITools/Model/AdditionalPropertiesClass.cs
 src/Org.OpenAPITools/Model/Animal.cs
 src/Org.OpenAPITools/Model/ApiResponse.cs
@@ -145,6 +146,7 @@ src/Org.OpenAPITools/Model/EquilateralTriangle.cs
 src/Org.OpenAPITools/Model/File.cs
 src/Org.OpenAPITools/Model/FileSchemaTestClass.cs
 src/Org.OpenAPITools/Model/Foo.cs
+src/Org.OpenAPITools/Model/FooGetDefaultResponse.cs
 src/Org.OpenAPITools/Model/FormatTest.cs
 src/Org.OpenAPITools/Model/Fruit.cs
 src/Org.OpenAPITools/Model/FruitReq.cs
@@ -152,7 +154,6 @@ src/Org.OpenAPITools/Model/GmFruit.cs
 src/Org.OpenAPITools/Model/GrandparentAnimal.cs
 src/Org.OpenAPITools/Model/HasOnlyReadOnly.cs
 src/Org.OpenAPITools/Model/HealthCheckResult.cs
-src/Org.OpenAPITools/Model/InlineResponseDefault.cs
 src/Org.OpenAPITools/Model/IsoscelesTriangle.cs
 src/Org.OpenAPITools/Model/List.cs
 src/Org.OpenAPITools/Model/Mammal.cs
@@ -174,6 +175,7 @@ src/Org.OpenAPITools/Model/OuterEnumIntegerDefaultValue.cs
 src/Org.OpenAPITools/Model/ParentPet.cs
 src/Org.OpenAPITools/Model/Pet.cs
 src/Org.OpenAPITools/Model/Pig.cs
+src/Org.OpenAPITools/Model/PolymorphicProperty.cs
 src/Org.OpenAPITools/Model/Quadrilateral.cs
 src/Org.OpenAPITools/Model/QuadrilateralInterface.cs
 src/Org.OpenAPITools/Model/ReadOnlyFirst.cs

@@ -17,6 +17,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
   * A pet for sale in the pet store
  **/
 @ApiModel(description="A pet for sale in the pet store")
+
 public class Pet  {
   
   @ApiModelProperty(value = "")

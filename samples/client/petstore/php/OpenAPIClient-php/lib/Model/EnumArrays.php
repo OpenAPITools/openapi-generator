@@ -2,7 +2,7 @@
 /**
  * EnumArrays
  *
- * PHP version 7.3
+ * PHP version 7.4
  *
  * @category Class
  * @package  OpenAPI\Client
@@ -167,10 +167,10 @@ class EnumArrays implements ModelInterface, ArrayAccess, \JsonSerializable
         return self::$openAPIModelName;
     }
 
-    const JUST_SYMBOL_GREATER_THAN_OR_EQUAL_TO = '>=';
-    const JUST_SYMBOL_DOLLAR = '$';
-    const ARRAY_ENUM_FISH = 'fish';
-    const ARRAY_ENUM_CRAB = 'crab';
+    public const JUST_SYMBOL_GREATER_THAN_OR_EQUAL_TO = '>=';
+    public const JUST_SYMBOL_DOLLAR = '$';
+    public const ARRAY_ENUM_FISH = 'fish';
+    public const ARRAY_ENUM_CRAB = 'crab';
 
     /**
      * Gets allowable values of the enum
@@ -323,7 +323,7 @@ class EnumArrays implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return boolean
      */
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         return isset($this->container[$offset]);
     }
@@ -335,6 +335,7 @@ class EnumArrays implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return mixed|null
      */
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         return $this->container[$offset] ?? null;
@@ -348,7 +349,7 @@ class EnumArrays implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return void
      */
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         if (is_null($offset)) {
             $this->container[] = $value;
@@ -364,7 +365,7 @@ class EnumArrays implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return void
      */
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         unset($this->container[$offset]);
     }
@@ -376,6 +377,7 @@ class EnumArrays implements ModelInterface, ArrayAccess, \JsonSerializable
      * @return mixed Returns data which can be serialized by json_encode(), which is a value
      * of any type other than a resource.
      */
+    #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
        return ObjectSerializer::sanitizeForSerialization($this);

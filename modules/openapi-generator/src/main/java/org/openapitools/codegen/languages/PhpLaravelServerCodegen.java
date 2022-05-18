@@ -21,6 +21,9 @@ import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 
 import java.io.File;
 import java.util.*;
@@ -233,11 +236,9 @@ public class PhpLaravelServerCodegen extends AbstractPhpCodegen {
 
     // override with any special post-processing
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
-        @SuppressWarnings("unchecked")
-        Map<String, Object> objectMap = (Map<String, Object>) objs.get("operations");
-        @SuppressWarnings("unchecked")
-        List<CodegenOperation> operations = (List<CodegenOperation>) objectMap.get("operation");
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        OperationMap objectMap = objs.getOperations();
+        List<CodegenOperation> operations = objectMap.getOperation();
 
         for (CodegenOperation op : operations) {
             op.httpMethod = op.httpMethod.toLowerCase(Locale.ROOT);
@@ -260,12 +261,7 @@ public class PhpLaravelServerCodegen extends AbstractPhpCodegen {
 
         // sort the endpoints in ascending to avoid the route priority issue.
         // https://github.com/swagger-api/swagger-codegen/issues/2643
-        Collections.sort(operations, new Comparator<CodegenOperation>() {
-            @Override
-            public int compare(CodegenOperation lhs, CodegenOperation rhs) {
-                return lhs.path.compareTo(rhs.path);
-            }
-        });
+        operations.sort(Comparator.comparing(lhs -> lhs.path));
 
         return objs;
     }

@@ -27,6 +27,9 @@ import io.swagger.v3.oas.models.servers.ServerVariable;
 import org.openapitools.codegen.api.TemplatingEngineAdapter;
 import org.openapitools.codegen.meta.FeatureSet;
 import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationsMap;
 
 import java.io.File;
 import java.util.List;
@@ -138,6 +141,8 @@ public interface CodegenConfig {
 
     Map<String, String> importMapping();
 
+    Map<String, String> inlineSchemaNameMapping();
+
     Map<String, String> apiTemplateFiles();
 
     Map<String, String> modelTemplateFiles();
@@ -178,21 +183,21 @@ public interface CodegenConfig {
 
     String toModelImport(String name);
 
-    Map<String,String> toModelImportMap(String name);
+    Map<String, String> toModelImportMap(String name);
 
     String toApiImport(String name);
 
     void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations);
 
-    Map<String, Object> updateAllModels(Map<String, Object> objs);
+    Map<String, ModelsMap> updateAllModels(Map<String, ModelsMap> objs);
 
     void postProcess();
 
-    Map<String, Object> postProcessAllModels(Map<String, Object> objs);
+    Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs);
 
-    Map<String, Object> postProcessModels(Map<String, Object> objs);
+    ModelsMap postProcessModels(ModelsMap objs);
 
-    Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels);
+    OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels);
 
     Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs);
 
@@ -281,6 +286,7 @@ public interface CodegenConfig {
 
     /**
      * Set the OpenAPI instance. This method needs to be called right after the instantiation of the Codegen class.
+     *
      * @param openAPI specification being generated
      */
     void setOpenAPI(OpenAPI openAPI);
@@ -305,13 +311,17 @@ public interface CodegenConfig {
 
     Schema unaliasSchema(Schema schema, Map<String, String> usedImportMappings);
 
-    public String defaultTemplatingEngine();
+    String defaultTemplatingEngine();
 
-    public GeneratorLanguage generatorLanguage();
+    GeneratorLanguage generatorLanguage();
 
     /*
     the version of the language that the generator implements
     For python 3.9.0, generatorLanguageVersion would be "3.9.0"
     */
-    public String generatorLanguageVersion();
+    String generatorLanguageVersion();
+
+    List<VendorExtension> getSupportedVendorExtensions();
+
+    boolean getUseInlineModelResolver();
 }

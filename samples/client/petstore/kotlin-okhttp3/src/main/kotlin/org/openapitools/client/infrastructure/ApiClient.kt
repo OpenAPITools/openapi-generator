@@ -63,51 +63,46 @@ open class ApiClient(val baseUrl: String) {
         return contentType ?: "application/octet-stream"
     }
 
-    protected inline fun <reified T> requestBody(content: T, mediaType: String = JsonMediaType): RequestBody =
+    protected inline fun <reified T> requestBody(content: T, mediaType: String?): RequestBody =
         when {
-            content is File -> RequestBody.create(MediaType.parse(mediaType), content)
-            mediaType == FormDataMediaType -> {
+            mediaType == FormDataMediaType ->
                 MultipartBody.Builder()
                     .setType(MultipartBody.FORM)
                     .apply {
-                        // content's type *must* be Map<String, Any?>
+                        // content's type *must* be Map<String, PartConfig<*>>
                         @Suppress("UNCHECKED_CAST")
-                        (content as Map<String, Any?>).forEach { (key, value) ->
-                            if (value is File) {
-                                val partHeaders = Headers.of(
-                                    "Content-Disposition",
-                                    "form-data; name=\"$key\"; filename=\"${value.name}\""
-                                )
-                                val fileMediaType = MediaType.parse(guessContentTypeFromFile(value))
-                                addPart(partHeaders, RequestBody.create(fileMediaType, value))
-                            } else {
-                                val partHeaders = Headers.of(
-                                    "Content-Disposition",
-                                    "form-data; name=\"$key\""
-                                )
-                                addPart(
-                                    partHeaders,
-                                    RequestBody.create(null, parameterToString(value))
-                                )
+                        (content as Map<String, PartConfig<*>>).forEach { (name, part) ->
+                            val contentType = part.headers.remove("Content-Type")
+                            val bodies = if (part.body is Iterable<*>) part.body else listOf(part.body)
+                            bodies.forEach { body ->
+                                val headers = part.headers.toMutableMap() +
+                                    ("Content-Disposition" to "form-data; name=\"$name\"" + if (body is File) "; filename=\"${body.name}\"" else "")
+                                addPart(Headers.of(headers),
+                                    requestSingleBody(body, contentType))
                             }
                         }
                     }.build()
-            }
+            else -> requestSingleBody(content, mediaType)
+        }
+
+    protected inline fun <reified T> requestSingleBody(content: T, mediaType: String?): RequestBody =
+        when {
+            content is File -> RequestBody.create(MediaType.parse(mediaType ?: guessContentTypeFromFile(content)), content)
             mediaType == FormUrlEncMediaType -> {
                 FormBody.Builder().apply {
-                    // content's type *must* be Map<String, Any?>
+                    // content's type *must* be Map<String, PartConfig<*>>
                     @Suppress("UNCHECKED_CAST")
-                    (content as Map<String, Any?>).forEach { (key, value) ->
-                        add(key, parameterToString(value))
+                    (content as Map<String, PartConfig<*>>).forEach { (name, part) ->
+                        add(name, parameterToString(part.body))
                     }
                 }.build()
             }
-            mediaType.startsWith("application/") && mediaType.endsWith("json") ->
+            mediaType == null || mediaType.startsWith("application/") && mediaType.endsWith("json") ->
                 if (content == null) {
                     EMPTY_REQUEST
                 } else {
                     RequestBody.create(
-                        MediaType.parse(mediaType), Serializer.moshi.adapter(T::class.java).toJson(content)
+                        MediaType.parse(mediaType ?: JsonMediaType), Serializer.moshi.adapter(T::class.java).toJson(content)
                     )
                 }
             mediaType == XmlMediaType -> throw UnsupportedOperationException("xml not currently supported.")
@@ -120,21 +115,20 @@ open class ApiClient(val baseUrl: String) {
         if(body == null) {
             return null
         }
+        if (T::class.java == File::class.java) {
+            // return tempfile
+            // Attention: if you are developing an android app that supports API Level 25 and bellow, please check flag supportAndroidApiLevel25AndBelow in https://openapi-generator.tech/docs/generators/kotlin#config-options
+            val f = java.nio.file.Files.createTempFile("tmp.org.openapitools.client", null).toFile()
+            f.deleteOnExit()
+            body.byteStream().use { java.nio.file.Files.copy(it, f.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING) }
+            return f as T
+        }
         val bodyContent = body.string()
         if (bodyContent.isEmpty()) {
             return null
         }
-        if (T::class.java == File::class.java) {
-            // return tempfile
-            val f = java.nio.file.Files.createTempFile("tmp.org.openapitools.client", null).toFile()
-            f.deleteOnExit()
-            val out = BufferedWriter(FileWriter(f))
-            out.write(bodyContent)
-            out.close()
-            return f as T
-        }
         return when {
-        mediaType==null || (mediaType.startsWith("application/") && mediaType.endsWith("json")) ->
+            mediaType==null || (mediaType.startsWith("application/") && mediaType.endsWith("json")) ->
                 Serializer.moshi.adapter<T>().fromJson(bodyContent)
             else ->  throw UnsupportedOperationException("responseBody currently only supports JSON body.")
         }

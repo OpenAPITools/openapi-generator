@@ -12,6 +12,7 @@
 import re  # noqa: F401
 import sys  # noqa: F401
 import typing  # noqa: F401
+import functools  # noqa: F401
 
 from frozendict import frozendict  # noqa: F401
 
@@ -31,6 +32,7 @@ from petstore_api.schemas import (  # noqa: F401
     Float32Schema,
     Float64Schema,
     NumberSchema,
+    UUIDSchema,
     DateSchema,
     DateTimeSchema,
     DecimalSchema,
@@ -52,6 +54,7 @@ from petstore_api.schemas import (  # noqa: F401
     Float32Base,
     Float64Base,
     NumberBase,
+    UUIDBase,
     DateBase,
     DateTimeBase,
     BoolBase,
@@ -82,14 +85,14 @@ class EnumClass(
     @classmethod
     @property
     def _ABC(cls):
-        return cls._enum_by_value["_abc"]("_abc")
+        return cls("_abc")
     
     @classmethod
     @property
     def EFG(cls):
-        return cls._enum_by_value["-efg"]("-efg")
+        return cls("-efg")
     
     @classmethod
     @property
     def XYZ(cls):
-        return cls._enum_by_value["(xyz)"]("(xyz)")
+        return cls("(xyz)")

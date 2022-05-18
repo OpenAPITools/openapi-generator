@@ -33,7 +33,7 @@ import javax.annotation.Generated;
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 @Validated
-@Tag(name = "pet", description = "the pet API")
+@Tag(name = "pet", description = "Everything about your Pets")
 public interface PetApi {
 
     default Optional<NativeWebRequest> getRequest() {
@@ -59,8 +59,6 @@ public interface PetApi {
             @SecurityRequirement(name = "petstore_auth", scopes={ "write:pets", "read:pets" })
         }
     )
-    @Parameters({
-    })
     @RequestMapping(
         method = RequestMethod.POST,
         value = "/pet",
@@ -131,8 +129,6 @@ public interface PetApi {
             @SecurityRequirement(name = "petstore_auth", scopes={ "write:pets", "read:pets" })
         }
     )
-    @Parameters({
-    })
     @RequestMapping(
         method = RequestMethod.GET,
         value = "/pet/findByStatus",
@@ -184,8 +180,6 @@ public interface PetApi {
             @SecurityRequirement(name = "petstore_auth", scopes={ "write:pets", "read:pets" })
         }
     )
-    @Parameters({
-    })
     @RequestMapping(
         method = RequestMethod.GET,
         value = "/pet/findByTags",
@@ -238,8 +232,6 @@ public interface PetApi {
             @SecurityRequirement(name = "api_key")
         }
     )
-    @Parameters({
-    })
     @RequestMapping(
         method = RequestMethod.GET,
         value = "/pet/{petId}",
@@ -290,8 +282,6 @@ public interface PetApi {
             @SecurityRequirement(name = "petstore_auth", scopes={ "write:pets", "read:pets" })
         }
     )
-    @Parameters({
-    })
     @RequestMapping(
         method = RequestMethod.PUT,
         value = "/pet",
@@ -324,8 +314,6 @@ public interface PetApi {
             @SecurityRequirement(name = "petstore_auth", scopes={ "write:pets", "read:pets" })
         }
     )
-    @Parameters({
-    })
     @RequestMapping(
         method = RequestMethod.POST,
         value = "/pet/{petId}",
@@ -362,8 +350,6 @@ public interface PetApi {
             @SecurityRequirement(name = "petstore_auth", scopes={ "write:pets", "read:pets" })
         }
     )
-    @Parameters({
-    })
     @RequestMapping(
         method = RequestMethod.POST,
         value = "/pet/{petId}/uploadImage",

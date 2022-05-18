@@ -32,10 +32,11 @@ export default function() {
         let enumQueryString = 'TODO_EDIT_THE_ENUM_QUERY_STRING'; // specify value as there is no example value for this parameter in OpenAPI spec
         let enumQueryStringArray = 'TODO_EDIT_THE_ENUM_QUERY_STRING_ARRAY'; // specify value as there is no example value for this parameter in OpenAPI spec
         let enumQueryDouble = 'TODO_EDIT_THE_ENUM_QUERY_DOUBLE'; // specify value as there is no example value for this parameter in OpenAPI spec
+        let enumQueryModelArray = 'TODO_EDIT_THE_ENUM_QUERY_MODEL_ARRAY'; // specify value as there is no example value for this parameter in OpenAPI spec
 
         // Request No. 1
         {
-            let url = BASE_URL + `/fake?enum_query_string_array=${enum_query_string_array}&enum_query_string=${enum_query_string}&enum_query_integer=${enum_query_integer}&enum_query_double=${enum_query_double}`;
+            let url = BASE_URL + `/fake?enum_query_string_array=${enum_query_string_array}&enum_query_string=${enum_query_string}&enum_query_integer=${enum_query_integer}&enum_query_double=${enum_query_double}&enum_query_model_array=${enum_query_model_array}`;
             // TODO: edit the parameters of the request body.
             let body = {"enumFormStringArray": "list", "enumFormString": "string"};
             let params = {headers: {"Content-Type": "application/x-www-form-urlencoded", "enum_header_string_array": `${enumHeaderStringArray}`, "enum_header_string": `${enumHeaderString}`, "Accept": "application/json"}};

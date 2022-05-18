@@ -93,26 +93,26 @@ class Capitalization {
   String toString() => 'Capitalization[smallCamel=$smallCamel, capitalCamel=$capitalCamel, smallSnake=$smallSnake, capitalSnake=$capitalSnake, sCAETHFlowPoints=$sCAETHFlowPoints, ATT_NAME=$ATT_NAME]';
 
   Map<String, dynamic> toJson() {
-    final json = <String, dynamic>{};
+    final _json = <String, dynamic>{};
     if (smallCamel != null) {
-      json[r'smallCamel'] = smallCamel;
+      _json[r'smallCamel'] = smallCamel;
     }
     if (capitalCamel != null) {
-      json[r'CapitalCamel'] = capitalCamel;
+      _json[r'CapitalCamel'] = capitalCamel;
     }
     if (smallSnake != null) {
-      json[r'small_Snake'] = smallSnake;
+      _json[r'small_Snake'] = smallSnake;
     }
     if (capitalSnake != null) {
-      json[r'Capital_Snake'] = capitalSnake;
+      _json[r'Capital_Snake'] = capitalSnake;
     }
     if (sCAETHFlowPoints != null) {
-      json[r'SCA_ETH_Flow_Points'] = sCAETHFlowPoints;
+      _json[r'SCA_ETH_Flow_Points'] = sCAETHFlowPoints;
     }
     if (ATT_NAME != null) {
-      json[r'ATT_NAME'] = ATT_NAME;
+      _json[r'ATT_NAME'] = ATT_NAME;
     }
-    return json;
+    return _json;
   }
 
   /// Returns a new [Capitalization] instance and imports its values from

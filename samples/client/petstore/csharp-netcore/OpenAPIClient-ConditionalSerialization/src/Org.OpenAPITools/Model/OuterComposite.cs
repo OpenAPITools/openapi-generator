@@ -41,8 +41,20 @@ namespace Org.OpenAPITools.Model
         public OuterComposite(decimal myNumber = default(decimal), string myString = default(string), bool myBoolean = default(bool))
         {
             this._MyNumber = myNumber;
+            if (this.MyNumber != null)
+            {
+                this._flagMyNumber = true;
+            }
             this._MyString = myString;
+            if (this.MyString != null)
+            {
+                this._flagMyString = true;
+            }
             this._MyBoolean = myBoolean;
+            if (this.MyBoolean != null)
+            {
+                this._flagMyBoolean = true;
+            }
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 

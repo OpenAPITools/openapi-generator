@@ -16,6 +16,8 @@ import io.micronaut.http.annotation.*;
 import io.micronaut.core.annotation.Nullable;
 import io.micronaut.core.convert.format.Format;
 import reactor.core.publisher.Mono;
+import io.micronaut.http.HttpStatus;
+import io.micronaut.http.exceptions.HttpStatusException;
 import io.micronaut.http.multipart.CompletedFileUpload;
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.Pet;
@@ -29,7 +31,7 @@ import javax.validation.constraints.*;
 import io.swagger.annotations.*;
 
 @Generated(value="org.openapitools.codegen.languages.JavaMicronautServerCodegen")
-@Controller("${context-path}")
+@Controller
 public class PetController {
     /**
      * Add a new pet to the store
@@ -59,10 +61,10 @@ public class PetController {
     public Mono<Pet> addPet(
         @Body @NotNull @Valid Pet pet
     ) {
-        // TODO implement addPet() body;
-        Mono<Pet> result = Mono.empty();
-        return result;
+        // TODO implement addPet();
+        return Mono.error(new HttpStatusException(HttpStatus.NOT_IMPLEMENTED, null));
     }
+
 
     /**
      * Deletes a pet
@@ -86,14 +88,14 @@ public class PetController {
         @ApiResponse(code = 400, message = "Invalid pet value")})
     @Delete(uri="/pet/{petId}")
     @Produces(value = {})
-    public Mono<Object> deletePet(
+    public Mono<Void> deletePet(
         @PathVariable(value="petId") @NotNull Long petId, 
         @Header(value="api_key") @Nullable String apiKey
     ) {
-        // TODO implement deletePet() body;
-        Mono<Object> result = Mono.empty();
-        return result;
+        // TODO implement deletePet();
+        return Mono.error(new HttpStatusException(HttpStatus.NOT_IMPLEMENTED, null));
     }
+
 
     /**
      * Finds Pets by status
@@ -122,10 +124,10 @@ public class PetController {
     public Mono<List<Pet>> findPetsByStatus(
         @QueryValue(value="status") @NotNull List<String> status
     ) {
-        // TODO implement findPetsByStatus() body;
-        Mono<List<Pet>> result = Mono.empty();
-        return result;
+        // TODO implement findPetsByStatus();
+        return Mono.error(new HttpStatusException(HttpStatus.NOT_IMPLEMENTED, null));
     }
+
 
     /**
      * Finds Pets by tags
@@ -154,10 +156,10 @@ public class PetController {
     public Mono<List<Pet>> findPetsByTags(
         @QueryValue(value="tags") @NotNull List<String> tags
     ) {
-        // TODO implement findPetsByTags() body;
-        Mono<List<Pet>> result = Mono.empty();
-        return result;
+        // TODO implement findPetsByTags();
+        return Mono.error(new HttpStatusException(HttpStatus.NOT_IMPLEMENTED, null));
     }
+
 
     /**
      * Find pet by ID
@@ -184,10 +186,10 @@ public class PetController {
     public Mono<Pet> getPetById(
         @PathVariable(value="petId") @NotNull Long petId
     ) {
-        // TODO implement getPetById() body;
-        Mono<Pet> result = Mono.empty();
-        return result;
+        // TODO implement getPetById();
+        return Mono.error(new HttpStatusException(HttpStatus.NOT_IMPLEMENTED, null));
     }
+
 
     /**
      * Update an existing pet
@@ -219,10 +221,10 @@ public class PetController {
     public Mono<Pet> updatePet(
         @Body @NotNull @Valid Pet pet
     ) {
-        // TODO implement updatePet() body;
-        Mono<Pet> result = Mono.empty();
-        return result;
+        // TODO implement updatePet();
+        return Mono.error(new HttpStatusException(HttpStatus.NOT_IMPLEMENTED, null));
     }
+
 
     /**
      * Updates a pet in the store with form data
@@ -248,15 +250,15 @@ public class PetController {
     @Post(uri="/pet/{petId}")
     @Produces(value = {})
     @Consumes(value = {"application/x-www-form-urlencoded"})
-    public Mono<Object> updatePetWithForm(
+    public Mono<Void> updatePetWithForm(
         @PathVariable(value="petId") @NotNull Long petId, 
         @Nullable String name, 
         @Nullable String status
     ) {
-        // TODO implement updatePetWithForm() body;
-        Mono<Object> result = Mono.empty();
-        return result;
+        // TODO implement updatePetWithForm();
+        return Mono.error(new HttpStatusException(HttpStatus.NOT_IMPLEMENTED, null));
     }
+
 
     /**
      * uploads an image
@@ -289,8 +291,8 @@ public class PetController {
         @Nullable String additionalMetadata, 
         @Nullable CompletedFileUpload _file
     ) {
-        // TODO implement uploadFile() body;
-        Mono<ModelApiResponse> result = Mono.empty();
-        return result;
+        // TODO implement uploadFile();
+        return Mono.error(new HttpStatusException(HttpStatus.NOT_IMPLEMENTED, null));
     }
+
 }

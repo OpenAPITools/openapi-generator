@@ -45,7 +45,7 @@ paths:
       summary: Add a new pet to the store
       tags:
       - pet
-      x-contentType: application/json
+      x-content-type: application/json
       x-accepts: application/json
     put:
       description: ""
@@ -75,7 +75,7 @@ paths:
       summary: Update an existing pet
       tags:
       - pet
-      x-contentType: application/json
+      x-content-type: application/json
       x-accepts: application/json
   /pet/findByStatus:
     get:
@@ -240,18 +240,10 @@ paths:
           type: integer
         style: simple
       requestBody:
-        $ref: '#/components/requestBodies/inline_object'
         content:
           application/x-www-form-urlencoded:
             schema:
-              properties:
-                name:
-                  description: Updated name of the pet
-                  type: string
-                status:
-                  description: Updated status of the pet
-                  type: string
-              type: object
+              $ref: '#/components/schemas/updatePetWithForm_request'
       responses:
         "405":
           description: Invalid input
@@ -262,7 +254,7 @@ paths:
       summary: Updates a pet in the store with form data
       tags:
       - pet
-      x-contentType: application/x-www-form-urlencoded
+      x-content-type: application/x-www-form-urlencoded
       x-accepts: application/json
   /pet/{petId}/uploadImage:
     post:
@@ -279,19 +271,10 @@ paths:
           type: integer
         style: simple
       requestBody:
-        $ref: '#/components/requestBodies/inline_object_1'
         content:
           multipart/form-data:
             schema:
-              properties:
-                additionalMetadata:
-                  description: Additional data to pass to server
-                  type: string
-                file:
-                  description: file to upload
-                  format: binary
-                  type: string
-              type: object
+              $ref: '#/components/schemas/uploadFile_request'
       responses:
         "200":
           content:
@@ -306,7 +289,7 @@ paths:
       summary: uploads an image
       tags:
       - pet
-      x-contentType: multipart/form-data
+      x-content-type: multipart/form-data
       x-accepts: application/json
   /store/inventory:
     get:
@@ -354,7 +337,7 @@ paths:
       summary: Place an order for a pet
       tags:
       - store
-      x-contentType: application/json
+      x-content-type: application/json
       x-accepts: application/json
   /store/order/{orderId}:
     delete:
@@ -432,7 +415,7 @@ paths:
       summary: Create user
       tags:
       - user
-      x-contentType: application/json
+      x-content-type: application/json
       x-accepts: application/json
   /user/createWithArray:
     post:
@@ -448,7 +431,7 @@ paths:
       summary: Creates list of users with given input array
       tags:
       - user
-      x-contentType: application/json
+      x-content-type: application/json
       x-accepts: application/json
   /user/createWithList:
     post:
@@ -464,7 +447,7 @@ paths:
       summary: Creates list of users with given input array
       tags:
       - user
-      x-contentType: application/json
+      x-content-type: application/json
       x-accepts: application/json
   /user/login:
     get:
@@ -623,7 +606,7 @@ paths:
       summary: Updated user
       tags:
       - user
-      x-contentType: application/json
+      x-content-type: application/json
       x-accepts: application/json
 components:
   requestBodies:
@@ -646,16 +629,6 @@ components:
             $ref: '#/components/schemas/Pet'
       description: Pet object that needs to be added to the store
       required: true
-    inline_object:
-      content:
-        application/x-www-form-urlencoded:
-          schema:
-            $ref: '#/components/schemas/inline_object'
-    inline_object_1:
-      content:
-        multipart/form-data:
-          schema:
-            $ref: '#/components/schemas/inline_object_1'
   schemas:
     Order:
       description: An order for a pets from the pet store
@@ -830,7 +803,7 @@ components:
           type: string
       title: An uploaded response
       type: object
-    inline_object:
+    updatePetWithForm_request:
       properties:
         name:
           description: Updated name of the pet
@@ -839,7 +812,7 @@ components:
           description: Updated status of the pet
           type: string
       type: object
-    inline_object_1:
+    uploadFile_request:
       properties:
         additionalMetadata:
           description: Additional data to pass to server

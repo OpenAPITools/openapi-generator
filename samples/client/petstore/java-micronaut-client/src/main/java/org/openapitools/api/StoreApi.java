@@ -37,9 +37,9 @@ public interface StoreApi {
      * @param orderId ID of the order that needs to be deleted (required)
      */
     @Delete(uri="/store/order/{order_id}")
-    Mono<Object> deleteOrder(
+    Mono<Void> deleteOrder(
         @PathVariable(name="order_id") @NotNull String orderId
-  );
+    );
     /**
      * Returns pet inventories by status
      * Returns a map of status codes to quantities
@@ -60,7 +60,7 @@ public interface StoreApi {
     @Consumes({"application/xml", "application/json"})
     Mono<Order> getOrderById(
         @PathVariable(name="order_id") @NotNull @Min(1L) @Max(5L) Long orderId
-  );
+    );
     /**
      * Place an order for a pet
      *
@@ -71,5 +71,5 @@ public interface StoreApi {
     @Consumes({"application/xml", "application/json"})
     Mono<Order> placeOrder(
         @Body @NotNull @Valid Order _body
-  );
+    );
 }

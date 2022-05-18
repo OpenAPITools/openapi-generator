@@ -21,7 +21,7 @@ from petstore_api.model_utils import (  # noqa: F401
     none_type,
     validate_and_convert_types
 )
-from petstore_api.model.inline_response_default import InlineResponseDefault
+from petstore_api.model.foo_get_default_response import FooGetDefaultResponse
 
 
 class DefaultApi(object):
@@ -37,7 +37,7 @@ class DefaultApi(object):
         self.api_client = api_client
         self.foo_get_endpoint = _Endpoint(
             settings={
-                'response_type': (InlineResponseDefault,),
+                'response_type': (FooGetDefaultResponse,),
                 'auth': [],
                 'endpoint_path': '/foo',
                 'operation_id': 'foo_get',
@@ -117,10 +117,14 @@ class DefaultApi(object):
             _host_index (int/None): specifies the index of the server
                 that we want to use.
                 Default is read from the configuration.
+            _request_auths (list): set to override the auth_settings for an a single
+                request; this effectively ignores the authentication
+                in the spec for a single request.
+                Default is None
             async_req (bool): execute request asynchronously
 
         Returns:
-            InlineResponseDefault
+            FooGetDefaultResponse
                 If the method is called asynchronously, returns the request
                 thread.
         """
@@ -148,5 +152,6 @@ class DefaultApi(object):
         kwargs['_content_type'] = kwargs.get(
             '_content_type')
         kwargs['_host_index'] = kwargs.get('_host_index')
+        kwargs['_request_auths'] = kwargs.get('_request_auths', None)
         return self.foo_get_endpoint.call_with_http_info(**kwargs)
 

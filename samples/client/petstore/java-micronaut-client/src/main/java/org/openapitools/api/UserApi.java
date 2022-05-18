@@ -17,7 +17,7 @@ import io.micronaut.core.annotation.*;
 import io.micronaut.http.client.annotation.Client;
 import io.micronaut.core.convert.format.Format;
 import reactor.core.publisher.Mono;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import org.openapitools.model.User;
 import javax.annotation.Generated;
 import java.util.ArrayList;
@@ -38,27 +38,27 @@ public interface UserApi {
      * @param _body Created user object (required)
      */
     @Post(uri="/user")
-    Mono<Object> createUser(
+    Mono<Void> createUser(
         @Body @NotNull @Valid User _body
-  );
+    );
     /**
      * Creates list of users with given input array
      *
      * @param _body List of user object (required)
      */
     @Post(uri="/user/createWithArray")
-    Mono<Object> createUsersWithArrayInput(
+    Mono<Void> createUsersWithArrayInput(
         @Body @NotNull List<User> _body
-  );
+    );
     /**
      * Creates list of users with given input array
      *
      * @param _body List of user object (required)
      */
     @Post(uri="/user/createWithList")
-    Mono<Object> createUsersWithListInput(
+    Mono<Void> createUsersWithListInput(
         @Body @NotNull List<User> _body
-  );
+    );
     /**
      * Delete user
      * This can only be done by the logged in user.
@@ -66,9 +66,9 @@ public interface UserApi {
      * @param username The name that needs to be deleted (required)
      */
     @Delete(uri="/user/{username}")
-    Mono<Object> deleteUser(
+    Mono<Void> deleteUser(
         @PathVariable(name="username") @NotNull String username
-  );
+    );
     /**
      * Get user by user name
      *
@@ -79,7 +79,7 @@ public interface UserApi {
     @Consumes({"application/xml", "application/json"})
     Mono<User> getUserByName(
         @PathVariable(name="username") @NotNull String username
-  );
+    );
     /**
      * Logs user into the system
      *
@@ -92,13 +92,13 @@ public interface UserApi {
     Mono<String> loginUser(
         @QueryValue(value="username") @NotNull String username, 
         @QueryValue(value="password") @NotNull String password
-  );
+    );
     /**
      * Logs out current logged in user session
      *
      */
     @Get(uri="/user/logout")
-    Mono<Object> logoutUser();
+    Mono<Void> logoutUser();
     /**
      * Updated user
      * This can only be done by the logged in user.
@@ -107,8 +107,8 @@ public interface UserApi {
      * @param _body Updated user object (required)
      */
     @Put(uri="/user/{username}")
-    Mono<Object> updateUser(
+    Mono<Void> updateUser(
         @PathVariable(name="username") @NotNull String username, 
         @Body @NotNull @Valid User _body
-  );
+    );
 }

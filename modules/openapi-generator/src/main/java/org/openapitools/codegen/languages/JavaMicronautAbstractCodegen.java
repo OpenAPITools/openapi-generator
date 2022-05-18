@@ -6,8 +6,13 @@ import com.samskivert.mustache.Template;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
+import org.openapitools.codegen.languages.features.OptionalFeatures;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.meta.features.SecurityFeature;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -16,7 +21,7 @@ import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.CodegenConstants.INVOKER_PACKAGE;
 
-public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen implements BeanValidationFeatures {
+public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen implements BeanValidationFeatures, OptionalFeatures {
     public static final String OPT_TITLE = "title";
     public static final String OPT_BUILD = "build";
     public static final String OPT_BUILD_GRADLE = "gradle";
@@ -28,28 +33,43 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
     public static final String OPT_REQUIRED_PROPERTIES_IN_CONSTRUCTOR = "requiredPropertiesInConstructor";
     public static final String OPT_MICRONAUT_VERSION = "micronautVersion";
     public static final String OPT_USE_AUTH = "useAuth";
+    public static final String OPT_VISITABLE = "visitable";
+    public static final String OPT_DATE_LIBRARY_JAVA8 = "java8";
+    public static final String OPT_DATE_LIBRARY_JAVA8_LOCAL_DATETIME = "java8-localdatetime";
+    public static final String OPT_DATE_FORMAT = "dateFormat";
+    public static final String OPT_DATETIME_FORMAT = "datetimeFormat";
+    public static final String OPT_REACTIVE = "reactive";
+    public static final String OPT_WRAP_IN_HTTP_RESPONSE = "wrapInHttpResponse";
 
     protected String title;
     protected boolean useBeanValidation;
+    protected boolean useOptional;
+    protected boolean visitable;
     protected String buildTool;
     protected String testTool;
     protected boolean requiredPropertiesInConstructor = true;
-    protected String micronautVersion = "3.3.1";
+    protected String micronautVersion;
+    protected boolean reactive;
+    protected boolean wrapInHttpResponse;
 
     public static final String CONTENT_TYPE_APPLICATION_FORM_URLENCODED = "application/x-www-form-urlencoded";
     public static final String CONTENT_TYPE_APPLICATION_JSON = "application/json";
     public static final String CONTENT_TYPE_MULTIPART_FORM_DATA = "multipart/form-data";
     public static final String CONTENT_TYPE_ANY = "*/*";
+    public static final String DATE_FORMAT = "yyyy-MM-dd";
+    public static final String DATETIME_FORMAT = DATE_FORMAT + "'T'HH:mm:ss.SSS";
+    public static final String OFFSET_DATETIME_FORMAT = DATETIME_FORMAT + "XXXX";
 
     public JavaMicronautAbstractCodegen() {
         super();
 
         // Set all the fields
         useBeanValidation = true;
+        useOptional = false;
+        visitable = false;
         buildTool = OPT_BUILD_ALL;
         testTool = OPT_TEST_JUNIT;
         outputFolder = "generated-code/java-micronaut-client";
-        templateDir = "java-micronaut/client";
         apiPackage = "org.openapitools.api";
         modelPackage = "org.openapitools.model";
         invokerPackage = "org.openapitools";
@@ -57,6 +77,10 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
         embeddedTemplateDir = templateDir = "java-micronaut";
         apiDocPath = "docs/apis";
         modelDocPath = "docs/models";
+        dateLibrary = OPT_DATE_LIBRARY_JAVA8;
+        micronautVersion = "3.3.1";
+        reactive = true;
+        wrapInHttpResponse = false;
 
         // Set implemented features for user information
         modifyFeatureSet(features -> features
@@ -88,10 +112,14 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
         cliOptions.add(new CliOption(OPT_TITLE, "Client service name").defaultValue(title));
         cliOptions.add(new CliOption(OPT_MICRONAUT_VERSION, "Micronaut version, only >=3.0.0 versions are supported").defaultValue(micronautVersion));
         cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations", useBeanValidation));
+        cliOptions.add(CliOption.newBoolean(USE_OPTIONAL, "Use Optional container for optional parameters", useOptional));
+        cliOptions.add(CliOption.newBoolean(OPT_VISITABLE, "Generate visitor for subtypes with a discriminator", visitable));
         cliOptions.add(CliOption.newBoolean(OPT_REQUIRED_PROPERTIES_IN_CONSTRUCTOR, "Allow only to create models with all the required properties provided in constructor", requiredPropertiesInConstructor));
+        cliOptions.add(CliOption.newBoolean(OPT_REACTIVE, "Make the responses use Reactor Mono as wrapper", reactive));
+        cliOptions.add(CliOption.newBoolean(OPT_WRAP_IN_HTTP_RESPONSE, "Wrap the response in HttpResponse object", wrapInHttpResponse));
 
         CliOption buildToolOption = new CliOption(OPT_BUILD, "Specify for which build tool to generate files").defaultValue(buildTool);
-        Map buildToolOptionMap = new HashMap<String, String>();
+        Map<String, String> buildToolOptionMap = new HashMap<>();
         buildToolOptionMap.put(OPT_BUILD_GRADLE, "Gradle configuration is generated for the project");
         buildToolOptionMap.put(OPT_BUILD_MAVEN, "Maven configuration is generated for the project");
         buildToolOptionMap.put(OPT_BUILD_ALL, "Both Gradle and Maven configurations are generated");
@@ -99,15 +127,22 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
         cliOptions.add(buildToolOption);
 
         CliOption testToolOption = new CliOption(OPT_TEST, "Specify which test tool to generate files for").defaultValue(testTool);
-        Map testToolOptionMap = new HashMap<String, String>();
+        Map<String, String> testToolOptionMap = new HashMap<>();
         testToolOptionMap.put(OPT_TEST_JUNIT, "Use JUnit as test tool");
         testToolOptionMap.put(OPT_TEST_SPOCK, "Use Spock as test tool");
         testToolOption.setEnum(testToolOptionMap);
         cliOptions.add(testToolOption);
 
-        // Remove the date library option
-        cliOptions.stream().filter(o -> o.getOpt().equals("dateLibrary")).findFirst()
-                .ifPresent(v -> cliOptions.remove(v));
+        cliOptions.add(new CliOption(OPT_DATE_FORMAT, "Specify the format pattern of date as a string"));
+        cliOptions.add(new CliOption(OPT_DATETIME_FORMAT, "Specify the format pattern of date-time as a string"));
+
+        // Modify the DATE_LIBRARY option to only have supported values
+        cliOptions.stream().filter(o -> o.getOpt().equals(DATE_LIBRARY)).findFirst().ifPresent(opt -> {
+            Map<String, String> valuesEnum = new HashMap<>();
+            valuesEnum.put(OPT_DATE_LIBRARY_JAVA8, opt.getEnum().get(OPT_DATE_LIBRARY_JAVA8));
+            valuesEnum.put(OPT_DATE_LIBRARY_JAVA8_LOCAL_DATETIME, opt.getEnum().get(OPT_DATE_LIBRARY_JAVA8_LOCAL_DATETIME));
+            opt.setEnum(valuesEnum);
+        });
 
         // Add reserved words
         String[] reservedWordsArray = {
@@ -144,10 +179,30 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
         }
         writePropertyBack(USE_BEANVALIDATION, useBeanValidation);
 
+        if (additionalProperties.containsKey(USE_OPTIONAL)) {
+            this.setUseOptional(convertPropertyToBoolean(USE_OPTIONAL));
+        }
+        writePropertyBack(USE_OPTIONAL, useOptional);
+
+        if (additionalProperties.containsKey(OPT_VISITABLE)) {
+            this.setVisitable(convertPropertyToBoolean(OPT_VISITABLE));
+        }
+        writePropertyBack(OPT_VISITABLE, visitable);
+
         if (additionalProperties.containsKey(OPT_REQUIRED_PROPERTIES_IN_CONSTRUCTOR)) {
             this.requiredPropertiesInConstructor = convertPropertyToBoolean(OPT_REQUIRED_PROPERTIES_IN_CONSTRUCTOR);
         }
         writePropertyBack(OPT_REQUIRED_PROPERTIES_IN_CONSTRUCTOR, requiredPropertiesInConstructor);
+
+        if (additionalProperties.containsKey(OPT_REACTIVE)) {
+            this.reactive = convertPropertyToBoolean(OPT_REACTIVE);
+        }
+        writePropertyBack(OPT_REACTIVE, reactive);
+
+        if (additionalProperties.containsKey(OPT_WRAP_IN_HTTP_RESPONSE)) {
+            this.wrapInHttpResponse = convertPropertyToBoolean(OPT_WRAP_IN_HTTP_RESPONSE);
+        }
+        writePropertyBack(OPT_WRAP_IN_HTTP_RESPONSE, wrapInHttpResponse);
 
         // Get enum properties
         if (additionalProperties.containsKey(OPT_BUILD)) {
@@ -214,11 +269,20 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
         // Git files
         supportingFiles.add(new SupportingFile("common/configuration/git/gitignore.mustache", "", ".gitignore").doNotOverwrite());
 
-        // Use the default java LocalDate
-        typeMapping.put("date", "LocalDate");
-        typeMapping.put("DateTime", "LocalDateTime");
-        importMapping.put("LocalDate", "java.time.LocalDate");
-        importMapping.put("LocalDateTime", "java.time.LocalDateTime");
+        // Use the default java time
+        additionalProperties.putIfAbsent(OPT_DATE_FORMAT, DATE_FORMAT);
+        if (dateLibrary.equals(OPT_DATE_LIBRARY_JAVA8)) {
+            typeMapping.put("DateTime", "OffsetDateTime");
+            typeMapping.put("date", "LocalDate");
+            additionalProperties.putIfAbsent(OPT_DATETIME_FORMAT, OFFSET_DATETIME_FORMAT);
+        } else if (dateLibrary.equals(OPT_DATE_LIBRARY_JAVA8_LOCAL_DATETIME)) {
+            typeMapping.put("DateTime", "LocalDateTime");
+            typeMapping.put("date", "LocalDate");
+            additionalProperties.putIfAbsent(OPT_DATETIME_FORMAT, DATETIME_FORMAT);
+        }
+        importMapping.putIfAbsent("LocalDateTime", "java.time.LocalDateTime");
+        importMapping.putIfAbsent("OffsetDateTime", "java.time.OffsetDateTime");
+        importMapping.putIfAbsent("LocalDate", "java.time.LocalDate");
 
         // Add documentation files
         modelDocTemplateFiles.clear();
@@ -284,6 +348,15 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
     }
 
     @Override
+    public void setUseOptional(boolean useOptional) {
+        this.useOptional = useOptional;
+    }
+
+    public void setVisitable(boolean visitable) {
+        this.visitable = visitable;
+    }
+
+    @Override
     public String toApiVarName(String name) {
         String apiVarName = super.toApiVarName(name);
         if (reservedWords.contains(apiVarName)) {
@@ -296,15 +369,23 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
         return useBeanValidation;
     }
 
+    public boolean isUseOptional() {
+        return useOptional;
+    }
+
+    public boolean isVisitable() {
+        return visitable;
+    }
+
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         objs = super.postProcessOperationsWithModels(objs, allModels);
 
         Map<String, CodegenModel> models = allModels.stream()
-                .map(v -> ((Map<String, CodegenModel>) v).get("model"))
+                .map(ModelMap::getModel)
                 .collect(Collectors.toMap(v -> v.classname, v -> v));
-        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
-        List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
+        OperationMap operations = objs.getOperations();
+        List<CodegenOperation> operationList = operations.getOperation();
 
         for (CodegenOperation op : operationList) {
             // Set whether body is supported in request
@@ -322,14 +403,14 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
                         allowableValues = (List<Object>) m.allowableValues.get("values");
                     }
                     example = getExampleValue(m.defaultValue, null, m.classname, true,
-                            allowableValues, null, null, m.requiredVars, false);
+                            allowableValues, null, null, m.requiredVars, false, false);
                     groovyExample = getExampleValue(m.defaultValue, null, m.classname, true,
-                            allowableValues, null, null, m.requiredVars, true);
+                            allowableValues, null, null, m.requiredVars, true, false);
                 } else {
                     example = getExampleValue(null, null, op.returnType, false, null,
-                            op.returnBaseType, null, null, false);
+                            op.returnBaseType, null, null, false, false);
                     groovyExample = getExampleValue(null, null, op.returnType, false, null,
-                            op.returnBaseType, null, null, true);
+                            op.returnBaseType, null, null, true, false);
                 }
                 op.vendorExtensions.put("example", example);
                 op.vendorExtensions.put("groovyExample", groovyExample);
@@ -370,12 +451,11 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
     }
 
     @Override
-    public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
+    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
         objs = super.postProcessAllModels(objs);
 
-        for (String modelName: objs.keySet()) {
-            CodegenModel model = ((Map<String, List<Map<String, CodegenModel>>>) objs.get(modelName))
-                    .get("models").get(0).get("model");
+        for (ModelsMap models: objs.values()) {
+            CodegenModel model = models.getModels().get(0).getModel();
             if (model.getParentModel() != null) {
                 model.vendorExtensions.put("requiredParentVars", model.getParentModel().requiredVars);
             }
@@ -399,7 +479,7 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
         return getExampleValue(p.defaultValue, p.example, p.dataType, p.isModel, allowableValues,
                 p.items == null ? null : p.items.dataType,
                 p.items == null ? null : p.items.defaultValue,
-                p.requiredVars, groovy);
+                p.requiredVars, groovy, false);
     }
 
     protected String getPropertyExampleValue(CodegenProperty p, boolean groovy) {
@@ -408,12 +488,12 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
         return getExampleValue(p.defaultValue, p.example, p.dataType, p.isModel, allowableValues,
                 p.items == null ? null : p.items.dataType,
                 p.items == null ? null : p.items.defaultValue,
-                null, groovy);
+                null, groovy, true);
     }
 
     public String getExampleValue(
             String defaultValue, String example, String dataType, Boolean isModel, List<Object> allowableValues,
-            String itemsType, String itemsExample, List<CodegenProperty> requiredVars, boolean groovy
+            String itemsType, String itemsExample, List<CodegenProperty> requiredVars, boolean groovy, boolean isProperty
     ) {
         example = defaultValue != null ? defaultValue : example;
         String containerType = dataType == null ? null : dataType.split("<")[0];
@@ -436,6 +516,8 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
             example = example != null ? example : "false";
         } else if ("File".equals(dataType)) {
             example = null;
+        } else if ("OffsetDateTime".equals(dataType)) {
+            example = "OffsetDateTime.of(2001, 2, 3, 12, 0, 0, 0, java.time.ZoneOffset.of(\"+02:00\"))";
         } else if ("LocalDate".equals(dataType)) {
             example = "LocalDate.of(2001, 2, 3)";
         } else if ("LocalDateTime".equals(dataType)) {
@@ -448,6 +530,9 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
             if (value == null || !allowableValues.contains(value)) {
                 value = allowableValues.get(0);
             }
+            if (isProperty) {
+                dataType = importMapping.getOrDefault(dataType, modelPackage + '.' + dataType);
+            }
             example = dataType + ".fromValue(\"" + value + "\")";
         } else if ((isModel != null && isModel) || (isModel == null && !languageSpecificPrimitives.contains(dataType))) {
             if (requiredVars == null) {
@@ -455,6 +540,9 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
             } else {
                 if (requiredPropertiesInConstructor) {
                     StringBuilder builder = new StringBuilder();
+                    if (isProperty) {
+                        dataType =  importMapping.getOrDefault(dataType, modelPackage + '.' + dataType);
+                    }
                     builder.append("new ").append(dataType).append("(");
                     for (int i = 0; i < requiredVars.size(); ++i) {
                         if (i != 0) {

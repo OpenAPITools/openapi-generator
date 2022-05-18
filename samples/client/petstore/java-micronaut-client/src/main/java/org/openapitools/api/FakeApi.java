@@ -21,8 +21,8 @@ import java.math.BigDecimal;
 import java.io.File;
 import org.openapitools.model.FileSchemaTestClass;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import org.openapitools.model.ModelClient;
+import java.time.OffsetDateTime;
 import org.openapitools.model.OuterComposite;
 import org.openapitools.model.User;
 import org.openapitools.model.XmlItem;
@@ -46,9 +46,9 @@ public interface FakeApi {
      */
     @Post(uri="/fake/create_xml_item")
     @Produces({"application/xml", "application/xml; charset=utf-8", "application/xml; charset=utf-16", "text/xml", "text/xml; charset=utf-8", "text/xml; charset=utf-16"})
-    Mono<Object> createXmlItem(
+    Mono<Void> createXmlItem(
         @Body @NotNull @Valid XmlItem xmlItem
-  );
+    );
     /**
      * Test serialization of outer boolean types
      *
@@ -59,7 +59,7 @@ public interface FakeApi {
     
     Mono<Boolean> fakeOuterBooleanSerialize(
         @Body @Nullable Boolean _body
-  );
+    );
     /**
      * Test serialization of object with outer number type
      *
@@ -70,7 +70,7 @@ public interface FakeApi {
     
     Mono<OuterComposite> fakeOuterCompositeSerialize(
         @Body @Nullable @Valid OuterComposite _body
-  );
+    );
     /**
      * Test serialization of outer number types
      *
@@ -81,7 +81,7 @@ public interface FakeApi {
     
     Mono<BigDecimal> fakeOuterNumberSerialize(
         @Body @Nullable BigDecimal _body
-  );
+    );
     /**
      * Test serialization of outer string types
      *
@@ -92,7 +92,7 @@ public interface FakeApi {
     
     Mono<String> fakeOuterStringSerialize(
         @Body @Nullable String _body
-  );
+    );
     /**
      * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
      *
@@ -100,9 +100,9 @@ public interface FakeApi {
      */
     @Put(uri="/fake/body-with-file-schema")
     @Produces({"application/json"})
-    Mono<Object> testBodyWithFileSchema(
+    Mono<Void> testBodyWithFileSchema(
         @Body @NotNull @Valid FileSchemaTestClass _body
-  );
+    );
     /**
      * testBodyWithQueryParams
      *
@@ -111,10 +111,10 @@ public interface FakeApi {
      */
     @Put(uri="/fake/body-with-query-params")
     @Produces({"application/json"})
-    Mono<Object> testBodyWithQueryParams(
+    Mono<Void> testBodyWithQueryParams(
         @QueryValue(value="query") @NotNull String query, 
         @Body @NotNull @Valid User _body
-  );
+    );
     /**
      * To test \&quot;client\&quot; model
      * To test \&quot;client\&quot; model
@@ -127,7 +127,7 @@ public interface FakeApi {
     @Produces({"application/json"})
     Mono<ModelClient> testClientModel(
         @Body @NotNull @Valid ModelClient _body
-  );
+    );
     /**
      * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
      * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
@@ -149,7 +149,7 @@ public interface FakeApi {
      */
     @Post(uri="/fake")
     @Produces({"application/x-www-form-urlencoded"})
-    Mono<Object> testEndpointParameters(
+    Mono<Void> testEndpointParameters(
         @NotNull @DecimalMin("32.1") @DecimalMax("543.2") BigDecimal number, 
         @NotNull @DecimalMin("67.8") @DecimalMax("123.4") Double _double, 
         @NotNull @Pattern(regexp="^[A-Z].*") String patternWithoutDelimiter, 
@@ -161,10 +161,10 @@ public interface FakeApi {
         @Nullable @Pattern(regexp="/[a-z]/i") String string, 
         @Nullable File binary, 
         @Nullable @Format("yyyy-MM-dd") LocalDate date, 
-        @Nullable @Format("yyyy-MM-dd'T'HH:mm:ss.SSSXXXX") LocalDateTime dateTime, 
+        @Nullable @Format("yyyy-MM-dd'T'HH:mm:ss.SSSXXXX") OffsetDateTime dateTime, 
         @Nullable @Size(min=10, max=64) String password, 
         @Nullable String paramCallback
-  );
+    );
     /**
      * To test enum parameters
      * To test enum parameters
@@ -180,7 +180,7 @@ public interface FakeApi {
      */
     @Get(uri="/fake")
     @Produces({"application/x-www-form-urlencoded"})
-    Mono<Object> testEnumParameters(
+    Mono<Void> testEnumParameters(
         @Header(name="enum_header_string_array") @Nullable List<String> enumHeaderStringArray, 
         @Header(name="enum_header_string", defaultValue="-efg") @Nullable String enumHeaderString, 
         @QueryValue(value="enum_query_string_array") @Nullable List<String> enumQueryStringArray, 
@@ -189,7 +189,7 @@ public interface FakeApi {
         @QueryValue(value="enum_query_double") @Nullable Double enumQueryDouble, 
         @Nullable List<String> enumFormStringArray, 
         @Nullable String enumFormString
-  );
+    );
     /**
      * Fake endpoint to test group parameters (optional)
      * Fake endpoint to test group parameters (optional)
@@ -202,14 +202,14 @@ public interface FakeApi {
      * @param int64Group Integer in group parameters (optional)
      */
     @Delete(uri="/fake")
-    Mono<Object> testGroupParameters(
+    Mono<Void> testGroupParameters(
         @QueryValue(value="required_string_group") @NotNull Integer requiredStringGroup, 
         @Header(name="required_boolean_group") @NotNull Boolean requiredBooleanGroup, 
         @QueryValue(value="required_int64_group") @NotNull Long requiredInt64Group, 
         @QueryValue(value="string_group") @Nullable Integer stringGroup, 
         @Header(name="boolean_group") @Nullable Boolean booleanGroup, 
         @QueryValue(value="int64_group") @Nullable Long int64Group
-  );
+    );
     /**
      * test inline additionalProperties
      *
@@ -217,9 +217,9 @@ public interface FakeApi {
      */
     @Post(uri="/fake/inline-additionalProperties")
     @Produces({"application/json"})
-    Mono<Object> testInlineAdditionalProperties(
+    Mono<Void> testInlineAdditionalProperties(
         @Body @NotNull Map<String, String> param
-  );
+    );
     /**
      * test json serialization of form data
      *
@@ -228,10 +228,10 @@ public interface FakeApi {
      */
     @Get(uri="/fake/jsonFormData")
     @Produces({"application/x-www-form-urlencoded"})
-    Mono<Object> testJsonFormData(
+    Mono<Void> testJsonFormData(
         @NotNull String param, 
         @NotNull String param2
-  );
+    );
     /**
      * To test the collection format in query parameters
      *
@@ -242,11 +242,11 @@ public interface FakeApi {
      * @param context  (required)
      */
     @Put(uri="/fake/test-query-parameters")
-    Mono<Object> testQueryParameterCollectionFormat(
+    Mono<Void> testQueryParameterCollectionFormat(
         @QueryValue(value="pipe") @NotNull List<String> pipe, 
         @QueryValue(value="ioutil") @NotNull List<String> ioutil, 
         @QueryValue(value="http") @NotNull List<String> http, 
         @QueryValue(value="url") @NotNull List<String> url, 
         @QueryValue(value="context") @NotNull List<String> context
-  );
+    );
 }

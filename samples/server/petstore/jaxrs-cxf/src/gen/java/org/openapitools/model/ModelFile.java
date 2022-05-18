@@ -12,6 +12,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
   * Must be named `File` for test.
  **/
 @ApiModel(description="Must be named `File` for test.")
+
 public class ModelFile  {
   
   @ApiModelProperty(value = "Test capitalization")

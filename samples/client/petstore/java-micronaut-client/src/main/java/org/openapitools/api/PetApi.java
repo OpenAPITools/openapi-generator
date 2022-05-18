@@ -40,9 +40,9 @@ public interface PetApi {
      */
     @Post(uri="/pet")
     @Produces({"application/json", "application/xml"})
-    Mono<Object> addPet(
+    Mono<Void> addPet(
         @Body @NotNull @Valid Pet _body
-  );
+    );
     /**
      * Deletes a pet
      *
@@ -50,10 +50,10 @@ public interface PetApi {
      * @param apiKey  (optional)
      */
     @Delete(uri="/pet/{petId}")
-    Mono<Object> deletePet(
+    Mono<Void> deletePet(
         @PathVariable(name="petId") @NotNull Long petId, 
         @Header(name="api_key") @Nullable String apiKey
-  );
+    );
     /**
      * Finds Pets by status
      * Multiple status values can be provided with comma separated strings
@@ -65,7 +65,7 @@ public interface PetApi {
     @Consumes({"application/xml", "application/json"})
     Mono<List<Pet>> findPetsByStatus(
         @QueryValue(value="status") @NotNull List<String> status
-  );
+    );
     /**
      * Finds Pets by tags
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
@@ -77,7 +77,7 @@ public interface PetApi {
     @Consumes({"application/xml", "application/json"})
     Mono<Set<Pet>> findPetsByTags(
         @QueryValue(value="tags") @NotNull Set<String> tags
-  );
+    );
     /**
      * Find pet by ID
      * Returns a single pet
@@ -89,7 +89,7 @@ public interface PetApi {
     @Consumes({"application/xml", "application/json"})
     Mono<Pet> getPetById(
         @PathVariable(name="petId") @NotNull Long petId
-  );
+    );
     /**
      * Update an existing pet
      *
@@ -97,9 +97,9 @@ public interface PetApi {
      */
     @Put(uri="/pet")
     @Produces({"application/json", "application/xml"})
-    Mono<Object> updatePet(
+    Mono<Void> updatePet(
         @Body @NotNull @Valid Pet _body
-  );
+    );
     /**
      * Updates a pet in the store with form data
      *
@@ -109,11 +109,11 @@ public interface PetApi {
      */
     @Post(uri="/pet/{petId}")
     @Produces({"application/x-www-form-urlencoded"})
-    Mono<Object> updatePetWithForm(
+    Mono<Void> updatePetWithForm(
         @PathVariable(name="petId") @NotNull Long petId, 
         @Nullable String name, 
         @Nullable String status
-  );
+    );
     /**
      * uploads an image
      *
@@ -129,7 +129,7 @@ public interface PetApi {
         @PathVariable(name="petId") @NotNull Long petId, 
         @Nullable String additionalMetadata, 
         @Nullable File _file
-  );
+    );
     /**
      * uploads an image (required)
      *
@@ -145,5 +145,5 @@ public interface PetApi {
         @PathVariable(name="petId") @NotNull Long petId, 
         @NotNull File requiredFile, 
         @Nullable String additionalMetadata
-  );
+    );
 }

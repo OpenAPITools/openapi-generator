@@ -2,8 +2,11 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.openapitools.model.Animal;
 import org.openapitools.model.DogAllOf;
 import org.openapitools.jackson.nullable.JsonNullable;
@@ -20,8 +23,9 @@ import javax.annotation.Generated;
  * Dog
  */
 
+
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class Dog extends Animal  {
+public class Dog extends Animal {
 
   @JsonProperty("breed")
   private String breed;
@@ -43,6 +47,16 @@ public class Dog extends Animal  {
 
   public void setBreed(String breed) {
     this.breed = breed;
+  }
+
+  public Dog className(String className) {
+    super.setClassName(className);
+    return this;
+  }
+
+  public Dog color(String color) {
+    super.setColor(color);
+    return this;
   }
 
   @Override

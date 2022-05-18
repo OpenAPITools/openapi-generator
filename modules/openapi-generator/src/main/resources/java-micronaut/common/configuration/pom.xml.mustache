@@ -16,6 +16,7 @@
     <properties>
         <packaging>jar</packaging>
         <jdk.version>1.8</jdk.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!-- If you are building with JDK 9 or higher, you can uncomment the lines below to set the release version -->
         <!-- <release.version>8</release.version> -->
         <micronaut.version>{{{micronautVersion}}}</micronaut.version>
@@ -97,11 +98,13 @@
             <artifactId>micronaut-runtime</artifactId>
             <scope>compile</scope>
         </dependency>
+    {{#reactive}}
         <dependency>
             <groupId>io.micronaut.reactor</groupId>
             <artifactId>micronaut-reactor</artifactId>
             <scope>compile</scope>
         </dependency>
+    {{/reactive}}
     {{#useAuth}}
         <dependency>
             <groupId>io.micronaut.security</groupId>

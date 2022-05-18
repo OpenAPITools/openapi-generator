@@ -17,7 +17,7 @@ class StoreApiTest {
      */
     @Test
     fun deleteOrderTest() {
-        val orderId:kotlin.String = TODO()
+        val orderId: kotlin.String = TODO()
         val response: ResponseEntity<Unit> = api.deleteOrder(orderId)
 
         // TODO: test validations
@@ -44,7 +44,7 @@ class StoreApiTest {
      */
     @Test
     fun getOrderByIdTest() {
-        val orderId:kotlin.Long = TODO()
+        val orderId: kotlin.Long = TODO()
         val response: ResponseEntity<Order> = api.getOrderById(orderId)
 
         // TODO: test validations
@@ -58,10 +58,9 @@ class StoreApiTest {
      */
     @Test
     fun placeOrderTest() {
-        val body:Order = TODO()
+        val body: Order = TODO()
         val response: ResponseEntity<Order> = api.placeOrder(body)
 
         // TODO: test validations
     }
-
 }

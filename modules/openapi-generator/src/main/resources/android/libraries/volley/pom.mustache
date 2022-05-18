@@ -45,13 +45,14 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.8.1</version>
         <configuration>
-          <source>{{#java8}}1.8{{/java8}}{{^java8}}1.7{{/java8}}</source>
-          <target>{{#java8}}1.8{{/java8}}{{^java8}}1.7{{/java8}}</target>
+          <source>1.8</source>
+          <target>1.8</target>
         </configuration>
       </plugin>
     </plugins>
   </build>
   <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <swagger-annotations-version>1.5.8</swagger-annotations-version>
     <httpcomponents-httpmime-version>4.5.2</httpcomponents-httpmime-version>
     <google-code-gson-version>2.6.2</google-code-gson-version>

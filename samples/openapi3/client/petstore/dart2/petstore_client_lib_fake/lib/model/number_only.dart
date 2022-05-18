@@ -37,11 +37,11 @@ class NumberOnly {
   String toString() => 'NumberOnly[justNumber=$justNumber]';
 
   Map<String, dynamic> toJson() {
-    final json = <String, dynamic>{};
+    final _json = <String, dynamic>{};
     if (justNumber != null) {
-      json[r'JustNumber'] = justNumber;
+      _json[r'JustNumber'] = justNumber;
     }
-    return json;
+    return _json;
   }
 
   /// Returns a new [NumberOnly] instance and imports its values from

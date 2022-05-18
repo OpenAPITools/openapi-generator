@@ -78,6 +78,7 @@ class TestFruitReq(unittest.TestCase):
                     apple_req.AppleReq,
                     banana_req.BananaReq,
                 ],
+                'not': None
             }
         )
 

@@ -1,7 +1,6 @@
 {{!CLIENT CONFIGURATION}}
 {{#client}}
 base-path: "{{{basePath}}}/"
-context-path: "{{{contextPath}}}/"
 
 micronaut:
     application:
@@ -56,13 +55,13 @@ micronaut:
 {{/client}}
 {{!SERVER CONFIGURATION}}
 {{#server}}
-context-path: "{{{contextPath}}}/"
 
 micronaut:
     application:
         name: {{artifactId}}
     server:
-        port: 8080
+        port: 8080{{#contextPath}}
+        context-path: "{{{contextPath}}}"{{/contextPath}}
     security:
         # authentication: bearer | cookie | session | idtoken
 {{/server}}

@@ -26,7 +26,7 @@ import javax.annotation.Generated;
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 @Validated
-@Api(value = "user", description = "the user API")
+@Api(value = "user", description = "Operations about user")
 public interface UserApi {
 
     default Optional<NativeWebRequest> getRequest() {
@@ -48,8 +48,6 @@ public interface UserApi {
     )
     @ApiResponses({
         @ApiResponse(code = 200, message = "successful operation")
-    })
-    @ApiImplicitParams({
     })
     @RequestMapping(
         method = RequestMethod.POST,
@@ -78,8 +76,6 @@ public interface UserApi {
     @ApiResponses({
         @ApiResponse(code = 200, message = "successful operation")
     })
-    @ApiImplicitParams({
-    })
     @RequestMapping(
         method = RequestMethod.POST,
         value = "/user/createWithArray"
@@ -106,8 +102,6 @@ public interface UserApi {
     )
     @ApiResponses({
         @ApiResponse(code = 200, message = "successful operation")
-    })
-    @ApiImplicitParams({
     })
     @RequestMapping(
         method = RequestMethod.POST,
@@ -138,8 +132,6 @@ public interface UserApi {
     @ApiResponses({
         @ApiResponse(code = 400, message = "Invalid username supplied"),
         @ApiResponse(code = 404, message = "User not found")
-    })
-    @ApiImplicitParams({
     })
     @RequestMapping(
         method = RequestMethod.DELETE,
@@ -172,8 +164,6 @@ public interface UserApi {
         @ApiResponse(code = 200, message = "successful operation", response = User.class),
         @ApiResponse(code = 400, message = "Invalid username supplied"),
         @ApiResponse(code = 404, message = "User not found")
-    })
-    @ApiImplicitParams({
     })
     @RequestMapping(
         method = RequestMethod.GET,
@@ -221,8 +211,6 @@ public interface UserApi {
         @ApiResponse(code = 200, message = "successful operation", response = String.class),
         @ApiResponse(code = 400, message = "Invalid username/password supplied")
     })
-    @ApiImplicitParams({
-    })
     @RequestMapping(
         method = RequestMethod.GET,
         value = "/user/login",
@@ -250,8 +238,6 @@ public interface UserApi {
     )
     @ApiResponses({
         @ApiResponse(code = 200, message = "successful operation")
-    })
-    @ApiImplicitParams({
     })
     @RequestMapping(
         method = RequestMethod.GET,
@@ -283,8 +269,6 @@ public interface UserApi {
     @ApiResponses({
         @ApiResponse(code = 400, message = "Invalid user supplied"),
         @ApiResponse(code = 404, message = "User not found")
-    })
-    @ApiImplicitParams({
     })
     @RequestMapping(
         method = RequestMethod.PUT,

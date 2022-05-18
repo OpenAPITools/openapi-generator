@@ -26,7 +26,7 @@ import javax.annotation.Generated;
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 @Validated
-@Api(value = "pet", description = "the pet API")
+@Api(value = "pet", description = "Everything about your Pets")
 public interface PetApi {
 
     default Optional<NativeWebRequest> getRequest() {
@@ -55,8 +55,6 @@ public interface PetApi {
     @ApiResponses({
         @ApiResponse(code = 200, message = "successful operation"),
         @ApiResponse(code = 405, message = "Invalid input")
-    })
-    @ApiImplicitParams({
     })
     @RequestMapping(
         method = RequestMethod.POST,
@@ -95,7 +93,7 @@ public interface PetApi {
         @ApiResponse(code = 400, message = "Invalid pet value")
     })
     @ApiImplicitParams({
-        @ApiImplicitParam(name = "apiKey", value = "",  dataType = "String", paramType = "header")
+        @ApiImplicitParam(name = "api_key", value = "",  dataType = "String", paramType = "header")
     })
     @RequestMapping(
         method = RequestMethod.DELETE,
@@ -134,8 +132,6 @@ public interface PetApi {
     @ApiResponses({
         @ApiResponse(code = 200, message = "successful operation", response = Pet.class, responseContainer = "List"),
         @ApiResponse(code = 400, message = "Invalid status value")
-    })
-    @ApiImplicitParams({
     })
     @RequestMapping(
         method = RequestMethod.GET,
@@ -191,8 +187,6 @@ public interface PetApi {
         @ApiResponse(code = 200, message = "successful operation", response = Pet.class, responseContainer = "Set"),
         @ApiResponse(code = 400, message = "Invalid tag value")
     })
-    @ApiImplicitParams({
-    })
     @RequestMapping(
         method = RequestMethod.GET,
         value = "/pet/findByTags",
@@ -243,8 +237,6 @@ public interface PetApi {
         @ApiResponse(code = 200, message = "successful operation", response = Pet.class),
         @ApiResponse(code = 400, message = "Invalid ID supplied"),
         @ApiResponse(code = 404, message = "Pet not found")
-    })
-    @ApiImplicitParams({
     })
     @RequestMapping(
         method = RequestMethod.GET,
@@ -300,8 +292,6 @@ public interface PetApi {
         @ApiResponse(code = 404, message = "Pet not found"),
         @ApiResponse(code = 405, message = "Validation exception")
     })
-    @ApiImplicitParams({
-    })
     @RequestMapping(
         method = RequestMethod.PUT,
         value = "/pet",
@@ -337,8 +327,6 @@ public interface PetApi {
     )
     @ApiResponses({
         @ApiResponse(code = 405, message = "Invalid input")
-    })
-    @ApiImplicitParams({
     })
     @RequestMapping(
         method = RequestMethod.POST,
@@ -378,8 +366,6 @@ public interface PetApi {
     )
     @ApiResponses({
         @ApiResponse(code = 200, message = "successful operation", response = ModelApiResponse.class)
-    })
-    @ApiImplicitParams({
     })
     @RequestMapping(
         method = RequestMethod.POST,

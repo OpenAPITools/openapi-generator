@@ -19,7 +19,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("MapTest")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class MapTest  implements Serializable {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+public class MapTest  implements Serializable {
   
   private @Valid Map<String, Map<String, String>> mapMapOfString = new HashMap<>();
 
@@ -82,8 +83,6 @@ public enum InnerEnum {
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("map_map_of_string")
   public Map<String, Map<String, String>> getMapMapOfString() {
@@ -117,8 +116,6 @@ public enum InnerEnum {
     this.mapOfEnumString = mapOfEnumString;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -156,8 +153,6 @@ public enum InnerEnum {
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("direct_map")
   public Map<String, Boolean> getDirectMap() {
@@ -191,8 +186,6 @@ public enum InnerEnum {
     this.indirectMap = indirectMap;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")

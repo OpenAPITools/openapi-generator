@@ -107,7 +107,7 @@ public class MapTest {
     @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_MAP_MAP_OF_STRING)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public Map<String, Map<String, String>> getMapMapOfString() {
+    public Map<String, Map<String, String>> getMapMapOfString() {
         return mapMapOfString;
     }
 
@@ -138,7 +138,7 @@ public class MapTest {
     @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_MAP_OF_ENUM_STRING)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public Map<String, InnerEnum> getMapOfEnumString() {
+    public Map<String, InnerEnum> getMapOfEnumString() {
         return mapOfEnumString;
     }
 
@@ -169,7 +169,7 @@ public class MapTest {
     @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_DIRECT_MAP)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public Map<String, Boolean> getDirectMap() {
+    public Map<String, Boolean> getDirectMap() {
         return directMap;
     }
 
@@ -200,7 +200,7 @@ public class MapTest {
     @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_INDIRECT_MAP)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public Map<String, Boolean> getIndirectMap() {
+    public Map<String, Boolean> getIndirectMap() {
         return indirectMap;
     }
 
