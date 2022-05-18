@@ -49,6 +49,11 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>io.micronaut.xml</groupId>
+            <artifactId>micronaut-jackson-xml</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
             <groupId>org.spockframework</groupId>
             <artifactId>spock-core</artifactId>
             <scope>test</scope>
