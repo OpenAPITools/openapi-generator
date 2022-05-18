@@ -17,8 +17,6 @@ import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.*;
 
 import javax.validation.constraints.*;
@@ -66,7 +64,6 @@ public class Animal {
      * @return className
      **/
     @NotNull
-    @ApiModelProperty(required = true, value = "")
     @JsonProperty(JSON_PROPERTY_CLASS_NAME)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
     public String getClassName() {
@@ -75,7 +72,7 @@ public class Animal {
 
     @JsonProperty(JSON_PROPERTY_CLASS_NAME)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
-       public void setClassName(String className) {
+    public void setClassName(String className) {
         this.className = className;
     }
 
@@ -89,7 +86,6 @@ public class Animal {
      * @return color
      **/
     @Nullable
-    @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_COLOR)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public String getColor() {
@@ -98,7 +94,7 @@ public class Animal {
 
     @JsonProperty(JSON_PROPERTY_COLOR)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public void setColor(String color) {
+    public void setColor(String color) {
         this.color = color;
     }
 
@@ -148,7 +144,9 @@ public class Animal {
      * @param <T> the return type of the visitor
      * @return the result from the visitor
      */
-    public abstract <T> T accept(Visitor<T> visitor);
+    public <T> T accept(Visitor<T> visitor) {
+        return visitor.visitAnimal(this);
+    }
 
     /**
      * A Animal visitor implementation allows visiting the various Animal types.
@@ -159,6 +157,7 @@ public class Animal {
         R visitBigCat(BigCat value);
         R visitCat(Cat value);
         R visitDog(Dog value);
+        R visitAnimal(Animal value);
     }
 
 }

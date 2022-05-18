@@ -14,8 +14,6 @@ package org.openapitools.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.*;
 
 import javax.validation.constraints.*;
@@ -26,7 +24,6 @@ import javax.annotation.Generated;
 /**
  * Model for testing model name same as property name
  */
-@ApiModel(description = "Model for testing model name same as property name")
 @JsonPropertyOrder({
   Name.JSON_PROPERTY_NAME,
   Name.JSON_PROPERTY_SNAKE_CASE,
@@ -61,7 +58,6 @@ public class Name {
      * @return name
      **/
     @NotNull
-    @ApiModelProperty(required = true, value = "")
     @JsonProperty(JSON_PROPERTY_NAME)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
     public Integer getName() {
@@ -70,7 +66,7 @@ public class Name {
 
     @JsonProperty(JSON_PROPERTY_NAME)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
-       public void setName(Integer name) {
+    public void setName(Integer name) {
         this.name = name;
     }
 
@@ -79,7 +75,6 @@ public class Name {
      * @return snakeCase
      **/
     @Nullable
-    @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_SNAKE_CASE)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public Integer getSnakeCase() {
@@ -96,7 +91,6 @@ public class Name {
      * @return property
      **/
     @Nullable
-    @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_PROPERTY)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public String getProperty() {
@@ -105,7 +99,7 @@ public class Name {
 
     @JsonProperty(JSON_PROPERTY_PROPERTY)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public void setProperty(String property) {
+    public void setProperty(String property) {
         this.property = property;
     }
 
@@ -114,7 +108,6 @@ public class Name {
      * @return _123number
      **/
     @Nullable
-    @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_123NUMBER)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public Integer get123number() {
