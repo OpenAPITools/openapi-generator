@@ -12,6 +12,7 @@
 import re  # noqa: F401
 import sys  # noqa: F401
 import typing  # noqa: F401
+import functools  # noqa: F401
 
 from frozendict import frozendict  # noqa: F401
 
@@ -76,6 +77,7 @@ class ChildCat(
 
     @classmethod
     @property
+    @functools.cache
     def _composed_schemas(cls):
         # we need this here to make our import statements work
         # we must store _composed_schemas in here so the code is only run
@@ -84,10 +86,32 @@ class ChildCat(
         # code would be run when this module is imported, and these composed
         # classes don't exist yet because their module has not finished
         # loading
+        
+        
+        class allOf_1(
+            DictSchema
+        ):
+            name = StrSchema
+        
+        
+            def __new__(
+                cls,
+                *args: typing.Union[dict, frozendict, ],
+                name: typing.Union[name, Unset] = unset,
+                _configuration: typing.Optional[Configuration] = None,
+                **kwargs: typing.Type[Schema],
+            ) -> 'allOf_1':
+                return super().__new__(
+                    cls,
+                    *args,
+                    name=name,
+                    _configuration=_configuration,
+                    **kwargs,
+                )
         return {
             'allOf': [
                 ParentPet,
-                ChildCatAllOf,
+                allOf_1,
             ],
             'oneOf': [
             ],
@@ -110,5 +134,4 @@ class ChildCat(
             **kwargs,
         )
 
-from petstore_api.model.child_cat_all_of import ChildCatAllOf
 from petstore_api.model.parent_pet import ParentPet

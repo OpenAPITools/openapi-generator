@@ -50,13 +50,13 @@ src/App/DTO/FindPetsByTagsParameterData.php
 src/App/DTO/GetOrderByIdParameterData.php
 src/App/DTO/GetPetByIdParameterData.php
 src/App/DTO/GetUserByNameParameterData.php
-src/App/DTO/InlineObject.php
-src/App/DTO/InlineObject1.php
 src/App/DTO/LoginUserParameterData.php
 src/App/DTO/Order.php
 src/App/DTO/Pet.php
 src/App/DTO/Tag.php
 src/App/DTO/UpdatePetWithFormParameterData.php
+src/App/DTO/UpdatePetWithFormRequest.php
 src/App/DTO/UpdateUserParameterData.php
 src/App/DTO/UploadFileParameterData.php
+src/App/DTO/UploadFileRequest.php
 src/App/DTO/User.php

@@ -2,7 +2,7 @@
 /**
  * MapTest
  *
- * PHP version 7.3
+ * PHP version 7.4
  *
  * @category Class
  * @package  OpenAPI\Client
@@ -177,8 +177,8 @@ class MapTest implements ModelInterface, ArrayAccess, \JsonSerializable
         return self::$openAPIModelName;
     }
 
-    const MAP_OF_ENUM_STRING_UPPER = 'UPPER';
-    const MAP_OF_ENUM_STRING_LOWER = 'lower';
+    public const MAP_OF_ENUM_STRING_UPPER = 'UPPER';
+    public const MAP_OF_ENUM_STRING_LOWER = 'lower';
 
     /**
      * Gets allowable values of the enum

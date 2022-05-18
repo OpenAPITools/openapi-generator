@@ -12,6 +12,7 @@
 import re  # noqa: F401
 import sys  # noqa: F401
 import typing  # noqa: F401
+import functools  # noqa: F401
 
 from frozendict import frozendict  # noqa: F401
 
@@ -76,6 +77,7 @@ class EquilateralTriangle(
 
     @classmethod
     @property
+    @functools.cache
     def _composed_schemas(cls):
         # we need this here to make our import statements work
         # we must store _composed_schemas in here so the code is only run
@@ -84,10 +86,46 @@ class EquilateralTriangle(
         # code would be run when this module is imported, and these composed
         # classes don't exist yet because their module has not finished
         # loading
+        
+        
+        class allOf_1(
+            DictSchema
+        ):
+            
+            
+            class triangleType(
+                _SchemaEnumMaker(
+                    enum_value_to_name={
+                        "EquilateralTriangle": "EQUILATERALTRIANGLE",
+                    }
+                ),
+                StrSchema
+            ):
+                
+                @classmethod
+                @property
+                def EQUILATERALTRIANGLE(cls):
+                    return cls("EquilateralTriangle")
+        
+        
+            def __new__(
+                cls,
+                *args: typing.Union[dict, frozendict, ],
+                triangleType: typing.Union[triangleType, Unset] = unset,
+                _configuration: typing.Optional[Configuration] = None,
+                **kwargs: typing.Type[Schema],
+            ) -> 'allOf_1':
+                return super().__new__(
+                    cls,
+                    *args,
+                    triangleType=triangleType,
+                    _configuration=_configuration,
+                    **kwargs,
+                )
         return {
             'allOf': [
                 TriangleInterface,
-                EquilateralTriangleAllOf,
+                allOf_1,
             ],
             'oneOf': [
             ],
@@ -110,5 +148,4 @@ class EquilateralTriangle(
             **kwargs,
         )
 
-from petstore_api.model.equilateral_triangle_all_of import EquilateralTriangleAllOf
 from petstore_api.model.triangle_interface import TriangleInterface

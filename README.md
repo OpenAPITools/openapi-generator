@@ -50,6 +50,7 @@ If you find OpenAPI Generator useful for work, please consider asking your compa
 [<img src="https://openapi-generator.tech/img/companies/pexa.png" width="128" height="128">](https://www.pexa.com.au/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
 [<img src="https://openapi-generator.tech/img/companies/numary.png" width="128" height="128">](https://www.numary.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
 [<img src="https://openapi-generator.tech/img/companies/onesignal.png" width="128" height="128">](https://www.onesignal.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
+[<img src="https://openapi-generator.tech/img/companies/virtualansoftware.png" width="128" height="128">](https://www.virtualansoftware.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
 
 #### Thank you GoDaddy for sponsoring the domain names, Linode for sponsoring the VPS and Checkly for sponsoring the API monitoring
 
@@ -590,6 +591,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [Cupix](https://www.cupix.com/)
 - [Datadog](https://www.datadoghq.com)
 - [DB Systel](https://www.dbsystel.de)
+- [Deeporute.ai](https://www.deeproute.ai/)
 - [Devsupply](https://www.devsupply.com/)
 - [DocSpring](https://docspring.com/)
 - [dwango](https://dwango.co.jp/)
@@ -659,6 +661,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [Stingray](http://www.stingray.com)
 - [Suva](https://www.suva.ch/)
 - [Telstra](https://dev.telstra.com)
+- [Tencent](https://www.tencent.com)
 - [The University of Aizu](https://www.u-aizu.ac.jp/en/)
 - [Translucent ApS](https://www.translucent.dk)
 - [TravelTime platform](https://www.traveltimeplatform.com/)
@@ -679,6 +682,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [YITU Technology](https://www.yitutech.com/)
 - [Yelp](https://www.yelp.com/)
 - [Zalando](https://www.zalando.com)
+- [3DS Outscale](https://www.outscale.com/)
 
 ## [5 - Presentations/Videos/Tutorials/Books](#table-of-contents)
 

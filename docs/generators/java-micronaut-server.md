@@ -46,6 +46,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |generateControllerAsAbstract|Generate an abstract class for controller to be extended. (apiPackage is then used for the abstract class, and controllerPackage is used for implementation that extends it.)| |false|
 |generateControllerFromExamples|Generate the implementation of controller and tests from parameter and return examples that will verify that the api works as desired (for testing)| |false|
 |generateOperationOnlyForFirstTag|When false, the operation method will be duplicated in each of the tags if multiple tags are assigned to this operation. If true, each operation will be generated only once in the first assigned tag.| |true|
+|generateOperationsToReturnNotImplemented|Return HTTP 501 Not Implemented instead of an empty response in the generated controller methods.| |true|
 |generateSwaggerAnnotations|Specify if you want to generate swagger annotations and which version|<dl><dt>**swagger2**</dt><dd>Use io.swagger.core.v3:swagger-annotations for annotating operations and schemas</dd><dt>**true**</dt><dd>Equivalent to &quot;swagger2&quot;</dd><dt>**false**</dt><dd>Do not generate swagger annotations</dd><dt>**swagger1**</dt><dd>Use io.swagger:swagger-annotations for annotating operations and schemas</dd></dl>|swagger2|
 |groupId|groupId in generated pom.xml| |org.openapitools|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |false|

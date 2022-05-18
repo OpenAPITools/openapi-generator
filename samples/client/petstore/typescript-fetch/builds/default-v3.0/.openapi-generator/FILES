@@ -27,10 +27,10 @@ models/EnumClass.ts
 models/EnumTest.ts
 models/FileSchemaTestClass.ts
 models/Foo.ts
+models/FooGetDefaultResponse.ts
 models/FormatTest.ts
 models/HasOnlyReadOnly.ts
 models/HealthCheckResult.ts
-models/InlineResponseDefault.ts
 models/List.ts
 models/MapTest.ts
 models/MixedPropertiesAndAdditionalPropertiesClass.ts

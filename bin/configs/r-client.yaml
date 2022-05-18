@@ -2,5 +2,6 @@ generatorName: r
 outputDir: samples/client/petstore/R
 inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore.yaml
 templateDir: modules/openapi-generator/src/main/resources/r
+httpUserAgent: PetstoreAgent
 additionalProperties:
   packageName: petstore

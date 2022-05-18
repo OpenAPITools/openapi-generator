@@ -10,6 +10,7 @@ lib/openapi_petstore/api/store.ex
 lib/openapi_petstore/api/user.ex
 lib/openapi_petstore/connection.ex
 lib/openapi_petstore/deserializer.ex
+lib/openapi_petstore/model/_foo_get_default_response.ex
 lib/openapi_petstore/model/_special_model_name_.ex
 lib/openapi_petstore/model/additional_properties_class.ex
 lib/openapi_petstore/model/all_of_with_single_ref.ex
@@ -36,7 +37,6 @@ lib/openapi_petstore/model/foo.ex
 lib/openapi_petstore/model/format_test.ex
 lib/openapi_petstore/model/has_only_read_only.ex
 lib/openapi_petstore/model/health_check_result.ex
-lib/openapi_petstore/model/inline_response_default.ex
 lib/openapi_petstore/model/list.ex
 lib/openapi_petstore/model/map_test.ex
 lib/openapi_petstore/model/mixed_properties_and_additional_properties_class.ex

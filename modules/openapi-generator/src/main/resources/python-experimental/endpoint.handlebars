@@ -7,6 +7,7 @@ import re  # noqa: F401
 import sys  # noqa: F401
 import typing
 import urllib3
+import functools  # noqa: F401
 {{#with operation}}
 {{#or headerParams bodyParam produces}}
 from urllib3._collections import HTTPHeaderDict

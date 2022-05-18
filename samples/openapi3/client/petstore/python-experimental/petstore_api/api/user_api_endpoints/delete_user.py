@@ -11,6 +11,7 @@ import re  # noqa: F401
 import sys  # noqa: F401
 import typing
 import urllib3
+import functools  # noqa: F401
 
 from petstore_api import api_client, exceptions
 import decimal  # noqa: F401

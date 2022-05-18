@@ -109,11 +109,11 @@ Class | Method | HTTP request | Description
 <a name="documentation-for-models"></a>
 ## Documentation for Models
 
- - [Model.InlineObject](docs/InlineObject.md)
- - [Model.InlineObject1](docs/InlineObject1.md)
- - [Model.InlineObject2](docs/InlineObject2.md)
- - [Model.MultipartMixedMarker](docs/MultipartMixedMarker.md)
+ - [Model.MultipartArrayRequest](docs/MultipartArrayRequest.md)
+ - [Model.MultipartMixedRequest](docs/MultipartMixedRequest.md)
+ - [Model.MultipartMixedRequestMarker](docs/MultipartMixedRequestMarker.md)
  - [Model.MultipartMixedStatus](docs/MultipartMixedStatus.md)
+ - [Model.MultipartSingleRequest](docs/MultipartSingleRequest.md)
 
 
 <a name="documentation-for-authorization"></a>
