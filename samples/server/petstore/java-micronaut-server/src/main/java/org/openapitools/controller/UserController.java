@@ -16,6 +16,8 @@ import io.micronaut.http.annotation.*;
 import io.micronaut.core.annotation.Nullable;
 import io.micronaut.core.convert.format.Format;
 import reactor.core.publisher.Mono;
+import io.micronaut.http.HttpStatus;
+import io.micronaut.http.exceptions.HttpStatusException;
 import java.time.OffsetDateTime;
 import org.openapitools.model.User;
 import javax.annotation.Generated;
@@ -53,8 +55,9 @@ public class UserController {
         @Body @NotNull @Valid User user
     ) {
         // TODO implement createUser();
-        return Mono.empty();
+        return Mono.error(new HttpStatusException(HttpStatus.NOT_IMPLEMENTED, null));
     }
+
 
     /**
      * Creates list of users with given input array
@@ -79,8 +82,9 @@ public class UserController {
         @Body @NotNull List<User> user
     ) {
         // TODO implement createUsersWithArrayInput();
-        return Mono.empty();
+        return Mono.error(new HttpStatusException(HttpStatus.NOT_IMPLEMENTED, null));
     }
+
 
     /**
      * Creates list of users with given input array
@@ -105,8 +109,9 @@ public class UserController {
         @Body @NotNull List<User> user
     ) {
         // TODO implement createUsersWithListInput();
-        return Mono.empty();
+        return Mono.error(new HttpStatusException(HttpStatus.NOT_IMPLEMENTED, null));
     }
+
 
     /**
      * Delete user
@@ -131,8 +136,9 @@ public class UserController {
         @PathVariable(value="username") @NotNull String username
     ) {
         // TODO implement deleteUser();
-        return Mono.empty();
+        return Mono.error(new HttpStatusException(HttpStatus.NOT_IMPLEMENTED, null));
     }
+
 
     /**
      * Get user by user name
@@ -158,8 +164,9 @@ public class UserController {
         @PathVariable(value="username") @NotNull String username
     ) {
         // TODO implement getUserByName();
-        return Mono.empty();
+        return Mono.error(new HttpStatusException(HttpStatus.NOT_IMPLEMENTED, null));
     }
+
 
     /**
      * Logs user into the system
@@ -186,8 +193,9 @@ public class UserController {
         @QueryValue(value="password") @NotNull String password
     ) {
         // TODO implement loginUser();
-        return Mono.empty();
+        return Mono.error(new HttpStatusException(HttpStatus.NOT_IMPLEMENTED, null));
     }
+
 
     /**
      * Logs out current logged in user session
@@ -208,8 +216,9 @@ public class UserController {
     @Produces(value = {})
     public Mono<Void> logoutUser() {
         // TODO implement logoutUser();
-        return Mono.empty();
+        return Mono.error(new HttpStatusException(HttpStatus.NOT_IMPLEMENTED, null));
     }
+
 
     /**
      * Updated user
@@ -237,6 +246,7 @@ public class UserController {
         @Body @NotNull @Valid User user
     ) {
         // TODO implement updateUser();
-        return Mono.empty();
+        return Mono.error(new HttpStatusException(HttpStatus.NOT_IMPLEMENTED, null));
     }
+
 }
