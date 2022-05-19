@@ -98,6 +98,57 @@ paths:
       responses:
         200:
           description: OK
+  /requestBodyWithEncodingTypes:
+    post:
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                int-param:
+                  type: integer
+                explode-true:
+                  type: array
+                  items:
+                    type: string
+                explode-false:
+                  type: array
+                  items:
+                    type: string
+                no-style-no-explode:
+                  type: array
+                  items:
+                    type: string
+                style-specified:
+                  type: array
+                  items:
+                    type: string
+                style-specified-no-explode:
+                  type: array
+                  items:
+                    type: string
+            encoding:
+              int-param:
+                explode: true            # should be disregarded for non-container
+              explode-true:
+                contentType: text/plain  # should be disregarded
+                explode: true
+              explode-false:
+                contentType: text/plain  # should be disregarded
+                explode: false
+              no-style-no-explode:
+                contentType: text/plain
+              style-specified:
+                contentType: text/plain  # should be disregarded
+                style: spaceDelimited
+                explode: false
+              style-specified-no-explode:
+                contentType: text/plain  # should be disregarded
+                style: spaceDelimited
+      responses:
+        200:
+          description: OK
 components:
   headers:
     X-Rate-Limit:

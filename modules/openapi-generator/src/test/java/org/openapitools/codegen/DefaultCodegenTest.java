@@ -4064,6 +4064,44 @@ public class DefaultCodegenTest {
         cp = mt.getSchema();
         assertEquals(cp.baseName, "SchemaForRequestBodyTextPlain");
         assertTrue(cp.isString);
+
+        path = "/requestBodyWithEncodingTypes";
+        co = codegen.fromOperation(path, "POST", openAPI.getPaths().get(path).getPost(), null);
+        List<CodegenParameter> formParams = co.formParams;
+
+        assertEquals(formParams.get(0).paramName, "intParam");
+        assertFalse(formParams.get(0).isContainer);
+        assertFalse(formParams.get(0).isExplode); // Should not be true for non-container
+
+        assertEquals(formParams.get(1).paramName, "explodeTrue");
+        assertTrue(formParams.get(1).isContainer);
+        assertEquals(formParams.get(1).style, Encoding.StyleEnum.FORM.toString());
+        assertTrue(formParams.get(1).isExplode);
+        assertNull(formParams.get(1).contentType);
+
+        assertEquals(formParams.get(2).paramName, "explodeFalse");
+        assertTrue(formParams.get(2).isContainer);
+        assertEquals(formParams.get(2).style, Encoding.StyleEnum.FORM.toString());
+        assertFalse(formParams.get(2).isExplode);
+        assertNull(formParams.get(2).contentType);
+
+        assertEquals(formParams.get(3).paramName, "noStyleNoExplode");
+        assertTrue(formParams.get(3).isContainer);
+        assertEquals(formParams.get(3).style, Encoding.StyleEnum.FORM.toString());
+        assertTrue(formParams.get(3).isExplode); // Defaults to true for style == FORM
+        assertEquals(formParams.get(3).contentType, "text/plain");
+
+        assertEquals(formParams.get(4).paramName, "styleSpecified");
+        assertTrue(formParams.get(4).isContainer);
+        assertEquals(formParams.get(4).style, Encoding.StyleEnum.SPACE_DELIMITED.toString());
+        assertFalse(formParams.get(4).isExplode);
+        assertNull(formParams.get(4).contentType);
+
+        assertEquals(formParams.get(5).paramName, "styleSpecifiedNoExplode");
+        assertTrue(formParams.get(5).isContainer);
+        assertEquals(formParams.get(5).style, Encoding.StyleEnum.SPACE_DELIMITED.toString());
+        assertFalse(formParams.get(5).isExplode); // Defaults to false for style other than FORM
+        assertNull(formParams.get(5).contentType);
     }
 
     @Test
