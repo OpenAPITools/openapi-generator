@@ -65,7 +65,29 @@ from petstore_api.schemas import (  # noqa: F401
 )
 
 # body param
-SchemaForRequestBodyApplicationXWwwFormUrlencoded = Schema
+
+
+class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
+    DictSchema
+):
+    _required_property_names = set((
+    ))
+    param = StrSchema
+    param2 = StrSchema
+
+
+    def __new__(
+        cls,
+        *args: typing.Union[dict, frozendict, ],
+        _configuration: typing.Optional[Configuration] = None,
+        **kwargs: typing.Type[Schema],
+    ) -> 'SchemaForRequestBodyApplicationXWwwFormUrlencoded':
+        return super().__new__(
+            cls,
+            *args,
+            _configuration=_configuration,
+            **kwargs,
+        )
 
 
 request_body_body = api_client.RequestBody(

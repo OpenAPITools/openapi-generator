@@ -4581,9 +4581,14 @@ public class DefaultCodegen implements CodegenConfig {
         String parameterModelName = null;
 
         if (parameter.getSchema() != null) {
-            parameterModelName = getParameterDataType(parameter ,parameter.getSchema());
-            parameterSchema = ModelUtils.getReferencedSchema(openAPI, parameter.getSchema());
-            CodegenProperty prop = fromProperty(parameter.getName(), parameterSchema);
+            parameterSchema = parameter.getSchema();
+            parameterModelName = getParameterDataType(parameter, parameterSchema);
+            CodegenProperty prop;
+            if (getUseInlineModelResolver()) {
+                prop = fromProperty(parameter.getName(), ModelUtils.getReferencedSchema(openAPI, parameterSchema));
+            } else {
+                prop = fromProperty(parameter.getName(), parameterSchema);
+            }
             codegenParameter.setSchema(prop);
         } else if (parameter.getContent() != null) {
             Content content = parameter.getContent();
@@ -4592,8 +4597,8 @@ public class DefaultCodegen implements CodegenConfig {
             }
             Map.Entry<String, MediaType> entry = content.entrySet().iterator().next();
             codegenParameter.contentType = entry.getKey();
-            parameterModelName = getParameterDataType(parameter, entry.getValue().getSchema());
-            parameterSchema = ModelUtils.getReferencedSchema(openAPI, entry.getValue().getSchema());
+            parameterSchema = entry.getValue().getSchema();
+            parameterModelName = getParameterDataType(parameter, parameterSchema);
         } else {
             parameterSchema = null;
         }
@@ -4620,11 +4625,14 @@ public class DefaultCodegen implements CodegenConfig {
 
         parameterSchema = unaliasSchema(parameterSchema, Collections.emptyMap());
         if (parameterSchema == null) {
-            LOGGER.warn("warning!  Schema not found for parameter \" {} \", using String", parameter.getName());
-            parameterSchema = new StringSchema().description("//TODO automatically added by openapi-generator due to missing type definition.");
+            LOGGER.warn("warning!  Schema not found for parameter \" {} \"", parameter.getName());
             finishUpdatingParameter(codegenParameter, parameter);
             return codegenParameter;
         }
+        if (getUseInlineModelResolver()) {
+            parameterSchema = ModelUtils.getReferencedSchema(openAPI, parameterSchema);
+        }
+
         ModelUtils.syncValidationProperties(parameterSchema, codegenParameter);
         codegenParameter.setTypeProperties(parameterSchema);
         codegenParameter.setComposedSchemas(getComposedSchemas(parameterSchema));

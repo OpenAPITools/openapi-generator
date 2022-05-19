@@ -86,7 +86,28 @@ class ChildCat(
         # code would be run when this module is imported, and these composed
         # classes don't exist yet because their module has not finished
         # loading
-        allOf_1 = Schema
+        
+        
+        class allOf_1(
+            DictSchema
+        ):
+            name = StrSchema
+        
+        
+            def __new__(
+                cls,
+                *args: typing.Union[dict, frozendict, ],
+                name: typing.Union[name, Unset] = unset,
+                _configuration: typing.Optional[Configuration] = None,
+                **kwargs: typing.Type[Schema],
+            ) -> 'allOf_1':
+                return super().__new__(
+                    cls,
+                    *args,
+                    name=name,
+                    _configuration=_configuration,
+                    **kwargs,
+                )
         return {
             'allOf': [
                 ParentPet,
