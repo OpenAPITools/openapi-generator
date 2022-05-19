@@ -665,7 +665,7 @@ impl<S, C> Api<C> for Client<S, C> where
 
     async fn enum_in_path_path_param_get(
         &self,
-        param_path_param: StringEnum,
+        param_path_param: models::StringEnum,
         context: &C) -> Result<EnumInPathPathParamGetResponse, ApiError>
     {
         let mut client_service = self.client_service.clone();
@@ -1360,8 +1360,8 @@ impl<S, C> Api<C> for Client<S, C> where
     async fn paramget_get(
         &self,
         param_uuid: Option<uuid::Uuid>,
-        param_some_object: Option<ObjectParam>,
-        param_some_list: Option<&MyIdList>,
+        param_some_object: Option<models::ObjectParam>,
+        param_some_list: Option<models::MyIdList>,
         context: &C) -> Result<ParamgetGetResponse, ApiError>
     {
         let mut client_service = self.client_service.clone();
@@ -1383,7 +1383,7 @@ impl<S, C> Api<C> for Client<S, C> where
             }
             if let Some(param_some_list) = param_some_list {
                 query_string.append_pair("someList",
-                    &param_some_list.iter().map(ToString::to_string).collect::<Vec<String>>().join(","));
+                    &param_some_list.to_string());
             }
             query_string.finish()
         };

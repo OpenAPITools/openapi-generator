@@ -294,7 +294,7 @@ pub trait Api<C: Send + Sync> {
 
     async fn enum_in_path_path_param_get(
         &self,
-        path_param: StringEnum,
+        path_param: models::StringEnum,
         context: &C) -> Result<EnumInPathPathParamGetResponse, ApiError>;
 
     async fn json_complex_query_param_get(
@@ -332,8 +332,8 @@ pub trait Api<C: Send + Sync> {
     async fn paramget_get(
         &self,
         uuid: Option<uuid::Uuid>,
-        some_object: Option<ObjectParam>,
-        some_list: Option<&MyIdList>,
+        some_object: Option<models::ObjectParam>,
+        some_list: Option<models::MyIdList>,
         context: &C) -> Result<ParamgetGetResponse, ApiError>;
 
     async fn readonly_auth_scheme_get(
@@ -430,7 +430,7 @@ pub trait ApiNoContext<C: Send + Sync> {
 
     async fn enum_in_path_path_param_get(
         &self,
-        path_param: StringEnum,
+        path_param: models::StringEnum,
         ) -> Result<EnumInPathPathParamGetResponse, ApiError>;
 
     async fn json_complex_query_param_get(
@@ -468,8 +468,8 @@ pub trait ApiNoContext<C: Send + Sync> {
     async fn paramget_get(
         &self,
         uuid: Option<uuid::Uuid>,
-        some_object: Option<ObjectParam>,
-        some_list: Option<&MyIdList>,
+        some_object: Option<models::ObjectParam>,
+        some_list: Option<models::MyIdList>,
         ) -> Result<ParamgetGetResponse, ApiError>;
 
     async fn readonly_auth_scheme_get(
@@ -593,7 +593,7 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for Contex
 
     async fn enum_in_path_path_param_get(
         &self,
-        path_param: StringEnum,
+        path_param: models::StringEnum,
         ) -> Result<EnumInPathPathParamGetResponse, ApiError>
     {
         let context = self.context().clone();
@@ -663,8 +663,8 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for Contex
     async fn paramget_get(
         &self,
         uuid: Option<uuid::Uuid>,
-        some_object: Option<ObjectParam>,
-        some_list: Option<&MyIdList>,
+        some_object: Option<models::ObjectParam>,
+        some_list: Option<models::MyIdList>,
         ) -> Result<ParamgetGetResponse, ApiError>
     {
         let context = self.context().clone();

@@ -34,6 +34,7 @@ import org.openapitools.codegen.CodegenDiscriminator.MappedModel;
 import org.openapitools.codegen.api.TemplatingEngineAdapter;
 import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.examples.ExampleGenerator;
+import org.openapitools.codegen.languages.RustServerCodegen;
 import org.openapitools.codegen.meta.FeatureSet;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
@@ -4584,7 +4585,11 @@ public class DefaultCodegen implements CodegenConfig {
             parameterSchema = parameter.getSchema();
             parameterModelName = getParameterDataType(parameter, parameterSchema);
             CodegenProperty prop;
-            if (getUseInlineModelResolver()) {
+            if (this instanceof RustServerCodegen) {
+                // for rust server, we need to do somethings special as it uses
+                // $ref (e.g. #components/schemas/Pet) to determine whether it's a model
+                prop = fromProperty(parameter.getName(), parameterSchema);
+            } else if (getUseInlineModelResolver()) {
                 prop = fromProperty(parameter.getName(), ModelUtils.getReferencedSchema(openAPI, parameterSchema));
             } else {
                 prop = fromProperty(parameter.getName(), parameterSchema);
@@ -4629,7 +4634,10 @@ public class DefaultCodegen implements CodegenConfig {
             finishUpdatingParameter(codegenParameter, parameter);
             return codegenParameter;
         }
-        if (getUseInlineModelResolver()) {
+
+        if (getUseInlineModelResolver() && !(this instanceof RustServerCodegen)) {
+            // for rust server, we cannot run the following as it uses
+            // $ref (e.g. #components/schemas/Pet) to determine whether it's a model
             parameterSchema = ModelUtils.getReferencedSchema(openAPI, parameterSchema);
         }
 
