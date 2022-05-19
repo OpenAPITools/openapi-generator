@@ -148,6 +148,11 @@ Serializers serializers = (_$serializers.toBuilder()
         const FullType(BuiltList, [FullType(String)]),
         () => ListBuilder<String>(),
       )
+      ..add(Animal.serializer)
+      ..add(CatAllOf.serializer)
+      ..add(DogAllOf.serializer)
+      ..add(const OneOfSerializer())
+      ..add(const AnyOfSerializer())
       ..add(const DateSerializer())
       ..add(Iso8601DateTimeSerializer()))
     .build();

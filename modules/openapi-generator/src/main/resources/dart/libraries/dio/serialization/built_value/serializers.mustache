@@ -31,9 +31,10 @@ Serializers serializers = (_$serializers.toBuilder(){{#builtValueSerializers}}
         const FullType(BuiltMap, [FullType(String), FullType{{#isNullable}}.nullable{{/isNullable}}({{dataType}})]),
         () => MapBuilder<String, {{dataType}}>(),
 {{/isMap}}
-      ){{/builtValueSerializers}}{{#useDateLibTimeMachine}}
-      ..add(const OneOfSerializer())
-      ..add(const AnyOfSerializer())
+      ){{/builtValueSerializers}}
+      {{#models}}{{#model}}{{#vendorExtensions.x-is-parent}}..add({{classname}}.serializer)
+      {{/vendorExtensions.x-is-parent}}{{/model}}{{/models}}..add(const OneOfSerializer())
+      ..add(const AnyOfSerializer()){{#useDateLibTimeMachine}}      
       ..add(const OffsetDateSerializer())
       ..add(const OffsetDateTimeSerializer()){{/useDateLibTimeMachine}}{{#useDateLibCore}}
       ..add(const DateSerializer())

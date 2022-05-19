@@ -26,6 +26,8 @@ part 'serializers.g.dart';
   Fruit,
 ])
 Serializers serializers = (_$serializers.toBuilder()
+      ..add(const OneOfSerializer())
+      ..add(const AnyOfSerializer())
       ..add(const DateSerializer())
       ..add(Iso8601DateTimeSerializer()))
     .build();

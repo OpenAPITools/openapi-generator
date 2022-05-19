@@ -52,6 +52,13 @@ Serializers serializers = (_$serializers.toBuilder()
         const FullType(BuiltList, [FullType(FooRefOrValue)]),
         () => ListBuilder<FooRefOrValue>(),
       )
+      ..add(Addressable.serializer)
+      ..add(Entity.serializer)
+      ..add(EntityRef.serializer)
+      ..add(Extensible.serializer)
+      ..add(Pizza.serializer)
+      ..add(const OneOfSerializer())
+      ..add(const AnyOfSerializer())
       ..add(const DateSerializer())
       ..add(Iso8601DateTimeSerializer()))
     .build();
