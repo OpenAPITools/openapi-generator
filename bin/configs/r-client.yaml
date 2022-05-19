@@ -5,3 +5,5 @@ templateDir: modules/openapi-generator/src/main/resources/r
 httpUserAgent: PetstoreAgent
 additionalProperties:
   packageName: petstore
+  exceptionPackage: "rlang"
+  returnExceptionOnFailure: true

@@ -21,6 +21,7 @@
 #' \item \emph{ @param } pet \link{Pet}
 #' \item \emph{ @returnType } \link{Pet} \cr
 #'
+#' \item On encountering errors, an error of subclass ApiException will be thrown.
 #'
 #' \item status code : 200 | successful operation
 #'
@@ -45,6 +46,7 @@
 #' \item \emph{ @param } pet_id integer
 #' \item \emph{ @param } api_key character
 #'
+#' \item On encountering errors, an error of subclass ApiException will be thrown.
 #'
 #' \item status code : 400 | Invalid pet value
 #'
@@ -62,6 +64,7 @@
 #' \item \emph{ @param } status Enum < [available, pending, sold] >
 #' \item \emph{ @returnType } list( \link{Pet} ) \cr
 #'
+#' \item On encountering errors, an error of subclass ApiException will be thrown.
 #'
 #' \item status code : 200 | successful operation
 #'
@@ -86,6 +89,7 @@
 #' \item \emph{ @param } tags list( character )
 #' \item \emph{ @returnType } list( \link{Pet} ) \cr
 #'
+#' \item On encountering errors, an error of subclass ApiException will be thrown.
 #'
 #' \item status code : 200 | successful operation
 #'
@@ -110,6 +114,7 @@
 #' \item \emph{ @param } pet_id integer
 #' \item \emph{ @returnType } \link{Pet} \cr
 #'
+#' \item On encountering errors, an error of subclass ApiException will be thrown.
 #'
 #' \item status code : 200 | successful operation
 #'
@@ -141,6 +146,7 @@
 #' \item \emph{ @param } pet \link{Pet}
 #' \item \emph{ @returnType } \link{Pet} \cr
 #'
+#' \item On encountering errors, an error of subclass ApiException will be thrown.
 #'
 #' \item status code : 200 | successful operation
 #'
@@ -180,6 +186,7 @@
 #' \item \emph{ @param } name character
 #' \item \emph{ @param } status character
 #'
+#' \item On encountering errors, an error of subclass ApiException will be thrown.
 #'
 #' \item status code : 405 | Invalid input
 #'
@@ -199,6 +206,7 @@
 #' \item \emph{ @param } file data.frame
 #' \item \emph{ @returnType } \link{ModelApiResponse} \cr
 #'
+#' \item On encountering errors, an error of subclass ApiException will be thrown.
 #'
 #' \item status code : 200 | successful operation
 #'
@@ -225,7 +233,21 @@
 #' # Configure OAuth2 access token for authorization: petstore_auth
 #' api.instance$apiClient$accessToken <- 'TODO_YOUR_ACCESS_TOKEN';
 #'
-#' result <- api.instance$AddPet(var.pet)
+#'result <- tryCatch(
+#'             api.instance$AddPet(var.pet),
+#'             ApiException = function(ex) ex
+#'          )
+#' # In case of error, print the error object
+#' if(!is.null(result$ApiException)) {
+#'   cat(result$ApiException$toString())
+#' } else {
+#' # deserialized response object
+#' response.object <- result$content
+#' # response headers
+#' response.headers <- result$response$headers
+#' # response status code
+#' response.status.code <- result$response$status_code
+#' }
 #'
 #'
 #' ####################  DeletePet  ####################
@@ -240,7 +262,19 @@
 #' # Configure OAuth2 access token for authorization: petstore_auth
 #' api.instance$apiClient$accessToken <- 'TODO_YOUR_ACCESS_TOKEN';
 #'
-#' result <- api.instance$DeletePet(var.pet_id, api_key=var.api_key)
+#'result <- tryCatch(
+#'             api.instance$DeletePet(var.pet_id, api_key=var.api_key),
+#'             ApiException = function(ex) ex
+#'          )
+#' # In case of error, print the error object
+#' if(!is.null(result$ApiException)) {
+#'   cat(result$ApiException$toString())
+#' } else {
+#' # response headers
+#' response.headers <- result$response$headers
+#' # response status code
+#' response.status.code <- result$response$status_code
+#' }
 #'
 #'
 #' ####################  FindPetsByStatus  ####################
@@ -254,7 +288,21 @@
 #' # Configure OAuth2 access token for authorization: petstore_auth
 #' api.instance$apiClient$accessToken <- 'TODO_YOUR_ACCESS_TOKEN';
 #'
-#' result <- api.instance$FindPetsByStatus(var.status)
+#'result <- tryCatch(
+#'             api.instance$FindPetsByStatus(var.status),
+#'             ApiException = function(ex) ex
+#'          )
+#' # In case of error, print the error object
+#' if(!is.null(result$ApiException)) {
+#'   cat(result$ApiException$toString())
+#' } else {
+#' # deserialized response object
+#' response.object <- result$content
+#' # response headers
+#' response.headers <- result$response$headers
+#' # response status code
+#' response.status.code <- result$response$status_code
+#' }
 #'
 #'
 #' ####################  FindPetsByTags  ####################
@@ -268,7 +316,21 @@
 #' # Configure OAuth2 access token for authorization: petstore_auth
 #' api.instance$apiClient$accessToken <- 'TODO_YOUR_ACCESS_TOKEN';
 #'
-#' result <- api.instance$FindPetsByTags(var.tags)
+#'result <- tryCatch(
+#'             api.instance$FindPetsByTags(var.tags),
+#'             ApiException = function(ex) ex
+#'          )
+#' # In case of error, print the error object
+#' if(!is.null(result$ApiException)) {
+#'   cat(result$ApiException$toString())
+#' } else {
+#' # deserialized response object
+#' response.object <- result$content
+#' # response headers
+#' response.headers <- result$response$headers
+#' # response status code
+#' response.status.code <- result$response$status_code
+#' }
 #'
 #'
 #' ####################  GetPetById  ####################
@@ -282,7 +344,21 @@
 #' #Configure API key authorization: api_key
 #' api.instance$apiClient$apiKeys['api_key'] <- 'TODO_YOUR_API_KEY';
 #'
-#' result <- api.instance$GetPetById(var.pet_id)
+#'result <- tryCatch(
+#'             api.instance$GetPetById(var.pet_id),
+#'             ApiException = function(ex) ex
+#'          )
+#' # In case of error, print the error object
+#' if(!is.null(result$ApiException)) {
+#'   cat(result$ApiException$toString())
+#' } else {
+#' # deserialized response object
+#' response.object <- result$content
+#' # response headers
+#' response.headers <- result$response$headers
+#' # response status code
+#' response.status.code <- result$response$status_code
+#' }
 #'
 #'
 #' ####################  UpdatePet  ####################
@@ -296,7 +372,21 @@
 #' # Configure OAuth2 access token for authorization: petstore_auth
 #' api.instance$apiClient$accessToken <- 'TODO_YOUR_ACCESS_TOKEN';
 #'
-#' result <- api.instance$UpdatePet(var.pet)
+#'result <- tryCatch(
+#'             api.instance$UpdatePet(var.pet),
+#'             ApiException = function(ex) ex
+#'          )
+#' # In case of error, print the error object
+#' if(!is.null(result$ApiException)) {
+#'   cat(result$ApiException$toString())
+#' } else {
+#' # deserialized response object
+#' response.object <- result$content
+#' # response headers
+#' response.headers <- result$response$headers
+#' # response status code
+#' response.status.code <- result$response$status_code
+#' }
 #'
 #'
 #' ####################  UpdatePetWithForm  ####################
@@ -312,7 +402,19 @@
 #' # Configure OAuth2 access token for authorization: petstore_auth
 #' api.instance$apiClient$accessToken <- 'TODO_YOUR_ACCESS_TOKEN';
 #'
-#' result <- api.instance$UpdatePetWithForm(var.pet_id, name=var.name, status=var.status)
+#'result <- tryCatch(
+#'             api.instance$UpdatePetWithForm(var.pet_id, name=var.name, status=var.status),
+#'             ApiException = function(ex) ex
+#'          )
+#' # In case of error, print the error object
+#' if(!is.null(result$ApiException)) {
+#'   cat(result$ApiException$toString())
+#' } else {
+#' # response headers
+#' response.headers <- result$response$headers
+#' # response status code
+#' response.status.code <- result$response$status_code
+#' }
 #'
 #'
 #' ####################  UploadFile  ####################
@@ -328,12 +430,27 @@
 #' # Configure OAuth2 access token for authorization: petstore_auth
 #' api.instance$apiClient$accessToken <- 'TODO_YOUR_ACCESS_TOKEN';
 #'
-#' result <- api.instance$UploadFile(var.pet_id, additional_metadata=var.additional_metadata, file=var.file)
+#'result <- tryCatch(
+#'             api.instance$UploadFile(var.pet_id, additional_metadata=var.additional_metadata, file=var.file),
+#'             ApiException = function(ex) ex
+#'          )
+#' # In case of error, print the error object
+#' if(!is.null(result$ApiException)) {
+#'   cat(result$ApiException$toString())
+#' } else {
+#' # deserialized response object
+#' response.object <- result$content
+#' # response headers
+#' response.headers <- result$response$headers
+#' # response status code
+#' response.status.code <- result$response$status_code
+#' }
 #'
 #'
 #' }
 #' @importFrom R6 R6Class
 #' @importFrom base64enc base64encode
+#' @importFrom rlang abort
 #' @export
 PetApi <- R6::R6Class(
   'PetApi',
@@ -367,7 +484,7 @@ PetApi <- R6::R6Class(
       headerParams <- c()
 
       if (missing(`pet`)) {
-        stop("Missing required parameter `pet`.")
+        rlang::abort(message = "Missing required parameter `pet`.", .subclass = "ApiException", ApiException = ApiException$new(status = 0, reason = "Missing required parameter `pet`."))
       }
 
       if (!missing(`pet`)) {
@@ -396,16 +513,28 @@ PetApi <- R6::R6Class(
         deserializedRespObj <- tryCatch(
           self$apiClient$deserialize(resp, "Pet", loadNamespace("petstore")),
           error = function(e){
-             stop("Failed to deserialize response")
+             rlang::abort(message = "Failed to deserialize response", .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
           }
         )
         ApiResponse$new(deserializedRespObj, resp)
       } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
-        ApiResponse$new(paste("Server returned " , httr::status_code(resp) , " response status code."), resp)
+        errorMsg <- toString(content(resp))
+        if(errorMsg == ""){
+          errorMsg <- paste("Server returned " , httr::status_code(resp) , " response status code.")
+        }
+        rlang::abort(message = errorMsg, .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
-        ApiResponse$new("API client error", resp)
+        errorMsg <- toString(content(resp))
+        if(errorMsg == ""){
+          errorMsg <- "Api client exception encountered."
+        }
+        rlang::abort(message = errorMsg, .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
-        ApiResponse$new("API server error", resp)
+        errorMsg <- toString(content(resp))
+        if(errorMsg == ""){
+          errorMsg <- "Api server exception encountered."
+        }
+        rlang::abort(message = errorMsg, .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
       }
     },
     DeletePet = function(pet_id, api_key=NULL, ...){
@@ -428,7 +557,7 @@ PetApi <- R6::R6Class(
       headerParams <- c()
 
       if (missing(`pet_id`)) {
-        stop("Missing required parameter `pet_id`.")
+        rlang::abort(message = "Missing required parameter `pet_id`.", .subclass = "ApiException", ApiException = ApiException$new(status = 0, reason = "Missing required parameter `pet_id`."))
       }
 
       headerParams['api_key'] <- `api_key`
@@ -452,11 +581,23 @@ PetApi <- R6::R6Class(
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         ApiResponse$new(NULL, resp)
       } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
-        ApiResponse$new(paste("Server returned " , httr::status_code(resp) , " response status code."), resp)
+        errorMsg <- toString(content(resp))
+        if(errorMsg == ""){
+          errorMsg <- paste("Server returned " , httr::status_code(resp) , " response status code.")
+        }
+        rlang::abort(message = errorMsg, .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
-        ApiResponse$new("API client error", resp)
+        errorMsg <- toString(content(resp))
+        if(errorMsg == ""){
+          errorMsg <- "Api client exception encountered."
+        }
+        rlang::abort(message = errorMsg, .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
-        ApiResponse$new("API server error", resp)
+        errorMsg <- toString(content(resp))
+        if(errorMsg == ""){
+          errorMsg <- "Api server exception encountered."
+        }
+        rlang::abort(message = errorMsg, .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
       }
     },
     FindPetsByStatus = function(status, data_file=NULL, ...){
@@ -479,7 +620,7 @@ PetApi <- R6::R6Class(
       headerParams <- c()
 
       if (missing(`status`)) {
-        stop("Missing required parameter `status`.")
+        rlang::abort(message = "Missing required parameter `status`.", .subclass = "ApiException", ApiException = ApiException$new(status = 0, reason = "Missing required parameter `status`."))
       }
 
       queryParams['status'] <- status
@@ -505,16 +646,28 @@ PetApi <- R6::R6Class(
         deserializedRespObj <- tryCatch(
           self$apiClient$deserialize(resp, "array[Pet]", loadNamespace("petstore")),
           error = function(e){
-             stop("Failed to deserialize response")
+             rlang::abort(message = "Failed to deserialize response", .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
           }
         )
         ApiResponse$new(deserializedRespObj, resp)
       } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
-        ApiResponse$new(paste("Server returned " , httr::status_code(resp) , " response status code."), resp)
+        errorMsg <- toString(content(resp))
+        if(errorMsg == ""){
+          errorMsg <- paste("Server returned " , httr::status_code(resp) , " response status code.")
+        }
+        rlang::abort(message = errorMsg, .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
-        ApiResponse$new("API client error", resp)
+        errorMsg <- toString(content(resp))
+        if(errorMsg == ""){
+          errorMsg <- "Api client exception encountered."
+        }
+        rlang::abort(message = errorMsg, .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
-        ApiResponse$new("API server error", resp)
+        errorMsg <- toString(content(resp))
+        if(errorMsg == ""){
+          errorMsg <- "Api server exception encountered."
+        }
+        rlang::abort(message = errorMsg, .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
       }
     },
     FindPetsByTags = function(tags, data_file=NULL, ...){
@@ -537,7 +690,7 @@ PetApi <- R6::R6Class(
       headerParams <- c()
 
       if (missing(`tags`)) {
-        stop("Missing required parameter `tags`.")
+        rlang::abort(message = "Missing required parameter `tags`.", .subclass = "ApiException", ApiException = ApiException$new(status = 0, reason = "Missing required parameter `tags`."))
       }
 
       queryParams['tags'] <- tags
@@ -563,16 +716,28 @@ PetApi <- R6::R6Class(
         deserializedRespObj <- tryCatch(
           self$apiClient$deserialize(resp, "array[Pet]", loadNamespace("petstore")),
           error = function(e){
-             stop("Failed to deserialize response")
+             rlang::abort(message = "Failed to deserialize response", .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
           }
         )
         ApiResponse$new(deserializedRespObj, resp)
       } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
-        ApiResponse$new(paste("Server returned " , httr::status_code(resp) , " response status code."), resp)
+        errorMsg <- toString(content(resp))
+        if(errorMsg == ""){
+          errorMsg <- paste("Server returned " , httr::status_code(resp) , " response status code.")
+        }
+        rlang::abort(message = errorMsg, .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
-        ApiResponse$new("API client error", resp)
+        errorMsg <- toString(content(resp))
+        if(errorMsg == ""){
+          errorMsg <- "Api client exception encountered."
+        }
+        rlang::abort(message = errorMsg, .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
-        ApiResponse$new("API server error", resp)
+        errorMsg <- toString(content(resp))
+        if(errorMsg == ""){
+          errorMsg <- "Api server exception encountered."
+        }
+        rlang::abort(message = errorMsg, .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
       }
     },
     GetPetById = function(pet_id, data_file=NULL, ...){
@@ -595,7 +760,7 @@ PetApi <- R6::R6Class(
       headerParams <- c()
 
       if (missing(`pet_id`)) {
-        stop("Missing required parameter `pet_id`.")
+        rlang::abort(message = "Missing required parameter `pet_id`.", .subclass = "ApiException", ApiException = ApiException$new(status = 0, reason = "Missing required parameter `pet_id`."))
       }
 
       body <- NULL
@@ -625,16 +790,28 @@ PetApi <- R6::R6Class(
         deserializedRespObj <- tryCatch(
           self$apiClient$deserialize(resp, "Pet", loadNamespace("petstore")),
           error = function(e){
-             stop("Failed to deserialize response")
+             rlang::abort(message = "Failed to deserialize response", .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
           }
         )
         ApiResponse$new(deserializedRespObj, resp)
       } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
-        ApiResponse$new(paste("Server returned " , httr::status_code(resp) , " response status code."), resp)
+        errorMsg <- toString(content(resp))
+        if(errorMsg == ""){
+          errorMsg <- paste("Server returned " , httr::status_code(resp) , " response status code.")
+        }
+        rlang::abort(message = errorMsg, .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
-        ApiResponse$new("API client error", resp)
+        errorMsg <- toString(content(resp))
+        if(errorMsg == ""){
+          errorMsg <- "Api client exception encountered."
+        }
+        rlang::abort(message = errorMsg, .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
-        ApiResponse$new("API server error", resp)
+        errorMsg <- toString(content(resp))
+        if(errorMsg == ""){
+          errorMsg <- "Api server exception encountered."
+        }
+        rlang::abort(message = errorMsg, .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
       }
     },
     UpdatePet = function(pet, data_file=NULL, ...){
@@ -657,7 +834,7 @@ PetApi <- R6::R6Class(
       headerParams <- c()
 
       if (missing(`pet`)) {
-        stop("Missing required parameter `pet`.")
+        rlang::abort(message = "Missing required parameter `pet`.", .subclass = "ApiException", ApiException = ApiException$new(status = 0, reason = "Missing required parameter `pet`."))
       }
 
       if (!missing(`pet`)) {
@@ -686,16 +863,28 @@ PetApi <- R6::R6Class(
         deserializedRespObj <- tryCatch(
           self$apiClient$deserialize(resp, "Pet", loadNamespace("petstore")),
           error = function(e){
-             stop("Failed to deserialize response")
+             rlang::abort(message = "Failed to deserialize response", .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
           }
         )
         ApiResponse$new(deserializedRespObj, resp)
       } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
-        ApiResponse$new(paste("Server returned " , httr::status_code(resp) , " response status code."), resp)
+        errorMsg <- toString(content(resp))
+        if(errorMsg == ""){
+          errorMsg <- paste("Server returned " , httr::status_code(resp) , " response status code.")
+        }
+        rlang::abort(message = errorMsg, .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
-        ApiResponse$new("API client error", resp)
+        errorMsg <- toString(content(resp))
+        if(errorMsg == ""){
+          errorMsg <- "Api client exception encountered."
+        }
+        rlang::abort(message = errorMsg, .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
-        ApiResponse$new("API server error", resp)
+        errorMsg <- toString(content(resp))
+        if(errorMsg == ""){
+          errorMsg <- "Api server exception encountered."
+        }
+        rlang::abort(message = errorMsg, .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
       }
     },
     UpdatePetWithForm = function(pet_id, name=NULL, status=NULL, ...){
@@ -718,7 +907,7 @@ PetApi <- R6::R6Class(
       headerParams <- c()
 
       if (missing(`pet_id`)) {
-        stop("Missing required parameter `pet_id`.")
+        rlang::abort(message = "Missing required parameter `pet_id`.", .subclass = "ApiException", ApiException = ApiException$new(status = 0, reason = "Missing required parameter `pet_id`."))
       }
 
       body <- list(
@@ -744,11 +933,23 @@ PetApi <- R6::R6Class(
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         ApiResponse$new(NULL, resp)
       } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
-        ApiResponse$new(paste("Server returned " , httr::status_code(resp) , " response status code."), resp)
+        errorMsg <- toString(content(resp))
+        if(errorMsg == ""){
+          errorMsg <- paste("Server returned " , httr::status_code(resp) , " response status code.")
+        }
+        rlang::abort(message = errorMsg, .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
-        ApiResponse$new("API client error", resp)
+        errorMsg <- toString(content(resp))
+        if(errorMsg == ""){
+          errorMsg <- "Api client exception encountered."
+        }
+        rlang::abort(message = errorMsg, .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
-        ApiResponse$new("API server error", resp)
+        errorMsg <- toString(content(resp))
+        if(errorMsg == ""){
+          errorMsg <- "Api server exception encountered."
+        }
+        rlang::abort(message = errorMsg, .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
       }
     },
     UploadFile = function(pet_id, additional_metadata=NULL, file=NULL, data_file=NULL, ...){
@@ -771,7 +972,7 @@ PetApi <- R6::R6Class(
       headerParams <- c()
 
       if (missing(`pet_id`)) {
-        stop("Missing required parameter `pet_id`.")
+        rlang::abort(message = "Missing required parameter `pet_id`.", .subclass = "ApiException", ApiException = ApiException$new(status = 0, reason = "Missing required parameter `pet_id`."))
       }
 
       body <- list(
@@ -803,16 +1004,28 @@ PetApi <- R6::R6Class(
         deserializedRespObj <- tryCatch(
           self$apiClient$deserialize(resp, "ModelApiResponse", loadNamespace("petstore")),
           error = function(e){
-             stop("Failed to deserialize response")
+             rlang::abort(message = "Failed to deserialize response", .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
           }
         )
         ApiResponse$new(deserializedRespObj, resp)
       } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
-        ApiResponse$new(paste("Server returned " , httr::status_code(resp) , " response status code."), resp)
+        errorMsg <- toString(content(resp))
+        if(errorMsg == ""){
+          errorMsg <- paste("Server returned " , httr::status_code(resp) , " response status code.")
+        }
+        rlang::abort(message = errorMsg, .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
-        ApiResponse$new("API client error", resp)
+        errorMsg <- toString(content(resp))
+        if(errorMsg == ""){
+          errorMsg <- "Api client exception encountered."
+        }
+        rlang::abort(message = errorMsg, .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
-        ApiResponse$new("API server error", resp)
+        errorMsg <- toString(content(resp))
+        if(errorMsg == ""){
+          errorMsg <- "Api server exception encountered."
+        }
+        rlang::abort(message = errorMsg, .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
       }
     }
   )

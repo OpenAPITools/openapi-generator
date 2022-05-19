@@ -31,7 +31,19 @@ var.user <- User$new(123, "username_example", "firstName_example", "lastName_exa
 api.instance <- UserApi$new()
 # Configure API key authorization: api_key
 api.instance$apiClient$apiKeys['api_key'] <- 'TODO_YOUR_API_KEY';
-api.instance$CreateUser(var.user)
+result <- tryCatch(
+             api.instance$CreateUser(var.user),
+             ApiException = function(ex) ex
+          )
+# In case of error, print the error object
+if(!is.null(result$ApiException)) {
+  cat(result$ApiException$toString())
+ } else {
+# response headers
+response.headers <- result$response$headers
+# response status code
+response.status.code <- result$response$status_code
+}
 ```
 
 ### Parameters
@@ -75,7 +87,19 @@ var.user <- list(User$new(123, "username_example", "firstName_example", "lastNam
 api.instance <- UserApi$new()
 # Configure API key authorization: api_key
 api.instance$apiClient$apiKeys['api_key'] <- 'TODO_YOUR_API_KEY';
-api.instance$CreateUsersWithArrayInput(var.user)
+result <- tryCatch(
+             api.instance$CreateUsersWithArrayInput(var.user),
+             ApiException = function(ex) ex
+          )
+# In case of error, print the error object
+if(!is.null(result$ApiException)) {
+  cat(result$ApiException$toString())
+ } else {
+# response headers
+response.headers <- result$response$headers
+# response status code
+response.status.code <- result$response$status_code
+}
 ```
 
 ### Parameters
@@ -119,7 +143,19 @@ var.user <- list(User$new(123, "username_example", "firstName_example", "lastNam
 api.instance <- UserApi$new()
 # Configure API key authorization: api_key
 api.instance$apiClient$apiKeys['api_key'] <- 'TODO_YOUR_API_KEY';
-api.instance$CreateUsersWithListInput(var.user)
+result <- tryCatch(
+             api.instance$CreateUsersWithListInput(var.user),
+             ApiException = function(ex) ex
+          )
+# In case of error, print the error object
+if(!is.null(result$ApiException)) {
+  cat(result$ApiException$toString())
+ } else {
+# response headers
+response.headers <- result$response$headers
+# response status code
+response.status.code <- result$response$status_code
+}
 ```
 
 ### Parameters
@@ -163,7 +199,19 @@ var.username <- 'username_example' # character | The name that needs to be delet
 api.instance <- UserApi$new()
 # Configure API key authorization: api_key
 api.instance$apiClient$apiKeys['api_key'] <- 'TODO_YOUR_API_KEY';
-api.instance$DeleteUser(var.username)
+result <- tryCatch(
+             api.instance$DeleteUser(var.username),
+             ApiException = function(ex) ex
+          )
+# In case of error, print the error object
+if(!is.null(result$ApiException)) {
+  cat(result$ApiException$toString())
+ } else {
+# response headers
+response.headers <- result$response$headers
+# response status code
+response.status.code <- result$response$status_code
+}
 ```
 
 ### Parameters
@@ -206,8 +254,21 @@ var.username <- 'username_example' # character | The name that needs to be fetch
 
 #Get user by user name
 api.instance <- UserApi$new()
-result <- api.instance$GetUserByName(var.username)
-dput(result)
+result <- tryCatch(
+             api.instance$GetUserByName(var.username),
+             ApiException = function(ex) ex
+          )
+# In case of error, print the error object
+if(!is.null(result$ApiException)) {
+  cat(result$ApiException$toString())
+ } else {
+# deserialized response object
+response.object <- result$content
+# response headers
+response.headers <- result$response$headers
+# response status code
+response.status.code <- result$response$status_code
+}
 ```
 
 ### Parameters
@@ -252,8 +313,21 @@ var.password <- 'password_example' # character | The password for login in clear
 
 #Logs user into the system
 api.instance <- UserApi$new()
-result <- api.instance$LoginUser(var.username, var.password)
-dput(result)
+result <- tryCatch(
+             api.instance$LoginUser(var.username, var.password),
+             ApiException = function(ex) ex
+          )
+# In case of error, print the error object
+if(!is.null(result$ApiException)) {
+  cat(result$ApiException$toString())
+ } else {
+# deserialized response object
+response.object <- result$content
+# response headers
+response.headers <- result$response$headers
+# response status code
+response.status.code <- result$response$status_code
+}
 ```
 
 ### Parameters
@@ -298,7 +372,19 @@ library(petstore)
 api.instance <- UserApi$new()
 # Configure API key authorization: api_key
 api.instance$apiClient$apiKeys['api_key'] <- 'TODO_YOUR_API_KEY';
-api.instance$LogoutUser()
+result <- tryCatch(
+             api.instance$LogoutUser(),
+             ApiException = function(ex) ex
+          )
+# In case of error, print the error object
+if(!is.null(result$ApiException)) {
+  cat(result$ApiException$toString())
+ } else {
+# response headers
+response.headers <- result$response$headers
+# response status code
+response.status.code <- result$response$status_code
+}
 ```
 
 ### Parameters
@@ -340,7 +426,19 @@ var.user <- User$new(123, "username_example", "firstName_example", "lastName_exa
 api.instance <- UserApi$new()
 # Configure API key authorization: api_key
 api.instance$apiClient$apiKeys['api_key'] <- 'TODO_YOUR_API_KEY';
-api.instance$UpdateUser(var.username, var.user)
+result <- tryCatch(
+             api.instance$UpdateUser(var.username, var.user),
+             ApiException = function(ex) ex
+          )
+# In case of error, print the error object
+if(!is.null(result$ApiException)) {
+  cat(result$ApiException$toString())
+ } else {
+# response headers
+response.headers <- result$response$headers
+# response status code
+response.status.code <- result$response$status_code
+}
 ```
 
 ### Parameters

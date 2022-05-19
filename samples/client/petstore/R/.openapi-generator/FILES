@@ -4,6 +4,7 @@
 DESCRIPTION
 NAMESPACE
 R/api_client.R
+R/api_exception.R
 R/api_response.R
 R/category.R
 R/fake_api.R

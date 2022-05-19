@@ -31,8 +31,21 @@ var.pet <- Pet$new("name_example", list("photoUrls_example"), 123, Category$new(
 api.instance <- PetApi$new()
 # Configure OAuth2 access token for authorization: petstore_auth
 api.instance$apiClient$accessToken <- 'TODO_YOUR_ACCESS_TOKEN';
-result <- api.instance$AddPet(var.pet)
-dput(result)
+result <- tryCatch(
+             api.instance$AddPet(var.pet),
+             ApiException = function(ex) ex
+          )
+# In case of error, print the error object
+if(!is.null(result$ApiException)) {
+  cat(result$ApiException$toString())
+ } else {
+# deserialized response object
+response.object <- result$content
+# response headers
+response.headers <- result$response$headers
+# response status code
+response.status.code <- result$response$status_code
+}
 ```
 
 ### Parameters
@@ -78,7 +91,19 @@ var.api_key <- 'api_key_example' # character |
 api.instance <- PetApi$new()
 # Configure OAuth2 access token for authorization: petstore_auth
 api.instance$apiClient$accessToken <- 'TODO_YOUR_ACCESS_TOKEN';
-api.instance$DeletePet(var.pet_id, api_key=var.api_key)
+result <- tryCatch(
+             api.instance$DeletePet(var.pet_id, api_key=var.api_key),
+             ApiException = function(ex) ex
+          )
+# In case of error, print the error object
+if(!is.null(result$ApiException)) {
+  cat(result$ApiException$toString())
+ } else {
+# response headers
+response.headers <- result$response$headers
+# response status code
+response.status.code <- result$response$status_code
+}
 ```
 
 ### Parameters
@@ -123,8 +148,21 @@ var.status <- list("available") # array[character] | Status values that need to 
 api.instance <- PetApi$new()
 # Configure OAuth2 access token for authorization: petstore_auth
 api.instance$apiClient$accessToken <- 'TODO_YOUR_ACCESS_TOKEN';
-result <- api.instance$FindPetsByStatus(var.status)
-dput(result)
+result <- tryCatch(
+             api.instance$FindPetsByStatus(var.status),
+             ApiException = function(ex) ex
+          )
+# In case of error, print the error object
+if(!is.null(result$ApiException)) {
+  cat(result$ApiException$toString())
+ } else {
+# deserialized response object
+response.object <- result$content
+# response headers
+response.headers <- result$response$headers
+# response status code
+response.status.code <- result$response$status_code
+}
 ```
 
 ### Parameters
@@ -169,8 +207,21 @@ var.tags <- list("inner_example") # array[character] | Tags to filter by
 api.instance <- PetApi$new()
 # Configure OAuth2 access token for authorization: petstore_auth
 api.instance$apiClient$accessToken <- 'TODO_YOUR_ACCESS_TOKEN';
-result <- api.instance$FindPetsByTags(var.tags)
-dput(result)
+result <- tryCatch(
+             api.instance$FindPetsByTags(var.tags),
+             ApiException = function(ex) ex
+          )
+# In case of error, print the error object
+if(!is.null(result$ApiException)) {
+  cat(result$ApiException$toString())
+ } else {
+# deserialized response object
+response.object <- result$content
+# response headers
+response.headers <- result$response$headers
+# response status code
+response.status.code <- result$response$status_code
+}
 ```
 
 ### Parameters
@@ -215,8 +266,21 @@ var.pet_id <- 56 # integer | ID of pet to return
 api.instance <- PetApi$new()
 # Configure API key authorization: api_key
 api.instance$apiClient$apiKeys['api_key'] <- 'TODO_YOUR_API_KEY';
-result <- api.instance$GetPetById(var.pet_id)
-dput(result)
+result <- tryCatch(
+             api.instance$GetPetById(var.pet_id),
+             ApiException = function(ex) ex
+          )
+# In case of error, print the error object
+if(!is.null(result$ApiException)) {
+  cat(result$ApiException$toString())
+ } else {
+# deserialized response object
+response.object <- result$content
+# response headers
+response.headers <- result$response$headers
+# response status code
+response.status.code <- result$response$status_code
+}
 ```
 
 ### Parameters
@@ -262,8 +326,21 @@ var.pet <- Pet$new("name_example", list("photoUrls_example"), 123, Category$new(
 api.instance <- PetApi$new()
 # Configure OAuth2 access token for authorization: petstore_auth
 api.instance$apiClient$accessToken <- 'TODO_YOUR_ACCESS_TOKEN';
-result <- api.instance$UpdatePet(var.pet)
-dput(result)
+result <- tryCatch(
+             api.instance$UpdatePet(var.pet),
+             ApiException = function(ex) ex
+          )
+# In case of error, print the error object
+if(!is.null(result$ApiException)) {
+  cat(result$ApiException$toString())
+ } else {
+# deserialized response object
+response.object <- result$content
+# response headers
+response.headers <- result$response$headers
+# response status code
+response.status.code <- result$response$status_code
+}
 ```
 
 ### Parameters
@@ -312,7 +389,19 @@ var.status <- 'status_example' # character | Updated status of the pet
 api.instance <- PetApi$new()
 # Configure OAuth2 access token for authorization: petstore_auth
 api.instance$apiClient$accessToken <- 'TODO_YOUR_ACCESS_TOKEN';
-api.instance$UpdatePetWithForm(var.pet_id, name=var.name, status=var.status)
+result <- tryCatch(
+             api.instance$UpdatePetWithForm(var.pet_id, name=var.name, status=var.status),
+             ApiException = function(ex) ex
+          )
+# In case of error, print the error object
+if(!is.null(result$ApiException)) {
+  cat(result$ApiException$toString())
+ } else {
+# response headers
+response.headers <- result$response$headers
+# response status code
+response.status.code <- result$response$status_code
+}
 ```
 
 ### Parameters
@@ -360,8 +449,21 @@ var.file <- File.new('/path/to/file') # data.frame | file to upload
 api.instance <- PetApi$new()
 # Configure OAuth2 access token for authorization: petstore_auth
 api.instance$apiClient$accessToken <- 'TODO_YOUR_ACCESS_TOKEN';
-result <- api.instance$UploadFile(var.pet_id, additional_metadata=var.additional_metadata, file=var.file)
-dput(result)
+result <- tryCatch(
+             api.instance$UploadFile(var.pet_id, additional_metadata=var.additional_metadata, file=var.file),
+             ApiException = function(ex) ex
+          )
+# In case of error, print the error object
+if(!is.null(result$ApiException)) {
+  cat(result$ApiException$toString())
+ } else {
+# deserialized response object
+response.object <- result$content
+# response headers
+response.headers <- result$response$headers
+# response status code
+response.status.code <- result$response$status_code
+}
 ```
 
 ### Parameters
