@@ -91,13 +91,17 @@ test_that("GetPetById", {
   )
 })
 
-test_that("GetPetById with data_file", {
-  # test to ensure json is saved to the file `get_pet_by_id.json`
-  petResponse <- petApi$GetPetById(petId, data_file="get_pet_by_id.json")
-  response <- read_json("get_pet_by_id.json")
-  expect_true(!is.null(response))
-  expect_equal(response$id, petId)
-  expect_equal(response$name, "name_test")
+test_that("test GetPetById exception", {
+  # test exception 
+  result <- tryCatch(petApi$GetPetById(98765), # petId not exist
+         error = function(ex) ex
+  )
+
+  expect_true(!is.null(result))
+  #expect_equal(result$toString(),"")
+  expect_equal(result, "1")
+  #expect_equal(result$ApiException$errorObject$code, 1)
+  #expect_equal(response$name, "name_test")
 })
 
 #test_that("GetPetById", {

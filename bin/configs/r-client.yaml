@@ -7,3 +7,4 @@ additionalProperties:
   packageName: petstore
   exceptionPackage: "rlang"
   returnExceptionOnFailure: true
+  errorObjectType: "ApiResponse"

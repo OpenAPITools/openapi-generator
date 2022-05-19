@@ -1,4 +1,3 @@
-{{! ApiException class for returning the ApiException object on encountering errors}}
 #' @docType class
 #' @title ApiException
 #' @description ApiException Class
@@ -7,9 +6,7 @@
 #' @field reason Reason of the ApiException
 #' @field body Body of the http response
 #' @field headers Headers of the http response
-{{#errorObjectType}}
-#' @field errorObject error object type
-{{/errorObjectType}}
+#' @field errorObjectType error object type
 #' @export
 ApiException <- R6::R6Class(
   "ApiException",
@@ -18,9 +15,7 @@ ApiException <- R6::R6Class(
     reason = NULL,
     body = NULL,
     headers = NULL,
-    {{#errorObjectType}}
     errorObject = NULL,
-    {{/errorObjectType}}
 
     initialize = function(status = NULL, reason = NULL, http_response = NULL) {
       if (!is.null(http_response)) {
@@ -32,17 +27,13 @@ ApiException <- R6::R6Class(
         self$body <- errorMsg
         self$headers <- http_response$headers
         self$reason <- httr::http_status(http_response)$reason
-        {{#errorObjectType}}
-        self$errorObject <- {{errorObjectType}}$fromJsonString(errorMsg)
-        {{/errorObjectType}}
+        self$errorObject <- ApiResponse$fromJsonString(errorMsg)
       } else {
         self$status <- status
         self$reason <- reason
         self$body <- NULL
         self$headers <- NULL
-        {{#errorObjectType}}
         self$errorObject <- NULL
-        {{/errorObjectType}}
       }
     },
 
@@ -61,12 +52,10 @@ ApiException <- R6::R6Class(
         errorMsg <- paste(errorMsg, "Body : ", "\n", sep = "")
         errorMsg <- paste(errorMsg, self$body,"\n")
       }
-      {{#errorObjectType}}
       if (!is.null(self$errorObject)) {
         errorMsg <- paste(errorMsg, "Error object : ", "\n", sep = "")
         errorMsg <- paste(errorMsg, self$errorObject,"\n")
       }
-      {{/errorObjectType}}
       errorMsg
     }
   )

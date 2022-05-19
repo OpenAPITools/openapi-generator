@@ -65,6 +65,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     protected boolean useDefaultExceptionHandling = false;
     protected boolean useRlangExceptionHandling = false;
+    protected String errorObjectType;
 
     public CodegenType getTag() {
         return CodegenType.CLIENT;
@@ -175,6 +176,8 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         exceptionPackage.setEnum(exceptionPackages);
         exceptionPackage.setDefault(DEFAULT);
         cliOptions.add(exceptionPackage);
+
+        cliOptions.add(CliOption.newString(CodegenConstants.ERROR_OBJECT_TYPE, "Error object type."));
     }
 
     @Override
@@ -206,6 +209,11 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         } else {
             setExceptionPackageToUse(DEFAULT);
         }
+
+        if (additionalProperties.containsKey(CodegenConstants.ERROR_OBJECT_TYPE)) {
+            this.setErrorObjectType(additionalProperties.get(CodegenConstants.ERROR_OBJECT_TYPE).toString());
+        }
+        additionalProperties.put(CodegenConstants.ERROR_OBJECT_TYPE, errorObjectType);
 
         additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
         additionalProperties.put(CodegenConstants.PACKAGE_VERSION, packageVersion);
@@ -486,6 +494,10 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
             supportingFiles.add(new SupportingFile("api_exception.mustache", File.separator + "R", "api_exception.R"));
             this.useRlangExceptionHandling = true;
         }
+    }
+
+    public void setErrorObjectType(final String errorObjectType) {
+        this.errorObjectType = errorObjectType;
     }
 
     @Override
