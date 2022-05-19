@@ -18,7 +18,7 @@
 #' For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
 #'
 #' \itemize{
-#' \item \emph{ @param } order.id character
+#' \item \emph{ @param } order_id character
 #'
 #'
 #' \item status code : 400 | Invalid ID supplied
@@ -56,7 +56,7 @@
 #' For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
 #'
 #' \itemize{
-#' \item \emph{ @param } order.id integer
+#' \item \emph{ @param } order_id integer
 #' \item \emph{ @returnType } \link{Order} \cr
 #'
 #'
@@ -87,7 +87,7 @@
 #' 
 #'
 #' \itemize{
-#' \item \emph{ @param } body \link{Order}
+#' \item \emph{ @param } order \link{Order}
 #' \item \emph{ @returnType } \link{Order} \cr
 #'
 #'
@@ -115,12 +115,12 @@
 #' ####################  DeleteOrder  ####################
 #'
 #' library(petstore)
-#' var.order.id <- 'order.id_example' # character | ID of the order that needs to be deleted
+#' var.order_id <- 'order_id_example' # character | ID of the order that needs to be deleted
 #'
 #' #Delete purchase order by ID
 #' api.instance <- StoreApi$new()
 #'
-#' result <- api.instance$DeleteOrder(var.order.id)
+#' result <- api.instance$DeleteOrder(var.order_id)
 #'
 #'
 #' ####################  GetInventory  ####################
@@ -139,23 +139,23 @@
 #' ####################  GetOrderById  ####################
 #'
 #' library(petstore)
-#' var.order.id <- 56 # integer | ID of pet that needs to be fetched
+#' var.order_id <- 56 # integer | ID of pet that needs to be fetched
 #'
 #' #Find purchase order by ID
 #' api.instance <- StoreApi$new()
 #'
-#' result <- api.instance$GetOrderById(var.order.id)
+#' result <- api.instance$GetOrderById(var.order_id)
 #'
 #'
 #' ####################  PlaceOrder  ####################
 #'
 #' library(petstore)
-#' var.body <- Order$new() # Order | order placed for purchasing the pet
+#' var.order <- Order$new() # Order | order placed for purchasing the pet
 #'
 #' #Place an order for a pet
 #' api.instance <- StoreApi$new()
 #'
-#' result <- api.instance$PlaceOrder(var.body)
+#' result <- api.instance$PlaceOrder(var.order)
 #'
 #'
 #' }
@@ -174,8 +174,8 @@ StoreApi <- R6::R6Class(
         self$apiClient <- ApiClient$new()
       }
     },
-    DeleteOrder = function(order.id, ...){
-      apiResponse <- self$DeleteOrderWithHttpInfo(order.id, ...)
+    DeleteOrder = function(order_id, ...){
+      apiResponse <- self$DeleteOrderWithHttpInfo(order_id, ...)
       resp <- apiResponse$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         apiResponse$content
@@ -188,19 +188,19 @@ StoreApi <- R6::R6Class(
       }
     },
 
-    DeleteOrderWithHttpInfo = function(order.id, ...){
+    DeleteOrderWithHttpInfo = function(order_id, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
 
-      if (missing(`order.id`)) {
-        stop("Missing required parameter `order.id`.")
+      if (missing(`order_id`)) {
+        stop("Missing required parameter `order_id`.")
       }
 
       body <- NULL
       urlPath <- "/store/order/{orderId}"
-      if (!missing(`order.id`)) {
-        urlPath <- gsub(paste0("\\{", "orderId", "\\}"), URLencode(as.character(`order.id`), reserved = TRUE), urlPath)
+      if (!missing(`order_id`)) {
+        urlPath <- gsub(paste0("\\{", "orderId", "\\}"), URLencode(as.character(`order_id`), reserved = TRUE), urlPath)
       }
 
 
@@ -275,8 +275,8 @@ StoreApi <- R6::R6Class(
         ApiResponse$new("API server error", resp)
       }
     },
-    GetOrderById = function(order.id, data_file=NULL, ...){
-      apiResponse <- self$GetOrderByIdWithHttpInfo(order.id, data_file=data_file, ...)
+    GetOrderById = function(order_id, data_file=NULL, ...){
+      apiResponse <- self$GetOrderByIdWithHttpInfo(order_id, data_file=data_file, ...)
       resp <- apiResponse$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         apiResponse$content
@@ -289,19 +289,19 @@ StoreApi <- R6::R6Class(
       }
     },
 
-    GetOrderByIdWithHttpInfo = function(order.id, data_file=NULL, ...){
+    GetOrderByIdWithHttpInfo = function(order_id, data_file=NULL, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
 
-      if (missing(`order.id`)) {
-        stop("Missing required parameter `order.id`.")
+      if (missing(`order_id`)) {
+        stop("Missing required parameter `order_id`.")
       }
 
       body <- NULL
       urlPath <- "/store/order/{orderId}"
-      if (!missing(`order.id`)) {
-        urlPath <- gsub(paste0("\\{", "orderId", "\\}"), URLencode(as.character(`order.id`), reserved = TRUE), urlPath)
+      if (!missing(`order_id`)) {
+        urlPath <- gsub(paste0("\\{", "orderId", "\\}"), URLencode(as.character(`order_id`), reserved = TRUE), urlPath)
       }
 
 
@@ -333,8 +333,8 @@ StoreApi <- R6::R6Class(
         ApiResponse$new("API server error", resp)
       }
     },
-    PlaceOrder = function(body, data_file=NULL, ...){
-      apiResponse <- self$PlaceOrderWithHttpInfo(body, data_file=data_file, ...)
+    PlaceOrder = function(order, data_file=NULL, ...){
+      apiResponse <- self$PlaceOrderWithHttpInfo(order, data_file=data_file, ...)
       resp <- apiResponse$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         apiResponse$content
@@ -347,17 +347,17 @@ StoreApi <- R6::R6Class(
       }
     },
 
-    PlaceOrderWithHttpInfo = function(body, data_file=NULL, ...){
+    PlaceOrderWithHttpInfo = function(order, data_file=NULL, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
 
-      if (missing(`body`)) {
-        stop("Missing required parameter `body`.")
+      if (missing(`order`)) {
+        stop("Missing required parameter `order`.")
       }
 
-      if (!missing(`body`)) {
-        body <- `body`$toJSONString()
+      if (!missing(`order`)) {
+        body <- `order`$toJSONString()
       } else {
         body <- NULL
       }

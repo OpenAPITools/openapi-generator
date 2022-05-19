@@ -28,10 +28,18 @@ import java.util.List;
 import java.util.Map;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
-import io.swagger.annotations.*;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
 @Generated(value="org.openapitools.codegen.languages.JavaMicronautServerCodegen")
 @Controller
+@Tag(name = "Pet", description = "The Pet API")
 public class PetController {
     /**
      * Add a new pet to the store
@@ -40,21 +48,23 @@ public class PetController {
      * @param pet Pet object that needs to be added to the store (required)
      * @return Pet
      */
-    @ApiOperation(
-        value = "Add a new pet to the store",
-        nickname = "addPet",
-        notes = "",
-        response = Pet.class,
-        authorizations = {
-            @Authorization(value = "petstore_auth", scopes = {
-                @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
-                @AuthorizationScope(scope = "read:pets", description = "read your pets")
-            })
+    @Operation(
+        operationId = "addPet",
+        summary = "Add a new pet to the store",
+        responses = {
+            @ApiResponse(responseCode = "200", description = "successful operation", content = {
+                @Content(mediaType = "application/xml", schema = @Schema(implementation = Pet.class)),
+                @Content(mediaType = "application/json", schema = @Schema(implementation = Pet.class))
+            }),
+            @ApiResponse(responseCode = "405", description = "Invalid input")
         },
-        tags={})
-    @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "successful operation", response = Pet.class),
-        @ApiResponse(code = 405, message = "Invalid input")})
+        parameters = {
+            @Parameter(name = "pet", description = "Pet object that needs to be added to the store", required = true)
+        },
+        security = {
+            @SecurityRequirement(name = "petstore_auth", scopes = { "write:pets", "read:pets" })
+        }
+    )
     @Post(uri="/pet")
     @Produces(value = {"application/xml", "application/json"})
     @Consumes(value = {"application/json", "application/xml"})
@@ -73,19 +83,20 @@ public class PetController {
      * @param petId Pet id to delete (required)
      * @param apiKey  (optional)
      */
-    @ApiOperation(
-        value = "Deletes a pet",
-        nickname = "deletePet",
-        notes = "",
-        authorizations = {
-            @Authorization(value = "petstore_auth", scopes = {
-                @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
-                @AuthorizationScope(scope = "read:pets", description = "read your pets")
-            })
+    @Operation(
+        operationId = "deletePet",
+        summary = "Deletes a pet",
+        responses = {
+            @ApiResponse(responseCode = "400", description = "Invalid pet value")
         },
-        tags={})
-    @ApiResponses(value = {
-        @ApiResponse(code = 400, message = "Invalid pet value")})
+        parameters = {
+            @Parameter(name = "petId", description = "Pet id to delete", required = true),
+            @Parameter(name = "apiKey")
+        },
+        security = {
+            @SecurityRequirement(name = "petstore_auth", scopes = { "write:pets", "read:pets" })
+        }
+    )
     @Delete(uri="/pet/{petId}")
     @Produces(value = {})
     public Mono<Void> deletePet(
@@ -104,21 +115,23 @@ public class PetController {
      * @param status Status values that need to be considered for filter (required)
      * @return List&lt;Pet&gt;
      */
-    @ApiOperation(
-        value = "Finds Pets by status",
-        nickname = "findPetsByStatus",
-        notes = "Multiple status values can be provided with comma separated strings",
-        response = Pet.class,
-        responseContainer = "array",
-        authorizations = {
-            @Authorization(value = "petstore_auth", scopes = {
-                @AuthorizationScope(scope = "read:pets", description = "read your pets")
-            })
+    @Operation(
+        operationId = "findPetsByStatus",
+        summary = "Finds Pets by status",
+        responses = {
+            @ApiResponse(responseCode = "200", description = "successful operation", content = {
+                @Content(mediaType = "application/xml", schema = @Schema(implementation = Pet.class)),
+                @Content(mediaType = "application/json", schema = @Schema(implementation = Pet.class))
+            }),
+            @ApiResponse(responseCode = "400", description = "Invalid status value")
         },
-        tags={})
-    @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "successful operation", response = Pet.class, responseContainer = "array"),
-        @ApiResponse(code = 400, message = "Invalid status value")})
+        parameters = {
+            @Parameter(name = "status", description = "Status values that need to be considered for filter", required = true)
+        },
+        security = {
+            @SecurityRequirement(name = "petstore_auth", scopes = { "read:pets" })
+        }
+    )
     @Get(uri="/pet/findByStatus")
     @Produces(value = {"application/xml", "application/json"})
     public Mono<List<Pet>> findPetsByStatus(
@@ -136,21 +149,23 @@ public class PetController {
      * @param tags Tags to filter by (required)
      * @return List&lt;Pet&gt;
      */
-    @ApiOperation(
-        value = "Finds Pets by tags",
-        nickname = "findPetsByTags",
-        notes = "Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.",
-        response = Pet.class,
-        responseContainer = "array",
-        authorizations = {
-            @Authorization(value = "petstore_auth", scopes = {
-                @AuthorizationScope(scope = "read:pets", description = "read your pets")
-            })
+    @Operation(
+        operationId = "findPetsByTags",
+        summary = "Finds Pets by tags",
+        responses = {
+            @ApiResponse(responseCode = "200", description = "successful operation", content = {
+                @Content(mediaType = "application/xml", schema = @Schema(implementation = Pet.class)),
+                @Content(mediaType = "application/json", schema = @Schema(implementation = Pet.class))
+            }),
+            @ApiResponse(responseCode = "400", description = "Invalid tag value")
         },
-        tags={})
-    @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "successful operation", response = Pet.class, responseContainer = "array"),
-        @ApiResponse(code = 400, message = "Invalid tag value")})
+        parameters = {
+            @Parameter(name = "tags", description = "Tags to filter by", required = true)
+        },
+        security = {
+            @SecurityRequirement(name = "petstore_auth", scopes = { "read:pets" })
+        }
+    )
     @Get(uri="/pet/findByTags")
     @Produces(value = {"application/xml", "application/json"})
     public Mono<List<Pet>> findPetsByTags(
@@ -168,19 +183,24 @@ public class PetController {
      * @param petId ID of pet to return (required)
      * @return Pet
      */
-    @ApiOperation(
-        value = "Find pet by ID",
-        nickname = "getPetById",
-        notes = "Returns a single pet",
-        response = Pet.class,
-        authorizations = {
-            @Authorization(value = "api_key")
+    @Operation(
+        operationId = "getPetById",
+        summary = "Find pet by ID",
+        responses = {
+            @ApiResponse(responseCode = "200", description = "successful operation", content = {
+                @Content(mediaType = "application/xml", schema = @Schema(implementation = Pet.class)),
+                @Content(mediaType = "application/json", schema = @Schema(implementation = Pet.class))
+            }),
+            @ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
+            @ApiResponse(responseCode = "404", description = "Pet not found")
         },
-        tags={})
-    @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "successful operation", response = Pet.class),
-        @ApiResponse(code = 400, message = "Invalid ID supplied"),
-        @ApiResponse(code = 404, message = "Pet not found")})
+        parameters = {
+            @Parameter(name = "petId", description = "ID of pet to return", required = true)
+        },
+        security = {
+            @SecurityRequirement(name = "api_key")
+        }
+    )
     @Get(uri="/pet/{petId}")
     @Produces(value = {"application/xml", "application/json"})
     public Mono<Pet> getPetById(
@@ -198,23 +218,25 @@ public class PetController {
      * @param pet Pet object that needs to be added to the store (required)
      * @return Pet
      */
-    @ApiOperation(
-        value = "Update an existing pet",
-        nickname = "updatePet",
-        notes = "",
-        response = Pet.class,
-        authorizations = {
-            @Authorization(value = "petstore_auth", scopes = {
-                @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
-                @AuthorizationScope(scope = "read:pets", description = "read your pets")
-            })
+    @Operation(
+        operationId = "updatePet",
+        summary = "Update an existing pet",
+        responses = {
+            @ApiResponse(responseCode = "200", description = "successful operation", content = {
+                @Content(mediaType = "application/xml", schema = @Schema(implementation = Pet.class)),
+                @Content(mediaType = "application/json", schema = @Schema(implementation = Pet.class))
+            }),
+            @ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
+            @ApiResponse(responseCode = "404", description = "Pet not found"),
+            @ApiResponse(responseCode = "405", description = "Validation exception")
         },
-        tags={})
-    @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "successful operation", response = Pet.class),
-        @ApiResponse(code = 400, message = "Invalid ID supplied"),
-        @ApiResponse(code = 404, message = "Pet not found"),
-        @ApiResponse(code = 405, message = "Validation exception")})
+        parameters = {
+            @Parameter(name = "pet", description = "Pet object that needs to be added to the store", required = true)
+        },
+        security = {
+            @SecurityRequirement(name = "petstore_auth", scopes = { "write:pets", "read:pets" })
+        }
+    )
     @Put(uri="/pet")
     @Produces(value = {"application/xml", "application/json"})
     @Consumes(value = {"application/json", "application/xml"})
@@ -234,19 +256,21 @@ public class PetController {
      * @param name Updated name of the pet (optional)
      * @param status Updated status of the pet (optional)
      */
-    @ApiOperation(
-        value = "Updates a pet in the store with form data",
-        nickname = "updatePetWithForm",
-        notes = "",
-        authorizations = {
-            @Authorization(value = "petstore_auth", scopes = {
-                @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
-                @AuthorizationScope(scope = "read:pets", description = "read your pets")
-            })
+    @Operation(
+        operationId = "updatePetWithForm",
+        summary = "Updates a pet in the store with form data",
+        responses = {
+            @ApiResponse(responseCode = "405", description = "Invalid input")
         },
-        tags={})
-    @ApiResponses(value = {
-        @ApiResponse(code = 405, message = "Invalid input")})
+        parameters = {
+            @Parameter(name = "petId", description = "ID of pet that needs to be updated", required = true),
+            @Parameter(name = "name", description = "Updated name of the pet"),
+            @Parameter(name = "status", description = "Updated status of the pet")
+        },
+        security = {
+            @SecurityRequirement(name = "petstore_auth", scopes = { "write:pets", "read:pets" })
+        }
+    )
     @Post(uri="/pet/{petId}")
     @Produces(value = {})
     @Consumes(value = {"application/x-www-form-urlencoded"})
@@ -269,20 +293,23 @@ public class PetController {
      * @param _file file to upload (optional)
      * @return ModelApiResponse
      */
-    @ApiOperation(
-        value = "uploads an image",
-        nickname = "uploadFile",
-        notes = "",
-        response = ModelApiResponse.class,
-        authorizations = {
-            @Authorization(value = "petstore_auth", scopes = {
-                @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
-                @AuthorizationScope(scope = "read:pets", description = "read your pets")
+    @Operation(
+        operationId = "uploadFile",
+        summary = "uploads an image",
+        responses = {
+            @ApiResponse(responseCode = "200", description = "successful operation", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ModelApiResponse.class))
             })
         },
-        tags={})
-    @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "successful operation", response = ModelApiResponse.class)})
+        parameters = {
+            @Parameter(name = "petId", description = "ID of pet to update", required = true),
+            @Parameter(name = "additionalMetadata", description = "Additional data to pass to server"),
+            @Parameter(name = "_file", description = "file to upload")
+        },
+        security = {
+            @SecurityRequirement(name = "petstore_auth", scopes = { "write:pets", "read:pets" })
+        }
+    )
     @Post(uri="/pet/{petId}/uploadImage")
     @Produces(value = {"application/json"})
     @Consumes(value = {"multipart/form-data"})

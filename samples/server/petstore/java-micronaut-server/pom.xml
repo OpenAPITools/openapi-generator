@@ -10,7 +10,7 @@
     <parent>
         <groupId>io.micronaut</groupId>
         <artifactId>micronaut-parent</artifactId>
-        <version>3.3.1</version>
+        <version>3.4.3</version>
     </parent>
 
     <properties>
@@ -19,10 +19,10 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!-- If you are building with JDK 9 or higher, you can uncomment the lines below to set the release version -->
         <!-- <release.version>8</release.version> -->
-        <micronaut.version>3.3.1</micronaut.version>
+        <micronaut.version>3.4.3</micronaut.version>
         <exec.mainClass>org.openapitools.Application</exec.mainClass>
         <micronaut.runtime>netty</micronaut.runtime>
-        <swagger-annotations-version>1.5.21</swagger-annotations-version>
+        <swagger-annotations-version>2.2.0</swagger-annotations-version>
     </properties>
 
     <repositories>
@@ -90,7 +90,7 @@
             <scope>runtime</scope>
         </dependency>
         <dependency>
-            <groupId>io.swagger</groupId>
+            <groupId>io.swagger.core.v3</groupId>
             <artifactId>swagger-annotations</artifactId>
             <version>${swagger-annotations-version}</version>
         </dependency>

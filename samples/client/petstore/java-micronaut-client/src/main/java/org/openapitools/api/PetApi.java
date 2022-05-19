@@ -31,7 +31,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 @Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen")
-@Client("${base-path}")
+@Client("${petstore-micronaut-base-path}")
 public interface PetApi {
     /**
      * Add a new pet to the store
@@ -43,6 +43,7 @@ public interface PetApi {
     Mono<Void> addPet(
         @Body @NotNull @Valid Pet _body
     );
+
     /**
      * Deletes a pet
      *
@@ -54,6 +55,7 @@ public interface PetApi {
         @PathVariable(name="petId") @NotNull Long petId, 
         @Header(name="api_key") @Nullable String apiKey
     );
+
     /**
      * Finds Pets by status
      * Multiple status values can be provided with comma separated strings
@@ -66,6 +68,7 @@ public interface PetApi {
     Mono<List<Pet>> findPetsByStatus(
         @QueryValue(value="status") @NotNull List<String> status
     );
+
     /**
      * Finds Pets by tags
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
@@ -78,6 +81,7 @@ public interface PetApi {
     Mono<Set<Pet>> findPetsByTags(
         @QueryValue(value="tags") @NotNull Set<String> tags
     );
+
     /**
      * Find pet by ID
      * Returns a single pet
@@ -90,6 +94,7 @@ public interface PetApi {
     Mono<Pet> getPetById(
         @PathVariable(name="petId") @NotNull Long petId
     );
+
     /**
      * Update an existing pet
      *
@@ -100,6 +105,7 @@ public interface PetApi {
     Mono<Void> updatePet(
         @Body @NotNull @Valid Pet _body
     );
+
     /**
      * Updates a pet in the store with form data
      *
@@ -114,6 +120,7 @@ public interface PetApi {
         @Nullable String name, 
         @Nullable String status
     );
+
     /**
      * uploads an image
      *
@@ -130,6 +137,7 @@ public interface PetApi {
         @Nullable String additionalMetadata, 
         @Nullable File _file
     );
+
     /**
      * uploads an image (required)
      *
@@ -146,4 +154,5 @@ public interface PetApi {
         @NotNull File requiredFile, 
         @Nullable String additionalMetadata
     );
+
 }

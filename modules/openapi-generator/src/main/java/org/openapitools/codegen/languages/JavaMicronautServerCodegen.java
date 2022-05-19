@@ -7,8 +7,6 @@ import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.Collections;
 import java.util.List;
@@ -29,8 +27,6 @@ public class JavaMicronautServerCodegen extends JavaMicronautAbstractCodegen {
     public static final String DENY_ALL_ROLE_KEY = "denyAll()";
     public static final String DENY_ALL_ROLE = "SecurityRule.DENY_ALL";
 
-    private final Logger LOGGER = LoggerFactory.getLogger(JavaMicronautServerCodegen.class);
-
     public static final String NAME = "java-micronaut-server";
 
     protected String controllerPackage = "org.openapitools.controller";
@@ -47,7 +43,7 @@ public class JavaMicronautServerCodegen extends JavaMicronautAbstractCodegen {
     public JavaMicronautServerCodegen() {
         super();
 
-        title = "OpenAPI Micronaut Server";;
+        title = "OpenAPI Micronaut Server";
         apiPackage = "org.openapitools.api";
         apiDocPath = "docs/controllers";
 

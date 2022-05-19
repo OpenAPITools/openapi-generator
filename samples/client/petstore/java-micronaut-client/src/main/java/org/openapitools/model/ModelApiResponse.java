@@ -15,8 +15,6 @@ package org.openapitools.model;
 import java.util.Objects;
 import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.*;
 
 import javax.validation.constraints.*;
@@ -57,7 +55,6 @@ public class ModelApiResponse {
      * @return code
      **/
     @Nullable
-    @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_CODE)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public Integer getCode() {
@@ -66,7 +63,7 @@ public class ModelApiResponse {
 
     @JsonProperty(JSON_PROPERTY_CODE)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public void setCode(Integer code) {
+    public void setCode(Integer code) {
         this.code = code;
     }
 
@@ -80,7 +77,6 @@ public class ModelApiResponse {
      * @return type
      **/
     @Nullable
-    @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_TYPE)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public String getType() {
@@ -89,7 +85,7 @@ public class ModelApiResponse {
 
     @JsonProperty(JSON_PROPERTY_TYPE)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public void setType(String type) {
+    public void setType(String type) {
         this.type = type;
     }
 
@@ -103,7 +99,6 @@ public class ModelApiResponse {
      * @return message
      **/
     @Nullable
-    @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_MESSAGE)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public String getMessage() {
@@ -112,7 +107,7 @@ public class ModelApiResponse {
 
     @JsonProperty(JSON_PROPERTY_MESSAGE)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public void setMessage(String message) {
+    public void setMessage(String message) {
         this.message = message;
     }
 

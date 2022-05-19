@@ -26,10 +26,18 @@ import java.util.List;
 import java.util.Map;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
-import io.swagger.annotations.*;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
 @Generated(value="org.openapitools.codegen.languages.JavaMicronautServerCodegen")
 @Controller
+@Tag(name = "Store", description = "The Store API")
 public class StoreController {
     /**
      * Delete purchase order by ID
@@ -37,15 +45,17 @@ public class StoreController {
      *
      * @param orderId ID of the order that needs to be deleted (required)
      */
-    @ApiOperation(
-        value = "Delete purchase order by ID",
-        nickname = "deleteOrder",
-        notes = "For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors",
-        authorizations = {},
-        tags={})
-    @ApiResponses(value = {
-        @ApiResponse(code = 400, message = "Invalid ID supplied"),
-        @ApiResponse(code = 404, message = "Order not found")})
+    @Operation(
+        operationId = "deleteOrder",
+        summary = "Delete purchase order by ID",
+        responses = {
+            @ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
+            @ApiResponse(responseCode = "404", description = "Order not found")
+        },
+        parameters = {
+            @Parameter(name = "orderId", description = "ID of the order that needs to be deleted", required = true)
+        }
+    )
     @Delete(uri="/store/order/{orderId}")
     @Produces(value = {})
     public Mono<Void> deleteOrder(
@@ -62,18 +72,18 @@ public class StoreController {
      *
      * @return Map&lt;String, Integer&gt;
      */
-    @ApiOperation(
-        value = "Returns pet inventories by status",
-        nickname = "getInventory",
-        notes = "Returns a map of status codes to quantities",
-        response = Integer.class,
-        responseContainer = "map",
-        authorizations = {
-            @Authorization(value = "api_key")
+    @Operation(
+        operationId = "getInventory",
+        summary = "Returns pet inventories by status",
+        responses = {
+            @ApiResponse(responseCode = "200", description = "successful operation", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = Map.class))
+            })
         },
-        tags={})
-    @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "successful operation", response = Map.class, responseContainer = "map")})
+        security = {
+            @SecurityRequirement(name = "api_key")
+        }
+    )
     @Get(uri="/store/inventory")
     @Produces(value = {"application/json"})
     public Mono<Map<String, Integer>> getInventory() {
@@ -89,17 +99,21 @@ public class StoreController {
      * @param orderId ID of pet that needs to be fetched (required)
      * @return Order
      */
-    @ApiOperation(
-        value = "Find purchase order by ID",
-        nickname = "getOrderById",
-        notes = "For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions",
-        response = Order.class,
-        authorizations = {},
-        tags={})
-    @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "successful operation", response = Order.class),
-        @ApiResponse(code = 400, message = "Invalid ID supplied"),
-        @ApiResponse(code = 404, message = "Order not found")})
+    @Operation(
+        operationId = "getOrderById",
+        summary = "Find purchase order by ID",
+        responses = {
+            @ApiResponse(responseCode = "200", description = "successful operation", content = {
+                @Content(mediaType = "application/xml", schema = @Schema(implementation = Order.class)),
+                @Content(mediaType = "application/json", schema = @Schema(implementation = Order.class))
+            }),
+            @ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
+            @ApiResponse(responseCode = "404", description = "Order not found")
+        },
+        parameters = {
+            @Parameter(name = "orderId", description = "ID of pet that needs to be fetched", required = true)
+        }
+    )
     @Get(uri="/store/order/{orderId}")
     @Produces(value = {"application/xml", "application/json"})
     public Mono<Order> getOrderById(
@@ -117,16 +131,20 @@ public class StoreController {
      * @param order order placed for purchasing the pet (required)
      * @return Order
      */
-    @ApiOperation(
-        value = "Place an order for a pet",
-        nickname = "placeOrder",
-        notes = "",
-        response = Order.class,
-        authorizations = {},
-        tags={})
-    @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "successful operation", response = Order.class),
-        @ApiResponse(code = 400, message = "Invalid Order")})
+    @Operation(
+        operationId = "placeOrder",
+        summary = "Place an order for a pet",
+        responses = {
+            @ApiResponse(responseCode = "200", description = "successful operation", content = {
+                @Content(mediaType = "application/xml", schema = @Schema(implementation = Order.class)),
+                @Content(mediaType = "application/json", schema = @Schema(implementation = Order.class))
+            }),
+            @ApiResponse(responseCode = "400", description = "Invalid Order")
+        },
+        parameters = {
+            @Parameter(name = "order", description = "order placed for purchasing the pet", required = true)
+        }
+    )
     @Post(uri="/store/order")
     @Produces(value = {"application/xml", "application/json"})
     @Consumes(value = {"application/json"})

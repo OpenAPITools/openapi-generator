@@ -28,7 +28,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 @Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen")
-@Client("${base-path}")
+@Client("${petstore-micronaut-base-path}")
 public interface StoreApi {
     /**
      * Delete purchase order by ID
@@ -40,6 +40,7 @@ public interface StoreApi {
     Mono<Void> deleteOrder(
         @PathVariable(name="order_id") @NotNull String orderId
     );
+
     /**
      * Returns pet inventories by status
      * Returns a map of status codes to quantities
@@ -49,6 +50,7 @@ public interface StoreApi {
     @Get(uri="/store/inventory")
     @Consumes({"application/json"})
     Mono<Map<String, Integer>> getInventory();
+
     /**
      * Find purchase order by ID
      * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
@@ -61,6 +63,7 @@ public interface StoreApi {
     Mono<Order> getOrderById(
         @PathVariable(name="order_id") @NotNull @Min(1L) @Max(5L) Long orderId
     );
+
     /**
      * Place an order for a pet
      *
@@ -72,4 +75,5 @@ public interface StoreApi {
     Mono<Order> placeOrder(
         @Body @NotNull @Valid Order _body
     );
+
 }
