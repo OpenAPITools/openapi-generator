@@ -93,7 +93,31 @@ request_path_pet_id = api_client.PathParameter(
     required=True,
 )
 # body param
-SchemaForRequestBodyMultipartFormData = Schema
+
+
+class SchemaForRequestBodyMultipartFormData(
+    DictSchema
+):
+    _required_property_names = set((
+    ))
+    additionalMetadata = StrSchema
+    requiredFile = BinarySchema
+
+
+    def __new__(
+        cls,
+        *args: typing.Union[dict, frozendict, ],
+        additionalMetadata: typing.Union[additionalMetadata, Unset] = unset,
+        _configuration: typing.Optional[Configuration] = None,
+        **kwargs: typing.Type[Schema],
+    ) -> 'SchemaForRequestBodyMultipartFormData':
+        return super().__new__(
+            cls,
+            *args,
+            additionalMetadata=additionalMetadata,
+            _configuration=_configuration,
+            **kwargs,
+        )
 
 
 request_body_body = api_client.RequestBody(

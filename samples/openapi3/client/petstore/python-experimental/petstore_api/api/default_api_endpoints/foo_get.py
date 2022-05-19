@@ -68,7 +68,32 @@ from petstore_api.model.foo import Foo
 
 _path = '/foo'
 _method = 'GET'
-SchemaFor0ResponseBodyApplicationJson = Schema
+
+
+class SchemaFor0ResponseBodyApplicationJson(
+    DictSchema
+):
+
+    @classmethod
+    @property
+    def string(cls) -> typing.Type['Foo']:
+        return Foo
+
+
+    def __new__(
+        cls,
+        *args: typing.Union[dict, frozendict, ],
+        string: typing.Union['Foo', Unset] = unset,
+        _configuration: typing.Optional[Configuration] = None,
+        **kwargs: typing.Type[Schema],
+    ) -> 'SchemaFor0ResponseBodyApplicationJson':
+        return super().__new__(
+            cls,
+            *args,
+            string=string,
+            _configuration=_configuration,
+            **kwargs,
+        )
 
 
 @dataclass

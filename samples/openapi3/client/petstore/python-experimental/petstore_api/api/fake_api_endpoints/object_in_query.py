@@ -64,7 +64,28 @@ from petstore_api.schemas import (  # noqa: F401
 )
 
 # query params
-MapBeanSchema = Schema
+
+
+class MapBeanSchema(
+    DictSchema
+):
+    keyword = StrSchema
+
+
+    def __new__(
+        cls,
+        *args: typing.Union[dict, frozendict, ],
+        keyword: typing.Union[keyword, Unset] = unset,
+        _configuration: typing.Optional[Configuration] = None,
+        **kwargs: typing.Type[Schema],
+    ) -> 'MapBeanSchema':
+        return super().__new__(
+            cls,
+            *args,
+            keyword=keyword,
+            _configuration=_configuration,
+            **kwargs,
+        )
 RequestRequiredQueryParams = typing.TypedDict(
     'RequestRequiredQueryParams',
     {

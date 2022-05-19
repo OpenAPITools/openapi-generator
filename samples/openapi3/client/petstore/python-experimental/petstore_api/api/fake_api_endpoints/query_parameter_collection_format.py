@@ -63,6 +63,8 @@ from petstore_api.schemas import (  # noqa: F401
     _SchemaEnumMaker
 )
 
+from petstore_api.model.string_with_validation import StringWithValidation
+
 # query params
 
 
@@ -94,15 +96,7 @@ class ContextSchema(
     ListSchema
 ):
     _items = StrSchema
-
-
-class RefParamSchema(
-    _SchemaValidator(
-        min_length=7,
-    ),
-    StrSchema
-):
-    pass
+RefParamSchema = StringWithValidation
 RequestRequiredQueryParams = typing.TypedDict(
     'RequestRequiredQueryParams',
     {
