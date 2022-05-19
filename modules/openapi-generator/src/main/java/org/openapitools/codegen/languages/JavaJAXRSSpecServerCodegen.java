@@ -40,6 +40,9 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
     public static final String HELIDON_LIBRARY = "helidon";
     public static final String KUMULUZEE_LIBRARY = "kumuluzee";
 
+    public static final String HELIDON_VERSION = "helidonVersion";
+    public static final String HELIDON_VERSION_DEFAULT = "2.4.1";
+
     private boolean interfaceOnly = false;
     private boolean returnResponse = false;
     private boolean generatePom = true;
@@ -214,7 +217,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
             supportingFiles.add(new SupportingFile("ibm-web-ext.xml.mustache", "src/main/webapp/WEB-INF", "ibm-web-ext.xml")
                     .doNotOverwrite());
         } else if(HELIDON_LIBRARY.equals(library)) {
-            additionalProperties.computeIfAbsent("helidonVersion", key -> "2.4.1");
+            additionalProperties.computeIfAbsent(HELIDON_VERSION, key -> HELIDON_VERSION_DEFAULT);
             supportingFiles.add(new SupportingFile("logging.properties.mustache", "src/main/resources", "logging.properties")
                     .doNotOverwrite());
             supportingFiles.add(new SupportingFile("microprofile-config.properties.mustache", "src/main/resources/META-INF", "microprofile-config.properties")

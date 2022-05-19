@@ -1,5 +1,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
+  {{#isHelidon}}
+  <parent>
+    <groupId>io.helidon.applications</groupId>
+    <artifactId>helidon-mp</artifactId>
+    <version>${helidon.version}</version>
+    <relativePath/>
+  </parent>
+  {{/isHelidon}}
   <groupId>{{groupId}}</groupId>
   <artifactId>{{artifactId}}</artifactId>
   <packaging>jar</packaging>
@@ -102,11 +110,20 @@
     </dependency>
 
     {{^disableMultipart}}
+    {{#isCxf}}
     <dependency>
         <groupId>org.apache.cxf</groupId>
         <artifactId>cxf-rt-rs-extension-providers</artifactId>
         <version>${cxf.rt.rs.extension.providers.version}</version>
     </dependency>
+    {{/isCxf}}
+    {{#isJersey}}
+    <dependency>
+        <groupId>org.glassfish.jersey.media</groupId>
+        <artifactId>jersey-media-multipart</artifactId>
+        <version>${org.glassfish.jersey.media.version}</version>
+    </dependency>
+    {{/isJersey}}
     {{/disableMultipart}}
     <dependency>
       <groupId>jakarta.json.bind</groupId>
@@ -186,7 +203,13 @@
     <jakarta.ws.rs.version>3.0.0</jakarta.ws.rs.version>
     <jakarta.xml.bind.version>3.0.1</jakarta.xml.bind.version>
     <microprofile.rest.client.api.version>{{microprofileRestClientVersion}}</microprofile.rest.client.api.version>
+    {{#isCxf}}
     <jersey.mp.rest.client.version>3.0.4</jersey.mp.rest.client.version>
+    {{/isCxf}}
+    {{#isJersey}}
+    <org.glassfish.jersey.media.version>3.0.4</org.glassfish.jersey.media.version>
+    {{/isJersey}}
+    <helidon.version>{{helidonVersion}}</helidon.version>
     <geronimo.config.impl.version>1.2.3</geronimo.config.impl.version>
     <cxf.rt.rs.extension.providers.version>3.5.1</cxf.rt.rs.extension.providers.version>
     <jaxb.core.version>3.0.2</jaxb.core.version>

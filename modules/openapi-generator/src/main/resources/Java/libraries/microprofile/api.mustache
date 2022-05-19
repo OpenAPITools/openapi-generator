@@ -13,7 +13,13 @@ import {{rootJavaEEPackage}}.ws.rs.*;
 import {{rootJavaEEPackage}}.ws.rs.core.Response;
 import {{rootJavaEEPackage}}.ws.rs.core.MediaType;
 {{^disableMultipart}}
+{{#isCxf}}
 import org.apache.cxf.jaxrs.ext.multipart.*;
+{{/isCxf}}
+{{#isJersey}}
+import org.glassfish.jersey.media.multipart.FormDataParam;
+import org.glassfish.jersey.media.multipart.FileDataBodyPart;
+{{/isJersey}}
 {{/disableMultipart}}
 
 {{#useBeanValidation}}
