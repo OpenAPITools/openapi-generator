@@ -48,10 +48,12 @@ public interface {{classname}} {
     {{#operation}}
 {{>common/operationAnnotations}}{{!
 }}    @{{#lambda.pascalcase}}{{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}{{/lambda.pascalcase}}(uri="{{{path}}}")
-        {{#vendorExtensions.x-content-type}}
-    @Produces(value={"{{vendorExtensions.x-content-type}}"})
-        {{/vendorExtensions.x-content-type}}
-    @Consumes(value={"{{vendorExtensions.x-accepts}}"})
+    {{#hasProduces}}
+    {{#produces}}{{#-first}}@Consumes({{openbrace}}{{/-first}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{#-last}}{{closebrace}}){{/-last}}{{/produces}}
+    {{/hasProduces}}
+    {{#hasConsumes}}
+    {{#consumes}}{{#-first}}@Produces({{openbrace}}{{/-first}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{#-last}}{{closebrace}}){{/-last}}{{/consumes}}
+    {{/hasConsumes}}
     {{!auth methods}}
         {{#configureAuth}}
             {{#authMethods}}

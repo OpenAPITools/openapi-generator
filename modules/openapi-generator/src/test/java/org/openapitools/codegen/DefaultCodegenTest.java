@@ -2061,11 +2061,12 @@ public class DefaultCodegenTest {
         CodegenParameter parameter = codegen.fromParameter(openAPI.getPaths().get("/pony").getGet().getParameters().get(0), imports);
 
         // TODO: This must be updated to work with flattened inline models
-        Assert.assertEquals(parameter.dataType, "PageQuery1");
+        Assert.assertEquals(parameter.dataType, "ListPageQueryParameter");
         Assert.assertEquals(imports.size(), 1);
-        Assert.assertEquals(imports.iterator().next(), "PageQuery1");
+        Assert.assertEquals(imports.iterator().next(), "ListPageQueryParameter");
 
         Assert.assertNotNull(parameter.getSchema());
+        Assert.assertEquals(parameter.getSchema().dataType, "Object");
         Assert.assertEquals(parameter.getSchema().baseType, "object");
     }
 
@@ -3167,8 +3168,8 @@ public class DefaultCodegenTest {
 
         // CodegenOperation puts the inline schema into schemas and refs it
         assertTrue(co.responses.get(0).isModel);
-        assertEquals(co.responses.get(0).baseType, "objectData");
-        modelName = "objectData";
+        assertEquals(co.responses.get(0).baseType, "objectWithOptionalAndRequiredProps_request");
+        modelName = "objectWithOptionalAndRequiredProps_request";
         sc = openAPI.getComponents().getSchemas().get(modelName);
         cm = codegen.fromModel(modelName, sc);
         assertEquals(cm.vars, vars);
@@ -3180,7 +3181,7 @@ public class DefaultCodegenTest {
         cm = codegen.fromModel(modelName, sc);
         CodegenProperty cp = cm.getVars().get(0);
         assertTrue(cp.isModel);
-        assertEquals(cp.complexType, "objectData");
+        assertEquals(cp.complexType, "objectWithOptionalAndRequiredProps_request");
     }
 
     @Test
@@ -4005,7 +4006,9 @@ public class DefaultCodegenTest {
         CodegenMediaType mt = content.get("application/json");
         assertNull(mt.getEncoding());
         CodegenProperty cp = mt.getSchema();
+        // TODO need to revise the test below
         assertTrue(cp.isMap);
+        assertTrue(cp.isModel);
         assertEquals(cp.complexType, "object");
         assertEquals(cp.baseName, "SchemaForRequestParameterCoordinatesInlineSchemaApplicationJson");
 

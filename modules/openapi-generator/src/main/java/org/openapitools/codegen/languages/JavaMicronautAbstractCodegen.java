@@ -1,5 +1,8 @@
 package org.openapitools.codegen.languages;
 
+import com.google.common.collect.ImmutableMap;
+import com.samskivert.mustache.Mustache;
+import com.samskivert.mustache.Template;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
@@ -15,6 +18,8 @@ import org.openapitools.codegen.model.OperationsMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
+import java.io.Writer;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -691,5 +696,18 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
             return null;
         }
         return escapeText(text).replaceAll("'", "\\'");
+    }
+
+    @Override
+    protected ImmutableMap.Builder<String, Mustache.Lambda> addMustacheLambdas() {
+        return super.addMustacheLambdas()
+            .put("replaceDotsWithUnderscore", new ReplaceDotsWithUnderscoreLambda());
+    }
+
+    private static class ReplaceDotsWithUnderscoreLambda implements Mustache.Lambda {
+        @Override
+        public void execute(final Template.Fragment fragment, final Writer writer) throws IOException {
+            writer.write(fragment.execute().replace('.', '_'));
+        }
     }
 }

@@ -43,6 +43,11 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
+            <groupId>io.micronaut.xml</groupId>
+            <artifactId>micronaut-jackson-xml</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
             <groupId>io.micronaut</groupId>
             <artifactId>micronaut-inject-groovy</artifactId>
             <scope>test</scope>
