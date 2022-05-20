@@ -12,8 +12,14 @@ import java.io.Serializable;
 {{/serializableModel}}
 import java.time.OffsetDateTime;
 {{#useBeanValidation}}
+{{#jakartaee}}
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+{{/jakartaee}}
+{{^jakartaee}}
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+{{/jakartaee}}
 {{/useBeanValidation}}
 {{#performBeanValidation}}
 import org.hibernate.validator.constraints.*;

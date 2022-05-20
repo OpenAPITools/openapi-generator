@@ -12,7 +12,13 @@ import reactor.core.publisher.Mono;
 {{^reactive}}
 import org.springframework.web.context.request.NativeWebRequest;
 
+{{#jakartaee}}
+import jakarta.servlet.http.HttpServletResponse;
+{{/jakartaee}}
+{{^jakartaee}}
 import javax.servlet.http.HttpServletResponse;
+{{/jakartaee}}
+
 import java.io.IOException;
 {{/reactive}}
 
