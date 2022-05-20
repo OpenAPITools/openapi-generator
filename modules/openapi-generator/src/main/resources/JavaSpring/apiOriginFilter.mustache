@@ -2,14 +2,14 @@ package {{apiPackage}};
 
 import java.io.IOException;
 
-{{#jakartaee}}
+{{#useJakartaEe}}
 import jakarta.annotation.Generated;
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletResponse;
-{{/jakartaee}}
-{{^jakartaee}}
+{{/useJakartaEe}}
+{{^useJakartaEe}}
 import javax.annotation.Generated;
-{{/jakartaee}}
+{{/useJakartaEe}}
 
 {{>generatedAnnotation}}
 public class ApiOriginFilter implements javax.servlet.Filter {

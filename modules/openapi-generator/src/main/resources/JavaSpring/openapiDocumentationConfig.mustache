@@ -19,14 +19,14 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import java.util.Optional;
 {{/useOptional}}
 
-{{#jakartaee}}
+{{#useJakartaEe}}
 import jakarta.annotation.Generated;
 import jakarta.servlet.ServletContext;
-{{/jakartaee}}
-{{^jakartaee}}
+{{/useJakartaEe}}
+{{^useJakartaEe}}
 import javax.annotation.Generated;
 import javax.servlet.ServletContext;
-{{/jakartaee}}
+{{/useJakartaEe}}
 
 {{>generatedAnnotation}}
 @Configuration

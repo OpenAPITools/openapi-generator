@@ -12,14 +12,14 @@ import java.io.Serializable;
 {{/serializableModel}}
 import java.time.OffsetDateTime;
 {{#useBeanValidation}}
-{{#jakartaee}}
+{{#useJakartaEe}}
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
-{{/jakartaee}}
-{{^jakartaee}}
+{{/useJakartaEe}}
+{{^useJakartaEe}}
 import javax.validation.Valid;
 import javax.validation.constraints.*;
-{{/jakartaee}}
+{{/useJakartaEe}}
 {{/useBeanValidation}}
 {{#performBeanValidation}}
 import org.hibernate.validator.constraints.*;
@@ -44,12 +44,12 @@ import org.springframework.hateoas.RepresentationModel;
 {{/parent}}
 
 import java.util.*;
-{{#jakartaee}}
+{{#useJakartaEe}}
 import jakarta.annotation.Generated;
-{{/jakartaee}}
-{{^jakartaee}}
+{{/useJakartaEe}}
+{{^useJakartaEe}}
 import javax.annotation.Generated;
-{{/jakartaee}}
+{{/useJakartaEe}}
 
 {{#models}}
 {{#model}}

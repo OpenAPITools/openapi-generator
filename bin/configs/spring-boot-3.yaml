@@ -7,6 +7,6 @@ additionalProperties:
   documentationProvider: springdoc
   artifactId: springboot
   snapshotVersion: "true"
-  jakartaee: true
+  useSpringBoot3: true
   useBeanValidation: true
   hideGenerationTimestamp: "true"

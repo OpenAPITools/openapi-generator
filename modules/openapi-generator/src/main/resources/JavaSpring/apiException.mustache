@@ -1,11 +1,11 @@
 package {{apiPackage}};
 
-{{#jakartaee}}
+{{#useJakartaEe}}
 import jakarta.annotation.Generated;
-{{/jakartaee}}
-{{^jakartaee}}
+{{/useJakartaEe}}
+{{^useJakartaEe}}
 import javax.annotation.Generated;
-{{/jakartaee}}
+{{/useJakartaEe}}
 
 /**
  * The exception that can be used to store the HTTP status code returned by an API response.

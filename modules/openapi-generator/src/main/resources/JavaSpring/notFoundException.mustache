@@ -1,11 +1,11 @@
 package {{apiPackage}};
 
-{{#jakartaee}}
+{{#useJakartaEe}}
 import jakarta.annotation.Generated;
-{{/jakartaee}}
-{{^jakartaee}}
+{{/useJakartaEe}}
+{{^useJakartaEe}}
 import javax.annotation.Generated;
-{{/jakartaee}}
+{{/useJakartaEe}}
 
 {{>generatedAnnotation}}
 public class NotFoundException extends ApiException {
