@@ -1,4 +1,6 @@
+-r requirements.txt
 pytest~=4.6.7 # needed for python 2.7+3.4
 pytest-cov>=2.8.1
 pytest-randomly==1.2.3 # needed for python 2.7+3.4
 Flask-Testing==0.8.0
+flask<2.0.0 # needed for Flask-Testing (`flask.json_available`)
