@@ -2,7 +2,12 @@ package {{apiPackage}};
 
 import java.io.IOException;
 
+{{#jakartaee}}
+import jakarta.annotation.Generated;
+{{/jakartaee}}
+{{^jakartaee}}
 import javax.annotation.Generated;
+{{/jakartaee}}
 import javax.servlet.*;
 import javax.servlet.http.HttpServletResponse;
 

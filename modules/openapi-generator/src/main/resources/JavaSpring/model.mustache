@@ -38,7 +38,12 @@ import org.springframework.hateoas.RepresentationModel;
 {{/parent}}
 
 import java.util.*;
+{{#jakartaee}}
+import jakarta.annotation.Generated;
+{{/jakartaee}}
+{{^jakartaee}}
 import javax.annotation.Generated;
+{{/jakartaee}}
 
 {{#models}}
 {{#model}}

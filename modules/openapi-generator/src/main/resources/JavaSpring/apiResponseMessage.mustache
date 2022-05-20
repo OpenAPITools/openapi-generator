@@ -1,6 +1,11 @@
 package {{apiPackage}};
 
+{{#jakartaee}}
+import jakarta.annotation.Generated;
+{{/jakartaee}}
+{{^jakartaee}}
 import javax.annotation.Generated;
+{{/jakartaee}}
 import javax.xml.bind.annotation.XmlTransient;
 
 {{>generatedAnnotation}}
