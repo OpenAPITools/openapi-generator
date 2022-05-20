@@ -448,9 +448,9 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
 
         if (isUseSpringBoot3()) {
-            supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
+            supportingFiles.add(new SupportingFile("pom-sb3.mustache", "", "pom.xml"));
         } else {
-            supportingFiles.add(new SupportingFile("pom-sb2.mustache", "", "pom.xml"));
+            supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
         }
 
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
