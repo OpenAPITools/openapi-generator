@@ -38,8 +38,8 @@ public interface AnotherFakeApi {
      * @return ModelClient
      */
     @Patch(uri="/another-fake/dummy")
-    @Produces(value={"application/json"})
-    @Consumes(value={"application/json"})
+    @Consumes({"application/json"})
+    @Produces({"application/json"})
     Mono<ModelClient> call123testSpecialTags(
         @Body @NotNull @Valid ModelClient _body
     );
