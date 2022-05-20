@@ -13,13 +13,11 @@
         {{#springDocDocumentationProvider}}
         <springdoc.version>2.0.0-M2</springdoc.version>
         {{/springDocDocumentationProvider}}
-        {{^springFoxDocumentationProvider}}
         {{^springDocDocumentationProvider}}
         {{#swagger2AnnotationLibrary}}
         <swagger-annotations.version>}2.2.0</swagger-annotations.version>
         {{/swagger2AnnotationLibrary}}
         {{/springDocDocumentationProvider}}
-        {{/springFoxDocumentationProvider}}
     </properties>
 {{#parentOverridden}}
     <parent>
