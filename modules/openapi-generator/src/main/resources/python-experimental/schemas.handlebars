@@ -523,13 +523,19 @@ class BoolClass(Singleton):
 
 class BoolBase:
     def is_true(self) -> bool:
-        # True if the instance is a BoolClass True Singleton
+        """
+        A replacement for x is True
+        True if the instance is a BoolClass True Singleton
+        """
         if not issubclass(self.__class__, BoolClass):
             return False
         return bool(self)
 
     def is_false(self) -> bool:
-        # True if the instance is a BoolClass False Singleton
+        """
+        A replacement for x is False
+        True if the instance is a BoolClass False Singleton
+        """
         if not issubclass(self.__class__, BoolClass):
             return False
         return bool(self) is False
@@ -537,7 +543,10 @@ class BoolBase:
 
 class NoneBase:
     def is_none(self) -> bool:
-        # True if the instance is a NoneClass None Singleton
+        """
+        A replacement for x is None
+        True if the instance is a NoneClass None Singleton
+        """
         if issubclass(self.__class__, NoneClass):
             return True
         return False
