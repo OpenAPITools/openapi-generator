@@ -415,6 +415,7 @@ void PFXStoreApi::placeOrder(const PFXOrder &pfx_order) {
 
     {
 
+        
         QByteArray output = pfx_order.asJson().toUtf8();
         input.request_body.append(output);
     }

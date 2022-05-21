@@ -236,6 +236,7 @@ void PFXUserApi::createUser(const PFXUser &pfx_user) {
 
     {
 
+        
         QByteArray output = pfx_user.asJson().toUtf8();
         input.request_body.append(output);
     }
@@ -660,6 +661,7 @@ void PFXUserApi::updateUser(const QString &username, const PFXUser &pfx_user) {
 
     {
 
+        
         QByteArray output = pfx_user.asJson().toUtf8();
         input.request_body.append(output);
     }

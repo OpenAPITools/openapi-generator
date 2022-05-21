@@ -69,10 +69,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public static final String SUPPORT_STREAMING = "supportStreaming";
     public static final String GRADLE_PROPERTIES = "gradleProperties";
     public static final String ERROR_OBJECT_TYPE = "errorObjectType";
-    public static final String ERROR_OBJECT_SUBTYPE = "errorObjectSubtype";
-
-    public static final String MICROPROFILE_DEFAULT = "default";
-    public static final String MICROPROFILE_KUMULUZEE = "kumuluzee";
 
     public static final String FEIGN = "feign";
     public static final String GOOGLE_API_CLIENT = "google-api-client";
@@ -92,6 +88,8 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public static final String MICROPROFILE_REST_CLIENT_VERSION = "microprofileRestClientVersion";
     public static final String MICROPROFILE_REST_CLIENT_DEFAULT_VERSION = "2.0";
     public static final String MICROPROFILE_REST_CLIENT_DEFAULT_ROOT_PACKAGE = "javax";
+    public static final String MICROPROFILE_DEFAULT = "default";
+    public static final String MICROPROFILE_KUMULUZEE = "kumuluzee";
 
     public static final String SERIALIZATION_LIBRARY_GSON = "gson";
     public static final String SERIALIZATION_LIBRARY_JACKSON = "jackson";
@@ -121,7 +119,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     protected boolean supportStreaming = false;
     protected String gradleProperties;
     protected String errorObjectType;
-    protected List<String> errorObjectSubtype;
     protected String authFolder;
     protected String serializationLibrary = null;
     protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
@@ -387,11 +384,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             this.setErrorObjectType(additionalProperties.get(ERROR_OBJECT_TYPE).toString());
         }
         additionalProperties.put(ERROR_OBJECT_TYPE, errorObjectType);
-
-        if (additionalProperties.containsKey(ERROR_OBJECT_SUBTYPE)) {
-            this.setErrorObjectSubtype((List<String>) additionalProperties.get(ERROR_OBJECT_SUBTYPE));
-        }
-        additionalProperties.put(ERROR_OBJECT_SUBTYPE, errorObjectSubtype);
 
         final String invokerFolder = (sourceFolder + '/' + invokerPackage).replace(".", "/");
         final String apiFolder = (sourceFolder + '/' + apiPackage).replace(".", "/");
@@ -1076,10 +1068,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
     public void setErrorObjectType(final String errorObjectType) {
         this.errorObjectType = errorObjectType;
-    }
-
-    public void setErrorObjectSubtype(final List<String> errorObjectSubtype) {
-        this.errorObjectSubtype = errorObjectSubtype;
     }
 
     /**
