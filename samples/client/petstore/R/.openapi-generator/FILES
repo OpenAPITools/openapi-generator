@@ -28,3 +28,9 @@ docs/User.md
 docs/UserApi.md
 git_push.sh
 tests/testthat.R
+tests/testthat/test_category.R
+tests/testthat/test_model_api_response.R
+tests/testthat/test_order.R
+tests/testthat/test_pet.R
+tests/testthat/test_tag.R
+tests/testthat/test_user.R

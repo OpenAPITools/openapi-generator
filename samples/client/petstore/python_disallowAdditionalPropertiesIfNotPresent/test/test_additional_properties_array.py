@@ -1,5 +1,3 @@
-# coding: utf-8
-
 """
     OpenAPI Petstore
 
@@ -10,7 +8,6 @@
 """
 
 
-from __future__ import absolute_import
 import sys
 import unittest
 
@@ -29,21 +26,9 @@ class TestAdditionalPropertiesArray(unittest.TestCase):
 
     def testAdditionalPropertiesArray(self):
         """Test AdditionalPropertiesArray"""
-        # can make model without additional properties
-        model = AdditionalPropertiesArray()
-
-        # can make one with additional properties
-        import datetime
-        some_val = []
-        model = AdditionalPropertiesArray(some_key=some_val)
-        assert model['some_key'] == some_val
-        some_val = [True, datetime.date(1970,1,1), datetime.datetime(1970,1,1), {}, 3.1, 1, [], 'hello']
-        model = AdditionalPropertiesArray(some_key=some_val)
-        assert model['some_key'] == some_val
-
-        # type checking works on additional properties
-        with self.assertRaises(petstore_api.ApiTypeError) as exc:
-            model = AdditionalPropertiesArray(some_key='some string')
+        # FIXME: construct object with mandatory attributes with example values
+        # model = AdditionalPropertiesArray()  # noqa: E501
+        pass
 
 
 if __name__ == '__main__':

@@ -18,7 +18,7 @@ void test_Tag_id_is_assigned_from_json()
 
 
 
-    bourne::json input = 
+    bourne::json input =
     {
         "id", 1
     };
@@ -35,7 +35,7 @@ void test_Tag_name_is_assigned_from_json()
 {
 
 
-    bourne::json input = 
+    bourne::json input =
     {
         "name", "hello"
     };
@@ -58,7 +58,7 @@ void test_Tag_id_is_converted_to_json()
 
 
 
-    bourne::json input = 
+    bourne::json input =
     {
         "id", 1
     };
@@ -77,7 +77,7 @@ void test_Tag_id_is_converted_to_json()
 void test_Tag_name_is_converted_to_json()
 {
 
-    bourne::json input = 
+    bourne::json input =
     {
         "name", "hello"
     };

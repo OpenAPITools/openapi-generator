@@ -42,12 +42,12 @@ class TestPet(unittest.TestCase):
                     name = 'default-name', ), 
                 name = 'doggie', 
                 photo_urls = [
-                    '0'
+                    ''
                     ], 
                 tags = [
                     petstore_api.models.tag.Tag(
                         id = 56, 
-                        name = '0', )
+                        name = '', )
                     ], 
                 status = 'available'
             )
@@ -55,7 +55,7 @@ class TestPet(unittest.TestCase):
             return Pet(
                 name = 'doggie',
                 photo_urls = [
-                    '0'
+                    ''
                     ],
         )
 
@@ -63,7 +63,6 @@ class TestPet(unittest.TestCase):
         """Test Pet"""
         inst_req_only = self.make_instance(include_optional=False)
         inst_req_and_optional = self.make_instance(include_optional=True)
-
 
 if __name__ == '__main__':
     unittest.main()

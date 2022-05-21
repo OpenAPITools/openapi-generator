@@ -21,7 +21,7 @@ void main() {
       // TODO
     });
 
-    // AllOfWithSingleRefSingleRefType singleRefType
+    // SingleRefType singleRefType
     test('to test the property `singleRefType`', () async {
       // TODO
     });

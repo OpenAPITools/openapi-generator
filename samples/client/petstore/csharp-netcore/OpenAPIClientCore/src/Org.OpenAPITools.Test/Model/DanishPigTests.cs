@@ -20,7 +20,7 @@ using Org.OpenAPITools.Client;
 using System.Reflection;
 using Newtonsoft.Json;
 
-namespace Org.OpenAPITools.Test
+namespace Org.OpenAPITools.Test.Model
 {
     /// <summary>
     ///  Class for testing DanishPig
@@ -51,8 +51,8 @@ namespace Org.OpenAPITools.Test
         [Fact]
         public void DanishPigInstanceTest()
         {
-            // TODO uncomment below to test "IsInstanceOfType" DanishPig
-            //Assert.IsInstanceOfType<DanishPig> (instance, "variable 'instance' is a DanishPig");
+            // TODO uncomment below to test "IsType" DanishPig
+            //Assert.IsType<DanishPig>(instance);
         }
 
 

@@ -1,5 +1,3 @@
-# coding: utf-8
-
 """
     OpenAPI Petstore
 
@@ -10,7 +8,6 @@
 """
 
 
-from __future__ import absolute_import
 import sys
 import unittest
 
@@ -29,20 +26,9 @@ class TestStringEnum(unittest.TestCase):
 
     def testStringEnum(self):
         """Test StringEnum"""
-
-        """Test OuterEnum"""
-        # make sure that we can access its allowed_values
-        assert StringEnum.allowed_values[('value',)] == {
-            'PLACED': "placed",
-            'APPROVED': "approved",
-            'DELIVERED': "delivered"
-        }
-        # make sure that an exception is thrown on an invalid value
-        with self.assertRaises(petstore_api.ApiValueError):
-            StringEnum('bad_value')
-        # make sure valid value works
-        valid_value = StringEnum.allowed_values[('value',)]['PLACED']
-        assert valid_value == StringEnum(valid_value).value
+        # FIXME: construct object with mandatory attributes with example values
+        # model = StringEnum()  # noqa: E501
+        pass
 
 
 if __name__ == '__main__':

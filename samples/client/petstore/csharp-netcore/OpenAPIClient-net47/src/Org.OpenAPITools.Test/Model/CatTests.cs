@@ -51,9 +51,8 @@ namespace Org.OpenAPITools.Test.Model
         [Fact]
         public void CatInstanceTest()
         {
-            // test to ensure both Cat and Animal (parent) can have "AdditionalProperties", which result in warnings
-            Cat c = JsonConvert.DeserializeObject<Cat>("{\"className\":\"cat\",\"bar\":\"from json bar\"}");
-            Assert.Equal("from json bar", c.AdditionalProperties["bar"]);
+            // TODO uncomment below to test "IsType" Cat
+            //Assert.IsType<Cat>(instance);
         }
 
 
