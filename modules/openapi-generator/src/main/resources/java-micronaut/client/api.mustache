@@ -14,7 +14,8 @@ import reactor.core.publisher.Mono;
 {{#wrapInHttpResponse}}
 import io.micronaut.http.HttpResponse;
 {{/wrapInHttpResponse}}
-{{#imports}}import {{import}};
+{{#imports}}
+import {{import}};
 {{/imports}}
 import javax.annotation.Generated;
 {{^fullJavaUtil}}
@@ -26,41 +27,33 @@ import java.util.Map;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 {{/useBeanValidation}}
+{{#generateSwagger1Annotations}}
+import io.swagger.annotations.*;
+{{/generateSwagger1Annotations}}
+{{#generateSwagger2Annotations}}
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+{{/generateSwagger2Annotations}}
 
 {{>common/generatedAnnotation}}
-@Client("${base-path}")
+@Client("${{openbrace}}{{{applicationName}}}-base-path{{closebrace}}")
 public interface {{classname}} {
 {{#operations}}
     {{#operation}}
-    /**
-        {{#summary}}
-     * {{summary}}
-        {{/summary}}
-        {{#notes}}
-     * {{notes}}
-        {{/notes}}
-        {{^summary}}
-            {{^notes}}
-     * {{nickname}}
-            {{/notes}}
-        {{/summary}}
-     *
-        {{#allParams}}
-     * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
-        {{/allParams}}
-        {{#returnType}}
-     * @return {{returnType}}
-        {{/returnType}}
-        {{#externalDocs}}
-     * {{description}}
-     * @see <a href="{{url}}">{{summary}} Documentation</a>
-{{/externalDocs}}
-     */
-    @{{#lambda.pascalcase}}{{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}{{/lambda.pascalcase}}(uri="{{{path}}}")
-        {{#vendorExtensions.x-content-type}}
-    @Produces(value={"{{vendorExtensions.x-content-type}}"})
-        {{/vendorExtensions.x-content-type}}
-    @Consumes(value={"{{vendorExtensions.x-accepts}}"})
+{{>common/operationAnnotations}}{{!
+}}    @{{#lambda.pascalcase}}{{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}{{/lambda.pascalcase}}(uri="{{{path}}}")
+    {{#hasProduces}}
+    {{#produces}}{{#-first}}@Consumes({{openbrace}}{{/-first}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{#-last}}{{closebrace}}){{/-last}}{{/produces}}
+    {{/hasProduces}}
+    {{#hasConsumes}}
+    {{#consumes}}{{#-first}}@Produces({{openbrace}}{{/-first}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{#-last}}{{closebrace}}){{/-last}}{{/consumes}}
+    {{/hasConsumes}}
     {{!auth methods}}
         {{#configureAuth}}
             {{#authMethods}}
@@ -71,6 +64,7 @@ public interface {{classname}} {
     {{>common/operationReturnType}} {{nickname}}({{#allParams}}
         {{>client/params/queryParams}}{{>client/params/pathParams}}{{>client/params/headerParams}}{{>client/params/bodyParams}}{{>client/params/formParams}}{{>client/params/cookieParams}}{{^-last}}, {{/-last}}{{#-last}}
     {{/-last}}{{/allParams}});
+
     {{/operation}}
 {{/operations}}
 }

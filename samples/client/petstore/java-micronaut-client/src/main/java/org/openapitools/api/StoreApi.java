@@ -28,7 +28,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 @Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen")
-@Client("${base-path}")
+@Client("${petstore-micronaut-base-path}")
 public interface StoreApi {
     /**
      * Delete purchase order by ID
@@ -37,10 +37,10 @@ public interface StoreApi {
      * @param orderId ID of the order that needs to be deleted (required)
      */
     @Delete(uri="/store/order/{order_id}")
-    @Consumes(value={"application/json"})
     Mono<Void> deleteOrder(
         @PathVariable(name="order_id") @NotNull String orderId
     );
+
     /**
      * Returns pet inventories by status
      * Returns a map of status codes to quantities
@@ -48,8 +48,9 @@ public interface StoreApi {
      * @return Map&lt;String, Integer&gt;
      */
     @Get(uri="/store/inventory")
-    @Consumes(value={"application/json"})
+    @Consumes({"application/json"})
     Mono<Map<String, Integer>> getInventory();
+
     /**
      * Find purchase order by ID
      * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
@@ -58,10 +59,11 @@ public interface StoreApi {
      * @return Order
      */
     @Get(uri="/store/order/{order_id}")
-    @Consumes(value={"application/json"})
+    @Consumes({"application/xml", "application/json"})
     Mono<Order> getOrderById(
         @PathVariable(name="order_id") @NotNull @Min(1L) @Max(5L) Long orderId
     );
+
     /**
      * Place an order for a pet
      *
@@ -69,9 +71,9 @@ public interface StoreApi {
      * @return Order
      */
     @Post(uri="/store/order")
-    @Produces(value={"*/*"})
-    @Consumes(value={"application/json"})
+    @Consumes({"application/xml", "application/json"})
     Mono<Order> placeOrder(
         @Body @NotNull @Valid Order _body
     );
+
 }

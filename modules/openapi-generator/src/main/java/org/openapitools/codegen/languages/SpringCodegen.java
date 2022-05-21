@@ -228,7 +228,7 @@ public class SpringCodegen extends AbstractJavaCodegen
 
     @Override
     public String getHelp() {
-        return "Generates a Java SpringBoot Server application using the SpringFox integration.";
+        return "Generates a Java SpringBoot Server application using the SpringDoc integration.";
     }
 
     @Override
@@ -471,10 +471,16 @@ public class SpringCodegen extends AbstractJavaCodegen
                         "HomeController.java"));
                 supportingFiles.add(new SupportingFile("openapi.mustache",
                         ("src/main/resources").replace("/", java.io.File.separator), "openapi.yaml"));
-                if (DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider()) && !reactive && !apiFirst) {
-                    supportingFiles.add(new SupportingFile("openapiDocumentationConfig.mustache",
-                        (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
-                        "SpringFoxConfiguration.java"));
+                if (!reactive && !apiFirst){
+                    if (DocumentationProvider.SPRINGDOC.equals(getDocumentationProvider())){
+                        supportingFiles.add(new SupportingFile("springdocDocumentationConfig.mustache",
+                            (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
+                            "SpringDocConfiguration.java"));
+                    } else if (DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider())) {
+                        supportingFiles.add(new SupportingFile("openapiDocumentationConfig.mustache",
+                            (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
+                            "SpringFoxConfiguration.java"));
+                    }
                 }
             }
         }

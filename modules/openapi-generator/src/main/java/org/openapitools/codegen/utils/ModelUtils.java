@@ -725,12 +725,31 @@ public class ModelUtils {
         }
 
         // has properties
-        if (null != schema.getProperties()) {
+        if (null != schema.getProperties() && !schema.getProperties().isEmpty()) {
             return true;
         }
 
         // composed schema is a model, consider very simple ObjectSchema a model
         return schema instanceof ComposedSchema || schema instanceof ObjectSchema;
+    }
+
+    /**
+     * Check to see if the schema is a model with properties only (non-composed model)
+     *
+     * @param schema potentially containing a '$ref'
+     * @return true if it's a model with at least one properties
+     */
+    public static boolean isModelWithPropertiesOnly(Schema schema) {
+        if (schema == null) {
+            return false;
+        }
+
+        if (null != schema.getProperties() && !schema.getProperties().isEmpty() && // has properties
+                (schema.getAdditionalProperties() == null || // no additionalProperties is set
+                        (schema.getAdditionalProperties() instanceof Boolean && !(Boolean)schema.getAdditionalProperties()))) {
+            return true;
+        }
+        return false;
     }
 
     public static boolean hasValidation(Schema sc) {
