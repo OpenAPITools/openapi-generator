@@ -13,12 +13,6 @@ lib/Models/Tag.cpp
 lib/Models/Tag.h
 lib/Models/User.cpp
 lib/Models/User.h
-lib/TestFiles/ApiResponseTest.cpp
-lib/TestFiles/CategoryTest.cpp
-lib/TestFiles/OrderTest.cpp
-lib/TestFiles/PetTest.cpp
-lib/TestFiles/TagTest.cpp
-lib/TestFiles/UserTest.cpp
 lib/service/PetApi.cpp
 lib/service/PetApi.h
 lib/service/Response.h

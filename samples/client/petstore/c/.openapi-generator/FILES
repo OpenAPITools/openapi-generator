@@ -42,9 +42,3 @@ src/apiKey.c
 src/binary.c
 src/list.c
 uncrustify-rules.cfg
-unit-test/test_api_response.c
-unit-test/test_category.c
-unit-test/test_order.c
-unit-test/test_pet.c
-unit-test/test_tag.c
-unit-test/test_user.c

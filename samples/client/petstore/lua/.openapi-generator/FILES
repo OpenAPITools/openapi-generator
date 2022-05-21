@@ -10,9 +10,3 @@ petstore/model/order.lua
 petstore/model/pet.lua
 petstore/model/tag.lua
 petstore/model/user.lua
-spec/api_response_spec.lua
-spec/category_spec.lua
-spec/order_spec.lua
-spec/pet_spec.lua
-spec/tag_spec.lua
-spec/user_spec.lua
