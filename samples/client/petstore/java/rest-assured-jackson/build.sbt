@@ -9,9 +9,9 @@ lazy val root = (project in file(".")).
     publishArtifact in (Compile, packageDoc) := false,
     resolvers += Resolver.mavenLocal,
     libraryDependencies ++= Seq(
-      "io.swagger" % "swagger-annotations" % "1.5.21",
-      "io.rest-assured" % "rest-assured" % "4.3.0",
-      "io.rest-assured" % "scala-support" % "4.3.0",
+      "io.swagger" % "swagger-annotations" % "1.6.6",
+      "io.rest-assured" % "rest-assured" % "4.5.1",
+      "io.rest-assured" % "scala-support" % "4.5.1",
       "com.google.code.findbugs" % "jsr305" % "3.0.2",
       "com.fasterxml.jackson.core" % "jackson-core" % "2.10.3",
       "com.fasterxml.jackson.core" % "jackson-annotations" % "2.10.3",
