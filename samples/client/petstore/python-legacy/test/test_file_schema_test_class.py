@@ -37,10 +37,10 @@ class TestFileSchemaTestClass(unittest.TestCase):
         if include_optional :
             return FileSchemaTestClass(
                 file = petstore_api.models.file.File(
-                    source_uri = '0', ), 
+                    source_uri = '', ), 
                 files = [
                     petstore_api.models.file.File(
-                        source_uri = '0', )
+                        source_uri = '', )
                     ]
             )
         else :
@@ -51,7 +51,6 @@ class TestFileSchemaTestClass(unittest.TestCase):
         """Test FileSchemaTestClass"""
         inst_req_only = self.make_instance(include_optional=False)
         inst_req_and_optional = self.make_instance(include_optional=True)
-
 
 if __name__ == '__main__':
     unittest.main()

@@ -1,5 +1,3 @@
-# coding: utf-8
-
 """
     OpenAPI Petstore
 
@@ -14,11 +12,15 @@ import sys
 import unittest
 
 import petstore_api
+from petstore_api.model.array_of_enums import ArrayOfEnums
+from petstore_api.model.boolean_enum import BooleanEnum
 from petstore_api.model.integer_enum import IntegerEnum
 from petstore_api.model.integer_enum_one_value import IntegerEnumOneValue
 from petstore_api.model.integer_enum_with_default_value import IntegerEnumWithDefaultValue
 from petstore_api.model.string_enum import StringEnum
 from petstore_api.model.string_enum_with_default_value import StringEnumWithDefaultValue
+globals()['ArrayOfEnums'] = ArrayOfEnums
+globals()['BooleanEnum'] = BooleanEnum
 globals()['IntegerEnum'] = IntegerEnum
 globals()['IntegerEnumOneValue'] = IntegerEnumOneValue
 globals()['IntegerEnumWithDefaultValue'] = IntegerEnumWithDefaultValue

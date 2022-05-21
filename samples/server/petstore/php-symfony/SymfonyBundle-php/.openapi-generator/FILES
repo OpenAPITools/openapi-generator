@@ -39,6 +39,12 @@ Service/TypeMismatchException.php
 Service/ValidatorInterface.php
 Tests/AppKernel.php
 Tests/Controller/ControllerTest.php
+Tests/Model/ApiResponseTest.php
+Tests/Model/CategoryTest.php
+Tests/Model/OrderTest.php
+Tests/Model/PetTest.php
+Tests/Model/TagTest.php
+Tests/Model/UserTest.php
 Tests/test_config.yml
 autoload.php
 composer.json

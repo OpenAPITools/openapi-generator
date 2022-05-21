@@ -27,7 +27,7 @@ class TestMole(unittest.TestCase):
     def testMole(self):
         """Test Mole"""
         # FIXME: construct object with mandatory attributes with example values
-        # mole = Mole()  # noqa: E501
+        # model = Mole()  # noqa: E501
         pass
 
 

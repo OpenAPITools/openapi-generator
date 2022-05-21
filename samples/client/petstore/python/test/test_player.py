@@ -1,5 +1,3 @@
-# coding: utf-8
-
 """
     OpenAPI Petstore
 
@@ -10,7 +8,6 @@
 """
 
 
-from __future__ import absolute_import
 import sys
 import unittest
 
@@ -29,15 +26,9 @@ class TestPlayer(unittest.TestCase):
 
     def testPlayer(self):
         """Test Player"""
-        # we can make a player without an enemy_player property
-        jane = Player(name="Jane")
-        # we can make a player with an enemy_player
-        sally = Player(name="Sally", enemy_player=jane)
-        # we can make a player with an inline enemy_player
-        jim = Player(
-            name="Jim",
-            enemy_player=Player(name="Sam")
-        )
+        # FIXME: construct object with mandatory attributes with example values
+        # model = Player()  # noqa: E501
+        pass
 
 
 if __name__ == '__main__':
