@@ -65,7 +65,6 @@ public class DanishPig {
    * @return className
   **/
   @javax.annotation.Nonnull
-  @ApiModelProperty(required = true, value = "")
 
   public String getClassName() {
     return className;

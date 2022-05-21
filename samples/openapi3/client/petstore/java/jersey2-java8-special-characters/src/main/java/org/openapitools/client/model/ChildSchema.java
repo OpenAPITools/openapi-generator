@@ -38,7 +38,6 @@ import org.openapitools.client.JSON;
 /**
  * A schema that does not have any special character.
  */
-@ApiModel(description = "A schema that does not have any special character.")
 @JsonPropertyOrder({
   ChildSchema.JSON_PROPERTY_PROP1
 })
@@ -66,7 +65,6 @@ public class ChildSchema extends Parent {
    * @return prop1
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_PROP1)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

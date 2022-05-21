@@ -65,7 +65,6 @@ public class Foo {
    * @return bar
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public String getBar() {
     return bar;

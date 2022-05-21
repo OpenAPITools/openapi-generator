@@ -76,7 +76,6 @@ public class ArrayOfArrayOfNumberOnly {
    * @return arrayArrayNumber
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public List<List<BigDecimal>> getArrayArrayNumber() {
     return arrayArrayNumber;

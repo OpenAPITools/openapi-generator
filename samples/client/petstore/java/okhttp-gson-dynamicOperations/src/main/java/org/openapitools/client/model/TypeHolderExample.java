@@ -88,7 +88,6 @@ public class TypeHolderExample {
    * @return stringItem
   **/
   @javax.annotation.Nonnull
-  @ApiModelProperty(example = "what", required = true, value = "")
 
   public String getStringItem() {
     return stringItem;
@@ -111,7 +110,6 @@ public class TypeHolderExample {
    * @return numberItem
   **/
   @javax.annotation.Nonnull
-  @ApiModelProperty(example = "1.234", required = true, value = "")
 
   public BigDecimal getNumberItem() {
     return numberItem;
@@ -134,7 +132,6 @@ public class TypeHolderExample {
    * @return floatItem
   **/
   @javax.annotation.Nonnull
-  @ApiModelProperty(example = "1.234", required = true, value = "")
 
   public Float getFloatItem() {
     return floatItem;
@@ -157,7 +154,6 @@ public class TypeHolderExample {
    * @return integerItem
   **/
   @javax.annotation.Nonnull
-  @ApiModelProperty(example = "-2", required = true, value = "")
 
   public Integer getIntegerItem() {
     return integerItem;
@@ -180,7 +176,6 @@ public class TypeHolderExample {
    * @return boolItem
   **/
   @javax.annotation.Nonnull
-  @ApiModelProperty(example = "true", required = true, value = "")
 
   public Boolean getBoolItem() {
     return boolItem;
@@ -208,7 +203,6 @@ public class TypeHolderExample {
    * @return arrayItem
   **/
   @javax.annotation.Nonnull
-  @ApiModelProperty(example = "[0, 1, 2, 3]", required = true, value = "")
 
   public List<Integer> getArrayItem() {
     return arrayItem;

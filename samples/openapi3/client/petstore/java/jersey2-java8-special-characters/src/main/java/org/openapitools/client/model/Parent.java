@@ -65,7 +65,6 @@ public class Parent {
    * @return objectType
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_OBJECT_TYPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

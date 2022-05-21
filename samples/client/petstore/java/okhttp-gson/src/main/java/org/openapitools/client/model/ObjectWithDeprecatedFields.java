@@ -81,7 +81,6 @@ public class ObjectWithDeprecatedFields {
    * @return uuid
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public String getUuid() {
     return uuid;
@@ -106,7 +105,6 @@ public class ObjectWithDeprecatedFields {
   **/
   @Deprecated
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public BigDecimal getId() {
     return id;
@@ -131,7 +129,6 @@ public class ObjectWithDeprecatedFields {
   **/
   @Deprecated
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public DeprecatedObject getDeprecatedRef() {
     return deprecatedRef;
@@ -164,7 +161,6 @@ public class ObjectWithDeprecatedFields {
   **/
   @Deprecated
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public List<String> getBars() {
     return bars;

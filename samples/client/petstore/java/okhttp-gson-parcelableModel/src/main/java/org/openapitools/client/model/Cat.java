@@ -72,7 +72,6 @@ public class Cat extends Animal implements Parcelable {
    * @return declawed
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public Boolean getDeclawed() {
     return declawed;

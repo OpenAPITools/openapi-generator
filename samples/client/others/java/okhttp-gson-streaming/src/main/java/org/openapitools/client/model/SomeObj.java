@@ -126,7 +126,6 @@ public class SomeObj {
    * @return $type
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public TypeEnum get$Type() {
     return $type;
@@ -149,7 +148,6 @@ public class SomeObj {
    * @return id
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public Long getId() {
     return id;
@@ -172,7 +170,6 @@ public class SomeObj {
    * @return name
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public String getName() {
     return name;
@@ -195,7 +192,6 @@ public class SomeObj {
    * @return active
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public Boolean getActive() {
     return active;
@@ -218,7 +214,6 @@ public class SomeObj {
    * @return type
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public String getType() {
     return type;

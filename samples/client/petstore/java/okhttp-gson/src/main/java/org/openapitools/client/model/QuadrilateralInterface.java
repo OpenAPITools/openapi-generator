@@ -65,7 +65,6 @@ public class QuadrilateralInterface {
    * @return quadrilateralType
   **/
   @javax.annotation.Nonnull
-  @ApiModelProperty(required = true, value = "")
 
   public String getQuadrilateralType() {
     return quadrilateralType;

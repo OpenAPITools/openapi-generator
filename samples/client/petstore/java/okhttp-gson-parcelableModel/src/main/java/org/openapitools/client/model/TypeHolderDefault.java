@@ -86,7 +86,6 @@ public class TypeHolderDefault implements Parcelable {
    * @return stringItem
   **/
   @javax.annotation.Nonnull
-  @ApiModelProperty(required = true, value = "")
 
   public String getStringItem() {
     return stringItem;
@@ -109,7 +108,6 @@ public class TypeHolderDefault implements Parcelable {
    * @return numberItem
   **/
   @javax.annotation.Nonnull
-  @ApiModelProperty(required = true, value = "")
 
   public BigDecimal getNumberItem() {
     return numberItem;
@@ -132,7 +130,6 @@ public class TypeHolderDefault implements Parcelable {
    * @return integerItem
   **/
   @javax.annotation.Nonnull
-  @ApiModelProperty(required = true, value = "")
 
   public Integer getIntegerItem() {
     return integerItem;
@@ -155,7 +152,6 @@ public class TypeHolderDefault implements Parcelable {
    * @return boolItem
   **/
   @javax.annotation.Nonnull
-  @ApiModelProperty(required = true, value = "")
 
   public Boolean getBoolItem() {
     return boolItem;
@@ -183,7 +179,6 @@ public class TypeHolderDefault implements Parcelable {
    * @return arrayItem
   **/
   @javax.annotation.Nonnull
-  @ApiModelProperty(required = true, value = "")
 
   public List<Integer> getArrayItem() {
     return arrayItem;

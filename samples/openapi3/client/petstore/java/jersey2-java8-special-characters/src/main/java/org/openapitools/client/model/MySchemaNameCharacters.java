@@ -38,7 +38,6 @@ import org.openapitools.client.JSON;
 /**
  * A schema name that has letters, numbers, punctuation and non-ASCII characters. The sanitization rules should make it possible to generate a language-specific classname with allowed characters in that programming language.
  */
-@ApiModel(description = "A schema name that has letters, numbers, punctuation and non-ASCII characters. The sanitization rules should make it possible to generate a language-specific classname with allowed characters in that programming language.")
 @JsonPropertyOrder({
   MySchemaNameCharacters.JSON_PROPERTY_PROP2
 })
@@ -67,7 +66,6 @@ public class MySchemaNameCharacters extends Parent {
    * @return prop2
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_PROP2)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

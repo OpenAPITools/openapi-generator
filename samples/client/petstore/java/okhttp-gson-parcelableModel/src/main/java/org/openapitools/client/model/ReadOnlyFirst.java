@@ -73,7 +73,6 @@ public class ReadOnlyFirst implements Parcelable {
    * @return bar
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public String getBar() {
     return bar;
@@ -93,7 +92,6 @@ public class ReadOnlyFirst implements Parcelable {
    * @return baz
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public String getBaz() {
     return baz;

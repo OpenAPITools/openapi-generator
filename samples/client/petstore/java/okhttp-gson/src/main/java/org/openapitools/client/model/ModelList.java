@@ -65,7 +65,6 @@ public class ModelList {
    * @return _123list
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public String get123list() {
     return _123list;

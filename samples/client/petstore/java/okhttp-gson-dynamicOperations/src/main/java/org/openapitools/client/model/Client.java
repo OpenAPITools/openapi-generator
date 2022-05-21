@@ -65,7 +65,6 @@ public class Client {
    * @return client
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public String getClient() {
     return client;

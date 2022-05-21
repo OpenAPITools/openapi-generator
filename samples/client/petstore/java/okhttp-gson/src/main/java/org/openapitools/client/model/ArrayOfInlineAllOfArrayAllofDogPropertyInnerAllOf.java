@@ -65,7 +65,6 @@ public class ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf {
    * @return color
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public String getColor() {
     return color;

@@ -67,7 +67,6 @@ public class AdditionalPropertiesBoolean implements Parcelable {
    * @return name
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public String getName() {
     return name;

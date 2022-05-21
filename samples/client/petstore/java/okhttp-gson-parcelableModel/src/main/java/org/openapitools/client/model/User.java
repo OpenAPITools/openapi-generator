@@ -95,7 +95,6 @@ public class User implements Parcelable {
    * @return id
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public Long getId() {
     return id;
@@ -118,7 +117,6 @@ public class User implements Parcelable {
    * @return username
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public String getUsername() {
     return username;
@@ -141,7 +139,6 @@ public class User implements Parcelable {
    * @return firstName
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public String getFirstName() {
     return firstName;
@@ -164,7 +161,6 @@ public class User implements Parcelable {
    * @return lastName
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public String getLastName() {
     return lastName;
@@ -187,7 +183,6 @@ public class User implements Parcelable {
    * @return email
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public String getEmail() {
     return email;
@@ -210,7 +205,6 @@ public class User implements Parcelable {
    * @return password
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public String getPassword() {
     return password;
@@ -233,7 +227,6 @@ public class User implements Parcelable {
    * @return phone
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public String getPhone() {
     return phone;
@@ -256,7 +249,6 @@ public class User implements Parcelable {
    * @return userStatus
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "User Status")
 
   public Integer getUserStatus() {
     return userStatus;

@@ -70,7 +70,6 @@ public class BananaReq {
    * @return lengthCm
   **/
   @javax.annotation.Nonnull
-  @ApiModelProperty(required = true, value = "")
 
   public BigDecimal getLengthCm() {
     return lengthCm;
@@ -93,7 +92,6 @@ public class BananaReq {
    * @return sweet
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public Boolean getSweet() {
     return sweet;

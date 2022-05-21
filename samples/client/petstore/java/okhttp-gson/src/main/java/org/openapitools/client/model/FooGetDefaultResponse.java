@@ -66,7 +66,6 @@ public class FooGetDefaultResponse {
    * @return string
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public Foo getString() {
     return string;

@@ -276,7 +276,6 @@ public class EnumTest implements Parcelable {
    * @return enumString
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public EnumStringEnum getEnumString() {
     return enumString;
@@ -299,7 +298,6 @@ public class EnumTest implements Parcelable {
    * @return enumStringRequired
   **/
   @javax.annotation.Nonnull
-  @ApiModelProperty(required = true, value = "")
 
   public EnumStringRequiredEnum getEnumStringRequired() {
     return enumStringRequired;
@@ -322,7 +320,6 @@ public class EnumTest implements Parcelable {
    * @return enumInteger
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public EnumIntegerEnum getEnumInteger() {
     return enumInteger;
@@ -345,7 +342,6 @@ public class EnumTest implements Parcelable {
    * @return enumNumber
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public EnumNumberEnum getEnumNumber() {
     return enumNumber;
@@ -368,7 +364,6 @@ public class EnumTest implements Parcelable {
    * @return outerEnum
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public OuterEnum getOuterEnum() {
     return outerEnum;

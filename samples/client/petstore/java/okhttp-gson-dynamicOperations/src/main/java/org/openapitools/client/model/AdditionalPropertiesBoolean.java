@@ -65,7 +65,6 @@ public class AdditionalPropertiesBoolean {
    * @return name
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public String getName() {
     return name;

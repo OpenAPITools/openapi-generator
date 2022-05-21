@@ -74,7 +74,6 @@ public class FileSchemaTestClass implements Parcelable {
    * @return _file
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public ModelFile getFile() {
     return _file;
@@ -105,7 +104,6 @@ public class FileSchemaTestClass implements Parcelable {
    * @return files
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public List<ModelFile> getFiles() {
     return files;

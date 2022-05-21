@@ -84,7 +84,6 @@ public class Drawing {
    * @return mainShape
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public Shape getMainShape() {
     return mainShape;
@@ -107,7 +106,6 @@ public class Drawing {
    * @return shapeOrNull
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public ShapeOrNull getShapeOrNull() {
     return shapeOrNull;
@@ -130,7 +128,6 @@ public class Drawing {
    * @return nullableShape
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public NullableShape getNullableShape() {
     return nullableShape;
@@ -161,7 +158,6 @@ public class Drawing {
    * @return shapes
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public List<Shape> getShapes() {
     return shapes;

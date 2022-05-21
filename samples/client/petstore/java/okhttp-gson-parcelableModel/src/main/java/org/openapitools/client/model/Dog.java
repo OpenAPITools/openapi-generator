@@ -71,7 +71,6 @@ public class Dog extends Animal implements Parcelable {
    * @return breed
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public String getBreed() {
     return breed;

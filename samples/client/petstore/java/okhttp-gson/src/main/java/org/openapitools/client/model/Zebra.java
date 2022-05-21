@@ -118,7 +118,6 @@ public class Zebra {
    * @return type
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public TypeEnum getType() {
     return type;
@@ -141,7 +140,6 @@ public class Zebra {
    * @return className
   **/
   @javax.annotation.Nonnull
-  @ApiModelProperty(required = true, value = "")
 
   public String getClassName() {
     return className;

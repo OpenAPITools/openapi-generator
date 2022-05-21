@@ -47,7 +47,6 @@ import org.openapitools.client.JSON;
 /**
  * Model for testing reserved words
  */
-@ApiModel(description = "Model for testing reserved words")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ModelReturn implements Parcelable {
   public static final String SERIALIZED_NAME_RETURN = "return";
@@ -68,7 +67,6 @@ public class ModelReturn implements Parcelable {
    * @return _return
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public Integer getReturn() {
     return _return;

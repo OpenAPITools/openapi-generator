@@ -67,7 +67,6 @@ public class CatAllOf implements Parcelable {
    * @return declawed
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public Boolean getDeclawed() {
     return declawed;

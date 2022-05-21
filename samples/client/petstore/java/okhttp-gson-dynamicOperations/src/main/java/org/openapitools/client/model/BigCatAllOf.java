@@ -116,7 +116,6 @@ public class BigCatAllOf {
    * @return kind
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public KindEnum getKind() {
     return kind;

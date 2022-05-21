@@ -47,7 +47,6 @@ import org.openapitools.client.JSON;
 /**
  * Model for testing model name same as property name
  */
-@ApiModel(description = "Model for testing model name same as property name")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Name implements Parcelable {
   public static final String SERIALIZED_NAME_NAME = "name";
@@ -90,7 +89,6 @@ public class Name implements Parcelable {
    * @return name
   **/
   @javax.annotation.Nonnull
-  @ApiModelProperty(required = true, value = "")
 
   public Integer getName() {
     return name;
@@ -107,7 +105,6 @@ public class Name implements Parcelable {
    * @return snakeCase
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public Integer getSnakeCase() {
     return snakeCase;
@@ -127,7 +124,6 @@ public class Name implements Parcelable {
    * @return property
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public String getProperty() {
     return property;
@@ -144,7 +140,6 @@ public class Name implements Parcelable {
    * @return _123number
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public Integer get123number() {
     return _123number;

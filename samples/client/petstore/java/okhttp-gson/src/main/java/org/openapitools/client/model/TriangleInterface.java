@@ -65,7 +65,6 @@ public class TriangleInterface {
    * @return triangleType
   **/
   @javax.annotation.Nonnull
-  @ApiModelProperty(required = true, value = "")
 
   public String getTriangleType() {
     return triangleType;

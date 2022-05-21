@@ -74,7 +74,6 @@ public class OuterComposite {
    * @return myNumber
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public BigDecimal getMyNumber() {
     return myNumber;
@@ -97,7 +96,6 @@ public class OuterComposite {
    * @return myString
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public String getMyString() {
     return myString;
@@ -120,7 +118,6 @@ public class OuterComposite {
    * @return myBoolean
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public Boolean getMyBoolean() {
     return myBoolean;

@@ -65,7 +65,6 @@ public class ShapeInterface {
    * @return shapeType
   **/
   @javax.annotation.Nonnull
-  @ApiModelProperty(required = true, value = "")
 
   public String getShapeType() {
     return shapeType;

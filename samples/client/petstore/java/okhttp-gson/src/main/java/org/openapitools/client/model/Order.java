@@ -135,7 +135,6 @@ public class Order {
    * @return id
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public Long getId() {
     return id;
@@ -158,7 +157,6 @@ public class Order {
    * @return petId
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public Long getPetId() {
     return petId;
@@ -181,7 +179,6 @@ public class Order {
    * @return quantity
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public Integer getQuantity() {
     return quantity;
@@ -204,7 +201,6 @@ public class Order {
    * @return shipDate
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(example = "2020-02-02T20:20:20.000222Z", value = "")
 
   public OffsetDateTime getShipDate() {
     return shipDate;
@@ -227,7 +223,6 @@ public class Order {
    * @return status
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "Order Status")
 
   public StatusEnum getStatus() {
     return status;
@@ -250,7 +245,6 @@ public class Order {
    * @return complete
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public Boolean getComplete() {
     return complete;

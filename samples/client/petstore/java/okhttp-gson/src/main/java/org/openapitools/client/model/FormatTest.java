@@ -132,7 +132,6 @@ public class FormatTest {
    * @return integer
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public Integer getInteger() {
     return integer;
@@ -157,7 +156,6 @@ public class FormatTest {
    * @return int32
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public Integer getInt32() {
     return int32;
@@ -180,7 +178,6 @@ public class FormatTest {
    * @return int64
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public Long getInt64() {
     return int64;
@@ -205,7 +202,6 @@ public class FormatTest {
    * @return number
   **/
   @javax.annotation.Nonnull
-  @ApiModelProperty(required = true, value = "")
 
   public BigDecimal getNumber() {
     return number;
@@ -230,7 +226,6 @@ public class FormatTest {
    * @return _float
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public Float getFloat() {
     return _float;
@@ -255,7 +250,6 @@ public class FormatTest {
    * @return _double
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public Double getDouble() {
     return _double;
@@ -278,7 +272,6 @@ public class FormatTest {
    * @return decimal
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public BigDecimal getDecimal() {
     return decimal;
@@ -301,7 +294,6 @@ public class FormatTest {
    * @return string
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public String getString() {
     return string;
@@ -324,7 +316,6 @@ public class FormatTest {
    * @return _byte
   **/
   @javax.annotation.Nonnull
-  @ApiModelProperty(required = true, value = "")
 
   public byte[] getByte() {
     return _byte;
@@ -347,7 +338,6 @@ public class FormatTest {
    * @return binary
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public File getBinary() {
     return binary;
@@ -370,7 +360,6 @@ public class FormatTest {
    * @return date
   **/
   @javax.annotation.Nonnull
-  @ApiModelProperty(example = "Sun Feb 02 00:00:00 UTC 2020", required = true, value = "")
 
   public LocalDate getDate() {
     return date;
@@ -393,7 +382,6 @@ public class FormatTest {
    * @return dateTime
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(example = "2007-12-03T10:15:30+01:00", value = "")
 
   public OffsetDateTime getDateTime() {
     return dateTime;
@@ -416,7 +404,6 @@ public class FormatTest {
    * @return uuid
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(example = "72f98069-206d-4f12-9f12-3d1e525a8e84", value = "")
 
   public UUID getUuid() {
     return uuid;
@@ -439,7 +426,6 @@ public class FormatTest {
    * @return password
   **/
   @javax.annotation.Nonnull
-  @ApiModelProperty(required = true, value = "")
 
   public String getPassword() {
     return password;
@@ -462,7 +448,6 @@ public class FormatTest {
    * @return patternWithDigits
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "A string that is a 10 digit number. Can have leading zeros.")
 
   public String getPatternWithDigits() {
     return patternWithDigits;
@@ -485,7 +470,6 @@ public class FormatTest {
    * @return patternWithDigitsAndDelimiter
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.")
 
   public String getPatternWithDigitsAndDelimiter() {
     return patternWithDigitsAndDelimiter;

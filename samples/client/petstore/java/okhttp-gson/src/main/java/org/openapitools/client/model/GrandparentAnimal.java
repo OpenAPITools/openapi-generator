@@ -67,7 +67,6 @@ public class GrandparentAnimal {
    * @return petType
   **/
   @javax.annotation.Nonnull
-  @ApiModelProperty(required = true, value = "")
 
   public String getPetType() {
     return petType;

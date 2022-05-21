@@ -51,7 +51,6 @@ public class ChildSchemaAllOf {
    * @return prop1
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_PROP1)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

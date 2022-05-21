@@ -45,7 +45,6 @@ import org.openapitools.client.JSON;
 /**
  * Model for testing model name starting with number
  */
-@ApiModel(description = "Model for testing model name starting with number")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Model200Response {
   public static final String SERIALIZED_NAME_NAME = "name";
@@ -70,7 +69,6 @@ public class Model200Response {
    * @return name
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public Integer getName() {
     return name;
@@ -93,7 +91,6 @@ public class Model200Response {
    * @return propertyClass
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public String getPropertyClass() {
     return propertyClass;

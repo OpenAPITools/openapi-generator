@@ -78,7 +78,6 @@ public class ArrayOfNumberOnly implements Parcelable {
    * @return arrayNumber
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public List<BigDecimal> getArrayNumber() {
     return arrayNumber;

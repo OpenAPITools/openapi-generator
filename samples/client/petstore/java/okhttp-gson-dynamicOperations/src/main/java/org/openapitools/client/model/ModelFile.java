@@ -45,7 +45,6 @@ import org.openapitools.client.JSON;
 /**
  * Must be named &#x60;File&#x60; for test.
  */
-@ApiModel(description = "Must be named `File` for test.")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ModelFile {
   public static final String SERIALIZED_NAME_SOURCE_U_R_I = "sourceURI";
@@ -66,7 +65,6 @@ public class ModelFile {
    * @return sourceURI
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "Test capitalization")
 
   public String getSourceURI() {
     return sourceURI;

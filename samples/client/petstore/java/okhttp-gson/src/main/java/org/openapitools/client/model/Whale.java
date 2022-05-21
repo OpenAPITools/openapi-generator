@@ -73,7 +73,6 @@ public class Whale {
    * @return hasBaleen
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public Boolean getHasBaleen() {
     return hasBaleen;
@@ -96,7 +95,6 @@ public class Whale {
    * @return hasTeeth
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public Boolean getHasTeeth() {
     return hasTeeth;
@@ -119,7 +117,6 @@ public class Whale {
    * @return className
   **/
   @javax.annotation.Nonnull
-  @ApiModelProperty(required = true, value = "")
 
   public String getClassName() {
     return className;

@@ -66,7 +66,6 @@ public class Banana {
    * @return lengthCm
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public BigDecimal getLengthCm() {
     return lengthCm;

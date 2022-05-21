@@ -69,7 +69,6 @@ public class AppleReq {
    * @return cultivar
   **/
   @javax.annotation.Nonnull
-  @ApiModelProperty(required = true, value = "")
 
   public String getCultivar() {
     return cultivar;
@@ -92,7 +91,6 @@ public class AppleReq {
    * @return mealy
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public Boolean getMealy() {
     return mealy;
