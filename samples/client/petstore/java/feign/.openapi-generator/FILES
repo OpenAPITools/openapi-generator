@@ -1,5 +1,6 @@
 .github/workflows/maven.yml
 .gitignore
+.openapi-generator-ignore
 .travis.yml
 README.md
 api/openapi.yaml
@@ -87,6 +88,13 @@ src/main/java/org/openapitools/client/model/SingleRefType.java
 src/main/java/org/openapitools/client/model/SpecialModelName.java
 src/main/java/org/openapitools/client/model/Tag.java
 src/main/java/org/openapitools/client/model/User.java
+src/test/java/org/openapitools/client/api/AnotherFakeApiTest.java
+src/test/java/org/openapitools/client/api/DefaultApiTest.java
+src/test/java/org/openapitools/client/api/FakeApiTest.java
+src/test/java/org/openapitools/client/api/FakeClassnameTags123ApiTest.java
+src/test/java/org/openapitools/client/api/PetApiTest.java
+src/test/java/org/openapitools/client/api/StoreApiTest.java
+src/test/java/org/openapitools/client/api/UserApiTest.java
 src/test/java/org/openapitools/client/model/AdditionalPropertiesClassTest.java
 src/test/java/org/openapitools/client/model/AllOfWithSingleRefTest.java
 src/test/java/org/openapitools/client/model/AnimalTest.java
