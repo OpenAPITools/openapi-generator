@@ -66,7 +66,6 @@ public class ObjectWithDeprecatedFields {
    * @return uuid
   **/
   @jakarta.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_UUID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -94,7 +93,6 @@ public class ObjectWithDeprecatedFields {
   **/
   @Deprecated
   @jakarta.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -122,7 +120,6 @@ public class ObjectWithDeprecatedFields {
   **/
   @Deprecated
   @jakarta.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_DEPRECATED_REF)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -158,7 +155,6 @@ public class ObjectWithDeprecatedFields {
   **/
   @Deprecated
   @jakarta.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_BARS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

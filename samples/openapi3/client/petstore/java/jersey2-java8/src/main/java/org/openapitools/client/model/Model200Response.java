@@ -29,7 +29,6 @@ import org.openapitools.client.JSON;
 /**
  * Model for testing model name starting with number
  */
-@ApiModel(description = "Model for testing model name starting with number")
 @JsonPropertyOrder({
   Model200Response.JSON_PROPERTY_NAME,
   Model200Response.JSON_PROPERTY_PROPERTY_CLASS
@@ -56,7 +55,6 @@ public class Model200Response {
    * @return name
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -82,7 +80,6 @@ public class Model200Response {
    * @return propertyClass
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_PROPERTY_CLASS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

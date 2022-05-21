@@ -55,7 +55,6 @@ public class SpecialModelName {
    * @return $specialPropertyName
   **/
   @jakarta.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -81,7 +80,6 @@ public class SpecialModelName {
    * @return specialModelName
   **/
   @jakarta.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_SPECIAL_MODEL_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

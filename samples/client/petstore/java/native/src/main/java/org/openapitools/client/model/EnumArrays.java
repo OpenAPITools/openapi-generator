@@ -125,7 +125,6 @@ public class EnumArrays {
    * @return justSymbol
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_JUST_SYMBOL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -159,7 +158,6 @@ public class EnumArrays {
    * @return arrayEnum
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_ARRAY_ENUM)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

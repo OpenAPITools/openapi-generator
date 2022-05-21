@@ -100,7 +100,6 @@ public class BigCat extends Cat {
    * @return kind
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_KIND)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

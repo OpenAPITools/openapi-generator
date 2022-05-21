@@ -50,7 +50,6 @@ public class QuadrilateralInterface {
    * @return quadrilateralType
   **/
   @jakarta.annotation.Nonnull
-  @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_QUADRILATERAL_TYPE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 

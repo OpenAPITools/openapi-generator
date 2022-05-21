@@ -11,7 +11,7 @@ import {{invokerPackage}}.JSON;
 @ApiModel(description = "{{{.}}}")
 {{/description}}
 {{/swagger1AnnotationLibrary}}
-{#jackson}}
+{{#jackson}}
 @JsonPropertyOrder({
 {{#vars}}
   {{classname}}.JSON_PROPERTY_{{nameInSnakeCase}}{{^-last}},{{/-last}}

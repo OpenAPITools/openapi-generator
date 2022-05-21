@@ -50,7 +50,6 @@ public class ShapeInterface {
    * @return shapeType
   **/
   @jakarta.annotation.Nonnull
-  @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_SHAPE_TYPE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 

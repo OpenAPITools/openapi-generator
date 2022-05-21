@@ -29,7 +29,6 @@ import org.openapitools.client.JSON;
 /**
  * Model for testing model with \&quot;_class\&quot; property
  */
-@ApiModel(description = "Model for testing model with \"_class\" property")
 @JsonPropertyOrder({
   ClassModel.JSON_PROPERTY_PROPERTY_CLASS
 })
@@ -51,7 +50,6 @@ public class ClassModel {
    * @return propertyClass
   **/
   @jakarta.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_PROPERTY_CLASS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

@@ -51,7 +51,6 @@ public class ModelList {
    * @return _123list
   **/
   @jakarta.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_123LIST)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

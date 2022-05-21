@@ -29,7 +29,6 @@ import org.openapitools.client.JSON;
 /**
  * Model for testing reserved words
  */
-@ApiModel(description = "Model for testing reserved words")
 @JsonPropertyOrder({
   ModelReturn.JSON_PROPERTY_RETURN
 })
@@ -52,7 +51,6 @@ public class ModelReturn {
    * @return _return
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_RETURN)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

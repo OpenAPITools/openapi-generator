@@ -50,7 +50,6 @@ public class DanishPig {
    * @return className
   **/
   @jakarta.annotation.Nonnull
-  @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_CLASS_NAME)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 

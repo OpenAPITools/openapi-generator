@@ -108,7 +108,6 @@ public class MapTest {
    * @return mapMapOfString
   **/
   @jakarta.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_MAP_MAP_OF_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -142,7 +141,6 @@ public class MapTest {
    * @return mapOfEnumString
   **/
   @jakarta.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_MAP_OF_ENUM_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -176,7 +174,6 @@ public class MapTest {
    * @return directMap
   **/
   @jakarta.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_DIRECT_MAP)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -210,7 +207,6 @@ public class MapTest {
    * @return indirectMap
   **/
   @jakarta.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_INDIRECT_MAP)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

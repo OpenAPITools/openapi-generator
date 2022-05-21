@@ -60,7 +60,6 @@ public class HasOnlyReadOnly {
    * @return bar
   **/
   @jakarta.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_BAR)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -76,7 +75,6 @@ public class HasOnlyReadOnly {
    * @return foo
   **/
   @jakarta.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_FOO)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

@@ -56,7 +56,6 @@ public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal> {
    * @return name
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

@@ -108,7 +108,6 @@ public class Order {
    * @return id
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -134,7 +133,6 @@ public class Order {
    * @return petId
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_PET_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -160,7 +158,6 @@ public class Order {
    * @return quantity
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_QUANTITY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -186,7 +183,6 @@ public class Order {
    * @return shipDate
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_SHIP_DATE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -212,7 +208,6 @@ public class Order {
    * @return status
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "Order Status")
   @JsonProperty(JSON_PROPERTY_STATUS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -238,7 +233,6 @@ public class Order {
    * @return complete
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_COMPLETE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

@@ -73,7 +73,6 @@ public class TypeHolderExample {
    * @return stringItem
   **/
   @javax.annotation.Nonnull
-  @ApiModelProperty(example = "what", required = true, value = "")
   @JsonProperty(JSON_PROPERTY_STRING_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -99,7 +98,6 @@ public class TypeHolderExample {
    * @return numberItem
   **/
   @javax.annotation.Nonnull
-  @ApiModelProperty(example = "1.234", required = true, value = "")
   @JsonProperty(JSON_PROPERTY_NUMBER_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -125,7 +123,6 @@ public class TypeHolderExample {
    * @return floatItem
   **/
   @javax.annotation.Nonnull
-  @ApiModelProperty(example = "1.234", required = true, value = "")
   @JsonProperty(JSON_PROPERTY_FLOAT_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -151,7 +148,6 @@ public class TypeHolderExample {
    * @return integerItem
   **/
   @javax.annotation.Nonnull
-  @ApiModelProperty(example = "-2", required = true, value = "")
   @JsonProperty(JSON_PROPERTY_INTEGER_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -177,7 +173,6 @@ public class TypeHolderExample {
    * @return boolItem
   **/
   @javax.annotation.Nonnull
-  @ApiModelProperty(example = "true", required = true, value = "")
   @JsonProperty(JSON_PROPERTY_BOOL_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -208,7 +203,6 @@ public class TypeHolderExample {
    * @return arrayItem
   **/
   @javax.annotation.Nonnull
-  @ApiModelProperty(example = "[0, 1, 2, 3]", required = true, value = "")
   @JsonProperty(JSON_PROPERTY_ARRAY_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 

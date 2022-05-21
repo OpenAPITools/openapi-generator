@@ -60,7 +60,6 @@ public class ScaleneTriangle {
    * @return shapeType
   **/
   @javax.annotation.Nonnull
-  @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_SHAPE_TYPE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -86,7 +85,6 @@ public class ScaleneTriangle {
    * @return triangleType
   **/
   @javax.annotation.Nonnull
-  @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_TRIANGLE_TYPE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 

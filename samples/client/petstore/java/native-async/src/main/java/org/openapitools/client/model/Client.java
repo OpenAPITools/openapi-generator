@@ -49,7 +49,6 @@ public class Client {
    * @return client
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_CLIENT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

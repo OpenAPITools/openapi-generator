@@ -49,7 +49,6 @@ public class DogAllOf {
    * @return breed
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_BREED)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

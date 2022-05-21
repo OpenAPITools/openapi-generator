@@ -52,7 +52,6 @@ public class FooGetDefaultResponse {
    * @return string
   **/
   @jakarta.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

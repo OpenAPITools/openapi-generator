@@ -50,7 +50,6 @@ public class NumberOnly {
    * @return justNumber
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_JUST_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

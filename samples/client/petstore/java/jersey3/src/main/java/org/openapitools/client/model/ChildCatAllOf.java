@@ -57,7 +57,6 @@ public class ChildCatAllOf {
    * @return name
   **/
   @jakarta.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -91,7 +90,6 @@ public class ChildCatAllOf {
    * @return petType
   **/
   @jakarta.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_PET_TYPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

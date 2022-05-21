@@ -76,7 +76,6 @@ public class Drawing {
    * @return mainShape
   **/
   @jakarta.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_MAIN_SHAPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -102,7 +101,6 @@ public class Drawing {
    * @return shapeOrNull
   **/
   @jakarta.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_SHAPE_OR_NULL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -128,7 +126,6 @@ public class Drawing {
    * @return nullableShape
   **/
   @jakarta.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonIgnore
 
   public NullableShape getNullableShape() {
@@ -170,7 +167,6 @@ public class Drawing {
    * @return shapes
   **/
   @jakarta.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_SHAPES)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

@@ -270,7 +270,6 @@ public class EnumTest {
    * @return enumString
   **/
   @jakarta.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_ENUM_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -296,7 +295,6 @@ public class EnumTest {
    * @return enumStringRequired
   **/
   @jakarta.annotation.Nonnull
-  @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_ENUM_STRING_REQUIRED)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -322,7 +320,6 @@ public class EnumTest {
    * @return enumInteger
   **/
   @jakarta.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_ENUM_INTEGER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -348,7 +345,6 @@ public class EnumTest {
    * @return enumIntegerOnly
   **/
   @jakarta.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_ENUM_INTEGER_ONLY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -374,7 +370,6 @@ public class EnumTest {
    * @return enumNumber
   **/
   @jakarta.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_ENUM_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -400,7 +395,6 @@ public class EnumTest {
    * @return outerEnum
   **/
   @jakarta.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonIgnore
 
   public OuterEnum getOuterEnum() {
@@ -434,7 +428,6 @@ public class EnumTest {
    * @return outerEnumInteger
   **/
   @jakarta.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_OUTER_ENUM_INTEGER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -460,7 +453,6 @@ public class EnumTest {
    * @return outerEnumDefaultValue
   **/
   @jakarta.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_OUTER_ENUM_DEFAULT_VALUE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -486,7 +478,6 @@ public class EnumTest {
    * @return outerEnumIntegerDefaultValue
   **/
   @jakarta.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_OUTER_ENUM_INTEGER_DEFAULT_VALUE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

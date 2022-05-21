@@ -28,7 +28,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 /**
  * Model for testing model with \&quot;_class\&quot; property
  */
-@ApiModel(description = "Model for testing model with \"_class\" property")
 @JsonPropertyOrder({
   ClassModel.JSON_PROPERTY_PROPERTY_CLASS
 })
@@ -50,7 +49,6 @@ public class ClassModel {
    * @return propertyClass
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_PROPERTY_CLASS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

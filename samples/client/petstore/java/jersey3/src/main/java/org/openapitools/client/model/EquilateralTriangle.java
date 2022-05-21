@@ -60,7 +60,6 @@ public class EquilateralTriangle {
    * @return shapeType
   **/
   @jakarta.annotation.Nonnull
-  @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_SHAPE_TYPE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -86,7 +85,6 @@ public class EquilateralTriangle {
    * @return triangleType
   **/
   @jakarta.annotation.Nonnull
-  @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_TRIANGLE_TYPE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 

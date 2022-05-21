@@ -28,7 +28,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 /**
  * Must be named &#x60;File&#x60; for test.
  */
-@ApiModel(description = "Must be named `File` for test.")
 @JsonPropertyOrder({
   ModelFile.JSON_PROPERTY_SOURCE_U_R_I
 })
@@ -50,7 +49,6 @@ public class ModelFile {
    * @return sourceURI
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "Test capitalization")
   @JsonProperty(JSON_PROPERTY_SOURCE_U_R_I)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

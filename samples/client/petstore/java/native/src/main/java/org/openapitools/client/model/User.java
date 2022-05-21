@@ -77,7 +77,6 @@ public class User {
    * @return id
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -103,7 +102,6 @@ public class User {
    * @return username
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_USERNAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -129,7 +127,6 @@ public class User {
    * @return firstName
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_FIRST_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -155,7 +152,6 @@ public class User {
    * @return lastName
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_LAST_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -181,7 +177,6 @@ public class User {
    * @return email
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_EMAIL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -207,7 +202,6 @@ public class User {
    * @return password
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_PASSWORD)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -233,7 +227,6 @@ public class User {
    * @return phone
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_PHONE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -259,7 +252,6 @@ public class User {
    * @return userStatus
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "User Status")
   @JsonProperty(JSON_PROPERTY_USER_STATUS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

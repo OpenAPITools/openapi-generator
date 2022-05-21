@@ -33,7 +33,6 @@ import org.openapitools.client.JSON;
 /**
  * Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.
  */
-@ApiModel(description = "Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.")
 @JsonPropertyOrder({
   HealthCheckResult.JSON_PROPERTY_NULLABLE_MESSAGE
 })
@@ -55,7 +54,6 @@ public class HealthCheckResult {
    * @return nullableMessage
   **/
   @jakarta.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonIgnore
 
   public String getNullableMessage() {
