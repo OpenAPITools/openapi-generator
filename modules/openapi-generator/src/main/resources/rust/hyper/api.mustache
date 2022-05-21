@@ -7,7 +7,10 @@ use std::option::Option;
 
 use hyper;
 use futures::Future;
-{{#useUUIDLibrary}}use uuid::Uuid;{{/useUUIDLibrary}}
+{{#useUUIDLibrary}}
+#[allow(unused_imports)]
+use uuid::Uuid;
+{{/useUUIDLibrary}}
 
 use super::{Error, configuration};
 use super::request as __internal_request;

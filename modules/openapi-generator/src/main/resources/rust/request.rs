@@ -50,6 +50,7 @@ pub(crate) struct Request {
     serialized_body: Option<String>,
 }
 
+#[allow(dead_code)]
 impl Request {
     pub fn new(method: hyper::Method, path: String) -> Self {
         Request {
