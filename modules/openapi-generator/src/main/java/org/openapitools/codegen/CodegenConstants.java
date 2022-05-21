@@ -384,6 +384,9 @@ public class CodegenConstants {
     public static final String USE_SINGLE_REQUEST_PARAMETER = "useSingleRequestParameter";
     public static final String USE_SINGLE_REQUEST_PARAMETER_DESC = "Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter.";
 
+    public static final String USE_UUID_LIBRARY = "useUUIDLibrary";
+    public static final String USE_UUID_LIBRARY_DESC = "Setting this property to true will instead generate 'uuid::Uuid' type (from 'uuid' crate) in place of 'String' for UUID types.";
+
     public static final String DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT = "disallowAdditionalPropertiesIfNotPresent";
     public static final String DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT_DESC =
         "If false, the 'additionalProperties' implementation (set to true by default) is compliant with the OAS and JSON schema specifications. " +

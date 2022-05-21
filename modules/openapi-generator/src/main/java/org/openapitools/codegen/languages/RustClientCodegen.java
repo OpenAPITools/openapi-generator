@@ -48,6 +48,7 @@ import static org.openapitools.codegen.utils.StringUtils.underscore;
 public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(RustClientCodegen.class);
     private boolean useSingleRequestParameter = false;
+    private boolean useUUIDLibrary = false;
     private boolean supportAsync = true;
     private boolean supportMultipleResponses = false;
     private boolean withAWSV4Signature = false;
@@ -198,6 +199,8 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
                 .defaultValue(Boolean.TRUE.toString()));
         cliOptions.add(new CliOption(CodegenConstants.USE_SINGLE_REQUEST_PARAMETER, CodegenConstants.USE_SINGLE_REQUEST_PARAMETER_DESC, SchemaTypeUtil.BOOLEAN_TYPE)
                 .defaultValue(Boolean.FALSE.toString()));
+        cliOptions.add(new CliOption(CodegenConstants.USE_UUID_LIBRARY, CodegenConstants.USE_UUID_LIBRARY_DESC, SchemaTypeUtil.BOOLEAN_TYPE)
+                .defaultValue(Boolean.FALSE.toString()));
         cliOptions.add(new CliOption(SUPPORT_ASYNC, "If set, generate async function call instead. This option is for 'reqwest' library only", SchemaTypeUtil.BOOLEAN_TYPE)
                 .defaultValue(Boolean.TRUE.toString()));
         cliOptions.add(new CliOption(SUPPORT_MULTIPLE_RESPONSES, "If set, return type wraps an enum of all possible 2xx schemas. This option is for 'reqwest' library only", SchemaTypeUtil.BOOLEAN_TYPE)
@@ -301,6 +304,11 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
             this.setUseSingleRequestParameter(convertPropertyToBoolean(CodegenConstants.USE_SINGLE_REQUEST_PARAMETER));
         }
         writePropertyBack(CodegenConstants.USE_SINGLE_REQUEST_PARAMETER, getUseSingleRequestParameter());
+
+        if (additionalProperties.containsKey(CodegenConstants.USE_UUID_LIBRARY)) {
+            this.setUseUUIDLibrary(convertPropertyToBoolean(CodegenConstants.USE_UUID_LIBRARY));
+        }
+        writePropertyBack(CodegenConstants.USE_UUID_LIBRARY, getUseUUIDLibrary());
 
         if (additionalProperties.containsKey(SUPPORT_ASYNC)) {
             this.setSupportAsync(convertPropertyToBoolean(SUPPORT_ASYNC));
@@ -408,6 +416,14 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     private void setUseSingleRequestParameter(boolean useSingleRequestParameter) {
         this.useSingleRequestParameter = useSingleRequestParameter;
+    }
+
+    private boolean getUseUUIDLibrary() {
+        return useUUIDLibrary;
+    }
+
+    private void setUseUUIDLibrary(boolean useUUIDLibrary) {
+        this.useUUIDLibrary = useUUIDLibrary;
     }
 
     @Override
@@ -635,6 +651,11 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
             // add support for single request parameter using x-group-parameters
             if (!operation.vendorExtensions.containsKey("x-group-parameters") && useSingleRequestParameter) {
                 operation.vendorExtensions.put("x-group-parameters", Boolean.TRUE);
+            }
+
+            // add support for uuid crate using x-uuid-crate
+            if (!operation.vendorExtensions.containsKey("x-uuid-crate") && useUUIDLibrary) {
+                operation.vendorExtensions.put("x-uuid-crate", Boolean.TRUE);
             }
 
             // update return type to conform to rust standard
