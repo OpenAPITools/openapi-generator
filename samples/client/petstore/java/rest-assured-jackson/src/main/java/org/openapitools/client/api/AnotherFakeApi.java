@@ -26,7 +26,6 @@ import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.common.mapper.TypeRef;
 import io.restassured.http.Method;
 import io.restassured.response.Response;
-import io.swagger.annotations.*;
 
 import java.lang.reflect.Type;
 import java.util.function.Consumer;
@@ -34,7 +33,6 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 import static io.restassured.http.Method.*;
 
-@Api(value = "AnotherFake")
 public class AnotherFakeApi {
 
     private Supplier<RequestSpecBuilder> reqSpecSupplier;
@@ -62,12 +60,6 @@ public class AnotherFakeApi {
         );
     }
 
-    @ApiOperation(value = "To test special tags",
-            notes = "To test special tags and operation ID starting with number",
-            nickname = "call123testSpecialTags",
-            tags = { "$another-fake?" })
-    @ApiResponses(value = { 
-            @ApiResponse(code = 200, message = "successful operation")  })
     public Call123testSpecialTagsOper call123testSpecialTags() {
         return new Call123testSpecialTagsOper(createReqSpec());
     }
