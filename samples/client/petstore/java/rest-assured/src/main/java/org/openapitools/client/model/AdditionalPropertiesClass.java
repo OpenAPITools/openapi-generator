@@ -20,8 +20,6 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.HashMap;
@@ -102,7 +100,7 @@ public class AdditionalPropertiesClass {
    * @return mapString
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+
 
   public Map<String, String> getMapString() {
     return mapString;
@@ -134,7 +132,7 @@ public class AdditionalPropertiesClass {
   **/
   @javax.annotation.Nullable
   @Valid
-  @ApiModelProperty(value = "")
+
 
   public Map<String, BigDecimal> getMapNumber() {
     return mapNumber;
@@ -165,7 +163,7 @@ public class AdditionalPropertiesClass {
    * @return mapInteger
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+
 
   public Map<String, Integer> getMapInteger() {
     return mapInteger;
@@ -196,7 +194,7 @@ public class AdditionalPropertiesClass {
    * @return mapBoolean
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+
 
   public Map<String, Boolean> getMapBoolean() {
     return mapBoolean;
@@ -228,7 +226,7 @@ public class AdditionalPropertiesClass {
   **/
   @javax.annotation.Nullable
   @Valid
-  @ApiModelProperty(value = "")
+
 
   public Map<String, List<Integer>> getMapArrayInteger() {
     return mapArrayInteger;
@@ -260,7 +258,7 @@ public class AdditionalPropertiesClass {
   **/
   @javax.annotation.Nullable
   @Valid
-  @ApiModelProperty(value = "")
+
 
   public Map<String, List<Object>> getMapArrayAnytype() {
     return mapArrayAnytype;
@@ -292,7 +290,7 @@ public class AdditionalPropertiesClass {
   **/
   @javax.annotation.Nullable
   @Valid
-  @ApiModelProperty(value = "")
+
 
   public Map<String, Map<String, String>> getMapMapString() {
     return mapMapString;
@@ -324,7 +322,7 @@ public class AdditionalPropertiesClass {
   **/
   @javax.annotation.Nullable
   @Valid
-  @ApiModelProperty(value = "")
+
 
   public Map<String, Map<String, Object>> getMapMapAnytype() {
     return mapMapAnytype;
@@ -347,7 +345,7 @@ public class AdditionalPropertiesClass {
    * @return anytype1
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+
 
   public Object getAnytype1() {
     return anytype1;
@@ -370,7 +368,7 @@ public class AdditionalPropertiesClass {
    * @return anytype2
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+
 
   public Object getAnytype2() {
     return anytype2;
@@ -393,7 +391,7 @@ public class AdditionalPropertiesClass {
    * @return anytype3
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+
 
   public Object getAnytype3() {
     return anytype3;

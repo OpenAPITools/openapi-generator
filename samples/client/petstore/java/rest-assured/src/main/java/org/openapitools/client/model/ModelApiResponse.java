@@ -20,8 +20,6 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -58,7 +56,7 @@ public class ModelApiResponse {
    * @return code
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+
 
   public Integer getCode() {
     return code;
@@ -81,7 +79,7 @@ public class ModelApiResponse {
    * @return type
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+
 
   public String getType() {
     return type;
@@ -104,7 +102,7 @@ public class ModelApiResponse {
    * @return message
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+
 
   public String getMessage() {
     return message;

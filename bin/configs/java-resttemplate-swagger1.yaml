@@ -1,5 +1,5 @@
 generatorName: java
-outputDir: samples/client/petstore/java/resttemplate
+outputDir: samples/client/petstore/java/resttemplate-swagger1
 library: resttemplate
 inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml
 templateDir: modules/openapi-generator/src/main/resources/Java
