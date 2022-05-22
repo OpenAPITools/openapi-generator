@@ -4,13 +4,12 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
@@ -36,7 +35,7 @@ public class NumberOnly {
    * @return justNumber
   */
   @Valid 
-  @ApiModelProperty(value = "")
+  @Schema(name = "JustNumber", required = false)
   public BigDecimal getJustNumber() {
     return justNumber;
   }
