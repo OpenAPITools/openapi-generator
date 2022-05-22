@@ -117,7 +117,7 @@
                         {{^isNumeric}}
                             string {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}RawValue = reader.GetString();
                             {{^isInnerEnum}}
-                            {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = {{{datatypeWithEnum}}}Converter.FromString({{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}RawValue);
+                            {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = {{{datatypeWithEnum}}}Converter.FromString{{#isNullable}}OrDefault{{/isNullable}}({{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}RawValue);
                             {{/isInnerEnum}}
                             {{#isInnerEnum}}
                             {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = {{classname}}.{{{datatypeWithEnum}}}FromString({{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}RawValue);
