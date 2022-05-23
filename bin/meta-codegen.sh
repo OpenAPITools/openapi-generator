@@ -20,7 +20,7 @@ ags="meta -n myClientCodegen -t DOCUMENTATION -p com.my.company.codegen -o sampl
 
 java $JAVA_OPTS -jar $executable $ags
 
-(./mvnw -B package -Djacoco.skip=true -DskipTests=true -f "$root"/samples/meta-codegen/pom.xml)
+(./mvnw -B package -Djacoco.skip=true -DskipTests=true -f "$root"/samples/meta-codegen/lib/pom.xml)
 
 ags2="generate -g myClientCodegen -i modules/openapi-generator/src/test/resources/3_0/petstore.json -o samples/meta-codegen/usage $@"
 
