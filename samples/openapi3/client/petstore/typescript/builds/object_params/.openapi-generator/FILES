@@ -1,5 +1,4 @@
 .gitignore
-.openapi-generator-ignore
 PetApi.md
 README.md
 StoreApi.md

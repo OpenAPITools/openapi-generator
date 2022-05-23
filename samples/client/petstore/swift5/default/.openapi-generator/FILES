@@ -1,5 +1,4 @@
 .gitignore
-.openapi-generator-ignore
 Cartfile
 Package.swift
 PetstoreClient.podspec

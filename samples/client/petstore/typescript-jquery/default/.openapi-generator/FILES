@@ -1,4 +1,3 @@
-.openapi-generator-ignore
 api/PetApi.ts
 api/StoreApi.ts
 api/UserApi.ts

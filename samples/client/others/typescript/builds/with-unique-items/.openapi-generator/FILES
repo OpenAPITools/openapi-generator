@@ -1,5 +1,4 @@
 .gitignore
-.openapi-generator-ignore
 DefaultApi.md
 README.md
 apis/DefaultApi.ts

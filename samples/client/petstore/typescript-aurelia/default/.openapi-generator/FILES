@@ -1,5 +1,4 @@
 .gitignore
-.openapi-generator-ignore
 Api.ts
 AuthStorage.ts
 PetApi.ts

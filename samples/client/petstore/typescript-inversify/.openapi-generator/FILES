@@ -1,4 +1,3 @@
-.openapi-generator-ignore
 ApiServiceBinder.ts
 Headers.ts
 HttpClient.ts
