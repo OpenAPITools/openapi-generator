@@ -1,4 +1,4 @@
-/* 
+/*
  * OpenAPI Petstore
  *
  * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
@@ -70,8 +70,8 @@ namespace Org.OpenAPITools.Test
         public void AddPetTest()
         {
             // TODO uncomment below to test the method and replace null with proper value
-            //Pet body = null;
-            //instance.AddPet(body);
+            //Pet pet = null;
+            //instance.AddPet(pet);
             
         }
         
@@ -131,8 +131,8 @@ namespace Org.OpenAPITools.Test
         public void UpdatePetTest()
         {
             // TODO uncomment below to test the method and replace null with proper value
-            //Pet body = null;
-            //instance.UpdatePet(body);
+            //Pet pet = null;
+            //instance.UpdatePet(pet);
             
         }
         

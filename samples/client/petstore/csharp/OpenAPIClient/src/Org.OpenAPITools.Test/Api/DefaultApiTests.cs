@@ -1,4 +1,4 @@
-/* 
+/*
  * OpenAPI Petstore
  *
  * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
@@ -71,7 +71,7 @@ namespace Org.OpenAPITools.Test
         {
             // TODO uncomment below to test the method and replace null with proper value
             //var response = instance.FooGet();
-            //Assert.IsInstanceOf(typeof(InlineResponseDefault), response, "response is InlineResponseDefault");
+            //Assert.IsInstanceOf(typeof(FooGetDefaultResponse), response, "response is FooGetDefaultResponse");
         }
         
     }

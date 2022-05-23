@@ -22,6 +22,8 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.File;
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
 
@@ -89,6 +91,14 @@ class FormatTestTest {
     }
 
     /**
+     * Test the property 'decimal'
+     */
+    @Test
+    void decimalTest() {
+        // TODO: test decimal
+    }
+
+    /**
      * Test the property 'string'
      */
     @Test
@@ -145,11 +155,19 @@ class FormatTestTest {
     }
 
     /**
-     * Test the property 'bigDecimal'
+     * Test the property 'patternWithDigits'
      */
     @Test
-    void bigDecimalTest() {
-        // TODO: test bigDecimal
+    void patternWithDigitsTest() {
+        // TODO: test patternWithDigits
+    }
+
+    /**
+     * Test the property 'patternWithDigitsAndDelimiter'
+     */
+    @Test
+    void patternWithDigitsAndDelimiterTest() {
+        // TODO: test patternWithDigitsAndDelimiter
     }
 
 }

@@ -32,20 +32,14 @@ public class PingApiTest {
 
     private final PingApi api = new PingApi();
 
-    
     /**
-     * 
-     *
-     * 
-     *
-     * @throws ApiException
-     *          if the Api call fails
+     * @throws ApiException if the Api call fails
      */
     @Test
     public void postPingTest() throws ApiException {
         SomeObj someObj = null;
-                InputStream response = api.postPing(someObj);
+        InputStream response = api.postPing(someObj);
         // TODO: test validations
     }
-    
+
 }

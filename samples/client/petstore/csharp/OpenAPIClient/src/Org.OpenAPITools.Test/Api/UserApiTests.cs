@@ -1,4 +1,4 @@
-/* 
+/*
  * OpenAPI Petstore
  *
  * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
@@ -70,8 +70,8 @@ namespace Org.OpenAPITools.Test
         public void CreateUserTest()
         {
             // TODO uncomment below to test the method and replace null with proper value
-            //User body = null;
-            //instance.CreateUser(body);
+            //User user = null;
+            //instance.CreateUser(user);
             
         }
         
@@ -82,8 +82,8 @@ namespace Org.OpenAPITools.Test
         public void CreateUsersWithArrayInputTest()
         {
             // TODO uncomment below to test the method and replace null with proper value
-            //List<User> body = null;
-            //instance.CreateUsersWithArrayInput(body);
+            //List<User> user = null;
+            //instance.CreateUsersWithArrayInput(user);
             
         }
         
@@ -94,8 +94,8 @@ namespace Org.OpenAPITools.Test
         public void CreateUsersWithListInputTest()
         {
             // TODO uncomment below to test the method and replace null with proper value
-            //List<User> body = null;
-            //instance.CreateUsersWithListInput(body);
+            //List<User> user = null;
+            //instance.CreateUsersWithListInput(user);
             
         }
         
@@ -155,8 +155,8 @@ namespace Org.OpenAPITools.Test
         {
             // TODO uncomment below to test the method and replace null with proper value
             //string username = null;
-            //User body = null;
-            //instance.UpdateUser(username, body);
+            //User user = null;
+            //instance.UpdateUser(username, user);
             
         }
         

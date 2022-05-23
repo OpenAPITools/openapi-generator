@@ -21,7 +21,7 @@ import com.google.gson.stream.JsonWriter;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
-import org.openapitools.client.model.ArrayOfInlineAllOfArrayAllofDogPropertyItemsAllOf;
+import org.openapitools.client.model.ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf;
 import org.openapitools.client.model.DogAllOf;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;

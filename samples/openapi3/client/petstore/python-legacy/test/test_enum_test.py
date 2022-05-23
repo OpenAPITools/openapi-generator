@@ -41,7 +41,7 @@ class TestEnumTest(unittest.TestCase):
                 enum_integer = 1, 
                 enum_number = 1.1, 
                 outer_enum = 'placed', 
-                outer_enum_integer = 0, 
+                outer_enum_integer = 2, 
                 outer_enum_default_value = 'placed', 
                 outer_enum_integer_default_value = 0
             )

@@ -1,4 +1,4 @@
-/* 
+/*
  * OpenAPI Petstore
  *
  * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
@@ -66,92 +66,20 @@ namespace Org.OpenAPITools.Test
 
 
         /// <summary>
-        /// Test the property 'MapString'
+        /// Test the property 'MapProperty'
         /// </summary>
         [Test]
-        public void MapStringTest()
+        public void MapPropertyTest()
         {
-            // TODO unit test for the property 'MapString'
+            // TODO unit test for the property 'MapProperty'
         }
         /// <summary>
-        /// Test the property 'MapNumber'
+        /// Test the property 'MapOfMapProperty'
         /// </summary>
         [Test]
-        public void MapNumberTest()
+        public void MapOfMapPropertyTest()
         {
-            // TODO unit test for the property 'MapNumber'
-        }
-        /// <summary>
-        /// Test the property 'MapInteger'
-        /// </summary>
-        [Test]
-        public void MapIntegerTest()
-        {
-            // TODO unit test for the property 'MapInteger'
-        }
-        /// <summary>
-        /// Test the property 'MapBoolean'
-        /// </summary>
-        [Test]
-        public void MapBooleanTest()
-        {
-            // TODO unit test for the property 'MapBoolean'
-        }
-        /// <summary>
-        /// Test the property 'MapArrayInteger'
-        /// </summary>
-        [Test]
-        public void MapArrayIntegerTest()
-        {
-            // TODO unit test for the property 'MapArrayInteger'
-        }
-        /// <summary>
-        /// Test the property 'MapArrayAnytype'
-        /// </summary>
-        [Test]
-        public void MapArrayAnytypeTest()
-        {
-            // TODO unit test for the property 'MapArrayAnytype'
-        }
-        /// <summary>
-        /// Test the property 'MapMapString'
-        /// </summary>
-        [Test]
-        public void MapMapStringTest()
-        {
-            // TODO unit test for the property 'MapMapString'
-        }
-        /// <summary>
-        /// Test the property 'MapMapAnytype'
-        /// </summary>
-        [Test]
-        public void MapMapAnytypeTest()
-        {
-            // TODO unit test for the property 'MapMapAnytype'
-        }
-        /// <summary>
-        /// Test the property 'Anytype1'
-        /// </summary>
-        [Test]
-        public void Anytype1Test()
-        {
-            // TODO unit test for the property 'Anytype1'
-        }
-        /// <summary>
-        /// Test the property 'Anytype2'
-        /// </summary>
-        [Test]
-        public void Anytype2Test()
-        {
-            // TODO unit test for the property 'Anytype2'
-        }
-        /// <summary>
-        /// Test the property 'Anytype3'
-        /// </summary>
-        [Test]
-        public void Anytype3Test()
-        {
-            // TODO unit test for the property 'Anytype3'
+            // TODO unit test for the property 'MapOfMapProperty'
         }
 
     }

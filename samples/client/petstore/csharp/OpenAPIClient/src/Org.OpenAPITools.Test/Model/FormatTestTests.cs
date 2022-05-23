@@ -1,4 +1,4 @@
-/* 
+/*
  * OpenAPI Petstore
  *
  * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
@@ -114,6 +114,14 @@ namespace Org.OpenAPITools.Test
             // TODO unit test for the property 'Double'
         }
         /// <summary>
+        /// Test the property 'Decimal'
+        /// </summary>
+        [Test]
+        public void DecimalTest()
+        {
+            // TODO unit test for the property 'Decimal'
+        }
+        /// <summary>
         /// Test the property 'String'
         /// </summary>
         [Test]
@@ -170,12 +178,20 @@ namespace Org.OpenAPITools.Test
             // TODO unit test for the property 'Password'
         }
         /// <summary>
-        /// Test the property 'BigDecimal'
+        /// Test the property 'PatternWithDigits'
         /// </summary>
         [Test]
-        public void BigDecimalTest()
+        public void PatternWithDigitsTest()
         {
-            // TODO unit test for the property 'BigDecimal'
+            // TODO unit test for the property 'PatternWithDigits'
+        }
+        /// <summary>
+        /// Test the property 'PatternWithDigitsAndDelimiter'
+        /// </summary>
+        [Test]
+        public void PatternWithDigitsAndDelimiterTest()
+        {
+            // TODO unit test for the property 'PatternWithDigitsAndDelimiter'
         }
 
     }

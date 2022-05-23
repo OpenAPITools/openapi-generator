@@ -13,6 +13,7 @@
 
 package org.openapitools.client.api;
 
+import java.time.OffsetDateTime;
 import org.openapitools.client.model.User;
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.api.UserApi;
@@ -22,6 +23,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.Ignore;
 
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

@@ -1,5 +1,3 @@
-# coding: utf-8
-
 """
     OpenAPI Petstore
 
@@ -10,7 +8,6 @@
 """
 
 
-from __future__ import absolute_import
 import sys
 import unittest
 
@@ -29,12 +26,9 @@ class TestTypeHolderDefault(unittest.TestCase):
 
     def testTypeHolderDefault(self):
         """Test TypeHolderDefault"""
-        # required_vars are set to None now until swagger-parser/swagger-core fixes
-        # https://github.com/swagger-api/swagger-parser/issues/971
-        array_item = [1, 2, 3]
-        model = TypeHolderDefault(array_item=array_item)
-        self.assertEqual(model.string_item, 'what')
-        self.assertEqual(model.bool_item, True)
+        # FIXME: construct object with mandatory attributes with example values
+        # model = TypeHolderDefault()  # noqa: E501
+        pass
 
 
 if __name__ == '__main__':

@@ -1,5 +1,6 @@
 .gitignore
 .gitlab-ci.yml
+.openapi-generator-ignore
 .travis.yml
 README.md
 docs/AdditionalPropertiesAnyType.md
@@ -170,4 +171,10 @@ setup.cfg
 setup.py
 test-requirements.txt
 test/__init__.py
+test/test_another_fake_api.py
+test/test_fake_api.py
+test/test_fake_classname_tags123_api.py
+test/test_pet_api.py
+test/test_store_api.py
+test/test_user_api.py
 tox.ini

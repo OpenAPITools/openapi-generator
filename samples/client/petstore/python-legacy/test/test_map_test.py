@@ -38,7 +38,7 @@ class TestMapTest(unittest.TestCase):
             return MapTest(
                 map_map_of_string = {
                     'key' : {
-                        'key' : '0'
+                        'key' : ''
                         }
                     }, 
                 map_of_enum_string = {
@@ -59,7 +59,6 @@ class TestMapTest(unittest.TestCase):
         """Test MapTest"""
         inst_req_only = self.make_instance(include_optional=False)
         inst_req_and_optional = self.make_instance(include_optional=True)
-
 
 if __name__ == '__main__':
     unittest.main()

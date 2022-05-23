@@ -36,7 +36,7 @@ class TestFile(unittest.TestCase):
         # model = petstore_api.models.file.File()  # noqa: E501
         if include_optional :
             return File(
-                source_uri = '0'
+                source_uri = ''
             )
         else :
             return File(
@@ -46,7 +46,6 @@ class TestFile(unittest.TestCase):
         """Test File"""
         inst_req_only = self.make_instance(include_optional=False)
         inst_req_and_optional = self.make_instance(include_optional=True)
-
 
 if __name__ == '__main__':
     unittest.main()

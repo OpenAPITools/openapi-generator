@@ -1,5 +1,3 @@
-# coding: utf-8
-
 """
     OpenAPI Petstore
 
@@ -15,7 +13,9 @@ import unittest
 
 import petstore_api
 from petstore_api.model.number_with_validations import NumberWithValidations
+from petstore_api.model.readonly import Readonly
 globals()['NumberWithValidations'] = NumberWithValidations
+globals()['Readonly'] = Readonly
 from petstore_api.model.object_model_with_ref_props import ObjectModelWithRefProps
 
 

@@ -34,7 +34,7 @@ class PetControllerSpec extends Specification {
     EmbeddedServer server
 
     @Inject
-    @Client('${context-path}')
+    @Client
     HttpClient client
 
     @Inject
@@ -44,6 +44,8 @@ class PetControllerSpec extends Specification {
      * This test is used to validate the implementation of addPet() method
      *
      * The method should: Add a new pet to the store
+     *
+     * 
      *
      * TODO fill in the parameters and test return value.
      */
@@ -85,6 +87,8 @@ class PetControllerSpec extends Specification {
      * This test is used to validate the implementation of deletePet() method
      *
      * The method should: Deletes a pet
+     *
+     * 
      *
      * TODO fill in the parameters and test return value.
      */
@@ -260,6 +264,8 @@ class PetControllerSpec extends Specification {
      *
      * The method should: Update an existing pet
      *
+     * 
+     *
      * TODO fill in the parameters and test return value.
      */
     @Ignore("Not Implemented")
@@ -300,6 +306,8 @@ class PetControllerSpec extends Specification {
      * This test is used to validate the implementation of updatePetWithForm() method
      *
      * The method should: Updates a pet in the store with form data
+     *
+     * 
      *
      * TODO fill in the parameters and test return value.
      */
@@ -351,6 +359,8 @@ class PetControllerSpec extends Specification {
      *
      * The method should: uploads an image
      *
+     * 
+     *
      * TODO fill in the parameters and test return value.
      */
     @Ignore("Not Implemented")
@@ -358,10 +368,10 @@ class PetControllerSpec extends Specification {
         given:
         Long petId = 56L
         String additionalMetadata = 'example'
-        CompletedFileUpload file = null
+        CompletedFileUpload _file = null
 
         when:
-        ModelApiResponse result = controller.uploadFile(petId, additionalMetadata, file).block()
+        ModelApiResponse result = controller.uploadFile(petId, additionalMetadata, _file).block()
 
         then:
         true
@@ -376,15 +386,16 @@ class PetControllerSpec extends Specification {
     @Ignore("Not Implemented")
     def 'uploadFile() test with client through path /pet/{petId}/uploadImage'() {
         given:
-        var body = MultipartBody.builder() // Create multipart body
-            .addPart('additionalMetadata', 'example')
-            .addPart('file', 'filename', File.createTempFile('test', '.tmp'))
-            .build()
+        var form = [
+            // Fill in the body form parameters
+            'additionalMetadata': 'example',
+            'file': new FileReader(File.createTempFile('test', '.tmp'))
+        ]
         var uri = UriTemplate.of('/pet/{petId}/uploadImage').expand([
             // Fill in the path variables
             'petId': 56L
         ])
-        MutableHttpRequest request = HttpRequest.POST(uri, body)
+        MutableHttpRequest request = HttpRequest.POST(uri, form)
             .contentType('multipart/form-data')
             .accept('application/json')
 

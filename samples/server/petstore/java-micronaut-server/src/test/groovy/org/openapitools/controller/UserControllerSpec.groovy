@@ -1,6 +1,6 @@
 package org.openapitools.controller
 
-import java.time.LocalDateTime
+import java.time.OffsetDateTime
 import org.openapitools.model.User
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import io.micronaut.http.client.HttpClient
@@ -33,7 +33,7 @@ class UserControllerSpec extends Specification {
     EmbeddedServer server
 
     @Inject
-    @Client('${context-path}')
+    @Client
     HttpClient client
 
     @Inject
@@ -87,6 +87,8 @@ class UserControllerSpec extends Specification {
      *
      * The method should: Creates list of users with given input array
      *
+     * 
+     *
      * TODO fill in the parameters and test return value.
      */
     @Ignore("Not Implemented")
@@ -127,6 +129,8 @@ class UserControllerSpec extends Specification {
      * This test is used to validate the implementation of createUsersWithListInput() method
      *
      * The method should: Creates list of users with given input array
+     *
+     * 
      *
      * TODO fill in the parameters and test return value.
      */
@@ -213,6 +217,8 @@ class UserControllerSpec extends Specification {
      *
      * The method should: Get user by user name
      *
+     * 
+     *
      * TODO fill in the parameters and test return value.
      */
     @Ignore("Not Implemented")
@@ -254,6 +260,8 @@ class UserControllerSpec extends Specification {
      * This test is used to validate the implementation of loginUser() method
      *
      * The method should: Logs user into the system
+     *
+     * 
      *
      * TODO fill in the parameters and test return value.
      */
@@ -297,6 +305,8 @@ class UserControllerSpec extends Specification {
      * This test is used to validate the implementation of logoutUser() method
      *
      * The method should: Logs out current logged in user session
+     *
+     * 
      *
      * TODO fill in the parameters and test return value.
      */

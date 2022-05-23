@@ -23,6 +23,7 @@ import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import org.openapitools.client.model.ModelFile;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -43,11 +44,11 @@ public class FileSchemaTestClassTest {
     }
 
     /**
-     * Test the property 'file'
+     * Test the property '_file'
      */
     @Test
-    public void fileTest() {
-        // TODO: test file
+    public void _fileTest() {
+        // TODO: test _file
     }
 
     /**

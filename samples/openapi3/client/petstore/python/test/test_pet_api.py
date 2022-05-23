@@ -1,5 +1,3 @@
-# coding: utf-8
-
 """
     OpenAPI Petstore
 
@@ -71,20 +69,6 @@ class TestPetApi(unittest.TestCase):
         """Test case for update_pet_with_form
 
         Updates a pet in the store with form data  # noqa: E501
-        """
-        pass
-
-    def test_upload_file(self):
-        """Test case for upload_file
-
-        uploads an image  # noqa: E501
-        """
-        pass
-
-    def test_upload_file_with_required_file(self):
-        """Test case for upload_file_with_required_file
-
-        uploads an image (required)  # noqa: E501
         """
         pass
 

@@ -61,7 +61,7 @@ namespace Org.OpenAPITools.Test.Api
         {
             // TODO uncomment below to test the method and replace null with proper value
             //var response = instance.FooGet();
-            //Assert.IsType<InlineResponseDefault>(response);
+            //Assert.IsType<FooGetDefaultResponse>(response);
         }
     }
 }

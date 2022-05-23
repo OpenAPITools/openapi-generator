@@ -80,6 +80,13 @@ isa_ok($api, 'WWW::OpenAPIClient::FakeApi');
 #my $fake_property_enum_integer_serialize_result = $api->fake_property_enum_integer_serialize(outer_object_with_enum_property => $fake_property_enum_integer_serialize_outer_object_with_enum_property);
 
 #
+# test_body_with_binary test
+#
+# uncomment below and update the test
+#my $test_body_with_binary_body = undef; # replace NULL with a proper value
+#my $test_body_with_binary_result = $api->test_body_with_binary(body => $test_body_with_binary_body);
+
+#
 # test_body_with_file_schema test
 #
 # uncomment below and update the test
@@ -131,9 +138,10 @@ isa_ok($api, 'WWW::OpenAPIClient::FakeApi');
 #my $test_enum_parameters_enum_query_string = undef; # replace NULL with a proper value
 #my $test_enum_parameters_enum_query_integer = undef; # replace NULL with a proper value
 #my $test_enum_parameters_enum_query_double = undef; # replace NULL with a proper value
+#my $test_enum_parameters_enum_query_model_array = undef; # replace NULL with a proper value
 #my $test_enum_parameters_enum_form_string_array = undef; # replace NULL with a proper value
 #my $test_enum_parameters_enum_form_string = undef; # replace NULL with a proper value
-#my $test_enum_parameters_result = $api->test_enum_parameters(enum_header_string_array => $test_enum_parameters_enum_header_string_array, enum_header_string => $test_enum_parameters_enum_header_string, enum_query_string_array => $test_enum_parameters_enum_query_string_array, enum_query_string => $test_enum_parameters_enum_query_string, enum_query_integer => $test_enum_parameters_enum_query_integer, enum_query_double => $test_enum_parameters_enum_query_double, enum_form_string_array => $test_enum_parameters_enum_form_string_array, enum_form_string => $test_enum_parameters_enum_form_string);
+#my $test_enum_parameters_result = $api->test_enum_parameters(enum_header_string_array => $test_enum_parameters_enum_header_string_array, enum_header_string => $test_enum_parameters_enum_header_string, enum_query_string_array => $test_enum_parameters_enum_query_string_array, enum_query_string => $test_enum_parameters_enum_query_string, enum_query_integer => $test_enum_parameters_enum_query_integer, enum_query_double => $test_enum_parameters_enum_query_double, enum_query_model_array => $test_enum_parameters_enum_query_model_array, enum_form_string_array => $test_enum_parameters_enum_form_string_array, enum_form_string => $test_enum_parameters_enum_form_string);
 
 #
 # test_group_parameters test
@@ -171,5 +179,7 @@ isa_ok($api, 'WWW::OpenAPIClient::FakeApi');
 #my $test_query_parameter_collection_format_http = undef; # replace NULL with a proper value
 #my $test_query_parameter_collection_format_url = undef; # replace NULL with a proper value
 #my $test_query_parameter_collection_format_context = undef; # replace NULL with a proper value
-#my $test_query_parameter_collection_format_result = $api->test_query_parameter_collection_format(pipe => $test_query_parameter_collection_format_pipe, ioutil => $test_query_parameter_collection_format_ioutil, http => $test_query_parameter_collection_format_http, url => $test_query_parameter_collection_format_url, context => $test_query_parameter_collection_format_context);
+#my $test_query_parameter_collection_format_allow_empty = undef; # replace NULL with a proper value
+#my $test_query_parameter_collection_format_language = undef; # replace NULL with a proper value
+#my $test_query_parameter_collection_format_result = $api->test_query_parameter_collection_format(pipe => $test_query_parameter_collection_format_pipe, ioutil => $test_query_parameter_collection_format_ioutil, http => $test_query_parameter_collection_format_http, url => $test_query_parameter_collection_format_url, context => $test_query_parameter_collection_format_context, allow_empty => $test_query_parameter_collection_format_allow_empty, language => $test_query_parameter_collection_format_language);
 

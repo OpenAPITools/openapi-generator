@@ -1,7 +1,0 @@
-#Enable cloud config. Also enable the dependency in pom    
-  #cloud:
-    #config:
-      #uri: 
-      #fail-fast: true
-      #password: user
-      #username: user

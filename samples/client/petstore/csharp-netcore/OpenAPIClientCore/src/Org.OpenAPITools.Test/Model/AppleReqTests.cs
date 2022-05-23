@@ -20,7 +20,7 @@ using Org.OpenAPITools.Client;
 using System.Reflection;
 using Newtonsoft.Json;
 
-namespace Org.OpenAPITools.Test
+namespace Org.OpenAPITools.Test.Model
 {
     /// <summary>
     ///  Class for testing AppleReq
@@ -51,8 +51,8 @@ namespace Org.OpenAPITools.Test
         [Fact]
         public void AppleReqInstanceTest()
         {
-            // TODO uncomment below to test "IsInstanceOfType" AppleReq
-            //Assert.IsInstanceOfType<AppleReq> (instance, "variable 'instance' is a AppleReq");
+            // TODO uncomment below to test "IsType" AppleReq
+            //Assert.IsType<AppleReq>(instance);
         }
 
 

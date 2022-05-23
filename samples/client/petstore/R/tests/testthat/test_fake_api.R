@@ -11,8 +11,8 @@ test_that("FakeDataFile", {
   # test data_file to ensure it&#39;s escaped correctly
   # 
   # @param dummy character dummy required parameter
-  # @param DataFile. character header data file (optional)
-  # @return [Void]
+  # @param var_data_file character header data file (optional)
+  # @return [User]
 
   # uncomment below to test the operation
   #expect_equal(result, "EXPECTED_RESULT")

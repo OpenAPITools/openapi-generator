@@ -22,6 +22,8 @@ import org.junit.Test;
 import org.junit.Ignore;
 import org.junit.Assert;
 
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -145,8 +147,8 @@ public class PetApiTest {
     public void uploadFileTest() throws ApiException {
         Long petId = null;
         String additionalMetadata = null;
-        File file = null;
-        ModelApiResponse response = api.uploadFile(petId, additionalMetadata, file);
+        File _file = null;
+        ModelApiResponse response = api.uploadFile(petId, additionalMetadata, _file);
 
         // TODO: test validations
     }

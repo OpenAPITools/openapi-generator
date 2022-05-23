@@ -13,14 +13,16 @@ private class OASUserApiTest {
         Test.setMock(HttpCalloutMock.class, new OASResponseMock(res));
 
         Map<String, Object> params = new Map<String, Object>{
-            'oaSUser' => OASUser.getExample()
+            'oaSUser' => ''
         };
 
         OASClient client;
         OASUserApi api;
         String js = '';
 
-        api = new OASUserApi(new OASClient());
+        client = new OASClient();
+        api = new OASUserApi(client);
+        ((OAS.ApiKeyAuth)client.getAuthentication('api_key')).setApiKey('foo-bar-api-key');
 
         api.createUser(params);
     }
@@ -45,7 +47,9 @@ private class OASUserApiTest {
         OASUserApi api;
         String js = '';
 
-        api = new OASUserApi(new OASClient());
+        client = new OASClient();
+        api = new OASUserApi(client);
+        ((OAS.ApiKeyAuth)client.getAuthentication('api_key')).setApiKey('foo-bar-api-key');
 
         api.createUsersWithArrayInput(params);
     }
@@ -70,7 +74,9 @@ private class OASUserApiTest {
         OASUserApi api;
         String js = '';
 
-        api = new OASUserApi(new OASClient());
+        client = new OASClient();
+        api = new OASUserApi(client);
+        ((OAS.ApiKeyAuth)client.getAuthentication('api_key')).setApiKey('foo-bar-api-key');
 
         api.createUsersWithListInput(params);
     }
@@ -95,7 +101,9 @@ private class OASUserApiTest {
         OASUserApi api;
         String js = '';
 
-        api = new OASUserApi(new OASClient());
+        client = new OASClient();
+        api = new OASUserApi(client);
+        ((OAS.ApiKeyAuth)client.getAuthentication('api_key')).setApiKey('foo-bar-api-key');
 
         api.deleteUser(params);
     }
@@ -183,7 +191,9 @@ private class OASUserApiTest {
         OASUserApi api;
         String js = '';
 
-        api = new OASUserApi(new OASClient());
+        client = new OASClient();
+        api = new OASUserApi(client);
+        ((OAS.ApiKeyAuth)client.getAuthentication('api_key')).setApiKey('foo-bar-api-key');
 
         api.logoutUser();
     }
@@ -202,14 +212,16 @@ private class OASUserApiTest {
 
         Map<String, Object> params = new Map<String, Object>{
             'username' => 'null',
-            'oaSUser' => OASUser.getExample()
+            'oaSUser' => ''
         };
 
         OASClient client;
         OASUserApi api;
         String js = '';
 
-        api = new OASUserApi(new OASClient());
+        client = new OASClient();
+        api = new OASUserApi(client);
+        ((OAS.ApiKeyAuth)client.getAuthentication('api_key')).setApiKey('foo-bar-api-key');
 
         api.updateUser(params);
     }

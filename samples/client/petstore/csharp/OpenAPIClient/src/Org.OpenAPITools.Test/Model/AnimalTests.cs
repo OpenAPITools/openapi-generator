@@ -1,4 +1,4 @@
-/* 
+/*
  * OpenAPI Petstore
  *
  * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
@@ -65,15 +65,6 @@ namespace Org.OpenAPITools.Test
         }
 
         /// <summary>
-        /// Test deserialize a Dog from type Animal
-        /// </summary>
-        [Test]
-        public void DogDeserializeFromAnimalTest()
-        {
-            // TODO uncomment below to test deserialize a Dog from type Animal
-            //Assert.IsInstanceOf(typeof(Animal), JsonConvert.DeserializeObject<Animal>(new Dog().ToJson()));
-        }
-        /// <summary>
         /// Test deserialize a Cat from type Animal
         /// </summary>
         [Test]
@@ -83,13 +74,13 @@ namespace Org.OpenAPITools.Test
             //Assert.IsInstanceOf(typeof(Animal), JsonConvert.DeserializeObject<Animal>(new Cat().ToJson()));
         }
         /// <summary>
-        /// Test deserialize a BigCat from type Cat
+        /// Test deserialize a Dog from type Animal
         /// </summary>
         [Test]
-        public void BigCatDeserializeFromCatTest()
+        public void DogDeserializeFromAnimalTest()
         {
-            // TODO uncomment below to test deserialize a BigCat from type Cat
-            //Assert.IsInstanceOf(typeof(Cat), JsonConvert.DeserializeObject<Cat>(new BigCat().ToJson()));
+            // TODO uncomment below to test deserialize a Dog from type Animal
+            //Assert.IsInstanceOf(typeof(Animal), JsonConvert.DeserializeObject<Animal>(new Dog().ToJson()));
         }
 
         /// <summary>

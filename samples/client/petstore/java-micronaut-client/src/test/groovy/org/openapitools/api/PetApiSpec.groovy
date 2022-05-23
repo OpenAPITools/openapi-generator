@@ -1,16 +1,19 @@
 package org.openapitools.api
 
-import io.micronaut.http.HttpStatus
-import io.micronaut.http.client.exceptions.HttpClientResponseException
-import org.openapitools.model.Category
-import org.openapitools.model.Tag
-
-
+import java.io.File
+import org.openapitools.model.ModelApiResponse
 import org.openapitools.model.Pet
+import java.util.Set
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
-import spock.lang.Ignore
 import spock.lang.Specification
 import jakarta.inject.Inject
+import spock.lang.Ignore
+import java.util.Arrays
+import java.util.ArrayList
+import java.util.HashMap
+import java.util.List
+import java.util.Map
+import java.util.HashSet
 
 
 /**
@@ -22,240 +25,171 @@ class PetApiSpec extends Specification {
     @Inject
     PetApi api
 
+    
     /**
-     * Find pet by ID
-     * Returns a pet when ID &lt; 10.
+     * Add a new pet to the store
      */
-    void "getPetById() test"() {
+    @Ignore("Not Implemented")
+    void 'addPet() test'() {
         given:
-        Long petId = 5L
-        Pet response = api.getPetById(petId).block()
-
-        expect:
-        response != null
-        response.getId() == petId
-        response.getName() != null
-    }
-
-    /**
-     * ID &gt; 10 or nonintegers will simulate API error conditions
-     */
-    void "getPetById() error test"() {
-        given:
-        Long petId = -11L
+        Pet _body = new Pet()
 
         when:
-        api.getPetById(petId).block()
+        api.addPet(_body).block()
 
         then:
-        var e = thrown(HttpClientResponseException.class)
-        e.getMessage().contains("Pet not found")
-        e.getStatus() == HttpStatus.NOT_FOUND
+        true
+        // TODO: test validations
     }
 
-    void "add and get pet test"() {
+    
+    /**
+     * Deletes a pet
+     */
+    @Ignore("Not Implemented")
+    void 'deletePet() test'() {
         given:
-        Pet pet = new Pet()
-                .id(1002L)
-                .name("Bob")
-                .status(Pet.StatusEnum.AVAILABLE)
-                .category(new Category().id(0L).name("string"))
-                .photoUrls(["string"].toSet())
-                .tags([new Tag().id(0L).name("string")])
+        Long petId = 56L
+        String apiKey = 'example'
 
-        api.addPet(pet).block()
-        Pet received = api.getPetById(pet.getId()).block()
+        when:
+        api.deletePet(petId, apiKey).block()
 
-        expect:
-        received != null
-        pet == received
+        then:
+        true
+        // TODO: test validations
     }
 
+    
     /**
      * Finds Pets by status
+     *
      * Multiple status values can be provided with comma separated strings
      */
-    @Ignore("Issue reported in https://github.com/micronaut-projects/micronaut-jackson-xml/issues/175")
-    void "findPetsByStatus() test"() {
+    @Ignore("Not Implemented")
+    void 'findPetsByStatus() test'() {
         given:
-        Pet pet = new Pet()
-                .id(1005L)
-                .name("Tom")
-                .status(Pet.StatusEnum.AVAILABLE)
-                .category(new Category().id(105L).name("Cat category"))
-                .photoUrls([].toSet())
-                .tags([new Tag().id(1L).name("meowing"), new Tag().id(2L).name("purring")])
-
-        Pet pet2 = new Pet().id(1007L).name("Bob").status(Pet.StatusEnum.AVAILABLE)
-        Pet pet3 = new Pet().id(1008L).name("Unnamed").status(Pet.StatusEnum.SOLD)
-                .category(new Category().id(6L).name("Young dog category"))
-                .tags(new ArrayList<>()).photoUrls([].toSet())
+        List<String> status = ['available']
 
         when:
-        api.addPet(pet).block()
-        api.addPet(pet2).block()
-        api.addPet(pet3).block()
-
-        List<Pet> available = api.findPetsByStatus(["available"]).block()
-        List<Pet> sold = api.findPetsByStatus(["sold"]).block()
-        // The description says that it needs to be comma separated, but the actual format is multi
-        List<Pet> both = api.findPetsByStatus(["available,sold"]).block()
+        List<Pet> body = api.findPetsByStatus(status).block()
 
         then:
-        // Available pets
-        available != null
-        and: "The first pet should be present and match the added pet"
-        Pet receivedPet = available.stream().filter(p -> p.getId() == pet.getId()).findFirst().orElse(null)
-        receivedPet != null
-        pet == receivedPet
-        and: "The second added pet should be present in the available pets"
-        available.stream().anyMatch(p -> p.getId() == pet2.getId() && p.getName() == pet2.getName())
-        and: "The third pet was sold and should not be present in available pets"
-        available.stream().allMatch(p -> p.getId() != pet3.getId())
-
-        // Sold pets
-        and: "The third added pet should be present in the sold pets"
-        sold.stream().anyMatch(p -> p.getId() == pet3.getId() && p.getName() == pet3.getName())
-        and: "The first pet was sold and should not be present in available pets"
-        sold.stream().allMatch(p -> p.getId() != pet.getId())
-        and: "The second pet was sold and should not be present in available pets"
-        sold.stream().allMatch(p -> p.getId() != pet2.getId())
-
-        // Both pets
-        // The formatting of query needs to be correct for this one
-        and: "The third pet should be present in all the pets and match the added pet"
-        Pet receivedPet3 = both.stream().filter(p -> p.getId() == pet3.getId()).findFirst().orElse(null)
-        receivedPet3 != null
-        pet3 == receivedPet3
-        and: "The second added pet should be present in the all pets"
-        both.stream().anyMatch(p -> p.getId() == pet2.getId() && p.getName() == pet2.getName())
-        and: "The first added pet should be present in the all pets"
-        both.stream().anyMatch(p -> p.getId() == pet.getId() && p.getName() == pet.getName())
+        true
+        // TODO: test validations
     }
 
-    void "delete non-existing pet error test"() {
+    
+    /**
+     * Finds Pets by tags
+     *
+     * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+     */
+    @Ignore("Not Implemented")
+    void 'findPetsByTags() test'() {
+        given:
+        Set<String> tags = [].asSet()
+
         when:
-        api.deletePet(-1L, "special-key").block()
+        Set<Pet> body = api.findPetsByTags(tags).block()
 
         then:
-        var e = thrown(HttpClientResponseException.class)
-        e.getMessage() == "Not Found"
+        true
+        // TODO: test validations
     }
 
-    void "add and delete pet test"() {
+    
+    /**
+     * Find pet by ID
+     *
+     * Returns a single pet
+     */
+    @Ignore("Not Implemented")
+    void 'getPetById() test'() {
         given:
-        List<String> status = ["available"]
-
-        List<Pet> initialPets = api.findPetsByStatus(status).block()
+        Long petId = 56L
 
         when:
-        Pet pet1 = new Pet().id(101L).name("Bob").status(Pet.StatusEnum.AVAILABLE)
-        Pet pet2 = new Pet().id(103L).name("Rat").status(Pet.StatusEnum.AVAILABLE)
-        api.addPet(pet1).block()
-        api.addPet(pet2).block()
+        Pet body = api.getPetById(petId).block()
 
-        List<Pet> pets = api.findPetsByStatus(status).block()
-
-        then: "The 2 pets should have been added correctly"
-        pets != null
-        pets.size() - initialPets.size() == 2
-        pets.stream().anyMatch(p -> p.getId() == pet1.getId() && p.getName() == pet1.getName())
-        pets.stream().anyMatch(p -> p.getId() == pet2.getId() && p.getName() == pet2.getName())
-
-        when:
-        api.deletePet(pet1.getId(), "special-key").block()
-        api.deletePet(pet2.getId(), "special-key").block()
-
-        List<Pet> finalPets = api.findPetsByStatus(status).block()
-
-        then: "The 2 pets should have been deleted"
-        finalPets != null
-        pets.size() - finalPets.size() == 2
-        finalPets.stream().allMatch(p -> p.getId() != pet1.getId())
-        finalPets.stream().allMatch(p -> p.getId() != pet2.getId())
+        then:
+        true
+        // TODO: test validations
     }
 
+    
     /**
      * Update an existing pet
      */
-    void "updatePet() test"() {
+    @Ignore("Not Implemented")
+    void 'updatePet() test'() {
         given:
-        Pet pet = new Pet().id(1L).name("Jazz")
+        Pet _body = new Pet()
 
         when:
-        api.updatePet(pet).block()
+        api.updatePet(_body).block()
 
-        then: "The pet should be available and match the updates"
-        Pet received = api.getPetById(1L).block()
-        pet.getId() == received.getId()
-        pet.getName() == received.getName()
+        then:
+        true
+        // TODO: test validations
     }
 
-
+    
     /**
      * Updates a pet in the store with form data
      */
-    void "updatePetWithForm() test"() {
+    @Ignore("Not Implemented")
+    void 'updatePetWithForm() test'() {
         given:
-        Long petId = 2L
-        String name = "Jack the Bull"
-        String status = "sold"
+        Long petId = 56L
+        String name = 'example'
+        String status = 'example'
 
         when:
         api.updatePetWithForm(petId, name, status).block()
 
         then:
-        Pet pet = api.getPetById(2L).block()
-        petId == pet.getId()
-        name == pet.getName()
-        status == pet.getStatus().toString()
+        true
+        // TODO: test validations
     }
 
-
+    
     /**
      * uploads an image
      */
-    void "upload file test"() throws IOException {
+    @Ignore("Not Implemented")
+    void 'uploadFile() test'() {
         given:
-        Long petId = 2L
-        String additionalMetadata = "a test file"
-
-        File file = new File("hello.txt")
-        BufferedWriter writer = new BufferedWriter(new FileWriter(file))
-        writer.write("Hello world!")
-        writer.close()
+        Long petId = 56L
+        String additionalMetadata = 'example'
+        File _file = null
 
         when:
-        api.uploadFile(petId, additionalMetadata, new File(file.getAbsolutePath()))
+        ModelApiResponse body = api.uploadFile(petId, additionalMetadata, _file).block()
 
         then:
-        notThrown()
+        true
+        // TODO: test validations
     }
 
-    @Ignore("Issue reported in https://github.com/micronaut-projects/micronaut-jackson-xml/issues/175")
-    void "findPetByTags() test"() {
+    
+    /**
+     * uploads an image (required)
+     */
+    @Ignore("Not Implemented")
+    void 'uploadFileWithRequiredFile() test'() {
         given:
-        Tag tag = new Tag().name("cute").id(2L)
-
-        Pet pet1 = new Pet().id(2000L).name("Conor").category(new Category().name("cats").id(10L))
-                .photoUrls([].toSet()).tags([tag])
-        Pet pet2 = new Pet().id(2001L).name("Mike").category(new Category().name("dogs").id(10L))
-                .photoUrls([].toSet()).tags([tag])
+        Long petId = 56L
+        File requiredFile = null
+        String additionalMetadata = 'example'
 
         when:
-        api.addPet(pet1).block()
-        api.addPet(pet2).block()
+        ModelApiResponse body = api.uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata).block()
 
-        then: "The 2 pets should be successfully found with the given tag"
-        Set<Pet> pets = api.findPetsByTags([tag.getName()].toSet()).block()
-
-        pets.stream().allMatch(p -> p.getTags().contains(tag))
-
-        Pet receivedPet1 = pets.stream().filter(p -> p.getId() == pet1.getId()).findFirst().orElse(null)
-        Pet receivedPet2 = pets.stream().filter(p -> p.getId() == pet2.getId()).findFirst().orElse(null)
-        receivedPet1 != null
-        receivedPet2 != null
-        pet1 == receivedPet1
-        pet2 == receivedPet2
+        then:
+        true
+        // TODO: test validations
     }
+
+    
 }

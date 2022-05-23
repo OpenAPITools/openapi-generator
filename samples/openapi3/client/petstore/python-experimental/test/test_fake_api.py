@@ -81,6 +81,13 @@ class TestFakeApi(unittest.TestCase):
         """
         pass
 
+    def test_delete_coffee(self):
+        """Test case for delete_coffee
+
+        Delete coffee  # noqa: E501
+        """
+        pass
+
     def test_endpoint_parameters(self):
         """Test case for endpoint_parameters
 

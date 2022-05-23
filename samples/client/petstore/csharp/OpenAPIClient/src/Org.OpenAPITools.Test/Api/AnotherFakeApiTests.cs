@@ -1,4 +1,4 @@
-/* 
+/*
  * OpenAPI Petstore
  *
  * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
@@ -70,8 +70,8 @@ namespace Org.OpenAPITools.Test
         public void Call123TestSpecialTagsTest()
         {
             // TODO uncomment below to test the method and replace null with proper value
-            //ModelClient body = null;
-            //var response = instance.Call123TestSpecialTags(body);
+            //ModelClient modelClient = null;
+            //var response = instance.Call123TestSpecialTags(modelClient);
             //Assert.IsInstanceOf(typeof(ModelClient), response, "response is ModelClient");
         }
         

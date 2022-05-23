@@ -61,6 +61,7 @@ docs/User.md
 docs/UserApi.md
 git_push.sh
 mono_nunit_test.sh
+src/Org.OpenAPITools.Test/Org.OpenAPITools.Test.csproj
 src/Org.OpenAPITools.Test/packages.config
 src/Org.OpenAPITools/Api/AnotherFakeApi.cs
 src/Org.OpenAPITools/Api/DefaultApi.cs

@@ -1,12 +1,19 @@
 package org.openapitools.client.api;
 
+import org.openapitools.client.ApiClient;
+import java.io.File;
+import org.openapitools.client.model.ModelApiResponse;
+import org.openapitools.client.model.Pet;
+import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
-import org.openapitools.client.ApiClient;
-import org.openapitools.client.model.Pet;
 
-import java.io.File;
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * API tests for PetApi
@@ -23,19 +30,19 @@ public class PetApiTest {
     /**
      * Add a new pet to the store
      *
-     *
+     * 
      */
     @Test
     public void addPetTest() {
-        Pet pet = null;
-        // api.addPet(pet);
+        Pet body = null;
+        // api.addPet(body);
 
         // TODO: test validations
     }
     /**
      * Deletes a pet
      *
-     *
+     * 
      */
     @Test
     public void deletePetTest() {
@@ -64,8 +71,8 @@ public class PetApiTest {
      */
     @Test
     public void findPetsByTagsTest() {
-        List<String> tags = null;
-        // List<Pet> response = api.findPetsByTags(tags);
+        Set<String> tags = null;
+        // Set<Pet> response = api.findPetsByTags(tags);
 
         // TODO: test validations
     }
@@ -84,19 +91,19 @@ public class PetApiTest {
     /**
      * Update an existing pet
      *
-     *
+     * 
      */
     @Test
     public void updatePetTest() {
-        Pet pet = null;
-        // api.updatePet(pet);
+        Pet body = null;
+        // api.updatePet(body);
 
         // TODO: test validations
     }
     /**
      * Updates a pet in the store with form data
      *
-     *
+     * 
      */
     @Test
     public void updatePetWithFormTest() {
@@ -110,21 +117,21 @@ public class PetApiTest {
     /**
      * uploads an image
      *
-     *
+     * 
      */
     @Test
     public void uploadFileTest() {
         Long petId = null;
         String additionalMetadata = null;
-        File file = null;
-        // ModelApiResponse response = api.uploadFile(petId, additionalMetadata, file);
+        File _file = null;
+        // ModelApiResponse response = api.uploadFile(petId, additionalMetadata, _file);
 
         // TODO: test validations
     }
     /**
      * uploads an image (required)
      *
-     *
+     * 
      */
     @Test
     public void uploadFileWithRequiredFileTest() {

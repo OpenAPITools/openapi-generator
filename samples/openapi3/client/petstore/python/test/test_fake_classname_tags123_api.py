@@ -11,7 +11,7 @@
 import unittest
 
 import petstore_api
-from petstore_api.api.fake_classname_tags_123_api import FakeClassnameTags123Api  # noqa: E501
+from petstore_api.api.fake_classname_tags123_api import FakeClassnameTags123Api  # noqa: E501
 
 
 class TestFakeClassnameTags123Api(unittest.TestCase):

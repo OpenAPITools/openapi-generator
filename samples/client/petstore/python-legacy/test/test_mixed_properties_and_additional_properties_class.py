@@ -36,11 +36,11 @@ class TestMixedPropertiesAndAdditionalPropertiesClass(unittest.TestCase):
         # model = petstore_api.models.mixed_properties_and_additional_properties_class.MixedPropertiesAndAdditionalPropertiesClass()  # noqa: E501
         if include_optional :
             return MixedPropertiesAndAdditionalPropertiesClass(
-                uuid = '0', 
+                uuid = '', 
                 date_time = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
                 map = {
                     'key' : petstore_api.models.animal.Animal(
-                        class_name = '0', 
+                        class_name = '', 
                         color = 'red', )
                     }
             )
@@ -52,7 +52,6 @@ class TestMixedPropertiesAndAdditionalPropertiesClass(unittest.TestCase):
         """Test MixedPropertiesAndAdditionalPropertiesClass"""
         inst_req_only = self.make_instance(include_optional=False)
         inst_req_and_optional = self.make_instance(include_optional=True)
-
 
 if __name__ == '__main__':
     unittest.main()

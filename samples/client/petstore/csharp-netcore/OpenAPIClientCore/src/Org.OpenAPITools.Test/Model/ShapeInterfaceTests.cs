@@ -20,7 +20,7 @@ using Org.OpenAPITools.Client;
 using System.Reflection;
 using Newtonsoft.Json;
 
-namespace Org.OpenAPITools.Test
+namespace Org.OpenAPITools.Test.Model
 {
     /// <summary>
     ///  Class for testing ShapeInterface
@@ -51,8 +51,8 @@ namespace Org.OpenAPITools.Test
         [Fact]
         public void ShapeInterfaceInstanceTest()
         {
-            // TODO uncomment below to test "IsInstanceOfType" ShapeInterface
-            //Assert.IsInstanceOfType<ShapeInterface> (instance, "variable 'instance' is a ShapeInterface");
+            // TODO uncomment below to test "IsType" ShapeInterface
+            //Assert.IsType<ShapeInterface>(instance);
         }
 
 

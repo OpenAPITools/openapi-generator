@@ -1,4 +1,4 @@
-/* 
+/*
  * OpenAPI Petstore
  *
  * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
@@ -104,6 +104,30 @@ namespace Org.OpenAPITools.Test
         public void OuterEnumTest()
         {
             // TODO unit test for the property 'OuterEnum'
+        }
+        /// <summary>
+        /// Test the property 'OuterEnumInteger'
+        /// </summary>
+        [Test]
+        public void OuterEnumIntegerTest()
+        {
+            // TODO unit test for the property 'OuterEnumInteger'
+        }
+        /// <summary>
+        /// Test the property 'OuterEnumDefaultValue'
+        /// </summary>
+        [Test]
+        public void OuterEnumDefaultValueTest()
+        {
+            // TODO unit test for the property 'OuterEnumDefaultValue'
+        }
+        /// <summary>
+        /// Test the property 'OuterEnumIntegerDefaultValue'
+        /// </summary>
+        [Test]
+        public void OuterEnumIntegerDefaultValueTest()
+        {
+            // TODO unit test for the property 'OuterEnumIntegerDefaultValue'
         }
 
     }

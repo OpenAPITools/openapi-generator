@@ -1,4 +1,4 @@
-/* 
+/*
  * OpenAPI Petstore
  *
  * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
@@ -105,8 +105,8 @@ namespace Org.OpenAPITools.Test
         public void PlaceOrderTest()
         {
             // TODO uncomment below to test the method and replace null with proper value
-            //Order body = null;
-            //var response = instance.PlaceOrder(body);
+            //Order order = null;
+            //var response = instance.PlaceOrder(order);
             //Assert.IsInstanceOf(typeof(Order), response, "response is Order");
         }
         

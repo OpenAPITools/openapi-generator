@@ -4,9 +4,12 @@ import org.openapitools.client.ApiClient;
 import java.io.File;
 import org.openapitools.client.model.ModelApiResponse;
 import org.openapitools.client.model.Pet;
+import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -31,8 +34,8 @@ public class PetApiTest {
      */
     @Test
     public void addPetTest() {
-        Pet pet = null;
-        // api.addPet(pet);
+        Pet body = null;
+        // api.addPet(body);
 
         // TODO: test validations
     }
@@ -68,8 +71,8 @@ public class PetApiTest {
      */
     @Test
     public void findPetsByTagsTest() {
-        List<String> tags = null;
-        // List<Pet> response = api.findPetsByTags(tags);
+        Set<String> tags = null;
+        // Set<Pet> response = api.findPetsByTags(tags);
 
         // TODO: test validations
     }
@@ -92,8 +95,8 @@ public class PetApiTest {
      */
     @Test
     public void updatePetTest() {
-        Pet pet = null;
-        // api.updatePet(pet);
+        Pet body = null;
+        // api.updatePet(body);
 
         // TODO: test validations
     }
@@ -120,8 +123,22 @@ public class PetApiTest {
     public void uploadFileTest() {
         Long petId = null;
         String additionalMetadata = null;
-        File file = null;
-        // ModelApiResponse response = api.uploadFile(petId, additionalMetadata, file);
+        File _file = null;
+        // ModelApiResponse response = api.uploadFile(petId, additionalMetadata, _file);
+
+        // TODO: test validations
+    }
+    /**
+     * uploads an image (required)
+     *
+     * 
+     */
+    @Test
+    public void uploadFileWithRequiredFileTest() {
+        Long petId = null;
+        File requiredFile = null;
+        String additionalMetadata = null;
+        // ModelApiResponse response = api.uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata);
 
         // TODO: test validations
     }

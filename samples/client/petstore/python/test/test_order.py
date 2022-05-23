@@ -1,5 +1,3 @@
-# coding: utf-8
-
 """
     OpenAPI Petstore
 
@@ -10,7 +8,6 @@
 """
 
 
-from __future__ import absolute_import
 import sys
 import unittest
 
@@ -29,12 +26,9 @@ class TestOrder(unittest.TestCase):
 
     def testOrder(self):
         """Test Order"""
-        order = Order()
-        order.status = "placed"
-        self.assertEqual("placed", order.status)
-        with self.assertRaises(petstore_api.ApiValueError):
-            order.status = "invalid"
-
+        # FIXME: construct object with mandatory attributes with example values
+        # model = Order()  # noqa: E501
+        pass
 
 
 if __name__ == '__main__':

@@ -20,7 +20,7 @@ using Org.OpenAPITools.Client;
 using System.Reflection;
 using Newtonsoft.Json;
 
-namespace Org.OpenAPITools.Test
+namespace Org.OpenAPITools.Test.Model
 {
     /// <summary>
     ///  Class for testing ParentPet
@@ -51,10 +51,19 @@ namespace Org.OpenAPITools.Test
         [Fact]
         public void ParentPetInstanceTest()
         {
-            // TODO uncomment below to test "IsInstanceOfType" ParentPet
-            //Assert.IsInstanceOfType<ParentPet> (instance, "variable 'instance' is a ParentPet");
+            // TODO uncomment below to test "IsType" ParentPet
+            //Assert.IsType<ParentPet>(instance);
         }
 
+        /// <summary>
+        /// Test deserialize a ChildCat from type ParentPet
+        /// </summary>
+        [Fact]
+        public void ChildCatDeserializeFromParentPetTest()
+        {
+            // TODO uncomment below to test deserialize a ChildCat from type ParentPet
+            //Assert.IsType<ParentPet>(JsonConvert.DeserializeObject<ParentPet>(new ChildCat().ToJson()));
+        }
 
 
     }

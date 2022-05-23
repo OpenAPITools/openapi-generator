@@ -71,11 +71,11 @@
       <artifactId>akka-http-json4s_2.12</artifactId>
       <version>${akka.http.json4s.version}</version>
     </dependency>
-    <dependency>
+  <dependency>
       <groupId>org.scala-lang.modules</groupId>
       <artifactId>scala-collection-compat_2.12</artifactId>
       <version>${scala.compat.version}</version>
-    </dependency>
+  </dependency>
 
     <!--test dependencies-->
     <dependency>
@@ -102,7 +102,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
-        <version>3.0.0</version>
+        <version>3.3.2</version>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -254,28 +254,6 @@
             <jvmArg>-Xmx1500m</jvmArg>
           </jvmArgs>
         </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>exec-maven-plugin</artifactId>
-        <version>1.5.0</version>
-        <executions>
-          <execution>
-            <id>sbt-test</id>
-            <phase>integration-test</phase>
-            <goals>
-              <goal>exec</goal>
-            </goals>
-            <configuration>
-              <executable>sbt</executable>
-              <arguments>
-                <argument>-ivy</argument>
-                <argument>${user.home}/.ivy2</argument>
-                <argument>test</argument>
-              </arguments>
-            </configuration>
-          </execution>
-        </executions>
       </plugin>
     </plugins>
   </build>

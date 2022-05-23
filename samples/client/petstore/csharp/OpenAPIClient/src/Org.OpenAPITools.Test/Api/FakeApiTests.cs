@@ -1,4 +1,4 @@
-/* 
+/*
  * OpenAPI Petstore
  *
  * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
@@ -64,14 +64,27 @@ namespace Org.OpenAPITools.Test
 
         
         /// <summary>
-        /// Test CreateXmlItem
+        /// Test FakeHealthGet
         /// </summary>
         [Test]
-        public void CreateXmlItemTest()
+        public void FakeHealthGetTest()
         {
             // TODO uncomment below to test the method and replace null with proper value
-            //XmlItem xmlItem = null;
-            //instance.CreateXmlItem(xmlItem);
+            //var response = instance.FakeHealthGet();
+            //Assert.IsInstanceOf(typeof(HealthCheckResult), response, "response is HealthCheckResult");
+        }
+        
+        /// <summary>
+        /// Test FakeHttpSignatureTest
+        /// </summary>
+        [Test]
+        public void FakeHttpSignatureTestTest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //Pet pet = null;
+            //string query1 = null;
+            //string header1 = null;
+            //instance.FakeHttpSignatureTest(pet, query1, header1);
             
         }
         
@@ -94,8 +107,8 @@ namespace Org.OpenAPITools.Test
         public void FakeOuterCompositeSerializeTest()
         {
             // TODO uncomment below to test the method and replace null with proper value
-            //OuterComposite body = null;
-            //var response = instance.FakeOuterCompositeSerialize(body);
+            //OuterComposite outerComposite = null;
+            //var response = instance.FakeOuterCompositeSerialize(outerComposite);
             //Assert.IsInstanceOf(typeof(OuterComposite), response, "response is OuterComposite");
         }
         
@@ -124,14 +137,38 @@ namespace Org.OpenAPITools.Test
         }
         
         /// <summary>
+        /// Test FakePropertyEnumIntegerSerialize
+        /// </summary>
+        [Test]
+        public void FakePropertyEnumIntegerSerializeTest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //OuterObjectWithEnumProperty outerObjectWithEnumProperty = null;
+            //var response = instance.FakePropertyEnumIntegerSerialize(outerObjectWithEnumProperty);
+            //Assert.IsInstanceOf(typeof(OuterObjectWithEnumProperty), response, "response is OuterObjectWithEnumProperty");
+        }
+        
+        /// <summary>
+        /// Test TestBodyWithBinary
+        /// </summary>
+        [Test]
+        public void TestBodyWithBinaryTest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //System.IO.Stream body = null;
+            //instance.TestBodyWithBinary(body);
+            
+        }
+        
+        /// <summary>
         /// Test TestBodyWithFileSchema
         /// </summary>
         [Test]
         public void TestBodyWithFileSchemaTest()
         {
             // TODO uncomment below to test the method and replace null with proper value
-            //FileSchemaTestClass body = null;
-            //instance.TestBodyWithFileSchema(body);
+            //FileSchemaTestClass fileSchemaTestClass = null;
+            //instance.TestBodyWithFileSchema(fileSchemaTestClass);
             
         }
         
@@ -143,8 +180,8 @@ namespace Org.OpenAPITools.Test
         {
             // TODO uncomment below to test the method and replace null with proper value
             //string query = null;
-            //User body = null;
-            //instance.TestBodyWithQueryParams(query, body);
+            //User user = null;
+            //instance.TestBodyWithQueryParams(query, user);
             
         }
         
@@ -155,8 +192,8 @@ namespace Org.OpenAPITools.Test
         public void TestClientModelTest()
         {
             // TODO uncomment below to test the method and replace null with proper value
-            //ModelClient body = null;
-            //var response = instance.TestClientModel(body);
+            //ModelClient modelClient = null;
+            //var response = instance.TestClientModel(modelClient);
             //Assert.IsInstanceOf(typeof(ModelClient), response, "response is ModelClient");
         }
         
@@ -198,9 +235,10 @@ namespace Org.OpenAPITools.Test
             //string enumQueryString = null;
             //int? enumQueryInteger = null;
             //double? enumQueryDouble = null;
+            //List<EnumClass> enumQueryModelArray = null;
             //List<string> enumFormStringArray = null;
             //string enumFormString = null;
-            //instance.TestEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString);
+            //instance.TestEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString);
             
         }
         
@@ -228,8 +266,8 @@ namespace Org.OpenAPITools.Test
         public void TestInlineAdditionalPropertiesTest()
         {
             // TODO uncomment below to test the method and replace null with proper value
-            //Dictionary<string, string> param = null;
-            //instance.TestInlineAdditionalProperties(param);
+            //Dictionary<string, string> requestBody = null;
+            //instance.TestInlineAdditionalProperties(requestBody);
             
         }
         
@@ -258,7 +296,9 @@ namespace Org.OpenAPITools.Test
             //List<string> http = null;
             //List<string> url = null;
             //List<string> context = null;
-            //instance.TestQueryParameterCollectionFormat(pipe, ioutil, http, url, context);
+            //string allowEmpty = null;
+            //Dictionary<string, string> language = null;
+            //instance.TestQueryParameterCollectionFormat(pipe, ioutil, http, url, context, allowEmpty, language);
             
         }
         

@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 
 /**
@@ -170,9 +171,9 @@ public class PetApiTest {
     public void uploadFileTest() throws ApiException {
         Long petId = null;
         String additionalMetadata = null;
-        File file = null;
+        File _file = null;
         ModelApiResponse response = 
-        api.uploadFile(petId, additionalMetadata, file);
+        api.uploadFile(petId, additionalMetadata, _file);
         
         // TODO: test validations
     }

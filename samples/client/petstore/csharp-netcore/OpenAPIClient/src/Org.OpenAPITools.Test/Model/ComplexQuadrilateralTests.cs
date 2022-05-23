@@ -20,7 +20,7 @@ using Org.OpenAPITools.Client;
 using System.Reflection;
 using Newtonsoft.Json;
 
-namespace Org.OpenAPITools.Test
+namespace Org.OpenAPITools.Test.Model
 {
     /// <summary>
     ///  Class for testing ComplexQuadrilateral
@@ -51,8 +51,8 @@ namespace Org.OpenAPITools.Test
         [Fact]
         public void ComplexQuadrilateralInstanceTest()
         {
-            // TODO uncomment below to test "IsInstanceOfType" ComplexQuadrilateral
-            //Assert.IsInstanceOfType<ComplexQuadrilateral> (instance, "variable 'instance' is a ComplexQuadrilateral");
+            // TODO uncomment below to test "IsType" ComplexQuadrilateral
+            //Assert.IsType<ComplexQuadrilateral>(instance);
         }
 
 

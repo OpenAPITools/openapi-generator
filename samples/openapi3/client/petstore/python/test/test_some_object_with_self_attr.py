@@ -26,9 +26,9 @@ class TestSomeObjectWithSelfAttr(unittest.TestCase):
 
     def testSomeObjectWithSelfAttr(self):
         """Test SomeObjectWithSelfAttr"""
-        kwargs = {"self": "this is a string", "_spec_property_naming": True}
-        model = SomeObjectWithSelfAttr(**kwargs)
-        assert model._self == "this is a string"
+        # FIXME: construct object with mandatory attributes with example values
+        # model = SomeObjectWithSelfAttr()  # noqa: E501
+        pass
 
 
 if __name__ == '__main__':
