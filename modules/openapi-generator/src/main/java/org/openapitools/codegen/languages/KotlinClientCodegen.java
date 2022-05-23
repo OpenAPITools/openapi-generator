@@ -83,6 +83,8 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
     public static final String SUPPORT_ANDROID_API_LEVEL_25_AND_BELLOW = "supportAndroidApiLevel25AndBelow";
 
+    public static final String GENERATE_CUSTOM_JSON_DESERIALIZERS = "generateCustomJSONDeserializers";
+
     protected static final String VENDOR_EXTENSION_BASE_NAME_LITERAL = "x-base-name-literal";
 
     protected String dateLibrary = DateLibrary.JAVA8.value;
@@ -92,6 +94,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     protected boolean useRxJava2 = false;
     protected boolean useRxJava3 = false;
     protected boolean useCoroutines = false;
+    protected boolean generateCustomJSONDeserializers = false;
     // backwards compatibility for openapi configs that specify neither rx1 nor rx2
     // (mustache does not allow for boolean operators so we need this extra field)
     protected boolean doNotUseRxAndCoroutines = true;
@@ -243,6 +246,8 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         cliOptions.add(CliOption.newBoolean(GENERATE_ROOM_MODELS, "Generate Android Room database models in addition to API models (JVM Volley library only)", false));
 
         cliOptions.add(CliOption.newBoolean(SUPPORT_ANDROID_API_LEVEL_25_AND_BELLOW, "[WARNING] This flag will generate code that has a known security vulnerability. It uses `kotlin.io.createTempFile` instead of `java.nio.file.Files.createTempFile` in order to support Android API level 25 and bellow. For more info, please check the following links https://github.com/OpenAPITools/openapi-generator/security/advisories/GHSA-23x4-m842-fmwf, https://github.com/OpenAPITools/openapi-generator/pull/9284"));
+
+        cliOptions.add(CliOption.newBoolean(GENERATE_CUSTOM_JSON_DESERIALIZERS, "Wheter to generate custom JSON deserializers for models."));
     }
 
     public CodegenType getTag() {
@@ -330,6 +335,14 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
     public void setRoomModelPackage(String roomModelPackage) {
         this.roomModelPackage = roomModelPackage;
+    }
+
+    public boolean getGenerateCustomJSONDeserializers() {
+        return generateCustomJSONDeserializers;
+    }
+
+    public void setGenerateCustomJSONDeserializers(boolean generateCustomJSONDeserializers) {
+        this.generateCustomJSONDeserializers = generateCustomJSONDeserializers;
     }
 
     @Override
@@ -482,6 +495,18 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
             if (ProcessUtils.hasHttpBasicMethods(openAPI)) {
                 supportingFiles.add(new SupportingFile("auth/HttpBasicAuth.kt.mustache", authFolder, "HttpBasicAuth.kt"));
+            }
+        }
+
+        if(additionalProperties.containsKey(GENERATE_CUSTOM_JSON_DESERIALIZERS)) {
+            if(getSerializationLibrary().equals(SERIALIZATION_LIBRARY_TYPE.jackson)) {
+                this.setGenerateCustomJSONDeserializers(Boolean.parseBoolean(additionalProperties.get(GENERATE_CUSTOM_JSON_DESERIALIZERS).toString()));
+            }
+            else {
+                if(Boolean.parseBoolean(additionalProperties.get(GENERATE_CUSTOM_JSON_DESERIALIZERS).toString())){
+                    LOGGER.warn("Generating custom JSON deserializers is only supported with Jackson serialization.");
+                }
+                setGenerateCustomJSONDeserializers(false);
             }
         }
     }
@@ -776,7 +801,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
         for (ModelMap mo : objects.getModels()) {
             CodegenModel cm = mo.getModel();
-            if (getGenerateRoomModels()) {
+            if (getGenerateRoomModels() || getGenerateCustomJSONDeserializers()) {
                 cm.vendorExtensions.put("x-has-data-class-body", true);
             }
 

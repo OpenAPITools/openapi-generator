@@ -14,6 +14,14 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonSubTypes
 import com.fasterxml.jackson.annotation.JsonTypeInfo
 {{/discriminator}}
+{{#generateCustomJSONDeserializers}}
+import com.fasterxml.jackson.core.JsonParser
+import com.fasterxml.jackson.core.JsonToken
+import com.fasterxml.jackson.databind.DeserializationContext
+import com.fasterxml.jackson.databind.JsonDeserializer
+import com.fasterxml.jackson.databind.type.*
+
+{{/generateCustomJSONDeserializers}}
 {{/jackson}}
 {{#kotlinx_serialization}}
 import {{#serializableModel}}kotlinx.serialization.Serializable as KSerializable{{/serializableModel}}{{^serializableModel}}kotlinx.serialization.Serializable{{/serializableModel}}
@@ -142,6 +150,11 @@ import {{packageName}}.infrastructure.ITransformForStorage
 {{/isEnum}}
 {{/vars}}
 {{/hasEnums}}
+{{#jackson}}
+{{#generateCustomJSONDeserializers}}
+{{>jackson_deserializer}}
+{{/generateCustomJSONDeserializers}}
+{{/jackson}}
 {{#vendorExtensions.x-has-data-class-body}}
 }
 {{/vendorExtensions.x-has-data-class-body}}
