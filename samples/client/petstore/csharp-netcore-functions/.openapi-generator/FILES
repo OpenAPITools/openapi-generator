@@ -1,4 +1,3 @@
-Org.OpenAPITools.sln
 README.md
 build.bat
 build.sh
@@ -14,6 +13,5 @@ src/Org.OpenAPITools/Models/Pet.cs
 src/Org.OpenAPITools/Models/Tag.cs
 src/Org.OpenAPITools/Models/User.cs
 src/Org.OpenAPITools/OpenApi/TypeExtensions.cs
-src/Org.OpenAPITools/Org.OpenAPITools.csproj
 src/Org.OpenAPITools/host.json
 src/Org.OpenAPITools/local.settings.json
