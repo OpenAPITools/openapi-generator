@@ -59,6 +59,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
      */
     public function tearDown(): void
     {
+        static::ensureKernelShutdown();
     }
 
     /**
