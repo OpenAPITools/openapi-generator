@@ -4623,7 +4623,7 @@ public class DefaultCodegen implements CodegenConfig {
                 // $ref (e.g. #components/schemas/Pet) to determine whether it's a model
                 prop = fromProperty(parameter.getName(), parameterSchema);
             } else if (getUseInlineModelResolver()) {
-                prop = fromProperty(parameter.getName(), ModelUtils.getReferencedSchema(openAPI, parameterSchema));
+                prop = fromProperty(parameter.getName(), getReferencedSchemaWhenNotEnum(parameterSchema));
             } else {
                 prop = fromProperty(parameter.getName(), parameterSchema);
             }
@@ -4671,7 +4671,7 @@ public class DefaultCodegen implements CodegenConfig {
         if (getUseInlineModelResolver() && !(this instanceof RustServerCodegen)) {
             // for rust server, we cannot run the following as it uses
             // $ref (e.g. #components/schemas/Pet) to determine whether it's a model
-            parameterSchema = ModelUtils.getReferencedSchema(openAPI, parameterSchema);
+            parameterSchema = getReferencedSchemaWhenNotEnum(parameterSchema);
         }
 
         ModelUtils.syncValidationProperties(parameterSchema, codegenParameter);
@@ -4846,6 +4846,14 @@ public class DefaultCodegen implements CodegenConfig {
 
         finishUpdatingParameter(codegenParameter, parameter);
         return codegenParameter;
+    }
+
+    private Schema getReferencedSchemaWhenNotEnum(Schema parameterSchema) {
+        Schema referencedSchema = ModelUtils.getReferencedSchema(openAPI, parameterSchema);
+        if (referencedSchema.getEnum() != null && !referencedSchema.getEnum().isEmpty()) {
+            referencedSchema = parameterSchema;
+        }
+        return referencedSchema;
     }
 
     /**
