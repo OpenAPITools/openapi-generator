@@ -1,7 +1,7 @@
 <?php
 /**
  * UserApiInterfaceTest
- * PHP version 7.1.3
+ * PHP version 8.1.1
  *
  * @category Class
  * @package  OpenAPI\Server\Tests\Api
@@ -32,6 +32,7 @@ use OpenAPI\Server\Configuration;
 use OpenAPI\Server\ApiClient;
 use OpenAPI\Server\ApiException;
 use OpenAPI\Server\ObjectSerializer;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
@@ -44,6 +45,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  */
 class UserApiInterfaceTest extends WebTestCase
 {
+    private static ?KernelBrowser $client = null;
 
     /**
      * Setup before running any test cases
@@ -57,6 +59,9 @@ class UserApiInterfaceTest extends WebTestCase
      */
     public function setUp(): void
     {
+        if (null === self::$client) {
+            self::$client = static::createClient();
+        }
     }
 
     /**
@@ -64,6 +69,7 @@ class UserApiInterfaceTest extends WebTestCase
      */
     public function tearDown(): void
     {
+        static::ensureKernelShutdown();
     }
 
     /**
@@ -81,7 +87,7 @@ class UserApiInterfaceTest extends WebTestCase
      */
     public function testCreateUser()
     {
-        $client = static::createClient();
+        $client = self::$client;
 
         $path = '/user';
 
@@ -96,7 +102,7 @@ class UserApiInterfaceTest extends WebTestCase
      */
     public function testCreateUsersWithArrayInput()
     {
-        $client = static::createClient();
+        $client = self::$client;
 
         $path = '/user/createWithArray';
 
@@ -111,7 +117,7 @@ class UserApiInterfaceTest extends WebTestCase
      */
     public function testCreateUsersWithListInput()
     {
-        $client = static::createClient();
+        $client = self::$client;
 
         $path = '/user/createWithList';
 
@@ -126,7 +132,7 @@ class UserApiInterfaceTest extends WebTestCase
      */
     public function testDeleteUser()
     {
-        $client = static::createClient();
+        $client = self::$client;
 
         $path = '/user/{username}';
         $pattern = '{username}';
@@ -144,7 +150,7 @@ class UserApiInterfaceTest extends WebTestCase
      */
     public function testGetUserByName()
     {
-        $client = static::createClient();
+        $client = self::$client;
 
         $path = '/user/{username}';
         $pattern = '{username}';
@@ -162,7 +168,7 @@ class UserApiInterfaceTest extends WebTestCase
      */
     public function testLoginUser()
     {
-        $client = static::createClient();
+        $client = self::$client;
 
         $path = '/user/login';
 
@@ -177,7 +183,7 @@ class UserApiInterfaceTest extends WebTestCase
      */
     public function testLogoutUser()
     {
-        $client = static::createClient();
+        $client = self::$client;
 
         $path = '/user/logout';
 
@@ -192,7 +198,7 @@ class UserApiInterfaceTest extends WebTestCase
      */
     public function testUpdateUser()
     {
-        $client = static::createClient();
+        $client = self::$client;
 
         $path = '/user/{username}';
         $pattern = '{username}';
@@ -209,6 +215,6 @@ class UserApiInterfaceTest extends WebTestCase
         $ast      = $compiler->parse($regexp);
         $generator = new \Hoa\Regex\Visitor\Isotropic(new \Hoa\Math\Sampler\Random());
 
-        return $generator->visit($ast); 
+        return $generator->visit($ast);
     }
 }

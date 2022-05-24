@@ -1,7 +1,7 @@
 <?php
 /**
  * StoreApiInterfaceTest
- * PHP version 7.1.3
+ * PHP version 8.1.1
  *
  * @category Class
  * @package  OpenAPI\Server\Tests\Api
@@ -32,6 +32,7 @@ use OpenAPI\Server\Configuration;
 use OpenAPI\Server\ApiClient;
 use OpenAPI\Server\ApiException;
 use OpenAPI\Server\ObjectSerializer;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
@@ -44,6 +45,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  */
 class StoreApiInterfaceTest extends WebTestCase
 {
+    private static ?KernelBrowser $client = null;
 
     /**
      * Setup before running any test cases
@@ -57,6 +59,9 @@ class StoreApiInterfaceTest extends WebTestCase
      */
     public function setUp(): void
     {
+        if (null === self::$client) {
+            self::$client = static::createClient();
+        }
     }
 
     /**
@@ -64,6 +69,7 @@ class StoreApiInterfaceTest extends WebTestCase
      */
     public function tearDown(): void
     {
+        static::ensureKernelShutdown();
     }
 
     /**
@@ -81,7 +87,7 @@ class StoreApiInterfaceTest extends WebTestCase
      */
     public function testDeleteOrder()
     {
-        $client = static::createClient();
+        $client = self::$client;
 
         $path = '/store/order/{orderId}';
         $pattern = '{orderId}';
@@ -99,7 +105,7 @@ class StoreApiInterfaceTest extends WebTestCase
      */
     public function testGetInventory()
     {
-        $client = static::createClient();
+        $client = self::$client;
 
         $path = '/store/inventory';
 
@@ -114,7 +120,7 @@ class StoreApiInterfaceTest extends WebTestCase
      */
     public function testGetOrderById()
     {
-        $client = static::createClient();
+        $client = self::$client;
 
         $path = '/store/order/{orderId}';
         $pattern = '{orderId}';
@@ -132,7 +138,7 @@ class StoreApiInterfaceTest extends WebTestCase
      */
     public function testPlaceOrder()
     {
-        $client = static::createClient();
+        $client = self::$client;
 
         $path = '/store/order';
 
@@ -146,6 +152,6 @@ class StoreApiInterfaceTest extends WebTestCase
         $ast      = $compiler->parse($regexp);
         $generator = new \Hoa\Regex\Visitor\Isotropic(new \Hoa\Math\Sampler\Random());
 
-        return $generator->visit($ast); 
+        return $generator->visit($ast);
     }
 }

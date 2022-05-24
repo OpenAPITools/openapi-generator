@@ -1,7 +1,7 @@
 <?php
 /**
  * PetApiInterfaceTest
- * PHP version 7.1.3
+ * PHP version 8.1.1
  *
  * @category Class
  * @package  OpenAPI\Server\Tests\Api
@@ -32,8 +32,8 @@ use OpenAPI\Server\Configuration;
 use OpenAPI\Server\ApiClient;
 use OpenAPI\Server\ApiException;
 use OpenAPI\Server\ObjectSerializer;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
  * PetApiInterfaceTest Class Doc Comment
@@ -69,6 +69,7 @@ class PetApiInterfaceTest extends WebTestCase
      */
     public function tearDown(): void
     {
+        static::ensureKernelShutdown();
     }
 
     /**
@@ -217,6 +218,6 @@ class PetApiInterfaceTest extends WebTestCase
         $ast      = $compiler->parse($regexp);
         $generator = new \Hoa\Regex\Visitor\Isotropic(new \Hoa\Math\Sampler\Random());
 
-        return $generator->visit($ast); 
+        return $generator->visit($ast);
     }
 }
