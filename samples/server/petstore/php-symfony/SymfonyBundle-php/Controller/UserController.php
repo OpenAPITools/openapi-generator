@@ -99,7 +99,7 @@ class UserController extends Controller
             $handler = $this->getApiHandler();
 
             // Set authentication method 'api_key'
-            $handler->set_api_key_auth($securityapi_key);
+            $handler->setapi_key($securityapi_key);
 
             // Make the call to the business logic
             $responseCode = 204;
@@ -183,7 +183,7 @@ class UserController extends Controller
             $handler = $this->getApiHandler();
 
             // Set authentication method 'api_key'
-            $handler->set_api_key_auth($securityapi_key);
+            $handler->setapi_key($securityapi_key);
 
             // Make the call to the business logic
             $responseCode = 204;
@@ -267,7 +267,7 @@ class UserController extends Controller
             $handler = $this->getApiHandler();
 
             // Set authentication method 'api_key'
-            $handler->set_api_key_auth($securityapi_key);
+            $handler->setapi_key($securityapi_key);
 
             // Make the call to the business logic
             $responseCode = 204;
@@ -339,7 +339,7 @@ class UserController extends Controller
             $handler = $this->getApiHandler();
 
             // Set authentication method 'api_key'
-            $handler->set_api_key_auth($securityapi_key);
+            $handler->setapi_key($securityapi_key);
 
             // Make the call to the business logic
             $responseCode = 204;
@@ -574,7 +574,7 @@ class UserController extends Controller
             $handler = $this->getApiHandler();
 
             // Set authentication method 'api_key'
-            $handler->set_api_key_auth($securityapi_key);
+            $handler->setapi_key($securityapi_key);
 
             // Make the call to the business logic
             $responseCode = 204;
@@ -664,7 +664,7 @@ class UserController extends Controller
             $handler = $this->getApiHandler();
 
             // Set authentication method 'api_key'
-            $handler->set_api_key_auth($securityapi_key);
+            $handler->setapi_key($securityapi_key);
 
             // Make the call to the business logic
             $responseCode = 204;

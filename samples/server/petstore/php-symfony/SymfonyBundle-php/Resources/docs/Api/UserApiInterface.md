@@ -47,7 +47,7 @@ class UserApi implements UserApiInterface
     /**
      * Configure API key authorization: api_key
      */
-    public function set_api_key_auth($apiKey)
+    public function setapi_key($apiKey)
     {
         // Retrieve logged in user from $apiKey ...
     }
@@ -107,7 +107,7 @@ class UserApi implements UserApiInterface
     /**
      * Configure API key authorization: api_key
      */
-    public function set_api_key_auth($apiKey)
+    public function setapi_key($apiKey)
     {
         // Retrieve logged in user from $apiKey ...
     }
@@ -167,7 +167,7 @@ class UserApi implements UserApiInterface
     /**
      * Configure API key authorization: api_key
      */
-    public function set_api_key_auth($apiKey)
+    public function setapi_key($apiKey)
     {
         // Retrieve logged in user from $apiKey ...
     }
@@ -229,7 +229,7 @@ class UserApi implements UserApiInterface
     /**
      * Configure API key authorization: api_key
      */
-    public function set_api_key_auth($apiKey)
+    public function setapi_key($apiKey)
     {
         // Retrieve logged in user from $apiKey ...
     }
@@ -394,7 +394,7 @@ class UserApi implements UserApiInterface
     /**
      * Configure API key authorization: api_key
      */
-    public function set_api_key_auth($apiKey)
+    public function setapi_key($apiKey)
     {
         // Retrieve logged in user from $apiKey ...
     }
@@ -453,7 +453,7 @@ class UserApi implements UserApiInterface
     /**
      * Configure API key authorization: api_key
      */
-    public function set_api_key_auth($apiKey)
+    public function setapi_key($apiKey)
     {
         // Retrieve logged in user from $apiKey ...
     }

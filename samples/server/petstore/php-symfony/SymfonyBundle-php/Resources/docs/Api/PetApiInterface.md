@@ -45,7 +45,7 @@ class PetApi implements PetApiInterface
     /**
      * Configure OAuth2 access token for authorization: petstore_auth
      */
-    public function set_oAuth_auth($oauthToken)
+    public function setpetstore_auth($oauthToken)
     {
         // Retrieve logged in user from $oauthToken ...
     }
@@ -105,7 +105,7 @@ class PetApi implements PetApiInterface
     /**
      * Configure OAuth2 access token for authorization: petstore_auth
      */
-    public function set_oAuth_auth($oauthToken)
+    public function setpetstore_auth($oauthToken)
     {
         // Retrieve logged in user from $oauthToken ...
     }
@@ -168,7 +168,7 @@ class PetApi implements PetApiInterface
     /**
      * Configure OAuth2 access token for authorization: petstore_auth
      */
-    public function set_oAuth_auth($oauthToken)
+    public function setpetstore_auth($oauthToken)
     {
         // Retrieve logged in user from $oauthToken ...
     }
@@ -230,7 +230,7 @@ class PetApi implements PetApiInterface
     /**
      * Configure OAuth2 access token for authorization: petstore_auth
      */
-    public function set_oAuth_auth($oauthToken)
+    public function setpetstore_auth($oauthToken)
     {
         // Retrieve logged in user from $oauthToken ...
     }
@@ -292,7 +292,7 @@ class PetApi implements PetApiInterface
     /**
      * Configure API key authorization: api_key
      */
-    public function set_api_key_auth($apiKey)
+    public function setapi_key($apiKey)
     {
         // Retrieve logged in user from $apiKey ...
     }
@@ -352,7 +352,7 @@ class PetApi implements PetApiInterface
     /**
      * Configure OAuth2 access token for authorization: petstore_auth
      */
-    public function set_oAuth_auth($oauthToken)
+    public function setpetstore_auth($oauthToken)
     {
         // Retrieve logged in user from $oauthToken ...
     }
@@ -412,7 +412,7 @@ class PetApi implements PetApiInterface
     /**
      * Configure OAuth2 access token for authorization: petstore_auth
      */
-    public function set_oAuth_auth($oauthToken)
+    public function setpetstore_auth($oauthToken)
     {
         // Retrieve logged in user from $oauthToken ...
     }
@@ -474,7 +474,7 @@ class PetApi implements PetApiInterface
     /**
      * Configure OAuth2 access token for authorization: petstore_auth
      */
-    public function set_oAuth_auth($oauthToken)
+    public function setpetstore_auth($oauthToken)
     {
         // Retrieve logged in user from $oauthToken ...
     }

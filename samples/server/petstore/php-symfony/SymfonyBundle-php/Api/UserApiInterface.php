@@ -50,7 +50,7 @@ interface UserApiInterface
      *
      * @return void
      */
-    public function set_api_key_api_key($value);
+    public function setapi_key($value);
 
     /**
      * Operation createUser

@@ -77,7 +77,7 @@ class PetController extends Controller
         }
 
         // Handle authentication
-        // Authentication 'oAuth' required
+        // Authentication 'petstore_auth' required
         // Oauth required
         $securitypetstore_auth = $request->headers->get('authorization');
 
@@ -108,8 +108,8 @@ class PetController extends Controller
         try {
             $handler = $this->getApiHandler();
 
-            // Set authentication method 'oAuth'
-            $handler->set_oAuth_auth($securitypetstore_auth);
+            // Set authentication method 'petstore_auth'
+            $handler->setpetstore_auth($securitypetstore_auth);
 
             // Make the call to the business logic
             $responseCode = 200;
@@ -156,7 +156,7 @@ class PetController extends Controller
     public function deletePetAction(Request $request, $petId)
     {
         // Handle authentication
-        // Authentication 'oAuth' required
+        // Authentication 'petstore_auth' required
         // Oauth required
         $securitypetstore_auth = $request->headers->get('authorization');
 
@@ -192,8 +192,8 @@ class PetController extends Controller
         try {
             $handler = $this->getApiHandler();
 
-            // Set authentication method 'oAuth'
-            $handler->set_oAuth_auth($securitypetstore_auth);
+            // Set authentication method 'petstore_auth'
+            $handler->setpetstore_auth($securitypetstore_auth);
 
             // Make the call to the business logic
             $responseCode = 204;
@@ -245,7 +245,7 @@ class PetController extends Controller
         }
 
         // Handle authentication
-        // Authentication 'oAuth' required
+        // Authentication 'petstore_auth' required
         // Oauth required
         $securitypetstore_auth = $request->headers->get('authorization');
 
@@ -280,8 +280,8 @@ class PetController extends Controller
         try {
             $handler = $this->getApiHandler();
 
-            // Set authentication method 'oAuth'
-            $handler->set_oAuth_auth($securitypetstore_auth);
+            // Set authentication method 'petstore_auth'
+            $handler->setpetstore_auth($securitypetstore_auth);
 
             // Make the call to the business logic
             $responseCode = 200;
@@ -338,7 +338,7 @@ class PetController extends Controller
         }
 
         // Handle authentication
-        // Authentication 'oAuth' required
+        // Authentication 'petstore_auth' required
         // Oauth required
         $securitypetstore_auth = $request->headers->get('authorization');
 
@@ -370,8 +370,8 @@ class PetController extends Controller
         try {
             $handler = $this->getApiHandler();
 
-            // Set authentication method 'oAuth'
-            $handler->set_oAuth_auth($securitypetstore_auth);
+            // Set authentication method 'petstore_auth'
+            $handler->setpetstore_auth($securitypetstore_auth);
 
             // Make the call to the business logic
             $responseCode = 200;
@@ -456,7 +456,7 @@ class PetController extends Controller
             $handler = $this->getApiHandler();
 
             // Set authentication method 'api_key'
-            $handler->set_api_key_auth($securityapi_key);
+            $handler->setapi_key($securityapi_key);
 
             // Make the call to the business logic
             $responseCode = 200;
@@ -522,7 +522,7 @@ class PetController extends Controller
         }
 
         // Handle authentication
-        // Authentication 'oAuth' required
+        // Authentication 'petstore_auth' required
         // Oauth required
         $securitypetstore_auth = $request->headers->get('authorization');
 
@@ -553,8 +553,8 @@ class PetController extends Controller
         try {
             $handler = $this->getApiHandler();
 
-            // Set authentication method 'oAuth'
-            $handler->set_oAuth_auth($securitypetstore_auth);
+            // Set authentication method 'petstore_auth'
+            $handler->setpetstore_auth($securitypetstore_auth);
 
             // Make the call to the business logic
             $responseCode = 200;
@@ -607,7 +607,7 @@ class PetController extends Controller
     public function updatePetWithFormAction(Request $request, $petId)
     {
         // Handle authentication
-        // Authentication 'oAuth' required
+        // Authentication 'petstore_auth' required
         // Oauth required
         $securitypetstore_auth = $request->headers->get('authorization');
 
@@ -651,8 +651,8 @@ class PetController extends Controller
         try {
             $handler = $this->getApiHandler();
 
-            // Set authentication method 'oAuth'
-            $handler->set_oAuth_auth($securitypetstore_auth);
+            // Set authentication method 'petstore_auth'
+            $handler->setpetstore_auth($securitypetstore_auth);
 
             // Make the call to the business logic
             $responseCode = 204;
@@ -704,7 +704,7 @@ class PetController extends Controller
         }
 
         // Handle authentication
-        // Authentication 'oAuth' required
+        // Authentication 'petstore_auth' required
         // Oauth required
         $securitypetstore_auth = $request->headers->get('authorization');
 
@@ -747,8 +747,8 @@ class PetController extends Controller
         try {
             $handler = $this->getApiHandler();
 
-            // Set authentication method 'oAuth'
-            $handler->set_oAuth_auth($securitypetstore_auth);
+            // Set authentication method 'petstore_auth'
+            $handler->setpetstore_auth($securitypetstore_auth);
 
             // Make the call to the business logic
             $responseCode = 200;
