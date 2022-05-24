@@ -33,6 +33,7 @@ use OpenAPI\Server\ApiClient;
 use OpenAPI\Server\ApiException;
 use OpenAPI\Server\ObjectSerializer;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 
 /**
  * PetApiInterfaceTest Class Doc Comment
@@ -44,6 +45,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  */
 class PetApiInterfaceTest extends WebTestCase
 {
+    private static ?KernelBrowser $client = null;
 
     /**
      * Setup before running any test cases
@@ -57,6 +59,9 @@ class PetApiInterfaceTest extends WebTestCase
      */
     public function setUp(): void
     {
+        if (null === self::$client) {
+            self::$client = static::createClient();
+        }
     }
 
     /**
@@ -81,7 +86,7 @@ class PetApiInterfaceTest extends WebTestCase
      */
     public function testAddPet()
     {
-        $client = static::createClient();
+        $client = self::$client;
 
         $path = '/pet';
 
@@ -96,7 +101,7 @@ class PetApiInterfaceTest extends WebTestCase
      */
     public function testDeletePet()
     {
-        $client = static::createClient();
+        $client = self::$client;
 
         $path = '/pet/{petId}';
         $pattern = '{petId}';
@@ -114,7 +119,7 @@ class PetApiInterfaceTest extends WebTestCase
      */
     public function testFindPetsByStatus()
     {
-        $client = static::createClient();
+        $client = self::$client;
 
         $path = '/pet/findByStatus';
 
@@ -129,7 +134,7 @@ class PetApiInterfaceTest extends WebTestCase
      */
     public function testFindPetsByTags()
     {
-        $client = static::createClient();
+        $client = self::$client;
 
         $path = '/pet/findByTags';
 
@@ -144,7 +149,7 @@ class PetApiInterfaceTest extends WebTestCase
      */
     public function testGetPetById()
     {
-        $client = static::createClient();
+        $client = self::$client;
 
         $path = '/pet/{petId}';
         $pattern = '{petId}';
@@ -162,7 +167,7 @@ class PetApiInterfaceTest extends WebTestCase
      */
     public function testUpdatePet()
     {
-        $client = static::createClient();
+        $client = self::$client;
 
         $path = '/pet';
 
@@ -177,7 +182,7 @@ class PetApiInterfaceTest extends WebTestCase
      */
     public function testUpdatePetWithForm()
     {
-        $client = static::createClient();
+        $client = self::$client;
 
         $path = '/pet/{petId}';
         $pattern = '{petId}';
@@ -195,7 +200,7 @@ class PetApiInterfaceTest extends WebTestCase
      */
     public function testUploadFile()
     {
-        $client = static::createClient();
+        $client = self::$client;
 
         $path = '/pet/{petId}/uploadImage';
         $pattern = '{petId}';
