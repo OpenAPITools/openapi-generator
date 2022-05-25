@@ -18,7 +18,8 @@ import javax.validation.Valid;
 
 @Path("/pet")
 @Api(description = "the pet API")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class PetApi {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+public class PetApi {
 
     @POST
     @Consumes({ "application/json", "application/xml" })

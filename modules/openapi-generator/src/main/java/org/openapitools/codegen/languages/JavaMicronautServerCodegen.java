@@ -7,12 +7,9 @@ import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 
@@ -20,6 +17,7 @@ public class JavaMicronautServerCodegen extends JavaMicronautAbstractCodegen {
     public static final String OPT_CONTROLLER_PACKAGE = "controllerPackage";
     public static final String OPT_GENERATE_CONTROLLER_FROM_EXAMPLES = "generateControllerFromExamples";
     public static final String OPT_GENERATE_CONTROLLER_AS_ABSTRACT = "generateControllerAsAbstract";
+    public static final String OPT_GENERATE_OPERATIONS_TO_RETURN_NOT_IMPLEMENTED = "generateOperationsToReturnNotImplemented";
 
     public static final String EXTENSION_ROLES = "x-roles";
     public static final String ANONYMOUS_ROLE_KEY = "isAnonymous()";
@@ -29,12 +27,11 @@ public class JavaMicronautServerCodegen extends JavaMicronautAbstractCodegen {
     public static final String DENY_ALL_ROLE_KEY = "denyAll()";
     public static final String DENY_ALL_ROLE = "SecurityRule.DENY_ALL";
 
-    private final Logger LOGGER = LoggerFactory.getLogger(JavaMicronautServerCodegen.class);
-
     public static final String NAME = "java-micronaut-server";
 
     protected String controllerPackage = "org.openapitools.controller";
     protected boolean generateControllerAsAbstract = false;
+    protected boolean generateOperationsToReturnNotImplemented = true;
     protected boolean generateControllerFromExamples = false;
     protected boolean useAuth = true;
 
@@ -46,7 +43,7 @@ public class JavaMicronautServerCodegen extends JavaMicronautAbstractCodegen {
     public JavaMicronautServerCodegen() {
         super();
 
-        title = "OpenAPI Micronaut Server";;
+        title = "OpenAPI Micronaut Server";
         apiPackage = "org.openapitools.api";
         apiDocPath = "docs/controllers";
 
@@ -65,6 +62,10 @@ public class JavaMicronautServerCodegen extends JavaMicronautAbstractCodegen {
                 " is then used for the abstract class, and " + OPT_CONTROLLER_PACKAGE +
                 " is used for implementation that extends it.)",
                 generateControllerAsAbstract));
+        cliOptions.add(CliOption.newBoolean(OPT_GENERATE_OPERATIONS_TO_RETURN_NOT_IMPLEMENTED,
+                "Return HTTP 501 Not Implemented instead of an empty response in the generated controller methods.",
+                generateOperationsToReturnNotImplemented));
+
         cliOptions.add(CliOption.newBoolean(OPT_USE_AUTH, "Whether to import authorization and to annotate controller methods accordingly", useAuth));
 
         // Set the type mappings
@@ -95,6 +96,11 @@ public class JavaMicronautServerCodegen extends JavaMicronautAbstractCodegen {
             generateControllerAsAbstract = convertPropertyToBoolean(OPT_GENERATE_CONTROLLER_AS_ABSTRACT);
         }
         writePropertyBack(OPT_GENERATE_CONTROLLER_AS_ABSTRACT, generateControllerAsAbstract);
+
+        if (additionalProperties.containsKey(OPT_GENERATE_OPERATIONS_TO_RETURN_NOT_IMPLEMENTED)) {
+            generateOperationsToReturnNotImplemented = convertPropertyToBoolean(OPT_GENERATE_OPERATIONS_TO_RETURN_NOT_IMPLEMENTED);
+        }
+        writePropertyBack(OPT_GENERATE_OPERATIONS_TO_RETURN_NOT_IMPLEMENTED, generateOperationsToReturnNotImplemented);
 
         if (additionalProperties.containsKey(OPT_CONTROLLER_PACKAGE)) {
             controllerPackage = (String) additionalProperties.get(OPT_CONTROLLER_PACKAGE);

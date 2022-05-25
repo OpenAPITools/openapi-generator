@@ -14,8 +14,6 @@ package org.openapitools.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.*;
 
 import javax.validation.constraints.*;
@@ -76,7 +74,6 @@ public class User {
      * @return id
      **/
     @Nullable
-    @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_ID)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public Long getId() {
@@ -85,7 +82,7 @@ public class User {
 
     @JsonProperty(JSON_PROPERTY_ID)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public void setId(Long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -99,7 +96,6 @@ public class User {
      * @return username
      **/
     @Nullable
-    @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_USERNAME)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public String getUsername() {
@@ -108,7 +104,7 @@ public class User {
 
     @JsonProperty(JSON_PROPERTY_USERNAME)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public void setUsername(String username) {
+    public void setUsername(String username) {
         this.username = username;
     }
 
@@ -122,7 +118,6 @@ public class User {
      * @return firstName
      **/
     @Nullable
-    @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_FIRST_NAME)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public String getFirstName() {
@@ -131,7 +126,7 @@ public class User {
 
     @JsonProperty(JSON_PROPERTY_FIRST_NAME)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public void setFirstName(String firstName) {
+    public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
@@ -145,7 +140,6 @@ public class User {
      * @return lastName
      **/
     @Nullable
-    @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_LAST_NAME)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public String getLastName() {
@@ -154,7 +148,7 @@ public class User {
 
     @JsonProperty(JSON_PROPERTY_LAST_NAME)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public void setLastName(String lastName) {
+    public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
@@ -168,7 +162,6 @@ public class User {
      * @return email
      **/
     @Nullable
-    @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_EMAIL)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public String getEmail() {
@@ -177,7 +170,7 @@ public class User {
 
     @JsonProperty(JSON_PROPERTY_EMAIL)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public void setEmail(String email) {
+    public void setEmail(String email) {
         this.email = email;
     }
 
@@ -191,7 +184,6 @@ public class User {
      * @return password
      **/
     @Nullable
-    @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_PASSWORD)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public String getPassword() {
@@ -200,7 +192,7 @@ public class User {
 
     @JsonProperty(JSON_PROPERTY_PASSWORD)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public void setPassword(String password) {
+    public void setPassword(String password) {
         this.password = password;
     }
 
@@ -214,7 +206,6 @@ public class User {
      * @return phone
      **/
     @Nullable
-    @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_PHONE)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public String getPhone() {
@@ -223,7 +214,7 @@ public class User {
 
     @JsonProperty(JSON_PROPERTY_PHONE)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public void setPhone(String phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 
@@ -237,7 +228,6 @@ public class User {
      * @return userStatus
      **/
     @Nullable
-    @ApiModelProperty(value = "User Status")
     @JsonProperty(JSON_PROPERTY_USER_STATUS)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public Integer getUserStatus() {
@@ -246,7 +236,7 @@ public class User {
 
     @JsonProperty(JSON_PROPERTY_USER_STATUS)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public void setUserStatus(Integer userStatus) {
+    public void setUserStatus(Integer userStatus) {
         this.userStatus = userStatus;
     }
 

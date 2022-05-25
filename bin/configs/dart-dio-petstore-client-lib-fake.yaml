@@ -9,3 +9,5 @@ typeMappings:
 additionalProperties:
   hideGenerationTimestamp: "true"
   enumUnknownDefaultCase: "true"
+reservedWordsMappings:
+  class: "classField"

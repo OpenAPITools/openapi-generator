@@ -187,7 +187,6 @@ public class RetryingOAuth extends OAuth implements Interceptor {
      * Gets the token request builder
      *
      * @return A token request builder
-     * @throws java.io.IOException If fail to update the access token
      */
     public TokenRequestBuilder getTokenRequestBuilder() {
         return tokenRequestBuilder;

@@ -51,6 +51,7 @@ If you find OpenAPI Generator useful for work, please consider asking your compa
 [<img src="https://openapi-generator.tech/img/companies/numary.png" width="128" height="128">](https://www.numary.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
 [<img src="https://openapi-generator.tech/img/companies/onesignal.png" width="128" height="128">](https://www.onesignal.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
 [<img src="https://openapi-generator.tech/img/companies/virtualansoftware.png" width="128" height="128">](https://www.virtualansoftware.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
+[<img src="https://openapi-generator.tech/img/companies/mergedev.jpeg" width="128" height="128">](https://www.merge.dev/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
 
 #### Thank you GoDaddy for sponsoring the domain names, Linode for sponsoring the VPS and Checkly for sponsoring the API monitoring
 
@@ -666,6 +667,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [Translucent ApS](https://www.translucent.dk)
 - [TravelTime platform](https://www.traveltimeplatform.com/)
 - [TribalScale](https://www.tribalscale.com)
+- [Trifork](https://trifork.com)
 - [TUI InfoTec GmbH](http://www.tui-infotec.com/)
 - [Twitter](https://twitter.com)
 - [unblu inc.](https://www.unblu.com/)
@@ -850,6 +852,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - 2022-03-15 - [OpenAPI Specでハイフン区切りのEnum値をOpenAPI Generatorで出力すると、ハイフン区切りのまま出力される](https://qiita.com/yuji38kwmt/items/824d74d4889055ab37d8) by [yuji38kwmt](https://qiita.com/yuji38kwmt)
 - 2022-04-01 - [OpenAPI Generatorのコード生成とSpring Frameworkのカスタムデータバインディングを共存させる](https://techblog.zozo.com/entry/coexistence-of-openapi-and-spring) in [ZOZO Tech Blog](https://techblog.zozo.com/)
 - 2022-04-06 - [Effective Software Development using OpenAPI Generator](https://apexlabs.ai/post/openapi-generator) by Ajil Oommen (Senior Flutter Developer)
+- 2022-05-13 - [A Path From an API To Client Libraries](https://www.youtube.com/watch?v=XC8oVn_efTw) by [Filip Srnec](https://www.devoxx.co.uk/talk/?id=11211) at Infobip
 
 ## [6 - About Us](#table-of-contents)
 
@@ -998,6 +1001,7 @@ Here is a list of template creators:
    * PHP Slim: @jfastnacht
    * PHP Slim4: [@ybelenko](https://github.com/ybelenko)
    * PHP Symfony: @ksm2
+   * PHP Symfony6: @BenjaminHae
    * Python FastAPI: @krjakbrjak
    * Python AIOHTTP:
    * Ruby on Rails 5: @zlx

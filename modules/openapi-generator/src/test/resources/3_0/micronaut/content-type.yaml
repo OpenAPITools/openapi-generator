@@ -1,0 +1,29 @@
+openapi: 3.0.2
+info:
+  title: info
+  description: info
+  version: 0.1.0
+
+paths:
+  /example/api:
+    post:
+      summary: summary
+      description: description
+      requestBody:
+        content:
+          application/vnd.oracle.resource+json; type=singular:
+            schema:
+              type: object
+      responses:
+        200:
+          description: response
+          content:
+            application/vnd.oracle.resource+json; type=collection:
+              schema:
+                type: object
+        default:
+          description: error
+          content:
+            application/vnd.oracle.resource+json; type=error:
+              schema:
+                type: object

@@ -14,8 +14,6 @@ package org.openapitools.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.time.OffsetDateTime;
 import com.fasterxml.jackson.annotation.*;
 
@@ -23,11 +21,12 @@ import javax.validation.constraints.*;
 import javax.validation.Valid;
 import io.micronaut.core.annotation.*;
 import javax.annotation.Generated;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * An order for a pets from the pet store
  */
-@ApiModel(description = "An order for a pets from the pet store")
+@Schema(name = "Order", description = "An order for a pets from the pet store")
 @JsonPropertyOrder({
   Order.JSON_PROPERTY_ID,
   Order.JSON_PROPERTY_PET_ID,
@@ -105,7 +104,7 @@ public class Order {
      * @return id
      **/
     @Nullable
-    @ApiModelProperty(value = "")
+    @Schema(name = "id", required = false)
     @JsonProperty(JSON_PROPERTY_ID)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public Long getId() {
@@ -114,7 +113,7 @@ public class Order {
 
     @JsonProperty(JSON_PROPERTY_ID)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public void setId(Long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -128,7 +127,7 @@ public class Order {
      * @return petId
      **/
     @Nullable
-    @ApiModelProperty(value = "")
+    @Schema(name = "petId", required = false)
     @JsonProperty(JSON_PROPERTY_PET_ID)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public Long getPetId() {
@@ -137,7 +136,7 @@ public class Order {
 
     @JsonProperty(JSON_PROPERTY_PET_ID)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public void setPetId(Long petId) {
+    public void setPetId(Long petId) {
         this.petId = petId;
     }
 
@@ -151,7 +150,7 @@ public class Order {
      * @return quantity
      **/
     @Nullable
-    @ApiModelProperty(value = "")
+    @Schema(name = "quantity", required = false)
     @JsonProperty(JSON_PROPERTY_QUANTITY)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public Integer getQuantity() {
@@ -160,7 +159,7 @@ public class Order {
 
     @JsonProperty(JSON_PROPERTY_QUANTITY)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public void setQuantity(Integer quantity) {
+    public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
 
@@ -174,7 +173,7 @@ public class Order {
      * @return shipDate
      **/
     @Nullable
-    @ApiModelProperty(value = "")
+    @Schema(name = "shipDate", required = false)
     @JsonProperty(JSON_PROPERTY_SHIP_DATE)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXXX")
@@ -185,7 +184,7 @@ public class Order {
     @JsonProperty(JSON_PROPERTY_SHIP_DATE)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXXX")
-       public void setShipDate(OffsetDateTime shipDate) {
+    public void setShipDate(OffsetDateTime shipDate) {
         this.shipDate = shipDate;
     }
 
@@ -199,7 +198,7 @@ public class Order {
      * @return status
      **/
     @Nullable
-    @ApiModelProperty(value = "Order Status")
+    @Schema(name = "status", description = "Order Status", required = false)
     @JsonProperty(JSON_PROPERTY_STATUS)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public StatusEnum getStatus() {
@@ -208,7 +207,7 @@ public class Order {
 
     @JsonProperty(JSON_PROPERTY_STATUS)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public void setStatus(StatusEnum status) {
+    public void setStatus(StatusEnum status) {
         this.status = status;
     }
 
@@ -222,7 +221,7 @@ public class Order {
      * @return complete
      **/
     @Nullable
-    @ApiModelProperty(value = "")
+    @Schema(name = "complete", required = false)
     @JsonProperty(JSON_PROPERTY_COMPLETE)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public Boolean getComplete() {
@@ -231,7 +230,7 @@ public class Order {
 
     @JsonProperty(JSON_PROPERTY_COMPLETE)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public void setComplete(Boolean complete) {
+    public void setComplete(Boolean complete) {
         this.complete = complete;
     }
 

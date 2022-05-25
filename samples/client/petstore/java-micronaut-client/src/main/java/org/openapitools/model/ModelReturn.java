@@ -15,8 +15,6 @@ package org.openapitools.model;
 import java.util.Objects;
 import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.*;
 
 import javax.validation.constraints.*;
@@ -27,7 +25,6 @@ import javax.annotation.Generated;
 /**
  * Model for testing reserved words
  */
-@ApiModel(description = "Model for testing reserved words")
 @JsonPropertyOrder({
   ModelReturn.JSON_PROPERTY_RETURN
 })
@@ -50,7 +47,6 @@ public class ModelReturn {
      * @return _return
      **/
     @Nullable
-    @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_RETURN)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public Integer getReturn() {
@@ -59,7 +55,7 @@ public class ModelReturn {
 
     @JsonProperty(JSON_PROPERTY_RETURN)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public void setReturn(Integer _return) {
+    public void setReturn(Integer _return) {
         this._return = _return;
     }
 

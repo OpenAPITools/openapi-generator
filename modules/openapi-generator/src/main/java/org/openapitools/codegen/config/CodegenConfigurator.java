@@ -70,7 +70,7 @@ public class CodegenConfigurator {
     private Map<String, String> importMappings = new HashMap<>();
     private Map<String, String> inlineSchemaNameMappings = new HashMap<>();
     private Set<String> languageSpecificPrimitives = new HashSet<>();
-    private Map<String, String> reservedWordMappings = new HashMap<>();
+    private Map<String, String> reservedWordsMappings = new HashMap<>();
     private Map<String, String> serverVariables = new HashMap<>();
     private String auth;
 
@@ -118,8 +118,8 @@ public class CodegenConfigurator {
             if(generatorSettings.getLanguageSpecificPrimitives() != null) {
                 configurator.languageSpecificPrimitives.addAll(generatorSettings.getLanguageSpecificPrimitives());
             }
-            if(generatorSettings.getReservedWordMappings() != null) {
-                configurator.reservedWordMappings.putAll(generatorSettings.getReservedWordMappings());
+            if(generatorSettings.getReservedWordsMappings() != null) {
+                configurator.reservedWordsMappings.putAll(generatorSettings.getReservedWordsMappings());
             }
             if(generatorSettings.getServerVariables() != null) {
                 configurator.serverVariables.putAll(generatorSettings.getServerVariables());
@@ -173,7 +173,7 @@ public class CodegenConfigurator {
     }
 
     public CodegenConfigurator addAdditionalReservedWordMapping(String key, String value) {
-        this.reservedWordMappings.put(key, value);
+        this.reservedWordsMappings.put(key, value);
         generatorSettingsBuilder.withReservedWordMapping(key, value);
         return this;
     }
@@ -226,9 +226,9 @@ public class CodegenConfigurator {
         return this;
     }
 
-    public CodegenConfigurator setReservedWordsMappings(Map<String, String> reservedWordMappings) {
-        this.reservedWordMappings = reservedWordMappings;
-        generatorSettingsBuilder.withReservedWordMappings(reservedWordMappings);
+    public CodegenConfigurator setReservedWordsMappings(Map<String, String> reservedWordsMappings) {
+        this.reservedWordsMappings = reservedWordsMappings;
+        generatorSettingsBuilder.withReservedWordsMappings(reservedWordsMappings);
         return this;
     }
 
@@ -628,7 +628,7 @@ public class CodegenConfigurator {
         config.importMapping().putAll(generatorSettings.getImportMappings());
         config.inlineSchemaNameMapping().putAll(generatorSettings.getInlineSchemaNameMappings());
         config.languageSpecificPrimitives().addAll(generatorSettings.getLanguageSpecificPrimitives());
-        config.reservedWordsMappings().putAll(generatorSettings.getReservedWordMappings());
+        config.reservedWordsMappings().putAll(generatorSettings.getReservedWordsMappings());
         config.additionalProperties().putAll(generatorSettings.getAdditionalProperties());
 
         Map<String, String> serverVariables = generatorSettings.getServerVariables();
