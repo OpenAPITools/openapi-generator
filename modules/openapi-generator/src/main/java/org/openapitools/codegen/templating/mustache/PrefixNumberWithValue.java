@@ -40,8 +40,8 @@ public class PrefixNumberWithValue implements Mustache.Lambda {
         }
         line = line
                 .replace(" ", "_")
-                .replaceAll("_+", "_")
-                .replaceAll("([0-9]_)", "_$1");
+                .replaceAll("^([0-9])_", "_$1_")
+                .replaceAll("_+", "_");
         writer.write(line);
     }
 }
