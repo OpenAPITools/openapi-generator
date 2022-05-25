@@ -2,7 +2,12 @@
  * {{#description}}{{.}}{{/description}}{{^description}}{{classname}}{{/description}}
  */
 {{#description}}
+    {{#generateSwagger1Annotations}}
 @ApiModel(description = "{{{description}}}")
+    {{/generateSwagger1Annotations}}
+    {{#generateSwagger2Annotations}}
+@Schema({{#name}}name = "{{name}}", {{/name}}description = "{{{description}}}")
+    {{/generateSwagger2Annotations}}
 {{/description}}
 {{#jackson}}
 @JsonPropertyOrder({
@@ -177,7 +182,13 @@ Declare the class with extends and implements
         {{/maximum}}
      * @return {{name}}
      **/
-{{>common/model/beanValidation}}    @ApiModelProperty({{#example}}example = "{{{example}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}")
+{{>common/model/beanValidation}}{{!
+        }}{{#generateSwagger1Annotations}}
+    @ApiModelProperty({{#example}}example = "{{{example}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}")
+        {{/generateSwagger1Annotations}}
+        {{#generateSwagger2Annotations}}
+    @Schema(name = "{{{baseName}}}", {{#isReadOnly}}accessMode = Schema.AccessMode.READ_ONLY, {{/isReadOnly}}{{#example}}example = "{{{.}}}", {{/example}}{{#description}}description = "{{{.}}}", {{/description}}required = {{{required}}})
+        {{/generateSwagger2Annotations}}
         {{#vendorExtensions.x-extra-annotation}}
     {{{vendorExtensions.x-extra-annotation}}}
         {{/vendorExtensions.x-extra-annotation}}
@@ -226,7 +237,7 @@ Declare the class with extends and implements
             {{#jackson}}
                 {{^vendorExtensions.x-is-jackson-optional-nullable}}
 {{>common/model/jackson_annotations}}{{/vendorExtensions.x-is-jackson-optional-nullable}}{{/jackson}}{{#vendorExtensions.x-setter-extra-annotation}}       {{{vendorExtensions.x-setter-extra-annotation}}}
-{{/vendorExtensions.x-setter-extra-annotation}}       public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
+{{/vendorExtensions.x-setter-extra-annotation}}    public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
             {{#vendorExtensions.x-is-jackson-optional-nullable}}
         this.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of({{name}});
             {{/vendorExtensions.x-is-jackson-optional-nullable}}
@@ -364,7 +375,9 @@ Declare the class with extends and implements
      * @param <T> the return type of the visitor
      * @return the result from the visitor
      */
-    public abstract <T> T accept(Visitor<T> visitor);
+    public <T> T accept(Visitor<T> visitor) {
+        return visitor.visit{{classname}}(this);
+    }
 
     /**
      * A {{classname}} visitor implementation allows visiting the various {{classname}} types.
@@ -375,6 +388,7 @@ Declare the class with extends and implements
         {{#discriminator.mappedModels}}
         R visit{{modelName}}({{modelName}} value);
         {{/discriminator.mappedModels}}
+        R visit{{classname}}({{classname}} value);
     }
 
     {{/discriminator}}

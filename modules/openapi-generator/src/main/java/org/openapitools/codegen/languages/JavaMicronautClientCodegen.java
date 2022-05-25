@@ -5,13 +5,9 @@ import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 
 public class JavaMicronautClientCodegen extends JavaMicronautAbstractCodegen {
-
-    private final Logger LOGGER = LoggerFactory.getLogger(JavaMicronautClientCodegen.class);
 
     public static final String OPT_CONFIGURE_AUTH = "configureAuth";
 

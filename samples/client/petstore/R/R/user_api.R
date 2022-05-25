@@ -17,7 +17,7 @@
 #' This can only be done by the logged in user.
 #'
 #' \itemize{
-#' \item \emph{ @param } body \link{User}
+#' \item \emph{ @param } user \link{User}
 #'
 #'
 #' \item status code : 0 | successful operation
@@ -33,7 +33,7 @@
 #' 
 #'
 #' \itemize{
-#' \item \emph{ @param } body list( \link{User} )
+#' \item \emph{ @param } user list( \link{User} )
 #'
 #'
 #' \item status code : 0 | successful operation
@@ -49,7 +49,7 @@
 #' 
 #'
 #' \itemize{
-#' \item \emph{ @param } body list( \link{User} )
+#' \item \emph{ @param } user list( \link{User} )
 #'
 #'
 #' \item status code : 0 | successful operation
@@ -129,6 +129,7 @@
 #' \item response headers :
 #'
 #' \tabular{ll}{
+#' Set-Cookie \tab Cookie authentication key for use with the &#x60;api_key&#x60; apiKey authentication. \cr
 #' X-Rate-Limit \tab calls per hour allowed by the user \cr
 #' X-Expires-After \tab date in UTC when token expires \cr
 #' }
@@ -161,7 +162,7 @@
 #'
 #' \itemize{
 #' \item \emph{ @param } username character
-#' \item \emph{ @param } body \link{User}
+#' \item \emph{ @param } user \link{User}
 #'
 #'
 #' \item status code : 400 | Invalid user supplied
@@ -188,34 +189,43 @@
 #' ####################  CreateUser  ####################
 #'
 #' library(petstore)
-#' var.body <- User$new() # User | Created user object
+#' var.user <- User$new() # User | Created user object
 #'
 #' #Create user
 #' api.instance <- UserApi$new()
 #'
-#' result <- api.instance$CreateUser(var.body)
+#' #Configure API key authorization: api_key
+#' api.instance$api_client$api_keys['api_key'] <- 'TODO_YOUR_API_KEY';
+#'
+#' result <- api.instance$CreateUser(var.user)
 #'
 #'
 #' ####################  CreateUsersWithArrayInput  ####################
 #'
 #' library(petstore)
-#' var.body <- [User$new()] # array[User] | List of user object
+#' var.user <- [User$new()] # array[User] | List of user object
 #'
 #' #Creates list of users with given input array
 #' api.instance <- UserApi$new()
 #'
-#' result <- api.instance$CreateUsersWithArrayInput(var.body)
+#' #Configure API key authorization: api_key
+#' api.instance$api_client$api_keys['api_key'] <- 'TODO_YOUR_API_KEY';
+#'
+#' result <- api.instance$CreateUsersWithArrayInput(var.user)
 #'
 #'
 #' ####################  CreateUsersWithListInput  ####################
 #'
 #' library(petstore)
-#' var.body <- [User$new()] # array[User] | List of user object
+#' var.user <- [User$new()] # array[User] | List of user object
 #'
 #' #Creates list of users with given input array
 #' api.instance <- UserApi$new()
 #'
-#' result <- api.instance$CreateUsersWithListInput(var.body)
+#' #Configure API key authorization: api_key
+#' api.instance$api_client$api_keys['api_key'] <- 'TODO_YOUR_API_KEY';
+#'
+#' result <- api.instance$CreateUsersWithListInput(var.user)
 #'
 #'
 #' ####################  DeleteUser  ####################
@@ -225,6 +235,9 @@
 #'
 #' #Delete user
 #' api.instance <- UserApi$new()
+#'
+#' #Configure API key authorization: api_key
+#' api.instance$api_client$api_keys['api_key'] <- 'TODO_YOUR_API_KEY';
 #'
 #' result <- api.instance$DeleteUser(var.username)
 #'
@@ -259,6 +272,9 @@
 #' #Logs out current logged in user session
 #' api.instance <- UserApi$new()
 #'
+#' #Configure API key authorization: api_key
+#' api.instance$api_client$api_keys['api_key'] <- 'TODO_YOUR_API_KEY';
+#'
 #' result <- api.instance$LogoutUser()
 #'
 #'
@@ -266,12 +282,15 @@
 #'
 #' library(petstore)
 #' var.username <- 'username_example' # character | name that need to be deleted
-#' var.body <- User$new() # User | Updated user object
+#' var.user <- User$new() # User | Updated user object
 #'
 #' #Updated user
 #' api.instance <- UserApi$new()
 #'
-#' result <- api.instance$UpdateUser(var.username, var.body)
+#' #Configure API key authorization: api_key
+#' api.instance$api_client$api_keys['api_key'] <- 'TODO_YOUR_API_KEY';
+#'
+#' result <- api.instance$UpdateUser(var.username, var.user)
 #'
 #'
 #' }
@@ -290,8 +309,8 @@ UserApi <- R6::R6Class(
         self$api_client <- ApiClient$new()
       }
     },
-    CreateUser = function(body, ...) {
-      api_response <- self$CreateUserWithHttpInfo(body, ...)
+    CreateUser = function(user, ...) {
+      api_response <- self$CreateUserWithHttpInfo(user, ...)
       resp <- api_response$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         api_response$content
@@ -304,22 +323,26 @@ UserApi <- R6::R6Class(
       }
     },
 
-    CreateUserWithHttpInfo = function(body, ...) {
+    CreateUserWithHttpInfo = function(user, ...) {
       args <- list(...)
       query_params <- list()
       header_params <- c()
 
-      if (missing(`body`)) {
-        stop("Missing required parameter `body`.")
+      if (missing(`user`)) {
+        stop("Missing required parameter `user`.")
       }
 
-      if (!missing(`body`)) {
-        body <- `body`$toJSONString()
+      if (!missing(`user`)) {
+        body <- `user`$toJSONString()
       } else {
         body <- NULL
       }
 
       url_path <- "/user"
+      # API key authentication
+      if ("api_key" %in% names(self$api_client$api_keys) && nchar(self$api_client$api_keys["api_key"]) > 0) {
+        header_params["api_key"] <- paste(unlist(self$api_client$api_keys["api_key"]), collapse = "")
+      }
 
       resp <- self$api_client$CallApi(url = paste0(self$api_client$base_path, url_path),
                                  method = "POST",
@@ -338,8 +361,8 @@ UserApi <- R6::R6Class(
         ApiResponse$new("API server error", resp)
       }
     },
-    CreateUsersWithArrayInput = function(body, ...) {
-      api_response <- self$CreateUsersWithArrayInputWithHttpInfo(body, ...)
+    CreateUsersWithArrayInput = function(user, ...) {
+      api_response <- self$CreateUsersWithArrayInputWithHttpInfo(user, ...)
       resp <- api_response$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         api_response$content
@@ -352,23 +375,27 @@ UserApi <- R6::R6Class(
       }
     },
 
-    CreateUsersWithArrayInputWithHttpInfo = function(body, ...) {
+    CreateUsersWithArrayInputWithHttpInfo = function(user, ...) {
       args <- list(...)
       query_params <- list()
       header_params <- c()
 
-      if (missing(`body`)) {
-        stop("Missing required parameter `body`.")
+      if (missing(`user`)) {
+        stop("Missing required parameter `user`.")
       }
 
-      if (!missing(`body`)) {
-        body.items = paste(unlist(lapply(body, function(param) {param$toJSONString()})), collapse = ",")
+      if (!missing(`user`)) {
+        body.items = paste(unlist(lapply(user, function(param) {param$toJSONString()})), collapse = ",")
         body <- paste0("[", body.items, "]")
       } else {
         body <- NULL
       }
 
       url_path <- "/user/createWithArray"
+      # API key authentication
+      if ("api_key" %in% names(self$api_client$api_keys) && nchar(self$api_client$api_keys["api_key"]) > 0) {
+        header_params["api_key"] <- paste(unlist(self$api_client$api_keys["api_key"]), collapse = "")
+      }
 
       resp <- self$api_client$CallApi(url = paste0(self$api_client$base_path, url_path),
                                  method = "POST",
@@ -387,8 +414,8 @@ UserApi <- R6::R6Class(
         ApiResponse$new("API server error", resp)
       }
     },
-    CreateUsersWithListInput = function(body, ...) {
-      api_response <- self$CreateUsersWithListInputWithHttpInfo(body, ...)
+    CreateUsersWithListInput = function(user, ...) {
+      api_response <- self$CreateUsersWithListInputWithHttpInfo(user, ...)
       resp <- api_response$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         api_response$content
@@ -401,23 +428,27 @@ UserApi <- R6::R6Class(
       }
     },
 
-    CreateUsersWithListInputWithHttpInfo = function(body, ...) {
+    CreateUsersWithListInputWithHttpInfo = function(user, ...) {
       args <- list(...)
       query_params <- list()
       header_params <- c()
 
-      if (missing(`body`)) {
-        stop("Missing required parameter `body`.")
+      if (missing(`user`)) {
+        stop("Missing required parameter `user`.")
       }
 
-      if (!missing(`body`)) {
-        body.items = paste(unlist(lapply(body, function(param) {param$toJSONString()})), collapse = ",")
+      if (!missing(`user`)) {
+        body.items = paste(unlist(lapply(user, function(param) {param$toJSONString()})), collapse = ",")
         body <- paste0("[", body.items, "]")
       } else {
         body <- NULL
       }
 
       url_path <- "/user/createWithList"
+      # API key authentication
+      if ("api_key" %in% names(self$api_client$api_keys) && nchar(self$api_client$api_keys["api_key"]) > 0) {
+        header_params["api_key"] <- paste(unlist(self$api_client$api_keys["api_key"]), collapse = "")
+      }
 
       resp <- self$api_client$CallApi(url = paste0(self$api_client$base_path, url_path),
                                  method = "POST",
@@ -465,6 +496,10 @@ UserApi <- R6::R6Class(
         url_path <- gsub(paste0("\\{", "username", "\\}"), URLencode(as.character(`username`), reserved = TRUE), url_path)
       }
 
+      # API key authentication
+      if ("api_key" %in% names(self$api_client$api_keys) && nchar(self$api_client$api_keys["api_key"]) > 0) {
+        header_params["api_key"] <- paste(unlist(self$api_client$api_keys["api_key"]), collapse = "")
+      }
 
       resp <- self$api_client$CallApi(url = paste0(self$api_client$base_path, url_path),
                                  method = "DELETE",
@@ -620,6 +655,10 @@ UserApi <- R6::R6Class(
 
       body <- NULL
       url_path <- "/user/logout"
+      # API key authentication
+      if ("api_key" %in% names(self$api_client$api_keys) && nchar(self$api_client$api_keys["api_key"]) > 0) {
+        header_params["api_key"] <- paste(unlist(self$api_client$api_keys["api_key"]), collapse = "")
+      }
 
       resp <- self$api_client$CallApi(url = paste0(self$api_client$base_path, url_path),
                                  method = "GET",
@@ -638,8 +677,8 @@ UserApi <- R6::R6Class(
         ApiResponse$new("API server error", resp)
       }
     },
-    UpdateUser = function(username, body, ...) {
-      api_response <- self$UpdateUserWithHttpInfo(username, body, ...)
+    UpdateUser = function(username, user, ...) {
+      api_response <- self$UpdateUserWithHttpInfo(username, user, ...)
       resp <- api_response$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         api_response$content
@@ -652,7 +691,7 @@ UserApi <- R6::R6Class(
       }
     },
 
-    UpdateUserWithHttpInfo = function(username, body, ...) {
+    UpdateUserWithHttpInfo = function(username, user, ...) {
       args <- list(...)
       query_params <- list()
       header_params <- c()
@@ -661,12 +700,12 @@ UserApi <- R6::R6Class(
         stop("Missing required parameter `username`.")
       }
 
-      if (missing(`body`)) {
-        stop("Missing required parameter `body`.")
+      if (missing(`user`)) {
+        stop("Missing required parameter `user`.")
       }
 
-      if (!missing(`body`)) {
-        body <- `body`$toJSONString()
+      if (!missing(`user`)) {
+        body <- `user`$toJSONString()
       } else {
         body <- NULL
       }
@@ -676,6 +715,10 @@ UserApi <- R6::R6Class(
         url_path <- gsub(paste0("\\{", "username", "\\}"), URLencode(as.character(`username`), reserved = TRUE), url_path)
       }
 
+      # API key authentication
+      if ("api_key" %in% names(self$api_client$api_keys) && nchar(self$api_client$api_keys["api_key"]) > 0) {
+        header_params["api_key"] <- paste(unlist(self$api_client$api_keys["api_key"]), collapse = "")
+      }
 
       resp <- self$api_client$CallApi(url = paste0(self$api_client$base_path, url_path),
                                  method = "PUT",

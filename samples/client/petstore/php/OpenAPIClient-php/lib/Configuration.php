@@ -38,6 +38,9 @@ namespace OpenAPI\Client;
  */
 class Configuration
 {
+    public const BOOLEAN_FORMAT_INT = 'int';
+    public const BOOLEAN_FORMAT_STRING = 'string';
+
     /**
      * @var Configuration
      */
@@ -63,6 +66,13 @@ class Configuration
      * @var string
      */
     protected $accessToken = '';
+
+    /**
+     * Boolean format for query string
+     *
+     * @var string
+     */
+    protected $booleanFormatForQueryString = self::BOOLEAN_FORMAT_INT;
 
     /**
      * Username for HTTP basic authentication
@@ -194,6 +204,30 @@ class Configuration
     public function getAccessToken()
     {
         return $this->accessToken;
+    }
+
+    /**
+     * Sets boolean format for query string.
+     *
+     * @param string $booleanFormatForQueryString Boolean format for query string
+     *
+     * @return $this
+     */
+    public function setBooleanFormatForQueryString(string $booleanFormat)
+    {
+        $this->booleanFormatForQueryString = $booleanFormat;
+
+        return $this;
+    }
+
+    /**
+     * Gets boolean format for query string.
+     *
+     * @return string Boolean format for query string
+     */
+    public function getBooleanFormatForQueryString(): string
+    {
+        return $this->booleanFormatForQueryString;
     }
 
     /**

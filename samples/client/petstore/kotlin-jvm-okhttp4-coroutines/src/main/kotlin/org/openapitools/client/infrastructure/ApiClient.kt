@@ -32,7 +32,7 @@ import kotlin.coroutines.resumeWithException
 import kotlinx.coroutines.suspendCancellableCoroutine
 import com.google.gson.reflect.TypeToken
 
-open class ApiClient(val baseUrl: String) {
+open class ApiClient(val baseUrl: String, val client: OkHttpClient = defaultClient) {
     companion object {
         protected const val ContentType = "Content-Type"
         protected const val Accept = "Accept"
@@ -50,7 +50,7 @@ open class ApiClient(val baseUrl: String) {
         const val baseUrlKey = "org.openapitools.client.baseUrl"
 
         @JvmStatic
-        val client: OkHttpClient by lazy {
+        val defaultClient: OkHttpClient by lazy {
             builder.build()
         }
 

@@ -17,9 +17,17 @@
 #' 
 #'
 #' \itemize{
-#' \item \emph{ @param } body \link{Pet}
+#' \item \emph{ @param } pet \link{Pet}
+#' \item \emph{ @returnType } \link{Pet} \cr
 #'
 #'
+#' \item status code : 200 | successful operation
+#'
+#' \item return type : Pet 
+#' \item response headers :
+#'
+#' \tabular{ll}{
+#' }
 #' \item status code : 405 | Invalid input
 #'
 #'
@@ -33,8 +41,8 @@
 #' 
 #'
 #' \itemize{
-#' \item \emph{ @param } pet.id integer
-#' \item \emph{ @param } api.key character
+#' \item \emph{ @param } pet_id integer
+#' \item \emph{ @param } api_key character
 #'
 #'
 #' \item status code : 400 | Invalid pet value
@@ -98,7 +106,7 @@
 #' Returns a single pet
 #'
 #' \itemize{
-#' \item \emph{ @param } pet.id integer
+#' \item \emph{ @param } pet_id integer
 #' \item \emph{ @returnType } \link{Pet} \cr
 #'
 #'
@@ -129,9 +137,17 @@
 #' 
 #'
 #' \itemize{
-#' \item \emph{ @param } body \link{Pet}
+#' \item \emph{ @param } pet \link{Pet}
+#' \item \emph{ @returnType } \link{Pet} \cr
 #'
 #'
+#' \item status code : 200 | successful operation
+#'
+#' \item return type : Pet 
+#' \item response headers :
+#'
+#' \tabular{ll}{
+#' }
 #' \item status code : 400 | Invalid ID supplied
 #'
 #'
@@ -159,7 +175,7 @@
 #' 
 #'
 #' \itemize{
-#' \item \emph{ @param } pet.id integer
+#' \item \emph{ @param } pet_id integer
 #' \item \emph{ @param } name character
 #' \item \emph{ @param } status character
 #'
@@ -177,8 +193,8 @@
 #' 
 #'
 #' \itemize{
-#' \item \emph{ @param } pet.id integer
-#' \item \emph{ @param } additional.metadata character
+#' \item \emph{ @param } pet_id integer
+#' \item \emph{ @param } additional_metadata character
 #' \item \emph{ @param } file data.frame
 #' \item \emph{ @returnType } \link{ModelApiResponse} \cr
 #'
@@ -200,7 +216,7 @@
 #' ####################  AddPet  ####################
 #'
 #' library(petstore)
-#' var.body <- Pet$new() # Pet | Pet object that needs to be added to the store
+#' var.pet <- Pet$new() # Pet | Pet object that needs to be added to the store
 #'
 #' #Add a new pet to the store
 #' api.instance <- PetApi$new()
@@ -208,14 +224,14 @@
 #' # Configure OAuth2 access token for authorization: petstore_auth
 #' api.instance$api_client$access_token <- 'TODO_YOUR_ACCESS_TOKEN';
 #'
-#' result <- api.instance$AddPet(var.body)
+#' result <- api.instance$AddPet(var.pet)
 #'
 #'
 #' ####################  DeletePet  ####################
 #'
 #' library(petstore)
-#' var.pet.id <- 56 # integer | Pet id to delete
-#' var.api.key <- 'api.key_example' # character | 
+#' var.pet_id <- 56 # integer | Pet id to delete
+#' var.api_key <- 'api_key_example' # character | 
 #'
 #' #Deletes a pet
 #' api.instance <- PetApi$new()
@@ -223,7 +239,7 @@
 #' # Configure OAuth2 access token for authorization: petstore_auth
 #' api.instance$api_client$access_token <- 'TODO_YOUR_ACCESS_TOKEN';
 #'
-#' result <- api.instance$DeletePet(var.pet.id, api.key=var.api.key)
+#' result <- api.instance$DeletePet(var.pet_id, api_key=var.api_key)
 #'
 #'
 #' ####################  FindPetsByStatus  ####################
@@ -257,7 +273,7 @@
 #' ####################  GetPetById  ####################
 #'
 #' library(petstore)
-#' var.pet.id <- 56 # integer | ID of pet to return
+#' var.pet_id <- 56 # integer | ID of pet to return
 #'
 #' #Find pet by ID
 #' api.instance <- PetApi$new()
@@ -265,13 +281,13 @@
 #' #Configure API key authorization: api_key
 #' api.instance$api_client$api_keys['api_key'] <- 'TODO_YOUR_API_KEY';
 #'
-#' result <- api.instance$GetPetById(var.pet.id)
+#' result <- api.instance$GetPetById(var.pet_id)
 #'
 #'
 #' ####################  UpdatePet  ####################
 #'
 #' library(petstore)
-#' var.body <- Pet$new() # Pet | Pet object that needs to be added to the store
+#' var.pet <- Pet$new() # Pet | Pet object that needs to be added to the store
 #'
 #' #Update an existing pet
 #' api.instance <- PetApi$new()
@@ -279,13 +295,13 @@
 #' # Configure OAuth2 access token for authorization: petstore_auth
 #' api.instance$api_client$access_token <- 'TODO_YOUR_ACCESS_TOKEN';
 #'
-#' result <- api.instance$UpdatePet(var.body)
+#' result <- api.instance$UpdatePet(var.pet)
 #'
 #'
 #' ####################  UpdatePetWithForm  ####################
 #'
 #' library(petstore)
-#' var.pet.id <- 56 # integer | ID of pet that needs to be updated
+#' var.pet_id <- 56 # integer | ID of pet that needs to be updated
 #' var.name <- 'name_example' # character | Updated name of the pet
 #' var.status <- 'status_example' # character | Updated status of the pet
 #'
@@ -295,14 +311,14 @@
 #' # Configure OAuth2 access token for authorization: petstore_auth
 #' api.instance$api_client$access_token <- 'TODO_YOUR_ACCESS_TOKEN';
 #'
-#' result <- api.instance$UpdatePetWithForm(var.pet.id, name=var.name, status=var.status)
+#' result <- api.instance$UpdatePetWithForm(var.pet_id, name=var.name, status=var.status)
 #'
 #'
 #' ####################  UploadFile  ####################
 #'
 #' library(petstore)
-#' var.pet.id <- 56 # integer | ID of pet to update
-#' var.additional.metadata <- 'additional.metadata_example' # character | Additional data to pass to server
+#' var.pet_id <- 56 # integer | ID of pet to update
+#' var.additional_metadata <- 'additional_metadata_example' # character | Additional data to pass to server
 #' var.file <- File.new('/path/to/file') # data.frame | file to upload
 #'
 #' #uploads an image
@@ -311,7 +327,7 @@
 #' # Configure OAuth2 access token for authorization: petstore_auth
 #' api.instance$api_client$access_token <- 'TODO_YOUR_ACCESS_TOKEN';
 #'
-#' result <- api.instance$UploadFile(var.pet.id, additional.metadata=var.additional.metadata, file=var.file)
+#' result <- api.instance$UploadFile(var.pet_id, additional_metadata=var.additional_metadata, file=var.file)
 #'
 #'
 #' }
@@ -330,8 +346,8 @@ PetApi <- R6::R6Class(
         self$api_client <- ApiClient$new()
       }
     },
-    AddPet = function(body, ...) {
-      api_response <- self$AddPetWithHttpInfo(body, ...)
+    AddPet = function(pet, data_file=NULL, ...) {
+      api_response <- self$AddPetWithHttpInfo(pet, data_file = data_file, ...)
       resp <- api_response$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         api_response$content
@@ -344,17 +360,17 @@ PetApi <- R6::R6Class(
       }
     },
 
-    AddPetWithHttpInfo = function(body, ...) {
+    AddPetWithHttpInfo = function(pet, data_file = NULL, ...) {
       args <- list(...)
       query_params <- list()
       header_params <- c()
 
-      if (missing(`body`)) {
-        stop("Missing required parameter `body`.")
+      if (missing(`pet`)) {
+        stop("Missing required parameter `pet`.")
       }
 
-      if (!missing(`body`)) {
-        body <- `body`$toJSONString()
+      if (!missing(`pet`)) {
+        body <- `pet`$toJSONString()
       } else {
         body <- NULL
       }
@@ -371,7 +387,18 @@ PetApi <- R6::R6Class(
                                  ...)
 
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
-        ApiResponse$new(NULL, resp)
+        # save response in a file
+        if (!is.null(data_file)) {
+            write(httr::content(resp, "text", encoding = "UTF-8", simplifyVector = FALSE), data_file)
+        }
+
+        deserialized_resp_obj <- tryCatch(
+          self$api_client$deserialize(resp, "Pet", loadNamespace("petstore")),
+          error = function(e) {
+             stop("Failed to deserialize response")
+          }
+        )
+        ApiResponse$new(deserialized_resp_obj, resp)
       } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
         ApiResponse$new(paste("Server returned ", httr::status_code(resp), " response status code."), resp)
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
@@ -380,8 +407,8 @@ PetApi <- R6::R6Class(
         ApiResponse$new("API server error", resp)
       }
     },
-    DeletePet = function(pet.id, api.key=NULL, ...) {
-      api_response <- self$DeletePetWithHttpInfo(pet.id, api.key, ...)
+    DeletePet = function(pet_id, api_key=NULL, ...) {
+      api_response <- self$DeletePetWithHttpInfo(pet_id, api_key, ...)
       resp <- api_response$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         api_response$content
@@ -394,19 +421,19 @@ PetApi <- R6::R6Class(
       }
     },
 
-    DeletePetWithHttpInfo = function(pet.id, api.key=NULL, ...) {
+    DeletePetWithHttpInfo = function(pet_id, api_key=NULL, ...) {
       args <- list(...)
       query_params <- list()
       header_params <- c()
 
-      if (missing(`pet.id`)) {
-        stop("Missing required parameter `pet.id`.")
+      if (missing(`pet_id`)) {
+        stop("Missing required parameter `pet_id`.")
       }
 
       body <- NULL
       url_path <- "/pet/{petId}"
-      if (!missing(`pet.id`)) {
-        url_path <- gsub(paste0("\\{", "petId", "\\}"), URLencode(as.character(`pet.id`), reserved = TRUE), url_path)
+      if (!missing(`pet_id`)) {
+        url_path <- gsub(paste0("\\{", "petId", "\\}"), URLencode(as.character(`pet_id`), reserved = TRUE), url_path)
       }
 
       # OAuth token
@@ -541,8 +568,8 @@ PetApi <- R6::R6Class(
         ApiResponse$new("API server error", resp)
       }
     },
-    GetPetById = function(pet.id, data_file=NULL, ...) {
-      api_response <- self$GetPetByIdWithHttpInfo(pet.id, data_file = data_file, ...)
+    GetPetById = function(pet_id, data_file=NULL, ...) {
+      api_response <- self$GetPetByIdWithHttpInfo(pet_id, data_file = data_file, ...)
       resp <- api_response$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         api_response$content
@@ -555,19 +582,19 @@ PetApi <- R6::R6Class(
       }
     },
 
-    GetPetByIdWithHttpInfo = function(pet.id, data_file = NULL, ...) {
+    GetPetByIdWithHttpInfo = function(pet_id, data_file = NULL, ...) {
       args <- list(...)
       query_params <- list()
       header_params <- c()
 
-      if (missing(`pet.id`)) {
-        stop("Missing required parameter `pet.id`.")
+      if (missing(`pet_id`)) {
+        stop("Missing required parameter `pet_id`.")
       }
 
       body <- NULL
       url_path <- "/pet/{petId}"
-      if (!missing(`pet.id`)) {
-        url_path <- gsub(paste0("\\{", "petId", "\\}"), URLencode(as.character(`pet.id`), reserved = TRUE), url_path)
+      if (!missing(`pet_id`)) {
+        url_path <- gsub(paste0("\\{", "petId", "\\}"), URLencode(as.character(`pet_id`), reserved = TRUE), url_path)
       }
 
       # API key authentication
@@ -603,8 +630,8 @@ PetApi <- R6::R6Class(
         ApiResponse$new("API server error", resp)
       }
     },
-    UpdatePet = function(body, ...) {
-      api_response <- self$UpdatePetWithHttpInfo(body, ...)
+    UpdatePet = function(pet, data_file=NULL, ...) {
+      api_response <- self$UpdatePetWithHttpInfo(pet, data_file = data_file, ...)
       resp <- api_response$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         api_response$content
@@ -617,17 +644,17 @@ PetApi <- R6::R6Class(
       }
     },
 
-    UpdatePetWithHttpInfo = function(body, ...) {
+    UpdatePetWithHttpInfo = function(pet, data_file = NULL, ...) {
       args <- list(...)
       query_params <- list()
       header_params <- c()
 
-      if (missing(`body`)) {
-        stop("Missing required parameter `body`.")
+      if (missing(`pet`)) {
+        stop("Missing required parameter `pet`.")
       }
 
-      if (!missing(`body`)) {
-        body <- `body`$toJSONString()
+      if (!missing(`pet`)) {
+        body <- `pet`$toJSONString()
       } else {
         body <- NULL
       }
@@ -644,7 +671,18 @@ PetApi <- R6::R6Class(
                                  ...)
 
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
-        ApiResponse$new(NULL, resp)
+        # save response in a file
+        if (!is.null(data_file)) {
+            write(httr::content(resp, "text", encoding = "UTF-8", simplifyVector = FALSE), data_file)
+        }
+
+        deserialized_resp_obj <- tryCatch(
+          self$api_client$deserialize(resp, "Pet", loadNamespace("petstore")),
+          error = function(e) {
+             stop("Failed to deserialize response")
+          }
+        )
+        ApiResponse$new(deserialized_resp_obj, resp)
       } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
         ApiResponse$new(paste("Server returned ", httr::status_code(resp), " response status code."), resp)
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
@@ -653,8 +691,8 @@ PetApi <- R6::R6Class(
         ApiResponse$new("API server error", resp)
       }
     },
-    UpdatePetWithForm = function(pet.id, name=NULL, status=NULL, ...) {
-      api_response <- self$UpdatePetWithFormWithHttpInfo(pet.id, name, status, ...)
+    UpdatePetWithForm = function(pet_id, name=NULL, status=NULL, ...) {
+      api_response <- self$UpdatePetWithFormWithHttpInfo(pet_id, name, status, ...)
       resp <- api_response$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         api_response$content
@@ -667,13 +705,13 @@ PetApi <- R6::R6Class(
       }
     },
 
-    UpdatePetWithFormWithHttpInfo = function(pet.id, name=NULL, status=NULL, ...) {
+    UpdatePetWithFormWithHttpInfo = function(pet_id, name=NULL, status=NULL, ...) {
       args <- list(...)
       query_params <- list()
       header_params <- c()
 
-      if (missing(`pet.id`)) {
-        stop("Missing required parameter `pet.id`.")
+      if (missing(`pet_id`)) {
+        stop("Missing required parameter `pet_id`.")
       }
 
       body <- list(
@@ -682,8 +720,8 @@ PetApi <- R6::R6Class(
       )
 
       url_path <- "/pet/{petId}"
-      if (!missing(`pet.id`)) {
-        url_path <- gsub(paste0("\\{", "petId", "\\}"), URLencode(as.character(`pet.id`), reserved = TRUE), url_path)
+      if (!missing(`pet_id`)) {
+        url_path <- gsub(paste0("\\{", "petId", "\\}"), URLencode(as.character(`pet_id`), reserved = TRUE), url_path)
       }
 
       # OAuth token
@@ -706,8 +744,8 @@ PetApi <- R6::R6Class(
         ApiResponse$new("API server error", resp)
       }
     },
-    UploadFile = function(pet.id, additional.metadata=NULL, file=NULL, data_file=NULL, ...) {
-      api_response <- self$UploadFileWithHttpInfo(pet.id, additional.metadata, file, data_file = data_file, ...)
+    UploadFile = function(pet_id, additional_metadata=NULL, file=NULL, data_file=NULL, ...) {
+      api_response <- self$UploadFileWithHttpInfo(pet_id, additional_metadata, file, data_file = data_file, ...)
       resp <- api_response$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         api_response$content
@@ -720,23 +758,23 @@ PetApi <- R6::R6Class(
       }
     },
 
-    UploadFileWithHttpInfo = function(pet.id, additional.metadata=NULL, file=NULL, data_file = NULL, ...) {
+    UploadFileWithHttpInfo = function(pet_id, additional_metadata=NULL, file=NULL, data_file = NULL, ...) {
       args <- list(...)
       query_params <- list()
       header_params <- c()
 
-      if (missing(`pet.id`)) {
-        stop("Missing required parameter `pet.id`.")
+      if (missing(`pet_id`)) {
+        stop("Missing required parameter `pet_id`.")
       }
 
       body <- list(
-        "additionalMetadata" = additional.metadata,
+        "additionalMetadata" = additional_metadata,
         "file" = httr::upload_file(file)
       )
 
       url_path <- "/pet/{petId}/uploadImage"
-      if (!missing(`pet.id`)) {
-        url_path <- gsub(paste0("\\{", "petId", "\\}"), URLencode(as.character(`pet.id`), reserved = TRUE), url_path)
+      if (!missing(`pet_id`)) {
+        url_path <- gsub(paste0("\\{", "petId", "\\}"), URLencode(as.character(`pet_id`), reserved = TRUE), url_path)
       }
 
       # OAuth token

@@ -11,7 +11,7 @@ title: Documentation for the spring Generator
 | generator type | SERVER | |
 | generator language | Java | |
 | generator default templating engine | mustache | |
-| helpTxt | Generates a Java SpringBoot Server application using the SpringFox integration. | |
+| helpTxt | Generates a Java SpringBoot Server application using the SpringDoc integration. | |
 
 ## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.

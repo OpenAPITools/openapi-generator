@@ -11,13 +11,13 @@ part 'model200_response.g.dart';
 ///
 /// Properties:
 /// * [name] 
-/// * [class_] 
+/// * [classField] 
 abstract class Model200Response implements Built<Model200Response, Model200ResponseBuilder> {
     @BuiltValueField(wireName: r'name')
     int? get name;
 
     @BuiltValueField(wireName: r'class')
-    String? get class_;
+    String? get classField;
 
     Model200Response._();
 
@@ -47,10 +47,10 @@ class _$Model200ResponseSerializer implements StructuredSerializer<Model200Respo
                 ..add(serializers.serialize(object.name,
                     specifiedType: const FullType(int)));
         }
-        if (object.class_ != null) {
+        if (object.classField != null) {
             result
                 ..add(r'class')
-                ..add(serializers.serialize(object.class_,
+                ..add(serializers.serialize(object.classField,
                     specifiedType: const FullType(String)));
         }
         return result;
@@ -76,7 +76,7 @@ class _$Model200ResponseSerializer implements StructuredSerializer<Model200Respo
                 case r'class':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String)) as String;
-                    result.class_ = valueDes;
+                    result.classField = valueDes;
                     break;
             }
         }

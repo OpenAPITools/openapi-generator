@@ -28,7 +28,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 @Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen")
-@Client("${base-path}")
+@Client("${petstore-micronaut-base-path}")
 public interface FakeClassnameTags123Api {
     /**
      * To test class name in snake case
@@ -38,9 +38,10 @@ public interface FakeClassnameTags123Api {
      * @return ModelClient
      */
     @Patch(uri="/fake_classname_test")
-    @Produces(value={"application/json"})
-    @Consumes(value={"application/json"})
+    @Consumes({"application/json"})
+    @Produces({"application/json"})
     Mono<ModelClient> testClassname(
         @Body @NotNull @Valid ModelClient _body
     );
+
 }

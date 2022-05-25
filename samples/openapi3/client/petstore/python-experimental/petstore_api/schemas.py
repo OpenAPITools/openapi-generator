@@ -478,10 +478,7 @@ class Singleton:
     """
     _instances = {}
 
-    def __new__(cls, *args, **kwargs):
-        if not args:
-            raise ValueError('arg must be passed')
-        arg = args[0]
+    def __new__(cls, arg: typing.Any, **kwargs):
         key = (cls, arg)
         if key not in cls._instances:
             if arg in {None, True, False}:
@@ -508,9 +505,6 @@ class NoneClass(Singleton):
     def NONE(cls):
         return cls(None)
 
-    def is_none(self) -> bool:
-        return True
-
     def __bool__(self) -> bool:
         return False
 
@@ -533,19 +527,36 @@ class BoolClass(Singleton):
                 return key[1]
         raise ValueError('Unable to find the boolean value of this instance')
 
-    def is_true(self):
-        return bool(self)
-
-    def is_false(self):
-        return bool(self)
-
 
 class BoolBase:
-    pass
+    def is_true(self) -> bool:
+        """
+        A replacement for x is True
+        True if the instance is a BoolClass True Singleton
+        """
+        if not issubclass(self.__class__, BoolClass):
+            return False
+        return bool(self)
+
+    def is_false(self) -> bool:
+        """
+        A replacement for x is False
+        True if the instance is a BoolClass False Singleton
+        """
+        if not issubclass(self.__class__, BoolClass):
+            return False
+        return bool(self) is False
 
 
 class NoneBase:
-    pass
+    def is_none(self) -> bool:
+        """
+        A replacement for x is None
+        True if the instance is a NoneClass None Singleton
+        """
+        if issubclass(self.__class__, NoneClass):
+            return True
+        return False
 
 
 class StrBase:

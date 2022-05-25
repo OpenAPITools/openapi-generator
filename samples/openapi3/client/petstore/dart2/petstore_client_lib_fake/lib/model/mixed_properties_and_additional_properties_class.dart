@@ -85,7 +85,7 @@ class MixedPropertiesAndAdditionalPropertiesClass {
       return MixedPropertiesAndAdditionalPropertiesClass(
         uuid: mapValueOfType<String>(json, r'uuid'),
         dateTime: mapDateTime(json, r'dateTime', ''),
-        map: mapValueOfType<Map<String, Animal>>(json, r'map') ?? const {},
+        map: Animal.mapFromJson(json[r'map']) ?? const {},
       );
     }
     return null;
