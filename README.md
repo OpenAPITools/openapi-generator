@@ -649,6 +649,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [Prometheus/Alertmanager](https://github.com/prometheus/alertmanager)
 - [Qavar](https://www.qavar.com)
 - [QEDIT](https://qed-it.com)
+- [Qovery](https://qovery.com)
 - [Qulix Systems](https://www.qulix.com)
 - [Raksul](https://corp.raksul.com)
 - [Raiffeisen Schweiz Genossenschaft](https://www.raiffeisen.ch)
