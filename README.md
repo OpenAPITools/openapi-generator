@@ -1001,6 +1001,7 @@ Here is a list of template creators:
    * PHP Slim: @jfastnacht
    * PHP Slim4: [@ybelenko](https://github.com/ybelenko)
    * PHP Symfony: @ksm2
+   * PHP Symfony6: @BenjaminHae
    * Python FastAPI: @krjakbrjak
    * Python AIOHTTP:
    * Ruby on Rails 5: @zlx

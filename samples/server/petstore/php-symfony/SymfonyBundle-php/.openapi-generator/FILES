@@ -45,4 +45,3 @@ autoload.php
 composer.json
 git_push.sh
 phpunit.xml.dist
-pom.xml
