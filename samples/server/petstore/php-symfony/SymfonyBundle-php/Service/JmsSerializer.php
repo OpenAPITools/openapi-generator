@@ -5,7 +5,9 @@ namespace OpenAPI\Server\Service;
 use JMS\Serializer\SerializerBuilder;
 use JMS\Serializer\Naming\CamelCaseNamingStrategy;
 use JMS\Serializer\Naming\SerializedNameAnnotationStrategy;
-use JMS\Serializer\XmlDeserializationVisitor;
+use JMS\Serializer\Visitor\Factory\XmlDeserializationVisitorFactory;
+use DateTime;
+use RuntimeException;
 
 class JmsSerializer implements SerializerInterface
 {
@@ -13,10 +15,11 @@ class JmsSerializer implements SerializerInterface
 
     public function __construct()
     {
-        $naming_strategy = new SerializedNameAnnotationStrategy(new CamelCaseNamingStrategy());
+        $namingStrategy = new SerializedNameAnnotationStrategy(new CamelCaseNamingStrategy());
         $this->serializer = SerializerBuilder::create()
-            ->setDeserializationVisitor('json', new StrictJsonDeserializationVisitor($naming_strategy))
-            ->setDeserializationVisitor('xml', new XmlDeserializationVisitor($naming_strategy))
+            ->setDeserializationVisitor('json', new StrictJsonDeserializationVisitorFactory())
+            ->setDeserializationVisitor('xml', new XmlDeserializationVisitorFactory())
+            ->setPropertyNamingStrategy($namingStrategy)
             ->build();
     }
 
@@ -79,6 +82,11 @@ class JmsSerializer implements SerializerInterface
                 }
 
                 break;
+            case 'DateTime':
+            case '\DateTime':
+                return new DateTime($data);
+            default:
+                throw new RuntimeException(sprintf("Type %s is unsupported", $type));
         }
 
         // If we end up here, just return data

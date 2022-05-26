@@ -331,7 +331,7 @@ public class CodeGenMojo extends AbstractMojo {
     /**
      * A map of reserved names and how they should be escaped
      */
-    @Parameter(name = "reservedWordsMappings", property = "openapi.generator.maven.plugin.reservedWordMappings")
+    @Parameter(name = "reservedWordsMappings", property = "openapi.generator.maven.plugin.reservedWordsMappings")
     private List<String> reservedWordsMappings;
 
     /**
