@@ -18,12 +18,16 @@
 package org.openapitools.codegen.languages;
 
 import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.utils.ModelUtils;
+
+import io.swagger.v3.oas.models.media.Schema;
 
 import java.io.File;
 import java.util.*;
@@ -295,5 +299,97 @@ public class PhpLaravelServerCodegen extends AbstractPhpCodegen {
         }
 
         return camelize(name, false) + "Controller";
+    }
+
+    @Override
+    protected String getEnumDefaultValue(String defaultValue, String dataType) {
+        return defaultValue;
+    }
+
+    @Override
+    public CodegenProperty fromProperty(String name, Schema p) {
+        CodegenProperty property = super.fromProperty(name, p);
+        Schema referencedSchema = ModelUtils.getReferencedSchema(this.openAPI, p);
+
+        //Referenced enum case:
+        if (!property.isEnum && referencedSchema.getEnum() != null && !referencedSchema.getEnum().isEmpty()) {
+            property.dataType = this.getSchemaType(referencedSchema);
+            property.defaultValue = this.toDefaultValue(referencedSchema);
+            List<Object> _enum = referencedSchema.getEnum();
+
+            Map<String, Object> allowableValues = new HashMap<>();
+            allowableValues.put("values", _enum);
+            if (allowableValues.size() > 0) {
+                property.allowableValues = allowableValues;
+            }
+        }
+
+        return property;
+    }
+
+    @Override
+    public String toDefaultValue(Schema p) {
+        if (ModelUtils.isBooleanSchema(p)) {
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
+            } else if (!Boolean.TRUE.equals(p.getNullable())) {
+                return "false";
+            }
+        } else if (ModelUtils.isDateSchema(p)) {
+            // TODO
+        } else if (ModelUtils.isDateTimeSchema(p)) {
+            // TODO
+        } else if (ModelUtils.isFileSchema(p)) {
+            // TODO
+        } else if (ModelUtils.isNumberSchema(p)) {
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
+            } else if (!Boolean.TRUE.equals(p.getNullable())) {
+                return "0";
+            }
+        } else if (ModelUtils.isIntegerSchema(p)) {
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
+            } else if (!Boolean.TRUE.equals(p.getNullable())) {
+                return "0";
+            }
+        } else if (ModelUtils.isStringSchema(p)) {
+            if (p.getDefault() != null) {
+                return "'" + p.getDefault() + "'";
+            } else if (!Boolean.TRUE.equals(p.getNullable())) {
+                return "\"\"";
+            }
+        } else if (ModelUtils.isArraySchema(p)) {
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
+            } else if (!Boolean.TRUE.equals(p.getNullable())) {
+                return "[]";
+            }
+        }
+
+        return null;
+    }
+
+    @Override
+    public String toEnumDefaultValue(String value, String datatype) {
+        return datatype + "::" + value;
+    }
+
+    @Override
+    public String toEnumVarName(String value, String datatype) {
+        if (value.length() == 0) {
+            return super.toEnumVarName(value, datatype);
+        }
+
+        // number
+        if ("int".equals(datatype) || "double".equals(datatype) || "float".equals(datatype)) {
+            String varName = "NUMBER_" + value;
+            varName = varName.replaceAll("-", "MINUS_");
+            varName = varName.replaceAll("\\+", "PLUS_");
+            varName = varName.replaceAll("\\.", "_DOT_");
+            return varName;
+        }
+
+        return super.toEnumVarName(value, datatype);
     }
 }
