@@ -353,7 +353,7 @@ public class DefaultGenerator implements Generator {
             if (generateModelTests) {
                 // do not overwrite test file that already exists (regardless of config's skipOverwrite setting)
                 File modelTestFile = new File(filename);
-                if (! generateSamplesRun) {
+                if (! generateSamplesRun && modelTestFile.exists()) {
                     this.templateProcessor.skip(modelTestFile.toPath(), "Test files never overwrite an existing file of the same name.");
                 } else {
                     File written = processTemplateToFile(models, templateName, filename, generateModelTests, CodegenConstants.MODEL_TESTS, config.modelTestFileFolder());
