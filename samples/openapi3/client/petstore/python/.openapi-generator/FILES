@@ -81,10 +81,10 @@ docs/ParentPet.md
 docs/Pet.md
 docs/PetApi.md
 docs/Pig.md
-docs/PublishOptions.md
-docs/PublishOptionsPublish.md
 docs/PostInlineAdditionalPropertiesPayloadRequest.md
 docs/PostInlineAdditionalPropertiesPayloadRequestArrayDataInner.md
+docs/PublishOptions.md
+docs/PublishOptionsPublish.md
 docs/Quadrilateral.md
 docs/QuadrilateralInterface.md
 docs/ReadOnlyFirst.md
@@ -198,10 +198,10 @@ petstore_api/model/order.py
 petstore_api/model/parent_pet.py
 petstore_api/model/pet.py
 petstore_api/model/pig.py
-petstore_api/model/publish_options.py
-petstore_api/model/publish_options_publish.py
 petstore_api/model/post_inline_additional_properties_payload_request.py
 petstore_api/model/post_inline_additional_properties_payload_request_array_data_inner.py
+petstore_api/model/publish_options.py
+petstore_api/model/publish_options_publish.py
 petstore_api/model/quadrilateral.py
 petstore_api/model/quadrilateral_interface.py
 petstore_api/model/read_only_first.py
@@ -233,8 +233,4 @@ setup.cfg
 setup.py
 test-requirements.txt
 test/__init__.py
-test/test_egress_threshold_options.py
-test/test_publish_options.py
-test/test_publish_options_publish.py
-test/test_stream_options.py
 tox.ini

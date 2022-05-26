@@ -154,8 +154,8 @@ class TestGmFruit(unittest.TestCase):
             fruit._var_name_to_model_instances,
             {
                 'color': [fruit],
-                'length_cm': [fruit, apple_instance, banana_instance],
-                'cultivar': [fruit, apple_instance, banana_instance],
+                'length_cm': [fruit, banana_instance],
+                'cultivar': [fruit, apple_instance],
             }
         )
         self.assertEqual(

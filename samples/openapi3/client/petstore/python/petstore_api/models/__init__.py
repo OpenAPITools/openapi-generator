@@ -83,10 +83,10 @@ from petstore_api.model.order import Order
 from petstore_api.model.parent_pet import ParentPet
 from petstore_api.model.pet import Pet
 from petstore_api.model.pig import Pig
-from petstore_api.model.publish_options import PublishOptions
-from petstore_api.model.publish_options_publish import PublishOptionsPublish
 from petstore_api.model.post_inline_additional_properties_payload_request import PostInlineAdditionalPropertiesPayloadRequest
 from petstore_api.model.post_inline_additional_properties_payload_request_array_data_inner import PostInlineAdditionalPropertiesPayloadRequestArrayDataInner
+from petstore_api.model.publish_options import PublishOptions
+from petstore_api.model.publish_options_publish import PublishOptionsPublish
 from petstore_api.model.quadrilateral import Quadrilateral
 from petstore_api.model.quadrilateral_interface import QuadrilateralInterface
 from petstore_api.model.read_only_first import ReadOnlyFirst
