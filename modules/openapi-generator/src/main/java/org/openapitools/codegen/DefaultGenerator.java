@@ -96,9 +96,8 @@ public class DefaultGenerator implements Generator {
     private String contextPath;
     private Map<String, String> generatorPropertyDefaults = new HashMap<>();
     protected TemplateProcessor templateProcessor = null;
-
     private List<TemplateDefinition> userDefinedTemplates = new ArrayList<>();
-
+    private Boolean generateSamplesRun = false;
 
     public DefaultGenerator() {
         this(false);
@@ -229,6 +228,7 @@ public class DefaultGenerator implements Generator {
         generateModelDocumentation = GlobalSettings.getProperty(CodegenConstants.MODEL_DOCS) != null ? Boolean.valueOf(GlobalSettings.getProperty(CodegenConstants.MODEL_DOCS)) : getGeneratorPropertyDefaultSwitch(CodegenConstants.MODEL_DOCS, true);
         generateApiTests = GlobalSettings.getProperty(CodegenConstants.API_TESTS) != null ? Boolean.valueOf(GlobalSettings.getProperty(CodegenConstants.API_TESTS)) : getGeneratorPropertyDefaultSwitch(CodegenConstants.API_TESTS, true);
         generateApiDocumentation = GlobalSettings.getProperty(CodegenConstants.API_DOCS) != null ? Boolean.valueOf(GlobalSettings.getProperty(CodegenConstants.API_DOCS)) : getGeneratorPropertyDefaultSwitch(CodegenConstants.API_DOCS, true);
+        generateSamplesRun = GlobalSettings.getProperty(CodegenConstants.GENERATE_SAMPLES_RUN) != null ? Boolean.valueOf(GlobalSettings.getProperty(CodegenConstants.GENERATE_SAMPLES_RUN)) : getGeneratorPropertyDefaultSwitch(CodegenConstants.GENERATE_SAMPLES_RUN, false);
 
         // Additional properties added for tests to exclude references in project related files
         config.additionalProperties().put(CodegenConstants.GENERATE_API_TESTS, generateApiTests);
@@ -353,7 +353,7 @@ public class DefaultGenerator implements Generator {
             if (generateModelTests) {
                 // do not overwrite test file that already exists (regardless of config's skipOverwrite setting)
                 File modelTestFile = new File(filename);
-                if (1==0) {
+                if (! generateSamplesRun) {
                     this.templateProcessor.skip(modelTestFile.toPath(), "Test files never overwrite an existing file of the same name.");
                 } else {
                     File written = processTemplateToFile(models, templateName, filename, generateModelTests, CodegenConstants.MODEL_TESTS, config.modelTestFileFolder());

@@ -62,6 +62,6 @@ else
 
     # shellcheck disable=SC2086
     # shellcheck disable=SC2068
-    java ${JAVA_OPTS} -jar "$executable" batch ${BATCH_OPTS} --includes-base-dir "${root}" --fail-fast  -- ${files[@]}
+    java -DgenerateSamplesRun=true ${JAVA_OPTS} -jar "$executable" batch ${BATCH_OPTS} --includes-base-dir "${root}" --fail-fast  -- ${files[@]}
 fi
 
