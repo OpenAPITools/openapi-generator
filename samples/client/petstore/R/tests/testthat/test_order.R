@@ -3,7 +3,7 @@
 
 context("Test Order")
 
-model.instance <- Order$new()
+model_instance <- Order$new()
 
 test_that("id", {
   # tests for the property `id` (integer)
@@ -47,4 +47,3 @@ test_that("complete", {
   # uncomment below to test the property
   #expect_equal(model.instance$`complete`, "EXPECTED_RESULT")
 })
-

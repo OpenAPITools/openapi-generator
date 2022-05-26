@@ -3,7 +3,7 @@
 
 context("Test Category")
 
-model.instance <- Category$new()
+model_instance <- Category$new()
 
 test_that("id", {
   # tests for the property `id` (integer)
@@ -18,4 +18,3 @@ test_that("name", {
   # uncomment below to test the property
   #expect_equal(model.instance$`name`, "EXPECTED_RESULT")
 })
-
