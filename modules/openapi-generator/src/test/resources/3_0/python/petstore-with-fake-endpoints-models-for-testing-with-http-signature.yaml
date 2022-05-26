@@ -1365,6 +1365,23 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/GmFruitNoProperties'
+  /fake/TxRxAllOfModel:
+    post:
+      tags:
+        - fake
+      operationId: txRxAllOfModel
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StreamOptions'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StreamOptions'
 servers:
   - url: 'http://{server}.swagger.io:{port}/v2'
     description: petstore server
