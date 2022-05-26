@@ -29,7 +29,7 @@ import java.time.OffsetTime
 import java.util.Locale
 import com.squareup.moshi.adapter
 
-internal open class ApiClient(val baseUrl: String) {
+internal open class ApiClient(val baseUrl: String, val client: OkHttpClient = defaultClient) {
     internal companion object {
         protected const val ContentType = "Content-Type"
         protected const val Accept = "Accept"
@@ -47,7 +47,7 @@ internal open class ApiClient(val baseUrl: String) {
         const val baseUrlKey = "org.openapitools.client.baseUrl"
 
         @JvmStatic
-        val client: OkHttpClient by lazy {
+        val defaultClient: OkHttpClient by lazy {
             builder.build()
         }
 

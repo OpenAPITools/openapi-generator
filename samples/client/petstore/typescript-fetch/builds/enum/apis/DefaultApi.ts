@@ -37,9 +37,9 @@ export interface FakeEnumRequestGetInlineRequest {
 }
 
 export interface FakeEnumRequestGetRefRequest {
-    stringEnum?: FakeEnumRequestGetRefStringEnumEnum;
+    stringEnum?: StringEnum;
     nullableStringEnum?: StringEnum | null;
-    numberEnum?: FakeEnumRequestGetRefNumberEnumEnum;
+    numberEnum?: NumberEnum;
     nullableNumberEnum?: NumberEnum | null;
 }
 
@@ -210,21 +210,3 @@ export const FakeEnumRequestGetInlineNumberEnumEnum = {
     NUMBER_3: 3
 } as const;
 export type FakeEnumRequestGetInlineNumberEnumEnum = typeof FakeEnumRequestGetInlineNumberEnumEnum[keyof typeof FakeEnumRequestGetInlineNumberEnumEnum];
-/**
- * @export
- */
-export const FakeEnumRequestGetRefStringEnumEnum = {
-    One: 'one',
-    Two: 'two',
-    Three: 'three'
-} as const;
-export type FakeEnumRequestGetRefStringEnumEnum = typeof FakeEnumRequestGetRefStringEnumEnum[keyof typeof FakeEnumRequestGetRefStringEnumEnum];
-/**
- * @export
- */
-export const FakeEnumRequestGetRefNumberEnumEnum = {
-    NUMBER_1: 1,
-    NUMBER_2: 2,
-    NUMBER_3: 3
-} as const;
-export type FakeEnumRequestGetRefNumberEnumEnum = typeof FakeEnumRequestGetRefNumberEnumEnum[keyof typeof FakeEnumRequestGetRefNumberEnumEnum];
