@@ -485,7 +485,19 @@ namespace {{packageName}}.Client
                 response = (policyResult.Outcome == OutcomeType.Successful) ? client.Deserialize<T>(policyResult.Result) : new RestResponse<T>
                 {
                     Request = req,
-                    ErrorException = policyResult.FinalException
+                    ErrorException = policyResult.FinalException,
+                    Content = policyResult.FinalHandledResult.Content,
+                    ContentEncoding = policyResult.FinalHandledResult.ContentEncoding,
+                    ContentLength = policyResult.FinalHandledResult.ContentLength,
+                    ContentType = policyResult.FinalHandledResult.ContentType,
+                    RawBytes = policyResult.FinalHandledResult.RawBytes,
+                    ResponseStatus = policyResult.FinalHandledResult.ResponseStatus,
+                    Server = policyResult.FinalHandledResult.Server,
+                    StatusCode = policyResult.FinalHandledResult.StatusCode,
+                    StatusDescription = policyResult.FinalHandledResult.StatusDescription,
+                    ErrorMessage = policyResult.FinalHandledResult.ErrorMessage,
+                    ProtocolVersion = policyResult.FinalHandledResult.ProtocolVersion,
+                    ResponseUri = policyResult.FinalHandledResult.ResponseUri,
                 };
             }
             else
