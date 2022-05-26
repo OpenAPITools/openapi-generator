@@ -28,10 +28,10 @@ docs/FakeClassnameTags123Api.md
 docs/File.md
 docs/FileSchemaTestClass.md
 docs/Foo.md
+docs/FooGetDefaultResponse.md
 docs/FormatTest.md
 docs/HasOnlyReadOnly.md
 docs/HealthCheckResult.md
-docs/InlineResponseDefault.md
 docs/List.md
 docs/MapTest.md
 docs/MixedPropertiesAndAdditionalPropertiesClass.md
@@ -93,10 +93,10 @@ petstore_api/models/enum_test.py
 petstore_api/models/file.py
 petstore_api/models/file_schema_test_class.py
 petstore_api/models/foo.py
+petstore_api/models/foo_get_default_response.py
 petstore_api/models/format_test.py
 petstore_api/models/has_only_read_only.py
 petstore_api/models/health_check_result.py
-petstore_api/models/inline_response_default.py
 petstore_api/models/list.py
 petstore_api/models/map_test.py
 petstore_api/models/mixed_properties_and_additional_properties_class.py

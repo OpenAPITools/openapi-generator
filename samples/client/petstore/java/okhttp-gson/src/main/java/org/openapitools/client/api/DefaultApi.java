@@ -27,7 +27,7 @@ import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
 
 
-import org.openapitools.client.model.InlineResponseDefault;
+import org.openapitools.client.model.FooGetDefaultResponse;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -141,7 +141,7 @@ public class DefaultApi {
     /**
      * 
      * 
-     * @return InlineResponseDefault
+     * @return FooGetDefaultResponse
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
      <table summary="Response Details" border="1">
@@ -149,15 +149,15 @@ public class DefaultApi {
         <tr><td> 0 </td><td> response </td><td>  -  </td></tr>
      </table>
      */
-    public InlineResponseDefault fooGet() throws ApiException {
-        ApiResponse<InlineResponseDefault> localVarResp = fooGetWithHttpInfo();
+    public FooGetDefaultResponse fooGet() throws ApiException {
+        ApiResponse<FooGetDefaultResponse> localVarResp = fooGetWithHttpInfo();
         return localVarResp.getData();
     }
 
     /**
      * 
      * 
-     * @return ApiResponse&lt;InlineResponseDefault&gt;
+     * @return ApiResponse&lt;FooGetDefaultResponse&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
      <table summary="Response Details" border="1">
@@ -165,9 +165,9 @@ public class DefaultApi {
         <tr><td> 0 </td><td> response </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<InlineResponseDefault> fooGetWithHttpInfo() throws ApiException {
+    public ApiResponse<FooGetDefaultResponse> fooGetWithHttpInfo() throws ApiException {
         okhttp3.Call localVarCall = fooGetValidateBeforeCall(null);
-        Type localVarReturnType = new TypeToken<InlineResponseDefault>(){}.getType();
+        Type localVarReturnType = new TypeToken<FooGetDefaultResponse>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
@@ -183,10 +183,10 @@ public class DefaultApi {
         <tr><td> 0 </td><td> response </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call fooGetAsync(final ApiCallback<InlineResponseDefault> _callback) throws ApiException {
+    public okhttp3.Call fooGetAsync(final ApiCallback<FooGetDefaultResponse> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = fooGetValidateBeforeCall(_callback);
-        Type localVarReturnType = new TypeToken<InlineResponseDefault>(){}.getType();
+        Type localVarReturnType = new TypeToken<FooGetDefaultResponse>(){}.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
     }

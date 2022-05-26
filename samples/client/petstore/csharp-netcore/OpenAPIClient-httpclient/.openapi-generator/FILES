@@ -37,6 +37,7 @@ docs/FakeClassnameTags123Api.md
 docs/File.md
 docs/FileSchemaTestClass.md
 docs/Foo.md
+docs/FooGetDefaultResponse.md
 docs/FormatTest.md
 docs/Fruit.md
 docs/FruitReq.md
@@ -44,7 +45,6 @@ docs/GmFruit.md
 docs/GrandparentAnimal.md
 docs/HasOnlyReadOnly.md
 docs/HealthCheckResult.md
-docs/InlineResponseDefault.md
 docs/IsoscelesTriangle.md
 docs/List.md
 docs/Mammal.md
@@ -144,6 +144,7 @@ src/Org.OpenAPITools/Model/EquilateralTriangle.cs
 src/Org.OpenAPITools/Model/File.cs
 src/Org.OpenAPITools/Model/FileSchemaTestClass.cs
 src/Org.OpenAPITools/Model/Foo.cs
+src/Org.OpenAPITools/Model/FooGetDefaultResponse.cs
 src/Org.OpenAPITools/Model/FormatTest.cs
 src/Org.OpenAPITools/Model/Fruit.cs
 src/Org.OpenAPITools/Model/FruitReq.cs
@@ -151,7 +152,6 @@ src/Org.OpenAPITools/Model/GmFruit.cs
 src/Org.OpenAPITools/Model/GrandparentAnimal.cs
 src/Org.OpenAPITools/Model/HasOnlyReadOnly.cs
 src/Org.OpenAPITools/Model/HealthCheckResult.cs
-src/Org.OpenAPITools/Model/InlineResponseDefault.cs
 src/Org.OpenAPITools/Model/IsoscelesTriangle.cs
 src/Org.OpenAPITools/Model/List.cs
 src/Org.OpenAPITools/Model/Mammal.cs

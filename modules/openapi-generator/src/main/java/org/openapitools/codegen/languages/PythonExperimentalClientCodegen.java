@@ -2342,8 +2342,9 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
     @Override
     public void preprocessOpenAPI(OpenAPI openAPI) {
         String originalSpecVersion;
-        if (openAPI.getExtensions() != null && !openAPI.getExtensions().isEmpty()) {
-            originalSpecVersion = (String) openAPI.getExtensions().get("x-original-swagger-version");
+        String xOriginalSwaggerVersion = "x-original-swagger-version";
+        if (openAPI.getExtensions() != null && !openAPI.getExtensions().isEmpty() && openAPI.getExtensions().containsValue(xOriginalSwaggerVersion)) {
+            originalSpecVersion = (String) openAPI.getExtensions().get(xOriginalSwaggerVersion);
         } else {
             originalSpecVersion = openAPI.getOpenapi();
         }

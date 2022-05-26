@@ -39,6 +39,7 @@ docs/FakeApi.md
 docs/FakeClassnameTags123Api.md
 docs/FileSchemaTestClass.md
 docs/Foo.md
+docs/FooGetDefaultResponse.md
 docs/FormatTest.md
 docs/Fruit.md
 docs/FruitReq.md
@@ -46,7 +47,6 @@ docs/GmFruit.md
 docs/GrandparentAnimal.md
 docs/HasOnlyReadOnly.md
 docs/HealthCheckResult.md
-docs/InlineResponseDefault.md
 docs/IsoscelesTriangle.md
 docs/Mammal.md
 docs/MapTest.md
@@ -153,6 +153,7 @@ src/main/java/org/openapitools/client/model/EnumTest.java
 src/main/java/org/openapitools/client/model/EquilateralTriangle.java
 src/main/java/org/openapitools/client/model/FileSchemaTestClass.java
 src/main/java/org/openapitools/client/model/Foo.java
+src/main/java/org/openapitools/client/model/FooGetDefaultResponse.java
 src/main/java/org/openapitools/client/model/FormatTest.java
 src/main/java/org/openapitools/client/model/Fruit.java
 src/main/java/org/openapitools/client/model/FruitReq.java
@@ -160,7 +161,6 @@ src/main/java/org/openapitools/client/model/GmFruit.java
 src/main/java/org/openapitools/client/model/GrandparentAnimal.java
 src/main/java/org/openapitools/client/model/HasOnlyReadOnly.java
 src/main/java/org/openapitools/client/model/HealthCheckResult.java
-src/main/java/org/openapitools/client/model/InlineResponseDefault.java
 src/main/java/org/openapitools/client/model/IsoscelesTriangle.java
 src/main/java/org/openapitools/client/model/Mammal.java
 src/main/java/org/openapitools/client/model/MapTest.java

@@ -517,8 +517,8 @@ public class SpringCodegenTest {
         generator.opts(input).generate();
 
         JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/ExampleApi.java"))
-            .assertMethod("exampleApiPost", "InlineObject")
-            .hasParameter("inlineObject")
+            .assertMethod("exampleApiPost", "ExampleApiPostRequest")
+            .hasParameter("exampleApiPostRequest")
             .assertParameterAnnotations()
             .containsWithNameAndAttributes("RequestBody", ImmutableMap.of("required", "false"));
 
@@ -591,7 +591,7 @@ public class SpringCodegenTest {
 
         // Check that api validates mixed multipart request
         JavaFileAssert.assertThat(files.get("MultipartMixedApi.java"))
-            .assertMethod("multipartMixed", "MultipartMixedStatus", "MultipartFile", "MultipartMixedMarker")
+            .assertMethod("multipartMixed", "MultipartMixedStatus", "MultipartFile", "MultipartMixedRequestMarker")
                 .hasParameter("status").withType("MultipartMixedStatus")
                 .assertParameterAnnotations()
                 .containsWithName("Valid")
@@ -602,7 +602,7 @@ public class SpringCodegenTest {
                 .assertParameterAnnotations()
                 .containsWithNameAndAttributes("RequestPart", ImmutableMap.of("value", "\"file\"", "required", "true"))
             .toParameter().toMethod()
-                .hasParameter("marker").withType("MultipartMixedMarker")
+                .hasParameter("marker").withType("MultipartMixedRequestMarker")
                 .assertParameterAnnotations()
                 .containsWithNameAndAttributes("RequestParam", ImmutableMap.of("value", "\"marker\"", "required", "false"));
     }
@@ -848,20 +848,35 @@ public class SpringCodegenTest {
 
     }
 
-    /**define the destinationFilename*/
-    private final static String DESTINATIONFILE = "SpringFoxConfiguration.java";
-    /**define the templateFile*/
-    private final static String TEMPLATEFILE = "openapiDocumentationConfig.mustache";
+    /**Define documentation providers to test */
+    private final static String SPRINGFOX = "springfox";
+    private final static String SPRINGFOX_DESTINATIONFILE = "SpringFoxConfiguration.java";
+    private final static String SPRINGFOX_TEMPLATEFILE = "openapiDocumentationConfig.mustache";
+    private final static String SPRINGDOC = "springdoc";
+    private final static String SPRINGDOC_DESTINATIONFILE = "SpringDocConfiguration.java";
+    private final static String SPRINGDOC_TEMPLATEFILE = "springdocDocumentationConfig.mustache";
 
     /**
      * test whether OpenAPIDocumentationConfig.java is generated
      * fix issue #10287
      */
     @Test
-    public void testConfigFileGeneration() {
+    public void testConfigFileGeneration_springfox() {
+        testConfigFileCommon(SPRINGFOX, SPRINGFOX_DESTINATIONFILE, SPRINGFOX_TEMPLATEFILE);
+    }
 
+    /**
+     * test whether SpringDocDocumentationConfig.java is generated
+     * fix issue #12220
+     */
+    @Test
+    public void testConfigFileGeneration_springdoc() {
+        testConfigFileCommon(SPRINGDOC, SPRINGDOC_DESTINATIONFILE, SPRINGDOC_TEMPLATEFILE);
+    }
+
+    private void testConfigFileCommon(String documentationProvider, String destinationFile, String templateFileName){
         final SpringCodegen codegen = new SpringCodegen();
-        codegen.additionalProperties().put(DOCUMENTATION_PROVIDER, "springfox");
+        codegen.additionalProperties().put(DOCUMENTATION_PROVIDER, documentationProvider);
         codegen.additionalProperties().put(SpringCodegen.INTERFACE_ONLY, false);
         codegen.additionalProperties().put(SpringCodegen.SPRING_CLOUD_LIBRARY, "spring-cloud");
         codegen.additionalProperties().put(SpringCodegen.REACTIVE, false);
@@ -877,13 +892,13 @@ public class SpringCodegenTest {
             tmpFile = s.getTemplateFile();
             desFile = s.getDestinationFilename();
 
-            if (TEMPLATEFILE.equals(tmpFile)) {
+            if (templateFileName.equals(tmpFile)) {
                 flag = true;
-                assertEquals(desFile, DESTINATIONFILE);
+                assertEquals(desFile, destinationFile);
             }
         }
         if (!flag) {
-            fail("OpenAPIDocumentationConfig.java not generated");
+            fail(templateFileName + " not generated");
         }
     }
 
@@ -950,7 +965,7 @@ public class SpringCodegenTest {
     }
 
     @Test
-    public void oneOf_5381() throws IOException {
+    public void testOneOf5381() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
         String outputPath = output.getAbsolutePath().replace('\\', '/');
@@ -988,7 +1003,7 @@ public class SpringCodegenTest {
     }
 
     @Test
-    public void oneOf_allOf() throws IOException {
+    public void testOneOfAndAllOf() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
         String outputPath = output.getAbsolutePath().replace('\\', '/');
@@ -1007,7 +1022,7 @@ public class SpringCodegenTest {
         DefaultGenerator generator = new DefaultGenerator();
         codegen.setHateoas(true);
         generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
-//        generator.setGeneratorPropertyDefault(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, "true");
+        //generator.setGeneratorPropertyDefault(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, "true");
         generator.setGeneratorPropertyDefault(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, "false");
 
         codegen.setUseOneOfInterfaces(true);

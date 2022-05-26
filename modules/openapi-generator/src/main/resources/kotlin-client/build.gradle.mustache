@@ -8,6 +8,9 @@ wrapper {
 
 buildscript {
     ext.kotlin_version = '1.5.10'
+    {{#jvm-ktor}}
+    ext.ktor_version = '1.6.7'
+    {{/jvm-ktor}}
     {{#jvm-retrofit2}}
     ext.retrofitVersion = '2.9.0'
     {{/jvm-retrofit2}}
@@ -81,6 +84,15 @@ dependencies {
     {{#kotlinx_serialization}}
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.2.1"
     {{/kotlinx_serialization}}
+    {{#jvm-ktor}}
+    implementation "io.ktor:ktor-client-core:$ktor_version"
+    {{#gson}}
+    implementation "io.ktor:ktor-client-gson:$ktor_version"
+    {{/gson}}
+    {{#jackson}}
+    implementation "io.ktor:ktor-client-jackson:$ktor_version"
+    {{/jackson}}
+    {{/jvm-ktor}}
     {{#jvm-okhttp3}}
     implementation "com.squareup.okhttp3:okhttp:3.12.13"
     {{/jvm-okhttp3}}

@@ -1,5 +1,10 @@
 package org.openapitools.codegen.languages;
 
+import com.google.common.collect.ImmutableMap;
+import com.samskivert.mustache.Mustache;
+import com.samskivert.mustache.Template;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
@@ -10,11 +15,17 @@ import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
+import java.io.Writer;
 import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.CodegenConstants.INVOKER_PACKAGE;
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen implements BeanValidationFeatures, OptionalFeatures {
     public static final String OPT_TITLE = "title";
@@ -35,6 +46,15 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
     public static final String OPT_DATETIME_FORMAT = "datetimeFormat";
     public static final String OPT_REACTIVE = "reactive";
     public static final String OPT_WRAP_IN_HTTP_RESPONSE = "wrapInHttpResponse";
+    public static final String OPT_APPLICATION_NAME = "applicationName";
+    public static final String OPT_GENERATE_SWAGGER_ANNOTATIONS = "generateSwaggerAnnotations";
+    public static final String OPT_GENERATE_SWAGGER_ANNOTATIONS_SWAGGER_1 = "swagger1";
+    public static final String OPT_GENERATE_SWAGGER_ANNOTATIONS_SWAGGER_2 = "swagger2";
+    public static final String OPT_GENERATE_SWAGGER_ANNOTATIONS_TRUE = "true";
+    public static final String OPT_GENERATE_SWAGGER_ANNOTATIONS_FALSE = "false";
+    public static final String OPT_GENERATE_OPERATION_ONLY_FOR_FIRST_TAG = "generateOperationOnlyForFirstTag";
+
+    protected final Logger LOGGER = LoggerFactory.getLogger(JavaMicronautAbstractCodegen.class);
 
     protected String title;
     protected boolean useBeanValidation;
@@ -46,6 +66,9 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
     protected String micronautVersion;
     protected boolean reactive;
     protected boolean wrapInHttpResponse;
+    protected String appName;
+    protected String generateSwaggerAnnotations;
+    protected boolean generateOperationOnlyForFirstTag;
 
     public static final String CONTENT_TYPE_APPLICATION_FORM_URLENCODED = "application/x-www-form-urlencoded";
     public static final String CONTENT_TYPE_APPLICATION_JSON = "application/json";
@@ -64,18 +87,24 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
         visitable = false;
         buildTool = OPT_BUILD_ALL;
         testTool = OPT_TEST_JUNIT;
-        outputFolder = "generated-code/java-micronaut-client";
+        outputFolder = this instanceof JavaMicronautClientCodegen ?
+                "generated-code/java-micronaut-client" : "generated-code/java-micronaut";
         apiPackage = "org.openapitools.api";
         modelPackage = "org.openapitools.model";
         invokerPackage = "org.openapitools";
-        artifactId = "openapi-micronaut";
+        artifactId = this instanceof JavaMicronautClientCodegen ?
+                "openapi-micronaut-client" : "openapi-micronaut";
         embeddedTemplateDir = templateDir = "java-micronaut";
         apiDocPath = "docs/apis";
         modelDocPath = "docs/models";
         dateLibrary = OPT_DATE_LIBRARY_JAVA8;
-        micronautVersion = "3.3.1";
+        micronautVersion = "3.4.3";
         reactive = true;
         wrapInHttpResponse = false;
+        appName = artifactId;
+        generateSwaggerAnnotations = this instanceof JavaMicronautClientCodegen ?
+                OPT_GENERATE_SWAGGER_ANNOTATIONS_FALSE : OPT_GENERATE_SWAGGER_ANNOTATIONS_SWAGGER_2;
+        generateOperationOnlyForFirstTag = this instanceof JavaMicronautServerCodegen;
 
         // Set implemented features for user information
         modifyFeatureSet(features -> features
@@ -106,12 +135,15 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
 
         cliOptions.add(new CliOption(OPT_TITLE, "Client service name").defaultValue(title));
         cliOptions.add(new CliOption(OPT_MICRONAUT_VERSION, "Micronaut version, only >=3.0.0 versions are supported").defaultValue(micronautVersion));
+        cliOptions.add(new CliOption(OPT_APPLICATION_NAME, "Micronaut application name (Defaults to the " + CodegenConstants.ARTIFACT_ID + " value)").defaultValue(appName));
         cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations", useBeanValidation));
         cliOptions.add(CliOption.newBoolean(USE_OPTIONAL, "Use Optional container for optional parameters", useOptional));
         cliOptions.add(CliOption.newBoolean(OPT_VISITABLE, "Generate visitor for subtypes with a discriminator", visitable));
         cliOptions.add(CliOption.newBoolean(OPT_REQUIRED_PROPERTIES_IN_CONSTRUCTOR, "Allow only to create models with all the required properties provided in constructor", requiredPropertiesInConstructor));
         cliOptions.add(CliOption.newBoolean(OPT_REACTIVE, "Make the responses use Reactor Mono as wrapper", reactive));
         cliOptions.add(CliOption.newBoolean(OPT_WRAP_IN_HTTP_RESPONSE, "Wrap the response in HttpResponse object", wrapInHttpResponse));
+        cliOptions.add(CliOption.newBoolean(OPT_GENERATE_OPERATION_ONLY_FOR_FIRST_TAG, "When false, the operation method will be duplicated in each of the tags if multiple tags are assigned to this operation. " +
+                "If true, each operation will be generated only once in the first assigned tag.", generateOperationOnlyForFirstTag));
 
         CliOption buildToolOption = new CliOption(OPT_BUILD, "Specify for which build tool to generate files").defaultValue(buildTool);
         Map<String, String> buildToolOptionMap = new HashMap<>();
@@ -127,6 +159,15 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
         testToolOptionMap.put(OPT_TEST_SPOCK, "Use Spock as test tool");
         testToolOption.setEnum(testToolOptionMap);
         cliOptions.add(testToolOption);
+
+        CliOption generateSwaggerAnnotationsOption = new CliOption(OPT_GENERATE_SWAGGER_ANNOTATIONS, "Specify if you want to generate swagger annotations and which version").defaultValue(generateSwaggerAnnotations);
+        Map<String, String> generateSwaggerAnnotationsOptionMap = new HashMap<>();
+        generateSwaggerAnnotationsOptionMap.put(OPT_GENERATE_SWAGGER_ANNOTATIONS_SWAGGER_1, "Use io.swagger:swagger-annotations for annotating operations and schemas");
+        generateSwaggerAnnotationsOptionMap.put(OPT_GENERATE_SWAGGER_ANNOTATIONS_SWAGGER_2, "Use io.swagger.core.v3:swagger-annotations for annotating operations and schemas");
+        generateSwaggerAnnotationsOptionMap.put(OPT_GENERATE_SWAGGER_ANNOTATIONS_TRUE, "Equivalent to \"" + OPT_GENERATE_SWAGGER_ANNOTATIONS_SWAGGER_2 + "\"");
+        generateSwaggerAnnotationsOptionMap.put(OPT_GENERATE_SWAGGER_ANNOTATIONS_FALSE, "Do not generate swagger annotations");
+        generateSwaggerAnnotationsOption.setEnum(generateSwaggerAnnotationsOptionMap);
+        cliOptions.add(generateSwaggerAnnotationsOption);
 
         cliOptions.add(new CliOption(OPT_DATE_FORMAT, "Specify the format pattern of date as a string"));
         cliOptions.add(new CliOption(OPT_DATETIME_FORMAT, "Specify the format pattern of date-time as a string"));
@@ -168,6 +209,12 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
             additionalProperties.put(OPT_MICRONAUT_VERSION, micronautVersion);
         }
 
+        if (additionalProperties.containsKey(OPT_APPLICATION_NAME)) {
+            appName = (String) additionalProperties.get(OPT_APPLICATION_NAME);
+        } else {
+            additionalProperties.put(OPT_APPLICATION_NAME, artifactId);
+        }
+
         // Get boolean properties
         if (additionalProperties.containsKey(USE_BEANVALIDATION)) {
             this.setUseBeanValidation(convertPropertyToBoolean(USE_BEANVALIDATION));
@@ -199,6 +246,11 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
         }
         writePropertyBack(OPT_WRAP_IN_HTTP_RESPONSE, wrapInHttpResponse);
 
+        if (additionalProperties.containsKey(OPT_GENERATE_OPERATION_ONLY_FOR_FIRST_TAG)) {
+            this.generateOperationOnlyForFirstTag = convertPropertyToBoolean(OPT_GENERATE_OPERATION_ONLY_FOR_FIRST_TAG);
+        }
+        writePropertyBack(OPT_GENERATE_OPERATION_ONLY_FOR_FIRST_TAG, generateOperationOnlyForFirstTag);
+
         // Get enum properties
         if (additionalProperties.containsKey(OPT_BUILD)) {
             switch ((String) additionalProperties.get(OPT_BUILD)) {
@@ -228,6 +280,29 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
             additionalProperties.put("isTestJunit", true);
         } else if (testTool.equals(OPT_TEST_SPOCK)) {
             additionalProperties.put("isTestSpock", true);
+        }
+
+        if (additionalProperties.containsKey(OPT_GENERATE_SWAGGER_ANNOTATIONS)) {
+            String value = String.valueOf(additionalProperties.get(OPT_GENERATE_SWAGGER_ANNOTATIONS));
+            switch (value) {
+                case OPT_GENERATE_SWAGGER_ANNOTATIONS_SWAGGER_1:
+                    this.generateSwaggerAnnotations = OPT_GENERATE_SWAGGER_ANNOTATIONS_SWAGGER_1;
+                    break;
+                case OPT_GENERATE_SWAGGER_ANNOTATIONS_SWAGGER_2:
+                case OPT_GENERATE_SWAGGER_ANNOTATIONS_TRUE:
+                    this.generateSwaggerAnnotations = OPT_GENERATE_SWAGGER_ANNOTATIONS_SWAGGER_2;
+                    break;
+                case OPT_GENERATE_SWAGGER_ANNOTATIONS_FALSE:
+                    this.generateSwaggerAnnotations = OPT_GENERATE_SWAGGER_ANNOTATIONS_FALSE;
+                    break;
+                default:
+                    throw new RuntimeException("Value \"" + value + "\" for the " + OPT_GENERATE_SWAGGER_ANNOTATIONS + " parameter is unsupported or misspelled");
+            }
+        }
+        if (OPT_GENERATE_SWAGGER_ANNOTATIONS_SWAGGER_1.equals(this.generateSwaggerAnnotations)) {
+            additionalProperties.put("generateSwagger1Annotations", true);
+        } else if (OPT_GENERATE_SWAGGER_ANNOTATIONS_SWAGGER_2.equals(this.generateSwaggerAnnotations)) {
+            additionalProperties.put("generateSwagger2Annotations", true);
         }
 
         // Add all the supporting files
@@ -373,6 +448,24 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
     }
 
     @Override
+    public String sanitizeTag(String tag) {
+        // Skip sanitization to get the original tag name in the addOperationToGroup() method.
+        // Inside that method tag is manually sanitized.
+        return tag;
+    }
+
+    @Override
+    public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation
+            co, Map<String, List<CodegenOperation>> operations) {
+        if (generateOperationOnlyForFirstTag && !co.tags.get(0).getName().equals(tag)) {
+            // This is not the first assigned to this operation tag;
+            return;
+        }
+
+        super.addOperationToGroup(super.sanitizeTag(tag), resourcePath, operation, co, operations);
+    }
+
+    @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         objs = super.postProcessOperationsWithModels(objs, allModels);
 
@@ -443,6 +536,14 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
         }
 
         return objs;
+    }
+
+    @Override
+    public CodegenModel fromModel(String name, Schema model) {
+        CodegenModel codegenModel = super.fromModel(name, model);
+        codegenModel.imports.remove("ApiModel");
+        codegenModel.imports.remove("ApiModelProperty");
+        return codegenModel;
     }
 
     @Override
@@ -595,5 +696,18 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
             return null;
         }
         return escapeText(text).replaceAll("'", "\\'");
+    }
+
+    @Override
+    protected ImmutableMap.Builder<String, Mustache.Lambda> addMustacheLambdas() {
+        return super.addMustacheLambdas()
+            .put("replaceDotsWithUnderscore", new ReplaceDotsWithUnderscoreLambda());
+    }
+
+    private static class ReplaceDotsWithUnderscoreLambda implements Mustache.Lambda {
+        @Override
+        public void execute(final Template.Fragment fragment, final Writer writer) throws IOException {
+            writer.write(fragment.execute().replace('.', '_'));
+        }
     }
 }

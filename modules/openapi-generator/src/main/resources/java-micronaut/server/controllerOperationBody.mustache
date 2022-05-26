@@ -1,7 +1,12 @@
     {{^generateControllerFromExamples}}
         {{!The body needs to be implemented by user}}
         // TODO implement {{nickname}}();
+        {{^generateOperationsToReturnNotImplemented}}
         {{#reactive}}{{#wrapInHttpResponse}}return Mono.fromCallable(HttpResponse::ok);{{/wrapInHttpResponse}}{{^wrapInHttpResponse}}return Mono.empty();{{/wrapInHttpResponse}}{{/reactive}}{{^reactive}}{{#wrapInHttpResponse}}return HttpResponse.ok();{{/wrapInHttpResponse}}{{^wrapInHttpResponse}}{{#returnType}}return null;{{/returnType}}{{/wrapInHttpResponse}}{{/reactive}}
+        {{/generateOperationsToReturnNotImplemented}}
+        {{#generateOperationsToReturnNotImplemented}}
+        {{#reactive}}{{#wrapInHttpResponse}}return Mono.just(HttpResponse.status(HttpStatus.NOT_IMPLEMENTED));{{/wrapInHttpResponse}}{{^wrapInHttpResponse}}return Mono.error(new HttpStatusException(HttpStatus.NOT_IMPLEMENTED, null));{{/wrapInHttpResponse}}{{/reactive}}{{^reactive}}{{#wrapInHttpResponse}}return HttpResponse.status(HttpStatus.NOT_IMPLEMENTED);{{/wrapInHttpResponse}}{{^wrapInHttpResponse}}throw new HttpStatusException(HttpStatus.NOT_IMPLEMENTED, null);{{/wrapInHttpResponse}}{{/reactive}}
+        {{/generateOperationsToReturnNotImplemented}}
     {{/generateControllerFromExamples}}
     {{#generateControllerFromExamples}}
         {{!The body is generated to verify that example values are passed correctly}}

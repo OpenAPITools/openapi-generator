@@ -27,13 +27,13 @@ import kotlinx.serialization.encoding.*
     /**
      * {{summary}}
      * {{notes}}
-    {{#allParams}} * @param {{{paramName}}} {{description}} {{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
+    {{#allParams}} * @param {{{paramName}}} {{description}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}{{/required}}
     {{/allParams}} * @return {{{returnType}}}{{^returnType}}void{{/returnType}}
      */
     {{#returnType}}
     @Suppress("UNCHECKED_CAST")
     {{/returnType}}
-    open suspend fun {{operationId}}({{#allParams}}{{{paramName}}}: {{{dataType}}}{{^required}}?{{/required}}{{^-last}}, {{/-last}}{{/allParams}}): HttpResponse<{{{returnType}}}{{^returnType}}Unit{{/returnType}}> {
+    open suspend fun {{operationId}}({{#allParams}}{{{paramName}}}: {{{dataType}}}{{#required}}{{#defaultValue}} = {{^isNumber}}{{{defaultValue}}}{{/isNumber}}{{#isNumber}}{{{defaultValue}}}.toDouble(){{/isNumber}}{{/defaultValue}}{{/required}}{{^required}}?{{#defaultValue}} = {{^isNumber}}{{{defaultValue}}}{{/isNumber}}{{#isNumber}}{{{defaultValue}}}.toDouble(){{/isNumber}}{{/defaultValue}}{{^defaultValue}} = null{{/defaultValue}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}): HttpResponse<{{{returnType}}}{{^returnType}}Unit{{/returnType}}> {
 
         val localVariableAuthNames = listOf<String>({{#authMethods}}"{{name}}"{{^-last}}, {{/-last}}{{/authMethods}})
 
@@ -60,19 +60,14 @@ import kotlinx.serialization.encoding.*
             {{/hasFormParams}}
             {{/hasBodyParam}}
 
-        val localVariableQuery = mutableMapOf<String, List<String>>()
-        {{#queryParams}}
-        {{{paramName}}}?.apply { localVariableQuery["{{baseName}}"] = {{#isContainer}}toMultiValue(this, "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf("${{{paramName}}}"){{/isContainer}} }
-        {{/queryParams}}
-
-        val localVariableHeaders = mutableMapOf<String, String>()
-        {{#headerParams}}
-        {{{paramName}}}?.apply { localVariableHeaders["{{baseName}}"] = {{#isContainer}}this.joinToString(separator = collectionDelimiter("{{collectionFormat}}")){{/isContainer}}{{^isContainer}}this.toString(){{/isContainer}} }
-        {{/headerParams}}
+        val localVariableQuery = mutableMapOf<String, List<String>>(){{#queryParams}}
+        {{{paramName}}}?.apply { localVariableQuery["{{baseName}}"] = {{#isContainer}}toMultiValue(this, "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf("${{{paramName}}}"){{/isContainer}} }{{/queryParams}}
+        val localVariableHeaders = mutableMapOf<String, String>(){{#headerParams}}
+        {{{paramName}}}?.apply { localVariableHeaders["{{baseName}}"] = {{#isContainer}}this.joinToString(separator = collectionDelimiter("{{collectionFormat}}")){{/isContainer}}{{^isContainer}}this.toString(){{/isContainer}} }{{/headerParams}}
 
         val localVariableConfig = RequestConfig<kotlin.Any?>(
             RequestMethod.{{httpMethod}},
-            "{{path}}"{{#pathParams}}.replace("{" + "{{baseName}}" + "}", "${{{paramName}}}"){{/pathParams}},
+            "{{path}}"{{#pathParams}}.replace("{" + "{{baseName}}" + "}", {{#isContainer}}{{paramName}}.joinToString(","){{/isContainer}}{{^isContainer}}"${{{paramName}}}"{{/isContainer}}){{/pathParams}},
             query = localVariableQuery,
             headers = localVariableHeaders
         )

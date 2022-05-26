@@ -21,10 +21,10 @@ Model/EnumTest.sql
 Model/File.sql
 Model/FileSchemaTestClass.sql
 Model/Foo.sql
+Model/FooGetDefaultResponse.sql
 Model/FormatTest.sql
 Model/HasOnlyReadOnly.sql
 Model/HealthCheckResult.sql
-Model/InlineResponseDefault.sql
 Model/List.sql
 Model/MapTest.sql
 Model/MixedPropertiesAndAdditionalPropertiesClass.sql

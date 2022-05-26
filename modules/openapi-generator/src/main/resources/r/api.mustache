@@ -4,7 +4,7 @@
 #' @title {{baseName}} operations
 #' @description {{importPath}}
 #' @format An \code{R6Class} generator object
-#' @field apiClient Handles the client-server communication.
+#' @field api_client Handles the client-server communication.
 #'
 #' @section Methods:
 {{! Adding the below changes for generating documentation for the api methods. }}
@@ -97,17 +97,17 @@
 {{#isBasic}}
 #' #Configure HTTP basic authorization: {{{name}}}
 #' # provide your username in the user-serial format
-#' api.instance$apiClient$username <- '<user-serial>';
+#' api.instance$api_client$username <- '<user-serial>';
 #' # provide your api key generated using the developer portal
-#' api.instance$apiClient$password <- '<api_key>';
+#' api.instance$api_client$password <- '<api_key>';
 {{/isBasic}}
 {{#isApiKey}}
 #' #Configure API key authorization: {{{name}}}
-#' api.instance$apiClient$apiKeys['{{{keyParamName}}}'] <- 'TODO_YOUR_API_KEY';
+#' api.instance$api_client$api_keys['{{{keyParamName}}}'] <- 'TODO_YOUR_API_KEY';
 {{/isApiKey}}
 {{#isOAuth}}
 #' # Configure OAuth2 access token for authorization: {{{name}}}
-#' api.instance$apiClient$accessToken <- 'TODO_YOUR_ACCESS_TOKEN';
+#' api.instance$api_client$access_token <- 'TODO_YOUR_ACCESS_TOKEN';
 {{/isOAuth}}
 {{/authMethods}}
 {{/hasAuthMethods}}
@@ -147,36 +147,36 @@
 {{/useRlangExceptionHandling}}
 #' @export
 {{classname}} <- R6::R6Class(
-  '{{classname}}',
+  "{{classname}}",
   public = list(
-    apiClient = NULL,
-    initialize = function(apiClient){
-      if (!missing(apiClient)) {
-        self$apiClient <- apiClient
+    api_client = NULL,
+    initialize = function(api_client) {
+      if (!missing(api_client)) {
+        self$api_client <- api_client
       }
       else {
-        self$apiClient <- ApiClient$new()
+        self$api_client <- ApiClient$new()
       }
     },
     {{#operation}}
-    {{{operationId}}} = function({{#requiredParams}}{{paramName}}, {{/requiredParams}}{{#optionalParams}}{{paramName}}={{^defaultValue}}NULL{{/defaultValue}}{{{defaultValue}}}, {{/optionalParams}}...){
-      apiResponse <- self${{{operationId}}}WithHttpInfo({{#allParams}}{{paramName}}, {{/allParams}}...)
-      resp <- apiResponse$response
+    {{{operationId}}} = function({{#requiredParams}}{{paramName}}, {{/requiredParams}}{{#optionalParams}}{{paramName}}={{^defaultValue}}NULL{{/defaultValue}}{{{defaultValue}}}, {{/optionalParams}}{{#returnType}}data_file=NULL, {{/returnType}}...) {
+      api_response <- self${{{operationId}}}WithHttpInfo({{#allParams}}{{paramName}}, {{/allParams}}{{#returnType}}data_file = data_file, {{/returnType}}...)
+      resp <- api_response$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
-        apiResponse$content
+        api_response$content
       } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
-        apiResponse
+        api_response
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
-        apiResponse
+        api_response
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
-        apiResponse
+        api_response
       }
     },
 
-    {{{operationId}}}WithHttpInfo = function({{#requiredParams}}{{paramName}}, {{/requiredParams}}{{#optionalParams}}{{paramName}}={{^defaultValue}}NULL{{/defaultValue}}{{{defaultValue}}}, {{/optionalParams}}...){
+    {{{operationId}}}WithHttpInfo = function({{#requiredParams}}{{paramName}}, {{/requiredParams}}{{#optionalParams}}{{paramName}}={{^defaultValue}}NULL{{/defaultValue}}{{{defaultValue}}}, {{/optionalParams}}{{#returnType}}data_file = NULL, {{/returnType}}...) {
       args <- list(...)
-      queryParams <- list()
-      headerParams <- c()
+      query_params <- list()
+      header_params <- c()
 
       {{#requiredParams}}
       if (missing(`{{paramName}}`)) {
@@ -189,14 +189,14 @@
       }
 
       {{/requiredParams}}
-      {{#headerParams}}
-      headerParams['{{baseName}}'] <- `{{paramName}}`
+      {{#header_params}}
+      header_params["{{baseName}}"] <- `{{paramName}}`
 
-      {{/headerParams}}
-      {{#queryParams}}
-      queryParams['{{baseName}}'] <- {{paramName}}
+      {{/header_params}}
+      {{#query_params}}
+      query_params["{{baseName}}"] <- {{paramName}}
 
-      {{/queryParams}}
+      {{/query_params}}
       {{#hasFormParams}}
       body <- list(
         {{#formParams}}
@@ -214,8 +214,8 @@
       {{#bodyParams}}
       if (!missing(`{{paramName}}`)) {
         {{#isArray}}
-        body.items = paste(unlist(lapply({{paramName}}, function(param){param$toJSONString()})), collapse = ",")
-        body <- paste0('[', body.items, ']')
+        body.items = paste(unlist(lapply({{paramName}}, function(param) {param$toJSONString()})), collapse = ",")
+        body <- paste0("[", body.items, "]")
         {{/isArray}}
         {{^isArray}}
         body <- `{{paramName}}`$toJSONString()
@@ -231,11 +231,11 @@
       body <- NULL
       {{/hasFormParams}}
       {{/hasBodyParam}}
-      urlPath <- "{{path}}"
+      url_path <- "{{path}}"
       {{#hasPathParams}}
       {{#pathParams}}
       if (!missing(`{{paramName}}`)) {
-        urlPath <- gsub(paste0("\\{", "{{baseName}}", "\\}"), URLencode(as.character(`{{paramName}}`), reserved = TRUE), urlPath)
+        url_path <- gsub(paste0("\\{", "{{baseName}}", "\\}"), URLencode(as.character(`{{paramName}}`), reserved = TRUE), url_path)
       }
 
       {{/pathParams}}
@@ -244,32 +244,32 @@
       {{#isBasic}}
       {{#isBasicBasic}}
       # HTTP basic auth
-      headerParams['Authorization'] <- paste("Basic", base64enc::base64encode(charToRaw(paste(self$apiClient$username, self$apiClient$password, sep=":"))))
+      header_params["Authorization"] <- paste("Basic", base64enc::base64encode(charToRaw(paste(self$api_client$username, self$api_client$password, sep = ":"))))
       {{/isBasicBasic}}
       {{/isBasic}}
       {{#isApiKey}}
       # API key authentication
       {{#isKeyInHeader}}
-      if ("{{{keyParamName}}}" %in% names(self$apiClient$apiKeys) && nchar(self$apiClient$apiKeys["{{{keyParamName}}}"]) > 0) {
-        headerParams['{{keyParamName}}'] <- paste(unlist(self$apiClient$apiKeys["{{keyParamName}}"]), collapse='')
+      if ("{{{keyParamName}}}" %in% names(self$api_client$api_keys) && nchar(self$api_client$api_keys["{{{keyParamName}}}"]) > 0) {
+        header_params["{{keyParamName}}"] <- paste(unlist(self$api_client$api_keys["{{keyParamName}}"]), collapse = "")
       }
       {{/isKeyInHeader}}
       {{#isKeyInQuery}}
-      if ("{{{keyParamName}}}" %in% names(self$apiClient$apiKeys) && nchar(self$apiClient$apiKeys["{{{keyParamName}}}"]) > 0) {
-        queryParams['{{keyParamName}}'] <- paste(unlist(self$apiClient$apiKeys["{{keyParamName}}"]), collapse='')
+      if ("{{{keyParamName}}}" %in% names(self$api_client$api_keys) && nchar(self$api_client$api_keys["{{{keyParamName}}}"]) > 0) {
+        query_params["{{keyParamName}}"] <- paste(unlist(self$api_client$api_keys["{{keyParamName}}"]), collapse = "")
       }
       {{/isKeyInQuery}}
       {{/isApiKey}}
       {{#isOAuth}}
       # OAuth token
-      headerParams['Authorization'] <- paste("Bearer", self$apiClient$accessToken, sep=" ")
+      header_params["Authorization"] <- paste("Bearer", self$api_client$access_token, sep = " ")
       {{/isOAuth}}
       {{/authMethods}}
 
-      resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
+      resp <- self$api_client$CallApi(url = paste0(self$api_client$base_path, url_path),
                                  method = "{{httpMethod}}",
-                                 queryParams = queryParams,
-                                 headerParams = headerParams,
+                                 query_params = query_params,
+                                 header_params = header_params,
                                  body = body,
                                  ...)
 
@@ -279,12 +279,22 @@
         content <- httr::content(
             resp, "text", encoding = "UTF-8", simplifyVector = FALSE
         )
+        # save response in a file
+        if (!is.null(data_file)) {
+            write(content, data_file)
+        }
+
         ApiResponse$new(content,resp)
         {{/isPrimitiveType}}
         {{^isPrimitiveType}}
-        deserializedRespObj <- tryCatch(
-          self$apiClient$deserialize(resp, "{{returnType}}", loadNamespace("{{packageName}}")),
-          error = function(e){
+        # save response in a file
+        if (!is.null(data_file)) {
+            write(httr::content(resp, "text", encoding = "UTF-8", simplifyVector = FALSE), data_file)
+        }
+
+        deserialized_resp_obj <- tryCatch(
+          self$api_client$deserialize(resp, "{{returnType}}", loadNamespace("{{packageName}}")),
+          error = function(e) {
            {{#useDefaultExceptionHandling}}
              stop("Failed to deserialize response")
            {{/useDefaultExceptionHandling}}
@@ -293,7 +303,7 @@
            {{/useRlangExceptionHandling}}
           }
         )
-        ApiResponse$new(deserializedRespObj, resp)
+        ApiResponse$new(deserialized_resp_obj, resp)
         {{/isPrimitiveType}}
         {{/returnType}}
         {{^returnType}}
@@ -302,31 +312,31 @@
         {{/returnType}}
       } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
       {{#returnExceptionOnFailure}}
-        errorMsg <- toString(content(resp))
-        if(errorMsg == ""){
-          errorMsg <- paste("Server returned " , httr::status_code(resp) , " response status code.")
+        error_msg <- toString(content(resp))
+        if(error_msg == "") {
+          error_msg <- paste("Server returned ", httr::status_code(resp), " response status code.")
         }
         {{#useDefaultExceptionHandling}}
-        stop(errorMsg)
+        stop(error_msg)
         {{/useDefaultExceptionHandling}}
         {{#useRlangExceptionHandling}}
-        rlang::abort(message = errorMsg, .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
+        rlang::abort(message = error_msg, .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
         {{/useRlangExceptionHandling}}
       {{/returnExceptionOnFailure}}
       {{^returnExceptionOnFailure}}
-        ApiResponse$new(paste("Server returned " , httr::status_code(resp) , " response status code."), resp)
+        ApiResponse$new(paste("Server returned ", httr::status_code(resp), " response status code."), resp)
       {{/returnExceptionOnFailure}}
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
       {{#returnExceptionOnFailure}}
-        errorMsg <- toString(content(resp))
-        if(errorMsg == ""){
-          errorMsg <- "Api client exception encountered."
+        error_msg <- toString(content(resp))
+        if(error_msg == "") {
+          error_msg <- "Api client exception encountered."
         }
         {{#useDefaultExceptionHandling}}
-        stop(errorMsg)
+        stop(error_msg)
         {{/useDefaultExceptionHandling}}
         {{#useRlangExceptionHandling}}
-        rlang::abort(message = errorMsg, .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
+        rlang::abort(message = error_msg, .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
         {{/useRlangExceptionHandling}}
       {{/returnExceptionOnFailure}}
       {{^returnExceptionOnFailure}}
@@ -334,15 +344,15 @@
       {{/returnExceptionOnFailure}}
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
       {{#returnExceptionOnFailure}}
-        errorMsg <- toString(content(resp))
-        if(errorMsg == ""){
-          errorMsg <- "Api server exception encountered."
+        error_msg <- toString(content(resp))
+        if(error_msg == "") {
+          error_msg <- "Api server exception encountered."
         }
         {{#useDefaultExceptionHandling}}
-        stop(errorMsg)
+        stop(error_msg)
         {{/useDefaultExceptionHandling}}
         {{#useRlangExceptionHandling}}
-        rlang::abort(message = errorMsg, .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
+        rlang::abort(message = error_msg, .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
         {{/useRlangExceptionHandling}}
       {{/returnExceptionOnFailure}}
       {{^returnExceptionOnFailure}}

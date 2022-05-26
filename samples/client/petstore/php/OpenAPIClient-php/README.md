@@ -7,8 +7,8 @@ This spec is mainly for testing Petstore server and contains fake endpoints, mod
 
 ### Requirements
 
-PHP 7.3 and later.
-Should also work with PHP 8.0 or 8.1 but has not been tested.
+PHP 7.4 and later.
+Should also work with PHP 8.0.
 
 ### Composer
 
@@ -138,10 +138,10 @@ Class | Method | HTTP request | Description
 - [File](docs/Model/File.md)
 - [FileSchemaTestClass](docs/Model/FileSchemaTestClass.md)
 - [Foo](docs/Model/Foo.md)
+- [FooGetDefaultResponse](docs/Model/FooGetDefaultResponse.md)
 - [FormatTest](docs/Model/FormatTest.md)
 - [HasOnlyReadOnly](docs/Model/HasOnlyReadOnly.md)
 - [HealthCheckResult](docs/Model/HealthCheckResult.md)
-- [InlineResponseDefault](docs/Model/InlineResponseDefault.md)
 - [MapTest](docs/Model/MapTest.md)
 - [MixedPropertiesAndAdditionalPropertiesClass](docs/Model/MixedPropertiesAndAdditionalPropertiesClass.md)
 - [Model200Response](docs/Model/Model200Response.md)

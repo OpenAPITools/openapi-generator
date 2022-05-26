@@ -15,8 +15,6 @@ package org.openapitools.model;
 import java.util.Objects;
 import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.*;
 
 import javax.validation.constraints.*;
@@ -49,7 +47,6 @@ public class SpecialModelName {
      * @return $specialPropertyName
      **/
     @Nullable
-    @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public Long get$SpecialPropertyName() {
@@ -58,7 +55,7 @@ public class SpecialModelName {
 
     @JsonProperty(JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public void set$SpecialPropertyName(Long $specialPropertyName) {
+    public void set$SpecialPropertyName(Long $specialPropertyName) {
         this.$specialPropertyName = $specialPropertyName;
     }
 

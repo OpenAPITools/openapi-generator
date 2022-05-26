@@ -93,6 +93,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**case_sensitive_params**](docs/FakeApi.md#case_sensitive_params) | **PUT** /fake/case-sensitive-params | 
 *FakeApi* | [**client_model**](docs/FakeApi.md#client_model) | **PATCH** /fake | To test \&quot;client\&quot; model
 *FakeApi* | [**composed_one_of_different_types**](docs/FakeApi.md#composed_one_of_different_types) | **POST** /fake/refs/composed_one_of_number_with_validations | 
+*FakeApi* | [**delete_coffee**](docs/FakeApi.md#delete_coffee) | **DELETE** /fake/deleteCoffee/{id} | Delete coffee
 *FakeApi* | [**endpoint_parameters**](docs/FakeApi.md#endpoint_parameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 *FakeApi* | [**enum_parameters**](docs/FakeApi.md#enum_parameters) | **GET** /fake | To test enum parameters
 *FakeApi* | [**fake_health_get**](docs/FakeApi.md#fake_health_get) | **GET** /fake/health | Health check endpoint
