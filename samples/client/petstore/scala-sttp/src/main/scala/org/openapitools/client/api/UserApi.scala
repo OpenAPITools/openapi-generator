@@ -42,7 +42,7 @@ class UserApi(baseUrl: String) {
       .contentType("application/json")
       .header("api_key", apiKey)
       .body(user)
-.response(asJson[Unit])
+.response(asEither(asString, ignore))
 
   /**
    * 
@@ -62,7 +62,7 @@ class UserApi(baseUrl: String) {
       .contentType("application/json")
       .header("api_key", apiKey)
       .body(user)
-.response(asJson[Unit])
+.response(asEither(asString, ignore))
 
   /**
    * 
@@ -82,7 +82,7 @@ class UserApi(baseUrl: String) {
       .contentType("application/json")
       .header("api_key", apiKey)
       .body(user)
-.response(asJson[Unit])
+.response(asEither(asString, ignore))
 
   /**
    * This can only be done by the logged in user.
@@ -157,7 +157,7 @@ class UserApi(baseUrl: String) {
       .method(Method.GET, uri"$baseUrl/user/logout")
       .contentType("application/json")
       .header("api_key", apiKey)
-.response(asJson[Unit])
+.response(asEither(asString, ignore))
 
   /**
    * This can only be done by the logged in user.
