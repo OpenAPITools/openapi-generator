@@ -4023,8 +4023,8 @@ public class DefaultCodegen implements CodegenConfig {
                 if (Boolean.TRUE.equals(r.isFile) && Boolean.TRUE.equals(r.is2xx) && Boolean.FALSE.equals(op.isResponseFile)) {
                     op.isResponseFile = Boolean.TRUE;
                 }
-                if (Boolean.TRUE.equals(r.isUnit)) {
-                    op.unitReturnType = Boolean.TRUE;
+                if (Boolean.TRUE.equals(r.isDefault)) {
+                    op.defaultReturnType = Boolean.TRUE;
                 }
 
                 // check if any 4xx or 5xx response has an error response object defined
@@ -4253,7 +4253,6 @@ public class DefaultCodegen implements CodegenConfig {
         if ("default".equals(responseCode) || "defaultResponse".equals(responseCode)) {
             r.code = "0";
             r.isDefault = true;
-            r.isUnit = true;
         } else {
             r.code = responseCode;
             switch (r.code.charAt(0)) {
