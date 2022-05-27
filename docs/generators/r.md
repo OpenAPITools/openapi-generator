@@ -51,6 +51,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <ul class="column-ul">
 <li>apiresponse</li>
 <li>break</li>
+<li>data_file</li>
 <li>else</li>
 <li>false</li>
 <li>for</li>

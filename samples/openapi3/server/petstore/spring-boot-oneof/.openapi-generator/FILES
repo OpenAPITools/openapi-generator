@@ -8,6 +8,7 @@ src/main/java/org/openapitools/api/BarApiController.java
 src/main/java/org/openapitools/api/FooApi.java
 src/main/java/org/openapitools/api/FooApiController.java
 src/main/java/org/openapitools/configuration/HomeController.java
+src/main/java/org/openapitools/configuration/SpringDocConfiguration.java
 src/main/java/org/openapitools/model/Addressable.java
 src/main/java/org/openapitools/model/Bar.java
 src/main/java/org/openapitools/model/BarCreate.java

@@ -6,6 +6,7 @@ NAMESPACE
 R/api_client.R
 R/api_response.R
 R/category.R
+R/fake_api.R
 R/model_api_response.R
 R/order.R
 R/pet.R
@@ -16,6 +17,7 @@ R/user.R
 R/user_api.R
 README.md
 docs/Category.md
+docs/FakeApi.md
 docs/ModelApiResponse.md
 docs/Order.md
 docs/Pet.md

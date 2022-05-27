@@ -1,7 +1,8 @@
 <?php
 /**
  * {{classname}}
- * PHP version 7.1.3
+ *
+ * PHP version 8.1.1
  *
  * @category Class
  * @package  {{invokerPackage}}
@@ -59,7 +60,6 @@ interface {{classname}}
     {{#allParams}}
      * @param  {{vendorExtensions.x-comment-type}} ${{paramName}}  {{description}} {{#required}}(required){{/required}}{{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#isDeprecated}} (deprecated){{/isDeprecated}}
     {{/allParams}}
-     * @param  \int $responseCode     The HTTP response code to return
      * @param  \array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
      * @return {{{vendorExtensions.x-comment-type}}}
@@ -67,7 +67,8 @@ interface {{classname}}
      * @deprecated
     {{/isDeprecated}}
      */
-    public function {{operationId}}({{#allParams}}{{#vendorExtensions.x-parameter-type}}{{vendorExtensions.x-parameter-type}} {{/vendorExtensions.x-parameter-type}}${{paramName}}{{^required}} = {{{defaultValue}}}{{^defaultValue}}null{{/defaultValue}}{{/required}}, {{/allParams}}&$responseCode, array &$responseHeaders);
+    public function {{operationId}}({{#allParams}}{{#vendorExtensions.x-parameter-type}}{{vendorExtensions.x-parameter-type}} {{/vendorExtensions.x-parameter-type}}${{paramName}}{{^required}} = {{{defaultValue}}}{{^defaultValue}}null{{/defaultValue}}{{/required}}, {{/allParams}}&$responseCode, array &$responseHeaders): {{{vendorExtensions.x-return-type}}};
+
 {{/operation}}
 }
 {{/operations}}

@@ -1,7 +1,8 @@
 <?php
 /**
  * StoreApiInterface
- * PHP version 7.1.3
+ *
+ * PHP version 8.1.1
  *
  * @category Class
  * @package  OpenAPI\Server
@@ -57,24 +58,24 @@ interface StoreApiInterface
      * Delete purchase order by ID
      *
      * @param  \string $orderId  ID of the order that needs to be deleted (required)
-     * @param  \int $responseCode     The HTTP response code to return
      * @param  \array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
      * @return void
      */
-    public function deleteOrder($orderId, &$responseCode, array &$responseHeaders);
+    public function deleteOrder($orderId, &$responseCode, array &$responseHeaders): void;
+
 
     /**
      * Operation getInventory
      *
      * Returns pet inventories by status
      *
-     * @param  \int $responseCode     The HTTP response code to return
      * @param  \array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
      * @return \int
      */
-    public function getInventory(&$responseCode, array &$responseHeaders);
+    public function getInventory(&$responseCode, array &$responseHeaders): array|\int;
+
 
     /**
      * Operation getOrderById
@@ -82,12 +83,12 @@ interface StoreApiInterface
      * Find purchase order by ID
      *
      * @param  \int $orderId  ID of pet that needs to be fetched (required)
-     * @param  \int $responseCode     The HTTP response code to return
      * @param  \array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
      * @return \OpenAPI\Server\Model\Order
      */
-    public function getOrderById($orderId, &$responseCode, array &$responseHeaders);
+    public function getOrderById($orderId, &$responseCode, array &$responseHeaders): array|\OpenAPI\Server\Model\Order;
+
 
     /**
      * Operation placeOrder
@@ -95,10 +96,10 @@ interface StoreApiInterface
      * Place an order for a pet
      *
      * @param  \OpenAPI\Server\Model\Order $order  order placed for purchasing the pet (required)
-     * @param  \int $responseCode     The HTTP response code to return
      * @param  \array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
      * @return \OpenAPI\Server\Model\Order
      */
-    public function placeOrder(Order $order, &$responseCode, array &$responseHeaders);
+    public function placeOrder(Order $order, &$responseCode, array &$responseHeaders): array|\OpenAPI\Server\Model\Order;
+
 }

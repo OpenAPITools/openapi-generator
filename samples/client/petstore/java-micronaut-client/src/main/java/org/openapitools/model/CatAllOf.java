@@ -15,8 +15,6 @@ package org.openapitools.model;
 import java.util.Objects;
 import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.*;
 
 import javax.validation.constraints.*;
@@ -49,7 +47,6 @@ public class CatAllOf {
      * @return declawed
      **/
     @Nullable
-    @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_DECLAWED)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public Boolean getDeclawed() {
@@ -58,7 +55,7 @@ public class CatAllOf {
 
     @JsonProperty(JSON_PROPERTY_DECLAWED)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public void setDeclawed(Boolean declawed) {
+    public void setDeclawed(Boolean declawed) {
         this.declawed = declawed;
     }
 

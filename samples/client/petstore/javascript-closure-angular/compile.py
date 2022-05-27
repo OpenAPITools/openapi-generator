@@ -53,8 +53,8 @@ def main():
     for name, targetFiles in targets.iteritems():
         errors = checkForCompilerErrors(targetFiles)
         if errors:
-            print "Compiler errors when building %s" % name
-            print errors
+            print("Compiler errors when building %s" % name)
+            print(errors)
 
     for name, targetFiles in targets.iteritems():
         compile("%s.compiled.js" % name, targets[name])

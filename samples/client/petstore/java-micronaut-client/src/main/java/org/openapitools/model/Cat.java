@@ -14,8 +14,6 @@ package org.openapitools.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.model.Animal;
 import org.openapitools.model.CatAllOf;
 import com.fasterxml.jackson.annotation.*;
@@ -51,7 +49,6 @@ public class Cat extends Animal {
      * @return declawed
      **/
     @Nullable
-    @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_DECLAWED)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public Boolean getDeclawed() {
@@ -60,7 +57,7 @@ public class Cat extends Animal {
 
     @JsonProperty(JSON_PROPERTY_DECLAWED)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public void setDeclawed(Boolean declawed) {
+    public void setDeclawed(Boolean declawed) {
         this.declawed = declawed;
     }
 

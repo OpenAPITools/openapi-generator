@@ -14,8 +14,6 @@ package org.openapitools.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +57,6 @@ public class ArrayOfArrayOfNumberOnly {
      * @return arrayArrayNumber
      **/
     @Nullable
-    @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_NUMBER)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public List<List<BigDecimal>> getArrayArrayNumber() {
@@ -68,7 +65,7 @@ public class ArrayOfArrayOfNumberOnly {
 
     @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_NUMBER)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public void setArrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
+    public void setArrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
         this.arrayArrayNumber = arrayArrayNumber;
     }
 

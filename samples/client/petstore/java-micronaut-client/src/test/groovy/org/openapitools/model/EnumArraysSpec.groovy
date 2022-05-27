@@ -1,7 +1,5 @@
 package org.openapitools.model
 
-import io.swagger.annotations.ApiModel
-import io.swagger.annotations.ApiModelProperty
 import java.util.ArrayList
 import java.util.List
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
@@ -13,27 +11,27 @@ import jakarta.inject.Inject
  */
 @MicronautTest
 public class EnumArraysSpec extends Specification {
-    private final EnumArrays model = new EnumArrays()
+    private final EnumArrays model = null
 
     /**
      * Model tests for EnumArrays
      */
-    void "EnumArrays test"() {
+    void 'EnumArrays test'() {
         // TODO: test EnumArrays
     }
 
     /**
      * Test the property 'justSymbol'
      */
-    void "EnumArrays property justSymbol test"() {
-        // TODO: test justSymbol
+    void 'EnumArrays property justSymbol test'() {
+        // TODO: test justSymbol property of EnumArrays
     }
 
     /**
      * Test the property 'arrayEnum'
      */
-    void "EnumArrays property arrayEnum test"() {
-        // TODO: test arrayEnum
+    void 'EnumArrays property arrayEnum test'() {
+        // TODO: test arrayEnum property of EnumArrays
     }
 
 }

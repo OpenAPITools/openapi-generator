@@ -15,32 +15,35 @@ Method | HTTP request | Description
 
 
 # **AddPet**
-> AddPet(body)
+> Pet AddPet(pet)
 
 Add a new pet to the store
+
+
 
 ### Example
 ```R
 library(petstore)
 
-var.body <- Pet$new("name_example", list("photoUrls_example"), 123, Category$new(123, "name_example"), list(Tag$new(123, "name_example")), "available") # Pet | Pet object that needs to be added to the store
+var.pet <- Pet$new("name_example", list("photoUrls_example"), 123, Category$new(123, "name_example"), list(Tag$new(123, "name_example")), "available") # Pet | Pet object that needs to be added to the store
 
 #Add a new pet to the store
 api.instance <- PetApi$new()
 # Configure OAuth2 access token for authorization: petstore_auth
 api.instance$apiClient$accessToken <- 'TODO_YOUR_ACCESS_TOKEN';
-api.instance$AddPet(var.body)
+result <- api.instance$AddPet(var.pet)
+dput(result)
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 
-void (empty response body)
+[**Pet**](Pet.md)
 
 ### Authorization
 
@@ -49,38 +52,41 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: application/json, application/xml
- - **Accept**: Not defined
+ - **Accept**: application/xml, application/json
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
+| **200** | successful operation |  -  |
 | **405** | Invalid input |  -  |
 
 # **DeletePet**
-> DeletePet(pet.id, api.key=var.api.key)
+> DeletePet(pet_id, api_key=var.api_key)
 
 Deletes a pet
+
+
 
 ### Example
 ```R
 library(petstore)
 
-var.pet.id <- 56 # integer | Pet id to delete
-var.api.key <- 'api.key_example' # character | 
+var.pet_id <- 56 # integer | Pet id to delete
+var.api_key <- 'api_key_example' # character | 
 
 #Deletes a pet
 api.instance <- PetApi$new()
 # Configure OAuth2 access token for authorization: petstore_auth
 api.instance$apiClient$accessToken <- 'TODO_YOUR_ACCESS_TOKEN';
-api.instance$DeletePet(var.pet.id, api.key=var.api.key)
+api.instance$DeletePet(var.pet_id, api_key=var.api_key)
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet.id** | **integer**| Pet id to delete | 
- **api.key** | **character**|  | [optional] 
+ **pet_id** | **integer**| Pet id to delete | 
+ **api_key** | **character**|  | [optional] 
 
 ### Return type
 
@@ -193,7 +199,7 @@ Name | Type | Description  | Notes
 | **400** | Invalid tag value |  -  |
 
 # **GetPetById**
-> Pet GetPetById(pet.id)
+> Pet GetPetById(pet_id)
 
 Find pet by ID
 
@@ -203,13 +209,13 @@ Returns a single pet
 ```R
 library(petstore)
 
-var.pet.id <- 56 # integer | ID of pet to return
+var.pet_id <- 56 # integer | ID of pet to return
 
 #Find pet by ID
 api.instance <- PetApi$new()
 # Configure API key authorization: api_key
 api.instance$apiClient$apiKeys['api_key'] <- 'TODO_YOUR_API_KEY';
-result <- api.instance$GetPetById(var.pet.id)
+result <- api.instance$GetPetById(var.pet_id)
 dput(result)
 ```
 
@@ -217,7 +223,7 @@ dput(result)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet.id** | **integer**| ID of pet to return | 
+ **pet_id** | **integer**| ID of pet to return | 
 
 ### Return type
 
@@ -240,32 +246,35 @@ Name | Type | Description  | Notes
 | **404** | Pet not found |  -  |
 
 # **UpdatePet**
-> UpdatePet(body)
+> Pet UpdatePet(pet)
 
 Update an existing pet
+
+
 
 ### Example
 ```R
 library(petstore)
 
-var.body <- Pet$new("name_example", list("photoUrls_example"), 123, Category$new(123, "name_example"), list(Tag$new(123, "name_example")), "available") # Pet | Pet object that needs to be added to the store
+var.pet <- Pet$new("name_example", list("photoUrls_example"), 123, Category$new(123, "name_example"), list(Tag$new(123, "name_example")), "available") # Pet | Pet object that needs to be added to the store
 
 #Update an existing pet
 api.instance <- PetApi$new()
 # Configure OAuth2 access token for authorization: petstore_auth
 api.instance$apiClient$accessToken <- 'TODO_YOUR_ACCESS_TOKEN';
-api.instance$UpdatePet(var.body)
+result <- api.instance$UpdatePet(var.pet)
+dput(result)
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 
-void (empty response body)
+[**Pet**](Pet.md)
 
 ### Authorization
 
@@ -274,25 +283,28 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: application/json, application/xml
- - **Accept**: Not defined
+ - **Accept**: application/xml, application/json
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
+| **200** | successful operation |  -  |
 | **400** | Invalid ID supplied |  -  |
 | **404** | Pet not found |  -  |
 | **405** | Validation exception |  -  |
 
 # **UpdatePetWithForm**
-> UpdatePetWithForm(pet.id, name=var.name, status=var.status)
+> UpdatePetWithForm(pet_id, name=var.name, status=var.status)
 
 Updates a pet in the store with form data
+
+
 
 ### Example
 ```R
 library(petstore)
 
-var.pet.id <- 56 # integer | ID of pet that needs to be updated
+var.pet_id <- 56 # integer | ID of pet that needs to be updated
 var.name <- 'name_example' # character | Updated name of the pet
 var.status <- 'status_example' # character | Updated status of the pet
 
@@ -300,14 +312,14 @@ var.status <- 'status_example' # character | Updated status of the pet
 api.instance <- PetApi$new()
 # Configure OAuth2 access token for authorization: petstore_auth
 api.instance$apiClient$accessToken <- 'TODO_YOUR_ACCESS_TOKEN';
-api.instance$UpdatePetWithForm(var.pet.id, name=var.name, status=var.status)
+api.instance$UpdatePetWithForm(var.pet_id, name=var.name, status=var.status)
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet.id** | **integer**| ID of pet that needs to be updated | 
+ **pet_id** | **integer**| ID of pet that needs to be updated | 
  **name** | **character**| Updated name of the pet | [optional] 
  **status** | **character**| Updated status of the pet | [optional] 
 
@@ -330,23 +342,25 @@ void (empty response body)
 | **405** | Invalid input |  -  |
 
 # **UploadFile**
-> ModelApiResponse UploadFile(pet.id, additional.metadata=var.additional.metadata, file=var.file)
+> ModelApiResponse UploadFile(pet_id, additional_metadata=var.additional_metadata, file=var.file)
 
 uploads an image
+
+
 
 ### Example
 ```R
 library(petstore)
 
-var.pet.id <- 56 # integer | ID of pet to update
-var.additional.metadata <- 'additional.metadata_example' # character | Additional data to pass to server
+var.pet_id <- 56 # integer | ID of pet to update
+var.additional_metadata <- 'additional_metadata_example' # character | Additional data to pass to server
 var.file <- File.new('/path/to/file') # data.frame | file to upload
 
 #uploads an image
 api.instance <- PetApi$new()
 # Configure OAuth2 access token for authorization: petstore_auth
 api.instance$apiClient$accessToken <- 'TODO_YOUR_ACCESS_TOKEN';
-result <- api.instance$UploadFile(var.pet.id, additional.metadata=var.additional.metadata, file=var.file)
+result <- api.instance$UploadFile(var.pet_id, additional_metadata=var.additional_metadata, file=var.file)
 dput(result)
 ```
 
@@ -354,8 +368,8 @@ dput(result)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet.id** | **integer**| ID of pet to update | 
- **additional.metadata** | **character**| Additional data to pass to server | [optional] 
+ **pet_id** | **integer**| ID of pet to update | 
+ **additional_metadata** | **character**| Additional data to pass to server | [optional] 
  **file** | **data.frame**| file to upload | [optional] 
 
 ### Return type

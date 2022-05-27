@@ -237,7 +237,7 @@ export type FetchAPI = WindowOrWorkerGlobalScope['fetch'];
 export type Json = any;
 export type HTTPMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | 'OPTIONS' | 'HEAD';
 export type HTTPHeaders = { [key: string]: string };
-export type HTTPQuery = { [key: string]: string | number | null | boolean | Array<string | number | null | boolean> | HTTPQuery };
+export type HTTPQuery = { [key: string]: string | number | null | boolean | Array<string | number | null | boolean> | Set<string | number | null | boolean> | HTTPQuery };
 export type HTTPBody = Json | FormData | URLSearchParams;
 export type HTTPRequestInit = { headers?: HTTPHeaders; method: HTTPMethod; credentials?: RequestCredentials; body?: HTTPBody }
 export type ModelPropertyNaming = 'camelCase' | 'snake_case' | 'PascalCase' | 'original';
@@ -260,24 +260,29 @@ export interface RequestOpts {
 
 export function querystring(params: HTTPQuery, prefix: string = ''): string {
     return Object.keys(params)
-        .map((key) => {
-            const fullKey = prefix + (prefix.length ? `[${key}]` : key);
-            const value = params[key];
-            if (value instanceof Array) {
-                const multiValue = value.map(singleValue => encodeURIComponent(String(singleValue)))
-                    .join(`&${encodeURIComponent(fullKey)}=`);
-                return `${encodeURIComponent(fullKey)}=${multiValue}`;
-            }
-            if (value instanceof Date) {
-                return `${encodeURIComponent(fullKey)}=${encodeURIComponent(value.toISOString())}`;
-            }
-            if (value instanceof Object) {
-                return querystring(value as HTTPQuery, fullKey);
-            }
-            return `${encodeURIComponent(fullKey)}=${encodeURIComponent(String(value))}`;
-        })
+        .map(key => querystringSingleKey(key, params[key], prefix))
         .filter(part => part.length > 0)
         .join('&');
+}
+
+function querystringSingleKey(key: string, value: string | number | null | boolean | Array<string | number | null | boolean> | Set<string | number | null | boolean> | HTTPQuery, keyPrefix: string = ''): string {
+    const fullKey = keyPrefix + (keyPrefix.length ? `[${key}]` : key);
+    if (value instanceof Array) {
+        const multiValue = value.map(singleValue => encodeURIComponent(String(singleValue)))
+            .join(`&${encodeURIComponent(fullKey)}=`);
+        return `${encodeURIComponent(fullKey)}=${multiValue}`;
+    }
+    if (value instanceof Set) {
+        const valueAsArray = Array.from(value);
+        return querystringSingleKey(key, valueAsArray, keyPrefix);
+    }
+    if (value instanceof Date) {
+        return `${encodeURIComponent(fullKey)}=${encodeURIComponent(value.toISOString())}`;
+    }
+    if (value instanceof Object) {
+        return querystring(value as HTTPQuery, fullKey);
+    }
+    return `${encodeURIComponent(fullKey)}=${encodeURIComponent(String(value))}`;
 }
 
 

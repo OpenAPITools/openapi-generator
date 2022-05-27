@@ -238,6 +238,7 @@ void PFXPetApi::addPet(const PFXPet &pfx_pet) {
 
     {
 
+        
         QByteArray output = pfx_pet.asJson().toUtf8();
         input.request_body.append(output);
     }
@@ -931,6 +932,7 @@ void PFXPetApi::updatePet(const PFXPet &pfx_pet) {
 
     {
 
+        
         QByteArray output = pfx_pet.asJson().toUtf8();
         input.request_body.append(output);
     }
