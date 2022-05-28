@@ -11,7 +11,13 @@ export(ApiClient)
 export(ApiResponse)
 
 # Models
+export(AllofTagApiResponse)
+export(Animal)
+export(Cat)
+export(CatAllOf)
 export(Category)
+export(Dog)
+export(DogAllOf)
 export(ModelApiResponse)
 export(Order)
 export(Pet)
