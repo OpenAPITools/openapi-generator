@@ -40,4 +40,3 @@ docs/User.md
 docs/UserApi.md
 git_push.sh
 tests/testthat.R
-tests/testthat/test_allof_tag_api_response.R
