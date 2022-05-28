@@ -21,6 +21,7 @@
 package org.openapitools.client.apis
 
 import java.io.IOException
+import okhttp3.OkHttpClient
 
 import org.openapitools.client.models.ModelApiResponse
 import org.openapitools.client.models.Pet
@@ -41,7 +42,7 @@ import org.openapitools.client.infrastructure.ResponseType
 import org.openapitools.client.infrastructure.Success
 import org.openapitools.client.infrastructure.toMultiValue
 
-class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
+class PetApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = ApiClient.defaultClient) : ApiClient(basePath) {
     companion object {
         @JvmStatic
         val defaultBasePath: String by lazy {
@@ -50,16 +51,16 @@ class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     }
 
     /**
-    * Add a new pet to the store
-    * 
-    * @param body Pet object that needs to be added to the store 
-    * @return void
-    * @throws IllegalStateException If the request is not correctly configured
-    * @throws IOException Rethrows the OkHttp execute method exception
-    * @throws UnsupportedOperationException If the API returns an informational or redirection response
-    * @throws ClientException If the API returns a client error response
-    * @throws ServerException If the API returns a server error response
-    */
+     * Add a new pet to the store
+     * 
+     * @param body Pet object that needs to be added to the store
+     * @return void
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun addPet(body: Pet) : Unit {
         val localVarResponse = addPetWithHttpInfo(body = body)
@@ -80,13 +81,13 @@ class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     }
 
     /**
-    * Add a new pet to the store
-    * 
-    * @param body Pet object that needs to be added to the store 
-    * @return ApiResponse<Unit?>
-    * @throws IllegalStateException If the request is not correctly configured
-    * @throws IOException Rethrows the OkHttp execute method exception
-    */
+     * Add a new pet to the store
+     * 
+     * @param body Pet object that needs to be added to the store
+     * @return ApiResponse<Unit?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
     @Throws(IllegalStateException::class, IOException::class)
     fun addPetWithHttpInfo(body: Pet) : ApiResponse<Unit?> {
         val localVariableConfig = addPetRequestConfig(body = body)
@@ -97,11 +98,11 @@ class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     }
 
     /**
-    * To obtain the request config of the operation addPet
-    *
-    * @param body Pet object that needs to be added to the store 
-    * @return RequestConfig
-    */
+     * To obtain the request config of the operation addPet
+     *
+     * @param body Pet object that needs to be added to the store
+     * @return RequestConfig
+     */
     fun addPetRequestConfig(body: Pet) : RequestConfig<Pet> {
         val localVariableBody = body
         val localVariableQuery: MultiValueMap = mutableMapOf()
@@ -118,19 +119,19 @@ class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     }
 
     /**
-    * Deletes a pet
-    * 
-    * @param petId Pet id to delete 
-    * @param apiKey  (optional)
-    * @return void
-    * @throws IllegalStateException If the request is not correctly configured
-    * @throws IOException Rethrows the OkHttp execute method exception
-    * @throws UnsupportedOperationException If the API returns an informational or redirection response
-    * @throws ClientException If the API returns a client error response
-    * @throws ServerException If the API returns a server error response
-    */
+     * Deletes a pet
+     * 
+     * @param petId Pet id to delete
+     * @param apiKey  (optional)
+     * @return void
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun deletePet(petId: kotlin.Long, apiKey: kotlin.String?) : Unit {
+    fun deletePet(petId: kotlin.Long, apiKey: kotlin.String? = null) : Unit {
         val localVarResponse = deletePetWithHttpInfo(petId = petId, apiKey = apiKey)
 
         return when (localVarResponse.responseType) {
@@ -149,14 +150,14 @@ class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     }
 
     /**
-    * Deletes a pet
-    * 
-    * @param petId Pet id to delete 
-    * @param apiKey  (optional)
-    * @return ApiResponse<Unit?>
-    * @throws IllegalStateException If the request is not correctly configured
-    * @throws IOException Rethrows the OkHttp execute method exception
-    */
+     * Deletes a pet
+     * 
+     * @param petId Pet id to delete
+     * @param apiKey  (optional)
+     * @return ApiResponse<Unit?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
     @Throws(IllegalStateException::class, IOException::class)
     fun deletePetWithHttpInfo(petId: kotlin.Long, apiKey: kotlin.String?) : ApiResponse<Unit?> {
         val localVariableConfig = deletePetRequestConfig(petId = petId, apiKey = apiKey)
@@ -167,12 +168,12 @@ class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     }
 
     /**
-    * To obtain the request config of the operation deletePet
-    *
-    * @param petId Pet id to delete 
-    * @param apiKey  (optional)
-    * @return RequestConfig
-    */
+     * To obtain the request config of the operation deletePet
+     *
+     * @param petId Pet id to delete
+     * @param apiKey  (optional)
+     * @return RequestConfig
+     */
     fun deletePetRequestConfig(petId: kotlin.Long, apiKey: kotlin.String?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
@@ -189,16 +190,16 @@ class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     }
 
     /**
-    * Finds Pets by tags
-    * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
-    * @param tags Tags to filter by 
-    * @return kotlin.collections.List<Pet>
-    * @throws IllegalStateException If the request is not correctly configured
-    * @throws IOException Rethrows the OkHttp execute method exception
-    * @throws UnsupportedOperationException If the API returns an informational or redirection response
-    * @throws ClientException If the API returns a client error response
-    * @throws ServerException If the API returns a server error response
-    */
+     * Finds Pets by tags
+     * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+     * @param tags Tags to filter by
+     * @return kotlin.collections.List<Pet>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
     @Deprecated(message = "This operation is deprecated.")
@@ -222,13 +223,13 @@ class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     }
 
     /**
-    * Finds Pets by tags
-    * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
-    * @param tags Tags to filter by 
-    * @return ApiResponse<kotlin.collections.List<Pet>?>
-    * @throws IllegalStateException If the request is not correctly configured
-    * @throws IOException Rethrows the OkHttp execute method exception
-    */
+     * Finds Pets by tags
+     * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+     * @param tags Tags to filter by
+     * @return ApiResponse<kotlin.collections.List<Pet>?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
     @Deprecated(message = "This operation is deprecated.")
@@ -242,11 +243,11 @@ class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     }
 
     /**
-    * To obtain the request config of the operation findPetsByTags
-    *
-    * @param tags Tags to filter by 
-    * @return RequestConfig
-    */
+     * To obtain the request config of the operation findPetsByTags
+     *
+     * @param tags Tags to filter by
+     * @return RequestConfig
+     */
     @Deprecated(message = "This operation is deprecated.")
     fun findPetsByTagsRequestConfig(tags: kotlin.collections.List<kotlin.String>) : RequestConfig<Unit> {
         val localVariableBody = null
@@ -267,19 +268,19 @@ class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     }
 
     /**
-    * Get all pets
-    * 
-    * @param lastUpdated When this endpoint was hit last to help identify if the client already has the latest copy. (optional)
-    * @return kotlin.collections.List<Pet>
-    * @throws IllegalStateException If the request is not correctly configured
-    * @throws IOException Rethrows the OkHttp execute method exception
-    * @throws UnsupportedOperationException If the API returns an informational or redirection response
-    * @throws ClientException If the API returns a client error response
-    * @throws ServerException If the API returns a server error response
-    */
+     * Get all pets
+     * 
+     * @param lastUpdated When this endpoint was hit last to help identify if the client already has the latest copy. (optional)
+     * @return kotlin.collections.List<Pet>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getAllPets(lastUpdated: java.time.OffsetDateTime?) : kotlin.collections.List<Pet> {
+    fun getAllPets(lastUpdated: java.time.OffsetDateTime? = null) : kotlin.collections.List<Pet> {
         val localVarResponse = getAllPetsWithHttpInfo(lastUpdated = lastUpdated)
 
         return when (localVarResponse.responseType) {
@@ -298,13 +299,13 @@ class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     }
 
     /**
-    * Get all pets
-    * 
-    * @param lastUpdated When this endpoint was hit last to help identify if the client already has the latest copy. (optional)
-    * @return ApiResponse<kotlin.collections.List<Pet>?>
-    * @throws IllegalStateException If the request is not correctly configured
-    * @throws IOException Rethrows the OkHttp execute method exception
-    */
+     * Get all pets
+     * 
+     * @param lastUpdated When this endpoint was hit last to help identify if the client already has the latest copy. (optional)
+     * @return ApiResponse<kotlin.collections.List<Pet>?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
     fun getAllPetsWithHttpInfo(lastUpdated: java.time.OffsetDateTime?) : ApiResponse<kotlin.collections.List<Pet>?> {
@@ -316,11 +317,11 @@ class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     }
 
     /**
-    * To obtain the request config of the operation getAllPets
-    *
-    * @param lastUpdated When this endpoint was hit last to help identify if the client already has the latest copy. (optional)
-    * @return RequestConfig
-    */
+     * To obtain the request config of the operation getAllPets
+     *
+     * @param lastUpdated When this endpoint was hit last to help identify if the client already has the latest copy. (optional)
+     * @return RequestConfig
+     */
     fun getAllPetsRequestConfig(lastUpdated: java.time.OffsetDateTime?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
@@ -342,16 +343,16 @@ class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     }
 
     /**
-    * Find pet by ID
-    * Returns a single pet
-    * @param petId ID of pet to return 
-    * @return Pet
-    * @throws IllegalStateException If the request is not correctly configured
-    * @throws IOException Rethrows the OkHttp execute method exception
-    * @throws UnsupportedOperationException If the API returns an informational or redirection response
-    * @throws ClientException If the API returns a client error response
-    * @throws ServerException If the API returns a server error response
-    */
+     * Find pet by ID
+     * Returns a single pet
+     * @param petId ID of pet to return
+     * @return Pet
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun getPetById(petId: kotlin.Long) : Pet {
@@ -373,13 +374,13 @@ class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     }
 
     /**
-    * Find pet by ID
-    * Returns a single pet
-    * @param petId ID of pet to return 
-    * @return ApiResponse<Pet?>
-    * @throws IllegalStateException If the request is not correctly configured
-    * @throws IOException Rethrows the OkHttp execute method exception
-    */
+     * Find pet by ID
+     * Returns a single pet
+     * @param petId ID of pet to return
+     * @return ApiResponse<Pet?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
     fun getPetByIdWithHttpInfo(petId: kotlin.Long) : ApiResponse<Pet?> {
@@ -391,11 +392,11 @@ class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     }
 
     /**
-    * To obtain the request config of the operation getPetById
-    *
-    * @param petId ID of pet to return 
-    * @return RequestConfig
-    */
+     * To obtain the request config of the operation getPetById
+     *
+     * @param petId ID of pet to return
+     * @return RequestConfig
+     */
     fun getPetByIdRequestConfig(petId: kotlin.Long) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
@@ -412,16 +413,16 @@ class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     }
 
     /**
-    * Update an existing pet
-    * 
-    * @param body Pet object that needs to be added to the store 
-    * @return void
-    * @throws IllegalStateException If the request is not correctly configured
-    * @throws IOException Rethrows the OkHttp execute method exception
-    * @throws UnsupportedOperationException If the API returns an informational or redirection response
-    * @throws ClientException If the API returns a client error response
-    * @throws ServerException If the API returns a server error response
-    */
+     * Update an existing pet
+     * 
+     * @param body Pet object that needs to be added to the store
+     * @return void
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun updatePet(body: Pet) : Unit {
         val localVarResponse = updatePetWithHttpInfo(body = body)
@@ -442,13 +443,13 @@ class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     }
 
     /**
-    * Update an existing pet
-    * 
-    * @param body Pet object that needs to be added to the store 
-    * @return ApiResponse<Unit?>
-    * @throws IllegalStateException If the request is not correctly configured
-    * @throws IOException Rethrows the OkHttp execute method exception
-    */
+     * Update an existing pet
+     * 
+     * @param body Pet object that needs to be added to the store
+     * @return ApiResponse<Unit?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
     @Throws(IllegalStateException::class, IOException::class)
     fun updatePetWithHttpInfo(body: Pet) : ApiResponse<Unit?> {
         val localVariableConfig = updatePetRequestConfig(body = body)
@@ -459,11 +460,11 @@ class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     }
 
     /**
-    * To obtain the request config of the operation updatePet
-    *
-    * @param body Pet object that needs to be added to the store 
-    * @return RequestConfig
-    */
+     * To obtain the request config of the operation updatePet
+     *
+     * @param body Pet object that needs to be added to the store
+     * @return RequestConfig
+     */
     fun updatePetRequestConfig(body: Pet) : RequestConfig<Pet> {
         val localVariableBody = body
         val localVariableQuery: MultiValueMap = mutableMapOf()
@@ -480,20 +481,20 @@ class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     }
 
     /**
-    * Updates a pet in the store with form data
-    * 
-    * @param petId ID of pet that needs to be updated 
-    * @param name Updated name of the pet (optional)
-    * @param status Updated status of the pet (optional)
-    * @return void
-    * @throws IllegalStateException If the request is not correctly configured
-    * @throws IOException Rethrows the OkHttp execute method exception
-    * @throws UnsupportedOperationException If the API returns an informational or redirection response
-    * @throws ClientException If the API returns a client error response
-    * @throws ServerException If the API returns a server error response
-    */
+     * Updates a pet in the store with form data
+     * 
+     * @param petId ID of pet that needs to be updated
+     * @param name Updated name of the pet (optional)
+     * @param status Updated status of the pet (optional)
+     * @return void
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun updatePetWithForm(petId: kotlin.Long, name: kotlin.String?, status: kotlin.String?) : Unit {
+    fun updatePetWithForm(petId: kotlin.Long, name: kotlin.String? = null, status: kotlin.String? = null) : Unit {
         val localVarResponse = updatePetWithFormWithHttpInfo(petId = petId, name = name, status = status)
 
         return when (localVarResponse.responseType) {
@@ -512,15 +513,15 @@ class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     }
 
     /**
-    * Updates a pet in the store with form data
-    * 
-    * @param petId ID of pet that needs to be updated 
-    * @param name Updated name of the pet (optional)
-    * @param status Updated status of the pet (optional)
-    * @return ApiResponse<Unit?>
-    * @throws IllegalStateException If the request is not correctly configured
-    * @throws IOException Rethrows the OkHttp execute method exception
-    */
+     * Updates a pet in the store with form data
+     * 
+     * @param petId ID of pet that needs to be updated
+     * @param name Updated name of the pet (optional)
+     * @param status Updated status of the pet (optional)
+     * @return ApiResponse<Unit?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
     @Throws(IllegalStateException::class, IOException::class)
     fun updatePetWithFormWithHttpInfo(petId: kotlin.Long, name: kotlin.String?, status: kotlin.String?) : ApiResponse<Unit?> {
         val localVariableConfig = updatePetWithFormRequestConfig(petId = petId, name = name, status = status)
@@ -531,13 +532,13 @@ class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     }
 
     /**
-    * To obtain the request config of the operation updatePetWithForm
-    *
-    * @param petId ID of pet that needs to be updated 
-    * @param name Updated name of the pet (optional)
-    * @param status Updated status of the pet (optional)
-    * @return RequestConfig
-    */
+     * To obtain the request config of the operation updatePetWithForm
+     *
+     * @param petId ID of pet that needs to be updated
+     * @param name Updated name of the pet (optional)
+     * @param status Updated status of the pet (optional)
+     * @return RequestConfig
+     */
     fun updatePetWithFormRequestConfig(petId: kotlin.Long, name: kotlin.String?, status: kotlin.String?) : RequestConfig<Map<String, PartConfig<*>>> {
         val localVariableBody = mapOf(
             "name" to PartConfig(body = name, headers = mutableMapOf()),
@@ -555,21 +556,21 @@ class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     }
 
     /**
-    * uploads an image
-    * 
-    * @param petId ID of pet to update 
-    * @param additionalMetadata Additional data to pass to server (optional)
-    * @param file file to upload (optional)
-    * @return ModelApiResponse
-    * @throws IllegalStateException If the request is not correctly configured
-    * @throws IOException Rethrows the OkHttp execute method exception
-    * @throws UnsupportedOperationException If the API returns an informational or redirection response
-    * @throws ClientException If the API returns a client error response
-    * @throws ServerException If the API returns a server error response
-    */
+     * uploads an image
+     * 
+     * @param petId ID of pet to update
+     * @param additionalMetadata Additional data to pass to server (optional)
+     * @param file file to upload (optional)
+     * @return ModelApiResponse
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun uploadFile(petId: kotlin.Long, additionalMetadata: kotlin.String?, file: java.io.File?) : ModelApiResponse {
+    fun uploadFile(petId: kotlin.Long, additionalMetadata: kotlin.String? = null, file: java.io.File? = null) : ModelApiResponse {
         val localVarResponse = uploadFileWithHttpInfo(petId = petId, additionalMetadata = additionalMetadata, file = file)
 
         return when (localVarResponse.responseType) {
@@ -588,15 +589,15 @@ class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     }
 
     /**
-    * uploads an image
-    * 
-    * @param petId ID of pet to update 
-    * @param additionalMetadata Additional data to pass to server (optional)
-    * @param file file to upload (optional)
-    * @return ApiResponse<ModelApiResponse?>
-    * @throws IllegalStateException If the request is not correctly configured
-    * @throws IOException Rethrows the OkHttp execute method exception
-    */
+     * uploads an image
+     * 
+     * @param petId ID of pet to update
+     * @param additionalMetadata Additional data to pass to server (optional)
+     * @param file file to upload (optional)
+     * @return ApiResponse<ModelApiResponse?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
     fun uploadFileWithHttpInfo(petId: kotlin.Long, additionalMetadata: kotlin.String?, file: java.io.File?) : ApiResponse<ModelApiResponse?> {
@@ -608,13 +609,13 @@ class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     }
 
     /**
-    * To obtain the request config of the operation uploadFile
-    *
-    * @param petId ID of pet to update 
-    * @param additionalMetadata Additional data to pass to server (optional)
-    * @param file file to upload (optional)
-    * @return RequestConfig
-    */
+     * To obtain the request config of the operation uploadFile
+     *
+     * @param petId ID of pet to update
+     * @param additionalMetadata Additional data to pass to server (optional)
+     * @param file file to upload (optional)
+     * @return RequestConfig
+     */
     fun uploadFileRequestConfig(petId: kotlin.Long, additionalMetadata: kotlin.String?, file: java.io.File?) : RequestConfig<Map<String, PartConfig<*>>> {
         val localVariableBody = mapOf(
             "additionalMetadata" to PartConfig(body = additionalMetadata, headers = mutableMapOf()),

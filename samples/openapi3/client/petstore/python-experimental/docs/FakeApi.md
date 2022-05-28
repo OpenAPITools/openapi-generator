@@ -13,6 +13,7 @@ Method | HTTP request | Description
 [**case_sensitive_params**](FakeApi.md#case_sensitive_params) | **PUT** /fake/case-sensitive-params | 
 [**client_model**](FakeApi.md#client_model) | **PATCH** /fake | To test \&quot;client\&quot; model
 [**composed_one_of_different_types**](FakeApi.md#composed_one_of_different_types) | **POST** /fake/refs/composed_one_of_number_with_validations | 
+[**delete_coffee**](FakeApi.md#delete_coffee) | **DELETE** /fake/deleteCoffee/{id} | Delete coffee
 [**endpoint_parameters**](FakeApi.md#endpoint_parameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 [**enum_parameters**](FakeApi.md#enum_parameters) | **GET** /fake | To test enum parameters
 [**fake_health_get**](FakeApi.md#fake_health_get) | **GET** /fake/health | Health check endpoint
@@ -819,6 +820,95 @@ Type | Description  | Notes
 
 
 [**ComposedOneOfDifferentTypes**](ComposedOneOfDifferentTypes.md)
+
+### Authorization
+
+No authorization required
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **delete_coffee**
+> delete_coffee(id)
+
+Delete coffee
+
+Delete the coffee identified by the given id, (delete without request body)
+
+### Example
+
+```python
+import petstore_api
+from petstore_api.api import fake_api
+from pprint import pprint
+# Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
+# See configuration.py for a list of all supported configuration parameters.
+configuration = petstore_api.Configuration(
+    host = "http://petstore.swagger.io:80/v2"
+)
+
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = fake_api.FakeApi(api_client)
+
+    # example passing only required values which don't have defaults set
+    path_params = {
+        'id': "id_example",
+    }
+    try:
+        # Delete coffee
+        api_response = api_instance.delete_coffee(
+            path_params=path_params,
+        )
+    except petstore_api.ApiException as e:
+        print("Exception when calling FakeApi->delete_coffee: %s\n" % e)
+```
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+path_params | RequestPathParams | |
+stream | bool | default is False | if True then the response.content will be streamed and loaded from a file like object. When downloading a file, set this to True to force the code to deserialize the content to a FileSchema file
+timeout | typing.Optional[typing.Union[int, typing.Tuple]] | default is None | the timeout used by the rest client
+skip_deserialization | bool | default is False | when True, headers and body will be unset and an instance of api_client.ApiResponseWithoutDeserialization will be returned
+
+### path_params
+#### RequestPathParams
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+id | IdSchema | | 
+
+#### IdSchema
+
+Type | Description | Notes
+------------- | ------------- | -------------
+**str** |  | 
+
+### Return Types, Responses
+
+Code | Class | Description
+------------- | ------------- | -------------
+n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
+200 | ApiResponseFor200 | OK
+default | ApiResponseForDefault | Unexpected error
+
+#### ApiResponseFor200
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+response | urllib3.HTTPResponse | Raw response |
+body | Unset | body was not defined |
+headers | Unset | headers were not defined |
+
+#### ApiResponseForDefault
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+response | urllib3.HTTPResponse | Raw response |
+body | Unset | body was not defined |
+headers | Unset | headers were not defined |
+
+
+void (empty response body)
 
 ### Authorization
 

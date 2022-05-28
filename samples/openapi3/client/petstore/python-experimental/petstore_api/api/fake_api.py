@@ -19,6 +19,7 @@ from petstore_api.api.fake_api_endpoints.boolean import Boolean
 from petstore_api.api.fake_api_endpoints.case_sensitive_params import CaseSensitiveParams
 from petstore_api.api.fake_api_endpoints.client_model import ClientModel
 from petstore_api.api.fake_api_endpoints.composed_one_of_different_types import ComposedOneOfDifferentTypes
+from petstore_api.api.fake_api_endpoints.delete_coffee import DeleteCoffee
 from petstore_api.api.fake_api_endpoints.endpoint_parameters import EndpointParameters
 from petstore_api.api.fake_api_endpoints.enum_parameters import EnumParameters
 from petstore_api.api.fake_api_endpoints.fake_health_get import FakeHealthGet
@@ -52,6 +53,7 @@ class FakeApi(
     CaseSensitiveParams,
     ClientModel,
     ComposedOneOfDifferentTypes,
+    DeleteCoffee,
     EndpointParameters,
     EnumParameters,
     FakeHealthGet,

@@ -790,6 +790,9 @@ public class ApiClient extends JavaTimeFormatter {
         }
 
         private String headersToString(HttpHeaders headers) {
+            if(headers == null || headers.isEmpty()) {
+                return "";
+            }
             StringBuilder builder = new StringBuilder();
             for (Entry<String, List<String>> entry : headers.entrySet()) {
                 builder.append(entry.getKey()).append("=[");

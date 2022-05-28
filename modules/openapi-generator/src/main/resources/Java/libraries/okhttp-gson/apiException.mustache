@@ -22,7 +22,6 @@ public class ApiException extends{{#useRuntimeException}} RuntimeException {{/us
     private String responseBody = null;
     {{#errorObjectType}}
     private {{{errorObjectType}}} errorObject = null;
-    private GenericType errorObjectType = null;
     {{/errorObjectType}}
  
     /**
@@ -173,24 +172,6 @@ public class ApiException extends{{#useRuntimeException}} RuntimeException {{/us
                 super.getMessage(), this.getCode(), this.getResponseBody(), this.getResponseHeaders().toString());
     }
     {{#errorObjectType}}
-
-    /**
-     * Get the error object type.
-     *
-     * @return Error object type
-     */
-    public GenericType getErrorObjectType() {
-        return errorObjectType;
-    }
-
-    /**
-     * Set the error object type.
-     *
-     * @param errorObjectType object type
-     */
-    public void setErrorObjectType(GenericType errorObjectType) {
-        this.errorObjectType = errorObjectType;
-    }
 
     /**
      * Get the error object.

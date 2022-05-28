@@ -144,6 +144,11 @@
   infoLink: "https://docspring.com"
   pinned: false
 -
+  caption: Deeproute.ai
+  image: "img/companies/deeproute_logo.jpg"
+  infoLink: "https://www.deeproute.ai/"
+  pinned: false
+-
   caption: "dwango"
   image: "img/companies/dwango.png"
   infoLink: "https://dwango.co.jp/"
@@ -379,6 +384,11 @@
   infoLink: "https://github.com/prometheus/alertmanager"
   pinned: false
 -
+  caption: Puppet
+  image: "img/companies/puppet.svg"
+  infoLink: "https://www.puppet.com"
+  pinned: false
+-
   caption: "Qulix Systems"
   image: "img/companies/qulix.png"
   infoLink: "https://www.qulix.com"
@@ -548,3 +558,10 @@
   image: "img/companies/zozo-technologies.png"
   infoLink: "https://tech.zozo.com/en/"
   pinned: false
+
+-
+  caption: 3DS OUTSCALE
+  image: "img/companies/outscale.png"
+  infoLink: "https://www.outscale.com/"
+  pinned: false
+

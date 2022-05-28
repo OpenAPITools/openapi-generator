@@ -113,6 +113,10 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
         apiTemplateFiles.put("api.mustache", ".scala");
         embeddedTemplateDir = templateDir = "scala-sttp";
 
+        String jsonLibrary = JSON_LIBRARY_PROPERTY.getValue(additionalProperties);
+
+        String jsonValueClass = jsonLibrary == "circe" ? "io.circe.Json" : "org.json4s.JValue"; 
+
         additionalProperties.put(CodegenConstants.GROUP_ID, groupId);
         additionalProperties.put(CodegenConstants.ARTIFACT_ID, artifactId);
         additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
@@ -148,6 +152,7 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
         typeMapping.put("number", "Double");
         typeMapping.put("decimal", "BigDecimal");
         typeMapping.put("ByteArray", "Array[Byte]");
+        typeMapping.put("AnyType", jsonValueClass);
 
         instantiationTypes.put("array", "ListBuffer");
         instantiationTypes.put("map", "Map");
@@ -170,6 +175,7 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
         supportingFiles.add(new SupportingFile("build.sbt.mustache", "", "build.sbt"));
         final String invokerFolder = (sourceFolder + File.separator + invokerPackage).replace(".", File.separator);
         supportingFiles.add(new SupportingFile("jsonSupport.mustache", invokerFolder, "JsonSupport.scala"));
+        supportingFiles.add(new SupportingFile("additionalTypeSerializers.mustache", invokerFolder, "AdditionalTypeSerializers.scala"));
         supportingFiles.add(new SupportingFile("project/build.properties.mustache", "project", "build.properties"));
         supportingFiles.add(new SupportingFile("dateSerializers.mustache", invokerFolder, "DateSerializers.scala"));
     }

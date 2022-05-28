@@ -82,6 +82,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String CONFIG_PACKAGE = "configPackage";
     public static final String BASE_PACKAGE = "basePackage";
     public static final String INTERFACE_ONLY = "interfaceOnly";
+    public static final String USE_FEIGN_CLIENT_URL = "useFeignClientUrl";
     public static final String DELEGATE_PATTERN = "delegatePattern";
     public static final String SINGLE_CONTENT_TYPES = "singleContentTypes";
     public static final String VIRTUAL_SERVICE = "virtualService";
@@ -98,6 +99,8 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String HATEOAS = "hateoas";
     public static final String RETURN_SUCCESS_CODE = "returnSuccessCode";
     public static final String UNHANDLED_EXCEPTION_HANDLING = "unhandledException";
+    public static final String USE_SPRING_BOOT3 = "useSpringBoot3";
+    public static final String USE_JAKARTA_EE = "useJakartaEe";
 
     public static final String OPEN_BRACE = "{";
     public static final String CLOSE_BRACE = "}";
@@ -106,6 +109,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     protected String configPackage = "org.openapitools.configuration";
     protected String basePackage = "org.openapitools";
     protected boolean interfaceOnly = false;
+    protected boolean useFeignClientUrl = true;
     protected boolean delegatePattern = false;
     protected boolean delegateMethod = false;
     protected boolean singleContentTypes = false;
@@ -124,6 +128,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     protected boolean unhandledException = false;
     protected boolean useSpringController = false;
     protected boolean useSwaggerUI = true;
+    protected boolean useSpringBoot3 = false;
 
     public SpringCodegen() {
         super();
@@ -166,6 +171,8 @@ public class SpringCodegen extends AbstractJavaCodegen
                 .defaultValue(this.getBasePackage()));
         cliOptions.add(CliOption.newBoolean(INTERFACE_ONLY,
                 "Whether to generate only API interface stubs without the server files.", interfaceOnly));
+        cliOptions.add(CliOption.newBoolean(USE_FEIGN_CLIENT_URL,
+                "Whether to generate Feign client with url parameter.", useFeignClientUrl));
         cliOptions.add(CliOption.newBoolean(DELEGATE_PATTERN,
                 "Whether to generate the server files using the delegate pattern", delegatePattern));
         cliOptions.add(CliOption.newBoolean(SINGLE_CONTENT_TYPES,
@@ -200,6 +207,9 @@ public class SpringCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(USE_SWAGGER_UI,
             "Open the OpenApi specification in swagger-ui. Will also import and configure needed dependencies",
             useSwaggerUI));
+        cliOptions.add(CliOption.newBoolean(USE_SPRING_BOOT3,
+            "Generate code and provide dependencies for use with Spring Boot 3.x. (Use jakarta instead of javax in imports).",
+            useSwaggerUI));
 
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application.");
         supportedLibraries.put(SPRING_CLOUD_LIBRARY,
@@ -224,7 +234,7 @@ public class SpringCodegen extends AbstractJavaCodegen
 
     @Override
     public String getHelp() {
-        return "Generates a Java SpringBoot Server application using the SpringFox integration.";
+        return "Generates a Java SpringBoot Server application using the SpringDoc integration.";
     }
 
     @Override
@@ -325,6 +335,11 @@ public class SpringCodegen extends AbstractJavaCodegen
             this.setInterfaceOnly(Boolean.parseBoolean(additionalProperties.get(INTERFACE_ONLY).toString()));
         }
 
+        if (additionalProperties.containsKey(USE_FEIGN_CLIENT_URL)) {
+            this.setUseFeignClientUrl(Boolean.parseBoolean(additionalProperties.get(USE_FEIGN_CLIENT_URL).toString()));
+        }
+        writePropertyBack(USE_FEIGN_CLIENT_URL, useFeignClientUrl);
+
         if (additionalProperties.containsKey(DELEGATE_PATTERN)) {
             this.setDelegatePattern(Boolean.parseBoolean(additionalProperties.get(DELEGATE_PATTERN).toString()));
         }
@@ -406,6 +421,22 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
         additionalProperties.put(UNHANDLED_EXCEPTION_HANDLING, this.isUnhandledException());
 
+        if (additionalProperties.containsKey(USE_SPRING_BOOT3)) {
+            this.setUseSpringBoot3(convertPropertyToBoolean(USE_SPRING_BOOT3));
+        }
+        if (isUseSpringBoot3()) {
+            if (DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider())) {
+                throw new IllegalArgumentException(DocumentationProvider.SPRINGFOX.getPropertyName() + " is not supported with Spring Boot > 3.x");
+            }
+            if (AnnotationLibrary.SWAGGER1.equals(getAnnotationLibrary())) {
+                throw new IllegalArgumentException(AnnotationLibrary.SWAGGER1.getPropertyName() + " is not supported with Spring Boot > 3.x");
+            }
+            writePropertyBack(USE_JAKARTA_EE, true);
+        } else {
+            writePropertyBack(USE_JAKARTA_EE, false);
+        }
+        writePropertyBack(USE_SPRING_BOOT3, isUseSpringBoot3());
+
         typeMapping.put("file", "org.springframework.core.io.Resource");
         importMapping.put("org.springframework.core.io.Resource", "org.springframework.core.io.Resource");
         importMapping.put("Pageable", "org.springframework.data.domain.Pageable");
@@ -422,7 +453,12 @@ public class SpringCodegen extends AbstractJavaCodegen
             additionalProperties.put("delegate-method", true);
         }
 
-        supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
+        if (isUseSpringBoot3()) {
+            supportingFiles.add(new SupportingFile("pom-sb3.mustache", "", "pom.xml"));
+        } else {
+            supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
+        }
+
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
 
         if (!interfaceOnly) {
@@ -462,10 +498,16 @@ public class SpringCodegen extends AbstractJavaCodegen
                         "HomeController.java"));
                 supportingFiles.add(new SupportingFile("openapi.mustache",
                         ("src/main/resources").replace("/", java.io.File.separator), "openapi.yaml"));
-                if (DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider()) && !reactive && !apiFirst) {
-                    supportingFiles.add(new SupportingFile("openapiDocumentationConfig.mustache",
-                        (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
-                        "SpringFoxConfiguration.java"));
+                if (!reactive && !apiFirst){
+                    if (DocumentationProvider.SPRINGDOC.equals(getDocumentationProvider())){
+                        supportingFiles.add(new SupportingFile("springdocDocumentationConfig.mustache",
+                            (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
+                            "SpringDocConfiguration.java"));
+                    } else if (DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider())) {
+                        supportingFiles.add(new SupportingFile("openapiDocumentationConfig.mustache",
+                            (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
+                            "SpringFoxConfiguration.java"));
+                    }
                 }
             }
         }
@@ -790,6 +832,10 @@ public class SpringCodegen extends AbstractJavaCodegen
         this.interfaceOnly = interfaceOnly;
     }
 
+    public void setUseFeignClientUrl(boolean useFeignClientUrl) {
+        this.useFeignClientUrl = useFeignClientUrl;
+    }
+
     public void setDelegatePattern(boolean delegatePattern) {
         this.delegatePattern = delegatePattern;
     }
@@ -1025,5 +1071,13 @@ public class SpringCodegen extends AbstractJavaCodegen
         List<VendorExtension> extensions = super.getSupportedVendorExtensions();
         extensions.add(VendorExtension.X_SPRING_PAGINATED);
         return extensions;
+    }
+
+    public boolean isUseSpringBoot3() {
+        return useSpringBoot3;
+    }
+
+    public void setUseSpringBoot3(boolean useSpringBoot3) {
+        this.useSpringBoot3 = useSpringBoot3;
     }
 }

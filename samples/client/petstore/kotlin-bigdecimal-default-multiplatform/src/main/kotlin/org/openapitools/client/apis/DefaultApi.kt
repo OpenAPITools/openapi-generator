@@ -43,7 +43,7 @@ open class DefaultApi(
     /**
      * 
      * 
-     * @param apa  
+     * @param apa 
      * @return void
      */
     open suspend fun testPost(apa: Apa): HttpResponse<Unit> {
@@ -53,7 +53,6 @@ open class DefaultApi(
         val localVariableBody = apa
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
-
         val localVariableHeaders = mutableMapOf<String, String>()
 
         val localVariableConfig = RequestConfig<kotlin.Any?>(

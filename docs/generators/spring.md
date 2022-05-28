@@ -11,7 +11,7 @@ title: Documentation for the spring Generator
 | generator type | SERVER | |
 | generator language | Java | |
 | generator default templating engine | mustache | |
-| helpTxt | Generates a Java SpringBoot Server application using the SpringFox integration. | |
+| helpTxt | Generates a Java SpringBoot Server application using the SpringDoc integration. | |
 
 ## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
@@ -82,7 +82,9 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |title|server title name or client service name| |OpenAPI Spring|
 |unhandledException|Declare operation methods to throw a generic exception and allow unhandled exceptions (useful for Spring `@ControllerAdvice` directives).| |false|
 |useBeanValidation|Use BeanValidation API annotations| |true|
+|useFeignClientUrl|Whether to generate Feign client with url parameter.| |true|
 |useOptional|Use Optional container for optional parameters| |false|
+|useSpringBoot3|Generate code and provide dependencies for use with Spring Boot 3.x. (Use jakarta instead of javax in imports).| |true|
 |useSpringController|Annotate the generated API as a Spring Controller| |false|
 |useSwaggerUI|Open the OpenApi specification in swagger-ui. Will also import and configure needed dependencies| |true|
 |useTags|use tags for creating interface and controller classnames| |false|

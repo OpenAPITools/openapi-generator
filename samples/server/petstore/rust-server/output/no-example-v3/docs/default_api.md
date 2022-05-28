@@ -8,14 +8,14 @@ Method | HTTP request | Description
 
 
 # ****
-> (inline_object)
+> (op_get_request)
 
 
 ### Required Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-  **inline_object** | [**InlineObject**](InlineObject.md)|  | 
+  **op_get_request** | [**OpGetRequest**](OpGetRequest.md)|  | 
 
 ### Return type
 

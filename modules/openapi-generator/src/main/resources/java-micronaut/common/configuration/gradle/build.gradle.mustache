@@ -43,7 +43,12 @@ dependencies {
     {{#reactive}}
     implementation("io.micronaut.reactor:micronaut-reactor")
     {{/reactive}}
-    implementation("io.swagger:swagger-annotations:1.5.9")
+    {{#generateSwagger1Annotations}}
+    implementation("io.swagger:swagger-annotations:1.6.5")
+    {{/generateSwagger1Annotations}}
+    {{#generateSwagger2Annotations}}
+    implementation("io.swagger.core.v3:swagger-annotations:2.2.0")
+    {{/generateSwagger2Annotations}}
     runtimeOnly("ch.qos.logback:logback-classic")
 }
 
