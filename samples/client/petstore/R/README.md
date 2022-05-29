@@ -83,14 +83,17 @@ Class | Method | HTTP request | Description
 
  - [AllofTagApiResponse](docs/AllofTagApiResponse.md)
  - [Animal](docs/Animal.md)
+ - [BasquePig](docs/BasquePig.md)
  - [Cat](docs/Cat.md)
  - [CatAllOf](docs/CatAllOf.md)
  - [Category](docs/Category.md)
+ - [DanishPig](docs/DanishPig.md)
  - [Dog](docs/Dog.md)
  - [DogAllOf](docs/DogAllOf.md)
  - [ModelApiResponse](docs/ModelApiResponse.md)
  - [Order](docs/Order.md)
  - [Pet](docs/Pet.md)
+ - [Pig](docs/Pig.md)
  - [Tag](docs/Tag.md)
  - [User](docs/User.md)
 
