@@ -6,6 +6,7 @@ NAMESPACE
 R/allof_tag_api_response.R
 R/animal.R
 R/api_client.R
+R/api_exception.R
 R/api_response.R
 R/cat.R
 R/cat_all_of.R
