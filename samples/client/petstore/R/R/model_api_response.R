@@ -30,7 +30,6 @@ ModelApiResponse <- R6::R6Class(
     initialize = function(
         `code`=NULL, `type`=NULL, `message`=NULL, ...
     ) {
-      local.optional.var <- list(...)
       if (!is.null(`code`)) {
         stopifnot(is.numeric(`code`), length(`code`) == 1)
         self$`code` <- `code`
@@ -107,7 +106,11 @@ ModelApiResponse <- R6::R6Class(
       self$`type` <- ModelApiResponseObject$`type`
       self$`message` <- ModelApiResponseObject$`message`
       self
+    },
+    validateJson = function(input) {
+      input_json <- jsonlite::fromJSON(input)
     }
+
   )
 )
 

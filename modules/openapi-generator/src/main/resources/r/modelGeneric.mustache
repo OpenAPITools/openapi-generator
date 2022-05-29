@@ -30,7 +30,6 @@
     initialize = function(
         {{#requiredVars}}`{{baseName}}`, {{/requiredVars}}{{#optionalVars}}`{{baseName}}`={{{defaultValue}}}{{^defaultValue}}NULL{{/defaultValue}}, {{/optionalVars}}...
     ) {
-      local.optional.var <- list(...)
       {{#requiredVars}}
       if (!missing(`{{baseName}}`)) {
         {{^isContainer}}
@@ -255,7 +254,56 @@
       {{/isContainer}}
       {{/vars}}
       self
+    },
+    validateJson = function(input) {
+      input_json <- jsonlite::fromJSON(input)
+      {{#requiredVars}}
+      if (!missing(input_json$`{{baseName}}`)) {
+        {{^isContainer}}
+        {{#isInteger}}
+        stopifnot(is.numeric(input_json$`{{baseName}}`), length(input_json$`{{baseName}}`) == 1)
+        {{/isInteger}}
+        {{#isLong}}
+        stopifnot(is.numeric(input_json$`{{baseName}}`), length(input_json$`{{baseName}}`) == 1)
+        {{/isLong}}
+        {{#isFloat}}
+        stopifnot(is.numeric(input_json$`{{baseName}}`), length(input_json$`{{baseName}}`) == 1)
+        {{/isFloat}}
+        {{#isDouble}}
+        stopifnot(is.numeric(input_json$`{{baseName}}`), length(input_json$`{{baseName}}`) == 1)
+        {{/isDouble}}
+        {{#isString}}
+        stopifnot(is.character(input_json$`{{baseName}}`), length(input_json$`{{baseName}}`) == 1)
+        {{/isString}}
+        {{#isBoolean}}
+        stopifnot(is.logical(input_json$`{{baseName}}`), length(input_json$`{{baseName}}`) == 1)
+        {{/isBoolean}}
+        {{#isDate}}
+        stopifnot(is.character(input_json$`{{baseName}}`), length(input_json$`{{baseName}}`) == 1)
+        {{/isDate}}
+        {{#isDateTime}}
+        stopifnot(is.character(input_json$`{{baseName}}`), length(input_json$`{{baseName}}`) == 1)
+        {{/isDateTime}}
+        {{^isPrimitiveType}}
+        stopifnot(R6::is.R6(input_json$`{{baseName}}`))
+        {{/isPrimitiveType}}
+        {{/isContainer}}
+        {{#isContainer}}
+        {{#isPrimitiveType}}
+        stopifnot(is.vector(input_json$`{{baseName}}`), length(input_json$`{{baseName}}`) != 0)
+        sapply(input_json$`{{baseName}}`, function(x) stopifnot(is.character(x)))
+        {{/isPrimitiveType}}
+        {{^isPrimitiveType}}
+        stopifnot(is.vector(input_json$`{{baseName}}`), length(json_input$`{{baseName}}`) != 0)
+        sapply(input_json$`{{baseName}}`, function(x) stopifnot(R6::is.R6(x)))
+        {{/isPrimitiveType}}
+        {{/isContainer}}
+      } else {
+        stop("The required field `{{baseName}}` is missing.")
+      }
+      {{/requiredVars}}
     }
+
   )
 )
 {{/isEnum}}

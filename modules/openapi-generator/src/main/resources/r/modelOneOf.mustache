@@ -13,7 +13,7 @@
   public = list(
     actual_instance = NULL,
     actual_type = NULL,
-    one_of <- list({{#oneOf}}"{{{.}}}"{{^-last}}, {{/-last}}{{/oneOf}}),
+    one_of = list({{#oneOf}}"{{{.}}}"{{^-last}}, {{/-last}}{{/oneOf}}),
     initialize = function(
         {{#requiredVars}}`{{baseName}}`, {{/requiredVars}}{{#optionalVars}}`{{baseName}}`={{{defaultValue}}}{{^defaultValue}}NULL{{/defaultValue}}, {{/optionalVars}}...
     ) {

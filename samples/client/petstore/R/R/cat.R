@@ -31,7 +31,6 @@ Cat <- R6::R6Class(
     initialize = function(
         `className`, `color`='red', `declawed`=NULL, ...
     ) {
-      local.optional.var <- list(...)
       if (!missing(`className`)) {
         stopifnot(is.character(`className`), length(`className`) == 1)
         self$`className` <- `className`
@@ -108,7 +107,16 @@ Cat <- R6::R6Class(
       self$`color` <- CatObject$`color`
       self$`declawed` <- CatObject$`declawed`
       self
+    },
+    validateJson = function(input) {
+      input_json <- jsonlite::fromJSON(input)
+      if (!missing(input_json$`className`)) {
+        stopifnot(is.character(input_json$`className`), length(input_json$`className`) == 1)
+      } else {
+        stop("The required field `className` is missing.")
+      }
     }
+
   )
 )
 

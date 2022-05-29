@@ -36,7 +36,6 @@ AllofTagApiResponse <- R6::R6Class(
     initialize = function(
         `id`=NULL, `name`=NULL, `code`=NULL, `type`=NULL, `message`=NULL, ...
     ) {
-      local.optional.var <- list(...)
       if (!is.null(`id`)) {
         stopifnot(is.numeric(`id`), length(`id`) == 1)
         self$`id` <- `id`
@@ -151,7 +150,11 @@ AllofTagApiResponse <- R6::R6Class(
       self$`type` <- AllofTagApiResponseObject$`type`
       self$`message` <- AllofTagApiResponseObject$`message`
       self
+    },
+    validateJson = function(input) {
+      input_json <- jsonlite::fromJSON(input)
     }
+
   )
 )
 
