@@ -21,6 +21,7 @@
 #' \item \emph{ @param } var_data_file character
 #' \item \emph{ @returnType } \link{User} \cr
 #'
+#' \item On encountering errors, an error of subclass ApiException will be thrown.
 #'
 #' \item status code : 200 | successful operation
 #'
@@ -45,12 +46,27 @@
 #' #test data_file to ensure it's escaped correctly
 #' api.instance <- FakeApi$new()
 #'
-#' result <- api.instance$FakeDataFile(var.dummy, var_data_file=var.var_data_file)
+#'result <- tryCatch(
+#'             api.instance$FakeDataFile(var.dummy, var_data_file=var.var_data_file),
+#'             ApiException = function(ex) ex
+#'          )
+#' # In case of error, print the error object
+#' if(!is.null(result$ApiException)) {
+#'   cat(result$ApiException$toString())
+#' } else {
+#' # deserialized response object
+#' response.object <- result$content
+#' # response headers
+#' response.headers <- result$response$headers
+#' # response status code
+#' response.status.code <- result$response$status_code
+#' }
 #'
 #'
 #' }
 #' @importFrom R6 R6Class
 #' @importFrom base64enc base64encode
+#' @importFrom rlang abort
 #' @export
 FakeApi <- R6::R6Class(
   "FakeApi",
@@ -84,7 +100,7 @@ FakeApi <- R6::R6Class(
       header_params <- c()
 
       if (missing(`dummy`)) {
-        stop("Missing required parameter `dummy`.")
+        rlang::abort(message = "Missing required parameter `dummy`.", .subclass = "ApiException", ApiException = ApiException$new(status = 0, reason = "Missing required parameter `dummy`."))
       }
 
       body <- NULL
@@ -106,16 +122,28 @@ FakeApi <- R6::R6Class(
         deserialized_resp_obj <- tryCatch(
           self$api_client$deserialize(resp, "User", loadNamespace("petstore")),
           error = function(e) {
-             stop("Failed to deserialize response")
+             rlang::abort(message = "Failed to deserialize response", .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
           }
         )
         ApiResponse$new(deserialized_resp_obj, resp)
       } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
-        ApiResponse$new(paste("Server returned ", httr::status_code(resp), " response status code."), resp)
+        error_msg <- toString(content(resp))
+        if(error_msg == "") {
+          error_msg <- paste("Server returned ", httr::status_code(resp), " response status code.")
+        }
+        rlang::abort(message = error_msg, .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
-        ApiResponse$new("API client error", resp)
+        error_msg <- toString(content(resp))
+        if(error_msg == "") {
+          error_msg <- "Api client exception encountered."
+        }
+        rlang::abort(message = error_msg, .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
-        ApiResponse$new("API server error", resp)
+        error_msg <- toString(content(resp))
+        if(error_msg == "") {
+          error_msg <- "Api server exception encountered."
+        }
+        rlang::abort(message = error_msg, .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
       }
     }
   )
