@@ -30,7 +30,7 @@ export interface InlineObject {
      * @type {string}
      * @memberof InlineObject
      */
-    nullableStringEnum?: InlineObjectNullableStringEnumEnum;
+    nullableStringEnum?: string | null;
     /**
      * 
      * @type {number}
@@ -42,7 +42,7 @@ export interface InlineObject {
      * @type {number}
      * @memberof InlineObject
      */
-    nullableNumberEnum?: InlineObjectNullableNumberEnumEnum;
+    nullableNumberEnum?: number | null;
 }
 
 /**
@@ -58,25 +58,7 @@ export enum InlineObjectStringEnumEnum {
 * @export
 * @enum {string}
 */
-export enum InlineObjectNullableStringEnumEnum {
-    One = 'one',
-    Two = 'two',
-    Three = 'three'
-}
-/**
-* @export
-* @enum {string}
-*/
 export enum InlineObjectNumberEnumEnum {
-    NUMBER_1 = 1,
-    NUMBER_2 = 2,
-    NUMBER_3 = 3
-}
-/**
-* @export
-* @enum {string}
-*/
-export enum InlineObjectNullableNumberEnumEnum {
     NUMBER_1 = 1,
     NUMBER_2 = 2,
     NUMBER_3 = 3
