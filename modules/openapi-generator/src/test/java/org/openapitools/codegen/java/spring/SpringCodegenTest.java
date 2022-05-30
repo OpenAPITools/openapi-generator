@@ -1380,4 +1380,27 @@ public class SpringCodegenTest {
                 .assertParameterAnnotations()
                 .containsWithNameAndAttributes("RequestParam", ImmutableMap.of("defaultValue", "\"\""));
     }
+
+    @Test
+    public void testPutItemsMethodContainsKeyInSuperClassMethodCall_issue12494() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+            .readLocation("src/test/resources/bugs/issue_12494.yaml", null, new ParseOptions()).getOpenAPI();
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput input = new ClientOptInput()
+            .openAPI(openAPI)
+            .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(input).generate().stream()
+            .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("ChildClass.java"))
+            .assertMethod("putSomeMapItem")
+            .bodyContainsLines("super.putSomeMapItem(key, someMapItem);");
+	}
 }
