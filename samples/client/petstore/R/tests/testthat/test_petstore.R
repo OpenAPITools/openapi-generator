@@ -138,6 +138,37 @@ test_that("Tests validateJSON", {
   
 })
 
+test_that("Tests oneOf", {
+  basque_pig_json <-
+  '{"className": "BasquePig", "color": "red"}'
+
+  danish_pig_json <-
+  '{"className": "DanishPig", "size": 7}'
+
+  wrong_json <- 
+  '[
+    {"Name" : "Tom", "Age" : 32, "Occupation" : "Consultant"}, 
+    {},
+    {"Name" : "Ada", "Occupation" : "Engineer"}
+  ]'
+
+  pig <- Pig$new()
+  basque_pig <- pig$fromJSON(basque_pig_json)
+  #expect_equal(basque_pig$actual_type, "BasquePig")
+  #expect_equal(basque_pig$actual_instance$color, "red")
+  #expect_equal(basque_pig$actual_instance$className, "BasquePig")
+
+  #danish_pig <- pig$fromJSON(dansih_pig_json)
+  #expect_equal(danish_pig$actual_type, "DanishPig")
+  #expect_equal(danish_pig$actual_instance$size, 7)
+  #expect_equal(danish_pig$actual_instance$className, "DanishPig")
+
+  #expect_error(pig$fromJSON(wrong_json), "something")
+
+
+
+})
+
 #test_that("GetPetById", {
 #  pet.id <- pet.id
 #  pet <- Pet$new(pet.id, NULL, "name_test2",

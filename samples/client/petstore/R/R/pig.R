@@ -22,7 +22,7 @@ Pig <- R6::R6Class(
     actual_type = NULL,
     one_of = list("BasquePig", "DanishPig"),
     initialize = function(
-        `className`, `color`=NULL, `size`=NULL, ...
+        `className`, `color`, `size`, ...
     ) {
       local_optional_var <- list(...)
     },
@@ -30,8 +30,50 @@ Pig <- R6::R6Class(
       Pig_object <- list()
       Pig_object
     },
-    fromJSON = function(PigJson) {
-      PigObject <- jsonlite::fromJSON(PigJson)
+    fromJSON = function(input) {
+      matched <- 0 # match counter
+      matched_schemas <- list() #names of matched schemas
+      error_messages <- list()
+      instance <- NULL
+
+      BasquePig_result <- tryCatch({
+          BasquePig$public_methods$validateJSON(input)
+          instance_type <- "BasquePig"
+          matched_schemas <- append(matched_schemas, "BasquePig")
+          matched <- matched + 1
+        },
+        error = function(err) err
+      )
+
+      if (!is.null(BasquePig_result['error'])) {
+        error_messages <- append(error_messages, BasquePig_result['error'])
+      }
+
+      DanishPig_result <- tryCatch({
+          DanishPig$public_methods$validateJSON(input)
+          instance_type <- "DanishPig"
+          matched_schemas <- append(matched_schemas, "DanishPig")
+          matched <- matched + 1
+        },
+        error = function(err) err
+      )
+
+      if (!is.null(DanishPig_result['error'])) {
+        error_messages <- append(error_messages, DanishPig_result['error'])
+      }
+
+      if (matched == 1) {
+        # successfully match exactly 1 schema specified in oneOf
+        self$actual_instance <- instance
+        self$actual_type <- instance_type
+      } else if (matched > 1) {
+        # more than 1 match
+        stop("Multiple matches found when deserializing the payload into Pig with oneOf schemas BasquePig, DanishPig. ")
+      } else {
+        # no match
+        stop(paste("No match found when deserializing the payload into Pig with oneOf schemas BasquePig, DanishPig. Details: ", paste(error_messages, collapse = ', ')))
+      }
+
       self
     },
     toJSONString = function() {

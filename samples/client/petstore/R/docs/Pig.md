@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **className** | **character** |  | 
-**color** | **character** |  | [optional] 
-**size** | **integer** |  | [optional] 
+**color** | **character** |  | 
+**size** | **integer** |  | 
 
 

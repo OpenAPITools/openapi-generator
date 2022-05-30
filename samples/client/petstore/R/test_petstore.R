@@ -37,9 +37,25 @@ json <-
 #Pet$public_methods
 #Pet$public_methods$fromJSON(json)
 #Pet$public_methods$toJson()
-Pet$public_methods$validateJSON(json2)
+#Pet$public_methods$validateJSON(json2)
 #Pet$public_methods$validateJson(json)
 #Pet$my_static_method <- function(x) { x + 2}
 #Pet$public_methods$my_static_method(1)
 
-
+  basque_pig_json <-
+  '{"className": "BasquePig", "color": "red"}'
+ 
+  danish_pig_json <-
+  '{"className": "DanishPig", "size": 7}'
+ 
+  wrong_json <- 
+  '[
+    {"Name" : "Tom", "Age" : 32, "Occupation" : "Consultant"}, 
+    {},
+    {"Name" : "Ada", "Occupation" : "Engineer"}
+  ]'
+ 
+  pig <- Pig$new()
+  basque_pig <- pig$fromJSON(basque_pig_json)
+  #expect_equal(basque_pig$actual_type, "BasquePig")
+i <- pig$fromJSON(wrong_json)

@@ -23,8 +23,39 @@
       {{classname}}_object <- list()
       {{classname}}_object
     },
-    fromJSON = function({{classname}}Json) {
-      {{classname}}Object <- jsonlite::fromJSON({{classname}}Json)
+    fromJSON = function(input) {
+      matched <- 0 # match counter
+      matched_schemas <- list() #names of matched schemas
+      error_messages <- list()
+      instance <- NULL
+
+      {{#oneOf}}
+      {{{.}}}_result <- tryCatch({
+          {{{.}}}$public_methods$validateJSON(input)
+          instance_type <- "{{{.}}}"
+          matched_schemas <- append(matched_schemas, "{{{.}}}")
+          matched <- matched + 1
+        },
+        error = function(err) err
+      )
+
+      if (!is.null({{{.}}}_result['error'])) {
+        error_messages <- append(error_messages, {{{.}}}_result['error'])
+      }
+
+      {{/oneOf}}
+      if (matched == 1) {
+        # successfully match exactly 1 schema specified in oneOf
+        self$actual_instance <- instance
+        self$actual_type <- instance_type
+      } else if (matched > 1) {
+        # more than 1 match
+        stop("Multiple matches found when deserializing the payload into {{{classname}}} with oneOf schemas {{#oneOf}}{{{.}}}{{^-last}}, {{/-last}}{{/oneOf}}. ")
+      } else {
+        # no match
+        stop(paste("No match found when deserializing the payload into {{{classname}}} with oneOf schemas {{#oneOf}}{{{.}}}{{^-last}}, {{/-last}}{{/oneOf}}. Details: ", paste(error_messages, collapse = ', ')))
+      }
+
       self
     },
     toJSONString = function() {

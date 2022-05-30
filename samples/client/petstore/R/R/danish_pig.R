@@ -14,7 +14,7 @@
 #'
 #' @field className  character 
 #'
-#' @field size  integer [optional]
+#' @field size  integer 
 #'
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
@@ -25,13 +25,13 @@ DanishPig <- R6::R6Class(
     `className` = NULL,
     `size` = NULL,
     initialize = function(
-        `className`, `size`=NULL, ...
+        `className`, `size`, ...
     ) {
       if (!missing(`className`)) {
         stopifnot(is.character(`className`), length(`className`) == 1)
         self$`className` <- `className`
       }
-      if (!is.null(`size`)) {
+      if (!missing(`size`)) {
         stopifnot(is.numeric(`size`), length(`size`) == 1)
         self$`size` <- `size`
       }
@@ -91,6 +91,11 @@ DanishPig <- R6::R6Class(
         stopifnot(is.character(input_json$`className`), length(input_json$`className`) == 1)
       } else {
         stop("The required field `className` is missing.")
+      }
+      if (!is.null(input_json$`size`)) {
+        stopifnot(is.numeric(input_json$`size`), length(input_json$`size`) == 1)
+      } else {
+        stop("The required field `size` is missing.")
       }
     }
 

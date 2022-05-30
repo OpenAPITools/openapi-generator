@@ -816,6 +816,7 @@ components:
           type: string
       required:
         - className
+        - color
     DanishPig:
       type: object
       properties:
@@ -825,3 +826,4 @@ components:
           type: integer
       required:
         - className
+        - size

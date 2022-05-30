@@ -14,7 +14,7 @@
 #'
 #' @field className  character 
 #'
-#' @field color  character [optional]
+#' @field color  character 
 #'
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
@@ -25,13 +25,13 @@ BasquePig <- R6::R6Class(
     `className` = NULL,
     `color` = NULL,
     initialize = function(
-        `className`, `color`=NULL, ...
+        `className`, `color`, ...
     ) {
       if (!missing(`className`)) {
         stopifnot(is.character(`className`), length(`className`) == 1)
         self$`className` <- `className`
       }
-      if (!is.null(`color`)) {
+      if (!missing(`color`)) {
         stopifnot(is.character(`color`), length(`color`) == 1)
         self$`color` <- `color`
       }
@@ -91,6 +91,11 @@ BasquePig <- R6::R6Class(
         stopifnot(is.character(input_json$`className`), length(input_json$`className`) == 1)
       } else {
         stop("The required field `className` is missing.")
+      }
+      if (!is.null(input_json$`color`)) {
+        stopifnot(is.character(input_json$`color`), length(input_json$`color`) == 1)
+      } else {
+        stop("The required field `color` is missing.")
       }
     }
 

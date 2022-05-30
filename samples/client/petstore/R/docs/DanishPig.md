@@ -5,6 +5,6 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **className** | **character** |  | 
-**size** | **integer** |  | [optional] 
+**size** | **integer** |  | 
 
 
