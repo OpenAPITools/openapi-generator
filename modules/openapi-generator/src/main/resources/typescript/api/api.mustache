@@ -208,7 +208,7 @@ export class {{classname}}ResponseProcessor {
             return body;
             {{/is2xx}}
             {{^is2xx}}
-            throw new ApiException<{{{dataType}}}>({{code}}, "{{message}}", body, response.headers);
+            throw new ApiException<{{{dataType}}}>(response.httpStatusCode, "{{message}}", body, response.headers);
             {{/is2xx}}
             {{/dataType}}
             {{^dataType}}
