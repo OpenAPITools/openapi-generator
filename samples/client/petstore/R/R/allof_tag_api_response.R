@@ -151,7 +151,7 @@ AllofTagApiResponse <- R6::R6Class(
       self$`message` <- AllofTagApiResponseObject$`message`
       self
     },
-    validateJson = function(input) {
+    validateJSON = function(input) {
       input_json <- jsonlite::fromJSON(input)
     }
 

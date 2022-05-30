@@ -30,7 +30,6 @@
 Pet <- R6::R6Class(
   'Pet',
   public = list(
-    hello_world = function(x) { x +2 },
     `id` = NULL,
     `category` = NULL,
     `name` = NULL,
@@ -178,16 +177,16 @@ Pet <- R6::R6Class(
       self$`status` <- PetObject$`status`
       self
     },
-    validateJson = function(input) {
+    validateJSON = function(input) {
       input_json <- jsonlite::fromJSON(input)
-      if (!missing(input_json$`name`)) {
+      if (!is.null(input_json$`name`)) {
         stopifnot(is.character(input_json$`name`), length(input_json$`name`) == 1)
       } else {
         stop("The required field `name` is missing.")
       }
-      if (!missing(input_json$`photoUrls`)) {
+      if (!is.null(input_json$`photoUrls`)) {
         stopifnot(is.vector(input_json$`photoUrls`), length(input_json$`photoUrls`) != 0)
-        sapply(input_json$`photoUrls`, function(x) stopifnot(is.character(x)))
+        tmp <- sapply(input_json$`photoUrls`, function(x) stopifnot(is.character(x)))
       } else {
         stop("The required field `photoUrls` is missing.")
       }

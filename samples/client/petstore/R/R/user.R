@@ -217,7 +217,7 @@ User <- R6::R6Class(
       self$`userStatus` <- UserObject$`userStatus`
       self
     },
-    validateJson = function(input) {
+    validateJSON = function(input) {
       input_json <- jsonlite::fromJSON(input)
     }
 

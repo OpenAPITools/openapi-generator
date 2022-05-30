@@ -85,7 +85,7 @@ Category <- R6::R6Class(
       self$`name` <- CategoryObject$`name`
       self
     },
-    validateJson = function(input) {
+    validateJSON = function(input) {
       input_json <- jsonlite::fromJSON(input)
     }
 

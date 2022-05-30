@@ -22,6 +22,9 @@ var_pet_id <- 56 # integer | ID of pet to return
 #  response.status.code <- result$response$status_code
 #}
 
+json2 <-
+'{"name": "pet", "photoUrls" : ["http://a.com", "http://b.com"]}'
+
 json <-
 '[
   {"Name" : "Mario", "Age" : 32, "Occupation" : "Plumber"}, 
@@ -31,9 +34,10 @@ json <-
 ]'
 
 
-Pet$public_methods
+#Pet$public_methods
 #Pet$public_methods$fromJSON(json)
-Pet$public_methods$toJson()
+#Pet$public_methods$toJson()
+Pet$public_methods$validateJSON(json2)
 #Pet$public_methods$validateJson(json)
 #Pet$my_static_method <- function(x) { x + 2}
 #Pet$public_methods$my_static_method(1)

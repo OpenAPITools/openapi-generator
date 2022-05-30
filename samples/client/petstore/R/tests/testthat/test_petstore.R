@@ -119,6 +119,25 @@ test_that("Tests allOf with discriminator", {
   expect_true(c1$declawed)
 })
 
+test_that("Tests validateJSON", {
+  json <-
+  '{"name": "pet", "photoUrls" : ["http://a.com", "http://b.com"]}'
+  
+  json2 <-
+  '[
+    {"Name" : "Tom", "Age" : 32, "Occupation" : "Consultant"}, 
+    {},
+    {"Name" : "Ada", "Occupation" : "Engineer"}
+  ]'
+
+  # validate `json` and no error throw
+  Pet$public_methods$validateJSON(json)
+
+  # validate `json2` and should throw an error due to missing required fields
+  expect_error(Pet$public_methods$validateJSON(json2), "The required field `name` is missing.")
+  
+})
+
 #test_that("GetPetById", {
 #  pet.id <- pet.id
 #  pet <- Pet$new(pet.id, NULL, "name_test2",

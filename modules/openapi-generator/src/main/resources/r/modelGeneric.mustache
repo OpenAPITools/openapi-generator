@@ -255,10 +255,10 @@
       {{/vars}}
       self
     },
-    validateJson = function(input) {
+    validateJSON = function(input) {
       input_json <- jsonlite::fromJSON(input)
       {{#requiredVars}}
-      if (!missing(input_json$`{{baseName}}`)) {
+      if (!is.null(input_json$`{{baseName}}`)) {
         {{^isContainer}}
         {{#isInteger}}
         stopifnot(is.numeric(input_json$`{{baseName}}`), length(input_json$`{{baseName}}`) == 1)
@@ -291,11 +291,11 @@
         {{#isContainer}}
         {{#isPrimitiveType}}
         stopifnot(is.vector(input_json$`{{baseName}}`), length(input_json$`{{baseName}}`) != 0)
-        sapply(input_json$`{{baseName}}`, function(x) stopifnot(is.character(x)))
+        tmp <- sapply(input_json$`{{baseName}}`, function(x) stopifnot(is.character(x)))
         {{/isPrimitiveType}}
         {{^isPrimitiveType}}
         stopifnot(is.vector(input_json$`{{baseName}}`), length(json_input$`{{baseName}}`) != 0)
-        sapply(input_json$`{{baseName}}`, function(x) stopifnot(R6::is.R6(x)))
+        tmp <- sapply(input_json$`{{baseName}}`, function(x) stopifnot(R6::is.R6(x)))
         {{/isPrimitiveType}}
         {{/isContainer}}
       } else {

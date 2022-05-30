@@ -63,7 +63,7 @@ CatAllOf <- R6::R6Class(
       self$`declawed` <- CatAllOfObject$`declawed`
       self
     },
-    validateJson = function(input) {
+    validateJSON = function(input) {
       input_json <- jsonlite::fromJSON(input)
     }
 

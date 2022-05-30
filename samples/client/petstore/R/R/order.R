@@ -173,7 +173,7 @@ Order <- R6::R6Class(
       self$`complete` <- OrderObject$`complete`
       self
     },
-    validateJson = function(input) {
+    validateJSON = function(input) {
       input_json <- jsonlite::fromJSON(input)
     }
 

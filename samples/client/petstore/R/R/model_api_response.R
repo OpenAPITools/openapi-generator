@@ -107,7 +107,7 @@ ModelApiResponse <- R6::R6Class(
       self$`message` <- ModelApiResponseObject$`message`
       self
     },
-    validateJson = function(input) {
+    validateJSON = function(input) {
       input_json <- jsonlite::fromJSON(input)
     }
 
