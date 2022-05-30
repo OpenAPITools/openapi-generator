@@ -49,10 +49,12 @@ public class GoClientCodegen extends AbstractGoCodegen {
     protected String packageVersion = "1.0.0";
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
+    protected String modelFileFolder = null;
     public static final String WITH_XML = "withXml";
     public static final String STRUCT_PREFIX = "structPrefix";
     public static final String WITH_AWSV4_SIGNATURE = "withAWSV4Signature";
     public static final String GENERATE_INTERFACES = "generateInterfaces";
+    public static final String MODEL_FILE_FOLDER = "modelFileFolder";
     protected String goImportAlias = "openapiclient";
     protected boolean isGoSubmodule = false;
     protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
@@ -253,6 +255,10 @@ public class GoClientCodegen extends AbstractGoCodegen {
                     .get(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT).toString()));
         }
 
+        if (additionalProperties.containsKey(MODEL_FILE_FOLDER)) {
+            modelFileFolder = additionalProperties.get(MODEL_FILE_FOLDER).toString();
+        }
+
         // add lambda for mustache templates to handle oneOf/anyOf naming
         // e.g. []string => ArrayOfString
         additionalProperties.put("lambda.type-to-name", (Mustache.Lambda) (fragment, writer) -> writer.write(typeToName(fragment.execute())));
@@ -299,9 +305,17 @@ public class GoClientCodegen extends AbstractGoCodegen {
         return outputFolder + File.separator;
     }
 
+    /**
+     * Location of created model files (it can be overriden using --additional-properties in openapi-generator-cli
+     */
     @Override
     public String modelFileFolder() {
-        return outputFolder + File.separator;
+        String modelFileFolderPath = outputFolder + File.separator;
+
+        if(modelFileFolder != null) {
+            modelFileFolderPath = modelFileFolderPath + modelFileFolder + File.separator;
+        }
+        return modelFileFolderPath;
     }
 
     @Override
@@ -413,7 +427,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
             for (CodegenProperty param : Iterables.concat(model.vars, model.allVars, model.requiredVars, model.optionalVars)) {
                 param.vendorExtensions.put("x-go-base-type", param.dataType);
                 if (!param.isNullable || param.isContainer || param.isFreeFormObject
-                    || (param.isAnyType && !param.isModel)) {
+                        || (param.isAnyType && !param.isModel)) {
                     continue;
                 }
                 if (param.isDateTime) {
@@ -424,7 +438,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
                     param.dataType = "NullableTime";
                 } else {
                     param.dataType = "Nullable" + Character.toUpperCase(param.dataType.charAt(0))
-                        + param.dataType.substring(1);
+                            + param.dataType.substring(1);
                 }
             }
 
