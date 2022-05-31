@@ -36,7 +36,7 @@ public class GoCliClientCodegen extends PureCloudGoClientCodegen {
         this.modelTemplateFiles.clear();
         this.modelDocTemplateFiles.clear();
         this.modelTestTemplateFiles.clear();
-        //this.operationTemplateFiles.clear();
+        this.operationTemplateFiles.clear();
         this.supportingFiles.clear();
 
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
@@ -66,8 +66,6 @@ public class GoCliClientCodegen extends PureCloudGoClientCodegen {
         supportingFiles.add(new SupportingFile("root.mustache", "/gc/cmd", "root.go"));
         apiTemplateFiles.put("api.mustache", ".go");
         modelTemplateFiles.put("model.mustache", ".go");
-        apiDocTemplateFiles.put("api_json.mustache", ".json");
-        operationTemplateFiles.put("operation_example.mustache", "-example.txt");
     }
 
     public String modelFileFolder() {
