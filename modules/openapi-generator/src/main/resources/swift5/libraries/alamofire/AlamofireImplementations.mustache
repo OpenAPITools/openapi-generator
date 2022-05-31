@@ -348,7 +348,11 @@ private var managerStore = SynchronizedDictionary<String, Alamofire.Session>()
                 }
 
                 guard let data = dataResponse.data, !data.isEmpty else {
-                    completion(.failure(ErrorResponse.error(-1, nil, dataResponse.response, DecodableRequestBuilderError.emptyDataResponse)))
+                    if T.self is ExpressibleByNilLiteral.Type {
+                        completion(.success(Response(response: dataResponse.response, body: Optional<T>.none as! T)))
+                    } else {
+                        completion(.failure(ErrorResponse.error(-1, nil, dataResponse.response, DecodableRequestBuilderError.emptyDataResponse)))
+                    }
                     return
                 }
 
