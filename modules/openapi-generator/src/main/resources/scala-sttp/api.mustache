@@ -36,7 +36,7 @@ class {{classname}}(baseUrl: String) {
         {{>paramMultipartCreation}}{{^-last}}, {{/-last}}{{/formParams}}
       ).flatten){{/isMultipart}}{{/formParams.0}}{{#bodyParam}}
       .body({{paramName}}){{/bodyParam}}
-.response({{#defaultReturnType}}asEither(asString, ignore){{/defaultReturnType}}{{^defaultReturnType}}{{#separateErrorChannel}}asJson{{/separateErrorChannel}}{{^separateErrorChannel}}asJsonAlwaysUnsafe{{/separateErrorChannel}}[{{>operationReturnType}}]{{/defaultReturnType}})
+      .response({{#defaultReturnType}}asEither(asString, ignore){{/defaultReturnType}}{{^defaultReturnType}}{{#separateErrorChannel}}asJson{{/separateErrorChannel}}{{^separateErrorChannel}}asJsonAlwaysUnsafe{{/separateErrorChannel}}[{{>operationReturnType}}]{{/defaultReturnType}})
 
 {{/operation}}
 }
