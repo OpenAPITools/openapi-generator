@@ -28,6 +28,7 @@ Method | HTTP request | Description
 [**test_inline_additional_properties**](FakeApi.md#test_inline_additional_properties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 [**test_json_form_data**](FakeApi.md#test_json_form_data) | **GET** /fake/jsonFormData | test json serialization of form data
 [**test_query_parameter_collection_format**](FakeApi.md#test_query_parameter_collection_format) | **PUT** /fake/test-query-parameters | 
+[**tx_rx_all_of_model**](FakeApi.md#tx_rx_all_of_model) | **POST** /fake/TxRxAllOfModel | 
 [**tx_rx_any_of_model**](FakeApi.md#tx_rx_any_of_model) | **POST** /fake/TxRxAnyOfModel | 
 [**upload_download_file**](FakeApi.md#upload_download_file) | **POST** /fake/uploadDownloadFile | uploads a file and downloads a file using application/octet-stream
 [**upload_file**](FakeApi.md#upload_file) | **POST** /fake/uploadFile | uploads a file using multipart/form-data
@@ -788,7 +789,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **post_inline_additional_properties_payload**
-> InlineObject6 post_inline_additional_properties_payload()
+> PostInlineAdditionalPropertiesPayloadRequest post_inline_additional_properties_payload()
 
 
 
@@ -799,7 +800,7 @@ No authorization required
 import time
 import petstore_api
 from petstore_api.api import fake_api
-from petstore_api.model.inline_object6 import InlineObject6
+from petstore_api.model.post_inline_additional_properties_payload_request import PostInlineAdditionalPropertiesPayloadRequest
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -812,20 +813,20 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = fake_api.FakeApi(api_client)
-    inline_object6 = InlineObject6(
+    post_inline_additional_properties_payload_request = PostInlineAdditionalPropertiesPayloadRequest(
         array_data=[
-            FakePostInlineAdditionalPropertiesPayloadArrayData(
+            PostInlineAdditionalPropertiesPayloadRequestArrayDataInner(
                 labels=[
                     "labels_example",
                 ],
             ),
         ],
-    ) # InlineObject6 |  (optional)
+    ) # PostInlineAdditionalPropertiesPayloadRequest |  (optional)
 
     # example passing only required values which don't have defaults set
     # and optional values
     try:
-        api_response = api_instance.post_inline_additional_properties_payload(inline_object6=inline_object6)
+        api_response = api_instance.post_inline_additional_properties_payload(post_inline_additional_properties_payload_request=post_inline_additional_properties_payload_request)
         pprint(api_response)
     except petstore_api.ApiException as e:
         print("Exception when calling FakeApi->post_inline_additional_properties_payload: %s\n" % e)
@@ -836,11 +837,11 @@ with petstore_api.ApiClient() as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **inline_object6** | [**InlineObject6**](InlineObject6.md)|  | [optional]
+ **post_inline_additional_properties_payload_request** | [**PostInlineAdditionalPropertiesPayloadRequest**](PostInlineAdditionalPropertiesPayloadRequest.md)|  | [optional]
 
 ### Return type
 
-[**InlineObject6**](InlineObject6.md)
+[**PostInlineAdditionalPropertiesPayloadRequest**](PostInlineAdditionalPropertiesPayloadRequest.md)
 
 ### Authorization
 
@@ -887,7 +888,7 @@ with petstore_api.ApiClient() as api_client:
     api_instance = fake_api.FakeApi(api_client)
     inline_additional_properties_ref_payload = InlineAdditionalPropertiesRefPayload(
         array_data=[
-            FakePostInlineAdditionalPropertiesPayloadArrayData(
+            PostInlineAdditionalPropertiesPayloadRequestArrayDataInner(
                 labels=[
                     "labels_example",
                 ],
@@ -1791,6 +1792,71 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Success |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **tx_rx_all_of_model**
+> StreamOptions tx_rx_all_of_model()
+
+
+
+### Example
+
+
+```python
+import time
+import petstore_api
+from petstore_api.api import fake_api
+from petstore_api.model.stream_options import StreamOptions
+from pprint import pprint
+# Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
+# See configuration.py for a list of all supported configuration parameters.
+configuration = petstore_api.Configuration(
+    host = "http://petstore.swagger.io:80/v2"
+)
+
+
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient() as api_client:
+    # Create an instance of the API class
+    api_instance = fake_api.FakeApi(api_client)
+    stream_options = StreamOptions(None) # StreamOptions |  (optional)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
+    try:
+        api_response = api_instance.tx_rx_all_of_model(stream_options=stream_options)
+        pprint(api_response)
+    except petstore_api.ApiException as e:
+        print("Exception when calling FakeApi->tx_rx_all_of_model: %s\n" % e)
+```
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **stream_options** | [**StreamOptions**](StreamOptions.md)|  | [optional]
+
+### Return type
+
+[**StreamOptions**](StreamOptions.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | success |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

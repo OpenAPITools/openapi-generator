@@ -644,7 +644,7 @@ class TestFakeApi(unittest.TestCase):
         """Test case for postInlineAdditionlPropertiesRefPayload
         """
         from petstore_api.model.inline_additional_properties_ref_payload import InlineAdditionalPropertiesRefPayload
-        from petstore_api.model.fake_post_inline_additional_properties_payload_array_data import FakePostInlineAdditionalPropertiesPayloadArrayData
+        from petstore_api.model.post_inline_additional_properties_payload_request_array_data_inner import PostInlineAdditionalPropertiesPayloadRequestArrayDataInner
         endpoint = self.api.post_inline_additional_properties_ref_payload_endpoint
         assert endpoint.openapi_types['inline_additional_properties_ref_payload'] == (InlineAdditionalPropertiesRefPayload,)
         assert endpoint.settings['response_type'] == (InlineAdditionalPropertiesRefPayload,)
@@ -664,7 +664,7 @@ class TestFakeApi(unittest.TestCase):
             }
             inline_additional_properties_ref_payload = InlineAdditionalPropertiesRefPayload(
                 array_data=[
-                    FakePostInlineAdditionalPropertiesPayloadArrayData(labels=[None, 'foo'])
+                    PostInlineAdditionalPropertiesPayloadRequestArrayDataInner(labels=[None, 'foo'])
                 ]
             )
             mock_method.return_value = self.mock_response(expected_json_body)
@@ -682,11 +682,11 @@ class TestFakeApi(unittest.TestCase):
     def test_post_inline_additional_properties_payload(self):
         """Test case for postInlineAdditionlPropertiesPayload
         """
-        from petstore_api.model.inline_object6 import InlineObject6
-        from petstore_api.model.fake_post_inline_additional_properties_payload_array_data import FakePostInlineAdditionalPropertiesPayloadArrayData
+        from petstore_api.model.post_inline_additional_properties_payload_request import PostInlineAdditionalPropertiesPayloadRequest
+        from petstore_api.model.post_inline_additional_properties_payload_request_array_data_inner import PostInlineAdditionalPropertiesPayloadRequestArrayDataInner
         endpoint = self.api.post_inline_additional_properties_payload_endpoint
-        assert endpoint.openapi_types['inline_object6'] == (InlineObject6,)
-        assert endpoint.settings['response_type'] == (InlineObject6,)
+        assert endpoint.openapi_types['post_inline_additional_properties_payload_request'] == (PostInlineAdditionalPropertiesPayloadRequest,)
+        assert endpoint.settings['response_type'] == (PostInlineAdditionalPropertiesPayloadRequest,)
 
         # serialization + deserialization works
         from petstore_api.rest import RESTClientObject, RESTResponse
@@ -701,21 +701,21 @@ class TestFakeApi(unittest.TestCase):
                     }
                 ]
             }
-            inline_object6 = InlineObject6(
+            post_inline_additional_properties_payload_request = PostInlineAdditionalPropertiesPayloadRequest(
                 array_data=[
-                    FakePostInlineAdditionalPropertiesPayloadArrayData(labels=[None, 'foo'])
+                    PostInlineAdditionalPropertiesPayloadRequestArrayDataInner(labels=[None, 'foo'])
                 ]
             )
             mock_method.return_value = self.mock_response(expected_json_body)
 
-            response = self.api.post_inline_additional_properties_payload(inline_object6=inline_object6)
+            response = self.api.post_inline_additional_properties_payload(post_inline_additional_properties_payload_request=post_inline_additional_properties_payload_request)
             self.assert_request_called_with(
                 mock_method,
                 'http://petstore.swagger.io:80/v2/fake/postInlineAdditionalPropertiesPayload',
                 body=expected_json_body
             )
 
-            assert isinstance(response, InlineObject6)
+            assert isinstance(response, PostInlineAdditionalPropertiesPayloadRequest)
             assert model_to_dict(response) == expected_json_body
 
     def test_post_tx_rx_any_of_payload(self):
@@ -746,6 +746,40 @@ class TestFakeApi(unittest.TestCase):
 
             assert isinstance(response, GmFruitNoProperties)
             assert model_to_dict(response) == expected_json_body
+
+    def test_post_tx_rx_all_of_payload(self):
+        """Test case for postInlineAdditionlPropertiesPayload
+        """
+        from petstore_api.model.stream_options import StreamOptions
+        from petstore_api.model.publish_options_publish import PublishOptionsPublish
+        endpoint = self.api.tx_rx_all_of_model_endpoint
+        assert endpoint.openapi_types['stream_options'] == (StreamOptions,)
+        assert endpoint.settings['response_type'] == (StreamOptions,)
+
+        # serialization + deserialization works
+        from petstore_api.rest import RESTClientObject, RESTResponse
+        with patch.object(RESTClientObject, 'request') as mock_method:
+            expected_json_body = {
+                    "egressThresholds": {
+                        "person":0.8
+                    },
+                    "publish": {
+                        "egressUnknownDetections": False
+                    }
+            }
+            stream_option_instance = StreamOptions(**expected_json_body)
+            mock_method.return_value = self.mock_response(expected_json_body)
+
+            response = self.api.tx_rx_all_of_model(stream_options=stream_option_instance)
+            self.assert_request_called_with(
+                mock_method,
+                'http://petstore.swagger.io:80/v2/fake/TxRxAllOfModel',
+                body=expected_json_body
+            )
+
+            assert isinstance(response, StreamOptions)
+            assert model_to_dict(response) == expected_json_body
+            assert response.publish == PublishOptionsPublish(**{"egress_unknown_detections": False})
 
 if __name__ == '__main__':
     unittest.main()

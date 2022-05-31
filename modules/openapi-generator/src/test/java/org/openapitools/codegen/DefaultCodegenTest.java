@@ -70,6 +70,16 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void testEnumImports() {
+        final DefaultCodegen codegen = new DefaultCodegen();
+        final OpenAPI openApi = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_12445.yaml");
+        codegen.setOpenAPI(openApi);
+        PathItem path = openApi.getPaths().get("/pets/petType/{type}");
+        CodegenOperation operation = codegen.fromOperation("/pets/petType/{type}", "get", path.getGet(), path.getServers());
+        Assert.assertEquals(Sets.intersection(operation.imports, Sets.newHashSet("PetByType")).size(), 1);
+    }
+
+    @Test
     public void testHasBodyParameter() {
         final Schema refSchema = new Schema<>().$ref("#/components/schemas/Pet");
         Operation pingOperation = new Operation()
@@ -231,7 +241,8 @@ public class DefaultCodegenTest {
         final DefaultCodegen codegen = new DefaultCodegen();
         codegen.setOpenAPI(openAPI);
 
-        Schema requestBodySchema = ModelUtils.getSchemaFromRequestBody(openAPI.getPaths().get("/fake").getGet().getRequestBody());
+        Schema requestBodySchema = ModelUtils.getReferencedSchema(openAPI,
+                ModelUtils.getSchemaFromRequestBody(openAPI.getPaths().get("/fake").getGet().getRequestBody()));
         CodegenParameter codegenParameter = codegen.fromFormProperty("enum_form_string", (Schema) requestBodySchema.getProperties().get("enum_form_string"), new HashSet<String>());
 
         Assert.assertEquals(codegenParameter.defaultValue, "-efg");
@@ -245,6 +256,8 @@ public class DefaultCodegenTest {
         codegen.setOpenAPI(openAPI);
 
         Schema requestBodySchema = ModelUtils.getSchemaFromRequestBody(openAPI.getPaths().get("/thingy/{date}").getPost().getRequestBody());
+        // dereference
+        requestBodySchema = ModelUtils.getReferencedSchema(openAPI, requestBodySchema);
         CodegenParameter codegenParameter = codegen.fromFormProperty("visitDate", (Schema) requestBodySchema.getProperties().get("visitDate"),
                 new HashSet<>());
 
@@ -613,7 +626,8 @@ public class DefaultCodegenTest {
         final DefaultCodegen codegen = new DefaultCodegen();
 
         Operation operation = openAPI.getPaths().get("/state").getPost();
-        Schema schema = ModelUtils.getSchemaFromRequestBody(operation.getRequestBody());
+        Schema schema = ModelUtils.getReferencedSchema(openAPI,
+                ModelUtils.getSchemaFromRequestBody(operation.getRequestBody()));
         String type = codegen.getSchemaType(schema);
 
         Assert.assertNotNull(type);
@@ -2057,11 +2071,12 @@ public class DefaultCodegenTest {
         CodegenParameter parameter = codegen.fromParameter(openAPI.getPaths().get("/pony").getGet().getParameters().get(0), imports);
 
         // TODO: This must be updated to work with flattened inline models
-        Assert.assertEquals(parameter.dataType, "PageQuery1");
+        Assert.assertEquals(parameter.dataType, "ListPageQueryParameter");
         Assert.assertEquals(imports.size(), 1);
-        Assert.assertEquals(imports.iterator().next(), "PageQuery1");
+        Assert.assertEquals(imports.iterator().next(), "ListPageQueryParameter");
 
         Assert.assertNotNull(parameter.getSchema());
+        Assert.assertEquals(parameter.getSchema().dataType, "Object");
         Assert.assertEquals(parameter.getSchema().baseType, "object");
     }
 
@@ -2344,18 +2359,15 @@ public class DefaultCodegenTest {
         cg.preprocessOpenAPI(openAPI);
 
         // assert names of the response/request schema oneOf interfaces are as expected
-        Assert.assertEquals(
-                openAPI.getPaths()
-                        .get("/state")
-                        .getPost()
-                        .getRequestBody()
-                        .getContent()
-                        .get("application/json")
-                        .getSchema()
-                        .getExtensions()
-                        .get("x-one-of-name"),
-                "CreateState"
-        );
+        Schema s = ModelUtils.getReferencedSchema(openAPI, openAPI.getPaths()
+                .get("/state")
+                .getPost()
+                .getRequestBody()
+                .getContent()
+                .get("application/json")
+                .getSchema());
+        Assert.assertEquals(s.getExtensions().get("x-one-of-name"), "CreateStateRequest");
+
         Assert.assertEquals(
                 openAPI.getPaths()
                         .get("/state")
@@ -2364,15 +2376,18 @@ public class DefaultCodegenTest {
                         .get("200")
                         .getContent()
                         .get("application/json")
-                        .getSchema()
-                        .getExtensions()
-                        .get("x-one-of-name"),
-                "GetState200"
+                        .getSchema().get$ref(),
+                "#/components/schemas/getState_200_response"
         );
+        Schema getState200 = openAPI.getComponents().getSchemas().get("getState_200_response");
+        //Assert.assertEquals(getState200, "");
+        Assert.assertEquals(getState200.getExtensions().get("x-one-of-name"), "GetState200Response");
+
         // for the array schema, assert that a oneOf interface was added to schema map
         Schema items = ((ArraySchema) openAPI.getComponents().getSchemas().get("CustomOneOfArraySchema")).getItems();
         Assert.assertEquals(items.get$ref(), "#/components/schemas/CustomOneOfArraySchema_inner");
-        Schema innerItem = openAPI.getComponents().getSchemas().get("CustomOneOfArraySchema_inner");
+        //Assert.assertEquals(items.get$ref(), "#/components/schemas/createState_request");
+        Schema innerItem = ModelUtils.getReferencedSchema(openAPI, openAPI.getComponents().getSchemas().get("CustomOneOfArraySchema_inner"));
         Assert.assertEquals(innerItem.getExtensions().get("x-one-of-name"), "CustomOneOfArraySchemaInner");
     }
 
@@ -3163,8 +3178,8 @@ public class DefaultCodegenTest {
 
         // CodegenOperation puts the inline schema into schemas and refs it
         assertTrue(co.responses.get(0).isModel);
-        assertEquals(co.responses.get(0).baseType, "objectData");
-        modelName = "objectData";
+        assertEquals(co.responses.get(0).baseType, "objectWithOptionalAndRequiredProps_request");
+        modelName = "objectWithOptionalAndRequiredProps_request";
         sc = openAPI.getComponents().getSchemas().get(modelName);
         cm = codegen.fromModel(modelName, sc);
         assertEquals(cm.vars, vars);
@@ -3176,7 +3191,7 @@ public class DefaultCodegenTest {
         cm = codegen.fromModel(modelName, sc);
         CodegenProperty cp = cm.getVars().get(0);
         assertTrue(cp.isModel);
-        assertEquals(cp.complexType, "objectData");
+        assertEquals(cp.complexType, "objectWithOptionalAndRequiredProps_request");
     }
 
     @Test
@@ -4001,7 +4016,9 @@ public class DefaultCodegenTest {
         CodegenMediaType mt = content.get("application/json");
         assertNull(mt.getEncoding());
         CodegenProperty cp = mt.getSchema();
+        // TODO need to revise the test below
         assertTrue(cp.isMap);
+        assertTrue(cp.isModel);
         assertEquals(cp.complexType, "object");
         assertEquals(cp.baseName, "SchemaForRequestParameterCoordinatesInlineSchemaApplicationJson");
 
@@ -4060,6 +4077,44 @@ public class DefaultCodegenTest {
         cp = mt.getSchema();
         assertEquals(cp.baseName, "SchemaForRequestBodyTextPlain");
         assertTrue(cp.isString);
+
+        path = "/requestBodyWithEncodingTypes";
+        co = codegen.fromOperation(path, "POST", openAPI.getPaths().get(path).getPost(), null);
+        List<CodegenParameter> formParams = co.formParams;
+
+        assertEquals(formParams.get(0).paramName, "intParam");
+        assertFalse(formParams.get(0).isContainer);
+        assertFalse(formParams.get(0).isExplode); // Should not be true for non-container
+
+        assertEquals(formParams.get(1).paramName, "explodeTrue");
+        assertTrue(formParams.get(1).isContainer);
+        assertEquals(formParams.get(1).style, Encoding.StyleEnum.FORM.toString());
+        assertTrue(formParams.get(1).isExplode);
+        assertNull(formParams.get(1).contentType);
+
+        assertEquals(formParams.get(2).paramName, "explodeFalse");
+        assertTrue(formParams.get(2).isContainer);
+        assertEquals(formParams.get(2).style, Encoding.StyleEnum.FORM.toString());
+        assertFalse(formParams.get(2).isExplode);
+        assertNull(formParams.get(2).contentType);
+
+        assertEquals(formParams.get(3).paramName, "noStyleNoExplode");
+        assertTrue(formParams.get(3).isContainer);
+        assertEquals(formParams.get(3).style, Encoding.StyleEnum.FORM.toString());
+        assertTrue(formParams.get(3).isExplode); // Defaults to true for style == FORM
+        assertEquals(formParams.get(3).contentType, "text/plain");
+
+        assertEquals(formParams.get(4).paramName, "styleSpecified");
+        assertTrue(formParams.get(4).isContainer);
+        assertEquals(formParams.get(4).style, Encoding.StyleEnum.SPACE_DELIMITED.toString());
+        assertFalse(formParams.get(4).isExplode);
+        assertNull(formParams.get(4).contentType);
+
+        assertEquals(formParams.get(5).paramName, "styleSpecifiedNoExplode");
+        assertTrue(formParams.get(5).isContainer);
+        assertEquals(formParams.get(5).style, Encoding.StyleEnum.SPACE_DELIMITED.toString());
+        assertFalse(formParams.get(5).isExplode); // Defaults to false for style other than FORM
+        assertNull(formParams.get(5).contentType);
     }
 
     @Test

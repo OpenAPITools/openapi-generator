@@ -230,14 +230,14 @@ class ApiClient {
           return FileSchemaTestClass.fromJson(value);
         case 'Foo':
           return Foo.fromJson(value);
+        case 'FooGetDefaultResponse':
+          return FooGetDefaultResponse.fromJson(value);
         case 'FormatTest':
           return FormatTest.fromJson(value);
         case 'HasOnlyReadOnly':
           return HasOnlyReadOnly.fromJson(value);
         case 'HealthCheckResult':
           return HealthCheckResult.fromJson(value);
-        case 'InlineResponseDefault':
-          return InlineResponseDefault.fromJson(value);
         case 'MapTest':
           return MapTest.fromJson(value);
         case 'MixedPropertiesAndAdditionalPropertiesClass':

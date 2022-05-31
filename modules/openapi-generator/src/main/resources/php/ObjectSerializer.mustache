@@ -2,7 +2,7 @@
 /**
  * ObjectSerializer
  *
- * PHP version 7.3
+ * PHP version 7.4
  *
  * @category Class
  * @package  {{invokerPackage}}
@@ -210,10 +210,30 @@ class ObjectSerializer
             return $value;
         }
 
+        if ('boolean' === $openApiType && is_bool($value)) {
+            $value = self::convertBoolToQueryStringFormat($value);
+        }
+
         // handle style in serializeCollection
         $query[$paramName] = ($explode) ? $value : self::serializeCollection((array)$value, $style);
 
         return $query;
+    }
+
+    /**
+     * Convert boolean value to format for query string.
+     *
+     * @param bool $value Boolean value
+     *
+     * @return int|string Boolean value in format
+     */
+    public static function convertBoolToQueryStringFormat(bool $value)
+    {
+        if (Configuration::BOOLEAN_FORMAT_STRING == Configuration::getDefaultConfiguration()->getBooleanFormatForQueryString()) {
+            return $value ? 'true' : 'false';
+        }
+
+        return (int) $value;
     }
 
     /**

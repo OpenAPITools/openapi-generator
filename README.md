@@ -9,13 +9,24 @@
 
 <div align="center">
 
-[Master](https://github.com/OpenAPITools/openapi-generator/tree/master) (`6.0.x`):
-[![Build Status](https://img.shields.io/travis/OpenAPITools/openapi-generator/master.svg?label=Integration%20Test)](https://app.travis-ci.com/github/OpenAPITools/openapi-generator/builds)
+[Master](https://github.com/OpenAPITools/openapi-generator/tree/master) (`6.0.1`):
+[![Build Status](https://img.shields.io/travis/OpenAPITools/openapi-generator/master.svg?label=Integration%20Test)](https://travis-ci.com/OpenAPITools/openapi-generator)
 [![Integration Test2](https://circleci.com/gh/OpenAPITools/openapi-generator.svg?style=shield)](https://circleci.com/gh/OpenAPITools/openapi-generator)
 [![Windows Test](https://ci.appveyor.com/api/projects/status/github/openapitools/openapi-generator?branch=master&svg=true&passingText=Windows%20Test%20-%20OK&failingText=Windows%20Test%20-%20Fails)](https://ci.appveyor.com/project/WilliamCheng/openapi-generator)
-[![JDK11 Build](https://cloud.drone.io/api/badges/OpenAPITools/openapi-generator/status.svg?ref=refs/heads/master)](https://cloud.drone.io/OpenAPITools/openapi-generator)
 [![Bitrise](https://img.shields.io/bitrise/4a2b10a819d12b67/master?label=bitrise%3A%20Swift+4,5&token=859FMDR8QHwabCzwvZK6vQ)](https://app.bitrise.io/app/4a2b10a819d12b67)
 [![GitHub Workflow Status (branch)](https://img.shields.io/github/workflow/status/openapitools/openapi-generator/Check%20Supported%20Java%20Versions/master?label=Check%20Supported%20Java%20Versions&logo=github&logoColor=green)](https://github.com/OpenAPITools/openapi-generator/actions?query=workflow%3A%22Check+Supported+Java+Versions%22)
+
+[6.1.x](https://github.com/OpenAPITools/openapi-generator/tree/6.1.x) (`6.1.x`):
+[![Build Status](https://img.shields.io/travis/OpenAPITools/openapi-generator/6.1.x.svg?label=Integration%20Test)](https://travis-ci.com/OpenAPITools/openapi-generator)
+[![Integration Test2](https://circleci.com/gh/OpenAPITools/openapi-generator/tree/6.1.x.svg?style=shield)](https://circleci.com/gh/OpenAPITools/openapi-generator)
+[![Windows Test](https://ci.appveyor.com/api/projects/status/github/openapitools/openapi-generator?branch=6.1.x&svg=true&passingText=Windows%20Test%20-%20OK&failingText=Windows%20Test%20-%20Fails)](https://ci.appveyor.com/project/WilliamCheng/openapi-generator)
+[![Bitrise](https://img.shields.io/bitrise/4a2b10a819d12b67/6.1.x?label=bitrise%3A%20Swift+4,5&token=859FMDR8QHwabCzwvZK6vQ)](https://app.bitrise.io/app/4a2b10a819d12b67)
+
+[7.0.x](https://github.com/OpenAPITools/openapi-generator/tree/7.0.x) (`7.0.x`):
+[![Build Status](https://img.shields.io/travis/OpenAPITools/openapi-generator/7.0.x.svg?label=Integration%20Test)](https://travis-ci.com/OpenAPITools/openapi-generator)
+[![Integration Test2](https://circleci.com/gh/OpenAPITools/openapi-generator/tree/7.0.x.svg?style=shield)](https://circleci.com/gh/OpenAPITools/openapi-generator)
+[![Windows Test](https://ci.appveyor.com/api/projects/status/github/openapitools/openapi-generator?branch=7.0.x&svg=true&passingText=Windows%20Test%20-%20OK&failingText=Windows%20Test%20-%20Fails)](https://ci.appveyor.com/project/WilliamCheng/openapi-generator)
+[![Bitrise](https://img.shields.io/bitrise/4a2b10a819d12b67/7.0.x?label=bitrise%3A%20Swift+4,5&token=859FMDR8QHwabCzwvZK6vQ)](https://app.bitrise.io/app/4a2b10a819d12b67)
 
 </div>
 
@@ -51,6 +62,7 @@ If you find OpenAPI Generator useful for work, please consider asking your compa
 [<img src="https://openapi-generator.tech/img/companies/numary.png" width="128" height="128">](https://www.numary.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
 [<img src="https://openapi-generator.tech/img/companies/onesignal.png" width="128" height="128">](https://www.onesignal.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
 [<img src="https://openapi-generator.tech/img/companies/virtualansoftware.png" width="128" height="128">](https://www.virtualansoftware.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
+[<img src="https://openapi-generator.tech/img/companies/mergedev.jpeg" width="128" height="128">](https://www.merge.dev/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
 
 #### Thank you GoDaddy for sponsoring the domain names, Linode for sponsoring the VPS and Checkly for sponsoring the API monitoring
 
@@ -106,8 +118,11 @@ The OpenAPI Specification has undergone 3 revisions since initial creation in 20
 
 | OpenAPI Generator Version                                                                                                                                 | Release Date | Notes                                             |
 | --------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | ------------------------------------------------- |
-| 6.0.0 (upcoming major release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/6.0.0-SNAPSHOT/) | Feb/Mar 2022   | Major release with breaking changes (no fallback) |
-| [5.4.0](https://github.com/OpenAPITools/openapi-generator/releases/tag/v5.4.0) (latest stable release)                                                    | 31.01.2021   | Minor release with breaking changes (with fallback) |
+| 7.0.0 (upcoming major release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/7.0.0-SNAPSHOT/) | Feb/Mar 2023   | Major release with breaking changes (no fallback) |
+| 6.1.0 (upcoming minor release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/6.1.0-SNAPSHOT/) | 26.07 2022   | Minor release with breaking changes (with fallbac) |
+| 6.0.1 (upcoming patch release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/6.0.1-SNAPSHOT/) | 26.06 2022   | Patch release (enhancements, bug fixes, etc) |
+| [6.0.0](https://github.com/OpenAPITools/openapi-generator/releases/tag/v6.0.0) (latest stable release)                                                    | 26.05.2022   | Major release with breaking changes (no fallback) |
+| [5.4.0](https://github.com/OpenAPITools/openapi-generator/releases/tag/v5.4.0)                                                    | 31.01.2022   | Minor release with breaking changes (with fallback) |
 | [4.3.1](https://github.com/OpenAPITools/openapi-generator/releases/tag/v4.3.1)                                                    | 06.05.2020   | Patch release (enhancements, bug fixes, etc)                       |
 
 OpenAPI Spec compatibility: 1.0, 1.1, 1.2, 2.0, 3.0
@@ -164,16 +179,16 @@ See the different versions of the [openapi-generator-cli](https://search.maven.o
 <!-- RELEASE_VERSION -->
 If you're looking for the latest stable version, you can grab it directly from Maven.org (Java 8 runtime at a minimum):
 
-JAR location: `https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/5.4.0/openapi-generator-cli-5.4.0.jar`
+JAR location: `https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/6.0.0/openapi-generator-cli-6.0.0.jar`
 
 For **Mac/Linux** users:
 ```sh
-wget https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/5.4.0/openapi-generator-cli-5.4.0.jar -O openapi-generator-cli.jar
+wget https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/6.0.0/openapi-generator-cli-6.0.0.jar -O openapi-generator-cli.jar
 ```
 
 For **Windows** users, you will need to install [wget](http://gnuwin32.sourceforge.net/packages/wget.htm) or you can use Invoke-WebRequest in PowerShell (3.0+), e.g.
 ```
-Invoke-WebRequest -OutFile openapi-generator-cli.jar https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/5.4.0/openapi-generator-cli-5.4.0.jar
+Invoke-WebRequest -OutFile openapi-generator-cli.jar https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/6.0.0/openapi-generator-cli-6.0.0.jar
 ```
 
 After downloading the JAR, run `java -jar openapi-generator-cli.jar help` to show the usage.
@@ -398,7 +413,7 @@ openapi-generator-cli version
 To use a specific version of "openapi-generator-cli"
 
 ```sh
-openapi-generator-cli version-manager set 5.4.0
+openapi-generator-cli version-manager set 6.0.0
 ```
 
 Or install it as dev-dependency:
@@ -422,7 +437,7 @@ java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generat
 (if you're on Windows, replace the last command with `java -jar modules\openapi-generator-cli\target\openapi-generator-cli.jar generate -i https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/3_0/petstore.yaml -g php -o c:\temp\php_api_client`)
 
 <!-- RELEASE_VERSION -->
-You can also download the JAR (latest release) directly from [maven.org](https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/5.4.0/openapi-generator-cli-5.4.0.jar)
+You can also download the JAR (latest release) directly from [maven.org](https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/6.0.0/openapi-generator-cli-6.0.0.jar)
 <!-- /RELEASE_VERSION -->
 
 To get a list of **general** options available, please run `java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar help generate`
@@ -591,6 +606,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [Cupix](https://www.cupix.com/)
 - [Datadog](https://www.datadoghq.com)
 - [DB Systel](https://www.dbsystel.de)
+- [Deeporute.ai](https://www.deeproute.ai/)
 - [Devsupply](https://www.devsupply.com/)
 - [DocSpring](https://docspring.com/)
 - [dwango](https://dwango.co.jp/)
@@ -647,6 +663,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [Prometheus/Alertmanager](https://github.com/prometheus/alertmanager)
 - [Qavar](https://www.qavar.com)
 - [QEDIT](https://qed-it.com)
+- [Qovery](https://qovery.com)
 - [Qulix Systems](https://www.qulix.com)
 - [Raksul](https://corp.raksul.com)
 - [Raiffeisen Schweiz Genossenschaft](https://www.raiffeisen.ch)
@@ -665,6 +682,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [Translucent ApS](https://www.translucent.dk)
 - [TravelTime platform](https://www.traveltimeplatform.com/)
 - [TribalScale](https://www.tribalscale.com)
+- [Trifork](https://trifork.com)
 - [TUI InfoTec GmbH](http://www.tui-infotec.com/)
 - [Twitter](https://twitter.com)
 - [unblu inc.](https://www.unblu.com/)
@@ -681,6 +699,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [YITU Technology](https://www.yitutech.com/)
 - [Yelp](https://www.yelp.com/)
 - [Zalando](https://www.zalando.com)
+- [3DS Outscale](https://www.outscale.com/)
 
 ## [5 - Presentations/Videos/Tutorials/Books](#table-of-contents)
 
@@ -848,6 +867,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - 2022-03-15 - [OpenAPI Specでハイフン区切りのEnum値をOpenAPI Generatorで出力すると、ハイフン区切りのまま出力される](https://qiita.com/yuji38kwmt/items/824d74d4889055ab37d8) by [yuji38kwmt](https://qiita.com/yuji38kwmt)
 - 2022-04-01 - [OpenAPI Generatorのコード生成とSpring Frameworkのカスタムデータバインディングを共存させる](https://techblog.zozo.com/entry/coexistence-of-openapi-and-spring) in [ZOZO Tech Blog](https://techblog.zozo.com/)
 - 2022-04-06 - [Effective Software Development using OpenAPI Generator](https://apexlabs.ai/post/openapi-generator) by Ajil Oommen (Senior Flutter Developer)
+- 2022-05-13 - [A Path From an API To Client Libraries](https://www.youtube.com/watch?v=XC8oVn_efTw) by [Filip Srnec](https://www.devoxx.co.uk/talk/?id=11211) at Infobip
 
 ## [6 - About Us](#table-of-contents)
 
@@ -996,6 +1016,7 @@ Here is a list of template creators:
    * PHP Slim: @jfastnacht
    * PHP Slim4: [@ybelenko](https://github.com/ybelenko)
    * PHP Symfony: @ksm2
+   * PHP Symfony6: @BenjaminHae
    * Python FastAPI: @krjakbrjak
    * Python AIOHTTP:
    * Ruby on Rails 5: @zlx

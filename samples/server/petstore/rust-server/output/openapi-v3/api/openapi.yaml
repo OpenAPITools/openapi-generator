@@ -79,7 +79,7 @@ paths:
           content:
             application/xml:
               schema:
-                $ref: '#/components/schemas/inline_response_201'
+                $ref: '#/components/schemas/_multiget_get_201_response'
           description: XML rsp
         "202":
           content:
@@ -415,11 +415,7 @@ paths:
           content:
             application/json:
               schema:
-                oneOf:
-                - type: integer
-                - items:
-                    type: string
-                  type: array
+                $ref: '#/components/schemas/_one_of_get_200_response'
           description: Success
   /any-of:
     get:
@@ -452,9 +448,7 @@ paths:
           content:
             application/json:
               schema:
-                anyOf:
-                - $ref: '#/components/schemas/StringObject'
-                - $ref: '#/components/schemas/UuidObject'
+                $ref: '#/components/schemas/_any_of_get_202_response'
           description: AnyOfSuccess
   /json-complex-query-param:
     get:
@@ -671,11 +665,21 @@ components:
       type: string
     Result:
       type: string
-    inline_response_201:
+    _multiget_get_201_response:
       properties:
         foo:
           type: string
       type: object
+    _one_of_get_200_response:
+      oneOf:
+      - type: integer
+      - items:
+          type: string
+        type: array
+    _any_of_get_202_response:
+      anyOf:
+      - $ref: '#/components/schemas/StringObject'
+      - $ref: '#/components/schemas/UuidObject'
     AnyOfObject_anyOf:
       enum:
       - FOO

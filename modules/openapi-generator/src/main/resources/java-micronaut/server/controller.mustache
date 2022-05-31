@@ -14,6 +14,10 @@ import reactor.core.publisher.Mono;
 {{#wrapInHttpResponse}}
 import io.micronaut.http.HttpResponse;
 {{/wrapInHttpResponse}}
+{{#generateOperationsToReturnNotImplemented}}
+import io.micronaut.http.HttpStatus;
+import io.micronaut.http.exceptions.HttpStatusException;
+{{/generateOperationsToReturnNotImplemented}}
 {{#imports}}
 import {{import}};
 {{/imports}}
@@ -31,66 +35,33 @@ import java.util.Arrays;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 {{/useBeanValidation}}
+{{#generateSwagger1Annotations}}
 import io.swagger.annotations.*;
+{{/generateSwagger1Annotations}}
+{{#generateSwagger2Annotations}}
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+{{/generateSwagger2Annotations}}
 
 {{>common/generatedAnnotation}}
 {{^generateControllerAsAbstract}}
 @Controller
 {{/generateControllerAsAbstract}}
+{{#generateSwagger2Annotations}}
+@Tag(name = "{{{baseName}}}", description = {{#tagDescription}}"{{{.}}}"{{/tagDescription}}{{^tagDescription}}"The {{{baseName}}} API"{{/tagDescription}})
+{{/generateSwagger2Annotations}}
 public {{#generateControllerAsAbstract}}abstract {{/generateControllerAsAbstract}}class {{classname}} {
 {{#operations}}
     {{#operation}}
-    /**
-        {{#summary}}
-     * {{summary}}
-        {{/summary}}
-        {{#notes}}
-     * {{notes}}
-        {{/notes}}
-        {{^summary}}
-            {{^notes}}
-     * {{nickname}}
-            {{/notes}}
-        {{/summary}}
-     *
-        {{#allParams}}
-     * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
-        {{/allParams}}
-        {{#returnType}}
-     * @return {{returnType}}
-        {{/returnType}}
-        {{#externalDocs}}
-     * {{description}}
-     * @see <a href="{{url}}">{{summary}} Documentation</a>
-        {{/externalDocs}}
-     */
-    {{!openapi annotations for info}}
-    @ApiOperation(
-        value = "{{{summary}}}",
-        nickname = "{{{operationId}}}"{{#notes}},
-        notes = "{{{notes}}}"{{/notes}}{{#returnBaseType}},
-        response = {{{returnBaseType}}}.class{{/returnBaseType}}{{#returnContainer}},
-        responseContainer = "{{{returnContainer}}}"{{/returnContainer}},
-        authorizations = {{openbrace}}{{#hasAuthMethods}}
-        {{#authMethods}}
-            {{#isOAuth}}
-            @Authorization(value = "{{name}}"{{#scopes}}{{#-first}}, scopes = {
-                {{#scopes}}
-                @AuthorizationScope(scope = "{{scope}}", description = "{{description}}"){{^-last}},{{/-last}}
-                {{/scopes}}
-            }{{/-first}}{{/scopes}}){{^-last}},{{/-last}}
-            {{/isOAuth}}
-            {{^isOAuth}}
-            @Authorization(value = "{{name}}"){{^-last}},{{/-last}}
-            {{/isOAuth}}
-        {{/authMethods}}
-        {{/hasAuthMethods}}{{closebrace}},
-        tags={{openbrace}}{{#vendorExtensions.x-tags}}"{{tag}}"{{^-last}}, {{/-last}}{{/vendorExtensions.x-tags}}{{closebrace}})
-    {{!openapi annotations for info about responses}}
-    @ApiResponses(value = {{openbrace}}{{#responses}}
-        @ApiResponse(code = {{{code}}}, message = "{{{message}}}"{{#baseType}}, response = {{{baseType}}}.class{{/baseType}}{{#containerType}}, responseContainer = "{{{containerType}}}"{{/containerType}}){{^-last}},{{/-last}}{{/responses}}{{closebrace}})
-    {{!micronaut annotations}}
-    @{{#lambda.pascalcase}}{{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}{{/lambda.pascalcase}}(uri="{{{path}}}")
+{{>common/operationAnnotations}}{{!
+    micronaut annotations
+    }}    @{{#lambda.pascalcase}}{{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}{{/lambda.pascalcase}}(uri="{{{path}}}")
     @Produces(value = {{openbrace}}{{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}}{{closebrace}})
     {{#consumes.0}}
     @Consumes(value = {{openbrace}}{{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}}{{closebrace}})
@@ -119,8 +90,9 @@ public {{#generateControllerAsAbstract}}abstract {{/generateControllerAsAbstract
      *
      * This method will be delegated to when the controller gets a request
      */
-    public abstract {{>common/operationReturnType}} {{nickname}}({{#allParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
-    {{/generateControllerAsAbstract}}
+    public {{^generateOperationsToReturnNotImplemented}}abstract {{/generateOperationsToReturnNotImplemented}}{{>common/operationReturnType}} {{nickname}}({{#allParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}){{^generateOperationsToReturnNotImplemented}};{{/generateOperationsToReturnNotImplemented}}{{#generateOperationsToReturnNotImplemented}} {{openbrace}}
+    {{>server/controllerOperationBody}}
+    {{closebrace}}{{/generateOperationsToReturnNotImplemented}}{{/generateControllerAsAbstract}}
     {{^-last}}
 
     {{/-last}}

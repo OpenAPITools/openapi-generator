@@ -171,7 +171,12 @@ class {{{classname}}} {
                   {{/items.complexType}}
                 {{/items.isMap}}
                 {{^items.isMap}}
-        {{{name}}}: mapValueOfType<{{{datatypeWithEnum}}}>(json, r'{{{baseName}}}'){{#required}}{{^isNullable}}!{{/isNullable}}{{/required}}{{^required}}{{#defaultValue}} ?? {{{.}}}{{/defaultValue}}{{/required}},
+                  {{#items.complexType}}
+        {{{name}}}: {{{items.complexType}}}.mapFromJson(json[r'{{{baseName}}}'{{#required}}{{^isNullable}}!{{/isNullable}}{{/required}}{{^required}}{{#defaultValue}}]) ?? {{{.}}}{{/defaultValue}}{{/required}},
+                  {{/items.complexType}}
+                  {{^items.complexType}}
+        {{{name}}}: mapCastOfType<String, {{items.dataType}}>(json, r'{{{baseName}}}'){{#required}}{{^isNullable}}!{{/isNullable}}{{/required}}{{^required}}{{#defaultValue}} ?? {{{.}}}{{/defaultValue}}{{/required}},
+                  {{/items.complexType}}
                 {{/items.isMap}}
               {{/items.isArray}}
             {{/isMap}}

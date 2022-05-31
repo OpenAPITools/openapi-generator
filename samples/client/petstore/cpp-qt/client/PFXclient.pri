@@ -10,6 +10,7 @@ HEADERS += \
     $${PWD}/PFXUser.h \
 # APIs
     $${PWD}/PFXPetApi.h \
+    $${PWD}/PFXPrimitivesApi.h \
     $${PWD}/PFXStoreApi.h \
     $${PWD}/PFXUserApi.h \
 # Others
@@ -32,6 +33,7 @@ SOURCES += \
     $${PWD}/PFXUser.cpp \
 # APIs
     $${PWD}/PFXPetApi.cpp \
+    $${PWD}/PFXPrimitivesApi.cpp \
     $${PWD}/PFXStoreApi.cpp \
     $${PWD}/PFXUserApi.cpp \
 # Others

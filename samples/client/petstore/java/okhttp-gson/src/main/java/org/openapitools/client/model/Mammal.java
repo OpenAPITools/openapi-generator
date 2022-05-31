@@ -138,6 +138,7 @@ public class Mammal extends AbstractOpenApiSchema {
                     }
 
                     int match = 0;
+                    ArrayList<String> errorMessages = new ArrayList<>();
                     TypeAdapter actualAdapter = elementAdapter;
 
                     // deserialize Pig
@@ -149,6 +150,7 @@ public class Mammal extends AbstractOpenApiSchema {
                         log.log(Level.FINER, "Input data matches schema 'Pig'");
                     } catch (Exception e) {
                         // deserialization failed, continue
+                        errorMessages.add(String.format("Deserialization for Pig failed with `%s`.", e.getMessage()));
                         log.log(Level.FINER, "Input data does not match schema 'Pig'", e);
                     }
 
@@ -161,6 +163,7 @@ public class Mammal extends AbstractOpenApiSchema {
                         log.log(Level.FINER, "Input data matches schema 'Whale'");
                     } catch (Exception e) {
                         // deserialization failed, continue
+                        errorMessages.add(String.format("Deserialization for Whale failed with `%s`.", e.getMessage()));
                         log.log(Level.FINER, "Input data does not match schema 'Whale'", e);
                     }
 
@@ -173,6 +176,7 @@ public class Mammal extends AbstractOpenApiSchema {
                         log.log(Level.FINER, "Input data matches schema 'Zebra'");
                     } catch (Exception e) {
                         // deserialization failed, continue
+                        errorMessages.add(String.format("Deserialization for Zebra failed with `%s`.", e.getMessage()));
                         log.log(Level.FINER, "Input data does not match schema 'Zebra'", e);
                     }
 
@@ -182,7 +186,7 @@ public class Mammal extends AbstractOpenApiSchema {
                         return ret;
                     }
 
-                    throw new IOException(String.format("Failed deserialization for Mammal: %d classes match result, expected 1. JSON: %s", match, jsonObject.toString()));
+                    throw new IOException(String.format("Failed deserialization for Mammal: %d classes match result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", match, errorMessages, jsonObject.toString()));
                 }
             }.nullSafe();
         }
@@ -306,11 +310,13 @@ public class Mammal extends AbstractOpenApiSchema {
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
     // validate oneOf schemas one by one
     int validCount = 0;
+    ArrayList<String> errorMessages = new ArrayList<>();
     // validate the json string with Pig
     try {
       Pig.validateJsonObject(jsonObj);
       validCount++;
     } catch (Exception e) {
+      errorMessages.add(String.format("Deserialization for Pig failed with `%s`.", e.getMessage()));
       // continue to the next one
     }
     // validate the json string with Whale
@@ -318,6 +324,7 @@ public class Mammal extends AbstractOpenApiSchema {
       Whale.validateJsonObject(jsonObj);
       validCount++;
     } catch (Exception e) {
+      errorMessages.add(String.format("Deserialization for Whale failed with `%s`.", e.getMessage()));
       // continue to the next one
     }
     // validate the json string with Zebra
@@ -325,10 +332,11 @@ public class Mammal extends AbstractOpenApiSchema {
       Zebra.validateJsonObject(jsonObj);
       validCount++;
     } catch (Exception e) {
+      errorMessages.add(String.format("Deserialization for Zebra failed with `%s`.", e.getMessage()));
       // continue to the next one
     }
     if (validCount != 1) {
-      throw new IOException(String.format("The JSON string is invalid for Mammal with oneOf schemas: Pig, Whale, Zebra. %d class(es) match the result, expected 1. JSON: %s", validCount, jsonObj.toString()));
+      throw new IOException(String.format("The JSON string is invalid for Mammal with oneOf schemas: Pig, Whale, Zebra. %d class(es) match the result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", validCount, errorMessages, jsonObj.toString()));
     }
   }
 

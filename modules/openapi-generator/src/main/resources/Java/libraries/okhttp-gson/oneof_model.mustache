@@ -95,6 +95,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                     {{/discriminator}}
                     {{/useOneOfDiscriminatorLookup}}
                     int match = 0;
+                    ArrayList<String> errorMessages = new ArrayList<>();
                     TypeAdapter actualAdapter = elementAdapter;
 
                     {{#oneOf}}
@@ -107,6 +108,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                         log.log(Level.FINER, "Input data matches schema '{{{.}}}'");
                     } catch (Exception e) {
                         // deserialization failed, continue
+                        errorMessages.add(String.format("Deserialization for {{{.}}} failed with `%s`.", e.getMessage()));
                         log.log(Level.FINER, "Input data does not match schema '{{{.}}}'", e);
                     }
 
@@ -117,7 +119,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                         return ret;
                     }
 
-                    throw new IOException(String.format("Failed deserialization for {{classname}}: %d classes match result, expected 1. JSON: %s", match, jsonObject.toString()));
+                    throw new IOException(String.format("Failed deserialization for {{classname}}: %d classes match result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", match, errorMessages, jsonObject.toString()));
                 }
             }.nullSafe();
         }
@@ -210,17 +212,19 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
     // validate oneOf schemas one by one
     int validCount = 0;
+    ArrayList<String> errorMessages = new ArrayList<>();
     {{#oneOf}}
     // validate the json string with {{{.}}}
     try {
       {{{.}}}.validateJsonObject(jsonObj);
       validCount++;
     } catch (Exception e) {
+      errorMessages.add(String.format("Deserialization for {{{.}}} failed with `%s`.", e.getMessage()));
       // continue to the next one
     }
     {{/oneOf}}
     if (validCount != 1) {
-      throw new IOException(String.format("The JSON string is invalid for {{classname}} with oneOf schemas: {{#oneOf}}{{{.}}}{{^-last}}, {{/-last}}{{/oneOf}}. %d class(es) match the result, expected 1. JSON: %s", validCount, jsonObj.toString()));
+      throw new IOException(String.format("The JSON string is invalid for {{classname}} with oneOf schemas: {{#oneOf}}{{{.}}}{{^-last}}, {{/-last}}{{/oneOf}}. %d class(es) match the result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", validCount, errorMessages, jsonObj.toString()));
     }
   }
 

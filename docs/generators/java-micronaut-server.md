@@ -21,6 +21,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |additionalEnumTypeAnnotations|Additional annotations for enum type(class level annotations)| |null|
 |additionalModelTypeAnnotations|Additional annotations for model type(class level annotations). List separated by semicolon(;) or new line (Linux or Windows)| |null|
 |allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
+|applicationName|Micronaut application name (Defaults to the artifactId value)| |openapi-micronaut|
 |artifactDescription|artifact description in generated pom.xml| |OpenAPI Java|
 |artifactId|artifactId in generated pom.xml. This also becomes part of the generated library's filename| |openapi-micronaut|
 |artifactUrl|artifact URL in generated pom.xml| |https://github.com/openapitools/openapi-generator|
@@ -44,6 +45,9 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |fullJavaUtil|whether to use fully qualified name for classes under java.util. This option only works for Java API client| |false|
 |generateControllerAsAbstract|Generate an abstract class for controller to be extended. (apiPackage is then used for the abstract class, and controllerPackage is used for implementation that extends it.)| |false|
 |generateControllerFromExamples|Generate the implementation of controller and tests from parameter and return examples that will verify that the api works as desired (for testing)| |false|
+|generateOperationOnlyForFirstTag|When false, the operation method will be duplicated in each of the tags if multiple tags are assigned to this operation. If true, each operation will be generated only once in the first assigned tag.| |true|
+|generateOperationsToReturnNotImplemented|Return HTTP 501 Not Implemented instead of an empty response in the generated controller methods.| |true|
+|generateSwaggerAnnotations|Specify if you want to generate swagger annotations and which version|<dl><dt>**swagger2**</dt><dd>Use io.swagger.core.v3:swagger-annotations for annotating operations and schemas</dd><dt>**true**</dt><dd>Equivalent to &quot;swagger2&quot;</dd><dt>**false**</dt><dd>Do not generate swagger annotations</dd><dt>**swagger1**</dt><dd>Use io.swagger:swagger-annotations for annotating operations and schemas</dd></dl>|swagger2|
 |groupId|groupId in generated pom.xml| |org.openapitools|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |false|
 |ignoreAnyOfInEnum|Ignore anyOf keyword in enum| |false|
@@ -53,7 +57,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |legacyDiscriminatorBehavior|Set to false for generators with better support for discriminators. (Python, Java, Go, PowerShell, C#have this enabled by default).|<dl><dt>**true**</dt><dd>The mapping in the discriminator includes descendent schemas that allOf inherit from self and the discriminator mapping schemas in the OAS document.</dd><dt>**false**</dt><dd>The mapping in the discriminator includes any descendent schemas that allOf inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values, and the discriminator mapping schemas in the OAS document AND Codegen validates that oneOf and anyOf schemas contain the required discriminator and throws an error if the discriminator is missing.</dd></dl>|true|
 |licenseName|The name of the license| |Unlicense|
 |licenseUrl|The URL of the license| |http://unlicense.org|
-|micronautVersion|Micronaut version, only &gt;=3.0.0 versions are supported| |3.3.1|
+|micronautVersion|Micronaut version, only &gt;=3.0.0 versions are supported| |3.4.3|
 |modelPackage|package for generated models| |org.openapitools.model|
 |openApiNullable|Enable OpenAPI Jackson Nullable library| |true|
 |parentArtifactId|parent artifactId in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect| |null|

@@ -36,7 +36,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 @Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen")
-@Client("${base-path}")
+@Client("${petstore-micronaut-base-path}")
 public interface FakeApi {
     /**
      * creates an XmlItem
@@ -45,11 +45,11 @@ public interface FakeApi {
      * @param xmlItem XmlItem Body (required)
      */
     @Post(uri="/fake/create_xml_item")
-    @Produces(value={"application/xml"})
-    @Consumes(value={"application/json"})
+    @Produces({"application/xml", "application/xml; charset=utf-8", "application/xml; charset=utf-16", "text/xml", "text/xml; charset=utf-8", "text/xml; charset=utf-16"})
     Mono<Void> createXmlItem(
         @Body @NotNull @Valid XmlItem xmlItem
     );
+
     /**
      * Test serialization of outer boolean types
      *
@@ -57,11 +57,11 @@ public interface FakeApi {
      * @return Boolean
      */
     @Post(uri="/fake/outer/boolean")
-    @Produces(value={"*/*"})
-    @Consumes(value={"*/*"})
+    
     Mono<Boolean> fakeOuterBooleanSerialize(
         @Body @Nullable Boolean _body
     );
+
     /**
      * Test serialization of object with outer number type
      *
@@ -69,11 +69,11 @@ public interface FakeApi {
      * @return OuterComposite
      */
     @Post(uri="/fake/outer/composite")
-    @Produces(value={"*/*"})
-    @Consumes(value={"*/*"})
+    
     Mono<OuterComposite> fakeOuterCompositeSerialize(
         @Body @Nullable @Valid OuterComposite _body
     );
+
     /**
      * Test serialization of outer number types
      *
@@ -81,11 +81,11 @@ public interface FakeApi {
      * @return BigDecimal
      */
     @Post(uri="/fake/outer/number")
-    @Produces(value={"*/*"})
-    @Consumes(value={"*/*"})
+    
     Mono<BigDecimal> fakeOuterNumberSerialize(
         @Body @Nullable BigDecimal _body
     );
+
     /**
      * Test serialization of outer string types
      *
@@ -93,22 +93,22 @@ public interface FakeApi {
      * @return String
      */
     @Post(uri="/fake/outer/string")
-    @Produces(value={"*/*"})
-    @Consumes(value={"*/*"})
+    
     Mono<String> fakeOuterStringSerialize(
         @Body @Nullable String _body
     );
+
     /**
      * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
      *
      * @param _body  (required)
      */
     @Put(uri="/fake/body-with-file-schema")
-    @Produces(value={"application/json"})
-    @Consumes(value={"application/json"})
+    @Produces({"application/json"})
     Mono<Void> testBodyWithFileSchema(
         @Body @NotNull @Valid FileSchemaTestClass _body
     );
+
     /**
      * testBodyWithQueryParams
      *
@@ -116,12 +116,12 @@ public interface FakeApi {
      * @param _body  (required)
      */
     @Put(uri="/fake/body-with-query-params")
-    @Produces(value={"application/json"})
-    @Consumes(value={"application/json"})
+    @Produces({"application/json"})
     Mono<Void> testBodyWithQueryParams(
         @QueryValue(value="query") @NotNull String query, 
         @Body @NotNull @Valid User _body
     );
+
     /**
      * To test \&quot;client\&quot; model
      * To test \&quot;client\&quot; model
@@ -130,11 +130,12 @@ public interface FakeApi {
      * @return ModelClient
      */
     @Patch(uri="/fake")
-    @Produces(value={"application/json"})
-    @Consumes(value={"application/json"})
+    @Consumes({"application/json"})
+    @Produces({"application/json"})
     Mono<ModelClient> testClientModel(
         @Body @NotNull @Valid ModelClient _body
     );
+
     /**
      * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
      * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
@@ -155,8 +156,7 @@ public interface FakeApi {
      * @param paramCallback None (optional)
      */
     @Post(uri="/fake")
-    @Produces(value={"application/x-www-form-urlencoded"})
-    @Consumes(value={"application/json"})
+    @Produces({"application/x-www-form-urlencoded"})
     Mono<Void> testEndpointParameters(
         @NotNull @DecimalMin("32.1") @DecimalMax("543.2") BigDecimal number, 
         @NotNull @DecimalMin("67.8") @DecimalMax("123.4") Double _double, 
@@ -173,6 +173,7 @@ public interface FakeApi {
         @Nullable @Size(min=10, max=64) String password, 
         @Nullable String paramCallback
     );
+
     /**
      * To test enum parameters
      * To test enum parameters
@@ -187,8 +188,7 @@ public interface FakeApi {
      * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
      */
     @Get(uri="/fake")
-    @Produces(value={"application/x-www-form-urlencoded"})
-    @Consumes(value={"application/json"})
+    @Produces({"application/x-www-form-urlencoded"})
     Mono<Void> testEnumParameters(
         @Header(name="enum_header_string_array") @Nullable List<String> enumHeaderStringArray, 
         @Header(name="enum_header_string", defaultValue="-efg") @Nullable String enumHeaderString, 
@@ -199,6 +199,7 @@ public interface FakeApi {
         @Nullable List<String> enumFormStringArray, 
         @Nullable String enumFormString
     );
+
     /**
      * Fake endpoint to test group parameters (optional)
      * Fake endpoint to test group parameters (optional)
@@ -211,7 +212,6 @@ public interface FakeApi {
      * @param int64Group Integer in group parameters (optional)
      */
     @Delete(uri="/fake")
-    @Consumes(value={"application/json"})
     Mono<Void> testGroupParameters(
         @QueryValue(value="required_string_group") @NotNull Integer requiredStringGroup, 
         @Header(name="required_boolean_group") @NotNull Boolean requiredBooleanGroup, 
@@ -220,17 +220,18 @@ public interface FakeApi {
         @Header(name="boolean_group") @Nullable Boolean booleanGroup, 
         @QueryValue(value="int64_group") @Nullable Long int64Group
     );
+
     /**
      * test inline additionalProperties
      *
      * @param param request body (required)
      */
     @Post(uri="/fake/inline-additionalProperties")
-    @Produces(value={"application/json"})
-    @Consumes(value={"application/json"})
+    @Produces({"application/json"})
     Mono<Void> testInlineAdditionalProperties(
         @Body @NotNull Map<String, String> param
     );
+
     /**
      * test json serialization of form data
      *
@@ -238,12 +239,12 @@ public interface FakeApi {
      * @param param2 field2 (required)
      */
     @Get(uri="/fake/jsonFormData")
-    @Produces(value={"application/x-www-form-urlencoded"})
-    @Consumes(value={"application/json"})
+    @Produces({"application/x-www-form-urlencoded"})
     Mono<Void> testJsonFormData(
         @NotNull String param, 
         @NotNull String param2
     );
+
     /**
      * To test the collection format in query parameters
      *
@@ -254,7 +255,6 @@ public interface FakeApi {
      * @param context  (required)
      */
     @Put(uri="/fake/test-query-parameters")
-    @Consumes(value={"application/json"})
     Mono<Void> testQueryParameterCollectionFormat(
         @QueryValue(value="pipe") @NotNull List<String> pipe, 
         @QueryValue(value="ioutil") @NotNull List<String> ioutil, 
@@ -262,4 +262,5 @@ public interface FakeApi {
         @QueryValue(value="url") @NotNull List<String> url, 
         @QueryValue(value="context") @NotNull List<String> context
     );
+
 }

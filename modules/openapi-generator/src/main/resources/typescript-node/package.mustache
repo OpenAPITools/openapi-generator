@@ -2,7 +2,10 @@
     "name": "{{npmName}}",
     "version": "{{npmVersion}}",
     "description": "NodeJS client for {{npmName}}",
-    "repository": "{{gitUserId}}/{{gitRepoId}}",
+    "repository": {
+        "type": "git",
+        "url": "https://{{gitHost}}/{{gitUserId}}/{{gitRepoId}}.git"
+    },
     "main": "dist/api.js",
     "types": "dist/api.d.ts",
     "scripts": {

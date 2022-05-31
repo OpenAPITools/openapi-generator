@@ -22,7 +22,12 @@
         <micronaut.version>{{{micronautVersion}}}</micronaut.version>
         <exec.mainClass>{{groupId}}.Application</exec.mainClass>
         <micronaut.runtime>netty</micronaut.runtime>
-        <swagger-annotations-version>1.5.21</swagger-annotations-version>
+        {{#generateSwagger1Annotations}}
+        <swagger-annotations-version>1.6.5</swagger-annotations-version>
+        {{/generateSwagger1Annotations}}
+        {{#generateSwagger2Annotations}}
+        <swagger-annotations-version>2.2.0</swagger-annotations-version>
+        {{/generateSwagger2Annotations}}
     </properties>
 
     <repositories>
@@ -122,11 +127,20 @@
             <artifactId>logback-classic</artifactId>
             <scope>runtime</scope>
         </dependency>
+        {{#generateSwagger1Annotations}}
         <dependency>
             <groupId>io.swagger</groupId>
             <artifactId>swagger-annotations</artifactId>
             <version>${swagger-annotations-version}</version>
         </dependency>
+        {{/generateSwagger1Annotations}}
+        {{#generateSwagger2Annotations}}
+        <dependency>
+            <groupId>io.swagger.core.v3</groupId>
+            <artifactId>swagger-annotations</artifactId>
+            <version>${swagger-annotations-version}</version>
+        </dependency>
+        {{/generateSwagger2Annotations}}
     </dependencies>
 
     <build>

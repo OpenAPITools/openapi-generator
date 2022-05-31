@@ -31,10 +31,10 @@ docs/FakeClassnameTags123Api.md
 docs/File.md
 docs/FileSchemaTestClass.md
 docs/Foo.md
+docs/FooGetDefaultResponse.md
 docs/FormatTest.md
 docs/HasOnlyReadOnly.md
 docs/HealthCheckResult.md
-docs/InlineResponseDefault.md
 docs/List.md
 docs/MapTest.md
 docs/MixedPropertiesAndAdditionalPropertiesClass.md
@@ -94,10 +94,10 @@ lib/petstore/models/enum_test.rb
 lib/petstore/models/file.rb
 lib/petstore/models/file_schema_test_class.rb
 lib/petstore/models/foo.rb
+lib/petstore/models/foo_get_default_response.rb
 lib/petstore/models/format_test.rb
 lib/petstore/models/has_only_read_only.rb
 lib/petstore/models/health_check_result.rb
-lib/petstore/models/inline_response_default.rb
 lib/petstore/models/list.rb
 lib/petstore/models/map_test.rb
 lib/petstore/models/mixed_properties_and_additional_properties_class.rb

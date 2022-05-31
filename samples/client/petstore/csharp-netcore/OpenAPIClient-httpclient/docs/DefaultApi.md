@@ -8,7 +8,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 <a name="fooget"></a>
 # **FooGet**
-> InlineResponseDefault FooGet ()
+> FooGetDefaultResponse FooGet ()
 
 
 
@@ -36,7 +36,7 @@ namespace Example
 
             try
             {
-                InlineResponseDefault result = apiInstance.FooGet();
+                FooGetDefaultResponse result = apiInstance.FooGet();
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -73,7 +73,7 @@ catch (ApiException e)
 This endpoint does not need any parameter.
 ### Return type
 
-[**InlineResponseDefault**](InlineResponseDefault.md)
+[**FooGetDefaultResponse**](FooGetDefaultResponse.md)
 
 ### Authorization
 

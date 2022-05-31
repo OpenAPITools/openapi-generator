@@ -2,17 +2,21 @@ export * from './Cat';
 export * from './CatAllOf';
 export * from './Dog';
 export * from './DogAllOf';
-export * from './InlineObject';
+export * from './FilePostRequest';
 export * from './PetByAge';
 export * from './PetByType';
+export * from './PetsFilteredPatchRequest';
+export * from './PetsPatchRequest';
 
 import { Cat } from './Cat';
 import { CatAllOf } from './CatAllOf';
 import { Dog , DogBreedEnum   } from './Dog';
 import { DogAllOf , DogAllOfBreedEnum   } from './DogAllOf';
-import { InlineObject } from './InlineObject';
+import { FilePostRequest } from './FilePostRequest';
 import { PetByAge } from './PetByAge';
 import { PetByType, PetByTypePetTypeEnum    } from './PetByType';
+import { PetsFilteredPatchRequest  , PetsFilteredPatchRequestPetTypeEnum    } from './PetsFilteredPatchRequest';
+import { PetsPatchRequest   , PetsPatchRequestBreedEnum   } from './PetsPatchRequest';
 
 /* tslint:disable:no-unused-variable */
 let primitives = [
@@ -37,6 +41,8 @@ let enumsMap: Set<string> = new Set<string>([
     "DogBreedEnum",
     "DogAllOfBreedEnum",
     "PetByTypePetTypeEnum",
+    "PetsFilteredPatchRequestPetTypeEnum",
+    "PetsPatchRequestBreedEnum",
 ]);
 
 let typeMap: {[index: string]: any} = {
@@ -44,9 +50,11 @@ let typeMap: {[index: string]: any} = {
     "CatAllOf": CatAllOf,
     "Dog": Dog,
     "DogAllOf": DogAllOf,
-    "InlineObject": InlineObject,
+    "FilePostRequest": FilePostRequest,
     "PetByAge": PetByAge,
     "PetByType": PetByType,
+    "PetsFilteredPatchRequest": PetsFilteredPatchRequest,
+    "PetsPatchRequest": PetsPatchRequest,
 }
 
 export class ObjectSerializer {
@@ -235,6 +243,10 @@ export class ObjectSerializer {
 
         if (mediaType === "application/json") {
             return JSON.parse(rawData);
+        }
+
+        if (mediaType === "text/html") {
+            return rawData;
         }
 
         throw new Error("The mediaType " + mediaType + " is not supported by ObjectSerializer.parse.");

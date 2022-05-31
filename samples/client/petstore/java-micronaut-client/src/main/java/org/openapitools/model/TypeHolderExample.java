@@ -14,8 +14,6 @@ package org.openapitools.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -71,7 +69,6 @@ public class TypeHolderExample {
      * @return stringItem
      **/
     @NotNull
-    @ApiModelProperty(example = "what", required = true, value = "")
     @JsonProperty(JSON_PROPERTY_STRING_ITEM)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
     public String getStringItem() {
@@ -80,7 +77,7 @@ public class TypeHolderExample {
 
     @JsonProperty(JSON_PROPERTY_STRING_ITEM)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
-       public void setStringItem(String stringItem) {
+    public void setStringItem(String stringItem) {
         this.stringItem = stringItem;
     }
 
@@ -94,7 +91,6 @@ public class TypeHolderExample {
      * @return numberItem
      **/
     @NotNull
-    @ApiModelProperty(example = "1.234", required = true, value = "")
     @JsonProperty(JSON_PROPERTY_NUMBER_ITEM)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
     public BigDecimal getNumberItem() {
@@ -103,7 +99,7 @@ public class TypeHolderExample {
 
     @JsonProperty(JSON_PROPERTY_NUMBER_ITEM)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
-       public void setNumberItem(BigDecimal numberItem) {
+    public void setNumberItem(BigDecimal numberItem) {
         this.numberItem = numberItem;
     }
 
@@ -117,7 +113,6 @@ public class TypeHolderExample {
      * @return floatItem
      **/
     @NotNull
-    @ApiModelProperty(example = "1.234", required = true, value = "")
     @JsonProperty(JSON_PROPERTY_FLOAT_ITEM)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
     public Float getFloatItem() {
@@ -126,7 +121,7 @@ public class TypeHolderExample {
 
     @JsonProperty(JSON_PROPERTY_FLOAT_ITEM)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
-       public void setFloatItem(Float floatItem) {
+    public void setFloatItem(Float floatItem) {
         this.floatItem = floatItem;
     }
 
@@ -140,7 +135,6 @@ public class TypeHolderExample {
      * @return integerItem
      **/
     @NotNull
-    @ApiModelProperty(example = "-2", required = true, value = "")
     @JsonProperty(JSON_PROPERTY_INTEGER_ITEM)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
     public Integer getIntegerItem() {
@@ -149,7 +143,7 @@ public class TypeHolderExample {
 
     @JsonProperty(JSON_PROPERTY_INTEGER_ITEM)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
-       public void setIntegerItem(Integer integerItem) {
+    public void setIntegerItem(Integer integerItem) {
         this.integerItem = integerItem;
     }
 
@@ -163,7 +157,6 @@ public class TypeHolderExample {
      * @return boolItem
      **/
     @NotNull
-    @ApiModelProperty(example = "true", required = true, value = "")
     @JsonProperty(JSON_PROPERTY_BOOL_ITEM)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
     public Boolean getBoolItem() {
@@ -172,7 +165,7 @@ public class TypeHolderExample {
 
     @JsonProperty(JSON_PROPERTY_BOOL_ITEM)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
-       public void setBoolItem(Boolean boolItem) {
+    public void setBoolItem(Boolean boolItem) {
         this.boolItem = boolItem;
     }
 
@@ -191,7 +184,6 @@ public class TypeHolderExample {
      * @return arrayItem
      **/
     @NotNull
-    @ApiModelProperty(example = "[0, 1, 2, 3]", required = true, value = "")
     @JsonProperty(JSON_PROPERTY_ARRAY_ITEM)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
     public List<Integer> getArrayItem() {
@@ -200,7 +192,7 @@ public class TypeHolderExample {
 
     @JsonProperty(JSON_PROPERTY_ARRAY_ITEM)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
-       public void setArrayItem(List<Integer> arrayItem) {
+    public void setArrayItem(List<Integer> arrayItem) {
         this.arrayItem = arrayItem;
     }
 
