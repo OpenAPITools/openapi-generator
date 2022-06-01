@@ -17,10 +17,6 @@
 
 package org.openapitools.codegen.languages;
 
-import static org.openapitools.codegen.utils.StringUtils.camelize;
-import static org.openapitools.codegen.utils.StringUtils.escape;
-import static org.openapitools.codegen.utils.StringUtils.underscore;
-
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.google.common.base.Strings;
@@ -39,6 +35,34 @@ import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
+
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.openapitools.codegen.CliOption;
+import org.openapitools.codegen.CodegenConfig;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenParameter;
+import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.DefaultCodegen;
+import org.openapitools.codegen.VendorExtension;
+import org.openapitools.codegen.languages.features.DocumentationProviderFeatures;
+import org.openapitools.codegen.languages.features.OptionalFeatures;
+import org.openapitools.codegen.meta.features.ClientModificationFeature;
+import org.openapitools.codegen.meta.features.DocumentationFeature;
+import org.openapitools.codegen.meta.features.GlobalFeature;
+import org.openapitools.codegen.meta.features.SchemaSupportFeature;
+import org.openapitools.codegen.meta.features.SecurityFeature;
+import org.openapitools.codegen.meta.features.WireFormatFeature;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.utils.ModelUtils;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -63,30 +87,6 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
-
-import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.lang3.BooleanUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenParameter;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.DefaultCodegen;
-import org.openapitools.codegen.VendorExtension;
-import org.openapitools.codegen.languages.features.DocumentationProviderFeatures;
-import org.openapitools.codegen.languages.features.OptionalFeatures;
-import org.openapitools.codegen.meta.features.ClientModificationFeature;
-import org.openapitools.codegen.meta.features.DocumentationFeature;
-import org.openapitools.codegen.meta.features.GlobalFeature;
-import org.openapitools.codegen.meta.features.SchemaSupportFeature;
-import org.openapitools.codegen.meta.features.SecurityFeature;
-import org.openapitools.codegen.meta.features.WireFormatFeature;
-import org.openapitools.codegen.utils.ModelUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import static org.openapitools.codegen.utils.StringUtils.*;
 
