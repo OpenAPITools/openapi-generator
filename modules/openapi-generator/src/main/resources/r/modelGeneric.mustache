@@ -299,7 +299,7 @@
         {{/isPrimitiveType}}
         {{/isContainer}}
       } else {
-        stop("The required field `{{baseName}}` is missing.")
+        stop(paste("The JSON input `", input, "` is invalid for {{classname}}: the required field `{{baseName}}` is missing."))
       }
       {{/requiredVars}}
     }

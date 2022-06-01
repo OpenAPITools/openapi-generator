@@ -38,6 +38,8 @@ Pig <- R6::R6Class(
 
       BasquePig_result <- tryCatch({
           BasquePig$public_methods$validateJSON(input)
+          BasquePig_instance <- BasquePig$new()
+          instance <- BasquePig_instance$fromJSONString(input)
           instance_type <- "BasquePig"
           matched_schemas <- append(matched_schemas, "BasquePig")
           matched <- matched + 1
@@ -46,11 +48,13 @@ Pig <- R6::R6Class(
       )
 
       if (!is.null(BasquePig_result['error'])) {
-        error_messages <- append(error_messages, BasquePig_result['error'])
+        error_messages <- append(error_messages, BasquePig_result['message'])
       }
 
       DanishPig_result <- tryCatch({
           DanishPig$public_methods$validateJSON(input)
+          DanishPig_instance <- DanishPig$new()
+          instance <- DanishPig_instance$fromJSONString(input)
           instance_type <- "DanishPig"
           matched_schemas <- append(matched_schemas, "DanishPig")
           matched <- matched + 1
@@ -59,7 +63,7 @@ Pig <- R6::R6Class(
       )
 
       if (!is.null(DanishPig_result['error'])) {
-        error_messages <- append(error_messages, DanishPig_result['error'])
+        error_messages <- append(error_messages, DanishPig_result['message'])
       }
 
       if (matched == 1) {

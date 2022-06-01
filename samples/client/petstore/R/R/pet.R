@@ -182,13 +182,13 @@ Pet <- R6::R6Class(
       if (!is.null(input_json$`name`)) {
         stopifnot(is.character(input_json$`name`), length(input_json$`name`) == 1)
       } else {
-        stop("The required field `name` is missing.")
+        stop(paste("The JSON input `", input, "` is invalid for Pet: the required field `name` is missing."))
       }
       if (!is.null(input_json$`photoUrls`)) {
         stopifnot(is.vector(input_json$`photoUrls`), length(input_json$`photoUrls`) != 0)
         tmp <- sapply(input_json$`photoUrls`, function(x) stopifnot(is.character(x)))
       } else {
-        stop("The required field `photoUrls` is missing.")
+        stop(paste("The JSON input `", input, "` is invalid for Pet: the required field `photoUrls` is missing."))
       }
     }
 

@@ -32,6 +32,8 @@
       {{#oneOf}}
       {{{.}}}_result <- tryCatch({
           {{{.}}}$public_methods$validateJSON(input)
+          {{{.}}}_instance <- {{{.}}}$new()
+          instance <- {{{.}}}_instance$fromJSONString(input)
           instance_type <- "{{{.}}}"
           matched_schemas <- append(matched_schemas, "{{{.}}}")
           matched <- matched + 1
@@ -40,7 +42,7 @@
       )
 
       if (!is.null({{{.}}}_result['error'])) {
-        error_messages <- append(error_messages, {{{.}}}_result['error'])
+        error_messages <- append(error_messages, {{{.}}}_result['message'])
       }
 
       {{/oneOf}}

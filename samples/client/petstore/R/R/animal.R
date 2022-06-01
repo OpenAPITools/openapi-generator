@@ -90,7 +90,7 @@ Animal <- R6::R6Class(
       if (!is.null(input_json$`className`)) {
         stopifnot(is.character(input_json$`className`), length(input_json$`className`) == 1)
       } else {
-        stop("The required field `className` is missing.")
+        stop(paste("The JSON input `", input, "` is invalid for Animal: the required field `className` is missing."))
       }
     }
 

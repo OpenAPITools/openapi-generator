@@ -1,3 +1,5 @@
+
+install.packages("petstore_1.0.0.tar.gz",repos=NULL, type="source")
 library(petstore)
 
 var_pet_id <- 56 # integer | ID of pet to return
@@ -43,10 +45,10 @@ json <-
 #Pet$public_methods$my_static_method(1)
 
   basque_pig_json <-
-  '{"className": "BasquePig", "color": "red"}'
+  '{"className2": "BasquePig", "color": "red"}'
  
   danish_pig_json <-
-  '{"className": "DanishPig", "size": 7}'
+  '{"className2": "DanishPig", "size": 7}'
  
   wrong_json <- 
   '[
@@ -57,5 +59,9 @@ json <-
  
   pig <- Pig$new()
   basque_pig <- pig$fromJSON(basque_pig_json)
+  #print(basque_pig$actual_instance$color)
   #expect_equal(basque_pig$actual_type, "BasquePig")
-i <- pig$fromJSON(wrong_json)
+  i <- pig$fromJSON(danish_pig_json)
+  #i <- pig$fromJSON(wrong_json)
+
+
