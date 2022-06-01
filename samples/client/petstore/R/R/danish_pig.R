@@ -87,11 +87,13 @@ DanishPig <- R6::R6Class(
     },
     validateJSON = function(input) {
       input_json <- jsonlite::fromJSON(input)
+      # check the required field `className`
       if (!is.null(input_json$`className`)) {
         stopifnot(is.character(input_json$`className`), length(input_json$`className`) == 1)
       } else {
         stop(paste("The JSON input `", input, "` is invalid for DanishPig: the required field `className` is missing."))
       }
+      # check the required field `size`
       if (!is.null(input_json$`size`)) {
         stopifnot(is.numeric(input_json$`size`), length(input_json$`size`) == 1)
       } else {

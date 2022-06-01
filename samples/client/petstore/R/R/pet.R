@@ -179,11 +179,13 @@ Pet <- R6::R6Class(
     },
     validateJSON = function(input) {
       input_json <- jsonlite::fromJSON(input)
+      # check the required field `name`
       if (!is.null(input_json$`name`)) {
         stopifnot(is.character(input_json$`name`), length(input_json$`name`) == 1)
       } else {
         stop(paste("The JSON input `", input, "` is invalid for Pet: the required field `name` is missing."))
       }
+      # check the required field `photoUrls`
       if (!is.null(input_json$`photoUrls`)) {
         stopifnot(is.vector(input_json$`photoUrls`), length(input_json$`photoUrls`) != 0)
         tmp <- sapply(input_json$`photoUrls`, function(x) stopifnot(is.character(x)))

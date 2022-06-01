@@ -64,4 +64,7 @@ json <-
   i <- pig$fromJSON(danish_pig_json)
   #i <- pig$fromJSON(wrong_json)
 
+  d <- DanishPig$new()
+  dp <- d$validateJSON(danish_pig_json)
+
 

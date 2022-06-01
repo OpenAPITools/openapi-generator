@@ -153,10 +153,10 @@ test_that("Tests oneOf", {
   ]'
 
   pig <- Pig$new()
-  #danish_pig <- pig$fromJSON(dansih_pig_json)
-  #expect_equal(danish_pig$actual_type, "DanishPig")
-  #expect_equal(danish_pig$actual_instance$size, 7)
-  #expect_equal(danish_pig$actual_instance$className, "DanishPig")
+  danish_pig <- pig$fromJSON(danish_pig_json)
+  expect_equal(danish_pig$actual_type, "DanishPig")
+  expect_equal(danish_pig$actual_instance$size, 7)
+  expect_equal(danish_pig$actual_instance$className, "DanishPig")
 
   basque_pig <- pig$fromJSON(basque_pig_json)
   expect_equal(basque_pig$actual_type, "BasquePig")

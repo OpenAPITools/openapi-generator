@@ -110,6 +110,7 @@ Dog <- R6::R6Class(
     },
     validateJSON = function(input) {
       input_json <- jsonlite::fromJSON(input)
+      # check the required field `className`
       if (!is.null(input_json$`className`)) {
         stopifnot(is.character(input_json$`className`), length(input_json$`className`) == 1)
       } else {

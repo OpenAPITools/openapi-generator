@@ -258,6 +258,7 @@
     validateJSON = function(input) {
       input_json <- jsonlite::fromJSON(input)
       {{#requiredVars}}
+      # check the required field `{{baseName}}`
       if (!is.null(input_json$`{{baseName}}`)) {
         {{^isContainer}}
         {{#isInteger}}
