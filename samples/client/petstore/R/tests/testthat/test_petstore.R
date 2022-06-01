@@ -163,9 +163,8 @@ test_that("Tests oneOf", {
   expect_equal(basque_pig$actual_instance$color, "red")
   expect_equal(basque_pig$actual_instance$className, "BasquePig")
 
-  #expect_error(pig$fromJSON(wrong_json), "something")
-
-
+  #expect_error(pig$fromJSON(wrong_json), "No match found when deserializing the payload into Pig with oneOf schemas BasquePig, DanishPig. Details:  The JSON input ` [\n    {\"Name\" : \"Tom\", \"Age\" : 32, \"Occupation\" : \"Consultant\"}, \n    {},\n    {\"Name\" : \"Ada\", \"Occupation\" : \"Engineer\"}\n  ] ` is invalid for BasquePig: the required field `className` is missing., The JSON input ` [\n    {\"Name\" : \"Tom\", \"Age\" : 32, \"Occupation\" : \"Consultant\"}, \n    {},\n    {\"Name\" : \"Ada\", \"Occupation\" : \"Engineer\"}\n  ] ` is invalid for DanishPig: the required field `className` is missing.")
+  expect_error(pig$fromJSON('{}'), 'No match found when deserializing the payload into Pig with oneOf schemas BasquePig, DanishPig. Details:  The JSON input ` \\{\\} ` is invalid for BasquePig: the required field `className` is missing\\., The JSON input ` \\{\\} ` is invalid for DanishPig: the required field `className` is missing\\.')
 
 })
 
