@@ -110,7 +110,7 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#vendorExtens
       return false;
     }{{#hasVars}}
     {{classname}} {{classVarName}} = ({{classname}}) o;
-    return {{#vars}}Objects.equals(this.{{name}}, {{classVarName}}.{{name}}){{^-last}} &&
+    return {{#vars}}{{#isByteArray}}Arrays{{/isByteArray}}{{^isByteArray}}Objects{{/isByteArray}}.equals(this.{{name}}, {{classVarName}}.{{name}}){{^-last}} &&
         {{/-last}}{{/vars}}{{#parent}} &&
         super.equals(o){{/parent}};{{/hasVars}}{{^hasVars}}
     return {{#parent}}super.equals(o){{/parent}}{{^parent}}true{{/parent}};{{/hasVars}}
@@ -118,7 +118,7 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#vendorExtens
 
   @Override
   public int hashCode() {
-    return Objects.hash({{#vars}}{{name}}{{^-last}}, {{/-last}}{{/vars}}{{#parent}}{{#hasVars}}, {{/hasVars}}super.hashCode(){{/parent}});
+    return Objects.hash({{#vars}}{{^isByteArray}}{{name}}{{/isByteArray}}{{#isByteArray}}Arrays.hashCode({{name}}){{/isByteArray}}{{^-last}}, {{/-last}}{{/vars}}{{#parent}}{{#hasVars}}, {{/hasVars}}super.hashCode(){{/parent}});
   }
 
   @Override
