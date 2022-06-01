@@ -13,6 +13,7 @@ Method | HTTP request | Description
 [**case_sensitive_params**](FakeApi.md#case_sensitive_params) | **PUT** /fake/case-sensitive-params | 
 [**client_model**](FakeApi.md#client_model) | **PATCH** /fake | To test \&quot;client\&quot; model
 [**composed_one_of_different_types**](FakeApi.md#composed_one_of_different_types) | **POST** /fake/refs/composed_one_of_number_with_validations | 
+[**delete_coffee**](FakeApi.md#delete_coffee) | **DELETE** /fake/deleteCoffee/{id} | Delete coffee
 [**endpoint_parameters**](FakeApi.md#endpoint_parameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 [**enum_parameters**](FakeApi.md#enum_parameters) | **GET** /fake | To test enum parameters
 [**fake_health_get**](FakeApi.md#fake_health_get) | **GET** /fake/health | Health check endpoint
@@ -20,11 +21,15 @@ Method | HTTP request | Description
 [**inline_additional_properties**](FakeApi.md#inline_additional_properties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 [**inline_composition**](FakeApi.md#inline_composition) | **POST** /fake/inlineComposition/ | testing composed schemas at inline locations
 [**json_form_data**](FakeApi.md#json_form_data) | **GET** /fake/jsonFormData | test json serialization of form data
+[**json_with_charset**](FakeApi.md#json_with_charset) | **POST** /fake/jsonWithCharset | json with charset tx and rx
 [**mammal**](FakeApi.md#mammal) | **POST** /fake/refs/mammal | 
 [**number_with_validations**](FakeApi.md#number_with_validations) | **POST** /fake/refs/number | 
+[**object_in_query**](FakeApi.md#object_in_query) | **GET** /fake/objInQuery | user list
 [**object_model_with_ref_props**](FakeApi.md#object_model_with_ref_props) | **POST** /fake/refs/object_model_with_ref_props | 
 [**parameter_collisions**](FakeApi.md#parameter_collisions) | **POST** /fake/parameterCollisions/{1}/{aB}/{Ab}/{self}/{A-B}/ | parameter collision case
 [**query_parameter_collection_format**](FakeApi.md#query_parameter_collection_format) | **PUT** /fake/test-query-paramters | 
+[**ref_object_in_query**](FakeApi.md#ref_object_in_query) | **GET** /fake/refObjInQuery | user list
+[**response_without_schema**](FakeApi.md#response_without_schema) | **GET** /fake/responseWithoutSchema | receives a response without schema
 [**string**](FakeApi.md#string) | **POST** /fake/refs/string | 
 [**string_enum**](FakeApi.md#string_enum) | **POST** /fake/refs/enum | 
 [**upload_download_file**](FakeApi.md#upload_download_file) | **POST** /fake/uploadDownloadFile | uploads a file and downloads a file using application/octet-stream
@@ -93,7 +98,7 @@ Type | Description  | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | Got object with additional properties with array of enums 
+200 | ApiResponseFor200 | Got object with additional properties with array of enums
 
 #### ApiResponseFor200
 Name | Type | Description  | Notes
@@ -178,7 +183,7 @@ Type | Description  | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | Output model 
+200 | ApiResponseFor200 | Output model
 
 #### ApiResponseFor200
 Name | Type | Description  | Notes
@@ -262,7 +267,7 @@ Type | Description  | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | Got named array of enums 
+200 | ApiResponseFor200 | Got named array of enums
 
 #### ApiResponseFor200
 Name | Type | Description  | Notes
@@ -350,7 +355,7 @@ Type | Description  | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | Success 
+200 | ApiResponseFor200 | Success
 
 #### ApiResponseFor200
 Name | Type | Description  | Notes
@@ -407,6 +412,7 @@ with petstore_api.ApiClient(configuration) as api_client:
         object_with_no_declared_props=dict(),
         object_with_no_declared_props_nullable=dict(),
         any_type_prop=None,
+        any_type_except_null_prop=None,
         any_type_prop_nullable=None,
     )
     try:
@@ -455,7 +461,7 @@ Type | Description | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | Success 
+200 | ApiResponseFor200 | Success
 
 #### ApiResponseFor200
 Name | Type | Description  | Notes
@@ -531,7 +537,7 @@ Type | Description | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | Output boolean 
+200 | ApiResponseFor200 | Output boolean
 
 #### ApiResponseFor200
 Name | Type | Description  | Notes
@@ -634,7 +640,7 @@ Type | Description | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | Success 
+200 | ApiResponseFor200 | Success
 
 #### ApiResponseFor200
 Name | Type | Description  | Notes
@@ -714,7 +720,7 @@ Type | Description  | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | successful operation 
+200 | ApiResponseFor200 | successful operation
 
 #### ApiResponseFor200
 Name | Type | Description  | Notes
@@ -764,7 +770,7 @@ with petstore_api.ApiClient(configuration) as api_client:
     api_instance = fake_api.FakeApi(api_client)
 
     # example passing only optional values
-    body = ComposedOneOfDifferentTypes()
+    body = ComposedOneOfDifferentTypes(None)
     try:
         api_response = api_instance.composed_one_of_different_types(
             body=body,
@@ -797,7 +803,7 @@ Type | Description  | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | Output model 
+200 | ApiResponseFor200 | Output model
 
 #### ApiResponseFor200
 Name | Type | Description  | Notes
@@ -814,6 +820,95 @@ Type | Description  | Notes
 
 
 [**ComposedOneOfDifferentTypes**](ComposedOneOfDifferentTypes.md)
+
+### Authorization
+
+No authorization required
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **delete_coffee**
+> delete_coffee(id)
+
+Delete coffee
+
+Delete the coffee identified by the given id, (delete without request body)
+
+### Example
+
+```python
+import petstore_api
+from petstore_api.api import fake_api
+from pprint import pprint
+# Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
+# See configuration.py for a list of all supported configuration parameters.
+configuration = petstore_api.Configuration(
+    host = "http://petstore.swagger.io:80/v2"
+)
+
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = fake_api.FakeApi(api_client)
+
+    # example passing only required values which don't have defaults set
+    path_params = {
+        'id': "id_example",
+    }
+    try:
+        # Delete coffee
+        api_response = api_instance.delete_coffee(
+            path_params=path_params,
+        )
+    except petstore_api.ApiException as e:
+        print("Exception when calling FakeApi->delete_coffee: %s\n" % e)
+```
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+path_params | RequestPathParams | |
+stream | bool | default is False | if True then the response.content will be streamed and loaded from a file like object. When downloading a file, set this to True to force the code to deserialize the content to a FileSchema file
+timeout | typing.Optional[typing.Union[int, typing.Tuple]] | default is None | the timeout used by the rest client
+skip_deserialization | bool | default is False | when True, headers and body will be unset and an instance of api_client.ApiResponseWithoutDeserialization will be returned
+
+### path_params
+#### RequestPathParams
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+id | IdSchema | | 
+
+#### IdSchema
+
+Type | Description | Notes
+------------- | ------------- | -------------
+**str** |  | 
+
+### Return Types, Responses
+
+Code | Class | Description
+------------- | ------------- | -------------
+n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
+200 | ApiResponseFor200 | OK
+default | ApiResponseForDefault | Unexpected error
+
+#### ApiResponseFor200
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+response | urllib3.HTTPResponse | Raw response |
+body | Unset | body was not defined |
+headers | Unset | headers were not defined |
+
+#### ApiResponseForDefault
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+response | urllib3.HTTPResponse | Raw response |
+body | Unset | body was not defined |
+headers | Unset | headers were not defined |
+
+
+void (empty response body)
 
 ### Authorization
 
@@ -864,12 +959,12 @@ with petstore_api.ApiClient(configuration) as api_client:
         number=32.1,
         _float=3.14,
         double=67.8,
-        string="a",
-        pattern_without_delimiter="AUR,rZ#UM/?R,Fp^l6$ARjbhJk C",
+        string="A",
+        pattern_without_delimiter="Aj",
         byte='YQ==',
         binary=open('/path/to/file', 'rb'),
-        date=isoparse('1970-01-01').date(),
-        date_time=isoparse('2020-02-02T20:20:20.22222Z'),
+        date="1970-01-01",
+        date_time="2020-02-02T20:20:20.222220Z",
         password="password_example",
         callback="callback_example",
     )
@@ -909,7 +1004,7 @@ Name | Type | Description | Notes
 **byte** | **str** | None | 
 **binary** | **file_type** | None | [optional] 
 **date** | **date** | None | [optional] 
-**dateTime** | **datetime** | None | [optional]  if omitted the server will use the default value of isoparse('2010-02-01T10:20:10.11111+01:00')
+**dateTime** | **datetime** | None | [optional]  if omitted the server will use the default value of 2010-02-01T10:20:10.11111+01:00
 **password** | **str** | None | [optional] 
 **callback** | **str** | None | [optional] 
 **any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
@@ -919,8 +1014,8 @@ Name | Type | Description | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-400 | ApiResponseFor400 | Invalid username supplied 
-404 | ApiResponseFor404 | User not found 
+400 | ApiResponseFor400 | Invalid username supplied
+404 | ApiResponseFor404 | User not found
 
 #### ApiResponseFor400
 Name | Type | Description  | Notes
@@ -1083,8 +1178,8 @@ Type | Description | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-400 | ApiResponseFor400 | Invalid request 
-404 | ApiResponseFor404 | Not found 
+400 | ApiResponseFor400 | Invalid request
+404 | ApiResponseFor404 | Not found
 
 #### ApiResponseFor400
 Name | Type | Description  | Notes
@@ -1148,7 +1243,7 @@ This endpoint does not need any parameter.
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | The instance started successfully 
+200 | ApiResponseFor200 | The instance started successfully
 
 #### ApiResponseFor200
 Name | Type | Description  | Notes
@@ -1313,7 +1408,7 @@ Type | Description | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-400 | ApiResponseFor400 | Someting wrong 
+400 | ApiResponseFor400 | Someting wrong
 
 #### ApiResponseFor400
 Name | Type | Description  | Notes
@@ -1389,7 +1484,7 @@ Name | Type | Description | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | successful operation 
+200 | ApiResponseFor200 | successful operation
 
 #### ApiResponseFor200
 Name | Type | Description  | Notes
@@ -1408,7 +1503,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **inline_composition**
-> object inline_composition()
+> bool, date, datetime, dict, float, int, list, str, none_type inline_composition()
 
 testing composed schemas at inline locations
 
@@ -1417,7 +1512,6 @@ testing composed schemas at inline locations
 ```python
 import petstore_api
 from petstore_api.api import fake_api
-from petstore_api.model.composition_in_property import CompositionInProperty
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -1432,12 +1526,12 @@ with petstore_api.ApiClient(configuration) as api_client:
 
     # example passing only optional values
     query_params = {
-        'compositionAtRoot': ,
+        'compositionAtRoot': None,
         'compositionInProperty': dict(
-        some_prop=,
+        some_prop=None,
     ),
     }
-    body = 
+    body = None
     try:
         # testing composed schemas at inline locations
         api_response = api_instance.inline_composition(
@@ -1474,7 +1568,7 @@ Name | Type | Description | Notes
 #### Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**someProp** | **object** |  | [optional] 
+**someProp** | **bool, date, datetime, dict, float, int, list, str, none_type** |  | [optional] 
 **any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
 
 ### query_params
@@ -1494,17 +1588,19 @@ Name | Type | Description | Notes
 **any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
 
 #### CompositionInPropertySchema
-Type | Description  | Notes
-------------- | ------------- | -------------
-[**{str: (bool, date, datetime, dict, float, int, list, str, none_type)}**](CompositionInProperty.md) |  | 
 
+#### Properties
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+**someProp** | **bool, date, datetime, dict, float, int, list, str, none_type** |  | [optional] 
+**any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
 
 ### Return Types, Responses
 
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | success 
+200 | ApiResponseFor200 | success
 
 #### ApiResponseFor200
 Name | Type | Description  | Notes
@@ -1525,11 +1621,11 @@ Name | Type | Description | Notes
 #### Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**someProp** | **object** |  | [optional] 
+**someProp** | **bool, date, datetime, dict, float, int, list, str, none_type** |  | [optional] 
 **any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
 
 
-**object**
+**bool, date, datetime, dict, float, int, list, str, none_type**
 
 ### Authorization
 
@@ -1598,7 +1694,7 @@ Name | Type | Description | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | successful operation 
+200 | ApiResponseFor200 | successful operation
 
 #### ApiResponseFor200
 Name | Type | Description  | Notes
@@ -1609,6 +1705,87 @@ headers | Unset | headers were not defined |
 
 
 void (empty response body)
+
+### Authorization
+
+No authorization required
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **json_with_charset**
+> bool, date, datetime, dict, float, int, list, str, none_type json_with_charset()
+
+json with charset tx and rx
+
+### Example
+
+```python
+import petstore_api
+from petstore_api.api import fake_api
+from pprint import pprint
+# Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
+# See configuration.py for a list of all supported configuration parameters.
+configuration = petstore_api.Configuration(
+    host = "http://petstore.swagger.io:80/v2"
+)
+
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = fake_api.FakeApi(api_client)
+
+    # example passing only optional values
+    body = None
+    try:
+        # json with charset tx and rx
+        api_response = api_instance.json_with_charset(
+            body=body,
+        )
+        pprint(api_response)
+    except petstore_api.ApiException as e:
+        print("Exception when calling FakeApi->json_with_charset: %s\n" % e)
+```
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+body | typing.Union[SchemaForRequestBodyApplicationJsonCharsetutf8, Unset] | optional, default is unset |
+content_type | str | optional, default is 'application/json; charset&#x3D;utf-8' | Selects the schema and serialization of the request body
+accept_content_types | typing.Tuple[str] | default is ('application/json; charset&#x3D;utf-8', ) | Tells the server the content type(s) that are accepted by the client
+stream | bool | default is False | if True then the response.content will be streamed and loaded from a file like object. When downloading a file, set this to True to force the code to deserialize the content to a FileSchema file
+timeout | typing.Optional[typing.Union[int, typing.Tuple]] | default is None | the timeout used by the rest client
+skip_deserialization | bool | default is False | when True, headers and body will be unset and an instance of api_client.ApiResponseWithoutDeserialization will be returned
+
+### body
+
+#### SchemaForRequestBodyApplicationJsonCharsetutf8
+
+Type | Description | Notes
+------------- | ------------- | -------------
+typing.Union[dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes] | |
+
+### Return Types, Responses
+
+Code | Class | Description
+------------- | ------------- | -------------
+n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
+200 | ApiResponseFor200 | success
+
+#### ApiResponseFor200
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+response | urllib3.HTTPResponse | Raw response |
+body | typing.Union[SchemaFor200ResponseBodyApplicationJsonCharsetutf8, ] |  |
+headers | Unset | headers were not defined |
+
+#### SchemaFor200ResponseBodyApplicationJsonCharsetutf8
+
+Type | Description | Notes
+------------- | ------------- | -------------
+typing.Union[dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes] | |
+
+
+**bool, date, datetime, dict, float, int, list, str, none_type**
 
 ### Authorization
 
@@ -1679,7 +1856,7 @@ Type | Description  | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | Output mammal 
+200 | ApiResponseFor200 | Output mammal
 
 #### ApiResponseFor200
 Name | Type | Description  | Notes
@@ -1762,7 +1939,7 @@ Type | Description  | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | Output number 
+200 | ApiResponseFor200 | Output number
 
 #### ApiResponseFor200
 Name | Type | Description  | Notes
@@ -1779,6 +1956,90 @@ Type | Description  | Notes
 
 
 [**NumberWithValidations**](NumberWithValidations.md)
+
+### Authorization
+
+No authorization required
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **object_in_query**
+> object_in_query()
+
+user list
+
+### Example
+
+```python
+import petstore_api
+from petstore_api.api import fake_api
+from pprint import pprint
+# Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
+# See configuration.py for a list of all supported configuration parameters.
+configuration = petstore_api.Configuration(
+    host = "http://petstore.swagger.io:80/v2"
+)
+
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = fake_api.FakeApi(api_client)
+
+    # example passing only optional values
+    query_params = {
+        'mapBean': dict(
+        keyword="keyword_example",
+    ),
+    }
+    try:
+        # user list
+        api_response = api_instance.object_in_query(
+            query_params=query_params,
+        )
+    except petstore_api.ApiException as e:
+        print("Exception when calling FakeApi->object_in_query: %s\n" % e)
+```
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+query_params | RequestQueryParams | |
+stream | bool | default is False | if True then the response.content will be streamed and loaded from a file like object. When downloading a file, set this to True to force the code to deserialize the content to a FileSchema file
+timeout | typing.Optional[typing.Union[int, typing.Tuple]] | default is None | the timeout used by the rest client
+skip_deserialization | bool | default is False | when True, headers and body will be unset and an instance of api_client.ApiResponseWithoutDeserialization will be returned
+
+### query_params
+#### RequestQueryParams
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+mapBean | MapBeanSchema | | optional
+
+
+#### MapBeanSchema
+
+#### Properties
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+**keyword** | **str** |  | [optional] 
+**any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
+
+### Return Types, Responses
+
+Code | Class | Description
+------------- | ------------- | -------------
+n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
+200 | ApiResponseFor200 | ok
+
+#### ApiResponseFor200
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+response | urllib3.HTTPResponse | Raw response |
+body | Unset | body was not defined |
+headers | Unset | headers were not defined |
+
+
+void (empty response body)
 
 ### Authorization
 
@@ -1849,7 +2110,7 @@ Type | Description  | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | Output model 
+200 | ApiResponseFor200 | Output model
 
 #### ApiResponseFor200
 Name | Type | Description  | Notes
@@ -2149,7 +2410,7 @@ Type | Description | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | success 
+200 | ApiResponseFor200 | success
 
 #### ApiResponseFor200
 Name | Type | Description  | Notes
@@ -2287,13 +2548,151 @@ Type | Description  | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | Success 
+200 | ApiResponseFor200 | Success
 
 #### ApiResponseFor200
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
+headers | Unset | headers were not defined |
+
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **ref_object_in_query**
+> ref_object_in_query()
+
+user list
+
+### Example
+
+```python
+import petstore_api
+from petstore_api.api import fake_api
+from petstore_api.model.foo import Foo
+from pprint import pprint
+# Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
+# See configuration.py for a list of all supported configuration parameters.
+configuration = petstore_api.Configuration(
+    host = "http://petstore.swagger.io:80/v2"
+)
+
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = fake_api.FakeApi(api_client)
+
+    # example passing only optional values
+    query_params = {
+        'mapBean': Foo(
+        bar="bar",
+    ),
+    }
+    try:
+        # user list
+        api_response = api_instance.ref_object_in_query(
+            query_params=query_params,
+        )
+    except petstore_api.ApiException as e:
+        print("Exception when calling FakeApi->ref_object_in_query: %s\n" % e)
+```
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+query_params | RequestQueryParams | |
+stream | bool | default is False | if True then the response.content will be streamed and loaded from a file like object. When downloading a file, set this to True to force the code to deserialize the content to a FileSchema file
+timeout | typing.Optional[typing.Union[int, typing.Tuple]] | default is None | the timeout used by the rest client
+skip_deserialization | bool | default is False | when True, headers and body will be unset and an instance of api_client.ApiResponseWithoutDeserialization will be returned
+
+### query_params
+#### RequestQueryParams
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+mapBean | MapBeanSchema | | optional
+
+
+#### MapBeanSchema
+Type | Description  | Notes
+------------- | ------------- | -------------
+[**Foo**](Foo.md) |  | 
+
+
+### Return Types, Responses
+
+Code | Class | Description
+------------- | ------------- | -------------
+n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
+200 | ApiResponseFor200 | ok
+
+#### ApiResponseFor200
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+response | urllib3.HTTPResponse | Raw response |
+body | Unset | body was not defined |
+headers | Unset | headers were not defined |
+
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **response_without_schema**
+> response_without_schema()
+
+receives a response without schema
+
+### Example
+
+```python
+import petstore_api
+from petstore_api.api import fake_api
+from pprint import pprint
+# Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
+# See configuration.py for a list of all supported configuration parameters.
+configuration = petstore_api.Configuration(
+    host = "http://petstore.swagger.io:80/v2"
+)
+
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = fake_api.FakeApi(api_client)
+
+    # example, this endpoint has no required or optional parameters
+    try:
+        # receives a response without schema
+        api_response = api_instance.response_without_schema()
+    except petstore_api.ApiException as e:
+        print("Exception when calling FakeApi->response_without_schema: %s\n" % e)
+```
+### Parameters
+This endpoint does not need any parameter.
+
+### Return Types, Responses
+
+Code | Class | Description
+------------- | ------------- | -------------
+n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
+200 | ApiResponseFor200 | contents without schema definition
+
+#### ApiResponseFor200
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+response | urllib3.HTTPResponse | Raw response |
+body | typing.Union[Unset, Unset, ] |  |
 headers | Unset | headers were not defined |
 
 
@@ -2363,7 +2762,7 @@ Type | Description | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | Output string 
+200 | ApiResponseFor200 | Output string
 
 #### ApiResponseFor200
 Name | Type | Description  | Notes
@@ -2446,7 +2845,7 @@ Type | Description  | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | Output enum 
+200 | ApiResponseFor200 | Output enum
 
 #### ApiResponseFor200
 Name | Type | Description  | Notes
@@ -2529,7 +2928,7 @@ Type | Description | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | successful operation 
+200 | ApiResponseFor200 | successful operation
 
 #### ApiResponseFor200
 Name | Type | Description  | Notes
@@ -2619,7 +3018,7 @@ Name | Type | Description | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | successful operation 
+200 | ApiResponseFor200 | successful operation
 
 #### ApiResponseFor200
 Name | Type | Description  | Notes
@@ -2707,7 +3106,7 @@ Name | Type | Description | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | successful operation 
+200 | ApiResponseFor200 | successful operation
 
 #### ApiResponseFor200
 Name | Type | Description  | Notes

@@ -144,6 +144,11 @@
   infoLink: "https://docspring.com"
   pinned: false
 -
+  caption: Deeproute.ai
+  image: "img/companies/deeproute_logo.jpg"
+  infoLink: "https://www.deeproute.ai/"
+  pinned: false
+-
   caption: "dwango"
   image: "img/companies/dwango.png"
   infoLink: "https://dwango.co.jp/"
@@ -289,6 +294,11 @@
   infoLink: "https://www.mailslurp.com/"
   pinned: false
 -
+  caption: Mastercard
+  image: "img/companies/mastercard.png"
+  infoLink: "https://developers.mastercard.com"
+  pinned: false
+-
   caption: "Médiavision"
   image: "img/companies/mediavision.jpeg"
   infoLink: "https://www.mediavision.fr/"
@@ -317,6 +327,11 @@
   caption: Nokia 
   image: "img/companies/nokia.png"
   infoLink: "https://www.nokia.com/"
+  pinned: false
+-
+  caption: OneSignal
+  image: "img/companies/onesignal.png"
+  infoLink: "https://www.onesignal.com/"
   pinned: false
 -
   caption: Options Clearing Corporation (OCC)
@@ -367,6 +382,11 @@
   caption: "Prometheus/Alertmanager"
   image: "img/companies/prometheus.png"
   infoLink: "https://github.com/prometheus/alertmanager"
+  pinned: false
+-
+  caption: Puppet
+  image: "img/companies/puppet.svg"
+  infoLink: "https://www.puppet.com"
   pinned: false
 -
   caption: "Qulix Systems"
@@ -433,6 +453,11 @@
   image: "img/companies/telstra.svg"
   infoLink: "https://dev.telstra.com/"
   pinned: true
+-
+  caption: Tencent
+  image: "img/companies/tencent.png"
+  infoLink: "https://www.tencent.com/"
+  pinned: false
 -
   caption: The University of Aizu
   image: "img/companies/uoa.png"
@@ -533,3 +558,10 @@
   image: "img/companies/zozo-technologies.png"
   infoLink: "https://tech.zozo.com/en/"
   pinned: false
+
+-
+  caption: 3DS OUTSCALE
+  image: "img/companies/outscale.png"
+  infoLink: "https://www.outscale.com/"
+  pinned: false
+

@@ -1,9 +1,8 @@
 package {{invokerPackage}}
 
 {{#java8}}
-import java.time.{LocalDate, LocalDateTime, OffsetDateTime, ZoneId}
+import java.time.{LocalDate, OffsetDateTime}
 import java.time.format.DateTimeFormatter
-import scala.util.Try
 {{/java8}}
 {{#joda}}
 import org.joda.time.DateTime
@@ -15,6 +14,9 @@ object DateSerializers {
     import org.json4s.{Serializer, CustomSerializer, JNull}
     import org.json4s.JsonAST.JString
     {{#java8}}
+    import scala.util.Try
+    import java.time.{LocalDateTime, ZoneId}
+
       case object DateTimeSerializer extends CustomSerializer[OffsetDateTime](_ => ( {
         case JString(s) =>
           Try(OffsetDateTime.parse(s, DateTimeFormatter.ISO_OFFSET_DATE_TIME)) orElse

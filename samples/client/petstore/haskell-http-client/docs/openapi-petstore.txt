@@ -145,7 +145,7 @@ instance OpenAPIPetstore.MimeTypes.MimeRender OpenAPIPetstore.MimeTypes.MimeMult
 instance OpenAPIPetstore.MimeTypes.MimeRender OpenAPIPetstore.MimeTypes.MimeMultipartFormData GHC.Types.Double
 instance OpenAPIPetstore.MimeTypes.MimeRender OpenAPIPetstore.MimeTypes.MimeMultipartFormData GHC.Types.Float
 instance OpenAPIPetstore.MimeTypes.MimeRender OpenAPIPetstore.MimeTypes.MimeMultipartFormData GHC.Types.Int
-instance OpenAPIPetstore.MimeTypes.MimeRender OpenAPIPetstore.MimeTypes.MimeMultipartFormData GHC.Integer.Type.Integer
+instance OpenAPIPetstore.MimeTypes.MimeRender OpenAPIPetstore.MimeTypes.MimeMultipartFormData GHC.Num.Integer.Integer
 instance OpenAPIPetstore.MimeTypes.MimeRender OpenAPIPetstore.MimeTypes.MimeMultipartFormData GHC.Base.String
 instance OpenAPIPetstore.MimeTypes.MimeRender OpenAPIPetstore.MimeTypes.MimeMultipartFormData Data.Text.Internal.Text
 instance OpenAPIPetstore.MimeTypes.MimeRender OpenAPIPetstore.MimeTypes.MimeNoContent OpenAPIPetstore.MimeTypes.NoContent
@@ -350,7 +350,7 @@ _applyAuthMethods :: OpenAPIPetstoreRequest req contentType res accept -> OpenAP
 
 -- | Removes Null fields. (OpenAPI-Specification 2.0 does not allow Null in
 --   JSON)
-_omitNulls :: [(Text, Value)] -> Value
+_omitNulls :: [(Key, Value)] -> Value
 
 -- | Encodes fields using WH.toQueryParam
 _toFormItem :: (ToHttpApiData a, Functor f) => t -> f a -> f (t, [Text])

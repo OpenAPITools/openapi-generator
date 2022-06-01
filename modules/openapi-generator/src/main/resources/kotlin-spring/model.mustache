@@ -14,9 +14,12 @@ import javax.validation.constraints.Pattern
 import javax.validation.constraints.Size
 import javax.validation.Valid
 {{/useBeanValidation}}
-{{#swaggerAnnotations}}
+{{#swagger2AnnotationLibrary}}
+import io.swagger.v3.oas.annotations.media.Schema
+{{/swagger2AnnotationLibrary}}
+{{#swagger1AnnotationLibrary}}
 import io.swagger.annotations.ApiModelProperty
-{{/swaggerAnnotations}}
+{{/swagger1AnnotationLibrary}}
 
 {{#models}}
 {{#model}}

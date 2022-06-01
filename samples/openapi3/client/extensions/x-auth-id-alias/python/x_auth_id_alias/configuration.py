@@ -440,7 +440,7 @@ conf = x_auth_id_alias.Configuration(
                             "qa-petstore",
                             "dev-petstore"
                         ]
-                        },
+                    },
                     'port': {
                         'description': "No description provided",
                         'default_value': "80",
@@ -448,8 +448,8 @@ conf = x_auth_id_alias.Configuration(
                             "80",
                             "8080"
                         ]
-                        }
                     }
+                }
             },
             {
                 'url': "https://localhost:8080/{version}",
@@ -462,8 +462,8 @@ conf = x_auth_id_alias.Configuration(
                             "v1",
                             "v2"
                         ]
-                        }
                     }
+                }
             }
         ]
 

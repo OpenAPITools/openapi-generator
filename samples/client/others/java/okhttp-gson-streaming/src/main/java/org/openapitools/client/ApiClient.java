@@ -993,7 +993,7 @@ public class ApiClient {
         try {
              Response response = call.execute();
              if (!response.isSuccessful()) {
-                 throw new ApiException(response.code(), response.message());
+                 throw new ApiException(response.code(), response.message(), response.headers().toMultimap(), null);
              }
              if (response.body() == null) {
                  return null;
@@ -1151,7 +1151,7 @@ public class ApiClient {
                 reqBody = null;
             } else {
                 // use an empty request body (for POST, PUT and PATCH)
-                reqBody = RequestBody.create("", MediaType.parse(contentType));
+                reqBody = RequestBody.create("", contentType == null ? null : MediaType.parse(contentType));
             }
         } else {
             reqBody = serialize(body, contentType);

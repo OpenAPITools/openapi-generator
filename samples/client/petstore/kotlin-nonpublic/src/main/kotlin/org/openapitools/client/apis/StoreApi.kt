@@ -21,6 +21,7 @@
 package org.openapitools.client.apis
 
 import java.io.IOException
+import okhttp3.OkHttpClient
 
 import org.openapitools.client.models.Order
 
@@ -33,13 +34,14 @@ import org.openapitools.client.infrastructure.ClientError
 import org.openapitools.client.infrastructure.ServerException
 import org.openapitools.client.infrastructure.ServerError
 import org.openapitools.client.infrastructure.MultiValueMap
+import org.openapitools.client.infrastructure.PartConfig
 import org.openapitools.client.infrastructure.RequestConfig
 import org.openapitools.client.infrastructure.RequestMethod
 import org.openapitools.client.infrastructure.ResponseType
 import org.openapitools.client.infrastructure.Success
 import org.openapitools.client.infrastructure.toMultiValue
 
-internal class StoreApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
+internal class StoreApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = ApiClient.defaultClient) : ApiClient(basePath, client) {
     companion object {
         @JvmStatic
         val defaultBasePath: String by lazy {
@@ -48,16 +50,16 @@ internal class StoreApi(basePath: kotlin.String = defaultBasePath) : ApiClient(b
     }
 
     /**
-    * Delete purchase order by ID
-    * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
-    * @param orderId ID of the order that needs to be deleted 
-    * @return void
-    * @throws IllegalStateException If the request is not correctly configured
-    * @throws IOException Rethrows the OkHttp execute method exception
-    * @throws UnsupportedOperationException If the API returns an informational or redirection response
-    * @throws ClientException If the API returns a client error response
-    * @throws ServerException If the API returns a server error response
-    */
+     * Delete purchase order by ID
+     * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+     * @param orderId ID of the order that needs to be deleted
+     * @return void
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun deleteOrder(orderId: kotlin.String) : Unit {
         val localVarResponse = deleteOrderWithHttpInfo(orderId = orderId)
@@ -78,13 +80,13 @@ internal class StoreApi(basePath: kotlin.String = defaultBasePath) : ApiClient(b
     }
 
     /**
-    * Delete purchase order by ID
-    * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
-    * @param orderId ID of the order that needs to be deleted 
-    * @return ApiResponse<Unit?>
-    * @throws IllegalStateException If the request is not correctly configured
-    * @throws IOException Rethrows the OkHttp execute method exception
-    */
+     * Delete purchase order by ID
+     * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+     * @param orderId ID of the order that needs to be deleted
+     * @return ApiResponse<Unit?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
     @Throws(IllegalStateException::class, IOException::class)
     fun deleteOrderWithHttpInfo(orderId: kotlin.String) : ApiResponse<Unit?> {
         val localVariableConfig = deleteOrderRequestConfig(orderId = orderId)
@@ -95,11 +97,11 @@ internal class StoreApi(basePath: kotlin.String = defaultBasePath) : ApiClient(b
     }
 
     /**
-    * To obtain the request config of the operation deleteOrder
-    *
-    * @param orderId ID of the order that needs to be deleted 
-    * @return RequestConfig
-    */
+     * To obtain the request config of the operation deleteOrder
+     *
+     * @param orderId ID of the order that needs to be deleted
+     * @return RequestConfig
+     */
     fun deleteOrderRequestConfig(orderId: kotlin.String) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
@@ -115,15 +117,15 @@ internal class StoreApi(basePath: kotlin.String = defaultBasePath) : ApiClient(b
     }
 
     /**
-    * Returns pet inventories by status
-    * Returns a map of status codes to quantities
-    * @return kotlin.collections.Map<kotlin.String, kotlin.Int>
-    * @throws IllegalStateException If the request is not correctly configured
-    * @throws IOException Rethrows the OkHttp execute method exception
-    * @throws UnsupportedOperationException If the API returns an informational or redirection response
-    * @throws ClientException If the API returns a client error response
-    * @throws ServerException If the API returns a server error response
-    */
+     * Returns pet inventories by status
+     * Returns a map of status codes to quantities
+     * @return kotlin.collections.Map<kotlin.String, kotlin.Int>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun getInventory() : kotlin.collections.Map<kotlin.String, kotlin.Int> {
@@ -145,12 +147,12 @@ internal class StoreApi(basePath: kotlin.String = defaultBasePath) : ApiClient(b
     }
 
     /**
-    * Returns pet inventories by status
-    * Returns a map of status codes to quantities
-    * @return ApiResponse<kotlin.collections.Map<kotlin.String, kotlin.Int>?>
-    * @throws IllegalStateException If the request is not correctly configured
-    * @throws IOException Rethrows the OkHttp execute method exception
-    */
+     * Returns pet inventories by status
+     * Returns a map of status codes to quantities
+     * @return ApiResponse<kotlin.collections.Map<kotlin.String, kotlin.Int>?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
     fun getInventoryWithHttpInfo() : ApiResponse<kotlin.collections.Map<kotlin.String, kotlin.Int>?> {
@@ -162,10 +164,10 @@ internal class StoreApi(basePath: kotlin.String = defaultBasePath) : ApiClient(b
     }
 
     /**
-    * To obtain the request config of the operation getInventory
-    *
-    * @return RequestConfig
-    */
+     * To obtain the request config of the operation getInventory
+     *
+     * @return RequestConfig
+     */
     fun getInventoryRequestConfig() : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
@@ -182,16 +184,16 @@ internal class StoreApi(basePath: kotlin.String = defaultBasePath) : ApiClient(b
     }
 
     /**
-    * Find purchase order by ID
-    * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
-    * @param orderId ID of pet that needs to be fetched 
-    * @return Order
-    * @throws IllegalStateException If the request is not correctly configured
-    * @throws IOException Rethrows the OkHttp execute method exception
-    * @throws UnsupportedOperationException If the API returns an informational or redirection response
-    * @throws ClientException If the API returns a client error response
-    * @throws ServerException If the API returns a server error response
-    */
+     * Find purchase order by ID
+     * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+     * @param orderId ID of pet that needs to be fetched
+     * @return Order
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun getOrderById(orderId: kotlin.Long) : Order {
@@ -213,13 +215,13 @@ internal class StoreApi(basePath: kotlin.String = defaultBasePath) : ApiClient(b
     }
 
     /**
-    * Find purchase order by ID
-    * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
-    * @param orderId ID of pet that needs to be fetched 
-    * @return ApiResponse<Order?>
-    * @throws IllegalStateException If the request is not correctly configured
-    * @throws IOException Rethrows the OkHttp execute method exception
-    */
+     * Find purchase order by ID
+     * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+     * @param orderId ID of pet that needs to be fetched
+     * @return ApiResponse<Order?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
     fun getOrderByIdWithHttpInfo(orderId: kotlin.Long) : ApiResponse<Order?> {
@@ -231,11 +233,11 @@ internal class StoreApi(basePath: kotlin.String = defaultBasePath) : ApiClient(b
     }
 
     /**
-    * To obtain the request config of the operation getOrderById
-    *
-    * @param orderId ID of pet that needs to be fetched 
-    * @return RequestConfig
-    */
+     * To obtain the request config of the operation getOrderById
+     *
+     * @param orderId ID of pet that needs to be fetched
+     * @return RequestConfig
+     */
     fun getOrderByIdRequestConfig(orderId: kotlin.Long) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
@@ -252,16 +254,16 @@ internal class StoreApi(basePath: kotlin.String = defaultBasePath) : ApiClient(b
     }
 
     /**
-    * Place an order for a pet
-    * 
-    * @param body order placed for purchasing the pet 
-    * @return Order
-    * @throws IllegalStateException If the request is not correctly configured
-    * @throws IOException Rethrows the OkHttp execute method exception
-    * @throws UnsupportedOperationException If the API returns an informational or redirection response
-    * @throws ClientException If the API returns a client error response
-    * @throws ServerException If the API returns a server error response
-    */
+     * Place an order for a pet
+     * 
+     * @param body order placed for purchasing the pet
+     * @return Order
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun placeOrder(body: Order) : Order {
@@ -283,13 +285,13 @@ internal class StoreApi(basePath: kotlin.String = defaultBasePath) : ApiClient(b
     }
 
     /**
-    * Place an order for a pet
-    * 
-    * @param body order placed for purchasing the pet 
-    * @return ApiResponse<Order?>
-    * @throws IllegalStateException If the request is not correctly configured
-    * @throws IOException Rethrows the OkHttp execute method exception
-    */
+     * Place an order for a pet
+     * 
+     * @param body order placed for purchasing the pet
+     * @return ApiResponse<Order?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
     fun placeOrderWithHttpInfo(body: Order) : ApiResponse<Order?> {
@@ -301,11 +303,11 @@ internal class StoreApi(basePath: kotlin.String = defaultBasePath) : ApiClient(b
     }
 
     /**
-    * To obtain the request config of the operation placeOrder
-    *
-    * @param body order placed for purchasing the pet 
-    * @return RequestConfig
-    */
+     * To obtain the request config of the operation placeOrder
+     *
+     * @param body order placed for purchasing the pet
+     * @return RequestConfig
+     */
     fun placeOrderRequestConfig(body: Order) : RequestConfig<Order> {
         val localVariableBody = body
         val localVariableQuery: MultiValueMap = mutableMapOf()

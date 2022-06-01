@@ -42,12 +42,12 @@ class FileSchemaTestClass {
   String toString() => 'FileSchemaTestClass[file=$file, files=$files]';
 
   Map<String, dynamic> toJson() {
-    final json = <String, dynamic>{};
+    final _json = <String, dynamic>{};
     if (file != null) {
-      json[r'file'] = file;
+      _json[r'file'] = file;
     }
-      json[r'files'] = files;
-    return json;
+      _json[r'files'] = files;
+    return _json;
   }
 
   /// Returns a new [FileSchemaTestClass] instance and imports its values from

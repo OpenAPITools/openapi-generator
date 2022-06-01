@@ -21,6 +21,9 @@
 #' @export
 {{classname}} <- R6::R6Class(
   '{{classname}}',
+  {{#parent}}
+  inherit = {{{.}}},
+  {{/parent}}
   public = list(
     {{#vars}}
     `{{{baseName}}}` = NULL,

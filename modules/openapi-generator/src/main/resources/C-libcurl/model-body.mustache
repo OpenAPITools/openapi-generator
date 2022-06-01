@@ -336,8 +336,20 @@ cJSON *{{classname}}_convertToJSON({{classname}}_t *{{classname}}) {
         goto fail;
     }
     {{/isEnum}}
+    {{#isEnum}}
+    if ({{projectName}}_{{classVarName}}_{{enumName}}_NULL == {{{classname}}}->{{{name}}}) {
+        goto fail;
+    }
+    {{/isEnum}}
     {{/required}}
-    {{^required}}{{^isEnum}}if({{{classname}}}->{{{name}}}) { {{/isEnum}}{{/required}}
+    {{^required}}
+    {{^isEnum}}
+    if({{{classname}}}->{{{name}}}) {
+    {{/isEnum}}
+    {{#isEnum}}
+    if({{{classname}}}->{{{name}}} != {{projectName}}_{{classVarName}}_{{enumName}}_NULL) {
+    {{/isEnum}}
+    {{/required}}
     {{^isContainer}}
     {{#isPrimitiveType}}
     {{#isNumeric}}
@@ -536,7 +548,7 @@ cJSON *{{classname}}_convertToJSON({{classname}}_t *{{classname}}) {
     {{/isMap}}
     {{/isContainer}}
     {{^required}}
-    {{^isEnum}} } {{/isEnum}}
+    }
     {{/required}}
 
     {{/vars}}
@@ -553,6 +565,18 @@ fail:
     {{classname}}_t *{{classname}}_local_var = NULL;
 
     {{#vars}}
+    {{#isContainer}}
+    {{#isArray}}
+    // define the local list for {{{classname}}}->{{{name}}}
+    list_t *{{{name}}}List = NULL;
+
+    {{/isArray}}
+    {{#isMap}}
+    // define the local map for {{{classname}}}->{{{name}}}
+    list_t *{{{name}}}List = NULL;
+
+    {{/isMap}}
+    {{/isContainer}}
     {{^isContainer}}
     {{^isPrimitiveType}}
     {{#isModel}}
@@ -693,9 +717,8 @@ fail:
     {{#isContainer}}
     {{#isArray}}
     {{#isPrimitiveType}}
-    list_t *{{{name}}}List;
     {{^required}}if ({{{name}}}) { {{/required}}
-    cJSON *{{{name}}}_local;
+    cJSON *{{{name}}}_local = NULL;
     if(!cJSON_IsArray({{{name}}})) {
         goto end;//primitive container
     }
@@ -735,9 +758,8 @@ fail:
     }
     {{/isPrimitiveType}}
     {{^isPrimitiveType}}
-    list_t *{{{name}}}List;
     {{^required}}if ({{{name}}}) { {{/required}}
-    cJSON *{{{name}}}_local_nonprimitive;
+    cJSON *{{{name}}}_local_nonprimitive = NULL;
     if(!cJSON_IsArray({{{name}}})){
         goto end; //nonprimitive container
     }
@@ -756,9 +778,9 @@ fail:
     {{/isPrimitiveType}}
     {{/isArray}}
     {{#isMap}}
-    list_t *{{{name}}}List;
     {{^required}}if ({{{name}}}) { {{/required}}
-    cJSON *{{{name}}}_local_map;
+    {{#isPrimitiveType}}
+    cJSON *{{{name}}}_local_map = NULL;
     if(!cJSON_IsObject({{{name}}})) {
         goto end;//primitive map container
     }
@@ -799,6 +821,12 @@ fail:
 		{{/items}}
         list_addElement({{{name}}}List , localMapKeyPair);
     }
+    {{/isPrimitiveType}}
+    {{^isPrimitiveType}}
+
+    // The data type of the elements in {{{classname}}}->{{{name}}} is currently not supported.
+
+    {{/isPrimitiveType}}
     {{/isMap}}
     {{/isContainer}}
     {{^required}}
@@ -903,6 +931,74 @@ end:
     {{/isFreeFormObject}}
     {{/isModel}}
     {{/isPrimitiveType}}
+    {{/isContainer}}
+    {{#isContainer}}
+    {{#isArray}}
+    {{#isPrimitiveType}}
+    if ({{{name}}}List) {
+        {{#items}}
+        {{#isString}}
+        listEntry_t *listEntry = NULL;
+        list_ForEach(listEntry, {{{name}}}List) {
+            free(listEntry->data);
+            listEntry->data = NULL;
+        }
+        {{/isString}}
+        {{#isNumeric}}
+        listEntry_t *listEntry = NULL;
+        list_ForEach(listEntry, {{{name}}}List) {
+            free(listEntry->data);
+            listEntry->data = NULL;
+        }
+        {{/isNumeric}}
+        {{/items}}
+        list_freeList({{{name}}}List);
+        {{{name}}}List = NULL;
+    }
+    {{/isPrimitiveType}}
+    {{^isPrimitiveType}}
+    if ({{{name}}}List) {
+        listEntry_t *listEntry = NULL;
+        list_ForEach(listEntry, {{{name}}}List) {
+            {{complexType}}_free(listEntry->data);
+            listEntry->data = NULL;
+        }
+        list_freeList({{{name}}}List);
+        {{{name}}}List = NULL;
+    }
+    {{/isPrimitiveType}}
+    {{/isArray}}
+    {{#isMap}}
+    {{#isPrimitiveType}}
+    if ({{{name}}}List) {
+        listEntry_t *listEntry = NULL;
+        list_ForEach(listEntry, {{{name}}}List) {
+            keyValuePair_t *localKeyValue = (keyValuePair_t*) listEntry->data;
+            free(localKeyValue->key);
+            localKeyValue->key = NULL;
+            {{#items}}
+            {{#isString}}
+            free(localKeyValue->value);
+            localKeyValue->value = NULL;
+            {{/isString}}
+            {{#isByteArray}}
+            free(localKeyValue->value);
+            localKeyValue->value = NULL;
+            {{/isByteArray}}
+            {{/items}}
+            keyValuePair_free(localKeyValue);
+            localKeyValue = NULL;
+        }
+        list_freeList({{{name}}}List);
+        {{{name}}}List = NULL;
+    }
+    {{/isPrimitiveType}}
+    {{^isPrimitiveType}}
+
+    // The data type of the elements in {{{classname}}}->{{{name}}} is currently not supported.
+
+    {{/isPrimitiveType}}
+    {{/isMap}}
     {{/isContainer}}
     {{/vars}}
     return NULL;

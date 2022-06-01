@@ -7,6 +7,7 @@ import re  # noqa: F401
 import sys  # noqa: F401
 import typing
 import urllib3
+import functools  # noqa: F401
 {{#with operation}}
 {{#or headerParams bodyParam produces}}
 from urllib3._collections import HTTPHeaderDict
@@ -182,8 +183,8 @@ class RequestCookieParams(RequestRequiredCookieParams, RequestOptionalCookiePara
 request_body_{{paramName}} = api_client.RequestBody(
     content={
 {{#each content}}
-        '{{@key}}': api_client.MediaType(
-            schema={{this.schema.baseName}}),
+        '{{{@key}}}': api_client.MediaType({{#if this.schema}}
+            schema={{this.schema.baseName}}{{/if}}),
 {{/each}}
     },
 {{#if required}}
@@ -208,13 +209,13 @@ _servers = (
 {{/if}}
     {
         'url': "{{{url}}}",
-        'description': "{{{description}}}{{#unless description}}No description provided{{/unless}}",
+        'description': "{{#unless description}}No description provided{{else}}{{{description}}}{{/unless}}",
         {{#each variables}}
         {{#if @first}}
         'variables': {
         {{/if}}
             '{{{name}}}': {
-                'description': "{{{description}}}{{#unless description}}No description provided{{/unless}}",
+                'description': "{{#unless description}}No description provided{{else}}{{{description}}}{{/unless}}",
                 'default_value': "{{{defaultValue}}}",
                 {{#each enumValues}}
                 {{#if @first}}
@@ -285,7 +286,11 @@ class ApiResponseFor{{code}}(api_client.ApiResponse):
 {{#and responseHeaders content}}
     body: typing.Union[
 {{#each content}}
+{{#if this.schema}}
         {{this.schema.baseName}},
+{{else}}
+        Unset,
+{{/if}}
 {{/each}}
     ]
     headers: ResponseHeadersFor{{code}}
@@ -297,7 +302,11 @@ class ApiResponseFor{{code}}(api_client.ApiResponse):
 {{else}}
     body: typing.Union[
 {{#each content}}
+{{#if this.schema}}
         {{this.schema.baseName}},
+{{else}}
+        Unset,
+{{/if}}
 {{/each}}
     ]
     headers: Unset = unset
@@ -323,8 +332,8 @@ _response_for_{{code}} = api_client.OpenApiResponse(
 {{#if @first}}
     content={
 {{/if}}
-        '{{@key}}': api_client.MediaType(
-            schema={{this.schema.baseName}}),
+        '{{{@key}}}': api_client.MediaType({{#if this.schema}}
+            schema={{this.schema.baseName}}{{/if}}),
 {{#if @last}}
     },
 {{/if}}
@@ -351,7 +360,7 @@ _status_code_to_response = {
 {{#if @first}}
 _all_accept_content_types = (
 {{/if}}
-    '{{this.mediaType}}',
+    '{{{this.mediaType}}}',
 {{#if @last}}
 )
 {{/if}}
@@ -382,7 +391,7 @@ class {{operationIdCamelCase}}(api_client.Api):
     {{#with bodyParam}}
     {{#each content}}
     {{#if @first}}
-        content_type: str = '{{@key}}',
+        content_type: str = '{{{@key}}}',
     {{/if}}
     {{/each}}
     {{/with}}

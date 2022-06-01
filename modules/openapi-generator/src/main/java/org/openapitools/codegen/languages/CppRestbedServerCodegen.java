@@ -22,6 +22,10 @@ import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 
 import java.io.File;
@@ -122,7 +126,7 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
     }
 
     @Override
-    public Map<String, Object> updateAllModels(Map<String, Object> objs) {
+    public Map<String, ModelsMap> updateAllModels(Map<String, ModelsMap> objs) {
         // Index all CodegenModels by model name.
         Map<String, CodegenModel> allModels = getAllModels(objs);
 
@@ -280,11 +284,10 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
         return toApiName(name);
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
-        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
-        List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        OperationMap operations = objs.getOperations();
+        List<CodegenOperation> operationList = operations.getOperation();
         List<CodegenOperation> newOpList = new ArrayList<>();
 
         for (CodegenOperation op : operationList) {
@@ -316,6 +319,7 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
                     if (op1.path.equals(op.path)) {
                         foundInNewList = true;
                         final String X_CODEGEN_OTHER_METHODS = "x-codegen-other-methods";
+                        @SuppressWarnings("unchecked")
                         List<CodegenOperation> currentOtherMethodList = (List<CodegenOperation>) op1.vendorExtensions.get(X_CODEGEN_OTHER_METHODS);
                         if (currentOtherMethodList == null) {
                             currentOtherMethodList = new ArrayList<>();
@@ -330,7 +334,7 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
                 newOpList.add(op);
             }
         }
-        operations.put("operation", newOpList);
+        operations.setOperation(newOpList);
         return objs;
     }
 
