@@ -42,7 +42,7 @@
         <repository>
             <id>repository.spring.milestone</id>
             <name>Spring Milestone Repository</name>
-            <url>http://repo.spring.io/milestone</url>
+            <url>https://repo.spring.io/milestone</url>
         </repository>
     </repositories>
 
@@ -53,6 +53,8 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <!-- the maven plugin doesn't necessarily match the parent if using a milestone release. -->
+                <version>2.7.0</version>
                 {{#classifier}}
                 <configuration>
                   <classifier>{{{classifier}}}</classifier>
