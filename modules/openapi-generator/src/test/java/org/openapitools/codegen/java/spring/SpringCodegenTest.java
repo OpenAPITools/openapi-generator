@@ -1402,5 +1402,5 @@ public class SpringCodegenTest {
         JavaFileAssert.assertThat(files.get("ChildClass.java"))
             .assertMethod("putSomeMapItem")
             .bodyContainsLines("super.putSomeMapItem(key, someMapItem);");
-	}
+    }
 }
