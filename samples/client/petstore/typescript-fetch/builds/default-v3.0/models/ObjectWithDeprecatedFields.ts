@@ -55,6 +55,15 @@ export interface ObjectWithDeprecatedFields {
     bars?: Array<string>;
 }
 
+/**
+ * Check if a given object implements the ObjectWithDeprecatedFields interface.
+ */
+export function instanceOfObjectWithDeprecatedFields(value: object): boolean {
+    let isInstance = true;
+
+    return isInstance;
+}
+
 export function ObjectWithDeprecatedFieldsFromJSON(json: any): ObjectWithDeprecatedFields {
     return ObjectWithDeprecatedFieldsFromJSONTyped(json, false);
 }

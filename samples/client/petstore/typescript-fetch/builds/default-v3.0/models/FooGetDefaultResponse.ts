@@ -34,6 +34,15 @@ export interface FooGetDefaultResponse {
     string?: Foo;
 }
 
+/**
+ * Check if a given object implements the FooGetDefaultResponse interface.
+ */
+export function instanceOfFooGetDefaultResponse(value: object): boolean {
+    let isInstance = true;
+
+    return isInstance;
+}
+
 export function FooGetDefaultResponseFromJSON(json: any): FooGetDefaultResponse {
     return FooGetDefaultResponseFromJSONTyped(json, false);
 }

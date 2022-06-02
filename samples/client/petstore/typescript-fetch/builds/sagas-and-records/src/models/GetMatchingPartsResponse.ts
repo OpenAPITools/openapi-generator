@@ -46,6 +46,16 @@ export interface GetMatchingPartsResponse {
     data?: MatchingParts;
 }
 
+/**
+ * Check if a given object implements the GetMatchingPartsResponse interface.
+ */
+export function instanceOfGetMatchingPartsResponse(value: object): boolean {
+    let isInstance = true;
+    isInstance = isInstance && "meta" in value;
+
+    return isInstance;
+}
+
 export function GetMatchingPartsResponseFromJSON(json: any): GetMatchingPartsResponse {
     return GetMatchingPartsResponseFromJSONTyped(json, false);
 }
