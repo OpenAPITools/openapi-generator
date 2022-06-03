@@ -564,4 +564,8 @@
   image: "img/companies/outscale.png"
   infoLink: "https://www.outscale.com/"
   pinned: false
-
+-
+  caption: Gradle Enterprise
+  image: "img/companies/gradle-enterprise.png"
+  infoLink: "https://gradle.com/"
+  pinned: false
