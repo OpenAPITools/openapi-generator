@@ -225,7 +225,7 @@ import com.squareup.moshi.adapter
                     inputStream.copyTo(tempFileOutputStream)
                 }
             }
-            return f as T
+            return tempFile as T
         }
         val bodyContent = body.string()
         if (bodyContent.isEmpty()) {
