@@ -84,6 +84,25 @@ public class MixedPropertiesAndAdditionalPropertiesClass  {
   }
 
 
+    @Override
+    public boolean equals(Object o) {
+      if (this == o) {
+        return true;
+      }
+      if (o == null || getClass() != o.getClass()) {
+        return false;
+      }
+      MixedPropertiesAndAdditionalPropertiesClass mixedPropertiesAndAdditionalPropertiesClass = (MixedPropertiesAndAdditionalPropertiesClass) o;
+      return Objects.equals(uuid, mixedPropertiesAndAdditionalPropertiesClass.uuid) &&
+          Objects.equals(dateTime, mixedPropertiesAndAdditionalPropertiesClass.dateTime) &&
+          Objects.equals(map, mixedPropertiesAndAdditionalPropertiesClass.map);
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hash(uuid, dateTime, map);
+    }
+
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
