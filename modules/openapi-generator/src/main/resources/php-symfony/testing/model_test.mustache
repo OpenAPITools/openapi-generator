@@ -67,7 +67,7 @@ class {{classname}}Test extends TestCase
     /**
      * Test "{{classname}}"
      */
-    public function test{{classname}}()
+    public function test{{classname}}(): void
     {
         $test{{classname}} = new {{classname}}();
     }
@@ -76,7 +76,7 @@ class {{classname}}Test extends TestCase
     /**
      * Test attribute "{{name}}"
      */
-    public function testProperty{{nameInCamelCase}}()
+    public function testProperty{{nameInCamelCase}}(): void
     {
     }
 {{/vars}}

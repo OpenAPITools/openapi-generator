@@ -54,7 +54,7 @@ class ControllerTest extends TestCase
      * @covers ::isContentTypeAllowed
      * @dataProvider provideArgumentsForIsContentTypeAllowed
      */
-    public function testIsContentTypeAllowed($contentType, array $consumes, $expectedReturn)
+    public function testIsContentTypeAllowed(string $contentType, array $consumes, bool $expectedReturn): void
     {
         $request = new Request();
         $request->headers->set('CONTENT_TYPE', $contentType, true);// last one argument overrides header
@@ -70,7 +70,7 @@ class ControllerTest extends TestCase
         );
     }
 
-    public function provideArgumentsForIsContentTypeAllowed()
+    public function provideArgumentsForIsContentTypeAllowed(): array
     {
         return [
             'usual JSON content type' => [
