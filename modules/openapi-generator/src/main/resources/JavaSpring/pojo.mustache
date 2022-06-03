@@ -181,7 +181,7 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
   {{#isMap}}
 
   public {{classname}} put{{nameInCamelCase}}Item(String key, {{{items.datatypeWithEnum}}} {{name}}Item) {
-    super.put{{nameInCamelCase}}Item({{name}}Item);
+    super.put{{nameInCamelCase}}Item(key, {{name}}Item);
     return this;
   }
   {{/isMap}}

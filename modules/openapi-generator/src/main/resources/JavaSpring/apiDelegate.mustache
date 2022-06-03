@@ -20,7 +20,12 @@ import java.util.Optional;
 {{#async}}
 import java.util.concurrent.CompletableFuture;
 {{/async}}
+{{#useJakartaEe}}
+import jakarta.annotation.Generated;
+{{/useJakartaEe}}
+{{^useJakartaEe}}
 import javax.annotation.Generated;
+{{/useJakartaEe}}
 
 {{#operations}}
 /**

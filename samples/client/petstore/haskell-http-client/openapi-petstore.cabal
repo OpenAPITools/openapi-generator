@@ -35,7 +35,7 @@ library
       lib
   ghc-options: -Wall -funbox-strict-fields
   build-depends:
-      aeson >=2.0 && <3.0
+      aeson >=1.0 && <3.0
     , base >=4.7 && <5.0
     , base64-bytestring >1.0 && <2.0
     , bytestring >=0.10.0

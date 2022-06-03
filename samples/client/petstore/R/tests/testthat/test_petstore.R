@@ -100,6 +100,25 @@ test_that("GetPetById with data_file", {
   expect_equal(response$name, "name_test")
 })
 
+test_that("Tests allOf", {
+  # test allOf without discriminator
+  a1 <- AllofTagApiResponse$new(id = 450, name = "test_cat", code = 200, type = "test_type", message = "test_message")
+  
+  expect_true(!is.null(a1))
+  expect_equal(a1$id, 450)
+  expect_equal(a1$name, "test_cat")
+})
+
+test_that("Tests allOf with discriminator", {
+  # test allOf without discriminator
+  c1 <- Cat$new(className = "cat", color = "red", declawed = TRUE)
+  
+  expect_true(!is.null(c1))
+  expect_equal(c1$className, "cat")
+  expect_equal(c1$color, "red")
+  expect_true(c1$declawed)
+})
+
 #test_that("GetPetById", {
 #  pet.id <- pet.id
 #  pet <- Pet$new(pet.id, NULL, "name_test2",

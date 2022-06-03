@@ -186,7 +186,7 @@ uuidGet value_query =
         "GET"
         "/uuid"
         []
-        [ ( "value", Maybe.map identityUuid.toString value_query ) ]
+        [ ( "value", Maybe.map Uuid.toString value_query ) ]
         []
         Nothing
         Uuid.decoder

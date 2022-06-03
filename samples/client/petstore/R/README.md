@@ -81,7 +81,13 @@ Class | Method | HTTP request | Description
 
 ## Documentation for Models
 
+ - [AllofTagApiResponse](docs/AllofTagApiResponse.md)
+ - [Animal](docs/Animal.md)
+ - [Cat](docs/Cat.md)
+ - [CatAllOf](docs/CatAllOf.md)
  - [Category](docs/Category.md)
+ - [Dog](docs/Dog.md)
+ - [DogAllOf](docs/DogAllOf.md)
  - [ModelApiResponse](docs/ModelApiResponse.md)
  - [Order](docs/Order.md)
  - [Pet](docs/Pet.md)

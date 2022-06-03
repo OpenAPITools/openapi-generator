@@ -1,3 +1,4 @@
+{-# LANGUAGE CPP #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports -fno-warn-unused-matches #-}
 
 module Instances where
@@ -52,9 +53,12 @@ instance Arbitrary Date where
     arbitrary = Date <$> arbitrary
     shrink (Date xs) = Date <$> shrink xs
 
+#if MIN_VERSION_aeson(2,0,0)
+#else
 -- | A naive Arbitrary instance for A.Value:
--- instance Arbitrary A.Value where
---   arbitrary = arbitraryValue
+instance Arbitrary A.Value where
+  arbitrary = arbitraryValue
+#endif
 
 arbitraryValue :: Gen A.Value
 arbitraryValue =
