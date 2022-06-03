@@ -52,7 +52,7 @@ This returns an ApiResponse object which contains the response data, status code
 ```csharp
 try
 {
-    ApiResponse<InlineResponseDefault> response = apiInstance.FooGetWithHttpInfo();
+    ApiResponse<FooGetDefaultResponse> response = apiInstance.FooGetWithHttpInfo();
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
     Debug.Write("Response Body: " + response.Data);

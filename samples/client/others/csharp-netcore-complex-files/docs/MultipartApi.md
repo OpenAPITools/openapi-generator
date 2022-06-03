@@ -155,7 +155,6 @@ catch (ApiException e)
 
 ### Parameters
 
-
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
 | **status** | **MultipartMixedStatus** |  |  |
