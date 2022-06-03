@@ -1,7 +1,7 @@
 <?php
 /**
  * {{classname}}Test
- * PHP version 7.1.3
+ * PHP version 8.1.1
  *
  * @category Class
  * @package  {{apiTestsPackage}}
@@ -22,6 +22,7 @@ use {{invokerPackage}}\Configuration;
 use {{invokerPackage}}\ApiClient;
 use {{invokerPackage}}\ApiException;
 use {{invokerPackage}}\ObjectSerializer;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
@@ -34,32 +35,37 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  */
 {{#operations}}class {{classname}}Test extends WebTestCase
 {
+    private static ?KernelBrowser $client = null;
 
     /**
      * Setup before running any test cases
      */
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
     }
 
     /**
      * Setup before running each test case
      */
-    public function setUp()
+    public function setUp(): void
     {
+        if (null === self::$client) {
+            self::$client = static::createClient();
+        }
     }
 
     /**
      * Clean up after running each test case
      */
-    public function tearDown()
+    public function tearDown(): void
     {
+        static::ensureKernelShutdown();
     }
 
     /**
      * Clean up after running all test cases
      */
-    public static function tearDownAfterClass()
+    public static function tearDownAfterClass(): void
     {
     }
     {{#operation}}
@@ -72,7 +78,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
      */
     public function test{{operationIdCamelCase}}()
     {
-        $client = static::createClient();
+        $client = self::$client;
 
         $path = '{{path}}';
         {{#pathParams}}
