@@ -14,8 +14,8 @@
 
 
 import * as runtime from '../runtime';
-import {
-    User,
+import type {
+  User,
 } from '../models';
 
 export interface CreateUserRequest {

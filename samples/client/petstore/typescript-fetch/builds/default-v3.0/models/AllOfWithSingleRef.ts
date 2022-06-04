@@ -13,8 +13,8 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import type { SingleRefType } from './SingleRefType';
 import {
-    SingleRefType,
     SingleRefTypeFromJSON,
     SingleRefTypeFromJSONTyped,
     SingleRefTypeToJSON,

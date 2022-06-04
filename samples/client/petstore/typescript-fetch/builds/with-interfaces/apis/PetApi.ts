@@ -14,11 +14,13 @@
 
 
 import * as runtime from '../runtime';
+import type {
+  ModelApiResponse,
+  Pet,
+} from '../models';
 import {
-    ModelApiResponse,
     ModelApiResponseFromJSON,
     ModelApiResponseToJSON,
-    Pet,
     PetFromJSON,
     PetToJSON,
 } from '../models';

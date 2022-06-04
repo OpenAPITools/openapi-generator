@@ -14,11 +14,13 @@
 
 
 import * as runtime from '../runtime';
+import type {
+  GetMatchingPartsResponse,
+  GetPetPartTypeResponse,
+} from '../models';
 import {
-    GetMatchingPartsResponse,
     GetMatchingPartsResponseFromJSON,
     GetMatchingPartsResponseToJSON,
-    GetPetPartTypeResponse,
     GetPetPartTypeResponseFromJSON,
     GetPetPartTypeResponseToJSON,
 } from '../models';

@@ -13,8 +13,8 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import type { Decimal } from './Decimal';
 import {
-    Decimal,
     DecimalFromJSON,
     DecimalFromJSONTyped,
     DecimalToJSON,

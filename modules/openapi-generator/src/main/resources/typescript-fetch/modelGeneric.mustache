@@ -1,8 +1,8 @@
 import { exists, mapValues } from '../runtime';
 {{#hasImports}}
 {{#imports}}
+import type { {{{.}}} } from './{{.}}';
 import {
-    {{{.}}},
     {{.}}FromJSON,
     {{.}}FromJSONTyped,
     {{.}}ToJSON,

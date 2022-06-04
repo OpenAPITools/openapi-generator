@@ -14,29 +14,31 @@
 
 
 import * as runtime from '../runtime';
+import type {
+  Client,
+  EnumClass,
+  FileSchemaTestClass,
+  HealthCheckResult,
+  OuterComposite,
+  OuterObjectWithEnumProperty,
+  Pet,
+  User,
+} from '../models';
 import {
-    Client,
     ClientFromJSON,
     ClientToJSON,
-    EnumClass,
     EnumClassFromJSON,
     EnumClassToJSON,
-    FileSchemaTestClass,
     FileSchemaTestClassFromJSON,
     FileSchemaTestClassToJSON,
-    HealthCheckResult,
     HealthCheckResultFromJSON,
     HealthCheckResultToJSON,
-    OuterComposite,
     OuterCompositeFromJSON,
     OuterCompositeToJSON,
-    OuterObjectWithEnumProperty,
     OuterObjectWithEnumPropertyFromJSON,
     OuterObjectWithEnumPropertyToJSON,
-    Pet,
     PetFromJSON,
     PetToJSON,
-    User,
     UserFromJSON,
     UserToJSON,
 } from '../models';

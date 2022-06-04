@@ -14,8 +14,10 @@
 
 
 import * as runtime from '../runtime';
+import type {
+  Order,
+} from '../models';
 import {
-    Order,
     OrderFromJSON,
     OrderToJSON,
 } from '../models';

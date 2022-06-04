@@ -13,14 +13,14 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import type { NumberEnum } from './NumberEnum';
 import {
-    NumberEnum,
     NumberEnumFromJSON,
     NumberEnumFromJSONTyped,
     NumberEnumToJSON,
 } from './NumberEnum';
+import type { StringEnum } from './StringEnum';
 import {
-    StringEnum,
     StringEnumFromJSON,
     StringEnumFromJSONTyped,
     StringEnumToJSON,

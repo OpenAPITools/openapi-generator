@@ -14,8 +14,10 @@
 
 
 import * as runtime from '../runtime';
+import type {
+  User,
+} from '../models';
 import {
-    User,
     UserFromJSON,
     UserToJSON,
 } from '../models';
