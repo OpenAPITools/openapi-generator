@@ -119,16 +119,20 @@ open class ApiClient(val baseUrl: String, val client: OkHttpClient = defaultClie
             return null
         }
         if (T::class.java == File::class.java) {
-            // return tempfile
-            val f = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            // return tempFile
+            val tempFile = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 java.nio.file.Files.createTempFile("tmp.net.medicineone.teleconsultationandroid.openapi.openapicommon", null).toFile()
             } else {
                 @Suppress("DEPRECATION")
                 createTempFile("tmp.net.medicineone.teleconsultationandroid.openapi.openapicommon", null)
             }
-            f.deleteOnExit()
-            body.byteStream().use { java.nio.file.Files.copy(it, f.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING) }
-            return f as T
+            tempFile.deleteOnExit()
+            body.byteStream().use { inputStream ->
+                tempFile.outputStream().use { tempFileOutputStream ->
+                    inputStream.copyTo(tempFileOutputStream)
+                }
+            }
+            return tempFile as T
         }
         val bodyContent = body.string()
         if (bodyContent.isEmpty()) {
