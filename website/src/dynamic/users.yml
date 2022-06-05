@@ -224,6 +224,11 @@
   infoLink: "https://www.godaddy.com/"
   pinned: false
 -
+  caption: Gradle Enterprise
+  image: "img/companies/gradle-enterprise.png"
+  infoLink: "https://gradle.com/"
+  pinned: false
+-
   caption: "Gumtree"
   image: "img/companies/gumtree.png"
   infoLink: "https://gumtree.com/"
@@ -387,6 +392,11 @@
   caption: Puppet
   image: "img/companies/puppet.svg"
   infoLink: "https://www.puppet.com"
+  pinned: false
+-
+  caption: Qovery
+  image: "img/companies/qovery.png"
+  infoLink: "https://www.qovery.com"
   pinned: false
 -
   caption: "Qulix Systems"
@@ -563,9 +573,4 @@
   caption: 3DS OUTSCALE
   image: "img/companies/outscale.png"
   infoLink: "https://www.outscale.com/"
-  pinned: false
--
-  caption: Gradle Enterprise
-  image: "img/companies/gradle-enterprise.png"
-  infoLink: "https://gradle.com/"
   pinned: false
