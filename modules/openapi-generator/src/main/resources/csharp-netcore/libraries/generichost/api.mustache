@@ -406,7 +406,7 @@ namespace {{packageName}}.{{apiPackage}}
                     string{{nrt?}} contentType = ClientUtils.SelectHeaderContentType(contentTypes);
 
                     if (contentType != null)
-                        request.Content.Headers.Add("ContentType", contentType);{{/-first}}{{/consumes}}{{#produces}}{{#-first}}
+                        request.Content.Headers.ContentType = new MediaTypeHeaderValue(contentType);{{/-first}}{{/consumes}}{{#produces}}{{#-first}}
 
                     string[] accepts = new string[] { {{/-first}}{{/produces}}
                         {{#produces}}"{{{mediaType}}}"{{^-last}}, 
