@@ -289,8 +289,13 @@ namespace {{packageName}}.{{apiPackage}}
                     uriBuilder.Path = uriBuilder.Path.Replace("%7B{{baseName}}%7D", Uri.EscapeDataString({{paramName}}.ToString()));{{/required}}{{^required}}
                     if ({{paramName}} != null)
                         uriBuilder.Path = uriBuilder.Path + $"/{ Uri.EscapeDataString({{paramName}}).ToString()) }";
-                    {{/required}}{{/pathParams}}{{#queryParams}}{{#-first}}
+                    {{#-last}}
 
+                    {{/-last}}
+                    {{/required}}
+                    {{/pathParams}}
+                    {{#queryParams}}
+                    {{#-first}}
                     System.Collections.Specialized.NameValueCollection parseQueryString = System.Web.HttpUtility.ParseQueryString(string.Empty);{{/-first}}{{/queryParams}}{{^queryParams}}{{#authMethods}}{{#isApiKey}}{{#isKeyInQuery}}
 
                     System.Collections.Specialized.NameValueCollection parseQueryString = System.Web.HttpUtility.ParseQueryString(string.Empty);{{/isKeyInQuery}}{{/isApiKey}}{{/authMethods}}{{/queryParams}}{{#queryParams}}{{#required}}{{#-first}}
