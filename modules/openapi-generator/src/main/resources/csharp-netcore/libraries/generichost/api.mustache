@@ -269,11 +269,24 @@ namespace {{packageName}}.{{apiPackage}}
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
+                    {{^servers}}
                     uriBuilder.Host = HttpClient.BaseAddress{{nrt!}}.Host;
                     uriBuilder.Scheme = ClientUtils.SCHEME;
-                    uriBuilder.Path = ClientUtils.CONTEXT_PATH + "{{path}}";{{#pathParams}}{{#required}}
-                    uriBuilder.Path = uriBuilder.Path.Replace("%7B{{baseName}}%7D", Uri.EscapeDataString({{paramName}}.ToString()));{{/required}}{{^required}}
+                    uriBuilder.Path = ClientUtils.CONTEXT_PATH + "{{path}}";
 
+                    {{/servers}}
+                    {{#servers}}
+                    {{#-first}}
+                    var url = request.RequestUri = new Uri("{{url}}");
+                    uriBuilder.Host = url.Authority;
+                    uriBuilder.Scheme = url.Scheme;
+                    uriBuilder.Path = url.AbsolutePath;
+
+                    {{/-first}}
+                    {{/servers}}
+                    {{#pathParams}}
+                    {{#required}}
+                    uriBuilder.Path = uriBuilder.Path.Replace("%7B{{baseName}}%7D", Uri.EscapeDataString({{paramName}}.ToString()));{{/required}}{{^required}}
                     if ({{paramName}} != null)
                         uriBuilder.Path = uriBuilder.Path + $"/{ Uri.EscapeDataString({{paramName}}).ToString()) }";
                     {{/required}}{{/pathParams}}{{#queryParams}}{{#-first}}
