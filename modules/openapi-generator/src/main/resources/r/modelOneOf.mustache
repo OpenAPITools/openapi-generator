@@ -33,7 +33,7 @@
       {{{.}}}_result <- tryCatch({
           {{{.}}}$public_methods$validateJSON(input)
           {{{.}}}_instance <- {{{.}}}$new()
-          instance <- {{{.}}}_instance$fromJSONString(input)
+          instance <- {{{.}}}_instance$fromJSON(input)
           instance_type <- "{{{.}}}"
           matched_schemas <- append(matched_schemas, "{{{.}}}")
           matched <- matched + 1
@@ -58,16 +58,6 @@
         stop(paste("No match found when deserializing the payload into {{{classname}}} with oneOf schemas {{#oneOf}}{{{.}}}{{^-last}}, {{/-last}}{{/oneOf}}. Details: ", paste(error_messages, collapse = ', ')))
       }
 
-      self
-    },
-    toJSONString = function() {
-      jsoncontent <- c(
-      )
-      jsoncontent <- paste(jsoncontent, collapse = ",")
-      paste('{', jsoncontent, '}', sep = "")
-    },
-    fromJSONString = function({{classname}}Json) {
-      {{classname}}Object <- jsonlite::fromJSON({{classname}}Json)
       self
     }
   )

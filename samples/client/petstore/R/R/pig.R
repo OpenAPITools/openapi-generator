@@ -39,7 +39,7 @@ Pig <- R6::R6Class(
       BasquePig_result <- tryCatch({
           BasquePig$public_methods$validateJSON(input)
           BasquePig_instance <- BasquePig$new()
-          instance <- BasquePig_instance$fromJSONString(input)
+          instance <- BasquePig_instance$fromJSON(input)
           instance_type <- "BasquePig"
           matched_schemas <- append(matched_schemas, "BasquePig")
           matched <- matched + 1
@@ -54,7 +54,7 @@ Pig <- R6::R6Class(
       DanishPig_result <- tryCatch({
           DanishPig$public_methods$validateJSON(input)
           DanishPig_instance <- DanishPig$new()
-          instance <- DanishPig_instance$fromJSONString(input)
+          instance <- DanishPig_instance$fromJSON(input)
           instance_type <- "DanishPig"
           matched_schemas <- append(matched_schemas, "DanishPig")
           matched <- matched + 1
@@ -78,16 +78,6 @@ Pig <- R6::R6Class(
         stop(paste("No match found when deserializing the payload into Pig with oneOf schemas BasquePig, DanishPig. Details: ", paste(error_messages, collapse = ', ')))
       }
 
-      self
-    },
-    toJSONString = function() {
-      jsoncontent <- c(
-      )
-      jsoncontent <- paste(jsoncontent, collapse = ",")
-      paste('{', jsoncontent, '}', sep = "")
-    },
-    fromJSONString = function(PigJson) {
-      PigObject <- jsonlite::fromJSON(PigJson)
       self
     }
   )
