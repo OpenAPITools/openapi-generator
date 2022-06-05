@@ -18,6 +18,8 @@ Rscript -e "install.packages('base64enc', repos='$REPO', lib='$R_LIBS_USER')"
 Rscript -e "install.packages('rlang', repos='$REPO', lib='$R_LIBS_USER')"
 Rscript -e "install.packages('rjson', repos='$REPO', lib='$R_LIBS_USER')"
 
+rm petstore_1.0.0.tar.gz || true
+
 R CMD build .
 R CMD check *tar.gz --no-manual
-R CMD INSTALL *tar.gz
+R CMD install --preclean *tar.gz

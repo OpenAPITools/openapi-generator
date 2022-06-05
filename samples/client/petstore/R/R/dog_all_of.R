@@ -24,7 +24,6 @@ DogAllOf <- R6::R6Class(
     initialize = function(
         `breed`=NULL, ...
     ) {
-      local.optional.var <- list(...)
       if (!is.null(`breed`)) {
         stopifnot(is.character(`breed`), length(`breed`) == 1)
         self$`breed` <- `breed`
@@ -63,6 +62,11 @@ DogAllOf <- R6::R6Class(
       DogAllOfObject <- jsonlite::fromJSON(DogAllOfJson)
       self$`breed` <- DogAllOfObject$`breed`
       self
+    },
+    validateJSON = function(input) {
+      input_json <- jsonlite::fromJSON(input)
     }
+
   )
 )
+

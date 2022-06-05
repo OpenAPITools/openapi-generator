@@ -27,7 +27,6 @@ Category <- R6::R6Class(
     initialize = function(
         `id`=NULL, `name`=NULL, ...
     ) {
-      local.optional.var <- list(...)
       if (!is.null(`id`)) {
         stopifnot(is.numeric(`id`), length(`id`) == 1)
         self$`id` <- `id`
@@ -85,6 +84,11 @@ Category <- R6::R6Class(
       self$`id` <- CategoryObject$`id`
       self$`name` <- CategoryObject$`name`
       self
+    },
+    validateJSON = function(input) {
+      input_json <- jsonlite::fromJSON(input)
     }
+
   )
 )
+

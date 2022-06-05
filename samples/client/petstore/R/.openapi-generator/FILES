@@ -8,9 +8,11 @@ R/animal.R
 R/api_client.R
 R/api_exception.R
 R/api_response.R
+R/basque_pig.R
 R/cat.R
 R/cat_all_of.R
 R/category.R
+R/danish_pig.R
 R/dog.R
 R/dog_all_of.R
 R/fake_api.R
@@ -18,6 +20,7 @@ R/model_api_response.R
 R/order.R
 R/pet.R
 R/pet_api.R
+R/pig.R
 R/store_api.R
 R/tag.R
 R/user.R
@@ -25,9 +28,11 @@ R/user_api.R
 README.md
 docs/AllofTagApiResponse.md
 docs/Animal.md
+docs/BasquePig.md
 docs/Cat.md
 docs/CatAllOf.md
 docs/Category.md
+docs/DanishPig.md
 docs/Dog.md
 docs/DogAllOf.md
 docs/FakeApi.md
@@ -35,6 +40,7 @@ docs/ModelApiResponse.md
 docs/Order.md
 docs/Pet.md
 docs/PetApi.md
+docs/Pig.md
 docs/StoreApi.md
 docs/Tag.md
 docs/User.md

@@ -24,7 +24,6 @@ CatAllOf <- R6::R6Class(
     initialize = function(
         `declawed`=NULL, ...
     ) {
-      local.optional.var <- list(...)
       if (!is.null(`declawed`)) {
         stopifnot(is.logical(`declawed`), length(`declawed`) == 1)
         self$`declawed` <- `declawed`
@@ -63,6 +62,11 @@ CatAllOf <- R6::R6Class(
       CatAllOfObject <- jsonlite::fromJSON(CatAllOfJson)
       self$`declawed` <- CatAllOfObject$`declawed`
       self
+    },
+    validateJSON = function(input) {
+      input_json <- jsonlite::fromJSON(input)
     }
+
   )
 )
+
