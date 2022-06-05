@@ -301,13 +301,23 @@ namespace {{packageName}}.{{apiPackage}}
                     {{/-first}}{{/queryParams}}{{#queryParams}}{{^required}}if ({{paramName}} != null)
                         parseQueryString["{{baseName}}"] = Uri.EscapeDataString({{paramName}}.ToString(){{nrt!}});
 
-                    {{/required}}{{#-last}}uriBuilder.Query = parseQueryString.ToString();{{/-last}}{{/queryParams}}{{#headerParams}}{{#required}}
+                    {{/required}}{{#-last}}uriBuilder.Query = parseQueryString.ToString();
 
-                    request.Headers.Add("{{baseName}}", ClientUtils.ParameterToString({{paramName}}));{{/required}}{{^required}}
+                    {{/-last}}
+                    {{/queryParams}}
+                    {{#headerParams}}
+                    {{#required}}
+                    request.Headers.Add("{{baseName}}", ClientUtils.ParameterToString({{paramName}}));
 
+                    {{/required}}
+                    {{^required}}
                     if ({{paramName}} != null)
-                        request.Headers.Add("{{baseName}}", ClientUtils.ParameterToString({{paramName}}));{{/required}}{{/headerParams}}{{#formParams}}{{#-first}}
+                        request.Headers.Add("{{baseName}}", ClientUtils.ParameterToString({{paramName}}));
 
+                    {{/required}}
+                    {{/headerParams}}
+                    {{#formParams}}
+                    {{#-first}}
                     MultipartContent multipartContent = new MultipartContent();
 
                     request.Content = multipartContent;
@@ -316,22 +326,39 @@ namespace {{packageName}}.{{apiPackage}}
 
                     multipartContent.Add(new FormUrlEncodedContent(formParams));{{/-first}}{{^isFile}}{{#required}}
 
-                    formParams.Add(new KeyValuePair<string{{nrt?}}, string{{nrt?}}>("{{baseName}}", ClientUtils.ParameterToString({{paramName}})));{{/required}}{{^required}}
+                    formParams.Add(new KeyValuePair<string{{nrt?}}, string{{nrt?}}>("{{baseName}}", ClientUtils.ParameterToString({{paramName}})));
 
+                    {{/required}}
+                    {{^required}}
                     if ({{paramName}} != null)
-                        formParams.Add(new KeyValuePair<string{{nrt?}}, string{{nrt?}}>("{{baseName}}", ClientUtils.ParameterToString({{paramName}})));{{/required}}{{/isFile}}{{#isFile}}{{#required}}
+                        formParams.Add(new KeyValuePair<string{{nrt?}}, string{{nrt?}}>("{{baseName}}", ClientUtils.ParameterToString({{paramName}})));
 
-                    multipartContent.Add(new StreamContent({{paramName}}));{{/required}}{{^required}}
+                    {{/required}}
+                    {{/isFile}}
+                    {{#isFile}}
+                    {{#required}}
+                    multipartContent.Add(new StreamContent({{paramName}}));
 
+                    {{/required}}
+                    {{^required}}
                     if ({{paramName}} != null)
-                        multipartContent.Add(new StreamContent({{paramName}}));{{/required}}{{/isFile}}{{/formParams}}{{#bodyParam}}
+                        multipartContent.Add(new StreamContent({{paramName}}));
 
+                    {{/required}}
+                    {{/isFile}}
+                    {{/formParams}}
+                    {{#bodyParam}}
                     request.Content = ({{paramName}} as object) is System.IO.Stream stream
                         ? request.Content = new StreamContent(stream)
-                        : request.Content = new StringContent(JsonSerializer.Serialize({{paramName}}, _jsonSerializerOptions));{{/bodyParam}}{{#authMethods}}{{#-first}}
+                        : request.Content = new StringContent(JsonSerializer.Serialize({{paramName}}, _jsonSerializerOptions));
 
-                    List<TokenBase> tokens = new List<TokenBase>();{{/-first}}{{#isApiKey}}
+                    {{/bodyParam}}
+                    {{#authMethods}}
+                    {{#-first}}
+                    List<TokenBase> tokens = new List<TokenBase>();
 
+                    {{/-first}}
+                    {{#isApiKey}}
                     ApiKeyToken apiKey = (ApiKeyToken) await ApiKeyProvider.GetAsync(cancellationToken).ConfigureAwait(false);
 
                     tokens.Add(apiKey);{{#isKeyInHeader}}
