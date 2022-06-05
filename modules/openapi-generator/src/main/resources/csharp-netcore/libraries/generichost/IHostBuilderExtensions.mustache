@@ -4,6 +4,7 @@
 
 {{/nrt}}
 using System;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using {{packageName}}.{{clientPackage}};
 
@@ -49,7 +50,7 @@ namespace {{packageName}}.Extensions
         /// </summary>
         /// <param name="builder"></param>
         /// <param name="options"></param>
-        public static IHostBuilder Configure{{apiName}}<{{#apiInfo}}{{#apis}}T{{classname}}{{^-last}}, {{/-last}}{{/apis}}{{/apiInfo}}>(this IHostBuilder builder, Action<HostBuilderContext, HostConfiguration<{{#apiInfo}}{{#apis}}T{{classname}}{{^-last}}, {{/-last}}{{/apis}}{{/apiInfo}}>> options)
+        public static IHostBuilder Configure{{apiName}}<{{#apiInfo}}{{#apis}}T{{classname}}{{^-last}}, {{/-last}}{{/apis}}{{/apiInfo}}>(this IHostBuilder builder, Action<HostBuilderContext, IServiceCollection, HostConfiguration<{{#apiInfo}}{{#apis}}T{{classname}}{{^-last}}, {{/-last}}{{/apis}}{{/apiInfo}}>> options)
             {{#apiInfo}}
             {{#apis}}
             where T{{classname}} : class, {{interfacePrefix}}{{derivedApiPackage}}.{{interfacePrefix}}{{classname}}
@@ -60,7 +61,7 @@ namespace {{packageName}}.Extensions
             {
                 HostConfiguration<{{#apiInfo}}{{#apis}}T{{classname}}{{^-last}}, {{/-last}}{{/apis}}{{/apiInfo}}> config = new HostConfiguration<{{#apiInfo}}{{#apis}}T{{classname}}{{^-last}}, {{/-last}}{{/apis}}{{/apiInfo}}>(services);
 
-                options(context, config);
+                options(context, services, config);
 
                 IServiceCollectionExtensions.Add{{apiName}}(services, config);
             });
@@ -73,7 +74,7 @@ namespace {{packageName}}.Extensions
         /// </summary>
         /// <param name="builder"></param>
         /// <param name="options"></param>
-        public static IHostBuilder Configure{{apiName}}(this IHostBuilder builder, Action<HostBuilderContext, HostConfiguration<{{>DefaultApis}}>> options)
+        public static IHostBuilder Configure{{apiName}}(this IHostBuilder builder, Action<HostBuilderContext, IServiceCollection, HostConfiguration<{{>DefaultApis}}>> options)
             => Configure{{apiName}}<{{>DefaultApis}}>(builder, options);
     }
 }
