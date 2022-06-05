@@ -26,7 +26,7 @@ namespace {{packageName}}.Test.{{derivedApiPackage}}
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) => Host.CreateDefaultBuilder(args)
-            .Configure{{apiName}}((context, options) =>
+            .Configure{{apiName}}((context, services, options) =>
             {
                 {{#hasApiKeyMethods}}ApiKeyToken apiKeyToken = new ApiKeyToken(context.Configuration["<token>"], timeout: TimeSpan.FromSeconds(1));
                 options.AddTokens(apiKeyToken);

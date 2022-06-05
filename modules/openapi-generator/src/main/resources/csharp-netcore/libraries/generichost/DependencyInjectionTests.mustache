@@ -17,7 +17,7 @@ namespace {{packageName}}.Test.{{apiPackage}}
     public class DependencyInjectionTest
     {
         private readonly IHost _hostUsingConfigureWithoutAClient = 
-            Host.CreateDefaultBuilder(Array.Empty<string>()).Configure{{apiName}}((context, options) =>
+            Host.CreateDefaultBuilder(Array.Empty<string>()).Configure{{apiName}}((context, services, options) =>
             {
                 {{#hasApiKeyMethods}}ApiKeyToken apiKeyToken = new ApiKeyToken($"<token>", timeout: TimeSpan.FromSeconds(1));
                 options.AddTokens(apiKeyToken);
@@ -38,7 +38,7 @@ namespace {{packageName}}.Test.{{apiPackage}}
             .Build();
 
         private readonly IHost _hostUsingConfigureWithAClient =
-            Host.CreateDefaultBuilder(Array.Empty<string>()).Configure{{apiName}}((context, options) =>
+            Host.CreateDefaultBuilder(Array.Empty<string>()).Configure{{apiName}}((context, services, options) =>
             {
                 {{#hasApiKeyMethods}}ApiKeyToken apiKeyToken = new ApiKeyToken($"<token>", timeout: TimeSpan.FromSeconds(1));
                 options.AddTokens(apiKeyToken);
