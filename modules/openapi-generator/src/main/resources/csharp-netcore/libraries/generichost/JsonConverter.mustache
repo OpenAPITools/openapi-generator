@@ -103,11 +103,11 @@
                         {{/isNumeric}}
                         {{#isDate}}
                             Utf8JsonReader {{#lambda.camelcase_param}}{{name}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}Reader = reader;
-                            {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = JsonSerializer.Deserialize<DateTime>(ref reader, options);
+                            {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = JsonSerializer.Deserialize<DateTime{{#isNullable}}?{{/isNullable}}>(ref reader, options);
                         {{/isDate}}
                         {{#isDateTime}}
                             Utf8JsonReader {{#lambda.camelcase_param}}{{name}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}Reader = reader;
-                            {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = JsonSerializer.Deserialize<DateTime>(ref reader, options);
+                            {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = JsonSerializer.Deserialize<DateTime{{#isNullable}}?{{/isNullable}}>(ref reader, options);
                         {{/isDateTime}}
                         {{#isEnum}}
                         {{^isMap}}
