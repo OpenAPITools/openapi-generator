@@ -421,7 +421,7 @@ func addFile(w *multipart.Writer, fieldName, path string) error {
 	if err != nil {
 		return err
 	}
-    err := file.Close()
+    err = file.Close()
     if err != nil {
         return err
     }
