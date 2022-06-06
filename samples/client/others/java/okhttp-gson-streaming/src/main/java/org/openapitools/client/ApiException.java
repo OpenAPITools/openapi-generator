@@ -161,6 +161,6 @@ public class ApiException extends Exception {
      */
     public String getMessage() {
         return String.format("Message: %s%nHTTP response code: %s%nHTTP response body: %s%nHTTP response headers: %s",
-                super.getMessage(), this.getCode(), this.getResponseBody(), this.getResponseHeaders().toString());
+                super.getMessage(), this.getCode(), this.getResponseBody(), this.getResponseHeaders());
     }
 }

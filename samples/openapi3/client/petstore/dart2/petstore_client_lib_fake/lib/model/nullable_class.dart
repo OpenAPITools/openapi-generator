@@ -152,9 +152,9 @@ class NullableClass {
         arrayNullableProp: Object.listFromJson(json[r'array_nullable_prop']) ?? const [],
         arrayAndItemsNullableProp: Object.listFromJson(json[r'array_and_items_nullable_prop']) ?? const [],
         arrayItemsNullable: Object.listFromJson(json[r'array_items_nullable']) ?? const [],
-        objectNullableProp: mapValueOfType<Map<String, Object>>(json, r'object_nullable_prop') ?? const {},
-        objectAndItemsNullableProp: mapValueOfType<Map<String, Object>>(json, r'object_and_items_nullable_prop') ?? const {},
-        objectItemsNullable: mapValueOfType<Map<String, Object>>(json, r'object_items_nullable') ?? const {},
+        objectNullableProp: mapCastOfType<String, Object>(json, r'object_nullable_prop') ?? const {},
+        objectAndItemsNullableProp: mapCastOfType<String, Object>(json, r'object_and_items_nullable_prop') ?? const {},
+        objectItemsNullable: mapCastOfType<String, Object>(json, r'object_items_nullable') ?? const {},
       );
     }
     return null;

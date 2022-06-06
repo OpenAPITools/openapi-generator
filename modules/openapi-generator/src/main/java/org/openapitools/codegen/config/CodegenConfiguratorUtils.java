@@ -146,14 +146,14 @@ public final class CodegenConfiguratorUtils {
         }
     }
 
-    public static void applyReservedWordsMappingsKvpList(List<String> reservedWordMappings, CodegenConfigurator configurator) {
-        for (String propString : reservedWordMappings) {
+    public static void applyReservedWordsMappingsKvpList(List<String> reservedWordsMappings, CodegenConfigurator configurator) {
+        for (String propString : reservedWordsMappings) {
             applyReservedWordsMappingsKvp(propString, configurator);
         }
     }
 
-    public static void applyReservedWordsMappingsKvp(String reservedWordMappings, CodegenConfigurator configurator) {
-        final Map<String, String> map = createMapFromKeyValuePairs(reservedWordMappings);
+    public static void applyReservedWordsMappingsKvp(String reservedWordsMappings, CodegenConfigurator configurator) {
+        final Map<String, String> map = createMapFromKeyValuePairs(reservedWordsMappings);
         for (Map.Entry<String, String> entry : map.entrySet()) {
             configurator.addAdditionalReservedWordMapping(entry.getKey(), entry.getValue());
         }

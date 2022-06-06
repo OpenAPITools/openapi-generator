@@ -10,7 +10,6 @@
 """
 
 
-import sys
 import unittest
 
 import petstore_api
@@ -28,14 +27,22 @@ class TestComposedBool(unittest.TestCase):
 
     def test_ComposedBool(self):
         """Test ComposedBool"""
-        valid_values = [True, False]
         all_values = [None, True, False, 2, 3.14, '', {}, []]
         for value in all_values:
-            if value not in valid_values:
-                with self.assertRaises(petstore_api.ApiTypeError):
-                    model = ComposedBool(value)
+            if isinstance(value, bool):
+                model = ComposedBool(value)
+                if value is True:
+                    self.assertTrue(bool(model))
+                    self.assertTrue(model.is_true())
+                    self.assertFalse(model.is_false())
+                else:
+                    self.assertTrue(model.is_false())
+                    self.assertFalse(model.is_true())
+                    self.assertFalse(bool(model))
                 continue
-            model = ComposedBool(value)
+            with self.assertRaises(petstore_api.ApiTypeError):
+                ComposedBool(value)
+            continue
 
 
 if __name__ == '__main__':

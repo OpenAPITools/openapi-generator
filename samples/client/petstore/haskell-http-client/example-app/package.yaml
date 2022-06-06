@@ -19,7 +19,7 @@ dependencies:
 - mtl >=2.2.1
 - unordered-containers
 - containers >=0.5.0.0 && <0.8
-- aeson >=2.0 && <3.0
+- aeson >=1.0 && <3.0
 - bytestring >=0.10.0 && <0.11
 - http-types >=0.8 && <0.13
 - http-client >=0.5 && <0.8

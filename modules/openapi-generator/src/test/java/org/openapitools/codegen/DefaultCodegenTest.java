@@ -70,6 +70,16 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void testEnumImports() {
+        final DefaultCodegen codegen = new DefaultCodegen();
+        final OpenAPI openApi = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_12445.yaml");
+        codegen.setOpenAPI(openApi);
+        PathItem path = openApi.getPaths().get("/pets/petType/{type}");
+        CodegenOperation operation = codegen.fromOperation("/pets/petType/{type}", "get", path.getGet(), path.getServers());
+        Assert.assertEquals(Sets.intersection(operation.imports, Sets.newHashSet("PetByType")).size(), 1);
+    }
+
+    @Test
     public void testHasBodyParameter() {
         final Schema refSchema = new Schema<>().$ref("#/components/schemas/Pet");
         Operation pingOperation = new Operation()

@@ -52,7 +52,7 @@ public final class GeneratorSettings implements Serializable {
     private final Map<String, String> importMappings;
     private final Map<String, String> inlineSchemaNameMappings;
     private final Set<String> languageSpecificPrimitives;
-    private final Map<String, String> reservedWordMappings;
+    private final Map<String, String> reservedWordsMappings;
     private final Map<String, String> serverVariables;
 
     private String gitHost;
@@ -268,8 +268,8 @@ public final class GeneratorSettings implements Serializable {
      *
      * @return the reserved word mappings
      */
-    public Map<String, String> getReservedWordMappings() {
-        return reservedWordMappings;
+    public Map<String, String> getReservedWordsMappings() {
+        return reservedWordsMappings;
     }
 
 
@@ -361,7 +361,7 @@ public final class GeneratorSettings implements Serializable {
         importMappings = Collections.unmodifiableMap(builder.importMappings);
         inlineSchemaNameMappings = Collections.unmodifiableMap(builder.inlineSchemaNameMappings);
         languageSpecificPrimitives = Collections.unmodifiableSet(builder.languageSpecificPrimitives);
-        reservedWordMappings = Collections.unmodifiableMap(builder.reservedWordMappings);
+        reservedWordsMappings = Collections.unmodifiableMap(builder.reservedWordsMappings);
         serverVariables = Collections.unmodifiableMap(builder.serverVariables);
         gitHost = builder.gitHost;
         gitUserId = builder.gitUserId;
@@ -432,7 +432,7 @@ public final class GeneratorSettings implements Serializable {
         importMappings = Collections.unmodifiableMap(new HashMap<>(0));
         inlineSchemaNameMappings = Collections.unmodifiableMap(new HashMap<>(0));
         languageSpecificPrimitives = Collections.unmodifiableSet(new HashSet<>(0));
-        reservedWordMappings = Collections.unmodifiableMap(new HashMap<>(0));
+        reservedWordsMappings = Collections.unmodifiableMap(new HashMap<>(0));
         serverVariables = Collections.unmodifiableMap(new HashMap<>(0));
     }
 
@@ -488,8 +488,8 @@ public final class GeneratorSettings implements Serializable {
         if (copy.getLanguageSpecificPrimitives() != null) {
             builder.languageSpecificPrimitives.addAll(copy.getLanguageSpecificPrimitives());
         }
-        if (copy.getReservedWordMappings() != null) {
-            builder.reservedWordMappings.putAll(copy.getReservedWordMappings());
+        if (copy.getReservedWordsMappings() != null) {
+            builder.reservedWordsMappings.putAll(copy.getReservedWordsMappings());
         }
         if (copy.getServerVariables() != null) {
             builder.serverVariables.putAll(copy.getServerVariables());
@@ -526,7 +526,7 @@ public final class GeneratorSettings implements Serializable {
         private Map<String, String> importMappings;
         private Map<String, String> inlineSchemaNameMappings;
         private Set<String> languageSpecificPrimitives;
-        private Map<String, String> reservedWordMappings;
+        private Map<String, String> reservedWordsMappings;
         private Map<String, String> serverVariables;
         private String gitHost;
         private String gitUserId;
@@ -544,7 +544,7 @@ public final class GeneratorSettings implements Serializable {
             importMappings = new HashMap<>();
             inlineSchemaNameMappings = new HashMap<>();
             languageSpecificPrimitives = new HashSet<>();
-            reservedWordMappings = new HashMap<>();
+            reservedWordsMappings = new HashMap<>();
             serverVariables = new HashMap<>();
 
             gitHost = DEFAULT_GIT_HOST;
@@ -837,28 +837,28 @@ public final class GeneratorSettings implements Serializable {
         }
 
         /**
-         * Sets the {@code reservedWordMappings} and returns a reference to this Builder so that the methods can be chained together.
+         * Sets the {@code reservedWordsMappings} and returns a reference to this Builder so that the methods can be chained together.
          *
-         * @param reservedWordMappings the {@code reservedWordMappings} to set
+         * @param reservedWordsMappings the {@code reservedWordsMappings} to set
          * @return a reference to this Builder
          */
-        public Builder withReservedWordMappings(Map<String, String> reservedWordMappings) {
-            this.reservedWordMappings = reservedWordMappings;
+        public Builder withReservedWordsMappings(Map<String, String> reservedWordsMappings) {
+            this.reservedWordsMappings = reservedWordsMappings;
             return this;
         }
 
         /**
-         * Sets a single {@code reservedWordMappings} and returns a reference to this Builder so that the methods can be chained together.
+         * Sets a single {@code reservedWordsMappings} and returns a reference to this Builder so that the methods can be chained together.
          *
          * @param key   A key for some reserved word mapping
          * @param value The value of some reserved word mapping
          * @return a reference to this Builder
          */
         public Builder withReservedWordMapping(String key, String value) {
-            if (this.reservedWordMappings == null) {
-                this.reservedWordMappings = new HashMap<>();
+            if (this.reservedWordsMappings == null) {
+                this.reservedWordsMappings = new HashMap<>();
             }
-            this.reservedWordMappings.put(key, value);
+            this.reservedWordsMappings.put(key, value);
             return this;
         }
 
@@ -966,7 +966,7 @@ public final class GeneratorSettings implements Serializable {
                 ", additionalProperties=" + additionalProperties +
                 ", importMappings=" + importMappings +
                 ", languageSpecificPrimitives=" + languageSpecificPrimitives +
-                ", reservedWordMappings=" + reservedWordMappings +
+                ", reservedWordsMappings=" + reservedWordsMappings +
                 ", gitHost='" + gitHost + '\'' +
                 ", gitUserId='" + gitUserId + '\'' +
                 ", gitRepoId='" + gitRepoId + '\'' +
@@ -998,7 +998,7 @@ public final class GeneratorSettings implements Serializable {
                 Objects.equals(getImportMappings(), that.getImportMappings()) &&
                 Objects.equals(getInlineSchemaNameMappings(), that.getInlineSchemaNameMappings()) &&
                 Objects.equals(getLanguageSpecificPrimitives(), that.getLanguageSpecificPrimitives()) &&
-                Objects.equals(getReservedWordMappings(), that.getReservedWordMappings()) &&
+                Objects.equals(getReservedWordsMappings(), that.getReservedWordsMappings()) &&
                 Objects.equals(getGitHost(), that.getGitHost()) &&
                 Objects.equals(getGitUserId(), that.getGitUserId()) &&
                 Objects.equals(getGitRepoId(), that.getGitRepoId()) &&
@@ -1027,7 +1027,7 @@ public final class GeneratorSettings implements Serializable {
                 getImportMappings(),
                 getInlineSchemaNameMappings(),
                 getLanguageSpecificPrimitives(),
-                getReservedWordMappings(),
+                getReservedWordsMappings(),
                 getGitHost(),
                 getGitUserId(),
                 getGitRepoId(),
