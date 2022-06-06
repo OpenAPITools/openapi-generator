@@ -156,7 +156,7 @@ test_that("Tests oneOf", {
   original_danish_pig = DanishPig$new()$fromJSON(danish_pig_json)
   original_basque_pig = BasquePig$new()$fromJSON(basque_pig_json)
 
-  # test fromJSNO, actual_tpye, actual_instance
+  # test fromJSON, actual_tpye, actual_instance
   pig <- Pig$new()
   danish_pig <- pig$fromJSON(danish_pig_json)
   expect_equal(danish_pig$actual_type, "DanishPig")
@@ -168,7 +168,6 @@ test_that("Tests oneOf", {
   expect_equal(pig$actual_instance$className, "DanishPig")
 
   # test toJSON
-  #expect_equal(danish_pig$toJSON(), "")
   expect_equal(danish_pig$toJSON(), original_danish_pig$toJSONString())
 
   basque_pig <- pig$fromJSON(basque_pig_json)
@@ -179,6 +178,49 @@ test_that("Tests oneOf", {
 
   # test exception when no matche found
   expect_error(pig$fromJSON('{}'), 'No match found when deserializing the payload into Pig with oneOf schemas BasquePig, DanishPig. Details:  The JSON input ` \\{\\} ` is invalid for BasquePig: the required field `className` is missing\\., The JSON input ` \\{\\} ` is invalid for DanishPig: the required field `className` is missing\\.')
+
+
+})
+
+test_that("Tests anyOf", {
+  basque_pig_json <-
+  '{"className": "BasquePig", "color": "red"}'
+
+  danish_pig_json <-
+  '{"className": "DanishPig", "size": 7}'
+
+  wrong_json <- 
+  '[
+    {"Name" : "Tom", "Age" : 32, "Occupation" : "Consultant"}, 
+    {},
+    {"Name" : "Ada", "Occupation" : "Engineer"}
+  ]'
+
+  original_danish_pig = DanishPig$new()$fromJSON(danish_pig_json)
+  original_basque_pig = BasquePig$new()$fromJSON(basque_pig_json)
+
+  # test fromJSON, actual_tpye, actual_instance
+  pig <- AnyOfPig$new()
+  danish_pig <- pig$fromJSON(danish_pig_json)
+  expect_equal(danish_pig$actual_type, "DanishPig")
+  expect_equal(danish_pig$actual_instance$size, 7)
+  expect_equal(danish_pig$actual_instance$className, "DanishPig")
+
+  expect_equal(pig$actual_type, "DanishPig")
+  expect_equal(pig$actual_instance$size, 7)
+  expect_equal(pig$actual_instance$className, "DanishPig")
+
+  # test toJSON
+  expect_equal(danish_pig$toJSON(), original_danish_pig$toJSONString())
+
+  basque_pig <- pig$fromJSON(basque_pig_json)
+  expect_equal(basque_pig$actual_type, "BasquePig")
+  expect_equal(basque_pig$actual_instance$color, "red")
+  expect_equal(basque_pig$actual_instance$className, "BasquePig")
+  expect_equal(basque_pig$toJSON(), original_basque_pig$toJSONString())
+
+  # test exception when no matche found
+  expect_error(pig$fromJSON('{}'), 'No match found when deserializing the payload into AnyOfPig with anyOf schemas BasquePig, DanishPig. Details:  The JSON input ` \\{\\} ` is invalid for BasquePig: the required field `className` is missing\\., The JSON input ` \\{\\} ` is invalid for DanishPig: the required field `className` is missing\\.')
 
 
 })
