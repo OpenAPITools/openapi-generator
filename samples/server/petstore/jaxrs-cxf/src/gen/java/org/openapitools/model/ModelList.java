@@ -31,6 +31,23 @@ public class ModelList  {
   }
 
 
+    @Override
+    public boolean equals(Object o) {
+      if (this == o) {
+        return true;
+      }
+      if (o == null || getClass() != o.getClass()) {
+        return false;
+      }
+      ModelList _list = (ModelList) o;
+      return Objects.equals(_123list, _list._123list);
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hash(_123list);
+    }
+
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
