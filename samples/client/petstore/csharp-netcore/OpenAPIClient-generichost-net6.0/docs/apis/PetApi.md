@@ -716,7 +716,7 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // uploads an image
-    ApiResponse<ApiResponse> response = apiInstance.UploadFileWithHttpInfo(petId, additionalMetadata, file);
+    ApiResponse<ApiResponse> response = apiInstance.UploadFileWithHttpInfo(petId, file, additionalMetadata);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
     Debug.Write("Response Body: " + response.Data);
@@ -734,8 +734,8 @@ catch (ApiException e)
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
 | **petId** | **long** | ID of pet to update |  |
-| **additionalMetadata** | **string** | Additional data to pass to server | [optional]  |
 | **file** | **System.IO.Stream****System.IO.Stream** | file to upload | [optional]  |
+| **additionalMetadata** | **string** | Additional data to pass to server | [optional]  |
 
 ### Return type
 
@@ -812,7 +812,7 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // uploads an image (required)
-    ApiResponse<ApiResponse> response = apiInstance.UploadFileWithRequiredFileWithHttpInfo(petId, requiredFile, additionalMetadata);
+    ApiResponse<ApiResponse> response = apiInstance.UploadFileWithRequiredFileWithHttpInfo(requiredFile, petId, additionalMetadata);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
     Debug.Write("Response Body: " + response.Data);
@@ -829,8 +829,8 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **petId** | **long** | ID of pet to update |  |
 | **requiredFile** | **System.IO.Stream****System.IO.Stream** | file to upload |  |
+| **petId** | **long** | ID of pet to update |  |
 | **additionalMetadata** | **string** | Additional data to pass to server | [optional]  |
 
 ### Return type

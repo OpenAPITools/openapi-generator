@@ -672,7 +672,7 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // Updated user
-    apiInstance.UpdateUserWithHttpInfo(username, user);
+    apiInstance.UpdateUserWithHttpInfo(user, username);
 }
 catch (ApiException e)
 {
@@ -686,8 +686,8 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **username** | **string** | name that need to be deleted |  |
 | **user** | [**User**](User.md) | Updated user object |  |
+| **username** | **string** | name that need to be deleted |  |
 
 ### Return type
 
