@@ -19,10 +19,6 @@
     ) {
       local_optional_var <- list(...)
     },
-    toJSON = function() {
-      {{classname}}_object <- list()
-      {{classname}}_object
-    },
     fromJSON = function(input) {
       matched <- 0 # match counter
       matched_schemas <- list() #names of matched schemas
@@ -59,6 +55,13 @@
       }
 
       self
+    },
+    toJSON = function() {
+      if (!is.null(self$actual_instance)) {
+        self$actual_instance$toJSONString()
+      } else {
+        NULL
+      }
     }
   )
 )

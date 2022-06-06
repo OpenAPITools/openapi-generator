@@ -26,10 +26,6 @@ Pig <- R6::R6Class(
     ) {
       local_optional_var <- list(...)
     },
-    toJSON = function() {
-      Pig_object <- list()
-      Pig_object
-    },
     fromJSON = function(input) {
       matched <- 0 # match counter
       matched_schemas <- list() #names of matched schemas
@@ -79,6 +75,13 @@ Pig <- R6::R6Class(
       }
 
       self
+    },
+    toJSON = function() {
+      if (!is.null(self$actual_instance)) {
+        self$actual_instance$toJSONString()
+      } else {
+        NULL
+      }
     }
   )
 )
