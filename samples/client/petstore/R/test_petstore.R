@@ -56,15 +56,17 @@ json <-
     {},
     {"Name" : "Ada", "Occupation" : "Engineer"}
   ]'
- 
+
+  print("==========") 
   pig <- Pig$new()
   basque_pig <- pig$fromJSON(basque_pig_json)
   #print(basque_pig$actual_instance$color)
   #expect_equal(basque_pig$actual_type, "BasquePig")
-  i <- pig$fromJSON(danish_pig_json)
-  #i <- pig$fromJSON(wrong_json)
+  pig$fromJSON(danish_pig_json)
+  #pig$fromJSON(wrong_json)
+  pig$toJSON()
 
-  d <- DanishPig$new()
-  dp <- d$validateJSON(danish_pig_json)
+  #d <- DanishPig$new()
+  #dp <- d$validateJSON(danish_pig_json)
 
 
