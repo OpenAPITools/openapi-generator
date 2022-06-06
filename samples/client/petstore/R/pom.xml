@@ -35,7 +35,7 @@
                         <configuration>
                             <executable>bash</executable>
                             <arguments>
-                                <argument>test_petstore.bash</argument>
+                                <argument>build_and_test.bash</argument>
                             </arguments>
                         </configuration>
                     </execution>

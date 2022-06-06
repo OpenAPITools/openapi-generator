@@ -5,4 +5,4 @@ framework:
     secret: "testsecret"
     test:   ~
     router:
-        resource: "%kernel.root_dir%/../Resources/config/routing.yml"
+        resource: "%kernel.project_dir%/../Resources/config/routing.yml"

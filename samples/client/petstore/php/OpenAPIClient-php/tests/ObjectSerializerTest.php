@@ -389,4 +389,46 @@ class ObjectSerializerTest extends TestCase
             ],
         ];
     }
+    /**
+     * @covers ObjectSerializer::toQueryValue
+     * @dataProvider provideQueryParamsWithStringBooleanFormatForQueryString
+     */
+    public function testToQueryValueWithStringBooleanFormatForQueryString(
+        $data,
+        string $paramName,
+        string $openApiType,
+        string $style,
+        bool $explode,
+        bool $required,
+        $expected
+    ): void
+    {
+        $config = new Configuration();
+        $config->setBooleanFormatForQueryString(Configuration::BOOLEAN_FORMAT_STRING);
+        $config::setDefaultConfiguration($config);
+
+        $value = ObjectSerializer::toQueryValue($data, $paramName, $openApiType, $style, $explode, $required);
+        $query = ObjectSerializer::buildQuery($value);
+        $this->assertEquals($expected, $query);
+    }
+
+    public function provideQueryParamsWithStringBooleanFormatForQueryString(): array
+    {
+        return [
+            // style form
+            // skipValidation
+            'form boolean, required false' => [
+                false, 'skipValidation', 'boolean', 'form', true, false, 'skipValidation=false',
+            ],
+            'form empty boolean, required false' => [
+                null, 'skipValidation', 'boolean', 'form', true, false, '',
+            ],
+            'form empty boolean, required true' => [
+                null, 'skipValidation', 'boolean', 'form', true, true, 'skipValidation=',
+            ],
+            'form true boolean, required true' => [
+                true, 'skipValidation', 'boolean', 'form', true, false, 'skipValidation=true',
+            ],
+        ];
+    }
 }

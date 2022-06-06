@@ -32,6 +32,24 @@ public class Dog extends Animal {
   }
 
 
+    @Override
+    public boolean equals(Object o) {
+      if (this == o) {
+        return true;
+      }
+      if (o == null || getClass() != o.getClass()) {
+        return false;
+      }
+      Dog dog = (Dog) o;
+      return Objects.equals(breed, dog.breed) &&
+          super.equals(o);
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hash(breed, super.hashCode());
+    }
+
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

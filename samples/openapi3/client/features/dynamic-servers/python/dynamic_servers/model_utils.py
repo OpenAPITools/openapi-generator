@@ -2046,7 +2046,9 @@ def validate_get_composed_info(constant_args, model_args, self):
     var_name_to_model_instances = {}
     for prop_name in model_args:
         if prop_name not in discarded_args:
-            var_name_to_model_instances[prop_name] = [self] + composed_instances
+            var_name_to_model_instances[prop_name] = [self] + list(
+                filter(
+                    lambda x: prop_name in x.openapi_types, composed_instances))
 
     return [
         composed_instances,

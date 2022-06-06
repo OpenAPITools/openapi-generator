@@ -401,6 +401,10 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
 
     @Override
     public String toVarName(String name) {
+        // translate @ for properties (like @type) to at_.
+        // Otherwise an additional "type" property will leed to duplcates
+        name = name.replaceAll("^@", "at_");
+
         // sanitize name
         name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
@@ -408,6 +412,8 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
             // return the name in camelCase style
             // phone_number => phoneNumber
             name = camelize(name, true);
+        } else if ("PascalCase".equals(variableNamingConvention)) {
+            name = camelize(name, false);
         } else { // default to snake case
             // return the name in underscore style
             // PhoneNumber => phone_number

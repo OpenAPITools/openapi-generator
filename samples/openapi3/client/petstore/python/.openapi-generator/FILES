@@ -35,6 +35,7 @@ docs/DefaultApi.md
 docs/Dog.md
 docs/DogAllOf.md
 docs/Drawing.md
+docs/EgressThresholdOptions.md
 docs/EnumArrays.md
 docs/EnumClass.md
 docs/EnumTest.md
@@ -82,6 +83,8 @@ docs/PetApi.md
 docs/Pig.md
 docs/PostInlineAdditionalPropertiesPayloadRequest.md
 docs/PostInlineAdditionalPropertiesPayloadRequestArrayDataInner.md
+docs/PublishOptions.md
+docs/PublishOptionsPublish.md
 docs/Quadrilateral.md
 docs/QuadrilateralInterface.md
 docs/ReadOnlyFirst.md
@@ -95,6 +98,7 @@ docs/SomeObject.md
 docs/SomeObjectWithSelfAttr.md
 docs/SpecialModelName.md
 docs/StoreApi.md
+docs/StreamOptions.md
 docs/StringBooleanMap.md
 docs/StringEnum.md
 docs/StringEnumWithDefaultValue.md
@@ -151,6 +155,7 @@ petstore_api/model/danish_pig.py
 petstore_api/model/dog.py
 petstore_api/model/dog_all_of.py
 petstore_api/model/drawing.py
+petstore_api/model/egress_threshold_options.py
 petstore_api/model/enum_arrays.py
 petstore_api/model/enum_class.py
 petstore_api/model/enum_test.py
@@ -195,6 +200,8 @@ petstore_api/model/pet.py
 petstore_api/model/pig.py
 petstore_api/model/post_inline_additional_properties_payload_request.py
 petstore_api/model/post_inline_additional_properties_payload_request_array_data_inner.py
+petstore_api/model/publish_options.py
+petstore_api/model/publish_options_publish.py
 petstore_api/model/quadrilateral.py
 petstore_api/model/quadrilateral_interface.py
 petstore_api/model/read_only_first.py
@@ -207,6 +214,7 @@ petstore_api/model/simple_quadrilateral.py
 petstore_api/model/some_object.py
 petstore_api/model/some_object_with_self_attr.py
 petstore_api/model/special_model_name.py
+petstore_api/model/stream_options.py
 petstore_api/model/string_boolean_map.py
 petstore_api/model/string_enum.py
 petstore_api/model/string_enum_with_default_value.py
