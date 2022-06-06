@@ -3,7 +3,7 @@
 
 <div align="center">
 
-[![Stable releases in Maven Central](https://img.shields.io/maven-metadata/v/https/repo1.maven.org/maven2/org/openapitools/openapi-generator/maven-metadata.xml.svg)](http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22org.openapitools%22%20AND%20a%3A%22openapi-generator%22) [![Apache 2.0 License](https://img.shields.io/badge/License-Apache%202.0-orange)](./LICENSE) [![Open Collective backers](https://img.shields.io/opencollective/backers/openapi_generator?color=orange&label=OpenCollective%20Backers)](https://opencollective.com/openapi_generator) [![Join the Slack chat room](https://img.shields.io/badge/Slack-Join%20the%20chat%20room-orange)](https://join.slack.com/t/openapi-generator/shared_invite/zt-12jxxd7p2-XUeQM~4pzsU9x~eGLQqX2g) [![Follow OpenAPI Generator Twitter account to get the latest update](https://img.shields.io/twitter/follow/oas_generator.svg?style=social&label=Follow)](https://twitter.com/oas_generator)
+[![Stable releases in Maven Central](https://img.shields.io/maven-metadata/v/https/repo1.maven.org/maven2/org/openapitools/openapi-generator/maven-metadata.xml.svg)](http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22org.openapitools%22%20AND%20a%3A%22openapi-generator%22) [![Apache 2.0 License](https://img.shields.io/badge/License-Apache%202.0-orange)](./LICENSE) [![Open Collective backers](https://img.shields.io/opencollective/backers/openapi_generator?color=orange&label=OpenCollective%20Backers)](https://opencollective.com/openapi_generator) [![Join the Slack chat room](https://img.shields.io/badge/Slack-Join%20the%20chat%20room-orange)](https://join.slack.com/t/openapi-generator/shared_invite/zt-12jxxd7p2-XUeQM~4pzsU9x~eGLQqX2g) [![Follow OpenAPI Generator Twitter account to get the latest update](https://img.shields.io/twitter/follow/oas_generator.svg?style=social&label=Follow)](https://twitter.com/oas_generator) [![Contribute with Gitpod](https://img.shields.io/badge/Contribute%20with-Gitpod-908a85?logo=gitpod)](https://gitpod.io/#https://github.com/OpenAPITools/openapi-generator)
 
 </div>
 
@@ -868,6 +868,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - 2022-04-01 - [OpenAPI Generatorのコード生成とSpring Frameworkのカスタムデータバインディングを共存させる](https://techblog.zozo.com/entry/coexistence-of-openapi-and-spring) in [ZOZO Tech Blog](https://techblog.zozo.com/)
 - 2022-04-06 - [Effective Software Development using OpenAPI Generator](https://apexlabs.ai/post/openapi-generator) by Ajil Oommen (Senior Flutter Developer)
 - 2022-05-13 - [A Path From an API To Client Libraries](https://www.youtube.com/watch?v=XC8oVn_efTw) by [Filip Srnec](https://www.devoxx.co.uk/talk/?id=11211) at Infobip
+- 2022-06-01 - [API First, using OpenAPI and Spring Boot](https://medium.com/xgeeks/api-first-using-openapi-and-spring-boot-2602c04bb0d3) by [Micael Estrázulas Vianna](https://estrazulas.medium.com/)
 
 ## [6 - About Us](#table-of-contents)
 

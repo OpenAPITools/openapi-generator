@@ -95,6 +95,11 @@ class JmsSerializer implements SerializerInterface
 
     private function deserializeArrayString($format, $type, $data)
     {
+        if($data === null)
+        {
+            return [];
+        }
+
         // Parse the string using the correct separator
         switch ($format) {
             case 'csv':

@@ -6,7 +6,7 @@
  *)
 
 let create_user ~user_t =
-    let open Lwt in
+    let open Lwt.Infix in
     let uri = Request.build_uri "/user" in
     let headers = Request.default_headers in
     let headers = Cohttp.Header.add headers "api_key" Request.api_key in
@@ -15,7 +15,7 @@ let create_user ~user_t =
     Request.handle_unit_response resp
 
 let create_users_with_array_input ~user =
-    let open Lwt in
+    let open Lwt.Infix in
     let uri = Request.build_uri "/user/createWithArray" in
     let headers = Request.default_headers in
     let headers = Cohttp.Header.add headers "api_key" Request.api_key in
@@ -24,7 +24,7 @@ let create_users_with_array_input ~user =
     Request.handle_unit_response resp
 
 let create_users_with_list_input ~user =
-    let open Lwt in
+    let open Lwt.Infix in
     let uri = Request.build_uri "/user/createWithList" in
     let headers = Request.default_headers in
     let headers = Cohttp.Header.add headers "api_key" Request.api_key in
@@ -33,7 +33,7 @@ let create_users_with_list_input ~user =
     Request.handle_unit_response resp
 
 let delete_user ~username =
-    let open Lwt in
+    let open Lwt.Infix in
     let uri = Request.build_uri "/user/{username}" in
     let headers = Request.default_headers in
     let headers = Cohttp.Header.add headers "api_key" Request.api_key in
@@ -42,7 +42,7 @@ let delete_user ~username =
     Request.handle_unit_response resp
 
 let get_user_by_name ~username =
-    let open Lwt in
+    let open Lwt.Infix in
     let uri = Request.build_uri "/user/{username}" in
     let headers = Request.default_headers in
     let uri = Request.replace_path_param uri "username" (fun x -> x) username in
@@ -50,7 +50,7 @@ let get_user_by_name ~username =
     Request.read_json_body_as (JsonSupport.unwrap User.of_yojson) resp body
 
 let login_user ~username ~password =
-    let open Lwt in
+    let open Lwt.Infix in
     let uri = Request.build_uri "/user/login" in
     let headers = Request.default_headers in
     let uri = Request.add_query_param uri "username" (fun x -> x) username in
@@ -59,7 +59,7 @@ let login_user ~username ~password =
     Request.read_json_body_as (JsonSupport.to_string) resp body
 
 let logout_user () =
-    let open Lwt in
+    let open Lwt.Infix in
     let uri = Request.build_uri "/user/logout" in
     let headers = Request.default_headers in
     let headers = Cohttp.Header.add headers "api_key" Request.api_key in
@@ -67,7 +67,7 @@ let logout_user () =
     Request.handle_unit_response resp
 
 let update_user ~username ~user_t =
-    let open Lwt in
+    let open Lwt.Infix in
     let uri = Request.build_uri "/user/{username}" in
     let headers = Request.default_headers in
     let headers = Cohttp.Header.add headers "api_key" Request.api_key in

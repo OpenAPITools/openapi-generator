@@ -25,14 +25,27 @@ Add a new pet to the store
 ```R
 library(petstore)
 
-var.pet <- Pet$new("name_example", list("photoUrls_example"), 123, Category$new(123, "name_example"), list(Tag$new(123, "name_example")), "available") # Pet | Pet object that needs to be added to the store
+var_pet <- Pet$new("name_example", list("photoUrls_example"), 123, Category$new(123, "name_example"), list(Tag$new(123, "name_example")), "available") # Pet | Pet object that needs to be added to the store
 
 #Add a new pet to the store
-api.instance <- PetApi$new()
+api_instance <- PetApi$new()
 # Configure OAuth2 access token for authorization: petstore_auth
-api.instance$apiClient$accessToken <- 'TODO_YOUR_ACCESS_TOKEN';
-result <- api.instance$AddPet(var.pet)
-dput(result)
+api_instance$api_client$access_token <- 'TODO_YOUR_ACCESS_TOKEN';
+result <- tryCatch(
+             api_instance$AddPet(var_pet),
+             ApiException = function(ex) ex
+          )
+# In case of error, print the error object
+if(!is.null(result$ApiException)) {
+  cat(result$ApiException$toString())
+} else {
+  # deserialized response object
+  response.object <- result$content
+  # response headers
+  response.headers <- result$response$headers
+  # response status code
+  response.status.code <- result$response$status_code
+}
 ```
 
 ### Parameters
@@ -71,14 +84,26 @@ Deletes a pet
 ```R
 library(petstore)
 
-var.pet_id <- 56 # integer | Pet id to delete
-var.api_key <- 'api_key_example' # character | 
+var_pet_id <- 56 # integer | Pet id to delete
+var_api_key <- 'api_key_example' # character | 
 
 #Deletes a pet
-api.instance <- PetApi$new()
+api_instance <- PetApi$new()
 # Configure OAuth2 access token for authorization: petstore_auth
-api.instance$apiClient$accessToken <- 'TODO_YOUR_ACCESS_TOKEN';
-api.instance$DeletePet(var.pet_id, api_key=var.api_key)
+api_instance$api_client$access_token <- 'TODO_YOUR_ACCESS_TOKEN';
+result <- tryCatch(
+             api_instance$DeletePet(var_pet_id, api_key=var_api_key),
+             ApiException = function(ex) ex
+          )
+# In case of error, print the error object
+if(!is.null(result$ApiException)) {
+  cat(result$ApiException$toString())
+} else {
+  # response headers
+  response.headers <- result$response$headers
+  # response status code
+  response.status.code <- result$response$status_code
+}
 ```
 
 ### Parameters
@@ -117,14 +142,27 @@ Multiple status values can be provided with comma separated strings
 ```R
 library(petstore)
 
-var.status <- list("available") # array[character] | Status values that need to be considered for filter
+var_status <- list("available") # array[character] | Status values that need to be considered for filter
 
 #Finds Pets by status
-api.instance <- PetApi$new()
+api_instance <- PetApi$new()
 # Configure OAuth2 access token for authorization: petstore_auth
-api.instance$apiClient$accessToken <- 'TODO_YOUR_ACCESS_TOKEN';
-result <- api.instance$FindPetsByStatus(var.status)
-dput(result)
+api_instance$api_client$access_token <- 'TODO_YOUR_ACCESS_TOKEN';
+result <- tryCatch(
+             api_instance$FindPetsByStatus(var_status),
+             ApiException = function(ex) ex
+          )
+# In case of error, print the error object
+if(!is.null(result$ApiException)) {
+  cat(result$ApiException$toString())
+} else {
+  # deserialized response object
+  response.object <- result$content
+  # response headers
+  response.headers <- result$response$headers
+  # response status code
+  response.status.code <- result$response$status_code
+}
 ```
 
 ### Parameters
@@ -163,14 +201,27 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 ```R
 library(petstore)
 
-var.tags <- list("inner_example") # array[character] | Tags to filter by
+var_tags <- list("inner_example") # array[character] | Tags to filter by
 
 #Finds Pets by tags
-api.instance <- PetApi$new()
+api_instance <- PetApi$new()
 # Configure OAuth2 access token for authorization: petstore_auth
-api.instance$apiClient$accessToken <- 'TODO_YOUR_ACCESS_TOKEN';
-result <- api.instance$FindPetsByTags(var.tags)
-dput(result)
+api_instance$api_client$access_token <- 'TODO_YOUR_ACCESS_TOKEN';
+result <- tryCatch(
+             api_instance$FindPetsByTags(var_tags),
+             ApiException = function(ex) ex
+          )
+# In case of error, print the error object
+if(!is.null(result$ApiException)) {
+  cat(result$ApiException$toString())
+} else {
+  # deserialized response object
+  response.object <- result$content
+  # response headers
+  response.headers <- result$response$headers
+  # response status code
+  response.status.code <- result$response$status_code
+}
 ```
 
 ### Parameters
@@ -209,14 +260,27 @@ Returns a single pet
 ```R
 library(petstore)
 
-var.pet_id <- 56 # integer | ID of pet to return
+var_pet_id <- 56 # integer | ID of pet to return
 
 #Find pet by ID
-api.instance <- PetApi$new()
+api_instance <- PetApi$new()
 # Configure API key authorization: api_key
-api.instance$apiClient$apiKeys['api_key'] <- 'TODO_YOUR_API_KEY';
-result <- api.instance$GetPetById(var.pet_id)
-dput(result)
+api_instance$api_client$api_keys['api_key'] <- 'TODO_YOUR_API_KEY';
+result <- tryCatch(
+             api_instance$GetPetById(var_pet_id),
+             ApiException = function(ex) ex
+          )
+# In case of error, print the error object
+if(!is.null(result$ApiException)) {
+  cat(result$ApiException$toString())
+} else {
+  # deserialized response object
+  response.object <- result$content
+  # response headers
+  response.headers <- result$response$headers
+  # response status code
+  response.status.code <- result$response$status_code
+}
 ```
 
 ### Parameters
@@ -256,14 +320,27 @@ Update an existing pet
 ```R
 library(petstore)
 
-var.pet <- Pet$new("name_example", list("photoUrls_example"), 123, Category$new(123, "name_example"), list(Tag$new(123, "name_example")), "available") # Pet | Pet object that needs to be added to the store
+var_pet <- Pet$new("name_example", list("photoUrls_example"), 123, Category$new(123, "name_example"), list(Tag$new(123, "name_example")), "available") # Pet | Pet object that needs to be added to the store
 
 #Update an existing pet
-api.instance <- PetApi$new()
+api_instance <- PetApi$new()
 # Configure OAuth2 access token for authorization: petstore_auth
-api.instance$apiClient$accessToken <- 'TODO_YOUR_ACCESS_TOKEN';
-result <- api.instance$UpdatePet(var.pet)
-dput(result)
+api_instance$api_client$access_token <- 'TODO_YOUR_ACCESS_TOKEN';
+result <- tryCatch(
+             api_instance$UpdatePet(var_pet),
+             ApiException = function(ex) ex
+          )
+# In case of error, print the error object
+if(!is.null(result$ApiException)) {
+  cat(result$ApiException$toString())
+} else {
+  # deserialized response object
+  response.object <- result$content
+  # response headers
+  response.headers <- result$response$headers
+  # response status code
+  response.status.code <- result$response$status_code
+}
 ```
 
 ### Parameters
@@ -304,15 +381,27 @@ Updates a pet in the store with form data
 ```R
 library(petstore)
 
-var.pet_id <- 56 # integer | ID of pet that needs to be updated
-var.name <- 'name_example' # character | Updated name of the pet
-var.status <- 'status_example' # character | Updated status of the pet
+var_pet_id <- 56 # integer | ID of pet that needs to be updated
+var_name <- 'name_example' # character | Updated name of the pet
+var_status <- 'status_example' # character | Updated status of the pet
 
 #Updates a pet in the store with form data
-api.instance <- PetApi$new()
+api_instance <- PetApi$new()
 # Configure OAuth2 access token for authorization: petstore_auth
-api.instance$apiClient$accessToken <- 'TODO_YOUR_ACCESS_TOKEN';
-api.instance$UpdatePetWithForm(var.pet_id, name=var.name, status=var.status)
+api_instance$api_client$access_token <- 'TODO_YOUR_ACCESS_TOKEN';
+result <- tryCatch(
+             api_instance$UpdatePetWithForm(var_pet_id, name=var_name, status=var_status),
+             ApiException = function(ex) ex
+          )
+# In case of error, print the error object
+if(!is.null(result$ApiException)) {
+  cat(result$ApiException$toString())
+} else {
+  # response headers
+  response.headers <- result$response$headers
+  # response status code
+  response.status.code <- result$response$status_code
+}
 ```
 
 ### Parameters
@@ -352,16 +441,29 @@ uploads an image
 ```R
 library(petstore)
 
-var.pet_id <- 56 # integer | ID of pet to update
-var.additional_metadata <- 'additional_metadata_example' # character | Additional data to pass to server
-var.file <- File.new('/path/to/file') # data.frame | file to upload
+var_pet_id <- 56 # integer | ID of pet to update
+var_additional_metadata <- 'additional_metadata_example' # character | Additional data to pass to server
+var_file <- File.new('/path/to/file') # data.frame | file to upload
 
 #uploads an image
-api.instance <- PetApi$new()
+api_instance <- PetApi$new()
 # Configure OAuth2 access token for authorization: petstore_auth
-api.instance$apiClient$accessToken <- 'TODO_YOUR_ACCESS_TOKEN';
-result <- api.instance$UploadFile(var.pet_id, additional_metadata=var.additional_metadata, file=var.file)
-dput(result)
+api_instance$api_client$access_token <- 'TODO_YOUR_ACCESS_TOKEN';
+result <- tryCatch(
+             api_instance$UploadFile(var_pet_id, additional_metadata=var_additional_metadata, file=var_file),
+             ApiException = function(ex) ex
+          )
+# In case of error, print the error object
+if(!is.null(result$ApiException)) {
+  cat(result$ApiException$toString())
+} else {
+  # deserialized response object
+  response.object <- result$content
+  # response headers
+  response.headers <- result$response$headers
+  # response status code
+  response.status.code <- result$response$status_code
+}
 ```
 
 ### Parameters

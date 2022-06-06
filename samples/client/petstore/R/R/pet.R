@@ -39,7 +39,6 @@ Pet <- R6::R6Class(
     initialize = function(
         `name`, `photoUrls`, `id`=NULL, `category`=NULL, `tags`=NULL, `status`=NULL, ...
     ) {
-      local.optional.var <- list(...)
       if (!missing(`name`)) {
         stopifnot(is.character(`name`), length(`name`) == 1)
         self$`name` <- `name`
@@ -177,6 +176,24 @@ Pet <- R6::R6Class(
       self$`tags` <- ApiClient$new()$deserializeObj(PetObject$`tags`, "array[Tag]", loadNamespace("petstore"))
       self$`status` <- PetObject$`status`
       self
+    },
+    validateJSON = function(input) {
+      input_json <- jsonlite::fromJSON(input)
+      # check the required field `name`
+      if (!is.null(input_json$`name`)) {
+        stopifnot(is.character(input_json$`name`), length(input_json$`name`) == 1)
+      } else {
+        stop(paste("The JSON input `", input, "` is invalid for Pet: the required field `name` is missing."))
+      }
+      # check the required field `photoUrls`
+      if (!is.null(input_json$`photoUrls`)) {
+        stopifnot(is.vector(input_json$`photoUrls`), length(input_json$`photoUrls`) != 0)
+        tmp <- sapply(input_json$`photoUrls`, function(x) stopifnot(is.character(x)))
+      } else {
+        stop(paste("The JSON input `", input, "` is invalid for Pet: the required field `photoUrls` is missing."))
+      }
     }
+
   )
 )
+

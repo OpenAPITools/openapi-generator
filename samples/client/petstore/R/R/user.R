@@ -45,7 +45,6 @@ User <- R6::R6Class(
     initialize = function(
         `id`=NULL, `username`=NULL, `firstName`=NULL, `lastName`=NULL, `email`=NULL, `password`=NULL, `phone`=NULL, `userStatus`=NULL, ...
     ) {
-      local.optional.var <- list(...)
       if (!is.null(`id`)) {
         stopifnot(is.numeric(`id`), length(`id`) == 1)
         self$`id` <- `id`
@@ -217,6 +216,11 @@ User <- R6::R6Class(
       self$`phone` <- UserObject$`phone`
       self$`userStatus` <- UserObject$`userStatus`
       self
+    },
+    validateJSON = function(input) {
+      input_json <- jsonlite::fromJSON(input)
     }
+
   )
 )
+

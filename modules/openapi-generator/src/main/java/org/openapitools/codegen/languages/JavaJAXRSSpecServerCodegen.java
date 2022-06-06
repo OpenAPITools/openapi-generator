@@ -270,4 +270,14 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         return "Generates a Java JAXRS Server according to JAXRS 2.0 specification.";
     }
 
+    @Override
+    public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
+        super.postProcessModelProperty(model, property);
+
+        // Add imports for java.util.Arrays
+        if (property.isByteArray) {
+            model.imports.add("Arrays");
+        }
+    }
+
 }

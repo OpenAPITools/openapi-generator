@@ -33,6 +33,7 @@
 #' @field retry_status_codes vector of status codes to retry
 #' @field max_retry_attempts maximum number of retries for the status codes
 #' @importFrom httr add_headers accept timeout content
+#' @importFrom rlang abort
 #' @export
 ApiClient  <- R6::R6Class(
   "ApiClient",
@@ -152,7 +153,7 @@ ApiClient  <- R6::R6Class(
         httr::DELETE(url, query = query_params, headers, http_timeout, http_timeout, httr::user_agent(self$`user_agent`), ...)
       } else {
         err_msg <- "Http method must be `GET`, `HEAD`, `OPTIONS`, `POST`, `PATCH`, `PUT` or `DELETE`."
-        stop(err_msg)
+        rlang::abort(message = err_msg, .subclass = "ApiException", ApiException = ApiException$new(status = 0, reason = err_msg))
       }
     },
 

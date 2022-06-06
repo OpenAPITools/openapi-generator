@@ -39,9 +39,7 @@ use \OpenAPI\Client\ObjectSerializer;
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
- * @implements \ArrayAccess<TKey, TValue>
- * @template TKey int|null
- * @template TValue mixed|null
+ * @implements \ArrayAccess<string, mixed>
  */
 class Name implements ModelInterface, ArrayAccess, \JsonSerializable
 {

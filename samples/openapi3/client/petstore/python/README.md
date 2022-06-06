@@ -107,6 +107,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**test_inline_additional_properties**](docs/FakeApi.md#test_inline_additional_properties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 *FakeApi* | [**test_json_form_data**](docs/FakeApi.md#test_json_form_data) | **GET** /fake/jsonFormData | test json serialization of form data
 *FakeApi* | [**test_query_parameter_collection_format**](docs/FakeApi.md#test_query_parameter_collection_format) | **PUT** /fake/test-query-parameters | 
+*FakeApi* | [**tx_rx_all_of_model**](docs/FakeApi.md#tx_rx_all_of_model) | **POST** /fake/TxRxAllOfModel | 
 *FakeApi* | [**tx_rx_any_of_model**](docs/FakeApi.md#tx_rx_any_of_model) | **POST** /fake/TxRxAnyOfModel | 
 *FakeApi* | [**upload_download_file**](docs/FakeApi.md#upload_download_file) | **POST** /fake/uploadDownloadFile | uploads a file and downloads a file using application/octet-stream
 *FakeApi* | [**upload_file**](docs/FakeApi.md#upload_file) | **POST** /fake/uploadFile | uploads a file using multipart/form-data
@@ -166,6 +167,7 @@ Class | Method | HTTP request | Description
  - [Dog](docs/Dog.md)
  - [DogAllOf](docs/DogAllOf.md)
  - [Drawing](docs/Drawing.md)
+ - [EgressThresholdOptions](docs/EgressThresholdOptions.md)
  - [EnumArrays](docs/EnumArrays.md)
  - [EnumClass](docs/EnumClass.md)
  - [EnumTest](docs/EnumTest.md)
@@ -210,6 +212,8 @@ Class | Method | HTTP request | Description
  - [Pig](docs/Pig.md)
  - [PostInlineAdditionalPropertiesPayloadRequest](docs/PostInlineAdditionalPropertiesPayloadRequest.md)
  - [PostInlineAdditionalPropertiesPayloadRequestArrayDataInner](docs/PostInlineAdditionalPropertiesPayloadRequestArrayDataInner.md)
+ - [PublishOptions](docs/PublishOptions.md)
+ - [PublishOptionsPublish](docs/PublishOptionsPublish.md)
  - [Quadrilateral](docs/Quadrilateral.md)
  - [QuadrilateralInterface](docs/QuadrilateralInterface.md)
  - [ReadOnlyFirst](docs/ReadOnlyFirst.md)
@@ -222,6 +226,7 @@ Class | Method | HTTP request | Description
  - [SomeObject](docs/SomeObject.md)
  - [SomeObjectWithSelfAttr](docs/SomeObjectWithSelfAttr.md)
  - [SpecialModelName](docs/SpecialModelName.md)
+ - [StreamOptions](docs/StreamOptions.md)
  - [StringBooleanMap](docs/StringBooleanMap.md)
  - [StringEnum](docs/StringEnum.md)
  - [StringEnumWithDefaultValue](docs/StringEnumWithDefaultValue.md)

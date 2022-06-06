@@ -769,6 +769,29 @@
         "summary" : "Updated user",
         "tags" : [ "user" ]
       }
+    },
+    "/fake/parameter_example_test" : {
+      "get" : {
+        "description" : "",
+        "operationId" : "fake_parameter_example_test",
+        "parameters" : [ {
+          "explode" : true,
+          "in" : "query",
+          "name" : "data",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/components/schemas/Pet"
+          },
+          "style" : "form"
+        } ],
+        "responses" : {
+          "default" : {
+            "description" : "successful operation"
+          }
+        },
+        "summary" : "fake endpoint to test parameter example (object)",
+        "tags" : [ "fake" ]
+      }
     }
   },
   "components" : {

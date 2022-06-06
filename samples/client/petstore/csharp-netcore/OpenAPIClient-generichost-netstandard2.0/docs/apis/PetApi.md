@@ -2,18 +2,17 @@
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
 
-Method | HTTP request | Description
-------------- | ------------- | -------------
-[**AddPet**](PetApi.md#addpet) | **POST** /pet | Add a new pet to the store
-[**DeletePet**](PetApi.md#deletepet) | **DELETE** /pet/{petId} | Deletes a pet
-[**FindPetsByStatus**](PetApi.md#findpetsbystatus) | **GET** /pet/findByStatus | Finds Pets by status
-[**FindPetsByTags**](PetApi.md#findpetsbytags) | **GET** /pet/findByTags | Finds Pets by tags
-[**GetPetById**](PetApi.md#getpetbyid) | **GET** /pet/{petId} | Find pet by ID
-[**UpdatePet**](PetApi.md#updatepet) | **PUT** /pet | Update an existing pet
-[**UpdatePetWithForm**](PetApi.md#updatepetwithform) | **POST** /pet/{petId} | Updates a pet in the store with form data
-[**UploadFile**](PetApi.md#uploadfile) | **POST** /pet/{petId}/uploadImage | uploads an image
-[**UploadFileWithRequiredFile**](PetApi.md#uploadfilewithrequiredfile) | **POST** /fake/{petId}/uploadImageWithRequiredFile | uploads an image (required)
-
+| Method | HTTP request | Description |
+|--------|--------------|-------------|
+| [**AddPet**](PetApi.md#addpet) | **POST** /pet | Add a new pet to the store |
+| [**DeletePet**](PetApi.md#deletepet) | **DELETE** /pet/{petId} | Deletes a pet |
+| [**FindPetsByStatus**](PetApi.md#findpetsbystatus) | **GET** /pet/findByStatus | Finds Pets by status |
+| [**FindPetsByTags**](PetApi.md#findpetsbytags) | **GET** /pet/findByTags | Finds Pets by tags |
+| [**GetPetById**](PetApi.md#getpetbyid) | **GET** /pet/{petId} | Find pet by ID |
+| [**UpdatePet**](PetApi.md#updatepet) | **PUT** /pet | Update an existing pet |
+| [**UpdatePetWithForm**](PetApi.md#updatepetwithform) | **POST** /pet/{petId} | Updates a pet in the store with form data |
+| [**UploadFile**](PetApi.md#uploadfile) | **POST** /pet/{petId}/uploadImage | uploads an image |
+| [**UploadFileWithRequiredFile**](PetApi.md#uploadfilewithrequiredfile) | **POST** /fake/{petId}/uploadImageWithRequiredFile | uploads an image (required) |
 
 <a name="addpet"></a>
 # **AddPet**
@@ -50,8 +49,8 @@ namespace Example
             }
             catch (ApiException  e)
             {
-                Debug.Print("Exception when calling PetApi.AddPet: " + e.Message );
-                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print("Exception when calling PetApi.AddPet: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
                 Debug.Print(e.StackTrace);
             }
         }
@@ -59,11 +58,28 @@ namespace Example
 }
 ```
 
+#### Using the AddPetWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Add a new pet to the store
+    apiInstance.AddPetWithHttpInfo(pet);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling PetApi.AddPetWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **pet** | [**Pet**](Pet.md) | Pet object that needs to be added to the store |  |
 
 ### Return type
 
@@ -122,8 +138,8 @@ namespace Example
             }
             catch (ApiException  e)
             {
-                Debug.Print("Exception when calling PetApi.DeletePet: " + e.Message );
-                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print("Exception when calling PetApi.DeletePet: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
                 Debug.Print(e.StackTrace);
             }
         }
@@ -131,12 +147,29 @@ namespace Example
 }
 ```
 
+#### Using the DeletePetWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Deletes a pet
+    apiInstance.DeletePetWithHttpInfo(petId, apiKey);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling PetApi.DeletePetWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **petId** | **long**| Pet id to delete | 
- **apiKey** | **string**|  | [optional] 
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **petId** | **long** | Pet id to delete |  |
+| **apiKey** | **string** |  | [optional]  |
 
 ### Return type
 
@@ -197,8 +230,8 @@ namespace Example
             }
             catch (ApiException  e)
             {
-                Debug.Print("Exception when calling PetApi.FindPetsByStatus: " + e.Message );
-                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print("Exception when calling PetApi.FindPetsByStatus: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
                 Debug.Print(e.StackTrace);
             }
         }
@@ -206,11 +239,31 @@ namespace Example
 }
 ```
 
+#### Using the FindPetsByStatusWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Finds Pets by status
+    ApiResponse<List<Pet>> response = apiInstance.FindPetsByStatusWithHttpInfo(status);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling PetApi.FindPetsByStatusWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **status** | [**List&lt;string&gt;**](string.md)| Status values that need to be considered for filter | 
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **status** | [**List&lt;string&gt;**](string.md) | Status values that need to be considered for filter |  |
 
 ### Return type
 
@@ -272,8 +325,8 @@ namespace Example
             }
             catch (ApiException  e)
             {
-                Debug.Print("Exception when calling PetApi.FindPetsByTags: " + e.Message );
-                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print("Exception when calling PetApi.FindPetsByTags: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
                 Debug.Print(e.StackTrace);
             }
         }
@@ -281,11 +334,31 @@ namespace Example
 }
 ```
 
+#### Using the FindPetsByTagsWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Finds Pets by tags
+    ApiResponse<List<Pet>> response = apiInstance.FindPetsByTagsWithHttpInfo(tags);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling PetApi.FindPetsByTagsWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **tags** | [**List&lt;string&gt;**](string.md)| Tags to filter by | 
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **tags** | [**List&lt;string&gt;**](string.md) | Tags to filter by |  |
 
 ### Return type
 
@@ -349,8 +422,8 @@ namespace Example
             }
             catch (ApiException  e)
             {
-                Debug.Print("Exception when calling PetApi.GetPetById: " + e.Message );
-                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print("Exception when calling PetApi.GetPetById: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
                 Debug.Print(e.StackTrace);
             }
         }
@@ -358,11 +431,31 @@ namespace Example
 }
 ```
 
+#### Using the GetPetByIdWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Find pet by ID
+    ApiResponse<Pet> response = apiInstance.GetPetByIdWithHttpInfo(petId);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling PetApi.GetPetByIdWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **petId** | **long**| ID of pet to return | 
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **petId** | **long** | ID of pet to return |  |
 
 ### Return type
 
@@ -422,8 +515,8 @@ namespace Example
             }
             catch (ApiException  e)
             {
-                Debug.Print("Exception when calling PetApi.UpdatePet: " + e.Message );
-                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print("Exception when calling PetApi.UpdatePet: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
                 Debug.Print(e.StackTrace);
             }
         }
@@ -431,11 +524,28 @@ namespace Example
 }
 ```
 
+#### Using the UpdatePetWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Update an existing pet
+    apiInstance.UpdatePetWithHttpInfo(pet);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling PetApi.UpdatePetWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **pet** | [**Pet**](Pet.md) | Pet object that needs to be added to the store |  |
 
 ### Return type
 
@@ -497,8 +607,8 @@ namespace Example
             }
             catch (ApiException  e)
             {
-                Debug.Print("Exception when calling PetApi.UpdatePetWithForm: " + e.Message );
-                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print("Exception when calling PetApi.UpdatePetWithForm: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
                 Debug.Print(e.StackTrace);
             }
         }
@@ -506,13 +616,30 @@ namespace Example
 }
 ```
 
+#### Using the UpdatePetWithFormWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Updates a pet in the store with form data
+    apiInstance.UpdatePetWithFormWithHttpInfo(petId, name, status);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling PetApi.UpdatePetWithFormWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **petId** | **long**| ID of pet that needs to be updated | 
- **name** | **string**| Updated name of the pet | [optional] 
- **status** | **string**| Updated status of the pet | [optional] 
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **petId** | **long** | ID of pet that needs to be updated |  |
+| **name** | **string** | Updated name of the pet | [optional]  |
+| **status** | **string** | Updated status of the pet | [optional]  |
 
 ### Return type
 
@@ -573,8 +700,8 @@ namespace Example
             }
             catch (ApiException  e)
             {
-                Debug.Print("Exception when calling PetApi.UploadFile: " + e.Message );
-                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print("Exception when calling PetApi.UploadFile: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
                 Debug.Print(e.StackTrace);
             }
         }
@@ -582,13 +709,33 @@ namespace Example
 }
 ```
 
+#### Using the UploadFileWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // uploads an image
+    ApiResponse<ApiResponse> response = apiInstance.UploadFileWithHttpInfo(petId, additionalMetadata, file);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling PetApi.UploadFileWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **petId** | **long**| ID of pet to update | 
- **additionalMetadata** | **string**| Additional data to pass to server | [optional] 
- **file** | **System.IO.Stream****System.IO.Stream**| file to upload | [optional] 
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **petId** | **long** | ID of pet to update |  |
+| **additionalMetadata** | **string** | Additional data to pass to server | [optional]  |
+| **file** | **System.IO.Stream****System.IO.Stream** | file to upload | [optional]  |
 
 ### Return type
 
@@ -649,8 +796,8 @@ namespace Example
             }
             catch (ApiException  e)
             {
-                Debug.Print("Exception when calling PetApi.UploadFileWithRequiredFile: " + e.Message );
-                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print("Exception when calling PetApi.UploadFileWithRequiredFile: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
                 Debug.Print(e.StackTrace);
             }
         }
@@ -658,13 +805,33 @@ namespace Example
 }
 ```
 
+#### Using the UploadFileWithRequiredFileWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // uploads an image (required)
+    ApiResponse<ApiResponse> response = apiInstance.UploadFileWithRequiredFileWithHttpInfo(petId, requiredFile, additionalMetadata);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling PetApi.UploadFileWithRequiredFileWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **petId** | **long**| ID of pet to update | 
- **requiredFile** | **System.IO.Stream****System.IO.Stream**| file to upload | 
- **additionalMetadata** | **string**| Additional data to pass to server | [optional] 
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **petId** | **long** | ID of pet to update |  |
+| **requiredFile** | **System.IO.Stream****System.IO.Stream** | file to upload |  |
+| **additionalMetadata** | **string** | Additional data to pass to server | [optional]  |
 
 ### Return type
 

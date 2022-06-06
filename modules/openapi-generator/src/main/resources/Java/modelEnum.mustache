@@ -60,7 +60,7 @@ import com.google.gson.stream.JsonWriter;
         return b;
       }
     }
-    {{#isNullable}}return null;{{/isNullable}}{{^isNullable}}throw new IllegalArgumentException("Unexpected value '" + value + "'");{{/isNullable}}
+    {{#isNullable}}return null;{{/isNullable}}{{^isNullable}}{{#enumUnknownDefaultCase}}{{#allowableValues}}{{#enumVars}}{{#-last}}return {{{name}}};{{/-last}}{{/enumVars}}{{/allowableValues}}{{/enumUnknownDefaultCase}}{{^enumUnknownDefaultCase}}throw new IllegalArgumentException("Unexpected value '" + value + "'");{{/enumUnknownDefaultCase}}{{/isNullable}}
   }
 {{#gson}}
 

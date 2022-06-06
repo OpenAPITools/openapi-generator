@@ -74,6 +74,25 @@ public class OuterComposite  {
   }
 
 
+    @Override
+    public boolean equals(Object o) {
+      if (this == o) {
+        return true;
+      }
+      if (o == null || getClass() != o.getClass()) {
+        return false;
+      }
+      OuterComposite outerComposite = (OuterComposite) o;
+      return Objects.equals(myNumber, outerComposite.myNumber) &&
+          Objects.equals(myString, outerComposite.myString) &&
+          Objects.equals(myBoolean, outerComposite.myBoolean);
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hash(myNumber, myString, myBoolean);
+    }
+
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
