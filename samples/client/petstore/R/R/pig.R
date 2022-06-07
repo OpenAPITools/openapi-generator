@@ -82,6 +82,18 @@ Pig <- R6::R6Class(
       } else {
         NULL
       }
+    },
+    validateJSON = function(input) {
+      # backup current values
+      actual_instance_bak <- self$actual_instance
+      actual_type_bak <- self$actual_type
+
+      # if it's not valid, an error will be thrown
+      self$fromJSON(input)
+
+      # no error thrown, restore old values
+      self$actual_instance <- actual_instance_bak
+      self$actual_type <- actual_type_bak
     }
   )
 )

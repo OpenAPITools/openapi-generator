@@ -159,6 +159,7 @@ test_that("Tests oneOf", {
   # test fromJSON, actual_tpye, actual_instance
   pig <- Pig$new()
   danish_pig <- pig$fromJSON(danish_pig_json)
+  pig$validateJSON(basque_pig_json) # validate JSON to ensure its actual_instance, actual_type are not updated
   expect_equal(danish_pig$actual_type, "DanishPig")
   expect_equal(danish_pig$actual_instance$size, 7)
   expect_equal(danish_pig$actual_instance$className, "DanishPig")
@@ -178,7 +179,7 @@ test_that("Tests oneOf", {
 
   # test exception when no matche found
   expect_error(pig$fromJSON('{}'), 'No match found when deserializing the payload into Pig with oneOf schemas BasquePig, DanishPig. Details:  The JSON input ` \\{\\} ` is invalid for BasquePig: the required field `className` is missing\\., The JSON input ` \\{\\} ` is invalid for DanishPig: the required field `className` is missing\\.')
-
+  expect_error(pig$validateJSON('{}'), 'No match found when deserializing the payload into Pig with oneOf schemas BasquePig, DanishPig. Details:  The JSON input ` \\{\\} ` is invalid for BasquePig: the required field `className` is missing\\., The JSON input ` \\{\\} ` is invalid for DanishPig: the required field `className` is missing\\.')
 
 })
 
@@ -221,7 +222,7 @@ test_that("Tests anyOf", {
 
   # test exception when no matche found
   expect_error(pig$fromJSON('{}'), 'No match found when deserializing the payload into AnyOfPig with anyOf schemas BasquePig, DanishPig. Details:  The JSON input ` \\{\\} ` is invalid for BasquePig: the required field `className` is missing\\., The JSON input ` \\{\\} ` is invalid for DanishPig: the required field `className` is missing\\.')
-
+  expect_error(pig$validateJSON('{}'), 'No match found when deserializing the payload into AnyOfPig with anyOf schemas BasquePig, DanishPig. Details:  The JSON input ` \\{\\} ` is invalid for BasquePig: the required field `className` is missing\\., The JSON input ` \\{\\} ` is invalid for DanishPig: the required field `className` is missing\\.')
 
 })
 
