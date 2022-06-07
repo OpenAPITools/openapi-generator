@@ -174,9 +174,9 @@
   infoLink: "https://www.emineo.ch/"
   pinned: false
 -
-  caption: "freee"
-  image: "img/companies/freee.png"
-  infoLink: "https://corp.freee.co.jp/en/"
+  caption: "fastly"
+  image: "img/companies/fastly.png"
+  infoLink: "https://www.fastly.com/"
   pinned: false
 -
   caption: "Fenergo"
@@ -187,6 +187,11 @@
   caption: FiNC Technologies
   image: "img/companies/finc-technologies.png"
   infoLink: "https://company.finc.com/"
+  pinned: false
+-
+  caption: "freee"
+  image: "img/companies/freee.png"
+  infoLink: "https://corp.freee.co.jp/en/"
   pinned: false
 -
   caption: "FreshCells"

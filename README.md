@@ -614,6 +614,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [Element AI](https://www.elementai.com/)
 - [Embotics](https://www.embotics.com/)
 - [emineo](https://www.emineo.ch)
+- [fastly](https://www.fastly.com/)
 - [Fenergo](https://www.fenergo.com/)
 - [freee](https://corp.freee.co.jp/en/)
 - [FreshCells](https://www.freshcells.de/)
