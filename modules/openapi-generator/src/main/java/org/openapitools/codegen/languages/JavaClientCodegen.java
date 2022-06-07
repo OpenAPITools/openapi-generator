@@ -109,7 +109,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         );
         instantiationTypes.put("array", "ArrayList");
         instantiationTypes.put("map", "HashMap");
-        typeMapping.put("file", "File");
+        typeMapping.put("file", "java.io.File");
         typeMapping.put("UUID", "String");
 
         cliOptions.add(new CliOption(CodegenConstants.MODEL_PACKAGE, CodegenConstants.MODEL_PACKAGE_DESC));
