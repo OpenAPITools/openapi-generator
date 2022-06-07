@@ -113,7 +113,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
         importMapping = new HashMap<String, String>();
         importMapping.put("time.Time", "time");
         importMapping.put("*os.File", "os");
-        importMapping.put("os", "io/ioutil");
+
         cliOptions.clear();
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "Go package name (convention: lowercase).")
                 .defaultValue("swagger"));
