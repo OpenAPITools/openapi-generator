@@ -801,6 +801,10 @@ components:
       allOf:
         - $ref: '#/components/schemas/Tag'
         - $ref: '#/components/schemas/ApiResponse'
+    AnyOfPig:
+      anyOf:
+        - $ref: '#/components/schemas/BasquePig'
+        - $ref: '#/components/schemas/DanishPig'
     Pig:
       oneOf:
         - $ref: '#/components/schemas/BasquePig'

@@ -5,6 +5,7 @@ DESCRIPTION
 NAMESPACE
 R/allof_tag_api_response.R
 R/animal.R
+R/any_of_pig.R
 R/api_client.R
 R/api_exception.R
 R/api_response.R
@@ -28,6 +29,7 @@ R/user_api.R
 README.md
 docs/AllofTagApiResponse.md
 docs/Animal.md
+docs/AnyOfPig.md
 docs/BasquePig.md
 docs/Cat.md
 docs/CatAllOf.md
