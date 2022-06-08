@@ -130,6 +130,7 @@ class ParameterSerializerBase:
             ParameterStyle.PIPE_DELIMITED
         }:
             if style is ParameterStyle.FORM:
+                items = [self.__form_item_representation(item) for item in in_data]
                 return tuple((name, prefix + self.__urlencode(val)) for val in in_data)
             else:
                 joined_vals = prefix + separator.join(name + '=' + self.__urlencode(val) for val in in_data)
@@ -151,7 +152,7 @@ class ParameterSerializerBase:
         elif isinstance(in_data, (bool, bytes)):
             raise ApiValueError('Unable to generate a form representation of {}'.format(in_data))
         # str, float, int
-        return self.__urlencode(in_data)
+        return str(in_data)
 
     def __serialize_dict(
         self,
