@@ -2,6 +2,7 @@
 
 package {{invokerPackage}};
 
+import {{apiPackage}}.*;
 {{#dynamicOperations}}
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
@@ -1755,4 +1756,15 @@ public class ApiClient {
         // empty http request body
         return "";
     }
+
+    {{#apiInfo}}{{#apis}}
+    /**
+     * Get an instance of {{classname}}
+     *
+     * @return An instance of {{classname}}
+     */
+    public {{classname}} get{{classname}}() {
+        return new {{classname}}(this);
+    }
+    {{/apis}}{{/apiInfo}}
 }
