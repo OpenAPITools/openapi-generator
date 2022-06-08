@@ -109,7 +109,7 @@ class ParameterSerializerBase:
         """
         Get representation if str/float/int/None/items in list/ values in dict
         """
-        if isinstance(in_data, (str, float, int):
+        if isinstance(in_data, (str, float, int)):
             if percent_encode:
                 return quote(str(in_data))
             return str(in_data)
@@ -132,7 +132,7 @@ class ParameterSerializerBase:
         """
         named_parameter_expansion = prefix_separator_iterator.separator in {'&', ';'}
         var_name_piece = variable_name if named_parameter_expansion else ''
-        if isinstance(in_data, (str, float, int):
+        if isinstance(in_data, (str, float, int)):
             item_value = cls.__ref6570_item_value(in_data, percent_encode)
             if item_value is None:
                 return next(prefix_separator_iterator) + var_name_piece
@@ -164,7 +164,7 @@ class ParameterSerializerBase:
             elif all(v is None for v in in_data.values()):
                 return ""
             in_data_transformed = {key: cls.__ref6570_item_value(val, percent_encode) for key, val in in_data.items()}
-            in_data_transformed = {key: val for key, val in in_data_transformed.items() if val is not None]
+            in_data_transformed = {key: val for key, val in in_data_transformed.items() if val is not None}
             value_pair_equals = '=' if named_parameter_expansion else ''
             if not explode:
                 item_separator = '.' if prefix_separator_iterator.prefix == '.' else ','
@@ -206,7 +206,7 @@ class StyleFormSerializer(ParameterSerializerBase):
 
 class StyleSimpleSerializer(ParameterSerializerBase):
 
-    def _serialize_simple(
+    def serialize_simple(
         self,
         in_data: typing.Union[None, int, float, str, bool, dict, list],
         name: str,
@@ -478,7 +478,7 @@ class QueryParameter(ParameterBase, StyleFormSerializer):
             if self.style:
                 # TODO update query ones to omit setting values when [] {} or None is input
                 if self.style is ParameterStyle.FORM:
-                    return self._serialize_form(cast_in_data, explode=self.explode, name=self.name)
+                    return self._serialize_form(cast_in_data, name=self.name, explode=self.explode, percent_encode=True)
                 elif self.style is ParameterStyle.SPACE_DELIMITED:
                     return self.__serialize_space_delimited(cast_in_data)
                 elif self.style is ParameterStyle.PIPE_DELIMITED:
@@ -573,7 +573,7 @@ class HeaderParameter(ParameterBase, StyleSimpleSerializer):
         self,
         in_data: typing.Union[None, int, float, str, bool, dict, list],
     ) -> HTTPHeaderDict[str, str]:
-        value = super()._serialize_simple(in_data, self.name, self.explode, False)
+        value = self.serialize_simple(in_data, self.name, self.explode, False)
         return self.__to_headers((self.name, value))
 
     def serialize(
@@ -1323,7 +1323,7 @@ class RequestBody(StyleFormSerializer, JSONDetector):
             raise ValueError(
                 f'Unable to serialize {in_data} to application/x-www-form-urlencoded because it is not a dict of data')
         cast_in_data = self.__json_encoder.default(in_data)
-        fields = self._serialize_form(cast_in_data, explode=True, name='')
+        fields = self._serialize_form(cast_in_data, name='', explode=True, percent_encode=False)
         if not fields:
             return {}
         return {'fields': fields}
