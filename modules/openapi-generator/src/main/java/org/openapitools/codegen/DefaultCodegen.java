@@ -2201,9 +2201,9 @@ public class DefaultCodegen implements CodegenConfig {
             // get the schema/model name from $ref
             String schemaName = ModelUtils.getSimpleRef(unaliasSchema.get$ref());
             if (StringUtils.isNotEmpty(schemaName)) {
-                if (importMapping.containsKey(schemaName)) {
+                /*if (importMapping.containsKey(schemaName)) {
                     return schemaName;
-                }
+                }*/
                 return getAlias(schemaName);
             } else {
                 LOGGER.warn("Error obtaining the datatype from ref: {}. Default to 'object'", unaliasSchema.get$ref());
