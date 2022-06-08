@@ -363,15 +363,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
                 iterator.remove();
             }
         }
-        // if the return type is not primitive, import encoding/json
-        for (CodegenOperation operation : operations) {
-            if(operation.returnBaseType != null && needToImport(operation.returnBaseType)) {
-                Map<String, String> customImport = new HashMap<String, String>();
-                customImport.put("import", "encoding/json");
-                imports.add(customImport);
-                break; //just need to import once
-            }
-        }
+
         // recursivly add import for mapping one type to multipe imports
         List<Map<String, String>> recursiveImports = (List<Map<String, String>>) objs.get("imports");
         if (recursiveImports == null) {
