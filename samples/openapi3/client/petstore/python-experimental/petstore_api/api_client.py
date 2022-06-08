@@ -88,154 +88,105 @@ class ParameterStyle(enum.Enum):
     DEEP_OBJECT = 'deepObject'
 
 
+class PrefixSeparatorIterator:
+     # A class to store prefixes and separators for rfc6570 expansions
+
+     def __init__(self, prefix: str, separator: str):
+         self.prefix = prefix
+         self.separator = separator
+         self.first = True
+
+     def __iter__(self):
+         return self
+
+     def __next__(self):
+         if self.first:
+             self.first = False
+             return self.prefix
+         return self.separator
+
+
 class ParameterSerializerBase:
-    @staticmethod
-    def __serialize_number(
-        in_data: typing.Union[int, float], name: str, prefix=''
-    ) -> typing.Tuple[typing.Tuple[str, str]]:
-        return tuple([(name, prefix + str(in_data))])
 
     @staticmethod
-    def __serialize_str(
-        in_data: str, name: str, prefix=''
-    ) -> typing.Tuple[typing.Tuple[str, str]]:
-        return tuple([(name, prefix + quote(in_data))])
-
-    @staticmethod
-    def __serialize_bool(in_data: bool, name: str, prefix='') -> typing.Tuple[typing.Tuple[str, str]]:
-        if in_data:
-            return tuple([(name, prefix + 'true')])
-        return tuple([(name, prefix + 'false')])
-
-    @staticmethod
-    def __urlencode(in_data: typing.Any) -> str:
-        return quote(str(in_data))
-
-    def __serialize_list(
-        self,
-        in_data: typing.List[typing.Any],
-        style: ParameterStyle,
-        name: str,
-        explode: bool,
-        empty_val: typing.Union[typing.Tuple[str, str], typing.Tuple] = tuple(),
-        prefix: str = '',
-        separator: str = ',',
-    ) -> typing.Tuple[typing.Union[typing.Tuple[str, str], typing.Tuple], ...]:
-        if not in_data:
-            return empty_val
-        if explode and style in {
-            ParameterStyle.FORM,
-            ParameterStyle.MATRIX,
-            ParameterStyle.SPACE_DELIMITED,
-            ParameterStyle.PIPE_DELIMITED
-        }:
-            if style is ParameterStyle.FORM:
-                items = [self.__form_item_representation(item) for item in in_data]
-                return tuple((name, prefix + self.__urlencode(val)) for val in in_data)
-            else:
-                joined_vals = prefix + separator.join(name + '=' + self.__urlencode(val) for val in in_data)
-        else:
-            joined_vals = prefix + separator.join(map(self.__urlencode, in_data))
-        return tuple([(name, joined_vals)])
-
-    def __form_item_representation(self, in_data: typing.Any) -> typing.Optional[str]:
-        if isinstance(in_data, none_type):
+    def __ref6570_item_value(in_data: typing.Any, percent_encode: bool):
+        """
+        Get representation if str/float/int/None/items in list/ values in dict
+        """
+        if isinstance(in_data, (str, float, int):
+            if percent_encode:
+                return quote(str(in_data))
+            return str(in_data)
+        elif isinstance(in_data, none_type):
+            # ignored by the expansion process https://datatracker.ietf.org/doc/html/rfc6570#section-3.2.1
             return None
+        raise ApiValueError('Unable to generate an item representation of {}'.format(in_data))
+
+    @classmethod
+    def ref6570_expansion(
+        cls,
+        variable_name: str,
+        in_data: typing.Any,
+        explode: bool,
+        percent_encode: bool,
+        prefix_separator_iterator: PrefixSeparatorIterator
+    ) -> str:
+        """
+        Separator is for separate variables like dict with explode true, not for array item separation
+        """
+        named_parameter_expansion = prefix_separator_iterator.separator in {'&', ';'}
+        var_name_piece = variable_name if named_parameter_expansion else ''
+        if isinstance(in_data, (str, float, int):
+            item_value = cls.__ref6570_item_value(in_data, percent_encode)
+            if item_value is None:
+                return next(prefix_separator_iterator) + var_name_piece
+            value_pair_equals = '=' if named_parameter_expansion else ''
+            return next(prefix_separator_iterator) + var_name_piece + value_pair_equals + item_value
+        elif isinstance(in_data, none_type):
+            # ignored by the expansion process https://datatracker.ietf.org/doc/html/rfc6570#section-3.2.1
+            return ""
         elif isinstance(in_data, list):
             if not in_data:
-                return None
-            raise ApiValueError('Unable to generate a form representation of {}'.format(in_data))
+                # ignored by the expansion process https://datatracker.ietf.org/doc/html/rfc6570#section-3.2.1
+                return ""
+            elif all(v is None for v in in_data):
+                return ""
+            item_values = [cls.__ref6570_item_value(v, percent_encode) for v in in_data]
+            item_values = [v for v in item_values if v is not None]
+            value_pair_equals = '=' if named_parameter_expansion else ''
+            if not explode:
+                item_separator = '.' if prefix_separator_iterator.prefix == '.' else ','
+                return next(prefix_separator_iterator) + var_name_piece + value_pair_equals + item_separator.join(item_values)
+            # exploded
+            return next(prefix_separator_iterator) + next(prefix_separator_iterator).join(
+                [var_name_piece + value_pair_equals + val for val in item_values]
+            )
         elif isinstance(in_data, dict):
             if not in_data:
-                return None
-            raise ApiValueError('Unable to generate a form representation of {}'.format(in_data))
-        elif isinstance(in_data, (bool, bytes)):
-            raise ApiValueError('Unable to generate a form representation of {}'.format(in_data))
-        # str, float, int
-        return str(in_data)
-
-    def __serialize_dict(
-        self,
-        in_data: typing.Dict[str, typing.Any],
-        style: ParameterStyle,
-        name: str,
-        explode: bool,
-        empty_val: typing.Union[typing.Tuple[str, str], typing.Tuple] = tuple(),
-        prefix: str = '',
-        separator: str = ',',
-    ) -> typing.Tuple[typing.Tuple[str, str]]:
-        if not in_data:
-            return empty_val
-        if all(val is None for val in in_data.values()):
-            return empty_val
-
-        form_items = {}
-        if style is ParameterStyle.FORM:
-            for key, val in in_data.items():
-                new_val = self.__form_item_representation(val)
-                if new_val is None:
-                    continue
-                form_items[key] = new_val
-
-        if explode:
-            if style is ParameterStyle.FORM:
-                return tuple((key, prefix + val) for key, val in form_items.items())
-            elif style in {
-                ParameterStyle.SIMPLE,
-                ParameterStyle.LABEL,
-                ParameterStyle.MATRIX,
-                ParameterStyle.SPACE_DELIMITED,
-                ParameterStyle.PIPE_DELIMITED
-            }:
-                joined_vals = prefix + separator.join(key + '=' + self.__urlencode(val) for key, val in in_data.items())
-            else:
-                raise ApiValueError(f'Invalid style {style} for dict serialization with explode=True')
-        elif style is ParameterStyle.FORM:
-            joined_vals = prefix + separator.join(key + separator + val for key, val in form_items.items())
-        else:
-            joined_vals = prefix + separator.join(
-                key + separator + self.__urlencode(val) for key, val in in_data.items())
-        return tuple([(name, joined_vals)])
-
-    def _serialize_x(
-        self,
-        in_data: typing.Union[None, int, float, str, bool, dict, list],
-        style: ParameterStyle,
-        name: str,
-        explode: bool,
-        empty_val: typing.Union[typing.Tuple[str, str], typing.Tuple] = (),
-        prefix: str = '',
-        separator: str = ',',
-    ) -> typing.Tuple[typing.Tuple[str, str], ...]:
-        if isinstance(in_data, none_type):
-            return empty_val
-        elif isinstance(in_data, bool):
-            # must be before int check
-            return self.__serialize_bool(in_data, name=name, prefix=prefix)
-        elif isinstance(in_data, (int, float)):
-            return self.__serialize_number(in_data, name=name, prefix=prefix)
-        elif isinstance(in_data, str):
-            return self.__serialize_str(in_data, name=name, prefix=prefix)
-        elif isinstance(in_data, list):
-            return self.__serialize_list(
-                in_data,
-                style=style,
-                name=name,
-                explode=explode,
-                empty_val=empty_val,
-                prefix=prefix,
-                separator=separator
+                # ignored by the expansion process https://datatracker.ietf.org/doc/html/rfc6570#section-3.2.1
+                return ""
+            elif all(v is None for v in in_data.values()):
+                return ""
+            in_data_transformed = {key: cls.__ref6570_item_value(val, percent_encode) for key, val in in_data.items()}
+            in_data_transformed = {key: val for key, val in in_data_transformed.items() if val is not None]
+            value_pair_equals = '=' if named_parameter_expansion else ''
+            if not explode:
+                item_separator = '.' if prefix_separator_iterator.prefix == '.' else ','
+                return (
+                    next(prefix_separator_iterator) +
+                    var_name_piece + value_pair_equals +
+                    item_separator.join(
+                        item_separator.join(
+                            item_pair for item_pair in in_data_transformed.items()
+                        )
+                    )
+                )
+            # exploded
+            return next(prefix_separator_iterator) + next(prefix_separator_iterator).join(
+                [key + '=' + val for key, val in in_data_transformed.items()]
             )
-        elif isinstance(in_data, dict):
-            return self.__serialize_dict(
-                in_data,
-                style=style,
-                name=name,
-                explode=explode,
-                empty_val=empty_val,
-                prefix=prefix,
-                separator=separator
-            )
+        # bool, bytes, etc
+        raise ApiValueError('Unable to generate a form representation of {}'.format(in_data))
 
 
 class StyleFormSerializer(ParameterSerializerBase):
@@ -245,24 +196,35 @@ class StyleFormSerializer(ParameterSerializerBase):
         in_data: typing.Union[None, int, float, str, bool, dict, list],
         name: str,
         explode: bool,
-    ) -> typing.Tuple[typing.Tuple[str, str], ...]:
-        return self._serialize_x(in_data, style=ParameterStyle.FORM, name=name, explode=explode)
+        percent_encode: bool
+    ) -> str:
+        prefix_separator_iterator = PrefixSeparatorIterator('?', '&')
+        return self.ref6570_expansion(
+            variable_name=name,
+            in_data=in_data,
+            explode=explode,
+            percent_encode=percent_encode,
+            prefix_separator_iterator=prefix_separator_iterator
+        )
 
 
 class StyleSimpleSerializer(ParameterSerializerBase):
 
-    def _serialize_simple_tuple(
+    def _serialize_simple(
         self,
         in_data: typing.Union[None, int, float, str, bool, dict, list],
         name: str,
         explode: bool,
-        in_type: ParameterInType,
-    ) -> typing.Tuple[typing.Tuple[str, str], ...]:
-        if in_type is ParameterInType.HEADER:
-            empty_val = ()
-        else:
-            empty_val = ((name, ''),)
-        return self._serialize_x(in_data, style=ParameterStyle.SIMPLE, name=name, explode=explode, empty_val=empty_val)
+        percent_encode: bool
+    ) -> str:
+        prefix_separator_iterator = PrefixSeparatorIterator('', ',')
+        return self.ref6570_expansion(
+            variable_name=name,
+            in_data=in_data,
+            explode=explode,
+            percent_encode=percent_encode,
+            prefix_separator_iterator=prefix_separator_iterator
+        )
 
 
 @dataclass
@@ -350,8 +312,8 @@ class ParameterBase:
     def _serialize_json(
         self,
         in_data: typing.Union[None, int, float, str, bool, dict, list]
-    ) -> typing.Tuple[typing.Tuple[str, str]]:
-        return tuple([(self.name, json.dumps(in_data))])
+    ) -> str:
+        return json.dumps(in_data)
 
 
 class PathParameter(ParameterBase, StyleSimpleSerializer):
@@ -377,62 +339,48 @@ class PathParameter(ParameterBase, StyleSimpleSerializer):
             content=content
         )
 
-    def __serialize_label(
+    def _serialize_label(
         self,
         in_data: typing.Union[None, int, float, str, bool, dict, list]
-    ) -> typing.Dict[str, str]:
-        empty_val = ((self.name, ''),)
-        prefix = '.'
-        separator = '.'
-        return self._remove_empty_and_cast(
-            self._serialize_x(
-                in_data,
-                style=ParameterStyle.LABEL,
-                name=self.name,
-                explode=self.explode,
-                empty_val=empty_val,
-                prefix=prefix,
-                separator=separator
-            )
+    ) -> str:
+        prefix_separator_iterator = PrefixSeparatorIterator('.', '.')
+        return self.ref6570_expansion(
+            variable_name=self.name,
+            in_data=in_data,
+            explode=self.explode,
+            percent_encode=True,
+            prefix_separator_iterator=prefix_separator_iterator
         )
 
-    def __serialize_matrix(
+    def _serialize_matrix(
         self,
         in_data: typing.Union[None, int, float, str, bool, dict, list]
-    ) -> typing.Dict[str, str]:
-        separator = ','
-        if in_data == '':
-            prefix = ';' + self.name
-        elif isinstance(in_data, (dict, list)) and self.explode:
-            prefix = ';'
-            separator = ';'
-        else:
-            prefix = ';' + self.name + '='
-        empty_val = ((self.name, ''),)
-        return self._remove_empty_and_cast(
-            self._serialize_x(
-                in_data,
-                style=ParameterStyle.MATRIX,
-                name=self.name,
-                explode=self.explode,
-                prefix=prefix,
-                empty_val=empty_val,
-                separator=separator
-            )
+    ) -> str:
+        prefix_separator_iterator = PrefixSeparatorIterator(';', ';')
+        return self.ref6570_expansion(
+            variable_name=self.name,
+            in_data=in_data,
+            explode=self.explode,
+            percent_encode=True,
+            prefix_separator_iterator=prefix_separator_iterator
         )
 
     def _serialize_simple(
         self,
         in_data: typing.Union[None, int, float, str, bool, dict, list],
-    ) -> typing.Dict[str, str]:
-        tuple_data = self._serialize_simple_tuple(in_data, self.name, self.explode, self.in_type)
-        return self._remove_empty_and_cast(tuple_data)
+    ) -> str:
+        return self.serialize_simple(
+            in_data=in_data,
+            name=self.name,
+            explode=self.explode,
+            percent_encode=True
+        )
 
     def serialize(
         self,
         in_data: typing.Union[
             Schema, Decimal, int, float, str, date, datetime, None, bool, list, tuple, dict, frozendict]
-    ) -> typing.Dict[str, str]:
+    ) -> str:
         if self.schema:
             cast_in_data = self.schema(in_data)
             cast_in_data = self._json_encoder.default(cast_in_data)
@@ -449,16 +397,15 @@ class PathParameter(ParameterBase, StyleSimpleSerializer):
                 if self.style is ParameterStyle.SIMPLE:
                     return self._serialize_simple(cast_in_data)
                 elif self.style is ParameterStyle.LABEL:
-                    return self.__serialize_label(cast_in_data)
+                    return self._serialize_label(cast_in_data)
                 elif self.style is ParameterStyle.MATRIX:
-                    return self.__serialize_matrix(cast_in_data)
+                    return self._serialize_matrix(cast_in_data)
         # self.content will be length one
         for content_type, schema in self.content.items():
             cast_in_data = schema(in_data)
             cast_in_data = self._json_encoder.default(cast_in_data)
             if content_type == self._json_content_type:
-                tuple_data = self._serialize_json(cast_in_data)
-                return self._remove_empty_and_cast(tuple_data)
+                return self._serialize_json(cast_in_data)
             raise NotImplementedError('Serialization of {} has not yet been implemented'.format(content_type))
 
 
@@ -488,38 +435,34 @@ class QueryParameter(ParameterBase, StyleFormSerializer):
     def __serialize_space_delimited(
         self,
         in_data: typing.Union[None, int, float, str, bool, dict, list]
-    ) -> typing.Tuple[typing.Tuple[str, str], ...]:
-        separator = '%20'
-        empty_val = ()
-        return self._serialize_x(
-            in_data,
-            style=ParameterStyle.SPACE_DELIMITED,
-            name=self.name,
+    ) -> str:
+        prefix_separator_iterator = PrefixSeparatorIterator('', '%20')
+        return self.ref6570_expansion(
+            variable_name=self.name,
+            in_data=in_data,
             explode=self.explode,
-            separator=separator,
-            empty_val=empty_val
+            percent_encode=True,
+            prefix_separator_iterator=prefix_separator_iterator
         )
 
     def __serialize_pipe_delimited(
         self,
         in_data: typing.Union[None, int, float, str, bool, dict, list]
-    ) -> typing.Tuple[typing.Tuple[str, str], ...]:
-        separator = '|'
-        empty_val = ()
-        return self._serialize_x(
-            in_data,
-            style=ParameterStyle.PIPE_DELIMITED,
-            name=self.name,
+    ) -> str:
+        prefix_separator_iterator = PrefixSeparatorIterator('', '|')
+        return self.ref6570_expansion(
+            variable_name=self.name,
+            in_data=in_data,
             explode=self.explode,
-            separator=separator,
-            empty_val=empty_val
+            percent_encode=True,
+            prefix_separator_iterator=prefix_separator_iterator
         )
 
     def serialize(
         self,
         in_data: typing.Union[
             Schema, Decimal, int, float, str, date, datetime, None, bool, list, tuple, dict, frozendict]
-    ) -> typing.Tuple[typing.Tuple[str, str]]:
+    ) -> str:
         if self.schema:
             cast_in_data = self.schema(in_data)
             cast_in_data = self._json_encoder.default(cast_in_data)
@@ -634,8 +577,8 @@ class HeaderParameter(ParameterBase, StyleSimpleSerializer):
         self,
         in_data: typing.Union[None, int, float, str, bool, dict, list],
     ) -> HTTPHeaderDict[str, str]:
-        tuple_data = self._serialize_simple_tuple(in_data, self.name, self.explode, self.in_type)
-        return self.__to_headers(tuple_data)
+        value = super()._serialize_simple(in_data, self.name, self.explode, False)
+        return self.__to_headers((self.name, value))
 
     def serialize(
         self,
@@ -657,8 +600,8 @@ class HeaderParameter(ParameterBase, StyleSimpleSerializer):
             cast_in_data = schema(in_data)
             cast_in_data = self._json_encoder.default(cast_in_data)
             if content_type == self._json_content_type:
-                tuple_data = self._serialize_json(cast_in_data)
-                return self.__to_headers(tuple_data)
+                value = self._serialize_json(cast_in_data)
+                return self.__to_headers((self.name, value))
             raise NotImplementedError('Serialization of {} has not yet been implemented'.format(content_type))
 
 
