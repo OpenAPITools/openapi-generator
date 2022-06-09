@@ -173,68 +173,52 @@ class TestParameter(unittest.TestCase):
         test_cases = (
             ParamTestCase(
                 None,
-                ()
+                ''
             ),
             ParamTestCase(
                 1,
-                (('color', '1'),)
+                'color=1'
             ),
             ParamTestCase(
                 3.14,
-                (('color', '3.14'),)
+                'color=3.14'
             ),
             ParamTestCase(
                 'blue',
-                (('color', 'blue'),)
+                'color=blue'
             ),
             ParamTestCase(
                 'hello world',
-                (('color', 'hello%20world'),)
+                'color=hello world'
             ),
             ParamTestCase(
                 '',
-                (('color', ''),)
-            ),
-            ParamTestCase(
-                True,
-                (('color', 'true'),)
-            ),
-            ParamTestCase(
-                False,
-                (('color', 'false'),)
+                'color='
             ),
             ParamTestCase(
                 [],
-                ()
+                ''
             ),
             ParamTestCase(
                 ['blue', 'black', 'brown'],
-                (('color', 'blue,black,brown'),)
+                'color=blue,black,brown'
             ),
             ParamTestCase(
                 ['blue', 'black', 'brown'],
-                (
-                    ('color', 'blue'),
-                    ('color', 'black'),
-                    ('color', 'brown'),
-                ),
+                'color=blue&color=black&color=brown',
                 explode=True
             ),
             ParamTestCase(
                 {},
-                ()
+                ''
             ),
             ParamTestCase(
                 dict(R=100, G=200, B=150),
-                (('color', 'R,100,G,200,B,150'),)
+                'color=R,100,G,200,B,150'
             ),
             ParamTestCase(
                 dict(R=100, G=200, B=150),
-                (
-                    ('R', '100'),
-                    ('G', '200'),
-                    ('B', '150'),
-                ),
+                'R=100&G=200&B=150',
                 explode=True
             ),
         )
@@ -247,6 +231,21 @@ class TestParameter(unittest.TestCase):
             )
             serialization = parameter.serialize(test_case.payload)
             self.assertEqual(serialization, test_case.expected_serialization)
+
+        invalid_inputs = (
+            True,
+            False
+        )
+        with self.assertRaises(exceptions.ApiValueError):
+            for invalid_input in invalid_inputs:
+                for explode in (True, False):
+                    parameter = api_client.CookieParameter(
+                        name=name,
+                        style=api_client.ParameterStyle.FORM,
+                        schema=schemas.AnyTypeSchema,
+                        explode=explode,
+                    )
+                    parameter.serialize(invalid_input)
 
     def test_style_simple_in_path_serialization(self):
         name = 'color'

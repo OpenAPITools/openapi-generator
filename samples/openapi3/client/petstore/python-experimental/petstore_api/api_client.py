@@ -199,9 +199,10 @@ class StyleFormSerializer(ParameterSerializerBase):
         in_data: typing.Union[None, int, float, str, bool, dict, list],
         name: str,
         explode: bool,
-        percent_encode: bool
+        percent_encode: bool,
+        prefix: str = '?'
     ) -> str:
-        prefix_separator_iterator = PrefixSeparatorIterator('?', '&')
+        prefix_separator_iterator = PrefixSeparatorIterator(prefix, '&')
         return self.ref6570_expansion(
             variable_name=name,
             in_data=in_data,
@@ -535,7 +536,8 @@ class CookieParameter(ParameterBase, StyleFormSerializer):
                 returns fields: tuple
             """
             if self.style:
-                return self._serialize_form(cast_in_data, explode=self.explode, name=self.name)
+                return self._serialize_form(
+                    cast_in_data, explode=self.explode, name=self.name, percent_encode=False, prefix='')
         # self.content will be length one
         for content_type, schema in self.content.items():
             cast_in_data = schema(in_data)
