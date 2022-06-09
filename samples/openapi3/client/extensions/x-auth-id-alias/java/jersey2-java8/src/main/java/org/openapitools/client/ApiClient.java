@@ -1069,7 +1069,7 @@ public class ApiClient extends JavaTimeFormatter {
         queryParams,
         allHeaderParams,
         cookieParams,
-        body,
+        null,
         method,
         target.getUri());
 

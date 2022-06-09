@@ -1222,7 +1222,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
         serializeToString(body, formParams, contentType, isBodyNullable),
         {{/hasHttpSignatureMethods}}
         {{^hasHttpSignatureMethods}}
-        body,
+        null,
         {{/hasHttpSignatureMethods}}
         method,
         target.getUri());
