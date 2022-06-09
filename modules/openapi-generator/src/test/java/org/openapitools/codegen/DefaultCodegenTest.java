@@ -4365,6 +4365,29 @@ public class DefaultCodegenTest {
         logsList.stream().forEach(log -> assertEquals(Level.WARN, log.getLevel()));
     }
 
+    @Test
+    public void nullSchemaWithIneffectiveConstraints() {
+
+        ListAppender<ILoggingEvent> listAppender = new ListAppender<>();
+        listAppender.start();
+
+        // add the appender to the logger
+        testLogger.addAppender(listAppender);
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue6491.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        String modelName = "NullWithIneffectiveValidations";
+        Schema sc = openAPI.getComponents().getSchemas().get(modelName);
+        CodegenModel cm = codegen.fromModel(modelName, sc);
+
+        List<ILoggingEvent> logsList = listAppender.list;
+
+        // JUnit assertions
+        assertEquals(0, logsList.size());
+    }
+
     public static class FromParameter {
         private CodegenParameter codegenParameter(String path) {
             final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/fromParameter.yaml");
