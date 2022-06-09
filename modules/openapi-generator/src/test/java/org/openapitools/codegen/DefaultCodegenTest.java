@@ -17,9 +17,15 @@
 
 package org.openapitools.codegen;
 
+
+import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.Logger;
+import ch.qos.logback.classic.spi.ILoggingEvent;
+import ch.qos.logback.core.read.ListAppender;
+import org.slf4j.LoggerFactory;
+
 import com.google.common.collect.Sets;
 import com.samskivert.mustache.Mustache.Lambda;
-
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -33,16 +39,11 @@ import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.parser.core.models.ParseOptions;
-
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
-import org.openapitools.codegen.templating.mustache.CamelCaseLambda;
-import org.openapitools.codegen.templating.mustache.IndentedLambda;
-import org.openapitools.codegen.templating.mustache.LowercaseLambda;
-import org.openapitools.codegen.templating.mustache.TitlecaseLambda;
-import org.openapitools.codegen.templating.mustache.UppercaseLambda;
+import org.openapitools.codegen.templating.mustache.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.SemVer;
 import org.testng.Assert;
@@ -54,8 +55,8 @@ import java.nio.file.Files;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static junit.framework.Assert.assertEquals;
 import static org.testng.Assert.*;
-
 
 public class DefaultCodegenTest {
 
@@ -2449,7 +2450,7 @@ public class DefaultCodegenTest {
                 "post",
                 path.getPost(),
                 path.getServers());
-        assertEquals(operation.formParams.size(), 3,
+        Assert.assertEquals(operation.formParams.size(), 3,
                 "The list of parameters should include inherited type");
 
         final List<String> names = operation.formParams.stream()
@@ -4208,6 +4209,13 @@ public class DefaultCodegenTest {
     @Test
     public void testArraySchemaWithIneffectiveConstraints(){
 
+        Logger fooLogger = (Logger) LoggerFactory.getLogger(ModelUtils.class);
+        ListAppender<ILoggingEvent> listAppender = new ListAppender<>();
+        listAppender.start();
+
+        // add the appender to the logger
+        fooLogger.addAppender(listAppender);
+
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue6491.yaml");
         final DefaultCodegen codegen = new DefaultCodegen();
         codegen.setOpenAPI(openAPI);
@@ -4215,7 +4223,33 @@ public class DefaultCodegenTest {
         String modelName = "ArrayWithIneffectiveValidations";
         Schema sc = openAPI.getComponents().getSchemas().get(modelName);
         CodegenModel cm = codegen.fromModel(modelName, sc);
+
+        // JUnit assertions
+        List<ILoggingEvent> logsList = listAppender.list;
+        assertEquals(16,logsList.size());
+        assertEquals("Validation 'multipleOf' has no effect on schema. Ignoring!", logsList.get(0)
+                .getMessage());
+
+        assertEquals("Validation 'minLength' has no effect on schema. Ignoring!", logsList.get(1)
+                .getMessage());
+        assertEquals("Validation 'pattern' has no effect on schema. Ignoring!", logsList.get(2)
+                .getMessage());
+        assertEquals("Validation 'maximum' has no effect on schema. Ignoring!", logsList.get(3)
+                .getMessage());
+        assertEquals("Validation 'maxProperties' has no effect on schema. Ignoring!", logsList.get(4)
+                .getMessage());
+        assertEquals("Validation 'minimum' has no effect on schema. Ignoring!", logsList.get(5)
+                .getMessage());
+        assertEquals("Validation 'maxLength' has no effect on schema. Ignoring!", logsList.get(6)
+                .getMessage());
+        assertEquals("Validation 'minProperties' has no effect on schema. Ignoring!", logsList.get(7)
+                .getMessage());
+
+        logsList.stream().limit(8).forEach(log -> assertEquals(Level.WARN, log.getLevel()));
+
+
     }
+
     @Test
     public void testObjectSchemaWithIneffectiveConstraints(){
 
