@@ -1615,18 +1615,18 @@ public class ModelUtils {
         Boolean exclusiveMaximum = schema.getExclusiveMaximum();
         if (exclusiveMaximum != null) vSB.withExclusiveMaximum();
 
-        Set<String> setValidations = vSB.build();
+        LinkedHashSet<String> setValidations = vSB.build();
 
         if (isBooleanSchema(schema) || isNullType(schema)) {
             logWarnMessagesForIneffectiveValidations(setValidations, schema, new HashSet<>());
         } else if (isArraySchema(schema)) {
             if (minItems != null || maxItems != null || uniqueItems != null)
                 setArrayValidations(minItems, maxItems, uniqueItems, target);
-            logWarnMessagesForIneffectiveValidations(new HashSet(setValidations), schema, SchemaValidations.ARRAY_VALIDATIONS);
+            logWarnMessagesForIneffectiveValidations(new LinkedHashSet(setValidations), schema, SchemaValidations.ARRAY_VALIDATIONS);
         } else if (isTypeObjectSchema(schema)) {
             if (minProperties != null || maxProperties != null)
                 setObjectValidations(minProperties, maxProperties, target);
-            logWarnMessagesForIneffectiveValidations(new HashSet(setValidations), schema, SchemaValidations.OBJECT_VALIDATIONS);
+            logWarnMessagesForIneffectiveValidations(new LinkedHashSet(setValidations), schema, SchemaValidations.OBJECT_VALIDATIONS);
         } else if (isStringSchema(schema)) {
             if (minLength != null || maxLength != null || pattern != null)
                 setStringValidations(minLength, maxLength, pattern, target);
@@ -1636,14 +1636,14 @@ public class ModelUtils {
 
                 Set<String> stringAndNumericValidations = new HashSet<>(SchemaValidations.STRING_VALIDATIONS);
                 stringAndNumericValidations.addAll(SchemaValidations.NUMERIC_VALIDATIONS);
-                logWarnMessagesForIneffectiveValidations(new HashSet(setValidations), schema, stringAndNumericValidations);
+                logWarnMessagesForIneffectiveValidations(new LinkedHashSet(setValidations), schema, stringAndNumericValidations);
             } else
-                logWarnMessagesForIneffectiveValidations(new HashSet(setValidations), schema, SchemaValidations.STRING_VALIDATIONS);
+                logWarnMessagesForIneffectiveValidations(new LinkedHashSet(setValidations), schema, SchemaValidations.STRING_VALIDATIONS);
 
         } else if (isNumberSchema(schema) || isIntegerSchema(schema)) {
             if (multipleOf != null || minimum != null || maximum != null || exclusiveMinimum != null || exclusiveMaximum != null)
                 setNumericValidations(schema, multipleOf, minimum, maximum, exclusiveMinimum, exclusiveMaximum, target);
-            logWarnMessagesForIneffectiveValidations(new HashSet(setValidations), schema, SchemaValidations.NUMERIC_VALIDATIONS);
+            logWarnMessagesForIneffectiveValidations(new LinkedHashSet(setValidations), schema, SchemaValidations.NUMERIC_VALIDATIONS);
         } else if (isAnyType(schema)) {
             // anyType can have any validations set on it
             setArrayValidations(minItems, maxItems, uniqueItems, target);
@@ -1825,10 +1825,10 @@ public class ModelUtils {
 
 
         public static class ValidationSetBuilder {
-            Set<String> validationSet;
+            LinkedHashSet<String> validationSet;
 
             ValidationSetBuilder() {
-                this.validationSet = new HashSet<String>();
+                this.validationSet = new LinkedHashSet<String>();
             }
 
             public ValidationSetBuilder withMinItems() {
@@ -1896,7 +1896,7 @@ public class ModelUtils {
                 return this;
             }
 
-            public Set<String> build() {
+            public LinkedHashSet<String> build() {
                 return this.validationSet;
             }
         }
