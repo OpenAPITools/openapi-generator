@@ -143,6 +143,8 @@ public interface CodegenConfig {
 
     Map<String, String> inlineSchemaNameMapping();
 
+    Map<String, String> inlineSchemaNameDefault();
+
     Map<String, String> apiTemplateFiles();
 
     Map<String, String> modelTemplateFiles();

@@ -167,6 +167,13 @@ public class Generate extends OpenApiGeneratorCommand {
     private List<String> inlineSchemaNameMappings = new ArrayList<>();
 
     @Option(
+            name = {"--inline-schema-name-defaults"},
+            title = "inline schema name defaults",
+            description = "specifies the default values used when naming inline schema as such array items in the format of array_item_suffix=_inner,map_item_suffix=_value. "
+                    + " ONLY array_item_suffix, map_item_suffix at the moment.")
+    private List<String> inlineSchemaNameDefaults = new ArrayList<>();
+
+    @Option(
             name = {"--server-variables"},
             title = "server variables",
             description = "sets server variables overrides for spec documents which support variable templating of servers.")
@@ -431,6 +438,7 @@ public class Generate extends OpenApiGeneratorCommand {
         applyInstantiationTypesKvpList(instantiationTypes, configurator);
         applyImportMappingsKvpList(importMappings, configurator);
         applyInlineSchemaNameMappingsKvpList(inlineSchemaNameMappings, configurator);
+        applyInlineSchemaNameDefaultsKvpList(inlineSchemaNameDefaults, configurator);
         applyTypeMappingsKvpList(typeMappings, configurator);
         applyAdditionalPropertiesKvpList(additionalProperties, configurator);
         applyLanguageSpecificPrimitivesCsvList(languageSpecificPrimitives, configurator);
