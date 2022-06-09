@@ -1,14 +1,10 @@
 {{>licenseInfo}}
 package {{apiPackage}}
 
-import io.ktor.client.features.HttpRequestTimeoutException
-import io.ktor.client.features.ResponseException
-import io.ktor.client.features.logging.LogLevel
-import io.ktor.client.features.logging.Logger
-import io.ktor.client.features.logging.SIMPLE
 import kotlinx.serialization.builtins.*
 import kotlinx.serialization.json.*
-
+import io.ktor.client.plugins.*
+import io.ktor.client.plugins.logging.*
 import {{packageName}}.infrastructure.*
 import {{packageName}}.infrastructure.authentication.*
 {{#imports}}
@@ -41,7 +37,7 @@ import {{import}}
         {{#authMethods}}
         {{name}}: {{>auth_class_name}}{{#hasMore}},{{/hasMore}}
         {{/authMethods}}
-    ){{#returnType}} : {{{returnType}}}{{/returnType}} {
+    ){{#returnType}} : Response<{{{returnType}}}>{{/returnType}}{{^returnType}} : Response<Unit>{{/returnType}} {
         val queryParameters = mutableListOf<Pair<String, Any?>>()
         {{#queryParams}}
         {{#required}}

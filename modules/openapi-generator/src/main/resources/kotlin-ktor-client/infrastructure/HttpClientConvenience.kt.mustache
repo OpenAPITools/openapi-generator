@@ -1,24 +1,19 @@
 package {{packageName}}.infrastructure
 
-import io.ktor.client.HttpClient
-import io.ktor.client.features.HttpTimeout
-import io.ktor.client.features.json.JsonFeature
-import io.ktor.client.features.json.serializer.KotlinxSerializer
-import io.ktor.client.features.logging.LogLevel
-import io.ktor.client.features.logging.Logger
-import io.ktor.client.features.logging.Logging
-import io.ktor.client.request.forms.FormDataContent
-import io.ktor.client.request.header
-import io.ktor.client.request.parameter
-import io.ktor.client.request.request
-import io.ktor.content.TextContent
-import io.ktor.http.ContentType
-import io.ktor.http.HttpMethod
-import io.ktor.http.Parameters
-import io.ktor.utils.io.core.use
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.SerializationStrategy
 import {{packageName}}.infrastructure.authentication.AuthProvider
+import io.ktor.client.*
+import io.ktor.client.call.*
+import io.ktor.client.plugins.*
+import io.ktor.client.plugins.contentnegotiation.*
+import io.ktor.client.plugins.logging.*
+import io.ktor.client.request.*
+import io.ktor.client.request.forms.*
+import io.ktor.client.statement.*
+import io.ktor.content.*
+import io.ktor.http.*
+import io.ktor.serialization.kotlinx.json.*
+import kotlinx.serialization.SerializationStrategy
+import kotlinx.serialization.json.Json
 
 internal fun List<Pair<String, String?>>.whereSecondNotNull(): List<Pair<String, String>> {
     return mapNotNull {
@@ -33,7 +28,7 @@ internal fun List<Pair<String, String?>>.whereSecondNotNull(): List<Pair<String,
 }
 
 //Until kotlinx serialization supports stripping nulls, we have to work around it
-internal fun <T>Json.encodeToString(serializer: SerializationStrategy<T>, value: T, stripNull: Boolean): String {
+internal fun <T> Json.encodeToString(serializer: SerializationStrategy<T>, value: T, stripNull: Boolean): String {
     val nonStrippedJsonString = encodeToString(serializer, value)
     if (!stripNull) {
         return nonStrippedJsonString
@@ -55,9 +50,9 @@ internal suspend inline fun <reified T, B> request(
     logLevel: LogLevel,
     bodyObject: B,
     bodySerializer: SerializationStrategy<B>
-): T {
+): Response<T> {
     val serializedBody = TextContent(
-        text = Json {}.encodeToString(serializer = bodySerializer, value = bodyObject, stripNull = true),
+        text = Json.encodeToString(serializer = bodySerializer, value = bodyObject, stripNull = true),
         contentType = ContentType.parse("application/json")
     )
     return request(
@@ -85,13 +80,13 @@ internal suspend inline fun <reified T> request(
     logger: Logger,
     logLevel: LogLevel,
     bodyObject: Any? = null
-): T {
+): Response<T> {
     @Suppress("NAME_SHADOWING") val queryParameters = queryParameters.toMutableList()
     @Suppress("NAME_SHADOWING") val headerParameters = headerParameters.toMutableList()
 
     val httpClient = HttpClient {
-        install(JsonFeature) {
-            this.serializer = KotlinxSerializer()
+        install(ContentNegotiation) {
+            json()
         }
         install(Logging) {
             this.logger = logger
@@ -106,24 +101,31 @@ internal suspend inline fun <reified T> request(
         it.applyToParams(queryParameters = queryParameters, headerParameters = headerParameters)
     }
 
-    return httpClient.use {
-        it.request(url) {
-            method = HttpMethod.parse(methodString)
-            queryParameters.forEach {
-                parameter(it.first, it.second)
-            }
-            headerParameters.forEach {
-                header(it.first, it.second)
-            }
-            if (!formParameters.isEmpty()) {
-                body = FormDataContent(Parameters.build {
-                    formParameters
-                        .whereSecondNotNull()
-                        .forEach { append(it.first, it.second) }
-                })
-            } else if (bodyObject != null) {
-                body = bodyObject
-            }
+    val httpResponse: HttpResponse = httpClient.get(url) {
+        method = HttpMethod.parse(methodString)
+        queryParameters.forEach {
+            parameter(it.first, it.second)
+        }
+        headerParameters.forEach {
+            header(it.first, it.second)
+        }
+        if (!formParameters.isEmpty()) {
+            setBody(FormDataContent(Parameters.build {
+                formParameters
+                    .whereSecondNotNull()
+                    .forEach { append(it.first, it.second) }
+            }))
+        } else if (bodyObject != null) {
+            setBody(bodyObject)
         }
     }
+
+    val headers = mutableListOf<Pair<String, List<String>>>()
+    httpResponse.headers.forEach { key, values ->
+        headers.add(Pair(key, values))
+    }
+
+    return Response(httpResponse.body(), headers)
 }
+
+internal data class Response<T>(val body: T, val headers: List<Pair<String, List<String>>>)

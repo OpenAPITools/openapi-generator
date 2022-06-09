@@ -1,8 +1,8 @@
 package {{packageName}}.infrastructure
 
-import io.ktor.client.call.receive
-import io.ktor.client.features.ResponseException
-import io.ktor.utils.io.CancellationException
+import io.ktor.client.call.*
+import io.ktor.client.plugins.*
+import io.ktor.utils.io.errors.*
 
 {{#nonPublicApi}}internal {{/nonPublicApi}}class ErrorWrapper(
     val statusCode: Int,
@@ -12,7 +12,7 @@ import io.ktor.utils.io.CancellationException
 
 internal suspend inline fun <reified E: Any>ResponseException.toErrorWrapper(): ErrorWrapper {
     val error = try {
-        response.receive<E>()
+        response.body<E>()
     } catch (e: Throwable) {
         e
     }
@@ -20,5 +20,5 @@ internal suspend inline fun <reified E: Any>ResponseException.toErrorWrapper(): 
 }
 
 {{#nonPublicApi}}internal {{/nonPublicApi}}class TimeoutErrorWrapper(
-    val originalException: CancellationException
+    val originalException: IOException
 ): Exception()
