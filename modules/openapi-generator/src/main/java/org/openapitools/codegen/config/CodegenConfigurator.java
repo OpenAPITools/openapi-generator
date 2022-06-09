@@ -116,6 +116,9 @@ public class CodegenConfigurator {
             if(generatorSettings.getInlineSchemaNameMappings() != null) {
                 configurator.inlineSchemaNameMappings.putAll(generatorSettings.getInlineSchemaNameMappings());
             }
+            if(generatorSettings.getInlineSchemaNameDefaults() != null) {
+                configurator.inlineSchemaNameDefaults.putAll(generatorSettings.getInlineSchemaNameDefaults());
+            }
             if(generatorSettings.getLanguageSpecificPrimitives() != null) {
                 configurator.languageSpecificPrimitives.addAll(generatorSettings.getLanguageSpecificPrimitives());
             }
@@ -640,6 +643,7 @@ public class CodegenConfigurator {
         config.typeMapping().putAll(generatorSettings.getTypeMappings());
         config.importMapping().putAll(generatorSettings.getImportMappings());
         config.inlineSchemaNameMapping().putAll(generatorSettings.getInlineSchemaNameMappings());
+        config.inlineSchemaNameDefault().putAll(generatorSettings.getInlineSchemaNameDefaults());
         config.languageSpecificPrimitives().addAll(generatorSettings.getLanguageSpecificPrimitives());
         config.reservedWordsMappings().putAll(generatorSettings.getReservedWordsMappings());
         config.additionalProperties().putAll(generatorSettings.getAdditionalProperties());

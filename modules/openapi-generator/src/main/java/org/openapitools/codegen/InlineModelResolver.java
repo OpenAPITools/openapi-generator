@@ -71,9 +71,8 @@ public class InlineModelResolver {
         this.inlineSchemaNameMappingValues = new HashSet<>(inlineSchemaNameMapping.values());
     }
 
-    public void setInlineSchemaNameDefault(Map inlineSchemaNameDefault) {
-        this.inlineSchemaNameMapping = inlineSchemaNameMapping;
-        this.inlineSchemaNameMappingValues = new HashSet<>(inlineSchemaNameMapping.values());
+    public void setInlineSchemaNameDefaults(Map inlineSchemaNameDefaults) {
+        this.inlineSchemaNameDefaults.putAll(inlineSchemaNameDefaults);
     }
 
     void flatten(OpenAPI openAPI) {
