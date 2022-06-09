@@ -11,11 +11,11 @@ import {
 
 {{/hasImports}}
 {{#discriminator}}
-import {
 {{#discriminator.mappedModels}}
+import {
      {{modelName}}FromJSONTyped{{^-last}},{{/-last}}
+} from './{{modelName}}';
 {{/discriminator.mappedModels}}
-} from './';
 
 {{/discriminator}}
 {{>modelGenericInterfaces}}
