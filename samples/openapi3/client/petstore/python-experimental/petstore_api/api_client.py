@@ -53,9 +53,12 @@ class RequestField(RequestFieldBase):
 
 class JSONEncoder(json.JSONEncoder):
     def default(self, obj):
-        if isinstance(obj, (str, int, float)):
-            # instances based on primitive classes
-            return obj
+        if isinstance(obj, str):
+            return str(obj)
+        elif isinstance(obj, float):
+            return float(obj)
+        elif isinstance(obj, int):
+            return int(obj)
         elif isinstance(obj, Decimal):
             if obj.as_tuple().exponent >= 0:
                 return int(obj)
@@ -113,7 +116,7 @@ class ParameterSerializerBase:
         """
         Get representation if str/float/int/None/items in list/ values in dict
         """
-        if isinstance(in_data, (str, float, int)):
+        if type(in_data) in {str, float, int}:
             if percent_encode:
                 return quote(str(in_data))
             return str(in_data)
@@ -136,7 +139,7 @@ class ParameterSerializerBase:
         """
         named_parameter_expansion = prefix_separator_iterator.separator in {'&', ';'}
         var_name_piece = variable_name if named_parameter_expansion else ''
-        if isinstance(in_data, (str, float, int)):
+        if type(in_data) in {str, float, int}:
             item_value = cls.__ref6570_item_value(in_data, percent_encode)
             if item_value is None:
                 return next(prefix_separator_iterator) + var_name_piece
@@ -177,8 +180,8 @@ class ParameterSerializerBase:
                     var_name_piece + value_pair_equals +
                     item_separator.join(
                         item_separator.join(
-                            item_pair for item_pair in in_data_transformed.items()
-                        )
+                            item_pair
+                        ) for item_pair in in_data_transformed.items()
                     )
                 )
             # exploded

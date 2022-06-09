@@ -11,8 +11,7 @@
 import unittest
 import collections
 
-from petstore_api import api_client
-from petstore_api import schemas
+from petstore_api import api_client, exceptions, schemas
 
 ParamTestCase = collections.namedtuple('ParamTestCase', 'payload expected_serialization explode', defaults=[False])
 
@@ -95,68 +94,52 @@ class TestParameter(unittest.TestCase):
         test_cases = (
             ParamTestCase(
                 None,
-                ()
+                ''
             ),
             ParamTestCase(
                 1,
-                (('color', '1'),)
+                '?color=1'
             ),
             ParamTestCase(
                 3.14,
-                (('color', '3.14'),)
+                '?color=3.14'
             ),
             ParamTestCase(
                 'blue',
-                (('color', 'blue'),)
+                '?color=blue'
             ),
             ParamTestCase(
                 'hello world',
-                (('color', 'hello%20world'),)
+                '?color=hello%20world'
             ),
             ParamTestCase(
                 '',
-                (('color', ''),)
-            ),
-            ParamTestCase(
-                True,
-                (('color', 'true'),)
-            ),
-            ParamTestCase(
-                False,
-                (('color', 'false'),)
+                '?color='
             ),
             ParamTestCase(
                 [],
-                ()
+                ''
             ),
             ParamTestCase(
                 ['blue', 'black', 'brown'],
-                (('color', 'blue,black,brown'),)
+                '?color=blue,black,brown'
             ),
             ParamTestCase(
                 ['blue', 'black', 'brown'],
-                (
-                    ('color', 'blue'),
-                    ('color', 'black'),
-                    ('color', 'brown'),
-                ),
+                '?color=blue&color=black&color=brown',
                 explode=True
             ),
             ParamTestCase(
                 {},
-                ()
+                ''
             ),
             ParamTestCase(
                 dict(R=100, G=200, B=150),
-                (('color', 'R,100,G,200,B,150'),)
+                '?color=R,100,G,200,B,150'
             ),
             ParamTestCase(
                 dict(R=100, G=200, B=150),
-                (
-                    ('R', '100'),
-                    ('G', '200'),
-                    ('B', '150'),
-                ),
+                '?R=100&G=200&B=150',
                 explode=True
             ),
         )
@@ -169,6 +152,21 @@ class TestParameter(unittest.TestCase):
             )
             serialization = parameter.serialize(test_case.payload)
             self.assertEqual(serialization, test_case.expected_serialization)
+
+        invalid_inputs = (
+            True,
+            False
+        )
+        with self.assertRaises(exceptions.ApiValueError):
+            for invalid_input in invalid_inputs:
+                for explode in (True, False):
+                    parameter = api_client.QueryParameter(
+                        name=name,
+                        style=api_client.ParameterStyle.FORM,
+                        schema=schemas.AnyTypeSchema,
+                        explode=explode,
+                    )
+                    parameter.serialize(invalid_input)
 
     def test_cookie_style_form_serialization(self):
         name = 'color'
