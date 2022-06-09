@@ -1014,8 +1014,7 @@ public class ApiClient extends JavaTimeFormatter {
         queryParams,
         allHeaderParams,
         cookieParams,
-        //This param is only used by the http signature auth. The other authentication do not use it
-        isHttpSignatureAuthPresent() ? serializeToString(body, formParams, contentType, isBodyNullable) : null,
+        body,
         method,
         target.getUri());
 
@@ -1219,9 +1218,5 @@ public class ApiClient extends JavaTimeFormatter {
       }
       auth.applyToParams(queryParams, headerParams, cookieParams, payload, method, uri);
     }
-  }
-
-  private boolean isHttpSignatureAuthPresent() {
-    return authentications.entrySet().stream().filter(auth -> auth instanceof HttpSignatureAuth).findFirst().isPresent();
   }
 }
