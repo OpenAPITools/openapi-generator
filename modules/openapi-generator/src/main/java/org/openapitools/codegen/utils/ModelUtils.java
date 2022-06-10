@@ -834,7 +834,7 @@ public class ModelUtils {
 
                 // additionalProperties not defined
                 if (addlProps == null) {
-                    return true;
+                    return !isDisallowAdditionalPropertiesIfNotPresent();
                 } else {
                     if (addlProps instanceof ObjectSchema) {
                         ObjectSchema objSchema = (ObjectSchema) addlProps;

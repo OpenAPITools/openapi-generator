@@ -240,6 +240,7 @@ public class ModelUtilsTest {
         OpenAPI openAPI = new OpenAPI().openapi("3.0.0");
         // Create initial "empty" object schema.
         ObjectSchema objSchema = new ObjectSchema();
+        ModelUtils.setDisallowAdditionalPropertiesIfNotPresent(false);
         Assert.assertTrue(ModelUtils.isFreeFormObject(openAPI, objSchema));
 
         // Set additionalProperties to an empty ObjectSchema.

@@ -10,6 +10,9 @@ type {{classname}} struct {
 	Items {{{parent}}}
 {{/isArray}}
 {{/parent}}
+{{#allParents}}
+	{{.}}
+{{/allParents}}
 {{#vars}}
 {{^-first}}
 {{/-first}}

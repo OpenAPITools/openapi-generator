@@ -58,6 +58,8 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         super();
 
         supportsInheritance = true;
+        supportsMultipleInheritance = true;
+
         hideGenerationTimestamp = Boolean.FALSE;
 
         defaultIncludes = new HashSet<>(

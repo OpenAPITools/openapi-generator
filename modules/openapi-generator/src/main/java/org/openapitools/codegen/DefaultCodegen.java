@@ -2294,6 +2294,8 @@ public class DefaultCodegen implements CodegenConfig {
             return "object";
         } else if (schema.getProperties() != null && !schema.getProperties().isEmpty()) { // having property implies it's a model
             return "object";
+        } else if ("object".equals(schema.getType())) {
+            return "object";
         } else if (ModelUtils.isAnyType(schema)) {
             return "AnyType";
         } else if (StringUtils.isNotEmpty(schema.getType())) {
@@ -2481,6 +2483,7 @@ public class DefaultCodegen implements CodegenConfig {
         // parent model
         final String parentName = ModelUtils.getParentName(composed, allDefinitions);
         final List<String> allParents = ModelUtils.getAllParentsName(composed, allDefinitions, false);
+
         final Schema parent = StringUtils.isBlank(parentName) || allDefinitions == null ? null : allDefinitions.get(parentName);
 
         // TODO revise the logic below to set discriminator, xml attributes
