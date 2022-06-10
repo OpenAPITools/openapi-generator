@@ -40,6 +40,8 @@ class ModelClient {
     final _json = <String, dynamic>{};
     if (client != null) {
       _json[r'client'] = client;
+    } else {
+      _json[r'client'] = null;
     }
     return _json;
   }

@@ -45,9 +45,13 @@ class AllOfWithSingleRef {
     final _json = <String, dynamic>{};
     if (username != null) {
       _json[r'username'] = username;
+    } else {
+      _json[r'username'] = null;
     }
     if (singleRefType != null) {
       _json[r'SingleRefType'] = singleRefType;
+    } else {
+      _json[r'SingleRefType'] = null;
     }
     return _json;
   }

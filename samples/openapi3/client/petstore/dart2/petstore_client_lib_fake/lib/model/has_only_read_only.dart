@@ -51,9 +51,13 @@ class HasOnlyReadOnly {
     final _json = <String, dynamic>{};
     if (bar != null) {
       _json[r'bar'] = bar;
+    } else {
+      _json[r'bar'] = null;
     }
     if (foo != null) {
       _json[r'foo'] = foo;
+    } else {
+      _json[r'foo'] = null;
     }
     return _json;
   }

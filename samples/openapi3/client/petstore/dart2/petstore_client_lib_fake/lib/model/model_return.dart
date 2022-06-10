@@ -40,6 +40,8 @@ class ModelReturn {
     final _json = <String, dynamic>{};
     if (return_ != null) {
       _json[r'return'] = return_;
+    } else {
+      _json[r'return'] = null;
     }
     return _json;
   }
