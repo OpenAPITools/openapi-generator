@@ -581,9 +581,8 @@ class HeaderParameter(ParameterBase, StyleSimpleSerializer):
     def _serialize_simple(
         self,
         in_data: typing.Union[None, int, float, str, bool, dict, list],
-    ) -> HTTPHeaderDict[str, str]:
-        value = self.serialize_simple(in_data, self.name, self.explode, False)
-        return self.__to_headers((self.name, value))
+    ) -> str:
+        return self.serialize_simple(in_data, self.name, self.explode, False)
 
     def serialize(
         self,
@@ -599,14 +598,15 @@ class HeaderParameter(ParameterBase, StyleSimpleSerializer):
                     returns headers: dict
             """
             if self.style:
-                return self._serialize_simple(cast_in_data)
+                value = self._serialize_simple(cast_in_data)
+                return self.__to_headers(((self.name, value),))
         # self.content will be length one
         for content_type, schema in self.content.items():
             cast_in_data = schema(in_data)
             cast_in_data = self._json_encoder.default(cast_in_data)
             if content_type == self._json_content_type:
                 value = self._serialize_json(cast_in_data)
-                return self.__to_headers((self.name, value))
+                return self.__to_headers(((self.name, value),))
             raise NotImplementedError('Serialization of {} has not yet been implemented'.format(content_type))
 
 

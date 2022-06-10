@@ -24,6 +24,11 @@ class TestParameter(unittest.TestCase):
         api_client.ParameterInType.HEADER: api_client.HeaderParameter,
     }
 
+    invalid_inputs = (
+        True,
+        False
+    )
+
     def test_throws_exception_when_schema_and_content_omitted(self):
         with self.assertRaises(ValueError):
             api_client.QueryParameter(
@@ -153,12 +158,8 @@ class TestParameter(unittest.TestCase):
             serialization = parameter.serialize(test_case.payload)
             self.assertEqual(serialization, test_case.expected_serialization)
 
-        invalid_inputs = (
-            True,
-            False
-        )
         with self.assertRaises(exceptions.ApiValueError):
-            for invalid_input in invalid_inputs:
+            for invalid_input in self.invalid_inputs:
                 for explode in (True, False):
                     parameter = api_client.QueryParameter(
                         name=name,
@@ -232,12 +233,8 @@ class TestParameter(unittest.TestCase):
             serialization = parameter.serialize(test_case.payload)
             self.assertEqual(serialization, test_case.expected_serialization)
 
-        invalid_inputs = (
-            True,
-            False
-        )
         with self.assertRaises(exceptions.ApiValueError):
-            for invalid_input in invalid_inputs:
+            for invalid_input in self.invalid_inputs:
                 for explode in (True, False):
                     parameter = api_client.CookieParameter(
                         name=name,
@@ -311,12 +308,8 @@ class TestParameter(unittest.TestCase):
             serialization = parameter.serialize(test_case.payload)
             self.assertEqual(serialization, test_case.expected_serialization)
 
-        invalid_inputs = (
-            True,
-            False
-        )
         with self.assertRaises(exceptions.ApiValueError):
-            for invalid_input in invalid_inputs:
+            for invalid_input in self.invalid_inputs:
                 for explode in (True, False):
                     parameter = api_client.PathParameter(
                         name=name,
@@ -331,7 +324,7 @@ class TestParameter(unittest.TestCase):
         test_cases = (
             ParamTestCase(
                 None,
-                {}
+                dict(color='')
             ),
             ParamTestCase(
                 1,
@@ -347,23 +340,15 @@ class TestParameter(unittest.TestCase):
             ),
             ParamTestCase(
                 'hello world',
-                dict(color='hello%20world')
+                dict(color='hello world')
             ),
             ParamTestCase(
                 '',
                 dict(color='')
             ),
             ParamTestCase(
-                True,
-                dict(color='true')
-            ),
-            ParamTestCase(
-                False,
-                dict(color='false')
-            ),
-            ParamTestCase(
                 [],
-                {}
+                dict(color='')
             ),
             ParamTestCase(
                 ['blue', 'black', 'brown'],
@@ -376,7 +361,7 @@ class TestParameter(unittest.TestCase):
             ),
             ParamTestCase(
                 {},
-                {}
+                dict(color='')
             ),
             ParamTestCase(
                 dict(R=100, G=200, B=150),
@@ -398,6 +383,17 @@ class TestParameter(unittest.TestCase):
             )
             serialization = parameter.serialize(test_case.payload)
             self.assertEqual(serialization, test_case.expected_serialization)
+
+        with self.assertRaises(exceptions.ApiValueError):
+            for invalid_input in self.invalid_inputs:
+                for explode in (True, False):
+                    parameter = api_client.HeaderParameter(
+                        name=name,
+                        style=api_client.ParameterStyle.SIMPLE,
+                        schema=schemas.AnyTypeSchema,
+                        explode=explode,
+                    )
+                    parameter.serialize(invalid_input)
 
     def test_style_label_in_path_serialization(self):
         name = 'color'
