@@ -41,6 +41,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractGoCodegen.class);
     private static final String NUMERIC_ENUM_PREFIX = "_";
+    private static final String OS_FILE_TYPE = "os.File";
 
     protected boolean withGoCodegenComment = false;
     protected boolean withAWSV4Signature = false;
@@ -56,6 +57,8 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
     public AbstractGoCodegen() {
         super();
+
+        LOGGER.error("Running custom");
 
         supportsInheritance = true;
         hideGenerationTimestamp = Boolean.FALSE;
@@ -120,9 +123,9 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         typeMapping.put("date", "string");
         typeMapping.put("DateTime", "time.Time");
         typeMapping.put("password", "string");
-        typeMapping.put("File", "*os.File");
-        typeMapping.put("file", "*os.File");
-        typeMapping.put("binary", "*os.File");
+        typeMapping.put("File", OS_FILE_TYPE);
+        typeMapping.put("file", OS_FILE_TYPE);
+        typeMapping.put("binary", OS_FILE_TYPE);
         typeMapping.put("ByteArray", "string");
         typeMapping.put("null", "nil");
         // A 'type: object' OAS schema without any declared property is
@@ -499,13 +502,13 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         boolean addedReflectImport = false;
         for (CodegenOperation operation : operations) {
             // import "os" if the operation uses files
-            if (!addedOSImport && "*os.File".equals(operation.returnType)) {
+            if (!addedOSImport && OS_FILE_TYPE.equals(operation.returnType)) {
                 imports.add(createMapping("import", "os"));
                 addedOSImport = true;
             }
             for (CodegenParameter param : operation.allParams) {
                 // import "os" if the operation uses files
-                if (!addedOSImport && "*os.File".equals(param.dataType)) {
+                if (!addedOSImport && OS_FILE_TYPE.equals(param.dataType)) {
                     imports.add(createMapping("import", "os"));
                     addedOSImport = true;
                 }
@@ -631,7 +634,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                     imports.add(createMapping("import", "time"));
                     addedTimeImport = true;
                 }
-                if (!addedOSImport && "*os.File".equals(param.baseType)) {
+                if (!addedOSImport && OS_FILE_TYPE.equals(param.baseType)) {
                     imports.add(createMapping("import", "os"));
                     addedOSImport = true;
                 }
