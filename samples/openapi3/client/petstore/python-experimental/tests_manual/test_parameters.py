@@ -716,14 +716,6 @@ class TestParameter(unittest.TestCase):
                 dict(color='')
             ),
             ParamTestCase(
-                True,
-                dict(color='true')
-            ),
-            ParamTestCase(
-                False,
-                dict(color='false')
-            ),
-            ParamTestCase(
                 [],
                 dict(color='')
             ),
@@ -747,6 +739,14 @@ class TestParameter(unittest.TestCase):
             )
             serialization = parameter.serialize(test_case.payload)
             self.assertEqual(serialization, test_case.expected_serialization)
+
+        with self.assertRaises(exceptions.ApiValueError):
+            for invalid_input in self.invalid_inputs:
+                parameter = api_client.PathParameter(
+                    name=name,
+                    schema=schemas.AnyTypeSchema,
+                )
+                parameter.serialize(invalid_input)
 
     def test_header_params_no_style(self):
         name = 'color'
