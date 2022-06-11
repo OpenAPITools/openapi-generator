@@ -99,6 +99,8 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String HATEOAS = "hateoas";
     public static final String RETURN_SUCCESS_CODE = "returnSuccessCode";
     public static final String UNHANDLED_EXCEPTION_HANDLING = "unhandledException";
+    public static final String USE_SPRING_BOOT3 = "useSpringBoot3";
+    public static final String USE_JAKARTA_EE = "useJakartaEe";
 
     public static final String OPEN_BRACE = "{";
     public static final String CLOSE_BRACE = "}";
@@ -126,6 +128,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     protected boolean unhandledException = false;
     protected boolean useSpringController = false;
     protected boolean useSwaggerUI = true;
+    protected boolean useSpringBoot3 = false;
 
     public SpringCodegen() {
         super();
@@ -175,7 +178,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(SINGLE_CONTENT_TYPES,
                 "Whether to select only one produces/consumes content-type by operation.", singleContentTypes));
         cliOptions.add(CliOption.newBoolean(SKIP_DEFAULT_INTERFACE,
-                "Whether to generate default implementations for java8 interfaces", skipDefaultInterface));
+                "Whether to skip generation of default implementations for java8 interfaces", skipDefaultInterface));
         cliOptions.add(CliOption.newBoolean(ASYNC, "use async Callable controllers", async));
         cliOptions.add(CliOption.newBoolean(REACTIVE, "wrap responses in Mono/Flux Reactor types (spring-boot only)",
                 reactive));
@@ -203,6 +206,9 @@ public class SpringCodegen extends AbstractJavaCodegen
                 unhandledException));
         cliOptions.add(CliOption.newBoolean(USE_SWAGGER_UI,
             "Open the OpenApi specification in swagger-ui. Will also import and configure needed dependencies",
+            useSwaggerUI));
+        cliOptions.add(CliOption.newBoolean(USE_SPRING_BOOT3,
+            "Generate code and provide dependencies for use with Spring Boot 3.x. (Use jakarta instead of javax in imports).",
             useSwaggerUI));
 
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application.");
@@ -415,6 +421,22 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
         additionalProperties.put(UNHANDLED_EXCEPTION_HANDLING, this.isUnhandledException());
 
+        if (additionalProperties.containsKey(USE_SPRING_BOOT3)) {
+            this.setUseSpringBoot3(convertPropertyToBoolean(USE_SPRING_BOOT3));
+        }
+        if (isUseSpringBoot3()) {
+            if (DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider())) {
+                throw new IllegalArgumentException(DocumentationProvider.SPRINGFOX.getPropertyName() + " is not supported with Spring Boot > 3.x");
+            }
+            if (AnnotationLibrary.SWAGGER1.equals(getAnnotationLibrary())) {
+                throw new IllegalArgumentException(AnnotationLibrary.SWAGGER1.getPropertyName() + " is not supported with Spring Boot > 3.x");
+            }
+            writePropertyBack(USE_JAKARTA_EE, true);
+        } else {
+            writePropertyBack(USE_JAKARTA_EE, false);
+        }
+        writePropertyBack(USE_SPRING_BOOT3, isUseSpringBoot3());
+
         typeMapping.put("file", "org.springframework.core.io.Resource");
         importMapping.put("org.springframework.core.io.Resource", "org.springframework.core.io.Resource");
         importMapping.put("Pageable", "org.springframework.data.domain.Pageable");
@@ -431,7 +453,12 @@ public class SpringCodegen extends AbstractJavaCodegen
             additionalProperties.put("delegate-method", true);
         }
 
-        supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
+        if (isUseSpringBoot3()) {
+            supportingFiles.add(new SupportingFile("pom-sb3.mustache", "", "pom.xml"));
+        } else {
+            supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
+        }
+
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
 
         if (!interfaceOnly) {
@@ -1044,5 +1071,13 @@ public class SpringCodegen extends AbstractJavaCodegen
         List<VendorExtension> extensions = super.getSupportedVendorExtensions();
         extensions.add(VendorExtension.X_SPRING_PAGINATED);
         return extensions;
+    }
+
+    public boolean isUseSpringBoot3() {
+        return useSpringBoot3;
+    }
+
+    public void setUseSpringBoot3(boolean useSpringBoot3) {
+        this.useSpringBoot3 = useSpringBoot3;
     }
 }

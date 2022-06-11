@@ -260,6 +260,27 @@ NUMBER_1_DOT_1(Double.valueOf(1.1)), NUMBER_MINUS_1_DOT_2(Double.valueOf(-1.2));
   }
 
 
+    @Override
+    public boolean equals(Object o) {
+      if (this == o) {
+        return true;
+      }
+      if (o == null || getClass() != o.getClass()) {
+        return false;
+      }
+      EnumTest enumTest = (EnumTest) o;
+      return Objects.equals(enumString, enumTest.enumString) &&
+          Objects.equals(enumStringRequired, enumTest.enumStringRequired) &&
+          Objects.equals(enumInteger, enumTest.enumInteger) &&
+          Objects.equals(enumNumber, enumTest.enumNumber) &&
+          Objects.equals(outerEnum, enumTest.outerEnum);
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hash(enumString, enumStringRequired, enumInteger, enumNumber, outerEnum);
+    }
+
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

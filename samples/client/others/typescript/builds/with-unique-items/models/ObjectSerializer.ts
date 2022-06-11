@@ -216,6 +216,10 @@ export class ObjectSerializer {
             return JSON.parse(rawData);
         }
 
+        if (mediaType === "text/html") {
+            return rawData;
+        }
+
         throw new Error("The mediaType " + mediaType + " is not supported by ObjectSerializer.parse.");
     }
 }

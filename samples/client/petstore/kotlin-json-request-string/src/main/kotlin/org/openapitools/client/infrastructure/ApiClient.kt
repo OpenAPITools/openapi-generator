@@ -30,7 +30,7 @@ import java.time.OffsetTime
 import java.util.Locale
 import com.squareup.moshi.adapter
 
-open class ApiClient(val baseUrl: String) {
+open class ApiClient(val baseUrl: String, val client: OkHttpClient = defaultClient) {
     companion object {
         protected const val ContentType = "Content-Type"
         protected const val Accept = "Accept"
@@ -48,7 +48,7 @@ open class ApiClient(val baseUrl: String) {
         const val baseUrlKey = "org.openapitools.client.baseUrl"
 
         @JvmStatic
-        val client: OkHttpClient by lazy {
+        val defaultClient: OkHttpClient by lazy {
             builder.build()
         }
 
@@ -119,16 +119,20 @@ open class ApiClient(val baseUrl: String) {
             return null
         }
         if (T::class.java == File::class.java) {
-            // return tempfile
-            val f = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            // return tempFile
+            val tempFile = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 java.nio.file.Files.createTempFile("tmp.net.medicineone.teleconsultationandroid.openapi.openapicommon", null).toFile()
             } else {
                 @Suppress("DEPRECATION")
                 createTempFile("tmp.net.medicineone.teleconsultationandroid.openapi.openapicommon", null)
             }
-            f.deleteOnExit()
-            body.byteStream().use { java.nio.file.Files.copy(it, f.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING) }
-            return f as T
+            tempFile.deleteOnExit()
+            body.byteStream().use { inputStream ->
+                tempFile.outputStream().use { tempFileOutputStream ->
+                    inputStream.copyTo(tempFileOutputStream)
+                }
+            }
+            return tempFile as T
         }
         val bodyContent = body.string()
         if (bodyContent.isEmpty()) {

@@ -29,7 +29,7 @@ import java.time.OffsetTime
 import java.util.Locale
 import com.google.gson.reflect.TypeToken
 
-open class ApiClient(val baseUrl: String) {
+open class ApiClient(val baseUrl: String, val client: OkHttpClient = defaultClient) {
     companion object {
         protected const val ContentType = "Content-Type"
         protected const val Accept = "Accept"
@@ -47,7 +47,7 @@ open class ApiClient(val baseUrl: String) {
         const val baseUrlKey = "org.openapitools.client.baseUrl"
 
         @JvmStatic
-        val client: OkHttpClient by lazy {
+        val defaultClient: OkHttpClient by lazy {
             builder.build()
         }
 
@@ -117,12 +117,16 @@ open class ApiClient(val baseUrl: String) {
             return null
         }
         if (T::class.java == File::class.java) {
-            // return tempfile
+            // return tempFile
             // Attention: if you are developing an android app that supports API Level 25 and bellow, please check flag supportAndroidApiLevel25AndBelow in https://openapi-generator.tech/docs/generators/kotlin#config-options
-            val f = java.nio.file.Files.createTempFile("tmp.org.openapitools.client", null).toFile()
-            f.deleteOnExit()
-            body.byteStream().use { java.nio.file.Files.copy(it, f.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING) }
-            return f as T
+            val tempFile = java.nio.file.Files.createTempFile("tmp.org.openapitools.client", null).toFile()
+            tempFile.deleteOnExit()
+            body.byteStream().use { inputStream ->
+                tempFile.outputStream().use { tempFileOutputStream ->
+                    inputStream.copyTo(tempFileOutputStream)
+                }
+            }
+            return tempFile as T
         }
         val bodyContent = body.string()
         if (bodyContent.isEmpty()) {

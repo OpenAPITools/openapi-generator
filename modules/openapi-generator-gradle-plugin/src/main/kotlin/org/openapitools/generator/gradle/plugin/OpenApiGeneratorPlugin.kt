@@ -114,6 +114,7 @@ class OpenApiGeneratorPlugin : Plugin<Project> {
                     languageSpecificPrimitives.set(generate.languageSpecificPrimitives)
                     importMappings.set(generate.importMappings)
                     inlineSchemaNameMappings.set(generate.inlineSchemaNameMappings)
+                    inlineSchemaNameDefaults.set(generate.inlineSchemaNameDefaults)
                     invokerPackage.set(generate.invokerPackage)
                     groupId.set(generate.groupId)
                     id.set(generate.id)

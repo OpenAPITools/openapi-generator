@@ -1,0 +1,64 @@
+#' @docType class
+#' @title {{classname}}
+#'
+#' @description {{classname}} Class
+#'
+#' @format An \code{R6Class} generator object
+#'
+#' @importFrom R6 R6Class
+#' @importFrom jsonlite fromJSON toJSON
+#' @export
+{{classname}} <- R6::R6Class(
+  '{{classname}}',
+  public = list(
+    actual_instance = NULL,
+    actual_type = NULL,
+    any_of = list({{#anyOf}}"{{{.}}}"{{^-last}}, {{/-last}}{{/anyOf}}),
+    initialize = function(
+        {{#requiredVars}}`{{baseName}}`, {{/requiredVars}}{{#optionalVars}}`{{baseName}}`={{{defaultValue}}}{{^defaultValue}}NULL{{/defaultValue}}, {{/optionalVars}}...
+    ) {
+      local_optional_var <- list(...)
+    },
+    fromJSON = function(input) {
+      error_messages <- list()
+
+      {{#anyOf}}
+      {{{.}}}_result <- tryCatch({
+          {{{.}}}$public_methods$validateJSON(input)
+          {{{.}}}_instance <- {{{.}}}$new()
+          self$actual_instance <- {{{.}}}_instance$fromJSON(input)
+          self$actual_type <- "{{{.}}}"
+          return(self)
+        },
+        error = function(err) err
+      )
+
+      if (!is.null({{{.}}}_result['error'])) {
+        error_messages <- append(error_messages, {{{.}}}_result['message'])
+      }
+
+      {{/anyOf}}
+      # no match
+      stop(paste("No match found when deserializing the payload into {{{classname}}} with anyOf schemas {{#anyOf}}{{{.}}}{{^-last}}, {{/-last}}{{/anyOf}}. Details: ", paste(error_messages, collapse = ', ')))
+    },
+    toJSON = function() {
+      if (!is.null(self$actual_instance)) {
+        self$actual_instance$toJSONString()
+      } else {
+        NULL
+      }
+    },
+    validateJSON = function(input) {
+      # backup current values
+      actual_instance_bak <- self$actual_instance
+      actual_type_bak <- self$actual_type
+
+      # if it's not valid, an error will be thrown
+      self$fromJSON(input)
+
+      # no error thrown, restore old values
+      self$actual_instance <- actual_instance_bak
+      self$actual_type <- actual_type_bak
+    }
+  )
+)

@@ -348,6 +348,7 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
         supportingFiles.add(new SupportingFile("serialization/SerializerInterface.mustache", toSrcPath(servicePackage, srcBasePath), "SerializerInterface.php"));
         supportingFiles.add(new SupportingFile("serialization/JmsSerializer.mustache", toSrcPath(servicePackage, srcBasePath), "JmsSerializer.php"));
         supportingFiles.add(new SupportingFile("serialization/StrictJsonDeserializationVisitor.mustache", toSrcPath(servicePackage, srcBasePath), "StrictJsonDeserializationVisitor.php"));
+        supportingFiles.add(new SupportingFile("serialization/StrictJsonDeserializationVisitorFactory.mustache", toSrcPath(servicePackage, srcBasePath), "StrictJsonDeserializationVisitorFactory.php"));
         supportingFiles.add(new SupportingFile("serialization/TypeMismatchException.mustache", toSrcPath(servicePackage, srcBasePath), "TypeMismatchException.php"));
         // Validation components
         supportingFiles.add(new SupportingFile("validation/ValidatorInterface.mustache", toSrcPath(servicePackage, srcBasePath), "ValidatorInterface.php"));
@@ -355,7 +356,6 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
 
         // Testing components
         supportingFiles.add(new SupportingFile("testing/phpunit.xml.mustache", "", "phpunit.xml.dist"));
-        supportingFiles.add(new SupportingFile("testing/pom.xml", "", "pom.xml"));
         supportingFiles.add(new SupportingFile("testing/AppKernel.mustache", toSrcPath(testsPackage, srcBasePath), "AppKernel.php"));
         supportingFiles.add(new SupportingFile("testing/ControllerTest.mustache", toSrcPath(controllerTestsPackage, srcBasePath), "ControllerTest.php"));
         supportingFiles.add(new SupportingFile("testing/test_config.yml", toSrcPath(testsPackage, srcBasePath), "test_config.yml"));
@@ -434,11 +434,25 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
             } else {
                 op.vendorExtensions.put("x-comment-type", "void");
             }
+            // Create a variable to add typing for return value of interface
+            if (op.returnType != null) {
+                if ("array".equals(op.returnContainer)) {
+                    op.vendorExtensions.put("x-return-type", "iterable");
+                } else {
+                    if (defaultIncludes.contains(op.returnType)) {
+                        op.vendorExtensions.put("x-return-type", "array|" + op.returnType);
+                    } else {
+                        op.vendorExtensions.put("x-return-type", "array|\\" + op.returnType);
+                    }
+                }
+            } else {
+                op.vendorExtensions.put("x-return-type", "void");
+            }
 
             // Add operation's authentication methods to whole interface
             if (op.authMethods != null) {
                 for (CodegenSecurity am : op.authMethods) {
-                    if (!authMethods.contains(am)) {
+                    if (authMethods.stream().noneMatch(m -> Objects.equals(m.name, am.name))) {
                         authMethods.add(am);
                     }
                 }

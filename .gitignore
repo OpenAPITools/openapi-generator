@@ -266,3 +266,6 @@ samples/client/petstore/crystal/lib
 
 # Go
 samples/openapi3/client/petstore/go/privatekey.pem
+
+## OCaml
+samples/client/petstore/ocaml/_build/

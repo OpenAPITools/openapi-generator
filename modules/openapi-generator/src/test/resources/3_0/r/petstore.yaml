@@ -766,3 +766,68 @@ components:
           type: string
         message:
           type: string
+    Dog:
+      allOf:
+        - $ref: '#/components/schemas/Animal'
+        - type: object
+          properties:
+            breed:
+              type: string
+    Cat:
+      allOf:
+        - $ref: '#/components/schemas/Animal'
+        - $ref: '#/components/schemas/Address'
+        - type: object
+          properties:
+            declawed:
+              type: boolean
+    Address:
+      type: object
+      additionalProperties:
+         type: integer
+    Animal:
+      type: object
+      discriminator:
+        propertyName: className
+      required:
+        - className
+      properties:
+        className:
+          type: string
+        color:
+          type: string
+          default: red
+    allof_tag_api_response:
+      allOf:
+        - $ref: '#/components/schemas/Tag'
+        - $ref: '#/components/schemas/ApiResponse'
+    AnyOfPig:
+      anyOf:
+        - $ref: '#/components/schemas/BasquePig'
+        - $ref: '#/components/schemas/DanishPig'
+    Pig:
+      oneOf:
+        - $ref: '#/components/schemas/BasquePig'
+        - $ref: '#/components/schemas/DanishPig'
+      discriminator:
+        propertyName: className
+    BasquePig:
+      type: object
+      properties:
+        className:
+          type: string
+        color:
+          type: string
+      required:
+        - className
+        - color
+    DanishPig:
+      type: object
+      properties:
+        className:
+          type: string
+        size:
+          type: integer
+      required:
+        - className
+        - size
