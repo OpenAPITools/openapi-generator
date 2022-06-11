@@ -98,6 +98,11 @@ class PrefixSeparatorIterator:
          self.prefix = prefix
          self.separator = separator
          self.first = True
+         if separator in {'.', '|', '%20'}:
+             item_separator = separator
+         else:
+             item_separator = ','
+         self.item_separator = item_separator
 
      def __iter__(self):
          return self
@@ -164,8 +169,12 @@ class ParameterSerializerBase:
             item_values = [v for v in item_values if v is not None]
             value_pair_equals = '=' if named_parameter_expansion else ''
             if not explode:
-                item_separator = '.' if prefix_separator_iterator.prefix == '.' else ','
-                return next(prefix_separator_iterator) + var_name_piece + value_pair_equals + item_separator.join(item_values)
+                return (
+                    next(prefix_separator_iterator) +
+                    var_name_piece +
+                    value_pair_equals +
+                    prefix_separator_iterator.item_separator.join(item_values)
+                )
             # exploded
             return next(prefix_separator_iterator) + next(prefix_separator_iterator).join(
                 [var_name_piece + value_pair_equals + val for val in item_values]
@@ -180,12 +189,11 @@ class ParameterSerializerBase:
             in_data_transformed = {key: val for key, val in in_data_transformed.items() if val is not None}
             value_pair_equals = '=' if named_parameter_expansion else ''
             if not explode:
-                item_separator = '.' if prefix_separator_iterator.prefix == '.' else ','
                 return (
                     next(prefix_separator_iterator) +
                     var_name_piece + value_pair_equals +
-                    item_separator.join(
-                        item_separator.join(
+                    prefix_separator_iterator.item_separator.join(
+                        prefix_separator_iterator.item_separator.join(
                             item_pair
                         ) for item_pair in in_data_transformed.items()
                     )
@@ -449,34 +457,36 @@ class QueryParameter(ParameterBase, StyleFormSerializer):
     def __serialize_space_delimited(
         self,
         in_data: typing.Union[None, int, float, str, bool, dict, list]
-    ) -> str:
+    ) -> typing.Dict[str, str]:
         prefix_separator_iterator = PrefixSeparatorIterator('', '%20')
-        return self.ref6570_expansion(
+        value = self.ref6570_expansion(
             variable_name=self.name,
             in_data=in_data,
             explode=self.explode,
             percent_encode=True,
             prefix_separator_iterator=prefix_separator_iterator
         )
+        return self.to_dict(self.name, value)
 
     def __serialize_pipe_delimited(
         self,
         in_data: typing.Union[None, int, float, str, bool, dict, list]
-    ) -> str:
+    ) -> typing.Dict[str, str]:
         prefix_separator_iterator = PrefixSeparatorIterator('', '|')
-        return self.ref6570_expansion(
+        value = self.ref6570_expansion(
             variable_name=self.name,
             in_data=in_data,
             explode=self.explode,
             percent_encode=True,
             prefix_separator_iterator=prefix_separator_iterator
         )
+        return self.to_dict(self.name, value)
 
     def serialize(
         self,
         in_data: typing.Union[
             Schema, Decimal, int, float, str, date, datetime, None, bool, list, tuple, dict, frozendict]
-    ) -> str:
+    ) -> typing.Dict[str, str]:
         if self.schema:
             cast_in_data = self.schema(in_data)
             cast_in_data = self._json_encoder.default(cast_in_data)
@@ -496,7 +506,8 @@ class QueryParameter(ParameterBase, StyleFormSerializer):
             if self.style:
                 # TODO update query ones to omit setting values when [] {} or None is input
                 if self.style is ParameterStyle.FORM:
-                    return self._serialize_form(cast_in_data, name=self.name, explode=self.explode, percent_encode=True)
+                    value = self._serialize_form(cast_in_data, name=self.name, explode=self.explode, percent_encode=True)
+                    return self.to_dict(self.name, value)
                 elif self.style is ParameterStyle.SPACE_DELIMITED:
                     return self.__serialize_space_delimited(cast_in_data)
                 elif self.style is ParameterStyle.PIPE_DELIMITED:
@@ -506,7 +517,8 @@ class QueryParameter(ParameterBase, StyleFormSerializer):
             cast_in_data = schema(in_data)
             cast_in_data = self._json_encoder.default(cast_in_data)
             if content_type == self._json_content_type:
-                return self._serialize_json(cast_in_data)
+                value = self._serialize_json(cast_in_data)
+                return self.to_dict(self.name, value)
             raise NotImplementedError('Serialization of {} has not yet been implemented'.format(content_type))
 
 
