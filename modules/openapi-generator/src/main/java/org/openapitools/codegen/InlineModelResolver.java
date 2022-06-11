@@ -42,6 +42,7 @@ public class InlineModelResolver {
     private Map<String, Schema> addedModels = new HashMap<>();
     private Map<String, String> generatedSignature = new HashMap<>();
     private Map<String, String> inlineSchemaNameMapping = new HashMap<>();
+    private Map<String, String> inlineSchemaNameDefaults = new HashMap<>();
     private Set<String> inlineSchemaNameMappingValues = new HashSet<>();
     public boolean resolveInlineEnums = false;
 
@@ -60,9 +61,18 @@ public class InlineModelResolver {
 
     final Logger LOGGER = LoggerFactory.getLogger(InlineModelResolver.class);
 
+    public InlineModelResolver() {
+        this.inlineSchemaNameDefaults.put("arrayItemSuffix", "_inner");
+        this.inlineSchemaNameDefaults.put("mapItemSuffix", "_value");
+    }
+
     public void setInlineSchemaNameMapping(Map inlineSchemaNameMapping) {
         this.inlineSchemaNameMapping = inlineSchemaNameMapping;
         this.inlineSchemaNameMappingValues = new HashSet<>(inlineSchemaNameMapping.values());
+    }
+
+    public void setInlineSchemaNameDefaults(Map inlineSchemaNameDefaults) {
+        this.inlineSchemaNameDefaults.putAll(inlineSchemaNameDefaults);
     }
 
     void flatten(OpenAPI openAPI) {
@@ -230,7 +240,7 @@ public class InlineModelResolver {
             if (schema.getAdditionalProperties() != null) {
                 if (schema.getAdditionalProperties() instanceof Schema) {
                     Schema inner = (Schema) schema.getAdditionalProperties();
-                    String schemaName = resolveModelName(schema.getTitle(), modelPrefix + "_value");
+                    String schemaName = resolveModelName(schema.getTitle(), modelPrefix + this.inlineSchemaNameDefaults.get("mapItemSuffix"));
                     // Recurse to create $refs for inner models
                     gatherInlineModels(inner, schemaName);
                     if (isModelNeeded(inner)) {
@@ -265,7 +275,7 @@ public class InlineModelResolver {
                         " items must be defined for array schemas:\n " + schema.toString());
                 return;
             }
-            String schemaName = resolveModelName(items.getTitle(), modelPrefix + "_inner");
+            String schemaName = resolveModelName(items.getTitle(), modelPrefix + this.inlineSchemaNameDefaults.get("arrayItemSuffix"));
 
             // Recurse to create $refs for inner models
             gatherInlineModels(items, schemaName);

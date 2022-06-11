@@ -305,6 +305,12 @@ public class CodeGenMojo extends AbstractMojo {
     private List<String> inlineSchemaNameMappings;
 
     /**
+     * A map of inline scheme naming convention and the value
+     */
+    @Parameter(name = "inlineSchemaNameDefaults", property = "openapi.generator.maven.plugin.inlineSchemaNameDefaults")
+    private List<String> inlineSchemaNameDefaults;
+
+    /**
      * A map of swagger spec types and the generated code types to use for them
      */
     @Parameter(name = "typeMappings", property = "openapi.generator.maven.plugin.typeMappings")
@@ -666,8 +672,14 @@ public class CodeGenMojo extends AbstractMojo {
                 }
 
                 // Retained for backwards-compatibility with configOptions -> inline-schema-name-mappings
-                if (importMappings == null && configOptions.containsKey("inline-schema-name-mappings")) {
+                if (inlineSchemaNameMappings == null && configOptions.containsKey("inline-schema-name-mappings")) {
                     applyInlineSchemaNameMappingsKvp(configOptions.get("inline-schema-name-mappings").toString(),
+                            configurator);
+                }
+
+                // Retained for backwards-compatibility with configOptions -> inline-schema-name-defaults
+                if (inlineSchemaNameDefaults == null && configOptions.containsKey("inline-schema-name-defaults")) {
+                    applyInlineSchemaNameDefaultsKvp(configOptions.get("inline-schema-name-defaults").toString(),
                             configurator);
                 }
 
@@ -712,6 +724,11 @@ public class CodeGenMojo extends AbstractMojo {
             // Apply Inline Schema Name Mappings
             if (inlineSchemaNameMappings != null && (configOptions == null || !configOptions.containsKey("inline-schema-name-mappings"))) {
                 applyInlineSchemaNameMappingsKvpList(inlineSchemaNameMappings, configurator);
+            }
+
+            // Apply Inline Schema Name Defaults
+            if (inlineSchemaNameDefaults != null && (configOptions == null || !configOptions.containsKey("inline-schema-name-defaults"))) {
+                applyInlineSchemaNameDefaultsKvpList(inlineSchemaNameDefaults, configurator);
             }
 
             // Apply Type Mappings

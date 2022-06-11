@@ -69,6 +69,7 @@ public class CodegenConfigurator {
     private Map<String, Object> additionalProperties = new HashMap<>();
     private Map<String, String> importMappings = new HashMap<>();
     private Map<String, String> inlineSchemaNameMappings = new HashMap<>();
+    private Map<String, String> inlineSchemaNameDefaults = new HashMap<>();
     private Set<String> languageSpecificPrimitives = new HashSet<>();
     private Map<String, String> reservedWordsMappings = new HashMap<>();
     private Map<String, String> serverVariables = new HashMap<>();
@@ -114,6 +115,9 @@ public class CodegenConfigurator {
             }
             if(generatorSettings.getInlineSchemaNameMappings() != null) {
                 configurator.inlineSchemaNameMappings.putAll(generatorSettings.getInlineSchemaNameMappings());
+            }
+            if(generatorSettings.getInlineSchemaNameDefaults() != null) {
+                configurator.inlineSchemaNameDefaults.putAll(generatorSettings.getInlineSchemaNameDefaults());
             }
             if(generatorSettings.getLanguageSpecificPrimitives() != null) {
                 configurator.languageSpecificPrimitives.addAll(generatorSettings.getLanguageSpecificPrimitives());
@@ -187,6 +191,12 @@ public class CodegenConfigurator {
     public CodegenConfigurator addInlineSchemaNameMapping(String key, String value) {
         this.inlineSchemaNameMappings.put(key, value);
         generatorSettingsBuilder.withInlineSchemaNameMapping(key, value);
+        return this;
+    }
+
+    public CodegenConfigurator addInlineSchemaNameDefault(String key, String value) {
+        this.inlineSchemaNameDefaults.put(key, value);
+        generatorSettingsBuilder.withInlineSchemaNameDefault(key, value);
         return this;
     }
 
@@ -347,6 +357,12 @@ public class CodegenConfigurator {
     public CodegenConfigurator setInlineSchemaNameMappings(Map<String, String> inlineSchemaNameMappings) {
         this.inlineSchemaNameMappings = inlineSchemaNameMappings;
         generatorSettingsBuilder.withInlineSchemaNameMappings(inlineSchemaNameMappings);
+        return this;
+    }
+
+    public CodegenConfigurator setInlineSchemaNameDefaults(Map<String, String> inlineSchemaNameDefaults) {
+        this.inlineSchemaNameDefaults = inlineSchemaNameDefaults;
+        generatorSettingsBuilder.withInlineSchemaNameDefaults(inlineSchemaNameDefaults);
         return this;
     }
 
@@ -627,6 +643,7 @@ public class CodegenConfigurator {
         config.typeMapping().putAll(generatorSettings.getTypeMappings());
         config.importMapping().putAll(generatorSettings.getImportMappings());
         config.inlineSchemaNameMapping().putAll(generatorSettings.getInlineSchemaNameMappings());
+        config.inlineSchemaNameDefault().putAll(generatorSettings.getInlineSchemaNameDefaults());
         config.languageSpecificPrimitives().addAll(generatorSettings.getLanguageSpecificPrimitives());
         config.reservedWordsMappings().putAll(generatorSettings.getReservedWordsMappings());
         config.additionalProperties().putAll(generatorSettings.getAdditionalProperties());
