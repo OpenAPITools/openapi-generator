@@ -3900,9 +3900,11 @@ public class DefaultCodegen implements CodegenConfig {
                 ArraySchema as = (ArraySchema) responseSchema;
                 CodegenProperty innerProperty = fromProperty("response", getSchemaItems(as));
                 op.returnBaseType = innerProperty.baseType;
+                op.returnInnerType = innerProperty.dataType;
             } else if (ModelUtils.isMapSchema(responseSchema)) {
                 CodegenProperty innerProperty = fromProperty("response", getAdditionalProperties(responseSchema));
                 op.returnBaseType = innerProperty.baseType;
+                op.returnInnerType = innerProperty.dataType;
             } else {
                 if (cm.complexType != null) {
                     op.returnBaseType = cm.complexType;
