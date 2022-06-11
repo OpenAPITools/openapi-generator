@@ -1,5 +1,5 @@
 generatorName: jaxrs-spec
-outputDir: samples/server/petstore/jaxrs-spec
+outputDir: samples/server/petstore/jaxrs-spec-required-and-readonly-property
 inputSpec: modules/openapi-generator/src/test/resources/3_0/required-and-readonly-property.yaml
 templateDir: modules/openapi-generator/src/main/resources/JavaJaxRS/spec
 additionalProperties:
