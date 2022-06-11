@@ -105,7 +105,10 @@ public class SpringCodegenTest {
 
         JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/ZebrasApi.java"))
             .assertTypeAnnotations()
-                .hasSize(3)
+                .hasSize(4)
+		.containsWithNameAndAttributes("SuppressWarnings", ImmutableMap.of(
+                    "value", "{ \"unused\" }"
+                ))
                 .containsWithName("Validated")
                 .containsWithName("Generated")
                 .containsWithNameAndAttributes("Generated", ImmutableMap.of(
