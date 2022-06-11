@@ -11,7 +11,7 @@
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <springdoc.version>1.6.8</springdoc.version>
-        <virtualan.version>2.5.1</virtualan.version>
+        <virtualan.version>2.5.2</virtualan.version>
         <swagger-ui.version>4.10.3</swagger-ui.version>
     </properties>
     <parent>
