@@ -762,23 +762,15 @@ class TestParameter(unittest.TestCase):
             ),
             ParamTestCase(
                 'hello world',
-                dict(color='hello%20world')
+                dict(color='hello world')
             ),
             ParamTestCase(
                 '',
                 dict(color='')
             ),
             ParamTestCase(
-                True,
-                dict(color='true')
-            ),
-            ParamTestCase(
-                False,
-                dict(color='false')
-            ),
-            ParamTestCase(
                 [],
-                {}
+                dict(color='')
             ),
             ParamTestCase(
                 ['blue', 'black', 'brown'],
@@ -786,7 +778,7 @@ class TestParameter(unittest.TestCase):
             ),
             ParamTestCase(
                 {},
-                {}
+                dict(color='')
             ),
             ParamTestCase(
                 dict(R=100, G=200, B=150),
@@ -800,6 +792,14 @@ class TestParameter(unittest.TestCase):
             )
             serialization = parameter.serialize(test_case.payload)
             self.assertEqual(serialization, test_case.expected_serialization)
+
+        with self.assertRaises(exceptions.ApiValueError):
+            for invalid_input in self.invalid_inputs:
+                parameter = api_client.HeaderParameter(
+                    name=name,
+                    schema=schemas.AnyTypeSchema,
+                )
+                parameter.serialize(invalid_input)
 
     def test_query_or_cookie_params_no_style(self):
         name = 'color'
