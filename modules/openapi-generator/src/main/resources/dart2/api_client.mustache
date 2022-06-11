@@ -1,7 +1,7 @@
 {{>header}}
 {{>part_of}}
-class ApiClient {
-  ApiClient({this.basePath = '{{{basePath}}}', this.authentication});
+class {{#apiClientName}}{{.}}{{/apiClientName}}{{^apiClientName}}{{{modelNamePrefix}}}ApiClient{{{modelNameSuffix}}}{{/apiClientName}} {
+  {{#apiClientName}}{{.}}{{/apiClientName}}{{^apiClientName}}{{{modelNamePrefix}}}ApiClient{{{modelNameSuffix}}}{{/apiClientName}}({this.basePath = '{{{basePath}}}', this.authentication});
 
   final String basePath;
 
@@ -31,7 +31,7 @@ class ApiClient {
   Future<Response> invokeAPI(
     String path,
     String method,
-    List<QueryParam> queryParams,
+    List<{{{modelNamePrefix}}}QueryParam{{{modelNameSuffix}}}> queryParams,
     Object? body,
     Map<String, String> headerParams,
     Map<String, String> formParams,
@@ -44,8 +44,8 @@ class ApiClient {
       headerParams['Content-Type'] = contentType;
     }
 
-    final urlEncodedQueryParams = queryParams.map((param) => '$param');
-    final queryString = urlEncodedQueryParams.isNotEmpty ? '?${urlEncodedQueryParams.join('&')}' : '';
+    final urlEncoded{{{modelNamePrefix}}}QueryParam{{{modelNameSuffix}}}s = queryParams.map((param) => '$param');
+    final queryString = urlEncoded{{{modelNamePrefix}}}QueryParam{{{modelNameSuffix}}}s.isNotEmpty ? '?${urlEncoded{{{modelNamePrefix}}}QueryParam{{{modelNameSuffix}}}s.join('&')}' : '';
     final uri = Uri.parse('$basePath$path$queryString');
 
     try {
@@ -92,35 +92,35 @@ class ApiClient {
         case 'GET': return await _client.get(uri, headers: nullableHeaderParams,);
       }
     } on SocketException catch (error, trace) {
-      throw ApiException.withInner(
+      throw {{{modelNamePrefix}}}ApiException{{{modelNameSuffix}}}.withInner(
         HttpStatus.badRequest,
         'Socket operation failed: $method $path',
         error,
         trace,
       );
     } on TlsException catch (error, trace) {
-      throw ApiException.withInner(
+      throw {{{modelNamePrefix}}}ApiException{{{modelNameSuffix}}}.withInner(
         HttpStatus.badRequest,
         'TLS/SSL communication failed: $method $path',
         error,
         trace,
       );
     } on IOException catch (error, trace) {
-      throw ApiException.withInner(
+      throw {{{modelNamePrefix}}}ApiException{{{modelNameSuffix}}}.withInner(
         HttpStatus.badRequest,
         'I/O operation failed: $method $path',
         error,
         trace,
       );
     } on ClientException catch (error, trace) {
-      throw ApiException.withInner(
+      throw {{{modelNamePrefix}}}ApiException{{{modelNameSuffix}}}.withInner(
         HttpStatus.badRequest,
         'HTTP connection failed: $method $path',
         error,
         trace,
       );
     } on Exception catch (error, trace) {
-      throw ApiException.withInner(
+      throw {{{modelNamePrefix}}}ApiException{{{modelNameSuffix}}}.withInner(
         HttpStatus.badRequest,
         'Exception occurred: $method $path',
         error,
@@ -128,7 +128,7 @@ class ApiClient {
       );
     }
 
-    throw ApiException(
+    throw {{{modelNamePrefix}}}ApiException{{{modelNameSuffix}}}(
       HttpStatus.badRequest,
       'Invalid HTTP operation: $method $path',
     );
@@ -159,7 +159,7 @@ class ApiClient {
 
   /// Update query and header parameters based on authentication settings.
   void _updateParamsForAuth(
-    List<QueryParam> queryParams,
+    List<{{{modelNamePrefix}}}QueryParam{{{modelNameSuffix}}}> queryParams,
     Map<String, String> headerParams,
   ) {
     if (authentication != null) {
@@ -216,9 +216,9 @@ class ApiClient {
           }
       }
     } on Exception catch (error, trace) {
-      throw ApiException.withInner(HttpStatus.internalServerError, 'Exception during deserialization.', error, trace,);
+      throw {{{modelNamePrefix}}}ApiException{{{modelNameSuffix}}}.withInner(HttpStatus.internalServerError, 'Exception during deserialization.', error, trace,);
     }
-    throw ApiException(HttpStatus.internalServerError, 'Could not find a suitable class for deserialization',);
+    throw {{{modelNamePrefix}}}ApiException{{{modelNameSuffix}}}(HttpStatus.internalServerError, 'Could not find a suitable class for deserialization',);
   }
 {{/native_serialization}}
 }
@@ -250,7 +250,7 @@ Future<dynamic> deserializeAsync(DeserializationMessage message) async {
   // If the expected target type is String, nothing to do...
   return targetType == 'String'
     ? message.json
-    : ApiClient._deserialize(
+    : {{#apiClientName}}{{.}}{{/apiClientName}}{{^apiClientName}}{{{modelNamePrefix}}}ApiClient{{{modelNameSuffix}}}{{/apiClientName}}._deserialize(
         jsonDecode(message.json),
         targetType,
         growable: message.growable,
