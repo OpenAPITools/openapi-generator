@@ -14,12 +14,12 @@ Name | Type | Description | Notes
 **stringProp** | **String** |  | [optional] 
 **dateProp** | [**DateTime**](DateTime.md) |  | [optional] 
 **datetimeProp** | [**DateTime**](DateTime.md) |  | [optional] 
-**arrayNullableProp** | **List&lt;Object&gt;** |  | [optional] 
-**arrayAndItemsNullableProp** | **List&lt;Object&gt;** |  | [optional] 
-**arrayItemsNullable** | **List&lt;Object&gt;** |  | [optional] 
-**objectNullableProp** | **Map&lt;String, Object&gt;** |  | [optional] 
-**objectAndItemsNullableProp** | **Map&lt;String, Object&gt;** |  | [optional] 
-**objectItemsNullable** | **Map&lt;String, Object&gt;** |  | [optional] 
+**arrayNullableProp** | [**List&lt;Map&gt;**](Map.md) |  | [optional] 
+**arrayAndItemsNullableProp** | [**List&lt;Map&gt;**](Map.md) |  | [optional] 
+**arrayItemsNullable** | [**List&lt;Map&gt;**](Map.md) |  | [optional] 
+**objectNullableProp** | [**Map&lt;String, Map&gt;**](Map.md) |  | [optional] 
+**objectAndItemsNullableProp** | [**Map&lt;String, Map&gt;**](Map.md) |  | [optional] 
+**objectItemsNullable** | [**Map&lt;String, Map&gt;**](Map.md) |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

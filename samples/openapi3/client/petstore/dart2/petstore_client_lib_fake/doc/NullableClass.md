@@ -14,12 +14,12 @@ Name | Type | Description | Notes
 **stringProp** | **String** |  | [optional] 
 **dateProp** | [**DateTime**](DateTime.md) |  | [optional] 
 **datetimeProp** | [**DateTime**](DateTime.md) |  | [optional] 
-**arrayNullableProp** | [**List<Object>**](Object.md) |  | [optional] [default to const []]
-**arrayAndItemsNullableProp** | [**List<Object>**](Object.md) |  | [optional] [default to const []]
-**arrayItemsNullable** | [**List<Object>**](Object.md) |  | [optional] [default to const []]
-**objectNullableProp** | [**Map<String, Object>**](Object.md) |  | [optional] [default to const {}]
-**objectAndItemsNullableProp** | [**Map<String, Object>**](Object.md) |  | [optional] [default to const {}]
-**objectItemsNullable** | [**Map<String, Object>**](Object.md) |  | [optional] [default to const {}]
+**arrayNullableProp** | [**List<Map>**](Map.md) |  | [optional] [default to const []]
+**arrayAndItemsNullableProp** | [**List<Map>**](Map.md) |  | [optional] [default to const []]
+**arrayItemsNullable** | [**List<Map>**](Map.md) |  | [optional] [default to const []]
+**objectNullableProp** | [**Map<String, Map>**](Map.md) |  | [optional] [default to const {}]
+**objectAndItemsNullableProp** | [**Map<String, Map>**](Map.md) |  | [optional] [default to const {}]
+**objectItemsNullable** | [**Map<String, Map>**](Map.md) |  | [optional] [default to const {}]
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
