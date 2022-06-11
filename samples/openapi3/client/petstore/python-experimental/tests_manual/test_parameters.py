@@ -549,61 +549,43 @@ class TestParameter(unittest.TestCase):
         test_cases = (
             ParamTestCase(
                 None,
-                ()
+                dict(color='')
             ),
             ParamTestCase(
                 1,
-                (('color', '1'),)
+                dict(color='1')
             ),
             ParamTestCase(
                 3.14,
-                (('color', '3.14'),)
+                dict(color='3.14')
             ),
             ParamTestCase(
                 'blue',
-                (('color', 'blue'),)
+                dict(color='blue')
             ),
             ParamTestCase(
                 'hello world',
-                (('color', 'hello%20world'),)
+                dict(color='hello%20world')
             ),
             ParamTestCase(
                 '',
-                (('color', ''),)
-            ),
-            ParamTestCase(
-                True,
-                (('color', 'true'),)
-            ),
-            ParamTestCase(
-                False,
-                (('color', 'false'),)
+                dict(color='')
             ),
             ParamTestCase(
                 [],
-                ()
+                dict(color='')
             ),
             ParamTestCase(
                 ['blue', 'black', 'brown'],
-                (('color', 'blue%20black%20brown'),)
-            ),
-            ParamTestCase(
-                ['blue', 'black', 'brown'],
-                (('color', 'color=blue%20color=black%20color=brown'),),
-                explode=True
+                dict(color='blue%20black%20brown')
             ),
             ParamTestCase(
                 {},
-                ()
+                dict(color='')
             ),
             ParamTestCase(
                 dict(R=100, G=200, B=150),
-                (('color', 'R%20100%20G%20200%20B%20150'),)
-            ),
-            ParamTestCase(
-                dict(R=100, G=200, B=150),
-                (('color', 'R=100%20G=200%20B=150'),),
-                explode=True
+                dict(color='R%20100%20G%20200%20B%20150')
             ),
         )
         for test_case in test_cases:
@@ -615,6 +597,17 @@ class TestParameter(unittest.TestCase):
             )
             serialization = parameter.serialize(test_case.payload)
             self.assertEqual(serialization, test_case.expected_serialization)
+
+        with self.assertRaises(exceptions.ApiValueError):
+            for invalid_input in self.invalid_inputs:
+                for explode in (True, False):
+                    parameter = api_client.QueryParameter(
+                        name=name,
+                        style=api_client.ParameterStyle.SPACE_DELIMITED,
+                        schema=schemas.AnyTypeSchema,
+                        explode=explode,
+                    )
+                    parameter.serialize(invalid_input)
 
     def test_style_pipe_delimited_serialization(self):
         name = 'color'
