@@ -155,6 +155,8 @@ public class DefaultCodegen implements CodegenConfig {
     protected Map<String, String> importMapping = new HashMap<>();
     // a map to store the mappping between inline schema and the name provided by the user
     protected Map<String, String> inlineSchemaNameMapping = new HashMap<>();
+    // a map to store the inline schema naming conventions
+    protected Map<String, String> inlineSchemaNameDefault = new HashMap<>();
     protected String modelPackage = "", apiPackage = "", fileSuffix;
     protected String modelNamePrefix = "", modelNameSuffix = "";
     protected String apiNamePrefix = "", apiNameSuffix = "Api";
@@ -1061,6 +1063,11 @@ public class DefaultCodegen implements CodegenConfig {
     @Override
     public Map<String, String> inlineSchemaNameMapping() {
         return inlineSchemaNameMapping;
+    }
+
+    @Override
+    public Map<String, String> inlineSchemaNameDefault() {
+        return inlineSchemaNameDefault;
     }
 
     @Override

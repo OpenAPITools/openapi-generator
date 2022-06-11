@@ -227,6 +227,13 @@ open class GenerateTask : DefaultTask() {
     val inlineSchemaNameMappings = project.objects.mapProperty<String, String>()
 
     /**
+     * Specifies default values for inline schema naming convention
+     */
+    @Optional
+    @Input
+    val inlineSchemaNameDefaults = project.objects.mapProperty<String, String>()
+
+    /**
      * Root package for generated code.
      */
     @Optional
@@ -688,6 +695,12 @@ open class GenerateTask : DefaultTask() {
             if (inlineSchemaNameMappings.isPresent) {
                 inlineSchemaNameMappings.get().forEach { entry ->
                     configurator.addInlineSchemaNameMapping(entry.key, entry.value)
+                }
+            }
+
+            if (inlineSchemaNameDefaults.isPresent) {
+                inlineSchemaNameDefaults.get().forEach { entry ->
+                    configurator.addInlineSchemaNameDefault(entry.key, entry.value)
                 }
             }
 
