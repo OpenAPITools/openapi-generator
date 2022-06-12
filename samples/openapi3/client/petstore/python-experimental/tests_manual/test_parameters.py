@@ -99,52 +99,52 @@ class TestParameter(unittest.TestCase):
         test_cases = (
             ParamTestCase(
                 None,
-                ''
+                dict(color='')
             ),
             ParamTestCase(
                 1,
-                '?color=1'
+                dict(color='?color=1')
             ),
             ParamTestCase(
                 3.14,
-                '?color=3.14'
+                dict(color='?color=3.14')
             ),
             ParamTestCase(
                 'blue',
-                '?color=blue'
+                dict(color='?color=blue')
             ),
             ParamTestCase(
                 'hello world',
-                '?color=hello%20world'
+                dict(color='?color=hello%20world')
             ),
             ParamTestCase(
                 '',
-                '?color='
+                dict(color='?color=')
             ),
             ParamTestCase(
                 [],
-                ''
+                dict(color='')
             ),
             ParamTestCase(
                 ['blue', 'black', 'brown'],
-                '?color=blue,black,brown'
+                dict(color='?color=blue,black,brown')
             ),
             ParamTestCase(
                 ['blue', 'black', 'brown'],
-                '?color=blue&color=black&color=brown',
+                dict(color='?color=blue&color=black&color=brown'),
                 explode=True
             ),
             ParamTestCase(
                 {},
-                ''
+                dict(color='')
             ),
             ParamTestCase(
                 dict(R=100, G=200, B=150),
-                '?color=R,100,G,200,B,150'
+                dict(color='?color=R,100,G,200,B,150')
             ),
             ParamTestCase(
                 dict(R=100, G=200, B=150),
-                '?R=100&G=200&B=150',
+                dict(color='?R=100&G=200&B=150'),
                 explode=True
             ),
         )
