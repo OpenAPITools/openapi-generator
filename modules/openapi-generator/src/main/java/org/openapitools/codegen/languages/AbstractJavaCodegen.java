@@ -1332,8 +1332,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
 
         // if data type happens to be the same as the property name and both are upper case
-        if (property.dataType != null && property.dataType.equals(property.name) && property.dataType.toUpperCase().equals(property.name)) {
-            property.name = property.name.toLowerCase();
+        if (property.dataType != null && property.dataType.equals(property.name) && property.dataType.toUpperCase(Locale.ROOT).equals(property.name)) {
+            property.name = property.name.toLowerCase(Locale.ROOT);
         }
     }
 
