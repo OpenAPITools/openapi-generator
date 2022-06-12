@@ -55,6 +55,14 @@ public class AbstractJavaCodegenTest {
         Assert.assertEquals(fakeJavaCodegen.toEnumVarName("_,.", "String"), "__");
     }
 
+    /**
+     * As of Java 9, '_' is a keyword, and may not be used as an identifier.
+     */
+    @Test
+    public void toEnumVarNameShouldNotResultInSingleUnderscore() throws Exception {
+        Assert.assertEquals(fakeJavaCodegen.toEnumVarName(" ", "String"), "SPACE");
+    }
+
     @Test
     public void toVarNameShouldAvoidOverloadingGetClassMethod() throws Exception {
         Assert.assertEquals(fakeJavaCodegen.toVarName("class"), "propertyClass");
