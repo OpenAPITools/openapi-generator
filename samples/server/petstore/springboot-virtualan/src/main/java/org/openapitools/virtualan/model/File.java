@@ -15,6 +15,7 @@ import javax.validation.constraints.*;
 import java.util.*;
 import javax.annotation.Generated;
 
+@SuppressWarnings(value = {"unused"})
 /**
  * Must be named &#x60;File&#x60; for test.
  */

@@ -18,6 +18,7 @@ import javax.validation.constraints.*;
 import java.util.*;
 import javax.annotation.Generated;
 
+@SuppressWarnings(value = {"unused"})
 /**
  * EnumTest
  */

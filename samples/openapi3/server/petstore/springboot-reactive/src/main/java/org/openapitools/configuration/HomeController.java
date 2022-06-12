@@ -15,6 +15,7 @@ import static org.springframework.web.reactive.function.server.RouterFunctions.r
 /**
  * Home redirection to OpenAPI api documentation
  */
+@SuppressWarnings(value = {"unused"})
 @Controller
 public class HomeController {
 

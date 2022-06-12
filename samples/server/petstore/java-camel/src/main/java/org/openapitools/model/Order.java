@@ -21,6 +21,7 @@ import javax.xml.bind.annotation.*;
 import java.util.*;
 import javax.annotation.Generated;
 
+@SuppressWarnings(value = {"unused"})
 /**
  * An order for a pets from the pet store
  */

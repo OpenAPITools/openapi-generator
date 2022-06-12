@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 /**
  * Home redirection to OpenAPI api documentation
  */
+@SuppressWarnings(value = {"unused"})
 @Controller
 public class HomeController {
 

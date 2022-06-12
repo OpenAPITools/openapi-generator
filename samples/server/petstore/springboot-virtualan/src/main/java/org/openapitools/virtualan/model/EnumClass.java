@@ -12,6 +12,7 @@ import javax.validation.constraints.*;
 import java.util.*;
 import javax.annotation.Generated;
 
+@SuppressWarnings(value = {"unused"})
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 

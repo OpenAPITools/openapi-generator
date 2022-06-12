@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 import javax.annotation.Generated;
 
+@SuppressWarnings(value = {"unused"})
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 @Validated
 @Api(value = "fake_classname_test", description = "the fake_classname_test API")

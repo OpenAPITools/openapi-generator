@@ -26,6 +26,7 @@ import java.util.Map;
 import java.util.Optional;
 import javax.annotation.Generated;
 
+@SuppressWarnings(value = {"unused"})
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 @Validated
 @Api(value = "user", description = "Operations about user")

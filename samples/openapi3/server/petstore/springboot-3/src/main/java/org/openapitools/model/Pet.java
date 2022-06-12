@@ -19,6 +19,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.*;
 import jakarta.annotation.Generated;
 
+@SuppressWarnings(value = {"unused"})
 /**
  * A pet for sale in the pet store
  */

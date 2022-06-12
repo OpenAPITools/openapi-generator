@@ -15,6 +15,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.*;
 import jakarta.annotation.Generated;
 
+@SuppressWarnings(value = {"unused"})
 /**
  * Describes the result of uploading an image resource
  */
