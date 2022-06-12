@@ -216,15 +216,16 @@ class StyleFormSerializer(ParameterSerializerBase):
             return True
         return super().get_default_explode(style)
 
-    def _serialize_form(
+    def serialize_form(
         self,
         in_data: typing.Union[None, int, float, str, bool, dict, list],
         name: str,
         explode: bool,
         percent_encode: bool,
-        prefix: str = '?'
+        prefix_separator_iterator: typing.Optional[PrefixSeparatorIterator] = None
     ) -> str:
-        prefix_separator_iterator = PrefixSeparatorIterator(prefix, '&')
+        if prefix_separator_iterator is None:
+            prefix_separator_iterator = PrefixSeparatorIterator('?', '&')
         return self.ref6570_expansion(
             variable_name=name,
             in_data=in_data,
@@ -467,9 +468,11 @@ class QueryParameter(ParameterBase, StyleFormSerializer):
 
     def __serialize_space_delimited(
         self,
-        in_data: typing.Union[None, int, float, str, bool, dict, list]
+        in_data: typing.Union[None, int, float, str, bool, dict, list],
+        prefix_separator_iterator: typing.Optional[PrefixSeparatorIterator]
     ) -> typing.Dict[str, str]:
-        prefix_separator_iterator = PrefixSeparatorIterator('', '%20')
+        if prefix_separator_iterator is None:
+            prefix_separator_iterator = self.get_prefix_separator_iterator()
         value = self.ref6570_expansion(
             variable_name=self.name,
             in_data=in_data,
@@ -481,9 +484,11 @@ class QueryParameter(ParameterBase, StyleFormSerializer):
 
     def __serialize_pipe_delimited(
         self,
-        in_data: typing.Union[None, int, float, str, bool, dict, list]
+        in_data: typing.Union[None, int, float, str, bool, dict, list],
+        prefix_separator_iterator: typing.Optional[PrefixSeparatorIterator]
     ) -> typing.Dict[str, str]:
-        prefix_separator_iterator = PrefixSeparatorIterator('', '|')
+        if prefix_separator_iterator is None:
+            prefix_separator_iterator = self.get_prefix_separator_iterator()
         value = self.ref6570_expansion(
             variable_name=self.name,
             in_data=in_data,
@@ -493,10 +498,37 @@ class QueryParameter(ParameterBase, StyleFormSerializer):
         )
         return self.to_dict(self.name, value)
 
+    def __serialize_form(
+        self,
+        in_data: typing.Union[None, int, float, str, bool, dict, list],
+        prefix_separator_iterator: typing.Optional[PrefixSeparatorIterator]
+    ) -> typing.Dict[str, str]:
+        if prefix_separator_iterator is None:
+            prefix_separator_iterator = self.get_prefix_separator_iterator()
+        value = self.serialize_form(
+            in_data,
+            name=self.name,
+            explode=self.explode,
+            percent_encode=True,
+            prefix_separator_iterator=prefix_separator_iterator
+        )
+        return self.to_dict(self.name, value)
+
+    def get_prefix_separator_iterator(self) -> typing.Optional[PrefixSeparatorIterator]:
+        if not self.schema:
+            return None
+        if self.style is ParameterStyle.FORM:
+            return PrefixSeparatorIterator('?', '&')
+        elif self.style is ParameterStyle.SPACE_DELIMITED:
+            return PrefixSeparatorIterator('', '%20')
+        elif self.style is ParameterStyle.PIPE_DELIMITED:
+            return PrefixSeparatorIterator('', '|')
+
     def serialize(
         self,
         in_data: typing.Union[
-            Schema, Decimal, int, float, str, date, datetime, None, bool, list, tuple, dict, frozendict]
+            Schema, Decimal, int, float, str, date, datetime, None, bool, list, tuple, dict, frozendict],
+        prefix_separator_iterator: typing.Optional[PrefixSeparatorIterator] = None
     ) -> typing.Dict[str, str]:
         if self.schema:
             cast_in_data = self.schema(in_data)
@@ -517,12 +549,11 @@ class QueryParameter(ParameterBase, StyleFormSerializer):
             if self.style:
                 # TODO update query ones to omit setting values when [] {} or None is input
                 if self.style is ParameterStyle.FORM:
-                    value = self._serialize_form(cast_in_data, name=self.name, explode=self.explode, percent_encode=True)
-                    return self.to_dict(self.name, value)
+                    return self.__serialize_form(cast_in_data, prefix_separator_iterator)
                 elif self.style is ParameterStyle.SPACE_DELIMITED:
-                    return self.__serialize_space_delimited(cast_in_data)
+                    return self.__serialize_space_delimited(cast_in_data, prefix_separator_iterator)
                 elif self.style is ParameterStyle.PIPE_DELIMITED:
-                    return self.__serialize_pipe_delimited(cast_in_data)
+                    return self.__serialize_pipe_delimited(cast_in_data, prefix_separator_iterator)
         # self.content will be length one
         for content_type, schema in self.content.items():
             cast_in_data = schema(in_data)
@@ -576,8 +607,13 @@ class CookieParameter(ParameterBase, StyleFormSerializer):
                 TODO add escaping of comma, space, equals
                 or turn encoding on
                 """
-                value = self._serialize_form(
-                    cast_in_data, explode=self.explode, name=self.name, percent_encode=False, prefix='')
+                value = self.serialize_form(
+                    cast_in_data,
+                    explode=self.explode,
+                    name=self.name,
+                    percent_encode=False,
+                    prefix_separator_iterator=PrefixSeparatorIterator('', '&')
+                )
                 return self.to_dict(self.name, value)
         # self.content will be length one
         for content_type, schema in self.content.items():
@@ -926,8 +962,6 @@ class ApiClient:
         self,
         resource_path: str,
         method: str,
-        path_params: typing.Optional[typing.Dict[str, typing.Any]] = None,
-        query_params: typing.Optional[typing.Tuple[typing.Tuple[str, str], ...]] = None,
         headers: typing.Optional[HTTPHeaderDict] = None,
         body: typing.Optional[typing.Union[str, bytes]] = None,
         fields: typing.Optional[typing.Tuple[typing.Tuple[str, str], ...]] = None,
@@ -943,17 +977,8 @@ class ApiClient:
         if self.cookie:
             headers['Cookie'] = self.cookie
 
-        # path parameters
-        if path_params:
-            for k, v in path_params.items():
-                # specified safe chars, encode everything
-                resource_path = resource_path.replace(
-                    '{%s}' % k,
-                    quote(str(v), safe=self.configuration.safe_chars_for_path_param)
-                )
-
         # auth setting
-        self.update_params_for_auth(headers, query_params,
+        self.update_params_for_auth(headers,
                                     auth_settings, resource_path, method, body)
 
         # request url
@@ -967,7 +992,6 @@ class ApiClient:
         response = self.request(
             method,
             url,
-            query_params=query_params,
             headers=headers,
             fields=fields,
             body=body,
@@ -980,8 +1004,6 @@ class ApiClient:
         self,
         resource_path: str,
         method: str,
-        path_params: typing.Optional[typing.Dict[str, typing.Any]] = None,
-        query_params: typing.Optional[typing.Tuple[typing.Tuple[str, str], ...]] = None,
         headers: typing.Optional[HTTPHeaderDict] = None,
         body: typing.Optional[typing.Union[str, bytes]] = None,
         fields: typing.Optional[typing.Tuple[typing.Tuple[str, str], ...]] = None,
@@ -997,8 +1019,6 @@ class ApiClient:
 
         :param resource_path: Path to method endpoint.
         :param method: Method to call.
-        :param path_params: Path parameters in the url.
-        :param query_params: Query parameters in the url.
         :param headers: Header parameters to be
             placed in the request header.
         :param body: Request body.
@@ -1031,8 +1051,6 @@ class ApiClient:
             return self.__call_api(
                 resource_path,
                 method,
-                path_params,
-                query_params,
                 headers,
                 body,
                 fields,
@@ -1047,8 +1065,6 @@ class ApiClient:
             (
                 resource_path,
                 method,
-                path_params,
-                query_params,
                 headers,
                 body,
                 json,
@@ -1064,7 +1080,6 @@ class ApiClient:
         self,
         method: str,
         url: str,
-        query_params: typing.Optional[typing.Tuple[typing.Tuple[str, str], ...]] = None,
         headers: typing.Optional[HTTPHeaderDict] = None,
         fields: typing.Optional[typing.Tuple[typing.Tuple[str, str], ...]] = None,
         body: typing.Optional[typing.Union[str, bytes]] = None,
@@ -1074,19 +1089,16 @@ class ApiClient:
         """Makes the HTTP request using RESTClient."""
         if method == "GET":
             return self.rest_client.GET(url,
-                                        query_params=query_params,
                                         stream=stream,
                                         timeout=timeout,
                                         headers=headers)
         elif method == "HEAD":
             return self.rest_client.HEAD(url,
-                                         query_params=query_params,
                                          stream=stream,
                                          timeout=timeout,
                                          headers=headers)
         elif method == "OPTIONS":
             return self.rest_client.OPTIONS(url,
-                                            query_params=query_params,
                                             headers=headers,
                                             fields=fields,
                                             stream=stream,
@@ -1094,7 +1106,6 @@ class ApiClient:
                                             body=body)
         elif method == "POST":
             return self.rest_client.POST(url,
-                                         query_params=query_params,
                                          headers=headers,
                                          fields=fields,
                                          stream=stream,
@@ -1102,7 +1113,6 @@ class ApiClient:
                                          body=body)
         elif method == "PUT":
             return self.rest_client.PUT(url,
-                                        query_params=query_params,
                                         headers=headers,
                                         fields=fields,
                                         stream=stream,
@@ -1110,7 +1120,6 @@ class ApiClient:
                                         body=body)
         elif method == "PATCH":
             return self.rest_client.PATCH(url,
-                                          query_params=query_params,
                                           headers=headers,
                                           fields=fields,
                                           stream=stream,
@@ -1118,7 +1127,6 @@ class ApiClient:
                                           body=body)
         elif method == "DELETE":
             return self.rest_client.DELETE(url,
-                                           query_params=query_params,
                                            headers=headers,
                                            stream=stream,
                                            timeout=timeout,
@@ -1129,12 +1137,11 @@ class ApiClient:
                 " `POST`, `PATCH`, `PUT` or `DELETE`."
             )
 
-    def update_params_for_auth(self, headers, querys, auth_settings,
+    def update_params_for_auth(self, headers, auth_settings,
                                resource_path, method, body):
         """Updates header and query params based on authentication setting.
 
         :param headers: Header parameters dict to be updated.
-        :param querys: Query parameters tuple list to be updated.
         :param auth_settings: Authentication setting identifiers list.
         :param resource_path: A string representation of the HTTP request resource path.
         :param method: A string representation of the HTTP request method.
@@ -1156,12 +1163,17 @@ class ApiClient:
                         # The HTTP signature scheme requires multiple HTTP headers
                         # that are calculated dynamically.
                         signing_info = self.configuration.signing_info
+                        querys = tuple()
                         auth_headers = signing_info.get_http_signature_headers(
                                             resource_path, method, headers, body, querys)
                         for key, value in auth_headers.items():
                             headers.add(key, value)
                 elif auth_setting['in'] == 'query':
-                    querys.append((auth_setting['key'], auth_setting['value']))
+                    """ TODO implement auth in query
+                    need to pass in prefix_separator_iterator
+                    and need to output resource_path with query params added
+                    """
+                    raise ApiValueError("Auth in query not yet implemented")
                 else:
                     raise ApiValueError(
                         'Authentication token must be in `query` or `header`'
@@ -1369,7 +1381,7 @@ class RequestBody(StyleFormSerializer, JSONDetector):
             raise ValueError(
                 f'Unable to serialize {in_data} to application/x-www-form-urlencoded because it is not a dict of data')
         cast_in_data = self.__json_encoder.default(in_data)
-        fields = self._serialize_form(cast_in_data, name='', explode=True, percent_encode=False)
+        fields = self.serialize_form(cast_in_data, name='', explode=True, percent_encode=False)
         if not fields:
             return {}
         return {'fields': fields}

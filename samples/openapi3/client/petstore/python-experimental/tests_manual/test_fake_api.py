@@ -78,7 +78,6 @@ class TestFakeApi(unittest.TestCase):
         fields: typing.Optional[tuple[api_client.RequestField, ...]] = None,
         accept_content_type: str = 'application/json',
         stream: bool = False,
-        query_params: typing.Optional[typing.Tuple[typing.Tuple[str, str], ...]] = None
     ):
         headers = {
             'Accept': accept_content_type,
@@ -90,7 +89,6 @@ class TestFakeApi(unittest.TestCase):
             headers['Content-Type'] = content_type
         kwargs = dict(
             headers=HTTPHeaderDict(headers),
-            query_params=query_params,
             fields=fields,
             stream=stream,
             timeout=None,
@@ -113,7 +111,6 @@ class TestFakeApi(unittest.TestCase):
         content_type: typing.Optional[str] = 'application/json',
         accept_content_type: typing.Optional[str] = 'application/json',
         stream: bool = False,
-        query_params: typing.Optional[typing.Tuple[typing.Tuple[str, str], ...]] = None,
     ):
         headers = {
             'User-Agent': cls.user_agent
@@ -124,7 +121,6 @@ class TestFakeApi(unittest.TestCase):
             headers['Content-Type'] = content_type
         kwargs = dict(
             headers=HTTPHeaderDict(headers),
-            fields=query_params,
             preload_content=not stream,
             timeout=None,
         )
@@ -657,10 +653,9 @@ class TestFakeApi(unittest.TestCase):
        )
        self.__assert_request_called_with(
            mock_request,
-           'http://petstore.swagger.io:80/v2/fake/inlineComposition/',
+           'http://petstore.swagger.io:80/v2/fake/inlineComposition/?compositionAtRoot=a&someProp=a',
            accept_content_type=content_type,
            content_type=content_type,
-           query_params=(('compositionAtRoot', 'a'), ('someProp', 'a')),
            body=json_bytes
        )
        self.assertEqual(api_response.body, single_char_str)
@@ -684,10 +679,9 @@ class TestFakeApi(unittest.TestCase):
        )
        self.__assert_request_called_with(
            mock_request,
-           'http://petstore.swagger.io:80/v2/fake/inlineComposition/',
+           'http://petstore.swagger.io:80/v2/fake/inlineComposition/?compositionAtRoot=a&someProp=a',
            accept_content_type=content_type,
            content_type=content_type,
-           query_params=(('compositionAtRoot', 'a'), ('someProp', 'a')),
            fields=(
                api_client.RequestField(
                    name='someProp',
