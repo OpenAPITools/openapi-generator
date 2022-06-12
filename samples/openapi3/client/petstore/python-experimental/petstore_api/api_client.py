@@ -549,7 +549,7 @@ class CookieParameter(ParameterBase, StyleFormSerializer):
         self,
         in_data: typing.Union[
             Schema, Decimal, int, float, str, date, datetime, None, bool, list, tuple, dict, frozendict]
-    ) -> typing.Tuple[typing.Tuple[str, str]]:
+    ) -> typing.Dict[str, str]:
         if self.schema:
             cast_in_data = self.schema(in_data)
             cast_in_data = self._json_encoder.default(cast_in_data)
@@ -558,14 +558,20 @@ class CookieParameter(ParameterBase, StyleFormSerializer):
                 returns fields: tuple
             """
             if self.style:
-                return self._serialize_form(
+                """
+                TODO add escaping of comma, space, equals
+                or turn encoding on
+                """
+                value = self._serialize_form(
                     cast_in_data, explode=self.explode, name=self.name, percent_encode=False, prefix='')
+                return self.to_dict(self.name, value)
         # self.content will be length one
         for content_type, schema in self.content.items():
             cast_in_data = schema(in_data)
             cast_in_data = self._json_encoder.default(cast_in_data)
             if content_type == self._json_content_type:
-                return self._serialize_json(cast_in_data)
+                value = self._serialize_json(cast_in_data)
+                return self.to_dict(self.name, value)
             raise NotImplementedError('Serialization of {} has not yet been implemented'.format(content_type))
 
 
