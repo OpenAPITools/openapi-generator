@@ -111,6 +111,9 @@ class PrefixSeparatorIterator:
 
 
 class ParameterSerializerBase:
+    @classmethod
+    def get_default_explode(cls, style: ParameterStyle) -> bool:
+        return False
 
     @staticmethod
     def __ref6570_item_value(in_data: typing.Any, percent_encode: bool):
@@ -203,6 +206,11 @@ class ParameterSerializerBase:
 
 
 class StyleFormSerializer(ParameterSerializerBase):
+    @classmethod
+    def get_default_explode(cls, style: ParameterStyle) -> bool:
+        if style is ParameterStyle.FORM:
+            return True
+        return super().get_default_explode(style)
 
     def _serialize_form(
         self,
@@ -434,17 +442,20 @@ class QueryParameter(ParameterBase, StyleFormSerializer):
         name: str,
         required: bool = False,
         style: typing.Optional[ParameterStyle] = None,
-        explode: bool = False,
+        explode: typing.Optional[bool] = None,
         allow_reserved: typing.Optional[bool] = None,
         schema: typing.Optional[typing.Type[Schema]] = None,
         content: typing.Optional[typing.Dict[str, typing.Type[Schema]]] = None
     ):
+        used_style = ParameterStyle.FORM if style is None and content is None and schema else style
+        used_explode = self.get_default_explode(used_style) if explode is None else explode
+
         super().__init__(
             name,
             in_type=ParameterInType.QUERY,
             required=required,
-            style=style,
-            explode=explode,
+            style=used_style,
+            explode=used_explode,
             allow_reserved=allow_reserved,
             schema=schema,
             content=content
@@ -525,17 +536,20 @@ class CookieParameter(ParameterBase, StyleFormSerializer):
         name: str,
         required: bool = False,
         style: typing.Optional[ParameterStyle] = None,
-        explode: bool = False,
+        explode: typing.Optional[bool] = None,
         allow_reserved: typing.Optional[bool] = None,
         schema: typing.Optional[typing.Type[Schema]] = None,
         content: typing.Optional[typing.Dict[str, typing.Type[Schema]]] = None
     ):
+        used_style = ParameterStyle.FORM if style is None and content is None and schema else style
+        used_explode = self.get_default_explode(used_style) if explode is None else explode
+
         super().__init__(
             name,
             in_type=ParameterInType.COOKIE,
             required=required,
-            style=style,
-            explode=explode,
+            style=used_style,
+            explode=used_explode,
             allow_reserved=allow_reserved,
             schema=schema,
             content=content

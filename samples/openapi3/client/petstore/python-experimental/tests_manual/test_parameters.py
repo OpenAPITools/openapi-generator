@@ -794,7 +794,69 @@ class TestParameter(unittest.TestCase):
                 )
                 parameter.serialize(invalid_input)
 
-    def test_query_or_cookie_params_no_style(self):
+    def test_query_params_no_style(self):
+        name = 'color'
+        test_cases = (
+            ParamTestCase(
+                None,
+                dict(color='')
+            ),
+            ParamTestCase(
+                1,
+                dict(color='?color=1')
+            ),
+            ParamTestCase(
+                3.14,
+                dict(color='?color=3.14')
+            ),
+            ParamTestCase(
+                'blue',
+                dict(color='?color=blue')
+            ),
+            ParamTestCase(
+                'hello world',
+                dict(color='?color=hello%20world')
+            ),
+            ParamTestCase(
+                '',
+                dict(color='?color=')
+            ),
+            ParamTestCase(
+                [],
+                dict(color='')
+            ),
+            ParamTestCase(
+                ['blue', 'black', 'brown'],
+                dict(color='?color=blue&color=black&color=brown')
+            ),
+            ParamTestCase(
+                {},
+                dict(color='')
+            ),
+            ParamTestCase(
+                dict(R=100, G=200, B=150),
+                dict(color='?R=100&G=200&B=150')
+            ),
+        )
+        for test_case in test_cases:
+            parameter = api_client.QueryParameter(
+                name=name,
+                schema=schemas.AnyTypeSchema,
+            )
+            print(parameter.explode)
+            print(test_case.payload)
+            serialization = parameter.serialize(test_case.payload)
+            self.assertEqual(serialization, test_case.expected_serialization)
+
+        with self.assertRaises(exceptions.ApiValueError):
+            for invalid_input in self.invalid_inputs:
+                parameter = api_client.QueryParameter(
+                    name=name,
+                    schema=schemas.AnyTypeSchema,
+                )
+                parameter.serialize(invalid_input)
+
+    def test_cookie_params_no_style(self):
         name = 'color'
         test_cases = (
             ParamTestCase(
@@ -846,15 +908,21 @@ class TestParameter(unittest.TestCase):
                 (('color', 'R,100,G,200,B,150'),)
             ),
         )
-        for in_type in {api_client.ParameterInType.QUERY, api_client.ParameterInType.COOKIE}:
-            for test_case in test_cases:
-                parameter_cls = self.in_type_to_parameter_cls[in_type]
-                parameter = parameter_cls(
+        for test_case in test_cases:
+            parameter = api_client.CookieParameter(
+                name=name,
+                schema=schemas.AnyTypeSchema,
+            )
+            serialization = parameter.serialize(test_case.payload)
+            self.assertEqual(serialization, test_case.expected_serialization)
+
+        with self.assertRaises(exceptions.ApiValueError):
+            for invalid_input in self.invalid_inputs:
+                parameter = api_client.CookieParameter(
                     name=name,
                     schema=schemas.AnyTypeSchema,
                 )
-                serialization = parameter.serialize(test_case.payload)
-                self.assertEqual(serialization, test_case.expected_serialization)
+                parameter.serialize(invalid_input)
 
     def test_checks_content_lengths(self):
         with self.assertRaises(ValueError):
