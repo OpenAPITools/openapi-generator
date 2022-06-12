@@ -861,51 +861,43 @@ class TestParameter(unittest.TestCase):
         test_cases = (
             ParamTestCase(
                 None,
-                ()
+                dict(color='')
             ),
             ParamTestCase(
                 1,
-                (('color', '1'),)
+                dict(color='color=1')
             ),
             ParamTestCase(
                 3.14,
-                (('color', '3.14'),)
+                dict(color='color=3.14')
             ),
             ParamTestCase(
                 'blue',
-                (('color', 'blue'),)
+                dict(color='color=blue')
             ),
             ParamTestCase(
                 'hello world',
-                (('color', 'hello%20world'),)
+                dict(color='color=hello world')
             ),
             ParamTestCase(
                 '',
-                (('color', ''),)
-            ),
-            ParamTestCase(
-                True,
-                (('color', 'true'),)
-            ),
-            ParamTestCase(
-                False,
-                (('color', 'false'),)
+                dict(color='color=')
             ),
             ParamTestCase(
                 [],
-                ()
+                dict(color='')
             ),
             ParamTestCase(
                 ['blue', 'black', 'brown'],
-                (('color', 'blue,black,brown'),)
+                dict(color='color=blue&color=black&color=brown')
             ),
             ParamTestCase(
                 {},
-                ()
+                dict(color='')
             ),
             ParamTestCase(
                 dict(R=100, G=200, B=150),
-                (('color', 'R,100,G,200,B,150'),)
+                dict(color='R=100&G=200&B=150')
             ),
         )
         for test_case in test_cases:
@@ -913,6 +905,7 @@ class TestParameter(unittest.TestCase):
                 name=name,
                 schema=schemas.AnyTypeSchema,
             )
+            print(test_case.payload)
             serialization = parameter.serialize(test_case.payload)
             self.assertEqual(serialization, test_case.expected_serialization)
 
