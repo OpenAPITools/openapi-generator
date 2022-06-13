@@ -1,0 +1,16 @@
+{{#each models}}{{#with model}}# {{{pubName}}}.model.{{{classname}}}
+
+## Load the model package
+```dart
+import 'package:{{{pubName}}}/api.dart';
+```
+
+## Properties
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+{{#each vars}}**{{{name}}}** | {{#if isPrimitiveType}}**{{{dataType}}}**{{/if}}{{#unless isPrimitiveType}}[**{{{dataType}}}**]({{{complexType}}}.md){{/unless}} | {{{description}}} | {{#unless required}}[optional] {{/unless}}{{#if isReadOnly}}[readonly] {{/if}}{{#with defaultValue}}[default to {{{.}}}]{{/with}}
+{{/each}}
+
+[[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
+
+{{/with}}{{/each}}

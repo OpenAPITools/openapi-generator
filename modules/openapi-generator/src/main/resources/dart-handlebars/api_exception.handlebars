@@ -1,0 +1,23 @@
+{{>header}}
+{{>part_of}}
+class {{{modelNamePrefix}}}ApiException{{{modelNameSuffix}}} implements Exception {
+  {{{modelNamePrefix}}}ApiException{{{modelNameSuffix}}}(this.code, this.message);
+
+  {{{modelNamePrefix}}}ApiException{{{modelNameSuffix}}}.withInner(this.code, this.message, this.innerException, this.stackTrace);
+
+  int code = 0;
+  String? message;
+  Exception? innerException;
+  StackTrace? stackTrace;
+
+  @override
+  String toString() {
+    if (message == null) {
+      return '{{{modelNamePrefix}}}ApiException{{{modelNameSuffix}}}';
+    }
+    if (innerException == null) {
+      return '{{{modelNamePrefix}}}ApiException{{{modelNameSuffix}}} $code: $message';
+    }
+    return '{{{modelNamePrefix}}}ApiException{{{modelNameSuffix}}} $code: $message (Inner exception: $innerException)\n\n$stackTrace';
+  }
+}

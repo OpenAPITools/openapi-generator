@@ -1,7 +1,7 @@
 {{>header}}
 {{>part_of}}
-class {{#apiClientName}}{{.}}{{/apiClientName}}{{^apiClientName}}{{{modelNamePrefix}}}ApiClient{{{modelNameSuffix}}}{{/apiClientName}} {
-  {{#apiClientName}}{{.}}{{/apiClientName}}{{^apiClientName}}{{{modelNamePrefix}}}ApiClient{{{modelNameSuffix}}}{{/apiClientName}}({this.basePath = '{{{basePath}}}', this.authentication});
+class {{#with apiClientName}}{{.}}{{/with}}{{#unless apiClientName}}{{{modelNamePrefix}}}ApiClient{{{modelNameSuffix}}}{{/unless}} {
+  {{#with apiClientName}}{{.}}{{/with}}{{#unless apiClientName}}{{{modelNamePrefix}}}ApiClient{{{modelNameSuffix}}}{{/unless}}({this.basePath = '{{{basePath}}}', this.authentication});
 
   final String basePath;
 
@@ -133,7 +133,7 @@ class {{#apiClientName}}{{.}}{{/apiClientName}}{{^apiClientName}}{{{modelNamePre
       'Invalid HTTP operation: $method $path',
     );
   }
-{{#native_serialization}}
+{{#with native_serialization}}
 
   Future<dynamic> deserializeAsync(String json, String targetType, {bool growable = false,}) async =>
     // ignore: deprecated_member_use_from_same_package
@@ -149,7 +149,7 @@ class {{#apiClientName}}{{.}}{{/apiClientName}}{{^apiClientName}}{{{modelNamePre
       ? json
       : _deserialize(jsonDecode(json), targetType, growable: growable);
   }
-{{/native_serialization}}
+{{/with}}
 
   // ignore: deprecated_member_use_from_same_package
   Future<String> serializeAsync(Object? value) async => serialize(value);
@@ -167,7 +167,7 @@ class {{#apiClientName}}{{.}}{{/apiClientName}}{{^apiClientName}}{{{modelNamePre
     }
   }
 
-{{#native_serialization}}
+{{#with native_serialization}}
   static dynamic _deserialize(dynamic value, String targetType, {bool growable = false}) {
     try {
       switch (targetType) {
@@ -185,17 +185,17 @@ class {{#apiClientName}}{{.}}{{/apiClientName}}{{^apiClientName}}{{{modelNamePre
           return valueString == 'true' || valueString == '1';
         case 'DateTime':
           return value is DateTime ? value : DateTime.tryParse(value);
-        {{#models}}
-          {{#model}}
+        {{#each models}}
+          {{#with model}}
         case '{{{classname}}}':
-            {{#isEnum}}
-          {{#native_serialization}}return {{{classname}}}TypeTransformer().decode(value);{{/native_serialization}}
-            {{/isEnum}}
-            {{^isEnum}}
+            {{#if isEnum}}
+          {{#with native_serialization}}return {{{classname}}}TypeTransformer().decode(value);{{/with}}
+            {{/if}}
+            {{#unless isEnum}}
           return {{{classname}}}.fromJson(value);
-            {{/isEnum}}
-          {{/model}}
-        {{/models}}
+            {{/unless}}
+          {{/with}}
+        {{/each}}
         default:
           dynamic match;
           if (value is List && (match = _regList.firstMatch(targetType)?.group(1)) != null) {
@@ -220,9 +220,9 @@ class {{#apiClientName}}{{.}}{{/apiClientName}}{{^apiClientName}}{{{modelNamePre
     }
     throw {{{modelNamePrefix}}}ApiException{{{modelNameSuffix}}}(HttpStatus.internalServerError, 'Could not find a suitable class for deserialization',);
   }
-{{/native_serialization}}
+{{/with}}
 }
-{{#native_serialization}}
+{{#with native_serialization}}
 
 /// Primarily intended for use in an isolate.
 class DeserializationMessage {
@@ -250,13 +250,13 @@ Future<dynamic> deserializeAsync(DeserializationMessage message) async {
   // If the expected target type is String, nothing to do...
   return targetType == 'String'
     ? message.json
-    : {{#apiClientName}}{{.}}{{/apiClientName}}{{^apiClientName}}{{{modelNamePrefix}}}ApiClient{{{modelNameSuffix}}}{{/apiClientName}}._deserialize(
+    : {{#with apiClientName}}{{.}}{{/with}}{{#unless apiClientName}}{{{modelNamePrefix}}}ApiClient{{{modelNameSuffix}}}{{/unless}}._deserialize(
         jsonDecode(message.json),
         targetType,
         growable: message.growable,
       );
 }
-{{/native_serialization}}
+{{/with}}
 
 /// Primarily intended for use in an isolate.
 Future<String> serializeAsync(Object? value) async => value == null ? '' : json.encode(value);

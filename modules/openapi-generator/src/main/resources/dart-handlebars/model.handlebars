@@ -1,0 +1,16 @@
+{{>header}}
+{{>part_of}}
+{{#each models}}
+{{#with model}}
+{{#if isEnum}}
+{{#with native_serialization}}
+{{>serialization/native/native_enum}}
+{{/with}}
+{{/if}}
+{{#unless isEnum}}
+{{#with native_serialization}}
+{{>serialization/native/native_class}}
+{{/with}}
+{{/unless}}
+{{/with}}
+{{/each}}
