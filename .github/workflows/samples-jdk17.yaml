@@ -3,15 +3,9 @@ on:
   push:
     branches:    
       - java17-test
-    paths:
-      - samples/openapi3/client/petstore/spring-cloud-3
-      - samples/openapi3/server/petstore/springboot-3
   pull_request:
     branches:    
       - java17-test
-    paths:
-      - samples/openapi3/client/petstore/spring-cloud-3
-      - samples/openapi3/server/petstore/springboot-3
 jobs:
   build:
     name: Build with JDK17
