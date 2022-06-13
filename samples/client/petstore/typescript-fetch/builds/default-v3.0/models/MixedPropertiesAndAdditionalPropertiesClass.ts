@@ -46,6 +46,15 @@ export interface MixedPropertiesAndAdditionalPropertiesClass {
     map?: { [key: string]: Animal; };
 }
 
+/**
+ * Check if a given object implements the MixedPropertiesAndAdditionalPropertiesClass interface.
+ */
+export function instanceOfMixedPropertiesAndAdditionalPropertiesClass(value: object): boolean {
+    let isInstance = true;
+
+    return isInstance;
+}
+
 export function MixedPropertiesAndAdditionalPropertiesClassFromJSON(json: any): MixedPropertiesAndAdditionalPropertiesClass {
     return MixedPropertiesAndAdditionalPropertiesClassFromJSONTyped(json, false);
 }

@@ -27,6 +27,15 @@ export interface DogAllOf {
     breed?: string;
 }
 
+/**
+ * Check if a given object implements the DogAllOf interface.
+ */
+export function instanceOfDogAllOf(value: object): boolean {
+    let isInstance = true;
+
+    return isInstance;
+}
+
 export function DogAllOfFromJSON(json: any): DogAllOf {
     return DogAllOfFromJSONTyped(json, false);
 }

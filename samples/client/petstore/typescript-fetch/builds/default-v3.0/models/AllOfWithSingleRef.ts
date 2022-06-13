@@ -40,6 +40,15 @@ export interface AllOfWithSingleRef {
     singleRefType?: SingleRefType | null;
 }
 
+/**
+ * Check if a given object implements the AllOfWithSingleRef interface.
+ */
+export function instanceOfAllOfWithSingleRef(value: object): boolean {
+    let isInstance = true;
+
+    return isInstance;
+}
+
 export function AllOfWithSingleRefFromJSON(json: any): AllOfWithSingleRef {
     return AllOfWithSingleRefFromJSONTyped(json, false);
 }

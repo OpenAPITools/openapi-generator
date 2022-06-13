@@ -40,6 +40,15 @@ export interface Cat extends Animal {
     declawed?: boolean;
 }
 
+/**
+ * Check if a given object implements the Cat interface.
+ */
+export function instanceOfCat(value: object): boolean {
+    let isInstance = true;
+
+    return isInstance;
+}
+
 export function CatFromJSON(json: any): Cat {
     return CatFromJSONTyped(json, false);
 }

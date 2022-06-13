@@ -34,6 +34,16 @@ export interface DefaultMetaOnlyResponse {
     meta: ResponseMeta;
 }
 
+/**
+ * Check if a given object implements the DefaultMetaOnlyResponse interface.
+ */
+export function instanceOfDefaultMetaOnlyResponse(value: object): boolean {
+    let isInstance = true;
+    isInstance = isInstance && "meta" in value;
+
+    return isInstance;
+}
+
 export function DefaultMetaOnlyResponseFromJSON(json: any): DefaultMetaOnlyResponse {
     return DefaultMetaOnlyResponseFromJSONTyped(json, false);
 }
