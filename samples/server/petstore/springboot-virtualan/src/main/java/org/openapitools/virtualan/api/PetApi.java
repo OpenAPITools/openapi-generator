@@ -8,7 +8,14 @@ package org.openapitools.virtualan.api;
 import org.openapitools.virtualan.model.ModelApiResponse;
 import org.openapitools.virtualan.model.Pet;
 import java.util.Set;
-import io.swagger.annotations.*;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import io.virtualan.annotation.ApiVirtual;
 import io.virtualan.annotation.VirtualService;
 import org.springframework.http.HttpStatus;
@@ -28,7 +35,7 @@ import javax.annotation.Generated;
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 @Validated
-@Api(value = "pet", description = "Everything about your Pets")
+@Tag(name = "pet", description = "Everything about your Pets")
 @VirtualService
 public interface PetApi {
 
@@ -44,29 +51,25 @@ public interface PetApi {
      *         or Invalid input (status code 405)
      */
     @ApiVirtual
-    @ApiOperation(
+    @Operation(
+        operationId = "addPet",
+        summary = "Add a new pet to the store",
         tags = { "pet" },
-        value = "Add a new pet to the store",
-        nickname = "addPet",
-        notes = "",
-        authorizations = {
-            @Authorization(value = "petstore_auth", scopes = {
-                @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
-                @AuthorizationScope(scope = "read:pets", description = "read your pets")
-            })
-         }
+        responses = {
+            @ApiResponse(responseCode = "200", description = "successful operation"),
+            @ApiResponse(responseCode = "405", description = "Invalid input")
+        },
+        security = {
+            @SecurityRequirement(name = "petstore_auth", scopes={ "write:pets", "read:pets" })
+        }
     )
-    @ApiResponses({
-        @ApiResponse(code = 200, message = "successful operation"),
-        @ApiResponse(code = 405, message = "Invalid input")
-    })
     @RequestMapping(
         method = RequestMethod.POST,
         value = "/pet",
         consumes = { "application/json", "application/xml" }
     )
     default ResponseEntity<Void> addPet(
-        @ApiParam(value = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody Pet body
+        @Parameter(name = "body", description = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody Pet body
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -82,29 +85,25 @@ public interface PetApi {
      *         or Invalid pet value (status code 400)
      */
     @ApiVirtual
-    @ApiOperation(
+    @Operation(
+        operationId = "deletePet",
+        summary = "Deletes a pet",
         tags = { "pet" },
-        value = "Deletes a pet",
-        nickname = "deletePet",
-        notes = "",
-        authorizations = {
-            @Authorization(value = "petstore_auth", scopes = {
-                @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
-                @AuthorizationScope(scope = "read:pets", description = "read your pets")
-            })
-         }
+        responses = {
+            @ApiResponse(responseCode = "200", description = "successful operation"),
+            @ApiResponse(responseCode = "400", description = "Invalid pet value")
+        },
+        security = {
+            @SecurityRequirement(name = "petstore_auth", scopes={ "write:pets", "read:pets" })
+        }
     )
-    @ApiResponses({
-        @ApiResponse(code = 200, message = "successful operation"),
-        @ApiResponse(code = 400, message = "Invalid pet value")
-    })
     @RequestMapping(
         method = RequestMethod.DELETE,
         value = "/pet/{petId}"
     )
     default ResponseEntity<Void> deletePet(
-        @ApiParam(value = "Pet id to delete", required = true) @PathVariable("petId") Long petId,
-        @ApiParam(value = "") @RequestHeader(value = "api_key", required = false) String apiKey
+        @Parameter(name = "petId", description = "Pet id to delete", required = true) @PathVariable("petId") Long petId,
+        @Parameter(name = "api_key", description = "") @RequestHeader(value = "api_key", required = false) String apiKey
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -120,31 +119,28 @@ public interface PetApi {
      *         or Invalid status value (status code 400)
      */
     @ApiVirtual
-    @ApiOperation(
+    @Operation(
+        operationId = "findPetsByStatus",
+        summary = "Finds Pets by status",
         tags = { "pet" },
-        value = "Finds Pets by status",
-        nickname = "findPetsByStatus",
-        notes = "Multiple status values can be provided with comma separated strings",
-        response = Pet.class,
-        responseContainer = "List",
-        authorizations = {
-            @Authorization(value = "petstore_auth", scopes = {
-                @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
-                @AuthorizationScope(scope = "read:pets", description = "read your pets")
-            })
-         }
+        responses = {
+            @ApiResponse(responseCode = "200", description = "successful operation", content = {
+                @Content(mediaType = "application/xml", schema = @Schema(implementation = Pet.class)),
+                @Content(mediaType = "application/json", schema = @Schema(implementation = Pet.class))
+            }),
+            @ApiResponse(responseCode = "400", description = "Invalid status value")
+        },
+        security = {
+            @SecurityRequirement(name = "petstore_auth", scopes={ "write:pets", "read:pets" })
+        }
     )
-    @ApiResponses({
-        @ApiResponse(code = 200, message = "successful operation", response = Pet.class, responseContainer = "List"),
-        @ApiResponse(code = 400, message = "Invalid status value")
-    })
     @RequestMapping(
         method = RequestMethod.GET,
         value = "/pet/findByStatus",
         produces = { "application/xml", "application/json" }
     )
     default ResponseEntity<List<Pet>> findPetsByStatus(
-        @NotNull @ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "available, pending, sold") @Valid @RequestParam(value = "status", required = true) List<String> status
+        @NotNull @Parameter(name = "status", description = "Status values that need to be considered for filter", required = true) @Valid @RequestParam(value = "status", required = true) List<String> status
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
@@ -175,31 +171,28 @@ public interface PetApi {
      * @deprecated
      */
     @ApiVirtual
-    @ApiOperation(
+    @Operation(
+        operationId = "findPetsByTags",
+        summary = "Finds Pets by tags",
         tags = { "pet" },
-        value = "Finds Pets by tags",
-        nickname = "findPetsByTags",
-        notes = "Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.",
-        response = Pet.class,
-        responseContainer = "Set",
-        authorizations = {
-            @Authorization(value = "petstore_auth", scopes = {
-                @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
-                @AuthorizationScope(scope = "read:pets", description = "read your pets")
-            })
-         }
+        responses = {
+            @ApiResponse(responseCode = "200", description = "successful operation", content = {
+                @Content(mediaType = "application/xml", schema = @Schema(implementation = Pet.class)),
+                @Content(mediaType = "application/json", schema = @Schema(implementation = Pet.class))
+            }),
+            @ApiResponse(responseCode = "400", description = "Invalid tag value")
+        },
+        security = {
+            @SecurityRequirement(name = "petstore_auth", scopes={ "write:pets", "read:pets" })
+        }
     )
-    @ApiResponses({
-        @ApiResponse(code = 200, message = "successful operation", response = Pet.class, responseContainer = "Set"),
-        @ApiResponse(code = 400, message = "Invalid tag value")
-    })
     @RequestMapping(
         method = RequestMethod.GET,
         value = "/pet/findByTags",
         produces = { "application/xml", "application/json" }
     )
     default ResponseEntity<Set<Pet>> findPetsByTags(
-        @NotNull @ApiParam(value = "Tags to filter by", required = true) @Valid @RequestParam(value = "tags", required = true) Set<String> tags
+        @NotNull @Parameter(name = "tags", description = "Tags to filter by", required = true) @Valid @RequestParam(value = "tags", required = true) Set<String> tags
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
@@ -230,28 +223,29 @@ public interface PetApi {
      *         or Pet not found (status code 404)
      */
     @ApiVirtual
-    @ApiOperation(
+    @Operation(
+        operationId = "getPetById",
+        summary = "Find pet by ID",
         tags = { "pet" },
-        value = "Find pet by ID",
-        nickname = "getPetById",
-        notes = "Returns a single pet",
-        response = Pet.class,
-        authorizations = {
-            @Authorization(value = "api_key")
-         }
+        responses = {
+            @ApiResponse(responseCode = "200", description = "successful operation", content = {
+                @Content(mediaType = "application/xml", schema = @Schema(implementation = Pet.class)),
+                @Content(mediaType = "application/json", schema = @Schema(implementation = Pet.class))
+            }),
+            @ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
+            @ApiResponse(responseCode = "404", description = "Pet not found")
+        },
+        security = {
+            @SecurityRequirement(name = "api_key")
+        }
     )
-    @ApiResponses({
-        @ApiResponse(code = 200, message = "successful operation", response = Pet.class),
-        @ApiResponse(code = 400, message = "Invalid ID supplied"),
-        @ApiResponse(code = 404, message = "Pet not found")
-    })
     @RequestMapping(
         method = RequestMethod.GET,
         value = "/pet/{petId}",
         produces = { "application/xml", "application/json" }
     )
     default ResponseEntity<Pet> getPetById(
-        @ApiParam(value = "ID of pet to return", required = true) @PathVariable("petId") Long petId
+        @Parameter(name = "petId", description = "ID of pet to return", required = true) @PathVariable("petId") Long petId
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
@@ -282,31 +276,27 @@ public interface PetApi {
      *         or Validation exception (status code 405)
      */
     @ApiVirtual
-    @ApiOperation(
+    @Operation(
+        operationId = "updatePet",
+        summary = "Update an existing pet",
         tags = { "pet" },
-        value = "Update an existing pet",
-        nickname = "updatePet",
-        notes = "",
-        authorizations = {
-            @Authorization(value = "petstore_auth", scopes = {
-                @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
-                @AuthorizationScope(scope = "read:pets", description = "read your pets")
-            })
-         }
+        responses = {
+            @ApiResponse(responseCode = "200", description = "successful operation"),
+            @ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
+            @ApiResponse(responseCode = "404", description = "Pet not found"),
+            @ApiResponse(responseCode = "405", description = "Validation exception")
+        },
+        security = {
+            @SecurityRequirement(name = "petstore_auth", scopes={ "write:pets", "read:pets" })
+        }
     )
-    @ApiResponses({
-        @ApiResponse(code = 200, message = "successful operation"),
-        @ApiResponse(code = 400, message = "Invalid ID supplied"),
-        @ApiResponse(code = 404, message = "Pet not found"),
-        @ApiResponse(code = 405, message = "Validation exception")
-    })
     @RequestMapping(
         method = RequestMethod.PUT,
         value = "/pet",
         consumes = { "application/json", "application/xml" }
     )
     default ResponseEntity<Void> updatePet(
-        @ApiParam(value = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody Pet body
+        @Parameter(name = "body", description = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody Pet body
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -322,30 +312,26 @@ public interface PetApi {
      * @return Invalid input (status code 405)
      */
     @ApiVirtual
-    @ApiOperation(
+    @Operation(
+        operationId = "updatePetWithForm",
+        summary = "Updates a pet in the store with form data",
         tags = { "pet" },
-        value = "Updates a pet in the store with form data",
-        nickname = "updatePetWithForm",
-        notes = "",
-        authorizations = {
-            @Authorization(value = "petstore_auth", scopes = {
-                @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
-                @AuthorizationScope(scope = "read:pets", description = "read your pets")
-            })
-         }
+        responses = {
+            @ApiResponse(responseCode = "405", description = "Invalid input")
+        },
+        security = {
+            @SecurityRequirement(name = "petstore_auth", scopes={ "write:pets", "read:pets" })
+        }
     )
-    @ApiResponses({
-        @ApiResponse(code = 405, message = "Invalid input")
-    })
     @RequestMapping(
         method = RequestMethod.POST,
         value = "/pet/{petId}",
         consumes = { "application/x-www-form-urlencoded" }
     )
     default ResponseEntity<Void> updatePetWithForm(
-        @ApiParam(value = "ID of pet that needs to be updated", required = true) @PathVariable("petId") Long petId,
-        @ApiParam(value = "Updated name of the pet") @Valid @RequestParam(value = "name", required = false) String name,
-        @ApiParam(value = "Updated status of the pet") @Valid @RequestParam(value = "status", required = false) String status
+        @Parameter(name = "petId", description = "ID of pet that needs to be updated", required = true) @PathVariable("petId") Long petId,
+        @Parameter(name = "name", description = "Updated name of the pet") @Valid @RequestParam(value = "name", required = false) String name,
+        @Parameter(name = "status", description = "Updated status of the pet") @Valid @RequestParam(value = "status", required = false) String status
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -361,22 +347,19 @@ public interface PetApi {
      * @return successful operation (status code 200)
      */
     @ApiVirtual
-    @ApiOperation(
+    @Operation(
+        operationId = "uploadFile",
+        summary = "uploads an image",
         tags = { "pet" },
-        value = "uploads an image",
-        nickname = "uploadFile",
-        notes = "",
-        response = ModelApiResponse.class,
-        authorizations = {
-            @Authorization(value = "petstore_auth", scopes = {
-                @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
-                @AuthorizationScope(scope = "read:pets", description = "read your pets")
+        responses = {
+            @ApiResponse(responseCode = "200", description = "successful operation", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ModelApiResponse.class))
             })
-         }
+        },
+        security = {
+            @SecurityRequirement(name = "petstore_auth", scopes={ "write:pets", "read:pets" })
+        }
     )
-    @ApiResponses({
-        @ApiResponse(code = 200, message = "successful operation", response = ModelApiResponse.class)
-    })
     @RequestMapping(
         method = RequestMethod.POST,
         value = "/pet/{petId}/uploadImage",
@@ -384,9 +367,9 @@ public interface PetApi {
         consumes = { "multipart/form-data" }
     )
     default ResponseEntity<ModelApiResponse> uploadFile(
-        @ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId") Long petId,
-        @ApiParam(value = "Additional data to pass to server") @Valid @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata,
-        @ApiParam(value = "file to upload") @RequestPart(value = "file", required = false) MultipartFile file
+        @Parameter(name = "petId", description = "ID of pet to update", required = true) @PathVariable("petId") Long petId,
+        @Parameter(name = "additionalMetadata", description = "Additional data to pass to server") @Valid @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata,
+        @Parameter(name = "file", description = "file to upload") @RequestPart(value = "file", required = false) MultipartFile file
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
