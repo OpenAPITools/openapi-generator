@@ -21,11 +21,10 @@ class ApiTestMixin(unittest.TestCase):
         body: typing.Optional[bytes] = None,
         content_type: typing.Optional[str] = 'application/json',
         fields: typing.Optional[tuple[api_client.RequestField, ...]] = None,
-        accept_content_type: str = 'application/json',
+        accept_content_type: typing.Optional[str] = 'application/json',
         stream: bool = False,
     ):
         headers = {
-            'Accept': accept_content_type,
             'User-Agent': cls.user_agent
         }
         if accept_content_type:

@@ -234,6 +234,36 @@ class TestFakeApi(ApiTestMixin):
         with self.assertRaises(petstore_api.ApiValueError):
             self.api.body_with_query_params(body=schemas.unset, query_params=dict(query=schemas.unset))
 
+    def test_body_with_query_params(self):
+        from petstore_api.model import user
+        with patch.object(RESTClientObject, 'request') as mock_request:
+
+            value_simple = dict(
+                id=1,
+                username='first last',
+                firstName='first',
+                lastName='last'
+            )
+            body = user.User(**value_simple)
+            mock_request.return_value = self.response(
+                b''
+            )
+
+            api_response = self.api.body_with_query_params(
+                body=body,
+                query_params=dict(query='hi there')
+            )
+            self.assert_request_called_with(
+                mock_request,
+                'http://petstore.swagger.io:80/v2/fake/body-with-query-params?query=hi%20there',
+                method='PUT',
+                body=self.json_bytes(value_simple),
+                accept_content_type=None
+            )
+
+            assert isinstance(api_response.body, api_client.Unset)
+            assert api_response.response.status == 200
+
     def test_upload_download_file_tx_bytes_and_file(self):
         """Test case for upload_download_file
         uploads a file and downloads a file using application/octet-stream  # noqa: E501
