@@ -42,7 +42,7 @@ class UserApi(baseUrl: String) {
       .contentType("application/json")
       .header("api_key", apiKey)
       .body(user)
-.response(asEither(asString, ignore))
+      .response(asEither(asString, ignore))
 
   /**
    * 
@@ -62,7 +62,7 @@ class UserApi(baseUrl: String) {
       .contentType("application/json")
       .header("api_key", apiKey)
       .body(user)
-.response(asEither(asString, ignore))
+      .response(asEither(asString, ignore))
 
   /**
    * 
@@ -82,7 +82,7 @@ class UserApi(baseUrl: String) {
       .contentType("application/json")
       .header("api_key", apiKey)
       .body(user)
-.response(asEither(asString, ignore))
+      .response(asEither(asString, ignore))
 
   /**
    * This can only be done by the logged in user.
@@ -102,7 +102,7 @@ class UserApi(baseUrl: String) {
       .method(Method.DELETE, uri"$baseUrl/user/${username}")
       .contentType("application/json")
       .header("api_key", apiKey)
-.response(asJson[Unit])
+      .response(asJson[Unit])
 
   /**
    * 
@@ -119,7 +119,7 @@ class UserApi(baseUrl: String) {
     basicRequest
       .method(Method.GET, uri"$baseUrl/user/${username}")
       .contentType("application/json")
-.response(asJson[User])
+      .response(asJson[User])
 
   /**
    * 
@@ -140,7 +140,7 @@ class UserApi(baseUrl: String) {
     basicRequest
       .method(Method.GET, uri"$baseUrl/user/login?username=${ username }&password=${ password }")
       .contentType("application/json")
-.response(asJson[String])
+      .response(asJson[String])
 
   /**
    * 
@@ -157,7 +157,7 @@ class UserApi(baseUrl: String) {
       .method(Method.GET, uri"$baseUrl/user/logout")
       .contentType("application/json")
       .header("api_key", apiKey)
-.response(asEither(asString, ignore))
+      .response(asEither(asString, ignore))
 
   /**
    * This can only be done by the logged in user.
@@ -179,6 +179,6 @@ class UserApi(baseUrl: String) {
       .contentType("application/json")
       .header("api_key", apiKey)
       .body(user)
-.response(asJson[Unit])
+      .response(asJson[Unit])
 
 }

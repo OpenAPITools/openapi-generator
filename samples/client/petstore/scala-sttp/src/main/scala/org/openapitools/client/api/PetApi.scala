@@ -40,7 +40,7 @@ class PetApi(baseUrl: String) {
       .method(Method.POST, uri"$baseUrl/pet")
       .contentType("application/json")
       .body(pet)
-.response(asJson[Pet])
+      .response(asJson[Pet])
 
   /**
    * 
@@ -57,7 +57,7 @@ class PetApi(baseUrl: String) {
       .method(Method.DELETE, uri"$baseUrl/pet/${petId}")
       .contentType("application/json")
       .header("api_key", apiKey.toString)
-.response(asJson[Unit])
+      .response(asJson[Unit])
 
   /**
    * Multiple status values can be provided with comma separated strings
@@ -73,7 +73,7 @@ class PetApi(baseUrl: String) {
     basicRequest
       .method(Method.GET, uri"$baseUrl/pet/findByStatus?status=${ status }")
       .contentType("application/json")
-.response(asJson[Seq[Pet]])
+      .response(asJson[Seq[Pet]])
 
   /**
    * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
@@ -89,7 +89,7 @@ class PetApi(baseUrl: String) {
     basicRequest
       .method(Method.GET, uri"$baseUrl/pet/findByTags?tags=${ tags }")
       .contentType("application/json")
-.response(asJson[Seq[Pet]])
+      .response(asJson[Seq[Pet]])
 
   /**
    * Returns a single pet
@@ -110,7 +110,7 @@ class PetApi(baseUrl: String) {
       .method(Method.GET, uri"$baseUrl/pet/${petId}")
       .contentType("application/json")
       .header("api_key", apiKey)
-.response(asJson[Pet])
+      .response(asJson[Pet])
 
   /**
    * 
@@ -129,7 +129,7 @@ class PetApi(baseUrl: String) {
       .method(Method.PUT, uri"$baseUrl/pet")
       .contentType("application/json")
       .body(pet)
-.response(asJson[Pet])
+      .response(asJson[Pet])
 
   /**
    * 
@@ -150,7 +150,7 @@ class PetApi(baseUrl: String) {
         "name" -> name,
         "status" -> status
       ))
-.response(asJson[Unit])
+      .response(asJson[Unit])
 
   /**
    * 
@@ -173,6 +173,6 @@ class PetApi(baseUrl: String) {
                 file.map(multipartFile("file", _))
 
       ).flatten)
-.response(asJson[ApiResponse])
+      .response(asJson[ApiResponse])
 
 }

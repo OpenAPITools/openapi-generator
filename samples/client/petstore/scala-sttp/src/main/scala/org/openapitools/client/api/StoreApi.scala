@@ -37,7 +37,7 @@ class StoreApi(baseUrl: String) {
     basicRequest
       .method(Method.DELETE, uri"$baseUrl/store/order/${orderId}")
       .contentType("application/json")
-.response(asJson[Unit])
+      .response(asJson[Unit])
 
   /**
    * Returns a map of status codes to quantities
@@ -54,7 +54,7 @@ class StoreApi(baseUrl: String) {
       .method(Method.GET, uri"$baseUrl/store/inventory")
       .contentType("application/json")
       .header("api_key", apiKey)
-.response(asJson[Map[String, Int]])
+      .response(asJson[Map[String, Int]])
 
   /**
    * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
@@ -71,7 +71,7 @@ class StoreApi(baseUrl: String) {
     basicRequest
       .method(Method.GET, uri"$baseUrl/store/order/${orderId}")
       .contentType("application/json")
-.response(asJson[Order])
+      .response(asJson[Order])
 
   /**
    * 
@@ -88,6 +88,6 @@ class StoreApi(baseUrl: String) {
       .method(Method.POST, uri"$baseUrl/store/order")
       .contentType("application/json")
       .body(order)
-.response(asJson[Order])
+      .response(asJson[Order])
 
 }
