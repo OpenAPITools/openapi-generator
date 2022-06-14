@@ -288,10 +288,16 @@ public class AbstractKotlinCodegenTest {
                 .addRequiredItem("c"))
             .name("Child")
             .type("object"); // Without the object type it is not wrongly recognized as map
+        Schema mapSchema = new ObjectSchema()
+            .addProperties("a", new StringSchema())
+            .additionalProperties(Boolean.TRUE)
+            .name("MapSchema")
+            .type("object");
 
         OpenAPI openAPI = TestUtils.createOpenAPI();
         openAPI.getComponents().addSchemas(parent.getName(), parent);
         openAPI.getComponents().addSchemas(child.getName(), child);
+        openAPI.getComponents().addSchemas(mapSchema.getName(), mapSchema);
 
         final DefaultCodegen codegen = new P_AbstractKotlinCodegen();
         codegen.setOpenAPI(openAPI);
@@ -300,5 +306,10 @@ public class AbstractKotlinCodegenTest {
             .fromModel("Child", child);
 
         Assert.assertFalse(pm.isMap);
+
+        // Make sure a real map is still flagged as map
+        final CodegenModel mapSchemaModel = codegen
+            .fromModel("MapSchema", mapSchema);
+        Assert.assertTrue(mapSchemaModel.isMap);
     }
 }

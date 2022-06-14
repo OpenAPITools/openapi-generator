@@ -40,5 +40,5 @@ data class Bird (
     @Json(name = "featherType")
     val featherType: kotlin.String
 
-) : Animal()
+) : Animal
 
