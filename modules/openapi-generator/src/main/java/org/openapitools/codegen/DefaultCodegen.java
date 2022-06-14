@@ -153,6 +153,8 @@ public class DefaultCodegen implements CodegenConfig {
     protected Set<String> reservedWords;
     protected Set<String> languageSpecificPrimitives = new HashSet<>();
     protected Map<String, String> importMapping = new HashMap<>();
+    // a map to store the mappping between a schema and the new one
+    protected Map<String, String> schemaMapping = new HashMap<>();
     // a map to store the mappping between inline schema and the name provided by the user
     protected Map<String, String> inlineSchemaNameMapping = new HashMap<>();
     // a map to store the inline schema naming conventions
@@ -1058,6 +1060,11 @@ public class DefaultCodegen implements CodegenConfig {
     @Override
     public Map<String, String> importMapping() {
         return importMapping;
+    }
+
+    @Override
+    public Map<String, String> schemaMapping() {
+        return schemaMapping;
     }
 
     @Override
