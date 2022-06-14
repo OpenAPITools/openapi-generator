@@ -63,7 +63,7 @@ final class DefaultURLRequestProcessor: URLRequestProcessor {
 
 // MARK: - OpenAPITransport
 
-public protocol OpenAPITransport {
+public protocol OpenAPITransport: AnyObject {
     var baseURL: URL? { get }
 
     func send(
