@@ -1,0 +1,8 @@
+generatorName: microprofile
+outputDir: samples/server/petstore/microprofile
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/Java
+additionalProperties:
+  hideGenerationTimestamp: "true"
+  microprofileMutiny: "true"
+  serializationLibrary: "jackson"

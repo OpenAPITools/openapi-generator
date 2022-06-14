@@ -148,6 +148,19 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Pet'
+        '206':
+          description: successful operation
+          content:
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
         '400':
           description: Invalid tag value
       security:
