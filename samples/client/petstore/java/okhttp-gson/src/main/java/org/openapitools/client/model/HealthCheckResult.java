@@ -194,6 +194,9 @@ public class HealthCheckResult {
           throw new IllegalArgumentException(String.format("The required field(s) %s in HealthCheckResult is not found in the empty JSON string", HealthCheckResult.openapiRequiredFields.toString()));
         }
       }
+      if (jsonObj.get("NullableMessage") != null && !jsonObj.get("NullableMessage").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `NullableMessage` to be a primitive type in the JSON string but got `%s`", jsonObj.get("NullableMessage").toString()));
+      }
   }
 
   public static class CustomTypeAdapterFactory implements TypeAdapterFactory {

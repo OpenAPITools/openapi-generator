@@ -1,7 +1,7 @@
 {{#platforms}}
 {{#node}}
 // TODO: evaluate if we can easily get rid of this library
-import * as FormData from "form-data";
+import {{^supportsES6}}* as{{/supportsES6}} FormData from "form-data";
 import { URLSearchParams } from 'url';
 import * as http from 'http';
 import * as https from 'https';
@@ -9,9 +9,7 @@ import * as https from 'https';
 {{/platforms}}
 {{#platforms}}
 {{^deno}}
-// typings of url-parse are incorrect...
-// @ts-ignore
-import * as URLParse from "url-parse";
+import {{^supportsES6}}* as{{/supportsES6}} URLParse from "url-parse";
 {{/deno}}
 {{/platforms}}
 import { Observable, from } from {{#useRxJS}}'rxjs'{{/useRxJS}}{{^useRxJS}}'../rxjsStub{{extensionForDeno}}'{{/useRxJS}};

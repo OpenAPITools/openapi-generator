@@ -171,14 +171,8 @@ public class PingApi {
      */
     public InputStream postPingWithHttpInfo(SomeObj someObj) throws ApiException {
         okhttp3.Call localVarCall = postPingValidateBeforeCall(someObj, null);
-        try {
-            Type localVarReturnType = new TypeToken<SomeObj>(){}.getType();
-            return localVarApiClient.executeStream(localVarCall, localVarReturnType);
-        } catch (ApiException e) {
-            e.setErrorObject(localVarApiClient.getJSON().getGson().fromJson(e.getResponseBody(), new TypeToken<SomeObj>(){}.getType()));
-            e.setErrorObjectType(new GenericType<SomeObj>(){});
-            throw e;
-        }
+        Type localVarReturnType = new TypeToken<SomeObj>(){}.getType();
+        return localVarApiClient.executeStream(localVarCall, localVarReturnType);
     }
     
     /**

@@ -1349,6 +1349,14 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
                 cm.anyOf.remove("Null");
             }
 
+            if (cm.getComposedSchemas() != null && cm.getComposedSchemas().getOneOf() != null && !cm.getComposedSchemas().getOneOf().isEmpty()) {
+                cm.getComposedSchemas().getOneOf().removeIf(o -> o.dataType.equals("Null"));
+            }
+
+            if (cm.getComposedSchemas() != null && cm.getComposedSchemas().getAnyOf() != null && !cm.getComposedSchemas().getAnyOf().isEmpty()) {
+                cm.getComposedSchemas().getAnyOf().removeIf(o -> o.dataType.equals("Null"));
+            }
+
             for (CodegenProperty cp : cm.readWriteVars) {
                 // ISSUE: https://github.com/OpenAPITools/openapi-generator/issues/11844
                 // allVars may not have all properties
@@ -1385,7 +1393,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     * Check modules\openapi-generator\src\test\resources\3_0\java\petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml
     * Without this method, property petType in GrandparentAnimal will not make it through ParentPet and into ChildCat
     */
-    private void EnsureInheritedVariablesArePresent(CodegenModel derivedModel) {
+    private void EnsureInheritedPropertiesArePresent(CodegenModel derivedModel) {
         // every c# generator should definetly want this, or we should fix the issue
         // still, lets avoid breaking changes :(
         if (Boolean.FALSE.equals(GENERICHOST.equals(getLibrary()))){
@@ -1405,7 +1413,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             }
         }
 
-        EnsureInheritedVariablesArePresent(derivedModel.parentModel);
+        EnsureInheritedPropertiesArePresent(derivedModel.parentModel);
     }
 
     /**
@@ -1430,19 +1438,19 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         }
 
         for (CodegenModel cm : allModels) {
-            if (cm.parent != null){
-                // remove the parent CodegenProperty from the model
-                // we need it gone so we can use allOf/oneOf/anyOf in the constructor
-                cm.allOf.removeIf(item -> item.equals(cm.parent));
-                cm.oneOf.removeIf(item -> item.equals(cm.parent));
-                cm.anyOf.removeIf(item -> item.equals(cm.parent));
-            }
-
             cm.anyOf.forEach(anyOf -> removePropertiesDeclaredInComposedClass(anyOf, allModels, cm));
             cm.oneOf.forEach(oneOf -> removePropertiesDeclaredInComposedClass(oneOf, allModels, cm));
             cm.allOf.forEach(allOf -> removePropertiesDeclaredInComposedClass(allOf, allModels, cm));
 
-            EnsureInheritedVariablesArePresent(cm);
+            if (cm.getComposedSchemas() != null && cm.getComposedSchemas().getAllOf() != null && !cm.getComposedSchemas().getAllOf().isEmpty()) {
+                cm.getComposedSchemas().getAllOf().forEach(allOf -> {
+                    if (allOf.dataType.equals(cm.parent)){
+                        allOf.isInherited = true;
+                    }
+                });
+            }
+
+            EnsureInheritedPropertiesArePresent(cm);
         }
 
         return objs;

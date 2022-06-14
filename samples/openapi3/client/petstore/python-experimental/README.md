@@ -93,6 +93,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**case_sensitive_params**](docs/FakeApi.md#case_sensitive_params) | **PUT** /fake/case-sensitive-params | 
 *FakeApi* | [**client_model**](docs/FakeApi.md#client_model) | **PATCH** /fake | To test \&quot;client\&quot; model
 *FakeApi* | [**composed_one_of_different_types**](docs/FakeApi.md#composed_one_of_different_types) | **POST** /fake/refs/composed_one_of_number_with_validations | 
+*FakeApi* | [**delete_coffee**](docs/FakeApi.md#delete_coffee) | **DELETE** /fake/deleteCoffee/{id} | Delete coffee
 *FakeApi* | [**endpoint_parameters**](docs/FakeApi.md#endpoint_parameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 *FakeApi* | [**enum_parameters**](docs/FakeApi.md#enum_parameters) | **GET** /fake | To test enum parameters
 *FakeApi* | [**fake_health_get**](docs/FakeApi.md#fake_health_get) | **GET** /fake/health | Health check endpoint
@@ -100,11 +101,15 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**inline_additional_properties**](docs/FakeApi.md#inline_additional_properties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 *FakeApi* | [**inline_composition**](docs/FakeApi.md#inline_composition) | **POST** /fake/inlineComposition/ | testing composed schemas at inline locations
 *FakeApi* | [**json_form_data**](docs/FakeApi.md#json_form_data) | **GET** /fake/jsonFormData | test json serialization of form data
+*FakeApi* | [**json_with_charset**](docs/FakeApi.md#json_with_charset) | **POST** /fake/jsonWithCharset | json with charset tx and rx
 *FakeApi* | [**mammal**](docs/FakeApi.md#mammal) | **POST** /fake/refs/mammal | 
 *FakeApi* | [**number_with_validations**](docs/FakeApi.md#number_with_validations) | **POST** /fake/refs/number | 
+*FakeApi* | [**object_in_query**](docs/FakeApi.md#object_in_query) | **GET** /fake/objInQuery | user list
 *FakeApi* | [**object_model_with_ref_props**](docs/FakeApi.md#object_model_with_ref_props) | **POST** /fake/refs/object_model_with_ref_props | 
 *FakeApi* | [**parameter_collisions**](docs/FakeApi.md#parameter_collisions) | **POST** /fake/parameterCollisions/{1}/{aB}/{Ab}/{self}/{A-B}/ | parameter collision case
 *FakeApi* | [**query_parameter_collection_format**](docs/FakeApi.md#query_parameter_collection_format) | **PUT** /fake/test-query-paramters | 
+*FakeApi* | [**ref_object_in_query**](docs/FakeApi.md#ref_object_in_query) | **GET** /fake/refObjInQuery | user list
+*FakeApi* | [**response_without_schema**](docs/FakeApi.md#response_without_schema) | **GET** /fake/responseWithoutSchema | receives a response without schema
 *FakeApi* | [**string**](docs/FakeApi.md#string) | **POST** /fake/refs/string | 
 *FakeApi* | [**string_enum**](docs/FakeApi.md#string_enum) | **POST** /fake/refs/enum | 
 *FakeApi* | [**upload_download_file**](docs/FakeApi.md#upload_download_file) | **POST** /fake/uploadDownloadFile | uploads a file and downloads a file using application/octet-stream
@@ -140,6 +145,7 @@ Class | Method | HTTP request | Description
  - [Address](docs/Address.md)
  - [Animal](docs/Animal.md)
  - [AnimalFarm](docs/AnimalFarm.md)
+ - [AnyTypeNotString](docs/AnyTypeNotString.md)
  - [ApiResponse](docs/ApiResponse.md)
  - [Apple](docs/Apple.md)
  - [AppleReq](docs/AppleReq.md)
@@ -157,14 +163,11 @@ Class | Method | HTTP request | Description
  - [BooleanEnum](docs/BooleanEnum.md)
  - [Capitalization](docs/Capitalization.md)
  - [Cat](docs/Cat.md)
- - [CatAllOf](docs/CatAllOf.md)
  - [Category](docs/Category.md)
  - [ChildCat](docs/ChildCat.md)
- - [ChildCatAllOf](docs/ChildCatAllOf.md)
  - [ClassModel](docs/ClassModel.md)
  - [Client](docs/Client.md)
  - [ComplexQuadrilateral](docs/ComplexQuadrilateral.md)
- - [ComplexQuadrilateralAllOf](docs/ComplexQuadrilateralAllOf.md)
  - [ComposedAnyOfDifferentTypesNoValidations](docs/ComposedAnyOfDifferentTypesNoValidations.md)
  - [ComposedArray](docs/ComposedArray.md)
  - [ComposedBool](docs/ComposedBool.md)
@@ -173,7 +176,6 @@ Class | Method | HTTP request | Description
  - [ComposedObject](docs/ComposedObject.md)
  - [ComposedOneOfDifferentTypes](docs/ComposedOneOfDifferentTypes.md)
  - [ComposedString](docs/ComposedString.md)
- - [CompositionInProperty](docs/CompositionInProperty.md)
  - [Currency](docs/Currency.md)
  - [DanishPig](docs/DanishPig.md)
  - [DateTimeTest](docs/DateTimeTest.md)
@@ -181,13 +183,11 @@ Class | Method | HTTP request | Description
  - [DateWithValidations](docs/DateWithValidations.md)
  - [DecimalPayload](docs/DecimalPayload.md)
  - [Dog](docs/Dog.md)
- - [DogAllOf](docs/DogAllOf.md)
  - [Drawing](docs/Drawing.md)
  - [EnumArrays](docs/EnumArrays.md)
  - [EnumClass](docs/EnumClass.md)
  - [EnumTest](docs/EnumTest.md)
  - [EquilateralTriangle](docs/EquilateralTriangle.md)
- - [EquilateralTriangleAllOf](docs/EquilateralTriangleAllOf.md)
  - [File](docs/File.md)
  - [FileSchemaTestClass](docs/FileSchemaTestClass.md)
  - [Foo](docs/Foo.md)
@@ -198,7 +198,6 @@ Class | Method | HTTP request | Description
  - [GrandparentAnimal](docs/GrandparentAnimal.md)
  - [HasOnlyReadOnly](docs/HasOnlyReadOnly.md)
  - [HealthCheckResult](docs/HealthCheckResult.md)
- - [InlineResponseDefault](docs/InlineResponseDefault.md)
  - [IntegerEnum](docs/IntegerEnum.md)
  - [IntegerEnumBig](docs/IntegerEnumBig.md)
  - [IntegerEnumOneValue](docs/IntegerEnumOneValue.md)
@@ -206,7 +205,6 @@ Class | Method | HTTP request | Description
  - [IntegerMax10](docs/IntegerMax10.md)
  - [IntegerMin15](docs/IntegerMin15.md)
  - [IsoscelesTriangle](docs/IsoscelesTriangle.md)
- - [IsoscelesTriangleAllOf](docs/IsoscelesTriangleAllOf.md)
  - [Mammal](docs/Mammal.md)
  - [MapTest](docs/MapTest.md)
  - [MixedPropertiesAndAdditionalPropertiesClass](docs/MixedPropertiesAndAdditionalPropertiesClass.md)
@@ -236,11 +234,9 @@ Class | Method | HTTP request | Description
  - [QuadrilateralInterface](docs/QuadrilateralInterface.md)
  - [ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [ScaleneTriangle](docs/ScaleneTriangle.md)
- - [ScaleneTriangleAllOf](docs/ScaleneTriangleAllOf.md)
  - [Shape](docs/Shape.md)
  - [ShapeOrNull](docs/ShapeOrNull.md)
  - [SimpleQuadrilateral](docs/SimpleQuadrilateral.md)
- - [SimpleQuadrilateralAllOf](docs/SimpleQuadrilateralAllOf.md)
  - [SomeObject](docs/SomeObject.md)
  - [SpecialModelName](docs/SpecialModelName.md)
  - [String](docs/String.md)
@@ -251,6 +247,7 @@ Class | Method | HTTP request | Description
  - [Tag](docs/Tag.md)
  - [Triangle](docs/Triangle.md)
  - [TriangleInterface](docs/TriangleInterface.md)
+ - [UUIDString](docs/UUIDString.md)
  - [User](docs/User.md)
  - [Whale](docs/Whale.md)
  - [Zebra](docs/Zebra.md)

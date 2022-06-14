@@ -131,7 +131,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
 
     async fn dummy_put(
         &self,
-        nested_response: models::InlineObject,
+        nested_response: models::DummyPutRequest,
         context: &C) -> Result<DummyPutResponse, ApiError>
     {
         let context = context.clone();

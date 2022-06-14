@@ -20,6 +20,8 @@ client/PFXPet.cpp
 client/PFXPet.h
 client/PFXPetApi.cpp
 client/PFXPetApi.h
+client/PFXPrimitivesApi.cpp
+client/PFXPrimitivesApi.h
 client/PFXServerConfiguration.h
 client/PFXServerVariable.h
 client/PFXStoreApi.cpp

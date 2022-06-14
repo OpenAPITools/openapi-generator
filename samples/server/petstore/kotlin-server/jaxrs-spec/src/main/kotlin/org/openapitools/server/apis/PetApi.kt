@@ -12,7 +12,8 @@ import java.io.InputStream
 
 
 @Path("/")
-@javax.annotation.Generated(value = arrayOf("org.openapitools.codegen.languages.KotlinServerCodegen"))class PetApi {
+@javax.annotation.Generated(value = arrayOf("org.openapitools.codegen.languages.KotlinServerCodegen"))
+class PetApi {
 
     @POST
     @Consumes("application/json", "application/xml")

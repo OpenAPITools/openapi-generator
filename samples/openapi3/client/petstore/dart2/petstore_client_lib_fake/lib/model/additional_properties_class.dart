@@ -36,10 +36,10 @@ class AdditionalPropertiesClass {
   String toString() => 'AdditionalPropertiesClass[mapProperty=$mapProperty, mapOfMapProperty=$mapOfMapProperty]';
 
   Map<String, dynamic> toJson() {
-    final json = <String, dynamic>{};
-      json[r'map_property'] = mapProperty;
-      json[r'map_of_map_property'] = mapOfMapProperty;
-    return json;
+    final _json = <String, dynamic>{};
+      _json[r'map_property'] = mapProperty;
+      _json[r'map_of_map_property'] = mapOfMapProperty;
+    return _json;
   }
 
   /// Returns a new [AdditionalPropertiesClass] instance and imports its values from

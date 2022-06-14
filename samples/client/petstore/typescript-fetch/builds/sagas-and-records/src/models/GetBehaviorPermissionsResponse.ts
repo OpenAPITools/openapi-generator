@@ -40,6 +40,16 @@ export interface GetBehaviorPermissionsResponse {
     data?: { [key: string]: boolean; };
 }
 
+/**
+ * Check if a given object implements the GetBehaviorPermissionsResponse interface.
+ */
+export function instanceOfGetBehaviorPermissionsResponse(value: object): boolean {
+    let isInstance = true;
+    isInstance = isInstance && "meta" in value;
+
+    return isInstance;
+}
+
 export function GetBehaviorPermissionsResponseFromJSON(json: any): GetBehaviorPermissionsResponse {
     return GetBehaviorPermissionsResponseFromJSONTyped(json, false);
 }

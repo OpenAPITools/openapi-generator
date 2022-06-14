@@ -58,6 +58,15 @@ export interface EnumPatternObject {
     nullableNumberEnum?: NumberEnum | null;
 }
 
+/**
+ * Check if a given object implements the EnumPatternObject interface.
+ */
+export function instanceOfEnumPatternObject(value: object): boolean {
+    let isInstance = true;
+
+    return isInstance;
+}
+
 export function EnumPatternObjectFromJSON(json: any): EnumPatternObject {
     return EnumPatternObjectFromJSONTyped(json, false);
 }

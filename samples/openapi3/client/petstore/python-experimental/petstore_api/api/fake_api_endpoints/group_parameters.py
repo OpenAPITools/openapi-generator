@@ -11,6 +11,7 @@ import re  # noqa: F401
 import sys  # noqa: F401
 import typing
 import urllib3
+import functools  # noqa: F401
 from urllib3._collections import HTTPHeaderDict
 
 from petstore_api import api_client, exceptions
@@ -30,6 +31,7 @@ from petstore_api.schemas import (  # noqa: F401
     Float32Schema,
     Float64Schema,
     NumberSchema,
+    UUIDSchema,
     DateSchema,
     DateTimeSchema,
     DecimalSchema,
@@ -51,6 +53,7 @@ from petstore_api.schemas import (  # noqa: F401
     Float32Base,
     Float64Base,
     NumberBase,
+    UUIDBase,
     DateBase,
     DateTimeBase,
     BoolBase,
@@ -188,8 +191,9 @@ class GroupParameters(api_client.Api):
         """
         self._verify_typed_dict_inputs(RequestQueryParams, query_params)
         self._verify_typed_dict_inputs(RequestHeaderParams, header_params)
+        used_path = _path
 
-        _query_params = []
+        prefix_separator_iterator = None
         for parameter in (
             request_query_required_string_group,
             request_query_required_int64_group,
@@ -199,8 +203,11 @@ class GroupParameters(api_client.Api):
             parameter_data = query_params.get(parameter.name, unset)
             if parameter_data is unset:
                 continue
-            serialized_data = parameter.serialize(parameter_data)
-            _query_params.extend(serialized_data)
+            if prefix_separator_iterator is None:
+                prefix_separator_iterator = parameter.get_prefix_separator_iterator()
+            serialized_data = parameter.serialize(parameter_data, prefix_separator_iterator)
+            for serialized_value in serialized_data.values():
+                used_path += serialized_value
 
         _headers = HTTPHeaderDict()
         for parameter in (
@@ -215,9 +222,8 @@ class GroupParameters(api_client.Api):
         # TODO add cookie handling
 
         response = self.api_client.call_api(
-            resource_path=_path,
+            resource_path=used_path,
             method=_method,
-            query_params=tuple(_query_params),
             headers=_headers,
             auth_settings=_auth,
             stream=stream,

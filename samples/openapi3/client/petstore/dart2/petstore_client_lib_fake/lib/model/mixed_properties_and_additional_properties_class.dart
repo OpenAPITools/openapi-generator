@@ -53,15 +53,15 @@ class MixedPropertiesAndAdditionalPropertiesClass {
   String toString() => 'MixedPropertiesAndAdditionalPropertiesClass[uuid=$uuid, dateTime=$dateTime, map=$map]';
 
   Map<String, dynamic> toJson() {
-    final json = <String, dynamic>{};
+    final _json = <String, dynamic>{};
     if (uuid != null) {
-      json[r'uuid'] = uuid;
+      _json[r'uuid'] = uuid;
     }
     if (dateTime != null) {
-      json[r'dateTime'] = dateTime!.toUtc().toIso8601String();
+      _json[r'dateTime'] = dateTime!.toUtc().toIso8601String();
     }
-      json[r'map'] = map;
-    return json;
+      _json[r'map'] = map;
+    return _json;
   }
 
   /// Returns a new [MixedPropertiesAndAdditionalPropertiesClass] instance and imports its values from
@@ -85,7 +85,7 @@ class MixedPropertiesAndAdditionalPropertiesClass {
       return MixedPropertiesAndAdditionalPropertiesClass(
         uuid: mapValueOfType<String>(json, r'uuid'),
         dateTime: mapDateTime(json, r'dateTime', ''),
-        map: mapValueOfType<Map<String, Animal>>(json, r'map') ?? const {},
+        map: Animal.mapFromJson(json[r'map']) ?? const {},
       );
     }
     return null;

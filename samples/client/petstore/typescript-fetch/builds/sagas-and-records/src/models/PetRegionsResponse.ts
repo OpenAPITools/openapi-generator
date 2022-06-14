@@ -40,6 +40,16 @@ export interface PetRegionsResponse {
     data?: Array<Array<number>>;
 }
 
+/**
+ * Check if a given object implements the PetRegionsResponse interface.
+ */
+export function instanceOfPetRegionsResponse(value: object): boolean {
+    let isInstance = true;
+    isInstance = isInstance && "meta" in value;
+
+    return isInstance;
+}
+
 export function PetRegionsResponseFromJSON(json: any): PetRegionsResponse {
     return PetRegionsResponseFromJSONTyped(json, false);
 }

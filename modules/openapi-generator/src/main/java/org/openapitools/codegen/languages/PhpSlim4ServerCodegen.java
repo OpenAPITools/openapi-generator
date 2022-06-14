@@ -30,7 +30,10 @@ import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.ApiInfoMap;
 import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -239,6 +242,8 @@ public class PhpSlim4ServerCodegen extends AbstractPhpCodegen {
         supportingFiles.add(new SupportingFile("htaccess_deny_all", "config", ".htaccess"));
         supportingFiles.add(new SupportingFile("config_dev_default.mustache", "config" + File.separator + "dev", "default.inc.php"));
         supportingFiles.add(new SupportingFile("config_prod_default.mustache", "config" + File.separator + "prod", "default.inc.php"));
+        // add restricted htaccess to create log folder
+        supportingFiles.add(new SupportingFile("htaccess_deny_all", "logs", ".htaccess"));
 
         if (Boolean.TRUE.equals(generateModels)) {
             supportingFiles.add(new SupportingFile("base_model.mustache", toSrcPath(invokerPackage, srcBasePath), "BaseModel.php"));
@@ -254,9 +259,9 @@ public class PhpSlim4ServerCodegen extends AbstractPhpCodegen {
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<ModelMap> allModels) {
-        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
-        List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        OperationMap operations = objs.getOperations();
+        List<CodegenOperation> operationList = operations.getOperation();
         addUserClassnameToOperations(operations);
         escapeMediaType(operationList);
         return objs;
@@ -264,21 +269,16 @@ public class PhpSlim4ServerCodegen extends AbstractPhpCodegen {
 
     @Override
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
-        Map<String, Object> apiInfo = (Map<String, Object>) objs.get("apiInfo");
-        List<HashMap<String, Object>> apiList = (List<HashMap<String, Object>>) apiInfo.get("apis");
-        for (HashMap<String, Object> api : apiList) {
-            HashMap<String, Object> operations = (HashMap<String, Object>) api.get("operations");
-            List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
+        ApiInfoMap apiInfo = (ApiInfoMap) objs.get("apiInfo");
+        for (OperationsMap api : apiInfo.getApis()) {
+            List<CodegenOperation> operationList = api.getOperations().getOperation();
 
             // Sort operations to avoid static routes shadowing
             // ref: https://github.com/nikic/FastRoute/blob/master/src/DataGenerator/RegexBasedAbstract.php#L92-L101
-            Collections.sort(operationList, new Comparator<CodegenOperation>() {
-                @Override
-                public int compare(CodegenOperation one, CodegenOperation another) {
+            operationList.sort((one, another) -> {
                     if (one.getHasPathParams() && !another.getHasPathParams()) return 1;
                     if (!one.getHasPathParams() && another.getHasPathParams()) return -1;
                     return 0;
-                }
             });
         }
 
@@ -310,8 +310,8 @@ public class PhpSlim4ServerCodegen extends AbstractPhpCodegen {
      *
      * @param operations codegen object with operations
      */
-    private void addUserClassnameToOperations(Map<String, Object> operations) {
-        String classname = (String) operations.get("classname");
+    private void addUserClassnameToOperations(OperationMap operations) {
+        String classname = operations.getClassname();
         classname = classname.replaceAll("^" + abstractNamePrefix, "");
         classname = classname.replaceAll(abstractNameSuffix + "$", "");
         operations.put(USER_CLASSNAME_KEY, classname);

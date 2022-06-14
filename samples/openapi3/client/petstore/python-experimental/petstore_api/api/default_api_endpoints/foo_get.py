@@ -11,6 +11,7 @@ import re  # noqa: F401
 import sys  # noqa: F401
 import typing
 import urllib3
+import functools  # noqa: F401
 from urllib3._collections import HTTPHeaderDict
 
 from petstore_api import api_client, exceptions
@@ -30,6 +31,7 @@ from petstore_api.schemas import (  # noqa: F401
     Float32Schema,
     Float64Schema,
     NumberSchema,
+    UUIDSchema,
     DateSchema,
     DateTimeSchema,
     DecimalSchema,
@@ -51,6 +53,7 @@ from petstore_api.schemas import (  # noqa: F401
     Float32Base,
     Float64Base,
     NumberBase,
+    UUIDBase,
     DateBase,
     DateTimeBase,
     BoolBase,
@@ -61,11 +64,36 @@ from petstore_api.schemas import (  # noqa: F401
     _SchemaEnumMaker
 )
 
-from petstore_api.model.inline_response_default import InlineResponseDefault
+from petstore_api.model.foo import Foo
 
 _path = '/foo'
 _method = 'GET'
-SchemaFor0ResponseBodyApplicationJson = InlineResponseDefault
+
+
+class SchemaFor0ResponseBodyApplicationJson(
+    DictSchema
+):
+
+    @classmethod
+    @property
+    def string(cls) -> typing.Type['Foo']:
+        return Foo
+
+
+    def __new__(
+        cls,
+        *args: typing.Union[dict, frozendict, ],
+        string: typing.Union['Foo', Unset] = unset,
+        _configuration: typing.Optional[Configuration] = None,
+        **kwargs: typing.Type[Schema],
+    ) -> 'SchemaFor0ResponseBodyApplicationJson':
+        return super().__new__(
+            cls,
+            *args,
+            string=string,
+            _configuration=_configuration,
+            **kwargs,
+        )
 
 
 @dataclass
@@ -109,6 +137,7 @@ class FooGet(api_client.Api):
             api_response.body and api_response.headers will not be deserialized into schema
             class instances
         """
+        used_path = _path
 
         _headers = HTTPHeaderDict()
         # TODO add cookie handling
@@ -117,7 +146,7 @@ class FooGet(api_client.Api):
                 _headers.add('Accept', accept_content_type)
 
         response = self.api_client.call_api(
-            resource_path=_path,
+            resource_path=used_path,
             method=_method,
             headers=_headers,
             stream=stream,

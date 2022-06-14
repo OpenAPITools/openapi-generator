@@ -19,6 +19,7 @@ from petstore_api.api.fake_api_endpoints.boolean import Boolean
 from petstore_api.api.fake_api_endpoints.case_sensitive_params import CaseSensitiveParams
 from petstore_api.api.fake_api_endpoints.client_model import ClientModel
 from petstore_api.api.fake_api_endpoints.composed_one_of_different_types import ComposedOneOfDifferentTypes
+from petstore_api.api.fake_api_endpoints.delete_coffee import DeleteCoffee
 from petstore_api.api.fake_api_endpoints.endpoint_parameters import EndpointParameters
 from petstore_api.api.fake_api_endpoints.enum_parameters import EnumParameters
 from petstore_api.api.fake_api_endpoints.fake_health_get import FakeHealthGet
@@ -26,11 +27,15 @@ from petstore_api.api.fake_api_endpoints.group_parameters import GroupParameters
 from petstore_api.api.fake_api_endpoints.inline_additional_properties import InlineAdditionalProperties
 from petstore_api.api.fake_api_endpoints.inline_composition import InlineComposition
 from petstore_api.api.fake_api_endpoints.json_form_data import JsonFormData
+from petstore_api.api.fake_api_endpoints.json_with_charset import JsonWithCharset
 from petstore_api.api.fake_api_endpoints.mammal import Mammal
 from petstore_api.api.fake_api_endpoints.number_with_validations import NumberWithValidations
+from petstore_api.api.fake_api_endpoints.object_in_query import ObjectInQuery
 from petstore_api.api.fake_api_endpoints.object_model_with_ref_props import ObjectModelWithRefProps
 from petstore_api.api.fake_api_endpoints.parameter_collisions import ParameterCollisions
 from petstore_api.api.fake_api_endpoints.query_parameter_collection_format import QueryParameterCollectionFormat
+from petstore_api.api.fake_api_endpoints.ref_object_in_query import RefObjectInQuery
+from petstore_api.api.fake_api_endpoints.response_without_schema import ResponseWithoutSchema
 from petstore_api.api.fake_api_endpoints.string import String
 from petstore_api.api.fake_api_endpoints.string_enum import StringEnum
 from petstore_api.api.fake_api_endpoints.upload_download_file import UploadDownloadFile
@@ -48,6 +53,7 @@ class FakeApi(
     CaseSensitiveParams,
     ClientModel,
     ComposedOneOfDifferentTypes,
+    DeleteCoffee,
     EndpointParameters,
     EnumParameters,
     FakeHealthGet,
@@ -55,11 +61,15 @@ class FakeApi(
     InlineAdditionalProperties,
     InlineComposition,
     JsonFormData,
+    JsonWithCharset,
     Mammal,
     NumberWithValidations,
+    ObjectInQuery,
     ObjectModelWithRefProps,
     ParameterCollisions,
     QueryParameterCollectionFormat,
+    RefObjectInQuery,
+    ResponseWithoutSchema,
     String,
     StringEnum,
     UploadDownloadFile,

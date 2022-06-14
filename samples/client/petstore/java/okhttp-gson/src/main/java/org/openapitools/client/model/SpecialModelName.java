@@ -211,6 +211,9 @@ public class SpecialModelName {
           throw new IllegalArgumentException(String.format("The required field(s) %s in SpecialModelName is not found in the empty JSON string", SpecialModelName.openapiRequiredFields.toString()));
         }
       }
+      if (jsonObj.get("_special_model.name_") != null && !jsonObj.get("_special_model.name_").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `_special_model.name_` to be a primitive type in the JSON string but got `%s`", jsonObj.get("_special_model.name_").toString()));
+      }
   }
 
   public static class CustomTypeAdapterFactory implements TypeAdapterFactory {

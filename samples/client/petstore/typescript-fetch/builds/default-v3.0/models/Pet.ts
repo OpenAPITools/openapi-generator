@@ -75,12 +75,23 @@ export interface Pet {
  * @export
  */
 export const PetStatusEnum = {
-    Available: 'available' as 'available',
-    Pending: 'pending' as 'pending',
-    Sold: 'sold' as 'sold'
-};
+    Available: 'available',
+    Pending: 'pending',
+    Sold: 'sold'
+} as const;
 export type PetStatusEnum = typeof PetStatusEnum[keyof typeof PetStatusEnum];
 
+
+/**
+ * Check if a given object implements the Pet interface.
+ */
+export function instanceOfPet(value: object): boolean {
+    let isInstance = true;
+    isInstance = isInstance && "name" in value;
+    isInstance = isInstance && "photoUrls" in value;
+
+    return isInstance;
+}
 
 export function PetFromJSON(json: any): Pet {
     return PetFromJSONTyped(json, false);

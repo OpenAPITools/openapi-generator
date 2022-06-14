@@ -3,7 +3,7 @@
 {{#if complexType}}
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**{{dataType}}**]({{complexType}}.md) | {{description}} | {{#if isReadOnly}}[readonly] {{/if}}
+[**{{dataType}}**]({{complexType}}.md) | {{#if description}}{{description}}{{/if}} | {{#if isReadOnly}}[readonly] {{/if}}
 
 {{else}}
 {{> schema_doc }}

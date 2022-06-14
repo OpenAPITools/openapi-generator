@@ -212,6 +212,12 @@ public class ModelApiResponse {
           throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `ModelApiResponse` properties. JSON: %s", entry.getKey(), jsonObj.toString()));
         }
       }
+      if (jsonObj.get("type") != null && !jsonObj.get("type").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `type` to be a primitive type in the JSON string but got `%s`", jsonObj.get("type").toString()));
+      }
+      if (jsonObj.get("message") != null && !jsonObj.get("message").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `message` to be a primitive type in the JSON string but got `%s`", jsonObj.get("message").toString()));
+      }
   }
 
   public static class CustomTypeAdapterFactory implements TypeAdapterFactory {

@@ -14,8 +14,6 @@ package org.openapitools.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
 import org.openapitools.model.ReadOnlyFirst;
@@ -67,16 +65,15 @@ public class ArrayTest {
      * @return arrayOfString
      **/
     @Nullable
-    @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_ARRAY_OF_STRING)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public List<String> getArrayOfString() {
+    public List<String> getArrayOfString() {
         return arrayOfString;
     }
 
     @JsonProperty(JSON_PROPERTY_ARRAY_OF_STRING)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public void setArrayOfString(List<String> arrayOfString) {
+    public void setArrayOfString(List<String> arrayOfString) {
         this.arrayOfString = arrayOfString;
     }
 
@@ -98,16 +95,15 @@ public class ArrayTest {
      * @return arrayArrayOfInteger
      **/
     @Nullable
-    @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public List<List<Long>> getArrayArrayOfInteger() {
+    public List<List<Long>> getArrayArrayOfInteger() {
         return arrayArrayOfInteger;
     }
 
     @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public void setArrayArrayOfInteger(List<List<Long>> arrayArrayOfInteger) {
+    public void setArrayArrayOfInteger(List<List<Long>> arrayArrayOfInteger) {
         this.arrayArrayOfInteger = arrayArrayOfInteger;
     }
 
@@ -129,16 +125,15 @@ public class ArrayTest {
      * @return arrayArrayOfModel
      **/
     @Nullable
-    @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public List<List<ReadOnlyFirst>> getArrayArrayOfModel() {
+    public List<List<ReadOnlyFirst>> getArrayArrayOfModel() {
         return arrayArrayOfModel;
     }
 
     @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public void setArrayArrayOfModel(List<List<ReadOnlyFirst>> arrayArrayOfModel) {
+    public void setArrayArrayOfModel(List<List<ReadOnlyFirst>> arrayArrayOfModel) {
         this.arrayArrayOfModel = arrayArrayOfModel;
     }
 

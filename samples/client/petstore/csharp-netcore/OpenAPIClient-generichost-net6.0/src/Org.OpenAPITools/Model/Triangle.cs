@@ -32,7 +32,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Triangle" /> class.
         /// </summary>
-        /// <param name="equilateralTriangle">equilateralTriangle</param>
+        /// <param name="equilateralTriangle"></param>
         /// <param name="shapeType">shapeType (required)</param>
         /// <param name="triangleType">triangleType (required)</param>
         public Triangle(EquilateralTriangle equilateralTriangle, string shapeType, string triangleType)
@@ -51,7 +51,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Triangle" /> class.
         /// </summary>
-        /// <param name="isoscelesTriangle">isoscelesTriangle</param>
+        /// <param name="isoscelesTriangle"></param>
         /// <param name="shapeType">shapeType (required)</param>
         /// <param name="triangleType">triangleType (required)</param>
         public Triangle(IsoscelesTriangle isoscelesTriangle, string shapeType, string triangleType)
@@ -70,7 +70,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Triangle" /> class.
         /// </summary>
-        /// <param name="scaleneTriangle">scaleneTriangle</param>
+        /// <param name="scaleneTriangle"></param>
         /// <param name="shapeType">shapeType (required)</param>
         /// <param name="triangleType">triangleType (required)</param>
         public Triangle(ScaleneTriangle scaleneTriangle, string shapeType, string triangleType)
@@ -87,17 +87,17 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Gets or Sets Triangle
+        /// Gets or Sets EquilateralTriangle
         /// </summary>
         public EquilateralTriangle EquilateralTriangle { get; set; }
 
         /// <summary>
-        /// Gets or Sets Triangle
+        /// Gets or Sets IsoscelesTriangle
         /// </summary>
         public IsoscelesTriangle IsoscelesTriangle { get; set; }
 
         /// <summary>
-        /// Gets or Sets Triangle
+        /// Gets or Sets ScaleneTriangle
         /// </summary>
         public ScaleneTriangle ScaleneTriangle { get; set; }
 
@@ -228,13 +228,13 @@ namespace Org.OpenAPITools.Model
                 throw new JsonException();
 
             Utf8JsonReader equilateralTriangleReader = reader;
-            Client.ClientUtils.TryDeserialize<EquilateralTriangle>(ref equilateralTriangleReader, options, out EquilateralTriangle equilateralTriangle);
+            bool equilateralTriangleDeserialized = Client.ClientUtils.TryDeserialize<EquilateralTriangle>(ref equilateralTriangleReader, options, out EquilateralTriangle equilateralTriangle);
 
             Utf8JsonReader isoscelesTriangleReader = reader;
-            Client.ClientUtils.TryDeserialize<IsoscelesTriangle>(ref isoscelesTriangleReader, options, out IsoscelesTriangle isoscelesTriangle);
+            bool isoscelesTriangleDeserialized = Client.ClientUtils.TryDeserialize<IsoscelesTriangle>(ref isoscelesTriangleReader, options, out IsoscelesTriangle isoscelesTriangle);
 
             Utf8JsonReader scaleneTriangleReader = reader;
-            Client.ClientUtils.TryDeserialize<ScaleneTriangle>(ref scaleneTriangleReader, options, out ScaleneTriangle scaleneTriangle);
+            bool scaleneTriangleDeserialized = Client.ClientUtils.TryDeserialize<ScaleneTriangle>(ref scaleneTriangleReader, options, out ScaleneTriangle scaleneTriangle);
 
             string shapeType = default;
             string triangleType = default;
@@ -261,13 +261,13 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (equilateralTriangle != null)
+            if (equilateralTriangleDeserialized)
                 return new Triangle(equilateralTriangle, shapeType, triangleType);
 
-            if (isoscelesTriangle != null)
+            if (isoscelesTriangleDeserialized)
                 return new Triangle(isoscelesTriangle, shapeType, triangleType);
 
-            if (scaleneTriangle != null)
+            if (scaleneTriangleDeserialized)
                 return new Triangle(scaleneTriangle, shapeType, triangleType);
 
             throw new JsonException();

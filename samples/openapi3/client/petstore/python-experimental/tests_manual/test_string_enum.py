@@ -10,7 +10,6 @@
 """
 
 
-import sys
 import unittest
 
 import petstore_api
@@ -32,12 +31,14 @@ class TestStringEnum(unittest.TestCase):
         inst = StringEnum(None)
         assert isinstance(inst, StringEnum)
         assert isinstance(inst, NoneClass)
+        assert repr(inst) == '<DynamicStringEnum: None>'
 
         inst = StringEnum('approved')
         assert isinstance(inst, StringEnum)
         assert isinstance(inst, Singleton)
         assert isinstance(inst, str)
         assert inst == 'approved'
+        assert repr(inst) == "<DynamicStringEnum: 'approved'>"
 
         with self.assertRaises(petstore_api.ApiValueError):
             StringEnum('garbage')

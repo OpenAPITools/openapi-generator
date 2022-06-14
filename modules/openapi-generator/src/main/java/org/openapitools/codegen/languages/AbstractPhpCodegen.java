@@ -24,6 +24,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -399,6 +401,10 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
 
     @Override
     public String toVarName(String name) {
+        // translate @ for properties (like @type) to at_.
+        // Otherwise an additional "type" property will leed to duplcates
+        name = name.replaceAll("^@", "at_");
+
         // sanitize name
         name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
@@ -406,6 +412,8 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
             // return the name in camelCase style
             // phone_number => phoneNumber
             name = camelize(name, true);
+        } else if ("PascalCase".equals(variableNamingConvention)) {
+            name = camelize(name, false);
         } else { // default to snake case
             // return the name in underscore style
             // PhoneNumber => phone_number
@@ -703,9 +711,9 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<ModelMap> allModels) {
-        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
-        List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        OperationMap operations = objs.getOperations();
+        List<CodegenOperation> operationList = operations.getOperation();
         for (CodegenOperation op : operationList) {
             // for API test method name
             // e.g. public function test{{vendorExtensions.x-testOperationId}}()

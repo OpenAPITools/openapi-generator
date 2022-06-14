@@ -1,5 +1,6 @@
 @classmethod
 @property
+@functools.cache
 def _composed_schemas(cls):
     # we need this here to make our import statements work
     # we must store _composed_schemas in here so the code is only run
@@ -39,6 +40,16 @@ def _composed_schemas(cls):
     {{#if this.classname}}{{classname}}{{else}}{{#if nameInSnakeCase}}{{name}}{{else}}{{baseName}}{{/if}}{{/if}} = AnyTypeSchema
 {{/if}}
 {{/each}}
+{{#with not}}
+{{#unless complexType}}
+{{#unless isAnyType}}
+    {{> model_templates/schema }}
+{{/unless}}
+{{/unless}}
+{{#if isAnyType}}
+    {{#if this.classname}}{{classname}}{{else}}{{#if nameInSnakeCase}}{{name}}{{else}}{{baseName}}{{/if}}{{/if}} = AnyTypeSchema
+{{/if}}
+{{/with}}
 {{/with}}
     return {
         'allOf': [
@@ -46,41 +57,54 @@ def _composed_schemas(cls):
 {{#each allOf}}
 {{#if complexType}}
             {{complexType}},
+{{else}}
+    {{#if nameInSnakeCase}}
+            {{name}},
+    {{else}}
+            {{baseName}},
+    {{/if}}
 {{/if}}
-{{#unless complexType}}
-            {{#if nameInSnakeCase}}{{name}}{{/if}}{{#unless nameInSnakeCase}}{{baseName}}{{/unless}},
-{{/unless}}
 {{/each}}
         ],
         'oneOf': [
 {{#each oneOf}}
 {{#if complexType}}
             {{complexType}},
+{{else}}
+    {{#if nameInSnakeCase}}
+            {{name}},
+    {{else}}
+            {{baseName}},
+    {{/if}}
 {{/if}}
-{{#unless complexType}}
-{{#if isAnyType}}
-            AnyTypeSchema,
-{{/if}}
-{{#unless isAnyType}}
-            {{#if nameInSnakeCase}}{{name}}{{/if}}{{#unless nameInSnakeCase}}{{baseName}}{{/unless}},
-{{/unless}}
-{{/unless}}
 {{/each}}
         ],
         'anyOf': [
 {{#each anyOf}}
 {{#if complexType}}
             {{complexType}},
+{{else}}
+    {{#if nameInSnakeCase}}
+            {{name}},
+    {{else}}
+            {{baseName}},
+    {{/if}}
 {{/if}}
-{{#unless complexType}}
-{{#if isAnyType}}
-            AnyTypeSchema,
-{{/if}}
-{{#unless isAnyType}}
-            {{#if nameInSnakeCase}}{{name}}{{/if}}{{#unless nameInSnakeCase}}{{baseName}}{{/unless}},
-{{/unless}}
-{{/unless}}
 {{/each}}
-{{/with}}
         ],
+        'not':
+{{#with not}}
+{{#if complexType}}
+            {{complexType}}
+{{else}}
+    {{#if nameInSnakeCase}}
+            {{name}}
+    {{else}}
+            {{baseName}}
+    {{/if}}
+{{/if}}
+{{else}}
+            None
+{{/with}}
+{{/with}}
     }

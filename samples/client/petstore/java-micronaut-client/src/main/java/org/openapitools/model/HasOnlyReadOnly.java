@@ -15,8 +15,6 @@ package org.openapitools.model;
 import java.util.Objects;
 import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.*;
 
 import javax.validation.constraints.*;
@@ -48,10 +46,9 @@ public class HasOnlyReadOnly {
      * @return bar
      **/
     @Nullable
-    @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_BAR)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public String getBar() {
+    public String getBar() {
         return bar;
     }
 
@@ -60,10 +57,9 @@ public class HasOnlyReadOnly {
      * @return foo
      **/
     @Nullable
-    @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_FOO)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public String getFoo() {
+    public String getFoo() {
         return foo;
     }
 

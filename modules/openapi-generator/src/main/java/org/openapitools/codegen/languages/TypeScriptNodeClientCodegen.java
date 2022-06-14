@@ -25,6 +25,8 @@ import io.swagger.v3.oas.models.responses.ApiResponse;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -198,13 +200,13 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> operations, List<ModelMap> allModels) {
-        Map<String, Object> objs = (Map<String, Object>) operations.get("operations");
+    public OperationsMap postProcessOperationsWithModels(OperationsMap operations, List<ModelMap> allModels) {
+        OperationMap objs = operations.getOperations();
 
         // The api.mustache template requires all of the auth methods for the whole api
         // Loop over all the operations and pick out each unique auth method
         Map<String, CodegenSecurity> authMethodsMap = new HashMap<>();
-        for (CodegenOperation op : (List<CodegenOperation>) objs.get("operation")) {
+        for (CodegenOperation op : objs.getOperation()) {
             if (op.hasAuthMethods) {
                 for (CodegenSecurity sec : op.authMethods) {
                     authMethodsMap.put(sec.name, sec);
@@ -219,12 +221,12 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
         }
 
         // Add filename information for api imports
-        objs.put("apiFilename", getApiFilenameFromClassname(objs.get("classname").toString()));
+        objs.put("apiFilename", getApiFilenameFromClassname(objs.getClassname()));
 
         // Add additional filename information for model imports in the apis
-        List<Map<String, Object>> imports = (List<Map<String, Object>>) operations.get("imports");
-        for (Map<String, Object> im : imports) {
-            im.put("filename", im.get("import").toString());
+        List<Map<String, String>> imports = operations.getImports();
+        for (Map<String, String> im : imports) {
+            im.put("filename", im.get("import"));
         }
 
         return operations;

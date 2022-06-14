@@ -11,6 +11,7 @@ import re  # noqa: F401
 import sys  # noqa: F401
 import typing
 import urllib3
+import functools  # noqa: F401
 from urllib3._collections import HTTPHeaderDict
 
 from petstore_api import api_client, exceptions
@@ -30,6 +31,7 @@ from petstore_api.schemas import (  # noqa: F401
     Float32Schema,
     Float64Schema,
     NumberSchema,
+    UUIDSchema,
     DateSchema,
     DateTimeSchema,
     DecimalSchema,
@@ -51,6 +53,7 @@ from petstore_api.schemas import (  # noqa: F401
     Float32Base,
     Float64Base,
     NumberBase,
+    UUIDBase,
     DateBase,
     DateTimeBase,
     BoolBase,
@@ -119,6 +122,7 @@ class String(api_client.Api):
             api_response.body and api_response.headers will not be deserialized into schema
             class instances
         """
+        used_path = _path
 
         _headers = HTTPHeaderDict()
         # TODO add cookie handling
@@ -136,7 +140,7 @@ class String(api_client.Api):
             elif 'body' in serialized_data:
                 _body = serialized_data['body']
         response = self.api_client.call_api(
-            resource_path=_path,
+            resource_path=used_path,
             method=_method,
             headers=_headers,
             fields=_fields,

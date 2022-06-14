@@ -46,6 +46,16 @@ export interface GetBehaviorTypeResponse {
     data?: BehaviorType;
 }
 
+/**
+ * Check if a given object implements the GetBehaviorTypeResponse interface.
+ */
+export function instanceOfGetBehaviorTypeResponse(value: object): boolean {
+    let isInstance = true;
+    isInstance = isInstance && "meta" in value;
+
+    return isInstance;
+}
+
 export function GetBehaviorTypeResponseFromJSON(json: any): GetBehaviorTypeResponse {
     return GetBehaviorTypeResponseFromJSONTyped(json, false);
 }
