@@ -86,7 +86,7 @@ internal suspend inline fun <reified T> request(
 
     val httpClient = HttpClient {
         install(ContentNegotiation) {
-            json()
+            json(Json { ignoreUnknownKeys = true })
         }
         install(Logging) {
             this.logger = logger
