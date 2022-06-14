@@ -55,6 +55,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public static final String USE_PLAY_WS = "usePlayWS";
     public static final String ASYNC_NATIVE = "asyncNative";
     public static final String CONFIG_KEY = "configKey";
+	public static final String CONFIG_KEY_FROM_CLASS_NAME = "configKeyFromClassName";
     public static final String PARCELABLE_MODEL = "parcelableModel";
     public static final String USE_RUNTIME_EXCEPTION = "useRuntimeException";
     public static final String USE_REFLECTION_EQUALS_HASHCODE = "useReflectionEqualsHashCode";
@@ -101,6 +102,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     protected String microprofileFramework = MICROPROFILE_DEFAULT;
 	protected boolean microprofileMutiny = false;
     protected String configKey = null;
+	protected boolean configKeyFromClassName = false;
 
     protected boolean asyncNative = false;
     protected boolean parcelableModel = false;
@@ -162,6 +164,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newString(GRADLE_PROPERTIES, "Append additional Gradle proeprties to the gradle.properties file"));
         cliOptions.add(CliOption.newString(ERROR_OBJECT_TYPE, "Error Object type. (This option is for okhttp-gson-next-gen only)"));
         cliOptions.add(CliOption.newString(CONFIG_KEY, "Config key in @RegisterRestClient. Default to none. Only `microprofile` supports this option."));
+        cliOptions.add(CliOption.newString(CONFIG_KEY_FROM_CLASS_NAME, "If true, set tag as key in @RegisterRestClient. Default to false. Only `microprofile` supports this option."));
 
         supportedLibraries.put(JERSEY1, "HTTP client: Jersey client 1.19.x. JSON processing: Jackson 2.9.x. Enable gzip request encoding using '-DuseGzipFeature=true'. IMPORTANT NOTE: jersey 1.x is no longer actively maintained so please upgrade to 'jersey2' or other HTTP libraries instead.");
         supportedLibraries.put(JERSEY2, "HTTP client: Jersey client 2.25.1. JSON processing: Jackson 2.9.x");
@@ -276,6 +279,11 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         if (additionalProperties.containsKey(CONFIG_KEY)) {
             this.setConfigKey(additionalProperties.get(CONFIG_KEY).toString());
         }
+
+		if(additionalProperties.containsKey(CONFIG_KEY_FROM_CLASS_NAME)) {
+			this.setConfigKey(null);
+			this.setConfigKeyFromClassName(Boolean.parseBoolean(additionalProperties.get(CONFIG_KEY_FROM_CLASS_NAME).toString()));
+		}
 
         if (additionalProperties.containsKey(ASYNC_NATIVE)) {
             this.setAsyncNative(convertPropertyToBooleanAndWriteBack(ASYNC_NATIVE));
@@ -609,7 +617,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         }
     }
 
-    @SuppressWarnings("unchecked")
+	@SuppressWarnings("unchecked")
     @Override
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         super.postProcessOperationsWithModels(objs, allModels);
@@ -686,6 +694,15 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
         if (MICROPROFILE.equals(getLibrary())) {
             objs = AbstractJavaJAXRSServerCodegen.jaxrsPostProcessOperations(objs);
+			LOGGER.info("OBJS:" + objs.keySet());
+			if(configKeyFromClassName) {
+				Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
+				String configKeyFromClassName = operations.get("classname")
+						.toString()
+						.replaceFirst("Api", "")
+						.toLowerCase(Locale.ROOT).concat("-api");
+				operations.put("configKey", configKeyFromClassName);
+			}
         }
 
         return objs;
@@ -795,7 +812,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 // Remove io.swagger.annotations.ApiModel import
                 codegenModel.imports.remove("ApiModel");
             }
-        }
+		}
         return codegenModel;
     }
 
@@ -1041,6 +1058,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         generateYAMLSpecFile(objs);
         return super.postProcessSupportingFileData(objs);
     }
+
+	private void setConfigKeyFromClassName(boolean configKeyFromClassName) {
+		this.configKeyFromClassName = configKeyFromClassName;
+	}
 
     @Override
     public String toApiVarName(String name) {
