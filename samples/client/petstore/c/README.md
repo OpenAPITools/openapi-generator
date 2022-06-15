@@ -52,7 +52,7 @@ To compile main.c(considering the file is present in build folder) use following
 -L - location of the library(not required if cmake with normal installation is performed)
 -l library name
 ```bash
-gcc main.c -L. -lopenapi_petstore -o main
+gcc main.c -L. -l openapi_petstore -o main
 ```
 Once compiled, you can run it with ``` ./main ```
 
