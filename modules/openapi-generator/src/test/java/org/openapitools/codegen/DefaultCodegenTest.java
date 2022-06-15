@@ -984,19 +984,19 @@ public class DefaultCodegenTest {
         // to test allOf with double refs
         Schema supermanSchema = openAPI.getComponents().getSchemas().get("SuperMan");
         CodegenModel supermanModel = codegen.fromModel("SuperMan", supermanSchema);
-        Assert.assertNull(supermanModel.parent);
+        Assert.assertEquals(supermanModel.parent, "Human");
         Assert.assertEquals(supermanModel.allParents, null);
 
         // to test allOf with single ref
         Schema superboySchema = openAPI.getComponents().getSchemas().get("SuperBoy");
         CodegenModel superboyModel = codegen.fromModel("SuperBoy", superboySchema);
-        Assert.assertNull(superboyModel.parent);
+        Assert.assertEquals(superboyModel.parent, "Human");
         Assert.assertEquals(superboyModel.allParents, null);
 
         // to test allOf with single ref and no "type: object" in the (last) inline schema
         Schema superbabySchema = openAPI.getComponents().getSchemas().get("SuperBaby");
         CodegenModel superbabyModel = codegen.fromModel("SuperBaby", superbabySchema);
-        Assert.assertNull(superbabyModel.parent);
+        Assert.assertEquals(superbabyModel.parent, "Human");
         Assert.assertEquals(superbabyModel.allParents, null);
     }
 
@@ -1602,7 +1602,7 @@ public class DefaultCodegenTest {
         codegen.setOpenAPI(openAPI);
         CodegenModel model = codegen.fromModel("NewMessageEventCoreNoOwnProps", schema);
         Assert.assertEquals(getNames(model.getVars()), Arrays.asList("id", "message"));
-        Assert.assertNull(model.parent);
+        Assert.assertEquals(model.parent, "MessageEventCore");
         Assert.assertNull(model.allParents);
     }
 

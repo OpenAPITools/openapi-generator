@@ -335,7 +335,7 @@ public class PythonClientTest {
         Assert.assertEquals(cm.classname, "Sample");
         Assert.assertEquals(cm.description, "a map model");
         Assert.assertEquals(cm.vars.size(), 0);
-        Assert.assertEquals(cm.parent, null);
+        Assert.assertEquals(cm.parent, "dict");
         Assert.assertEquals(cm.imports.size(), 1);
     }
 

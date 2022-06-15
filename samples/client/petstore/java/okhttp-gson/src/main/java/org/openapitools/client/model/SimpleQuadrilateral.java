@@ -50,7 +50,7 @@ import org.openapitools.client.JSON;
  * SimpleQuadrilateral
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-public class SimpleQuadrilateral {
+public class SimpleQuadrilateral extends ShapeInterface {
   public static final String SERIALIZED_NAME_SHAPE_TYPE = "shapeType";
   @SerializedName(SERIALIZED_NAME_SHAPE_TYPE)
   private String shapeType;
@@ -155,18 +155,20 @@ public class SimpleQuadrilateral {
     SimpleQuadrilateral simpleQuadrilateral = (SimpleQuadrilateral) o;
     return Objects.equals(this.shapeType, simpleQuadrilateral.shapeType) &&
         Objects.equals(this.quadrilateralType, simpleQuadrilateral.quadrilateralType)&&
-        Objects.equals(this.additionalProperties, simpleQuadrilateral.additionalProperties);
+        Objects.equals(this.additionalProperties, simpleQuadrilateral.additionalProperties) &&
+        super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(shapeType, quadrilateralType, additionalProperties);
+    return Objects.hash(shapeType, quadrilateralType, super.hashCode(), additionalProperties);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class SimpleQuadrilateral {\n");
+    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    shapeType: ").append(toIndentedString(shapeType)).append("\n");
     sb.append("    quadrilateralType: ").append(toIndentedString(quadrilateralType)).append("\n");
     sb.append("    additionalProperties: ").append(toIndentedString(additionalProperties)).append("\n");

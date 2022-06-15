@@ -42,7 +42,7 @@ import org.openapitools.client.JSON;
   EquilateralTriangle.JSON_PROPERTY_TRIANGLE_TYPE
 })
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-public class EquilateralTriangle {
+public class EquilateralTriangle extends ShapeInterface {
   public static final String JSON_PROPERTY_SHAPE_TYPE = "shapeType";
   private String shapeType;
 
@@ -155,18 +155,20 @@ public class EquilateralTriangle {
     EquilateralTriangle equilateralTriangle = (EquilateralTriangle) o;
     return Objects.equals(this.shapeType, equilateralTriangle.shapeType) &&
         Objects.equals(this.triangleType, equilateralTriangle.triangleType)&&
-        Objects.equals(this.additionalProperties, equilateralTriangle.additionalProperties);
+        Objects.equals(this.additionalProperties, equilateralTriangle.additionalProperties) &&
+        super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(shapeType, triangleType, additionalProperties);
+    return Objects.hash(shapeType, triangleType, super.hashCode(), additionalProperties);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class EquilateralTriangle {\n");
+    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    shapeType: ").append(toIndentedString(shapeType)).append("\n");
     sb.append("    triangleType: ").append(toIndentedString(triangleType)).append("\n");
     sb.append("    additionalProperties: ").append(toIndentedString(additionalProperties)).append("\n");

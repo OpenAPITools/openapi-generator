@@ -50,7 +50,7 @@ import org.openapitools.client.JSON;
  * ArrayOfInlineAllOfArrayAllofDogPropertyInner
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-public class ArrayOfInlineAllOfArrayAllofDogPropertyInner {
+public class ArrayOfInlineAllOfArrayAllofDogPropertyInner extends DogAllOf {
   public static final String SERIALIZED_NAME_BREED = "breed";
   @SerializedName(SERIALIZED_NAME_BREED)
   private String breed;
@@ -155,18 +155,20 @@ public class ArrayOfInlineAllOfArrayAllofDogPropertyInner {
     ArrayOfInlineAllOfArrayAllofDogPropertyInner arrayOfInlineAllOfArrayAllofDogPropertyInner = (ArrayOfInlineAllOfArrayAllofDogPropertyInner) o;
     return Objects.equals(this.breed, arrayOfInlineAllOfArrayAllofDogPropertyInner.breed) &&
         Objects.equals(this.color, arrayOfInlineAllOfArrayAllofDogPropertyInner.color)&&
-        Objects.equals(this.additionalProperties, arrayOfInlineAllOfArrayAllofDogPropertyInner.additionalProperties);
+        Objects.equals(this.additionalProperties, arrayOfInlineAllOfArrayAllofDogPropertyInner.additionalProperties) &&
+        super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(breed, color, additionalProperties);
+    return Objects.hash(breed, color, super.hashCode(), additionalProperties);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ArrayOfInlineAllOfArrayAllofDogPropertyInner {\n");
+    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    breed: ").append(toIndentedString(breed)).append("\n");
     sb.append("    color: ").append(toIndentedString(color)).append("\n");
     sb.append("    additionalProperties: ").append(toIndentedString(additionalProperties)).append("\n");

@@ -2688,6 +2688,9 @@ public class DefaultCodegen implements CodegenConfig {
             addAdditionPropertiesToCodeGenModel(m, schema);
             m.isMap = true;
         }
+        if (m.parent == null && !Objects.equals(m.dataType, "Object")) {
+            m.parent = m.dataType;
+        }
         if (schema.getProperties() != null || schema.getRequired() != null && !(schema instanceof ComposedSchema)) {
             // passing null to allProperties and allRequired as there's no parent
             addVars(m, unaliasPropertySchema(schema.getProperties()), schema.getRequired(), null, null);

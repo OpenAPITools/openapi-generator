@@ -42,7 +42,7 @@ import org.openapitools.client.JSON;
   ScaleneTriangle.JSON_PROPERTY_TRIANGLE_TYPE
 })
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-public class ScaleneTriangle {
+public class ScaleneTriangle extends ShapeInterface {
   public static final String JSON_PROPERTY_SHAPE_TYPE = "shapeType";
   private String shapeType;
 
@@ -155,18 +155,20 @@ public class ScaleneTriangle {
     ScaleneTriangle scaleneTriangle = (ScaleneTriangle) o;
     return Objects.equals(this.shapeType, scaleneTriangle.shapeType) &&
         Objects.equals(this.triangleType, scaleneTriangle.triangleType)&&
-        Objects.equals(this.additionalProperties, scaleneTriangle.additionalProperties);
+        Objects.equals(this.additionalProperties, scaleneTriangle.additionalProperties) &&
+        super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(shapeType, triangleType, additionalProperties);
+    return Objects.hash(shapeType, triangleType, super.hashCode(), additionalProperties);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ScaleneTriangle {\n");
+    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    shapeType: ").append(toIndentedString(shapeType)).append("\n");
     sb.append("    triangleType: ").append(toIndentedString(triangleType)).append("\n");
     sb.append("    additionalProperties: ").append(toIndentedString(additionalProperties)).append("\n");

@@ -38,7 +38,7 @@ import org.openapitools.client.JSON;
   IsoscelesTriangle.JSON_PROPERTY_TRIANGLE_TYPE
 })
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-public class IsoscelesTriangle {
+public class IsoscelesTriangle extends ShapeInterface {
   public static final String JSON_PROPERTY_SHAPE_TYPE = "shapeType";
   private String shapeType;
 
@@ -113,18 +113,20 @@ public class IsoscelesTriangle {
     }
     IsoscelesTriangle isoscelesTriangle = (IsoscelesTriangle) o;
     return Objects.equals(this.shapeType, isoscelesTriangle.shapeType) &&
-        Objects.equals(this.triangleType, isoscelesTriangle.triangleType);
+        Objects.equals(this.triangleType, isoscelesTriangle.triangleType) &&
+        super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(shapeType, triangleType);
+    return Objects.hash(shapeType, triangleType, super.hashCode());
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class IsoscelesTriangle {\n");
+    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    shapeType: ").append(toIndentedString(shapeType)).append("\n");
     sb.append("    triangleType: ").append(toIndentedString(triangleType)).append("\n");
     sb.append("}");
