@@ -1,10 +1,8 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.31.1.
+-- This file has been generated from package.yaml by hpack version 0.34.4.
 --
 -- see: https://github.com/sol/hpack
---
--- hash: 683b4f8e9235d6d2d003d7984f2a2a973c96adb8f3f0687e39d730fbf2e8b221
 
 name:           openapi-petstore-app
 version:        0.1.0.0
@@ -26,17 +24,17 @@ executable openapi-petstore-app
       Paths_openapi_petstore_app
   ghc-options: -Wall
   build-depends:
-      aeson >=1.0 && <2.0
+      aeson >=1.0 && <3.0
     , base >=4.7 && <5.0
     , bytestring >=0.10.0 && <0.11
     , case-insensitive
     , containers >=0.5.0.0 && <0.8
     , http-api-data >=0.3.4 && <0.5
-    , http-client >=0.5 && <0.7
+    , http-client >=0.5 && <0.8
     , http-client-tls
-    , http-media >=0.4 && <0.9
+    , http-media >=0.4
     , http-types >=0.8 && <0.13
-    , microlens >=0.4.3 && <0.5
+    , microlens >=0.4.3
     , mtl >=2.2.1
     , openapi-petstore
     , text >=0.11 && <1.3

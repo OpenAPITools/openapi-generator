@@ -27,6 +27,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
@@ -46,7 +47,6 @@ import javax.xml.bind.annotation.*;
   AdditionalPropertiesClass.JSON_PROPERTY_ANYTYPE2,
   AdditionalPropertiesClass.JSON_PROPERTY_ANYTYPE3
 })
-@JsonTypeName("AdditionalPropertiesClass")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @XmlRootElement(name = "AdditionalPropertiesClass")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -120,6 +120,8 @@ public class AdditionalPropertiesClass {
   @XmlElement(name = "anytype_3")
   private Object anytype3;
 
+  public AdditionalPropertiesClass() { 
+  }
 
   public AdditionalPropertiesClass mapString(Map<String, String> mapString) {
     

@@ -15,58 +15,145 @@
  * limitations under the License.
  */
 
+declare(strict_types=1);
+
 namespace OpenAPI\Server\Service;
 
-use JMS\Serializer\Context;
 use JMS\Serializer\JsonDeserializationVisitor;
+use JMS\Serializer\GraphNavigatorInterface;
+use JMS\Serializer\Metadata\ClassMetadata;
+use JMS\Serializer\Metadata\PropertyMetadata;
+use JMS\Serializer\Visitor\DeserializationVisitorInterface;
 
-class StrictJsonDeserializationVisitor extends JsonDeserializationVisitor
+class StrictJsonDeserializationVisitor implements DeserializationVisitorInterface
 {
+    protected JsonDeserializationVisitor $jsonDeserializationVisitor;
+
+    public function __construct(
+        int $options = 0,
+        int $depth = 512
+    ) {
+        $this->jsonDeserializationVisitor = new JsonDeserializationVisitor($options, $depth);
+    }
+
     /**
      * {@inheritdoc}
      */
-    public function visitString($data, array $type, Context $context)
+    public function visitNull($data, array $type) 
+    {
+        return $this->jsonDeserializationVisitor->visitNull($data, $type);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function visitString($data, array $type): string
     {
         if (!is_string($data)) {
-            throw TypeMismatchException::fromValue('string', $data, $context);
+            throw TypeMismatchException::fromValue('string', $data);
         }
 
-        return parent::visitString($data, $type, $context);
+        return $this->jsonDeserializationVisitor->visitString($data, $type);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function visitBoolean($data, array $type, Context $context)
+    public function visitBoolean($data, array $type): bool
     {
         if (!is_bool($data)) {
-            throw TypeMismatchException::fromValue('boolean', $data, $context);
+            throw TypeMismatchException::fromValue('boolean', $data);
         }
 
-        return parent::visitBoolean($data, $type, $context);
+        return $this->jsonDeserializationVisitor->visitBoolean($data, $type);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function visitInteger($data, array $type, Context $context)
+    public function visitInteger($data, array $type): int
     {
         if (!is_int($data)) {
-            throw TypeMismatchException::fromValue('integer', $data, $context);
+            throw TypeMismatchException::fromValue('integer', $data);
         }
 
-        return parent::visitInteger($data, $type, $context);
+        return $this->jsonDeserializationVisitor->visitInteger($data, $type);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function visitDouble($data, array $type, Context $context)
+    public function visitDouble($data, array $type): float
     {
         if (!is_float($data) && !is_integer($data)) {
-            throw TypeMismatchException::fromValue('double', $data, $context);
+            throw TypeMismatchException::fromValue('double', $data);
         }
 
-        return parent::visitDouble($data, $type, $context);
+        return $this->jsonDeserializationVisitor->visitDouble($data, $type);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function visitArray($data, array $type): array
+    {
+        return $this->jsonDeserializationVisitor->visitArray($data, $type);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function visitDiscriminatorMapProperty($data, ClassMetadata $metadata): string
+    {
+        return $this->jsonDeserializationVisitor->visitDiscriminatorMapProperty($data, $metadata);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function startVisitingObject(ClassMetadata $metadata, object $data, array $type): void
+    {
+        $this->jsonDeserializationVisitor->startVisitingObject($metadata, $data, $type);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function visitProperty(PropertyMetadata $metadata, $data)
+    {
+        return $this->jsonDeserializationVisitor->visitProperty($metadata, $data);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function endVisitingObject(ClassMetadata $metadata, $data, array $type): object
+    {
+        return $this->jsonDeserializationVisitor->endVisitingObject($metadata, $data, $type);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getResult($data)
+    {
+        return $this->jsonDeserializationVisitor->getResult($data);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function prepare($data)
+    {
+        return $this->jsonDeserializationVisitor->prepare($data);
+    }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function setNavigator(GraphNavigatorInterface $navigator): void
+    {
+        $this->jsonDeserializationVisitor->setNavigator($navigator);
+    }
+
 }

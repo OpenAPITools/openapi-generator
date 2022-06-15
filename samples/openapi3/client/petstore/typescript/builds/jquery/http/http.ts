@@ -1,5 +1,3 @@
-// typings of url-parse are incorrect...
-// @ts-ignore
 import * as URLParse from "url-parse";
 import { Observable, from } from '../rxjsStub';
 
@@ -200,6 +198,22 @@ export class ResponseContext {
                 type: contentType
             });
         }
+    }
+
+    /**
+     * Use a heuristic to get a body of unknown data structure.
+     * Return as string if possible, otherwise as binary.
+     */
+    public getBodyAsAny(): Promise<string | Blob | undefined> {
+        try {
+            return this.body.text();
+        } catch {}
+
+        try {
+            return this.body.binary();
+        } catch {}
+
+        return Promise.resolve(undefined);
     }
 }
 

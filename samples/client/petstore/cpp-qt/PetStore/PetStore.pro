@@ -18,6 +18,8 @@ TEMPLATE = app
 
 include(../client/PFXclient.pri)
 
+INCLUDEPATH += ../client
+
 SOURCES += main.cpp \
            PetApiTests.cpp \
            StoreApiTests.cpp \

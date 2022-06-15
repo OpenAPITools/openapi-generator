@@ -38,6 +38,8 @@ public class CatAllOf {
   public static final String JSON_PROPERTY_DECLAWED = "declawed";
   private Boolean declawed;
 
+  public CatAllOf() { 
+  }
 
   public CatAllOf declawed(Boolean declawed) {
     this.declawed = declawed;

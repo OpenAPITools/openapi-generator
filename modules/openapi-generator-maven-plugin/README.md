@@ -12,7 +12,7 @@ Add to your `build->plugins` section (default phase is `generate-sources` phase)
     <groupId>org.openapitools</groupId>
     <artifactId>openapi-generator-maven-plugin</artifactId>
     <!-- RELEASE_VERSION -->
-    <version>5.1.0</version>
+    <version>6.0.0</version>
     <!-- /RELEASE_VERSION -->
     <executions>
         <execution>
@@ -67,6 +67,7 @@ mvn clean compile
 | `library` |  `openapi.generator.maven.plugin.library` | library template (sub-template)
 | `modelNamePrefix` |  `openapi.generator.maven.plugin.modelNamePrefix` | Sets the prefix for model classes and enums
 | `modelNameSuffix` |  `openapi.generator.maven.plugin.modelNameSuffix` | Sets the suffix for model classes and enums
+| `apiNameSuffix` |  `openapi.generator.maven.plugin.apiNameSuffix` | Sets the suffix for api classes
 | `ignoreFileOverride` |  `openapi.generator.maven.plugin.ignoreFileOverride` | specifies the full path to a `.openapi-generator-ignore` used for pattern based overrides of generated outputs
 | `httpUserAgent` | `openapi.generator.maven.plugin.httpUserAgent` | Sets custom User-Agent header value
 | `removeOperationIdPrefix` |  `openapi.generator.maven.plugin.removeOperationIdPrefix` | remove operationId prefix (e.g. user_getName => getName)
@@ -116,12 +117,12 @@ For configuration options documented as a **map** above, the key/value options m
 ```
 
 This configuration node location will match that of the plugin configuration examples at the top of this document and in the section below. Here, `option` matches in option name in the first column in the table from the previous section.
-The `key` and `value` text are any values you'd like to provide for that option. As an example, to configure `globalProperties` to match the `--global-property models=User,Pet` example from our [Selective Generation](https://openapi-generator.tech/docs/customization#selective-generation) documentation, see below.
+The `key` and `value` text are any values you'd like to provide for that option. As an example, to configure `globalProperties` to match the `--global-property models=User:Pet` example from our [Selective Generation](https://openapi-generator.tech/docs/customization#selective-generation) documentation, see below.
 
 ```xml
 <configuration>
     <globalProperties>
-       <models>User,Pet</models>
+       <models>User:Pet</models>
     </globalProperties>
 </configuration>
 ```
@@ -131,7 +132,7 @@ Not that some of these environment variable options may overwrite or conflict wi
 ```xml
 <configuration>
     <generateModels>true</generateModels>
-    <modelsToGenerate>User,Pet</modelsToGenerate>
+    <modelsToGenerate>User:Pet</modelsToGenerate>
 </configuration>
 ```
 

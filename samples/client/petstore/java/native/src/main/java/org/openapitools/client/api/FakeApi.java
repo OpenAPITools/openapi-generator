@@ -37,13 +37,13 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
-import java.util.function.Consumer;
 
 import java.util.ArrayList;
 import java.util.StringJoiner;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Consumer;
 
 @javax.annotation.processing.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class FakeApi {
@@ -108,14 +108,23 @@ public class FakeApi {
       if (memberVarResponseInterceptor != null) {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
-      if (localVarResponse.statusCode()/ 100 != 2) {
-        throw getApiException("createXmlItem", localVarResponse);
-      }
-      return new ApiResponse<Void>(
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("createXmlItem", localVarResponse);
+        }
+        return new ApiResponse<Void>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
+          
           null
         );
+      } finally {
+        // Drain the InputStream
+        while (localVarResponse.body().read() != -1) {
+            // Ignore
+        }
+        localVarResponse.body().close();
+      }
     } catch (IOException e) {
       throw new ApiException(e);
     }
@@ -137,7 +146,7 @@ public class FakeApi {
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 
-    localVarRequestBuilder.header("Content-Type", "application/json");
+    localVarRequestBuilder.header("Content-Type", "application/xml");
     localVarRequestBuilder.header("Accept", "application/json");
 
     try {
@@ -182,14 +191,18 @@ public class FakeApi {
       if (memberVarResponseInterceptor != null) {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
-      if (localVarResponse.statusCode()/ 100 != 2) {
-        throw getApiException("fakeOuterBooleanSerialize", localVarResponse);
-      }
-      return new ApiResponse<Boolean>(
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("fakeOuterBooleanSerialize", localVarResponse);
+        }
+        return new ApiResponse<Boolean>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Boolean>() {})
+          memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Boolean>() {}) // closes the InputStream
+          
         );
+      } finally {
+      }
     } catch (IOException e) {
       throw new ApiException(e);
     }
@@ -208,7 +221,7 @@ public class FakeApi {
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 
     localVarRequestBuilder.header("Content-Type", "application/json");
-    localVarRequestBuilder.header("Accept", "application/json");
+    localVarRequestBuilder.header("Accept", "*/*");
 
     try {
       byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(body);
@@ -252,14 +265,18 @@ public class FakeApi {
       if (memberVarResponseInterceptor != null) {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
-      if (localVarResponse.statusCode()/ 100 != 2) {
-        throw getApiException("fakeOuterCompositeSerialize", localVarResponse);
-      }
-      return new ApiResponse<OuterComposite>(
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("fakeOuterCompositeSerialize", localVarResponse);
+        }
+        return new ApiResponse<OuterComposite>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<OuterComposite>() {})
+          memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<OuterComposite>() {}) // closes the InputStream
+          
         );
+      } finally {
+      }
     } catch (IOException e) {
       throw new ApiException(e);
     }
@@ -278,7 +295,7 @@ public class FakeApi {
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 
     localVarRequestBuilder.header("Content-Type", "application/json");
-    localVarRequestBuilder.header("Accept", "application/json");
+    localVarRequestBuilder.header("Accept", "*/*");
 
     try {
       byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(body);
@@ -322,14 +339,18 @@ public class FakeApi {
       if (memberVarResponseInterceptor != null) {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
-      if (localVarResponse.statusCode()/ 100 != 2) {
-        throw getApiException("fakeOuterNumberSerialize", localVarResponse);
-      }
-      return new ApiResponse<BigDecimal>(
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("fakeOuterNumberSerialize", localVarResponse);
+        }
+        return new ApiResponse<BigDecimal>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<BigDecimal>() {})
+          memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<BigDecimal>() {}) // closes the InputStream
+          
         );
+      } finally {
+      }
     } catch (IOException e) {
       throw new ApiException(e);
     }
@@ -348,7 +369,7 @@ public class FakeApi {
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 
     localVarRequestBuilder.header("Content-Type", "application/json");
-    localVarRequestBuilder.header("Accept", "application/json");
+    localVarRequestBuilder.header("Accept", "*/*");
 
     try {
       byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(body);
@@ -392,14 +413,18 @@ public class FakeApi {
       if (memberVarResponseInterceptor != null) {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
-      if (localVarResponse.statusCode()/ 100 != 2) {
-        throw getApiException("fakeOuterStringSerialize", localVarResponse);
-      }
-      return new ApiResponse<String>(
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("fakeOuterStringSerialize", localVarResponse);
+        }
+        return new ApiResponse<String>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<String>() {})
+          memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<String>() {}) // closes the InputStream
+          
         );
+      } finally {
+      }
     } catch (IOException e) {
       throw new ApiException(e);
     }
@@ -418,14 +443,9 @@ public class FakeApi {
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 
     localVarRequestBuilder.header("Content-Type", "application/json");
-    localVarRequestBuilder.header("Accept", "application/json");
+    localVarRequestBuilder.header("Accept", "*/*");
 
-    try {
-      byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(body);
-      localVarRequestBuilder.method("POST", HttpRequest.BodyPublishers.ofByteArray(localVarPostBody));
-    } catch (IOException e) {
-      throw new ApiException(e);
-    }
+    localVarRequestBuilder.method("POST", HttpRequest.BodyPublishers.ofString(body));
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
@@ -460,14 +480,23 @@ public class FakeApi {
       if (memberVarResponseInterceptor != null) {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
-      if (localVarResponse.statusCode()/ 100 != 2) {
-        throw getApiException("testBodyWithFileSchema", localVarResponse);
-      }
-      return new ApiResponse<Void>(
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("testBodyWithFileSchema", localVarResponse);
+        }
+        return new ApiResponse<Void>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
+          
           null
         );
+      } finally {
+        // Drain the InputStream
+        while (localVarResponse.body().read() != -1) {
+            // Ignore
+        }
+        localVarResponse.body().close();
+      }
     } catch (IOException e) {
       throw new ApiException(e);
     }
@@ -534,14 +563,23 @@ public class FakeApi {
       if (memberVarResponseInterceptor != null) {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
-      if (localVarResponse.statusCode()/ 100 != 2) {
-        throw getApiException("testBodyWithQueryParams", localVarResponse);
-      }
-      return new ApiResponse<Void>(
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("testBodyWithQueryParams", localVarResponse);
+        }
+        return new ApiResponse<Void>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
+          
           null
         );
+      } finally {
+        // Drain the InputStream
+        while (localVarResponse.body().read() != -1) {
+            // Ignore
+        }
+        localVarResponse.body().close();
+      }
     } catch (IOException e) {
       throw new ApiException(e);
     }
@@ -621,14 +659,18 @@ public class FakeApi {
       if (memberVarResponseInterceptor != null) {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
-      if (localVarResponse.statusCode()/ 100 != 2) {
-        throw getApiException("testClientModel", localVarResponse);
-      }
-      return new ApiResponse<Client>(
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("testClientModel", localVarResponse);
+        }
+        return new ApiResponse<Client>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Client>() {})
+          memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Client>() {}) // closes the InputStream
+          
         );
+      } finally {
+      }
     } catch (IOException e) {
       throw new ApiException(e);
     }
@@ -719,14 +761,23 @@ public class FakeApi {
       if (memberVarResponseInterceptor != null) {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
-      if (localVarResponse.statusCode()/ 100 != 2) {
-        throw getApiException("testEndpointParameters", localVarResponse);
-      }
-      return new ApiResponse<Void>(
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("testEndpointParameters", localVarResponse);
+        }
+        return new ApiResponse<Void>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
+          
           null
         );
+      } finally {
+        // Drain the InputStream
+        while (localVarResponse.body().read() != -1) {
+            // Ignore
+        }
+        localVarResponse.body().close();
+      }
     } catch (IOException e) {
       throw new ApiException(e);
     }
@@ -811,14 +862,23 @@ public class FakeApi {
       if (memberVarResponseInterceptor != null) {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
-      if (localVarResponse.statusCode()/ 100 != 2) {
-        throw getApiException("testEnumParameters", localVarResponse);
-      }
-      return new ApiResponse<Void>(
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("testEnumParameters", localVarResponse);
+        }
+        return new ApiResponse<Void>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
+          
           null
         );
+      } finally {
+        // Drain the InputStream
+        while (localVarResponse.body().read() != -1) {
+            // Ignore
+        }
+        localVarResponse.body().close();
+      }
     } catch (IOException e) {
       throw new ApiException(e);
     }
@@ -934,14 +994,23 @@ public class FakeApi {
       if (memberVarResponseInterceptor != null) {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
-      if (localVarResponse.statusCode()/ 100 != 2) {
-        throw getApiException("testGroupParameters", localVarResponse);
-      }
-      return new ApiResponse<Void>(
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("testGroupParameters", localVarResponse);
+        }
+        return new ApiResponse<Void>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
+          
           null
         );
+      } finally {
+        // Drain the InputStream
+        while (localVarResponse.body().read() != -1) {
+            // Ignore
+        }
+        localVarResponse.body().close();
+      }
     } catch (IOException e) {
       throw new ApiException(e);
     }
@@ -1103,14 +1172,23 @@ public class FakeApi {
       if (memberVarResponseInterceptor != null) {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
-      if (localVarResponse.statusCode()/ 100 != 2) {
-        throw getApiException("testInlineAdditionalProperties", localVarResponse);
-      }
-      return new ApiResponse<Void>(
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("testInlineAdditionalProperties", localVarResponse);
+        }
+        return new ApiResponse<Void>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
+          
           null
         );
+      } finally {
+        // Drain the InputStream
+        while (localVarResponse.body().read() != -1) {
+            // Ignore
+        }
+        localVarResponse.body().close();
+      }
     } catch (IOException e) {
       throw new ApiException(e);
     }
@@ -1177,14 +1255,23 @@ public class FakeApi {
       if (memberVarResponseInterceptor != null) {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
-      if (localVarResponse.statusCode()/ 100 != 2) {
-        throw getApiException("testJsonFormData", localVarResponse);
-      }
-      return new ApiResponse<Void>(
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("testJsonFormData", localVarResponse);
+        }
+        return new ApiResponse<Void>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
+          
           null
         );
+      } finally {
+        // Drain the InputStream
+        while (localVarResponse.body().read() != -1) {
+            // Ignore
+        }
+        localVarResponse.body().close();
+      }
     } catch (IOException e) {
       throw new ApiException(e);
     }
@@ -1255,14 +1342,23 @@ public class FakeApi {
       if (memberVarResponseInterceptor != null) {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
-      if (localVarResponse.statusCode()/ 100 != 2) {
-        throw getApiException("testQueryParameterCollectionFormat", localVarResponse);
-      }
-      return new ApiResponse<Void>(
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("testQueryParameterCollectionFormat", localVarResponse);
+        }
+        return new ApiResponse<Void>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
+          
           null
         );
+      } finally {
+        // Drain the InputStream
+        while (localVarResponse.body().read() != -1) {
+            // Ignore
+        }
+        localVarResponse.body().close();
+      }
     } catch (IOException e) {
       throw new ApiException(e);
     }

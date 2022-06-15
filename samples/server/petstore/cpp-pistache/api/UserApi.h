@@ -22,8 +22,8 @@
 #include <pistache/http.h>
 #include <pistache/router.h>
 #include <pistache/http_headers.h>
-#include <pistache/optional.h>
 
+#include <optional>
 #include <utility>
 
 #include "User.h"
@@ -85,7 +85,7 @@ private:
     /// 
     /// </remarks>
     /// <param name="body">List of user object</param>
-    virtual void create_users_with_array_input(const std::vector<User> &body, Pistache::Http::ResponseWriter &response) = 0;
+    virtual void create_users_with_array_input(const std::vector<org::openapitools::server::model::User> &body, Pistache::Http::ResponseWriter &response) = 0;
     /// <summary>
     /// Creates list of users with given input array
     /// </summary>
@@ -93,7 +93,7 @@ private:
     /// 
     /// </remarks>
     /// <param name="body">List of user object</param>
-    virtual void create_users_with_list_input(const std::vector<User> &body, Pistache::Http::ResponseWriter &response) = 0;
+    virtual void create_users_with_list_input(const std::vector<org::openapitools::server::model::User> &body, Pistache::Http::ResponseWriter &response) = 0;
     /// <summary>
     /// Delete user
     /// </summary>
@@ -118,7 +118,7 @@ private:
     /// </remarks>
     /// <param name="username">The user name for login</param>
     /// <param name="password">The password for login in clear text</param>
-    virtual void login_user(const Pistache::Optional<std::string> &username, const Pistache::Optional<std::string> &password, Pistache::Http::ResponseWriter &response) = 0;
+    virtual void login_user(const std::optional<std::string> &username, const std::optional<std::string> &password, Pistache::Http::ResponseWriter &response) = 0;
     /// <summary>
     /// Logs out current logged in user session
     /// </summary>

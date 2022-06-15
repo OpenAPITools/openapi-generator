@@ -218,7 +218,6 @@ public class MapTest  implements Serializable {
     return Objects.hash(mapMapOfString, mapOfEnumString, directMap, indirectMap);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

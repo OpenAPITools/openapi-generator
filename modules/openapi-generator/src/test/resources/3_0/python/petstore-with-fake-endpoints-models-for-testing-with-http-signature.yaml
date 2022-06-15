@@ -1348,6 +1348,40 @@ paths:
                         items:
                           type: string
                           nullable: true
+  /fake/TxRxAnyOfModel:
+    post:
+      tags:
+        - fake
+      operationId: txRxAnyOfModel
+      responses:
+        200:
+          description: TxRxAnyOfModel
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GmFruitNoProperties'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GmFruitNoProperties'
+  /fake/TxRxAllOfModel:
+    post:
+      tags:
+        - fake
+      operationId: txRxAllOfModel
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StreamOptions'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StreamOptions'
 servers:
   - url: 'http://{server}.swagger.io:{port}/v2'
     description: petstore server
@@ -2243,6 +2277,10 @@ components:
           type: string
       required:
         - className
+    GmFruitNoProperties:
+      anyOf:
+        - $ref: '#/components/schemas/apple'
+        - $ref: '#/components/schemas/banana'
     gmFruit:
       properties:
         color:
@@ -2474,3 +2512,40 @@ components:
       type: boolean
       enum:
         - true
+    FooObject:
+      type: object
+      properties:
+        prop1:
+          type: array
+          items:
+            type: object
+        prop2:
+          type: object
+    StreamOptions:
+      allOf:
+        - $ref: "#/components/schemas/EgressThresholdOptions"
+        - $ref: "#/components/schemas/PublishOptions"
+
+    EgressThresholdOptions:
+      type: object
+      properties:
+        egressThresholds:
+          type: object
+          additionalProperties:
+            type: number
+            minimum: 0
+            maximum: 1
+            example: 0.9
+
+    PublishOptions:
+      type: object
+      properties:
+        publish:
+          type : object
+          properties:
+            egressUnknownDetections:
+              type: boolean
+              example: true
+            filterZeroDetections:
+              type: boolean
+              example: true

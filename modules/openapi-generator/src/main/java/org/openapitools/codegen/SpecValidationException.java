@@ -129,6 +129,6 @@ public class SpecValidationException extends RuntimeException {
         });
 
         return super.getMessage() + " | " +
-                "Error count: " + errorCount + ", Warning count: " + warningCount + sb.toString();
+                "Error count: " + errorCount + ", Warning count: " + warningCount + sb;
     }
 }

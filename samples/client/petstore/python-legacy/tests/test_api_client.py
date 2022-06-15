@@ -96,6 +96,16 @@ class ApiClientTests(unittest.TestCase):
 
         content_types = []
         content_type = self.api_client.select_header_content_type(content_types)
+        self.assertEqual(content_type, None)
+
+        content_types = ['application/json-patch+json', 'application/json']
+        content_type = self.api_client.select_header_content_type(content_types,
+            'PATCH', [{ "op": "add", "path": "/myPath", "value": ["myValue"]}])
+        self.assertEqual(content_type, 'application/json-patch+json')
+
+        content_types = ['application/json-patch+json', 'application/json']
+        content_type = self.api_client.select_header_content_type(content_types,
+            'PATCH', {"value": ["myValue"]})
         self.assertEqual(content_type, 'application/json')
 
     def test_sanitize_for_serialization(self):

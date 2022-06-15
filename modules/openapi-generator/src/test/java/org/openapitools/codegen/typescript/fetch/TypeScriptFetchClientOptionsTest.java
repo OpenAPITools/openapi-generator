@@ -45,8 +45,9 @@ public class TypeScriptFetchClientOptionsTest extends AbstractOptionsTest {
         verify(clientCodegen).setParamNaming(TypeScriptFetchClientOptionsProvider.PARAM_NAMING_VALUE);
         verify(clientCodegen).setSupportsES6(TypeScriptFetchClientOptionsProvider.SUPPORTS_ES6_VALUE);
         verify(clientCodegen).setPrependFormOrBodyParameters(Boolean.valueOf(TypeScriptFetchClientOptionsProvider.PREPEND_FORM_OR_BODY_PARAMETERS_VALUE));
-        verify(clientCodegen).setTypescriptThreePlus(Boolean.valueOf(TypeScriptFetchClientOptionsProvider.TYPESCRIPT_THREE_PLUS));
         verify(clientCodegen).setWithoutRuntimeChecks(Boolean.valueOf(TypeScriptFetchClientOptionsProvider.WITHOUT_RUNTIME_CHECKS));
         verify(clientCodegen).setSagasAndRecords(Boolean.valueOf(TypeScriptFetchClientOptionsProvider.SAGAS_AND_RECORDS));
+        verify(clientCodegen).setEnumUnknownDefaultCase(Boolean.parseBoolean(TypeScriptFetchClientOptionsProvider.ENUM_UNKNOWN_DEFAULT_CASE_VALUE));
+        verify(clientCodegen).setStringEnums(Boolean.parseBoolean(TypeScriptFetchClientOptionsProvider.STRING_ENUMS));
     }
 }

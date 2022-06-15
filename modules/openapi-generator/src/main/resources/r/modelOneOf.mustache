@@ -1,0 +1,79 @@
+#' @docType class
+#' @title {{classname}}
+#'
+#' @description {{classname}} Class
+#'
+#' @format An \code{R6Class} generator object
+#'
+#' @importFrom R6 R6Class
+#' @importFrom jsonlite fromJSON toJSON
+#' @export
+{{classname}} <- R6::R6Class(
+  '{{classname}}',
+  public = list(
+    actual_instance = NULL,
+    actual_type = NULL,
+    one_of = list({{#oneOf}}"{{{.}}}"{{^-last}}, {{/-last}}{{/oneOf}}),
+    initialize = function(
+        {{#requiredVars}}`{{baseName}}`, {{/requiredVars}}{{#optionalVars}}`{{baseName}}`={{{defaultValue}}}{{^defaultValue}}NULL{{/defaultValue}}, {{/optionalVars}}...
+    ) {
+      local_optional_var <- list(...)
+    },
+    fromJSON = function(input) {
+      matched <- 0 # match counter
+      matched_schemas <- list() #names of matched schemas
+      error_messages <- list()
+      instance <- NULL
+
+      {{#oneOf}}
+      {{{.}}}_result <- tryCatch({
+          {{{.}}}$public_methods$validateJSON(input)
+          {{{.}}}_instance <- {{{.}}}$new()
+          instance <- {{{.}}}_instance$fromJSON(input)
+          instance_type <- "{{{.}}}"
+          matched_schemas <- append(matched_schemas, "{{{.}}}")
+          matched <- matched + 1
+        },
+        error = function(err) err
+      )
+
+      if (!is.null({{{.}}}_result['error'])) {
+        error_messages <- append(error_messages, {{{.}}}_result['message'])
+      }
+
+      {{/oneOf}}
+      if (matched == 1) {
+        # successfully match exactly 1 schema specified in oneOf
+        self$actual_instance <- instance
+        self$actual_type <- instance_type
+      } else if (matched > 1) {
+        # more than 1 match
+        stop("Multiple matches found when deserializing the payload into {{{classname}}} with oneOf schemas {{#oneOf}}{{{.}}}{{^-last}}, {{/-last}}{{/oneOf}}. ")
+      } else {
+        # no match
+        stop(paste("No match found when deserializing the payload into {{{classname}}} with oneOf schemas {{#oneOf}}{{{.}}}{{^-last}}, {{/-last}}{{/oneOf}}. Details: ", paste(error_messages, collapse = ', ')))
+      }
+
+      self
+    },
+    toJSON = function() {
+      if (!is.null(self$actual_instance)) {
+        self$actual_instance$toJSONString()
+      } else {
+        NULL
+      }
+    },
+    validateJSON = function(input) {
+      # backup current values
+      actual_instance_bak <- self$actual_instance
+      actual_type_bak <- self$actual_type
+
+      # if it's not valid, an error will be thrown
+      self$fromJSON(input)
+
+      # no error thrown, restore old values
+      self$actual_instance <- actual_instance_bak
+      self$actual_type <- actual_type_bak
+    }
+  )
+)

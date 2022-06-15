@@ -32,6 +32,7 @@ router = APIRouter()
     },
     tags=["pet"],
     summary="Add a new pet to the store",
+    response_model_by_alias=True,
 )
 async def add_pet(
     pet: Pet = Body(None, description="Pet object that needs to be added to the store"),
@@ -39,6 +40,7 @@ async def add_pet(
         get_token_petstore_auth, scopes=["write:pets", "read:pets"]
     ),
 ) -> Pet:
+    """"""
     ...
 
 
@@ -49,6 +51,7 @@ async def add_pet(
     },
     tags=["pet"],
     summary="Deletes a pet",
+    response_model_by_alias=True,
 )
 async def delete_pet(
     petId: int = Path(None, description="Pet id to delete"),
@@ -57,6 +60,7 @@ async def delete_pet(
         get_token_petstore_auth, scopes=["write:pets", "read:pets"]
     ),
 ) -> None:
+    """"""
     ...
 
 
@@ -68,6 +72,7 @@ async def delete_pet(
     },
     tags=["pet"],
     summary="Finds Pets by status",
+    response_model_by_alias=True,
 )
 async def find_pets_by_status(
     status: List[str] = Query(None, description="Status values that need to be considered for filter"),
@@ -87,6 +92,7 @@ async def find_pets_by_status(
     },
     tags=["pet"],
     summary="Finds Pets by tags",
+    response_model_by_alias=True,
 )
 async def find_pets_by_tags(
     tags: List[str] = Query(None, description="Tags to filter by"),
@@ -107,6 +113,7 @@ async def find_pets_by_tags(
     },
     tags=["pet"],
     summary="Find pet by ID",
+    response_model_by_alias=True,
 )
 async def get_pet_by_id(
     petId: int = Path(None, description="ID of pet to return"),
@@ -128,6 +135,7 @@ async def get_pet_by_id(
     },
     tags=["pet"],
     summary="Update an existing pet",
+    response_model_by_alias=True,
 )
 async def update_pet(
     pet: Pet = Body(None, description="Pet object that needs to be added to the store"),
@@ -135,6 +143,7 @@ async def update_pet(
         get_token_petstore_auth, scopes=["write:pets", "read:pets"]
     ),
 ) -> Pet:
+    """"""
     ...
 
 
@@ -145,6 +154,7 @@ async def update_pet(
     },
     tags=["pet"],
     summary="Updates a pet in the store with form data",
+    response_model_by_alias=True,
 )
 async def update_pet_with_form(
     petId: int = Path(None, description="ID of pet that needs to be updated"),
@@ -154,6 +164,7 @@ async def update_pet_with_form(
         get_token_petstore_auth, scopes=["write:pets", "read:pets"]
     ),
 ) -> None:
+    """"""
     ...
 
 
@@ -164,6 +175,7 @@ async def update_pet_with_form(
     },
     tags=["pet"],
     summary="uploads an image",
+    response_model_by_alias=True,
 )
 async def upload_file(
     petId: int = Path(None, description="ID of pet to update"),
@@ -173,4 +185,5 @@ async def upload_file(
         get_token_petstore_auth, scopes=["write:pets", "read:pets"]
     ),
 ) -> ApiResponse:
+    """"""
     ...

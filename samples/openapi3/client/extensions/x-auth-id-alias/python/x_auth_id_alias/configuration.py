@@ -199,6 +199,9 @@ conf = x_auth_id_alias.Configuration(
         self.proxy = None
         """Proxy URL
         """
+        self.no_proxy = None
+        """bypass proxy for host in the no_proxy list.
+        """
         self.proxy_headers = None
         """Proxy headers
         """
@@ -437,7 +440,7 @@ conf = x_auth_id_alias.Configuration(
                             "qa-petstore",
                             "dev-petstore"
                         ]
-                        },
+                    },
                     'port': {
                         'description': "No description provided",
                         'default_value': "80",
@@ -445,8 +448,8 @@ conf = x_auth_id_alias.Configuration(
                             "80",
                             "8080"
                         ]
-                        }
                     }
+                }
             },
             {
                 'url': "https://localhost:8080/{version}",
@@ -459,8 +462,8 @@ conf = x_auth_id_alias.Configuration(
                             "v1",
                             "v2"
                         ]
-                        }
                     }
+                }
             }
         ]
 

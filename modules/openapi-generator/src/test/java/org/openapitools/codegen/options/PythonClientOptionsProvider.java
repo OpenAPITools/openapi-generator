@@ -32,6 +32,7 @@ public class PythonClientOptionsProvider implements OptionsProvider {
     public static final String RECURSION_LIMIT = "1200";
     public static final String DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT = "false";
     public static final String PYTHON_ATTR_NONE_IF_UNSET = "false";
+    public static final String INIT_REQUIRED_VARS = "false";
 
     @Override
     public String getLanguage() {
@@ -52,6 +53,7 @@ public class PythonClientOptionsProvider implements OptionsProvider {
                 .put(PythonClientCodegen.USE_NOSE, USE_NOSE_VALUE)
                 .put(PythonClientCodegen.RECURSION_LIMIT, RECURSION_LIMIT)
                 .put(PythonClientCodegen.PYTHON_ATTR_NONE_IF_UNSET, PYTHON_ATTR_NONE_IF_UNSET)
+                .put(CodegenConstants.INIT_REQUIRED_VARS, INIT_REQUIRED_VARS)
                 .build();
     }
 

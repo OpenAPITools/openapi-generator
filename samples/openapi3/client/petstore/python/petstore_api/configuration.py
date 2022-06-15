@@ -262,6 +262,9 @@ conf = petstore_api.Configuration(
         self.proxy = None
         """Proxy URL
         """
+        self.no_proxy = None
+        """bypass proxy for host in the no_proxy list.
+        """
         self.proxy_headers = None
         """Proxy headers
         """
@@ -532,7 +535,7 @@ conf = petstore_api.Configuration(
                             "qa-petstore",
                             "dev-petstore"
                         ]
-                        },
+                    },
                     'port': {
                         'description': "No description provided",
                         'default_value': "80",
@@ -540,8 +543,8 @@ conf = petstore_api.Configuration(
                             "80",
                             "8080"
                         ]
-                        }
                     }
+                }
             },
             {
                 'url': "https://localhost:8080/{version}",
@@ -554,8 +557,8 @@ conf = petstore_api.Configuration(
                             "v1",
                             "v2"
                         ]
-                        }
                     }
+                }
             }
         ]
 

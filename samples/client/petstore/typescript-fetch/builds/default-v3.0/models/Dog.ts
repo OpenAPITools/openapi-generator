@@ -18,11 +18,13 @@ import {
     AnimalFromJSON,
     AnimalFromJSONTyped,
     AnimalToJSON,
+} from './Animal';
+import {
     DogAllOf,
     DogAllOfFromJSON,
     DogAllOfFromJSONTyped,
     DogAllOfToJSON,
-} from './';
+} from './DogAllOf';
 
 /**
  * 
@@ -36,6 +38,15 @@ export interface Dog extends Animal {
      * @memberof Dog
      */
     breed?: string;
+}
+
+/**
+ * Check if a given object implements the Dog interface.
+ */
+export function instanceOfDog(value: object): boolean {
+    let isInstance = true;
+
+    return isInstance;
 }
 
 export function DogFromJSON(json: any): Dog {

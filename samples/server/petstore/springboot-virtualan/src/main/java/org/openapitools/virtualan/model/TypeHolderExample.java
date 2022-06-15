@@ -1,22 +1,29 @@
 package org.openapitools.virtualan.model;
 
+import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import org.openapitools.jackson.nullable.JsonNullable;
+import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
+
+
+import java.util.*;
+import javax.annotation.Generated;
 
 /**
  * TypeHolderExample
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class TypeHolderExample   {
+
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+public class TypeHolderExample {
+
   @JsonProperty("string_item")
   private String stringItem;
 
@@ -45,10 +52,8 @@ public class TypeHolderExample   {
    * Get stringItem
    * @return stringItem
   */
-  @ApiModelProperty(example = "what", required = true, value = "")
-  @NotNull
-
-
+  @NotNull 
+  @Schema(name = "string_item", example = "what", required = true)
   public String getStringItem() {
     return stringItem;
   }
@@ -66,11 +71,8 @@ public class TypeHolderExample   {
    * Get numberItem
    * @return numberItem
   */
-  @ApiModelProperty(example = "1.234", required = true, value = "")
-  @NotNull
-
-  @Valid
-
+  @NotNull @Valid 
+  @Schema(name = "number_item", example = "1.234", required = true)
   public BigDecimal getNumberItem() {
     return numberItem;
   }
@@ -88,10 +90,8 @@ public class TypeHolderExample   {
    * Get floatItem
    * @return floatItem
   */
-  @ApiModelProperty(example = "1.234", required = true, value = "")
-  @NotNull
-
-
+  @NotNull 
+  @Schema(name = "float_item", example = "1.234", required = true)
   public Float getFloatItem() {
     return floatItem;
   }
@@ -109,10 +109,8 @@ public class TypeHolderExample   {
    * Get integerItem
    * @return integerItem
   */
-  @ApiModelProperty(example = "-2", required = true, value = "")
-  @NotNull
-
-
+  @NotNull 
+  @Schema(name = "integer_item", example = "-2", required = true)
   public Integer getIntegerItem() {
     return integerItem;
   }
@@ -130,10 +128,8 @@ public class TypeHolderExample   {
    * Get boolItem
    * @return boolItem
   */
-  @ApiModelProperty(example = "true", required = true, value = "")
-  @NotNull
-
-
+  @NotNull 
+  @Schema(name = "bool_item", example = "true", required = true)
   public Boolean getBoolItem() {
     return boolItem;
   }
@@ -156,10 +152,8 @@ public class TypeHolderExample   {
    * Get arrayItem
    * @return arrayItem
   */
-  @ApiModelProperty(example = "[0, 1, 2, 3]", required = true, value = "")
-  @NotNull
-
-
+  @NotNull 
+  @Schema(name = "array_item", example = "[0, 1, 2, 3]", required = true)
   public List<Integer> getArrayItem() {
     return arrayItem;
   }
@@ -167,7 +161,6 @@ public class TypeHolderExample   {
   public void setArrayItem(List<Integer> arrayItem) {
     this.arrayItem = arrayItem;
   }
-
 
   @Override
   public boolean equals(Object o) {
@@ -195,7 +188,6 @@ public class TypeHolderExample   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class TypeHolderExample {\n");
-    
     sb.append("    stringItem: ").append(toIndentedString(stringItem)).append("\n");
     sb.append("    numberItem: ").append(toIndentedString(numberItem)).append("\n");
     sb.append("    floatItem: ").append(toIndentedString(floatItem)).append("\n");

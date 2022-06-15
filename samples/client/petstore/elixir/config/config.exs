@@ -21,6 +21,8 @@ use Mix.Config
 #     config :logger, level: :info
 #
 
+config :open_api_petstore, base_url: "http://petstore.swagger.io:80/v2"
+
 # It is also possible to import configuration files, relative to this
 # directory. For example, you can emulate configuration per environment
 # by uncommenting the line below and defining dev.exs, test.exs and such.

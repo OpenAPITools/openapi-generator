@@ -6,7 +6,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	sw "./go-petstore"
+	sw "go-petstore"
 )
 
 func TestCreateUser(t *testing.T) {
@@ -33,7 +33,7 @@ func TestCreateUser(t *testing.T) {
 //adding x to skip the test, currently it is failing
 func TestCreateUsersWithArrayInput(t *testing.T) {
 	newUsers := []sw.User{
-		sw.User{
+		{
 			Id:         sw.PtrInt64(1001),
 			FirstName:  sw.PtrString("gopher1"),
 			LastName:   sw.PtrString("lang1"),
@@ -43,7 +43,7 @@ func TestCreateUsersWithArrayInput(t *testing.T) {
 			Phone:      sw.PtrString("5101112222"),
 			UserStatus: sw.PtrInt32(1),
 		},
-		sw.User{
+		{
 			Id:         sw.PtrInt64(1002),
 			FirstName:  sw.PtrString("gopher2"),
 			LastName:   sw.PtrString("lang2"),
@@ -63,7 +63,7 @@ func TestCreateUsersWithArrayInput(t *testing.T) {
 		t.Log(apiResponse)
 	}
 
-/* issue deleting users due to issue in the server side (500). commented out below for the time being
+	/* issue deleting users due to issue in the server side (500). commented out below for the time being
 	//tear down
 	_, err1 := client.UserApi.DeleteUser(context.Background(), "gopher1").Execute()
 	if err1 != nil {
@@ -76,7 +76,7 @@ func TestCreateUsersWithArrayInput(t *testing.T) {
 		t.Errorf("Error while deleting user")
 		t.Log(err2)
 	}
-*/
+	*/
 }
 
 func TestGetUserByName(t *testing.T) {

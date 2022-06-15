@@ -27,6 +27,15 @@ export interface CatAllOf {
     declawed?: boolean;
 }
 
+/**
+ * Check if a given object implements the CatAllOf interface.
+ */
+export function instanceOfCatAllOf(value: object): boolean {
+    let isInstance = true;
+
+    return isInstance;
+}
+
 export function CatAllOfFromJSON(json: any): CatAllOf {
     return CatAllOfFromJSONTyped(json, false);
 }

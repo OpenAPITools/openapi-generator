@@ -28,6 +28,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.util.NoSuchElementException;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
  * ByteArrayObject
@@ -39,7 +40,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   ByteArrayObject.JSON_PROPERTY_STRING_FIELD,
   ByteArrayObject.JSON_PROPERTY_INT_FIELD
 })
-@JsonTypeName("ByteArrayObject")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ByteArrayObject {
   public static final String JSON_PROPERTY_NULLABLE_ARRAY = "nullableArray";
@@ -57,6 +57,8 @@ public class ByteArrayObject {
   public static final String JSON_PROPERTY_INT_FIELD = "intField";
   private BigDecimal intField;
 
+  public ByteArrayObject() { 
+  }
 
   public ByteArrayObject nullableArray(byte[] nullableArray) {
     this.nullableArray = JsonNullable.<byte[]>of(nullableArray);

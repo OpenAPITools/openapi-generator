@@ -11,12 +11,15 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
  * Model for testing model name same as property name
  **/
 @ApiModel(description = "Model for testing model name same as property name")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class Name  implements Serializable {
+@JsonTypeName("Name")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+public class Name  implements Serializable {
   
   private @Valid Integer name;
   private @Valid Integer snakeCase;
@@ -31,8 +34,6 @@ import com.fasterxml.jackson.annotation.JsonValue;
   }
 
   
-
-  
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("name")
   @NotNull
@@ -40,6 +41,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return name;
   }
 
+  @JsonProperty("name")
   public void setName(Integer name) {
     this.name = name;
   }
@@ -52,14 +54,13 @@ import com.fasterxml.jackson.annotation.JsonValue;
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("snake_case")
   public Integer getSnakeCase() {
     return snakeCase;
   }
 
+  @JsonProperty("snake_case")
   public void setSnakeCase(Integer snakeCase) {
     this.snakeCase = snakeCase;
   }
@@ -72,14 +73,13 @@ import com.fasterxml.jackson.annotation.JsonValue;
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("property")
   public String getProperty() {
     return property;
   }
 
+  @JsonProperty("property")
   public void setProperty(String property) {
     this.property = property;
   }
@@ -92,14 +92,13 @@ import com.fasterxml.jackson.annotation.JsonValue;
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("123Number")
   public Integer get123number() {
     return _123number;
   }
 
+  @JsonProperty("123Number")
   public void set123number(Integer _123number) {
     this._123number = _123number;
   }

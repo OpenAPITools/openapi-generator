@@ -11,6 +11,6 @@ Pod::Spec.new do |s|
   s.homepage = 'https://github.com/openapitools/openapi-generator'
   s.summary = 'PetstoreClient'
   s.source_files = 'PetstoreClient/Classes/**/*.swift'
-  s.dependency 'RxSwift', '~> 6.2.0'
   s.dependency 'AnyCodable-FlightSchool', '~> 0.6.1'
+  s.dependency 'RxSwift', '~> 6.2.0'
 end

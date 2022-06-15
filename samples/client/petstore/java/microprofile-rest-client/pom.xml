@@ -12,7 +12,7 @@
       <plugin>
         <groupId>org.jboss.jandex</groupId>
         <artifactId>jandex-maven-plugin</artifactId>
-        <version>1.1.0</version>
+        <version>${jandex.maven.plugin.version}</version>
         <executions>
           <execution>
             <id>make-index</id>
@@ -24,7 +24,7 @@
       </plugin>
       <plugin>
         <artifactId>maven-failsafe-plugin</artifactId>
-        <version>2.6</version>
+        <version>${maven.failsafe.plugin.version}</version>
         <executions>
           <execution>
             <goals>
@@ -37,7 +37,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
-        <version>1.9.1</version>
+        <version>${build.helper.maven.plugin.version}</version>
         <executions>
           <execution>
             <id>add-source</id>
@@ -59,82 +59,81 @@
    <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>${junit-version}</version>
+      <version>${junit.version}</version>
       <scope>test</scope>
     </dependency>
     <!-- Eclipse MicroProfile Rest Client -->
     <dependency>
       <groupId>org.eclipse.microprofile.rest.client</groupId>
       <artifactId>microprofile-rest-client-api</artifactId>
-      <version>1.2.1</version>
+      <version>${microprofile.rest.client.api.version}</version>
     </dependency>
 
     <!-- JAX-RS -->
     <dependency>
-        <groupId>javax.ws.rs</groupId>
-        <artifactId>javax.ws.rs-api</artifactId>
-        <version>2.1.1</version>
+        <groupId>jakarta.ws.rs</groupId>
+        <artifactId>jakarta.ws.rs-api</artifactId>
+        <version>${jakarta.ws.rs.version}</version>
         <scope>provided</scope>
     </dependency>
 
     <dependency>
       <groupId>io.smallrye</groupId>
       <artifactId>smallrye-rest-client</artifactId>
-      <version>1.2.1</version>
+      <version>${smallrye.rest.client.version}</version>
       <scope>test</scope>
     </dependency>
 
     <dependency>
       <groupId>io.smallrye</groupId>
       <artifactId>smallrye-config</artifactId>
-      <version>1.3.5</version>
+      <version>${smallrye.config.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
         <groupId>org.apache.cxf</groupId>
         <artifactId>cxf-rt-rs-extension-providers</artifactId>
-        <version>3.2.6</version>
+        <version>${cxf.rt.rs.extension.providers.version}</version>
     </dependency>
     <dependency>
-      <groupId>javax.json.bind</groupId>
-      <artifactId>javax.json.bind-api</artifactId>
-      <version>1.0</version>
+      <groupId>jakarta.json.bind</groupId>
+      <artifactId>jakarta.json.bind-api</artifactId>
+      <version>${jakarta.json.bind.version}</version>
     </dependency>
     <dependency>
-        <groupId>javax.json</groupId>
-        <artifactId>javax.json-api</artifactId>
-        <version>1.1.4</version>
+        <groupId>jakarta.json</groupId>
+        <artifactId>jakarta.json-api</artifactId>
+        <version>${jakarta.json.version}</version>
     </dependency>
     <dependency>
-        <groupId>javax.xml.bind</groupId>
-        <artifactId>jaxb-api</artifactId>
-        <version>2.2.11</version>
+        <groupId>jakarta.xml.bind</groupId>
+        <artifactId>jakarta.xml.bind-api</artifactId>
+        <version>${jakarta.xml.bind.version}</version>
     </dependency>
     <dependency>
         <groupId>com.sun.xml.bind</groupId>
         <artifactId>jaxb-core</artifactId>
-        <version>2.2.11</version>
+        <version>${jaxb.core.version}</version>
     </dependency>
     <dependency>
         <groupId>com.sun.xml.bind</groupId>
         <artifactId>jaxb-impl</artifactId>
-        <version>2.2.11</version>
+        <version>${jaxb.impl.version}</version>
     </dependency>
     <dependency>
-        <groupId>javax.activation</groupId>
-        <artifactId>activation</artifactId>
-        <version>1.1.1</version>
+        <groupId>jakarta.activation</groupId>
+        <artifactId>jakarta.activation-api</artifactId>
+        <version>${jakarta.activation.version}</version>
     </dependency>
-
     <dependency>
         <groupId>com.fasterxml.jackson.datatype</groupId>
-        <artifactId>jackson-datatype-joda</artifactId>
-        <version>${jackson-jaxrs-version}</version>
+        <artifactId>jackson-datatype-jsr310</artifactId>
+        <version>${jackson.jaxrs.version}</version>
     </dependency>
     <dependency>
-        <groupId>javax.annotation</groupId>
-        <artifactId>javax.annotation-api</artifactId>
-        <version>${javax-annotation-version}</version>
+        <groupId>jakarta.annotation</groupId>
+        <artifactId>jakarta.annotation-api</artifactId>
+        <version>${jakarta.annotation.version}</version>
         <scope>provided</scope>
     </dependency>
   </dependencies>
@@ -151,14 +150,28 @@
     <java.version>1.8</java.version>
     <maven.compiler.source>${java.version}</maven.compiler.source>
     <maven.compiler.target>${java.version}</maven.compiler.target>
-    <swagger-core-version>1.5.18</swagger-core-version>
-    <jetty-version>9.2.9.v20150224</jetty-version>
-    <junit-version>4.13.1</junit-version>
-    <logback-version>1.2.0</logback-version>
-    <servlet-api-version>2.5</servlet-api-version>
-    <cxf-version>3.2.7</cxf-version>
-    <jackson-jaxrs-version>2.9.7</jackson-jaxrs-version>
-    <javax-annotation-version>1.3.2</javax-annotation-version>
+    <swagger.core.version>1.5.18</swagger.core.version>
+    <jetty.version>9.2.9.v20150224</jetty.version>
+    <junit.version>4.13.2</junit.version>
+    <logback.version>1.2.10</logback.version>
+    <cxf.version>3.2.7</cxf.version>
+    <jackson.jaxrs.version>2.9.7</jackson.jaxrs.version>
+    <jakarta.activation.version>1.2.2</jakarta.activation.version>
+    <jakarta.annotation.version>1.3.5</jakarta.annotation.version>
+    <jakarta.json.bind.version>1.0.2</jakarta.json.bind.version>
+    <jakarta.json.version>1.1.6</jakarta.json.version>
+    <jakarta.ws.rs.version>2.1.6</jakarta.ws.rs.version>
+    <jakarta.xml.bind.version>2.3.3</jakarta.xml.bind.version>
+    <microprofile.rest.client.api.version>2.0</microprofile.rest.client.api.version>
+    <smallrye.rest.client.version>1.2.1</smallrye.rest.client.version>
+    <smallrye.config.version>1.3.5</smallrye.config.version>
+    <cxf.rt.rs.extension.providers.version>3.2.6</cxf.rt.rs.extension.providers.version>
+    <jaxb.core.version>2.2.11</jaxb.core.version>
+    <jaxb.impl.version>2.2.11</jaxb.impl.version>
+    <hibernate.validator.version>5.2.2.Final</hibernate.validator.version>
+    <jandex.maven.plugin.version>1.1.0</jandex.maven.plugin.version>
+    <maven.failsafe.plugin.version>2.6</maven.failsafe.plugin.version>
+    <build.helper.maven.plugin.version>1.9.1</build.helper.maven.plugin.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 </project>

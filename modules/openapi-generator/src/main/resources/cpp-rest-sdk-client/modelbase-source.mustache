@@ -1,5 +1,5 @@
 {{>licenseInfo}}
-#include "ModelBase.h"
+#include "{{packageName}}/ModelBase.h"
 
 {{#modelNamespaceDeclarations}}
 namespace {{this}} {
@@ -111,6 +111,15 @@ web::json::value ModelBase::toJson( const std::shared_ptr<HttpContent>& content 
         value[utility::conversions::to_string_t("InputStream")] = web::json::value::string( ModelBase::toBase64(content->getData()) );
     }
     return value;
+}
+web::json::value ModelBase::toJson( const std::shared_ptr<utility::datetime>& val )
+{
+    web::json::value retVal;
+    if(val != nullptr)
+    {
+        retVal = toJson(*val);
+    }
+    return retVal;
 }
 bool ModelBase::fromString( const utility::string_t& val, bool &outVal )
 {
@@ -242,6 +251,19 @@ bool ModelBase::fromString( const utility::string_t& val, std::shared_ptr<HttpCo
     }
     return ok;
 }
+bool ModelBase::fromString( const utility::string_t& val, std::shared_ptr<utility::datetime>& outVal )
+{
+    bool ok = false;
+    if(outVal == nullptr)
+    {
+        outVal = std::shared_ptr<utility::datetime>(new utility::datetime());
+    }
+    if( outVal != nullptr )
+    {
+        ok = fromJson(web::json::value::parse(val), *outVal);
+    }
+    return ok;
+}
 bool ModelBase::fromJson( const web::json::value& val, bool & outVal )
 {
     outVal = !val.is_boolean() ? false : val.as_bool();
@@ -264,7 +286,7 @@ bool ModelBase::fromJson( const web::json::value& val, int32_t & outVal )
 }
 bool ModelBase::fromJson( const web::json::value& val, int64_t & outVal )
 {
-    outVal = !val.is_null() ? std::numeric_limits<int64_t>::quiet_NaN() : val.as_number().to_int64();
+    outVal = !val.is_number() ? std::numeric_limits<int64_t>::quiet_NaN() : val.as_number().to_int64();
     return val.is_number();
 }
 bool ModelBase::fromJson( const web::json::value& val, utility::string_t & outVal )
@@ -318,6 +340,19 @@ bool ModelBase::fromJson( const web::json::value& val, std::shared_ptr<HttpConte
         }
     }
     return result;
+}
+bool ModelBase::fromJson( const web::json::value& val, std::shared_ptr<utility::datetime> &outVal )
+{
+    bool ok = false;
+    if(outVal == nullptr)
+    {
+        outVal = std::shared_ptr<utility::datetime>(new utility::datetime());
+    }
+    if( outVal != nullptr )
+    {
+        ok = fromJson(val, *outVal);
+    }
+    return ok;
 }
 std::shared_ptr<HttpContent> ModelBase::toHttpContent( const utility::string_t& name, bool value, const utility::string_t& contentType )
 {
@@ -411,6 +446,18 @@ std::shared_ptr<HttpContent> ModelBase::toHttpContent( const utility::string_t& 
         content->setContentType( value->getContentType() );
         content->setData( value->getData() );
         content->setFileName( value->getFileName() );
+    }
+    return content;
+}
+std::shared_ptr<HttpContent> ModelBase::toHttpContent(const utility::string_t& name, const std::shared_ptr<utility::datetime>& value , const utility::string_t& contentType )
+{
+    std::shared_ptr<HttpContent> content( new HttpContent );
+    if (value != nullptr )
+    {
+        content->setName( name );
+        content->setContentDisposition( utility::conversions::to_string_t("form-data") );
+        content->setContentType( contentType );
+        content->setData( std::shared_ptr<std::istream>( new std::stringstream( utility::conversions::to_utf8string( toJson(*value).serialize() ) ) ) );
     }
     return content;
 }

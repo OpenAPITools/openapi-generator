@@ -24,7 +24,7 @@ export class Order {
     * Order Status
     */
     'status'?: Order.StatusEnum;
-    'complete'?: boolean;
+    'complete'?: boolean = false;
 
     static discriminator: string | undefined = undefined;
 

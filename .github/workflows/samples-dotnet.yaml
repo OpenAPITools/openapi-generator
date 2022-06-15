@@ -1,0 +1,34 @@
+name: Samples C# .Net 6
+
+on:
+  push:
+    paths:
+      - 'samples/client/petstore/csharp-netcore/**net6.0**/'
+      - 'samples/server/petstore/aspnetcore-6.0/**'
+  pull_request:
+    paths:
+      - 'samples/client/petstore/csharp-netcore/**net6.0**/'
+      - 'samples/server/petstore/aspnetcore-6.0/**'
+jobs:
+  build:
+    name: Build .Net projects
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        sample:
+          # clients
+          - samples/client/petstore/csharp-netcore/OpenAPIClient-generichost-net6.0
+          - samples/client/petstore/csharp-netcore/OpenAPIClient-generichost-net6.0-nrt
+          - samples/server/petstore/aspnetcore-6.0
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: '6.0.x'
+      - name: Build
+        working-directory: ${{ matrix.sample }}
+        run: dotnet build Org.OpenAPITools.sln
+      - name: Test
+        working-directory: ${{ matrix.sample }}
+        run: dotnet test Org.OpenAPITools.sln

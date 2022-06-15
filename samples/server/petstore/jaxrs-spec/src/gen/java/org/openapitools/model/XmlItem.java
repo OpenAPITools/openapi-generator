@@ -14,40 +14,49 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class XmlItem  implements Serializable {
+@JsonTypeName("XmlItem")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+public class XmlItem  implements Serializable {
   
   private @Valid String attributeString;
   private @Valid BigDecimal attributeNumber;
   private @Valid Integer attributeInteger;
   private @Valid Boolean attributeBoolean;
-  private @Valid List<Integer> wrappedArray = new ArrayList<Integer>();
+  private @Valid List<Integer> wrappedArray = new ArrayList<>();
   private @Valid String nameString;
   private @Valid BigDecimal nameNumber;
   private @Valid Integer nameInteger;
   private @Valid Boolean nameBoolean;
-  private @Valid List<Integer> nameArray = new ArrayList<Integer>();
-  private @Valid List<Integer> nameWrappedArray = new ArrayList<Integer>();
+  private @Valid List<Integer> nameArray = new ArrayList<>();
+  private @Valid List<Integer> nameWrappedArray = new ArrayList<>();
   private @Valid String prefixString;
   private @Valid BigDecimal prefixNumber;
   private @Valid Integer prefixInteger;
   private @Valid Boolean prefixBoolean;
-  private @Valid List<Integer> prefixArray = new ArrayList<Integer>();
-  private @Valid List<Integer> prefixWrappedArray = new ArrayList<Integer>();
+  private @Valid List<Integer> prefixArray = new ArrayList<>();
+  private @Valid List<Integer> prefixWrappedArray = new ArrayList<>();
   private @Valid String namespaceString;
   private @Valid BigDecimal namespaceNumber;
   private @Valid Integer namespaceInteger;
   private @Valid Boolean namespaceBoolean;
-  private @Valid List<Integer> namespaceArray = new ArrayList<Integer>();
-  private @Valid List<Integer> namespaceWrappedArray = new ArrayList<Integer>();
+  private @Valid List<Integer> namespaceArray = new ArrayList<>();
+  private @Valid List<Integer> namespaceWrappedArray = new ArrayList<>();
   private @Valid String prefixNsString;
   private @Valid BigDecimal prefixNsNumber;
   private @Valid Integer prefixNsInteger;
   private @Valid Boolean prefixNsBoolean;
-  private @Valid List<Integer> prefixNsArray = new ArrayList<Integer>();
-  private @Valid List<Integer> prefixNsWrappedArray = new ArrayList<Integer>();
+  private @Valid List<Integer> prefixNsArray = new ArrayList<>();
+  private @Valid List<Integer> prefixNsWrappedArray = new ArrayList<>();
+
+  protected XmlItem(XmlItemBuilder<?, ?> b) {
+  this.attributeString = b.attributeString;this.attributeNumber = b.attributeNumber;this.attributeInteger = b.attributeInteger;this.attributeBoolean = b.attributeBoolean;this.wrappedArray = b.wrappedArray;this.nameString = b.nameString;this.nameNumber = b.nameNumber;this.nameInteger = b.nameInteger;this.nameBoolean = b.nameBoolean;this.nameArray = b.nameArray;this.nameWrappedArray = b.nameWrappedArray;this.prefixString = b.prefixString;this.prefixNumber = b.prefixNumber;this.prefixInteger = b.prefixInteger;this.prefixBoolean = b.prefixBoolean;this.prefixArray = b.prefixArray;this.prefixWrappedArray = b.prefixWrappedArray;this.namespaceString = b.namespaceString;this.namespaceNumber = b.namespaceNumber;this.namespaceInteger = b.namespaceInteger;this.namespaceBoolean = b.namespaceBoolean;this.namespaceArray = b.namespaceArray;this.namespaceWrappedArray = b.namespaceWrappedArray;this.prefixNsString = b.prefixNsString;this.prefixNsNumber = b.prefixNsNumber;this.prefixNsInteger = b.prefixNsInteger;this.prefixNsBoolean = b.prefixNsBoolean;this.prefixNsArray = b.prefixNsArray;this.prefixNsWrappedArray = b.prefixNsWrappedArray;
+  }
+
+  public XmlItem() { }
 
   /**
    **/
@@ -57,14 +66,13 @@ import com.fasterxml.jackson.annotation.JsonValue;
   }
 
   
-
-  
   @ApiModelProperty(example = "string", value = "")
   @JsonProperty("attribute_string")
   public String getAttributeString() {
     return attributeString;
   }
 
+  @JsonProperty("attribute_string")
   public void setAttributeString(String attributeString) {
     this.attributeString = attributeString;
   }
@@ -77,14 +85,13 @@ import com.fasterxml.jackson.annotation.JsonValue;
   }
 
   
-
-  
   @ApiModelProperty(example = "1.234", value = "")
   @JsonProperty("attribute_number")
   public BigDecimal getAttributeNumber() {
     return attributeNumber;
   }
 
+  @JsonProperty("attribute_number")
   public void setAttributeNumber(BigDecimal attributeNumber) {
     this.attributeNumber = attributeNumber;
   }
@@ -97,14 +104,13 @@ import com.fasterxml.jackson.annotation.JsonValue;
   }
 
   
-
-  
   @ApiModelProperty(example = "-2", value = "")
   @JsonProperty("attribute_integer")
   public Integer getAttributeInteger() {
     return attributeInteger;
   }
 
+  @JsonProperty("attribute_integer")
   public void setAttributeInteger(Integer attributeInteger) {
     this.attributeInteger = attributeInteger;
   }
@@ -117,14 +123,13 @@ import com.fasterxml.jackson.annotation.JsonValue;
   }
 
   
-
-  
   @ApiModelProperty(example = "true", value = "")
   @JsonProperty("attribute_boolean")
   public Boolean getAttributeBoolean() {
     return attributeBoolean;
   }
 
+  @JsonProperty("attribute_boolean")
   public void setAttributeBoolean(Boolean attributeBoolean) {
     this.attributeBoolean = attributeBoolean;
   }
@@ -137,18 +142,33 @@ import com.fasterxml.jackson.annotation.JsonValue;
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("wrapped_array")
   public List<Integer> getWrappedArray() {
     return wrappedArray;
   }
 
+  @JsonProperty("wrapped_array")
   public void setWrappedArray(List<Integer> wrappedArray) {
     this.wrappedArray = wrappedArray;
   }
 
+  public XmlItem addWrappedArrayItem(Integer wrappedArrayItem) {
+    if (this.wrappedArray == null) {
+      this.wrappedArray = new ArrayList<>();
+    }
+
+    this.wrappedArray.add(wrappedArrayItem);
+    return this;
+  }
+
+  public XmlItem removeWrappedArrayItem(Integer wrappedArrayItem) {
+    if (wrappedArrayItem != null && this.wrappedArray != null) {
+      this.wrappedArray.remove(wrappedArrayItem);
+    }
+
+    return this;
+  }
 /**
    **/
   public XmlItem nameString(String nameString) {
@@ -157,14 +177,13 @@ import com.fasterxml.jackson.annotation.JsonValue;
   }
 
   
-
-  
   @ApiModelProperty(example = "string", value = "")
   @JsonProperty("name_string")
   public String getNameString() {
     return nameString;
   }
 
+  @JsonProperty("name_string")
   public void setNameString(String nameString) {
     this.nameString = nameString;
   }
@@ -177,14 +196,13 @@ import com.fasterxml.jackson.annotation.JsonValue;
   }
 
   
-
-  
   @ApiModelProperty(example = "1.234", value = "")
   @JsonProperty("name_number")
   public BigDecimal getNameNumber() {
     return nameNumber;
   }
 
+  @JsonProperty("name_number")
   public void setNameNumber(BigDecimal nameNumber) {
     this.nameNumber = nameNumber;
   }
@@ -197,14 +215,13 @@ import com.fasterxml.jackson.annotation.JsonValue;
   }
 
   
-
-  
   @ApiModelProperty(example = "-2", value = "")
   @JsonProperty("name_integer")
   public Integer getNameInteger() {
     return nameInteger;
   }
 
+  @JsonProperty("name_integer")
   public void setNameInteger(Integer nameInteger) {
     this.nameInteger = nameInteger;
   }
@@ -217,14 +234,13 @@ import com.fasterxml.jackson.annotation.JsonValue;
   }
 
   
-
-  
   @ApiModelProperty(example = "true", value = "")
   @JsonProperty("name_boolean")
   public Boolean getNameBoolean() {
     return nameBoolean;
   }
 
+  @JsonProperty("name_boolean")
   public void setNameBoolean(Boolean nameBoolean) {
     this.nameBoolean = nameBoolean;
   }
@@ -237,18 +253,33 @@ import com.fasterxml.jackson.annotation.JsonValue;
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("name_array")
   public List<Integer> getNameArray() {
     return nameArray;
   }
 
+  @JsonProperty("name_array")
   public void setNameArray(List<Integer> nameArray) {
     this.nameArray = nameArray;
   }
 
+  public XmlItem addNameArrayItem(Integer nameArrayItem) {
+    if (this.nameArray == null) {
+      this.nameArray = new ArrayList<>();
+    }
+
+    this.nameArray.add(nameArrayItem);
+    return this;
+  }
+
+  public XmlItem removeNameArrayItem(Integer nameArrayItem) {
+    if (nameArrayItem != null && this.nameArray != null) {
+      this.nameArray.remove(nameArrayItem);
+    }
+
+    return this;
+  }
 /**
    **/
   public XmlItem nameWrappedArray(List<Integer> nameWrappedArray) {
@@ -257,18 +288,33 @@ import com.fasterxml.jackson.annotation.JsonValue;
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("name_wrapped_array")
   public List<Integer> getNameWrappedArray() {
     return nameWrappedArray;
   }
 
+  @JsonProperty("name_wrapped_array")
   public void setNameWrappedArray(List<Integer> nameWrappedArray) {
     this.nameWrappedArray = nameWrappedArray;
   }
 
+  public XmlItem addNameWrappedArrayItem(Integer nameWrappedArrayItem) {
+    if (this.nameWrappedArray == null) {
+      this.nameWrappedArray = new ArrayList<>();
+    }
+
+    this.nameWrappedArray.add(nameWrappedArrayItem);
+    return this;
+  }
+
+  public XmlItem removeNameWrappedArrayItem(Integer nameWrappedArrayItem) {
+    if (nameWrappedArrayItem != null && this.nameWrappedArray != null) {
+      this.nameWrappedArray.remove(nameWrappedArrayItem);
+    }
+
+    return this;
+  }
 /**
    **/
   public XmlItem prefixString(String prefixString) {
@@ -277,14 +323,13 @@ import com.fasterxml.jackson.annotation.JsonValue;
   }
 
   
-
-  
   @ApiModelProperty(example = "string", value = "")
   @JsonProperty("prefix_string")
   public String getPrefixString() {
     return prefixString;
   }
 
+  @JsonProperty("prefix_string")
   public void setPrefixString(String prefixString) {
     this.prefixString = prefixString;
   }
@@ -297,14 +342,13 @@ import com.fasterxml.jackson.annotation.JsonValue;
   }
 
   
-
-  
   @ApiModelProperty(example = "1.234", value = "")
   @JsonProperty("prefix_number")
   public BigDecimal getPrefixNumber() {
     return prefixNumber;
   }
 
+  @JsonProperty("prefix_number")
   public void setPrefixNumber(BigDecimal prefixNumber) {
     this.prefixNumber = prefixNumber;
   }
@@ -317,14 +361,13 @@ import com.fasterxml.jackson.annotation.JsonValue;
   }
 
   
-
-  
   @ApiModelProperty(example = "-2", value = "")
   @JsonProperty("prefix_integer")
   public Integer getPrefixInteger() {
     return prefixInteger;
   }
 
+  @JsonProperty("prefix_integer")
   public void setPrefixInteger(Integer prefixInteger) {
     this.prefixInteger = prefixInteger;
   }
@@ -337,14 +380,13 @@ import com.fasterxml.jackson.annotation.JsonValue;
   }
 
   
-
-  
   @ApiModelProperty(example = "true", value = "")
   @JsonProperty("prefix_boolean")
   public Boolean getPrefixBoolean() {
     return prefixBoolean;
   }
 
+  @JsonProperty("prefix_boolean")
   public void setPrefixBoolean(Boolean prefixBoolean) {
     this.prefixBoolean = prefixBoolean;
   }
@@ -357,18 +399,33 @@ import com.fasterxml.jackson.annotation.JsonValue;
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("prefix_array")
   public List<Integer> getPrefixArray() {
     return prefixArray;
   }
 
+  @JsonProperty("prefix_array")
   public void setPrefixArray(List<Integer> prefixArray) {
     this.prefixArray = prefixArray;
   }
 
+  public XmlItem addPrefixArrayItem(Integer prefixArrayItem) {
+    if (this.prefixArray == null) {
+      this.prefixArray = new ArrayList<>();
+    }
+
+    this.prefixArray.add(prefixArrayItem);
+    return this;
+  }
+
+  public XmlItem removePrefixArrayItem(Integer prefixArrayItem) {
+    if (prefixArrayItem != null && this.prefixArray != null) {
+      this.prefixArray.remove(prefixArrayItem);
+    }
+
+    return this;
+  }
 /**
    **/
   public XmlItem prefixWrappedArray(List<Integer> prefixWrappedArray) {
@@ -377,18 +434,33 @@ import com.fasterxml.jackson.annotation.JsonValue;
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("prefix_wrapped_array")
   public List<Integer> getPrefixWrappedArray() {
     return prefixWrappedArray;
   }
 
+  @JsonProperty("prefix_wrapped_array")
   public void setPrefixWrappedArray(List<Integer> prefixWrappedArray) {
     this.prefixWrappedArray = prefixWrappedArray;
   }
 
+  public XmlItem addPrefixWrappedArrayItem(Integer prefixWrappedArrayItem) {
+    if (this.prefixWrappedArray == null) {
+      this.prefixWrappedArray = new ArrayList<>();
+    }
+
+    this.prefixWrappedArray.add(prefixWrappedArrayItem);
+    return this;
+  }
+
+  public XmlItem removePrefixWrappedArrayItem(Integer prefixWrappedArrayItem) {
+    if (prefixWrappedArrayItem != null && this.prefixWrappedArray != null) {
+      this.prefixWrappedArray.remove(prefixWrappedArrayItem);
+    }
+
+    return this;
+  }
 /**
    **/
   public XmlItem namespaceString(String namespaceString) {
@@ -397,14 +469,13 @@ import com.fasterxml.jackson.annotation.JsonValue;
   }
 
   
-
-  
   @ApiModelProperty(example = "string", value = "")
   @JsonProperty("namespace_string")
   public String getNamespaceString() {
     return namespaceString;
   }
 
+  @JsonProperty("namespace_string")
   public void setNamespaceString(String namespaceString) {
     this.namespaceString = namespaceString;
   }
@@ -417,14 +488,13 @@ import com.fasterxml.jackson.annotation.JsonValue;
   }
 
   
-
-  
   @ApiModelProperty(example = "1.234", value = "")
   @JsonProperty("namespace_number")
   public BigDecimal getNamespaceNumber() {
     return namespaceNumber;
   }
 
+  @JsonProperty("namespace_number")
   public void setNamespaceNumber(BigDecimal namespaceNumber) {
     this.namespaceNumber = namespaceNumber;
   }
@@ -437,14 +507,13 @@ import com.fasterxml.jackson.annotation.JsonValue;
   }
 
   
-
-  
   @ApiModelProperty(example = "-2", value = "")
   @JsonProperty("namespace_integer")
   public Integer getNamespaceInteger() {
     return namespaceInteger;
   }
 
+  @JsonProperty("namespace_integer")
   public void setNamespaceInteger(Integer namespaceInteger) {
     this.namespaceInteger = namespaceInteger;
   }
@@ -457,14 +526,13 @@ import com.fasterxml.jackson.annotation.JsonValue;
   }
 
   
-
-  
   @ApiModelProperty(example = "true", value = "")
   @JsonProperty("namespace_boolean")
   public Boolean getNamespaceBoolean() {
     return namespaceBoolean;
   }
 
+  @JsonProperty("namespace_boolean")
   public void setNamespaceBoolean(Boolean namespaceBoolean) {
     this.namespaceBoolean = namespaceBoolean;
   }
@@ -477,18 +545,33 @@ import com.fasterxml.jackson.annotation.JsonValue;
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("namespace_array")
   public List<Integer> getNamespaceArray() {
     return namespaceArray;
   }
 
+  @JsonProperty("namespace_array")
   public void setNamespaceArray(List<Integer> namespaceArray) {
     this.namespaceArray = namespaceArray;
   }
 
+  public XmlItem addNamespaceArrayItem(Integer namespaceArrayItem) {
+    if (this.namespaceArray == null) {
+      this.namespaceArray = new ArrayList<>();
+    }
+
+    this.namespaceArray.add(namespaceArrayItem);
+    return this;
+  }
+
+  public XmlItem removeNamespaceArrayItem(Integer namespaceArrayItem) {
+    if (namespaceArrayItem != null && this.namespaceArray != null) {
+      this.namespaceArray.remove(namespaceArrayItem);
+    }
+
+    return this;
+  }
 /**
    **/
   public XmlItem namespaceWrappedArray(List<Integer> namespaceWrappedArray) {
@@ -497,18 +580,33 @@ import com.fasterxml.jackson.annotation.JsonValue;
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("namespace_wrapped_array")
   public List<Integer> getNamespaceWrappedArray() {
     return namespaceWrappedArray;
   }
 
+  @JsonProperty("namespace_wrapped_array")
   public void setNamespaceWrappedArray(List<Integer> namespaceWrappedArray) {
     this.namespaceWrappedArray = namespaceWrappedArray;
   }
 
+  public XmlItem addNamespaceWrappedArrayItem(Integer namespaceWrappedArrayItem) {
+    if (this.namespaceWrappedArray == null) {
+      this.namespaceWrappedArray = new ArrayList<>();
+    }
+
+    this.namespaceWrappedArray.add(namespaceWrappedArrayItem);
+    return this;
+  }
+
+  public XmlItem removeNamespaceWrappedArrayItem(Integer namespaceWrappedArrayItem) {
+    if (namespaceWrappedArrayItem != null && this.namespaceWrappedArray != null) {
+      this.namespaceWrappedArray.remove(namespaceWrappedArrayItem);
+    }
+
+    return this;
+  }
 /**
    **/
   public XmlItem prefixNsString(String prefixNsString) {
@@ -517,14 +615,13 @@ import com.fasterxml.jackson.annotation.JsonValue;
   }
 
   
-
-  
   @ApiModelProperty(example = "string", value = "")
   @JsonProperty("prefix_ns_string")
   public String getPrefixNsString() {
     return prefixNsString;
   }
 
+  @JsonProperty("prefix_ns_string")
   public void setPrefixNsString(String prefixNsString) {
     this.prefixNsString = prefixNsString;
   }
@@ -537,14 +634,13 @@ import com.fasterxml.jackson.annotation.JsonValue;
   }
 
   
-
-  
   @ApiModelProperty(example = "1.234", value = "")
   @JsonProperty("prefix_ns_number")
   public BigDecimal getPrefixNsNumber() {
     return prefixNsNumber;
   }
 
+  @JsonProperty("prefix_ns_number")
   public void setPrefixNsNumber(BigDecimal prefixNsNumber) {
     this.prefixNsNumber = prefixNsNumber;
   }
@@ -557,14 +653,13 @@ import com.fasterxml.jackson.annotation.JsonValue;
   }
 
   
-
-  
   @ApiModelProperty(example = "-2", value = "")
   @JsonProperty("prefix_ns_integer")
   public Integer getPrefixNsInteger() {
     return prefixNsInteger;
   }
 
+  @JsonProperty("prefix_ns_integer")
   public void setPrefixNsInteger(Integer prefixNsInteger) {
     this.prefixNsInteger = prefixNsInteger;
   }
@@ -577,14 +672,13 @@ import com.fasterxml.jackson.annotation.JsonValue;
   }
 
   
-
-  
   @ApiModelProperty(example = "true", value = "")
   @JsonProperty("prefix_ns_boolean")
   public Boolean getPrefixNsBoolean() {
     return prefixNsBoolean;
   }
 
+  @JsonProperty("prefix_ns_boolean")
   public void setPrefixNsBoolean(Boolean prefixNsBoolean) {
     this.prefixNsBoolean = prefixNsBoolean;
   }
@@ -597,18 +691,33 @@ import com.fasterxml.jackson.annotation.JsonValue;
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("prefix_ns_array")
   public List<Integer> getPrefixNsArray() {
     return prefixNsArray;
   }
 
+  @JsonProperty("prefix_ns_array")
   public void setPrefixNsArray(List<Integer> prefixNsArray) {
     this.prefixNsArray = prefixNsArray;
   }
 
+  public XmlItem addPrefixNsArrayItem(Integer prefixNsArrayItem) {
+    if (this.prefixNsArray == null) {
+      this.prefixNsArray = new ArrayList<>();
+    }
+
+    this.prefixNsArray.add(prefixNsArrayItem);
+    return this;
+  }
+
+  public XmlItem removePrefixNsArrayItem(Integer prefixNsArrayItem) {
+    if (prefixNsArrayItem != null && this.prefixNsArray != null) {
+      this.prefixNsArray.remove(prefixNsArrayItem);
+    }
+
+    return this;
+  }
 /**
    **/
   public XmlItem prefixNsWrappedArray(List<Integer> prefixNsWrappedArray) {
@@ -617,18 +726,33 @@ import com.fasterxml.jackson.annotation.JsonValue;
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("prefix_ns_wrapped_array")
   public List<Integer> getPrefixNsWrappedArray() {
     return prefixNsWrappedArray;
   }
 
+  @JsonProperty("prefix_ns_wrapped_array")
   public void setPrefixNsWrappedArray(List<Integer> prefixNsWrappedArray) {
     this.prefixNsWrappedArray = prefixNsWrappedArray;
   }
 
+  public XmlItem addPrefixNsWrappedArrayItem(Integer prefixNsWrappedArrayItem) {
+    if (this.prefixNsWrappedArray == null) {
+      this.prefixNsWrappedArray = new ArrayList<>();
+    }
+
+    this.prefixNsWrappedArray.add(prefixNsWrappedArrayItem);
+    return this;
+  }
+
+  public XmlItem removePrefixNsWrappedArrayItem(Integer prefixNsWrappedArrayItem) {
+    if (prefixNsWrappedArrayItem != null && this.prefixNsWrappedArray != null) {
+      this.prefixNsWrappedArray.remove(prefixNsWrappedArrayItem);
+    }
+
+    return this;
+  }
 
   @Override
   public boolean equals(Object o) {
@@ -725,5 +849,173 @@ import com.fasterxml.jackson.annotation.JsonValue;
   }
 
 
+  public static XmlItemBuilder<?, ?> builder() {
+    return new XmlItemBuilderImpl();
+  }
+
+  private static final class XmlItemBuilderImpl extends XmlItemBuilder<XmlItem, XmlItemBuilderImpl> {
+
+    @Override
+    protected XmlItemBuilderImpl self() {
+      return this;
+    }
+
+    @Override
+    public XmlItem build() {
+      return new XmlItem(this);
+    }
+  }
+
+  public static abstract class XmlItemBuilder<C extends XmlItem, B extends XmlItemBuilder<C, B>>  {
+    private String attributeString;
+    private BigDecimal attributeNumber;
+    private Integer attributeInteger;
+    private Boolean attributeBoolean;
+    private List<Integer> wrappedArray = new ArrayList<>();
+    private String nameString;
+    private BigDecimal nameNumber;
+    private Integer nameInteger;
+    private Boolean nameBoolean;
+    private List<Integer> nameArray = new ArrayList<>();
+    private List<Integer> nameWrappedArray = new ArrayList<>();
+    private String prefixString;
+    private BigDecimal prefixNumber;
+    private Integer prefixInteger;
+    private Boolean prefixBoolean;
+    private List<Integer> prefixArray = new ArrayList<>();
+    private List<Integer> prefixWrappedArray = new ArrayList<>();
+    private String namespaceString;
+    private BigDecimal namespaceNumber;
+    private Integer namespaceInteger;
+    private Boolean namespaceBoolean;
+    private List<Integer> namespaceArray = new ArrayList<>();
+    private List<Integer> namespaceWrappedArray = new ArrayList<>();
+    private String prefixNsString;
+    private BigDecimal prefixNsNumber;
+    private Integer prefixNsInteger;
+    private Boolean prefixNsBoolean;
+    private List<Integer> prefixNsArray = new ArrayList<>();
+    private List<Integer> prefixNsWrappedArray = new ArrayList<>();
+    protected abstract B self();
+
+    public abstract C build();
+
+    public B attributeString(String attributeString) {
+      this.attributeString = attributeString;
+      return self();
+    }
+    public B attributeNumber(BigDecimal attributeNumber) {
+      this.attributeNumber = attributeNumber;
+      return self();
+    }
+    public B attributeInteger(Integer attributeInteger) {
+      this.attributeInteger = attributeInteger;
+      return self();
+    }
+    public B attributeBoolean(Boolean attributeBoolean) {
+      this.attributeBoolean = attributeBoolean;
+      return self();
+    }
+    public B wrappedArray(List<Integer> wrappedArray) {
+      this.wrappedArray = wrappedArray;
+      return self();
+    }
+    public B nameString(String nameString) {
+      this.nameString = nameString;
+      return self();
+    }
+    public B nameNumber(BigDecimal nameNumber) {
+      this.nameNumber = nameNumber;
+      return self();
+    }
+    public B nameInteger(Integer nameInteger) {
+      this.nameInteger = nameInteger;
+      return self();
+    }
+    public B nameBoolean(Boolean nameBoolean) {
+      this.nameBoolean = nameBoolean;
+      return self();
+    }
+    public B nameArray(List<Integer> nameArray) {
+      this.nameArray = nameArray;
+      return self();
+    }
+    public B nameWrappedArray(List<Integer> nameWrappedArray) {
+      this.nameWrappedArray = nameWrappedArray;
+      return self();
+    }
+    public B prefixString(String prefixString) {
+      this.prefixString = prefixString;
+      return self();
+    }
+    public B prefixNumber(BigDecimal prefixNumber) {
+      this.prefixNumber = prefixNumber;
+      return self();
+    }
+    public B prefixInteger(Integer prefixInteger) {
+      this.prefixInteger = prefixInteger;
+      return self();
+    }
+    public B prefixBoolean(Boolean prefixBoolean) {
+      this.prefixBoolean = prefixBoolean;
+      return self();
+    }
+    public B prefixArray(List<Integer> prefixArray) {
+      this.prefixArray = prefixArray;
+      return self();
+    }
+    public B prefixWrappedArray(List<Integer> prefixWrappedArray) {
+      this.prefixWrappedArray = prefixWrappedArray;
+      return self();
+    }
+    public B namespaceString(String namespaceString) {
+      this.namespaceString = namespaceString;
+      return self();
+    }
+    public B namespaceNumber(BigDecimal namespaceNumber) {
+      this.namespaceNumber = namespaceNumber;
+      return self();
+    }
+    public B namespaceInteger(Integer namespaceInteger) {
+      this.namespaceInteger = namespaceInteger;
+      return self();
+    }
+    public B namespaceBoolean(Boolean namespaceBoolean) {
+      this.namespaceBoolean = namespaceBoolean;
+      return self();
+    }
+    public B namespaceArray(List<Integer> namespaceArray) {
+      this.namespaceArray = namespaceArray;
+      return self();
+    }
+    public B namespaceWrappedArray(List<Integer> namespaceWrappedArray) {
+      this.namespaceWrappedArray = namespaceWrappedArray;
+      return self();
+    }
+    public B prefixNsString(String prefixNsString) {
+      this.prefixNsString = prefixNsString;
+      return self();
+    }
+    public B prefixNsNumber(BigDecimal prefixNsNumber) {
+      this.prefixNsNumber = prefixNsNumber;
+      return self();
+    }
+    public B prefixNsInteger(Integer prefixNsInteger) {
+      this.prefixNsInteger = prefixNsInteger;
+      return self();
+    }
+    public B prefixNsBoolean(Boolean prefixNsBoolean) {
+      this.prefixNsBoolean = prefixNsBoolean;
+      return self();
+    }
+    public B prefixNsArray(List<Integer> prefixNsArray) {
+      this.prefixNsArray = prefixNsArray;
+      return self();
+    }
+    public B prefixNsWrappedArray(List<Integer> prefixNsWrappedArray) {
+      this.prefixNsWrappedArray = prefixNsWrappedArray;
+      return self();
+    }
+  }
 }
 

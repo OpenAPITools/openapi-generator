@@ -35,15 +35,15 @@ let package = Package(
         {{#useAlamofire}}
         .package(url: "https://github.com/Alamofire/Alamofire", from: "5.4.3"),
         {{/useAlamofire}}
-        {{#useVapor}}
-        .package(url: "https://github.com/vapor/vapor", from: "4.0.0")
-        {{/useVapor}}
         {{#usePromiseKit}}
         .package(url: "https://github.com/mxcl/PromiseKit", from: "6.15.3"),
         {{/usePromiseKit}}
         {{#useRxSwift}}
         .package(url: "https://github.com/ReactiveX/RxSwift", from: "6.2.0"),
         {{/useRxSwift}}
+        {{#useVapor}}
+        .package(url: "https://github.com/vapor/vapor", from: "4.0.0")
+        {{/useVapor}}
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.

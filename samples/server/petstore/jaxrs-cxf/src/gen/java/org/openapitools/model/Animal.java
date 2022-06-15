@@ -1,5 +1,6 @@
 package org.openapitools.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import javax.validation.constraints.*;
@@ -14,6 +15,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
   @JsonSubTypes.Type(value = Cat.class, name = "Cat"),
   @JsonSubTypes.Type(value = Dog.class, name = "Dog"),
 })
+
 public class Animal  {
   
   @ApiModelProperty(required = true, value = "")
@@ -58,6 +60,24 @@ public class Animal  {
     return this;
   }
 
+
+    @Override
+    public boolean equals(Object o) {
+      if (this == o) {
+        return true;
+      }
+      if (o == null || getClass() != o.getClass()) {
+        return false;
+      }
+      Animal animal = (Animal) o;
+      return Objects.equals(className, animal.className) &&
+          Objects.equals(color, animal.color);
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hash(className, color);
+    }
 
   @Override
   public String toString() {

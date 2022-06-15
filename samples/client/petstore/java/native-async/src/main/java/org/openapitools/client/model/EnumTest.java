@@ -199,6 +199,8 @@ public class EnumTest {
   public static final String JSON_PROPERTY_OUTER_ENUM = "outerEnum";
   private OuterEnum outerEnum;
 
+  public EnumTest() { 
+  }
 
   public EnumTest enumString(EnumStringEnum enumString) {
     this.enumString = enumString;

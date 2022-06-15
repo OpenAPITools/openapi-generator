@@ -221,6 +221,12 @@ public class CodeGenMojo extends AbstractMojo {
     private String modelNameSuffix;
 
     /**
+     * Sets the suffix for api classes
+     */
+    @Parameter(name = "apiNameSuffix", property = "openapi.generator.maven.plugin.apiNameSuffix")
+    private String apiNameSuffix;
+
+    /**
      * Sets an optional ignoreFileOverride path
      */
     @Parameter(name = "ignoreFileOverride", property = "openapi.generator.maven.plugin.ignoreFileOverride")
@@ -293,6 +299,18 @@ public class CodeGenMojo extends AbstractMojo {
     private List<String> importMappings;
 
     /**
+     * A map of inline scheme names and the new names
+     */
+    @Parameter(name = "inlineSchemaNameMappings", property = "openapi.generator.maven.plugin.inlineSchemaNameMappings")
+    private List<String> inlineSchemaNameMappings;
+
+    /**
+     * A map of inline scheme naming convention and the value
+     */
+    @Parameter(name = "inlineSchemaNameDefaults", property = "openapi.generator.maven.plugin.inlineSchemaNameDefaults")
+    private List<String> inlineSchemaNameDefaults;
+
+    /**
      * A map of swagger spec types and the generated code types to use for them
      */
     @Parameter(name = "typeMappings", property = "openapi.generator.maven.plugin.typeMappings")
@@ -319,7 +337,7 @@ public class CodeGenMojo extends AbstractMojo {
     /**
      * A map of reserved names and how they should be escaped
      */
-    @Parameter(name = "reservedWordsMappings", property = "openapi.generator.maven.plugin.reservedWordMappings")
+    @Parameter(name = "reservedWordsMappings", property = "openapi.generator.maven.plugin.reservedWordsMappings")
     private List<String> reservedWordsMappings;
 
     /**
@@ -596,6 +614,10 @@ public class CodeGenMojo extends AbstractMojo {
                 configurator.setModelNameSuffix(modelNameSuffix);
             }
 
+            if (isNotEmpty(apiNameSuffix)) {
+                configurator.setApiNameSuffix(apiNameSuffix);
+            }
+
             if (null != templateDirectory) {
                 configurator.setTemplateDir(templateDirectory.getAbsolutePath());
             }
@@ -649,6 +671,18 @@ public class CodeGenMojo extends AbstractMojo {
                             configurator);
                 }
 
+                // Retained for backwards-compatibility with configOptions -> inline-schema-name-mappings
+                if (inlineSchemaNameMappings == null && configOptions.containsKey("inline-schema-name-mappings")) {
+                    applyInlineSchemaNameMappingsKvp(configOptions.get("inline-schema-name-mappings").toString(),
+                            configurator);
+                }
+
+                // Retained for backwards-compatibility with configOptions -> inline-schema-name-defaults
+                if (inlineSchemaNameDefaults == null && configOptions.containsKey("inline-schema-name-defaults")) {
+                    applyInlineSchemaNameDefaultsKvp(configOptions.get("inline-schema-name-defaults").toString(),
+                            configurator);
+                }
+
                 // Retained for backwards-compatibility with configOptions -> type-mappings
                 if (typeMappings == null && configOptions.containsKey("type-mappings")) {
                     applyTypeMappingsKvp(configOptions.get("type-mappings").toString(), configurator);
@@ -687,6 +721,16 @@ public class CodeGenMojo extends AbstractMojo {
                 applyImportMappingsKvpList(importMappings, configurator);
             }
 
+            // Apply Inline Schema Name Mappings
+            if (inlineSchemaNameMappings != null && (configOptions == null || !configOptions.containsKey("inline-schema-name-mappings"))) {
+                applyInlineSchemaNameMappingsKvpList(inlineSchemaNameMappings, configurator);
+            }
+
+            // Apply Inline Schema Name Defaults
+            if (inlineSchemaNameDefaults != null && (configOptions == null || !configOptions.containsKey("inline-schema-name-defaults"))) {
+                applyInlineSchemaNameDefaultsKvpList(inlineSchemaNameDefaults, configurator);
+            }
+
             // Apply Type Mappings
             if (typeMappings != null && (configOptions == null || !configOptions.containsKey("type-mappings"))) {
                 applyTypeMappingsKvpList(typeMappings, configurator);
@@ -721,8 +765,9 @@ public class CodeGenMojo extends AbstractMojo {
                 getLog().warn("environmentVariables is deprecated and will be removed in version 5.1. Use globalProperties instead.");
             }
 
-            for (String key : globalProperties.keySet()) {
-                String value = globalProperties.get(key);
+            for (Map.Entry<String, String> globalPropertiesEntry : globalProperties.entrySet()) {
+                String key = globalPropertiesEntry.getKey();
+                String value = globalPropertiesEntry.getValue();
                 if (value != null) {
                     configurator.addGlobalProperty(key, value);
                 }

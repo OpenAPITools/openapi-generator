@@ -10,18 +10,18 @@
     <parent>
         <groupId>io.micronaut</groupId>
         <artifactId>micronaut-parent</artifactId>
-        <version>3.0.0-M5</version>
+        <version>3.4.3</version>
     </parent>
 
     <properties>
         <packaging>jar</packaging>
         <jdk.version>1.8</jdk.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!-- If you are building with JDK 9 or higher, you can uncomment the lines below to set the release version -->
         <!-- <release.version>8</release.version> -->
-        <micronaut.version>3.0.0-M5</micronaut.version>
+        <micronaut.version>3.4.3</micronaut.version>
         <exec.mainClass>org.openapitools.Application</exec.mainClass>
         <micronaut.runtime>netty</micronaut.runtime>
-        <swagger-annotations-version>1.5.21</swagger-annotations-version>
     </properties>
 
     <repositories>
@@ -40,6 +40,11 @@
         <dependency>
             <groupId>io.micronaut</groupId>
             <artifactId>micronaut-validation</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.micronaut.xml</groupId>
+            <artifactId>micronaut-jackson-xml</artifactId>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -97,11 +102,6 @@
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
             <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.swagger</groupId>
-            <artifactId>swagger-annotations</artifactId>
-            <version>${swagger-annotations-version}</version>
         </dependency>
     </dependencies>
 

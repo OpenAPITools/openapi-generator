@@ -1,5 +1,6 @@
 package org.openapitools.model;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
@@ -17,16 +18,19 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class Pet  implements Serializable {
+@JsonTypeName("Pet")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+public class Pet  implements Serializable {
   
   private @Valid Long id;
   private @Valid Category category;
   private @Valid String name;
-  private @Valid Set<String> photoUrls = new LinkedHashSet<String>();
-  private @Valid List<Tag> tags = new ArrayList<Tag>();
+  private @Valid Set<String> photoUrls = new LinkedHashSet<>();
+  private @Valid List<Tag> tags = new ArrayList<>();
 
 public enum StatusEnum {
 
@@ -49,6 +53,21 @@ public enum StatusEnum {
         return String.valueOf(value);
     }
 
+    /**
+     * Convert a String into String, as specified in the
+     * <a href="https://download.oracle.com/otndocs/jcp/jaxrs-2_0-fr-eval-spec/index.html">See JAX RS 2.0 Specification, section 3.2, p. 12</a>
+     */
+	public static StatusEnum fromString(String s) {
+        for (StatusEnum b : StatusEnum.values()) {
+            // using Objects.toString() to be safe if value type non-object type
+            // because types like 'int' etc. will be auto-boxed
+            if (java.util.Objects.toString(b.value).equals(s)) {
+                return b;
+            }
+        }
+        throw new IllegalArgumentException("Unexpected string value '" + s + "'");
+	}
+	
     @JsonCreator
     public static StatusEnum fromValue(String value) {
         for (StatusEnum b : StatusEnum.values()) {
@@ -70,14 +89,13 @@ public enum StatusEnum {
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("id")
   public Long getId() {
     return id;
   }
 
+  @JsonProperty("id")
   public void setId(Long id) {
     this.id = id;
   }
@@ -90,14 +108,13 @@ public enum StatusEnum {
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("category")
   public Category getCategory() {
     return category;
   }
 
+  @JsonProperty("category")
   public void setCategory(Category category) {
     this.category = category;
   }
@@ -110,8 +127,6 @@ public enum StatusEnum {
   }
 
   
-
-  
   @ApiModelProperty(example = "doggie", required = true, value = "")
   @JsonProperty("name")
   @NotNull
@@ -119,6 +134,7 @@ public enum StatusEnum {
     return name;
   }
 
+  @JsonProperty("name")
   public void setName(String name) {
     this.name = name;
   }
@@ -131,8 +147,6 @@ public enum StatusEnum {
   }
 
   
-
-  
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("photoUrls")
   @NotNull
@@ -140,10 +154,28 @@ public enum StatusEnum {
     return photoUrls;
   }
 
+  @JsonProperty("photoUrls")
+  @JsonDeserialize(as = LinkedHashSet.class)
   public void setPhotoUrls(Set<String> photoUrls) {
     this.photoUrls = photoUrls;
   }
 
+  public Pet addPhotoUrlsItem(String photoUrlsItem) {
+    if (this.photoUrls == null) {
+      this.photoUrls = new LinkedHashSet<>();
+    }
+
+    this.photoUrls.add(photoUrlsItem);
+    return this;
+  }
+
+  public Pet removePhotoUrlsItem(String photoUrlsItem) {
+    if (photoUrlsItem != null && this.photoUrls != null) {
+      this.photoUrls.remove(photoUrlsItem);
+    }
+
+    return this;
+  }
 /**
    **/
   public Pet tags(List<Tag> tags) {
@@ -152,18 +184,33 @@ public enum StatusEnum {
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("tags")
   public List<Tag> getTags() {
     return tags;
   }
 
+  @JsonProperty("tags")
   public void setTags(List<Tag> tags) {
     this.tags = tags;
   }
 
+  public Pet addTagsItem(Tag tagsItem) {
+    if (this.tags == null) {
+      this.tags = new ArrayList<>();
+    }
+
+    this.tags.add(tagsItem);
+    return this;
+  }
+
+  public Pet removeTagsItem(Tag tagsItem) {
+    if (tagsItem != null && this.tags != null) {
+      this.tags.remove(tagsItem);
+    }
+
+    return this;
+  }
 /**
    * pet status in the store
    **/
@@ -173,14 +220,13 @@ public enum StatusEnum {
   }
 
   
-
-  
   @ApiModelProperty(value = "pet status in the store")
   @JsonProperty("status")
   public StatusEnum getStatus() {
     return status;
   }
 
+  @JsonProperty("status")
   public void setStatus(StatusEnum status) {
     this.status = status;
   }

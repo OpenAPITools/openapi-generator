@@ -131,7 +131,7 @@ public class EnumArrays   {
 
   public EnumArrays addArrayEnumItem(ArrayEnumEnum arrayEnumItem) {
     if (this.arrayEnum == null) {
-      this.arrayEnum = new ArrayList<ArrayEnumEnum>();
+      this.arrayEnum = new ArrayList<>();
     }
     this.arrayEnum.add(arrayEnumItem);
     return this;
@@ -170,7 +170,6 @@ public class EnumArrays   {
   public int hashCode() {
     return Objects.hash(justSymbol, arrayEnum);
   }
-
 
   @Override
   public String toString() {

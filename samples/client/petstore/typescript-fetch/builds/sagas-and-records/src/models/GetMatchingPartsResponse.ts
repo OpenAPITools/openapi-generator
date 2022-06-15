@@ -18,11 +18,13 @@ import {
     MatchingPartsFromJSON,
     MatchingPartsFromJSONTyped,
     MatchingPartsToJSON,
+} from './MatchingParts';
+import {
     ResponseMeta,
     ResponseMetaFromJSON,
     ResponseMetaFromJSONTyped,
     ResponseMetaToJSON,
-} from './';
+} from './ResponseMeta';
 
 /**
  * 
@@ -42,6 +44,16 @@ export interface GetMatchingPartsResponse {
      * @memberof GetMatchingPartsResponse
      */
     data?: MatchingParts;
+}
+
+/**
+ * Check if a given object implements the GetMatchingPartsResponse interface.
+ */
+export function instanceOfGetMatchingPartsResponse(value: object): boolean {
+    let isInstance = true;
+    isInstance = isInstance && "meta" in value;
+
+    return isInstance;
 }
 
 export function GetMatchingPartsResponseFromJSON(json: any): GetMatchingPartsResponse {

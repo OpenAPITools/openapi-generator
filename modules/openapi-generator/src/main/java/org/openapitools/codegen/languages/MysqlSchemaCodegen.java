@@ -18,6 +18,8 @@ package org.openapitools.codegen.languages;
 
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.apache.commons.lang3.StringUtils;
@@ -41,19 +43,19 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
     public static final Integer ENUM_MAX_ELEMENTS = 65535;
     public static final Integer IDENTIFIER_MAX_LENGTH = 64;
 
-    protected Vector<String> mysqlNumericTypes = new Vector<String>(Arrays.asList(
+    protected Vector<String> mysqlNumericTypes = new Vector<>(Arrays.asList(
             "BIGINT", "BIT", "BOOL", "BOOLEAN", "DEC", "DECIMAL", "DOUBLE", "DOUBLE PRECISION", "FIXED", "FLOAT", "INT", "INTEGER", "MEDIUMINT", "NUMERIC", "REAL", "SMALLINT", "TINYINT"
     ));
 
-    protected Vector<String> mysqlDateAndTimeTypes = new Vector<String>(Arrays.asList(
+    protected Vector<String> mysqlDateAndTimeTypes = new Vector<>(Arrays.asList(
             "DATE", "DATETIME", "TIME", "TIMESTAMP", "YEAR"
     ));
 
-    protected Vector<String> mysqlStringTypes = new Vector<String>(Arrays.asList(
+    protected Vector<String> mysqlStringTypes = new Vector<>(Arrays.asList(
             "BINARY", "BLOB", "CHAR", "CHAR BYTE", "CHARACTER", "ENUM", "LONGBLOB", "LONGTEXT", "MEDIUMBLOB", "MEDIUMTEXT", "SET", "TEXT", "TINYBLOB", "TINYTEXT", "VARBINARY", "VARCHAR"
     ));
 
-    protected Vector<String> mysqlSpatialTypes = new Vector<String>(Arrays.asList(
+    protected Vector<String> mysqlSpatialTypes = new Vector<>(Arrays.asList(
             "GEOMETRY", "GEOMETRYCOLLECTION", "LINESTRING", "MULTILINESTRING", "MULTIPOINT", "MULTIPOLYGON", "POINT", "POLYGON"
     ));
 
@@ -125,7 +127,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
         );
 
         // all types can be threaded as primitives except array, object and refs
-        languageSpecificPrimitives = new HashSet<String>(
+        languageSpecificPrimitives = new HashSet<>(
                 Arrays.asList(
                         "bool",
                         "boolean",
@@ -252,19 +254,17 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
     }
 
     @Override
-    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+    public ModelsMap postProcessModels(ModelsMap objs) {
         objs = super.postProcessModels(objs);
 
-        List<Object> models = (List<Object>) objs.get("models");
-        for (Object _mo : models) {
-            Map<String, Object> mo = (Map<String, Object>) _mo;
-            CodegenModel model = (CodegenModel) mo.get("model");
+        for (ModelMap mo : objs.getModels()) {
+            CodegenModel model = mo.getModel();
             String modelName = model.getName();
             String tableName = this.toTableName(modelName);
             String modelDescription = model.getDescription();
             Map<String, Object> modelVendorExtensions = model.getVendorExtensions();
-            Map<String, Object> mysqlSchema = new HashMap<String, Object>();
-            Map<String, Object> tableDefinition = new HashMap<String, Object>();
+            Map<String, Object> mysqlSchema = new HashMap<>();
+            Map<String, Object> tableDefinition = new HashMap<>();
 
             if (this.getIdentifierNamingConvention().equals("snake_case") && !modelName.equals(tableName)) {
                 // add original name in table comment
@@ -325,8 +325,8 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
      */
     public void processIntegerTypeProperty(CodegenModel model, CodegenProperty property) {
         Map<String, Object> vendorExtensions = property.getVendorExtensions();
-        Map<String, Object> mysqlSchema = new HashMap<String, Object>();
-        Map<String, Object> columnDefinition = new HashMap<String, Object>();
+        Map<String, Object> mysqlSchema = new HashMap<>();
+        Map<String, Object> columnDefinition = new HashMap<>();
         ArrayList columnDataTypeArguments = new ArrayList();
         String baseName = property.getBaseName();
         String colName = this.toColumnName(baseName);
@@ -366,7 +366,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
                 if (i > ENUM_MAX_ELEMENTS - 1) {
                     LOGGER.warn(
                             "ENUM column can have maximum of {} distinct elements, following value will be skipped: {}",
-                            ENUM_MAX_ELEMENTS.toString(), (String) enumValues.get(i));
+                            ENUM_MAX_ELEMENTS, (String) enumValues.get(i));
                     break;
                 }
                 String value = String.valueOf(enumValues.get(i));
@@ -417,8 +417,8 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
      */
     public void processDecimalTypeProperty(CodegenModel model, CodegenProperty property) {
         Map<String, Object> vendorExtensions = property.getVendorExtensions();
-        Map<String, Object> mysqlSchema = new HashMap<String, Object>();
-        Map<String, Object> columnDefinition = new HashMap<String, Object>();
+        Map<String, Object> mysqlSchema = new HashMap<>();
+        Map<String, Object> columnDefinition = new HashMap<>();
         ArrayList columnDataTypeArguments = new ArrayList();
         String baseName = property.getBaseName();
         String colName = this.toColumnName(baseName);
@@ -457,7 +457,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
                 if (i > ENUM_MAX_ELEMENTS - 1) {
                     LOGGER.warn(
                             "ENUM column can have maximum of {} distinct elements, following value will be skipped: {}",
-                            ENUM_MAX_ELEMENTS.toString(), (String) enumValues.get(i));
+                            ENUM_MAX_ELEMENTS, (String) enumValues.get(i));
                     break;
                 }
                 String value = String.valueOf(enumValues.get(i));
@@ -507,8 +507,8 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
      */
     public void processBooleanTypeProperty(CodegenModel model, CodegenProperty property) {
         Map<String, Object> vendorExtensions = property.getVendorExtensions();
-        Map<String, Object> mysqlSchema = new HashMap<String, Object>();
-        Map<String, Object> columnDefinition = new HashMap<String, Object>();
+        Map<String, Object> mysqlSchema = new HashMap<>();
+        Map<String, Object> columnDefinition = new HashMap<>();
         ArrayList columnDataTypeArguments = new ArrayList();
         String baseName = property.getBaseName();
         String colName = this.toColumnName(baseName);
@@ -562,8 +562,8 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
      */
     public void processStringTypeProperty(CodegenModel model, CodegenProperty property) {
         Map<String, Object> vendorExtensions = property.getVendorExtensions();
-        Map<String, Object> mysqlSchema = new HashMap<String, Object>();
-        Map<String, Object> columnDefinition = new HashMap<String, Object>();
+        Map<String, Object> mysqlSchema = new HashMap<>();
+        Map<String, Object> columnDefinition = new HashMap<>();
         ArrayList columnDataTypeArguments = new ArrayList();
         String baseName = property.getBaseName();
         String colName = this.toColumnName(baseName);
@@ -601,7 +601,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
                 if (i > ENUM_MAX_ELEMENTS - 1) {
                     LOGGER.warn(
                             "ENUM column can have maximum of {} distinct elements, following value will be skipped: {}",
-                            ENUM_MAX_ELEMENTS.toString(), (String) enumValues.get(i));
+                            ENUM_MAX_ELEMENTS, (String) enumValues.get(i));
                     break;
                 }
                 String value = String.valueOf(enumValues.get(i));
@@ -645,8 +645,8 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
      */
     public void processDateTypeProperty(CodegenModel model, CodegenProperty property) {
         Map<String, Object> vendorExtensions = property.getVendorExtensions();
-        Map<String, Object> mysqlSchema = new HashMap<String, Object>();
-        Map<String, Object> columnDefinition = new HashMap<String, Object>();
+        Map<String, Object> mysqlSchema = new HashMap<>();
+        Map<String, Object> columnDefinition = new HashMap<>();
         String baseName = property.getBaseName();
         String colName = this.toColumnName(baseName);
         String dataType = property.getDataType();
@@ -698,8 +698,8 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
      */
     public void processJsonTypeProperty(CodegenModel model, CodegenProperty property) {
         Map<String, Object> vendorExtensions = property.getVendorExtensions();
-        Map<String, Object> mysqlSchema = new HashMap<String, Object>();
-        Map<String, Object> columnDefinition = new HashMap<String, Object>();
+        Map<String, Object> mysqlSchema = new HashMap<>();
+        Map<String, Object> columnDefinition = new HashMap<>();
         String baseName = property.getBaseName();
         String colName = this.toColumnName(baseName);
         String dataType = property.getDataType();
@@ -755,8 +755,8 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
      */
     public void processUnknownTypeProperty(CodegenModel model, CodegenProperty property) {
         Map<String, Object> vendorExtensions = property.getVendorExtensions();
-        Map<String, Object> mysqlSchema = new HashMap<String, Object>();
-        Map<String, Object> columnDefinition = new HashMap<String, Object>();
+        Map<String, Object> mysqlSchema = new HashMap<>();
+        Map<String, Object> columnDefinition = new HashMap<>();
         String baseName = property.getBaseName();
         String colName = this.toColumnName(baseName);
         Boolean required = property.getRequired();
@@ -806,7 +806,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
      * @return generated codegen property
      */
     public HashMap<String, Object> toCodegenMysqlDataTypeArgument(Object value) {
-        HashMap<String, Object> arg = new HashMap<String, Object>();
+        HashMap<String, Object> arg = new HashMap<>();
         if (value instanceof String) {
             arg.put("isString", true);
             arg.put("isFloat", false);
@@ -838,7 +838,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
      * @return generated codegen property
      */
     public HashMap<String, Object> toCodegenMysqlDataTypeDefault(String defaultValue, String mysqlDataType) {
-        HashMap<String, Object> defaultMap = new HashMap<String, Object>();
+        HashMap<String, Object> defaultMap = new HashMap<>();
         if (defaultValue == null || defaultValue.toUpperCase(Locale.ROOT).equals("NULL")) {
             defaultMap.put("defaultValue", "NULL");
             defaultMap.put("isString", false);
@@ -1076,7 +1076,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
 
         // identifier name cannot be empty
         if (escapedName.isEmpty()) {
-            throw new RuntimeException("Empty database/table/column name for property '" + name.toString() + "' not allowed");
+            throw new RuntimeException("Empty database/table/column name for property '" + name + "' not allowed");
         }
         return escapedName;
     }
@@ -1254,4 +1254,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
         // Trim trailing file separators from the overall path
         return StringUtils.removeEnd(packagePath, File.separator);
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.MYSQL; }
 }

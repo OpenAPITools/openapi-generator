@@ -21,6 +21,10 @@ import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -141,10 +145,10 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
                 defaultValue("unlicense"));
 
         cliOptions.add(new CliOption(GEM_REQUIRED_RUBY_VERSION, "gem required Ruby version. ").
-                defaultValue(">= 1.9"));
+                defaultValue(">= 2.4"));
 
         cliOptions.add(new CliOption(GEM_HOMEPAGE, "gem homepage. ").
-                defaultValue("http://org.openapitools"));
+                defaultValue("https://openapi-generator.tech"));
 
         cliOptions.add(new CliOption(GEM_SUMMARY, "gem summary. ").
                 defaultValue("A ruby wrapper for the REST APIs"));
@@ -152,7 +156,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         cliOptions.add(new CliOption(GEM_DESCRIPTION, "gem description. ").
                 defaultValue("This gem maps to a REST API"));
 
-        cliOptions.add(new CliOption(GEM_AUTHOR, "gem author (only one is supported)."));
+        cliOptions.add(new CliOption(GEM_AUTHOR, "gem author (only one is supported).").defaultValue("OpenAPI-Generator"));
 
         cliOptions.add(new CliOption(GEM_AUTHOR_EMAIL, "gem author email (only one is supported)."));
 
@@ -486,7 +490,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
     }
 
     @Override
-    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+    public ModelsMap postProcessModels(ModelsMap objs) {
         // process enum in models
         return postProcessModelsEnum(objs);
     }
@@ -571,19 +575,18 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         objs = super.postProcessOperationsWithModels(objs, allModels);
-        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
-        HashMap<String, CodegenModel> modelMaps = new HashMap<String, CodegenModel>();
-        HashMap<String, Integer> processedModelMaps = new HashMap<String, Integer>();
+        OperationMap operations = objs.getOperations();
+        HashMap<String, CodegenModel> modelMaps = new HashMap<>();
+        HashMap<String, Integer> processedModelMaps = new HashMap<>();
 
-        for (Object o : allModels) {
-            HashMap<String, Object> h = (HashMap<String, Object>) o;
-            CodegenModel m = (CodegenModel) h.get("model");
+        for (ModelMap modelMap : allModels) {
+            CodegenModel m = modelMap.getModel();
             modelMaps.put(m.classname, m);
         }
 
-        List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
+        List<CodegenOperation> operationList = operations.getOperation();
         for (CodegenOperation op : operationList) {
             for (CodegenParameter p : op.allParams) {
                 p.vendorExtensions.put("x-ruby-example", constructExampleCode(p, modelMaps, processedModelMaps));
@@ -614,6 +617,9 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         if (codegenParameter.isArray) { // array
             return "[" + constructExampleCode(codegenParameter.items, modelMaps, processedModelMap) + "]";
         } else if (codegenParameter.isMap) {
+            if (codegenParameter.items == null) {
+                return "{ ... }";
+            }
             return "{ key: " + constructExampleCode(codegenParameter.items, modelMaps, processedModelMap) + "}";
         } else if (codegenParameter.isPrimitiveType) { // primitive type
             if (codegenParameter.isEnum) {
@@ -672,9 +678,19 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
 
     private String constructExampleCode(CodegenProperty codegenProperty, HashMap<String, CodegenModel> modelMaps, HashMap<String, Integer> processedModelMap) {
         if (codegenProperty.isArray) { // array
+            if (!StringUtils.isEmpty(codegenProperty.example) && !"null".equals(codegenProperty.example)) {
+                String value = codegenProperty.example;
+                value = value.replaceAll(",", ", ");
+                value = value.replaceAll(":", ": ");
+                return value;
+            }
             return "[" + constructExampleCode(codegenProperty.items, modelMaps, processedModelMap) + "]";
         } else if (codegenProperty.isMap) {
-            return "{ key: " + constructExampleCode(codegenProperty.items, modelMaps, processedModelMap) + "}";
+            if (codegenProperty.items != null) {
+                return "{ key: " + constructExampleCode(codegenProperty.items, modelMaps, processedModelMap) + "}";
+            } else {
+                return "{ ... }";
+            }
         } else if (codegenProperty.isPrimitiveType) { // primitive type
             if (codegenProperty.isEnum) {
                 // When inline enum, set example to first allowable value

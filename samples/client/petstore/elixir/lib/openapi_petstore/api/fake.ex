@@ -391,6 +391,7 @@ defmodule OpenapiPetstore.Api.Fake do
     - :enum_query_string (String.t): Query parameter enum test (string)
     - :enum_query_integer (integer()): Query parameter enum test (double)
     - :enum_query_double (float()): Query parameter enum test (double)
+    - :enum_query_model_array ([OpenapiPetstore.Model.EnumClass.t]): 
     - :enum_form_string_array ([String.t]): Form parameter enum test (string array)
     - :enum_form_string (String.t): Form parameter enum test (string)
   ## Returns
@@ -407,6 +408,7 @@ defmodule OpenapiPetstore.Api.Fake do
       :"enum_query_string" => :query,
       :"enum_query_integer" => :query,
       :"enum_query_double" => :query,
+      :"enum_query_model_array" => :query,
       :"enum_form_string_array" => :form,
       :"enum_form_string" => :form
     }
@@ -464,6 +466,7 @@ defmodule OpenapiPetstore.Api.Fake do
 
   @doc """
   test inline additionalProperties
+  
 
   ## Parameters
 
@@ -490,6 +493,7 @@ defmodule OpenapiPetstore.Api.Fake do
 
   @doc """
   test json serialization of form data
+  
 
   ## Parameters
 

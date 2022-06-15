@@ -17,7 +17,7 @@ Method | HTTP request | Description
 
 # **addPet**
 ```swift
-    open class func addPet(body: Pet, headers: HTTPHeaders = PetstoreClient.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<AddPet>
+    open class func addPet(body: Pet, headers: HTTPHeaders = PetstoreClientAPI.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<AddPet>
 ```
 
 Add a new pet to the store
@@ -76,7 +76,7 @@ public enum AddPet {
 
 # **deletePet**
 ```swift
-    open class func deletePet(petId: Int64, apiKey: String? = nil, headers: HTTPHeaders = PetstoreClient.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<DeletePet>
+    open class func deletePet(petId: Int64, apiKey: String? = nil, headers: HTTPHeaders = PetstoreClientAPI.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<DeletePet>
 ```
 
 Deletes a pet
@@ -137,7 +137,7 @@ public enum DeletePet {
 
 # **findPetsByStatus**
 ```swift
-    open class func findPetsByStatus(status: [String], headers: HTTPHeaders = PetstoreClient.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<FindPetsByStatus>
+    open class func findPetsByStatus(status: [Status_findPetsByStatus], headers: HTTPHeaders = PetstoreClientAPI.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<FindPetsByStatus>
 ```
 
 Finds Pets by status
@@ -198,7 +198,7 @@ public enum FindPetsByStatus {
 
 # **findPetsByTags**
 ```swift
-    open class func findPetsByTags(tags: Set<String>, headers: HTTPHeaders = PetstoreClient.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<FindPetsByTags>
+    open class func findPetsByTags(tags: Set<String>, headers: HTTPHeaders = PetstoreClientAPI.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<FindPetsByTags>
 ```
 
 Finds Pets by tags
@@ -259,7 +259,7 @@ public enum FindPetsByTags {
 
 # **getPetById**
 ```swift
-    open class func getPetById(petId: Int64, headers: HTTPHeaders = PetstoreClient.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<GetPetById>
+    open class func getPetById(petId: Int64, headers: HTTPHeaders = PetstoreClientAPI.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<GetPetById>
 ```
 
 Find pet by ID
@@ -322,7 +322,7 @@ public enum GetPetById {
 
 # **updatePet**
 ```swift
-    open class func updatePet(body: Pet, headers: HTTPHeaders = PetstoreClient.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<UpdatePet>
+    open class func updatePet(body: Pet, headers: HTTPHeaders = PetstoreClientAPI.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<UpdatePet>
 ```
 
 Update an existing pet
@@ -385,7 +385,7 @@ public enum UpdatePet {
 
 # **updatePetWithForm**
 ```swift
-    open class func updatePetWithForm(petId: Int64, name: String? = nil, status: String? = nil, headers: HTTPHeaders = PetstoreClient.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<UpdatePetWithForm>
+    open class func updatePetWithForm(petId: Int64, name: String? = nil, status: String? = nil, headers: HTTPHeaders = PetstoreClientAPI.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<UpdatePetWithForm>
 ```
 
 Updates a pet in the store with form data
@@ -446,7 +446,7 @@ public enum UpdatePetWithForm {
 
 # **uploadFile**
 ```swift
-    open class func uploadFile(petId: Int64, additionalMetadata: String? = nil, file: Data? = nil, headers: HTTPHeaders = PetstoreClient.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<UploadFile>
+    open class func uploadFile(petId: Int64, additionalMetadata: String? = nil, file: Data? = nil, headers: HTTPHeaders = PetstoreClientAPI.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<UploadFile>
 ```
 
 uploads an image
@@ -507,7 +507,7 @@ public enum UploadFile {
 
 # **uploadFileWithRequiredFile**
 ```swift
-    open class func uploadFileWithRequiredFile(petId: Int64, requiredFile: Data, additionalMetadata: String? = nil, headers: HTTPHeaders = PetstoreClient.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<UploadFileWithRequiredFile>
+    open class func uploadFileWithRequiredFile(petId: Int64, requiredFile: Data, additionalMetadata: String? = nil, headers: HTTPHeaders = PetstoreClientAPI.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<UploadFileWithRequiredFile>
 ```
 
 uploads an image (required)

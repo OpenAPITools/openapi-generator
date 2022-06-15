@@ -22,6 +22,10 @@ import io.swagger.v3.oas.models.media.StringSchema;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -79,7 +83,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         );
 
         // ref: http://php.net/manual/en/language.types.intro.php
-        languageSpecificPrimitives = new HashSet<String>(
+        languageSpecificPrimitives = new HashSet<>(
                 Arrays.asList(
                         "bool",
                         "boolean",
@@ -90,7 +94,8 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
                         "string",
                         "object",
                         "array",
-                        "DateTime",
+                        "\\DateTime",
+                        "\\SplFileObject",
                         "mixed",
                         "number",
                         "void",
@@ -106,11 +111,12 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         additionalProperties.put("primitives", primitives);
 
         // ref: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types
-        typeMapping = new HashMap<String, String>();
+        typeMapping = new HashMap<>();
         typeMapping.put("integer", "int");
         typeMapping.put("long", "int");
         typeMapping.put("number", "float");
         typeMapping.put("float", "float");
+        typeMapping.put("decimal", "float");
         typeMapping.put("double", "double");
         typeMapping.put("string", "string");
         typeMapping.put("byte", "int");
@@ -341,6 +347,12 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
     public String getSchemaType(Schema p) {
         String openAPIType = super.getSchemaType(p);
         String type = null;
+
+        if (openAPIType == null) {
+            LOGGER.error("OpenAPI Type for {} is null. Default to UNKNOWN_OPENAPI_TYPE instead.", p.getName());
+            openAPIType = "UNKNOWN_OPENAPI_TYPE";
+        }
+
         if (typeMapping.containsKey(openAPIType)) {
             type = typeMapping.get(openAPIType);
             if (languageSpecificPrimitives.contains(type)) {
@@ -348,12 +360,18 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
             } else if (instantiationTypes.containsKey(type)) {
                 return type;
             }
+            /*
+            // comment out the following as php-dt, php-mezzio still need to treat DateTime, SplFileObject as objects
+            } else {
+                throw new RuntimeException("OpenAPI type `" + openAPIType + "` defined but can't mapped to language type." +
+                        " Please report the issue via OpenAPI Generator github repo." +
+                        " (if you're not using custom format with proper type mappings provided to openapi-generator)");
+            }
+            */
         } else {
             type = openAPIType;
         }
-        if (type == null) {
-            return null;
-        }
+
         return toModelName(type);
     }
 
@@ -383,6 +401,10 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
 
     @Override
     public String toVarName(String name) {
+        // translate @ for properties (like @type) to at_.
+        // Otherwise an additional "type" property will leed to duplcates
+        name = name.replaceAll("^@", "at_");
+
         // sanitize name
         name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
@@ -390,6 +412,8 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
             // return the name in camelCase style
             // phone_number => phoneNumber
             name = camelize(name, true);
+        } else if ("PascalCase".equals(variableNamingConvention)) {
+            name = camelize(name, false);
         } else { // default to snake case
             // return the name in underscore style
             // PhoneNumber => phone_number
@@ -681,15 +705,15 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
     }
 
     @Override
-    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+    public ModelsMap postProcessModels(ModelsMap objs) {
         // process enum in models
         return postProcessModelsEnum(objs);
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
-        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
-        List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        OperationMap operations = objs.getOperations();
+        List<CodegenOperation> operationList = operations.getOperation();
         for (CodegenOperation op : operationList) {
             // for API test method name
             // e.g. public function test{{vendorExtensions.x-testOperationId}}()
@@ -755,7 +779,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         }
         // only process files with php extension
         if ("php".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = phpPostProcessFile + " " + file.toString();
+            String command = phpPostProcessFile + " " + file;
             try {
                 Process p = Runtime.getRuntime().exec(command);
                 p.waitFor();
@@ -790,4 +814,12 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
 
         return packageName;
     }
+
+    @Override
+    public boolean isDataTypeString(String dataType) {
+        return "string".equals(dataType);
+    }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.PHP; }
 }
