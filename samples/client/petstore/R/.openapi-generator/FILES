@@ -24,6 +24,7 @@ R/pet_api.R
 R/pig.R
 R/store_api.R
 R/tag.R
+R/update_pet_request.R
 R/user.R
 R/user_api.R
 README.md
@@ -45,6 +46,7 @@ docs/PetApi.md
 docs/Pig.md
 docs/StoreApi.md
 docs/Tag.md
+docs/UpdatePetRequest.md
 docs/User.md
 docs/UserApi.md
 git_push.sh

@@ -64,7 +64,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, application/xml
+ - **Content-Type**: application/json, application/xml, multipart/related
  - **Accept**: application/xml, application/json
 
 ### HTTP response details
@@ -359,7 +359,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, application/xml
+ - **Content-Type**: application/json, application/xml, multipart/related
  - **Accept**: application/xml, application/json
 
 ### HTTP response details

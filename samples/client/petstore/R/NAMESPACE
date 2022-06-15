@@ -27,6 +27,7 @@ export(Order)
 export(Pet)
 export(Pig)
 export(Tag)
+export(UpdatePetRequest)
 export(User)
 
 # APIs
