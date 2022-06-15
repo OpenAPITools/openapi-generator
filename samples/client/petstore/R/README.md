@@ -96,6 +96,7 @@ Class | Method | HTTP request | Description
  - [Pet](docs/Pet.md)
  - [Pig](docs/Pig.md)
  - [Tag](docs/Tag.md)
+ - [UpdatePetRequest](docs/UpdatePetRequest.md)
  - [User](docs/User.md)
 
 
