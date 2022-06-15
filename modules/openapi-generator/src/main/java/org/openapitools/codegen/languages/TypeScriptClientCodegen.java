@@ -940,7 +940,7 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
 
     public String getModelName(Schema sc) {
         if (sc.get$ref() != null) {
-            Schema unaliasedSchema = unaliasSchema(sc, importMapping);
+            Schema unaliasedSchema = unaliasSchema(sc, schemaMapping);
             if (unaliasedSchema.get$ref() != null) {
                 return toModelName(ModelUtils.getSimpleRef(sc.get$ref()));
             }
