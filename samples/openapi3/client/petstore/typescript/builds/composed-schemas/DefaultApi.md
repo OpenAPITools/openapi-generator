@@ -24,9 +24,9 @@ const configuration = .createConfiguration();
 const apiInstance = new .DefaultApi(configuration);
 
 let body:.DefaultApiFilePostRequest = {
-  // InlineObject (optional)
-  inlineObject: {
-    file: ,
+  // FilePostRequest (optional)
+  filePostRequest: {
+    file: null,
   },
 };
 
@@ -40,7 +40,7 @@ apiInstance.filePost(body).then((data:any) => {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **inlineObject** | **InlineObject**|  |
+ **filePostRequest** | **FilePostRequest**|  |
 
 
 ### Return type
@@ -79,8 +79,8 @@ const configuration = .createConfiguration();
 const apiInstance = new .DefaultApi(configuration);
 
 let body:.DefaultApiPetsFilteredPatchRequest = {
-  // PetByAge | PetByType (optional)
-  petByAgePetByType: ,
+  // PetsFilteredPatchRequest (optional)
+  petsFilteredPatchRequest: null,
 };
 
 apiInstance.petsFilteredPatch(body).then((data:any) => {
@@ -93,7 +93,7 @@ apiInstance.petsFilteredPatch(body).then((data:any) => {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **petByAgePetByType** | **PetByAge | PetByType**|  |
+ **petsFilteredPatchRequest** | **PetsFilteredPatchRequest**|  |
 
 
 ### Return type
@@ -132,8 +132,8 @@ const configuration = .createConfiguration();
 const apiInstance = new .DefaultApi(configuration);
 
 let body:.DefaultApiPetsPatchRequest = {
-  // Cat | Dog (optional)
-  catDog: ,
+  // PetsPatchRequest (optional)
+  petsPatchRequest: null,
 };
 
 apiInstance.petsPatch(body).then((data:any) => {
@@ -146,7 +146,7 @@ apiInstance.petsPatch(body).then((data:any) => {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **catDog** | **Cat | Dog**|  |
+ **petsPatchRequest** | **PetsPatchRequest**|  |
 
 
 ### Return type

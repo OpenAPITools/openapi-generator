@@ -657,7 +657,9 @@ with petstore_api.ApiClient(configuration) as api_client:
     pet_id = 1 # int | ID of pet to update
     additional_metadata = "additional_metadata_example" # str | Additional data to pass to server (optional)
     file = open('/path/to/file', 'rb') # file_type | file to upload (optional)
-    files =  # [file_type] | files to upload (optional)
+    files = [
+null,
+    ] # [file_type] | files to upload (optional)
 
     # example passing only required values which don't have defaults set
     try:

@@ -9,6 +9,7 @@ import javax.validation.Valid;
 import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+
 public class ArrayOfNumberOnly  {
   
   @ApiModelProperty(value = "")
@@ -37,6 +38,23 @@ public class ArrayOfNumberOnly  {
     return this;
   }
 
+
+    @Override
+    public boolean equals(Object o) {
+      if (this == o) {
+        return true;
+      }
+      if (o == null || getClass() != o.getClass()) {
+        return false;
+      }
+      ArrayOfNumberOnly arrayOfNumberOnly = (ArrayOfNumberOnly) o;
+      return Objects.equals(arrayNumber, arrayOfNumberOnly.arrayNumber);
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hash(arrayNumber);
+    }
 
   @Override
   public String toString() {

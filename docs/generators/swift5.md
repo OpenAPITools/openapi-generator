@@ -1,8 +1,19 @@
 ---
-title: Config Options for swift5
-sidebar_label: swift5
+title: Documentation for the swift5 Generator
 ---
 
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | swift5 | pass this to the generate command after -g |
+| generator stability | STABLE | |
+| generator type | CLIENT | |
+| generator language | Swift | |
+| generator default templating engine | mustache | |
+| helpTxt | Generates a Swift 5.x client library. | |
+
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |
@@ -11,6 +22,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |apiNamePrefix|Prefix that will be appended to all API names ('tags'). Default: empty string. e.g. Pet =&gt; Pet.| |null|
 |disallowAdditionalPropertiesIfNotPresent|If false, the 'additionalProperties' implementation (set to true by default) is compliant with the OAS and JSON schema specifications. If true (default), keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.|<dl><dt>**false**</dt><dd>The 'additionalProperties' implementation is compliant with the OAS and JSON schema specifications.</dd><dt>**true**</dt><dd>Keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.</dd></dl>|true|
 |ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
+|enumUnknownDefaultCase|If the server adds new enum cases, that are unknown by an old spec/client, the client will fail to parse the network response.With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the server sends an enum case that is not known by the client/spec, they can safely fallback to this case.|<dl><dt>**false**</dt><dd>No changes to the enum's are made, this is the default option.</dd><dt>**true**</dt><dd>With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the enum case sent by the server is not known by the client/spec, can safely be decoded to this case.</dd></dl>|false|
 |generateModelAdditionalProperties|Generate model additional properties (default: true)| |true|
 |hashableModels|Make hashable models (default: true)| |true|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
@@ -33,7 +45,8 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
 |projectName|Project name in Xcode| |null|
 |readonlyProperties|Make properties readonly (default: false)| |null|
-|responseAs|Optionally use libraries to manage response.  Currently PromiseKit, RxSwift, Result, Combine are available.| |null|
+|removeMigrationProjectNameClass|Make properties removeMigrationProjectNameClass (default: false)| |null|
+|responseAs|Optionally use libraries to manage response.  Currently PromiseKit, RxSwift, Result, Combine, AsyncAwait are available.| |null|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |swiftPackagePath|Set a custom source path instead of OpenAPIClient/Classes/OpenAPIs.| |null|
@@ -247,7 +260,11 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |DateTime|✓|OAS2,OAS3
 |Password|✓|OAS2,OAS3
 |File|✓|OAS2
+|Uuid|✗|
 |Array|✓|OAS2,OAS3
+|Null|✗|OAS3
+|AnyType|✗|OAS2,OAS3
+|Object|✓|OAS2,OAS3
 |Maps|✓|ToolingExtension
 |CollectionFormat|✓|OAS2
 |CollectionFormatMulti|✓|OAS2
@@ -307,6 +324,10 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |Composite|✓|OAS2,OAS3
 |Polymorphism|✓|OAS2,OAS3
 |Union|✗|OAS3
+|allOf|✗|OAS2,OAS3
+|anyOf|✗|OAS3
+|oneOf|✗|OAS3
+|not|✗|OAS3
 
 ### Security Feature
 | Name | Supported | Defined By |

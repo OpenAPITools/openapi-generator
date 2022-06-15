@@ -16,11 +16,10 @@ Method | HTTP request | Description
 
 ## Service Declaration
 ```yaml
-# src/Acme/MyBundle/Resources/services.yml
+# config/services.yml
 services:
     # ...
-    acme.my_bundle.api.user:
-        class: Acme\MyBundle\Api\UserApi
+    Acme\MyBundle\Api\UserApi:
         tags:
             - { name: "open_api_server.api", api: "user" }
     # ...
@@ -58,7 +57,7 @@ class UserApi implements UserApiInterface
     /**
      * Implementation of UserApiInterface#createUser
      */
-    public function createUser(User $user)
+    public function createUser(User $user, &$responseCode, array &$responseHeaders): void
     {
         // Implement the operation ...
     }
@@ -93,6 +92,8 @@ void (empty response body)
 
 Creates list of users with given input array
 
+
+
 ### Example Implementation
 ```php
 <?php
@@ -118,7 +119,7 @@ class UserApi implements UserApiInterface
     /**
      * Implementation of UserApiInterface#createUsersWithArrayInput
      */
-    public function createUsersWithArrayInput(array $user)
+    public function createUsersWithArrayInput(array $user, &$responseCode, array &$responseHeaders): void
     {
         // Implement the operation ...
     }
@@ -153,6 +154,8 @@ void (empty response body)
 
 Creates list of users with given input array
 
+
+
 ### Example Implementation
 ```php
 <?php
@@ -178,7 +181,7 @@ class UserApi implements UserApiInterface
     /**
      * Implementation of UserApiInterface#createUsersWithListInput
      */
-    public function createUsersWithListInput(array $user)
+    public function createUsersWithListInput(array $user, &$responseCode, array &$responseHeaders): void
     {
         // Implement the operation ...
     }
@@ -240,7 +243,7 @@ class UserApi implements UserApiInterface
     /**
      * Implementation of UserApiInterface#deleteUser
      */
-    public function deleteUser($username)
+    public function deleteUser($username, &$responseCode, array &$responseHeaders): void
     {
         // Implement the operation ...
     }
@@ -275,6 +278,8 @@ void (empty response body)
 
 Get user by user name
 
+
+
 ### Example Implementation
 ```php
 <?php
@@ -292,7 +297,7 @@ class UserApi implements UserApiInterface
     /**
      * Implementation of UserApiInterface#getUserByName
      */
-    public function getUserByName($username)
+    public function getUserByName($username, &$responseCode, array &$responseHeaders): array|\OpenAPI\Server\Model\User
     {
         // Implement the operation ...
     }
@@ -327,6 +332,8 @@ No authorization required
 
 Logs user into the system
 
+
+
 ### Example Implementation
 ```php
 <?php
@@ -344,7 +351,7 @@ class UserApi implements UserApiInterface
     /**
      * Implementation of UserApiInterface#loginUser
      */
-    public function loginUser($username, $password)
+    public function loginUser($username, $password, &$responseCode, array &$responseHeaders): array|\string
     {
         // Implement the operation ...
     }
@@ -380,6 +387,8 @@ No authorization required
 
 Logs out current logged in user session
 
+
+
 ### Example Implementation
 ```php
 <?php
@@ -405,7 +414,7 @@ class UserApi implements UserApiInterface
     /**
      * Implementation of UserApiInterface#logoutUser
      */
-    public function logoutUser()
+    public function logoutUser(, &$responseCode, array &$responseHeaders): void
     {
         // Implement the operation ...
     }
@@ -464,7 +473,7 @@ class UserApi implements UserApiInterface
     /**
      * Implementation of UserApiInterface#updateUser
      */
-    public function updateUser($username, User $user)
+    public function updateUser($username, User $user, &$responseCode, array &$responseHeaders): void
     {
         // Implement the operation ...
     }

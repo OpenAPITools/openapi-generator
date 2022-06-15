@@ -11,14 +11,14 @@ import AnyCodable
 #endif
 
 /** Model for testing model name same as property name */
-internal struct Name: Codable, Hashable {
+internal struct Name: Codable, JSONEncodable, Hashable {
 
     internal var name: Int
-    internal var snakeCase: Int?
+    internal var snakeCase: NullEncodable<Int> = .encodeValue(11033)
     internal var property: String?
     internal var _123number: Int?
 
-    internal init(name: Int, snakeCase: Int? = nil, property: String? = nil, _123number: Int? = nil) {
+    internal init(name: Int, snakeCase: NullEncodable<Int> = .encodeValue(11033), property: String? = nil, _123number: Int? = nil) {
         self.name = name
         self.snakeCase = snakeCase
         self.property = property
@@ -37,7 +37,10 @@ internal struct Name: Codable, Hashable {
     internal func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(name, forKey: .name)
-        try container.encodeIfPresent(snakeCase, forKey: .snakeCase)
+        switch snakeCase {
+        case .encodeNothing: break
+        case .encodeNull, .encodeValue: try container.encode(snakeCase, forKey: .snakeCase)
+        }
         try container.encodeIfPresent(property, forKey: .property)
         try container.encodeIfPresent(_123number, forKey: ._123number)
     }

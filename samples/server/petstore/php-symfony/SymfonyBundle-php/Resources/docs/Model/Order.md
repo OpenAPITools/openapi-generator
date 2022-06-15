@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 **id** | **int** |  | [optional] 
 **petId** | **int** |  | [optional] 
 **quantity** | **int** |  | [optional] 
-**shipDate** | [**\DateTime**](\DateTime.md) |  | [optional] 
+**shipDate** | **\DateTime** |  | [optional] 
 **status** | **string** | Order Status | [optional] 
 **complete** | **bool** |  | [optional] [default to false]
 

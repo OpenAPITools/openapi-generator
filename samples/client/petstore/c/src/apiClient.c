@@ -46,7 +46,7 @@ apiClient_t *apiClient_create_with_base_path(const char *basePath
     apiClient->progress_data = NULL;
     apiClient->response_code = 0;
     if(apiKeys_api_key!= NULL) {
-        apiClient->apiKeys_api_key = list_create();
+        apiClient->apiKeys_api_key = list_createList();
         listEntry_t *listEntry = NULL;
         list_ForEach(listEntry, apiKeys_api_key) {
             keyValuePair_t *pair = listEntry->data;
@@ -80,7 +80,7 @@ void apiClient_free(apiClient_t *apiClient) {
             }
             keyValuePair_free(pair);
         }
-        list_free(apiClient->apiKeys_api_key);
+        list_freeList(apiClient->apiKeys_api_key);
     }
     if(apiClient->accessToken) {
         free(apiClient->accessToken);
@@ -124,8 +124,8 @@ void replaceSpaceWithPlus(char *stringToProcess) {
     }
 }
 
-char *assembleTargetUrl(char    *basePath,
-                        char    *operationParameter,
+char *assembleTargetUrl(const char  *basePath,
+                        const char  *operationParameter,
                         list_t    *queryParameters) {
     int neededBufferSizeForQueryParameters = 0;
     listEntry_t *listEntry;
@@ -187,7 +187,7 @@ char *assembleHeaderField(char *key, char *value) {
     return header;
 }
 
-void postData(CURL *handle, char *bodyParameters) {
+void postData(CURL *handle, const char *bodyParameters) {
     curl_easy_setopt(handle, CURLOPT_POSTFIELDS, bodyParameters);
     curl_easy_setopt(handle, CURLOPT_POSTFIELDSIZE_LARGE,
                      strlen(bodyParameters));
@@ -206,14 +206,14 @@ int lengthOfKeyPair(keyValuePair_t *keyPair) {
 
 
 void apiClient_invoke(apiClient_t    *apiClient,
-                      char        *operationParameter,
+                      const char    *operationParameter,
                       list_t        *queryParameters,
                       list_t        *headerParameters,
                       list_t        *formParameters,
                       list_t        *headerType,
                       list_t        *contentType,
-                      char        *bodyParameters,
-                      char        *requestType) {
+                      const char    *bodyParameters,
+                      const char    *requestType) {
     CURL *handle = curl_easy_init();
     CURLcode res;
 
@@ -476,7 +476,7 @@ size_t writeDataCallback(void *buffer, size_t size, size_t nmemb, void *userp) {
     size_t size_this_time = nmemb * size;
     apiClient_t *apiClient = (apiClient_t *)userp;
     apiClient->dataReceived = (char *)realloc( apiClient->dataReceived, apiClient->dataReceivedLen + size_this_time + 1);
-    memcpy(apiClient->dataReceived + apiClient->dataReceivedLen, buffer, size_this_time);
+    memcpy((char *)apiClient->dataReceived + apiClient->dataReceivedLen, buffer, size_this_time);
     apiClient->dataReceivedLen += size_this_time;
     ((char*)apiClient->dataReceived)[apiClient->dataReceivedLen] = '\0'; // the space size of (apiClient->dataReceived) = dataReceivedLen + 1
     if (apiClient->data_callback_func) {

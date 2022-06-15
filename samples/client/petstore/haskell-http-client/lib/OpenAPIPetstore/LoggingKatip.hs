@@ -34,11 +34,11 @@ import qualified Katip as LG
 -- * Type Aliases (for compatibility)
 
 -- | Runs a Katip logging block with the Log environment
-type LogExecWithContext = forall m. P.MonadIO m =>
-                                    LogContext -> LogExec m
+type LogExecWithContext = forall m a. P.MonadIO m =>
+                                      LogContext -> LogExec m a
 
 -- | A Katip logging block
-type LogExec m = forall a. LG.KatipT m a -> m a
+type LogExec m a = LG.KatipT m a -> m a
 
 -- | A Katip Log environment
 type LogContext = LG.LogEnv

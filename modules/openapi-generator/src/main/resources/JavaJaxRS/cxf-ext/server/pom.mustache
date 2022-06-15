@@ -57,8 +57,8 @@
 {{#useBeanValidation}}
         <dependencies>
           <dependency>
-              <groupId>javax.validation</groupId>
-              <artifactId>validation-api</artifactId>
+              <groupId>jakarta.validation</groupId>
+              <artifactId>jakarta.validation-api</artifactId>
               <version>${beanvalidation-version}</version>
           </dependency>
         </dependencies>
@@ -155,8 +155,8 @@
 {{#useBeanValidation}}
     <!-- Bean Validation API support -->
     <dependency>
-      <groupId>javax.validation</groupId>
-      <artifactId>validation-api</artifactId>
+      <groupId>jakarta.validation</groupId>
+      <artifactId>jakarta.validation-api</artifactId>
 {{^generateSpringBootApplication}}
       <version>${beanvalidation-version}</version>
 {{/generateSpringBootApplication}}
@@ -218,7 +218,6 @@
 {{/generateSpringBootApplication}}
       <scope>compile</scope>
     </dependency>
-{{#java8}}
     <dependency>
       <groupId>com.fasterxml.jackson.datatype</groupId>
       <artifactId>jackson-datatype-jsr310</artifactId>
@@ -226,16 +225,6 @@
       <version>${jackson-jaxrs-version}</version>
 {{/generateSpringBootApplication}}
     </dependency>
-{{/java8}}
-{{^java8}}
-    <dependency>
-      <groupId>com.fasterxml.jackson.datatype</groupId>
-      <artifactId>jackson-datatype-joda</artifactId>
-{{^generateSpringBootApplication}}
-      <version>${jackson-jaxrs-version}</version>
-{{/generateSpringBootApplication}}
-    </dependency>
-{{/java8}}
 {{#generateSpringApplication}}
     <!-- Spring Framework -->
     <dependency>
@@ -332,13 +321,13 @@
     </repository>
   </repositories>
   <properties>
-    <java.version>{{#supportJava6}}1.6{{/supportJava6}}{{^supportJava6}}{{^java8}}1.7{{/java8}}{{#java8}}1.8{{/java8}}{{/supportJava6}}</java.version>
+    <java.version>1.8</java.version>
     <maven.compiler.source>${java.version}</maven.compiler.source>
     <maven.compiler.target>${java.version}</maven.compiler.target>
     <swagger-core-version>1.5.18</swagger-core-version>
     <jetty-version>9.2.9.v20150224</jetty-version>
 {{#useBeanValidation}}
-    <beanvalidation-version>1.1.0.Final</beanvalidation-version>
+    <beanvalidation-version>2.0.2</beanvalidation-version>
 {{/useBeanValidation}}
 {{#generateSpringApplication}}
   {{^generateSpringBootApplication}}
@@ -346,8 +335,8 @@
   {{/generateSpringBootApplication}}
 {{/generateSpringApplication}}
 {{^generateSpringBootApplication}}
-    <junit-version>4.13</junit-version>
-    <logback-version>1.2.0</logback-version>
+    <junit-version>4.13.2</junit-version>
+    <logback-version>1.2.10</logback-version>
 {{/generateSpringBootApplication}}
     <cxf-version>3.3.0</cxf-version>
     <jackson-jaxrs-version>2.9.9</jackson-jaxrs-version>

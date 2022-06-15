@@ -22,6 +22,9 @@ import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,16 +58,16 @@ public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implem
             "short", "try", "char", "final", "interface", "static", "void",
             "class", "finally", "const", "super", "while"));
 
-        languageSpecificPrimitives = new HashSet<String>(Arrays.asList(
-            "string",
-            "boolean",
-            "number",
-            "Object",
-            "Blob",
-            "Date"));
+        languageSpecificPrimitives = new HashSet<>(Arrays.asList(
+                "string",
+                "boolean",
+                "number",
+                "Object",
+                "Blob",
+                "Date"));
         instantiationTypes.put("array", "Array");
 
-        typeMapping = new HashMap<String, String>();
+        typeMapping = new HashMap<>();
         typeMapping.put("Array", "Array");
         typeMapping.put("array", "Array");
         typeMapping.put("List", "Array");
@@ -86,11 +89,11 @@ public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implem
         typeMapping.put("map", "Object");
         typeMapping.put("DateTime", "Date");
 
-        importMapping = new HashMap<String, String>();
-        defaultIncludes = new HashSet<String>(Arrays.asList(
-            "Object",
-            "Array",
-            "Blob"
+        importMapping = new HashMap<>();
+        defaultIncludes = new HashSet<>(Arrays.asList(
+                "Object",
+                "Array",
+                "Blob"
         ));
 
         typeMapping.put("binary", "string");
@@ -255,13 +258,10 @@ public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implem
     }
 
     @Override
-    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
-
-        List<Object> models = (List<Object>) objs.get("models");
-        for (Object _mo : models) {
-            Map<String, Object> mo = (Map<String, Object>) _mo;
-            CodegenModel cm = (CodegenModel) mo.get("model");
-            cm.imports = new TreeSet(cm.imports);
+    public ModelsMap postProcessModels(ModelsMap objs) {
+        for (ModelMap mo : objs.getModels()) {
+            CodegenModel cm = mo.getModel();
+            cm.imports = new TreeSet<>(cm.imports);
             for (CodegenProperty var : cm.vars) {
                 // handle default value for enum, e.g. available => StatusEnum.available
                 if (var.isEnum && var.defaultValue != null && !"null".equals(var.defaultValue)) {
@@ -273,16 +273,10 @@ public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implem
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
-        if (objs.get("imports") instanceof List) {
-            List<Map<String, String>> imports = (ArrayList<Map<String, String>>)objs.get("imports");
-            Collections.sort(imports, new Comparator<Map<String, String>>() {
-                public int compare(Map<String, String> o1, Map<String, String> o2) {
-                    return o1.get("import").compareTo(o2.get("import"));
-                }
-            });
-            objs.put("imports", imports);
-        }
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        List<Map<String, String>> imports = objs.getImports();
+        imports.sort(Comparator.comparing(o -> o.get("import")));
+        objs.put("imports", imports);
         return objs;
     }
 
@@ -319,4 +313,7 @@ public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implem
     public void setUseEs6(boolean useEs6) {
         this.useEs6 = useEs6;
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.JAVASCRIPT; }
 }

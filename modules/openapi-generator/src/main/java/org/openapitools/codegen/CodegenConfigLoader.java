@@ -45,7 +45,7 @@ public class CodegenConfigLoader {
         try {
             return (CodegenConfig) Class.forName(name).getDeclaredConstructor().newInstance();
         } catch (Exception e) {
-            throw new GeneratorNotFoundException("Can't load config class with name '".concat(name) + "'\nAvailable:\n" + availableConfigs.toString(), e);
+            throw new GeneratorNotFoundException("Can't load config class with name '".concat(name) + "'\nAvailable:\n" + availableConfigs, e);
         }
     }
 

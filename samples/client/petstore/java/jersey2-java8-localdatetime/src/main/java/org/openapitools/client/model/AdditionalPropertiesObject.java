@@ -44,6 +44,8 @@ public class AdditionalPropertiesObject {
   public static final String JSON_PROPERTY_NAME = "name";
   private String name;
 
+  public AdditionalPropertiesObject() { 
+  }
 
   public AdditionalPropertiesObject name(String name) {
     this.name = name;

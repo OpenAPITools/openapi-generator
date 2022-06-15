@@ -2,10 +2,10 @@ package org.openapitools.client.infrastructure
 
 import org.apache.oltu.oauth2.client.request.OAuthClientRequest.AuthenticationRequestBuilder
 import org.apache.oltu.oauth2.client.request.OAuthClientRequest.TokenRequestBuilder
-import org.openapitools.client.auth.ApiKeyAuth
 import org.openapitools.client.auth.OAuth
 import org.openapitools.client.auth.OAuth.AccessTokenListener
 import org.openapitools.client.auth.OAuthFlow
+import org.openapitools.client.auth.ApiKeyAuth
 
 import okhttp3.Call
 import okhttp3.Interceptor
@@ -50,13 +50,9 @@ class ApiClient(
     private val defaultClientBuilder: OkHttpClient.Builder by lazy {
         OkHttpClient()
             .newBuilder()
-            .addInterceptor(HttpLoggingInterceptor(object : HttpLoggingInterceptor.Logger {
-                override fun log(message: String) {
-                    logger?.invoke(message)
-                }
-            }).apply {
-                level = HttpLoggingInterceptor.Level.BODY
-            })
+            .addInterceptor(HttpLoggingInterceptor { message -> logger?.invoke(message) }
+                .apply { level = HttpLoggingInterceptor.Level.BODY }
+            )
     }
 
     init {
@@ -74,7 +70,7 @@ class ApiClient(
                 "api_key" -> ApiKeyAuth("header", "api_key")"petstore_auth" -> OAuth(OAuthFlow.implicit, "http://petstore.swagger.io/api/oauth/dialog", "", "write:pets, read:pets")
                 else -> throw RuntimeException("auth name $authName not found in available auth names")
             }
-            addAuthorization(authName, auth);
+            addAuthorization(authName, auth)
         }
     }
 
@@ -148,7 +144,7 @@ class ApiClient(
                 ?.setClientId(clientId)
                 ?.setRedirectURI(redirectURI)
         }
-        return this;
+        return this
     }
 
     /**
@@ -160,7 +156,7 @@ class ApiClient(
         apiAuthorizations.values.runOnFirst<Interceptor, OAuth> {
             registerAccessTokenListener(accessTokenListener)
         }
-        return this;
+        return this
     }
 
     /**
@@ -205,8 +201,11 @@ class ApiClient(
 
     companion object {
         @JvmStatic
+        protected val baseUrlKey = "org.openapitools.client.baseUrl"
+
+        @JvmStatic
         val defaultBasePath: String by lazy {
-            System.getProperties().getProperty("org.openapitools.client.baseUrl", "http://petstore.swagger.io/v2")
+            System.getProperties().getProperty(baseUrlKey, "http://petstore.swagger.io/v2")
         }
     }
 }

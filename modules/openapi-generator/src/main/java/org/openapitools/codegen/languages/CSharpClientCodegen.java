@@ -35,7 +35,7 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class CSharpClientCodegen extends AbstractCSharpCodegen {
-    @SuppressWarnings({"hiding"})
+    @SuppressWarnings("hiding")
     private final Logger LOGGER = LoggerFactory.getLogger(CSharpClientCodegen.class);
     private static final String NUNIT = "nunit";
     private static final String RESTSHARP = "restsharp";

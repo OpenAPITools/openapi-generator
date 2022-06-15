@@ -15,28 +15,28 @@ jobs:
         include:
           - java: 8
             os: windows-latest
-          - java: 13
+          - java: 17
             os: ubuntu-latest
-            # Need to update to Gradle version with v13 support in modules/openapi-generator-gradle-plugin/pom.xml
-            flags: -am -pl modules/openapi-generator-cli
+            # Need to update to Gradle version with v17 support in modules/openapi-generator-gradle-plugin/pom.xml
+            flags: -am -pl modules/openapi-generator-cli -Dmaven.javadoc.skip=true -Dmaven.test.skip=true
     steps:
       - name: Check out code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Set up JDK ${{ matrix.java }}
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v3
         with:
-          distribution: 'adopt'
+          distribution: 'temurin'
           java-version: ${{ matrix.java }}
 
-      - uses: actions/cache@v2.1.6
+      - uses: actions/cache@v3
         with:
           path: ~/.m2/repository
           key: ${{ runner.os }}-maven-${{ hashFiles('pom.xml', 'modules/**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-
 
-      - uses: actions/cache@v2.1.6
+      - uses: actions/cache@v3
         with:
           path: |
             ~/.gradle/caches
@@ -50,7 +50,7 @@ jobs:
         run: mvn -nsu -B --quiet -Djacoco.skip=true -Dorg.slf4j.simpleLogger.defaultLogLevel=error --no-transfer-progress clean install --file pom.xml ${{ matrix.flags }}
 
       - name: Upload Maven build artifact
-        uses: actions/upload-artifact@v2.2.4
+        uses: actions/upload-artifact@v3
         if: matrix.java == '8' && matrix.os == 'ubuntu-latest'
         with:
           name: artifact
@@ -79,9 +79,9 @@ jobs:
 #             flags: --skip-docs
     steps:
       - name: Check out code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Download build artifact
-        uses: actions/download-artifact@v2.0.10
+        uses: actions/download-artifact@v3
         with:
           name: artifact
       - name: Run Ensures Script

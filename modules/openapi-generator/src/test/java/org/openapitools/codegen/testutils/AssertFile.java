@@ -141,8 +141,8 @@ public class AssertFile {
             if (!deltas.isEmpty()) {
                 StringBuilder stringBuilder = new StringBuilder();
                 stringBuilder.append("files diff:\n");
-                stringBuilder.append("\tfile: '").append(expected.toAbsolutePath().toString()).append("' \n");
-                stringBuilder.append("\tfile: '").append(actual.toAbsolutePath().toString()).append("' \n");
+                stringBuilder.append("\tfile: '").append(expected.toAbsolutePath()).append("' \n");
+                stringBuilder.append("\tfile: '").append(actual.toAbsolutePath()).append("' \n");
                 stringBuilder.append("\tdiffs:\n");
 
                 for (Delta delta : deltas) {

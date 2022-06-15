@@ -18,7 +18,7 @@ import {
     PartFromJSON,
     PartFromJSONTyped,
     PartToJSON,
-} from './';
+} from './Part';
 
 /**
  * Contains all the matching parts
@@ -38,6 +38,17 @@ export interface MatchingParts {
      * @memberof MatchingParts
      */
     related: Array<Part>;
+}
+
+/**
+ * Check if a given object implements the MatchingParts interface.
+ */
+export function instanceOfMatchingParts(value: object): boolean {
+    let isInstance = true;
+    isInstance = isInstance && "connected" in value;
+    isInstance = isInstance && "related" in value;
+
+    return isInstance;
 }
 
 export function MatchingPartsFromJSON(json: any): MatchingParts {

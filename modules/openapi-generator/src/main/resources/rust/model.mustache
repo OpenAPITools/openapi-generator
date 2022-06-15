@@ -28,6 +28,14 @@ impl ToString for {{{classname}}} {
         }
     }
 }
+
+impl Default for {{{classname}}} {
+    fn default() -> {{{classname}}} {
+        {{#allowableValues}}
+        Self::{{ enumVars.0.name }}
+        {{/allowableValues}}
+    }
+}
 {{/isEnum}}
 
 {{!-- for schemas that have a discriminator --}}
@@ -56,7 +64,7 @@ pub enum {{{classname}}} {
 {{!-- for non-enum schemas --}}
 {{^isEnum}}
 {{^discriminator}}
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Default, Serialize, Deserialize)]
 pub struct {{{classname}}} {
 {{#vars}}
     {{#description}}
@@ -94,6 +102,14 @@ pub enum {{{enumName}}} {
     {{{name}}},
 {{/enumVars}}
 {{/allowableValues}}
+}
+
+impl Default for {{{enumName}}} {
+    fn default() -> {{{enumName}}} {
+        {{#allowableValues}}
+        Self::{{ enumVars.0.name }}
+        {{/allowableValues}}
+    }
 }
 {{/isEnum}}
 {{/vars}}

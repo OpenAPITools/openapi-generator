@@ -418,7 +418,7 @@
                 let body = response.into_body();
 {{#dataType}}
                 let body = body
-                        .to_raw()
+                        .into_raw()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
 {{#vendorExtensions}}
 {{#x-produces-bytes}}
@@ -434,7 +434,9 @@
                     .map_err(|e| ApiError(format!("Response body did not match the schema: {}", e)))?;
     {{/x-produces-xml}}
     {{#x-produces-json}}
-                let body = serde_json::from_str::<{{{dataType}}}>(body)?;
+                let body = serde_json::from_str::<{{{dataType}}}>(body).map_err(|e| {
+                    ApiError(format!("Response body did not match the schema: {}", e))
+                })?;
     {{/x-produces-json}}
     {{#x-produces-plain-text}}
                 let body = body.to_string();
@@ -477,7 +479,7 @@
                 let headers = response.headers().clone();
                 let body = response.into_body()
                        .take(100)
-                       .to_raw().await;
+                       .into_raw().await;
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,

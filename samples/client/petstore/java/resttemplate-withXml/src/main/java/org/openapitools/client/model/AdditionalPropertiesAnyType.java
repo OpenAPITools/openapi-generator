@@ -25,6 +25,7 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.HashMap;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
@@ -34,7 +35,6 @@ import javax.xml.bind.annotation.*;
 @JsonPropertyOrder({
   AdditionalPropertiesAnyType.JSON_PROPERTY_NAME
 })
-@JsonTypeName("AdditionalPropertiesAnyType")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @XmlRootElement(name = "AdditionalPropertiesAnyType")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -44,6 +44,8 @@ public class AdditionalPropertiesAnyType extends HashMap<String, Object> {
   @XmlElement(name = "name")
   private String name;
 
+  public AdditionalPropertiesAnyType() { 
+  }
 
   public AdditionalPropertiesAnyType name(String name) {
     

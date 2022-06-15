@@ -18,11 +18,13 @@ import {
     PetPartTypeFromJSON,
     PetPartTypeFromJSONTyped,
     PetPartTypeToJSON,
+} from './PetPartType';
+import {
     ResponseMeta,
     ResponseMetaFromJSON,
     ResponseMetaFromJSONTyped,
     ResponseMetaToJSON,
-} from './';
+} from './ResponseMeta';
 
 /**
  * 
@@ -42,6 +44,16 @@ export interface GetPetPartTypeResponse {
      * @memberof GetPetPartTypeResponse
      */
     data?: PetPartType;
+}
+
+/**
+ * Check if a given object implements the GetPetPartTypeResponse interface.
+ */
+export function instanceOfGetPetPartTypeResponse(value: object): boolean {
+    let isInstance = true;
+    isInstance = isInstance && "meta" in value;
+
+    return isInstance;
 }
 
 export function GetPetPartTypeResponseFromJSON(json: any): GetPetPartTypeResponse {

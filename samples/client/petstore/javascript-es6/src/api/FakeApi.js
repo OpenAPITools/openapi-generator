@@ -14,6 +14,7 @@
 
 import ApiClient from "../ApiClient";
 import Client from '../model/Client';
+import EnumClass from '../model/EnumClass';
 import FileSchemaTestClass from '../model/FileSchemaTestClass';
 import HealthCheckResult from '../model/HealthCheckResult';
 import OuterComposite from '../model/OuterComposite';
@@ -586,6 +587,7 @@ export default class FakeApi {
      * @param {module:model/String} opts.enumQueryString Query parameter enum test (string) (default to '-efg')
      * @param {module:model/Number} opts.enumQueryInteger Query parameter enum test (double)
      * @param {module:model/Number} opts.enumQueryDouble Query parameter enum test (double)
+     * @param {Array.<module:model/EnumClass>} opts.enumQueryModelArray 
      * @param {Array.<module:model/String>} opts.enumFormStringArray Form parameter enum test (string array) (default to '$')
      * @param {module:model/String} opts.enumFormString Form parameter enum test (string) (default to '-efg')
      * @param {module:api/FakeApi~testEnumParametersCallback} callback The callback function, accepting three arguments: error, data, response
@@ -600,7 +602,8 @@ export default class FakeApi {
         'enum_query_string_array': this.apiClient.buildCollectionParam(opts['enumQueryStringArray'], 'multi'),
         'enum_query_string': opts['enumQueryString'],
         'enum_query_integer': opts['enumQueryInteger'],
-        'enum_query_double': opts['enumQueryDouble']
+        'enum_query_double': opts['enumQueryDouble'],
+        'enum_query_model_array': this.apiClient.buildCollectionParam(opts['enumQueryModelArray'], 'multi')
       };
       let headerParams = {
         'enum_header_string_array': opts['enumHeaderStringArray'],
@@ -694,6 +697,7 @@ export default class FakeApi {
 
     /**
      * test inline additionalProperties
+     * 
      * @param {Object.<String, {String: String}>} requestBody request body
      * @param {module:api/FakeApi~testInlineAdditionalPropertiesCallback} callback The callback function, accepting three arguments: error, data, response
      */
@@ -734,6 +738,7 @@ export default class FakeApi {
 
     /**
      * test json serialization of form data
+     * 
      * @param {String} param field1
      * @param {String} param2 field2
      * @param {module:api/FakeApi~testJsonFormDataCallback} callback The callback function, accepting three arguments: error, data, response

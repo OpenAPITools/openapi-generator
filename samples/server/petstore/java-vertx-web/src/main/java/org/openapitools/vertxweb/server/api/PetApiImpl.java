@@ -8,7 +8,7 @@ import org.openapitools.vertxweb.server.ApiResponse;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.ext.web.handler.impl.HttpStatusException;
+import io.vertx.ext.web.handler.HttpException;
 
 import java.util.List;
 import java.util.Map;
@@ -17,35 +17,35 @@ import java.util.Map;
 
 public class PetApiImpl implements PetApi {
     public Future<ApiResponse<Pet>> addPet(Pet pet) {
-        return Future.failedFuture(new HttpStatusException(501));
+        return Future.failedFuture(new HttpException(501));
     }
 
     public Future<ApiResponse<Void>> deletePet(Long petId, String apiKey) {
-        return Future.failedFuture(new HttpStatusException(501));
+        return Future.failedFuture(new HttpException(501));
     }
 
     public Future<ApiResponse<List<Pet>>> findPetsByStatus(List<String> status) {
-        return Future.failedFuture(new HttpStatusException(501));
+        return Future.failedFuture(new HttpException(501));
     }
 
     public Future<ApiResponse<List<Pet>>> findPetsByTags(List<String> tags) {
-        return Future.failedFuture(new HttpStatusException(501));
+        return Future.failedFuture(new HttpException(501));
     }
 
     public Future<ApiResponse<Pet>> getPetById(Long petId) {
-        return Future.failedFuture(new HttpStatusException(501));
+        return Future.failedFuture(new HttpException(501));
     }
 
     public Future<ApiResponse<Pet>> updatePet(Pet pet) {
-        return Future.failedFuture(new HttpStatusException(501));
+        return Future.failedFuture(new HttpException(501));
     }
 
     public Future<ApiResponse<Void>> updatePetWithForm(Long petId, JsonObject formBody) {
-        return Future.failedFuture(new HttpStatusException(501));
+        return Future.failedFuture(new HttpException(501));
     }
 
-    public Future<ApiResponse<ModelApiResponse>> uploadFile(Long petId, FileUpload file) {
-        return Future.failedFuture(new HttpStatusException(501));
+    public Future<ApiResponse<ModelApiResponse>> uploadFile(Long petId, FileUpload _file) {
+        return Future.failedFuture(new HttpException(501));
     }
 
 }

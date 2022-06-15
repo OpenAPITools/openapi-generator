@@ -15,48 +15,17 @@
  * limitations under the License.
  */
 
-package org.openapitools.codegen;
+package org.openapitools.codegen.csharp;
 
-import com.google.common.collect.Sets;
-import com.samskivert.mustache.Mustache.Lambda;
-
-import io.swagger.parser.OpenAPIParser;
-import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.PathItem;
-import io.swagger.v3.oas.models.headers.Header;
-import io.swagger.v3.oas.models.media.*;
-import io.swagger.v3.oas.models.parameters.QueryParameter;
-import io.swagger.v3.oas.models.parameters.RequestBody;
-import io.swagger.v3.oas.models.responses.ApiResponse;
-import io.swagger.v3.oas.models.responses.ApiResponses;
-import io.swagger.v3.oas.models.security.SecurityScheme;
-import io.swagger.v3.parser.core.models.ParseOptions;
 
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.config.CodegenConfigurator;
-import org.openapitools.codegen.config.GlobalSettings;
+import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.AbstractCSharpCodegen;
 import org.openapitools.codegen.languages.AspNetCoreServerCodegen;
 import org.openapitools.codegen.languages.CSharpNetCoreClientCodegen;
-import org.openapitools.codegen.templating.mustache.CamelCaseLambda;
-import org.openapitools.codegen.templating.mustache.IndentedLambda;
-import org.openapitools.codegen.templating.mustache.LowercaseLambda;
-import org.openapitools.codegen.templating.mustache.TitlecaseLambda;
-import org.openapitools.codegen.templating.mustache.UppercaseLambda;
-import org.openapitools.codegen.utils.ModelUtils;
-import org.openapitools.codegen.utils.SemVer;
-import org.testng.Assert;
 import org.testng.annotations.Test;
-
-import java.io.File;
-import java.nio.file.Files;
-import java.util.*;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
-
-import javax.accessibility.AccessibleAttributeSequence;
 
 import static org.testng.Assert.*;
 
@@ -76,7 +45,7 @@ public class CSharpOperationTest {
     }
 
     public String getOperationOptionalParameterDataType(final AbstractCSharpCodegen codegen, final int openApiVersion, final Boolean nullableReferenceTypes){
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/" + Integer.toString(openApiVersion) + "_0/petstore-with-fake-endpoints-models-for-testing.yaml");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/" + openApiVersion + "_0/petstore-with-fake-endpoints-models-for-testing.yaml");
         codegen.setNullableReferenceTypes(nullableReferenceTypes);
         codegen.setOpenAPI(openAPI);
 

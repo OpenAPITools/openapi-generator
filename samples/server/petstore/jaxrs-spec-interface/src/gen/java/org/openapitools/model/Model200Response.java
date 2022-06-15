@@ -1,5 +1,6 @@
 package org.openapitools.model;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
@@ -11,12 +12,15 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
  * Model for testing model name starting with number
  **/
 @ApiModel(description = "Model for testing model name starting with number")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class Model200Response  implements Serializable {
+@JsonTypeName("200_response")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+public class Model200Response  implements Serializable {
   
   private @Valid Integer name;
   private @Valid String propertyClass;
@@ -29,14 +33,13 @@ import com.fasterxml.jackson.annotation.JsonValue;
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("name")
   public Integer getName() {
     return name;
   }
 
+  @JsonProperty("name")
   public void setName(Integer name) {
     this.name = name;
   }
@@ -49,14 +52,13 @@ import com.fasterxml.jackson.annotation.JsonValue;
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("class")
   public String getPropertyClass() {
     return propertyClass;
   }
 
+  @JsonProperty("class")
   public void setPropertyClass(String propertyClass) {
     this.propertyClass = propertyClass;
   }

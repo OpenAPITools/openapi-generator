@@ -20,6 +20,10 @@ import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.SemVer;
 import org.slf4j.Logger;
@@ -265,13 +269,13 @@ public class TypeScriptNestjsClientCodegen extends AbstractTypeScriptClientCodeg
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> operations, List<Object> allModels) {
-        Map<String, Object> objs = (Map<String, Object>) operations.get("operations");
+    public OperationsMap postProcessOperationsWithModels(OperationsMap operations, List<ModelMap> allModels) {
+        OperationMap objs = operations.getOperations();
 
         // Add filename information for api imports
-        objs.put("apiFilename", getApiFilenameFromClassname(objs.get("classname").toString()));
+        objs.put("apiFilename", getApiFilenameFromClassname(objs.getClassname()));
 
-        List<CodegenOperation> ops = (List<CodegenOperation>) objs.get("operation");
+        List<CodegenOperation> ops = objs.getOperation();
         boolean hasSomeFormParams = false;
         for (CodegenOperation op : ops) {
             if (op.getHasFormParams()) {
@@ -325,8 +329,8 @@ public class TypeScriptNestjsClientCodegen extends AbstractTypeScriptClientCodeg
         operations.put("hasSomeFormParams", hasSomeFormParams);
 
         // Add additional filename information for model imports in the services
-        List<Map<String, Object>> imports = (List<Map<String, Object>>) operations.get("imports");
-        for (Map<String, Object> im : imports) {
+        List<Map<String, String>> imports = operations.getImports();
+        for (Map<String, String> im : imports) {
             im.put("filename", im.get("import"));
             im.put("classname", im.get("classname"));
         }
@@ -351,19 +355,17 @@ public class TypeScriptNestjsClientCodegen extends AbstractTypeScriptClientCodeg
     }
 
     @Override
-    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
-        Map<String, Object> result = super.postProcessModels(objs);
+    public ModelsMap postProcessModels(ModelsMap objs) {
+        ModelsMap result = super.postProcessModels(objs);
         return postProcessModelsEnum(result);
     }
 
     @Override
-    public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
-        Map<String, Object> result = super.postProcessAllModels(objs);
-        for (Map.Entry<String, Object> entry : result.entrySet()) {
-            Map<String, Object> inner = (Map<String, Object>) entry.getValue();
-            List<Map<String, Object>> models = (List<Map<String, Object>>) inner.get("models");
-            for (Map<String, Object> mo : models) {
-                CodegenModel cm = (CodegenModel) mo.get("model");
+    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
+        Map<String, ModelsMap> result = super.postProcessAllModels(objs);
+        for (ModelsMap entry : result.values()) {
+            for (ModelMap mo : entry.getModels()) {
+                CodegenModel cm = mo.getModel();
                 if (taggedUnions) {
                     mo.put(TAGGED_UNIONS, true);
                     if (cm.discriminator != null && cm.children != null) {
@@ -387,14 +389,12 @@ public class TypeScriptNestjsClientCodegen extends AbstractTypeScriptClientCodeg
      * Parse imports
      */
     private Set<String> parseImports(CodegenModel cm) {
-        Set<String> newImports = new HashSet<String>();
+        Set<String> newImports = new HashSet<>();
         if (cm.imports.size() > 0) {
             for (String name : cm.imports) {
                 if (name.indexOf(" | ") >= 0) {
                     String[] parts = name.split(" \\| ");
-                    for (String s : parts) {
-                        newImports.add(s);
-                    }
+                    newImports.addAll(Arrays.asList(parts));
                 } else {
                     newImports.add(name);
                 }

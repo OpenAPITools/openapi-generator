@@ -56,7 +56,7 @@ data class Order (
     val status: Order.Status? = null,
 
     @SerialName(value = "complete")
-    val complete: kotlin.Boolean? = null
+    val complete: kotlin.Boolean? = false
 
 ) : Serializable {
     companion object {

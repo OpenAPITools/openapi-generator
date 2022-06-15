@@ -1,13 +1,13 @@
 import { exists, mapValues } from '../runtime';
 {{#hasImports}}
+{{#imports}}
 import {
-    {{#imports}}
     {{{.}}},
     {{.}}FromJSON,
     {{.}}FromJSONTyped,
     {{.}}ToJSON,
-    {{/imports}}
-} from './';
+} from './{{.}}';
+{{/imports}}
 
 {{/hasImports}}
 {{#discriminator}}
@@ -19,6 +19,20 @@ import {
 
 {{/discriminator}}
 {{>modelGenericInterfaces}}
+
+/**
+ * Check if a given object implements the {{classname}} interface.
+ */
+export function instanceOf{{classname}}(value: object): boolean {
+    let isInstance = true;
+    {{#vars}}
+    {{#required}}
+    isInstance = isInstance && "{{name}}" in value;
+    {{/required}}
+    {{/vars}}
+
+    return isInstance;
+}
 
 export function {{classname}}FromJSON(json: any): {{classname}} {
     return {{classname}}FromJSONTyped(json, false);

@@ -17,14 +17,12 @@
 
 package org.openapitools.codegen.languages;
 
-import com.google.common.collect.Sets;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.SupportingFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,19 +31,20 @@ public class DartClientCodegen extends AbstractDartCodegen {
     private final Logger LOGGER = LoggerFactory.getLogger(DartClientCodegen.class);
 
     public static final String SERIALIZATION_LIBRARY_NATIVE = "native_serialization";
-    public static final String SERIALIZATION_LIBRARY_JSON_SERIALIZABLE = "json_serializable";
 
     public DartClientCodegen() {
         super();
+
         final CliOption serializationLibrary = CliOption.newString(CodegenConstants.SERIALIZATION_LIBRARY,
                 "Specify serialization library");
         serializationLibrary.setDefault(SERIALIZATION_LIBRARY_NATIVE);
 
         final Map<String, String> serializationOptions = new HashMap<>();
         serializationOptions.put(SERIALIZATION_LIBRARY_NATIVE, "Use native serializer, backwards compatible");
-        serializationOptions.put(SERIALIZATION_LIBRARY_JSON_SERIALIZABLE, "Use json_serializable. Experimental and subject to breaking changes without further notice");
         serializationLibrary.setEnum(serializationOptions);
         cliOptions.add(serializationLibrary);
+
+        sourceFolder = "";
     }
 
     @Override
@@ -62,15 +61,14 @@ public class DartClientCodegen extends AbstractDartCodegen {
 
         this.setSerializationLibrary();
 
-        final String libFolder = sourceFolder + File.separator + "lib";
         supportingFiles.add(new SupportingFile("pubspec.mustache", "", "pubspec.yaml"));
         supportingFiles.add(new SupportingFile("analysis_options.mustache", "", "analysis_options.yaml"));
-        supportingFiles.add(new SupportingFile("api_client.mustache", libFolder, "api_client.dart"));
-        supportingFiles.add(new SupportingFile("api_exception.mustache", libFolder, "api_exception.dart"));
-        supportingFiles.add(new SupportingFile("api_helper.mustache", libFolder, "api_helper.dart"));
-        supportingFiles.add(new SupportingFile("apilib.mustache", libFolder, "api.dart"));
+        supportingFiles.add(new SupportingFile("api_client.mustache", libPath, "api_client.dart"));
+        supportingFiles.add(new SupportingFile("api_exception.mustache", libPath, "api_exception.dart"));
+        supportingFiles.add(new SupportingFile("api_helper.mustache", libPath, "api_helper.dart"));
+        supportingFiles.add(new SupportingFile("apilib.mustache", libPath, "api.dart"));
 
-        final String authFolder = sourceFolder + File.separator + "lib" + File.separator + "auth";
+        final String authFolder = libPath + "auth";
         supportingFiles.add(new SupportingFile("auth/authentication.mustache", authFolder, "authentication.dart"));
         supportingFiles.add(new SupportingFile("auth/http_basic_auth.mustache", authFolder, "http_basic_auth.dart"));
         supportingFiles.add(new SupportingFile("auth/http_bearer_auth.mustache", authFolder, "http_bearer_auth.dart"));
@@ -88,15 +86,7 @@ public class DartClientCodegen extends AbstractDartCodegen {
         LOGGER.info("Using serialization library {}", serialization_library);
 
         switch (serialization_library) {
-            case SERIALIZATION_LIBRARY_JSON_SERIALIZABLE:
-                additionalProperties.put(SERIALIZATION_LIBRARY_JSON_SERIALIZABLE, "true");
-                // json_serializable requires build.yaml
-                supportingFiles.add(new SupportingFile("build.yaml.mustache",
-                        "" /* main project dir */,
-                        "build.yaml"));
-                break;
-
-            case SERIALIZATION_LIBRARY_NATIVE: // fall trough to default backwards compatible generator
+            case SERIALIZATION_LIBRARY_NATIVE: // fall through to default backwards compatible generator
             default:
                 additionalProperties.put(SERIALIZATION_LIBRARY_NATIVE, "true");
 

@@ -88,6 +88,8 @@ public class MapTest {
   public static final String JSON_PROPERTY_INDIRECT_MAP = "indirect_map";
   private Map<String, Boolean> indirectMap = null;
 
+  public MapTest() { 
+  }
 
   public MapTest mapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
     this.mapMapOfString = mapMapOfString;

@@ -13,8 +13,9 @@
 
 package org.openapitools.client.api;
 
-import org.junit.Assert;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
@@ -64,39 +65,39 @@ public class PetApiTest {
 
         //get pet by ID
         Pet result = api.getPetById(petId);
-        Assert.assertEquals(result.getId(), body.getId());
-        Assert.assertEquals(result.getCategory(), category);
-        Assert.assertEquals(result.getName(), body.getName());
-        Assert.assertEquals(result.getPhotoUrls(), body.getPhotoUrls());
-        Assert.assertEquals(result.getStatus(), body.getStatus());
-        Assert.assertEquals(result.getTags(), body.getTags());
+        assertEquals(result.getId(), body.getId());
+        assertEquals(result.getCategory(), category);
+        assertEquals(result.getName(), body.getName());
+        assertEquals(result.getPhotoUrls(), body.getPhotoUrls());
+        assertEquals(result.getStatus(), body.getStatus());
+        assertEquals(result.getTags(), body.getTags());
 
         // update pet
         api.updatePetWithForm(petId, "jersey2 java8 pet 2", "sold");
 
         //get pet by ID
         Pet result2 = api.getPetById(petId);
-        Assert.assertEquals(result2.getId(), body.getId());
-        Assert.assertEquals(result2.getCategory(), category);
-        Assert.assertEquals(result2.getName(), "jersey2 java8 pet 2");
-        Assert.assertEquals(result2.getPhotoUrls(), body.getPhotoUrls());
-        Assert.assertEquals(result2.getStatus(), Pet.StatusEnum.SOLD);
-        Assert.assertEquals(result2.getTags(), body.getTags());
+        assertEquals(result2.getId(), body.getId());
+        assertEquals(result2.getCategory(), category);
+        assertEquals(result2.getName(), "jersey2 java8 pet 2");
+        assertEquals(result2.getPhotoUrls(), body.getPhotoUrls());
+        assertEquals(result2.getStatus(), Pet.StatusEnum.SOLD);
+        assertEquals(result2.getTags(), body.getTags());
 
         // delete pet
         api.deletePet(petId, "empty api key");
 
         try {
             Pet result3 = api.getPetById(petId);
-            Assert.assertEquals(false, true);
+            assertEquals(false, true);
         } catch (ApiException e) {
 //            System.err.println("Exception when calling PetApi#getPetById");
 //            System.err.println("Status code: " + e.getCode());
 //            System.err.println("Reason: " + e.getResponseBody());
 //            System.err.println("Response headers: " + e.getResponseHeaders());
 
-            Assert.assertEquals(e.getCode(), 404);
-            Assert.assertEquals(e.getResponseBody(), "{\"code\":1,\"type\":\"error\",\"message\":\"Pet not found\"}");
+            assertEquals(e.getCode(), 404);
+            assertEquals(e.getResponseBody(), "{\"code\":1,\"type\":\"error\",\"message\":\"Pet not found\"}");
 
         }
 

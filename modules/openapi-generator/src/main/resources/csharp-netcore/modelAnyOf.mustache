@@ -19,7 +19,7 @@
         {{#anyOf}}
         /// <summary>
         /// Initializes a new instance of the <see cref="{{classname}}" /> class
-        /// with the <see cref="{{{.}}}" /> class
+        /// with the <see cref="{{#lambdaCref}}{{{.}}}{{/lambdaCref}}" /> class
         /// </summary>
         /// <param name="actualInstance">An instance of {{{.}}}.</param>
         public {{classname}}({{{.}}} actualInstance)
@@ -171,6 +171,7 @@
             }
         }
 
+        {{#validatable}}
         /// <summary>
         /// To validate all properties of the instance
         /// </summary>
@@ -180,6 +181,7 @@
         {
             yield break;
         }
+        {{/validatable}}
     }
 
     /// <summary>

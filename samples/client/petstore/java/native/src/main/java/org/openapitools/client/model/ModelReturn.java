@@ -39,6 +39,8 @@ public class ModelReturn {
   public static final String JSON_PROPERTY_RETURN = "return";
   private Integer _return;
 
+  public ModelReturn() { 
+  }
 
   public ModelReturn _return(Integer _return) {
     this._return = _return;

@@ -6,6 +6,7 @@ import javax.validation.Valid;
 import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+
 public class ReadOnlyFirst  {
   
   @ApiModelProperty(value = "")
@@ -41,6 +42,24 @@ public class ReadOnlyFirst  {
     return this;
   }
 
+
+    @Override
+    public boolean equals(Object o) {
+      if (this == o) {
+        return true;
+      }
+      if (o == null || getClass() != o.getClass()) {
+        return false;
+      }
+      ReadOnlyFirst readOnlyFirst = (ReadOnlyFirst) o;
+      return Objects.equals(bar, readOnlyFirst.bar) &&
+          Objects.equals(baz, readOnlyFirst.baz);
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hash(bar, baz);
+    }
 
   @Override
   public String toString() {

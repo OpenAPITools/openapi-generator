@@ -13,10 +13,13 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class Cat extends Animal implements Serializable {
+@JsonTypeName("Cat")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+public class Cat extends Animal implements Serializable {
   
   private @Valid Boolean declawed;
 
@@ -28,14 +31,13 @@ import com.fasterxml.jackson.annotation.JsonValue;
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("declawed")
   public Boolean getDeclawed() {
     return declawed;
   }
 
+  @JsonProperty("declawed")
   public void setDeclawed(Boolean declawed) {
     this.declawed = declawed;
   }

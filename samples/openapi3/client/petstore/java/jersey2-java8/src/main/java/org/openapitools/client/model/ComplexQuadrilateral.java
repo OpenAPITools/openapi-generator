@@ -49,6 +49,8 @@ public class ComplexQuadrilateral {
   public static final String JSON_PROPERTY_QUADRILATERAL_TYPE = "quadrilateralType";
   private String quadrilateralType;
 
+  public ComplexQuadrilateral() { 
+  }
 
   public ComplexQuadrilateral shapeType(String shapeType) {
     this.shapeType = shapeType;

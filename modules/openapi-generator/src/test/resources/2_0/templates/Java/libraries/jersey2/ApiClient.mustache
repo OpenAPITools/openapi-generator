@@ -526,7 +526,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
    * @return API client
    */
   public ApiClient setUserAgent(String userAgent) {
-    userAgent = userAgent;
+    this.userAgent = userAgent;
     addDefaultHeader("User-Agent", userAgent);
     return this;
   }

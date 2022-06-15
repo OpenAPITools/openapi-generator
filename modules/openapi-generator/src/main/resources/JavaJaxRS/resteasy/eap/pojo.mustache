@@ -1,7 +1,10 @@
 import io.swagger.annotations.*;
 
 {{#description}}@ApiModel(description="{{{.}}}"){{/description}}{{>additionalModelTypeAnnotations}}{{>generatedAnnotation}}{{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}
-public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#serializableModel}}implements Serializable{{/serializableModel}} {
+{{#vendorExtensions.x-class-extra-annotation}}
+{{{vendorExtensions.x-class-extra-annotation}}}
+{{/vendorExtensions.x-class-extra-annotation}}
+public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#vendorExtensions.x-implements}}{{#-first}}implements {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{/vendorExtensions.x-implements}} {
 {{#serializableModel}}
   private static final long serialVersionUID = 1L;
 {{/serializableModel}}
@@ -10,7 +13,9 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#serializable
 {{>enumClass}}{{/isContainer}}{{#isContainer}}{{#mostInnerItems}}
 
 {{>enumClass}}{{/mostInnerItems}}{{/isContainer}}{{/isEnum}}
-
+  {{#vendorExtensions.x-field-extra-annotation}}
+  {{{vendorExtensions.x-field-extra-annotation}}}
+  {{/vendorExtensions.x-field-extra-annotation}}
   private {{{datatypeWithEnum}}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};{{/vars}}
 
   {{#vars}}
@@ -31,7 +36,8 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#serializable
 {{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}  public {{{datatypeWithEnum}}} {{getter}}() {
     return {{name}};
   }
-  public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
+  {{#vendorExtensions.x-setter-extra-annotation}}{{{vendorExtensions.x-setter-extra-annotation}}}
+  {{/vendorExtensions.x-setter-extra-annotation}}public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
     this.{{name}} = {{name}};
   }
 

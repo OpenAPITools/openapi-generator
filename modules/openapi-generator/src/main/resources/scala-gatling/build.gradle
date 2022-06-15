@@ -1,5 +1,5 @@
 plugins {
-    id 'com.github.lkishalmi.gatling' version '0.7.1'
+    id 'io.gatling.gradle' version '3.7.3'
 }
 
 repositories {
@@ -10,7 +10,7 @@ dependencies {
 
 }
 
-apply plugin: "com.github.lkishalmi.gatling"
+apply plugin: "io.gatling.gradle"
 
 gatling {
     toolVersion = '2.3.0'

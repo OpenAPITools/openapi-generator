@@ -2,17 +2,11 @@ package org.openapitools.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.openapitools.model.ModelFile;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 import io.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlEnumValue;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -21,32 +15,32 @@ public class FileSchemaTestClass  {
   
   @ApiModelProperty(value = "")
   @Valid
-  private java.io.File file;
+  private ModelFile _file;
 
   @ApiModelProperty(value = "")
   @Valid
-  private List<java.io.File> files = null;
+  private List<ModelFile> files = null;
  /**
-  * Get file
-  * @return file
+  * Get _file
+  * @return _file
   */
   @JsonProperty("file")
-  public java.io.File getFile() {
-    return file;
+  public ModelFile getFile() {
+    return _file;
   }
 
   /**
-   * Sets the <code>file</code> property.
+   * Sets the <code>_file</code> property.
    */
-  public void setFile(java.io.File file) {
-    this.file = file;
+ public void setFile(ModelFile _file) {
+    this._file = _file;
   }
 
   /**
-   * Sets the <code>file</code> property.
+   * Sets the <code>_file</code> property.
    */
-  public FileSchemaTestClass file(java.io.File file) {
-    this.file = file;
+  public FileSchemaTestClass _file(ModelFile _file) {
+    this._file = _file;
     return this;
   }
 
@@ -55,21 +49,21 @@ public class FileSchemaTestClass  {
   * @return files
   */
   @JsonProperty("files")
-  public List<java.io.File> getFiles() {
+  public List<ModelFile> getFiles() {
     return files;
   }
 
   /**
    * Sets the <code>files</code> property.
    */
-  public void setFiles(List<java.io.File> files) {
+ public void setFiles(List<ModelFile> files) {
     this.files = files;
   }
 
   /**
    * Sets the <code>files</code> property.
    */
-  public FileSchemaTestClass files(List<java.io.File> files) {
+  public FileSchemaTestClass files(List<ModelFile> files) {
     this.files = files;
     return this;
   }
@@ -77,7 +71,7 @@ public class FileSchemaTestClass  {
   /**
    * Adds a new item to the <code>files</code> list.
    */
-  public FileSchemaTestClass addFilesItem(java.io.File filesItem) {
+  public FileSchemaTestClass addFilesItem(ModelFile filesItem) {
     this.files.add(filesItem);
     return this;
   }
@@ -88,7 +82,7 @@ public class FileSchemaTestClass  {
     StringBuilder sb = new StringBuilder();
     sb.append("class FileSchemaTestClass {\n");
     
-    sb.append("    file: ").append(toIndentedString(file)).append("\n");
+    sb.append("    _file: ").append(toIndentedString(_file)).append("\n");
     sb.append("    files: ").append(toIndentedString(files)).append("\n");
     sb.append("}");
     return sb.toString();

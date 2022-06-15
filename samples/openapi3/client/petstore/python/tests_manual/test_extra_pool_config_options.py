@@ -48,9 +48,9 @@ class TestExtraOptionsForPools(unittest.TestCase):
 
         socket_options = ["extra", "socket", "options"]
 
-        config = petstore_api.Configuration(host="HOST")
+        config = petstore_api.Configuration(host="http://somehost.local:8080")
         config.socket_options = socket_options
-        config.proxy = True
+        config.proxy = "http://proxy.local:8080/"
 
         with patch("petstore_api.rest.urllib3.ProxyManager", StubProxyManager):
             api_client = petstore_api.ApiClient(config)

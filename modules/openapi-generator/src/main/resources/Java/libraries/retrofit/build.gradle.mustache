@@ -6,8 +6,7 @@ version = '{{artifactVersion}}'
 
 buildscript {
     repositories {
-        maven { url "https://repo1.maven.org/maven2" }
-        jcenter()
+        mavenCentral()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.+'
@@ -16,7 +15,7 @@ buildscript {
 }
 
 repositories {
-    jcenter()
+    mavenCentral()
 }
 
 
@@ -33,14 +32,8 @@ if(hasProperty('target') && target == 'android') {
             targetSdkVersion 25
         }
         compileOptions {
-            {{#java8}}
             sourceCompatibility JavaVersion.VERSION_1_8
             targetCompatibility JavaVersion.VERSION_1_8
-            {{/java8}}
-            {{^java8}}
-            sourceCompatibility JavaVersion.VERSION_1_7
-            targetCompatibility JavaVersion.VERSION_1_7
-            {{/java8}}
         }
 
         // Rename the aar correctly
@@ -55,7 +48,7 @@ if(hasProperty('target') && target == 'android') {
         }
 
         dependencies {
-            provided 'javax.annotation:jsr250-api:1.0'
+            provided "jakarta.annotation:jakarta.annotation-api:$jakarta_annotation_version"
         }
     }
 
@@ -83,14 +76,17 @@ if(hasProperty('target') && target == 'android') {
 } else {
 
     apply plugin: 'java'
-    apply plugin: 'maven'
+    apply plugin: 'maven-publish'
 
     sourceCompatibility = JavaVersion.VERSION_1_7
     targetCompatibility = JavaVersion.VERSION_1_7
 
-    install {
-        repositories.mavenInstaller {
-            pom.artifactId = '{{artifactId}}'
+    publishing {
+        publications {
+            maven(MavenPublication) {
+               artifactId = '{{artifactId}}'
+               from components.java
+            }
         }
     }
 
@@ -105,11 +101,9 @@ ext {
     oltu_version = "1.0.1"
     retrofit_version = "1.9.0"
     swagger_annotations_version = "1.5.21"
-    junit_version = "4.13.1"
+    jakarta_annotation_version = "1.3.5"
+    junit_version = "4.13.2"
     jodatime_version = "2.9.3"
-    {{#threetenbp}}
-    threetenbp_version = "1.4.0"
-    {{/threetenbp}}
 }
 
 dependencies {
@@ -119,9 +113,6 @@ dependencies {
     implementation "io.swagger:swagger-annotations:$swagger_annotations_version"
     implementation "org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:$oltu_version"
     implementation "joda-time:joda-time:$jodatime_version"
-    {{#threetenbp}}
-    implementation "org.threeten:threetenbp:$threetenbp_version"
-    {{/threetenbp}}
-    implementation 'javax.annotation:javax.annotation-api:1.3.2'
+    implementation "jakarta.annotation:jakarta.annotation-api:$jakarta_annotation_version"
     testImplementation "junit:junit:$junit_version"
 }

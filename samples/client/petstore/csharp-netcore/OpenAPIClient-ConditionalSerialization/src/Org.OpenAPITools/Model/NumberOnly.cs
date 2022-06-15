@@ -39,6 +39,10 @@ namespace Org.OpenAPITools.Model
         public NumberOnly(decimal justNumber = default(decimal))
         {
             this._JustNumber = justNumber;
+            if (this.JustNumber != null)
+            {
+                this._flagJustNumber = true;
+            }
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
@@ -78,7 +82,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            var sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
             sb.Append("class NumberOnly {\n");
             sb.Append("  JustNumber: ").Append(JustNumber).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
@@ -124,9 +128,11 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = hashCode * 59 + this.JustNumber.GetHashCode();
+                hashCode = (hashCode * 59) + this.JustNumber.GetHashCode();
                 if (this.AdditionalProperties != null)
-                    hashCode = hashCode * 59 + this.AdditionalProperties.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
+                }
                 return hashCode;
             }
         }
@@ -136,7 +142,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
         {
             yield break;
         }

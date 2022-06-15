@@ -1,0 +1,6 @@
+curl -X {{vendorExtensions.x-codegen-http-method-upper-case}}{{#authMethods}} \
+{{#isApiKey}}{{#isKeyInHeader}}-H "{{keyParamName}}: [[apiKey]]"{{/isKeyInHeader}}{{/isApiKey}}{{^isBasicBearer}}{{#isBasic}} -H "Authorization: Basic [[basicHash]]"{{/isBasic}}{{/isBasicBearer}}{{#isBasicBearer}} -H "Authorization: Bearer [[accessToken]]"{{/isBasicBearer}}{{/authMethods}}{{#hasProduces}} \
+ -H "Accept: {{#produces}}{{{mediaType}}}{{^-last}},{{/-last}}{{/produces}}"{{/hasProduces}}{{#hasConsumes}} \
+ -H "Content-Type: {{#consumes}}{{{mediaType}}}{{^-last}},{{/-last}}{{/consumes}}"{{/hasConsumes}} \
+ "{{basePath}}{{path}}{{#hasQueryParams}}?{{#queryParams}}{{^-first}}&{{/-first}}{{baseName}}={{{example}}}{{/queryParams}}{{/hasQueryParams}}"{{#requestBodyExamples}} \
+ -d '{{example}}'{{/requestBodyExamples}}

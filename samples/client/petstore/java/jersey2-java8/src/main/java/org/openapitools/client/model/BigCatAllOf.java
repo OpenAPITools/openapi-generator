@@ -34,6 +34,7 @@ import org.openapitools.client.JSON;
 @JsonPropertyOrder({
   BigCatAllOf.JSON_PROPERTY_KIND
 })
+@JsonTypeName("BigCat_allOf")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class BigCatAllOf {
   /**
@@ -78,6 +79,8 @@ public class BigCatAllOf {
   public static final String JSON_PROPERTY_KIND = "kind";
   private KindEnum kind;
 
+  public BigCatAllOf() { 
+  }
 
   public BigCatAllOf kind(KindEnum kind) {
     this.kind = kind;

@@ -45,6 +45,16 @@ export interface Name {
     readonly _123number?: number;
 }
 
+/**
+ * Check if a given object implements the Name interface.
+ */
+export function instanceOfName(value: object): boolean {
+    let isInstance = true;
+    isInstance = isInstance && "name" in value;
+
+    return isInstance;
+}
+
 export function NameFromJSON(json: any): Name {
     return NameFromJSONTyped(json, false);
 }

@@ -158,7 +158,10 @@ export class ObjectSerializer {
             let attributeTypes = typeMap[type].getAttributeTypeMap();
             for (let index in attributeTypes) {
                 let attributeType = attributeTypes[index];
-                instance[attributeType.name] = ObjectSerializer.deserialize(data[attributeType.baseName], attributeType.type, attributeType.format);
+                let value = ObjectSerializer.deserialize(data[attributeType.baseName], attributeType.type, attributeType.format);
+                if (value !== undefined) {
+                    instance[attributeType.name] = value;
+                }
             }
             return instance;
         }
@@ -228,6 +231,10 @@ export class ObjectSerializer {
 
         if (mediaType === "application/json") {
             return JSON.parse(rawData);
+        }
+
+        if (mediaType === "text/html") {
+            return rawData;
         }
 
         throw new Error("The mediaType " + mediaType + " is not supported by ObjectSerializer.parse.");
