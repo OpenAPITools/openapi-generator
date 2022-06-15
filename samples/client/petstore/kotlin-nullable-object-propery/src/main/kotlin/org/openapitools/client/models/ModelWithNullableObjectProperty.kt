@@ -20,8 +20,10 @@
 
 package org.openapitools.client.models
 
-import org.openapitools.client.models.OneOfLessThanNullCommaPropertyTypeCommaOtherPropertyTypeGreaterThan
-import org.openapitools.client.models.OneOfLessThanStringCommaNumberGreaterThan
+import org.openapitools.client.models.ModelWithNullableObjectPropertyNonNullableProperty
+import org.openapitools.client.models.ModelWithNullableObjectPropertyPropertyName30
+import org.openapitools.client.models.ModelWithNullableObjectPropertyPropertyName31
+import org.openapitools.client.models.ModelWithNullableObjectPropertyPropertyWithNullAndTwoTypes
 import org.openapitools.client.models.PropertyType
 
 import com.squareup.moshi.Json
@@ -43,16 +45,16 @@ data class ModelWithNullableObjectProperty (
     val propertyName: PropertyType? = null,
 
     @Json(name = "propertyName30")
-    val propertyName30: PropertyType? = null,
+    val propertyName30: ModelWithNullableObjectPropertyPropertyName30? = null,
 
     @Json(name = "propertyName31")
-    val propertyName31: PropertyType? = null,
+    val propertyName31: ModelWithNullableObjectPropertyPropertyName31? = null,
 
     @Json(name = "nonNullableProperty")
-    val nonNullableProperty: OneOfLessThanStringCommaNumberGreaterThan? = null,
+    val nonNullableProperty: ModelWithNullableObjectPropertyNonNullableProperty? = null,
 
     @Json(name = "propertyWithNullAndTwoTypes")
-    val propertyWithNullAndTwoTypes: OneOfLessThanNullCommaPropertyTypeCommaOtherPropertyTypeGreaterThan? = null
+    val propertyWithNullAndTwoTypes: ModelWithNullableObjectPropertyPropertyWithNullAndTwoTypes? = null
 
 ) : Serializable {
     companion object {

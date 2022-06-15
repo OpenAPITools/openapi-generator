@@ -1,3 +1,4 @@
+.github/workflows/maven.yml
 .gitignore
 .travis.yml
 README.md
@@ -6,6 +7,10 @@ build.gradle
 build.sbt
 docs/DefaultApi.md
 docs/ModelWithNullableObjectProperty.md
+docs/ModelWithNullableObjectPropertyNonNullableProperty.md
+docs/ModelWithNullableObjectPropertyPropertyName30.md
+docs/ModelWithNullableObjectPropertyPropertyName31.md
+docs/ModelWithNullableObjectPropertyPropertyWithNullAndTwoTypes.md
 docs/OtherPropertyType.md
 docs/PropertyType.md
 git_push.sh
@@ -29,5 +34,9 @@ src/main/java/org/openapitools/client/ServerVariable.java
 src/main/java/org/openapitools/client/api/DefaultApi.java
 src/main/java/org/openapitools/client/model/AbstractOpenApiSchema.java
 src/main/java/org/openapitools/client/model/ModelWithNullableObjectProperty.java
+src/main/java/org/openapitools/client/model/ModelWithNullableObjectPropertyNonNullableProperty.java
+src/main/java/org/openapitools/client/model/ModelWithNullableObjectPropertyPropertyName30.java
+src/main/java/org/openapitools/client/model/ModelWithNullableObjectPropertyPropertyName31.java
+src/main/java/org/openapitools/client/model/ModelWithNullableObjectPropertyPropertyWithNullAndTwoTypes.java
 src/main/java/org/openapitools/client/model/OtherPropertyType.java
 src/main/java/org/openapitools/client/model/PropertyType.java

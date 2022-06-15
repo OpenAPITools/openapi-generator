@@ -111,6 +111,10 @@ Class | Method | HTTP request | Description
 ## Documentation for Models
 
  - [ModelWithNullableObjectProperty](docs/ModelWithNullableObjectProperty.md)
+ - [ModelWithNullableObjectPropertyNonNullableProperty](docs/ModelWithNullableObjectPropertyNonNullableProperty.md)
+ - [ModelWithNullableObjectPropertyPropertyName30](docs/ModelWithNullableObjectPropertyPropertyName30.md)
+ - [ModelWithNullableObjectPropertyPropertyName31](docs/ModelWithNullableObjectPropertyPropertyName31.md)
+ - [ModelWithNullableObjectPropertyPropertyWithNullAndTwoTypes](docs/ModelWithNullableObjectPropertyPropertyWithNullAndTwoTypes.md)
  - [OtherPropertyType](docs/OtherPropertyType.md)
  - [PropertyType](docs/PropertyType.md)
 

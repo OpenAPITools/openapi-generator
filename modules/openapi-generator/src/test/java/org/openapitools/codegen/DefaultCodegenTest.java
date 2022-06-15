@@ -33,7 +33,6 @@ import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.parser.core.models.ParseOptions;
-
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.model.ModelMap;
@@ -3717,7 +3716,7 @@ public class DefaultCodegenTest {
         modelName = "ObjectWithComposedProperties";
         CodegenModel m = codegen.fromModel(modelName, openAPI.getComponents().getSchemas().get(modelName));
         /* TODO inline allOf schema are created as separate models and the following assumptions that
-           the properties are non-model are no longer valid and need to be revised 
+           the properties are non-model are no longer valid and need to be revised
         assertTrue(m.vars.get(0).getIsMap());
         assertTrue(m.vars.get(1).getIsNumber());
         assertTrue(m.vars.get(2).getIsUnboundedInteger());
@@ -4216,6 +4215,12 @@ public class DefaultCodegenTest {
         String propertyName;
         CodegenProperty property;
 
+        // Non regression on regular oneOf construct
+        propertyName = "nonNullableProperty";
+        property = codegen.fromProperty(propertyName, (Schema) schema.getProperties().get(propertyName));
+        assertEquals(property.openApiType, "oneOf<string,number>");
+        // oneOf property resolve to any type and is set to nullable
+
         // openapi 3.0 nullable
         propertyName = "propertyName30";
         property = codegen.fromProperty(propertyName, (Schema) schema.getProperties().get(propertyName));
@@ -4227,11 +4232,5 @@ public class DefaultCodegenTest {
         property = codegen.fromProperty(propertyName, (Schema) schema.getProperties().get(propertyName));
         assertEquals(property.openApiType, "PropertyType");
         assertTrue(property.isNullable);
-
-        // Non regression on regular oneOf construct
-        propertyName = "nonNullableProperty";
-        property = codegen.fromProperty(propertyName, (Schema) schema.getProperties().get(propertyName));
-        assertEquals(property.openApiType, "oneOf<string,number>");
-        // oneOf property resolve to any type and is set to nullable
     }
 }

@@ -1,10 +1,14 @@
 .gitignore
-.php_cs
+.php-cs-fixer.dist.php
 .travis.yml
 README.md
 composer.json
 docs/Api/DefaultApi.md
 docs/Model/ModelWithNullableObjectProperty.md
+docs/Model/ModelWithNullableObjectPropertyNonNullableProperty.md
+docs/Model/ModelWithNullableObjectPropertyPropertyName30.md
+docs/Model/ModelWithNullableObjectPropertyPropertyName31.md
+docs/Model/ModelWithNullableObjectPropertyPropertyWithNullAndTwoTypes.md
 docs/Model/OtherPropertyType.md
 docs/Model/PropertyType.md
 git_push.sh
@@ -14,6 +18,10 @@ lib/Configuration.php
 lib/HeaderSelector.php
 lib/Model/ModelInterface.php
 lib/Model/ModelWithNullableObjectProperty.php
+lib/Model/ModelWithNullableObjectPropertyNonNullableProperty.php
+lib/Model/ModelWithNullableObjectPropertyPropertyName30.php
+lib/Model/ModelWithNullableObjectPropertyPropertyName31.php
+lib/Model/ModelWithNullableObjectPropertyPropertyWithNullAndTwoTypes.php
 lib/Model/OtherPropertyType.php
 lib/Model/PropertyType.php
 lib/ObjectSerializer.php

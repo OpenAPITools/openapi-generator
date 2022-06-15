@@ -5,10 +5,10 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **propertyName** | [**PropertyType**](PropertyType.md) |  |  [optional]
-**propertyName30** | [**PropertyType**](PropertyType.md) |  |  [optional]
-**propertyName31** | [**PropertyType**](PropertyType.md) |  |  [optional]
-**nonNullableProperty** | [**OneOfLessThanStringCommaNumberGreaterThan**](OneOfLessThanStringCommaNumberGreaterThan.md) |  |  [optional]
-**propertyWithNullAndTwoTypes** | [**OneOfLessThanNullCommaPropertyTypeCommaOtherPropertyTypeGreaterThan**](OneOfLessThanNullCommaPropertyTypeCommaOtherPropertyTypeGreaterThan.md) |  |  [optional]
+**propertyName30** | [**ModelWithNullableObjectPropertyPropertyName30**](ModelWithNullableObjectPropertyPropertyName30.md) |  |  [optional]
+**propertyName31** | [**ModelWithNullableObjectPropertyPropertyName31**](ModelWithNullableObjectPropertyPropertyName31.md) |  |  [optional]
+**nonNullableProperty** | [**ModelWithNullableObjectPropertyNonNullableProperty**](ModelWithNullableObjectPropertyNonNullableProperty.md) |  |  [optional]
+**propertyWithNullAndTwoTypes** | [**ModelWithNullableObjectPropertyPropertyWithNullAndTwoTypes**](ModelWithNullableObjectPropertyPropertyWithNullAndTwoTypes.md) |  |  [optional]
 
 
 

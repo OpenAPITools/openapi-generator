@@ -27,6 +27,15 @@ export interface OtherPropertyType {
     bar?: string;
 }
 
+/**
+ * Check if a given object implements the OtherPropertyType interface.
+ */
+export function instanceOfOtherPropertyType(value: object): boolean {
+    let isInstance = true;
+
+    return isInstance;
+}
+
 export function OtherPropertyTypeFromJSON(json: any): OtherPropertyType {
     return OtherPropertyTypeFromJSONTyped(json, false);
 }

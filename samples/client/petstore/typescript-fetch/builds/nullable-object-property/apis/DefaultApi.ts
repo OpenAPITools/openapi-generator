@@ -27,7 +27,7 @@ export class DefaultApi extends runtime.BaseAPI {
 
     /**
      */
-    async operationRaw(initOverrides?: RequestInit): Promise<runtime.ApiResponse<ModelWithNullableObjectProperty>> {
+    async operationRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ModelWithNullableObjectProperty>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -44,7 +44,7 @@ export class DefaultApi extends runtime.BaseAPI {
 
     /**
      */
-    async operation(initOverrides?: RequestInit): Promise<ModelWithNullableObjectProperty> {
+    async operation(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ModelWithNullableObjectProperty> {
         const response = await this.operationRaw(initOverrides);
         return await response.value();
     }

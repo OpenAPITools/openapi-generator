@@ -27,6 +27,15 @@ export interface PropertyType {
     foo?: string;
 }
 
+/**
+ * Check if a given object implements the PropertyType interface.
+ */
+export function instanceOfPropertyType(value: object): boolean {
+    let isInstance = true;
+
+    return isInstance;
+}
+
 export function PropertyTypeFromJSON(json: any): PropertyType {
     return PropertyTypeFromJSONTyped(json, false);
 }

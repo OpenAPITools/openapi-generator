@@ -14,11 +14,29 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    OtherPropertyType,
-    OtherPropertyTypeFromJSON,
-    OtherPropertyTypeFromJSONTyped,
-    OtherPropertyTypeToJSON,
-} from './OtherPropertyType';
+    ModelWithNullableObjectPropertyNonNullableProperty,
+    ModelWithNullableObjectPropertyNonNullablePropertyFromJSON,
+    ModelWithNullableObjectPropertyNonNullablePropertyFromJSONTyped,
+    ModelWithNullableObjectPropertyNonNullablePropertyToJSON,
+} from './ModelWithNullableObjectPropertyNonNullableProperty';
+import {
+    ModelWithNullableObjectPropertyPropertyName30,
+    ModelWithNullableObjectPropertyPropertyName30FromJSON,
+    ModelWithNullableObjectPropertyPropertyName30FromJSONTyped,
+    ModelWithNullableObjectPropertyPropertyName30ToJSON,
+} from './ModelWithNullableObjectPropertyPropertyName30';
+import {
+    ModelWithNullableObjectPropertyPropertyName31,
+    ModelWithNullableObjectPropertyPropertyName31FromJSON,
+    ModelWithNullableObjectPropertyPropertyName31FromJSONTyped,
+    ModelWithNullableObjectPropertyPropertyName31ToJSON,
+} from './ModelWithNullableObjectPropertyPropertyName31';
+import {
+    ModelWithNullableObjectPropertyPropertyWithNullAndTwoTypes,
+    ModelWithNullableObjectPropertyPropertyWithNullAndTwoTypesFromJSON,
+    ModelWithNullableObjectPropertyPropertyWithNullAndTwoTypesFromJSONTyped,
+    ModelWithNullableObjectPropertyPropertyWithNullAndTwoTypesToJSON,
+} from './ModelWithNullableObjectPropertyPropertyWithNullAndTwoTypes';
 import {
     PropertyType,
     PropertyTypeFromJSON,
@@ -40,28 +58,37 @@ export interface ModelWithNullableObjectProperty {
     propertyName?: PropertyType;
     /**
      * 
-     * @type {PropertyType}
+     * @type {ModelWithNullableObjectPropertyPropertyName30}
      * @memberof ModelWithNullableObjectProperty
      */
-    propertyName30?: PropertyType | null;
+    propertyName30?: ModelWithNullableObjectPropertyPropertyName30 | null;
     /**
      * 
-     * @type {PropertyType}
+     * @type {ModelWithNullableObjectPropertyPropertyName31}
      * @memberof ModelWithNullableObjectProperty
      */
-    propertyName31?: PropertyType | null;
+    propertyName31?: ModelWithNullableObjectPropertyPropertyName31;
     /**
      * 
-     * @type {string | number}
+     * @type {ModelWithNullableObjectPropertyNonNullableProperty}
      * @memberof ModelWithNullableObjectProperty
      */
-    nonNullableProperty?: string | number | null;
+    nonNullableProperty?: ModelWithNullableObjectPropertyNonNullableProperty;
     /**
      * 
-     * @type {PropertyType | OtherPropertyType}
+     * @type {ModelWithNullableObjectPropertyPropertyWithNullAndTwoTypes}
      * @memberof ModelWithNullableObjectProperty
      */
-    propertyWithNullAndTwoTypes?: PropertyType | OtherPropertyType | null;
+    propertyWithNullAndTwoTypes?: ModelWithNullableObjectPropertyPropertyWithNullAndTwoTypes;
+}
+
+/**
+ * Check if a given object implements the ModelWithNullableObjectProperty interface.
+ */
+export function instanceOfModelWithNullableObjectProperty(value: object): boolean {
+    let isInstance = true;
+
+    return isInstance;
 }
 
 export function ModelWithNullableObjectPropertyFromJSON(json: any): ModelWithNullableObjectProperty {
@@ -75,10 +102,10 @@ export function ModelWithNullableObjectPropertyFromJSONTyped(json: any, ignoreDi
     return {
         
         'propertyName': !exists(json, 'propertyName') ? undefined : PropertyTypeFromJSON(json['propertyName']),
-        'propertyName30': !exists(json, 'propertyName30') ? undefined : PropertyTypeFromJSON(json['propertyName30']),
-        'propertyName31': !exists(json, 'propertyName31') ? undefined : PropertyTypeFromJSON(json['propertyName31']),
-        'nonNullableProperty': !exists(json, 'nonNullableProperty') ? undefined : string | numberFromJSON(json['nonNullableProperty']),
-        'propertyWithNullAndTwoTypes': !exists(json, 'propertyWithNullAndTwoTypes') ? undefined : PropertyType | OtherPropertyTypeFromJSON(json['propertyWithNullAndTwoTypes']),
+        'propertyName30': !exists(json, 'propertyName30') ? undefined : ModelWithNullableObjectPropertyPropertyName30FromJSON(json['propertyName30']),
+        'propertyName31': !exists(json, 'propertyName31') ? undefined : ModelWithNullableObjectPropertyPropertyName31FromJSON(json['propertyName31']),
+        'nonNullableProperty': !exists(json, 'nonNullableProperty') ? undefined : ModelWithNullableObjectPropertyNonNullablePropertyFromJSON(json['nonNullableProperty']),
+        'propertyWithNullAndTwoTypes': !exists(json, 'propertyWithNullAndTwoTypes') ? undefined : ModelWithNullableObjectPropertyPropertyWithNullAndTwoTypesFromJSON(json['propertyWithNullAndTwoTypes']),
     };
 }
 
@@ -92,10 +119,10 @@ export function ModelWithNullableObjectPropertyToJSON(value?: ModelWithNullableO
     return {
         
         'propertyName': PropertyTypeToJSON(value.propertyName),
-        'propertyName30': PropertyTypeToJSON(value.propertyName30),
-        'propertyName31': PropertyTypeToJSON(value.propertyName31),
-        'nonNullableProperty': string | numberToJSON(value.nonNullableProperty),
-        'propertyWithNullAndTwoTypes': PropertyType | OtherPropertyTypeToJSON(value.propertyWithNullAndTwoTypes),
+        'propertyName30': ModelWithNullableObjectPropertyPropertyName30ToJSON(value.propertyName30),
+        'propertyName31': ModelWithNullableObjectPropertyPropertyName31ToJSON(value.propertyName31),
+        'nonNullableProperty': ModelWithNullableObjectPropertyNonNullablePropertyToJSON(value.nonNullableProperty),
+        'propertyWithNullAndTwoTypes': ModelWithNullableObjectPropertyPropertyWithNullAndTwoTypesToJSON(value.propertyWithNullAndTwoTypes),
     };
 }
 

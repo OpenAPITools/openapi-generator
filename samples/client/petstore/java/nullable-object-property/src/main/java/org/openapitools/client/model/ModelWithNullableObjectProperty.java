@@ -24,8 +24,10 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.openapitools.client.model.OneOfnullPropertyTypeOtherPropertyType;
-import org.openapitools.client.model.OneOfstringnumber;
+import org.openapitools.client.model.ModelWithNullableObjectPropertyNonNullableProperty;
+import org.openapitools.client.model.ModelWithNullableObjectPropertyPropertyName30;
+import org.openapitools.client.model.ModelWithNullableObjectPropertyPropertyName31;
+import org.openapitools.client.model.ModelWithNullableObjectPropertyPropertyWithNullAndTwoTypes;
 import org.openapitools.client.model.PropertyType;
 import org.openapitools.jackson.nullable.JsonNullable;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -50,16 +52,16 @@ public class ModelWithNullableObjectProperty {
   private PropertyType propertyName;
 
   public static final String JSON_PROPERTY_PROPERTY_NAME30 = "propertyName30";
-  private JsonNullable<PropertyType> propertyName30 = JsonNullable.<PropertyType>undefined();
+  private JsonNullable<ModelWithNullableObjectPropertyPropertyName30> propertyName30 = JsonNullable.<ModelWithNullableObjectPropertyPropertyName30>undefined();
 
   public static final String JSON_PROPERTY_PROPERTY_NAME31 = "propertyName31";
-  private JsonNullable<PropertyType> propertyName31 = JsonNullable.<PropertyType>undefined();
+  private ModelWithNullableObjectPropertyPropertyName31 propertyName31;
 
   public static final String JSON_PROPERTY_NON_NULLABLE_PROPERTY = "nonNullableProperty";
-  private JsonNullable<OneOfstringnumber> nonNullableProperty = JsonNullable.<OneOfstringnumber>undefined();
+  private ModelWithNullableObjectPropertyNonNullableProperty nonNullableProperty;
 
   public static final String JSON_PROPERTY_PROPERTY_WITH_NULL_AND_TWO_TYPES = "propertyWithNullAndTwoTypes";
-  private JsonNullable<OneOfnullPropertyTypeOtherPropertyType> propertyWithNullAndTwoTypes = JsonNullable.<OneOfnullPropertyTypeOtherPropertyType>undefined();
+  private ModelWithNullableObjectPropertyPropertyWithNullAndTwoTypes propertyWithNullAndTwoTypes;
 
   public ModelWithNullableObjectProperty() { 
   }
@@ -90,8 +92,8 @@ public class ModelWithNullableObjectProperty {
   }
 
 
-  public ModelWithNullableObjectProperty propertyName30(PropertyType propertyName30) {
-    this.propertyName30 = JsonNullable.<PropertyType>of(propertyName30);
+  public ModelWithNullableObjectProperty propertyName30(ModelWithNullableObjectPropertyPropertyName30 propertyName30) {
+    this.propertyName30 = JsonNullable.<ModelWithNullableObjectPropertyPropertyName30>of(propertyName30);
     return this;
   }
 
@@ -103,29 +105,29 @@ public class ModelWithNullableObjectProperty {
   @ApiModelProperty(value = "")
   @JsonIgnore
 
-  public PropertyType getPropertyName30() {
+  public ModelWithNullableObjectPropertyPropertyName30 getPropertyName30() {
         return propertyName30.orElse(null);
   }
 
   @JsonProperty(JSON_PROPERTY_PROPERTY_NAME30)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public JsonNullable<PropertyType> getPropertyName30_JsonNullable() {
+  public JsonNullable<ModelWithNullableObjectPropertyPropertyName30> getPropertyName30_JsonNullable() {
     return propertyName30;
   }
   
   @JsonProperty(JSON_PROPERTY_PROPERTY_NAME30)
-  public void setPropertyName30_JsonNullable(JsonNullable<PropertyType> propertyName30) {
+  public void setPropertyName30_JsonNullable(JsonNullable<ModelWithNullableObjectPropertyPropertyName30> propertyName30) {
     this.propertyName30 = propertyName30;
   }
 
-  public void setPropertyName30(PropertyType propertyName30) {
-    this.propertyName30 = JsonNullable.<PropertyType>of(propertyName30);
+  public void setPropertyName30(ModelWithNullableObjectPropertyPropertyName30 propertyName30) {
+    this.propertyName30 = JsonNullable.<ModelWithNullableObjectPropertyPropertyName30>of(propertyName30);
   }
 
 
-  public ModelWithNullableObjectProperty propertyName31(PropertyType propertyName31) {
-    this.propertyName31 = JsonNullable.<PropertyType>of(propertyName31);
+  public ModelWithNullableObjectProperty propertyName31(ModelWithNullableObjectPropertyPropertyName31 propertyName31) {
+    this.propertyName31 = propertyName31;
     return this;
   }
 
@@ -135,31 +137,23 @@ public class ModelWithNullableObjectProperty {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
-  @JsonIgnore
-
-  public PropertyType getPropertyName31() {
-        return propertyName31.orElse(null);
-  }
-
   @JsonProperty(JSON_PROPERTY_PROPERTY_NAME31)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public JsonNullable<PropertyType> getPropertyName31_JsonNullable() {
+  public ModelWithNullableObjectPropertyPropertyName31 getPropertyName31() {
     return propertyName31;
   }
-  
+
+
   @JsonProperty(JSON_PROPERTY_PROPERTY_NAME31)
-  public void setPropertyName31_JsonNullable(JsonNullable<PropertyType> propertyName31) {
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setPropertyName31(ModelWithNullableObjectPropertyPropertyName31 propertyName31) {
     this.propertyName31 = propertyName31;
   }
 
-  public void setPropertyName31(PropertyType propertyName31) {
-    this.propertyName31 = JsonNullable.<PropertyType>of(propertyName31);
-  }
 
-
-  public ModelWithNullableObjectProperty nonNullableProperty(OneOfstringnumber nonNullableProperty) {
-    this.nonNullableProperty = JsonNullable.<OneOfstringnumber>of(nonNullableProperty);
+  public ModelWithNullableObjectProperty nonNullableProperty(ModelWithNullableObjectPropertyNonNullableProperty nonNullableProperty) {
+    this.nonNullableProperty = nonNullableProperty;
     return this;
   }
 
@@ -169,31 +163,23 @@ public class ModelWithNullableObjectProperty {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
-  @JsonIgnore
-
-  public OneOfstringnumber getNonNullableProperty() {
-        return nonNullableProperty.orElse(null);
-  }
-
   @JsonProperty(JSON_PROPERTY_NON_NULLABLE_PROPERTY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public JsonNullable<OneOfstringnumber> getNonNullableProperty_JsonNullable() {
+  public ModelWithNullableObjectPropertyNonNullableProperty getNonNullableProperty() {
     return nonNullableProperty;
   }
-  
+
+
   @JsonProperty(JSON_PROPERTY_NON_NULLABLE_PROPERTY)
-  public void setNonNullableProperty_JsonNullable(JsonNullable<OneOfstringnumber> nonNullableProperty) {
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setNonNullableProperty(ModelWithNullableObjectPropertyNonNullableProperty nonNullableProperty) {
     this.nonNullableProperty = nonNullableProperty;
   }
 
-  public void setNonNullableProperty(OneOfstringnumber nonNullableProperty) {
-    this.nonNullableProperty = JsonNullable.<OneOfstringnumber>of(nonNullableProperty);
-  }
 
-
-  public ModelWithNullableObjectProperty propertyWithNullAndTwoTypes(OneOfnullPropertyTypeOtherPropertyType propertyWithNullAndTwoTypes) {
-    this.propertyWithNullAndTwoTypes = JsonNullable.<OneOfnullPropertyTypeOtherPropertyType>of(propertyWithNullAndTwoTypes);
+  public ModelWithNullableObjectProperty propertyWithNullAndTwoTypes(ModelWithNullableObjectPropertyPropertyWithNullAndTwoTypes propertyWithNullAndTwoTypes) {
+    this.propertyWithNullAndTwoTypes = propertyWithNullAndTwoTypes;
     return this;
   }
 
@@ -203,26 +189,18 @@ public class ModelWithNullableObjectProperty {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
-  @JsonIgnore
-
-  public OneOfnullPropertyTypeOtherPropertyType getPropertyWithNullAndTwoTypes() {
-        return propertyWithNullAndTwoTypes.orElse(null);
-  }
-
   @JsonProperty(JSON_PROPERTY_PROPERTY_WITH_NULL_AND_TWO_TYPES)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public JsonNullable<OneOfnullPropertyTypeOtherPropertyType> getPropertyWithNullAndTwoTypes_JsonNullable() {
+  public ModelWithNullableObjectPropertyPropertyWithNullAndTwoTypes getPropertyWithNullAndTwoTypes() {
     return propertyWithNullAndTwoTypes;
   }
-  
-  @JsonProperty(JSON_PROPERTY_PROPERTY_WITH_NULL_AND_TWO_TYPES)
-  public void setPropertyWithNullAndTwoTypes_JsonNullable(JsonNullable<OneOfnullPropertyTypeOtherPropertyType> propertyWithNullAndTwoTypes) {
-    this.propertyWithNullAndTwoTypes = propertyWithNullAndTwoTypes;
-  }
 
-  public void setPropertyWithNullAndTwoTypes(OneOfnullPropertyTypeOtherPropertyType propertyWithNullAndTwoTypes) {
-    this.propertyWithNullAndTwoTypes = JsonNullable.<OneOfnullPropertyTypeOtherPropertyType>of(propertyWithNullAndTwoTypes);
+
+  @JsonProperty(JSON_PROPERTY_PROPERTY_WITH_NULL_AND_TWO_TYPES)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setPropertyWithNullAndTwoTypes(ModelWithNullableObjectPropertyPropertyWithNullAndTwoTypes propertyWithNullAndTwoTypes) {
+    this.propertyWithNullAndTwoTypes = propertyWithNullAndTwoTypes;
   }
 
 
@@ -240,9 +218,9 @@ public class ModelWithNullableObjectProperty {
     ModelWithNullableObjectProperty modelWithNullableObjectProperty = (ModelWithNullableObjectProperty) o;
     return Objects.equals(this.propertyName, modelWithNullableObjectProperty.propertyName) &&
         equalsNullable(this.propertyName30, modelWithNullableObjectProperty.propertyName30) &&
-        equalsNullable(this.propertyName31, modelWithNullableObjectProperty.propertyName31) &&
-        equalsNullable(this.nonNullableProperty, modelWithNullableObjectProperty.nonNullableProperty) &&
-        equalsNullable(this.propertyWithNullAndTwoTypes, modelWithNullableObjectProperty.propertyWithNullAndTwoTypes);
+        Objects.equals(this.propertyName31, modelWithNullableObjectProperty.propertyName31) &&
+        Objects.equals(this.nonNullableProperty, modelWithNullableObjectProperty.nonNullableProperty) &&
+        Objects.equals(this.propertyWithNullAndTwoTypes, modelWithNullableObjectProperty.propertyWithNullAndTwoTypes);
   }
 
   private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
@@ -251,7 +229,7 @@ public class ModelWithNullableObjectProperty {
 
   @Override
   public int hashCode() {
-    return Objects.hash(propertyName, hashCodeNullable(propertyName30), hashCodeNullable(propertyName31), hashCodeNullable(nonNullableProperty), hashCodeNullable(propertyWithNullAndTwoTypes));
+    return Objects.hash(propertyName, hashCodeNullable(propertyName30), propertyName31, nonNullableProperty, propertyWithNullAndTwoTypes);
   }
 
   private static <T> int hashCodeNullable(JsonNullable<T> a) {
