@@ -37,7 +37,7 @@ public class DartDioClientOptionsProvider implements OptionsProvider {
     public static final String PUB_AUTHOR_VALUE = "Author";
     public static final String PUB_AUTHOR_EMAIL_VALUE = "author@homepage";
     public static final String PUB_HOMEPAGE_VALUE = "Homepage";
-    public static final String API_CLIENT_NAME_VALUE = "Homepage";
+    public static final String API_CLIENT_NAME_VALUE = "ApiClient";
     public static final String ENUM_UNKNOWN_DEFAULT_CASE_VALUE = "false";
 
     @Override
