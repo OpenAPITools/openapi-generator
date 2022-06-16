@@ -19,6 +19,7 @@ package org.openapitools.codegen.languages;
 import com.github.curiousoddman.rgxgen.RgxGen;
 import com.github.curiousoddman.rgxgen.config.RgxGenOption;
 import com.github.curiousoddman.rgxgen.config.RgxGenProperties;
+import com.google.common.base.CaseFormat;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.servers.Server;
@@ -1150,6 +1151,10 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
 
         List<String> referencedModelNames = new ArrayList<String>();
         model.dataType = getTypeString(schema, "", "", referencedModelNames);
+    }
+
+    protected String toTesCaseName(String specTestCaseName) {
+        return CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, specTestCaseName);
     }
 
     /**

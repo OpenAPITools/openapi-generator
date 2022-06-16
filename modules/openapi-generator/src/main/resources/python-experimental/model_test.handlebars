@@ -13,18 +13,29 @@ from {{packageName}}.{{modelPackage}}.{{classFilename}} import {{classname}}
 class Test{{classname}}(unittest.TestCase):
     """{{classname}} unit test stubs"""
 
-    def setUp(self):
-        pass
+{{#each vendorExtensions}}
+{{#if @key eq "x-test-examples" }}
+{{#each this }}
+    def test_{{@key}}_{{#if valid}}passes{{else}}fails{{/if}}(self):
+        # {{description}}
+{{#if valid}}
+        {{classname}}(
+{{#with data}}
+        {{>model_templates/payload_renderer}}
+{{/with}}
+        )
+{{else}}
+        with self.assertRaises(({{packageName}}.ApiValueError, {{packageName}}.ApiTypeError)):
+            {{classname}}(
+{{#with data}}
+            {{>model_templates/payload_renderer}}
+{{/with}}
+            )
+{{/if}}
 
-    def tearDown(self):
-        pass
-
-    def test_{{classname}}(self):
-        """Test {{classname}}"""
-        # FIXME: construct object with mandatory attributes with example values
-        # model = {{classname}}()  # noqa: E501
-        pass
-
+{{/each}}
+{{/if}}
+{{/each}}
 {{/with}}
 {{/each}}
 

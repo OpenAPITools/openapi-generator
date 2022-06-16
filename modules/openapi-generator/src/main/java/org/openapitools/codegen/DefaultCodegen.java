@@ -2696,6 +2696,35 @@ public class DefaultCodegen implements CodegenConfig {
         setAddProps(schema, m);
     }
 
+    protected String toTesCaseName(String specTestCaseName) {
+        return specTestCaseName;
+    }
+
+    /**
+     * Processes any test cases if they exist in the vendor extensions
+     * If they exist then cast them to java class instances and assign them back as the value
+     * in the x-test-examples vendor extension
+     * @param vendorExtensions
+     */
+    private void processTestCases(HashMap<String, Object> vendorExtensions) {
+        String testExamplesKey = "x-test-examples";
+        HashMap<String, SchemaTestCase> testCases = new HashMap<>();
+        if (vendorExtensions.containsKey(testExamplesKey)) {
+            LinkedHashMap<String, Object> testExamples = (LinkedHashMap<String, Object>) vendorExtensions.get(testExamplesKey);
+            for(Map.Entry<String, Object> testExampleEntry: testExamples.entrySet()) {
+                String exampleName = testExampleEntry.getKey();
+                LinkedHashMap<String, Object> testExample = (LinkedHashMap<String, Object>) testExampleEntry.getValue();
+                String nameInSnakeCase = toTesCaseName(exampleName);
+                SchemaTestCase testCase = new SchemaTestCase(
+                        (String) testExample.getOrDefault("description", ""),
+                        new ObjectWithTypeBooleans(testExample.get("data")),
+                        (boolean) testExample.get("valid")
+                );
+                testCases.put(nameInSnakeCase, testCase);
+            }
+            vendorExtensions.put(testExamplesKey, testCases);
+        }
+    }
 
     /**
      * Convert OAS Model object to Codegen Model object.
@@ -2706,6 +2735,9 @@ public class DefaultCodegen implements CodegenConfig {
      */
     @Override
     public CodegenModel fromModel(String name, Schema schema) {
+        HashMap<String, Object> vendorExtensions = (HashMap<String, Object>) schema.getExtensions();
+        processTestCases(vendorExtensions);
+
         Map<String, Schema> allDefinitions = ModelUtils.getSchemas(this.openAPI);
         if (typeAliases == null) {
             // Only do this once during first call
