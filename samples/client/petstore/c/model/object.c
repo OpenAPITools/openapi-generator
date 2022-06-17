@@ -28,7 +28,7 @@ cJSON *object_convertToJSON(object_t *object) {
     }
 
     if (!object->temporary) {
-        return cJSON_Parse("{}");
+        return cJSON_Parse("null");
     }
 
     return cJSON_Parse(object->temporary);
