@@ -1513,6 +1513,34 @@ public class JavaClientCodegenTest {
         output.deleteOnExit();
     }
 
+    @Test
+    public void testMicroprofileGenerateCorrectJsonbCreator_issue12622() throws Exception {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(JavaClientCodegen.MICROPROFILE_REST_CLIENT_VERSION, "3.0");
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+            .setAdditionalProperties(properties)
+            .setGeneratorName("java")
+            .setLibrary(JavaClientCodegen.MICROPROFILE)
+            .setInputSpec("src/test/resources/bugs/issue_12622.json")
+            .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(clientOptInput).generate().stream()
+            .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("Foo.java"))
+            .printFileContent()
+            .fileContains(
+                "@JsonbProperty(value = \"b\", nillable = true) String b",
+                "@JsonbProperty(value = \"c\") Integer c"
+            );
+    }
+
     public void testExtraAnnotations(String library) throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
