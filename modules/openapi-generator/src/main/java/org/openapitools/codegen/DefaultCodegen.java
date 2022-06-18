@@ -2312,7 +2312,7 @@ public class DefaultCodegen implements CodegenConfig {
             return "AnyType";
         } else if (StringUtils.isNotEmpty(schema.getType())) {
             if (!schemaMapping.containsKey(schema.getType())) {
-                LOGGER.warn("Unknown type found in the schema: {}. To map it, please use the schema mapping option (e.g. --schema-mapping in CLI)", schema.getType());
+                LOGGER.warn("Unknown type found in the schema: {}. To map it, please use the schema mapping option (e.g. --schema-mappings in CLI)", schema.getType());
             }
             return schema.getType();
         }
