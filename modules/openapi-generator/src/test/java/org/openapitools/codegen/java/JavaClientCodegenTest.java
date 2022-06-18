@@ -704,7 +704,7 @@ public class JavaClientCodegenTest {
 
         // this is the type of the field 'typeAlias'. With a working schemaMapping it should
         // be 'foo.bar.TypeAlias' or just 'TypeAlias'
-        Assert.assertEquals(fieldMatcher.group(1), "TypeAlias");
+        Assert.assertEquals(fieldMatcher.group(1), "foo.bar.TypeAlias");
     }
 
     @Test
