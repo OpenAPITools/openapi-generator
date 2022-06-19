@@ -11,14 +11,30 @@
 {{classname}} <- R6::R6Class(
   '{{classname}}',
   public = list(
+    #' @field actual_instance the object stored in this instance.
     actual_instance = NULL,
+    #' @field actual_type the type of the object stored in this instance.
     actual_type = NULL,
+    #' @field one_of  a list of object types defined in the oneOf schema.
     one_of = list({{#oneOf}}"{{{.}}}"{{^-last}}, {{/-last}}{{/oneOf}}),
-    initialize = function(
-        {{#requiredVars}}`{{baseName}}`, {{/requiredVars}}{{#optionalVars}}`{{baseName}}`={{{defaultValue}}}{{^defaultValue}}NULL{{/defaultValue}}, {{/optionalVars}}...
-    ) {
-      local_optional_var <- list(...)
+    #' Initialize a new {{{classname}}}.
+    #'
+    #' @description
+    #' Initialize a new {{{classname}}}.
+    #'
+    #' @export
+    #' @md
+    initialize = function() {
     },
+    #' Deserialize JSON string into an instance of {{{classname}}}.
+    #'
+    #' @description
+    #' Deserialize JSON string into an instance of {{{classname}}}.
+    #'
+    #' @param input The input JSON.
+    #' @return An instance of {{{classname}}}.
+    #' @export
+    #' @md
     fromJSON = function(input) {
       matched <- 0 # match counter
       matched_schemas <- list() #names of matched schemas
@@ -56,6 +72,14 @@
 
       self
     },
+    #' Serialize {{{classname}}} to JSON string.
+    #'
+    #' @description
+    #' Serialize {{{classname}}} to JSON string.
+    #'
+    #' @return JSON string reprenation of the {{{classname}}}.
+    #' @export
+    #' @md
     toJSON = function() {
       if (!is.null(self$actual_instance)) {
         self$actual_instance$toJSONString()
@@ -63,6 +87,15 @@
         NULL
       }
     },
+    #' Validate the input JSON with respect to {{{classname}}}.
+    #'
+    #' @description
+    #' Validate the input JSON with respect to {{{classname}}} and
+    #' throw exception if invalid.
+    #'
+    #' @param input The input JSON.
+    #' @export
+    #' @md
     validateJSON = function(input) {
       # backup current values
       actual_instance_bak <- self$actual_instance
