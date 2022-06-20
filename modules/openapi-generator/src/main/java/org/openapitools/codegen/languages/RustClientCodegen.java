@@ -570,37 +570,38 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
         String schemaType = super.getSchemaType(p);
         String type = typeMapping.getOrDefault(schemaType, schemaType);
 
-        if (convertPropertyToBoolean(BEST_FIT_INT)) {
-            try {
-                BigDecimal maximum = p.getMaximum();
-                BigDecimal minimum = p.getMinimum();
-                if (maximum != null && minimum != null) {
-                    long max = maximum.longValueExact();
-                    long min = minimum.longValueExact();
+        boolean bestFit = convertPropertyToBoolean(BEST_FIT_INT);
+        boolean unsigned = convertPropertyToBoolean(PREFER_UNSIGNED_INT);
 
-                    if (max <= 255 && min >= -256) {
-                        type = "i8";
-                    }
-                    else if (max <= Short.MAX_VALUE && min >= Short.MIN_VALUE) {
-                        type = "i16";
-                    }
-                    else if (max <= Integer.MAX_VALUE && min >= Integer.MIN_VALUE) {
-                        type = "i32";
-                    }
-                }
+        if (bestFit || unsigned) {
+            BigDecimal maximum = p.getMaximum();
+            BigDecimal minimum = p.getMinimum();
+
+            try {
+              if (maximum != null && minimum != null) {
+                  long max = maximum.longValueExact();
+                  long min = minimum.longValueExact();
+
+                  if (unsigned && bestFit && max <= (Byte.MAX_VALUE * 2) + 1 && min >= 0) {
+                      type = "u8";
+                  } else if (bestFit && max <= Byte.MAX_VALUE && min >= Byte.MIN_VALUE) {
+                      type = "i8";
+                  } else if (unsigned && bestFit && max <= (Short.MAX_VALUE * 2) + 1 && min >= 0) {
+                      type = "u16";
+                  } else if (bestFit && max <= Short.MAX_VALUE && min >= Short.MIN_VALUE) {
+                      type = "i16";
+                  } else if (unsigned && bestFit && max <= (Integer.MAX_VALUE * 2L) + 1 && min >= 0) {
+                      type = "u32";
+                  } else if (bestFit && max <= Integer.MAX_VALUE && min >= Integer.MIN_VALUE) {
+                      type = "i32";
+                  }
+              }
             } catch (ArithmeticException a) {
-                // no-op: use the base type
+                // no-op; case will be handled in the next if block
             }
-        }
 
-        if (convertPropertyToBoolean(PREFER_UNSIGNED_INT) && unsignedMapping.containsKey(type)) {
-            try {
-                BigDecimal minimum = p.getMinimum();
-                if (minimum != null && minimum.longValueExact() >= 0) {
-                    type = unsignedMapping.get(type);
-                }
-            } catch (ArithmeticException a) {
-                // no-op: use the base type
+            if (unsigned && BigDecimal.ZERO.compareTo(minimum) <= 0 && unsignedMapping.containsKey(type)) {
+                type = unsignedMapping.get(type);
             }
         }
 

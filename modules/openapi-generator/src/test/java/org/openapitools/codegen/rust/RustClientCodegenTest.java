@@ -71,7 +71,7 @@ public class RustClientCodegenTest {
     }
 
     @Test
-    public void testLowercaseParameterName() {
+    public void testLowercaseParameterName() throws Exception {
         final RustClientCodegen codegen = new RustClientCodegen();
 
         Assert.assertEquals(codegen.toParamName("TESTING"), "testing");
@@ -151,8 +151,8 @@ public class RustClientCodegenTest {
         codegen.processOpts();
 
         s.setType("i32");
-        s.setMinimum(BigDecimal.valueOf(-256));
-        s.setMaximum(BigDecimal.valueOf(255));
+        s.setMinimum(BigDecimal.valueOf(-128));
+        s.setMaximum(BigDecimal.valueOf(127));
 
         Assert.assertEquals(codegen.getSchemaType(s), "i8");
     }
@@ -168,6 +168,10 @@ public class RustClientCodegenTest {
         s.setMinimum(BigDecimal.ZERO);
 
         Assert.assertEquals(codegen.getSchemaType(s), "u64");
+
+        s.setMaximum(BigDecimal.valueOf(Long.MAX_VALUE).add(BigDecimal.valueOf(Long.MAX_VALUE)));
+
+        Assert.assertEquals(codegen.getSchemaType(s), "u64");
     }
 
     @Test
@@ -179,6 +183,10 @@ public class RustClientCodegenTest {
 
         s.setType("i32");
         s.setMinimum(BigDecimal.ZERO);
+
+        Assert.assertEquals(codegen.getSchemaType(s), "u32");
+
+        s.setMaximum(BigDecimal.valueOf(65535));
 
         Assert.assertEquals(codegen.getSchemaType(s), "u32");
     }
@@ -193,7 +201,7 @@ public class RustClientCodegenTest {
 
         s.setType("i32");
         s.setMinimum(BigDecimal.ZERO);
-        s.setMaximum(BigDecimal.valueOf(Short.MAX_VALUE));
+        s.setMaximum(BigDecimal.valueOf(65535));
 
         Assert.assertEquals(codegen.getSchemaType(s), "u16");
     }
