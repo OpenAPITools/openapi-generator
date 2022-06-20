@@ -2584,7 +2584,9 @@ public class DefaultCodegen implements CodegenConfig {
                         addProperties(allProperties, allRequired, refSchema, new HashSet<>());
                     } else {
                         // composition
-                        addProperties(properties, required, refSchema, new HashSet<>());
+                        Map<String, Schema> interfaceProperties = new LinkedHashMap<>();
+                        addProperties(interfaceProperties, required, refSchema, new HashSet<>());
+                        mergeProperties(properties, interfaceProperties);
                         addProperties(allProperties, allRequired, refSchema, new HashSet<>());
                     }
                 }
@@ -2657,6 +2659,23 @@ public class DefaultCodegen implements CodegenConfig {
             m.isNullable = Boolean.TRUE;
         }
         // end of code block for composed schema
+    }
+
+    private void mergeProperties(Map<String, Schema> properties, Map<String, Schema> interfaceProperties) {
+        // https://github.com/OpenAPITools/openapi-generator/issues/12545
+        if (null != properties && null != interfaceProperties) {
+            Schema propertyType = properties.get("type");
+            Schema interfaceType = interfaceProperties.get("type");
+            properties.putAll(interfaceProperties);
+            if (null != propertyType && null != interfaceType && !interfaceType.getEnum().isEmpty()) {
+                for (Object e : interfaceType.getEnum()) {
+                    if (null != propertyType.getEnum() && !propertyType.getEnum().contains(e)) {
+                        propertyType.addEnumItemObject(e);
+                    }
+                }
+                properties.put("type", propertyType);
+            }
+        }
     }
 
     protected void updateModelForObject(CodegenModel m, Schema schema) {
