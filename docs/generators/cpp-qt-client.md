@@ -38,6 +38,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 | Type/Alias | Imports |
 | ---------- | ------- |
 |OAIHttpFileElement|#include &quot;OAIHttpFileElement.h&quot;|
+|QJsonValue|#include &lt;QJsonValue&gt;|
 
 
 ## INSTANTIATION TYPES
