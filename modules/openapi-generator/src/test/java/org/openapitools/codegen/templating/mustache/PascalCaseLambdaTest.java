@@ -32,6 +32,7 @@ public class PascalCaseLambdaTest extends LambdaTest {
         // When & Then
         test("InputText", "{{#pascalcase}}Input-text{{/pascalcase}}", ctx);
         test("InputText", "{{#pascalcase}}Input_text{{/pascalcase}}", ctx);
+        test("", "{{#pascalcase}}{{/pascalcase}}", ctx);
 
     }
 
