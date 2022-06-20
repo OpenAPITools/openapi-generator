@@ -172,6 +172,11 @@ public class RustClientCodegenTest {
         s.setMaximum(BigDecimal.valueOf(Long.MAX_VALUE).add(BigDecimal.valueOf(Long.MAX_VALUE)));
 
         Assert.assertEquals(codegen.getSchemaType(s), "u64");
+
+        s.setMinimum(null);
+        s.setMaximum(null);
+
+        Assert.assertEquals(codegen.getSchemaType(s), "i64");
     }
 
     @Test

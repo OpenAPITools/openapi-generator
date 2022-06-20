@@ -600,7 +600,7 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
                 // no-op; case will be handled in the next if block
             }
 
-            if (unsigned && BigDecimal.ZERO.compareTo(minimum) <= 0 && unsignedMapping.containsKey(type)) {
+            if (unsigned && minimum != null && minimum.compareTo(BigDecimal.ZERO) >= 0 && unsignedMapping.containsKey(type)) {
                 type = unsignedMapping.get(type);
             }
         }
