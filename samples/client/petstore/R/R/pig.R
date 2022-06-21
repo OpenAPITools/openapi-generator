@@ -32,7 +32,6 @@ Pig <- R6::R6Class(
     #'
     #' @param instance an instance of the object defined in the oneOf schemas: "BasquePig", "DanishPig"
     #' @export
-    #' @md
     initialize = function(instance = NULL) {
       if (is.null(instance)) {
         # do nothing
@@ -54,7 +53,6 @@ Pig <- R6::R6Class(
     #' @param input The input JSON.
     #' @return An instance of Pig.
     #' @export
-    #' @md
     fromJSON = function(input) {
       matched <- 0 # match counter
       matched_schemas <- list() #names of matched schemas
@@ -112,7 +110,6 @@ Pig <- R6::R6Class(
     #'
     #' @return JSON string reprenation of the Pig.
     #' @export
-    #' @md
     toJSON = function() {
       if (!is.null(self$actual_instance)) {
         self$actual_instance$toJSONString()
@@ -128,7 +125,6 @@ Pig <- R6::R6Class(
     #'
     #' @param input The input JSON.
     #' @export
-    #' @md
     validateJSON = function(input) {
       # backup current values
       actual_instance_bak <- self$actual_instance
