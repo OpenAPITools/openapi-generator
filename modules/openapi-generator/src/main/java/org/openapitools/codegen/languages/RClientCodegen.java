@@ -127,12 +127,11 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
                         "next", "break", "TRUE", "FALSE", "NULL", "Inf", "NaN",
                         "NA", "NA_integer_", "NA_real_", "NA_complex_", "NA_character_",
                         // reserved words in API client
-                        "ApiResponse", "data_file",
-                        // reserved words in item
-                        "self", "private", "super"
+                        "ApiResponse", "data_file"
                 )
         );
 
+        // these are reserved words in items: https://github.com/r-lib/R6/blob/main/R/r6_class.R#L484
         itemReservedWords.add("self");
         itemReservedWords.add("private");
         itemReservedWords.add("super");
