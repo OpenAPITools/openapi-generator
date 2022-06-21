@@ -24,7 +24,6 @@
     #'
     #' @param instance an instance of the object defined in the oneOf schemas: {{#oneOf}}"{{{.}}}"{{^-last}}, {{/-last}}{{/oneOf}}
     #' @export
-    #' @md
     initialize = function(instance = NULL) {
       if (is.null(instance)) {
         # do nothing
@@ -43,7 +42,6 @@
     #' @param input The input JSON.
     #' @return An instance of {{{classname}}}.
     #' @export
-    #' @md
     fromJSON = function(input) {
       matched <- 0 # match counter
       matched_schemas <- list() #names of matched schemas
@@ -88,7 +86,6 @@
     #'
     #' @return JSON string reprenation of the {{{classname}}}.
     #' @export
-    #' @md
     toJSON = function() {
       if (!is.null(self$actual_instance)) {
         self$actual_instance$toJSONString()
@@ -104,7 +101,6 @@
     #'
     #' @param input The input JSON.
     #' @export
-    #' @md
     validateJSON = function(input) {
       # backup current values
       actual_instance_bak <- self$actual_instance
