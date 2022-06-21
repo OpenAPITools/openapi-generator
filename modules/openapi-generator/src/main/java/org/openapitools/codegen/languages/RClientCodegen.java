@@ -313,8 +313,10 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
     public String toVarName(String name) {
         // escape item reserved words with "item_" prefix
         if (itemReservedWords.contains(name)) {
+            LOGGER.info("The item `{}` has been renamed to `item_{}` as it's a reserved word.", name, name);
             return "item_" + name;
         }
+
         // don't do anything as we'll put property name inside ` `, e.g. `date-time`
         return name;
     }
