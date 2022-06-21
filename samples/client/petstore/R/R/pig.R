@@ -30,9 +30,21 @@ Pig <- R6::R6Class(
     #' @description
     #' Initialize a new Pig.
     #'
+    #' @param instance an instance of the object defined in the oneOf schemas: "BasquePig", "DanishPig"
     #' @export
     #' @md
-    initialize = function() {
+    initialize = function(instance = NULL) {
+      if (is.null(instance)) {
+        # do nothing
+      } else if (get(class(instance)[[1]], pos = -1)$classname ==  "BasquePig") {
+        self$actual_instance = instance
+        self$actual_type = "BasquePig"
+      } else if (get(class(instance)[[1]], pos = -1)$classname ==  "DanishPig") {
+        self$actual_instance = instance
+        self$actual_type = "DanishPig"
+      } else {
+        stop(paste("Failed to initialize Pig with oneOf schemas BasquePig, DanishPig. Provided class name: ", get(class(instance)[[1]], pos = -1)$classname))
+      }
     },
     #' Deserialize JSON string into an instance of Pig.
     #'

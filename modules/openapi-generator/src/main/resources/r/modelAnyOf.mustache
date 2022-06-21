@@ -22,10 +22,18 @@
     #' @description
     #' Initialize a new {{{classname}}}.
     #'
+    #' @param instance an instance of the object defined in the anyOf schemas: {{#anyOf}}"{{{.}}}"{{^-last}}, {{/-last}}{{/anyOf}}
     #' @export
     #' @md
-    initialize = function(
-    ) {
+    initialize = function(instance = NULL) {
+      if (is.null(instance)) {
+        # do nothing
+      } {{#anyOf}}else if (get(class(instance)[[1]], pos = -1)$classname ==  "{{{.}}}") {
+        self$actual_instance = instance
+        self$actual_type = "{{{.}}}"
+      } {{/anyOf}}else {
+        stop(paste("Failed to initialize {{{classname}}} with anyOf schemas {{#anyOf}}{{{.}}}{{^-last}}, {{/-last}}{{/anyOf}}. Provided class name: ", get(class(instance)[[1]], pos = -1)$classname))
+      }
     },
     #' Deserialize JSON string into an instance of {{{classname}}}.
     #'

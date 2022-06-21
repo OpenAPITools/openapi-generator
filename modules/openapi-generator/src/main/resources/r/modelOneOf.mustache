@@ -22,9 +22,18 @@
     #' @description
     #' Initialize a new {{{classname}}}.
     #'
+    #' @param instance an instance of the object defined in the oneOf schemas: {{#oneOf}}"{{{.}}}"{{^-last}}, {{/-last}}{{/oneOf}}
     #' @export
     #' @md
-    initialize = function() {
+    initialize = function(instance = NULL) {
+      if (is.null(instance)) {
+        # do nothing
+      } {{#oneOf}}else if (get(class(instance)[[1]], pos = -1)$classname ==  "{{{.}}}") {
+        self$actual_instance = instance
+        self$actual_type = "{{{.}}}"
+      } {{/oneOf}}else {
+        stop(paste("Failed to initialize {{{classname}}} with oneOf schemas {{#oneOf}}{{{.}}}{{^-last}}, {{/-last}}{{/oneOf}}. Provided class name: ", get(class(instance)[[1]], pos = -1)$classname))
+      }
     },
     #' Deserialize JSON string into an instance of {{{classname}}}.
     #'

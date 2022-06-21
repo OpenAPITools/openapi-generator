@@ -181,6 +181,17 @@ test_that("Tests oneOf", {
   expect_error(pig$fromJSON('{}'), 'No match found when deserializing the payload into Pig with oneOf schemas BasquePig, DanishPig. Details:  The JSON input ` \\{\\} ` is invalid for BasquePig: the required field `className` is missing\\., The JSON input ` \\{\\} ` is invalid for DanishPig: the required field `className` is missing\\.')
   expect_error(pig$validateJSON('{}'), 'No match found when deserializing the payload into Pig with oneOf schemas BasquePig, DanishPig. Details:  The JSON input ` \\{\\} ` is invalid for BasquePig: the required field `className` is missing\\., The JSON input ` \\{\\} ` is invalid for DanishPig: the required field `className` is missing\\.')
 
+  # class name test
+  expect_equal(get(class(basque_pig$actual_instance)[[1]], pos = -1)$classname, "BasquePig")
+
+  # test contructors
+  pig2 <- Pig$new(instance = basque_pig$actual_instance)
+  expect_equal(pig2$actual_type, "BasquePig")
+  expect_equal(pig2$actual_instance$color, "red")
+  expect_equal(pig2$actual_instance$className, "BasquePig")
+  expect_equal(pig2$toJSON(), original_basque_pig$toJSONString())
+  
+  expect_error(Pig$new(instance = basque_pig), 'Failed to initialize Pig with oneOf schemas BasquePig, DanishPig. Provided class name:  Pig')
 })
 
 test_that("Tests anyOf", {
