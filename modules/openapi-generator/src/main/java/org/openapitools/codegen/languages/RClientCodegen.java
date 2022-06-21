@@ -56,6 +56,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected boolean returnExceptionOnFailure = false;
     protected String exceptionPackage = "default";
     protected Map<String, String> exceptionPackages = new LinkedHashMap<String, String>();
+    protected Set<String> itemReservedWords = new TreeSet<String>();
 
     public static final String EXCEPTION_PACKAGE = "exceptionPackage";
     public static final String USE_DEFAULT_EXCEPTION = "useDefaultExceptionHandling";
@@ -126,9 +127,15 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
                         "next", "break", "TRUE", "FALSE", "NULL", "Inf", "NaN",
                         "NA", "NA_integer_", "NA_real_", "NA_complex_", "NA_character_",
                         // reserved words in API client
-                        "ApiResponse", "data_file"
+                        "ApiResponse", "data_file",
+                        // reserved words in item
+                        "self", "private", "super"
                 )
         );
+
+        itemReservedWords.add("self");
+        itemReservedWords.add("private");
+        itemReservedWords.add("super");
 
         languageSpecificPrimitives.clear();
         languageSpecificPrimitives.add("integer");
@@ -305,6 +312,10 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toVarName(String name) {
+        // escape item reserved words with "item_" prefix
+        if (itemReservedWords.contains(name)) {
+            return "item_" + name;
+        }
         // don't do anything as we'll put property name inside ` `, e.g. `date-time`
         return name;
     }
