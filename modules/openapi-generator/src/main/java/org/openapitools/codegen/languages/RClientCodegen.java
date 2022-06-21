@@ -56,6 +56,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected boolean returnExceptionOnFailure = false;
     protected String exceptionPackage = "default";
     protected Map<String, String> exceptionPackages = new LinkedHashMap<String, String>();
+    protected Set<String> itemReservedWords = new TreeSet<String>();
 
     public static final String EXCEPTION_PACKAGE = "exceptionPackage";
     public static final String USE_DEFAULT_EXCEPTION = "useDefaultExceptionHandling";
@@ -129,6 +130,11 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
                         "ApiResponse", "data_file"
                 )
         );
+
+        // these are reserved words in items: https://github.com/r-lib/R6/blob/main/R/r6_class.R#L484
+        itemReservedWords.add("self");
+        itemReservedWords.add("private");
+        itemReservedWords.add("super");
 
         languageSpecificPrimitives.clear();
         languageSpecificPrimitives.add("integer");
@@ -305,6 +311,12 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toVarName(String name) {
+        // escape item reserved words with "item_" prefix
+        if (itemReservedWords.contains(name)) {
+            LOGGER.info("The item `{}` has been renamed to `item_{}` as it's a reserved word.", name, name);
+            return "item_" + name;
+        }
+
         // don't do anything as we'll put property name inside ` `, e.g. `date-time`
         return name;
     }

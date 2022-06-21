@@ -784,6 +784,18 @@ components:
           type: string
         message:
           type: string
+    Special:
+      title: An uploaded response
+      description: Describes the result of uploading an image resource
+      type: object
+      properties:
+        self:
+          type: integer
+          format: int32
+        private:
+          type: string
+        super:
+          type: string
     Dog:
       allOf:
         - $ref: '#/components/schemas/Animal'
