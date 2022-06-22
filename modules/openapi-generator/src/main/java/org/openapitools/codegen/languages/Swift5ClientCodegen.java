@@ -504,7 +504,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         additionalProperties.put(HASHABLE_MODELS, hashableModels);
 
         if (additionalProperties.containsKey(USE_JSON_ENCODABLE)) {
-          setUseJsonEncodable(convertPropertyToBooleanAndWriteBack(USE_JSON_ENCODABLE));
+            setUseJsonEncodable(convertPropertyToBooleanAndWriteBack(USE_JSON_ENCODABLE));
         }
         additionalProperties.put(USE_JSON_ENCODABLE, useJsonEncodable);
 
@@ -965,7 +965,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     public void setUseJsonEncodable(boolean useJsonEncodable) {
-      this.useJsonEncodable = useJsonEncodable;
+        this.useJsonEncodable = useJsonEncodable;
     }
 
     @Override
