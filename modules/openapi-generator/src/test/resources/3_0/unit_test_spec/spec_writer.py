@@ -46,19 +46,42 @@ class JsonSchemaTestCase:
     data: typing.Union[str, int, float, bool, None, list, dict]
     valid: bool
 
+JsonSchema = typing.TypedDict(
+    'JsonSchema',
+    {
+        'type': str,
+        'properties': typing.Dict[str, 'JsonSchema'],
+        'patternProperties': typing.Dict[str, 'JsonSchema'],
+        'additionalProperties': typing.Union[bool, 'JsonSchema'],
+        'allOf': typing.List['JsonSchema'],
+        'anyOf': typing.List['JsonSchema'],
+        'oneOf': typing.List['JsonSchema'],
+        'not': 'JsonSchema',
+        'maxLength': int,
+        'minLength': int,
+        'required': typing.List[str],
+        'maximum': typing.Union[int, float],
+        'minimum': typing.Union[int, float],
+        'multipleOf': typing.Union[int, float],
+    },
+    total=False
+)
+
 @dataclasses.dataclass
 class JsonSchemaTestSchema:
     description: str
-    schema: dict
+    schema: typing.Union[bool, JsonSchema]
     tests: typing.List[JsonSchemaTestCase]
 
 
 class ExclusionReason:
     v303_does_not_support_array_of_types = 'v3.0.3 does not support type with array of values'
     v303_requires_array_have_items = 'v3.0.3 requires that items MUST be present if the type is array'
+    v303_does_not_support_additionalItems = 'v3.0.3 does not support the additionalItems keyword'
+    v303_does_not_support_const = 'v3.0.3 does not support the const keyword'
 
 json_schema_test_draft = 'draft6'
-filepath_to_excluded_case_and_reason = {
+FILEPATH_TO_EXCLUDED_CASE_AND_REASON = {
     (json_schema_test_draft, 'type.json'): {
         'multiple types can be specified in an array': ExclusionReason.v303_does_not_support_array_of_types,
         'type as array with one item': ExclusionReason.v303_does_not_support_array_of_types,
@@ -67,11 +90,31 @@ filepath_to_excluded_case_and_reason = {
         'array type matches arrays': ExclusionReason.v303_requires_array_have_items,
     }
 }
+FILEPATH_TO_EXCLUDE_REASON = {
+    (json_schema_test_draft, 'additionalItems.json'): ExclusionReason.v303_does_not_support_additionalItems,
+
+}
+
+openapi_additions = 'openapi_additions'
+
+JSON_SCHEMA_TEST_FILE_TO_FOLDERS = {
+    'type.json': (json_schema_test_draft, openapi_additions),
+    'additionalItems.json': (json_schema_test_draft,),
+    'additionalProperties.json': (json_schema_test_draft,),
+    'allOf.json': (json_schema_test_draft,),
+    'anyOf.json': (json_schema_test_draft,),
+    'boolean_schema.json': (json_schema_test_draft,),
+    'const.json': (json_schema_test_draft,),
+}
 
 def get_json_schema_test_schemas(file_path: typing.Tuple[str]) -> typing.List[JsonSchemaTestSchema]:
     json_schema_test_schemas = []
     filename = file_path[-1]
-    excluded_case_to_reason = filepath_to_excluded_case_and_reason.get(file_path, {})
+    exclude_file_reason = FILEPATH_TO_EXCLUDE_REASON.get(file_path)
+    if exclude_file_reason:
+        print(f'Excluding {file_path} because {exclude_file_reason}')
+        return
+    excluded_case_to_reason = FILEPATH_TO_EXCLUDED_CASE_AND_REASON.get(file_path, {})
     path = pathlib.PurePath(*file_path)
     with open(path) as json_file:
         test_schema_dicts = json.load(json_file)
@@ -88,12 +131,6 @@ def get_json_schema_test_schemas(file_path: typing.Tuple[str]) -> typing.List[Js
 
     return json_schema_test_schemas
 
-openapi_additions = 'openapi_additions'
-
-json_schema_test_file_to_folders = {
-    'type.json': (json_schema_test_draft, openapi_additions)
-}
-
 openapi_version = '3.0.3'
 
 
@@ -108,7 +145,8 @@ OpenApiSchema = typing.TypedDict(
     {
         'type': str,
         'x-test-examples': typing.Dict[str, JsonSchemaTestCase],
-        'items': 'OpenApiSchema'
+        'items': 'OpenApiSchema',
+        'properties': typing.Dict[str, 'OpenApiSchema']
     }
 )
 
@@ -151,35 +189,43 @@ def get_test_case_name(test: JsonSchemaTestSchema) -> str:
     res = ''.join(test.description.title().split())
     return re.sub(r'[^A-Za-z0-9 ]+', '', res)
 
-def get_openapi_from_test_file(json_schema_test_file: str, folders: typing.Tuple[str]) -> OpenApiDocument:
-     openapi = get_new_openapi()
-     for folder in folders:
-         file_path_tuple = (folder, json_schema_test_file)
-         test_schemas = get_json_schema_test_schemas(file_path_tuple)
-         for test_schema in test_schemas:
-             component_name = description_to_component_name(test_schema.description)
-             kwargs = {
-                 'x-test-examples': {}
-             }
-             schema = OpenApiSchema(
-                 **test_schema.schema, **kwargs
-             )
-             openapi.components.schemas[component_name] = schema
-             for test in test_schema.tests:
-                 test_case_name = get_test_case_name(test)
-                 schema['x-test-examples'][test_case_name] = test
-     return openapi
+def get_component_schemas(json_schema_test_file: str, folders: typing.Tuple[str]) -> typing.Dict[str, OpenApiSchema]:
+    component_schemas = {}
+    for folder in folders:
+        file_path_tuple = (folder, json_schema_test_file)
+        test_schemas = get_json_schema_test_schemas(file_path_tuple)
+        if not test_schemas:
+            continue
+        for test_schema in test_schemas:
+            component_name = description_to_component_name(test_schema.description)
+            kwargs = {
+             'x-test-examples': {}
+            }
+            print(test_schema)
+            schema = OpenApiSchema(
+             **test_schema.schema, **kwargs
+            )
+            component_schemas[component_name] = schema
+            for test in test_schema.tests:
+                test_case_name = get_test_case_name(test)
+                schema['x-test-examples'][test_case_name] = test
+    return component_schemas
 
-for json_schema_test_file, folders in json_schema_test_file_to_folders.items():
-    openapi = get_openapi_from_test_file(json_schema_test_file, folders)
-    print(
-        yaml.dump(
-            dataclasses.asdict(openapi),
-            sort_keys=False
+def write_openapi_spec():
+    openapi = get_new_openapi()
+    for json_schema_test_file, folders in JSON_SCHEMA_TEST_FILE_TO_FOLDERS.items():
+        component_schemas = get_component_schemas(json_schema_test_file, folders)
+        for component_name, schema in component_schemas.items():
+            if component_name in openapi.components.schemas:
+                raise ValueError('A component with that nae is already defined!')
+            openapi.components.schemas[component_name] = schema
+        print(
+            yaml.dump(
+                dataclasses.asdict(openapi),
+                sort_keys=False
+            )
         )
-    )
-    filename_prefix = pathlib.Path(json_schema_test_file).stem
-    spec_out = f'{filename_prefix}.yaml'
+    spec_out = 'type.yaml'
     with open(spec_out, 'w') as yaml_out:
         yaml_out.write(
             yaml.dump(
@@ -187,3 +233,5 @@ for json_schema_test_file, folders in json_schema_test_file_to_folders.items():
                 sort_keys=False
             )
         )
+
+write_openapi_spec()

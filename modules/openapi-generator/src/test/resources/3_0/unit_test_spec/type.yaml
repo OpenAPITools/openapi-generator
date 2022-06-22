@@ -273,3 +273,124 @@ components:
           description: null is not an array
           data: null
           valid: false
+    AdditionalpropertiesBeingFalseDoesNotAllowOtherProperties:
+      properties:
+        foo: {}
+        bar: {}
+      patternProperties:
+        ^v: {}
+      additionalProperties: false
+      x-test-examples:
+        NoAdditionalPropertiesIsValid:
+          description: no additional properties is valid
+          data:
+            foo: 1
+          valid: true
+        AnAdditionalPropertyIsInvalid:
+          description: an additional property is invalid
+          data:
+            foo: 1
+            bar: 2
+            quux: boom
+          valid: false
+        IgnoresArrays:
+          description: ignores arrays
+          data:
+          - 1
+          - 2
+          - 3
+          valid: true
+        IgnoresStrings:
+          description: ignores strings
+          data: foobarbaz
+          valid: true
+        IgnoresOtherNonObjects:
+          description: ignores other non-objects
+          data: 12
+          valid: true
+        PatternpropertiesAreNotAdditionalProperties:
+          description: patternProperties are not additional properties
+          data:
+            foo: 1
+            vroom: 2
+          valid: true
+    NonAsciiPatternWithAdditionalproperties:
+      patternProperties:
+        "^\xE1": {}
+      additionalProperties: false
+      x-test-examples:
+        MatchingThePatternIsValid:
+          description: matching the pattern is valid
+          data:
+            "\xE1rm\xE1nyos": 2
+          valid: true
+        NotMatchingThePatternIsInvalid:
+          description: not matching the pattern is invalid
+          data:
+            "\xE9lm\xE9ny": 2
+          valid: false
+    AdditionalpropertiesAllowsASchemaWhichShouldValidate:
+      properties:
+        foo: {}
+        bar: {}
+      additionalProperties:
+        type: boolean
+      x-test-examples:
+        NoAdditionalPropertiesIsValid:
+          description: no additional properties is valid
+          data:
+            foo: 1
+          valid: true
+        AnAdditionalValidPropertyIsValid:
+          description: an additional valid property is valid
+          data:
+            foo: 1
+            bar: 2
+            quux: true
+          valid: true
+        AnAdditionalInvalidPropertyIsInvalid:
+          description: an additional invalid property is invalid
+          data:
+            foo: 1
+            bar: 2
+            quux: 12
+          valid: false
+    AdditionalpropertiesCanExistByItself:
+      additionalProperties:
+        type: boolean
+      x-test-examples:
+        AnAdditionalValidPropertyIsValid:
+          description: an additional valid property is valid
+          data:
+            foo: true
+          valid: true
+        AnAdditionalInvalidPropertyIsInvalid:
+          description: an additional invalid property is invalid
+          data:
+            foo: 1
+          valid: false
+    AdditionalpropertiesAreAllowedByDefault:
+      properties:
+        foo: {}
+        bar: {}
+      x-test-examples:
+        AdditionalPropertiesAreAllowed:
+          description: additional properties are allowed
+          data:
+            foo: 1
+            bar: 2
+            quux: true
+          valid: true
+    AdditionalpropertiesShouldNotLookInApplicators:
+      allOf:
+      - properties:
+          foo: {}
+      additionalProperties:
+        type: boolean
+      x-test-examples:
+        PropertiesDefinedInAllofAreNotExamined:
+          description: properties defined in allOf are not examined
+          data:
+            foo: 1
+            bar: true
+          valid: false
