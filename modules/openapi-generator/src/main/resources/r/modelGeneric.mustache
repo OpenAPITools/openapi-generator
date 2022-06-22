@@ -158,17 +158,17 @@
     fromJSON = function({{classname}}Json) {
       {{classname}}Object <- jsonlite::fromJSON({{classname}}Json)
       {{#vars}}
-      if (!is.null({{classname}}Object$`{{name}}`)) {
+      if (!is.null({{classname}}Object$`{{baseName}}`)) {
         {{#isContainer}}
-        self$`{{name}}` <- ApiClient$new()$deserializeObj({{classname}}Object$`{{name}}`, "{{dataType}}", loadNamespace("{{packageName}}"))
+        self$`{{name}}` <- ApiClient$new()$deserializeObj({{classname}}Object$`{{baseName}}`, "{{dataType}}", loadNamespace("{{packageName}}"))
         {{/isContainer}}
         {{^isContainer}}
         {{#isPrimitiveType}}
-        self$`{{name}}` <- {{classname}}Object$`{{name}}`
+        self$`{{name}}` <- {{classname}}Object$`{{baseName}}`
         {{/isPrimitiveType}}
         {{^isPrimitiveType}}
         {{name}}Object <- {{dataType}}$new()
-        {{name}}Object$fromJSON(jsonlite::toJSON({{classname}}Object${{name}}, auto_unbox = TRUE, digits = NA))
+        {{name}}Object$fromJSON(jsonlite::toJSON({{classname}}Object${{baseName}}, auto_unbox = TRUE, digits = NA))
         self$`{{name}}` <- {{name}}Object
         {{/isPrimitiveType}}
         {{/isContainer}}
