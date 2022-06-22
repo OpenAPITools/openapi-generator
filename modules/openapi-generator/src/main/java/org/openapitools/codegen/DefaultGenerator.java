@@ -96,7 +96,7 @@ public class DefaultGenerator implements Generator {
     private String contextPath;
     private Map<String, String> generatorPropertyDefaults = new HashMap<>();
     protected TemplateProcessor templateProcessor = null;
-
+    Set<String> idSets = new HashSet<String>();
     private List<TemplateDefinition> userDefinedTemplates = new ArrayList<>();
 
 
@@ -438,6 +438,20 @@ public class DefaultGenerator implements Generator {
                 Boolean.valueOf(GlobalSettings.getProperty(CodegenConstants.SKIP_FORM_MODEL)) :
                 getGeneratorPropertyDefaultSwitch(CodegenConstants.SKIP_FORM_MODEL, true);
 
+        for (String name : modelKeys) {
+            Schema schema = schemas.get(name);
+            LinkedHashMap<String, Schema> propMap = (LinkedHashMap<String, Schema>)schema.getProperties();
+            for(Map.Entry<String, Schema> entry : propMap.entrySet()) {
+                Schema val = entry.getValue();
+                if(val.getExtensions() != null && val.getExtensions().get("x-setter-annotation") != null){
+                    ArrayList<String> arrList =  (ArrayList<String>) val.getExtensions().get("x-setter-annotation");
+                        if( arrList.contains("Id")){
+                        idSets.add(entry.getKey());
+                        schema.addExtension("x-extra-annotation", "@MappedSuperclass");
+                        }
+                    }        
+            }
+        }
         // process models only
         for (String name : modelKeys) {
             try {
@@ -454,7 +468,31 @@ public class DefaultGenerator implements Generator {
                 }
 
                 Schema schema = schemas.get(name);
+                
+                LinkedHashMap<String, Schema> propMap = (LinkedHashMap<String, Schema>)schema.getProperties();
+                boolean hasMappedSuperClass =  schema.getExtensions() != null && schema.getExtensions().get("x-extra-annotation").equals("@MappedSuperclass");
+                for(Map.Entry<String, Schema> entry : propMap.entrySet()) {
+                    Schema val = entry.getValue();
+                    if(val.getType() != null && val.getType().equals("array")){
+                        if(hasMappedSuperClass)
+                             val.addExtension("x-setter-extra-annotation", "@Transient");
 
+                    }
+                    if(entry.getKey() != null && idSets.contains(entry.getKey())){
+                        boolean shallAddTransient = false;
+                        if(val.getExtensions() == null){
+                            shallAddTransient = true;
+                        } 
+                        else{
+                            ArrayList<String> arrList =  (ArrayList<String>) val.getExtensions().get("x-setter-annotation");
+                            if( !arrList.contains("Id")){
+                             shallAddTransient = true;
+                            }
+                        }
+                        if(shallAddTransient)
+                            val.addExtension("x-setter-extra-annotation", "@Transient");
+                    }
+                }
                 if (ModelUtils.isFreeFormObject(this.openAPI, schema)) { // check to see if it's a free-form object
                     // there are 3 free form use cases
                     // 1. free form with no validation that is not allOf included in any composed schemas

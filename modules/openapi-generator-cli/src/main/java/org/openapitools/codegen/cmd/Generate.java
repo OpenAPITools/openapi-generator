@@ -39,8 +39,8 @@ import org.slf4j.LoggerFactory;
 @Command(name = "generate", description = "Generate code with the specified generator.")
 public class Generate extends OpenApiGeneratorCommand {
 
-    CodegenConfigurator configurator;
-    Generator generator;
+    public CodegenConfigurator configurator;
+    public Generator generator;
 
     @Option(name = {"-v", "--verbose"}, description = "verbose mode")
     private Boolean verbose;

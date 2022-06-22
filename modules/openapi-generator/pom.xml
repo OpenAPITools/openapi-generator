@@ -439,6 +439,11 @@
             <version>3.19.0</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.hibernate.javax.persistence</groupId>
+            <artifactId>hibernate-jpa-2.1-api</artifactId>
+            <version>1.0.0.Final</version>
+        </dependency>
     </dependencies>
     <repositories>
         <repository>

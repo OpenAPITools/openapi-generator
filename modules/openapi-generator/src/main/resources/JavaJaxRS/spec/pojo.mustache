@@ -1,39 +1,37 @@
 {{#useSwaggerAnnotations}}
 import io.swagger.annotations.*;
 {{/useSwaggerAnnotations}}
-import java.util.Objects;
+import java.util.*;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
+import javax.persistence.Transient;
 
 {{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}{{#description}}/**
  * {{.}}
  **/{{/description}}
 {{#useSwaggerAnnotations}}{{#description}}@ApiModel(description = "{{{.}}}"){{/description}}{{/useSwaggerAnnotations}}
+{{#vendorExtensions.x-extra-annotation}}
+{{{vendorExtensions.x-extra-annotation}}}
+{{/vendorExtensions.x-extra-annotation}}
 @JsonTypeName("{{name}}")
-{{>generatedAnnotation}}{{>additionalModelTypeAnnotations}}
-{{#vendorExtensions.x-class-extra-annotation}}
-{{{vendorExtensions.x-class-extra-annotation}}}
-{{/vendorExtensions.x-class-extra-annotation}}
-public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#vendorExtensions.x-implements}}{{#-first}}implements {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{/vendorExtensions.x-implements}} {
+{{>generatedAnnotation}}{{>additionalModelTypeAnnotations}}public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#serializableModel}}implements Serializable{{/serializableModel}} {
   {{#vars}}{{#isEnum}}{{^isContainer}}
 
 {{>enumClass}}{{/isContainer}}{{#isContainer}}{{#mostInnerItems}}
 
 {{>enumClass}}{{/mostInnerItems}}{{/isContainer}}{{/isEnum}}
-  {{#vendorExtensions.x-field-extra-annotation}}
-  {{{vendorExtensions.x-field-extra-annotation}}}
-  {{/vendorExtensions.x-field-extra-annotation}}
-  private {{#useBeanValidation}}@Valid {{/useBeanValidation}}{{{datatypeWithEnum}}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};{{/vars}}{{#generateBuilders}}{{^additionalProperties}}
-
-  protected {{classname}}({{classname}}Builder<?, ?> b) {
-  {{#parent}}super(b);
-  {{/parent}}{{#vars}}this.{{name}} = b.{{name}};{{/vars}}
-  }
-
-  public {{classname}}() { }{{/additionalProperties}}{{/generateBuilders}}
-
+  {{#vendorExtensions.x-setter-annotation}}
+  @{{{.}}}
+  {{/vendorExtensions.x-setter-annotation}}
+  {{#vendorExtensions.x-setter-extra-annotation}}{{{vendorExtensions.x-setter-extra-annotation}}}{{/vendorExtensions.x-setter-extra-annotation}}
+  private {{#useBeanValidation}}@Valid {{/useBeanValidation}}{{{datatypeWithEnum}}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};{{/vars}}
+  
   {{#vars}}/**
    {{#description}}
    * {{.}}
@@ -50,16 +48,21 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#vendorExtens
     return this;
   }
 
-  {{#vendorExtensions.x-extra-annotation}}{{{vendorExtensions.x-extra-annotation}}}{{/vendorExtensions.x-extra-annotation}}{{#useSwaggerAnnotations}}
+  {{#generateBuilders}}public {{classname}}({{#vars}}{{{datatypeWithEnum}}} {{name}}{{^-last}}, {{/-last}}{{/vars}}) {
+    {{#vars}}
+    this.{{name}} = {{name}};
+    {{/vars}}
+  }{{/generateBuilders}}
+
+  {{#useSwaggerAnnotations}}
   @ApiModelProperty({{#example}}example = "{{{.}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}"){{/useSwaggerAnnotations}}
   @JsonProperty("{{baseName}}")
-{{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}  public {{>beanValidatedType}} {{getter}}() {
+{{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}  public {{{datatypeWithEnum}}} {{getter}}() {
     return {{name}};
   }
 
   @JsonProperty("{{baseName}}")
-  {{#vendorExtensions.x-setter-extra-annotation}}{{{vendorExtensions.x-setter-extra-annotation}}}
-  {{/vendorExtensions.x-setter-extra-annotation}}public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
+  public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
     this.{{name}} = {{name}};
   }
 
@@ -142,39 +145,36 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#vendorExtens
     return o.toString().replace("\n", "\n    ");
   }
 
-{{#generateBuilders}}{{^additionalProperties}}
-  public static {{classname}}Builder<?, ?> builder() {
-    return new {{classname}}BuilderImpl();
+  {{#generateBuilders}}
+  public static Builder builder() {
+    return new Builder();
   }
 
-  private static final class {{classname}}BuilderImpl extends {{classname}}Builder<{{classname}}, {{classname}}BuilderImpl> {
-
-    @Override
-    protected {{classname}}BuilderImpl self() {
-      return this;
-    }
-
-    @Override
-    public {{classname}} build() {
-      return new {{classname}}(this);
-    }
-  }
-
-  public static abstract class {{classname}}Builder<C extends {{classname}}, B extends {{classname}}Builder<C, B>> {{#parent}}extends {{{.}}}Builder<C, B>{{/parent}} {
+  public static class Builder {
     {{#vars}}
     private {{{datatypeWithEnum}}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};
     {{/vars}}
-  {{^parent}}
-    protected abstract B self();
-
-    public abstract C build();
-    {{/parent}}
 
     {{#vars}}
-    public B {{name}}({{{datatypeWithEnum}}} {{name}}) {
+    /**
+      {{#description}}
+      * {{.}}
+      {{/description}}
+      {{#minimum}}
+      * minimum: {{.}}
+      {{/minimum}}
+      {{#maximum}}
+      * maximum: {{.}}
+      {{/maximum}}
+      **/
+    public Builder {{name}}({{{datatypeWithEnum}}} {{name}}) {
       this.{{name}} = {{name}};
-      return self();
+      return this;
     }
     {{/vars}}
-  }{{/additionalProperties}}{{/generateBuilders}}
+
+    public {{classname}} build() {
+      return new {{classname}}({{#vars}}{{name}}{{^-last}}, {{/-last}}{{/vars}});
+    }
+  }{{/generateBuilders}}
 }
