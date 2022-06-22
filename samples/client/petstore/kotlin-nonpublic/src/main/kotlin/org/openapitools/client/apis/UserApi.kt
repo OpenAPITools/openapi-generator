@@ -310,7 +310,7 @@ internal class UserApi(basePath: kotlin.String = defaultBasePath, client: OkHttp
         
         return RequestConfig(
             method = RequestMethod.DELETE,
-            path = "/user/{username}".replace("{"+"username"+"}", "$username"),
+            path = "/user/{username}".replace("{"+"username"+"}", username.toString()),
             query = localVariableQuery,
             headers = localVariableHeaders,
             body = localVariableBody
@@ -380,7 +380,7 @@ internal class UserApi(basePath: kotlin.String = defaultBasePath, client: OkHttp
 
         return RequestConfig(
             method = RequestMethod.GET,
-            path = "/user/{username}".replace("{"+"username"+"}", "$username"),
+            path = "/user/{username}".replace("{"+"username"+"}", username.toString()),
             query = localVariableQuery,
             headers = localVariableHeaders,
             body = localVariableBody
@@ -591,7 +591,7 @@ internal class UserApi(basePath: kotlin.String = defaultBasePath, client: OkHttp
         
         return RequestConfig(
             method = RequestMethod.PUT,
-            path = "/user/{username}".replace("{"+"username"+"}", "$username"),
+            path = "/user/{username}".replace("{"+"username"+"}", username.toString()),
             query = localVariableQuery,
             headers = localVariableHeaders,
             body = localVariableBody
