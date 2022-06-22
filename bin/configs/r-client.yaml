@@ -8,4 +8,4 @@ additionalProperties:
   exceptionPackage: rlang
   useRlangExceptionHandling: true
   returnExceptionOnFailure: true
-  errorObjectType: "ApiResponse"
+  errorObjectType: "ModelApiResponse"

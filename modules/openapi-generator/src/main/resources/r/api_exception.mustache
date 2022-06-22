@@ -42,7 +42,7 @@ ApiException <- R6::R6Class(
         self$headers <- http_response$headers
         self$reason <- httr::http_status(http_response)$reason
         {{#errorObjectType}}
-        self$errorObject <- {{errorObjectType}}$fromJsonString(errorMsg)
+        self$errorObject <- {{errorObjectType}}$new()$fromJSONString(errorMsg)
         {{/errorObjectType}}
       } else {
         self$status <- status
