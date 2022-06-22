@@ -684,12 +684,12 @@ public class SpringCodegenTest {
 
     @Test
     public void useBeanValidationTruePerformBeanValidationFalseJava8TrueForFormatEmail() throws IOException {
-        beanValidationForFormatEmail(true, false, true, "@javax.validation.constraints.Email", "@org.hibernate.validator.constraints.Email");
+        beanValidationForFormatEmail(true, false, true, "@Email", "@org.hibernate.validator.constraints.Email");
     }
 
     @Test
     public void useBeanValidationTruePerformBeanValidationTrueJava8FalseForFormatEmail() throws IOException {
-        beanValidationForFormatEmail(true, true, false, "@javax.validation.constraints.Email", "@org.hibernate.validator.constraints.Email");
+        beanValidationForFormatEmail(true, true, false, "@Email", "@org.hibernate.validator.constraints.Email");
     }
 
     // note: java8 option/mustache tag has been removed and default to true
@@ -726,7 +726,7 @@ public class SpringCodegenTest {
 
     @Test
     public void useBeanValidationTruePerformBeanValidationTrueJava8TrueForFormatEmail() throws IOException {
-        beanValidationForFormatEmail(true, true, true, "@javax.validation.constraints.Email", "@org.hibernate.validator.constraints.Email");
+        beanValidationForFormatEmail(true, true, true, "@Email", "@org.hibernate.validator.constraints.Email");
     }
 
     @Test
@@ -1379,5 +1379,57 @@ public class SpringCodegenTest {
                 .hasParameter("orderBy")
                 .assertParameterAnnotations()
                 .containsWithNameAndAttributes("RequestParam", ImmutableMap.of("defaultValue", "\"\""));
+    }
+
+    @Test
+    public void testPutItemsMethodContainsKeyInSuperClassMethodCall_issue12494() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+            .readLocation("src/test/resources/bugs/issue_12494.yaml", null, new ParseOptions()).getOpenAPI();
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput input = new ClientOptInput()
+            .openAPI(openAPI)
+            .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(input).generate().stream()
+            .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("ChildClass.java"))
+            .assertMethod("putSomeMapItem")
+            .bodyContainsLines("super.putSomeMapItem(key, someMapItem);");
+    }
+
+    @Test
+    public void shouldHandleContentTypeWithSecondWildcardSubtype_issue12457() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+            .readLocation("src/test/resources/bugs/issue_12457.yaml", null, new ParseOptions()).getOpenAPI();
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary(SPRING_BOOT);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(SpringCodegen.USE_TAGS, "true");
+
+        ClientOptInput input = new ClientOptInput()
+            .openAPI(openAPI)
+            .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(input).generate().stream()
+            .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("UsersApi.java"))
+            .assertMethod("wildcardSubTypeForContentType")
+            .assertMethodAnnotations()
+            .containsWithNameAndAttributes("RequestMapping", ImmutableMap.of(
+                "produces", "{ \"application/json\", \"application/*\" }",
+                "consumes", "{ \"application/octet-stream\", \"application/*\" }"
+            ));
     }
 }

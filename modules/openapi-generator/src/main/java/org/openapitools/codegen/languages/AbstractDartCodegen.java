@@ -305,13 +305,18 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
 
     @Override
     protected boolean isReservedWord(String word) {
-        // consider everything as reserved that is either a keyword,
-        // a default included type, or a type include through some library
-        return super.isReservedWord(word) || defaultIncludes().contains(word);
+        // consider everything as reserved that is
+        // * a keyword
+        // * a word that has been mapped in the reservedWordsMappings
+        // * a default included type or a type include through some library
+        return super.isReservedWord(word) || reservedWordsMappings().containsKey(word) || defaultIncludes().contains(word);
     }
 
     @Override
     public String escapeReservedWord(String name) {
+        if (reservedWordsMappings().containsKey(name)) {
+            return reservedWordsMappings().get(name);
+        }
         return name + "_";
     }
 

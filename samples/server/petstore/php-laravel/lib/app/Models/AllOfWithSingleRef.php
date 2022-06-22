@@ -10,9 +10,9 @@ namespace app\Models;
 class AllOfWithSingleRef {
 
     /** @var string $username */
-    private $username;
+    public $username = "";
 
-    /** @var SingleRefType $singleRefType */
-    private $singleRefType;
+    /** @var SingleRefType|null $singleRefType */
+    public $singleRefType = null;
 
 }

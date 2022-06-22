@@ -10,7 +10,7 @@ micronaut:
   security:
     oauth2:
       clients:{{#oauthMethods}}
-        {{{name}}}:
+        {{#lambda.replaceDotsWithUnderscore}}{{{name}}}{{/lambda.replaceDotsWithUnderscore}}:
           grant-type: {{#isCode}}authorization_code{{/isCode}}{{#isImplicit}}implicit{{/isImplicit}}{{#isPassword}}password{{/isPassword}}{{#isApplication}}client_credentials{{/isApplication}}
           scopes: [{{#scopes}}"{{{scope}}}"{{^-last}}, {{/-last}}{{/scopes}}]{{!authorization url}}{{#authorizationUrl}}
           authorization:

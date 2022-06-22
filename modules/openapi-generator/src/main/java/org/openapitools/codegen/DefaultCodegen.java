@@ -34,6 +34,7 @@ import org.openapitools.codegen.CodegenDiscriminator.MappedModel;
 import org.openapitools.codegen.api.TemplatingEngineAdapter;
 import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.examples.ExampleGenerator;
+import org.openapitools.codegen.languages.RustServerCodegen;
 import org.openapitools.codegen.meta.FeatureSet;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
@@ -154,6 +155,8 @@ public class DefaultCodegen implements CodegenConfig {
     protected Map<String, String> importMapping = new HashMap<>();
     // a map to store the mappping between inline schema and the name provided by the user
     protected Map<String, String> inlineSchemaNameMapping = new HashMap<>();
+    // a map to store the inline schema naming conventions
+    protected Map<String, String> inlineSchemaNameDefault = new HashMap<>();
     protected String modelPackage = "", apiPackage = "", fileSuffix;
     protected String modelNamePrefix = "", modelNameSuffix = "";
     protected String apiNamePrefix = "", apiNameSuffix = "Api";
@@ -1060,6 +1063,11 @@ public class DefaultCodegen implements CodegenConfig {
     @Override
     public Map<String, String> inlineSchemaNameMapping() {
         return inlineSchemaNameMapping;
+    }
+
+    @Override
+    public Map<String, String> inlineSchemaNameDefault() {
+        return inlineSchemaNameDefault;
     }
 
     @Override
@@ -4077,6 +4085,13 @@ public class DefaultCodegen implements CodegenConfig {
                     op.hasErrorResponseObject = Boolean.TRUE;
                 }
             }
+
+            // check if the operation can both return a 2xx response with a body and without
+            if (op.responses.stream().anyMatch(response -> response.is2xx && response.dataType != null) &&
+                    op.responses.stream().anyMatch(response -> response.is2xx && response.dataType == null)) {
+                op.isResponseOptional = Boolean.TRUE;
+            }
+
             op.responses.sort((a, b) -> {
                 int aScore = a.isWildcard() ? 2 : a.isRange() ? 1 : 0;
                 int bScore = b.isWildcard() ? 2 : b.isRange() ? 1 : 0;
@@ -4608,9 +4623,24 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         Schema parameterSchema;
+
+        // the parameter model name is obtained from the schema $ref
+        // e.g. #/components/schemas/list_pageQuery_parameter => toModelName(list_pageQuery_parameter)
+        String parameterModelName = null;
+
         if (parameter.getSchema() != null) {
             parameterSchema = parameter.getSchema();
-            CodegenProperty prop = fromProperty(parameter.getName(), parameterSchema);
+            parameterModelName = getParameterDataType(parameter, parameterSchema);
+            CodegenProperty prop;
+            if (this instanceof RustServerCodegen) {
+                // for rust server, we need to do somethings special as it uses
+                // $ref (e.g. #components/schemas/Pet) to determine whether it's a model
+                prop = fromProperty(parameter.getName(), parameterSchema);
+            } else if (getUseInlineModelResolver()) {
+                prop = fromProperty(parameter.getName(), getReferencedSchemaWhenNotEnum(parameterSchema));
+            } else {
+                prop = fromProperty(parameter.getName(), parameterSchema);
+            }
             codegenParameter.setSchema(prop);
         } else if (parameter.getContent() != null) {
             Content content = parameter.getContent();
@@ -4620,6 +4650,7 @@ public class DefaultCodegen implements CodegenConfig {
             Map.Entry<String, MediaType> entry = content.entrySet().iterator().next();
             codegenParameter.contentType = entry.getKey();
             parameterSchema = entry.getValue().getSchema();
+            parameterModelName = getParameterDataType(parameter, parameterSchema);
         } else {
             parameterSchema = null;
         }
@@ -4646,11 +4677,17 @@ public class DefaultCodegen implements CodegenConfig {
 
         parameterSchema = unaliasSchema(parameterSchema, Collections.emptyMap());
         if (parameterSchema == null) {
-            LOGGER.warn("warning!  Schema not found for parameter \" {} \", using String", parameter.getName());
-            parameterSchema = new StringSchema().description("//TODO automatically added by openapi-generator due to missing type definition.");
+            LOGGER.warn("warning!  Schema not found for parameter \" {} \"", parameter.getName());
             finishUpdatingParameter(codegenParameter, parameter);
             return codegenParameter;
         }
+
+        if (getUseInlineModelResolver() && !(this instanceof RustServerCodegen)) {
+            // for rust server, we cannot run the following as it uses
+            // $ref (e.g. #components/schemas/Pet) to determine whether it's a model
+            parameterSchema = getReferencedSchemaWhenNotEnum(parameterSchema);
+        }
+
         ModelUtils.syncValidationProperties(parameterSchema, codegenParameter);
         codegenParameter.setTypeProperties(parameterSchema);
         codegenParameter.setComposedSchemas(getComposedSchemas(parameterSchema));
@@ -4750,9 +4787,8 @@ public class DefaultCodegen implements CodegenConfig {
         //}
         //codegenProperty.required = true;
 
-        String parameterDataType = this.getParameterDataType(parameter, parameterSchema);
-        if (parameterDataType != null) {
-            codegenParameter.dataType = parameterDataType;
+        if (parameterModelName != null) {
+            codegenParameter.dataType = parameterModelName;
             if (ModelUtils.isObjectSchema(parameterSchema)) {
                 codegenProperty.complexType = codegenParameter.dataType;
             }
@@ -4804,13 +4840,17 @@ public class DefaultCodegen implements CodegenConfig {
             // https://swagger.io/docs/specification/serialization/
             if (schema != null) {
                 Map<String, Schema<?>> properties = schema.getProperties();
-                codegenParameter.items.vars =
-                        properties.entrySet().stream()
-                                .map(entry -> {
-                                    CodegenProperty property = fromProperty(entry.getKey(), entry.getValue());
-                                    property.baseName = codegenParameter.baseName + "[" + entry.getKey() + "]";
-                                    return property;
-                                }).collect(Collectors.toList());
+                if (properties != null) {
+                    codegenParameter.items.vars =
+                            properties.entrySet().stream()
+                                    .map(entry -> {
+                                        CodegenProperty property = fromProperty(entry.getKey(), entry.getValue());
+                                        property.baseName = codegenParameter.baseName + "[" + entry.getKey() + "]";
+                                        return property;
+                                    }).collect(Collectors.toList());
+                } else {
+                    //LOGGER.error("properties is null: {}", schema);
+                }
             } else {
                 LOGGER.warn(
                         "No object schema found for deepObject parameter{} deepObject won't have specific properties",
@@ -4822,8 +4862,16 @@ public class DefaultCodegen implements CodegenConfig {
         return codegenParameter;
     }
 
+    private Schema getReferencedSchemaWhenNotEnum(Schema parameterSchema) {
+        Schema referencedSchema = ModelUtils.getReferencedSchema(openAPI, parameterSchema);
+        if (referencedSchema.getEnum() != null && !referencedSchema.getEnum().isEmpty()) {
+            referencedSchema = parameterSchema;
+        }
+        return referencedSchema;
+    }
+
     /**
-     * Returns the data type of a parameter.
+     * Returns the data type of parameter.
      * Returns null by default to use the CodegenProperty.datatype value
      *
      * @param parameter Parameter
@@ -4831,9 +4879,9 @@ public class DefaultCodegen implements CodegenConfig {
      * @return data type
      */
     protected String getParameterDataType(Parameter parameter, Schema schema) {
-        if (parameter.get$ref() != null) {
-            String refName = ModelUtils.getSimpleRef(parameter.get$ref());
-            return toModelName(refName);
+        Schema unaliasSchema = ModelUtils.unaliasSchema(openAPI, schema);
+        if (unaliasSchema.get$ref() != null) {
+            return toModelName(ModelUtils.getSimpleRef(unaliasSchema.get$ref()));
         }
         return null;
     }
@@ -5196,13 +5244,13 @@ public class DefaultCodegen implements CodegenConfig {
         addImport(m.imports, type);
     }
 
-    private void addImport(Set<String> importsToBeAddedTo, String type) {
+    protected void addImport(Set<String> importsToBeAddedTo, String type) {
         if (shouldAddImport(type)) {
             importsToBeAddedTo.add(type);
         }
     }
 
-    private boolean shouldAddImport(String type) {
+    protected boolean shouldAddImport(String type) {
         return type != null && needToImport(type);
     }
 
@@ -6146,7 +6194,7 @@ public class DefaultCodegen implements CodegenConfig {
                 // skip as it implies `consumes` in OAS2 is not defined
                 continue;
             } else {
-                mediaType.put("mediaType", escapeText(escapeQuotationMark(key)));
+                mediaType.put("mediaType", escapeQuotationMark(key));
             }
             mediaTypeList.add(mediaType);
         }
@@ -6212,7 +6260,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         for (String key : produces) {
             // escape quotation to avoid code injection, "*/*" is a special case, do nothing
-            String encodedKey = "*/*".equals(key) ? key : escapeText(escapeQuotationMark(key));
+            String encodedKey = "*/*".equals(key) ? key : escapeQuotationMark(key);
             //Only unique media types should be added to "produces"
             if (!existingMediaTypes.contains(encodedKey)) {
                 Map<String, String> mediaType = new HashMap<>();
@@ -6788,8 +6836,8 @@ public class DefaultCodegen implements CodegenConfig {
                             enc.getContentType(),
                             headers,
                             enc.getStyle().toString(),
-                            enc.getExplode().booleanValue(),
-                            enc.getAllowReserved().booleanValue()
+                            enc.getExplode() == null ? false : enc.getExplode().booleanValue(),
+                            enc.getAllowReserved() == null ? false : enc.getAllowReserved().booleanValue()
                     );
                     String propName = encodingEntry.getKey();
                     ceMap.put(propName, ce);

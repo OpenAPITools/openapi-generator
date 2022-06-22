@@ -33,6 +33,24 @@ public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal> {
   }
 
 
+    @Override
+    public boolean equals(Object o) {
+      if (this == o) {
+        return true;
+      }
+      if (o == null || getClass() != o.getClass()) {
+        return false;
+      }
+      AdditionalPropertiesNumber additionalPropertiesNumber = (AdditionalPropertiesNumber) o;
+      return Objects.equals(name, additionalPropertiesNumber.name) &&
+          super.equals(o);
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hash(name, super.hashCode());
+    }
+
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

@@ -10,21 +10,21 @@ namespace app\Models;
 class Pet {
 
     /** @var int $id */
-    private $id;
+    public $id = 0;
 
     /** @var \app\Models\Category $category */
-    private $category;
+    public $category;
 
     /** @var string $name */
-    private $name;
+    public $name = "";
 
     /** @var string[] $photoUrls */
-    private $photoUrls;
+    public $photoUrls = [];
 
     /** @var \app\Models\Tag[] $tags */
-    private $tags;
+    public $tags = [];
 
     /** @var string $status pet status in the store*/
-    private $status;
+    public $status = "";
 
 }

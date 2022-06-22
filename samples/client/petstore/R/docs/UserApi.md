@@ -25,24 +25,24 @@ This can only be done by the logged in user.
 ```R
 library(petstore)
 
-var.user <- User$new(123, "username_example", "firstName_example", "lastName_example", "email_example", "password_example", "phone_example", 123) # User | Created user object
+var_user <- User$new(123, "username_example", "firstName_example", "lastName_example", "email_example", "password_example", "phone_example", 123) # User | Created user object
 
 #Create user
-api.instance <- UserApi$new()
+api_instance <- UserApi$new()
 # Configure API key authorization: api_key
-api.instance$apiClient$apiKeys['api_key'] <- 'TODO_YOUR_API_KEY';
+api_instance$api_client$api_keys['api_key'] <- 'TODO_YOUR_API_KEY';
 result <- tryCatch(
-             api.instance$CreateUser(var.user),
+             api_instance$CreateUser(var_user),
              ApiException = function(ex) ex
           )
 # In case of error, print the error object
 if(!is.null(result$ApiException)) {
   cat(result$ApiException$toString())
- } else {
-# response headers
-response.headers <- result$response$headers
-# response status code
-response.status.code <- result$response$status_code
+} else {
+  # response headers
+  response.headers <- result$response$headers
+  # response status code
+  response.status.code <- result$response$status_code
 }
 ```
 
@@ -81,24 +81,24 @@ Creates list of users with given input array
 ```R
 library(petstore)
 
-var.user <- list(User$new(123, "username_example", "firstName_example", "lastName_example", "email_example", "password_example", "phone_example", 123)) # array[User] | List of user object
+var_user <- list(User$new(123, "username_example", "firstName_example", "lastName_example", "email_example", "password_example", "phone_example", 123)) # array[User] | List of user object
 
 #Creates list of users with given input array
-api.instance <- UserApi$new()
+api_instance <- UserApi$new()
 # Configure API key authorization: api_key
-api.instance$apiClient$apiKeys['api_key'] <- 'TODO_YOUR_API_KEY';
+api_instance$api_client$api_keys['api_key'] <- 'TODO_YOUR_API_KEY';
 result <- tryCatch(
-             api.instance$CreateUsersWithArrayInput(var.user),
+             api_instance$CreateUsersWithArrayInput(var_user),
              ApiException = function(ex) ex
           )
 # In case of error, print the error object
 if(!is.null(result$ApiException)) {
   cat(result$ApiException$toString())
- } else {
-# response headers
-response.headers <- result$response$headers
-# response status code
-response.status.code <- result$response$status_code
+} else {
+  # response headers
+  response.headers <- result$response$headers
+  # response status code
+  response.status.code <- result$response$status_code
 }
 ```
 
@@ -137,24 +137,24 @@ Creates list of users with given input array
 ```R
 library(petstore)
 
-var.user <- list(User$new(123, "username_example", "firstName_example", "lastName_example", "email_example", "password_example", "phone_example", 123)) # array[User] | List of user object
+var_user <- list(User$new(123, "username_example", "firstName_example", "lastName_example", "email_example", "password_example", "phone_example", 123)) # array[User] | List of user object
 
 #Creates list of users with given input array
-api.instance <- UserApi$new()
+api_instance <- UserApi$new()
 # Configure API key authorization: api_key
-api.instance$apiClient$apiKeys['api_key'] <- 'TODO_YOUR_API_KEY';
+api_instance$api_client$api_keys['api_key'] <- 'TODO_YOUR_API_KEY';
 result <- tryCatch(
-             api.instance$CreateUsersWithListInput(var.user),
+             api_instance$CreateUsersWithListInput(var_user),
              ApiException = function(ex) ex
           )
 # In case of error, print the error object
 if(!is.null(result$ApiException)) {
   cat(result$ApiException$toString())
- } else {
-# response headers
-response.headers <- result$response$headers
-# response status code
-response.status.code <- result$response$status_code
+} else {
+  # response headers
+  response.headers <- result$response$headers
+  # response status code
+  response.status.code <- result$response$status_code
 }
 ```
 
@@ -193,24 +193,24 @@ This can only be done by the logged in user.
 ```R
 library(petstore)
 
-var.username <- 'username_example' # character | The name that needs to be deleted
+var_username <- 'username_example' # character | The name that needs to be deleted
 
 #Delete user
-api.instance <- UserApi$new()
+api_instance <- UserApi$new()
 # Configure API key authorization: api_key
-api.instance$apiClient$apiKeys['api_key'] <- 'TODO_YOUR_API_KEY';
+api_instance$api_client$api_keys['api_key'] <- 'TODO_YOUR_API_KEY';
 result <- tryCatch(
-             api.instance$DeleteUser(var.username),
+             api_instance$DeleteUser(var_username),
              ApiException = function(ex) ex
           )
 # In case of error, print the error object
 if(!is.null(result$ApiException)) {
   cat(result$ApiException$toString())
- } else {
-# response headers
-response.headers <- result$response$headers
-# response status code
-response.status.code <- result$response$status_code
+} else {
+  # response headers
+  response.headers <- result$response$headers
+  # response status code
+  response.status.code <- result$response$status_code
 }
 ```
 
@@ -250,24 +250,24 @@ Get user by user name
 ```R
 library(petstore)
 
-var.username <- 'username_example' # character | The name that needs to be fetched. Use user1 for testing.
+var_username <- 'username_example' # character | The name that needs to be fetched. Use user1 for testing.
 
 #Get user by user name
-api.instance <- UserApi$new()
+api_instance <- UserApi$new()
 result <- tryCatch(
-             api.instance$GetUserByName(var.username),
+             api_instance$GetUserByName(var_username),
              ApiException = function(ex) ex
           )
 # In case of error, print the error object
 if(!is.null(result$ApiException)) {
   cat(result$ApiException$toString())
- } else {
-# deserialized response object
-response.object <- result$content
-# response headers
-response.headers <- result$response$headers
-# response status code
-response.status.code <- result$response$status_code
+} else {
+  # deserialized response object
+  response.object <- result$content
+  # response headers
+  response.headers <- result$response$headers
+  # response status code
+  response.status.code <- result$response$status_code
 }
 ```
 
@@ -308,25 +308,25 @@ Logs user into the system
 ```R
 library(petstore)
 
-var.username <- 'username_example' # character | The user name for login
-var.password <- 'password_example' # character | The password for login in clear text
+var_username <- 'username_example' # character | The user name for login
+var_password <- 'password_example' # character | The password for login in clear text
 
 #Logs user into the system
-api.instance <- UserApi$new()
+api_instance <- UserApi$new()
 result <- tryCatch(
-             api.instance$LoginUser(var.username, var.password),
+             api_instance$LoginUser(var_username, var_password),
              ApiException = function(ex) ex
           )
 # In case of error, print the error object
 if(!is.null(result$ApiException)) {
   cat(result$ApiException$toString())
- } else {
-# deserialized response object
-response.object <- result$content
-# response headers
-response.headers <- result$response$headers
-# response status code
-response.status.code <- result$response$status_code
+} else {
+  # deserialized response object
+  response.object <- result$content
+  # response headers
+  response.headers <- result$response$headers
+  # response status code
+  response.status.code <- result$response$status_code
 }
 ```
 
@@ -369,21 +369,21 @@ library(petstore)
 
 
 #Logs out current logged in user session
-api.instance <- UserApi$new()
+api_instance <- UserApi$new()
 # Configure API key authorization: api_key
-api.instance$apiClient$apiKeys['api_key'] <- 'TODO_YOUR_API_KEY';
+api_instance$api_client$api_keys['api_key'] <- 'TODO_YOUR_API_KEY';
 result <- tryCatch(
-             api.instance$LogoutUser(),
+             api_instance$LogoutUser(),
              ApiException = function(ex) ex
           )
 # In case of error, print the error object
 if(!is.null(result$ApiException)) {
   cat(result$ApiException$toString())
- } else {
-# response headers
-response.headers <- result$response$headers
-# response status code
-response.status.code <- result$response$status_code
+} else {
+  # response headers
+  response.headers <- result$response$headers
+  # response status code
+  response.status.code <- result$response$status_code
 }
 ```
 
@@ -419,25 +419,25 @@ This can only be done by the logged in user.
 ```R
 library(petstore)
 
-var.username <- 'username_example' # character | name that need to be deleted
-var.user <- User$new(123, "username_example", "firstName_example", "lastName_example", "email_example", "password_example", "phone_example", 123) # User | Updated user object
+var_username <- 'username_example' # character | name that need to be deleted
+var_user <- User$new(123, "username_example", "firstName_example", "lastName_example", "email_example", "password_example", "phone_example", 123) # User | Updated user object
 
 #Updated user
-api.instance <- UserApi$new()
+api_instance <- UserApi$new()
 # Configure API key authorization: api_key
-api.instance$apiClient$apiKeys['api_key'] <- 'TODO_YOUR_API_KEY';
+api_instance$api_client$api_keys['api_key'] <- 'TODO_YOUR_API_KEY';
 result <- tryCatch(
-             api.instance$UpdateUser(var.username, var.user),
+             api_instance$UpdateUser(var_username, var_user),
              ApiException = function(ex) ex
           )
 # In case of error, print the error object
 if(!is.null(result$ApiException)) {
   cat(result$ApiException$toString())
- } else {
-# response headers
-response.headers <- result$response$headers
-# response status code
-response.status.code <- result$response$status_code
+} else {
+  # response headers
+  response.headers <- result$response$headers
+  # response status code
+  response.status.code <- result$response$status_code
 }
 ```
 

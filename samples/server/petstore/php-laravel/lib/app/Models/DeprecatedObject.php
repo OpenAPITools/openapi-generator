@@ -10,6 +10,6 @@ namespace app\Models;
 class DeprecatedObject {
 
     /** @var string $name */
-    private $name;
+    public $name = "";
 
 }

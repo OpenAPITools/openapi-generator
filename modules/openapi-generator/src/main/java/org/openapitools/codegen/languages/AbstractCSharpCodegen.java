@@ -1410,8 +1410,15 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             } else {
                 example = "new List<" + p.items.dataType + ">()";
             }
+        } else if (Boolean.TRUE.equals(p.isModel)) {
+            example = "new " + p.dataType + "()";
         } else if (Boolean.TRUE.equals(p.isMap)) {
-            example = "new Dictionary<String, " + p.items.dataType + ">";
+            if (p.items != null) {
+                example = "new Dictionary<String, " + p.items.dataType + ">";
+            } else {
+                // default to String if item is not defined
+                example = "new Dictionary<String, String>";
+            }
         }
 
         p.example = example;

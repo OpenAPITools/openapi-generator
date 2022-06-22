@@ -38,8 +38,8 @@ public interface FakeClassnameTags123Api {
      * @return ModelClient
      */
     @Patch(uri="/fake_classname_test")
-    @Produces(value={"application/json"})
-    @Consumes(value={"application/json"})
+    @Consumes({"application/json"})
+    @Produces({"application/json"})
     Mono<ModelClient> testClassname(
         @Body @NotNull @Valid ModelClient _body
     );

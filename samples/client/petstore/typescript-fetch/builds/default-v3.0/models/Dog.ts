@@ -40,6 +40,15 @@ export interface Dog extends Animal {
     breed?: string;
 }
 
+/**
+ * Check if a given object implements the Dog interface.
+ */
+export function instanceOfDog(value: object): boolean {
+    let isInstance = true;
+
+    return isInstance;
+}
+
 export function DogFromJSON(json: any): Dog {
     return DogFromJSONTyped(json, false);
 }

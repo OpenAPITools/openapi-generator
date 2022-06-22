@@ -21,22 +21,22 @@ For valid response try integer IDs with value < 1000. Anything above 1000 or non
 ```R
 library(petstore)
 
-var.order_id <- 'order_id_example' # character | ID of the order that needs to be deleted
+var_order_id <- 'order_id_example' # character | ID of the order that needs to be deleted
 
 #Delete purchase order by ID
-api.instance <- StoreApi$new()
+api_instance <- StoreApi$new()
 result <- tryCatch(
-             api.instance$DeleteOrder(var.order_id),
+             api_instance$DeleteOrder(var_order_id),
              ApiException = function(ex) ex
           )
 # In case of error, print the error object
 if(!is.null(result$ApiException)) {
   cat(result$ApiException$toString())
- } else {
-# response headers
-response.headers <- result$response$headers
-# response status code
-response.status.code <- result$response$status_code
+} else {
+  # response headers
+  response.headers <- result$response$headers
+  # response status code
+  response.status.code <- result$response$status_code
 }
 ```
 
@@ -78,23 +78,23 @@ library(petstore)
 
 
 #Returns pet inventories by status
-api.instance <- StoreApi$new()
+api_instance <- StoreApi$new()
 # Configure API key authorization: api_key
-api.instance$apiClient$apiKeys['api_key'] <- 'TODO_YOUR_API_KEY';
+api_instance$api_client$api_keys['api_key'] <- 'TODO_YOUR_API_KEY';
 result <- tryCatch(
-             api.instance$GetInventory(),
+             api_instance$GetInventory(),
              ApiException = function(ex) ex
           )
 # In case of error, print the error object
 if(!is.null(result$ApiException)) {
   cat(result$ApiException$toString())
- } else {
-# deserialized response object
-response.object <- result$content
-# response headers
-response.headers <- result$response$headers
-# response status code
-response.status.code <- result$response$status_code
+} else {
+  # deserialized response object
+  response.object <- result$content
+  # response headers
+  response.headers <- result$response$headers
+  # response status code
+  response.status.code <- result$response$status_code
 }
 ```
 
@@ -130,24 +130,24 @@ For valid response try integer IDs with value <= 5 or > 10. Other values will ge
 ```R
 library(petstore)
 
-var.order_id <- 56 # integer | ID of pet that needs to be fetched
+var_order_id <- 56 # integer | ID of pet that needs to be fetched
 
 #Find purchase order by ID
-api.instance <- StoreApi$new()
+api_instance <- StoreApi$new()
 result <- tryCatch(
-             api.instance$GetOrderById(var.order_id),
+             api_instance$GetOrderById(var_order_id),
              ApiException = function(ex) ex
           )
 # In case of error, print the error object
 if(!is.null(result$ApiException)) {
   cat(result$ApiException$toString())
- } else {
-# deserialized response object
-response.object <- result$content
-# response headers
-response.headers <- result$response$headers
-# response status code
-response.status.code <- result$response$status_code
+} else {
+  # deserialized response object
+  response.object <- result$content
+  # response headers
+  response.headers <- result$response$headers
+  # response status code
+  response.status.code <- result$response$status_code
 }
 ```
 
@@ -188,24 +188,24 @@ Place an order for a pet
 ```R
 library(petstore)
 
-var.order <- Order$new(123, 123, 123, "shipDate_example", "placed", "complete_example") # Order | order placed for purchasing the pet
+var_order <- Order$new(123, 123, 123, "shipDate_example", "placed", "complete_example") # Order | order placed for purchasing the pet
 
 #Place an order for a pet
-api.instance <- StoreApi$new()
+api_instance <- StoreApi$new()
 result <- tryCatch(
-             api.instance$PlaceOrder(var.order),
+             api_instance$PlaceOrder(var_order),
              ApiException = function(ex) ex
           )
 # In case of error, print the error object
 if(!is.null(result$ApiException)) {
   cat(result$ApiException$toString())
- } else {
-# deserialized response object
-response.object <- result$content
-# response headers
-response.headers <- result$response$headers
-# response status code
-response.status.code <- result$response$status_code
+} else {
+  # deserialized response object
+  response.object <- result$content
+  # response headers
+  response.headers <- result$response$headers
+  # response status code
+  response.status.code <- result$response$status_code
 }
 ```
 

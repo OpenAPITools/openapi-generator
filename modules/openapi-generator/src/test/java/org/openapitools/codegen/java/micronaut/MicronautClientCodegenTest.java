@@ -215,4 +215,28 @@ public class MicronautClientCodegenTest extends AbstractMicronautCodegenTest {
         assertFileContains(modelPath + "Order.java", "public Order()");
         assertFileNotContainsRegex(modelPath + "Order.java", "public Order\\([^)]+\\)");
     }
+
+    @Test
+    public void doGenerateMultipleContentTypes() {
+        JavaMicronautClientCodegen codegen = new JavaMicronautClientCodegen();
+
+        String outputPath = generateFiles(codegen, "src/test/resources/3_0/micronaut/content-type.yaml", CodegenConstants.APIS);
+
+        // body and response content types should be properly annotated using @Consumes and @Produces micronaut annotations
+        String apiPath = outputPath + "src/main/java/org/openapitools/api/";
+        assertFileContains(apiPath + "DefaultApi.java", "@Consumes({\"application/vnd.oracle.resource+json; type=collection\", \"application/vnd.oracle.resource+json; type=error\"})");
+        assertFileContains(apiPath + "DefaultApi.java", "@Produces({\"application/vnd.oracle.resource+json; type=singular\"})");
+    }
+
+    @Test
+    public void doGenerateOauth2InApplicationConfig() {
+        JavaMicronautClientCodegen codegen = new JavaMicronautClientCodegen();
+        codegen.additionalProperties().put(JavaMicronautClientCodegen.OPT_CONFIGURE_AUTH, "true");
+
+        String outputPath = generateFiles(codegen, "src/test/resources/3_0/micronaut/oauth2.yaml", CodegenConstants.SUPPORTING_FILES);
+
+        // micronaut yaml property names shouldn't contain any dots
+        String resourcesPath = outputPath + "src/main/resources/";
+        assertFileContains(resourcesPath + "application.yml", "OAuth_2_0_Client_Credentials:");
+    }
 }

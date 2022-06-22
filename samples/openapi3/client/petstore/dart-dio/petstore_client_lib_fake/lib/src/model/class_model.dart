@@ -10,10 +10,10 @@ part 'class_model.g.dart';
 /// Model for testing model with \"_class\" property
 ///
 /// Properties:
-/// * [class_] 
+/// * [classField] 
 abstract class ClassModel implements Built<ClassModel, ClassModelBuilder> {
     @BuiltValueField(wireName: r'_class')
-    String? get class_;
+    String? get classField;
 
     ClassModel._();
 
@@ -37,10 +37,10 @@ class _$ClassModelSerializer implements StructuredSerializer<ClassModel> {
     Iterable<Object?> serialize(Serializers serializers, ClassModel object,
         {FullType specifiedType = FullType.unspecified}) {
         final result = <Object?>[];
-        if (object.class_ != null) {
+        if (object.classField != null) {
             result
                 ..add(r'_class')
-                ..add(serializers.serialize(object.class_,
+                ..add(serializers.serialize(object.classField,
                     specifiedType: const FullType(String)));
         }
         return result;
@@ -61,7 +61,7 @@ class _$ClassModelSerializer implements StructuredSerializer<ClassModel> {
                 case r'_class':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String)) as String;
-                    result.class_ = valueDes;
+                    result.classField = valueDes;
                     break;
             }
         }

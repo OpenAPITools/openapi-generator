@@ -9,9 +9,9 @@ lazy val root = (project in file(".")).
     publishArtifact in (Compile, packageDoc) := false,
     resolvers += Resolver.mavenLocal,
     libraryDependencies ++= Seq(
-      "io.swagger" % "swagger-annotations" % "1.5.21",
-      "io.rest-assured" % "rest-assured" % "4.3.0",
-      "io.rest-assured" % "scala-support" % "4.3.0",
+      "io.swagger" % "swagger-annotations" % "1.6.6",
+      "io.rest-assured" % "rest-assured" % "4.5.1",
+      "io.rest-assured" % "scala-support" % "4.5.1",
       "com.google.code.findbugs" % "jsr305" % "3.0.2",
 {{#jackson}}
       "com.fasterxml.jackson.core" % "jackson-core" % "2.10.3",
@@ -29,8 +29,8 @@ lazy val root = (project in file(".")).
       "com.fasterxml.jackson.datatype" % "jackson-datatype-jsr310" % "2.10.3",
 {{/jackson}}
 {{#gson}}
-      "com.google.code.gson" % "gson" % "2.8.6",
-      "io.gsonfire" % "gson-fire" % "1.8.4" % "compile",
+      "com.google.code.gson" % "gson" % "2.8.9",
+      "io.gsonfire" % "gson-fire" % "1.8.5" % "compile",
 {{/gson}}
 {{#joda}}
       "joda-time" % "joda-time" % "2.10.5" % "compile",

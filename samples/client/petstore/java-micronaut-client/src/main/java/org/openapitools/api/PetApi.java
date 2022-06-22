@@ -39,8 +39,7 @@ public interface PetApi {
      * @param _body Pet object that needs to be added to the store (required)
      */
     @Post(uri="/pet")
-    @Produces(value={"application/json"})
-    @Consumes(value={"application/json"})
+    @Produces({"application/json", "application/xml"})
     Mono<Void> addPet(
         @Body @NotNull @Valid Pet _body
     );
@@ -52,7 +51,6 @@ public interface PetApi {
      * @param apiKey  (optional)
      */
     @Delete(uri="/pet/{petId}")
-    @Consumes(value={"application/json"})
     Mono<Void> deletePet(
         @PathVariable(name="petId") @NotNull Long petId, 
         @Header(name="api_key") @Nullable String apiKey
@@ -66,7 +64,7 @@ public interface PetApi {
      * @return List&lt;Pet&gt;
      */
     @Get(uri="/pet/findByStatus")
-    @Consumes(value={"application/json"})
+    @Consumes({"application/xml", "application/json"})
     Mono<List<Pet>> findPetsByStatus(
         @QueryValue(value="status") @NotNull List<String> status
     );
@@ -79,7 +77,7 @@ public interface PetApi {
      * @return Set&lt;Pet&gt;
      */
     @Get(uri="/pet/findByTags")
-    @Consumes(value={"application/json"})
+    @Consumes({"application/xml", "application/json"})
     Mono<Set<Pet>> findPetsByTags(
         @QueryValue(value="tags") @NotNull Set<String> tags
     );
@@ -92,7 +90,7 @@ public interface PetApi {
      * @return Pet
      */
     @Get(uri="/pet/{petId}")
-    @Consumes(value={"application/json"})
+    @Consumes({"application/xml", "application/json"})
     Mono<Pet> getPetById(
         @PathVariable(name="petId") @NotNull Long petId
     );
@@ -103,8 +101,7 @@ public interface PetApi {
      * @param _body Pet object that needs to be added to the store (required)
      */
     @Put(uri="/pet")
-    @Produces(value={"application/json"})
-    @Consumes(value={"application/json"})
+    @Produces({"application/json", "application/xml"})
     Mono<Void> updatePet(
         @Body @NotNull @Valid Pet _body
     );
@@ -117,8 +114,7 @@ public interface PetApi {
      * @param status Updated status of the pet (optional)
      */
     @Post(uri="/pet/{petId}")
-    @Produces(value={"application/x-www-form-urlencoded"})
-    @Consumes(value={"application/json"})
+    @Produces({"application/x-www-form-urlencoded"})
     Mono<Void> updatePetWithForm(
         @PathVariable(name="petId") @NotNull Long petId, 
         @Nullable String name, 
@@ -134,8 +130,8 @@ public interface PetApi {
      * @return ModelApiResponse
      */
     @Post(uri="/pet/{petId}/uploadImage")
-    @Produces(value={"multipart/form-data"})
-    @Consumes(value={"application/json"})
+    @Consumes({"application/json"})
+    @Produces({"multipart/form-data"})
     Mono<ModelApiResponse> uploadFile(
         @PathVariable(name="petId") @NotNull Long petId, 
         @Nullable String additionalMetadata, 
@@ -151,8 +147,8 @@ public interface PetApi {
      * @return ModelApiResponse
      */
     @Post(uri="/fake/{petId}/uploadImageWithRequiredFile")
-    @Produces(value={"multipart/form-data"})
-    @Consumes(value={"application/json"})
+    @Consumes({"application/json"})
+    @Produces({"multipart/form-data"})
     Mono<ModelApiResponse> uploadFileWithRequiredFile(
         @PathVariable(name="petId") @NotNull Long petId, 
         @NotNull File requiredFile, 

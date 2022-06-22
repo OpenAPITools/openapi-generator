@@ -61,6 +61,24 @@ public class FileSchemaTestClass  {
   }
 
 
+    @Override
+    public boolean equals(Object o) {
+      if (this == o) {
+        return true;
+      }
+      if (o == null || getClass() != o.getClass()) {
+        return false;
+      }
+      FileSchemaTestClass fileSchemaTestClass = (FileSchemaTestClass) o;
+      return Objects.equals(_file, fileSchemaTestClass._file) &&
+          Objects.equals(files, fileSchemaTestClass.files);
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hash(_file, files);
+    }
+
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

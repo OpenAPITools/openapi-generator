@@ -82,6 +82,17 @@ export const PetStatusEnum = {
 export type PetStatusEnum = typeof PetStatusEnum[keyof typeof PetStatusEnum];
 
 
+/**
+ * Check if a given object implements the Pet interface.
+ */
+export function instanceOfPet(value: object): boolean {
+    let isInstance = true;
+    isInstance = isInstance && "name" in value;
+    isInstance = isInstance && "photoUrls" in value;
+
+    return isInstance;
+}
+
 export function PetFromJSON(json: any): Pet {
     return PetFromJSONTyped(json, false);
 }

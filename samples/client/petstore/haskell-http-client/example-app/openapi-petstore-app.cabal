@@ -24,7 +24,7 @@ executable openapi-petstore-app
       Paths_openapi_petstore_app
   ghc-options: -Wall
   build-depends:
-      aeson >=2.0 && <3.0
+      aeson >=1.0 && <3.0
     , base >=4.7 && <5.0
     , bytestring >=0.10.0 && <0.11
     , case-insensitive
