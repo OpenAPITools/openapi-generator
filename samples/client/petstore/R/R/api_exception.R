@@ -75,7 +75,7 @@ ApiException <- R6::R6Class(
       }
       if (!is.null(self$errorObject)) {
         errorMsg <- paste(errorMsg, "Error object : ", "\n", sep = "")
-        errorMsg <- paste(errorMsg, self$errorObject$toJSONString(),"\n")
+        errorMsg <- paste(errorMsg, self$errorObject,"\n")
       }
       errorMsg
     }
