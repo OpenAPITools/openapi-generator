@@ -24,54 +24,47 @@ class TestIntegerTypeMatchesIntegers(unittest.TestCase):
             IntegerTypeMatchesIntegers(
                 {
                 }
-            )
+                nl            )
 
     def test_a_string_is_not_an_integer_fails(self):
         # a string is not an integer
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             IntegerTypeMatchesIntegers(
-                "foo"
-            )
+"foo"nl            )
 
     def test_null_is_not_an_integer_fails(self):
         # null is not an integer
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             IntegerTypeMatchesIntegers(
-                None
-            )
+Nonenl            )
 
     def test_a_float_with_zero_fractional_part_is_an_integer_passes(self):
         # a float with zero fractional part is an integer
         IntegerTypeMatchesIntegers(
-            1.0
-        )
+1.0nl        )
 
     def test_a_float_is_not_an_integer_fails(self):
         # a float is not an integer
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             IntegerTypeMatchesIntegers(
-                1.1
-            )
+1.1nl            )
 
     def test_a_boolean_is_not_an_integer_fails(self):
         # a boolean is not an integer
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             IntegerTypeMatchesIntegers(
-                True
-            )
+Truenl            )
 
     def test_an_integer_is_an_integer_passes(self):
         # an integer is an integer
         IntegerTypeMatchesIntegers(
-            1
-        )
+1nl        )
 
     def test_a_string_is_still_not_an_integer_even_if_it_looks_like_one_fails(self):
         # a string is still not an integer, even if it looks like one
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             IntegerTypeMatchesIntegers(
-                "1"
-            )
+"1"nl            )
 
     def test_an_array_is_not_an_integer_fails(self):
         # an array is not an integer
@@ -79,7 +72,7 @@ class TestIntegerTypeMatchesIntegers(unittest.TestCase):
             IntegerTypeMatchesIntegers(
                 [
                 ]
-            )
+nl            )
 
 
 if __name__ == '__main__':

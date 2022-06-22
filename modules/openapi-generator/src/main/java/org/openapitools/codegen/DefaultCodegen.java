@@ -2701,29 +2701,35 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * Processes any test cases if they exist in the vendor extensions
-     * If they exist then cast them to java class instances and assign them back as the value
-     * in the x-test-examples vendor extension
-     * @param vendorExtensions
+     * Processes any test cases if they exist in the components.x-test-examples vendor extensions
+     * If they exist then cast them to java class instances and return them back in a map
+     * @param schemaName the component schema name that the test cases are for
+     * @param vendorExtensions the extensions that may or may not hold the data
      */
-    private void processTestCases(HashMap<String, Object> vendorExtensions) {
-        String testExamplesKey = "x-test-examples";
-        HashMap<String, SchemaTestCase> testCases = new HashMap<>();
-        if (vendorExtensions.containsKey(testExamplesKey)) {
-            LinkedHashMap<String, Object> testExamples = (LinkedHashMap<String, Object>) vendorExtensions.get(testExamplesKey);
-            for(Map.Entry<String, Object> testExampleEntry: testExamples.entrySet()) {
-                String exampleName = testExampleEntry.getKey();
-                LinkedHashMap<String, Object> testExample = (LinkedHashMap<String, Object>) testExampleEntry.getValue();
-                String nameInSnakeCase = toTesCaseName(exampleName);
-                SchemaTestCase testCase = new SchemaTestCase(
-                        (String) testExample.getOrDefault("description", ""),
-                        new ObjectWithTypeBooleans(testExample.get("data")),
-                        (boolean) testExample.get("valid")
-                );
-                testCases.put(nameInSnakeCase, testCase);
-            }
-            vendorExtensions.put(testExamplesKey, testCases);
+    private HashMap<String, SchemaTestCase> extractSchemaTestCases(String schemaName, HashMap<String, Object> vendorExtensions) {
+        String testExamplesKey = "x-schema-test-examples";
+        // schemaName to a map of test case name to test case
+        if (vendorExtensions ==  null || !vendorExtensions.containsKey(testExamplesKey)) {
+            return null;
         }
+        HashMap<String, SchemaTestCase> schemaTestCases = new HashMap<>();
+        LinkedHashMap<String, Object> schemaNameToTestCases = (LinkedHashMap<String, Object>) vendorExtensions.get(testExamplesKey);
+
+        if (!schemaNameToTestCases.containsKey(schemaName)) {
+            return null;
+        }
+        LinkedHashMap<String, LinkedHashMap<String, Object>> testNameToTesCase = (LinkedHashMap<String, LinkedHashMap<String, Object>>) schemaNameToTestCases.get(schemaName);
+        for (Entry<String, LinkedHashMap<String, Object>> entry: testNameToTesCase.entrySet()) {
+            LinkedHashMap<String, Object> testExample = (LinkedHashMap<String, Object>) entry.getValue();
+            String nameInSnakeCase = toTesCaseName(entry.getKey());
+            SchemaTestCase testCase = new SchemaTestCase(
+                    (String) testExample.getOrDefault("description", ""),
+                    new ObjectWithTypeBooleans(testExample.get("data")),
+                    (boolean) testExample.get("valid")
+            );
+            schemaTestCases.put(nameInSnakeCase, testCase);
+        }
+        return schemaTestCases;
     }
 
     /**
@@ -2735,8 +2741,8 @@ public class DefaultCodegen implements CodegenConfig {
      */
     @Override
     public CodegenModel fromModel(String name, Schema schema) {
-        HashMap<String, Object> vendorExtensions = (HashMap<String, Object>) schema.getExtensions();
-        processTestCases(vendorExtensions);
+        HashMap<String, Object> vendorExtensions = (HashMap<String, Object>) openAPI.getComponents().getExtensions();
+        HashMap<String, SchemaTestCase> schemaTestCases = extractSchemaTestCases(name, vendorExtensions);
 
         Map<String, Schema> allDefinitions = ModelUtils.getSchemas(this.openAPI);
         if (typeAliases == null) {
@@ -2753,6 +2759,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         CodegenModel m = CodegenModelFactory.newInstance(CodegenModelType.MODEL);
         ModelUtils.syncValidationProperties(schema, m);
+        m.testCases = schemaTestCases;
 
         if (reservedWords.contains(name)) {
             m.name = escapeReservedWord(name);

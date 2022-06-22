@@ -109,6 +109,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     public Map<String, Object> vendorExtensions = new HashMap<>();
     private CodegenComposedSchemas composedSchemas;
     private boolean hasMultipleTypes = false;
+    public HashMap<String, SchemaTestCase> testCases = new HashMap<>();
 
     /**
      * The type of the value for the additionalProperties keyword in the OAS document.

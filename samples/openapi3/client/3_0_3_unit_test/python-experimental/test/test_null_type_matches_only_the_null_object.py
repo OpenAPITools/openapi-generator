@@ -22,8 +22,7 @@ class TestNullTypeMatchesOnlyTheNullObject(unittest.TestCase):
         # a float is not null
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             NullTypeMatchesOnlyTheNullObject(
-                1.1
-            )
+1.1nl            )
 
     def test_an_object_is_not_null_fails(self):
         # an object is not null
@@ -31,48 +30,42 @@ class TestNullTypeMatchesOnlyTheNullObject(unittest.TestCase):
             NullTypeMatchesOnlyTheNullObject(
                 {
                 }
-            )
+                nl            )
 
     def test_false_is_not_null_fails(self):
         # false is not null
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             NullTypeMatchesOnlyTheNullObject(
-                False
-            )
+Falsenl            )
 
     def test_an_integer_is_not_null_fails(self):
         # an integer is not null
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             NullTypeMatchesOnlyTheNullObject(
-                1
-            )
+1nl            )
 
     def test_true_is_not_null_fails(self):
         # true is not null
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             NullTypeMatchesOnlyTheNullObject(
-                True
-            )
+Truenl            )
 
     def test_zero_is_not_null_fails(self):
         # zero is not null
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             NullTypeMatchesOnlyTheNullObject(
-                0
-            )
+0nl            )
 
     def test_an_empty_string_is_not_null_fails(self):
         # an empty string is not null
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             NullTypeMatchesOnlyTheNullObject(
-                ""
-            )
+""nl            )
 
     def test_null_is_null_passes(self):
         # null is null
         NullTypeMatchesOnlyTheNullObject(
-            None
-        )
+Nonenl        )
 
     def test_an_array_is_not_null_fails(self):
         # an array is not null
@@ -80,14 +73,13 @@ class TestNullTypeMatchesOnlyTheNullObject(unittest.TestCase):
             NullTypeMatchesOnlyTheNullObject(
                 [
                 ]
-            )
+nl            )
 
     def test_a_string_is_not_null_fails(self):
         # a string is not null
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             NullTypeMatchesOnlyTheNullObject(
-                "foo"
-            )
+"foo"nl            )
 
 
 if __name__ == '__main__':

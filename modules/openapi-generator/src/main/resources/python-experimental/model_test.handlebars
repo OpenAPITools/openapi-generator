@@ -13,28 +13,26 @@ from {{packageName}}.{{modelPackage}}.{{classFilename}} import {{classname}}
 class Test{{classname}}(unittest.TestCase):
     """{{classname}} unit test stubs"""
 
-{{#each vendorExtensions}}
-{{#if @key eq "x-test-examples" }}
-{{#each this }}
+{{#each testCases}}
+    {{#with this }}
     def test_{{@key}}_{{#if valid}}passes{{else}}fails{{/if}}(self):
         # {{description}}
-{{#if valid}}
+        {{#if valid}}
         {{classname}}(
-{{#with data}}
-        {{>model_templates/payload_renderer}}
-{{/with}}
-        )
-{{else}}
-        with self.assertRaises(({{packageName}}.ApiValueError, {{packageName}}.ApiTypeError)):
-            {{classname}}(
 {{#with data}}
             {{>model_templates/payload_renderer}}
 {{/with}}
-            )
-{{/if}}
+nl        )
+        {{else}}
+        with self.assertRaises(({{packageName}}.ApiValueError, {{packageName}}.ApiTypeError)):
+            {{classname}}(
+{{#with data}}
+                {{>model_templates/payload_renderer}}
+{{/with}}
+nl            )
+        {{/if}}
+    {{/with}}
 
-{{/each}}
-{{/if}}
 {{/each}}
 {{/with}}
 {{/each}}
