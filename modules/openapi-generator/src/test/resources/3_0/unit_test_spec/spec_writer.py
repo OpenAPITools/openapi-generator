@@ -92,7 +92,7 @@ FILEPATH_TO_EXCLUDED_CASE_AND_REASON = {
 }
 FILEPATH_TO_EXCLUDE_REASON = {
     (json_schema_test_draft, 'additionalItems.json'): ExclusionReason.v303_does_not_support_additionalItems,
-
+    (json_schema_test_draft, 'const.json'): ExclusionReason.v303_does_not_support_const,
 }
 
 openapi_additions = 'openapi_additions'
@@ -155,9 +155,13 @@ class OpenApiExample:
     description: str
     value: typing.Union[str, int, float, bool, None, list, dict]
 
-@dataclasses.dataclass
-class OpenApiComponents:
-    schemas: typing.Dict[str, OpenApiSchema]
+OpenApiComponents = typing.TypedDict(
+    'OpenApiComponents',
+    {
+        'schemas': typing.Dict[str, typing.Union[bool, OpenApiSchema]],
+        'x-schema-test-examples': typing.Dict[str, typing.Dict[str, JsonSchemaTestCase]]
+    }
+)
 
 @dataclasses.dataclass
 class OpenApiDocument:
@@ -176,9 +180,10 @@ def get_new_openapi() -> OpenApiDocument:
             version="0.0.1"
         ),
         paths={},
-        components=OpenApiComponents(
-            schemas={},
-        )
+        components=OpenApiComponents({
+            'schemas': {},
+            'x-schema-test-examples': {}
+        })
     )
 
 def description_to_component_name(descr: str) -> str:
@@ -189,8 +194,9 @@ def get_test_case_name(test: JsonSchemaTestSchema) -> str:
     res = ''.join(test.description.title().split())
     return re.sub(r'[^A-Za-z0-9 ]+', '', res)
 
-def get_component_schemas(json_schema_test_file: str, folders: typing.Tuple[str]) -> typing.Dict[str, OpenApiSchema]:
+def get_component_schemas_and_test_examples(json_schema_test_file: str, folders: typing.Tuple[str]) -> typing.Dict[str, OpenApiSchema]:
     component_schemas = {}
+    component_name_to_test_examples = {}
     for folder in folders:
         file_path_tuple = (folder, json_schema_test_file)
         test_schemas = get_json_schema_test_schemas(file_path_tuple)
@@ -198,33 +204,37 @@ def get_component_schemas(json_schema_test_file: str, folders: typing.Tuple[str]
             continue
         for test_schema in test_schemas:
             component_name = description_to_component_name(test_schema.description)
-            kwargs = {
-             'x-test-examples': {}
-            }
-            print(test_schema)
-            schema = OpenApiSchema(
-             **test_schema.schema, **kwargs
-            )
-            component_schemas[component_name] = schema
+            if isinstance(test_schema.schema, bool):
+                component_schemas[component_name] = test_schema.schema
+            else:
+                component_schemas[component_name] = OpenApiSchema(**test_schema.schema)
             for test in test_schema.tests:
+                if component_name not in component_name_to_test_examples:
+                    component_name_to_test_examples[component_name] = {}
                 test_case_name = get_test_case_name(test)
-                schema['x-test-examples'][test_case_name] = test
-    return component_schemas
+                component_name_to_test_examples[component_name][test_case_name] = test
+    return component_schemas, component_name_to_test_examples
 
 def write_openapi_spec():
     openapi = get_new_openapi()
     for json_schema_test_file, folders in JSON_SCHEMA_TEST_FILE_TO_FOLDERS.items():
-        component_schemas = get_component_schemas(json_schema_test_file, folders)
-        for component_name, schema in component_schemas.items():
-            if component_name in openapi.components.schemas:
-                raise ValueError('A component with that nae is already defined!')
-            openapi.components.schemas[component_name] = schema
-        print(
-            yaml.dump(
-                dataclasses.asdict(openapi),
-                sort_keys=False
-            )
+        component_schemas, component_name_to_test_examples = (
+            get_component_schemas_and_test_examples(json_schema_test_file, folders)
         )
+        for component_name, schema in component_schemas.items():
+            if component_name in openapi.components['schemas']:
+                raise ValueError('A component schema with that name is already defined!')
+            openapi.components['schemas'][component_name] = schema
+        for component_name, test_examples in component_name_to_test_examples.items():
+            if component_name in openapi.components['x-schema-test-examples']:
+                raise ValueError('A component schema test example map with that name is already defined!')
+            openapi.components['x-schema-test-examples'][component_name] = test_examples
+    print(
+        yaml.dump(
+            dataclasses.asdict(openapi),
+            sort_keys=False
+        )
+    )
     spec_out = 'type.yaml'
     with open(spec_out, 'w') as yaml_out:
         yaml_out.write(

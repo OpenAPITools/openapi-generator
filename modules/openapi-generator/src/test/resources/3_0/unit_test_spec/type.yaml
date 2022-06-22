@@ -9,270 +9,19 @@ components:
   schemas:
     IntegerTypeMatchesIntegers:
       type: integer
-      x-test-examples:
-        AnIntegerIsAnInteger:
-          description: an integer is an integer
-          data: 1
-          valid: true
-        AFloatWithZeroFractionalPartIsAnInteger:
-          description: a float with zero fractional part is an integer
-          data: 1.0
-          valid: true
-        AFloatIsNotAnInteger:
-          description: a float is not an integer
-          data: 1.1
-          valid: false
-        AStringIsNotAnInteger:
-          description: a string is not an integer
-          data: foo
-          valid: false
-        AStringIsStillNotAnIntegerEvenIfItLooksLikeOne:
-          description: a string is still not an integer, even if it looks like one
-          data: '1'
-          valid: false
-        AnObjectIsNotAnInteger:
-          description: an object is not an integer
-          data: {}
-          valid: false
-        AnArrayIsNotAnInteger:
-          description: an array is not an integer
-          data: []
-          valid: false
-        ABooleanIsNotAnInteger:
-          description: a boolean is not an integer
-          data: true
-          valid: false
-        NullIsNotAnInteger:
-          description: null is not an integer
-          data: null
-          valid: false
     NumberTypeMatchesNumbers:
       type: number
-      x-test-examples:
-        AnIntegerIsANumber:
-          description: an integer is a number
-          data: 1
-          valid: true
-        AFloatWithZeroFractionalPartIsANumberAndAnInteger:
-          description: a float with zero fractional part is a number (and an integer)
-          data: 1.0
-          valid: true
-        AFloatIsANumber:
-          description: a float is a number
-          data: 1.1
-          valid: true
-        AStringIsNotANumber:
-          description: a string is not a number
-          data: foo
-          valid: false
-        AStringIsStillNotANumberEvenIfItLooksLikeOne:
-          description: a string is still not a number, even if it looks like one
-          data: '1'
-          valid: false
-        AnObjectIsNotANumber:
-          description: an object is not a number
-          data: {}
-          valid: false
-        AnArrayIsNotANumber:
-          description: an array is not a number
-          data: []
-          valid: false
-        ABooleanIsNotANumber:
-          description: a boolean is not a number
-          data: true
-          valid: false
-        NullIsNotANumber:
-          description: null is not a number
-          data: null
-          valid: false
     StringTypeMatchesStrings:
       type: string
-      x-test-examples:
-        1IsNotAString:
-          description: 1 is not a string
-          data: 1
-          valid: false
-        AFloatIsNotAString:
-          description: a float is not a string
-          data: 1.1
-          valid: false
-        AStringIsAString:
-          description: a string is a string
-          data: foo
-          valid: true
-        AStringIsStillAStringEvenIfItLooksLikeANumber:
-          description: a string is still a string, even if it looks like a number
-          data: '1'
-          valid: true
-        AnEmptyStringIsStillAString:
-          description: an empty string is still a string
-          data: ''
-          valid: true
-        AnObjectIsNotAString:
-          description: an object is not a string
-          data: {}
-          valid: false
-        AnArrayIsNotAString:
-          description: an array is not a string
-          data: []
-          valid: false
-        ABooleanIsNotAString:
-          description: a boolean is not a string
-          data: true
-          valid: false
-        NullIsNotAString:
-          description: null is not a string
-          data: null
-          valid: false
     ObjectTypeMatchesObjects:
       type: object
-      x-test-examples:
-        AnIntegerIsNotAnObject:
-          description: an integer is not an object
-          data: 1
-          valid: false
-        AFloatIsNotAnObject:
-          description: a float is not an object
-          data: 1.1
-          valid: false
-        AStringIsNotAnObject:
-          description: a string is not an object
-          data: foo
-          valid: false
-        AnObjectIsAnObject:
-          description: an object is an object
-          data: {}
-          valid: true
-        AnArrayIsNotAnObject:
-          description: an array is not an object
-          data: []
-          valid: false
-        ABooleanIsNotAnObject:
-          description: a boolean is not an object
-          data: true
-          valid: false
-        NullIsNotAnObject:
-          description: null is not an object
-          data: null
-          valid: false
     BooleanTypeMatchesBooleans:
       type: boolean
-      x-test-examples:
-        AnIntegerIsNotABoolean:
-          description: an integer is not a boolean
-          data: 1
-          valid: false
-        ZeroIsNotABoolean:
-          description: zero is not a boolean
-          data: 0
-          valid: false
-        AFloatIsNotABoolean:
-          description: a float is not a boolean
-          data: 1.1
-          valid: false
-        AStringIsNotABoolean:
-          description: a string is not a boolean
-          data: foo
-          valid: false
-        AnEmptyStringIsNotABoolean:
-          description: an empty string is not a boolean
-          data: ''
-          valid: false
-        AnObjectIsNotABoolean:
-          description: an object is not a boolean
-          data: {}
-          valid: false
-        AnArrayIsNotABoolean:
-          description: an array is not a boolean
-          data: []
-          valid: false
-        TrueIsABoolean:
-          description: true is a boolean
-          data: true
-          valid: true
-        FalseIsABoolean:
-          description: false is a boolean
-          data: false
-          valid: true
-        NullIsNotABoolean:
-          description: null is not a boolean
-          data: null
-          valid: false
     NullTypeMatchesOnlyTheNullObject:
       type: 'null'
-      x-test-examples:
-        AnIntegerIsNotNull:
-          description: an integer is not null
-          data: 1
-          valid: false
-        AFloatIsNotNull:
-          description: a float is not null
-          data: 1.1
-          valid: false
-        ZeroIsNotNull:
-          description: zero is not null
-          data: 0
-          valid: false
-        AStringIsNotNull:
-          description: a string is not null
-          data: foo
-          valid: false
-        AnEmptyStringIsNotNull:
-          description: an empty string is not null
-          data: ''
-          valid: false
-        AnObjectIsNotNull:
-          description: an object is not null
-          data: {}
-          valid: false
-        AnArrayIsNotNull:
-          description: an array is not null
-          data: []
-          valid: false
-        TrueIsNotNull:
-          description: true is not null
-          data: true
-          valid: false
-        FalseIsNotNull:
-          description: false is not null
-          data: false
-          valid: false
-        NullIsNull:
-          description: null is null
-          data: null
-          valid: true
     ArrayTypeMatchesArrays:
       type: array
       items: {}
-      x-test-examples:
-        AnIntegerIsNotAnArray:
-          description: an integer is not an array
-          data: 1
-          valid: false
-        AFloatIsNotAnArray:
-          description: a float is not an array
-          data: 1.1
-          valid: false
-        AStringIsNotAnArray:
-          description: a string is not an array
-          data: foo
-          valid: false
-        AnObjectIsNotAnArray:
-          description: an object is not an array
-          data: {}
-          valid: false
-        AnArrayIsAnArray:
-          description: an array is an array
-          data: []
-          valid: true
-        ABooleanIsNotAnArray:
-          description: a boolean is not an array
-          data: true
-          valid: false
-        NullIsNotAnArray:
-          description: null is not an array
-          data: null
-          valid: false
     AdditionalpropertiesBeingFalseDoesNotAllowOtherProperties:
       properties:
         foo: {}
@@ -280,117 +29,795 @@ components:
       patternProperties:
         ^v: {}
       additionalProperties: false
-      x-test-examples:
-        NoAdditionalPropertiesIsValid:
-          description: no additional properties is valid
-          data:
-            foo: 1
-          valid: true
-        AnAdditionalPropertyIsInvalid:
-          description: an additional property is invalid
-          data:
-            foo: 1
-            bar: 2
-            quux: boom
-          valid: false
-        IgnoresArrays:
-          description: ignores arrays
-          data:
-          - 1
-          - 2
-          - 3
-          valid: true
-        IgnoresStrings:
-          description: ignores strings
-          data: foobarbaz
-          valid: true
-        IgnoresOtherNonObjects:
-          description: ignores other non-objects
-          data: 12
-          valid: true
-        PatternpropertiesAreNotAdditionalProperties:
-          description: patternProperties are not additional properties
-          data:
-            foo: 1
-            vroom: 2
-          valid: true
     NonAsciiPatternWithAdditionalproperties:
       patternProperties:
         "^\xE1": {}
       additionalProperties: false
-      x-test-examples:
-        MatchingThePatternIsValid:
-          description: matching the pattern is valid
-          data:
-            "\xE1rm\xE1nyos": 2
-          valid: true
-        NotMatchingThePatternIsInvalid:
-          description: not matching the pattern is invalid
-          data:
-            "\xE9lm\xE9ny": 2
-          valid: false
     AdditionalpropertiesAllowsASchemaWhichShouldValidate:
       properties:
         foo: {}
         bar: {}
       additionalProperties:
         type: boolean
-      x-test-examples:
-        NoAdditionalPropertiesIsValid:
-          description: no additional properties is valid
-          data:
-            foo: 1
-          valid: true
-        AnAdditionalValidPropertyIsValid:
-          description: an additional valid property is valid
-          data:
-            foo: 1
-            bar: 2
-            quux: true
-          valid: true
-        AnAdditionalInvalidPropertyIsInvalid:
-          description: an additional invalid property is invalid
-          data:
-            foo: 1
-            bar: 2
-            quux: 12
-          valid: false
     AdditionalpropertiesCanExistByItself:
       additionalProperties:
         type: boolean
-      x-test-examples:
-        AnAdditionalValidPropertyIsValid:
-          description: an additional valid property is valid
-          data:
-            foo: true
-          valid: true
-        AnAdditionalInvalidPropertyIsInvalid:
-          description: an additional invalid property is invalid
-          data:
-            foo: 1
-          valid: false
     AdditionalpropertiesAreAllowedByDefault:
       properties:
         foo: {}
         bar: {}
-      x-test-examples:
-        AdditionalPropertiesAreAllowed:
-          description: additional properties are allowed
-          data:
-            foo: 1
-            bar: 2
-            quux: true
-          valid: true
     AdditionalpropertiesShouldNotLookInApplicators:
       allOf:
       - properties:
           foo: {}
       additionalProperties:
         type: boolean
-      x-test-examples:
-        PropertiesDefinedInAllofAreNotExamined:
-          description: properties defined in allOf are not examined
-          data:
-            foo: 1
-            bar: true
-          valid: false
+    Allof:
+      allOf:
+      - properties:
+          bar:
+            type: integer
+        required:
+        - bar
+      - properties:
+          foo:
+            type: string
+        required:
+        - foo
+    AllofWithBaseSchema:
+      properties:
+        bar:
+          type: integer
+      required:
+      - bar
+      allOf:
+      - properties:
+          foo:
+            type: string
+        required:
+        - foo
+      - properties:
+          baz:
+            type: 'null'
+        required:
+        - baz
+    AllofSimpleTypes:
+      allOf:
+      - maximum: 30
+      - minimum: 20
+    AllofWithBooleanSchemasAllTrue:
+      allOf:
+      - true
+      - true
+    AllofWithBooleanSchemasSomeFalse:
+      allOf:
+      - true
+      - false
+    AllofWithBooleanSchemasAllFalse:
+      allOf:
+      - false
+      - false
+    AllofWithOneEmptySchema:
+      allOf:
+      - {}
+    AllofWithTwoEmptySchemas:
+      allOf:
+      - {}
+      - {}
+    AllofWithTheFirstEmptySchema:
+      allOf:
+      - {}
+      - type: number
+    AllofWithTheLastEmptySchema:
+      allOf:
+      - type: number
+      - {}
+    NestedAllofToCheckValidationSemantics:
+      allOf:
+      - allOf:
+        - type: 'null'
+    AllofCombinedWithAnyofOneof:
+      allOf:
+      - multipleOf: 2
+      anyOf:
+      - multipleOf: 3
+      oneOf:
+      - multipleOf: 5
+    Anyof:
+      anyOf:
+      - type: integer
+      - minimum: 2
+    AnyofWithBaseSchema:
+      type: string
+      anyOf:
+      - maxLength: 2
+      - minLength: 4
+    AnyofWithBooleanSchemasAllTrue:
+      anyOf:
+      - true
+      - true
+    AnyofWithBooleanSchemasSomeTrue:
+      anyOf:
+      - true
+      - false
+    AnyofWithBooleanSchemasAllFalse:
+      anyOf:
+      - false
+      - false
+    AnyofComplexTypes:
+      anyOf:
+      - properties:
+          bar:
+            type: integer
+        required:
+        - bar
+      - properties:
+          foo:
+            type: string
+        required:
+        - foo
+    AnyofWithOneEmptySchema:
+      anyOf:
+      - type: number
+      - {}
+    NestedAnyofToCheckValidationSemantics:
+      anyOf:
+      - anyOf:
+        - type: 'null'
+    BooleanSchemaTrue: true
+    BooleanSchemaFalse: false
+  x-schema-test-examples:
+    IntegerTypeMatchesIntegers:
+      AnIntegerIsAnInteger:
+        description: an integer is an integer
+        data: 1
+        valid: true
+      AFloatWithZeroFractionalPartIsAnInteger:
+        description: a float with zero fractional part is an integer
+        data: 1.0
+        valid: true
+      AFloatIsNotAnInteger:
+        description: a float is not an integer
+        data: 1.1
+        valid: false
+      AStringIsNotAnInteger:
+        description: a string is not an integer
+        data: foo
+        valid: false
+      AStringIsStillNotAnIntegerEvenIfItLooksLikeOne:
+        description: a string is still not an integer, even if it looks like one
+        data: '1'
+        valid: false
+      AnObjectIsNotAnInteger:
+        description: an object is not an integer
+        data: {}
+        valid: false
+      AnArrayIsNotAnInteger:
+        description: an array is not an integer
+        data: []
+        valid: false
+      ABooleanIsNotAnInteger:
+        description: a boolean is not an integer
+        data: true
+        valid: false
+      NullIsNotAnInteger:
+        description: null is not an integer
+        data: null
+        valid: false
+    NumberTypeMatchesNumbers:
+      AnIntegerIsANumber:
+        description: an integer is a number
+        data: 1
+        valid: true
+      AFloatWithZeroFractionalPartIsANumberAndAnInteger:
+        description: a float with zero fractional part is a number (and an integer)
+        data: 1.0
+        valid: true
+      AFloatIsANumber:
+        description: a float is a number
+        data: 1.1
+        valid: true
+      AStringIsNotANumber:
+        description: a string is not a number
+        data: foo
+        valid: false
+      AStringIsStillNotANumberEvenIfItLooksLikeOne:
+        description: a string is still not a number, even if it looks like one
+        data: '1'
+        valid: false
+      AnObjectIsNotANumber:
+        description: an object is not a number
+        data: {}
+        valid: false
+      AnArrayIsNotANumber:
+        description: an array is not a number
+        data: []
+        valid: false
+      ABooleanIsNotANumber:
+        description: a boolean is not a number
+        data: true
+        valid: false
+      NullIsNotANumber:
+        description: null is not a number
+        data: null
+        valid: false
+    StringTypeMatchesStrings:
+      1IsNotAString:
+        description: 1 is not a string
+        data: 1
+        valid: false
+      AFloatIsNotAString:
+        description: a float is not a string
+        data: 1.1
+        valid: false
+      AStringIsAString:
+        description: a string is a string
+        data: foo
+        valid: true
+      AStringIsStillAStringEvenIfItLooksLikeANumber:
+        description: a string is still a string, even if it looks like a number
+        data: '1'
+        valid: true
+      AnEmptyStringIsStillAString:
+        description: an empty string is still a string
+        data: ''
+        valid: true
+      AnObjectIsNotAString:
+        description: an object is not a string
+        data: {}
+        valid: false
+      AnArrayIsNotAString:
+        description: an array is not a string
+        data: []
+        valid: false
+      ABooleanIsNotAString:
+        description: a boolean is not a string
+        data: true
+        valid: false
+      NullIsNotAString:
+        description: null is not a string
+        data: null
+        valid: false
+    ObjectTypeMatchesObjects:
+      AnIntegerIsNotAnObject:
+        description: an integer is not an object
+        data: 1
+        valid: false
+      AFloatIsNotAnObject:
+        description: a float is not an object
+        data: 1.1
+        valid: false
+      AStringIsNotAnObject:
+        description: a string is not an object
+        data: foo
+        valid: false
+      AnObjectIsAnObject:
+        description: an object is an object
+        data: {}
+        valid: true
+      AnArrayIsNotAnObject:
+        description: an array is not an object
+        data: []
+        valid: false
+      ABooleanIsNotAnObject:
+        description: a boolean is not an object
+        data: true
+        valid: false
+      NullIsNotAnObject:
+        description: null is not an object
+        data: null
+        valid: false
+    BooleanTypeMatchesBooleans:
+      AnIntegerIsNotABoolean:
+        description: an integer is not a boolean
+        data: 1
+        valid: false
+      ZeroIsNotABoolean:
+        description: zero is not a boolean
+        data: 0
+        valid: false
+      AFloatIsNotABoolean:
+        description: a float is not a boolean
+        data: 1.1
+        valid: false
+      AStringIsNotABoolean:
+        description: a string is not a boolean
+        data: foo
+        valid: false
+      AnEmptyStringIsNotABoolean:
+        description: an empty string is not a boolean
+        data: ''
+        valid: false
+      AnObjectIsNotABoolean:
+        description: an object is not a boolean
+        data: {}
+        valid: false
+      AnArrayIsNotABoolean:
+        description: an array is not a boolean
+        data: []
+        valid: false
+      TrueIsABoolean:
+        description: true is a boolean
+        data: true
+        valid: true
+      FalseIsABoolean:
+        description: false is a boolean
+        data: false
+        valid: true
+      NullIsNotABoolean:
+        description: null is not a boolean
+        data: null
+        valid: false
+    NullTypeMatchesOnlyTheNullObject:
+      AnIntegerIsNotNull:
+        description: an integer is not null
+        data: 1
+        valid: false
+      AFloatIsNotNull:
+        description: a float is not null
+        data: 1.1
+        valid: false
+      ZeroIsNotNull:
+        description: zero is not null
+        data: 0
+        valid: false
+      AStringIsNotNull:
+        description: a string is not null
+        data: foo
+        valid: false
+      AnEmptyStringIsNotNull:
+        description: an empty string is not null
+        data: ''
+        valid: false
+      AnObjectIsNotNull:
+        description: an object is not null
+        data: {}
+        valid: false
+      AnArrayIsNotNull:
+        description: an array is not null
+        data: []
+        valid: false
+      TrueIsNotNull:
+        description: true is not null
+        data: true
+        valid: false
+      FalseIsNotNull:
+        description: false is not null
+        data: false
+        valid: false
+      NullIsNull:
+        description: null is null
+        data: null
+        valid: true
+    ArrayTypeMatchesArrays:
+      AnIntegerIsNotAnArray:
+        description: an integer is not an array
+        data: 1
+        valid: false
+      AFloatIsNotAnArray:
+        description: a float is not an array
+        data: 1.1
+        valid: false
+      AStringIsNotAnArray:
+        description: a string is not an array
+        data: foo
+        valid: false
+      AnObjectIsNotAnArray:
+        description: an object is not an array
+        data: {}
+        valid: false
+      AnArrayIsAnArray:
+        description: an array is an array
+        data: []
+        valid: true
+      ABooleanIsNotAnArray:
+        description: a boolean is not an array
+        data: true
+        valid: false
+      NullIsNotAnArray:
+        description: null is not an array
+        data: null
+        valid: false
+    AdditionalpropertiesBeingFalseDoesNotAllowOtherProperties:
+      NoAdditionalPropertiesIsValid:
+        description: no additional properties is valid
+        data:
+          foo: 1
+        valid: true
+      AnAdditionalPropertyIsInvalid:
+        description: an additional property is invalid
+        data:
+          foo: 1
+          bar: 2
+          quux: boom
+        valid: false
+      IgnoresArrays:
+        description: ignores arrays
+        data:
+        - 1
+        - 2
+        - 3
+        valid: true
+      IgnoresStrings:
+        description: ignores strings
+        data: foobarbaz
+        valid: true
+      IgnoresOtherNonObjects:
+        description: ignores other non-objects
+        data: 12
+        valid: true
+      PatternpropertiesAreNotAdditionalProperties:
+        description: patternProperties are not additional properties
+        data:
+          foo: 1
+          vroom: 2
+        valid: true
+    NonAsciiPatternWithAdditionalproperties:
+      MatchingThePatternIsValid:
+        description: matching the pattern is valid
+        data:
+          "\xE1rm\xE1nyos": 2
+        valid: true
+      NotMatchingThePatternIsInvalid:
+        description: not matching the pattern is invalid
+        data:
+          "\xE9lm\xE9ny": 2
+        valid: false
+    AdditionalpropertiesAllowsASchemaWhichShouldValidate:
+      NoAdditionalPropertiesIsValid:
+        description: no additional properties is valid
+        data:
+          foo: 1
+        valid: true
+      AnAdditionalValidPropertyIsValid:
+        description: an additional valid property is valid
+        data:
+          foo: 1
+          bar: 2
+          quux: true
+        valid: true
+      AnAdditionalInvalidPropertyIsInvalid:
+        description: an additional invalid property is invalid
+        data:
+          foo: 1
+          bar: 2
+          quux: 12
+        valid: false
+    AdditionalpropertiesCanExistByItself:
+      AnAdditionalValidPropertyIsValid:
+        description: an additional valid property is valid
+        data:
+          foo: true
+        valid: true
+      AnAdditionalInvalidPropertyIsInvalid:
+        description: an additional invalid property is invalid
+        data:
+          foo: 1
+        valid: false
+    AdditionalpropertiesAreAllowedByDefault:
+      AdditionalPropertiesAreAllowed:
+        description: additional properties are allowed
+        data:
+          foo: 1
+          bar: 2
+          quux: true
+        valid: true
+    AdditionalpropertiesShouldNotLookInApplicators:
+      PropertiesDefinedInAllofAreNotExamined:
+        description: properties defined in allOf are not examined
+        data:
+          foo: 1
+          bar: true
+        valid: false
+    Allof:
+      Allof:
+        description: allOf
+        data:
+          foo: baz
+          bar: 2
+        valid: true
+      MismatchSecond:
+        description: mismatch second
+        data:
+          foo: baz
+        valid: false
+      MismatchFirst:
+        description: mismatch first
+        data:
+          bar: 2
+        valid: false
+      WrongType:
+        description: wrong type
+        data:
+          foo: baz
+          bar: quux
+        valid: false
+    AllofWithBaseSchema:
+      Valid:
+        description: valid
+        data:
+          foo: quux
+          bar: 2
+          baz: null
+        valid: true
+      MismatchBaseSchema:
+        description: mismatch base schema
+        data:
+          foo: quux
+          baz: null
+        valid: false
+      MismatchFirstAllof:
+        description: mismatch first allOf
+        data:
+          bar: 2
+          baz: null
+        valid: false
+      MismatchSecondAllof:
+        description: mismatch second allOf
+        data:
+          foo: quux
+          bar: 2
+        valid: false
+      MismatchBoth:
+        description: mismatch both
+        data:
+          bar: 2
+        valid: false
+    AllofSimpleTypes:
+      Valid:
+        description: valid
+        data: 25
+        valid: true
+      MismatchOne:
+        description: mismatch one
+        data: 35
+        valid: false
+    AllofWithBooleanSchemasAllTrue:
+      AnyValueIsValid:
+        description: any value is valid
+        data: foo
+        valid: true
+    AllofWithBooleanSchemasSomeFalse:
+      AnyValueIsInvalid:
+        description: any value is invalid
+        data: foo
+        valid: false
+    AllofWithBooleanSchemasAllFalse:
+      AnyValueIsInvalid:
+        description: any value is invalid
+        data: foo
+        valid: false
+    AllofWithOneEmptySchema:
+      AnyDataIsValid:
+        description: any data is valid
+        data: 1
+        valid: true
+    AllofWithTwoEmptySchemas:
+      AnyDataIsValid:
+        description: any data is valid
+        data: 1
+        valid: true
+    AllofWithTheFirstEmptySchema:
+      NumberIsValid:
+        description: number is valid
+        data: 1
+        valid: true
+      StringIsInvalid:
+        description: string is invalid
+        data: foo
+        valid: false
+    AllofWithTheLastEmptySchema:
+      NumberIsValid:
+        description: number is valid
+        data: 1
+        valid: true
+      StringIsInvalid:
+        description: string is invalid
+        data: foo
+        valid: false
+    NestedAllofToCheckValidationSemantics:
+      NullIsValid:
+        description: null is valid
+        data: null
+        valid: true
+      AnythingNonNullIsInvalid:
+        description: anything non-null is invalid
+        data: 123
+        valid: false
+    AllofCombinedWithAnyofOneof:
+      AllofFalseAnyofFalseOneofFalse:
+        description: 'allOf: false, anyOf: false, oneOf: false'
+        data: 1
+        valid: false
+      AllofFalseAnyofFalseOneofTrue:
+        description: 'allOf: false, anyOf: false, oneOf: true'
+        data: 5
+        valid: false
+      AllofFalseAnyofTrueOneofFalse:
+        description: 'allOf: false, anyOf: true, oneOf: false'
+        data: 3
+        valid: false
+      AllofFalseAnyofTrueOneofTrue:
+        description: 'allOf: false, anyOf: true, oneOf: true'
+        data: 15
+        valid: false
+      AllofTrueAnyofFalseOneofFalse:
+        description: 'allOf: true, anyOf: false, oneOf: false'
+        data: 2
+        valid: false
+      AllofTrueAnyofFalseOneofTrue:
+        description: 'allOf: true, anyOf: false, oneOf: true'
+        data: 10
+        valid: false
+      AllofTrueAnyofTrueOneofFalse:
+        description: 'allOf: true, anyOf: true, oneOf: false'
+        data: 6
+        valid: false
+      AllofTrueAnyofTrueOneofTrue:
+        description: 'allOf: true, anyOf: true, oneOf: true'
+        data: 30
+        valid: true
+    Anyof:
+      FirstAnyofValid:
+        description: first anyOf valid
+        data: 1
+        valid: true
+      SecondAnyofValid:
+        description: second anyOf valid
+        data: 2.5
+        valid: true
+      BothAnyofValid:
+        description: both anyOf valid
+        data: 3
+        valid: true
+      NeitherAnyofValid:
+        description: neither anyOf valid
+        data: 1.5
+        valid: false
+    AnyofWithBaseSchema:
+      MismatchBaseSchema:
+        description: mismatch base schema
+        data: 3
+        valid: false
+      OneAnyofValid:
+        description: one anyOf valid
+        data: foobar
+        valid: true
+      BothAnyofInvalid:
+        description: both anyOf invalid
+        data: foo
+        valid: false
+    AnyofWithBooleanSchemasAllTrue:
+      AnyValueIsValid:
+        description: any value is valid
+        data: foo
+        valid: true
+    AnyofWithBooleanSchemasSomeTrue:
+      AnyValueIsValid:
+        description: any value is valid
+        data: foo
+        valid: true
+    AnyofWithBooleanSchemasAllFalse:
+      AnyValueIsInvalid:
+        description: any value is invalid
+        data: foo
+        valid: false
+    AnyofComplexTypes:
+      FirstAnyofValidComplex:
+        description: first anyOf valid (complex)
+        data:
+          bar: 2
+        valid: true
+      SecondAnyofValidComplex:
+        description: second anyOf valid (complex)
+        data:
+          foo: baz
+        valid: true
+      BothAnyofValidComplex:
+        description: both anyOf valid (complex)
+        data:
+          foo: baz
+          bar: 2
+        valid: true
+      NeitherAnyofValidComplex:
+        description: neither anyOf valid (complex)
+        data:
+          foo: 2
+          bar: quux
+        valid: false
+    AnyofWithOneEmptySchema:
+      StringIsValid:
+        description: string is valid
+        data: foo
+        valid: true
+      NumberIsValid:
+        description: number is valid
+        data: 123
+        valid: true
+    NestedAnyofToCheckValidationSemantics:
+      NullIsValid:
+        description: null is valid
+        data: null
+        valid: true
+      AnythingNonNullIsInvalid:
+        description: anything non-null is invalid
+        data: 123
+        valid: false
+    BooleanSchemaTrue:
+      NumberIsValid:
+        description: number is valid
+        data: 1
+        valid: true
+      StringIsValid:
+        description: string is valid
+        data: foo
+        valid: true
+      BooleanTrueIsValid:
+        description: boolean true is valid
+        data: true
+        valid: true
+      BooleanFalseIsValid:
+        description: boolean false is valid
+        data: false
+        valid: true
+      NullIsValid:
+        description: null is valid
+        data: null
+        valid: true
+      ObjectIsValid:
+        description: object is valid
+        data:
+          foo: bar
+        valid: true
+      EmptyObjectIsValid:
+        description: empty object is valid
+        data: {}
+        valid: true
+      ArrayIsValid:
+        description: array is valid
+        data:
+        - foo
+        valid: true
+      EmptyArrayIsValid:
+        description: empty array is valid
+        data: []
+        valid: true
+    BooleanSchemaFalse:
+      NumberIsInvalid:
+        description: number is invalid
+        data: 1
+        valid: false
+      StringIsInvalid:
+        description: string is invalid
+        data: foo
+        valid: false
+      BooleanTrueIsInvalid:
+        description: boolean true is invalid
+        data: true
+        valid: false
+      BooleanFalseIsInvalid:
+        description: boolean false is invalid
+        data: false
+        valid: false
+      NullIsInvalid:
+        description: null is invalid
+        data: null
+        valid: false
+      ObjectIsInvalid:
+        description: object is invalid
+        data:
+          foo: bar
+        valid: false
+      EmptyObjectIsInvalid:
+        description: empty object is invalid
+        data: {}
+        valid: false
+      ArrayIsInvalid:
+        description: array is invalid
+        data:
+        - foo
+        valid: false
+      EmptyArrayIsInvalid:
+        description: empty array is invalid
+        data: []
+        valid: false
