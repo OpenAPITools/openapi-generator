@@ -20,7 +20,7 @@
   <ItemGroup>
     <PackageReference Include="FubarCoder.RestSharp.Portable.Core" Version="4.0.7" />
     <PackageReference Include="FubarCoder.RestSharp.Portable.HttpClient" Version="4.0.7" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="JsonSubTypes" Version="1.6.0" />
   </ItemGroup>
 
