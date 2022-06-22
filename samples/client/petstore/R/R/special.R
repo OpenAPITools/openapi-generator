@@ -63,14 +63,14 @@ Special <- R6::R6Class(
     },
     fromJSON = function(SpecialJson) {
       SpecialObject <- jsonlite::fromJSON(SpecialJson)
-      if (!is.null(SpecialObject$`item_self`)) {
-        self$`item_self` <- SpecialObject$`item_self`
+      if (!is.null(SpecialObject$`self`)) {
+        self$`item_self` <- SpecialObject$`self`
       }
-      if (!is.null(SpecialObject$`item_private`)) {
-        self$`item_private` <- SpecialObject$`item_private`
+      if (!is.null(SpecialObject$`private`)) {
+        self$`item_private` <- SpecialObject$`private`
       }
-      if (!is.null(SpecialObject$`item_super`)) {
-        self$`item_super` <- SpecialObject$`item_super`
+      if (!is.null(SpecialObject$`super`)) {
+        self$`item_super` <- SpecialObject$`super`
       }
       self
     },
