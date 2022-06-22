@@ -78,7 +78,9 @@ class ExclusionReason:
     v303_does_not_support_array_of_types = 'v3.0.3 does not support type with array of values'
     v303_requires_array_have_items = 'v3.0.3 requires that items MUST be present if the type is array'
     v303_does_not_support_additionalItems = 'v3.0.3 does not support the additionalItems keyword'
+    v303_does_not_support_patternProperties = 'v3.0.3 does not support the patternProperties keyword'
     v303_does_not_support_const = 'v3.0.3 does not support the const keyword'
+    v303_does_not_support_boolean_schemas_in_components = 'v3.0.3 does not support boolean schemas in components'
 
 json_schema_test_draft = 'draft6'
 FILEPATH_TO_EXCLUDED_CASE_AND_REASON = {
@@ -88,11 +90,16 @@ FILEPATH_TO_EXCLUDED_CASE_AND_REASON = {
         'type: array or object': ExclusionReason.v303_does_not_support_array_of_types,
         'type: array, object or null': ExclusionReason.v303_does_not_support_array_of_types,
         'array type matches arrays': ExclusionReason.v303_requires_array_have_items,
+    },
+    (json_schema_test_draft, 'additionalProperties.json'): {
+        'non-ASCII pattern with additionalProperties': ExclusionReason.v303_does_not_support_patternProperties,
+        'additionalProperties being false does not allow other properties': ExclusionReason.v303_does_not_support_patternProperties,
     }
 }
 FILEPATH_TO_EXCLUDE_REASON = {
     (json_schema_test_draft, 'additionalItems.json'): ExclusionReason.v303_does_not_support_additionalItems,
     (json_schema_test_draft, 'const.json'): ExclusionReason.v303_does_not_support_const,
+    (json_schema_test_draft, 'boolean_schema.json'): ExclusionReason.v303_does_not_support_boolean_schemas_in_components,
 }
 
 openapi_additions = 'openapi_additions'

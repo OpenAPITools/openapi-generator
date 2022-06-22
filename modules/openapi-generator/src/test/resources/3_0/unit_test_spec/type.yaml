@@ -22,17 +22,6 @@ components:
     ArrayTypeMatchesArrays:
       type: array
       items: {}
-    AdditionalpropertiesBeingFalseDoesNotAllowOtherProperties:
-      properties:
-        foo: {}
-        bar: {}
-      patternProperties:
-        ^v: {}
-      additionalProperties: false
-    NonAsciiPatternWithAdditionalproperties:
-      patternProperties:
-        "^\xE1": {}
-      additionalProperties: false
     AdditionalpropertiesAllowsASchemaWhichShouldValidate:
       properties:
         foo: {}
@@ -164,8 +153,6 @@ components:
       anyOf:
       - anyOf:
         - type: 'null'
-    BooleanSchemaTrue: true
-    BooleanSchemaFalse: false
   x-schema-test-examples:
     IntegerTypeMatchesIntegers:
       AnIntegerIsAnInteger:
@@ -417,51 +404,6 @@ components:
       NullIsNotAnArray:
         description: null is not an array
         data: null
-        valid: false
-    AdditionalpropertiesBeingFalseDoesNotAllowOtherProperties:
-      NoAdditionalPropertiesIsValid:
-        description: no additional properties is valid
-        data:
-          foo: 1
-        valid: true
-      AnAdditionalPropertyIsInvalid:
-        description: an additional property is invalid
-        data:
-          foo: 1
-          bar: 2
-          quux: boom
-        valid: false
-      IgnoresArrays:
-        description: ignores arrays
-        data:
-        - 1
-        - 2
-        - 3
-        valid: true
-      IgnoresStrings:
-        description: ignores strings
-        data: foobarbaz
-        valid: true
-      IgnoresOtherNonObjects:
-        description: ignores other non-objects
-        data: 12
-        valid: true
-      PatternpropertiesAreNotAdditionalProperties:
-        description: patternProperties are not additional properties
-        data:
-          foo: 1
-          vroom: 2
-        valid: true
-    NonAsciiPatternWithAdditionalproperties:
-      MatchingThePatternIsValid:
-        description: matching the pattern is valid
-        data:
-          "\xE1rm\xE1nyos": 2
-        valid: true
-      NotMatchingThePatternIsInvalid:
-        description: not matching the pattern is invalid
-        data:
-          "\xE9lm\xE9ny": 2
         valid: false
     AdditionalpropertiesAllowsASchemaWhichShouldValidate:
       NoAdditionalPropertiesIsValid:
@@ -742,82 +684,4 @@ components:
       AnythingNonNullIsInvalid:
         description: anything non-null is invalid
         data: 123
-        valid: false
-    BooleanSchemaTrue:
-      NumberIsValid:
-        description: number is valid
-        data: 1
-        valid: true
-      StringIsValid:
-        description: string is valid
-        data: foo
-        valid: true
-      BooleanTrueIsValid:
-        description: boolean true is valid
-        data: true
-        valid: true
-      BooleanFalseIsValid:
-        description: boolean false is valid
-        data: false
-        valid: true
-      NullIsValid:
-        description: null is valid
-        data: null
-        valid: true
-      ObjectIsValid:
-        description: object is valid
-        data:
-          foo: bar
-        valid: true
-      EmptyObjectIsValid:
-        description: empty object is valid
-        data: {}
-        valid: true
-      ArrayIsValid:
-        description: array is valid
-        data:
-        - foo
-        valid: true
-      EmptyArrayIsValid:
-        description: empty array is valid
-        data: []
-        valid: true
-    BooleanSchemaFalse:
-      NumberIsInvalid:
-        description: number is invalid
-        data: 1
-        valid: false
-      StringIsInvalid:
-        description: string is invalid
-        data: foo
-        valid: false
-      BooleanTrueIsInvalid:
-        description: boolean true is invalid
-        data: true
-        valid: false
-      BooleanFalseIsInvalid:
-        description: boolean false is invalid
-        data: false
-        valid: false
-      NullIsInvalid:
-        description: null is invalid
-        data: null
-        valid: false
-      ObjectIsInvalid:
-        description: object is invalid
-        data:
-          foo: bar
-        valid: false
-      EmptyObjectIsInvalid:
-        description: empty object is invalid
-        data: {}
-        valid: false
-      ArrayIsInvalid:
-        description: array is invalid
-        data:
-        - foo
-        valid: false
-      EmptyArrayIsInvalid:
-        description: empty array is invalid
-        data: []
         valid: false
