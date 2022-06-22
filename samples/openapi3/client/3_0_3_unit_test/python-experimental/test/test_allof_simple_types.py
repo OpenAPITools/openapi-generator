@@ -21,13 +21,13 @@ class TestAllofSimpleTypes(unittest.TestCase):
     def test_valid_passes(self):
         # valid
         AllofSimpleTypes(
-25nl        )
+            25        )
 
     def test_mismatch_one_fails(self):
         # mismatch one
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
             AllofSimpleTypes(
-35nl            )
+                35            )
 
 
 if __name__ == '__main__':

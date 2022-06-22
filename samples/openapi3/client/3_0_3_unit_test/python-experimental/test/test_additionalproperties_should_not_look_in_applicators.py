@@ -20,15 +20,16 @@ class TestAdditionalpropertiesShouldNotLookInApplicators(unittest.TestCase):
 
     def test_properties_defined_in_allof_are_not_examined_fails(self):
         # properties defined in allOf are not examined
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
             AdditionalpropertiesShouldNotLookInApplicators(
-                {
+                **{
                     "foo":
-                        1,
+                                                1,
                     "bar":
+                        
                         True,
                 }
-                nl            )
+            )
 
 
 if __name__ == '__main__':

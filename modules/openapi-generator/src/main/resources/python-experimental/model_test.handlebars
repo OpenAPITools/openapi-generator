@@ -20,16 +20,14 @@ class Test{{classname}}(unittest.TestCase):
         {{#if valid}}
         {{classname}}(
 {{#with data}}
-            {{>model_templates/payload_renderer}}
-{{/with}}
-nl        )
+            {{>model_templates/payload_renderer}}{{/with}}
+        )
         {{else}}
-        with self.assertRaises(({{packageName}}.ApiValueError, {{packageName}}.ApiTypeError)):
+        with self.assertRaises(({{packageName}}.ApiValueError, {{packageName}}.ApiTypeError, TypeError)):
             {{classname}}(
 {{#with data}}
-                {{>model_templates/payload_renderer}}
-{{/with}}
-nl            )
+                {{>model_templates/payload_renderer}}{{/with}}
+            )
         {{/if}}
     {{/with}}
 

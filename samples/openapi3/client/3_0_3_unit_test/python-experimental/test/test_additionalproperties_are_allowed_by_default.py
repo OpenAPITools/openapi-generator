@@ -21,15 +21,16 @@ class TestAdditionalpropertiesAreAllowedByDefault(unittest.TestCase):
     def test_additional_properties_are_allowed_passes(self):
         # additional properties are allowed
         AdditionalpropertiesAreAllowedByDefault(
-            {
+            **{
                 "foo":
-                    1,
+                                        1,
                 "bar":
-                    2,
+                                        2,
                 "quux":
+                    
                     True,
             }
-            nl        )
+        )
 
 
 if __name__ == '__main__':

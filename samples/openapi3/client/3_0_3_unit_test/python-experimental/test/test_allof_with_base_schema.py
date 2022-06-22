@@ -21,61 +21,67 @@ class TestAllofWithBaseSchema(unittest.TestCase):
     def test_valid_passes(self):
         # valid
         AllofWithBaseSchema(
-            {
+            **{
                 "foo":
+                    
                     "quux",
                 "bar":
-                    2,
+                                        2,
                 "baz":
+                    
                     None,
             }
-            nl        )
+        )
 
     def test_mismatch_first_allof_fails(self):
         # mismatch first allOf
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
             AllofWithBaseSchema(
-                {
+                **{
                     "bar":
-                        2,
+                                                2,
                     "baz":
+                        
                         None,
                 }
-                nl            )
+            )
 
     def test_mismatch_base_schema_fails(self):
         # mismatch base schema
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
             AllofWithBaseSchema(
-                {
+                **{
                     "foo":
+                        
                         "quux",
                     "baz":
+                        
                         None,
                 }
-                nl            )
+            )
 
     def test_mismatch_both_fails(self):
         # mismatch both
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
             AllofWithBaseSchema(
-                {
+                **{
                     "bar":
-                        2,
+                                                2,
                 }
-                nl            )
+            )
 
     def test_mismatch_second_allof_fails(self):
         # mismatch second allOf
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
             AllofWithBaseSchema(
-                {
+                **{
                     "foo":
+                        
                         "quux",
                     "bar":
-                        2,
+                                                2,
                 }
-                nl            )
+            )
 
 
 if __name__ == '__main__':

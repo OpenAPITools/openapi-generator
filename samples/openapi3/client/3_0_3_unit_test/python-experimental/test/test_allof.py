@@ -21,45 +21,49 @@ class TestAllof(unittest.TestCase):
     def test_allof_passes(self):
         # allOf
         Allof(
-            {
+            **{
                 "foo":
+                    
                     "baz",
                 "bar":
-                    2,
+                                        2,
             }
-            nl        )
+        )
 
     def test_mismatch_first_fails(self):
         # mismatch first
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
             Allof(
-                {
+                **{
                     "bar":
-                        2,
+                                                2,
                 }
-                nl            )
+            )
 
     def test_mismatch_second_fails(self):
         # mismatch second
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
             Allof(
-                {
+                **{
                     "foo":
+                        
                         "baz",
                 }
-                nl            )
+            )
 
     def test_wrong_type_fails(self):
         # wrong type
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
             Allof(
-                {
+                **{
                     "foo":
+                        
                         "baz",
                     "bar":
+                        
                         "quux",
                 }
-                nl            )
+            )
 
 
 if __name__ == '__main__':

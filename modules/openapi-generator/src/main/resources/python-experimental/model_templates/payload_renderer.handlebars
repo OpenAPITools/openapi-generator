@@ -6,7 +6,7 @@
 ]
 {{else}}
 {{#if isMap}}
-{
+{{#not value.isEmpty}}**{{/not}}{
     {{#each value}}
     "{{@key}}":
         {{#with this}}
@@ -14,4 +14,9 @@
         {{/with}}
     {{/each}}
 }
-{{else}}{{#or isNumber isUnboundedInteger}}{{value}}{{/or}}{{#if isBoolean}}{{#if value}}True{{else}}False{{/if}}{{/if}}{{#if isNull}}None{{/if}}{{#if isString}}"{{value}}"{{/if}}{{/if}}{{/if}}
+{{else}}{{#or isNumber isUnboundedInteger}}
+{{value}}{{/or}}{{#if isBoolean}}{{#if value}}
+True{{else}}
+False{{/if}}{{/if}}{{#if isNull}}
+None{{/if}}{{#if isString}}
+"{{value}}"{{/if}}{{/if}}{{/if}}

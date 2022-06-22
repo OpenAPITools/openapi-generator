@@ -20,14 +20,15 @@ class TestAllofWithTheLastEmptySchema(unittest.TestCase):
 
     def test_string_is_invalid_fails(self):
         # string is invalid
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
             AllofWithTheLastEmptySchema(
-"foo"nl            )
+
+                "foo"            )
 
     def test_number_is_valid_passes(self):
         # number is valid
         AllofWithTheLastEmptySchema(
-1nl        )
+            1        )
 
 
 if __name__ == '__main__':

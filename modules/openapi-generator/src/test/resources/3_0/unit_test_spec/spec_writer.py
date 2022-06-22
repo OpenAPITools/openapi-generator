@@ -109,7 +109,7 @@ JSON_SCHEMA_TEST_FILE_TO_FOLDERS = {
     'additionalItems.json': (json_schema_test_draft,),
     'additionalProperties.json': (json_schema_test_draft,),
     'allOf.json': (json_schema_test_draft,),
-    'anyOf.json': (json_schema_test_draft,),
+#     'anyOf.json': (json_schema_test_draft,),
     'boolean_schema.json': (json_schema_test_draft,),
     'const.json': (json_schema_test_draft,),
 }

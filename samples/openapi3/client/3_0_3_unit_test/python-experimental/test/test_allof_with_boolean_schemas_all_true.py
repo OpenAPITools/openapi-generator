@@ -21,7 +21,8 @@ class TestAllofWithBooleanSchemasAllTrue(unittest.TestCase):
     def test_any_value_is_valid_passes(self):
         # any value is valid
         AllofWithBooleanSchemasAllTrue(
-"foo"nl        )
+
+            "foo"        )
 
 
 if __name__ == '__main__':

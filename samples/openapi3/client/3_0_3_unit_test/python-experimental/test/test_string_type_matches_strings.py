@@ -20,58 +20,63 @@ class TestStringTypeMatchesStrings(unittest.TestCase):
 
     def test_1_is_not_a_string_fails(self):
         # 1 is not a string
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
             StringTypeMatchesStrings(
-1nl            )
+                1            )
 
     def test_a_string_is_still_a_string_even_if_it_looks_like_a_number_passes(self):
         # a string is still a string, even if it looks like a number
         StringTypeMatchesStrings(
-"1"nl        )
+
+            "1"        )
 
     def test_an_empty_string_is_still_a_string_passes(self):
         # an empty string is still a string
         StringTypeMatchesStrings(
-""nl        )
+
+            ""        )
 
     def test_a_float_is_not_a_string_fails(self):
         # a float is not a string
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
             StringTypeMatchesStrings(
-1.1nl            )
+                1.1            )
 
     def test_an_object_is_not_a_string_fails(self):
         # an object is not a string
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
             StringTypeMatchesStrings(
                 {
                 }
-                nl            )
+            )
 
     def test_an_array_is_not_a_string_fails(self):
         # an array is not a string
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
             StringTypeMatchesStrings(
                 [
                 ]
-nl            )
+            )
 
     def test_a_boolean_is_not_a_string_fails(self):
         # a boolean is not a string
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
             StringTypeMatchesStrings(
-Truenl            )
+
+                True            )
 
     def test_null_is_not_a_string_fails(self):
         # null is not a string
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
             StringTypeMatchesStrings(
-Nonenl            )
+
+                None            )
 
     def test_a_string_is_a_string_passes(self):
         # a string is a string
         StringTypeMatchesStrings(
-"foo"nl        )
+
+            "foo"        )
 
 
 if __name__ == '__main__':

@@ -20,48 +20,51 @@ class TestArrayTypeMatchesArrays(unittest.TestCase):
 
     def test_a_float_is_not_an_array_fails(self):
         # a float is not an array
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
             ArrayTypeMatchesArrays(
-1.1nl            )
+                1.1            )
 
     def test_a_boolean_is_not_an_array_fails(self):
         # a boolean is not an array
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
             ArrayTypeMatchesArrays(
-Truenl            )
+
+                True            )
 
     def test_null_is_not_an_array_fails(self):
         # null is not an array
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
             ArrayTypeMatchesArrays(
-Nonenl            )
+
+                None            )
 
     def test_an_object_is_not_an_array_fails(self):
         # an object is not an array
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
             ArrayTypeMatchesArrays(
                 {
                 }
-                nl            )
+            )
 
     def test_a_string_is_not_an_array_fails(self):
         # a string is not an array
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
             ArrayTypeMatchesArrays(
-"foo"nl            )
+
+                "foo"            )
 
     def test_an_array_is_an_array_passes(self):
         # an array is an array
         ArrayTypeMatchesArrays(
             [
             ]
-nl        )
+        )
 
     def test_an_integer_is_not_an_array_fails(self):
         # an integer is not an array
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
             ArrayTypeMatchesArrays(
-1nl            )
+                1            )
 
 
 if __name__ == '__main__':

@@ -20,59 +20,63 @@ class TestIntegerTypeMatchesIntegers(unittest.TestCase):
 
     def test_an_object_is_not_an_integer_fails(self):
         # an object is not an integer
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
             IntegerTypeMatchesIntegers(
                 {
                 }
-                nl            )
+            )
 
     def test_a_string_is_not_an_integer_fails(self):
         # a string is not an integer
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
             IntegerTypeMatchesIntegers(
-"foo"nl            )
+
+                "foo"            )
 
     def test_null_is_not_an_integer_fails(self):
         # null is not an integer
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
             IntegerTypeMatchesIntegers(
-Nonenl            )
+
+                None            )
 
     def test_a_float_with_zero_fractional_part_is_an_integer_passes(self):
         # a float with zero fractional part is an integer
         IntegerTypeMatchesIntegers(
-1.0nl        )
+            1.0        )
 
     def test_a_float_is_not_an_integer_fails(self):
         # a float is not an integer
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
             IntegerTypeMatchesIntegers(
-1.1nl            )
+                1.1            )
 
     def test_a_boolean_is_not_an_integer_fails(self):
         # a boolean is not an integer
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
             IntegerTypeMatchesIntegers(
-Truenl            )
+
+                True            )
 
     def test_an_integer_is_an_integer_passes(self):
         # an integer is an integer
         IntegerTypeMatchesIntegers(
-1nl        )
+            1        )
 
     def test_a_string_is_still_not_an_integer_even_if_it_looks_like_one_fails(self):
         # a string is still not an integer, even if it looks like one
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
             IntegerTypeMatchesIntegers(
-"1"nl            )
+
+                "1"            )
 
     def test_an_array_is_not_an_integer_fails(self):
         # an array is not an integer
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
             IntegerTypeMatchesIntegers(
                 [
                 ]
-nl            )
+            )
 
 
 if __name__ == '__main__':

@@ -20,9 +20,10 @@ class TestAllofWithBooleanSchemasAllFalse(unittest.TestCase):
 
     def test_any_value_is_invalid_fails(self):
         # any value is invalid
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
             AllofWithBooleanSchemasAllFalse(
-"foo"nl            )
+
+                "foo"            )
 
 
 if __name__ == '__main__':

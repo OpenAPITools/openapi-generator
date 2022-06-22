@@ -21,7 +21,7 @@ class TestAllofWithOneEmptySchema(unittest.TestCase):
     def test_any_data_is_valid_passes(self):
         # any data is valid
         AllofWithOneEmptySchema(
-1nl        )
+            1        )
 
 
 if __name__ == '__main__':

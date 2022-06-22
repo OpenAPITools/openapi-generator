@@ -20,58 +20,62 @@ class TestNumberTypeMatchesNumbers(unittest.TestCase):
 
     def test_an_array_is_not_a_number_fails(self):
         # an array is not a number
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
             NumberTypeMatchesNumbers(
                 [
                 ]
-nl            )
+            )
 
     def test_null_is_not_a_number_fails(self):
         # null is not a number
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
             NumberTypeMatchesNumbers(
-Nonenl            )
+
+                None            )
 
     def test_an_object_is_not_a_number_fails(self):
         # an object is not a number
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
             NumberTypeMatchesNumbers(
                 {
                 }
-                nl            )
+            )
 
     def test_a_boolean_is_not_a_number_fails(self):
         # a boolean is not a number
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
             NumberTypeMatchesNumbers(
-Truenl            )
+
+                True            )
 
     def test_a_float_is_a_number_passes(self):
         # a float is a number
         NumberTypeMatchesNumbers(
-1.1nl        )
+            1.1        )
 
     def test_a_string_is_still_not_a_number_even_if_it_looks_like_one_fails(self):
         # a string is still not a number, even if it looks like one
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
             NumberTypeMatchesNumbers(
-"1"nl            )
+
+                "1"            )
 
     def test_a_string_is_not_a_number_fails(self):
         # a string is not a number
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
             NumberTypeMatchesNumbers(
-"foo"nl            )
+
+                "foo"            )
 
     def test_an_integer_is_a_number_passes(self):
         # an integer is a number
         NumberTypeMatchesNumbers(
-1nl        )
+            1        )
 
     def test_a_float_with_zero_fractional_part_is_a_number_and_an_integer_passes(self):
         # a float with zero fractional part is a number (and an integer)
         NumberTypeMatchesNumbers(
-1.0nl        )
+            1.0        )
 
 
 if __name__ == '__main__':

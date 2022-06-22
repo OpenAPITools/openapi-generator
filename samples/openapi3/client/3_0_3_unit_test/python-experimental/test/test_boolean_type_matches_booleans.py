@@ -20,65 +20,70 @@ class TestBooleanTypeMatchesBooleans(unittest.TestCase):
 
     def test_an_empty_string_is_not_a_boolean_fails(self):
         # an empty string is not a boolean
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
             BooleanTypeMatchesBooleans(
-""nl            )
+
+                ""            )
 
     def test_a_float_is_not_a_boolean_fails(self):
         # a float is not a boolean
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
             BooleanTypeMatchesBooleans(
-1.1nl            )
+                1.1            )
 
     def test_null_is_not_a_boolean_fails(self):
         # null is not a boolean
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
             BooleanTypeMatchesBooleans(
-Nonenl            )
+
+                None            )
 
     def test_zero_is_not_a_boolean_fails(self):
         # zero is not a boolean
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
             BooleanTypeMatchesBooleans(
-0nl            )
+                0            )
 
     def test_an_array_is_not_a_boolean_fails(self):
         # an array is not a boolean
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
             BooleanTypeMatchesBooleans(
                 [
                 ]
-nl            )
+            )
 
     def test_a_string_is_not_a_boolean_fails(self):
         # a string is not a boolean
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
             BooleanTypeMatchesBooleans(
-"foo"nl            )
+
+                "foo"            )
 
     def test_false_is_a_boolean_passes(self):
         # false is a boolean
         BooleanTypeMatchesBooleans(
-Falsenl        )
+
+            False        )
 
     def test_an_integer_is_not_a_boolean_fails(self):
         # an integer is not a boolean
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
             BooleanTypeMatchesBooleans(
-1nl            )
+                1            )
 
     def test_true_is_a_boolean_passes(self):
         # true is a boolean
         BooleanTypeMatchesBooleans(
-Truenl        )
+
+            True        )
 
     def test_an_object_is_not_a_boolean_fails(self):
         # an object is not a boolean
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
             BooleanTypeMatchesBooleans(
                 {
                 }
-                nl            )
+            )
 
 
 if __name__ == '__main__':
