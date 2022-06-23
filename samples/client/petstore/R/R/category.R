@@ -8,15 +8,10 @@
 
 #' @docType class
 #' @title Category
-#'
 #' @description Category Class
-#'
 #' @format An \code{R6Class} generator object
-#'
 #' @field id  integer [optional]
-#'
 #' @field name  character [optional]
-#'
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -25,6 +20,15 @@ Category <- R6::R6Class(
   public = list(
     `id` = NULL,
     `name` = NULL,
+    #' Initialize a new Category class.
+    #'
+    #' @description
+    #' Initialize a new Category class.
+    #'
+    #' @param id id
+    #' @param name name
+    #' @param ... Other optional arguments.
+    #' @export
     initialize = function(
         `id`=NULL, `name`=NULL, ...
     ) {
@@ -37,6 +41,13 @@ Category <- R6::R6Class(
         self$`name` <- `name`
       }
     },
+    #' To JSON string
+    #'
+    #' @description
+    #' To JSON String
+    #'
+    #' @return Category in JSON format
+    #' @export
     toJSON = function() {
       CategoryObject <- list()
       if (!is.null(self$`id`)) {
@@ -50,6 +61,14 @@ Category <- R6::R6Class(
 
       CategoryObject
     },
+    #' Deserialize JSON string into an instance of Category
+    #'
+    #' @description
+    #' Deserialize JSON string into an instance of Category
+    #'
+    #' @param CategoryJson the JSON input
+    #' @return the instance of Category
+    #' @export
     fromJSON = function(CategoryJson) {
       CategoryObject <- jsonlite::fromJSON(CategoryJson)
       if (!is.null(CategoryObject$`id`)) {
@@ -60,6 +79,13 @@ Category <- R6::R6Class(
       }
       self
     },
+    #' To JSON string
+    #'
+    #' @description
+    #' To JSON String
+    #'
+    #' @return Category in JSON format
+    #' @export
     toJSONString = function() {
       jsoncontent <- c(
         if (!is.null(self$`id`)) {
@@ -80,12 +106,27 @@ Category <- R6::R6Class(
       jsoncontent <- paste(jsoncontent, collapse = ",")
       paste('{', jsoncontent, '}', sep = "")
     },
+    #' Deserialize JSON string into an instance of Category
+    #'
+    #' @description
+    #' Deserialize JSON string into an instance of Category
+    #'
+    #' @param CategoryJson the JSON input
+    #' @return the instance of Category
+    #' @export
     fromJSONString = function(CategoryJson) {
       CategoryObject <- jsonlite::fromJSON(CategoryJson)
       self$`id` <- CategoryObject$`id`
       self$`name` <- CategoryObject$`name`
       self
     },
+    #' Validate JSON input with respect to Category
+    #'
+    #' @description
+    #' Validate JSON input with respect to Category and throw an exception if invalid
+    #'
+    #' @param input the JSON input
+    #' @export
     validateJSON = function(input) {
       input_json <- jsonlite::fromJSON(input)
     }

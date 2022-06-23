@@ -8,15 +8,10 @@
 
 #' @docType class
 #' @title Tag
-#'
 #' @description Tag Class
-#'
 #' @format An \code{R6Class} generator object
-#'
 #' @field id  integer [optional]
-#'
 #' @field name  character [optional]
-#'
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -25,6 +20,15 @@ Tag <- R6::R6Class(
   public = list(
     `id` = NULL,
     `name` = NULL,
+    #' Initialize a new Tag class.
+    #'
+    #' @description
+    #' Initialize a new Tag class.
+    #'
+    #' @param id id
+    #' @param name name
+    #' @param ... Other optional arguments.
+    #' @export
     initialize = function(
         `id`=NULL, `name`=NULL, ...
     ) {
@@ -37,6 +41,13 @@ Tag <- R6::R6Class(
         self$`name` <- `name`
       }
     },
+    #' To JSON string
+    #'
+    #' @description
+    #' To JSON String
+    #'
+    #' @return Tag in JSON format
+    #' @export
     toJSON = function() {
       TagObject <- list()
       if (!is.null(self$`id`)) {
@@ -50,6 +61,14 @@ Tag <- R6::R6Class(
 
       TagObject
     },
+    #' Deserialize JSON string into an instance of Tag
+    #'
+    #' @description
+    #' Deserialize JSON string into an instance of Tag
+    #'
+    #' @param TagJson the JSON input
+    #' @return the instance of Tag
+    #' @export
     fromJSON = function(TagJson) {
       TagObject <- jsonlite::fromJSON(TagJson)
       if (!is.null(TagObject$`id`)) {
@@ -60,6 +79,13 @@ Tag <- R6::R6Class(
       }
       self
     },
+    #' To JSON string
+    #'
+    #' @description
+    #' To JSON String
+    #'
+    #' @return Tag in JSON format
+    #' @export
     toJSONString = function() {
       jsoncontent <- c(
         if (!is.null(self$`id`)) {
@@ -80,12 +106,27 @@ Tag <- R6::R6Class(
       jsoncontent <- paste(jsoncontent, collapse = ",")
       paste('{', jsoncontent, '}', sep = "")
     },
+    #' Deserialize JSON string into an instance of Tag
+    #'
+    #' @description
+    #' Deserialize JSON string into an instance of Tag
+    #'
+    #' @param TagJson the JSON input
+    #' @return the instance of Tag
+    #' @export
     fromJSONString = function(TagJson) {
       TagObject <- jsonlite::fromJSON(TagJson)
       self$`id` <- TagObject$`id`
       self$`name` <- TagObject$`name`
       self
     },
+    #' Validate JSON input with respect to Tag
+    #'
+    #' @description
+    #' Validate JSON input with respect to Tag and throw an exception if invalid
+    #'
+    #' @param input the JSON input
+    #' @export
     validateJSON = function(input) {
       input_json <- jsonlite::fromJSON(input)
     }

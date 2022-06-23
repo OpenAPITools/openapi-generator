@@ -8,23 +8,14 @@
 
 #' @docType class
 #' @title Order
-#'
 #' @description Order Class
-#'
 #' @format An \code{R6Class} generator object
-#'
 #' @field id  integer [optional]
-#'
 #' @field petId  integer [optional]
-#'
 #' @field quantity  integer [optional]
-#'
 #' @field shipDate  character [optional]
-#'
 #' @field status  character [optional]
-#'
 #' @field complete  character [optional]
-#'
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -37,6 +28,19 @@ Order <- R6::R6Class(
     `shipDate` = NULL,
     `status` = NULL,
     `complete` = NULL,
+    #' Initialize a new Order class.
+    #'
+    #' @description
+    #' Initialize a new Order class.
+    #'
+    #' @param id id
+    #' @param petId petId
+    #' @param quantity quantity
+    #' @param shipDate shipDate
+    #' @param status Order Status
+    #' @param complete complete. Default to FALSE.
+    #' @param ... Other optional arguments.
+    #' @export
     initialize = function(
         `id`=NULL, `petId`=NULL, `quantity`=NULL, `shipDate`=NULL, `status`=NULL, `complete`=FALSE, ...
     ) {
@@ -65,6 +69,13 @@ Order <- R6::R6Class(
         self$`complete` <- `complete`
       }
     },
+    #' To JSON string
+    #'
+    #' @description
+    #' To JSON String
+    #'
+    #' @return Order in JSON format
+    #' @export
     toJSON = function() {
       OrderObject <- list()
       if (!is.null(self$`id`)) {
@@ -94,6 +105,14 @@ Order <- R6::R6Class(
 
       OrderObject
     },
+    #' Deserialize JSON string into an instance of Order
+    #'
+    #' @description
+    #' Deserialize JSON string into an instance of Order
+    #'
+    #' @param OrderJson the JSON input
+    #' @return the instance of Order
+    #' @export
     fromJSON = function(OrderJson) {
       OrderObject <- jsonlite::fromJSON(OrderJson)
       if (!is.null(OrderObject$`id`)) {
@@ -116,6 +135,13 @@ Order <- R6::R6Class(
       }
       self
     },
+    #' To JSON string
+    #'
+    #' @description
+    #' To JSON String
+    #'
+    #' @return Order in JSON format
+    #' @export
     toJSONString = function() {
       jsoncontent <- c(
         if (!is.null(self$`id`)) {
@@ -164,6 +190,14 @@ Order <- R6::R6Class(
       jsoncontent <- paste(jsoncontent, collapse = ",")
       paste('{', jsoncontent, '}', sep = "")
     },
+    #' Deserialize JSON string into an instance of Order
+    #'
+    #' @description
+    #' Deserialize JSON string into an instance of Order
+    #'
+    #' @param OrderJson the JSON input
+    #' @return the instance of Order
+    #' @export
     fromJSONString = function(OrderJson) {
       OrderObject <- jsonlite::fromJSON(OrderJson)
       self$`id` <- OrderObject$`id`
@@ -174,6 +208,13 @@ Order <- R6::R6Class(
       self$`complete` <- OrderObject$`complete`
       self
     },
+    #' Validate JSON input with respect to Order
+    #'
+    #' @description
+    #' Validate JSON input with respect to Order and throw an exception if invalid
+    #'
+    #' @param input the JSON input
+    #' @export
     validateJSON = function(input) {
       input_json <- jsonlite::fromJSON(input)
     }

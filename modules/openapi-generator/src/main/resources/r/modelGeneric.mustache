@@ -2,14 +2,10 @@
 {{#model}}
 #' @docType class
 #' @title {{classname}}
-#'
 #' @description {{classname}} Class
-#'
 #' @format An \code{R6Class} generator object
-#'
 {{#vars}}
 #' @field {{name}} {{title}} {{#isContainer}}{{#isArray}}list( {{/isArray}}{{#isMap}}named list( {{/isMap}}{{/isContainer}}{{^isPrimitiveType}}\link{{=<% %>=}}{<%/isPrimitiveType%><%={{ }}=%>{{#isContainer}}{{#items}}{{dataType}}{{/items}}{{/isContainer}}{{^isContainer}}{{dataType}}{{/isContainer}}{{=<% %>=}}<%^isPrimitiveType%>}<%={{ }}=%>{{/isPrimitiveType}}{{#isContainer}}{{#isArray}} ){{/isArray}}{{#isMap}} ){{/isMap}}{{/isContainer}} {{^required}}[optional]{{/required}}
-#'
 {{/vars}}
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
@@ -27,6 +23,19 @@
     {{#vars}}
     `{{{name}}}` = NULL,
     {{/vars}}
+    #' Initialize a new {{{classname}}} class.
+    #'
+    #' @description
+    #' Initialize a new {{{classname}}} class.
+    #'
+    {{#requiredVars}}
+    #' @param {{name}} {{{description}}}{{^description}}{{{name}}}{{/description}}
+    {{/requiredVars}}
+    {{#optionalVars}}
+    #' @param {{name}} {{{description}}}{{^description}}{{{name}}}{{/description}}{{#defaultValue}}. Default to {{{.}}}.{{/defaultValue}}
+    {{/optionalVars}}
+    #' @param ... Other optional arguments.
+    #' @export
     initialize = function(
         {{#requiredVars}}`{{name}}`, {{/requiredVars}}{{#optionalVars}}`{{name}}`={{{defaultValue}}}{{^defaultValue}}NULL{{/defaultValue}}, {{/optionalVars}}...
     ) {
@@ -119,6 +128,13 @@
       }
       {{/optionalVars}}
     },
+    #' To JSON string
+    #'
+    #' @description
+    #' To JSON String
+    #'
+    #' @return {{{classname}}} in JSON format
+    #' @export
     toJSON = function() {
       {{classname}}Object <- list()
       {{#vars}}
@@ -155,6 +171,14 @@
 
       {{classname}}Object
     },
+    #' Deserialize JSON string into an instance of {{{classname}}}
+    #'
+    #' @description
+    #' Deserialize JSON string into an instance of {{{classname}}}
+    #'
+    #' @param {{classname}}Json the JSON input
+    #' @return the instance of {{{classname}}}
+    #' @export
     fromJSON = function({{classname}}Json) {
       {{classname}}Object <- jsonlite::fromJSON({{classname}}Json)
       {{#vars}}
@@ -176,6 +200,13 @@
       {{/vars}}
       self
     },
+    #' To JSON string
+    #'
+    #' @description
+    #' To JSON String
+    #'
+    #' @return {{{classname}}} in JSON format
+    #' @export
     toJSONString = function() {
       jsoncontent <- c(
       {{#vars}}
@@ -237,6 +268,14 @@
       jsoncontent <- paste(jsoncontent, collapse = ",")
       paste('{', jsoncontent, '}', sep = "")
     },
+    #' Deserialize JSON string into an instance of {{{classname}}}
+    #'
+    #' @description
+    #' Deserialize JSON string into an instance of {{{classname}}}
+    #'
+    #' @param {{classname}}Json the JSON input
+    #' @return the instance of {{{classname}}}
+    #' @export
     fromJSONString = function({{classname}}Json) {
       {{classname}}Object <- jsonlite::fromJSON({{classname}}Json)
       {{#vars}}
@@ -255,6 +294,13 @@
       {{/vars}}
       self
     },
+    #' Validate JSON input with respect to {{classname}}
+    #'
+    #' @description
+    #' Validate JSON input with respect to {{classname}} and throw an exception if invalid
+    #'
+    #' @param input the JSON input
+    #' @export
     validateJSON = function(input) {
       input_json <- jsonlite::fromJSON(input)
       {{#requiredVars}}

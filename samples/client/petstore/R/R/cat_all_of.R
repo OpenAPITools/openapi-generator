@@ -8,13 +8,9 @@
 
 #' @docType class
 #' @title CatAllOf
-#'
 #' @description CatAllOf Class
-#'
 #' @format An \code{R6Class} generator object
-#'
 #' @field declawed  character [optional]
-#'
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -22,6 +18,14 @@ CatAllOf <- R6::R6Class(
   'CatAllOf',
   public = list(
     `declawed` = NULL,
+    #' Initialize a new CatAllOf class.
+    #'
+    #' @description
+    #' Initialize a new CatAllOf class.
+    #'
+    #' @param declawed declawed
+    #' @param ... Other optional arguments.
+    #' @export
     initialize = function(
         `declawed`=NULL, ...
     ) {
@@ -30,6 +34,13 @@ CatAllOf <- R6::R6Class(
         self$`declawed` <- `declawed`
       }
     },
+    #' To JSON string
+    #'
+    #' @description
+    #' To JSON String
+    #'
+    #' @return CatAllOf in JSON format
+    #' @export
     toJSON = function() {
       CatAllOfObject <- list()
       if (!is.null(self$`declawed`)) {
@@ -39,6 +50,14 @@ CatAllOf <- R6::R6Class(
 
       CatAllOfObject
     },
+    #' Deserialize JSON string into an instance of CatAllOf
+    #'
+    #' @description
+    #' Deserialize JSON string into an instance of CatAllOf
+    #'
+    #' @param CatAllOfJson the JSON input
+    #' @return the instance of CatAllOf
+    #' @export
     fromJSON = function(CatAllOfJson) {
       CatAllOfObject <- jsonlite::fromJSON(CatAllOfJson)
       if (!is.null(CatAllOfObject$`declawed`)) {
@@ -46,6 +65,13 @@ CatAllOf <- R6::R6Class(
       }
       self
     },
+    #' To JSON string
+    #'
+    #' @description
+    #' To JSON String
+    #'
+    #' @return CatAllOf in JSON format
+    #' @export
     toJSONString = function() {
       jsoncontent <- c(
         if (!is.null(self$`declawed`)) {
@@ -59,11 +85,26 @@ CatAllOf <- R6::R6Class(
       jsoncontent <- paste(jsoncontent, collapse = ",")
       paste('{', jsoncontent, '}', sep = "")
     },
+    #' Deserialize JSON string into an instance of CatAllOf
+    #'
+    #' @description
+    #' Deserialize JSON string into an instance of CatAllOf
+    #'
+    #' @param CatAllOfJson the JSON input
+    #' @return the instance of CatAllOf
+    #' @export
     fromJSONString = function(CatAllOfJson) {
       CatAllOfObject <- jsonlite::fromJSON(CatAllOfJson)
       self$`declawed` <- CatAllOfObject$`declawed`
       self
     },
+    #' Validate JSON input with respect to CatAllOf
+    #'
+    #' @description
+    #' Validate JSON input with respect to CatAllOf and throw an exception if invalid
+    #'
+    #' @param input the JSON input
+    #' @export
     validateJSON = function(input) {
       input_json <- jsonlite::fromJSON(input)
     }
