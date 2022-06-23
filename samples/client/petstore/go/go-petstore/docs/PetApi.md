@@ -501,7 +501,7 @@ import (
 func main() {
     petId := int64(789) // int64 | ID of pet to update
     additionalMetadata := "additionalMetadata_example" // string | Additional data to pass to server (optional)
-    file := os.NewFile(1234, "some_file") // *os.File | file to upload (optional)
+    file := os.NewFile(1234, "some_file") // os.File | file to upload (optional)
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
@@ -532,7 +532,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
  **additionalMetadata** | **string** | Additional data to pass to server | 
- **file** | ***os.File** | file to upload | 
+ **file** | **os.File** | file to upload | 
 
 ### Return type
 
@@ -572,7 +572,7 @@ import (
 
 func main() {
     petId := int64(789) // int64 | ID of pet to update
-    requiredFile := os.NewFile(1234, "some_file") // *os.File | file to upload
+    requiredFile := os.NewFile(1234, "some_file") // os.File | file to upload
     additionalMetadata := "additionalMetadata_example" // string | Additional data to pass to server (optional)
 
     configuration := openapiclient.NewConfiguration()
@@ -603,7 +603,7 @@ Other parameters are passed through a pointer to a apiUploadFileWithRequiredFile
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **requiredFile** | ***os.File** | file to upload | 
+ **requiredFile** | **os.File** | file to upload | 
  **additionalMetadata** | **string** | Additional data to pass to server | 
 
 ### Return type
