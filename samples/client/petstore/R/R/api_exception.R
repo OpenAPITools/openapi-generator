@@ -43,7 +43,7 @@ ApiException <- R6::R6Class(
         self$body <- errorMsg
         self$headers <- http_response$headers
         self$reason <- httr::http_status(http_response)$reason
-        self$errorObject <- ModelApiResponse$new()$fromJSONString(errorMsg)
+        self$errorObject <- ModelApiResponse$new()$fromJSONString(content(http_response, "text"))
       } else {
         self$status <- status
         self$reason <- reason
@@ -75,7 +75,7 @@ ApiException <- R6::R6Class(
       }
       if (!is.null(self$errorObject)) {
         errorMsg <- paste(errorMsg, "Error object : ", "\n", sep = "")
-        errorMsg <- paste(errorMsg, self$errorObject,"\n")
+        errorMsg <- paste(errorMsg, self$errorObject$toJSONString(),"\n")
       }
       errorMsg
     }

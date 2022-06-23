@@ -2,9 +2,10 @@
 install.packages("petstore_1.0.0.tar.gz",repos=NULL, type="source")
 library(petstore)
 
+errorMsg <- "{\"code\":1,\"type\":\"error\",\"message\":\"Pet not found\"}"
 #errorMsg <- '{"code": 404, "message": "Not found"}'
-#a <- ModelApiResponse$new()$fromJSONString(errorMsg)
-#dput(a)
+a <- ModelApiResponse$new()$fromJSONString(errorMsg)
+dput(a)
 
 var_pet_id <- 1231256 # integer | ID of pet to return
 
@@ -21,11 +22,11 @@ if(!is.null(result$ApiException)) {
   cat(result$ApiException$toString())
 } else {
   # deserialized response object
-  #response.object <- result$content
-  ## response headers
-  #response.headers <- result$response$headers
-  ## response status code
-  #response.status.code <- result$response$status_code
+  response.object <- result$content
+  # response headers
+  response.headers <- result$response$headers
+  # response status code
+  response.status.code <- result$response$status_code
 }
 
 #json2 <-
