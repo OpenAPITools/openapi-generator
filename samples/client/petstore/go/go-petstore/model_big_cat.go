@@ -17,6 +17,7 @@ import (
 // BigCat struct for BigCat
 type BigCat struct {
 	Cat
+	Cat
 	Kind *string `json:"kind,omitempty"`
 }
 

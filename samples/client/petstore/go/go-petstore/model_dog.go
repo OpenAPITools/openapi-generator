@@ -17,6 +17,7 @@ import (
 // Dog struct for Dog
 type Dog struct {
 	Animal
+	Animal
 	Breed *string `json:"breed,omitempty"`
 }
 

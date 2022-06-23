@@ -17,6 +17,7 @@ import (
 // Cat struct for Cat
 type Cat struct {
 	Animal
+	Animal
 	Declawed *bool `json:"declawed,omitempty"`
 }
 
