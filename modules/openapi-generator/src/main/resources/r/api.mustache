@@ -150,6 +150,13 @@
   "{{classname}}",
   public = list(
     api_client = NULL,
+    #' Initialize a new {{{classname}}}.
+    #'
+    #' @description
+    #' Initialize a new {{{classname}}}.
+    #'
+    #' @param api_client An instance of API client.
+    #' @export
     initialize = function(api_client) {
       if (!missing(api_client)) {
         self$api_client <- api_client
@@ -159,6 +166,23 @@
       }
     },
     {{#operation}}
+    #' {{{summary}}}
+    #'
+    #' @description
+    #' {{{description}}}{{^description}}{{{summary}}}{{/description}}
+    #'
+    {{#requiredParams}}
+    #' @param {{{paramName}}} {{{description}}}
+    {{/requiredParams}}
+    {{#optionalParams}}
+    #' @param {{{paramName}}} (optional) {{{description}}}{{#defaultValue}} (default value: {{{.}}}){{/defaultValue}}
+    {{/optionalParams}}
+    {{#returnType}}
+    #' @param data_file (optional) name of the data file to save the result
+    {{/returnType}}
+    #' @param ... Other optional arguments
+    #' @return {{{returnType}}}{{^returnType}}void{{/returnType}}
+    #' @export
     {{{operationId}}} = function({{#requiredParams}}{{paramName}}, {{/requiredParams}}{{#optionalParams}}{{paramName}}={{^defaultValue}}NULL{{/defaultValue}}{{{defaultValue}}}, {{/optionalParams}}{{#returnType}}data_file=NULL, {{/returnType}}...) {
       api_response <- self${{{operationId}}}WithHttpInfo({{#allParams}}{{paramName}}, {{/allParams}}{{#returnType}}data_file = data_file, {{/returnType}}...)
       resp <- api_response$response
@@ -172,7 +196,23 @@
         api_response
       }
     },
-
+    #' {{{summary}}}
+    #'
+    #' @description
+    #' {{{description}}}{{^description}}{{{summary}}}{{/description}}
+    #'
+    {{#requiredParams}}
+    #' @param {{{paramName}}} {{{description}}}
+    {{/requiredParams}}
+    {{#optionalParams}}
+    #' @param {{{paramName}}} (optional) {{{description}}}{{#defaultValue}} (default value: {{{.}}}){{/defaultValue}}
+    {{/optionalParams}}
+    {{#returnType}}
+    #' @param data_file (optional) name of the data file to save the result
+    {{/returnType}}
+    #' @param ... Other optional arguments
+    #' @return API response ({{{returnType}}}{{^returnType}}void{{/returnType}}) with additional information such as HTTP status code, headers
+    #' @export
     {{{operationId}}}WithHttpInfo = function({{#requiredParams}}{{paramName}}, {{/requiredParams}}{{#optionalParams}}{{paramName}}={{^defaultValue}}NULL{{/defaultValue}}{{{defaultValue}}}, {{/optionalParams}}{{#returnType}}data_file = NULL, {{/returnType}}...) {
       args <- list(...)
       query_params <- list()

@@ -225,6 +225,13 @@ StoreApi <- R6::R6Class(
   "StoreApi",
   public = list(
     api_client = NULL,
+    #' Initialize a new StoreApi.
+    #'
+    #' @description
+    #' Initialize a new StoreApi.
+    #'
+    #' @param api_client An instance of API client.
+    #' @export
     initialize = function(api_client) {
       if (!missing(api_client)) {
         self$api_client <- api_client
@@ -233,6 +240,15 @@ StoreApi <- R6::R6Class(
         self$api_client <- ApiClient$new()
       }
     },
+    #' Delete purchase order by ID
+    #'
+    #' @description
+    #' Delete purchase order by ID
+    #'
+    #' @param order_id ID of the order that needs to be deleted
+    #' @param ... Other optional arguments
+    #' @return void
+    #' @export
     DeleteOrder = function(order_id, ...) {
       api_response <- self$DeleteOrderWithHttpInfo(order_id, ...)
       resp <- api_response$response
@@ -246,7 +262,15 @@ StoreApi <- R6::R6Class(
         api_response
       }
     },
-
+    #' Delete purchase order by ID
+    #'
+    #' @description
+    #' Delete purchase order by ID
+    #'
+    #' @param order_id ID of the order that needs to be deleted
+    #' @param ... Other optional arguments
+    #' @return API response (void) with additional information such as HTTP status code, headers
+    #' @export
     DeleteOrderWithHttpInfo = function(order_id, ...) {
       args <- list(...)
       query_params <- list()
@@ -292,6 +316,15 @@ StoreApi <- R6::R6Class(
         rlang::abort(message = error_msg, .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
       }
     },
+    #' Returns pet inventories by status
+    #'
+    #' @description
+    #' Returns pet inventories by status
+    #'
+    #' @param data_file (optional) name of the data file to save the result
+    #' @param ... Other optional arguments
+    #' @return map(integer)
+    #' @export
     GetInventory = function(data_file=NULL, ...) {
       api_response <- self$GetInventoryWithHttpInfo(data_file = data_file, ...)
       resp <- api_response$response
@@ -305,7 +338,15 @@ StoreApi <- R6::R6Class(
         api_response
       }
     },
-
+    #' Returns pet inventories by status
+    #'
+    #' @description
+    #' Returns pet inventories by status
+    #'
+    #' @param data_file (optional) name of the data file to save the result
+    #' @param ... Other optional arguments
+    #' @return API response (map(integer)) with additional information such as HTTP status code, headers
+    #' @export
     GetInventoryWithHttpInfo = function(data_file = NULL, ...) {
       args <- list(...)
       query_params <- list()
@@ -358,6 +399,16 @@ StoreApi <- R6::R6Class(
         rlang::abort(message = error_msg, .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
       }
     },
+    #' Find purchase order by ID
+    #'
+    #' @description
+    #' Find purchase order by ID
+    #'
+    #' @param order_id ID of pet that needs to be fetched
+    #' @param data_file (optional) name of the data file to save the result
+    #' @param ... Other optional arguments
+    #' @return Order
+    #' @export
     GetOrderById = function(order_id, data_file=NULL, ...) {
       api_response <- self$GetOrderByIdWithHttpInfo(order_id, data_file = data_file, ...)
       resp <- api_response$response
@@ -371,7 +422,16 @@ StoreApi <- R6::R6Class(
         api_response
       }
     },
-
+    #' Find purchase order by ID
+    #'
+    #' @description
+    #' Find purchase order by ID
+    #'
+    #' @param order_id ID of pet that needs to be fetched
+    #' @param data_file (optional) name of the data file to save the result
+    #' @param ... Other optional arguments
+    #' @return API response (Order) with additional information such as HTTP status code, headers
+    #' @export
     GetOrderByIdWithHttpInfo = function(order_id, data_file = NULL, ...) {
       args <- list(...)
       query_params <- list()
@@ -428,6 +488,16 @@ StoreApi <- R6::R6Class(
         rlang::abort(message = error_msg, .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
       }
     },
+    #' Place an order for a pet
+    #'
+    #' @description
+    #' Place an order for a pet
+    #'
+    #' @param order order placed for purchasing the pet
+    #' @param data_file (optional) name of the data file to save the result
+    #' @param ... Other optional arguments
+    #' @return Order
+    #' @export
     PlaceOrder = function(order, data_file=NULL, ...) {
       api_response <- self$PlaceOrderWithHttpInfo(order, data_file = data_file, ...)
       resp <- api_response$response
@@ -441,7 +511,16 @@ StoreApi <- R6::R6Class(
         api_response
       }
     },
-
+    #' Place an order for a pet
+    #'
+    #' @description
+    #' Place an order for a pet
+    #'
+    #' @param order order placed for purchasing the pet
+    #' @param data_file (optional) name of the data file to save the result
+    #' @param ... Other optional arguments
+    #' @return API response (Order) with additional information such as HTTP status code, headers
+    #' @export
     PlaceOrderWithHttpInfo = function(order, data_file = NULL, ...) {
       args <- list(...)
       query_params <- list()
