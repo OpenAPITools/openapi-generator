@@ -19,7 +19,7 @@ require 'dynamic_servers/configuration'
 # Models
 
 # APIs
-require 'dynamic_servers/api/usage_api'
+DynamicServers.autoload :UsageApi, 'dynamic_servers/api/usage_api'
 
 module DynamicServers
   class << self
