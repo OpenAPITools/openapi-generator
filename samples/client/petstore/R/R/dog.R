@@ -8,17 +8,11 @@
 
 #' @docType class
 #' @title Dog
-#'
 #' @description Dog Class
-#'
 #' @format An \code{R6Class} generator object
-#'
 #' @field className  character 
-#'
 #' @field color  character [optional]
-#'
 #' @field breed  character [optional]
-#'
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -29,6 +23,16 @@ Dog <- R6::R6Class(
     `className` = NULL,
     `color` = NULL,
     `breed` = NULL,
+    #' Initialize a new Dog class.
+    #'
+    #' @description
+    #' Initialize a new Dog class.
+    #'
+    #' @param className className
+    #' @param color color. Default to 'red'.
+    #' @param breed breed
+    #' @param ... Other optional arguments.
+    #' @export
     initialize = function(
         `className`, `color`='red', `breed`=NULL, ...
     ) {
@@ -45,6 +49,13 @@ Dog <- R6::R6Class(
         self$`breed` <- `breed`
       }
     },
+    #' To JSON string
+    #'
+    #' @description
+    #' To JSON String
+    #'
+    #' @return Dog in JSON format
+    #' @export
     toJSON = function() {
       DogObject <- list()
       if (!is.null(self$`className`)) {
@@ -62,6 +73,14 @@ Dog <- R6::R6Class(
 
       DogObject
     },
+    #' Deserialize JSON string into an instance of Dog
+    #'
+    #' @description
+    #' Deserialize JSON string into an instance of Dog
+    #'
+    #' @param DogJson the JSON input
+    #' @return the instance of Dog
+    #' @export
     fromJSON = function(DogJson) {
       DogObject <- jsonlite::fromJSON(DogJson)
       if (!is.null(DogObject$`className`)) {
@@ -75,6 +94,13 @@ Dog <- R6::R6Class(
       }
       self
     },
+    #' To JSON string
+    #'
+    #' @description
+    #' To JSON String
+    #'
+    #' @return Dog in JSON format
+    #' @export
     toJSONString = function() {
       jsoncontent <- c(
         if (!is.null(self$`className`)) {
@@ -102,6 +128,14 @@ Dog <- R6::R6Class(
       jsoncontent <- paste(jsoncontent, collapse = ",")
       paste('{', jsoncontent, '}', sep = "")
     },
+    #' Deserialize JSON string into an instance of Dog
+    #'
+    #' @description
+    #' Deserialize JSON string into an instance of Dog
+    #'
+    #' @param DogJson the JSON input
+    #' @return the instance of Dog
+    #' @export
     fromJSONString = function(DogJson) {
       DogObject <- jsonlite::fromJSON(DogJson)
       self$`className` <- DogObject$`className`
@@ -109,6 +143,13 @@ Dog <- R6::R6Class(
       self$`breed` <- DogObject$`breed`
       self
     },
+    #' Validate JSON input with respect to Dog
+    #'
+    #' @description
+    #' Validate JSON input with respect to Dog and throw an exception if invalid
+    #'
+    #' @param input the JSON input
+    #' @export
     validateJSON = function(input) {
       input_json <- jsonlite::fromJSON(input)
       # check the required field `className`

@@ -8,27 +8,16 @@
 
 #' @docType class
 #' @title User
-#'
 #' @description User Class
-#'
 #' @format An \code{R6Class} generator object
-#'
 #' @field id  integer [optional]
-#'
 #' @field username  character [optional]
-#'
 #' @field firstName  character [optional]
-#'
 #' @field lastName  character [optional]
-#'
 #' @field email  character [optional]
-#'
 #' @field password  character [optional]
-#'
 #' @field phone  character [optional]
-#'
 #' @field userStatus  integer [optional]
-#'
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -43,6 +32,21 @@ User <- R6::R6Class(
     `password` = NULL,
     `phone` = NULL,
     `userStatus` = NULL,
+    #' Initialize a new User class.
+    #'
+    #' @description
+    #' Initialize a new User class.
+    #'
+    #' @param id id
+    #' @param username username
+    #' @param firstName firstName
+    #' @param lastName lastName
+    #' @param email email
+    #' @param password password
+    #' @param phone phone
+    #' @param userStatus User Status
+    #' @param ... Other optional arguments.
+    #' @export
     initialize = function(
         `id`=NULL, `username`=NULL, `firstName`=NULL, `lastName`=NULL, `email`=NULL, `password`=NULL, `phone`=NULL, `userStatus`=NULL, ...
     ) {
@@ -79,6 +83,13 @@ User <- R6::R6Class(
         self$`userStatus` <- `userStatus`
       }
     },
+    #' To JSON string
+    #'
+    #' @description
+    #' To JSON String
+    #'
+    #' @return User in JSON format
+    #' @export
     toJSON = function() {
       UserObject <- list()
       if (!is.null(self$`id`)) {
@@ -116,6 +127,14 @@ User <- R6::R6Class(
 
       UserObject
     },
+    #' Deserialize JSON string into an instance of User
+    #'
+    #' @description
+    #' Deserialize JSON string into an instance of User
+    #'
+    #' @param UserJson the JSON input
+    #' @return the instance of User
+    #' @export
     fromJSON = function(UserJson) {
       UserObject <- jsonlite::fromJSON(UserJson)
       if (!is.null(UserObject$`id`)) {
@@ -144,6 +163,13 @@ User <- R6::R6Class(
       }
       self
     },
+    #' To JSON string
+    #'
+    #' @description
+    #' To JSON String
+    #'
+    #' @return User in JSON format
+    #' @export
     toJSONString = function() {
       jsoncontent <- c(
         if (!is.null(self$`id`)) {
@@ -206,6 +232,14 @@ User <- R6::R6Class(
       jsoncontent <- paste(jsoncontent, collapse = ",")
       paste('{', jsoncontent, '}', sep = "")
     },
+    #' Deserialize JSON string into an instance of User
+    #'
+    #' @description
+    #' Deserialize JSON string into an instance of User
+    #'
+    #' @param UserJson the JSON input
+    #' @return the instance of User
+    #' @export
     fromJSONString = function(UserJson) {
       UserObject <- jsonlite::fromJSON(UserJson)
       self$`id` <- UserObject$`id`
@@ -218,6 +252,13 @@ User <- R6::R6Class(
       self$`userStatus` <- UserObject$`userStatus`
       self
     },
+    #' Validate JSON input with respect to User
+    #'
+    #' @description
+    #' Validate JSON input with respect to User and throw an exception if invalid
+    #'
+    #' @param input the JSON input
+    #' @export
     validateJSON = function(input) {
       input_json <- jsonlite::fromJSON(input)
     }

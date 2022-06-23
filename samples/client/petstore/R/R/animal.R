@@ -8,15 +8,10 @@
 
 #' @docType class
 #' @title Animal
-#'
 #' @description Animal Class
-#'
 #' @format An \code{R6Class} generator object
-#'
 #' @field className  character 
-#'
 #' @field color  character [optional]
-#'
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -25,6 +20,15 @@ Animal <- R6::R6Class(
   public = list(
     `className` = NULL,
     `color` = NULL,
+    #' Initialize a new Animal class.
+    #'
+    #' @description
+    #' Initialize a new Animal class.
+    #'
+    #' @param className className
+    #' @param color color. Default to 'red'.
+    #' @param ... Other optional arguments.
+    #' @export
     initialize = function(
         `className`, `color`='red', ...
     ) {
@@ -37,6 +41,13 @@ Animal <- R6::R6Class(
         self$`color` <- `color`
       }
     },
+    #' To JSON string
+    #'
+    #' @description
+    #' To JSON String
+    #'
+    #' @return Animal in JSON format
+    #' @export
     toJSON = function() {
       AnimalObject <- list()
       if (!is.null(self$`className`)) {
@@ -50,6 +61,14 @@ Animal <- R6::R6Class(
 
       AnimalObject
     },
+    #' Deserialize JSON string into an instance of Animal
+    #'
+    #' @description
+    #' Deserialize JSON string into an instance of Animal
+    #'
+    #' @param AnimalJson the JSON input
+    #' @return the instance of Animal
+    #' @export
     fromJSON = function(AnimalJson) {
       AnimalObject <- jsonlite::fromJSON(AnimalJson)
       if (!is.null(AnimalObject$`className`)) {
@@ -60,6 +79,13 @@ Animal <- R6::R6Class(
       }
       self
     },
+    #' To JSON string
+    #'
+    #' @description
+    #' To JSON String
+    #'
+    #' @return Animal in JSON format
+    #' @export
     toJSONString = function() {
       jsoncontent <- c(
         if (!is.null(self$`className`)) {
@@ -80,12 +106,27 @@ Animal <- R6::R6Class(
       jsoncontent <- paste(jsoncontent, collapse = ",")
       paste('{', jsoncontent, '}', sep = "")
     },
+    #' Deserialize JSON string into an instance of Animal
+    #'
+    #' @description
+    #' Deserialize JSON string into an instance of Animal
+    #'
+    #' @param AnimalJson the JSON input
+    #' @return the instance of Animal
+    #' @export
     fromJSONString = function(AnimalJson) {
       AnimalObject <- jsonlite::fromJSON(AnimalJson)
       self$`className` <- AnimalObject$`className`
       self$`color` <- AnimalObject$`color`
       self
     },
+    #' Validate JSON input with respect to Animal
+    #'
+    #' @description
+    #' Validate JSON input with respect to Animal and throw an exception if invalid
+    #'
+    #' @param input the JSON input
+    #' @export
     validateJSON = function(input) {
       input_json <- jsonlite::fromJSON(input)
       # check the required field `className`

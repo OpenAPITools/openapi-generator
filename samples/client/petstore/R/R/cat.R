@@ -8,17 +8,11 @@
 
 #' @docType class
 #' @title Cat
-#'
 #' @description Cat Class
-#'
 #' @format An \code{R6Class} generator object
-#'
 #' @field className  character 
-#'
 #' @field color  character [optional]
-#'
 #' @field declawed  character [optional]
-#'
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -29,6 +23,16 @@ Cat <- R6::R6Class(
     `className` = NULL,
     `color` = NULL,
     `declawed` = NULL,
+    #' Initialize a new Cat class.
+    #'
+    #' @description
+    #' Initialize a new Cat class.
+    #'
+    #' @param className className
+    #' @param color color. Default to 'red'.
+    #' @param declawed declawed
+    #' @param ... Other optional arguments.
+    #' @export
     initialize = function(
         `className`, `color`='red', `declawed`=NULL, ...
     ) {
@@ -45,6 +49,13 @@ Cat <- R6::R6Class(
         self$`declawed` <- `declawed`
       }
     },
+    #' To JSON string
+    #'
+    #' @description
+    #' To JSON String
+    #'
+    #' @return Cat in JSON format
+    #' @export
     toJSON = function() {
       CatObject <- list()
       if (!is.null(self$`className`)) {
@@ -62,6 +73,14 @@ Cat <- R6::R6Class(
 
       CatObject
     },
+    #' Deserialize JSON string into an instance of Cat
+    #'
+    #' @description
+    #' Deserialize JSON string into an instance of Cat
+    #'
+    #' @param CatJson the JSON input
+    #' @return the instance of Cat
+    #' @export
     fromJSON = function(CatJson) {
       CatObject <- jsonlite::fromJSON(CatJson)
       if (!is.null(CatObject$`className`)) {
@@ -75,6 +94,13 @@ Cat <- R6::R6Class(
       }
       self
     },
+    #' To JSON string
+    #'
+    #' @description
+    #' To JSON String
+    #'
+    #' @return Cat in JSON format
+    #' @export
     toJSONString = function() {
       jsoncontent <- c(
         if (!is.null(self$`className`)) {
@@ -102,6 +128,14 @@ Cat <- R6::R6Class(
       jsoncontent <- paste(jsoncontent, collapse = ",")
       paste('{', jsoncontent, '}', sep = "")
     },
+    #' Deserialize JSON string into an instance of Cat
+    #'
+    #' @description
+    #' Deserialize JSON string into an instance of Cat
+    #'
+    #' @param CatJson the JSON input
+    #' @return the instance of Cat
+    #' @export
     fromJSONString = function(CatJson) {
       CatObject <- jsonlite::fromJSON(CatJson)
       self$`className` <- CatObject$`className`
@@ -109,6 +143,13 @@ Cat <- R6::R6Class(
       self$`declawed` <- CatObject$`declawed`
       self
     },
+    #' Validate JSON input with respect to Cat
+    #'
+    #' @description
+    #' Validate JSON input with respect to Cat and throw an exception if invalid
+    #'
+    #' @param input the JSON input
+    #' @export
     validateJSON = function(input) {
       input_json <- jsonlite::fromJSON(input)
       # check the required field `className`

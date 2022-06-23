@@ -8,15 +8,10 @@
 
 #' @docType class
 #' @title UpdatePetRequest
-#'
 #' @description UpdatePetRequest Class
-#'
 #' @format An \code{R6Class} generator object
-#'
 #' @field jsonData  \link{Pet} [optional]
-#'
 #' @field binaryDataN2Information  data.frame [optional]
-#'
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -25,6 +20,15 @@ UpdatePetRequest <- R6::R6Class(
   public = list(
     `jsonData` = NULL,
     `binaryDataN2Information` = NULL,
+    #' Initialize a new UpdatePetRequest class.
+    #'
+    #' @description
+    #' Initialize a new UpdatePetRequest class.
+    #'
+    #' @param jsonData jsonData
+    #' @param binaryDataN2Information binaryDataN2Information
+    #' @param ... Other optional arguments.
+    #' @export
     initialize = function(
         `jsonData`=NULL, `binaryDataN2Information`=NULL, ...
     ) {
@@ -36,6 +40,13 @@ UpdatePetRequest <- R6::R6Class(
         self$`binaryDataN2Information` <- `binaryDataN2Information`
       }
     },
+    #' To JSON string
+    #'
+    #' @description
+    #' To JSON String
+    #'
+    #' @return UpdatePetRequest in JSON format
+    #' @export
     toJSON = function() {
       UpdatePetRequestObject <- list()
       if (!is.null(self$`jsonData`)) {
@@ -49,6 +60,14 @@ UpdatePetRequest <- R6::R6Class(
 
       UpdatePetRequestObject
     },
+    #' Deserialize JSON string into an instance of UpdatePetRequest
+    #'
+    #' @description
+    #' Deserialize JSON string into an instance of UpdatePetRequest
+    #'
+    #' @param UpdatePetRequestJson the JSON input
+    #' @return the instance of UpdatePetRequest
+    #' @export
     fromJSON = function(UpdatePetRequestJson) {
       UpdatePetRequestObject <- jsonlite::fromJSON(UpdatePetRequestJson)
       if (!is.null(UpdatePetRequestObject$`jsonData`)) {
@@ -61,6 +80,13 @@ UpdatePetRequest <- R6::R6Class(
       }
       self
     },
+    #' To JSON string
+    #'
+    #' @description
+    #' To JSON String
+    #'
+    #' @return UpdatePetRequest in JSON format
+    #' @export
     toJSONString = function() {
       jsoncontent <- c(
         if (!is.null(self$`jsonData`)) {
@@ -81,12 +107,27 @@ UpdatePetRequest <- R6::R6Class(
       jsoncontent <- paste(jsoncontent, collapse = ",")
       paste('{', jsoncontent, '}', sep = "")
     },
+    #' Deserialize JSON string into an instance of UpdatePetRequest
+    #'
+    #' @description
+    #' Deserialize JSON string into an instance of UpdatePetRequest
+    #'
+    #' @param UpdatePetRequestJson the JSON input
+    #' @return the instance of UpdatePetRequest
+    #' @export
     fromJSONString = function(UpdatePetRequestJson) {
       UpdatePetRequestObject <- jsonlite::fromJSON(UpdatePetRequestJson)
       self$`jsonData` <- Pet$new()$fromJSON(jsonlite::toJSON(UpdatePetRequestObject$jsonData, auto_unbox = TRUE, digits = NA))
       self$`binaryDataN2Information` <- UpdatePetRequestObject$`binaryDataN2Information`
       self
     },
+    #' Validate JSON input with respect to UpdatePetRequest
+    #'
+    #' @description
+    #' Validate JSON input with respect to UpdatePetRequest and throw an exception if invalid
+    #'
+    #' @param input the JSON input
+    #' @export
     validateJSON = function(input) {
       input_json <- jsonlite::fromJSON(input)
     }
