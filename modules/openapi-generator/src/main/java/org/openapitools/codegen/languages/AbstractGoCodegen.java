@@ -58,8 +58,6 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
     public AbstractGoCodegen() {
         super();
 
-        LOGGER.error("Running custom");
-
         supportsInheritance = true;
         hideGenerationTimestamp = Boolean.FALSE;
 
