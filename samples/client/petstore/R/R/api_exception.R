@@ -14,6 +14,7 @@
 #' @field reason Reason of the ApiException
 #' @field body Body of the http response
 #' @field headers Headers of the http response
+#' @field errorObject error object type
 #' @export
 ApiException <- R6::R6Class(
   "ApiException",
@@ -22,6 +23,7 @@ ApiException <- R6::R6Class(
     reason = NULL,
     body = NULL,
     headers = NULL,
+    errorObject = NULL,
     #' Initialize a new ApiException class.
     #'
     #' @description
@@ -41,11 +43,13 @@ ApiException <- R6::R6Class(
         self$body <- errorMsg
         self$headers <- http_response$headers
         self$reason <- httr::http_status(http_response)$reason
+        self$errorObject <- ModelApiResponse$new()$fromJSONString(content(http_response, "text"))
       } else {
         self$status <- status
         self$reason <- reason
         self$body <- NULL
         self$headers <- NULL
+        self$errorObject <- NULL
       }
     },
     #' Returns the string format of ApiException.
@@ -68,6 +72,10 @@ ApiException <- R6::R6Class(
       if (!is.null(self$body)) {
         errorMsg <- paste(errorMsg, "Body : ", "\n", sep = "")
         errorMsg <- paste(errorMsg, self$body,"\n")
+      }
+      if (!is.null(self$errorObject)) {
+        errorMsg <- paste(errorMsg, "Error object : ", "\n", sep = "")
+        errorMsg <- paste(errorMsg, self$errorObject$toJSONString(),"\n")
       }
       errorMsg
     }

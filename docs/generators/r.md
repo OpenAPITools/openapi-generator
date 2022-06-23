@@ -18,6 +18,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
+|errorObjectType|Error object type.| |null|
 |exceptionPackage|Specify the exception handling package|<dl><dt>**default**</dt><dd>Use stop() for raising exceptions.</dd><dt>**rlang**</dt><dd>Use rlang package for exceptions.</dd></dl>|default|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
 |packageName|R package name (convention: lowercase).| |openapi|
