@@ -12,7 +12,7 @@ class AllOfWithSingleRef {
     /** @var string $username */
     public $username = "";
 
-    /** @var SingleRefType|null $singleRefType */
-    public $singleRefType = null;
+    /** @var SingleRefType $singleRefType */
+    public $singleRefType;
 
 }

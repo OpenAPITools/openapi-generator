@@ -82,7 +82,7 @@ public class User {
   private JsonNullable<Object> objectWithNoDeclaredPropsNullable = JsonNullable.<Object>undefined();
 
   public static final String JSON_PROPERTY_ANY_TYPE_PROP = "anyTypeProp";
-  private JsonNullable<Object> anyTypeProp = JsonNullable.<Object>of(null);
+  private Object anyTypeProp = null;
 
   public static final String JSON_PROPERTY_ANY_TYPE_PROP_NULLABLE = "anyTypePropNullable";
   private JsonNullable<Object> anyTypePropNullable = JsonNullable.<Object>of(null);
@@ -359,7 +359,7 @@ public class User {
 
 
   public User anyTypeProp(Object anyTypeProp) {
-    this.anyTypeProp = JsonNullable.<Object>of(anyTypeProp);
+    this.anyTypeProp = anyTypeProp;
     return this;
   }
 
@@ -369,26 +369,18 @@ public class User {
   **/
   @jakarta.annotation.Nullable
   @ApiModelProperty(value = "test code generation for any type Here the 'type' attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. See https://github.com/OAI/OpenAPI-Specification/issues/1389")
-  @JsonIgnore
-
-  public Object getAnyTypeProp() {
-        return anyTypeProp.orElse(null);
-  }
-
   @JsonProperty(JSON_PROPERTY_ANY_TYPE_PROP)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public JsonNullable<Object> getAnyTypeProp_JsonNullable() {
+  public Object getAnyTypeProp() {
     return anyTypeProp;
   }
-  
-  @JsonProperty(JSON_PROPERTY_ANY_TYPE_PROP)
-  public void setAnyTypeProp_JsonNullable(JsonNullable<Object> anyTypeProp) {
-    this.anyTypeProp = anyTypeProp;
-  }
 
+
+  @JsonProperty(JSON_PROPERTY_ANY_TYPE_PROP)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setAnyTypeProp(Object anyTypeProp) {
-    this.anyTypeProp = JsonNullable.<Object>of(anyTypeProp);
+    this.anyTypeProp = anyTypeProp;
   }
 
 
@@ -448,7 +440,7 @@ public class User {
         Objects.equals(this.userStatus, user.userStatus) &&
         Objects.equals(this.objectWithNoDeclaredProps, user.objectWithNoDeclaredProps) &&
         equalsNullable(this.objectWithNoDeclaredPropsNullable, user.objectWithNoDeclaredPropsNullable) &&
-        equalsNullable(this.anyTypeProp, user.anyTypeProp) &&
+        Objects.equals(this.anyTypeProp, user.anyTypeProp) &&
         equalsNullable(this.anyTypePropNullable, user.anyTypePropNullable);
   }
 
@@ -458,7 +450,7 @@ public class User {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, username, firstName, lastName, email, password, phone, userStatus, objectWithNoDeclaredProps, hashCodeNullable(objectWithNoDeclaredPropsNullable), hashCodeNullable(anyTypeProp), hashCodeNullable(anyTypePropNullable));
+    return Objects.hash(id, username, firstName, lastName, email, password, phone, userStatus, objectWithNoDeclaredProps, hashCodeNullable(objectWithNoDeclaredPropsNullable), anyTypeProp, hashCodeNullable(anyTypePropNullable));
   }
 
   private static <T> int hashCodeNullable(JsonNullable<T> a) {

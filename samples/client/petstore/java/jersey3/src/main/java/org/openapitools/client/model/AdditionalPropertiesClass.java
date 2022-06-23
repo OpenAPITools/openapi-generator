@@ -27,10 +27,6 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.openapitools.jackson.nullable.JsonNullable;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.openapitools.jackson.nullable.JsonNullable;
-import java.util.NoSuchElementException;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.openapitools.client.JSON;
 
@@ -57,7 +53,7 @@ public class AdditionalPropertiesClass {
   private Map<String, Map<String, String>> mapOfMapProperty = null;
 
   public static final String JSON_PROPERTY_ANYTYPE1 = "anytype_1";
-  private JsonNullable<Object> anytype1 = JsonNullable.<Object>of(null);
+  private Object anytype1 = null;
 
   public static final String JSON_PROPERTY_MAP_WITH_UNDECLARED_PROPERTIES_ANYTYPE1 = "map_with_undeclared_properties_anytype_1";
   private Object mapWithUndeclaredPropertiesAnytype1;
@@ -146,7 +142,7 @@ public class AdditionalPropertiesClass {
 
 
   public AdditionalPropertiesClass anytype1(Object anytype1) {
-    this.anytype1 = JsonNullable.<Object>of(anytype1);
+    this.anytype1 = anytype1;
     return this;
   }
 
@@ -156,26 +152,18 @@ public class AdditionalPropertiesClass {
   **/
   @jakarta.annotation.Nullable
   @ApiModelProperty(value = "")
-  @JsonIgnore
-
-  public Object getAnytype1() {
-        return anytype1.orElse(null);
-  }
-
   @JsonProperty(JSON_PROPERTY_ANYTYPE1)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public JsonNullable<Object> getAnytype1_JsonNullable() {
+  public Object getAnytype1() {
     return anytype1;
   }
-  
-  @JsonProperty(JSON_PROPERTY_ANYTYPE1)
-  public void setAnytype1_JsonNullable(JsonNullable<Object> anytype1) {
-    this.anytype1 = anytype1;
-  }
 
+
+  @JsonProperty(JSON_PROPERTY_ANYTYPE1)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setAnytype1(Object anytype1) {
-    this.anytype1 = JsonNullable.<Object>of(anytype1);
+    this.anytype1 = anytype1;
   }
 
 
@@ -251,7 +239,7 @@ public class AdditionalPropertiesClass {
   @jakarta.annotation.Nullable
   @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_MAP_WITH_UNDECLARED_PROPERTIES_ANYTYPE3)
-  @JsonInclude(content = JsonInclude.Include.ALWAYS, value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Map<String, Object> getMapWithUndeclaredPropertiesAnytype3() {
     return mapWithUndeclaredPropertiesAnytype3;
@@ -259,7 +247,7 @@ public class AdditionalPropertiesClass {
 
 
   @JsonProperty(JSON_PROPERTY_MAP_WITH_UNDECLARED_PROPERTIES_ANYTYPE3)
-  @JsonInclude(content = JsonInclude.Include.ALWAYS, value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMapWithUndeclaredPropertiesAnytype3(Map<String, Object> mapWithUndeclaredPropertiesAnytype3) {
     this.mapWithUndeclaredPropertiesAnytype3 = mapWithUndeclaredPropertiesAnytype3;
   }
@@ -339,7 +327,7 @@ public class AdditionalPropertiesClass {
     AdditionalPropertiesClass additionalPropertiesClass = (AdditionalPropertiesClass) o;
     return Objects.equals(this.mapProperty, additionalPropertiesClass.mapProperty) &&
         Objects.equals(this.mapOfMapProperty, additionalPropertiesClass.mapOfMapProperty) &&
-        equalsNullable(this.anytype1, additionalPropertiesClass.anytype1) &&
+        Objects.equals(this.anytype1, additionalPropertiesClass.anytype1) &&
         Objects.equals(this.mapWithUndeclaredPropertiesAnytype1, additionalPropertiesClass.mapWithUndeclaredPropertiesAnytype1) &&
         Objects.equals(this.mapWithUndeclaredPropertiesAnytype2, additionalPropertiesClass.mapWithUndeclaredPropertiesAnytype2) &&
         Objects.equals(this.mapWithUndeclaredPropertiesAnytype3, additionalPropertiesClass.mapWithUndeclaredPropertiesAnytype3) &&
@@ -347,20 +335,9 @@ public class AdditionalPropertiesClass {
         Objects.equals(this.mapWithUndeclaredPropertiesString, additionalPropertiesClass.mapWithUndeclaredPropertiesString);
   }
 
-  private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
-    return a == b || (a != null && b != null && a.isPresent() && b.isPresent() && Objects.deepEquals(a.get(), b.get()));
-  }
-
   @Override
   public int hashCode() {
-    return Objects.hash(mapProperty, mapOfMapProperty, hashCodeNullable(anytype1), mapWithUndeclaredPropertiesAnytype1, mapWithUndeclaredPropertiesAnytype2, mapWithUndeclaredPropertiesAnytype3, emptyMap, mapWithUndeclaredPropertiesString);
-  }
-
-  private static <T> int hashCodeNullable(JsonNullable<T> a) {
-    if (a == null) {
-      return 1;
-    }
-    return a.isPresent() ? Arrays.deepHashCode(new Object[]{a.get()}) : 31;
+    return Objects.hash(mapProperty, mapOfMapProperty, anytype1, mapWithUndeclaredPropertiesAnytype1, mapWithUndeclaredPropertiesAnytype2, mapWithUndeclaredPropertiesAnytype3, emptyMap, mapWithUndeclaredPropertiesString);
   }
 
   @Override

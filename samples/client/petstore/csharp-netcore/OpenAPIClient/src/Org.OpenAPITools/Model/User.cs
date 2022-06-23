@@ -131,7 +131,7 @@ namespace Org.OpenAPITools.Model
         /// test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. See https://github.com/OAI/OpenAPI-Specification/issues/1389
         /// </summary>
         /// <value>test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. See https://github.com/OAI/OpenAPI-Specification/issues/1389</value>
-        [DataMember(Name = "anyTypeProp", EmitDefaultValue = true)]
+        [DataMember(Name = "anyTypeProp", EmitDefaultValue = false)]
         public Object AnyTypeProp { get; set; }
 
         /// <summary>

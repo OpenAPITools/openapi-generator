@@ -72,7 +72,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Anytype1
         /// </summary>
-        [DataMember(Name = "anytype_1", EmitDefaultValue = true)]
+        [DataMember(Name = "anytype_1", EmitDefaultValue = false)]
         public Object Anytype1 { get; set; }
 
         /// <summary>
