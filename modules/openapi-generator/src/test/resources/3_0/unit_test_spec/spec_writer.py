@@ -81,6 +81,9 @@ class ExclusionReason:
     v303_does_not_support_patternProperties = 'v3.0.3 does not support the patternProperties keyword'
     v303_does_not_support_const = 'v3.0.3 does not support the const keyword'
     v303_does_not_support_boolean_schemas_in_components = 'v3.0.3 does not support boolean schemas in components'
+    v303_does_not_support_contains = 'v3.0.3 does not support the contains keyword'
+    v303_does_not_support_definitions = 'v3.0.3 does not support the definitions keyword'
+    v303_does_not_support_dependencies = 'v3.0.3 does not support the dependencies keyword'
 
 json_schema_test_draft = 'draft6'
 FILEPATH_TO_EXCLUDED_CASE_AND_REASON = {
@@ -100,6 +103,9 @@ FILEPATH_TO_EXCLUDE_REASON = {
     (json_schema_test_draft, 'additionalItems.json'): ExclusionReason.v303_does_not_support_additionalItems,
     (json_schema_test_draft, 'const.json'): ExclusionReason.v303_does_not_support_const,
     (json_schema_test_draft, 'boolean_schema.json'): ExclusionReason.v303_does_not_support_boolean_schemas_in_components,
+    (json_schema_test_draft, 'contains.json'): ExclusionReason.v303_does_not_support_contains,
+    (json_schema_test_draft, 'definitions.json'): ExclusionReason.v303_does_not_support_definitions,
+    (json_schema_test_draft, 'dependencies.json'): ExclusionReason.v303_does_not_support_dependencies,
 }
 
 openapi_additions = 'openapi_additions'
@@ -108,10 +114,15 @@ JSON_SCHEMA_TEST_FILE_TO_FOLDERS = {
     'type.json': (json_schema_test_draft, openapi_additions),
     'additionalItems.json': (json_schema_test_draft,),
     'additionalProperties.json': (json_schema_test_draft,),
-    'allOf.json': (json_schema_test_draft,),
+#     'allOf.json': (json_schema_test_draft,),
 #     'anyOf.json': (json_schema_test_draft,),
     'boolean_schema.json': (json_schema_test_draft,),
     'const.json': (json_schema_test_draft,),
+    'contains.json': (json_schema_test_draft,),
+    'default.json': (json_schema_test_draft,),
+    'definitions.json': (json_schema_test_draft,),
+    'dependencies.json': (json_schema_test_draft,),
+    'enum.json': (json_schema_test_draft,),
 }
 
 def get_json_schema_test_schemas(file_path: typing.Tuple[str]) -> typing.List[JsonSchemaTestSchema]:
