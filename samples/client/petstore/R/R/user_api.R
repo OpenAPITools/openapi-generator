@@ -411,6 +411,13 @@ UserApi <- R6::R6Class(
   "UserApi",
   public = list(
     api_client = NULL,
+    #' Initialize a new UserApi.
+    #'
+    #' @description
+    #' Initialize a new UserApi.
+    #'
+    #' @param api_client An instance of API client.
+    #' @export
     initialize = function(api_client) {
       if (!missing(api_client)) {
         self$api_client <- api_client
@@ -419,6 +426,15 @@ UserApi <- R6::R6Class(
         self$api_client <- ApiClient$new()
       }
     },
+    #' Create user
+    #'
+    #' @description
+    #' Create user
+    #'
+    #' @param user Created user object
+    #' @param ... Other optional arguments
+    #' @return void
+    #' @export
     CreateUser = function(user, ...) {
       api_response <- self$CreateUserWithHttpInfo(user, ...)
       resp <- api_response$response
@@ -432,7 +448,15 @@ UserApi <- R6::R6Class(
         api_response
       }
     },
-
+    #' Create user
+    #'
+    #' @description
+    #' Create user
+    #'
+    #' @param user Created user object
+    #' @param ... Other optional arguments
+    #' @return API response (void) with additional information such as HTTP status code, headers
+    #' @export
     CreateUserWithHttpInfo = function(user, ...) {
       args <- list(...)
       query_params <- list()
@@ -483,6 +507,15 @@ UserApi <- R6::R6Class(
         rlang::abort(message = error_msg, .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
       }
     },
+    #' Creates list of users with given input array
+    #'
+    #' @description
+    #' Creates list of users with given input array
+    #'
+    #' @param user List of user object
+    #' @param ... Other optional arguments
+    #' @return void
+    #' @export
     CreateUsersWithArrayInput = function(user, ...) {
       api_response <- self$CreateUsersWithArrayInputWithHttpInfo(user, ...)
       resp <- api_response$response
@@ -496,7 +529,15 @@ UserApi <- R6::R6Class(
         api_response
       }
     },
-
+    #' Creates list of users with given input array
+    #'
+    #' @description
+    #' Creates list of users with given input array
+    #'
+    #' @param user List of user object
+    #' @param ... Other optional arguments
+    #' @return API response (void) with additional information such as HTTP status code, headers
+    #' @export
     CreateUsersWithArrayInputWithHttpInfo = function(user, ...) {
       args <- list(...)
       query_params <- list()
@@ -548,6 +589,15 @@ UserApi <- R6::R6Class(
         rlang::abort(message = error_msg, .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
       }
     },
+    #' Creates list of users with given input array
+    #'
+    #' @description
+    #' Creates list of users with given input array
+    #'
+    #' @param user List of user object
+    #' @param ... Other optional arguments
+    #' @return void
+    #' @export
     CreateUsersWithListInput = function(user, ...) {
       api_response <- self$CreateUsersWithListInputWithHttpInfo(user, ...)
       resp <- api_response$response
@@ -561,7 +611,15 @@ UserApi <- R6::R6Class(
         api_response
       }
     },
-
+    #' Creates list of users with given input array
+    #'
+    #' @description
+    #' Creates list of users with given input array
+    #'
+    #' @param user List of user object
+    #' @param ... Other optional arguments
+    #' @return API response (void) with additional information such as HTTP status code, headers
+    #' @export
     CreateUsersWithListInputWithHttpInfo = function(user, ...) {
       args <- list(...)
       query_params <- list()
@@ -613,6 +671,15 @@ UserApi <- R6::R6Class(
         rlang::abort(message = error_msg, .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
       }
     },
+    #' Delete user
+    #'
+    #' @description
+    #' Delete user
+    #'
+    #' @param username The name that needs to be deleted
+    #' @param ... Other optional arguments
+    #' @return void
+    #' @export
     DeleteUser = function(username, ...) {
       api_response <- self$DeleteUserWithHttpInfo(username, ...)
       resp <- api_response$response
@@ -626,7 +693,15 @@ UserApi <- R6::R6Class(
         api_response
       }
     },
-
+    #' Delete user
+    #'
+    #' @description
+    #' Delete user
+    #'
+    #' @param username The name that needs to be deleted
+    #' @param ... Other optional arguments
+    #' @return API response (void) with additional information such as HTTP status code, headers
+    #' @export
     DeleteUserWithHttpInfo = function(username, ...) {
       args <- list(...)
       query_params <- list()
@@ -676,6 +751,16 @@ UserApi <- R6::R6Class(
         rlang::abort(message = error_msg, .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
       }
     },
+    #' Get user by user name
+    #'
+    #' @description
+    #' Get user by user name
+    #'
+    #' @param username The name that needs to be fetched. Use user1 for testing.
+    #' @param data_file (optional) name of the data file to save the result
+    #' @param ... Other optional arguments
+    #' @return User
+    #' @export
     GetUserByName = function(username, data_file=NULL, ...) {
       api_response <- self$GetUserByNameWithHttpInfo(username, data_file = data_file, ...)
       resp <- api_response$response
@@ -689,7 +774,16 @@ UserApi <- R6::R6Class(
         api_response
       }
     },
-
+    #' Get user by user name
+    #'
+    #' @description
+    #' Get user by user name
+    #'
+    #' @param username The name that needs to be fetched. Use user1 for testing.
+    #' @param data_file (optional) name of the data file to save the result
+    #' @param ... Other optional arguments
+    #' @return API response (User) with additional information such as HTTP status code, headers
+    #' @export
     GetUserByNameWithHttpInfo = function(username, data_file = NULL, ...) {
       args <- list(...)
       query_params <- list()
@@ -746,6 +840,17 @@ UserApi <- R6::R6Class(
         rlang::abort(message = error_msg, .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
       }
     },
+    #' Logs user into the system
+    #'
+    #' @description
+    #' Logs user into the system
+    #'
+    #' @param username The user name for login
+    #' @param password The password for login in clear text
+    #' @param data_file (optional) name of the data file to save the result
+    #' @param ... Other optional arguments
+    #' @return character
+    #' @export
     LoginUser = function(username, password, data_file=NULL, ...) {
       api_response <- self$LoginUserWithHttpInfo(username, password, data_file = data_file, ...)
       resp <- api_response$response
@@ -759,7 +864,17 @@ UserApi <- R6::R6Class(
         api_response
       }
     },
-
+    #' Logs user into the system
+    #'
+    #' @description
+    #' Logs user into the system
+    #'
+    #' @param username The user name for login
+    #' @param password The password for login in clear text
+    #' @param data_file (optional) name of the data file to save the result
+    #' @param ... Other optional arguments
+    #' @return API response (character) with additional information such as HTTP status code, headers
+    #' @export
     LoginUserWithHttpInfo = function(username, password, data_file = NULL, ...) {
       args <- list(...)
       query_params <- list()
@@ -816,6 +931,14 @@ UserApi <- R6::R6Class(
         rlang::abort(message = error_msg, .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
       }
     },
+    #' Logs out current logged in user session
+    #'
+    #' @description
+    #' Logs out current logged in user session
+    #'
+    #' @param ... Other optional arguments
+    #' @return void
+    #' @export
     LogoutUser = function(...) {
       api_response <- self$LogoutUserWithHttpInfo(...)
       resp <- api_response$response
@@ -829,7 +952,14 @@ UserApi <- R6::R6Class(
         api_response
       }
     },
-
+    #' Logs out current logged in user session
+    #'
+    #' @description
+    #' Logs out current logged in user session
+    #'
+    #' @param ... Other optional arguments
+    #' @return API response (void) with additional information such as HTTP status code, headers
+    #' @export
     LogoutUserWithHttpInfo = function(...) {
       args <- list(...)
       query_params <- list()
@@ -871,6 +1001,16 @@ UserApi <- R6::R6Class(
         rlang::abort(message = error_msg, .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
       }
     },
+    #' Updated user
+    #'
+    #' @description
+    #' Updated user
+    #'
+    #' @param username name that need to be deleted
+    #' @param user Updated user object
+    #' @param ... Other optional arguments
+    #' @return void
+    #' @export
     UpdateUser = function(username, user, ...) {
       api_response <- self$UpdateUserWithHttpInfo(username, user, ...)
       resp <- api_response$response
@@ -884,7 +1024,16 @@ UserApi <- R6::R6Class(
         api_response
       }
     },
-
+    #' Updated user
+    #'
+    #' @description
+    #' Updated user
+    #'
+    #' @param username name that need to be deleted
+    #' @param user Updated user object
+    #' @param ... Other optional arguments
+    #' @return API response (void) with additional information such as HTTP status code, headers
+    #' @export
     UpdateUserWithHttpInfo = function(username, user, ...) {
       args <- list(...)
       query_params <- list()
