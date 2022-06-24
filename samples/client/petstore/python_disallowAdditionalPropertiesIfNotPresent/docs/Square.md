@@ -4,7 +4,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**type** | **str** |  | defaults to "Square"
+**type** | **str** |  | 
 **area** | **str** |  | [optional] 
 **sides** | **int** |  | [optional] 
 

@@ -62,6 +62,7 @@ class Square(ModelComposed):
 
     allowed_values = {
         ('type',): {
+            'TRIANGLE': "Triangle",
             'SQUARE': "Square",
         },
     }
@@ -117,7 +118,7 @@ class Square(ModelComposed):
         """Square - a model defined in OpenAPI
 
         Keyword Args:
-            type (str): defaults to "Square", must be one of ["Square", ]  # noqa: E501
+            type (str):
             _check_type (bool): if True, values for parameters in openapi_types
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.
@@ -152,7 +153,6 @@ class Square(ModelComposed):
             sides (int): [optional]  # noqa: E501
         """
 
-        type = kwargs.get('type', "Square")
         _check_type = kwargs.pop('_check_type', True)
         _spec_property_naming = kwargs.pop('_spec_property_naming', False)
         _path_to_item = kwargs.pop('_path_to_item', ())
@@ -224,7 +224,7 @@ class Square(ModelComposed):
         """Square - a model defined in OpenAPI
 
         Keyword Args:
-            type (str): defaults to "Square", must be one of ["Square", ]  # noqa: E501
+            type (str):
             _check_type (bool): if True, values for parameters in openapi_types
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.
@@ -259,7 +259,6 @@ class Square(ModelComposed):
             sides (int): [optional]  # noqa: E501
         """
 
-        type = kwargs.get('type', "Square")
         _check_type = kwargs.pop('_check_type', True)
         _spec_property_naming = kwargs.pop('_spec_property_naming', False)
         _path_to_item = kwargs.pop('_path_to_item', ())
