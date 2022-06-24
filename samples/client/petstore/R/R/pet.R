@@ -8,23 +8,14 @@
 
 #' @docType class
 #' @title Pet
-#'
 #' @description Pet Class
-#'
 #' @format An \code{R6Class} generator object
-#'
 #' @field id  integer [optional]
-#'
 #' @field category  \link{Category} [optional]
-#'
 #' @field name  character 
-#'
 #' @field photoUrls  list( character ) 
-#'
 #' @field tags  list( \link{Tag} ) [optional]
-#'
 #' @field status  character [optional]
-#'
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -37,6 +28,19 @@ Pet <- R6::R6Class(
     `photoUrls` = NULL,
     `tags` = NULL,
     `status` = NULL,
+    #' Initialize a new Pet class.
+    #'
+    #' @description
+    #' Initialize a new Pet class.
+    #'
+    #' @param name name
+    #' @param photoUrls photoUrls
+    #' @param id id
+    #' @param category category
+    #' @param tags tags
+    #' @param status pet status in the store
+    #' @param ... Other optional arguments.
+    #' @export
     initialize = function(
         `name`, `photoUrls`, `id`=NULL, `category`=NULL, `tags`=NULL, `status`=NULL, ...
     ) {
@@ -67,6 +71,13 @@ Pet <- R6::R6Class(
         self$`status` <- `status`
       }
     },
+    #' To JSON string
+    #'
+    #' @description
+    #' To JSON String
+    #'
+    #' @return Pet in JSON format
+    #' @export
     toJSON = function() {
       PetObject <- list()
       if (!is.null(self$`id`)) {
@@ -96,6 +107,14 @@ Pet <- R6::R6Class(
 
       PetObject
     },
+    #' Deserialize JSON string into an instance of Pet
+    #'
+    #' @description
+    #' Deserialize JSON string into an instance of Pet
+    #'
+    #' @param PetJson the JSON input
+    #' @return the instance of Pet
+    #' @export
     fromJSON = function(PetJson) {
       PetObject <- jsonlite::fromJSON(PetJson)
       if (!is.null(PetObject$`id`)) {
@@ -120,6 +139,13 @@ Pet <- R6::R6Class(
       }
       self
     },
+    #' To JSON string
+    #'
+    #' @description
+    #' To JSON String
+    #'
+    #' @return Pet in JSON format
+    #' @export
     toJSONString = function() {
       jsoncontent <- c(
         if (!is.null(self$`id`)) {
@@ -168,6 +194,14 @@ Pet <- R6::R6Class(
       jsoncontent <- paste(jsoncontent, collapse = ",")
       paste('{', jsoncontent, '}', sep = "")
     },
+    #' Deserialize JSON string into an instance of Pet
+    #'
+    #' @description
+    #' Deserialize JSON string into an instance of Pet
+    #'
+    #' @param PetJson the JSON input
+    #' @return the instance of Pet
+    #' @export
     fromJSONString = function(PetJson) {
       PetObject <- jsonlite::fromJSON(PetJson)
       self$`id` <- PetObject$`id`
@@ -178,6 +212,13 @@ Pet <- R6::R6Class(
       self$`status` <- PetObject$`status`
       self
     },
+    #' Validate JSON input with respect to Pet
+    #'
+    #' @description
+    #' Validate JSON input with respect to Pet and throw an exception if invalid
+    #'
+    #' @param input the JSON input
+    #' @export
     validateJSON = function(input) {
       input_json <- jsonlite::fromJSON(input)
       # check the required field `name`

@@ -22,10 +22,17 @@
     #' @description
     #' Initialize a new {{{classname}}}.
     #'
+    #' @param instance an instance of the object defined in the anyOf schemas: {{#anyOf}}"{{{.}}}"{{^-last}}, {{/-last}}{{/anyOf}}
     #' @export
-    #' @md
-    initialize = function(
-    ) {
+    initialize = function(instance = NULL) {
+      if (is.null(instance)) {
+        # do nothing
+      } {{#anyOf}}else if (get(class(instance)[[1]], pos = -1)$classname ==  "{{{.}}}") {
+        self$actual_instance = instance
+        self$actual_type = "{{{.}}}"
+      } {{/anyOf}}else {
+        stop(paste("Failed to initialize {{{classname}}} with anyOf schemas {{#anyOf}}{{{.}}}{{^-last}}, {{/-last}}{{/anyOf}}. Provided class name: ", get(class(instance)[[1]], pos = -1)$classname))
+      }
     },
     #' Deserialize JSON string into an instance of {{{classname}}}.
     #'
@@ -35,7 +42,6 @@
     #' @param input The input JSON.
     #' @return An instance of {{{classname}}}.
     #' @export
-    #' @md
     fromJSON = function(input) {
       error_messages <- list()
 
@@ -65,7 +71,6 @@
     #'
     #' @return JSON string reprenation of the {{{classname}}}.
     #' @export
-    #' @md
     toJSON = function() {
       if (!is.null(self$actual_instance)) {
         self$actual_instance$toJSONString()
@@ -81,7 +86,6 @@
     #'
     #' @param input The input JSON.
     #' @export
-    #' @md
     validateJSON = function(input) {
       # backup current values
       actual_instance_bak <- self$actual_instance

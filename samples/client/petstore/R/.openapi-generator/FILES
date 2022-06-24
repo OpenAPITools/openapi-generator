@@ -22,6 +22,7 @@ R/order.R
 R/pet.R
 R/pet_api.R
 R/pig.R
+R/special.R
 R/store_api.R
 R/tag.R
 R/update_pet_request.R
@@ -44,6 +45,7 @@ docs/Order.md
 docs/Pet.md
 docs/PetApi.md
 docs/Pig.md
+docs/Special.md
 docs/StoreApi.md
 docs/Tag.md
 docs/UpdatePetRequest.md

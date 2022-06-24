@@ -30,10 +30,20 @@ AnyOfPig <- R6::R6Class(
     #' @description
     #' Initialize a new AnyOfPig.
     #'
+    #' @param instance an instance of the object defined in the anyOf schemas: "BasquePig", "DanishPig"
     #' @export
-    #' @md
-    initialize = function(
-    ) {
+    initialize = function(instance = NULL) {
+      if (is.null(instance)) {
+        # do nothing
+      } else if (get(class(instance)[[1]], pos = -1)$classname ==  "BasquePig") {
+        self$actual_instance = instance
+        self$actual_type = "BasquePig"
+      } else if (get(class(instance)[[1]], pos = -1)$classname ==  "DanishPig") {
+        self$actual_instance = instance
+        self$actual_type = "DanishPig"
+      } else {
+        stop(paste("Failed to initialize AnyOfPig with anyOf schemas BasquePig, DanishPig. Provided class name: ", get(class(instance)[[1]], pos = -1)$classname))
+      }
     },
     #' Deserialize JSON string into an instance of AnyOfPig.
     #'
@@ -43,7 +53,6 @@ AnyOfPig <- R6::R6Class(
     #' @param input The input JSON.
     #' @return An instance of AnyOfPig.
     #' @export
-    #' @md
     fromJSON = function(input) {
       error_messages <- list()
 
@@ -85,7 +94,6 @@ AnyOfPig <- R6::R6Class(
     #'
     #' @return JSON string reprenation of the AnyOfPig.
     #' @export
-    #' @md
     toJSON = function() {
       if (!is.null(self$actual_instance)) {
         self$actual_instance$toJSONString()
@@ -101,7 +109,6 @@ AnyOfPig <- R6::R6Class(
     #'
     #' @param input The input JSON.
     #' @export
-    #' @md
     validateJSON = function(input) {
       # backup current values
       actual_instance_bak <- self$actual_instance

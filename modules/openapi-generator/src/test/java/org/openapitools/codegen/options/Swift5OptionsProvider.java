@@ -50,6 +50,7 @@ public class Swift5OptionsProvider implements OptionsProvider {
     public static final String USE_BACKTICKS_ESCAPES_VALUE = "false";
     public static final String GENERATE_MODEL_ADDITIONAL_PROPERTIES_VALUE = "true";
     public static final String HASHABLE_MODELS_VALUE = "true";
+    public static final String USE_JSON_ENCODABLE_VALUE = "true";
     public static final String ALLOW_UNICODE_IDENTIFIERS_VALUE = "false";
     public static final String PREPEND_FORM_OR_BODY_PARAMETERS_VALUE = "true";
     public static final String LIBRARY_VALUE = "alamofire";
@@ -98,6 +99,7 @@ public class Swift5OptionsProvider implements OptionsProvider {
                 .put(Swift5ClientCodegen.SWIFT_PACKAGE_PATH, SWIFT_PACKAGE_PATH_VALUE)
                 .put(Swift5ClientCodegen.GENERATE_MODEL_ADDITIONAL_PROPERTIES, GENERATE_MODEL_ADDITIONAL_PROPERTIES_VALUE)
                 .put(Swift5ClientCodegen.HASHABLE_MODELS, HASHABLE_MODELS_VALUE)
+                .put(Swift5ClientCodegen.USE_JSON_ENCODABLE, USE_JSON_ENCODABLE_VALUE)
                 .put(Swift5ClientCodegen.MAP_FILE_BINARY_TO_DATA, "false")
                 .put(Swift5ClientCodegen.USE_CLASSES, "false")
                 .put(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, ENUM_UNKNOWN_DEFAULT_CASE_VALUE)

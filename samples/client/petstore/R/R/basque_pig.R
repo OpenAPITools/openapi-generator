@@ -8,15 +8,10 @@
 
 #' @docType class
 #' @title BasquePig
-#'
 #' @description BasquePig Class
-#'
 #' @format An \code{R6Class} generator object
-#'
 #' @field className  character 
-#'
 #' @field color  character 
-#'
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -25,6 +20,15 @@ BasquePig <- R6::R6Class(
   public = list(
     `className` = NULL,
     `color` = NULL,
+    #' Initialize a new BasquePig class.
+    #'
+    #' @description
+    #' Initialize a new BasquePig class.
+    #'
+    #' @param className className
+    #' @param color color
+    #' @param ... Other optional arguments.
+    #' @export
     initialize = function(
         `className`, `color`, ...
     ) {
@@ -37,6 +41,13 @@ BasquePig <- R6::R6Class(
         self$`color` <- `color`
       }
     },
+    #' To JSON string
+    #'
+    #' @description
+    #' To JSON String
+    #'
+    #' @return BasquePig in JSON format
+    #' @export
     toJSON = function() {
       BasquePigObject <- list()
       if (!is.null(self$`className`)) {
@@ -50,6 +61,14 @@ BasquePig <- R6::R6Class(
 
       BasquePigObject
     },
+    #' Deserialize JSON string into an instance of BasquePig
+    #'
+    #' @description
+    #' Deserialize JSON string into an instance of BasquePig
+    #'
+    #' @param BasquePigJson the JSON input
+    #' @return the instance of BasquePig
+    #' @export
     fromJSON = function(BasquePigJson) {
       BasquePigObject <- jsonlite::fromJSON(BasquePigJson)
       if (!is.null(BasquePigObject$`className`)) {
@@ -60,6 +79,13 @@ BasquePig <- R6::R6Class(
       }
       self
     },
+    #' To JSON string
+    #'
+    #' @description
+    #' To JSON String
+    #'
+    #' @return BasquePig in JSON format
+    #' @export
     toJSONString = function() {
       jsoncontent <- c(
         if (!is.null(self$`className`)) {
@@ -80,12 +106,27 @@ BasquePig <- R6::R6Class(
       jsoncontent <- paste(jsoncontent, collapse = ",")
       paste('{', jsoncontent, '}', sep = "")
     },
+    #' Deserialize JSON string into an instance of BasquePig
+    #'
+    #' @description
+    #' Deserialize JSON string into an instance of BasquePig
+    #'
+    #' @param BasquePigJson the JSON input
+    #' @return the instance of BasquePig
+    #' @export
     fromJSONString = function(BasquePigJson) {
       BasquePigObject <- jsonlite::fromJSON(BasquePigJson)
       self$`className` <- BasquePigObject$`className`
       self$`color` <- BasquePigObject$`color`
       self
     },
+    #' Validate JSON input with respect to BasquePig
+    #'
+    #' @description
+    #' Validate JSON input with respect to BasquePig and throw an exception if invalid
+    #'
+    #' @param input the JSON input
+    #' @export
     validateJSON = function(input) {
       input_json <- jsonlite::fromJSON(input)
       # check the required field `className`
