@@ -8,15 +8,20 @@ use Symfony\Component\Config\Loader\LoaderInterface;
 
 class AppKernel extends Kernel
 {
+    /**
+     * @inheritDoc
+     */
     public function registerBundles(): iterable
     {
-        $bundles = array(
-            new FrameworkBundle()
-        );
-
-        return $bundles;
+        return [
+            new FrameworkBundle(),
+        ];
     }
 
+    /**
+     * @inheritDoc
+     * @throws \Exception
+     */
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
         $loader->load(__DIR__.'/test_config.yml');

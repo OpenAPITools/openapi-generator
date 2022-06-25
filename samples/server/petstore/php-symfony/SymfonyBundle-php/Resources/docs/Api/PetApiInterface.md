@@ -57,7 +57,7 @@ class PetApi implements PetApiInterface
     /**
      * Implementation of PetApiInterface#addPet
      */
-    public function addPet(Pet $pet, &$responseCode, array &$responseHeaders): array|\OpenAPI\Server\Model\Pet
+    public function addPet(Pet $pet, int &$responseCode, array &$responseHeaders): array|object|null
     {
         // Implement the operation ...
     }
@@ -119,7 +119,7 @@ class PetApi implements PetApiInterface
     /**
      * Implementation of PetApiInterface#deletePet
      */
-    public function deletePet($petId, $apiKey = null, &$responseCode, array &$responseHeaders): void
+    public function deletePet(int $petId, ?string $apiKey, int &$responseCode, array &$responseHeaders): void
     {
         // Implement the operation ...
     }
@@ -182,7 +182,7 @@ class PetApi implements PetApiInterface
     /**
      * Implementation of PetApiInterface#findPetsByStatus
      */
-    public function findPetsByStatus(array $status, &$responseCode, array &$responseHeaders): iterable
+    public function findPetsByStatus(array $status, int &$responseCode, array &$responseHeaders): array|object|null
     {
         // Implement the operation ...
     }
@@ -244,7 +244,7 @@ class PetApi implements PetApiInterface
     /**
      * Implementation of PetApiInterface#findPetsByTags
      */
-    public function findPetsByTags(array $tags, &$responseCode, array &$responseHeaders): iterable
+    public function findPetsByTags(array $tags, int &$responseCode, array &$responseHeaders): array|object|null
     {
         // Implement the operation ...
     }
@@ -306,7 +306,7 @@ class PetApi implements PetApiInterface
     /**
      * Implementation of PetApiInterface#getPetById
      */
-    public function getPetById($petId, &$responseCode, array &$responseHeaders): array|\OpenAPI\Server\Model\Pet
+    public function getPetById(int $petId, int &$responseCode, array &$responseHeaders): array|object|null
     {
         // Implement the operation ...
     }
@@ -368,7 +368,7 @@ class PetApi implements PetApiInterface
     /**
      * Implementation of PetApiInterface#updatePet
      */
-    public function updatePet(Pet $pet, &$responseCode, array &$responseHeaders): array|\OpenAPI\Server\Model\Pet
+    public function updatePet(Pet $pet, int &$responseCode, array &$responseHeaders): array|object|null
     {
         // Implement the operation ...
     }
@@ -430,7 +430,7 @@ class PetApi implements PetApiInterface
     /**
      * Implementation of PetApiInterface#updatePetWithForm
      */
-    public function updatePetWithForm($petId, $name = null, $status = null, &$responseCode, array &$responseHeaders): void
+    public function updatePetWithForm(int $petId, ?string $name, ?string $status, int &$responseCode, array &$responseHeaders): void
     {
         // Implement the operation ...
     }
@@ -494,7 +494,7 @@ class PetApi implements PetApiInterface
     /**
      * Implementation of PetApiInterface#uploadFile
      */
-    public function uploadFile($petId, $additionalMetadata = null, UploadedFile $file = null, &$responseCode, array &$responseHeaders): array|\OpenAPI\Server\Model\ApiResponse
+    public function uploadFile(int $petId, ?string $additionalMetadata, ?UploadedFile $file, int &$responseCode, array &$responseHeaders): array|object|null
     {
         // Implement the operation ...
     }
