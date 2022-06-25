@@ -10,7 +10,9 @@ using {{packageName}}.{{apiPackage}};
 using {{packageName}}.{{modelPackage}};
 using {{packageName}}.{{clientPackage}};
 using System.Reflection;
+{{^useGenericHost}}
 using Newtonsoft.Json;
+{{/useGenericHost}}
 
 {{#models}}
 {{#model}}
