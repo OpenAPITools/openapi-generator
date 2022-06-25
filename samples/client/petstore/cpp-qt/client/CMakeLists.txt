@@ -21,6 +21,7 @@ add_library(${PROJECT_NAME}
     PFXOrder.cpp
     PFXPet.cpp
     PFXTag.cpp
+    PFXTestAnyType.cpp
     PFXUser.cpp
     PFXPetApi.cpp
     PFXPrimitivesApi.cpp
