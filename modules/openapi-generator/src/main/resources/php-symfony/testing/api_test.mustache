@@ -28,6 +28,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  * @package  {{apiTestsPackage}}
  * @author   openapi-generator contributors
  * @link     https://github.com/openapitools/openapi-generator
+ * @coversDefaultClass \{{apiPackage}}\{{classname}}
  */
 {{#operations}}class {{classname}}Test extends WebTestCase
 {
@@ -102,6 +103,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
         {{/pathParams}}
 
         $crawler = $client->request('{{httpMethod}}', $path{{#hasBodyParam}}, [], [], ['CONTENT_TYPE' => 'application/json']{{/hasBodyParam}});
+        $this->markTestSkipped('Test for {{operationId}} not implemented');
     }
     {{/operation}}
 
