@@ -40,6 +40,8 @@ class FooGetDefaultResponse {
     final _json = <String, dynamic>{};
     if (string != null) {
       _json[r'string'] = string;
+    } else {
+      _json[r'string'] = null;
     }
     return _json;
   }
