@@ -66,16 +66,16 @@ Animal <- R6::R6Class(
     #' @description
     #' Deserialize JSON string into an instance of Animal
     #'
-    #' @param AnimalJson the JSON input
+    #' @param input_json the JSON input
     #' @return the instance of Animal
     #' @export
-    fromJSON = function(AnimalJson) {
-      AnimalObject <- jsonlite::fromJSON(AnimalJson)
-      if (!is.null(AnimalObject$`className`)) {
-        self$`className` <- AnimalObject$`className`
+    fromJSON = function(input_json) {
+      this_object <- jsonlite::fromJSON(input_json)
+      if (!is.null(this_object$`className`)) {
+        self$`className` <- this_object$`className`
       }
-      if (!is.null(AnimalObject$`color`)) {
-        self$`color` <- AnimalObject$`color`
+      if (!is.null(this_object$`color`)) {
+        self$`color` <- this_object$`color`
       }
       self
     },
@@ -111,13 +111,13 @@ Animal <- R6::R6Class(
     #' @description
     #' Deserialize JSON string into an instance of Animal
     #'
-    #' @param AnimalJson the JSON input
+    #' @param input_json the JSON input
     #' @return the instance of Animal
     #' @export
-    fromJSONString = function(Animal_json) {
-      Animal_object <- jsonlite::fromJSON(Animal_json)
-      self$`className` <- Animal_object$`className`
-      self$`color` <- Animal_object$`color`
+    fromJSONString = function(input_json) {
+      this_object <- jsonlite::fromJSON(input_json)
+      self$`className` <- this_object$`className`
+      self$`color` <- this_object$`color`
       self
     },
     #' Validate JSON input with respect to Animal

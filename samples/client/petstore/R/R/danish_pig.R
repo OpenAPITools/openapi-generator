@@ -66,16 +66,16 @@ DanishPig <- R6::R6Class(
     #' @description
     #' Deserialize JSON string into an instance of DanishPig
     #'
-    #' @param DanishPigJson the JSON input
+    #' @param input_json the JSON input
     #' @return the instance of DanishPig
     #' @export
-    fromJSON = function(DanishPigJson) {
-      DanishPigObject <- jsonlite::fromJSON(DanishPigJson)
-      if (!is.null(DanishPigObject$`className`)) {
-        self$`className` <- DanishPigObject$`className`
+    fromJSON = function(input_json) {
+      this_object <- jsonlite::fromJSON(input_json)
+      if (!is.null(this_object$`className`)) {
+        self$`className` <- this_object$`className`
       }
-      if (!is.null(DanishPigObject$`size`)) {
-        self$`size` <- DanishPigObject$`size`
+      if (!is.null(this_object$`size`)) {
+        self$`size` <- this_object$`size`
       }
       self
     },
@@ -111,13 +111,13 @@ DanishPig <- R6::R6Class(
     #' @description
     #' Deserialize JSON string into an instance of DanishPig
     #'
-    #' @param DanishPigJson the JSON input
+    #' @param input_json the JSON input
     #' @return the instance of DanishPig
     #' @export
-    fromJSONString = function(DanishPig_json) {
-      DanishPig_object <- jsonlite::fromJSON(DanishPig_json)
-      self$`className` <- DanishPig_object$`className`
-      self$`size` <- DanishPig_object$`size`
+    fromJSONString = function(input_json) {
+      this_object <- jsonlite::fromJSON(input_json)
+      self$`className` <- this_object$`className`
+      self$`size` <- this_object$`size`
       self
     },
     #' Validate JSON input with respect to DanishPig
