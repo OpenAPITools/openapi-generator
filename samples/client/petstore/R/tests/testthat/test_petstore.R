@@ -16,9 +16,10 @@ result <- pet_api$AddPet(pet)
 test_that("AddPet", {
   expect_equal(pet_id, 123321)
   #expect_equal(result, NULL)
+  #expect_equal(pet$toJSONString(), '{"id":123321,"category":{"id":450,"name":"test_cat"},"name":"name_test","photoUrls":["photo_test","second test"],"tags":[{"id":123,"name":"tag_test"},{"id":456,"name":"unknown"}],"status":"available"}')
 })
 
-test_that("Test toJSON toJSON fromJSON fromJSONString", {
+test_that("Test toJSON toJSONString fromJSON fromJSONString", {
   pet0 <- Pet$new()
   jsonpet <- pet0$toJSON()
   pet2 <- pet0$fromJSON(

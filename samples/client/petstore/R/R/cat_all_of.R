@@ -83,7 +83,7 @@ CatAllOf <- R6::R6Class(
         )}
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
-      paste('{', jsoncontent, '}', sep = "")
+      jsonlite::minify(paste('{', jsoncontent, '}', sep = ""))
     },
     #' Deserialize JSON string into an instance of CatAllOf
     #'
@@ -93,9 +93,9 @@ CatAllOf <- R6::R6Class(
     #' @param CatAllOfJson the JSON input
     #' @return the instance of CatAllOf
     #' @export
-    fromJSONString = function(CatAllOfJson) {
-      CatAllOfObject <- jsonlite::fromJSON(CatAllOfJson)
-      self$`declawed` <- CatAllOfObject$`declawed`
+    fromJSONString = function(CatAllOf_json) {
+      CatAllOf_object <- jsonlite::fromJSON(CatAllOf_json)
+      self$`declawed` <- CatAllOf_object$`declawed`
       self
     },
     #' Validate JSON input with respect to CatAllOf

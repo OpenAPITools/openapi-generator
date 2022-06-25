@@ -188,7 +188,7 @@ Order <- R6::R6Class(
         )}
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
-      paste('{', jsoncontent, '}', sep = "")
+      jsonlite::minify(paste('{', jsoncontent, '}', sep = ""))
     },
     #' Deserialize JSON string into an instance of Order
     #'
@@ -198,14 +198,14 @@ Order <- R6::R6Class(
     #' @param OrderJson the JSON input
     #' @return the instance of Order
     #' @export
-    fromJSONString = function(OrderJson) {
-      OrderObject <- jsonlite::fromJSON(OrderJson)
-      self$`id` <- OrderObject$`id`
-      self$`petId` <- OrderObject$`petId`
-      self$`quantity` <- OrderObject$`quantity`
-      self$`shipDate` <- OrderObject$`shipDate`
-      self$`status` <- OrderObject$`status`
-      self$`complete` <- OrderObject$`complete`
+    fromJSONString = function(Order_json) {
+      Order_object <- jsonlite::fromJSON(Order_json)
+      self$`id` <- Order_object$`id`
+      self$`petId` <- Order_object$`petId`
+      self$`quantity` <- Order_object$`quantity`
+      self$`shipDate` <- Order_object$`shipDate`
+      self$`status` <- Order_object$`status`
+      self$`complete` <- Order_object$`complete`
       self
     },
     #' Validate JSON input with respect to Order

@@ -83,7 +83,7 @@ DogAllOf <- R6::R6Class(
         )}
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
-      paste('{', jsoncontent, '}', sep = "")
+      jsonlite::minify(paste('{', jsoncontent, '}', sep = ""))
     },
     #' Deserialize JSON string into an instance of DogAllOf
     #'
@@ -93,9 +93,9 @@ DogAllOf <- R6::R6Class(
     #' @param DogAllOfJson the JSON input
     #' @return the instance of DogAllOf
     #' @export
-    fromJSONString = function(DogAllOfJson) {
-      DogAllOfObject <- jsonlite::fromJSON(DogAllOfJson)
-      self$`breed` <- DogAllOfObject$`breed`
+    fromJSONString = function(DogAllOf_json) {
+      DogAllOf_object <- jsonlite::fromJSON(DogAllOf_json)
+      self$`breed` <- DogAllOf_object$`breed`
       self
     },
     #' Validate JSON input with respect to DogAllOf

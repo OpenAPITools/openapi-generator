@@ -104,7 +104,7 @@ DanishPig <- R6::R6Class(
         )}
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
-      paste('{', jsoncontent, '}', sep = "")
+      jsonlite::minify(paste('{', jsoncontent, '}', sep = ""))
     },
     #' Deserialize JSON string into an instance of DanishPig
     #'
@@ -114,10 +114,10 @@ DanishPig <- R6::R6Class(
     #' @param DanishPigJson the JSON input
     #' @return the instance of DanishPig
     #' @export
-    fromJSONString = function(DanishPigJson) {
-      DanishPigObject <- jsonlite::fromJSON(DanishPigJson)
-      self$`className` <- DanishPigObject$`className`
-      self$`size` <- DanishPigObject$`size`
+    fromJSONString = function(DanishPig_json) {
+      DanishPig_object <- jsonlite::fromJSON(DanishPig_json)
+      self$`className` <- DanishPig_object$`className`
+      self$`size` <- DanishPig_object$`size`
       self
     },
     #' Validate JSON input with respect to DanishPig

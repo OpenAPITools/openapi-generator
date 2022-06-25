@@ -167,7 +167,7 @@ AllofTagApiResponse <- R6::R6Class(
         )}
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
-      paste('{', jsoncontent, '}', sep = "")
+      jsonlite::minify(paste('{', jsoncontent, '}', sep = ""))
     },
     #' Deserialize JSON string into an instance of AllofTagApiResponse
     #'
@@ -177,13 +177,13 @@ AllofTagApiResponse <- R6::R6Class(
     #' @param AllofTagApiResponseJson the JSON input
     #' @return the instance of AllofTagApiResponse
     #' @export
-    fromJSONString = function(AllofTagApiResponseJson) {
-      AllofTagApiResponseObject <- jsonlite::fromJSON(AllofTagApiResponseJson)
-      self$`id` <- AllofTagApiResponseObject$`id`
-      self$`name` <- AllofTagApiResponseObject$`name`
-      self$`code` <- AllofTagApiResponseObject$`code`
-      self$`type` <- AllofTagApiResponseObject$`type`
-      self$`message` <- AllofTagApiResponseObject$`message`
+    fromJSONString = function(AllofTagApiResponse_json) {
+      AllofTagApiResponse_object <- jsonlite::fromJSON(AllofTagApiResponse_json)
+      self$`id` <- AllofTagApiResponse_object$`id`
+      self$`name` <- AllofTagApiResponse_object$`name`
+      self$`code` <- AllofTagApiResponse_object$`code`
+      self$`type` <- AllofTagApiResponse_object$`type`
+      self$`message` <- AllofTagApiResponse_object$`message`
       self
     },
     #' Validate JSON input with respect to AllofTagApiResponse

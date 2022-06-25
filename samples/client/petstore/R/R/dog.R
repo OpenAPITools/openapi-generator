@@ -126,7 +126,7 @@ Dog <- R6::R6Class(
         )}
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
-      paste('{', jsoncontent, '}', sep = "")
+      jsonlite::minify(paste('{', jsoncontent, '}', sep = ""))
     },
     #' Deserialize JSON string into an instance of Dog
     #'
@@ -136,11 +136,11 @@ Dog <- R6::R6Class(
     #' @param DogJson the JSON input
     #' @return the instance of Dog
     #' @export
-    fromJSONString = function(DogJson) {
-      DogObject <- jsonlite::fromJSON(DogJson)
-      self$`className` <- DogObject$`className`
-      self$`color` <- DogObject$`color`
-      self$`breed` <- DogObject$`breed`
+    fromJSONString = function(Dog_json) {
+      Dog_object <- jsonlite::fromJSON(Dog_json)
+      self$`className` <- Dog_object$`className`
+      self$`color` <- Dog_object$`color`
+      self$`breed` <- Dog_object$`breed`
       self
     },
     #' Validate JSON input with respect to Dog

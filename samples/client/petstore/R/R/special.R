@@ -125,7 +125,7 @@ Special <- R6::R6Class(
         )}
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
-      paste('{', jsoncontent, '}', sep = "")
+      jsonlite::minify(paste('{', jsoncontent, '}', sep = ""))
     },
     #' Deserialize JSON string into an instance of Special
     #'
@@ -135,11 +135,11 @@ Special <- R6::R6Class(
     #' @param SpecialJson the JSON input
     #' @return the instance of Special
     #' @export
-    fromJSONString = function(SpecialJson) {
-      SpecialObject <- jsonlite::fromJSON(SpecialJson)
-      self$`item_self` <- SpecialObject$`item_self`
-      self$`item_private` <- SpecialObject$`item_private`
-      self$`item_super` <- SpecialObject$`item_super`
+    fromJSONString = function(Special_json) {
+      Special_object <- jsonlite::fromJSON(Special_json)
+      self$`item_self` <- Special_object$`item_self`
+      self$`item_private` <- Special_object$`item_private`
+      self$`item_super` <- Special_object$`item_super`
       self
     },
     #' Validate JSON input with respect to Special

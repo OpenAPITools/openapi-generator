@@ -230,7 +230,7 @@ User <- R6::R6Class(
         )}
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
-      paste('{', jsoncontent, '}', sep = "")
+      jsonlite::minify(paste('{', jsoncontent, '}', sep = ""))
     },
     #' Deserialize JSON string into an instance of User
     #'
@@ -240,16 +240,16 @@ User <- R6::R6Class(
     #' @param UserJson the JSON input
     #' @return the instance of User
     #' @export
-    fromJSONString = function(UserJson) {
-      UserObject <- jsonlite::fromJSON(UserJson)
-      self$`id` <- UserObject$`id`
-      self$`username` <- UserObject$`username`
-      self$`firstName` <- UserObject$`firstName`
-      self$`lastName` <- UserObject$`lastName`
-      self$`email` <- UserObject$`email`
-      self$`password` <- UserObject$`password`
-      self$`phone` <- UserObject$`phone`
-      self$`userStatus` <- UserObject$`userStatus`
+    fromJSONString = function(User_json) {
+      User_object <- jsonlite::fromJSON(User_json)
+      self$`id` <- User_object$`id`
+      self$`username` <- User_object$`username`
+      self$`firstName` <- User_object$`firstName`
+      self$`lastName` <- User_object$`lastName`
+      self$`email` <- User_object$`email`
+      self$`password` <- User_object$`password`
+      self$`phone` <- User_object$`phone`
+      self$`userStatus` <- User_object$`userStatus`
       self
     },
     #' Validate JSON input with respect to User

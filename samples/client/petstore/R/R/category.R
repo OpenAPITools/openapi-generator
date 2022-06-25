@@ -104,7 +104,7 @@ Category <- R6::R6Class(
         )}
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
-      paste('{', jsoncontent, '}', sep = "")
+      jsonlite::minify(paste('{', jsoncontent, '}', sep = ""))
     },
     #' Deserialize JSON string into an instance of Category
     #'
@@ -114,10 +114,10 @@ Category <- R6::R6Class(
     #' @param CategoryJson the JSON input
     #' @return the instance of Category
     #' @export
-    fromJSONString = function(CategoryJson) {
-      CategoryObject <- jsonlite::fromJSON(CategoryJson)
-      self$`id` <- CategoryObject$`id`
-      self$`name` <- CategoryObject$`name`
+    fromJSONString = function(Category_json) {
+      Category_object <- jsonlite::fromJSON(Category_json)
+      self$`id` <- Category_object$`id`
+      self$`name` <- Category_object$`name`
       self
     },
     #' Validate JSON input with respect to Category

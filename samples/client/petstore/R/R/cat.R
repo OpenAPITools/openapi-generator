@@ -126,7 +126,7 @@ Cat <- R6::R6Class(
         )}
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
-      paste('{', jsoncontent, '}', sep = "")
+      jsonlite::minify(paste('{', jsoncontent, '}', sep = ""))
     },
     #' Deserialize JSON string into an instance of Cat
     #'
@@ -136,11 +136,11 @@ Cat <- R6::R6Class(
     #' @param CatJson the JSON input
     #' @return the instance of Cat
     #' @export
-    fromJSONString = function(CatJson) {
-      CatObject <- jsonlite::fromJSON(CatJson)
-      self$`className` <- CatObject$`className`
-      self$`color` <- CatObject$`color`
-      self$`declawed` <- CatObject$`declawed`
+    fromJSONString = function(Cat_json) {
+      Cat_object <- jsonlite::fromJSON(Cat_json)
+      self$`className` <- Cat_object$`className`
+      self$`color` <- Cat_object$`color`
+      self$`declawed` <- Cat_object$`declawed`
       self
     },
     #' Validate JSON input with respect to Cat

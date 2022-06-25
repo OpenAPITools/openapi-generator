@@ -266,7 +266,7 @@
       {{/vars}}
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
-      paste('{', jsoncontent, '}', sep = "")
+      jsonlite::minify(paste('{', jsoncontent, '}', sep = ""))
     },
     #' Deserialize JSON string into an instance of {{{classname}}}
     #'
@@ -276,19 +276,19 @@
     #' @param {{classname}}Json the JSON input
     #' @return the instance of {{{classname}}}
     #' @export
-    fromJSONString = function({{classname}}Json) {
-      {{classname}}Object <- jsonlite::fromJSON({{classname}}Json)
+    fromJSONString = function({{classname}}_json) {
+      {{classname}}_object <- jsonlite::fromJSON({{classname}}_json)
       {{#vars}}
       {{! AAPI - added condition for handling container type of parameters, map and array}}
       {{#isContainer}}
-      self$`{{name}}` <- ApiClient$new()$deserializeObj({{classname}}Object$`{{name}}`, "{{dataType}}", loadNamespace("{{packageName}}"))
+      self$`{{name}}` <- ApiClient$new()$deserializeObj({{classname}}_object$`{{name}}`, "{{dataType}}", loadNamespace("{{packageName}}"))
       {{/isContainer}}
       {{^isContainer}}
       {{#isPrimitiveType}}
-      self$`{{name}}` <- {{classname}}Object$`{{name}}`
+      self$`{{name}}` <- {{classname}}_object$`{{name}}`
       {{/isPrimitiveType}}
       {{^isPrimitiveType}}
-      self$`{{name}}` <- {{dataType}}$new()$fromJSON(jsonlite::toJSON({{classname}}Object${{name}}, auto_unbox = TRUE, digits = NA))
+      self$`{{name}}` <- {{dataType}}$new()$fromJSON(jsonlite::toJSON({{classname}}_object${{name}}, auto_unbox = TRUE, digits = NA))
       {{/isPrimitiveType}}
       {{/isContainer}}
       {{/vars}}
