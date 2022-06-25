@@ -77,19 +77,19 @@ ModelApiResponse <- R6::R6Class(
     #' @description
     #' Deserialize JSON string into an instance of ModelApiResponse
     #'
-    #' @param ModelApiResponseJson the JSON input
+    #' @param input_json the JSON input
     #' @return the instance of ModelApiResponse
     #' @export
-    fromJSON = function(ModelApiResponseJson) {
-      ModelApiResponseObject <- jsonlite::fromJSON(ModelApiResponseJson)
-      if (!is.null(ModelApiResponseObject$`code`)) {
-        self$`code` <- ModelApiResponseObject$`code`
+    fromJSON = function(input_json) {
+      this_object <- jsonlite::fromJSON(input_json)
+      if (!is.null(this_object$`code`)) {
+        self$`code` <- this_object$`code`
       }
-      if (!is.null(ModelApiResponseObject$`type`)) {
-        self$`type` <- ModelApiResponseObject$`type`
+      if (!is.null(this_object$`type`)) {
+        self$`type` <- this_object$`type`
       }
-      if (!is.null(ModelApiResponseObject$`message`)) {
-        self$`message` <- ModelApiResponseObject$`message`
+      if (!is.null(this_object$`message`)) {
+        self$`message` <- this_object$`message`
       }
       self
     },
@@ -125,21 +125,21 @@ ModelApiResponse <- R6::R6Class(
         )}
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
-      paste('{', jsoncontent, '}', sep = "")
+      jsonlite::minify(paste('{', jsoncontent, '}', sep = ""))
     },
     #' Deserialize JSON string into an instance of ModelApiResponse
     #'
     #' @description
     #' Deserialize JSON string into an instance of ModelApiResponse
     #'
-    #' @param ModelApiResponseJson the JSON input
+    #' @param input_json the JSON input
     #' @return the instance of ModelApiResponse
     #' @export
-    fromJSONString = function(ModelApiResponseJson) {
-      ModelApiResponseObject <- jsonlite::fromJSON(ModelApiResponseJson)
-      self$`code` <- ModelApiResponseObject$`code`
-      self$`type` <- ModelApiResponseObject$`type`
-      self$`message` <- ModelApiResponseObject$`message`
+    fromJSONString = function(input_json) {
+      this_object <- jsonlite::fromJSON(input_json)
+      self$`code` <- this_object$`code`
+      self$`type` <- this_object$`type`
+      self$`message` <- this_object$`message`
       self
     },
     #' Validate JSON input with respect to ModelApiResponse

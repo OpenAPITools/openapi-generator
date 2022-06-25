@@ -99,25 +99,25 @@ AllofTagApiResponse <- R6::R6Class(
     #' @description
     #' Deserialize JSON string into an instance of AllofTagApiResponse
     #'
-    #' @param AllofTagApiResponseJson the JSON input
+    #' @param input_json the JSON input
     #' @return the instance of AllofTagApiResponse
     #' @export
-    fromJSON = function(AllofTagApiResponseJson) {
-      AllofTagApiResponseObject <- jsonlite::fromJSON(AllofTagApiResponseJson)
-      if (!is.null(AllofTagApiResponseObject$`id`)) {
-        self$`id` <- AllofTagApiResponseObject$`id`
+    fromJSON = function(input_json) {
+      this_object <- jsonlite::fromJSON(input_json)
+      if (!is.null(this_object$`id`)) {
+        self$`id` <- this_object$`id`
       }
-      if (!is.null(AllofTagApiResponseObject$`name`)) {
-        self$`name` <- AllofTagApiResponseObject$`name`
+      if (!is.null(this_object$`name`)) {
+        self$`name` <- this_object$`name`
       }
-      if (!is.null(AllofTagApiResponseObject$`code`)) {
-        self$`code` <- AllofTagApiResponseObject$`code`
+      if (!is.null(this_object$`code`)) {
+        self$`code` <- this_object$`code`
       }
-      if (!is.null(AllofTagApiResponseObject$`type`)) {
-        self$`type` <- AllofTagApiResponseObject$`type`
+      if (!is.null(this_object$`type`)) {
+        self$`type` <- this_object$`type`
       }
-      if (!is.null(AllofTagApiResponseObject$`message`)) {
-        self$`message` <- AllofTagApiResponseObject$`message`
+      if (!is.null(this_object$`message`)) {
+        self$`message` <- this_object$`message`
       }
       self
     },
@@ -167,23 +167,23 @@ AllofTagApiResponse <- R6::R6Class(
         )}
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
-      paste('{', jsoncontent, '}', sep = "")
+      jsonlite::minify(paste('{', jsoncontent, '}', sep = ""))
     },
     #' Deserialize JSON string into an instance of AllofTagApiResponse
     #'
     #' @description
     #' Deserialize JSON string into an instance of AllofTagApiResponse
     #'
-    #' @param AllofTagApiResponseJson the JSON input
+    #' @param input_json the JSON input
     #' @return the instance of AllofTagApiResponse
     #' @export
-    fromJSONString = function(AllofTagApiResponseJson) {
-      AllofTagApiResponseObject <- jsonlite::fromJSON(AllofTagApiResponseJson)
-      self$`id` <- AllofTagApiResponseObject$`id`
-      self$`name` <- AllofTagApiResponseObject$`name`
-      self$`code` <- AllofTagApiResponseObject$`code`
-      self$`type` <- AllofTagApiResponseObject$`type`
-      self$`message` <- AllofTagApiResponseObject$`message`
+    fromJSONString = function(input_json) {
+      this_object <- jsonlite::fromJSON(input_json)
+      self$`id` <- this_object$`id`
+      self$`name` <- this_object$`name`
+      self$`code` <- this_object$`code`
+      self$`type` <- this_object$`type`
+      self$`message` <- this_object$`message`
       self
     },
     #' Validate JSON input with respect to AllofTagApiResponse

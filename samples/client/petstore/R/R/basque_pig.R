@@ -66,16 +66,16 @@ BasquePig <- R6::R6Class(
     #' @description
     #' Deserialize JSON string into an instance of BasquePig
     #'
-    #' @param BasquePigJson the JSON input
+    #' @param input_json the JSON input
     #' @return the instance of BasquePig
     #' @export
-    fromJSON = function(BasquePigJson) {
-      BasquePigObject <- jsonlite::fromJSON(BasquePigJson)
-      if (!is.null(BasquePigObject$`className`)) {
-        self$`className` <- BasquePigObject$`className`
+    fromJSON = function(input_json) {
+      this_object <- jsonlite::fromJSON(input_json)
+      if (!is.null(this_object$`className`)) {
+        self$`className` <- this_object$`className`
       }
-      if (!is.null(BasquePigObject$`color`)) {
-        self$`color` <- BasquePigObject$`color`
+      if (!is.null(this_object$`color`)) {
+        self$`color` <- this_object$`color`
       }
       self
     },
@@ -104,20 +104,20 @@ BasquePig <- R6::R6Class(
         )}
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
-      paste('{', jsoncontent, '}', sep = "")
+      jsonlite::minify(paste('{', jsoncontent, '}', sep = ""))
     },
     #' Deserialize JSON string into an instance of BasquePig
     #'
     #' @description
     #' Deserialize JSON string into an instance of BasquePig
     #'
-    #' @param BasquePigJson the JSON input
+    #' @param input_json the JSON input
     #' @return the instance of BasquePig
     #' @export
-    fromJSONString = function(BasquePigJson) {
-      BasquePigObject <- jsonlite::fromJSON(BasquePigJson)
-      self$`className` <- BasquePigObject$`className`
-      self$`color` <- BasquePigObject$`color`
+    fromJSONString = function(input_json) {
+      this_object <- jsonlite::fromJSON(input_json)
+      self$`className` <- this_object$`className`
+      self$`color` <- this_object$`color`
       self
     },
     #' Validate JSON input with respect to BasquePig

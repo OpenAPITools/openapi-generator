@@ -55,13 +55,13 @@ CatAllOf <- R6::R6Class(
     #' @description
     #' Deserialize JSON string into an instance of CatAllOf
     #'
-    #' @param CatAllOfJson the JSON input
+    #' @param input_json the JSON input
     #' @return the instance of CatAllOf
     #' @export
-    fromJSON = function(CatAllOfJson) {
-      CatAllOfObject <- jsonlite::fromJSON(CatAllOfJson)
-      if (!is.null(CatAllOfObject$`declawed`)) {
-        self$`declawed` <- CatAllOfObject$`declawed`
+    fromJSON = function(input_json) {
+      this_object <- jsonlite::fromJSON(input_json)
+      if (!is.null(this_object$`declawed`)) {
+        self$`declawed` <- this_object$`declawed`
       }
       self
     },
@@ -83,19 +83,19 @@ CatAllOf <- R6::R6Class(
         )}
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
-      paste('{', jsoncontent, '}', sep = "")
+      jsonlite::minify(paste('{', jsoncontent, '}', sep = ""))
     },
     #' Deserialize JSON string into an instance of CatAllOf
     #'
     #' @description
     #' Deserialize JSON string into an instance of CatAllOf
     #'
-    #' @param CatAllOfJson the JSON input
+    #' @param input_json the JSON input
     #' @return the instance of CatAllOf
     #' @export
-    fromJSONString = function(CatAllOfJson) {
-      CatAllOfObject <- jsonlite::fromJSON(CatAllOfJson)
-      self$`declawed` <- CatAllOfObject$`declawed`
+    fromJSONString = function(input_json) {
+      this_object <- jsonlite::fromJSON(input_json)
+      self$`declawed` <- this_object$`declawed`
       self
     },
     #' Validate JSON input with respect to CatAllOf

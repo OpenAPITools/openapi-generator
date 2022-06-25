@@ -176,24 +176,24 @@
     #' @description
     #' Deserialize JSON string into an instance of {{{classname}}}
     #'
-    #' @param {{classname}}Json the JSON input
+    #' @param input_json the JSON input
     #' @return the instance of {{{classname}}}
     #' @export
-    fromJSON = function({{classname}}Json) {
-      {{classname}}Object <- jsonlite::fromJSON({{classname}}Json)
+    fromJSON = function(input_json) {
+      this_object <- jsonlite::fromJSON(input_json)
       {{#vars}}
-      if (!is.null({{classname}}Object$`{{baseName}}`)) {
+      if (!is.null(this_object$`{{baseName}}`)) {
         {{#isContainer}}
-        self$`{{name}}` <- ApiClient$new()$deserializeObj({{classname}}Object$`{{baseName}}`, "{{dataType}}", loadNamespace("{{packageName}}"))
+        self$`{{name}}` <- ApiClient$new()$deserializeObj(this_object$`{{baseName}}`, "{{dataType}}", loadNamespace("{{packageName}}"))
         {{/isContainer}}
         {{^isContainer}}
         {{#isPrimitiveType}}
-        self$`{{name}}` <- {{classname}}Object$`{{baseName}}`
+        self$`{{name}}` <- this_object$`{{baseName}}`
         {{/isPrimitiveType}}
         {{^isPrimitiveType}}
-        {{name}}Object <- {{dataType}}$new()
-        {{name}}Object$fromJSON(jsonlite::toJSON({{classname}}Object${{baseName}}, auto_unbox = TRUE, digits = NA))
-        self$`{{name}}` <- {{name}}Object
+        {{#lambda.lowercase}}{{{name}}}{{/lambda.lowercase}}_object <- {{dataType}}$new()
+        {{#lambda.lowercase}}{{{name}}}{{/lambda.lowercase}}_object$fromJSON(jsonlite::toJSON(this_object${{baseName}}, auto_unbox = TRUE, digits = NA))
+        self$`{{name}}` <- {{#lambda.lowercase}}{{{name}}}{{/lambda.lowercase}}_object
         {{/isPrimitiveType}}
         {{/isContainer}}
       }
@@ -266,29 +266,29 @@
       {{/vars}}
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
-      paste('{', jsoncontent, '}', sep = "")
+      jsonlite::minify(paste('{', jsoncontent, '}', sep = ""))
     },
     #' Deserialize JSON string into an instance of {{{classname}}}
     #'
     #' @description
     #' Deserialize JSON string into an instance of {{{classname}}}
     #'
-    #' @param {{classname}}Json the JSON input
+    #' @param input_json the JSON input
     #' @return the instance of {{{classname}}}
     #' @export
-    fromJSONString = function({{classname}}Json) {
-      {{classname}}Object <- jsonlite::fromJSON({{classname}}Json)
+    fromJSONString = function(input_json) {
+      this_object <- jsonlite::fromJSON(input_json)
       {{#vars}}
       {{! AAPI - added condition for handling container type of parameters, map and array}}
       {{#isContainer}}
-      self$`{{name}}` <- ApiClient$new()$deserializeObj({{classname}}Object$`{{name}}`, "{{dataType}}", loadNamespace("{{packageName}}"))
+      self$`{{name}}` <- ApiClient$new()$deserializeObj(this_object$`{{name}}`, "{{dataType}}", loadNamespace("{{packageName}}"))
       {{/isContainer}}
       {{^isContainer}}
       {{#isPrimitiveType}}
-      self$`{{name}}` <- {{classname}}Object$`{{name}}`
+      self$`{{name}}` <- this_object$`{{name}}`
       {{/isPrimitiveType}}
       {{^isPrimitiveType}}
-      self$`{{name}}` <- {{dataType}}$new()$fromJSON(jsonlite::toJSON({{classname}}Object${{name}}, auto_unbox = TRUE, digits = NA))
+      self$`{{name}}` <- {{dataType}}$new()$fromJSON(jsonlite::toJSON(this_object${{name}}, auto_unbox = TRUE, digits = NA))
       {{/isPrimitiveType}}
       {{/isContainer}}
       {{/vars}}

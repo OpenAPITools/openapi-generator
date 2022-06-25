@@ -78,19 +78,19 @@ Cat <- R6::R6Class(
     #' @description
     #' Deserialize JSON string into an instance of Cat
     #'
-    #' @param CatJson the JSON input
+    #' @param input_json the JSON input
     #' @return the instance of Cat
     #' @export
-    fromJSON = function(CatJson) {
-      CatObject <- jsonlite::fromJSON(CatJson)
-      if (!is.null(CatObject$`className`)) {
-        self$`className` <- CatObject$`className`
+    fromJSON = function(input_json) {
+      this_object <- jsonlite::fromJSON(input_json)
+      if (!is.null(this_object$`className`)) {
+        self$`className` <- this_object$`className`
       }
-      if (!is.null(CatObject$`color`)) {
-        self$`color` <- CatObject$`color`
+      if (!is.null(this_object$`color`)) {
+        self$`color` <- this_object$`color`
       }
-      if (!is.null(CatObject$`declawed`)) {
-        self$`declawed` <- CatObject$`declawed`
+      if (!is.null(this_object$`declawed`)) {
+        self$`declawed` <- this_object$`declawed`
       }
       self
     },
@@ -126,21 +126,21 @@ Cat <- R6::R6Class(
         )}
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
-      paste('{', jsoncontent, '}', sep = "")
+      jsonlite::minify(paste('{', jsoncontent, '}', sep = ""))
     },
     #' Deserialize JSON string into an instance of Cat
     #'
     #' @description
     #' Deserialize JSON string into an instance of Cat
     #'
-    #' @param CatJson the JSON input
+    #' @param input_json the JSON input
     #' @return the instance of Cat
     #' @export
-    fromJSONString = function(CatJson) {
-      CatObject <- jsonlite::fromJSON(CatJson)
-      self$`className` <- CatObject$`className`
-      self$`color` <- CatObject$`color`
-      self$`declawed` <- CatObject$`declawed`
+    fromJSONString = function(input_json) {
+      this_object <- jsonlite::fromJSON(input_json)
+      self$`className` <- this_object$`className`
+      self$`color` <- this_object$`color`
+      self$`declawed` <- this_object$`declawed`
       self
     },
     #' Validate JSON input with respect to Cat

@@ -65,18 +65,18 @@ UpdatePetRequest <- R6::R6Class(
     #' @description
     #' Deserialize JSON string into an instance of UpdatePetRequest
     #'
-    #' @param UpdatePetRequestJson the JSON input
+    #' @param input_json the JSON input
     #' @return the instance of UpdatePetRequest
     #' @export
-    fromJSON = function(UpdatePetRequestJson) {
-      UpdatePetRequestObject <- jsonlite::fromJSON(UpdatePetRequestJson)
-      if (!is.null(UpdatePetRequestObject$`jsonData`)) {
-        jsonDataObject <- Pet$new()
-        jsonDataObject$fromJSON(jsonlite::toJSON(UpdatePetRequestObject$jsonData, auto_unbox = TRUE, digits = NA))
-        self$`jsonData` <- jsonDataObject
+    fromJSON = function(input_json) {
+      this_object <- jsonlite::fromJSON(input_json)
+      if (!is.null(this_object$`jsonData`)) {
+        jsondata_object <- Pet$new()
+        jsondata_object$fromJSON(jsonlite::toJSON(this_object$jsonData, auto_unbox = TRUE, digits = NA))
+        self$`jsonData` <- jsondata_object
       }
-      if (!is.null(UpdatePetRequestObject$`binaryDataN2Information`)) {
-        self$`binaryDataN2Information` <- UpdatePetRequestObject$`binaryDataN2Information`
+      if (!is.null(this_object$`binaryDataN2Information`)) {
+        self$`binaryDataN2Information` <- this_object$`binaryDataN2Information`
       }
       self
     },
@@ -105,20 +105,20 @@ UpdatePetRequest <- R6::R6Class(
         )}
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
-      paste('{', jsoncontent, '}', sep = "")
+      jsonlite::minify(paste('{', jsoncontent, '}', sep = ""))
     },
     #' Deserialize JSON string into an instance of UpdatePetRequest
     #'
     #' @description
     #' Deserialize JSON string into an instance of UpdatePetRequest
     #'
-    #' @param UpdatePetRequestJson the JSON input
+    #' @param input_json the JSON input
     #' @return the instance of UpdatePetRequest
     #' @export
-    fromJSONString = function(UpdatePetRequestJson) {
-      UpdatePetRequestObject <- jsonlite::fromJSON(UpdatePetRequestJson)
-      self$`jsonData` <- Pet$new()$fromJSON(jsonlite::toJSON(UpdatePetRequestObject$jsonData, auto_unbox = TRUE, digits = NA))
-      self$`binaryDataN2Information` <- UpdatePetRequestObject$`binaryDataN2Information`
+    fromJSONString = function(input_json) {
+      this_object <- jsonlite::fromJSON(input_json)
+      self$`jsonData` <- Pet$new()$fromJSON(jsonlite::toJSON(this_object$jsonData, auto_unbox = TRUE, digits = NA))
+      self$`binaryDataN2Information` <- this_object$`binaryDataN2Information`
       self
     },
     #' Validate JSON input with respect to UpdatePetRequest

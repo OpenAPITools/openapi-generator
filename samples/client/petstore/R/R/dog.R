@@ -78,19 +78,19 @@ Dog <- R6::R6Class(
     #' @description
     #' Deserialize JSON string into an instance of Dog
     #'
-    #' @param DogJson the JSON input
+    #' @param input_json the JSON input
     #' @return the instance of Dog
     #' @export
-    fromJSON = function(DogJson) {
-      DogObject <- jsonlite::fromJSON(DogJson)
-      if (!is.null(DogObject$`className`)) {
-        self$`className` <- DogObject$`className`
+    fromJSON = function(input_json) {
+      this_object <- jsonlite::fromJSON(input_json)
+      if (!is.null(this_object$`className`)) {
+        self$`className` <- this_object$`className`
       }
-      if (!is.null(DogObject$`color`)) {
-        self$`color` <- DogObject$`color`
+      if (!is.null(this_object$`color`)) {
+        self$`color` <- this_object$`color`
       }
-      if (!is.null(DogObject$`breed`)) {
-        self$`breed` <- DogObject$`breed`
+      if (!is.null(this_object$`breed`)) {
+        self$`breed` <- this_object$`breed`
       }
       self
     },
@@ -126,21 +126,21 @@ Dog <- R6::R6Class(
         )}
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
-      paste('{', jsoncontent, '}', sep = "")
+      jsonlite::minify(paste('{', jsoncontent, '}', sep = ""))
     },
     #' Deserialize JSON string into an instance of Dog
     #'
     #' @description
     #' Deserialize JSON string into an instance of Dog
     #'
-    #' @param DogJson the JSON input
+    #' @param input_json the JSON input
     #' @return the instance of Dog
     #' @export
-    fromJSONString = function(DogJson) {
-      DogObject <- jsonlite::fromJSON(DogJson)
-      self$`className` <- DogObject$`className`
-      self$`color` <- DogObject$`color`
-      self$`breed` <- DogObject$`breed`
+    fromJSONString = function(input_json) {
+      this_object <- jsonlite::fromJSON(input_json)
+      self$`className` <- this_object$`className`
+      self$`color` <- this_object$`color`
+      self$`breed` <- this_object$`breed`
       self
     },
     #' Validate JSON input with respect to Dog

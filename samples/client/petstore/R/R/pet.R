@@ -112,30 +112,30 @@ Pet <- R6::R6Class(
     #' @description
     #' Deserialize JSON string into an instance of Pet
     #'
-    #' @param PetJson the JSON input
+    #' @param input_json the JSON input
     #' @return the instance of Pet
     #' @export
-    fromJSON = function(PetJson) {
-      PetObject <- jsonlite::fromJSON(PetJson)
-      if (!is.null(PetObject$`id`)) {
-        self$`id` <- PetObject$`id`
+    fromJSON = function(input_json) {
+      this_object <- jsonlite::fromJSON(input_json)
+      if (!is.null(this_object$`id`)) {
+        self$`id` <- this_object$`id`
       }
-      if (!is.null(PetObject$`category`)) {
-        categoryObject <- Category$new()
-        categoryObject$fromJSON(jsonlite::toJSON(PetObject$category, auto_unbox = TRUE, digits = NA))
-        self$`category` <- categoryObject
+      if (!is.null(this_object$`category`)) {
+        category_object <- Category$new()
+        category_object$fromJSON(jsonlite::toJSON(this_object$category, auto_unbox = TRUE, digits = NA))
+        self$`category` <- category_object
       }
-      if (!is.null(PetObject$`name`)) {
-        self$`name` <- PetObject$`name`
+      if (!is.null(this_object$`name`)) {
+        self$`name` <- this_object$`name`
       }
-      if (!is.null(PetObject$`photoUrls`)) {
-        self$`photoUrls` <- ApiClient$new()$deserializeObj(PetObject$`photoUrls`, "array[character]", loadNamespace("petstore"))
+      if (!is.null(this_object$`photoUrls`)) {
+        self$`photoUrls` <- ApiClient$new()$deserializeObj(this_object$`photoUrls`, "array[character]", loadNamespace("petstore"))
       }
-      if (!is.null(PetObject$`tags`)) {
-        self$`tags` <- ApiClient$new()$deserializeObj(PetObject$`tags`, "array[Tag]", loadNamespace("petstore"))
+      if (!is.null(this_object$`tags`)) {
+        self$`tags` <- ApiClient$new()$deserializeObj(this_object$`tags`, "array[Tag]", loadNamespace("petstore"))
       }
-      if (!is.null(PetObject$`status`)) {
-        self$`status` <- PetObject$`status`
+      if (!is.null(this_object$`status`)) {
+        self$`status` <- this_object$`status`
       }
       self
     },
@@ -192,24 +192,24 @@ Pet <- R6::R6Class(
         )}
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
-      paste('{', jsoncontent, '}', sep = "")
+      jsonlite::minify(paste('{', jsoncontent, '}', sep = ""))
     },
     #' Deserialize JSON string into an instance of Pet
     #'
     #' @description
     #' Deserialize JSON string into an instance of Pet
     #'
-    #' @param PetJson the JSON input
+    #' @param input_json the JSON input
     #' @return the instance of Pet
     #' @export
-    fromJSONString = function(PetJson) {
-      PetObject <- jsonlite::fromJSON(PetJson)
-      self$`id` <- PetObject$`id`
-      self$`category` <- Category$new()$fromJSON(jsonlite::toJSON(PetObject$category, auto_unbox = TRUE, digits = NA))
-      self$`name` <- PetObject$`name`
-      self$`photoUrls` <- ApiClient$new()$deserializeObj(PetObject$`photoUrls`, "array[character]", loadNamespace("petstore"))
-      self$`tags` <- ApiClient$new()$deserializeObj(PetObject$`tags`, "array[Tag]", loadNamespace("petstore"))
-      self$`status` <- PetObject$`status`
+    fromJSONString = function(input_json) {
+      this_object <- jsonlite::fromJSON(input_json)
+      self$`id` <- this_object$`id`
+      self$`category` <- Category$new()$fromJSON(jsonlite::toJSON(this_object$category, auto_unbox = TRUE, digits = NA))
+      self$`name` <- this_object$`name`
+      self$`photoUrls` <- ApiClient$new()$deserializeObj(this_object$`photoUrls`, "array[character]", loadNamespace("petstore"))
+      self$`tags` <- ApiClient$new()$deserializeObj(this_object$`tags`, "array[Tag]", loadNamespace("petstore"))
+      self$`status` <- this_object$`status`
       self
     },
     #' Validate JSON input with respect to Pet

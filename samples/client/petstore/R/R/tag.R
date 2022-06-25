@@ -66,16 +66,16 @@ Tag <- R6::R6Class(
     #' @description
     #' Deserialize JSON string into an instance of Tag
     #'
-    #' @param TagJson the JSON input
+    #' @param input_json the JSON input
     #' @return the instance of Tag
     #' @export
-    fromJSON = function(TagJson) {
-      TagObject <- jsonlite::fromJSON(TagJson)
-      if (!is.null(TagObject$`id`)) {
-        self$`id` <- TagObject$`id`
+    fromJSON = function(input_json) {
+      this_object <- jsonlite::fromJSON(input_json)
+      if (!is.null(this_object$`id`)) {
+        self$`id` <- this_object$`id`
       }
-      if (!is.null(TagObject$`name`)) {
-        self$`name` <- TagObject$`name`
+      if (!is.null(this_object$`name`)) {
+        self$`name` <- this_object$`name`
       }
       self
     },
@@ -104,20 +104,20 @@ Tag <- R6::R6Class(
         )}
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
-      paste('{', jsoncontent, '}', sep = "")
+      jsonlite::minify(paste('{', jsoncontent, '}', sep = ""))
     },
     #' Deserialize JSON string into an instance of Tag
     #'
     #' @description
     #' Deserialize JSON string into an instance of Tag
     #'
-    #' @param TagJson the JSON input
+    #' @param input_json the JSON input
     #' @return the instance of Tag
     #' @export
-    fromJSONString = function(TagJson) {
-      TagObject <- jsonlite::fromJSON(TagJson)
-      self$`id` <- TagObject$`id`
-      self$`name` <- TagObject$`name`
+    fromJSONString = function(input_json) {
+      this_object <- jsonlite::fromJSON(input_json)
+      self$`id` <- this_object$`id`
+      self$`name` <- this_object$`name`
       self
     },
     #' Validate JSON input with respect to Tag

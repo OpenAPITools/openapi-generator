@@ -110,28 +110,28 @@ Order <- R6::R6Class(
     #' @description
     #' Deserialize JSON string into an instance of Order
     #'
-    #' @param OrderJson the JSON input
+    #' @param input_json the JSON input
     #' @return the instance of Order
     #' @export
-    fromJSON = function(OrderJson) {
-      OrderObject <- jsonlite::fromJSON(OrderJson)
-      if (!is.null(OrderObject$`id`)) {
-        self$`id` <- OrderObject$`id`
+    fromJSON = function(input_json) {
+      this_object <- jsonlite::fromJSON(input_json)
+      if (!is.null(this_object$`id`)) {
+        self$`id` <- this_object$`id`
       }
-      if (!is.null(OrderObject$`petId`)) {
-        self$`petId` <- OrderObject$`petId`
+      if (!is.null(this_object$`petId`)) {
+        self$`petId` <- this_object$`petId`
       }
-      if (!is.null(OrderObject$`quantity`)) {
-        self$`quantity` <- OrderObject$`quantity`
+      if (!is.null(this_object$`quantity`)) {
+        self$`quantity` <- this_object$`quantity`
       }
-      if (!is.null(OrderObject$`shipDate`)) {
-        self$`shipDate` <- OrderObject$`shipDate`
+      if (!is.null(this_object$`shipDate`)) {
+        self$`shipDate` <- this_object$`shipDate`
       }
-      if (!is.null(OrderObject$`status`)) {
-        self$`status` <- OrderObject$`status`
+      if (!is.null(this_object$`status`)) {
+        self$`status` <- this_object$`status`
       }
-      if (!is.null(OrderObject$`complete`)) {
-        self$`complete` <- OrderObject$`complete`
+      if (!is.null(this_object$`complete`)) {
+        self$`complete` <- this_object$`complete`
       }
       self
     },
@@ -188,24 +188,24 @@ Order <- R6::R6Class(
         )}
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
-      paste('{', jsoncontent, '}', sep = "")
+      jsonlite::minify(paste('{', jsoncontent, '}', sep = ""))
     },
     #' Deserialize JSON string into an instance of Order
     #'
     #' @description
     #' Deserialize JSON string into an instance of Order
     #'
-    #' @param OrderJson the JSON input
+    #' @param input_json the JSON input
     #' @return the instance of Order
     #' @export
-    fromJSONString = function(OrderJson) {
-      OrderObject <- jsonlite::fromJSON(OrderJson)
-      self$`id` <- OrderObject$`id`
-      self$`petId` <- OrderObject$`petId`
-      self$`quantity` <- OrderObject$`quantity`
-      self$`shipDate` <- OrderObject$`shipDate`
-      self$`status` <- OrderObject$`status`
-      self$`complete` <- OrderObject$`complete`
+    fromJSONString = function(input_json) {
+      this_object <- jsonlite::fromJSON(input_json)
+      self$`id` <- this_object$`id`
+      self$`petId` <- this_object$`petId`
+      self$`quantity` <- this_object$`quantity`
+      self$`shipDate` <- this_object$`shipDate`
+      self$`status` <- this_object$`status`
+      self$`complete` <- this_object$`complete`
       self
     },
     #' Validate JSON input with respect to Order

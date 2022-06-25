@@ -77,19 +77,19 @@ Special <- R6::R6Class(
     #' @description
     #' Deserialize JSON string into an instance of Special
     #'
-    #' @param SpecialJson the JSON input
+    #' @param input_json the JSON input
     #' @return the instance of Special
     #' @export
-    fromJSON = function(SpecialJson) {
-      SpecialObject <- jsonlite::fromJSON(SpecialJson)
-      if (!is.null(SpecialObject$`self`)) {
-        self$`item_self` <- SpecialObject$`self`
+    fromJSON = function(input_json) {
+      this_object <- jsonlite::fromJSON(input_json)
+      if (!is.null(this_object$`self`)) {
+        self$`item_self` <- this_object$`self`
       }
-      if (!is.null(SpecialObject$`private`)) {
-        self$`item_private` <- SpecialObject$`private`
+      if (!is.null(this_object$`private`)) {
+        self$`item_private` <- this_object$`private`
       }
-      if (!is.null(SpecialObject$`super`)) {
-        self$`item_super` <- SpecialObject$`super`
+      if (!is.null(this_object$`super`)) {
+        self$`item_super` <- this_object$`super`
       }
       self
     },
@@ -125,21 +125,21 @@ Special <- R6::R6Class(
         )}
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
-      paste('{', jsoncontent, '}', sep = "")
+      jsonlite::minify(paste('{', jsoncontent, '}', sep = ""))
     },
     #' Deserialize JSON string into an instance of Special
     #'
     #' @description
     #' Deserialize JSON string into an instance of Special
     #'
-    #' @param SpecialJson the JSON input
+    #' @param input_json the JSON input
     #' @return the instance of Special
     #' @export
-    fromJSONString = function(SpecialJson) {
-      SpecialObject <- jsonlite::fromJSON(SpecialJson)
-      self$`item_self` <- SpecialObject$`item_self`
-      self$`item_private` <- SpecialObject$`item_private`
-      self$`item_super` <- SpecialObject$`item_super`
+    fromJSONString = function(input_json) {
+      this_object <- jsonlite::fromJSON(input_json)
+      self$`item_self` <- this_object$`item_self`
+      self$`item_private` <- this_object$`item_private`
+      self$`item_super` <- this_object$`item_super`
       self
     },
     #' Validate JSON input with respect to Special
