@@ -1,1 +1,15 @@
-{{#required}}@NotNull {{/required}}{{^isPrimitiveType}}{{^isDate}}{{^isDateTime}}{{^isString}}{{^isFile}}@Valid {{/isFile}}{{/isString}}{{/isDateTime}}{{/isDate}}{{/isPrimitiveType}}{{>beanValidationCore}}
+{{#required}}{{^isReadOnly}}{{^isWriteOnly}}
+    @NotNull 
+{{/isWriteOnly}}{{/isReadOnly}}{{/required}}
+{{^isPrimitiveType}}
+{{^isDate}}
+{{^isDateTime}}
+{{^isString}}
+{{^isFile}}
+    @Valid 
+{{/isFile}}
+{{/isString}}
+{{/isDateTime}}
+{{/isDate}}
+{{/isPrimitiveType}}
+{{>beanValidationCore}}
