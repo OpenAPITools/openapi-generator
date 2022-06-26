@@ -23,7 +23,7 @@
     "browserify": "^14.4.0",
     "form-data": "^2.3.2",
     "mocha": "^3.4.2",
-    "node-fetch": "^2.2.0",
+    "node-fetch": "^2.6.7",
     "ts-loader": "^2.3.0",
     "tsify": "^3.0.4",
     "typescript": "^4.0",
