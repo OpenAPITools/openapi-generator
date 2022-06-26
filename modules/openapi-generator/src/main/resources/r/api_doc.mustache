@@ -11,7 +11,7 @@ Method | HTTP request | Description
 {{#operations}}
 {{#operation}}
 # **{{operationId}}**
-> {{#returnType}}{{.}} {{/returnType}}{{operationId}}({{#requiredParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#optionalParams}}{{#-first}}{{#requiredParams.0}}, {{/requiredParams.0}}{{/-first}}{{{paramName}}}{{#defaultValue}}={{{.}}}{{/defaultValue}}{{^defaultValue}}=var.{{{paramName}}}{{/defaultValue}}{{^-last}}, {{/-last}}{{/optionalParams}})
+> {{#returnType}}{{.}} {{/returnType}}{{operationId}}({{#requiredParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#optionalParams}}{{#-first}}{{#requiredParams.0}}, {{/requiredParams.0}}{{/-first}}{{{paramName}}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{^defaultValue}} = var.{{{paramName}}}{{/defaultValue}}{{^-last}}, {{/-last}}{{/optionalParams}})
 
 {{{summary}}}{{#notes}}
 
@@ -49,11 +49,15 @@ api_instance$api_client$access_token <- 'TODO_YOUR_ACCESS_TOKEN';
 {{#returnExceptionOnFailure}}
 {{#useRlangExceptionHandling}}
 result <- tryCatch(
-             api_instance${{{operationId}}}({{#requiredParams}}var_{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#optionalParams}}{{#-first}}{{#requiredParams.0}}, {{/requiredParams.0}}{{/-first}}{{{paramName}}}=var_{{{paramName}}}{{^-last}}, {{/-last}}{{/optionalParams}}),
+             {{#returnType}}
+             # to save the result into a file, simply add the optional `data_file` parameter, e.g.
+             # api_instance${{{operationId}}}({{#requiredParams}}var_{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#optionalParams}}{{#-first}}{{#requiredParams.0}}, {{/requiredParams.0}}{{/-first}}{{{paramName}}} = var_{{{paramName}}}{{^-last}}, {{/-last}}{{/optionalParams}}{{#allParams}}{{#-first}}, {{/-first}}{{/allParams}}data_file = "result.txt"),
+             {{/returnType}}
+             api_instance${{{operationId}}}({{#requiredParams}}var_{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#optionalParams}}{{#-first}}{{#requiredParams.0}}, {{/requiredParams.0}}{{/-first}}{{{paramName}}} = var_{{{paramName}}}{{^-last}}, {{/-last}}{{/optionalParams}}),
              ApiException = function(ex) ex
           )
 # In case of error, print the error object
-if(!is.null(result$ApiException)) {
+if (!is.null(result$ApiException)) {
   cat(result$ApiException$toString())
 } else {
   {{#returnType}}
@@ -68,7 +72,7 @@ if(!is.null(result$ApiException)) {
 {{/useRlangExceptionHandling}}
 {{/returnExceptionOnFailure}}
 {{^useRlangExceptionHandling}}
-{{#returnType}}result <- {{/returnType}}api_instance${{{operationId}}}({{#requiredParams}}var_{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#optionalParams}}{{#-first}}{{#requiredParams.0}}, {{/requiredParams.0}}{{/-first}}{{{paramName}}}=var_{{{paramName}}}{{^-last}}, {{/-last}}{{/optionalParams}})
+{{#returnType}}result <- {{/returnType}}api_instance${{{operationId}}}({{#requiredParams}}var_{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#optionalParams}}{{#-first}}{{#requiredParams.0}}, {{/requiredParams.0}}{{/-first}}{{{paramName}}} = var_{{{paramName}}}{{^-last}}, {{/-last}}{{/optionalParams}})
 {{#returnType}}
 dput(result)
 {{/returnType}}
