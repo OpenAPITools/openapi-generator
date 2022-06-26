@@ -36,7 +36,7 @@ result <- tryCatch(
              ApiException = function(ex) ex
           )
 # In case of error, print the error object
-if(!is.null(result$ApiException)) {
+if (!is.null(result$ApiException)) {
   cat(result$ApiException$toString())
 } else {
   # response headers
@@ -92,7 +92,7 @@ result <- tryCatch(
              ApiException = function(ex) ex
           )
 # In case of error, print the error object
-if(!is.null(result$ApiException)) {
+if (!is.null(result$ApiException)) {
   cat(result$ApiException$toString())
 } else {
   # response headers
@@ -148,7 +148,7 @@ result <- tryCatch(
              ApiException = function(ex) ex
           )
 # In case of error, print the error object
-if(!is.null(result$ApiException)) {
+if (!is.null(result$ApiException)) {
   cat(result$ApiException$toString())
 } else {
   # response headers
@@ -204,7 +204,7 @@ result <- tryCatch(
              ApiException = function(ex) ex
           )
 # In case of error, print the error object
-if(!is.null(result$ApiException)) {
+if (!is.null(result$ApiException)) {
   cat(result$ApiException$toString())
 } else {
   # response headers
@@ -255,11 +255,13 @@ var_username <- 'username_example' # character | The name that needs to be fetch
 #Get user by user name
 api_instance <- UserApi$new()
 result <- tryCatch(
+             # to save the result into a file, simply add the optional `data_file` parameter, e.g.
+             # api_instance$GetUserByName(var_username, data_file = "result.txt"),
              api_instance$GetUserByName(var_username),
              ApiException = function(ex) ex
           )
 # In case of error, print the error object
-if(!is.null(result$ApiException)) {
+if (!is.null(result$ApiException)) {
   cat(result$ApiException$toString())
 } else {
   # deserialized response object
@@ -314,11 +316,13 @@ var_password <- 'password_example' # character | The password for login in clear
 #Logs user into the system
 api_instance <- UserApi$new()
 result <- tryCatch(
+             # to save the result into a file, simply add the optional `data_file` parameter, e.g.
+             # api_instance$LoginUser(var_username, var_password, data_file = "result.txt"),
              api_instance$LoginUser(var_username, var_password),
              ApiException = function(ex) ex
           )
 # In case of error, print the error object
-if(!is.null(result$ApiException)) {
+if (!is.null(result$ApiException)) {
   cat(result$ApiException$toString())
 } else {
   # deserialized response object
@@ -377,7 +381,7 @@ result <- tryCatch(
              ApiException = function(ex) ex
           )
 # In case of error, print the error object
-if(!is.null(result$ApiException)) {
+if (!is.null(result$ApiException)) {
   cat(result$ApiException$toString())
 } else {
   # response headers
@@ -431,7 +435,7 @@ result <- tryCatch(
              ApiException = function(ex) ex
           )
 # In case of error, print the error object
-if(!is.null(result$ApiException)) {
+if (!is.null(result$ApiException)) {
   cat(result$ApiException$toString())
 } else {
   # response headers

@@ -44,6 +44,11 @@ library(devtools)
 install_github("GIT_USER_ID/GIT_REPO_ID")
 ```
 
+To install the package from a local file:
+```R
+install.packages("petstore_1.0.0.tar.gz", repos = NULL, type = "source")
+```
+
 ### Usage
 
 ```R
