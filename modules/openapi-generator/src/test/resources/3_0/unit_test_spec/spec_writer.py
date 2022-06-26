@@ -117,17 +117,17 @@ FILEPATH_TO_EXCLUDE_REASON = {
 openapi_additions = 'openapi_additions'
 
 JSON_SCHEMA_TEST_FILE_TO_FOLDERS = {
-#     'type.json': (json_schema_test_draft, openapi_additions),
-#     'additionalItems.json': (json_schema_test_draft,),
-#     'additionalProperties.json': (json_schema_test_draft,),
+    'type.json': (json_schema_test_draft, openapi_additions),
+    'additionalItems.json': (json_schema_test_draft,),
+    'additionalProperties.json': (json_schema_test_draft,),
 #     'allOf.json': (json_schema_test_draft,),  # activate later after fixing composition processing
 #     'anyOf.json': (json_schema_test_draft,),  # activate later after fixing composition processing
-#     'boolean_schema.json': (json_schema_test_draft,),
-#     'const.json': (json_schema_test_draft,),
-#     'contains.json': (json_schema_test_draft,),
-#     'default.json': (json_schema_test_draft,),
-#     'definitions.json': (json_schema_test_draft,),
-#     'dependencies.json': (json_schema_test_draft,),
+    'boolean_schema.json': (json_schema_test_draft,),
+    'const.json': (json_schema_test_draft,),
+    'contains.json': (json_schema_test_draft,),
+    'default.json': (json_schema_test_draft,),
+    'definitions.json': (json_schema_test_draft,),
+    'dependencies.json': (json_schema_test_draft,),
     'enum.json': (json_schema_test_draft,),
 }
 
