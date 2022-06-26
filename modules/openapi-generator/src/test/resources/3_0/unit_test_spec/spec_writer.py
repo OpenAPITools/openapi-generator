@@ -85,6 +85,7 @@ class ExclusionReason:
     v303_does_not_support_definitions = 'v3.0.3 does not support the definitions keyword'
     v303_does_not_support_dependencies = 'v3.0.3 does not support the dependencies keyword'
     swagger_parser_enum_type_bug = "swagger-parser has a bug where schema type is incorrectly set for an enum, https://github.com/swagger-api/swagger-parser/issues/1761"
+    swagger_parser_validation_missing_bug = 'swagger-parser has a bug where validations are unset, https://github.com/swagger-api/swagger-parser/issues/1762'
 
 json_schema_test_draft = 'draft6'
 FILEPATH_TO_EXCLUDED_CASE_AND_REASON = {
@@ -99,11 +100,10 @@ FILEPATH_TO_EXCLUDED_CASE_AND_REASON = {
         'heterogeneous enum validation': ExclusionReason.swagger_parser_enum_type_bug,
         'heterogeneous enum-with-null validation': ExclusionReason.swagger_parser_enum_type_bug,
     },
-
     (json_schema_test_draft, 'additionalProperties.json'): {
         'non-ASCII pattern with additionalProperties': ExclusionReason.v303_does_not_support_patternProperties,
         'additionalProperties being false does not allow other properties': ExclusionReason.v303_does_not_support_patternProperties,
-    }
+    },
 }
 FILEPATH_TO_EXCLUDE_REASON = {
     (json_schema_test_draft, 'additionalItems.json'): ExclusionReason.v303_does_not_support_additionalItems,
@@ -112,23 +112,27 @@ FILEPATH_TO_EXCLUDE_REASON = {
     (json_schema_test_draft, 'contains.json'): ExclusionReason.v303_does_not_support_contains,
     (json_schema_test_draft, 'definitions.json'): ExclusionReason.v303_does_not_support_definitions,
     (json_schema_test_draft, 'dependencies.json'): ExclusionReason.v303_does_not_support_dependencies,
+    (json_schema_test_draft, 'exclusiveMaximum.json'): ExclusionReason.swagger_parser_validation_missing_bug,
+    (json_schema_test_draft, 'exclusiveMinimum.json'): ExclusionReason.swagger_parser_validation_missing_bug,
 }
 
 openapi_additions = 'openapi_additions'
 
 JSON_SCHEMA_TEST_FILE_TO_FOLDERS = {
-    'type.json': (json_schema_test_draft, openapi_additions),
-    'additionalItems.json': (json_schema_test_draft,),
-    'additionalProperties.json': (json_schema_test_draft,),
+#     'type.json': (json_schema_test_draft, openapi_additions),
+#     'additionalItems.json': (json_schema_test_draft,),
+#     'additionalProperties.json': (json_schema_test_draft,),
 #     'allOf.json': (json_schema_test_draft,),  # activate later after fixing composition processing
 #     'anyOf.json': (json_schema_test_draft,),  # activate later after fixing composition processing
-    'boolean_schema.json': (json_schema_test_draft,),
-    'const.json': (json_schema_test_draft,),
-    'contains.json': (json_schema_test_draft,),
-    'default.json': (json_schema_test_draft,),
-    'definitions.json': (json_schema_test_draft,),
-    'dependencies.json': (json_schema_test_draft,),
-    'enum.json': (json_schema_test_draft,),
+#     'boolean_schema.json': (json_schema_test_draft,),
+#     'const.json': (json_schema_test_draft,),
+#     'contains.json': (json_schema_test_draft,),
+#     'default.json': (json_schema_test_draft,),
+#     'definitions.json': (json_schema_test_draft,),
+#     'dependencies.json': (json_schema_test_draft,),
+#     'enum.json': (json_schema_test_draft,),
+    'exclusiveMaximum.json': (json_schema_test_draft,),
+    'exclusiveMinimum.json': (json_schema_test_draft,),
 }
 
 def get_json_schema_test_schemas(file_path: typing.Tuple[str]) -> typing.List[JsonSchemaTestSchema]:
