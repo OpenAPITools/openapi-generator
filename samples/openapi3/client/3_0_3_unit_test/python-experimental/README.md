@@ -62,29 +62,14 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Models
 
- - [AdditionalpropertiesAllowsASchemaWhichShouldValidate](docs/AdditionalpropertiesAllowsASchemaWhichShouldValidate.md)
- - [AdditionalpropertiesAreAllowedByDefault](docs/AdditionalpropertiesAreAllowedByDefault.md)
- - [AdditionalpropertiesCanExistByItself](docs/AdditionalpropertiesCanExistByItself.md)
- - [AdditionalpropertiesShouldNotLookInApplicators](docs/AdditionalpropertiesShouldNotLookInApplicators.md)
- - [ArrayTypeMatchesArrays](docs/ArrayTypeMatchesArrays.md)
- - [BooleanTypeMatchesBooleans](docs/BooleanTypeMatchesBooleans.md)
  - [EnumWith0DoesNotMatchFalse](docs/EnumWith0DoesNotMatchFalse.md)
  - [EnumWith1DoesNotMatchTrue](docs/EnumWith1DoesNotMatchTrue.md)
  - [EnumWithEscapedCharacters](docs/EnumWithEscapedCharacters.md)
  - [EnumWithFalseDoesNotMatch0](docs/EnumWithFalseDoesNotMatch0.md)
  - [EnumWithTrueDoesNotMatch1](docs/EnumWithTrueDoesNotMatch1.md)
  - [EnumsInProperties](docs/EnumsInProperties.md)
- - [HeterogeneousEnumValidation](docs/HeterogeneousEnumValidation.md)
- - [HeterogeneousEnumWithNullValidation](docs/HeterogeneousEnumWithNullValidation.md)
- - [IntegerTypeMatchesIntegers](docs/IntegerTypeMatchesIntegers.md)
- - [InvalidStringValueForDefault](docs/InvalidStringValueForDefault.md)
- - [InvalidTypeForDefault](docs/InvalidTypeForDefault.md)
  - [NulCharactersInStrings](docs/NulCharactersInStrings.md)
- - [NullTypeMatchesOnlyTheNullObject](docs/NullTypeMatchesOnlyTheNullObject.md)
- - [NumberTypeMatchesNumbers](docs/NumberTypeMatchesNumbers.md)
  - [SimpleEnumValidation](docs/SimpleEnumValidation.md)
- - [StringTypeMatchesStrings](docs/StringTypeMatchesStrings.md)
- - [TheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissing](docs/TheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissing.md)
 
 ## Documentation For Authorization
 

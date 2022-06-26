@@ -22,14 +22,14 @@ class TestEnumWithEscapedCharacters(unittest.TestCase):
         # member 2 is valid
         EnumWithEscapedCharacters(
 
-            "foobar"        )
+            """foobar"""        )
 
     def test_member1_is_valid_passes(self):
         # member 1 is valid
         EnumWithEscapedCharacters(
 
-            "foo
-bar"        )
+            """foo
+bar"""        )
 
     def test_another_string_is_invalid_fails(self):
         # another string is invalid

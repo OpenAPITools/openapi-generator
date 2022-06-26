@@ -2701,6 +2701,16 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
+     * A method that allows generators to pre-process test example payloads
+     * This can be useful if one needs to change how values like null in string are represnted
+     * @param data
+     * @return
+     */
+    protected Object processTestExampleData(Object data) {
+        return data;
+    }
+
+    /**
      * Processes any test cases if they exist in the components.x-test-examples vendor extensions
      * If they exist then cast them to java class instances and return them back in a map
      * @param schemaName the component schema name that the test cases are for
@@ -2722,9 +2732,10 @@ public class DefaultCodegen implements CodegenConfig {
         for (Entry<String, LinkedHashMap<String, Object>> entry: testNameToTesCase.entrySet()) {
             LinkedHashMap<String, Object> testExample = (LinkedHashMap<String, Object>) entry.getValue();
             String nameInSnakeCase = toTesCaseName(entry.getKey());
+            Object data = processTestExampleData(testExample.get("data"));
             SchemaTestCase testCase = new SchemaTestCase(
                     (String) testExample.getOrDefault("description", ""),
-                    new ObjectWithTypeBooleans(testExample.get("data")),
+                    new ObjectWithTypeBooleans(data),
                     (boolean) testExample.get("valid")
             );
             schemaTestCases.put(nameInSnakeCase, testCase);

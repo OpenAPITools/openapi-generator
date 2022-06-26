@@ -84,6 +84,7 @@ class ExclusionReason:
     v303_does_not_support_contains = 'v3.0.3 does not support the contains keyword'
     v303_does_not_support_definitions = 'v3.0.3 does not support the definitions keyword'
     v303_does_not_support_dependencies = 'v3.0.3 does not support the dependencies keyword'
+    swagger_parser_enum_type_bug = "swagger-parser has a bug where schema type is incorrectly set for an enum, https://github.com/swagger-api/swagger-parser/issues/1761"
 
 json_schema_test_draft = 'draft6'
 FILEPATH_TO_EXCLUDED_CASE_AND_REASON = {
@@ -94,6 +95,11 @@ FILEPATH_TO_EXCLUDED_CASE_AND_REASON = {
         'type: array, object or null': ExclusionReason.v303_does_not_support_array_of_types,
         'array type matches arrays': ExclusionReason.v303_requires_array_have_items,
     },
+    (json_schema_test_draft, 'enum.json'): {
+        'heterogeneous enum validation': ExclusionReason.swagger_parser_enum_type_bug,
+        'heterogeneous enum-with-null validation': ExclusionReason.swagger_parser_enum_type_bug,
+    },
+
     (json_schema_test_draft, 'additionalProperties.json'): {
         'non-ASCII pattern with additionalProperties': ExclusionReason.v303_does_not_support_patternProperties,
         'additionalProperties being false does not allow other properties': ExclusionReason.v303_does_not_support_patternProperties,
@@ -111,17 +117,17 @@ FILEPATH_TO_EXCLUDE_REASON = {
 openapi_additions = 'openapi_additions'
 
 JSON_SCHEMA_TEST_FILE_TO_FOLDERS = {
-    'type.json': (json_schema_test_draft, openapi_additions),
-    'additionalItems.json': (json_schema_test_draft,),
-    'additionalProperties.json': (json_schema_test_draft,),
-#     'allOf.json': (json_schema_test_draft,),
-#     'anyOf.json': (json_schema_test_draft,),
-    'boolean_schema.json': (json_schema_test_draft,),
-    'const.json': (json_schema_test_draft,),
-    'contains.json': (json_schema_test_draft,),
-    'default.json': (json_schema_test_draft,),
-    'definitions.json': (json_schema_test_draft,),
-    'dependencies.json': (json_schema_test_draft,),
+#     'type.json': (json_schema_test_draft, openapi_additions),
+#     'additionalItems.json': (json_schema_test_draft,),
+#     'additionalProperties.json': (json_schema_test_draft,),
+#     'allOf.json': (json_schema_test_draft,),  # activate later after fixing composition processing
+#     'anyOf.json': (json_schema_test_draft,),  # activate later after fixing composition processing
+#     'boolean_schema.json': (json_schema_test_draft,),
+#     'const.json': (json_schema_test_draft,),
+#     'contains.json': (json_schema_test_draft,),
+#     'default.json': (json_schema_test_draft,),
+#     'definitions.json': (json_schema_test_draft,),
+#     'dependencies.json': (json_schema_test_draft,),
     'enum.json': (json_schema_test_draft,),
 }
 

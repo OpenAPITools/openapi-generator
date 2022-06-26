@@ -1157,6 +1157,39 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         return CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, specTestCaseName);
     }
 
+    protected Object processTestExampleData(Object value) {
+        if (value instanceof Integer){
+            return value;
+        } else if (value instanceof Double || value instanceof Float || value instanceof Boolean){
+            return value;
+        } else if (value instanceof String) {
+            String nullChar = "\0";
+            String stringValue = (String) value;
+            if (stringValue.contains(nullChar)) {
+                stringValue = stringValue.replace(nullChar, "\\x00");
+            }
+            return stringValue;
+        } else if (value instanceof LinkedHashMap) {
+            LinkedHashMap<String, Object> fixedValues = (LinkedHashMap<String, Object>) value;
+            for (Map.Entry entry: fixedValues.entrySet()) {
+                String entryKey = (String) entry.getKey();
+                Object entryValue = processTestExampleData(entry.getValue());
+                fixedValues.put(entryKey, entryValue);
+            }
+            return fixedValues;
+        } else if (value instanceof ArrayList) {
+            ArrayList<Object> fixedValues = (ArrayList<Object>) value;
+            for (int i = 0; i < fixedValues.size(); i++) {
+                Object item = processTestExampleData(fixedValues.get(i));
+                fixedValues.add(i, item);
+            }
+            return fixedValues;
+        } else if (value == null) {
+            return value;
+        }
+        return value;
+    }
+
     /**
      * Convert OAS Model object to Codegen Model object
      * We have a custom version of this method so we can:
@@ -1402,6 +1435,10 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         String strPattern = "^['\"].*?['\"]$";
         if (in.matches(strPattern)) {
             return in;
+        }
+        String nullChar = "\0";
+        if (in.contains(nullChar)) {
+            in = in.replace(nullChar, "\\x00");
         }
         return "\"" + in + "\"";
     }
