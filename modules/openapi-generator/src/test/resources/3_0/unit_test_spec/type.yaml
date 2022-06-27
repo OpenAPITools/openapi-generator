@@ -7,27 +7,34 @@ info:
 paths: {}
 components:
   schemas:
-    MinlengthValidation:
-      minLength: 2
+    MinpropertiesValidation:
+      minProperties: 1
   x-schema-test-examples:
-    MinlengthValidation:
+    MinpropertiesValidation:
       LongerIsValid:
         description: longer is valid
-        data: foo
+        data:
+          foo: 1
+          bar: 2
         valid: true
       ExactLengthIsValid:
         description: exact length is valid
-        data: fo
+        data:
+          foo: 1
         valid: true
       TooShortIsInvalid:
         description: too short is invalid
-        data: f
+        data: {}
         valid: false
-      IgnoresNonStrings:
-        description: ignores non-strings
-        data: 1
+      IgnoresArrays:
+        description: ignores arrays
+        data: []
         valid: true
-      OneSupplementaryUnicodeCodePointIsNotLongEnough:
-        description: one supplementary Unicode code point is not long enough
-        data: "\U0001F4A9"
-        valid: false
+      IgnoresStrings:
+        description: ignores strings
+        data: ''
+        valid: true
+      IgnoresOtherNonObjects:
+        description: ignores other non-objects
+        data: 12
+        valid: true

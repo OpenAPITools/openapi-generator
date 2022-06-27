@@ -66,9 +66,9 @@ from unit_test_api.schemas import (  # noqa: F401
 )
 
 
-class MinlengthValidation(
+class MinpropertiesValidation(
     _SchemaValidator(
-        min_length=2,
+        min_properties=1,
     ),
     AnyTypeSchema
 ):
@@ -83,7 +83,7 @@ class MinlengthValidation(
         *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
         _configuration: typing.Optional[Configuration] = None,
         **kwargs: typing.Type[Schema],
-    ) -> 'MinlengthValidation':
+    ) -> 'MinpropertiesValidation':
         return super().__new__(
             cls,
             *args,
