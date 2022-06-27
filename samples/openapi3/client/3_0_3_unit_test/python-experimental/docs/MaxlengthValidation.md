@@ -1,4 +1,4 @@
-# MaxitemsValidation
+# MaxlengthValidation
 
 #### Properties
 Name | Type | Description | Notes

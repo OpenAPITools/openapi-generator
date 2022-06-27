@@ -62,7 +62,7 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Models
 
- - [MaxitemsValidation](docs/MaxitemsValidation.md)
+ - [MaxlengthValidation](docs/MaxlengthValidation.md)
 
 ## Documentation For Authorization
 

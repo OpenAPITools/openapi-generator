@@ -66,9 +66,9 @@ from unit_test_api.schemas import (  # noqa: F401
 )
 
 
-class MaxitemsValidation(
+class MaxlengthValidation(
     _SchemaValidator(
-        max_items=2,
+        max_length=2,
     ),
     AnyTypeSchema
 ):
@@ -83,7 +83,7 @@ class MaxitemsValidation(
         *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
         _configuration: typing.Optional[Configuration] = None,
         **kwargs: typing.Type[Schema],
-    ) -> 'MaxitemsValidation':
+    ) -> 'MaxlengthValidation':
         return super().__new__(
             cls,
             *args,

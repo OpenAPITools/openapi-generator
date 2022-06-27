@@ -11,4 +11,4 @@
 # import sys
 # sys.setrecursionlimit(n)
 
-from unit_test_api.model.maxitems_validation import MaxitemsValidation
+from unit_test_api.model.maxlength_validation import MaxlengthValidation

@@ -7,29 +7,27 @@ info:
 paths: {}
 components:
   schemas:
-    MaxitemsValidation:
-      maxItems: 2
+    MaxlengthValidation:
+      maxLength: 2
   x-schema-test-examples:
-    MaxitemsValidation:
+    MaxlengthValidation:
       ShorterIsValid:
         description: shorter is valid
-        data:
-        - 1
+        data: f
         valid: true
       ExactLengthIsValid:
         description: exact length is valid
-        data:
-        - 1
-        - 2
+        data: fo
         valid: true
       TooLongIsInvalid:
         description: too long is invalid
-        data:
-        - 1
-        - 2
-        - 3
+        data: foo
         valid: false
-      IgnoresNonArrays:
-        description: ignores non-arrays
-        data: foobar
+      IgnoresNonStrings:
+        description: ignores non-strings
+        data: 100
+        valid: true
+      TwoSupplementaryUnicodeCodePointsIsLongEnough:
+        description: two supplementary Unicode code points is long enough
+        data: "\U0001F4A9\U0001F4A9"
         valid: true
