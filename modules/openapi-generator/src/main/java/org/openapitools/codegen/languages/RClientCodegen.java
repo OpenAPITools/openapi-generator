@@ -325,6 +325,11 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
             return "item_" + name;
         }
 
+        if ("".equals(name)) {
+            LOGGER.warn("Empty item name `` (empty string) has been renamed to `empty_string` to avoid compilation errors.");
+            return "empty_string";
+        }
+
         // don't do anything as we'll put property name inside ` `, e.g. `date-time`
         return name;
     }
@@ -466,16 +471,15 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         // recursively add import for mapping one type to multiple imports
         List<Map<String, String>> recursiveImports = objs.getImports();
-        if (recursiveImports == null)
-            return objs;
-
-        ListIterator<Map<String, String>> listIterator = imports.listIterator();
-        while (listIterator.hasNext()) {
-            String _import = listIterator.next().get("import");
-            // if the import package happens to be found in the importMapping (key)
-            // add the corresponding import package to the list
-            if (importMapping.containsKey(_import)) {
-                listIterator.add(createMapping("import", importMapping.get(_import)));
+        if (recursiveImports != null) {
+            ListIterator<Map<String, String>> listIterator = imports.listIterator();
+            while (listIterator.hasNext()) {
+                String _import = listIterator.next().get("import");
+                // if the import package happens to be found in the importMapping (key)
+                // add the corresponding import package to the list
+                if (importMapping.containsKey(_import)) {
+                    listIterator.add(createMapping("import", importMapping.get(_import)));
+                }
             }
         }
 

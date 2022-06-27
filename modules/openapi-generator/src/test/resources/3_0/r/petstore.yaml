@@ -796,6 +796,8 @@ components:
           type: string
         super:
           type: string
+        "":
+          type: string
     Dog:
       allOf:
         - $ref: '#/components/schemas/Animal'
