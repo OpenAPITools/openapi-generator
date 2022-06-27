@@ -62,8 +62,7 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Models
 
- - [MaximumValidation](docs/MaximumValidation.md)
- - [MaximumValidationWithUnsignedInteger](docs/MaximumValidationWithUnsignedInteger.md)
+ - [MaxitemsValidation](docs/MaxitemsValidation.md)
 
 ## Documentation For Authorization
 

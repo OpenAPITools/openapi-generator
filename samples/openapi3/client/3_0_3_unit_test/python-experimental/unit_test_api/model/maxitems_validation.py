@@ -66,9 +66,9 @@ from unit_test_api.schemas import (  # noqa: F401
 )
 
 
-class MaximumValidationWithUnsignedInteger(
+class MaxitemsValidation(
     _SchemaValidator(
-        inclusive_maximum=300,
+        max_items=2,
     ),
     AnyTypeSchema
 ):
@@ -83,7 +83,7 @@ class MaximumValidationWithUnsignedInteger(
         *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
         _configuration: typing.Optional[Configuration] = None,
         **kwargs: typing.Type[Schema],
-    ) -> 'MaximumValidationWithUnsignedInteger':
+    ) -> 'MaxitemsValidation':
         return super().__new__(
             cls,
             *args,
