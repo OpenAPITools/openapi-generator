@@ -62,7 +62,8 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Models
 
- - [NestedItems](docs/NestedItems.md)
+ - [MaximumValidation](docs/MaximumValidation.md)
+ - [MaximumValidationWithUnsignedInteger](docs/MaximumValidationWithUnsignedInteger.md)
 
 ## Documentation For Authorization
 

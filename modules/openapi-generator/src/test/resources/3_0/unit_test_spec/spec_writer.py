@@ -148,7 +148,8 @@ JSON_SCHEMA_TEST_FILE_TO_FOLDERS = {
 #     'format.json': (json_schema_test_draft,),
     'id.json': (json_schema_test_draft,),
 #     'infinite-loop-detection.json': (json_schema_test_draft,),  # activate after fixing this
-    'items.json': (json_schema_test_draft,),
+#     'items.json': (json_schema_test_draft,),
+    'maximum.json': (json_schema_test_draft,),
 }
 
 def get_json_schema_test_schemas(file_path: typing.Tuple[str]) -> typing.List[JsonSchemaTestSchema]:

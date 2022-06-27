@@ -7,45 +7,42 @@ info:
 paths: {}
 components:
   schemas:
-    NestedItems:
-      type: array
-      items:
-        type: array
-        items:
-          type: array
-          items:
-            type: array
-            items:
-              type: number
+    MaximumValidation:
+      maximum: 3.0
+    MaximumValidationWithUnsignedInteger:
+      maximum: 300
   x-schema-test-examples:
-    NestedItems:
-      ValidNestedArray:
-        description: valid nested array
-        data:
-        - - - - 1
-          - - - 2
-            - - 3
-        - - - - 4
-            - - 5
-            - - 6
+    MaximumValidation:
+      BelowTheMaximumIsValid:
+        description: below the maximum is valid
+        data: 2.6
         valid: true
-      NestedArrayWithInvalidType:
-        description: nested array with invalid type
-        data:
-        - - - - '1'
-          - - - 2
-            - - 3
-        - - - - 4
-            - - 5
-            - - 6
+      BoundaryPointIsValid:
+        description: boundary point is valid
+        data: 3.0
+        valid: true
+      AboveTheMaximumIsInvalid:
+        description: above the maximum is invalid
+        data: 3.5
         valid: false
-      NotDeepEnough:
-        description: not deep enough
-        data:
-        - - - 1
-          - - 2
-          - - 3
-        - - - 4
-          - - 5
-          - - 6
+      IgnoresNonNumbers:
+        description: ignores non-numbers
+        data: x
+        valid: true
+    MaximumValidationWithUnsignedInteger:
+      BelowTheMaximumIsInvalid:
+        description: below the maximum is invalid
+        data: 299.97
+        valid: true
+      BoundaryPointIntegerIsValid:
+        description: boundary point integer is valid
+        data: 300
+        valid: true
+      BoundaryPointFloatIsValid:
+        description: boundary point float is valid
+        data: 300.0
+        valid: true
+      AboveTheMaximumIsInvalid:
+        description: above the maximum is invalid
+        data: 300.5
         valid: false
