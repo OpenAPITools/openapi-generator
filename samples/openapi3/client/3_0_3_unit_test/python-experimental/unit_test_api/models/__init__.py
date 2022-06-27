@@ -12,3 +12,5 @@
 # sys.setrecursionlimit(n)
 
 from unit_test_api.model.maxlength_validation import MaxlengthValidation
+from unit_test_api.model.maxproperties0_means_the_object_is_empty import Maxproperties0MeansTheObjectIsEmpty
+from unit_test_api.model.maxproperties_validation import MaxpropertiesValidation

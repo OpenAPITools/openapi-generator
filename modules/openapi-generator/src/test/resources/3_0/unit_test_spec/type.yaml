@@ -9,6 +9,10 @@ components:
   schemas:
     MaxlengthValidation:
       maxLength: 2
+    MaxpropertiesValidation:
+      maxProperties: 2
+    Maxproperties0MeansTheObjectIsEmpty:
+      maxProperties: 0
   x-schema-test-examples:
     MaxlengthValidation:
       ShorterIsValid:
@@ -31,3 +35,47 @@ components:
         description: two supplementary Unicode code points is long enough
         data: "\U0001F4A9\U0001F4A9"
         valid: true
+    MaxpropertiesValidation:
+      ShorterIsValid:
+        description: shorter is valid
+        data:
+          foo: 1
+        valid: true
+      ExactLengthIsValid:
+        description: exact length is valid
+        data:
+          foo: 1
+          bar: 2
+        valid: true
+      TooLongIsInvalid:
+        description: too long is invalid
+        data:
+          foo: 1
+          bar: 2
+          baz: 3
+        valid: false
+      IgnoresArrays:
+        description: ignores arrays
+        data:
+        - 1
+        - 2
+        - 3
+        valid: true
+      IgnoresStrings:
+        description: ignores strings
+        data: foobar
+        valid: true
+      IgnoresOtherNonObjects:
+        description: ignores other non-objects
+        data: 12
+        valid: true
+    Maxproperties0MeansTheObjectIsEmpty:
+      NoPropertiesIsValid:
+        description: no properties is valid
+        data: {}
+        valid: true
+      OnePropertyIsInvalid:
+        description: one property is invalid
+        data:
+          foo: 1
+        valid: false
