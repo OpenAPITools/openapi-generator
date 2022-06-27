@@ -77,8 +77,6 @@ Class | Method | HTTP request | Description
 
 - [ModelWithNullableObjectProperty](docs/Model/ModelWithNullableObjectProperty.md)
 - [ModelWithNullableObjectPropertyNonNullableProperty](docs/Model/ModelWithNullableObjectPropertyNonNullableProperty.md)
-- [ModelWithNullableObjectPropertyPropertyName30](docs/Model/ModelWithNullableObjectPropertyPropertyName30.md)
-- [ModelWithNullableObjectPropertyPropertyName31](docs/Model/ModelWithNullableObjectPropertyPropertyName31.md)
 - [ModelWithNullableObjectPropertyPropertyWithNullAndTwoTypes](docs/Model/ModelWithNullableObjectPropertyPropertyWithNullAndTwoTypes.md)
 - [OtherPropertyType](docs/Model/OtherPropertyType.md)
 - [PropertyType](docs/Model/PropertyType.md)

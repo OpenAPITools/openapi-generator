@@ -20,7 +20,9 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.openapitools.client.model.OneOfstringnumber;
+import org.openapitools.client.model.ModelNull;
+import org.openapitools.client.model.ModelWithNullableObjectPropertyNonNullableProperty;
+import org.openapitools.client.model.ModelWithNullableObjectPropertyPropertyWithNullAndTwoTypes;
 import org.openapitools.client.model.PropertyType;
 import org.openapitools.jackson.nullable.JsonNullable;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -46,6 +48,14 @@ public class ModelWithNullableObjectPropertyTest {
     }
 
     /**
+     * Test the property 'propertyName'
+     */
+    @Test
+    public void propertyNameTest() {
+        // TODO: test propertyName
+    }
+
+    /**
      * Test the property 'propertyName30'
      */
     @Test
@@ -67,6 +77,14 @@ public class ModelWithNullableObjectPropertyTest {
     @Test
     public void nonNullablePropertyTest() {
         // TODO: test nonNullableProperty
+    }
+
+    /**
+     * Test the property 'propertyWithNullAndTwoTypes'
+     */
+    @Test
+    public void propertyWithNullAndTwoTypesTest() {
+        // TODO: test propertyWithNullAndTwoTypes
     }
 
 }

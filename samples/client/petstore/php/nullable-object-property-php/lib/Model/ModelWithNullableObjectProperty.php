@@ -58,8 +58,8 @@ class ModelWithNullableObjectProperty implements ModelInterface, ArrayAccess, \J
       */
     protected static $openAPITypes = [
         'property_name' => '\OpenAPI\Client\Model\PropertyType',
-        'property_name30' => '\OpenAPI\Client\Model\ModelWithNullableObjectPropertyPropertyName30',
-        'property_name31' => '\OpenAPI\Client\Model\ModelWithNullableObjectPropertyPropertyName31',
+        'property_name30' => '\OpenAPI\Client\Model\PropertyType',
+        'property_name31' => '\OpenAPI\Client\Model\PropertyType',
         'non_nullable_property' => '\OpenAPI\Client\Model\ModelWithNullableObjectPropertyNonNullableProperty',
         'property_with_null_and_two_types' => '\OpenAPI\Client\Model\ModelWithNullableObjectPropertyPropertyWithNullAndTwoTypes'
     ];
@@ -254,7 +254,7 @@ class ModelWithNullableObjectProperty implements ModelInterface, ArrayAccess, \J
     /**
      * Gets property_name30
      *
-     * @return \OpenAPI\Client\Model\ModelWithNullableObjectPropertyPropertyName30|null
+     * @return \OpenAPI\Client\Model\PropertyType|null
      */
     public function getPropertyName30()
     {
@@ -264,7 +264,7 @@ class ModelWithNullableObjectProperty implements ModelInterface, ArrayAccess, \J
     /**
      * Sets property_name30
      *
-     * @param \OpenAPI\Client\Model\ModelWithNullableObjectPropertyPropertyName30|null $property_name30 property_name30
+     * @param \OpenAPI\Client\Model\PropertyType|null $property_name30 property_name30
      *
      * @return self
      */
@@ -278,7 +278,7 @@ class ModelWithNullableObjectProperty implements ModelInterface, ArrayAccess, \J
     /**
      * Gets property_name31
      *
-     * @return \OpenAPI\Client\Model\ModelWithNullableObjectPropertyPropertyName31|null
+     * @return \OpenAPI\Client\Model\PropertyType|null
      */
     public function getPropertyName31()
     {
@@ -288,7 +288,7 @@ class ModelWithNullableObjectProperty implements ModelInterface, ArrayAccess, \J
     /**
      * Sets property_name31
      *
-     * @param \OpenAPI\Client\Model\ModelWithNullableObjectPropertyPropertyName31|null $property_name31 property_name31
+     * @param \OpenAPI\Client\Model\PropertyType|null $property_name31 property_name31
      *
      * @return self
      */

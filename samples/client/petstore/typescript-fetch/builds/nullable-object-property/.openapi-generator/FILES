@@ -1,10 +1,9 @@
+.openapi-generator-ignore
 apis/DefaultApi.ts
 apis/index.ts
 index.ts
 models/ModelWithNullableObjectProperty.ts
 models/ModelWithNullableObjectPropertyNonNullableProperty.ts
-models/ModelWithNullableObjectPropertyPropertyName30.ts
-models/ModelWithNullableObjectPropertyPropertyName31.ts
 models/ModelWithNullableObjectPropertyPropertyWithNullAndTwoTypes.ts
 models/OtherPropertyType.ts
 models/PropertyType.ts

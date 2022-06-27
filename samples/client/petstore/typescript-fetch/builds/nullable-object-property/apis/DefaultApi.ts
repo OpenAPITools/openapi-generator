@@ -14,8 +14,10 @@
 
 
 import * as runtime from '../runtime';
+import type {
+  ModelWithNullableObjectProperty,
+} from '../models';
 import {
-    ModelWithNullableObjectProperty,
     ModelWithNullableObjectPropertyFromJSON,
     ModelWithNullableObjectPropertyToJSON,
 } from '../models';

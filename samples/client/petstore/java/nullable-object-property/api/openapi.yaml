@@ -23,16 +23,20 @@ components:
         propertyName:
           foo: foo
         nonNullableProperty: null
-        propertyName31: null
-        propertyName30: null
+        propertyName31: ""
+        propertyName30: ""
         propertyWithNullAndTwoTypes: null
       properties:
         propertyName:
           $ref: '#/components/schemas/PropertyType'
         propertyName30:
-          $ref: '#/components/schemas/ModelWithNullableObjectProperty_propertyName30'
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/PropertyType'
         propertyName31:
-          $ref: '#/components/schemas/ModelWithNullableObjectProperty_propertyName31'
+          oneOf:
+          - type: "null"
+          - $ref: '#/components/schemas/PropertyType'
         nonNullableProperty:
           $ref: '#/components/schemas/ModelWithNullableObjectProperty_nonNullableProperty'
         propertyWithNullAndTwoTypes:
@@ -47,14 +51,6 @@ components:
       properties:
         bar:
           type: string
-    ModelWithNullableObjectProperty_propertyName30:
-      nullable: true
-      oneOf:
-      - $ref: '#/components/schemas/PropertyType'
-    ModelWithNullableObjectProperty_propertyName31:
-      oneOf:
-      - type: "null"
-      - $ref: '#/components/schemas/PropertyType'
     ModelWithNullableObjectProperty_nonNullableProperty:
       oneOf:
       - type: string

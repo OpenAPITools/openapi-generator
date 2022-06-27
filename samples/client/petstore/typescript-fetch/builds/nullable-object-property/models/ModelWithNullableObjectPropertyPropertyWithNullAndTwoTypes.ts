@@ -13,13 +13,6 @@
  */
 
 import {
-    Null,
-    instanceOfNull,
-    NullFromJSON,
-    NullFromJSONTyped,
-    NullToJSON,
-} from './Null';
-import {
     OtherPropertyType,
     instanceOfOtherPropertyType,
     OtherPropertyTypeFromJSON,
@@ -33,13 +26,20 @@ import {
     PropertyTypeFromJSONTyped,
     PropertyTypeToJSON,
 } from './PropertyType';
+import {
+    null,
+    instanceOfnull,
+    nullFromJSON,
+    nullFromJSONTyped,
+    nullToJSON,
+} from './null';
 
 /**
  * @type ModelWithNullableObjectPropertyPropertyWithNullAndTwoTypes
  * 
  * @export
  */
-export type ModelWithNullableObjectPropertyPropertyWithNullAndTwoTypes = Null | OtherPropertyType | PropertyType;
+export type ModelWithNullableObjectPropertyPropertyWithNullAndTwoTypes = OtherPropertyType | PropertyType | null;
 
 export function ModelWithNullableObjectPropertyPropertyWithNullAndTwoTypesFromJSON(json: any): ModelWithNullableObjectPropertyPropertyWithNullAndTwoTypes {
     return ModelWithNullableObjectPropertyPropertyWithNullAndTwoTypesFromJSONTyped(json, false);
@@ -49,7 +49,7 @@ export function ModelWithNullableObjectPropertyPropertyWithNullAndTwoTypesFromJS
     if ((json === undefined) || (json === null)) {
         return json;
     }
-    return { ...NullFromJSONTyped(json, true), ...OtherPropertyTypeFromJSONTyped(json, true), ...PropertyTypeFromJSONTyped(json, true) };
+    return { ...OtherPropertyTypeFromJSONTyped(json, true), ...PropertyTypeFromJSONTyped(json, true), ...nullFromJSONTyped(json, true) };
 }
 
 export function ModelWithNullableObjectPropertyPropertyWithNullAndTwoTypesToJSON(value?: ModelWithNullableObjectPropertyPropertyWithNullAndTwoTypes | null): any {
@@ -60,14 +60,14 @@ export function ModelWithNullableObjectPropertyPropertyWithNullAndTwoTypesToJSON
         return null;
     }
 
-    if (instanceOfNull(value)) {
-        return NullToJSON(value as Null);
-    }
     if (instanceOfOtherPropertyType(value)) {
         return OtherPropertyTypeToJSON(value as OtherPropertyType);
     }
     if (instanceOfPropertyType(value)) {
         return PropertyTypeToJSON(value as PropertyType);
+    }
+    if (instanceOfnull(value)) {
+        return nullToJSON(value as null);
     }
 
     return {};

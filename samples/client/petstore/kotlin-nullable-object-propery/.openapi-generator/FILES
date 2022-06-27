@@ -3,8 +3,6 @@ build.gradle
 docs/DefaultApi.md
 docs/ModelWithNullableObjectProperty.md
 docs/ModelWithNullableObjectPropertyNonNullableProperty.md
-docs/ModelWithNullableObjectPropertyPropertyName30.md
-docs/ModelWithNullableObjectPropertyPropertyName31.md
 docs/ModelWithNullableObjectPropertyPropertyWithNullAndTwoTypes.md
 docs/OtherPropertyType.md
 docs/PropertyType.md
@@ -33,8 +31,6 @@ src/main/kotlin/org/openapitools/client/infrastructure/URIAdapter.kt
 src/main/kotlin/org/openapitools/client/infrastructure/UUIDAdapter.kt
 src/main/kotlin/org/openapitools/client/models/ModelWithNullableObjectProperty.kt
 src/main/kotlin/org/openapitools/client/models/ModelWithNullableObjectPropertyNonNullableProperty.kt
-src/main/kotlin/org/openapitools/client/models/ModelWithNullableObjectPropertyPropertyName30.kt
-src/main/kotlin/org/openapitools/client/models/ModelWithNullableObjectPropertyPropertyName31.kt
 src/main/kotlin/org/openapitools/client/models/ModelWithNullableObjectPropertyPropertyWithNullAndTwoTypes.kt
 src/main/kotlin/org/openapitools/client/models/OtherPropertyType.kt
 src/main/kotlin/org/openapitools/client/models/PropertyType.kt

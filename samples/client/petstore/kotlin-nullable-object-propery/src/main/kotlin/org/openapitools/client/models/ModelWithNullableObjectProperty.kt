@@ -21,9 +21,8 @@
 package org.openapitools.client.models
 
 import org.openapitools.client.models.ModelWithNullableObjectPropertyNonNullableProperty
-import org.openapitools.client.models.ModelWithNullableObjectPropertyPropertyName30
-import org.openapitools.client.models.ModelWithNullableObjectPropertyPropertyName31
 import org.openapitools.client.models.ModelWithNullableObjectPropertyPropertyWithNullAndTwoTypes
+import org.openapitools.client.models.Null
 import org.openapitools.client.models.PropertyType
 
 import com.squareup.moshi.Json
@@ -45,10 +44,10 @@ data class ModelWithNullableObjectProperty (
     val propertyName: PropertyType? = null,
 
     @Json(name = "propertyName30")
-    val propertyName30: ModelWithNullableObjectPropertyPropertyName30? = null,
+    val propertyName30: PropertyType? = null,
 
     @Json(name = "propertyName31")
-    val propertyName31: ModelWithNullableObjectPropertyPropertyName31? = null,
+    val propertyName31: PropertyType? = null,
 
     @Json(name = "nonNullableProperty")
     val nonNullableProperty: ModelWithNullableObjectPropertyNonNullableProperty? = null,

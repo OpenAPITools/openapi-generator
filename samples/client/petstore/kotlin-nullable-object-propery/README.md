@@ -43,8 +43,6 @@ Class | Method | HTTP request | Description
 
  - [org.openapitools.client.models.ModelWithNullableObjectProperty](docs/ModelWithNullableObjectProperty.md)
  - [org.openapitools.client.models.ModelWithNullableObjectPropertyNonNullableProperty](docs/ModelWithNullableObjectPropertyNonNullableProperty.md)
- - [org.openapitools.client.models.ModelWithNullableObjectPropertyPropertyName30](docs/ModelWithNullableObjectPropertyPropertyName30.md)
- - [org.openapitools.client.models.ModelWithNullableObjectPropertyPropertyName31](docs/ModelWithNullableObjectPropertyPropertyName31.md)
  - [org.openapitools.client.models.ModelWithNullableObjectPropertyPropertyWithNullAndTwoTypes](docs/ModelWithNullableObjectPropertyPropertyWithNullAndTwoTypes.md)
  - [org.openapitools.client.models.OtherPropertyType](docs/OtherPropertyType.md)
  - [org.openapitools.client.models.PropertyType](docs/PropertyType.md)
