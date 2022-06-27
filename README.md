@@ -578,6 +578,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [Aalborg University](https://www.aau.dk)
 - [Adaptant Solutions AG](https://www.adaptant.io/)
 - [adesso SE](https://www.adesso.de/)
+- [Adyen](https://www.adyen.com/)
 - [Agoda](https://www.agoda.com/)
 - [Airthings](https://www.airthings.com/)
 - [Allianz](https://www.allianz.com)
