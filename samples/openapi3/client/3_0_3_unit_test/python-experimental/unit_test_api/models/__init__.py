@@ -11,7 +11,6 @@
 # import sys
 # sys.setrecursionlimit(n)
 
-from unit_test_api.model.by_int import ByInt
-from unit_test_api.model.by_number import ByNumber
-from unit_test_api.model.by_small_number import BySmallNumber
-from unit_test_api.model.invalid_instance_should_not_raise_error_when_float_division_inf import InvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInf
+from unit_test_api.model.forbidden_property import ForbiddenProperty
+from unit_test_api.model.model_not import ModelNot
+from unit_test_api.model.not_more_complex_schema import NotMoreComplexSchema

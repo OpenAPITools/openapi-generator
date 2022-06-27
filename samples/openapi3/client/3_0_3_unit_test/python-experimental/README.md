@@ -62,10 +62,9 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Models
 
- - [ByInt](docs/ByInt.md)
- - [ByNumber](docs/ByNumber.md)
- - [BySmallNumber](docs/BySmallNumber.md)
- - [InvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInf](docs/InvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInf.md)
+ - [ForbiddenProperty](docs/ForbiddenProperty.md)
+ - [ModelNot](docs/ModelNot.md)
+ - [NotMoreComplexSchema](docs/NotMoreComplexSchema.md)
 
 ## Documentation For Authorization
 

@@ -1,4 +1,4 @@
-# BySmallNumber
+# NotMoreComplexSchema
 
 #### Properties
 Name | Type | Description | Notes
