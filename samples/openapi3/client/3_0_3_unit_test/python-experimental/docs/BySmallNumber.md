@@ -1,4 +1,4 @@
-# MinpropertiesValidation
+# BySmallNumber
 
 #### Properties
 Name | Type | Description | Notes

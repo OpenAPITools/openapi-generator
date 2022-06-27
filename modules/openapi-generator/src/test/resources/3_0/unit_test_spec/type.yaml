@@ -7,34 +7,54 @@ info:
 paths: {}
 components:
   schemas:
-    MinpropertiesValidation:
-      minProperties: 1
+    ByInt:
+      multipleOf: 2
+    ByNumber:
+      multipleOf: 1.5
+    BySmallNumber:
+      multipleOf: 0.0001
+    InvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInf:
+      type: integer
+      multipleOf: 0.123456789
   x-schema-test-examples:
-    MinpropertiesValidation:
-      LongerIsValid:
-        description: longer is valid
-        data:
-          foo: 1
-          bar: 2
+    ByInt:
+      IntByInt:
+        description: int by int
+        data: 10
         valid: true
-      ExactLengthIsValid:
-        description: exact length is valid
-        data:
-          foo: 1
-        valid: true
-      TooShortIsInvalid:
-        description: too short is invalid
-        data: {}
+      IntByIntFail:
+        description: int by int fail
+        data: 7
         valid: false
-      IgnoresArrays:
-        description: ignores arrays
-        data: []
+      IgnoresNonNumbers:
+        description: ignores non-numbers
+        data: foo
         valid: true
-      IgnoresStrings:
-        description: ignores strings
-        data: ''
+    ByNumber:
+      ZeroIsMultipleOfAnything:
+        description: zero is multiple of anything
+        data: 0
         valid: true
-      IgnoresOtherNonObjects:
-        description: ignores other non-objects
-        data: 12
+      45IsMultipleOf15:
+        description: 4.5 is multiple of 1.5
+        data: 4.5
         valid: true
+      35IsNotMultipleOf15:
+        description: 35 is not multiple of 1.5
+        data: 35
+        valid: false
+    BySmallNumber:
+      00075IsMultipleOf00001:
+        description: 0.0075 is multiple of 0.0001
+        data: 0.0075
+        valid: true
+      000751IsNotMultipleOf00001:
+        description: 0.00751 is not multiple of 0.0001
+        data: 0.00751
+        valid: false
+    InvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInf:
+      AlwaysInvalidButNaiveImplementationsMayRaiseAnOverflowError:
+        description: always invalid, but naive implementations may raise an overflow
+          error
+        data: 1.0e+308
+        valid: false

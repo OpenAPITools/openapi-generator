@@ -62,7 +62,10 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Models
 
- - [MinpropertiesValidation](docs/MinpropertiesValidation.md)
+ - [ByInt](docs/ByInt.md)
+ - [ByNumber](docs/ByNumber.md)
+ - [BySmallNumber](docs/BySmallNumber.md)
+ - [InvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInf](docs/InvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInf.md)
 
 ## Documentation For Authorization
 

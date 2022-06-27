@@ -156,7 +156,8 @@ JSON_SCHEMA_TEST_FILE_TO_FOLDERS = {
 #     'minimum.json': (json_schema_test_draft,),
 #     'minItems.json': (json_schema_test_draft,),
 #     'minLength.json': (json_schema_test_draft,),
-    'minProperties.json': (json_schema_test_draft,),
+#     'minProperties.json': (json_schema_test_draft,),
+    'multipleOf.json': (json_schema_test_draft,),
 }
 
 def get_json_schema_test_schemas(file_path: typing.Tuple[str]) -> typing.List[JsonSchemaTestSchema]:

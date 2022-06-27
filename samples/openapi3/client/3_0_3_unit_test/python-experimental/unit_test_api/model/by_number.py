@@ -66,9 +66,9 @@ from unit_test_api.schemas import (  # noqa: F401
 )
 
 
-class MinpropertiesValidation(
+class ByNumber(
     _SchemaValidator(
-        min_properties=1,
+        multiple_of=[1.5],
     ),
     AnyTypeSchema
 ):
@@ -83,7 +83,7 @@ class MinpropertiesValidation(
         *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
         _configuration: typing.Optional[Configuration] = None,
         **kwargs: typing.Type[Schema],
-    ) -> 'MinpropertiesValidation':
+    ) -> 'ByNumber':
         return super().__new__(
             cls,
             *args,

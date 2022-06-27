@@ -11,4 +11,7 @@
 # import sys
 # sys.setrecursionlimit(n)
 
-from unit_test_api.model.minproperties_validation import MinpropertiesValidation
+from unit_test_api.model.by_int import ByInt
+from unit_test_api.model.by_number import ByNumber
+from unit_test_api.model.by_small_number import BySmallNumber
+from unit_test_api.model.invalid_instance_should_not_raise_error_when_float_division_inf import InvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInf
