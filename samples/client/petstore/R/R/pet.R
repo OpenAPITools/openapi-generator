@@ -234,8 +234,17 @@ Pet <- R6::R6Class(
       } else {
         stop(paste("The JSON input `", input, "` is invalid for Pet: the required field `photoUrls` is missing."))
       }
+    },
+    #' To string (JSON format)
+    #'
+    #' @description
+    #' To string (JSON format)
+    #'
+    #' @return String representation of Pet
+    #' @export
+    toString = function() {
+      self$toJSONString()
     }
-
   )
 )
 

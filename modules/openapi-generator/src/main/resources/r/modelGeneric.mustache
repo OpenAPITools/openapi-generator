@@ -349,8 +349,17 @@
         stop(paste("The JSON input `", input, "` is invalid for {{classname}}: the required field `{{name}}` is missing."))
       }
       {{/requiredVars}}
+    },
+    #' To string (JSON format)
+    #'
+    #' @description
+    #' To string (JSON format)
+    #'
+    #' @return String representation of {{{classname}}}
+    #' @export
+    toString = function() {
+      self$toJSONString()
     }
-
   )
 )
 {{/isEnum}}

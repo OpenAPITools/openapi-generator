@@ -130,8 +130,17 @@ UpdatePetRequest <- R6::R6Class(
     #' @export
     validateJSON = function(input) {
       input_json <- jsonlite::fromJSON(input)
+    },
+    #' To string (JSON format)
+    #'
+    #' @description
+    #' To string (JSON format)
+    #'
+    #' @return String representation of UpdatePetRequest
+    #' @export
+    toString = function() {
+      self$toJSONString()
     }
-
   )
 )
 

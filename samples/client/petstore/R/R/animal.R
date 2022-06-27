@@ -135,8 +135,17 @@ Animal <- R6::R6Class(
       } else {
         stop(paste("The JSON input `", input, "` is invalid for Animal: the required field `className` is missing."))
       }
+    },
+    #' To string (JSON format)
+    #'
+    #' @description
+    #' To string (JSON format)
+    #'
+    #' @return String representation of Animal
+    #' @export
+    toString = function() {
+      self$toJSONString()
     }
-
   )
 )
 

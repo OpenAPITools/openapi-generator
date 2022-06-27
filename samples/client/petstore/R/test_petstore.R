@@ -47,7 +47,8 @@ pet <- Pet$new("name_test",
 )
 
 #jsonlite::minify(pet$toJSONString())
-pet$toJSONString()
+#cat(pet$toJSONString())
+toString(pet$toString())
 
 #json <-
 #'[
