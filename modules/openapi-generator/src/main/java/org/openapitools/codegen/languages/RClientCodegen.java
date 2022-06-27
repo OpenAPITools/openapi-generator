@@ -325,6 +325,11 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
             return "item_" + name;
         }
 
+        if ("".equals(name)) {
+            LOGGER.warn("Empty item name `` (empty string) has been renamed to `empty_string` to avoid compilation errors.");
+            return "empty_string";
+        }
+
         // don't do anything as we'll put property name inside ` `, e.g. `date-time`
         return name;
     }
@@ -454,6 +459,17 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public ModelsMap postProcessModels(ModelsMap objs) {
+        for (ModelMap mo : objs.getModels()) {
+            CodegenModel cm = mo.getModel();
+            for (CodegenProperty var : cm.vars) {
+                // check to see if base name is an empty string
+                if ("".equals(var.baseName)) {
+                    LOGGER.debug("Empty baseName `` (empty string) in the model `{}` has been renamed to `empty_string` to avoid compilation errors.", cm.classname);
+                    var.baseName = "empty_string";
+                }
+            }
+        }
+
         // remove model imports to avoid error
         List<Map<String, String>> imports = objs.getImports();
         final String prefix = modelPackage();
@@ -466,16 +482,15 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         // recursively add import for mapping one type to multiple imports
         List<Map<String, String>> recursiveImports = objs.getImports();
-        if (recursiveImports == null)
-            return objs;
-
-        ListIterator<Map<String, String>> listIterator = imports.listIterator();
-        while (listIterator.hasNext()) {
-            String _import = listIterator.next().get("import");
-            // if the import package happens to be found in the importMapping (key)
-            // add the corresponding import package to the list
-            if (importMapping.containsKey(_import)) {
-                listIterator.add(createMapping("import", importMapping.get(_import)));
+        if (recursiveImports != null) {
+            ListIterator<Map<String, String>> listIterator = imports.listIterator();
+            while (listIterator.hasNext()) {
+                String _import = listIterator.next().get("import");
+                // if the import package happens to be found in the importMapping (key)
+                // add the corresponding import package to the list
+                if (importMapping.containsKey(_import)) {
+                    listIterator.add(createMapping("import", importMapping.get(_import)));
+                }
             }
         }
 
