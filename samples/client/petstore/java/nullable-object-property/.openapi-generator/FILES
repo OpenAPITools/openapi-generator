@@ -1,6 +1,5 @@
 .github/workflows/maven.yml
 .gitignore
-.openapi-generator-ignore
 .travis.yml
 README.md
 api/openapi.yaml
@@ -37,9 +36,3 @@ src/main/java/org/openapitools/client/model/ModelWithNullableObjectPropertyNonNu
 src/main/java/org/openapitools/client/model/ModelWithNullableObjectPropertyPropertyWithNullAndTwoTypes.java
 src/main/java/org/openapitools/client/model/OtherPropertyType.java
 src/main/java/org/openapitools/client/model/PropertyType.java
-src/test/java/org/openapitools/client/api/DefaultApiTest.java
-src/test/java/org/openapitools/client/model/ModelWithNullableObjectPropertyNonNullablePropertyTest.java
-src/test/java/org/openapitools/client/model/ModelWithNullableObjectPropertyPropertyWithNullAndTwoTypesTest.java
-src/test/java/org/openapitools/client/model/ModelWithNullableObjectPropertyTest.java
-src/test/java/org/openapitools/client/model/OtherPropertyTypeTest.java
-src/test/java/org/openapitools/client/model/PropertyTypeTest.java
