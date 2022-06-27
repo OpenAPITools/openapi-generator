@@ -227,7 +227,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     if (auth instanceof OAuth) {
       authentications.put("{{name}}", auth);
     } else {
-      authentications.put("{{name}}", new OAuth(basePath, "{{tokenUrl}}"));
+      authentications.put("{{name}}", new OAuth(basePath, "{{{tokenUrl}}}"));
     }
     {{/isOAuth}}
     {{/authMethods}}

@@ -2,9 +2,14 @@
 install.packages("petstore_1.0.0.tar.gz",repos=NULL, type="source")
 library(petstore)
 
-var_pet_id <- 56 # integer | ID of pet to return
-
-#Find pet by ID
+#errorMsg <- "{\"code\":1,\"type\":\"error\",\"message\":\"Pet not found\"}"
+##errorMsg <- '{"code": 404, "message": "Not found"}'
+#a <- ModelApiResponse$new()$fromJSONString(errorMsg)
+#dput(a)
+#
+#var_pet_id <- 1231256 # integer | ID of pet to return
+#
+##Find pet by ID
 #api_instance <- PetApi$new()
 ## Configure API key authorization: api_key
 #api_instance$api_client$api_keys['api_key'] <- 'TODO_YOUR_API_KEY';
@@ -27,46 +32,64 @@ var_pet_id <- 56 # integer | ID of pet to return
 json2 <-
 '{"name": "pet", "photoUrls" : ["http://a.com", "http://b.com"]}'
 
-json <-
-'[
-  {"Name" : "Mario", "Age" : 32, "Occupation" : "Plumber"}, 
-  {"Name" : "Peach", "Age" : 21, "Occupation" : "Princess"},
-  {},
-  {"Name" : "Bowser", "Occupation" : "Koopa"}
-]'
+jsonlite::minify(json2)
 
+pet_api <- PetApi$new()
+pet_id <- 123321
+pet <- Pet$new("name_test",
+  photoUrls = list("photo_test", "second test"),
+  category = Category$new(id = 450, name = "test_cat"),
+  id = pet_id,
+  tags = list(
+    Tag$new(id = 123, name = "tag_test"), Tag$new(id = 456, name = "unknown")
+  ),
+  status = "available"
+)
 
-#Pet$public_methods
-#Pet$public_methods$fromJSON(json)
-#Pet$public_methods$toJson()
-#Pet$public_methods$validateJSON(json2)
-#Pet$public_methods$validateJson(json)
-#Pet$my_static_method <- function(x) { x + 2}
-#Pet$public_methods$my_static_method(1)
+#jsonlite::minify(pet$toJSONString())
+#cat(pet$toJSONString())
+toString(pet$toString())
 
-  basque_pig_json <-
-  '{"className2": "BasquePig", "color": "red"}'
- 
-  danish_pig_json <-
-  '{"className2": "DanishPig", "size": 7}'
- 
-  wrong_json <- 
-  '[
-    {"Name" : "Tom", "Age" : 32, "Occupation" : "Consultant"}, 
-    {},
-    {"Name" : "Ada", "Occupation" : "Engineer"}
-  ]'
-
-  print("==========") 
-  pig <- Pig$new()
-  basque_pig <- pig$fromJSON(basque_pig_json)
-  #print(basque_pig$actual_instance$color)
-  #expect_equal(basque_pig$actual_type, "BasquePig")
-  pig$fromJSON(danish_pig_json)
-  #pig$fromJSON(wrong_json)
-  pig$toJSON()
-
-  #d <- DanishPig$new()
-  #dp <- d$validateJSON(danish_pig_json)
-
-
+#json <-
+#'[
+#  {"Name" : "Mario", "Age" : 32, "Occupation" : "Plumber"}, 
+#  {"Name" : "Peach", "Age" : 21, "Occupation" : "Princess"},
+#  {},
+#  {"Name" : "Bowser", "Occupation" : "Koopa"}
+#]'
+#
+#
+##Pet$public_methods
+##Pet$public_methods$fromJSON(json)
+##Pet$public_methods$toJson()
+##Pet$public_methods$validateJSON(json2)
+##Pet$public_methods$validateJson(json)
+##Pet$my_static_method <- function(x) { x + 2}
+##Pet$public_methods$my_static_method(1)
+#
+#  basque_pig_json <-
+#  '{"className2": "BasquePig", "color": "red"}'
+# 
+#  danish_pig_json <-
+#  '{"className2": "DanishPig", "size": 7}'
+# 
+#  wrong_json <- 
+#  '[
+#    {"Name" : "Tom", "Age" : 32, "Occupation" : "Consultant"}, 
+#    {},
+#    {"Name" : "Ada", "Occupation" : "Engineer"}
+#  ]'
+#
+#  print("==========") 
+#  pig <- Pig$new()
+#  basque_pig <- pig$fromJSON(basque_pig_json)
+#  #print(basque_pig$actual_instance$color)
+#  #expect_equal(basque_pig$actual_type, "BasquePig")
+#  pig$fromJSON(danish_pig_json)
+#  #pig$fromJSON(wrong_json)
+#  pig$toJSON()
+#
+#  #d <- DanishPig$new()
+#  #dp <- d$validateJSON(danish_pig_json)
+#
+#

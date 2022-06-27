@@ -56,6 +56,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected boolean returnExceptionOnFailure = false;
     protected String exceptionPackage = "default";
     protected Map<String, String> exceptionPackages = new LinkedHashMap<String, String>();
+    protected Set<String> itemReservedWords = new TreeSet<String>();
 
     public static final String EXCEPTION_PACKAGE = "exceptionPackage";
     public static final String USE_DEFAULT_EXCEPTION = "useDefaultExceptionHandling";
@@ -65,6 +66,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     protected boolean useDefaultExceptionHandling = false;
     protected boolean useRlangExceptionHandling = false;
+    protected String errorObjectType;
 
     public CodegenType getTag() {
         return CodegenType.CLIENT;
@@ -130,6 +132,11 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
                 )
         );
 
+        // these are reserved words in items: https://github.com/r-lib/R6/blob/main/R/r6_class.R#L484
+        itemReservedWords.add("self");
+        itemReservedWords.add("private");
+        itemReservedWords.add("super");
+
         languageSpecificPrimitives.clear();
         languageSpecificPrimitives.add("integer");
         languageSpecificPrimitives.add("numeric");
@@ -175,6 +182,8 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         exceptionPackage.setEnum(exceptionPackages);
         exceptionPackage.setDefault(DEFAULT);
         cliOptions.add(exceptionPackage);
+
+        cliOptions.add(CliOption.newString(CodegenConstants.ERROR_OBJECT_TYPE, "Error object type."));
     }
 
     @Override
@@ -206,6 +215,11 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         } else {
             setExceptionPackageToUse(DEFAULT);
         }
+
+        if (additionalProperties.containsKey(CodegenConstants.ERROR_OBJECT_TYPE)) {
+            this.setErrorObjectType(additionalProperties.get(CodegenConstants.ERROR_OBJECT_TYPE).toString());
+        }
+        additionalProperties.put(CodegenConstants.ERROR_OBJECT_TYPE, errorObjectType);
 
         additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
         additionalProperties.put(CodegenConstants.PACKAGE_VERSION, packageVersion);
@@ -305,6 +319,17 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toVarName(String name) {
+        // escape item reserved words with "item_" prefix
+        if (itemReservedWords.contains(name)) {
+            LOGGER.info("The item `{}` has been renamed to `item_{}` as it's a reserved word.", name, name);
+            return "item_" + name;
+        }
+
+        if ("".equals(name)) {
+            LOGGER.warn("Empty item name `` (empty string) has been renamed to `empty_string` to avoid compilation errors.");
+            return "empty_string";
+        }
+
         // don't do anything as we'll put property name inside ` `, e.g. `date-time`
         return name;
     }
@@ -434,6 +459,17 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public ModelsMap postProcessModels(ModelsMap objs) {
+        for (ModelMap mo : objs.getModels()) {
+            CodegenModel cm = mo.getModel();
+            for (CodegenProperty var : cm.vars) {
+                // check to see if base name is an empty string
+                if ("".equals(var.baseName)) {
+                    LOGGER.debug("Empty baseName `` (empty string) in the model `{}` has been renamed to `empty_string` to avoid compilation errors.", cm.classname);
+                    var.baseName = "empty_string";
+                }
+            }
+        }
+
         // remove model imports to avoid error
         List<Map<String, String>> imports = objs.getImports();
         final String prefix = modelPackage();
@@ -446,16 +482,15 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         // recursively add import for mapping one type to multiple imports
         List<Map<String, String>> recursiveImports = objs.getImports();
-        if (recursiveImports == null)
-            return objs;
-
-        ListIterator<Map<String, String>> listIterator = imports.listIterator();
-        while (listIterator.hasNext()) {
-            String _import = listIterator.next().get("import");
-            // if the import package happens to be found in the importMapping (key)
-            // add the corresponding import package to the list
-            if (importMapping.containsKey(_import)) {
-                listIterator.add(createMapping("import", importMapping.get(_import)));
+        if (recursiveImports != null) {
+            ListIterator<Map<String, String>> listIterator = imports.listIterator();
+            while (listIterator.hasNext()) {
+                String _import = listIterator.next().get("import");
+                // if the import package happens to be found in the importMapping (key)
+                // add the corresponding import package to the list
+                if (importMapping.containsKey(_import)) {
+                    listIterator.add(createMapping("import", importMapping.get(_import)));
+                }
             }
         }
 
@@ -486,6 +521,10 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
             supportingFiles.add(new SupportingFile("api_exception.mustache", File.separator + "R", "api_exception.R"));
             this.useRlangExceptionHandling = true;
         }
+    }
+
+    public void setErrorObjectType(final String errorObjectType) {
+        this.errorObjectType = errorObjectType;
     }
 
     @Override

@@ -56,9 +56,13 @@ class MixedPropertiesAndAdditionalPropertiesClass {
     final _json = <String, dynamic>{};
     if (uuid != null) {
       _json[r'uuid'] = uuid;
+    } else {
+      _json[r'uuid'] = null;
     }
     if (dateTime != null) {
       _json[r'dateTime'] = dateTime!.toUtc().toIso8601String();
+    } else {
+      _json[r'dateTime'] = null;
     }
       _json[r'map'] = map;
     return _json;

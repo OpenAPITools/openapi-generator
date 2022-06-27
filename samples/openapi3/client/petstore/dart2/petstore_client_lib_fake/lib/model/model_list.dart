@@ -40,6 +40,8 @@ class ModelList {
     final _json = <String, dynamic>{};
     if (n123list != null) {
       _json[r'123-list'] = n123list;
+    } else {
+      _json[r'123-list'] = null;
     }
     return _json;
   }

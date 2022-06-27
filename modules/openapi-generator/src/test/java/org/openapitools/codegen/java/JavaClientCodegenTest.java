@@ -1149,6 +1149,10 @@ public class JavaClientCodegenTest {
         TestUtils.assertFileNotContains(Paths.get(output + "/src/main/java/org/openapitools/client/api/DefaultApi.java"),
                 "event_id");
 
+        // baseName is kept for form parameters
+        TestUtils.assertFileContains(Paths.get(output + "/src/main/java/org/openapitools/client/api/DefaultApi.java"),
+                "@Param(\"some_file\") File someFile");
+
         output.deleteOnExit();
     }
 

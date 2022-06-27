@@ -14,6 +14,11 @@
   infoLink: "https://www.adesso.de/"
   pinned: false
 -
+  caption: "Adyen"
+  image: "img/companies/adyen.png"
+  infoLink: "https://www.adyen.com/"
+  pinned: false
+-
   caption: "Agoda"
   image: "img/companies/agoda.png"
   infoLink: "https://www.agoda.com/"

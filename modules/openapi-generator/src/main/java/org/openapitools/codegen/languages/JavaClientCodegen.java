@@ -975,8 +975,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
             cm.getVendorExtensions().putIfAbsent("x-implements", new ArrayList<String>());
             if (JERSEY2.equals(getLibrary()) || JERSEY3.equals(getLibrary()) || NATIVE.equals(getLibrary()) || OKHTTP_GSON.equals(getLibrary())) {
-                cm.getVendorExtensions().put("x-implements", new ArrayList<String>());
-
                 if (cm.oneOf != null && !cm.oneOf.isEmpty() && cm.oneOf.contains("ModelNull")) {
                     // if oneOf contains "null" type
                     cm.isNullable = true;

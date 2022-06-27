@@ -13,8 +13,8 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import type { ItemId } from './ItemId';
 import {
-    ItemId,
     ItemIdFromJSON,
     ItemIdFromJSONTyped,
     ItemIdToJSON,

@@ -72,15 +72,21 @@ class Pet {
     final _json = <String, dynamic>{};
     if (id != null) {
       _json[r'id'] = id;
+    } else {
+      _json[r'id'] = null;
     }
     if (category != null) {
       _json[r'category'] = category;
+    } else {
+      _json[r'category'] = null;
     }
       _json[r'name'] = name;
       _json[r'photoUrls'] = photoUrls;
       _json[r'tags'] = tags;
     if (status != null) {
       _json[r'status'] = status;
+    } else {
+      _json[r'status'] = null;
     }
     return _json;
   }

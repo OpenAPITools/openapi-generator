@@ -39,6 +39,8 @@ class EnumArrays {
     final _json = <String, dynamic>{};
     if (justSymbol != null) {
       _json[r'just_symbol'] = justSymbol;
+    } else {
+      _json[r'just_symbol'] = null;
     }
       _json[r'array_enum'] = arrayEnum;
     return _json;

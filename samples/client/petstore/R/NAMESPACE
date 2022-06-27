@@ -26,7 +26,9 @@ export(ModelApiResponse)
 export(Order)
 export(Pet)
 export(Pig)
+export(Special)
 export(Tag)
+export(UpdatePetRequest)
 export(User)
 
 # APIs

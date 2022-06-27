@@ -6204,7 +6204,7 @@ public class DefaultCodegen implements CodegenConfig {
                 // skip as it implies `consumes` in OAS2 is not defined
                 continue;
             } else {
-                mediaType.put("mediaType", escapeText(escapeQuotationMark(key)));
+                mediaType.put("mediaType", escapeQuotationMark(key));
             }
             mediaTypeList.add(mediaType);
         }
@@ -6270,7 +6270,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         for (String key : produces) {
             // escape quotation to avoid code injection, "*/*" is a special case, do nothing
-            String encodedKey = "*/*".equals(key) ? key : escapeText(escapeQuotationMark(key));
+            String encodedKey = "*/*".equals(key) ? key : escapeQuotationMark(key);
             //Only unique media types should be added to "produces"
             if (!existingMediaTypes.contains(encodedKey)) {
                 Map<String, String> mediaType = new HashMap<>();
@@ -6846,8 +6846,8 @@ public class DefaultCodegen implements CodegenConfig {
                             enc.getContentType(),
                             headers,
                             enc.getStyle().toString(),
-                            enc.getExplode().booleanValue(),
-                            enc.getAllowReserved().booleanValue()
+                            enc.getExplode() == null ? false : enc.getExplode().booleanValue(),
+                            enc.getAllowReserved() == null ? false : enc.getAllowReserved().booleanValue()
                     );
                     String propName = encodingEntry.getKey();
                     ceMap.put(propName, ce);
