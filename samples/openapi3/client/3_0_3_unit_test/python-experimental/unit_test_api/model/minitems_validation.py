@@ -66,9 +66,9 @@ from unit_test_api.schemas import (  # noqa: F401
 )
 
 
-class MinimumValidation(
+class MinitemsValidation(
     _SchemaValidator(
-        inclusive_minimum=1.1,
+        min_items=1,
     ),
     AnyTypeSchema
 ):
@@ -83,7 +83,7 @@ class MinimumValidation(
         *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
         _configuration: typing.Optional[Configuration] = None,
         **kwargs: typing.Type[Schema],
-    ) -> 'MinimumValidation':
+    ) -> 'MinitemsValidation':
         return super().__new__(
             cls,
             *args,

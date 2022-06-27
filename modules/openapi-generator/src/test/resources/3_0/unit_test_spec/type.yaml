@@ -7,54 +7,26 @@ info:
 paths: {}
 components:
   schemas:
-    MinimumValidation:
-      minimum: 1.1
-    MinimumValidationWithSignedInteger:
-      minimum: -2
+    MinitemsValidation:
+      minItems: 1
   x-schema-test-examples:
-    MinimumValidation:
-      AboveTheMinimumIsValid:
-        description: above the minimum is valid
-        data: 2.6
+    MinitemsValidation:
+      LongerIsValid:
+        description: longer is valid
+        data:
+        - 1
+        - 2
         valid: true
-      BoundaryPointIsValid:
-        description: boundary point is valid
-        data: 1.1
+      ExactLengthIsValid:
+        description: exact length is valid
+        data:
+        - 1
         valid: true
-      BelowTheMinimumIsInvalid:
-        description: below the minimum is invalid
-        data: 0.6
+      TooShortIsInvalid:
+        description: too short is invalid
+        data: []
         valid: false
-      IgnoresNonNumbers:
-        description: ignores non-numbers
-        data: x
-        valid: true
-    MinimumValidationWithSignedInteger:
-      NegativeAboveTheMinimumIsValid:
-        description: negative above the minimum is valid
-        data: -1
-        valid: true
-      PositiveAboveTheMinimumIsValid:
-        description: positive above the minimum is valid
-        data: 0
-        valid: true
-      BoundaryPointIsValid:
-        description: boundary point is valid
-        data: -2
-        valid: true
-      BoundaryPointWithFloatIsValid:
-        description: boundary point with float is valid
-        data: -2.0
-        valid: true
-      FloatBelowTheMinimumIsInvalid:
-        description: float below the minimum is invalid
-        data: -2.0001
-        valid: false
-      IntBelowTheMinimumIsInvalid:
-        description: int below the minimum is invalid
-        data: -3
-        valid: false
-      IgnoresNonNumbers:
-        description: ignores non-numbers
-        data: x
+      IgnoresNonArrays:
+        description: ignores non-arrays
+        data: ''
         valid: true

@@ -62,8 +62,7 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Models
 
- - [MinimumValidation](docs/MinimumValidation.md)
- - [MinimumValidationWithSignedInteger](docs/MinimumValidationWithSignedInteger.md)
+ - [MinitemsValidation](docs/MinitemsValidation.md)
 
 ## Documentation For Authorization
 
