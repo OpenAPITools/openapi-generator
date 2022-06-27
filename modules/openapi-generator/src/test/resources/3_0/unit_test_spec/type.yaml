@@ -6,5 +6,46 @@ info:
   version: 0.0.1
 paths: {}
 components:
-  schemas: {}
-  x-schema-test-examples: {}
+  schemas:
+    NestedItems:
+      type: array
+      items:
+        type: array
+        items:
+          type: array
+          items:
+            type: array
+            items:
+              type: number
+  x-schema-test-examples:
+    NestedItems:
+      ValidNestedArray:
+        description: valid nested array
+        data:
+        - - - - 1
+          - - - 2
+            - - 3
+        - - - - 4
+            - - 5
+            - - 6
+        valid: true
+      NestedArrayWithInvalidType:
+        description: nested array with invalid type
+        data:
+        - - - - '1'
+          - - - 2
+            - - 3
+        - - - - 4
+            - - 5
+            - - 6
+        valid: false
+      NotDeepEnough:
+        description: not deep enough
+        data:
+        - - - 1
+          - - 2
+          - - 3
+        - - - 4
+          - - 5
+          - - 6
+        valid: false

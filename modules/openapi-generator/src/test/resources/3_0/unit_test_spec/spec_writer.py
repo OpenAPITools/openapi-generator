@@ -80,12 +80,14 @@ class ExclusionReason:
     v303_does_not_support_additionalItems = 'v3.0.3 does not support the additionalItems keyword'
     v303_does_not_support_patternProperties = 'v3.0.3 does not support the patternProperties keyword'
     v303_does_not_support_const = 'v3.0.3 does not support the const keyword'
-    v303_does_not_support_boolean_schemas_in_components = 'v3.0.3 does not support boolean schemas in components'
+    v303_does_not_support_boolean_schemas_in_location = 'v3.0.3 does not support boolean schemas in location'
     v303_does_not_support_contains = 'v3.0.3 does not support the contains keyword'
     v303_does_not_support_definitions = 'v3.0.3 does not support the definitions keyword'
     v303_does_not_support_dependencies = 'v3.0.3 does not support the dependencies keyword'
     swagger_parser_enum_type_bug = "swagger-parser has a bug where schema type is incorrectly set for an enum, https://github.com/swagger-api/swagger-parser/issues/1761"
     swagger_parser_validation_missing_bug = 'swagger-parser has a bug where validations are unset, https://github.com/swagger-api/swagger-parser/issues/1762'
+    swagger_parser_items_type_bug = "swagger-parser has a bug where schema type is incorrectly set with items, https://github.com/swagger-api/swagger-parser/issues/1763"
+    v303_does_not_support_id = 'v3.0.3 does not support the $id keyword'
 
 json_schema_test_draft = 'draft6'
 FILEPATH_TO_EXCLUDED_CASE_AND_REASON = {
@@ -104,16 +106,26 @@ FILEPATH_TO_EXCLUDED_CASE_AND_REASON = {
         'non-ASCII pattern with additionalProperties': ExclusionReason.v303_does_not_support_patternProperties,
         'additionalProperties being false does not allow other properties': ExclusionReason.v303_does_not_support_patternProperties,
     },
+    (json_schema_test_draft, 'items.json'): {
+        'an array of schemas for items': ExclusionReason.v303_does_not_support_array_of_types,
+        'items and subitems': ExclusionReason.v303_does_not_support_definitions,
+        'items with boolean schema (true)': ExclusionReason.v303_does_not_support_boolean_schemas_in_location,
+        'items with boolean schemas': ExclusionReason.v303_does_not_support_boolean_schemas_in_location,
+        'items with boolean schema (false)': ExclusionReason.v303_does_not_support_boolean_schemas_in_location,
+        'items with boolean schema (false)': ExclusionReason.v303_does_not_support_boolean_schemas_in_location,
+        'a schema given for items': ExclusionReason.swagger_parser_items_type_bug,
+    },
 }
 FILEPATH_TO_EXCLUDE_REASON = {
     (json_schema_test_draft, 'additionalItems.json'): ExclusionReason.v303_does_not_support_additionalItems,
     (json_schema_test_draft, 'const.json'): ExclusionReason.v303_does_not_support_const,
-    (json_schema_test_draft, 'boolean_schema.json'): ExclusionReason.v303_does_not_support_boolean_schemas_in_components,
+    (json_schema_test_draft, 'boolean_schema.json'): ExclusionReason.v303_does_not_support_boolean_schemas_in_location,
     (json_schema_test_draft, 'contains.json'): ExclusionReason.v303_does_not_support_contains,
     (json_schema_test_draft, 'definitions.json'): ExclusionReason.v303_does_not_support_definitions,
     (json_schema_test_draft, 'dependencies.json'): ExclusionReason.v303_does_not_support_dependencies,
     (json_schema_test_draft, 'exclusiveMaximum.json'): ExclusionReason.swagger_parser_validation_missing_bug,
     (json_schema_test_draft, 'exclusiveMinimum.json'): ExclusionReason.swagger_parser_validation_missing_bug,
+    (json_schema_test_draft, 'id.json'): ExclusionReason.v303_does_not_support_id,
 }
 
 openapi_additions = 'openapi_additions'
@@ -133,6 +145,10 @@ JSON_SCHEMA_TEST_FILE_TO_FOLDERS = {
 #     'enum.json': (json_schema_test_draft,),
     'exclusiveMaximum.json': (json_schema_test_draft,),
     'exclusiveMinimum.json': (json_schema_test_draft,),
+#     'format.json': (json_schema_test_draft,),
+    'id.json': (json_schema_test_draft,),
+#     'infinite-loop-detection.json': (json_schema_test_draft,),  # activate after fixing this
+    'items.json': (json_schema_test_draft,),
 }
 
 def get_json_schema_test_schemas(file_path: typing.Tuple[str]) -> typing.List[JsonSchemaTestSchema]:

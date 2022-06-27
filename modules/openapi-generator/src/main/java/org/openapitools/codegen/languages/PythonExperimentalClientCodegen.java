@@ -1181,7 +1181,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
             ArrayList<Object> fixedValues = (ArrayList<Object>) value;
             for (int i = 0; i < fixedValues.size(); i++) {
                 Object item = processTestExampleData(fixedValues.get(i));
-                fixedValues.add(i, item);
+                fixedValues.set(i, item);
             }
             return fixedValues;
         } else if (value == null) {

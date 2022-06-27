@@ -62,6 +62,7 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Models
 
+ - [NestedItems](docs/NestedItems.md)
 
 ## Documentation For Authorization
 
