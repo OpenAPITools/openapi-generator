@@ -77,7 +77,7 @@ Special <- R6::R6Class(
           self$`item_super`
       }
       if (!is.null(self$`empty_string`)) {
-        SpecialObject[['']] <-
+        SpecialObject[['empty_string']] <-
           self$`empty_string`
       }
 
@@ -102,8 +102,8 @@ Special <- R6::R6Class(
       if (!is.null(this_object$`super`)) {
         self$`item_super` <- this_object$`super`
       }
-      if (!is.null(this_object$``)) {
-        self$`empty_string` <- this_object$``
+      if (!is.null(this_object$`empty_string`)) {
+        self$`empty_string` <- this_object$`empty_string`
       }
       self
     },
@@ -139,7 +139,7 @@ Special <- R6::R6Class(
         )},
         if (!is.null(self$`empty_string`)) {
         sprintf(
-        '"":
+        '"empty_string":
           "%s"
                 ',
         self$`empty_string`

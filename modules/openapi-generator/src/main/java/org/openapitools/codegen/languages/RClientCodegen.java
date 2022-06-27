@@ -459,6 +459,17 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public ModelsMap postProcessModels(ModelsMap objs) {
+        for (ModelMap mo : objs.getModels()) {
+            CodegenModel cm = mo.getModel();
+            for (CodegenProperty var : cm.vars) {
+                // check to see if base name is an empty string
+                if ("".equals(var.baseName)) {
+                    LOGGER.debug("Empty baseName `` (empty string) in the model `{}` has been renamed to `empty_string` to avoid compilation errors.", cm.classname);
+                    var.baseName = "empty_string";
+                }
+            }
+        }
+
         // remove model imports to avoid error
         List<Map<String, String>> imports = objs.getImports();
         final String prefix = modelPackage();
