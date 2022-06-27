@@ -66,9 +66,9 @@ from unit_test_api.schemas import (  # noqa: F401
 )
 
 
-class MaxpropertiesValidation(
+class MinimumValidationWithSignedInteger(
     _SchemaValidator(
-        max_properties=2,
+        inclusive_minimum=-2,
     ),
     AnyTypeSchema
 ):
@@ -83,7 +83,7 @@ class MaxpropertiesValidation(
         *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
         _configuration: typing.Optional[Configuration] = None,
         **kwargs: typing.Type[Schema],
-    ) -> 'MaxpropertiesValidation':
+    ) -> 'MinimumValidationWithSignedInteger':
         return super().__new__(
             cls,
             *args,

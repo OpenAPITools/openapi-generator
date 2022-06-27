@@ -62,9 +62,8 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Models
 
- - [MaxlengthValidation](docs/MaxlengthValidation.md)
- - [Maxproperties0MeansTheObjectIsEmpty](docs/Maxproperties0MeansTheObjectIsEmpty.md)
- - [MaxpropertiesValidation](docs/MaxpropertiesValidation.md)
+ - [MinimumValidation](docs/MinimumValidation.md)
+ - [MinimumValidationWithSignedInteger](docs/MinimumValidationWithSignedInteger.md)
 
 ## Documentation For Authorization
 

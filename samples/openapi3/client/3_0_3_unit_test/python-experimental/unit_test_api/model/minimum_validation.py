@@ -66,9 +66,9 @@ from unit_test_api.schemas import (  # noqa: F401
 )
 
 
-class Maxproperties0MeansTheObjectIsEmpty(
+class MinimumValidation(
     _SchemaValidator(
-        max_properties=0,
+        inclusive_minimum=1.1,
     ),
     AnyTypeSchema
 ):
@@ -83,7 +83,7 @@ class Maxproperties0MeansTheObjectIsEmpty(
         *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
         _configuration: typing.Optional[Configuration] = None,
         **kwargs: typing.Type[Schema],
-    ) -> 'Maxproperties0MeansTheObjectIsEmpty':
+    ) -> 'MinimumValidation':
         return super().__new__(
             cls,
             *args,

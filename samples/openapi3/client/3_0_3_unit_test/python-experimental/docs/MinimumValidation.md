@@ -1,4 +1,4 @@
-# MaxlengthValidation
+# MinimumValidation
 
 #### Properties
 Name | Type | Description | Notes

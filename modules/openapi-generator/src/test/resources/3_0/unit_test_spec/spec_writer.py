@@ -151,8 +151,9 @@ JSON_SCHEMA_TEST_FILE_TO_FOLDERS = {
 #     'items.json': (json_schema_test_draft,),
 #     'maximum.json': (json_schema_test_draft,),
 #     'maxItems.json': (json_schema_test_draft,),
-    'maxLength.json': (json_schema_test_draft,),
-    'maxProperties.json': (json_schema_test_draft,),
+#     'maxLength.json': (json_schema_test_draft,),
+#     'maxProperties.json': (json_schema_test_draft,),
+    'minimum.json': (json_schema_test_draft,),
 }
 
 def get_json_schema_test_schemas(file_path: typing.Tuple[str]) -> typing.List[JsonSchemaTestSchema]:

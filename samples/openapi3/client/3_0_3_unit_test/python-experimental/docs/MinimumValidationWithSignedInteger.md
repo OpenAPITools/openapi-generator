@@ -1,4 +1,4 @@
-# MaxpropertiesValidation
+# MinimumValidationWithSignedInteger
 
 #### Properties
 Name | Type | Description | Notes

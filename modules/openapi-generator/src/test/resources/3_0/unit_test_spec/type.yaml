@@ -7,75 +7,54 @@ info:
 paths: {}
 components:
   schemas:
-    MaxlengthValidation:
-      maxLength: 2
-    MaxpropertiesValidation:
-      maxProperties: 2
-    Maxproperties0MeansTheObjectIsEmpty:
-      maxProperties: 0
+    MinimumValidation:
+      minimum: 1.1
+    MinimumValidationWithSignedInteger:
+      minimum: -2
   x-schema-test-examples:
-    MaxlengthValidation:
-      ShorterIsValid:
-        description: shorter is valid
-        data: f
+    MinimumValidation:
+      AboveTheMinimumIsValid:
+        description: above the minimum is valid
+        data: 2.6
         valid: true
-      ExactLengthIsValid:
-        description: exact length is valid
-        data: fo
+      BoundaryPointIsValid:
+        description: boundary point is valid
+        data: 1.1
         valid: true
-      TooLongIsInvalid:
-        description: too long is invalid
-        data: foo
+      BelowTheMinimumIsInvalid:
+        description: below the minimum is invalid
+        data: 0.6
         valid: false
-      IgnoresNonStrings:
-        description: ignores non-strings
-        data: 100
+      IgnoresNonNumbers:
+        description: ignores non-numbers
+        data: x
         valid: true
-      TwoSupplementaryUnicodeCodePointsIsLongEnough:
-        description: two supplementary Unicode code points is long enough
-        data: "\U0001F4A9\U0001F4A9"
+    MinimumValidationWithSignedInteger:
+      NegativeAboveTheMinimumIsValid:
+        description: negative above the minimum is valid
+        data: -1
         valid: true
-    MaxpropertiesValidation:
-      ShorterIsValid:
-        description: shorter is valid
-        data:
-          foo: 1
+      PositiveAboveTheMinimumIsValid:
+        description: positive above the minimum is valid
+        data: 0
         valid: true
-      ExactLengthIsValid:
-        description: exact length is valid
-        data:
-          foo: 1
-          bar: 2
+      BoundaryPointIsValid:
+        description: boundary point is valid
+        data: -2
         valid: true
-      TooLongIsInvalid:
-        description: too long is invalid
-        data:
-          foo: 1
-          bar: 2
-          baz: 3
+      BoundaryPointWithFloatIsValid:
+        description: boundary point with float is valid
+        data: -2.0
+        valid: true
+      FloatBelowTheMinimumIsInvalid:
+        description: float below the minimum is invalid
+        data: -2.0001
         valid: false
-      IgnoresArrays:
-        description: ignores arrays
-        data:
-        - 1
-        - 2
-        - 3
-        valid: true
-      IgnoresStrings:
-        description: ignores strings
-        data: foobar
-        valid: true
-      IgnoresOtherNonObjects:
-        description: ignores other non-objects
-        data: 12
-        valid: true
-    Maxproperties0MeansTheObjectIsEmpty:
-      NoPropertiesIsValid:
-        description: no properties is valid
-        data: {}
-        valid: true
-      OnePropertyIsInvalid:
-        description: one property is invalid
-        data:
-          foo: 1
+      IntBelowTheMinimumIsInvalid:
+        description: int below the minimum is invalid
+        data: -3
         valid: false
+      IgnoresNonNumbers:
+        description: ignores non-numbers
+        data: x
+        valid: true
