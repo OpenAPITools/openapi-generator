@@ -2,14 +2,14 @@
 .gitlab-ci.yml
 .travis.yml
 README.md
-docs/MinitemsValidation.md
+docs/MinlengthValidation.md
 git_push.sh
 requirements.txt
 setup.cfg
 setup.py
 test-requirements.txt
 test/__init__.py
-test/test_minitems_validation.py
+test/test_minlength_validation.py
 tox.ini
 unit_test_api/__init__.py
 unit_test_api/api/__init__.py
@@ -18,7 +18,7 @@ unit_test_api/apis/__init__.py
 unit_test_api/configuration.py
 unit_test_api/exceptions.py
 unit_test_api/model/__init__.py
-unit_test_api/model/minitems_validation.py
+unit_test_api/model/minlength_validation.py
 unit_test_api/models/__init__.py
 unit_test_api/rest.py
 unit_test_api/schemas.py

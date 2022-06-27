@@ -7,26 +7,27 @@ info:
 paths: {}
 components:
   schemas:
-    MinitemsValidation:
-      minItems: 1
+    MinlengthValidation:
+      minLength: 2
   x-schema-test-examples:
-    MinitemsValidation:
+    MinlengthValidation:
       LongerIsValid:
         description: longer is valid
-        data:
-        - 1
-        - 2
+        data: foo
         valid: true
       ExactLengthIsValid:
         description: exact length is valid
-        data:
-        - 1
+        data: fo
         valid: true
       TooShortIsInvalid:
         description: too short is invalid
-        data: []
+        data: f
         valid: false
-      IgnoresNonArrays:
-        description: ignores non-arrays
-        data: ''
+      IgnoresNonStrings:
+        description: ignores non-strings
+        data: 1
         valid: true
+      OneSupplementaryUnicodeCodePointIsNotLongEnough:
+        description: one supplementary Unicode code point is not long enough
+        data: "\U0001F4A9"
+        valid: false

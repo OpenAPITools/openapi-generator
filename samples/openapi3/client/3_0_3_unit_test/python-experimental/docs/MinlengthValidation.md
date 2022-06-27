@@ -1,4 +1,4 @@
-# MinitemsValidation
+# MinlengthValidation
 
 #### Properties
 Name | Type | Description | Notes

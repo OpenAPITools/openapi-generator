@@ -11,4 +11,4 @@
 # import sys
 # sys.setrecursionlimit(n)
 
-from unit_test_api.model.minitems_validation import MinitemsValidation
+from unit_test_api.model.minlength_validation import MinlengthValidation

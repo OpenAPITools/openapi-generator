@@ -62,7 +62,7 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Models
 
- - [MinitemsValidation](docs/MinitemsValidation.md)
+ - [MinlengthValidation](docs/MinlengthValidation.md)
 
 ## Documentation For Authorization
 

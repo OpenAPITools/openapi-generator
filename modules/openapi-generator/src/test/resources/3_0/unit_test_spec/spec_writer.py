@@ -143,10 +143,10 @@ JSON_SCHEMA_TEST_FILE_TO_FOLDERS = {
 #     'definitions.json': (json_schema_test_draft,),
 #     'dependencies.json': (json_schema_test_draft,),
 #     'enum.json': (json_schema_test_draft,),
-    'exclusiveMaximum.json': (json_schema_test_draft,),
-    'exclusiveMinimum.json': (json_schema_test_draft,),
+#     'exclusiveMaximum.json': (json_schema_test_draft,),
+#     'exclusiveMinimum.json': (json_schema_test_draft,),
 #     'format.json': (json_schema_test_draft,),
-    'id.json': (json_schema_test_draft,),
+#     'id.json': (json_schema_test_draft,),
 #     'infinite-loop-detection.json': (json_schema_test_draft,),  # activate after fixing this
 #     'items.json': (json_schema_test_draft,),
 #     'maximum.json': (json_schema_test_draft,),
@@ -154,7 +154,8 @@ JSON_SCHEMA_TEST_FILE_TO_FOLDERS = {
 #     'maxLength.json': (json_schema_test_draft,),
 #     'maxProperties.json': (json_schema_test_draft,),
 #     'minimum.json': (json_schema_test_draft,),
-    'minItems.json': (json_schema_test_draft,),
+#     'minItems.json': (json_schema_test_draft,),
+    'minLength.json': (json_schema_test_draft,),
 }
 
 def get_json_schema_test_schemas(file_path: typing.Tuple[str]) -> typing.List[JsonSchemaTestSchema]:
