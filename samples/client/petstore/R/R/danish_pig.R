@@ -141,8 +141,17 @@ DanishPig <- R6::R6Class(
       } else {
         stop(paste("The JSON input `", input, "` is invalid for DanishPig: the required field `size` is missing."))
       }
+    },
+    #' To string (JSON format)
+    #'
+    #' @description
+    #' To string (JSON format)
+    #'
+    #' @return String representation of DanishPig
+    #' @export
+    toString = function() {
+      self$toJSONString()
     }
-
   )
 )
 

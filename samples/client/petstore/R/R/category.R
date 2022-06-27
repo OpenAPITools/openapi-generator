@@ -129,8 +129,17 @@ Category <- R6::R6Class(
     #' @export
     validateJSON = function(input) {
       input_json <- jsonlite::fromJSON(input)
+    },
+    #' To string (JSON format)
+    #'
+    #' @description
+    #' To string (JSON format)
+    #'
+    #' @return String representation of Category
+    #' @export
+    toString = function() {
+      self$toJSONString()
     }
-
   )
 )
 
