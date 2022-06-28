@@ -110,9 +110,23 @@ Pig <- R6::R6Class(
     #'
     #' @return JSON string reprenation of the Pig.
     #' @export
-    toJSON = function() {
+    toJSONString = function() {
       if (!is.null(self$actual_instance)) {
         self$actual_instance$toJSONString()
+      } else {
+        NULL
+      }
+    },
+    #' Serialize Pig to JSON.
+    #'
+    #' @description
+    #' Serialize Pig to JSON.
+    #'
+    #' @return JSON reprenation of the Pig.
+    #' @export
+    toJSON = function() {
+      if (!is.null(self$actual_instance)) {
+        self$actual_instance$toJSON()
       } else {
         NULL
       }

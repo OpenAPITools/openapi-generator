@@ -863,3 +863,10 @@ components:
       required:
         - className
         - size
+    NestedOneOf:
+      type: object
+      properties:
+        size:
+          type: integer
+        nested_pig:
+          $ref: '#/components/schemas/Pig'

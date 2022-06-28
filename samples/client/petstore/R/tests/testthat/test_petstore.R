@@ -16,7 +16,7 @@ result <- pet_api$AddPet(pet)
 test_that("AddPet", {
   expect_equal(pet_id, 123321)
   #expect_equal(result, NULL)
-  #expect_equal(pet$toJSONString(), '{"id":123321,"category":{"id":450,"name":"test_cat"},"name":"name_test","photoUrls":["photo_test","second test"],"tags":[{"id":123,"name":"tag_test"},{"id":456,"name":"unknown"}],"status":"available"}')
+  expect_equal(pet$toJSONString(), '{"id":123321,"category":{"id":450,"name":"test_cat"},"name":"name_test","photoUrls":["photo_test","second test"],"tags":[{"id":123,"name":"tag_test"},{"id":456,"name":"unknown"}],"status":"available"}')
 })
 
 test_that("Test toJSON toJSONString fromJSON fromJSONString", {
@@ -154,7 +154,7 @@ test_that("Tests validateJSON", {
 })
 
 # test object with special item names: self, private, super
-test_that("Tests oneOf", {
+test_that("Tests special item names", {
   special_json <-
   '{"self": 123, "private": "red", "super": "something"}'
 
@@ -168,6 +168,7 @@ test_that("Tests oneOf", {
   expect_true(grepl('"private"', special$toJSONString()))
   expect_true(grepl('"self"', special$toJSONString()))
   expect_true(grepl('"super"', special$toJSONString()))
+  expect_equal('{"self":123,"private":"red","super":"something"}', special$toJSONString())
 
   # round trip test
   s1 <- Special$new()$fromJSONString(special_json)
@@ -206,13 +207,13 @@ test_that("Tests oneOf", {
   expect_equal(pig$actual_instance$className, "DanishPig")
 
   # test toJSON
-  expect_equal(danish_pig$toJSON(), original_danish_pig$toJSONString())
+  expect_equal(danish_pig$toJSONString(), original_danish_pig$toJSONString())
 
   basque_pig <- pig$fromJSON(basque_pig_json)
   expect_equal(basque_pig$actual_type, "BasquePig")
   expect_equal(basque_pig$actual_instance$color, "red")
   expect_equal(basque_pig$actual_instance$className, "BasquePig")
-  expect_equal(basque_pig$toJSON(), original_basque_pig$toJSONString())
+  expect_equal(basque_pig$toJSONString(), original_basque_pig$toJSONString())
 
   # test exception when no matche found
   expect_error(pig$fromJSON('{}'), 'No match found when deserializing the payload into Pig with oneOf schemas BasquePig, DanishPig. Details:  The JSON input ` \\{\\} ` is invalid for BasquePig: the required field `className` is missing\\., The JSON input ` \\{\\} ` is invalid for DanishPig: the required field `className` is missing\\.')
@@ -226,9 +227,16 @@ test_that("Tests oneOf", {
   expect_equal(pig2$actual_type, "BasquePig")
   expect_equal(pig2$actual_instance$color, "red")
   expect_equal(pig2$actual_instance$className, "BasquePig")
-  expect_equal(pig2$toJSON(), original_basque_pig$toJSONString())
+  expect_equal(pig2$toJSONString(), original_basque_pig$toJSONString())
   
   expect_error(Pig$new(instance = basque_pig), 'Failed to initialize Pig with oneOf schemas BasquePig, DanishPig. Provided class name:  Pig')
+
+  # test nested oneOf
+  nested_oneof <- NestedOneOf$new()
+  nested_oneof$nested_pig <- pig
+  nested_oneof$size <- 15
+  expect_equal(nested_oneof$toJSONString(), '{"size":15,"nested_pig":{"className":"BasquePig","color":"red"}}')
+   
 })
 
 test_that("Tests anyOf", {
@@ -260,13 +268,13 @@ test_that("Tests anyOf", {
   expect_equal(pig$actual_instance$className, "DanishPig")
 
   # test toJSON
-  expect_equal(danish_pig$toJSON(), original_danish_pig$toJSONString())
+  expect_equal(danish_pig$toJSONString(), original_danish_pig$toJSONString())
 
   basque_pig <- pig$fromJSON(basque_pig_json)
   expect_equal(basque_pig$actual_type, "BasquePig")
   expect_equal(basque_pig$actual_instance$color, "red")
   expect_equal(basque_pig$actual_instance$className, "BasquePig")
-  expect_equal(basque_pig$toJSON(), original_basque_pig$toJSONString())
+  expect_equal(basque_pig$toJSONString(), original_basque_pig$toJSONString())
 
   # test exception when no matche found
   expect_error(pig$fromJSON('{}'), 'No match found when deserializing the payload into AnyOfPig with anyOf schemas BasquePig, DanishPig. Details:  The JSON input ` \\{\\} ` is invalid for BasquePig: the required field `className` is missing\\., The JSON input ` \\{\\} ` is invalid for DanishPig: the required field `className` is missing\\.')
