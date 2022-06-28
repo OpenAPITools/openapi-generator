@@ -94,8 +94,14 @@ class ExclusionReason:
     v303_does_not_support_propertyNames = 'v3.0.3 does not support the propertyNames keyword'
     v303_does_not_support_items_schema_array = 'v3.0.3 does not support an array of schemas for items'
     swagger_parser_exception = 'swagger-parser threw and exception for this test case'
+    ref_location_not_the_same_for_json_and_openapi = 'the location referenced is not the same going from json schema to openapi'
+    ref_to_adjacent_property_bug = 'Refing an adjacent property does not work, issue at https://github.com/OpenAPITools/openapi-generator/issues/12729'
+    swagger_parser_anytype_bug = 'Swagger parser sets type incorrectly for this anyType schema https://github.com/swagger-api/swagger-parser/issues/1603'
+    component_ref_component_bug = 'A component refing another component does not work, issue at https://github.com/OpenAPITools/openapi-generator/issues/12730'
 
 json_schema_test_draft = 'draft6'
+openapi_additions = 'openapi_additions'
+
 FILEPATH_TO_EXCLUDED_CASE_AND_REASON = {
     (json_schema_test_draft, 'type.json'): {
         'multiple types can be specified in an array': ExclusionReason.v303_does_not_support_array_of_types,
@@ -152,6 +158,13 @@ FILEPATH_TO_EXCLUDED_CASE_AND_REASON = {
         'nested refs': ExclusionReason.v303_does_not_support_definitions,
         '$ref to boolean schema false': ExclusionReason.v303_does_not_support_definitions,
         'remote ref, containing refs itself': ExclusionReason.swagger_parser_exception,
+        'relative pointer ref to object': ExclusionReason.ref_location_not_the_same_for_json_and_openapi,
+        'root pointer ref': ExclusionReason.ref_location_not_the_same_for_json_and_openapi,
+    },
+    (openapi_additions, 'ref.json'): {
+        'property refs adjacent property': ExclusionReason.ref_to_adjacent_property_bug,
+        'property refs containing component schema': ExclusionReason.swagger_parser_anytype_bug,
+        'component refs another component': ExclusionReason.component_ref_component_bug,
     }
 }
 FILEPATH_TO_EXCLUDE_REASON = {
@@ -167,8 +180,6 @@ FILEPATH_TO_EXCLUDE_REASON = {
     (json_schema_test_draft, 'patternProperties.json'): ExclusionReason.v303_does_not_support_patternProperties,
     (json_schema_test_draft, 'propertyNames.json'): ExclusionReason.v303_does_not_support_propertyNames,
 }
-
-openapi_additions = 'openapi_additions'
 
 JSON_SCHEMA_TEST_FILE_TO_FOLDERS = {
 #     'additionalItems.json': (json_schema_test_draft,),
@@ -203,7 +214,7 @@ JSON_SCHEMA_TEST_FILE_TO_FOLDERS = {
 #     'patternProperties.json': (json_schema_test_draft,),
 #     'properties.json': (json_schema_test_draft,),
     'propertyNames.json': (json_schema_test_draft,),
-    'ref.json': (json_schema_test_draft,),
+    'ref.json': (json_schema_test_draft, openapi_additions),
 #     'type.json': (json_schema_test_draft, openapi_additions),
 }
 

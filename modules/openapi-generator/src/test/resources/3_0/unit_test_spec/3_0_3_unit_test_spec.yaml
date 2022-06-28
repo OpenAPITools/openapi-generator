@@ -7,56 +7,11 @@ info:
 paths: {}
 components:
   schemas:
-    RootPointerRef:
-      properties:
-        foo:
-          $ref: '#'
-      additionalProperties: false
-    RelativePointerRefToObject:
-      properties:
-        foo:
-          type: integer
-        bar:
-          $ref: '#/properties/foo'
     PropertyNamedRefThatIsNotAReference:
       properties:
         $ref:
           type: string
   x-schema-test-examples:
-    RootPointerRef:
-      Match:
-        description: match
-        data:
-          foo: false
-        valid: true
-      RecursiveMatch:
-        description: recursive match
-        data:
-          foo:
-            foo: false
-        valid: true
-      Mismatch:
-        description: mismatch
-        data:
-          bar: false
-        valid: false
-      RecursiveMismatch:
-        description: recursive mismatch
-        data:
-          foo:
-            bar: false
-        valid: false
-    RelativePointerRefToObject:
-      Match:
-        description: match
-        data:
-          bar: 3
-        valid: true
-      Mismatch:
-        description: mismatch
-        data:
-          bar: true
-        valid: false
     PropertyNamedRefThatIsNotAReference:
       PropertyNamedRefValid:
         description: property named $ref valid

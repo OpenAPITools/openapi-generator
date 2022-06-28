@@ -3,8 +3,6 @@
 .travis.yml
 README.md
 docs/PropertyNamedRefThatIsNotAReference.md
-docs/RelativePointerRefToObject.md
-docs/RootPointerRef.md
 git_push.sh
 requirements.txt
 setup.cfg
@@ -12,8 +10,6 @@ setup.py
 test-requirements.txt
 test/__init__.py
 test/test_property_named_ref_that_is_not_a_reference.py
-test/test_relative_pointer_ref_to_object.py
-test/test_root_pointer_ref.py
 tox.ini
 unit_test_api/__init__.py
 unit_test_api/api/__init__.py
@@ -23,8 +19,6 @@ unit_test_api/configuration.py
 unit_test_api/exceptions.py
 unit_test_api/model/__init__.py
 unit_test_api/model/property_named_ref_that_is_not_a_reference.py
-unit_test_api/model/relative_pointer_ref_to_object.py
-unit_test_api/model/root_pointer_ref.py
 unit_test_api/models/__init__.py
 unit_test_api/rest.py
 unit_test_api/schemas.py

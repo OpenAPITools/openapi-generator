@@ -63,8 +63,6 @@ Class | Method | HTTP request | Description
 ## Documentation For Models
 
  - [PropertyNamedRefThatIsNotAReference](docs/PropertyNamedRefThatIsNotAReference.md)
- - [RelativePointerRefToObject](docs/RelativePointerRefToObject.md)
- - [RootPointerRef](docs/RootPointerRef.md)
 
 ## Documentation For Authorization
 
