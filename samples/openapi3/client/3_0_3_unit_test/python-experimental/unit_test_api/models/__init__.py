@@ -11,5 +11,6 @@
 # import sys
 # sys.setrecursionlimit(n)
 
-from unit_test_api.model.object_properties_validation import ObjectPropertiesValidation
-from unit_test_api.model.properties_with_escaped_characters import PropertiesWithEscapedCharacters
+from unit_test_api.model.property_named_ref_that_is_not_a_reference import PropertyNamedRefThatIsNotAReference
+from unit_test_api.model.relative_pointer_ref_to_object import RelativePointerRefToObject
+from unit_test_api.model.root_pointer_ref import RootPointerRef
