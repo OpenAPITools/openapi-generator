@@ -6,47 +6,5 @@ info:
   version: 0.0.1
 paths: {}
 components:
-  schemas:
-    PatternValidation:
-      pattern: ^a*$
-    PatternIsNotAnchored:
-      pattern: a+
-  x-schema-test-examples:
-    PatternValidation:
-      AMatchingPatternIsValid:
-        description: a matching pattern is valid
-        data: aaa
-        valid: true
-      ANonMatchingPatternIsInvalid:
-        description: a non-matching pattern is invalid
-        data: abc
-        valid: false
-      IgnoresBooleans:
-        description: ignores booleans
-        data: true
-        valid: true
-      IgnoresIntegers:
-        description: ignores integers
-        data: 123
-        valid: true
-      IgnoresFloats:
-        description: ignores floats
-        data: 1.0
-        valid: true
-      IgnoresObjects:
-        description: ignores objects
-        data: {}
-        valid: true
-      IgnoresArrays:
-        description: ignores arrays
-        data: []
-        valid: true
-      IgnoresNull:
-        description: ignores null
-        data: null
-        valid: true
-    PatternIsNotAnchored:
-      MatchesASubstring:
-        description: matches a substring
-        data: xxaayy
-        valid: true
+  schemas: {}
+  x-schema-test-examples: {}

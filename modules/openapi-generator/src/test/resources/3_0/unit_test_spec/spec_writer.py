@@ -88,6 +88,7 @@ class ExclusionReason:
     swagger_parser_validation_missing_bug = 'swagger-parser has a bug where validations are unset, https://github.com/swagger-api/swagger-parser/issues/1762'
     swagger_parser_items_type_bug = "swagger-parser has a bug where schema type is incorrectly set with items, https://github.com/swagger-api/swagger-parser/issues/1763"
     v303_does_not_support_id = 'v3.0.3 does not support the $id keyword'
+    v303_does_not_support_patternProperties = 'v3.0.3 does not support the patternProperties keyword'
 
 json_schema_test_draft = 'draft6'
 FILEPATH_TO_EXCLUDED_CASE_AND_REASON = {
@@ -134,6 +135,7 @@ FILEPATH_TO_EXCLUDE_REASON = {
     (json_schema_test_draft, 'exclusiveMaximum.json'): ExclusionReason.swagger_parser_validation_missing_bug,
     (json_schema_test_draft, 'exclusiveMinimum.json'): ExclusionReason.swagger_parser_validation_missing_bug,
     (json_schema_test_draft, 'id.json'): ExclusionReason.v303_does_not_support_id,
+    (json_schema_test_draft, 'patternProperties.json'): ExclusionReason.v303_does_not_support_patternProperties,
 }
 
 openapi_additions = 'openapi_additions'
@@ -168,7 +170,8 @@ JSON_SCHEMA_TEST_FILE_TO_FOLDERS = {
 #     'multipleOf.json': (json_schema_test_draft,),
 #     'not.json': (json_schema_test_draft,),
 #     'oneOf.json': (json_schema_test_draft,),  # activate after fixing this
-    'pattern.json': (json_schema_test_draft,),
+#     'pattern.json': (json_schema_test_draft,),
+    'patternProperties.json': (json_schema_test_draft,),
 }
 
 def get_json_schema_test_schemas(file_path: typing.Tuple[str]) -> typing.List[JsonSchemaTestSchema]:
