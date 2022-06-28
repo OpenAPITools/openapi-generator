@@ -23,23 +23,22 @@ class TestPropertiesWithEscapedCharacters(unittest.TestCase):
         PropertiesWithEscapedCharacters(
             **{
                 
-                """foo
-bar""":
+                "foo\nbar":
                                         1,
                 
                 "foo\"bar":
                                         1,
                 
-                "foo\\bar":
+                "foo\bar":
                                         1,
                 
-                """foobar""":
+                "foo\rbar":
                                         1,
                 
-                "foo	bar":
+                "foo\tbar":
                                         1,
                 
-                "foobar":
+                "foo\fbar":
                                         1,
             }
         )
@@ -50,8 +49,7 @@ bar""":
             PropertiesWithEscapedCharacters(
                 **{
                     
-                    """foo
-bar""":
+                    "foo\nbar":
                         
                         "1",
                     
@@ -59,19 +57,19 @@ bar""":
                         
                         "1",
                     
-                    "foo\\bar":
+                    "foo\bar":
                         
                         "1",
                     
-                    """foobar""":
+                    "foo\rbar":
                         
                         "1",
                     
-                    "foo	bar":
+                    "foo\tbar":
                         
                         "1",
                     
-                    "foobar":
+                    "foo\fbar":
                         
                         "1",
                 }

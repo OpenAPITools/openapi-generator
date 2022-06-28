@@ -1168,13 +1168,25 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
             if (stringValue.contains(nullChar)) {
                 stringValue = stringValue.replace(nullChar, "\\x00");
             }
-            String backSlash = "\\";
-            if (stringValue.contains(backSlash)) {
-                stringValue = stringValue.replace(backSlash, "\\\\");
-            }
             String doubleQuoteChar = "\"";
             if (stringValue.contains(doubleQuoteChar)) {
                 stringValue = stringValue.replace(doubleQuoteChar, "\\\"");
+            }
+            String lineSep = System.lineSeparator();
+            if (stringValue.contains(lineSep)) {
+                stringValue = stringValue.replace(lineSep, "\\n");
+            }
+            String carriageReturn = "\r";
+            if (stringValue.contains(carriageReturn)) {
+                stringValue = stringValue.replace(carriageReturn, "\\r");
+            }
+            String tab = "\t";
+            if (stringValue.contains(tab)) {
+                stringValue = stringValue.replace(tab, "\\t");
+            }
+            String formFeed = "\f";
+            if (stringValue.contains(formFeed)) {
+                stringValue = stringValue.replace(formFeed, "\\f");
             }
             return stringValue;
         } else if (value instanceof LinkedHashMap) {
