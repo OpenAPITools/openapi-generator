@@ -75,23 +75,22 @@ class PropertiesWithEscapedCharacters(
     Do not edit the class manually.
     """
     foobar = NumberSchema
-    locals()['foo
-bar'] = foobar
+    locals()["foo\nbar"] = foobar
     del locals()['foobar']
     foobar = NumberSchema
-    locals()['foo"bar'] = foobar
+    locals()["foo\"bar"] = foobar
     del locals()['foobar']
     foo_bar = NumberSchema
-    locals()['foo\bar'] = foo_bar
+    locals()["foo\\bar"] = foo_bar
     del locals()['foo_bar']
     foobar = NumberSchema
-    locals()['foobar'] = foobar
+    locals()["foo\rbar"] = foobar
     del locals()['foobar']
     foobar = NumberSchema
-    locals()['foo	bar'] = foobar
+    locals()["foo\tbar"] = foobar
     del locals()['foobar']
     foobar = NumberSchema
-    locals()['foobar'] = foobar
+    locals()["foo\fbar"] = foobar
     del locals()['foobar']
 
     def __new__(

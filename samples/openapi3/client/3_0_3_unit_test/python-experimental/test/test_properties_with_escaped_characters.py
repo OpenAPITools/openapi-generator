@@ -29,7 +29,7 @@ class TestPropertiesWithEscapedCharacters(unittest.TestCase):
                 "foo\"bar":
                                         1,
                 
-                "foo\bar":
+                "foo\\bar":
                                         1,
                 
                 "foo\rbar":
@@ -57,7 +57,7 @@ class TestPropertiesWithEscapedCharacters(unittest.TestCase):
                         
                         "1",
                     
-                    "foo\bar":
+                    "foo\\bar":
                         
                         "1",
                     

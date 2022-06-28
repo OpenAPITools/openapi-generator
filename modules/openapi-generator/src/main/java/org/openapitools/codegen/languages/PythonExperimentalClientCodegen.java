@@ -849,6 +849,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         // templates use its presence to handle these badly named variables / keys
         if ((isReservedWord(name) || !isValidPythonVarOrClassName(name)) && !name.equals(cp.name)) {
             cp.nameInSnakeCase = cp.name;
+            cp.baseName = (String) processTestExampleData(name);
         } else {
             cp.nameInSnakeCase = null;
         }
@@ -1167,6 +1168,10 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
             String stringValue = (String) value;
             if (stringValue.contains(nullChar)) {
                 stringValue = stringValue.replace(nullChar, "\\x00");
+            }
+            String backslash = "\\";
+            if (stringValue.contains(backslash)) {
+                stringValue = stringValue.replace(backslash, "\\\\");
             }
             String doubleQuoteChar = "\"";
             if (stringValue.contains(doubleQuoteChar)) {
