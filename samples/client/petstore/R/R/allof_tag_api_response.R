@@ -167,7 +167,7 @@ AllofTagApiResponse <- R6::R6Class(
         )}
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
-      jsonlite::minify(paste('{', jsoncontent, '}', sep = ""))
+      as.character(jsonlite::minify(paste('{', jsoncontent, '}', sep = "")))
     },
     #' Deserialize JSON string into an instance of AllofTagApiResponse
     #'

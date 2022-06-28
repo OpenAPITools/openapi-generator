@@ -97,6 +97,7 @@ Class | Method | HTTP request | Description
  - [Dog](docs/Dog.md)
  - [DogAllOf](docs/DogAllOf.md)
  - [ModelApiResponse](docs/ModelApiResponse.md)
+ - [NestedOneOf](docs/NestedOneOf.md)
  - [Order](docs/Order.md)
  - [Pet](docs/Pet.md)
  - [Pig](docs/Pig.md)

@@ -67,8 +67,8 @@ toString(pet$toString())
 ##Pet$my_static_method <- function(x) { x + 2}
 ##Pet$public_methods$my_static_method(1)
 #
-#  basque_pig_json <-
-#  '{"className2": "BasquePig", "color": "red"}'
+  basque_pig_json <-
+  '{"className2": "BasquePig", "color": "red"}'
 # 
 #  danish_pig_json <-
 #  '{"className2": "DanishPig", "size": 7}'
@@ -81,8 +81,8 @@ toString(pet$toString())
 #  ]'
 #
 #  print("==========") 
-#  pig <- Pig$new()
-#  basque_pig <- pig$fromJSON(basque_pig_json)
+  pig <- Pig$new()
+  basque_pig <- pig$fromJSON(basque_pig_json)
 #  #print(basque_pig$actual_instance$color)
 #  #expect_equal(basque_pig$actual_type, "BasquePig")
 #  pig$fromJSON(danish_pig_json)
@@ -93,3 +93,11 @@ toString(pet$toString())
 #  #dp <- d$validateJSON(danish_pig_json)
 #
 #
+
+# test nested oneOf
+nested_oneof <- NestedOneOf$new()
+nested_oneof$nested_pig <- pig
+nested_oneof$size <- 15
+
+cat(nested_oneof$toJSONString())
+

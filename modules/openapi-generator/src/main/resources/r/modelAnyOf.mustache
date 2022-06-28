@@ -71,9 +71,23 @@
     #'
     #' @return JSON string reprenation of the {{{classname}}}.
     #' @export
-    toJSON = function() {
+    toJSONString = function() {
       if (!is.null(self$actual_instance)) {
         self$actual_instance$toJSONString()
+      } else {
+        NULL
+      }
+    },
+    #' Serialize {{{classname}}} to JSON.
+    #'
+    #' @description
+    #' Serialize {{{classname}}} to JSON.
+    #'
+    #' @return JSON reprenation of the {{{classname}}}.
+    #' @export
+    toJSON = function() {
+      if (!is.null(self$actual_instance)) {
+        self$actual_instance$toJSON()
       } else {
         NULL
       }
