@@ -62,8 +62,8 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Models
 
- - [PatternIsNotAnchored](docs/PatternIsNotAnchored.md)
- - [PatternValidation](docs/PatternValidation.md)
+ - [ObjectPropertiesValidation](docs/ObjectPropertiesValidation.md)
+ - [PropertiesWithEscapedCharacters](docs/PropertiesWithEscapedCharacters.md)
 
 ## Documentation For Authorization
 

@@ -1158,21 +1158,29 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
     }
 
     protected Object processTestExampleData(Object value) {
+        String nullChar = "\0";
         if (value instanceof Integer){
             return value;
         } else if (value instanceof Double || value instanceof Float || value instanceof Boolean){
             return value;
         } else if (value instanceof String) {
-            String nullChar = "\0";
             String stringValue = (String) value;
             if (stringValue.contains(nullChar)) {
                 stringValue = stringValue.replace(nullChar, "\\x00");
             }
+            String backSlash = "\\";
+            if (stringValue.contains(backSlash)) {
+                stringValue = stringValue.replace(backSlash, "\\\\");
+            }
+            String doubleQuoteChar = "\"";
+            if (stringValue.contains(doubleQuoteChar)) {
+                stringValue = stringValue.replace(doubleQuoteChar, "\\\"");
+            }
             return stringValue;
         } else if (value instanceof LinkedHashMap) {
-            LinkedHashMap<String, Object> fixedValues = (LinkedHashMap<String, Object>) value;
-            for (Map.Entry entry: fixedValues.entrySet()) {
-                String entryKey = (String) entry.getKey();
+            LinkedHashMap<String, Object> fixedValues = new LinkedHashMap();
+            for (Map.Entry entry: ((LinkedHashMap<String, Object>) value).entrySet()) {
+                String entryKey = (String) processTestExampleData(entry.getKey());
                 Object entryValue = processTestExampleData(entry.getValue());
                 fixedValues.put(entryKey, entryValue);
             }

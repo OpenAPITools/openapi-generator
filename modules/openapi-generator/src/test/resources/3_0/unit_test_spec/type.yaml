@@ -6,5 +6,86 @@ info:
   version: 0.0.1
 paths: {}
 components:
-  schemas: {}
-  x-schema-test-examples: {}
+  schemas:
+    ObjectPropertiesValidation:
+      properties:
+        foo:
+          type: integer
+        bar:
+          type: string
+    PropertiesWithEscapedCharacters:
+      properties:
+        ? 'foo
+
+          bar'
+        : type: number
+        foo"bar:
+          type: number
+        foo\bar:
+          type: number
+        "foo\rbar":
+          type: number
+        "foo\tbar":
+          type: number
+        "foo\fbar":
+          type: number
+  x-schema-test-examples:
+    ObjectPropertiesValidation:
+      BothPropertiesPresentAndValidIsValid:
+        description: both properties present and valid is valid
+        data:
+          foo: 1
+          bar: baz
+        valid: true
+      OnePropertyInvalidIsInvalid:
+        description: one property invalid is invalid
+        data:
+          foo: 1
+          bar: {}
+        valid: false
+      BothPropertiesInvalidIsInvalid:
+        description: both properties invalid is invalid
+        data:
+          foo: []
+          bar: {}
+        valid: false
+      DoesnTInvalidateOtherProperties:
+        description: doesn't invalidate other properties
+        data:
+          quux: []
+        valid: true
+      IgnoresArrays:
+        description: ignores arrays
+        data: []
+        valid: true
+      IgnoresOtherNonObjects:
+        description: ignores other non-objects
+        data: 12
+        valid: true
+    PropertiesWithEscapedCharacters:
+      ObjectWithAllNumbersIsValid:
+        description: object with all numbers is valid
+        data:
+          ? 'foo
+
+            bar'
+          : 1
+          foo"bar: 1
+          foo\bar: 1
+          "foo\rbar": 1
+          "foo\tbar": 1
+          "foo\fbar": 1
+        valid: true
+      ObjectWithStringsIsInvalid:
+        description: object with strings is invalid
+        data:
+          ? 'foo
+
+            bar'
+          : '1'
+          foo"bar: '1'
+          foo\bar: '1'
+          "foo\rbar": '1'
+          "foo\tbar": '1'
+          "foo\fbar": '1'
+        valid: false

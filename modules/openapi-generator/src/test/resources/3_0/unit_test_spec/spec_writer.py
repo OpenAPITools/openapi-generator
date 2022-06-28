@@ -124,6 +124,10 @@ FILEPATH_TO_EXCLUDED_CASE_AND_REASON = {
     (json_schema_test_draft, 'oneOf.json'): {
         'oneOf with missing optional property': ExclusionReason.v303_does_not_support_boolean_schemas_in_location,
     },
+    (json_schema_test_draft, 'properties.json'): {
+        'properties, patternProperties, additionalProperties interaction': ExclusionReason.v303_does_not_support_patternProperties,
+        'properties with boolean schema': ExclusionReason.v303_does_not_support_boolean_schemas_in_location,
+    }
 }
 FILEPATH_TO_EXCLUDE_REASON = {
     (json_schema_test_draft, 'additionalItems.json'): ExclusionReason.v303_does_not_support_additionalItems,
@@ -171,7 +175,8 @@ JSON_SCHEMA_TEST_FILE_TO_FOLDERS = {
 #     'not.json': (json_schema_test_draft,),
 #     'oneOf.json': (json_schema_test_draft,),  # activate after fixing this
 #     'pattern.json': (json_schema_test_draft,),
-    'patternProperties.json': (json_schema_test_draft,),
+#     'patternProperties.json': (json_schema_test_draft,),
+    'properties.json': (json_schema_test_draft,),
 }
 
 def get_json_schema_test_schemas(file_path: typing.Tuple[str]) -> typing.List[JsonSchemaTestSchema]:

@@ -31,9 +31,9 @@ public class ObjectWithTypeBooleans {
             }
         } else if (value instanceof LinkedHashMap) {
             LinkedHashMap<String, Object> castValue = (LinkedHashMap<String, Object>) value;
-            LinkedHashMap<String, ObjectWithTypeBooleans> castMap = new LinkedHashMap<>();
+            LinkedHashMap<ObjectWithTypeBooleans, ObjectWithTypeBooleans> castMap = new LinkedHashMap<>();
             for (Map.Entry entry: castValue.entrySet()) {
-                String entryKey = (String) entry.getKey();
+                ObjectWithTypeBooleans entryKey = new ObjectWithTypeBooleans(entry.getKey());
                 ObjectWithTypeBooleans entryValue = new ObjectWithTypeBooleans(entry.getValue());
                 castMap.put(entryKey, entryValue);
             }

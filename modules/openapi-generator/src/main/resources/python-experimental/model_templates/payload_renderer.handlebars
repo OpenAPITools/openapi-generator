@@ -8,7 +8,9 @@
 {{#if isMap}}
 {{#not value.isEmpty}}**{{/not}}{
     {{#each value}}
-    "{{@key}}":
+    {{#with @key}}
+    {{> model_templates/payload_renderer }}:
+    {{/with}}
         {{#with this}}
         {{> model_templates/payload_renderer }},
         {{/with}}
