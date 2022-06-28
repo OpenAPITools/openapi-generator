@@ -1,4 +1,4 @@
-# OneofWithEmptySchema
+# PatternValidation
 
 #### Properties
 Name | Type | Description | Notes

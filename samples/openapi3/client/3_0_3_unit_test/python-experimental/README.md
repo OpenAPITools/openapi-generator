@@ -62,16 +62,8 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Models
 
- - [NestedOneofToCheckValidationSemantics](docs/NestedOneofToCheckValidationSemantics.md)
- - [Oneof](docs/Oneof.md)
- - [OneofComplexTypes](docs/OneofComplexTypes.md)
- - [OneofWithBaseSchema](docs/OneofWithBaseSchema.md)
- - [OneofWithBooleanSchemasAllFalse](docs/OneofWithBooleanSchemasAllFalse.md)
- - [OneofWithBooleanSchemasAllTrue](docs/OneofWithBooleanSchemasAllTrue.md)
- - [OneofWithBooleanSchemasMoreThanOneTrue](docs/OneofWithBooleanSchemasMoreThanOneTrue.md)
- - [OneofWithBooleanSchemasOneTrue](docs/OneofWithBooleanSchemasOneTrue.md)
- - [OneofWithEmptySchema](docs/OneofWithEmptySchema.md)
- - [OneofWithRequired](docs/OneofWithRequired.md)
+ - [PatternIsNotAnchored](docs/PatternIsNotAnchored.md)
+ - [PatternValidation](docs/PatternValidation.md)
 
 ## Documentation For Authorization
 

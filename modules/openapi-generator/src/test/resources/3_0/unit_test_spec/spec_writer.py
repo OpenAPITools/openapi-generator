@@ -168,6 +168,7 @@ JSON_SCHEMA_TEST_FILE_TO_FOLDERS = {
 #     'multipleOf.json': (json_schema_test_draft,),
 #     'not.json': (json_schema_test_draft,),
 #     'oneOf.json': (json_schema_test_draft,),  # activate after fixing this
+    'pattern.json': (json_schema_test_draft,),
 }
 
 def get_json_schema_test_schemas(file_path: typing.Tuple[str]) -> typing.List[JsonSchemaTestSchema]:
