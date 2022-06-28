@@ -1,6 +1,6 @@
 # Local Spec Sample
 
-This example assumes you have Gradle 5.6.4+ installed. No gradle wrapper is provided in samples.
+This example assumes you have Gradle 7.4.2+ installed. No gradle wrapper is provided in samples.
 
 First, publish the openapi-generator-gradle-plugin locally via `./gradlew assemble publishToMavenLocal` in the module directory.
 
