@@ -1,4 +1,4 @@
-# NotMoreComplexSchema
+# NestedOneofToCheckValidationSemantics
 
 #### Properties
 Name | Type | Description | Notes

@@ -1,4 +1,4 @@
-# ModelNot
+# OneofWithBooleanSchemasMoreThanOneTrue
 
 #### Properties
 Name | Type | Description | Notes

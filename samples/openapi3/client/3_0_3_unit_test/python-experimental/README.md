@@ -62,9 +62,16 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Models
 
- - [ForbiddenProperty](docs/ForbiddenProperty.md)
- - [ModelNot](docs/ModelNot.md)
- - [NotMoreComplexSchema](docs/NotMoreComplexSchema.md)
+ - [NestedOneofToCheckValidationSemantics](docs/NestedOneofToCheckValidationSemantics.md)
+ - [Oneof](docs/Oneof.md)
+ - [OneofComplexTypes](docs/OneofComplexTypes.md)
+ - [OneofWithBaseSchema](docs/OneofWithBaseSchema.md)
+ - [OneofWithBooleanSchemasAllFalse](docs/OneofWithBooleanSchemasAllFalse.md)
+ - [OneofWithBooleanSchemasAllTrue](docs/OneofWithBooleanSchemasAllTrue.md)
+ - [OneofWithBooleanSchemasMoreThanOneTrue](docs/OneofWithBooleanSchemasMoreThanOneTrue.md)
+ - [OneofWithBooleanSchemasOneTrue](docs/OneofWithBooleanSchemasOneTrue.md)
+ - [OneofWithEmptySchema](docs/OneofWithEmptySchema.md)
+ - [OneofWithRequired](docs/OneofWithRequired.md)
 
 ## Documentation For Authorization
 

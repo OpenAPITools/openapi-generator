@@ -12,23 +12,18 @@
 import unittest
 
 import unit_test_api
-from unit_test_api.model.model_not import ModelNot
+from unit_test_api.model.oneof_with_boolean_schemas_more_than_one_true import OneofWithBooleanSchemasMoreThanOneTrue
 
 
-class TestModelNot(unittest.TestCase):
-    """ModelNot unit test stubs"""
+class TestOneofWithBooleanSchemasMoreThanOneTrue(unittest.TestCase):
+    """OneofWithBooleanSchemasMoreThanOneTrue unit test stubs"""
 
-    def test_allowed_passes(self):
-        # allowed
-        ModelNot(
-
-            "foo"        )
-
-    def test_disallowed_fails(self):
-        # disallowed
+    def test_any_value_is_invalid_fails(self):
+        # any value is invalid
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
-            ModelNot(
-                1            )
+            OneofWithBooleanSchemasMoreThanOneTrue(
+
+                "foo"            )
 
 
 if __name__ == '__main__':
