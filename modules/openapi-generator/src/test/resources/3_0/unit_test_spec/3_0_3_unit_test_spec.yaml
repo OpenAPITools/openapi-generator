@@ -6,5 +6,51 @@ info:
   version: 0.0.1
 paths: {}
 components:
-  schemas: {}
-  x-schema-test-examples: {}
+  schemas:
+    RequiredValidation:
+      properties:
+        foo: {}
+        bar: {}
+      required:
+      - foo
+    RequiredDefaultValidation:
+      properties:
+        foo: {}
+    RequiredWithEmptyArray:
+      properties:
+        foo: {}
+      required: []
+  x-schema-test-examples:
+    RequiredValidation:
+      PresentRequiredPropertyIsValid:
+        description: present required property is valid
+        data:
+          foo: 1
+        valid: true
+      NonPresentRequiredPropertyIsInvalid:
+        description: non-present required property is invalid
+        data:
+          bar: 1
+        valid: false
+      IgnoresArrays:
+        description: ignores arrays
+        data: []
+        valid: true
+      IgnoresStrings:
+        description: ignores strings
+        data: ''
+        valid: true
+      IgnoresOtherNonObjects:
+        description: ignores other non-objects
+        data: 12
+        valid: true
+    RequiredDefaultValidation:
+      NotRequiredByDefault:
+        description: not required by default
+        data: {}
+        valid: true
+    RequiredWithEmptyArray:
+      PropertyNotRequired:
+        description: property not required
+        data: {}
+        valid: true

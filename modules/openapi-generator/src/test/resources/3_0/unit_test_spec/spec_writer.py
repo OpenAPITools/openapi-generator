@@ -99,6 +99,7 @@ class ExclusionReason:
     swagger_parser_anytype_bug = 'Swagger parser sets type incorrectly for this anyType schema https://github.com/swagger-api/swagger-parser/issues/1603'
     component_ref_component_bug = 'A component refing another component does not work, issue at https://github.com/OpenAPITools/openapi-generator/issues/12730'
     not_running_the_localhost_server = 'the openapo-generator is not running the localhost server needed to serve remoteRef files'
+    required_vars_missing_for_anytype_schema_bug = 'fails because of a bug where required vars are forgotten, see issue https://github.com/OpenAPITools/openapi-generator/issues/8906'
 
 json_schema_test_draft = 'draft6'
 openapi_additions = 'openapi_additions'
@@ -177,6 +178,9 @@ FILEPATH_TO_EXCLUDED_CASE_AND_REASON = {
         'fragment within remote ref': ExclusionReason.not_running_the_localhost_server,
         'ref within remote ref': ExclusionReason.not_running_the_localhost_server,
     },
+    (json_schema_test_draft, 'required.json'): {
+        'required with escaped characters': ExclusionReason.required_vars_missing_for_anytype_schema_bug,
+    },
 }
 FILEPATH_TO_EXCLUDE_REASON = {
     (json_schema_test_draft, 'additionalItems.json'): ExclusionReason.v303_does_not_support_additionalItems,
@@ -226,7 +230,8 @@ JSON_SCHEMA_TEST_FILE_TO_FOLDERS = {
 #     'properties.json': (json_schema_test_draft,),
 #     'propertyNames.json': (json_schema_test_draft,),
 #     'ref.json': (json_schema_test_draft, openapi_additions),
-    'refRemote.json': (json_schema_test_draft,),
+#     'refRemote.json': (json_schema_test_draft,),
+    'required.json': (json_schema_test_draft,),
 #     'type.json': (json_schema_test_draft, openapi_additions),
 }
 
