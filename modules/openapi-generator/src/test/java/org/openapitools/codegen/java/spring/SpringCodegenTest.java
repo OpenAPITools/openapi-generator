@@ -1432,4 +1432,62 @@ public class SpringCodegenTest {
                 "consumes", "{ \"application/octet-stream\", \"application/*\" }"
             ));
     }
+
+	@Test
+	public void shouldGenerateBeanValidationForHeaderParams_issue12726() throws IOException {
+		File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+		output.deleteOnExit();
+
+		OpenAPI openAPI = new OpenAPIParser()
+				.readLocation("src/test/resources/3_0/spring/issue_12726.yml", null, new ParseOptions()).getOpenAPI();
+		SpringCodegen codegen = new SpringCodegen();
+		codegen.setLibrary(SPRING_BOOT);
+		codegen.setOutputDir(output.getAbsolutePath());
+		codegen.additionalProperties().put(SpringCodegen.USE_TAGS, "true");
+
+		ClientOptInput input = new ClientOptInput()
+				.openAPI(openAPI)
+				.config(codegen);
+
+		DefaultGenerator generator = new DefaultGenerator();
+		Map<String, File> files = generator.opts(input).generate().stream()
+										   .collect(Collectors.toMap(File::getName, Function.identity()));
+		JavaFileAssert.assertThat(files.get("HeadersApi.java"))
+					  .assertMethod("headerBeanValidation")
+					  .hasParameter("patternHeader")
+					  .assertParameterAnnotations()
+					  .containsWithName("NotNull")
+					  .containsWithNameAndAttributes("Pattern", ImmutableMap.of(
+							  "regexp", "\"[0-9]+\"")
+					  )
+					  .containsWithNameAndAttributes("Parameter", ImmutableMap.of(
+							  "name", "\"patternHeader\"",
+							  "description", "\"\"",
+							  "required", "true")
+					  )
+					  .containsWithNameAndAttributes("RequestHeader", ImmutableMap.of(
+							  "value", "\"patternHeader\"",
+							  "required", "true")
+					  );
+
+		JavaFileAssert.assertThat(files.get("HeadersApi.java"))
+					  .assertMethod("headerBeanValidation")
+					  .hasParameter("minMaxHeader")
+					  .assertParameterAnnotations()
+					  .containsWithNameAndAttributes("DecimalMin", ImmutableMap.of(
+							  "value", "\"1\"")
+					  )
+					  .containsWithNameAndAttributes("DecimalMax", ImmutableMap.of(
+							  "value", "\"10\"")
+					  )
+					  .containsWithNameAndAttributes("Parameter", ImmutableMap.of(
+							  "name", "\"minMaxHeader\"",
+							  "description", "\"\"")
+					  )
+					  .containsWithNameAndAttributes("RequestHeader", ImmutableMap.of(
+							  "value", "\"minMaxHeader\"",
+							  "required", "false")
+					  );
+
+	}
 }
