@@ -46,17 +46,17 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
     /**
      * The output target directory into which code will be generated.
      */
-    val outputDir = project.objects.property<String>()
+    val outputDir = project.objects.directoryProperty()
 
     /**
      * The Open API 2.0/3.x specification location.
      */
-    val inputSpec = project.objects.property<String>()
+    val inputSpec = project.objects.fileProperty()
 
     /**
      * The template directory holding a custom template.
      */
-    val templateDir = project.objects.property<String?>()
+    val templateDir = project.objects.directoryProperty()
 
     /**
      * Adds authorization headers when fetching the OpenAPI definitions remotely.
@@ -74,7 +74,7 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
      * File content should be in a json format { "optionKey":"optionValue", "optionKey1":"optionValue1"...}
      * Supported options can be different for each language. Run config-help -g {generator name} command for language specific config options.
      */
-    val configFile = project.objects.property<String>()
+    val configFile = project.objects.fileProperty()
 
     /**
      * Specifies if the existing files should be overwritten during the generation.
@@ -209,7 +209,7 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
     /**
      * Specifies an override location for the .openapi-generator-ignore file. Most useful on initial generation.
      */
-    val ignoreFileOverride = project.objects.property<String?>()
+    val ignoreFileOverride = project.objects.fileProperty()
 
     /**
      * Remove prefix of operationId, e.g. config_getId => getId

@@ -39,7 +39,7 @@ class ValidateTaskDslTest : TestBase() {
             | }
             |
             | openApiValidate {
-            |   inputSpec = "some_location"
+            |   inputSpec = file("some_location")
             | }
         """.trimMargin())
 
@@ -77,7 +77,7 @@ class ValidateTaskDslTest : TestBase() {
             | }
             |
             | openApiValidate {
-            |   inputSpec = file("spec.yaml").absolutePath
+            |   inputSpec = file("spec.yaml")
             | }
         """.trimMargin(), projectFiles)
 
@@ -106,7 +106,7 @@ class ValidateTaskDslTest : TestBase() {
             | }
             |
             | openApiValidate {
-            |   inputSpec = file('spec.yaml').absolutePath
+            |   inputSpec = file('spec.yaml')
             | }
         """.trimMargin(), projectFiles)
 

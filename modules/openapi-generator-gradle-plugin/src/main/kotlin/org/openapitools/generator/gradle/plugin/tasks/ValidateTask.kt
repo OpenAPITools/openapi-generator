@@ -20,8 +20,10 @@ package org.openapitools.generator.gradle.plugin.tasks
 
 import io.swagger.parser.OpenAPIParser
 import io.swagger.v3.parser.core.models.ParseOptions
+import java.io.File;
 import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
+import org.gradle.api.file.RegularFile;
 import org.gradle.api.logging.Logging
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.InputFile
@@ -56,7 +58,7 @@ import org.openapitools.codegen.validations.oas.RuleConfiguration
 open class ValidateTask : DefaultTask() {
     @get:InputFile
     @PathSensitive(PathSensitivity.RELATIVE)
-    val inputSpec = project.objects.property<String>()
+    val inputSpec = project.objects.fileProperty()
 
     @Optional
     @Input
@@ -67,7 +69,7 @@ open class ValidateTask : DefaultTask() {
     @set:Option(option = "input", description = "The input specification.")
     var input: String? = null
         set(value) {
-            inputSpec.set(value)
+            inputSpec.set(File(value))
         }
 
     @Suppress("unused")
@@ -75,7 +77,7 @@ open class ValidateTask : DefaultTask() {
     fun doWork() {
         val logger = Logging.getLogger(javaClass)
 
-        val spec = inputSpec.get()
+        val spec = inputSpec.map(RegularFile::getAsFile).map(File::getAbsolutePath).get()
         val recommendations = recommend.get()
 
         logger.quiet("Validating spec $spec")

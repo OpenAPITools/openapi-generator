@@ -28,7 +28,7 @@ open class OpenApiGeneratorValidateExtension(project: Project) {
     /**
      * The input specification to validate. Supports all formats supported by the Parser.
      */
-    val inputSpec = project.objects.property<String>()
+    val inputSpec = project.objects.fileProperty()
 
     /**
      * Whether or not to offer recommendations related to the validated specification document.

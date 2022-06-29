@@ -38,11 +38,11 @@ open class OpenApiGeneratorMetaExtension(project: Project) {
     /**
      * Where to write the generated files (current dir by default).
      */
-    val outputFolder = project.objects.property<String>()
+    val outputFolder = project.objects.directoryProperty()
 
     init {
         generatorName.set("default")
         packageName.set("org.openapitools.codegen")
-        outputFolder.set("")
+        outputFolder.set(project.layout.projectDirectory)
     }
 }

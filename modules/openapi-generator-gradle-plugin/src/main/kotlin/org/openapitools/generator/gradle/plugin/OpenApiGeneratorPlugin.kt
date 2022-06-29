@@ -60,7 +60,7 @@ class OpenApiGeneratorPlugin : Plugin<Project> {
                     project
             )
 
-            generate.outputDir.set("$buildDir/generate-resources/main")
+            generate.outputDir.set(project.layout.buildDirectory.dir("generate-resources/main"))
 
             tasks.apply {
                 register("openApiGenerators", GeneratorsTask::class.java).configure {

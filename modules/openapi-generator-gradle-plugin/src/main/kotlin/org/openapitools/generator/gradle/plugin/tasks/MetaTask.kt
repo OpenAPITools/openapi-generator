@@ -52,14 +52,14 @@ open class MetaTask : DefaultTask() {
     val packageName = project.objects.property<String>()
 
     @get:OutputDirectory
-    val outputFolder = project.objects.property<String>()
+    val outputFolder = project.objects.directoryProperty()
 
     @Suppress("unused")
     @TaskAction
     fun doWork() {
 
         val packageToPath = packageName.get().replace(".", File.separator)
-        val dir = File(outputFolder.get())
+        val dir = outputFolder.getAsFile().get()
         val klass = "${generatorName.get().titleCasedTextOnly()}Generator"
 
         val templateResourceDir = generatorName.get().hyphenatedTextOnly()
