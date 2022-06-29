@@ -2703,8 +2703,8 @@ public class DefaultCodegen implements CodegenConfig {
     /**
      * A method that allows generators to pre-process test example payloads
      * This can be useful if one needs to change how values like null in string are represnted
-     * @param data
-     * @return
+     * @param data the test data payload
+     * @return the updated test data payload
      */
     protected Object processTestExampleData(Object data) {
         return data;
