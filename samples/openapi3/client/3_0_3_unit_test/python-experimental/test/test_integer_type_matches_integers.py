@@ -22,7 +22,7 @@ class TestIntegerTypeMatchesIntegers(unittest.TestCase):
 
     def test_an_object_is_not_an_integer_fails(self):
         # an object is not an integer
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             IntegerTypeMatchesIntegers._from_openapi_data(
                                 {
                 }
@@ -32,7 +32,7 @@ class TestIntegerTypeMatchesIntegers(unittest.TestCase):
 
     def test_a_string_is_not_an_integer_fails(self):
         # a string is not an integer
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             IntegerTypeMatchesIntegers._from_openapi_data(
                 
                 "foo",
@@ -41,7 +41,7 @@ class TestIntegerTypeMatchesIntegers(unittest.TestCase):
 
     def test_null_is_not_an_integer_fails(self):
         # null is not an integer
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             IntegerTypeMatchesIntegers._from_openapi_data(
                 
                 None,
@@ -57,7 +57,7 @@ class TestIntegerTypeMatchesIntegers(unittest.TestCase):
 
     def test_a_float_is_not_an_integer_fails(self):
         # a float is not an integer
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             IntegerTypeMatchesIntegers._from_openapi_data(
                                 1.1,
                 _configuration=self._configuration
@@ -65,7 +65,7 @@ class TestIntegerTypeMatchesIntegers(unittest.TestCase):
 
     def test_a_boolean_is_not_an_integer_fails(self):
         # a boolean is not an integer
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             IntegerTypeMatchesIntegers._from_openapi_data(
                 
                 True,
@@ -81,7 +81,7 @@ class TestIntegerTypeMatchesIntegers(unittest.TestCase):
 
     def test_a_string_is_still_not_an_integer_even_if_it_looks_like_one_fails(self):
         # a string is still not an integer, even if it looks like one
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             IntegerTypeMatchesIntegers._from_openapi_data(
                 
                 "1",
@@ -90,7 +90,7 @@ class TestIntegerTypeMatchesIntegers(unittest.TestCase):
 
     def test_an_array_is_not_an_integer_fails(self):
         # an array is not an integer
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             IntegerTypeMatchesIntegers._from_openapi_data(
                                 [
                 ]

@@ -38,7 +38,7 @@ class TestEnumWithEscapedCharacters(unittest.TestCase):
 
     def test_another_string_is_invalid_fails(self):
         # another string is invalid
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             EnumWithEscapedCharacters._from_openapi_data(
                 
                 "abc",

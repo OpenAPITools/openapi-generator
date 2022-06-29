@@ -26,7 +26,7 @@ class Test{{classname}}(unittest.TestCase):
             _configuration=self._configuration
         )
         {{else}}
-        with self.assertRaises(({{packageName}}.ApiValueError, {{packageName}}.ApiTypeError, TypeError)):
+        with self.assertRaises(({{packageName}}.ApiValueError, {{packageName}}.ApiTypeError)):
             {{classname}}._from_openapi_data(
 {{#with data}}
                 {{>model_templates/payload_renderer}}{{/with}},

@@ -36,7 +36,7 @@ class TestMaximumValidation(unittest.TestCase):
 
     def test_above_the_maximum_is_invalid_fails(self):
         # above the maximum is invalid
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             MaximumValidation._from_openapi_data(
                                 3.5,
                 _configuration=self._configuration

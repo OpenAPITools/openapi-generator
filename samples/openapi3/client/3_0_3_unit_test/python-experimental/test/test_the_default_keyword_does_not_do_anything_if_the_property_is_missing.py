@@ -43,7 +43,7 @@ class TestTheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissing(unittest.Test
 
     def test_an_explicit_property_value_is_checked_against_maximum_failing_fails(self):
         # an explicit property value is checked against maximum (failing)
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             TheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissing._from_openapi_data(
                                 {
                     

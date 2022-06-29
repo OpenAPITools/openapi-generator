@@ -24,13 +24,13 @@ class TestNulCharactersInStrings(unittest.TestCase):
         # match string with nul
         NulCharactersInStrings._from_openapi_data(
             
-            "hello\\x00there",
+            "hello\x00there",
             _configuration=self._configuration
         )
 
     def test_do_not_match_string_lacking_nul_fails(self):
         # do not match string lacking nul
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             NulCharactersInStrings._from_openapi_data(
                 
                 "hellothere",

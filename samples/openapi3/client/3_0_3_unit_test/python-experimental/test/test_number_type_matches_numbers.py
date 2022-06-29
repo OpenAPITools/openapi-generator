@@ -22,7 +22,7 @@ class TestNumberTypeMatchesNumbers(unittest.TestCase):
 
     def test_an_array_is_not_a_number_fails(self):
         # an array is not a number
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             NumberTypeMatchesNumbers._from_openapi_data(
                                 [
                 ]
@@ -32,7 +32,7 @@ class TestNumberTypeMatchesNumbers(unittest.TestCase):
 
     def test_null_is_not_a_number_fails(self):
         # null is not a number
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             NumberTypeMatchesNumbers._from_openapi_data(
                 
                 None,
@@ -41,7 +41,7 @@ class TestNumberTypeMatchesNumbers(unittest.TestCase):
 
     def test_an_object_is_not_a_number_fails(self):
         # an object is not a number
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             NumberTypeMatchesNumbers._from_openapi_data(
                                 {
                 }
@@ -51,7 +51,7 @@ class TestNumberTypeMatchesNumbers(unittest.TestCase):
 
     def test_a_boolean_is_not_a_number_fails(self):
         # a boolean is not a number
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             NumberTypeMatchesNumbers._from_openapi_data(
                 
                 True,
@@ -67,7 +67,7 @@ class TestNumberTypeMatchesNumbers(unittest.TestCase):
 
     def test_a_string_is_still_not_a_number_even_if_it_looks_like_one_fails(self):
         # a string is still not a number, even if it looks like one
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             NumberTypeMatchesNumbers._from_openapi_data(
                 
                 "1",
@@ -76,7 +76,7 @@ class TestNumberTypeMatchesNumbers(unittest.TestCase):
 
     def test_a_string_is_not_a_number_fails(self):
         # a string is not a number
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             NumberTypeMatchesNumbers._from_openapi_data(
                 
                 "foo",

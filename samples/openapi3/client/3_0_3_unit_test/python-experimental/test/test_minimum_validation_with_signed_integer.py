@@ -36,7 +36,7 @@ class TestMinimumValidationWithSignedInteger(unittest.TestCase):
 
     def test_int_below_the_minimum_is_invalid_fails(self):
         # int below the minimum is invalid
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             MinimumValidationWithSignedInteger._from_openapi_data(
                                 -3,
                 _configuration=self._configuration
@@ -44,7 +44,7 @@ class TestMinimumValidationWithSignedInteger(unittest.TestCase):
 
     def test_float_below_the_minimum_is_invalid_fails(self):
         # float below the minimum is invalid
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             MinimumValidationWithSignedInteger._from_openapi_data(
                                 -2.0001,
                 _configuration=self._configuration

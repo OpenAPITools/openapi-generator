@@ -30,7 +30,7 @@ class TestModelNot(unittest.TestCase):
 
     def test_disallowed_fails(self):
         # disallowed
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             ModelNot._from_openapi_data(
                                 1,
                 _configuration=self._configuration

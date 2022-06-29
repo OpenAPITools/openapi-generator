@@ -36,7 +36,7 @@ class TestEnumWith0DoesNotMatchFalse(unittest.TestCase):
 
     def test_false_is_invalid_fails(self):
         # false is invalid
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             EnumWith0DoesNotMatchFalse._from_openapi_data(
                 
                 False,

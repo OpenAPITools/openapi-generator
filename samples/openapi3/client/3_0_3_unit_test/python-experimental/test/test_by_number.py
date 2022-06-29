@@ -29,7 +29,7 @@ class TestByNumber(unittest.TestCase):
 
     def test_35_is_not_multiple_of15_fails(self):
         # 35 is not multiple of 1.5
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             ByNumber._from_openapi_data(
                                 35,
                 _configuration=self._configuration

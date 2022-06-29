@@ -22,7 +22,7 @@ class TestMaxlengthValidation(unittest.TestCase):
 
     def test_too_long_is_invalid_fails(self):
         # too long is invalid
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             MaxlengthValidation._from_openapi_data(
                 
                 "foo",

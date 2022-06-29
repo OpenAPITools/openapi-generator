@@ -1129,7 +1129,8 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         } else if ("bool".equals(datatype)) {
             return value.substring(0, 1).toUpperCase(Locale.ROOT) + value.substring(1);
         } else {
-            return ensureQuotes(value);
+            String fixedValue = (String) processTestExampleData(value);
+            return ensureQuotes(fixedValue);
         }
     }
 
@@ -1159,19 +1160,19 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
     }
 
     protected Object processTestExampleData(Object value) {
-        String nullChar = "\0";
         if (value instanceof Integer){
             return value;
         } else if (value instanceof Double || value instanceof Float || value instanceof Boolean){
             return value;
         } else if (value instanceof String) {
             String stringValue = (String) value;
-            if (stringValue.contains(nullChar)) {
-                stringValue = stringValue.replace(nullChar, "\\x00");
-            }
             String backslash = "\\";
             if (stringValue.contains(backslash)) {
                 stringValue = stringValue.replace(backslash, "\\\\");
+            }
+            String nullChar = "\0";
+            if (stringValue.contains(nullChar)) {
+                stringValue = stringValue.replace(nullChar, "\\x00");
             }
             String doubleQuoteChar = "\"";
             if (stringValue.contains(doubleQuoteChar)) {
@@ -1451,19 +1452,9 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
      * @return quoted string
      */
     private String ensureQuotes(String in) {
-        Pattern pattern = Pattern.compile("\r\n|\r|\n");
-        Matcher matcher = pattern.matcher(in);
-        if (matcher.find()) {
-            // if a string has a new line in it add triple quotes to make it a python multiline string
-            return "'''" + in + "'''";
-        }
         String strPattern = "^['\"].*?['\"]$";
         if (in.matches(strPattern)) {
             return in;
-        }
-        String nullChar = "\0";
-        if (in.contains(nullChar)) {
-            in = in.replace(nullChar, "\\x00");
         }
         return "\"" + in + "\"";
     }

@@ -38,7 +38,7 @@ class TestObjectPropertiesValidation(unittest.TestCase):
 
     def test_one_property_invalid_is_invalid_fails(self):
         # one property invalid is invalid
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             ObjectPropertiesValidation._from_openapi_data(
                                 {
                     
@@ -86,7 +86,7 @@ class TestObjectPropertiesValidation(unittest.TestCase):
 
     def test_both_properties_invalid_is_invalid_fails(self):
         # both properties invalid is invalid
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             ObjectPropertiesValidation._from_openapi_data(
                                 {
                     

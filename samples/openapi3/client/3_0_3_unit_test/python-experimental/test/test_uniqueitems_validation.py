@@ -67,7 +67,7 @@ class TestUniqueitemsValidation(unittest.TestCase):
 
     def test_non_unique_heterogeneous_types_are_invalid_fails(self):
         # non-unique heterogeneous types are invalid
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             UniqueitemsValidation._from_openapi_data(
                                 [
                                         {
@@ -142,7 +142,7 @@ class TestUniqueitemsValidation(unittest.TestCase):
 
     def test_numbers_are_unique_if_mathematically_unequal_fails(self):
         # numbers are unique if mathematically unequal
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             UniqueitemsValidation._from_openapi_data(
                                 [
                                         1.0,
@@ -204,7 +204,7 @@ class TestUniqueitemsValidation(unittest.TestCase):
 
     def test_non_unique_array_of_nested_objects_is_invalid_fails(self):
         # non-unique array of nested objects is invalid
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             UniqueitemsValidation._from_openapi_data(
                                 [
                                         {
@@ -248,7 +248,7 @@ class TestUniqueitemsValidation(unittest.TestCase):
 
     def test_non_unique_array_of_more_than_two_integers_is_invalid_fails(self):
         # non-unique array of more than two integers is invalid
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             UniqueitemsValidation._from_openapi_data(
                                 [
                                         1,
@@ -273,7 +273,7 @@ class TestUniqueitemsValidation(unittest.TestCase):
 
     def test_objects_are_non_unique_despite_key_order_fails(self):
         # objects are non-unique despite key order
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             UniqueitemsValidation._from_openapi_data(
                                 [
                                         {
@@ -372,7 +372,7 @@ class TestUniqueitemsValidation(unittest.TestCase):
 
     def test_non_unique_array_of_more_than_two_arrays_is_invalid_fails(self):
         # non-unique array of more than two arrays is invalid
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             UniqueitemsValidation._from_openapi_data(
                                 [
                                         [
@@ -397,7 +397,7 @@ class TestUniqueitemsValidation(unittest.TestCase):
 
     def test_non_unique_array_of_objects_is_invalid_fails(self):
         # non-unique array of objects is invalid
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             UniqueitemsValidation._from_openapi_data(
                                 [
                                         {
@@ -464,7 +464,7 @@ class TestUniqueitemsValidation(unittest.TestCase):
 
     def test_non_unique_array_of_arrays_is_invalid_fails(self):
         # non-unique array of arrays is invalid
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             UniqueitemsValidation._from_openapi_data(
                                 [
                                         [
@@ -484,7 +484,7 @@ class TestUniqueitemsValidation(unittest.TestCase):
 
     def test_non_unique_array_of_strings_is_invalid_fails(self):
         # non-unique array of strings is invalid
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             UniqueitemsValidation._from_openapi_data(
                                 [
                     
@@ -551,7 +551,7 @@ class TestUniqueitemsValidation(unittest.TestCase):
 
     def test_non_unique_array_of_integers_is_invalid_fails(self):
         # non-unique array of integers is invalid
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             UniqueitemsValidation._from_openapi_data(
                                 [
                                         1,

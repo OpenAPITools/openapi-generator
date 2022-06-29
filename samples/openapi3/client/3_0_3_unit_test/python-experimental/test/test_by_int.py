@@ -22,7 +22,7 @@ class TestByInt(unittest.TestCase):
 
     def test_int_by_int_fail_fails(self):
         # int by int fail
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             ByInt._from_openapi_data(
                                 7,
                 _configuration=self._configuration

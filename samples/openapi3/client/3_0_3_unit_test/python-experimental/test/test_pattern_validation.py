@@ -55,7 +55,7 @@ class TestPatternValidation(unittest.TestCase):
 
     def test_a_non_matching_pattern_is_invalid_fails(self):
         # a non-matching pattern is invalid
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             PatternValidation._from_openapi_data(
                 
                 "abc",

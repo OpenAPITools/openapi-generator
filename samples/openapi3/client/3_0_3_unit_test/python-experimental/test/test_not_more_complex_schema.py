@@ -34,7 +34,7 @@ class TestNotMoreComplexSchema(unittest.TestCase):
 
     def test_mismatch_fails(self):
         # mismatch
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             NotMoreComplexSchema._from_openapi_data(
                                 {
                     

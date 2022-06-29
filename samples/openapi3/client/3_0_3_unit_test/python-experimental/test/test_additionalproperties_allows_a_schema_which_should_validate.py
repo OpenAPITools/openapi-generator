@@ -34,7 +34,7 @@ class TestAdditionalpropertiesAllowsASchemaWhichShouldValidate(unittest.TestCase
 
     def test_an_additional_invalid_property_is_invalid_fails(self):
         # an additional invalid property is invalid
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             AdditionalpropertiesAllowsASchemaWhichShouldValidate._from_openapi_data(
                                 {
                     

@@ -22,7 +22,7 @@ class TestMinlengthValidation(unittest.TestCase):
 
     def test_too_short_is_invalid_fails(self):
         # too short is invalid
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             MinlengthValidation._from_openapi_data(
                 
                 "f",
@@ -31,7 +31,7 @@ class TestMinlengthValidation(unittest.TestCase):
 
     def test_one_supplementary_unicode_code_point_is_not_long_enough_fails(self):
         # one supplementary Unicode code point is not long enough
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             MinlengthValidation._from_openapi_data(
                 
                 "💩",

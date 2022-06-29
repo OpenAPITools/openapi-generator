@@ -58,7 +58,7 @@ class TestRequiredValidation(unittest.TestCase):
 
     def test_non_present_required_property_is_invalid_fails(self):
         # non-present required property is invalid
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             RequiredValidation._from_openapi_data(
                                 {
                     

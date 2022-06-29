@@ -22,7 +22,7 @@ class TestMinitemsValidation(unittest.TestCase):
 
     def test_too_short_is_invalid_fails(self):
         # too short is invalid
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             MinitemsValidation._from_openapi_data(
                                 [
                 ]

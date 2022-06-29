@@ -22,7 +22,7 @@ class TestStringTypeMatchesStrings(unittest.TestCase):
 
     def test_1_is_not_a_string_fails(self):
         # 1 is not a string
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             StringTypeMatchesStrings._from_openapi_data(
                                 1,
                 _configuration=self._configuration
@@ -46,7 +46,7 @@ class TestStringTypeMatchesStrings(unittest.TestCase):
 
     def test_a_float_is_not_a_string_fails(self):
         # a float is not a string
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             StringTypeMatchesStrings._from_openapi_data(
                                 1.1,
                 _configuration=self._configuration
@@ -54,7 +54,7 @@ class TestStringTypeMatchesStrings(unittest.TestCase):
 
     def test_an_object_is_not_a_string_fails(self):
         # an object is not a string
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             StringTypeMatchesStrings._from_openapi_data(
                                 {
                 }
@@ -64,7 +64,7 @@ class TestStringTypeMatchesStrings(unittest.TestCase):
 
     def test_an_array_is_not_a_string_fails(self):
         # an array is not a string
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             StringTypeMatchesStrings._from_openapi_data(
                                 [
                 ]
@@ -74,7 +74,7 @@ class TestStringTypeMatchesStrings(unittest.TestCase):
 
     def test_a_boolean_is_not_a_string_fails(self):
         # a boolean is not a string
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             StringTypeMatchesStrings._from_openapi_data(
                 
                 True,
@@ -83,7 +83,7 @@ class TestStringTypeMatchesStrings(unittest.TestCase):
 
     def test_null_is_not_a_string_fails(self):
         # null is not a string
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             StringTypeMatchesStrings._from_openapi_data(
                 
                 None,

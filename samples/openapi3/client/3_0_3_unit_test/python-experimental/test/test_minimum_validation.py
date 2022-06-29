@@ -29,7 +29,7 @@ class TestMinimumValidation(unittest.TestCase):
 
     def test_below_the_minimum_is_invalid_fails(self):
         # below the minimum is invalid
-        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError, TypeError)):
+        with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             MinimumValidation._from_openapi_data(
                                 0.6,
                 _configuration=self._configuration
