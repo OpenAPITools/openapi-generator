@@ -10,8 +10,6 @@ setup.cfg
 setup.py
 test-requirements.txt
 test/__init__.py
-test/test_uniqueitems_false_validation.py
-test/test_uniqueitems_validation.py
 tox.ini
 unit_test_api/__init__.py
 unit_test_api/api/__init__.py

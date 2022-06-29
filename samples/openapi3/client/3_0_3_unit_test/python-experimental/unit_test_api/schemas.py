@@ -202,6 +202,31 @@ class ValidatorBase:
                     )
 
     @classmethod
+    def __data_with_boolclass_instead_of_bool(cls, data: typing.Any) -> typing.Any:
+        """
+        In python bool is a subclass of int so 1 == True and 0 == False
+        This prevents code from being able to see the difference between 1 and True and 0 and False
+        To fix this swap in BoolClass singletons for True and False so they will differ from integers
+        """
+        if isinstance(data, (list, tuple)):
+            new_data = []
+            for item in data:
+                new_item = cls.__data_with_boolclass_instead_of_bool(item)
+                new_data.append(new_item)
+            return tuple(new_data)
+        elif isinstance(data, (dict, frozendict)):
+            new_data = {}
+            for key, value in data.items():
+                new_value = cls.__data_with_boolclass_instead_of_bool(value)
+                new_data[key] = new_value
+            return frozendict(new_data)
+        elif isinstance(data, bool):
+            if data:
+                return BoolClass.TRUE
+            return BoolClass.FALSE
+        return data
+
+    @classmethod
     def __check_tuple_validations(
             cls, validations, input_values,
             validation_metadata: ValidationMetadata):
@@ -228,11 +253,7 @@ class ValidatorBase:
 
         if (cls.__is_json_validation_enabled('uniqueItems', validation_metadata.configuration) and
                 'unique_items' in validations and validations['unique_items'] and input_values):
-            unique_items = set()
-            for item in input_values:
-                pair = (item, item.__class__)
-                if pair not in unique_items:
-                    unique_items.add(pair)
+            unique_items = set(cls.__data_with_boolclass_instead_of_bool(input_values))
             if len(input_values) > len(unique_items):
                 cls.__raise_validation_error_message(
                     value=input_values,
