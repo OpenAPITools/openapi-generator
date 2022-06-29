@@ -236,7 +236,10 @@ test_that("Tests oneOf", {
   nested_oneof$nested_pig <- pig
   nested_oneof$size <- 15
   expect_equal(nested_oneof$toJSONString(), '{"size":15,"nested_pig":{"className":"BasquePig","color":"red"}}')
-   
+
+  # test toString
+  expect_equal(as.character(jsonlite::minify(pig$toString())), "{\"actual_instance\":{\"className\":\"BasquePig\",\"color\":\"red\"},\"actual_type\":\"BasquePig\",\"one_of\":\"BasquePig, DanishPig\"}")
+  expect_equal(as.character(jsonlite::minify(Pig$new()$toString())), "{\"one_of\":\"BasquePig, DanishPig\"}")
 })
 
 test_that("Tests anyOf", {

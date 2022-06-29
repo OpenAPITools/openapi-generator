@@ -92,11 +92,11 @@ AnyOfPig <- R6::R6Class(
     #' @description
     #' Serialize AnyOfPig to JSON string.
     #'
-    #' @return JSON string reprenation of the AnyOfPig.
+    #' @return JSON string representation of the AnyOfPig.
     #' @export
     toJSONString = function() {
       if (!is.null(self$actual_instance)) {
-        self$actual_instance$toJSONString()
+        as.character(jsonlite::minify((self$actual_instance$toJSONString())))
       } else {
         NULL
       }
@@ -106,7 +106,7 @@ AnyOfPig <- R6::R6Class(
     #' @description
     #' Serialize AnyOfPig to JSON.
     #'
-    #' @return JSON reprenation of the AnyOfPig.
+    #' @return JSON representation of the AnyOfPig.
     #' @export
     toJSON = function() {
       if (!is.null(self$actual_instance)) {
@@ -134,7 +134,23 @@ AnyOfPig <- R6::R6Class(
       # no error thrown, restore old values
       self$actual_instance <- actual_instance_bak
       self$actual_type <- actual_type_bak
-    }
+    },
+    #' Returns the string representation of the instance.
+    #'
+    #' @description
+    #' Returns the string representation of the instance.
+    #'
+    #' @return The string representation of the instance.
+    #' @export
+    toString = function() {
+      jsoncontent <- c(
+        sprintf('"actual_instance": %s', if (is.null(self$actual_instance)) {NULL} else {self$actual_instance$toJSONString()}),
+        sprintf('"actual_type": "%s"', self$actual_type),
+        sprintf('"any_of": "%s"',  paste( unlist(self$any_of), collapse=', '))
+      )
+      jsoncontent <- paste(jsoncontent, collapse = ",")
+      as.character(jsonlite::prettify(paste('{', jsoncontent, '}', sep = "")))
+     }
   )
 )
 
