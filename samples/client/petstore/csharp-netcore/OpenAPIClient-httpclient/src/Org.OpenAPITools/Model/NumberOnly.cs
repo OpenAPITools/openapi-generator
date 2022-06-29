@@ -30,6 +30,8 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// NumberOnly
     /// </summary>
+    [CLSCompliant(true)]
+    [ComVisible(true)]
     [DataContract(Name = "NumberOnly")]
     public partial class NumberOnly : IEquatable<NumberOnly>, IValidatableObject
     {

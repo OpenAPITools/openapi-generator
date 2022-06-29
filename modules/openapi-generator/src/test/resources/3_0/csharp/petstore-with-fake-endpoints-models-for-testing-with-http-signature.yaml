@@ -1697,6 +1697,8 @@ components:
             items:
               $ref: '#/components/schemas/ReadOnlyFirst'
     NumberOnly:
+      x-cls-compliant: true
+      x-com-visible: true
       type: object
       properties:
         JustNumber:

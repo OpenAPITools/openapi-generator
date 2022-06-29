@@ -6,6 +6,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.IO;
+{{#vendorExtensions.x-com-visible}}
+using System.Runtime.InteropServices;
+{{/vendorExtensions.x-com-visible}}
 using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -33,11 +36,11 @@ using OpenAPIClientUtils = {{packageName}}.Client.ClientUtils;
 using System.Reflection;
 {{/-first}}
 {{/oneOf}}
-{{#aneOf}}
+{{#anyOf}}
 {{#-first}}
 using System.Reflection;
 {{/-first}}
-{{/aneOf}}
+{{/anyOf}}
 
 namespace {{packageName}}.{{modelPackage}}
 {
