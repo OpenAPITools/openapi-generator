@@ -74,6 +74,7 @@ class JsonSchemaTestSchema:
     description: str
     schema: JsonSchema
     tests: typing.List[JsonSchemaTestCase]
+    comment: typing.Optional[str] = None
 
 
 class ExclusionReason:
@@ -100,17 +101,14 @@ class ExclusionReason:
     component_ref_component_bug = 'A component refing another component does not work, issue at https://github.com/OpenAPITools/openapi-generator/issues/12730'
     not_running_the_localhost_server = 'the openapo-generator is not running the localhost server needed to serve remoteRef files'
     required_vars_missing_for_anytype_schema_bug = 'fails because of a bug where required vars are forgotten, see issue https://github.com/OpenAPITools/openapi-generator/issues/8906'
+    v303_requires_that_the_default_value_is_an_allowed_type = 'v3.0.3 requires that the default value is an allowed type per the schema'
 
 json_schema_test_draft = 'draft6'
 openapi_additions = 'openapi_additions'
 
 FILEPATH_TO_EXCLUDED_CASE_AND_REASON = {
-    (json_schema_test_draft, 'type.json'): {
-        'multiple types can be specified in an array': ExclusionReason.v303_does_not_support_array_of_types,
-        'type as array with one item': ExclusionReason.v303_does_not_support_array_of_types,
-        'type: array or object': ExclusionReason.v303_does_not_support_array_of_types,
-        'type: array, object or null': ExclusionReason.v303_does_not_support_array_of_types,
-        'array type matches arrays': ExclusionReason.v303_requires_array_have_items,
+    (json_schema_test_draft, 'default.json'): {
+        'invalid type for default': ExclusionReason.v303_requires_that_the_default_value_is_an_allowed_type,
     },
     (json_schema_test_draft, 'enum.json'): {
         'heterogeneous enum validation': ExclusionReason.swagger_parser_enum_type_bug,
@@ -181,6 +179,13 @@ FILEPATH_TO_EXCLUDED_CASE_AND_REASON = {
     (json_schema_test_draft, 'required.json'): {
         'required with escaped characters': ExclusionReason.required_vars_missing_for_anytype_schema_bug,
     },
+    (json_schema_test_draft, 'type.json'): {
+        'multiple types can be specified in an array': ExclusionReason.v303_does_not_support_array_of_types,
+        'type as array with one item': ExclusionReason.v303_does_not_support_array_of_types,
+        'type: array or object': ExclusionReason.v303_does_not_support_array_of_types,
+        'type: array, object or null': ExclusionReason.v303_does_not_support_array_of_types,
+        'array type matches arrays': ExclusionReason.v303_requires_array_have_items,
+    },
     (json_schema_test_draft, 'uniqueItems.json'): {
         'uniqueItems with an array of items': ExclusionReason.v303_does_not_support_items_schema_array,
         'uniqueItems=false with an array of items': ExclusionReason.v303_does_not_support_items_schema_array,
@@ -200,46 +205,48 @@ FILEPATH_TO_EXCLUDE_REASON = {
     (json_schema_test_draft, 'id.json'): ExclusionReason.v303_does_not_support_id,
     (json_schema_test_draft, 'patternProperties.json'): ExclusionReason.v303_does_not_support_patternProperties,
     (json_schema_test_draft, 'propertyNames.json'): ExclusionReason.v303_does_not_support_propertyNames,
+    (json_schema_test_draft, 'unknownKeyword.json'): ExclusionReason.v303_does_not_support_definitions,
 }
 
 JSON_SCHEMA_TEST_FILE_TO_FOLDERS = {
-#     'additionalItems.json': (json_schema_test_draft,),
-#     'additionalProperties.json': (json_schema_test_draft,),
+    'additionalItems.json': (json_schema_test_draft,),
+    'additionalProperties.json': (json_schema_test_draft,),
 #     'allOf.json': (json_schema_test_draft,),  # activate later after fixing composition processing
 #     'anyOf.json': (json_schema_test_draft,),  # activate later after fixing composition processing
-#     'boolean_schema.json': (json_schema_test_draft,),
-#     'const.json': (json_schema_test_draft,),
-#     'contains.json': (json_schema_test_draft,),
-#     'default.json': (json_schema_test_draft,),
-#     'definitions.json': (json_schema_test_draft,),
-#     'dependencies.json': (json_schema_test_draft,),
-#     'enum.json': (json_schema_test_draft,),
-#     'exclusiveMaximum.json': (json_schema_test_draft,),
-#     'exclusiveMinimum.json': (json_schema_test_draft,),
-#     'format.json': (json_schema_test_draft,),
-#     'id.json': (json_schema_test_draft,),
+    'boolean_schema.json': (json_schema_test_draft,),
+    'const.json': (json_schema_test_draft,),
+    'contains.json': (json_schema_test_draft,),
+    'default.json': (json_schema_test_draft,),
+    'definitions.json': (json_schema_test_draft,),
+    'dependencies.json': (json_schema_test_draft,),
+    'enum.json': (json_schema_test_draft,),
+    'exclusiveMaximum.json': (json_schema_test_draft,),
+    'exclusiveMinimum.json': (json_schema_test_draft,),
+    'format.json': (json_schema_test_draft,),
+    'id.json': (json_schema_test_draft,),
 #     'infinite-loop-detection.json': (json_schema_test_draft,),  # activate after fixing this
-#     'items.json': (json_schema_test_draft,),
-#     'maximum.json': (json_schema_test_draft,),
-#     'maxItems.json': (json_schema_test_draft,),
-#     'maxLength.json': (json_schema_test_draft,),
-#     'maxProperties.json': (json_schema_test_draft,),
-#     'minimum.json': (json_schema_test_draft,),
-#     'minItems.json': (json_schema_test_draft,),
-#     'minLength.json': (json_schema_test_draft,),
-#     'minProperties.json': (json_schema_test_draft,),
-#     'multipleOf.json': (json_schema_test_draft,),
-#     'not.json': (json_schema_test_draft,),
+    'items.json': (json_schema_test_draft,),
+    'maximum.json': (json_schema_test_draft,),
+    'maxItems.json': (json_schema_test_draft,),
+    'maxLength.json': (json_schema_test_draft,),
+    'maxProperties.json': (json_schema_test_draft,),
+    'minimum.json': (json_schema_test_draft,),
+    'minItems.json': (json_schema_test_draft,),
+    'minLength.json': (json_schema_test_draft,),
+    'minProperties.json': (json_schema_test_draft,),
+    'multipleOf.json': (json_schema_test_draft,),
+    'not.json': (json_schema_test_draft,),
 #     'oneOf.json': (json_schema_test_draft,),  # activate after fixing this
-#     'pattern.json': (json_schema_test_draft,),
-#     'patternProperties.json': (json_schema_test_draft,),
-#     'properties.json': (json_schema_test_draft,),
-#     'propertyNames.json': (json_schema_test_draft,),
-#     'ref.json': (json_schema_test_draft, openapi_additions),
-#     'refRemote.json': (json_schema_test_draft,),
-#     'required.json': (json_schema_test_draft,),
-#     'type.json': (json_schema_test_draft, openapi_additions),
+    'pattern.json': (json_schema_test_draft,),
+    'patternProperties.json': (json_schema_test_draft,),
+    'properties.json': (json_schema_test_draft,),
+    'propertyNames.json': (json_schema_test_draft,),
+    'ref.json': (json_schema_test_draft, openapi_additions),
+    'refRemote.json': (json_schema_test_draft,),
+    'required.json': (json_schema_test_draft,),
+    'type.json': (json_schema_test_draft, openapi_additions),
     'uniqueItems.json': (json_schema_test_draft,),
+    'unknownKeyword.json': (json_schema_test_draft,),
 }
 
 def get_json_schema_test_schemas(file_path: typing.Tuple[str]) -> typing.List[JsonSchemaTestSchema]:
