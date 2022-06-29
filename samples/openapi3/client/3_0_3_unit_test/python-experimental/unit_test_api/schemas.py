@@ -228,10 +228,11 @@ class ValidatorBase:
 
         if (cls.__is_json_validation_enabled('uniqueItems', validation_metadata.configuration) and
                 'unique_items' in validations and validations['unique_items'] and input_values):
-            unique_items = []
+            unique_items = set()
             for item in input_values:
-                if item not in unique_items:
-                    unique_items.append(item)
+                pair = (item, item.__class__)
+                if pair not in unique_items:
+                    unique_items.add(pair)
             if len(input_values) > len(unique_items):
                 cls.__raise_validation_error_message(
                     value=input_values,

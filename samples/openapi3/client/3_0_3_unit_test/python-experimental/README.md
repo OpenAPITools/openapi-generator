@@ -62,9 +62,8 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Models
 
- - [RequiredDefaultValidation](docs/RequiredDefaultValidation.md)
- - [RequiredValidation](docs/RequiredValidation.md)
- - [RequiredWithEmptyArray](docs/RequiredWithEmptyArray.md)
+ - [UniqueitemsFalseValidation](docs/UniqueitemsFalseValidation.md)
+ - [UniqueitemsValidation](docs/UniqueitemsValidation.md)
 
 ## Documentation For Authorization
 

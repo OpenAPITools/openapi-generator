@@ -7,50 +7,295 @@ info:
 paths: {}
 components:
   schemas:
-    RequiredValidation:
-      properties:
-        foo: {}
-        bar: {}
-      required:
-      - foo
-    RequiredDefaultValidation:
-      properties:
-        foo: {}
-    RequiredWithEmptyArray:
-      properties:
-        foo: {}
-      required: []
+    UniqueitemsValidation:
+      uniqueItems: true
+    UniqueitemsFalseValidation:
+      uniqueItems: false
   x-schema-test-examples:
-    RequiredValidation:
-      PresentRequiredPropertyIsValid:
-        description: present required property is valid
+    UniqueitemsValidation:
+      UniqueArrayOfIntegersIsValid:
+        description: unique array of integers is valid
         data:
-          foo: 1
+        - 1
+        - 2
         valid: true
-      NonPresentRequiredPropertyIsInvalid:
-        description: non-present required property is invalid
+      NonUniqueArrayOfIntegersIsInvalid:
+        description: non-unique array of integers is invalid
         data:
-          bar: 1
+        - 1
+        - 1
         valid: false
-      IgnoresArrays:
-        description: ignores arrays
-        data: []
+      NonUniqueArrayOfMoreThanTwoIntegersIsInvalid:
+        description: non-unique array of more than two integers is invalid
+        data:
+        - 1
+        - 2
+        - 1
+        valid: false
+      NumbersAreUniqueIfMathematicallyUnequal:
+        description: numbers are unique if mathematically unequal
+        data:
+        - 1.0
+        - 1.0
+        - 1
+        valid: false
+      FalseIsNotEqualToZero:
+        description: false is not equal to zero
+        data:
+        - 0
+        - false
         valid: true
-      IgnoresStrings:
-        description: ignores strings
-        data: ''
+      TrueIsNotEqualToOne:
+        description: true is not equal to one
+        data:
+        - 1
+        - true
         valid: true
-      IgnoresOtherNonObjects:
-        description: ignores other non-objects
-        data: 12
+      UniqueArrayOfStringsIsValid:
+        description: unique array of strings is valid
+        data:
+        - foo
+        - bar
+        - baz
         valid: true
-    RequiredDefaultValidation:
-      NotRequiredByDefault:
-        description: not required by default
-        data: {}
+      NonUniqueArrayOfStringsIsInvalid:
+        description: non-unique array of strings is invalid
+        data:
+        - foo
+        - bar
+        - foo
+        valid: false
+      UniqueArrayOfObjectsIsValid:
+        description: unique array of objects is valid
+        data:
+        - foo: bar
+        - foo: baz
         valid: true
-    RequiredWithEmptyArray:
-      PropertyNotRequired:
-        description: property not required
-        data: {}
+      NonUniqueArrayOfObjectsIsInvalid:
+        description: non-unique array of objects is invalid
+        data:
+        - foo: bar
+        - foo: bar
+        valid: false
+      UniqueArrayOfNestedObjectsIsValid:
+        description: unique array of nested objects is valid
+        data:
+        - foo:
+            bar:
+              baz: true
+        - foo:
+            bar:
+              baz: false
+        valid: true
+      NonUniqueArrayOfNestedObjectsIsInvalid:
+        description: non-unique array of nested objects is invalid
+        data:
+        - foo:
+            bar:
+              baz: true
+        - foo:
+            bar:
+              baz: true
+        valid: false
+      UniqueArrayOfArraysIsValid:
+        description: unique array of arrays is valid
+        data:
+        - - foo
+        - - bar
+        valid: true
+      NonUniqueArrayOfArraysIsInvalid:
+        description: non-unique array of arrays is invalid
+        data:
+        - - foo
+        - - foo
+        valid: false
+      NonUniqueArrayOfMoreThanTwoArraysIsInvalid:
+        description: non-unique array of more than two arrays is invalid
+        data:
+        - - foo
+        - - bar
+        - - foo
+        valid: false
+      1AndTrueAreUnique:
+        description: '[1] and [true] are unique'
+        data:
+        - - 1
+        - - true
+        valid: true
+      0AndFalseAreUnique:
+        description: '[0] and [false] are unique'
+        data:
+        - - 0
+        - - false
+        valid: true
+      Nested1AndTrueAreUnique:
+        description: nested [1] and [true] are unique
+        data:
+        - - - 1
+          - foo
+        - - - true
+          - foo
+        valid: true
+      Nested0AndFalseAreUnique:
+        description: nested [0] and [false] are unique
+        data:
+        - - - 0
+          - foo
+        - - - false
+          - foo
+        valid: true
+      UniqueHeterogeneousTypesAreValid:
+        description: unique heterogeneous types are valid
+        data:
+        - {}
+        - - 1
+        - true
+        - null
+        - 1
+        - '{}'
+        valid: true
+      NonUniqueHeterogeneousTypesAreInvalid:
+        description: non-unique heterogeneous types are invalid
+        data:
+        - {}
+        - - 1
+        - true
+        - null
+        - {}
+        - 1
+        valid: false
+      DifferentObjectsAreUnique:
+        description: different objects are unique
+        data:
+        - a: 1
+          b: 2
+        - a: 2
+          b: 1
+        valid: true
+      ObjectsAreNonUniqueDespiteKeyOrder:
+        description: objects are non-unique despite key order
+        data:
+        - a: 1
+          b: 2
+        - b: 2
+          a: 1
+        valid: false
+      AFalseAndA0AreUnique:
+        description: '{"a": false} and {"a": 0} are unique'
+        data:
+        - a: false
+        - a: 0
+        valid: true
+      ATrueAndA1AreUnique:
+        description: '{"a": true} and {"a": 1} are unique'
+        data:
+        - a: true
+        - a: 1
+        valid: true
+    UniqueitemsFalseValidation:
+      UniqueArrayOfIntegersIsValid:
+        description: unique array of integers is valid
+        data:
+        - 1
+        - 2
+        valid: true
+      NonUniqueArrayOfIntegersIsValid:
+        description: non-unique array of integers is valid
+        data:
+        - 1
+        - 1
+        valid: true
+      NumbersAreUniqueIfMathematicallyUnequal:
+        description: numbers are unique if mathematically unequal
+        data:
+        - 1.0
+        - 1.0
+        - 1
+        valid: true
+      FalseIsNotEqualToZero:
+        description: false is not equal to zero
+        data:
+        - 0
+        - false
+        valid: true
+      TrueIsNotEqualToOne:
+        description: true is not equal to one
+        data:
+        - 1
+        - true
+        valid: true
+      UniqueArrayOfObjectsIsValid:
+        description: unique array of objects is valid
+        data:
+        - foo: bar
+        - foo: baz
+        valid: true
+      NonUniqueArrayOfObjectsIsValid:
+        description: non-unique array of objects is valid
+        data:
+        - foo: bar
+        - foo: bar
+        valid: true
+      UniqueArrayOfNestedObjectsIsValid:
+        description: unique array of nested objects is valid
+        data:
+        - foo:
+            bar:
+              baz: true
+        - foo:
+            bar:
+              baz: false
+        valid: true
+      NonUniqueArrayOfNestedObjectsIsValid:
+        description: non-unique array of nested objects is valid
+        data:
+        - foo:
+            bar:
+              baz: true
+        - foo:
+            bar:
+              baz: true
+        valid: true
+      UniqueArrayOfArraysIsValid:
+        description: unique array of arrays is valid
+        data:
+        - - foo
+        - - bar
+        valid: true
+      NonUniqueArrayOfArraysIsValid:
+        description: non-unique array of arrays is valid
+        data:
+        - - foo
+        - - foo
+        valid: true
+      1AndTrueAreUnique:
+        description: 1 and true are unique
+        data:
+        - 1
+        - true
+        valid: true
+      0AndFalseAreUnique:
+        description: 0 and false are unique
+        data:
+        - 0
+        - false
+        valid: true
+      UniqueHeterogeneousTypesAreValid:
+        description: unique heterogeneous types are valid
+        data:
+        - {}
+        - - 1
+        - true
+        - null
+        - 1
+        valid: true
+      NonUniqueHeterogeneousTypesAreValid:
+        description: non-unique heterogeneous types are valid
+        data:
+        - {}
+        - - 1
+        - true
+        - null
+        - {}
+        - 1
         valid: true

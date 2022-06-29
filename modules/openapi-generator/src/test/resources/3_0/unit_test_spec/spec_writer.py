@@ -181,6 +181,12 @@ FILEPATH_TO_EXCLUDED_CASE_AND_REASON = {
     (json_schema_test_draft, 'required.json'): {
         'required with escaped characters': ExclusionReason.required_vars_missing_for_anytype_schema_bug,
     },
+    (json_schema_test_draft, 'uniqueItems.json'): {
+        'uniqueItems with an array of items': ExclusionReason.v303_does_not_support_items_schema_array,
+        'uniqueItems=false with an array of items': ExclusionReason.v303_does_not_support_items_schema_array,
+        'uniqueItems with an array of items and additionalItems=false': ExclusionReason.v303_does_not_support_items_schema_array,
+        'uniqueItems=false with an array of items and additionalItems=false': ExclusionReason.v303_does_not_support_items_schema_array,
+    },
 }
 FILEPATH_TO_EXCLUDE_REASON = {
     (json_schema_test_draft, 'additionalItems.json'): ExclusionReason.v303_does_not_support_additionalItems,
@@ -231,8 +237,9 @@ JSON_SCHEMA_TEST_FILE_TO_FOLDERS = {
 #     'propertyNames.json': (json_schema_test_draft,),
 #     'ref.json': (json_schema_test_draft, openapi_additions),
 #     'refRemote.json': (json_schema_test_draft,),
-    'required.json': (json_schema_test_draft,),
+#     'required.json': (json_schema_test_draft,),
 #     'type.json': (json_schema_test_draft, openapi_additions),
+    'uniqueItems.json': (json_schema_test_draft,),
 }
 
 def get_json_schema_test_schemas(file_path: typing.Tuple[str]) -> typing.List[JsonSchemaTestSchema]:
