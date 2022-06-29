@@ -62,7 +62,6 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Models
 
- - [PropertyNamedRefThatIsNotAReference](docs/PropertyNamedRefThatIsNotAReference.md)
 
 ## Documentation For Authorization
 

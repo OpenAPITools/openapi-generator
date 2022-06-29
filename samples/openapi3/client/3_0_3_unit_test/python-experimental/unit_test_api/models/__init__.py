@@ -11,4 +11,3 @@
 # import sys
 # sys.setrecursionlimit(n)
 
-from unit_test_api.model.property_named_ref_that_is_not_a_reference import PropertyNamedRefThatIsNotAReference

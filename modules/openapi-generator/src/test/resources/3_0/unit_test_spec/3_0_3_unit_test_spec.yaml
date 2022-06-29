@@ -6,20 +6,5 @@ info:
   version: 0.0.1
 paths: {}
 components:
-  schemas:
-    PropertyNamedRefThatIsNotAReference:
-      properties:
-        $ref:
-          type: string
-  x-schema-test-examples:
-    PropertyNamedRefThatIsNotAReference:
-      PropertyNamedRefValid:
-        description: property named $ref valid
-        data:
-          $ref: a
-        valid: true
-      PropertyNamedRefInvalid:
-        description: property named $ref invalid
-        data:
-          $ref: 2
-        valid: false
+  schemas: {}
+  x-schema-test-examples: {}

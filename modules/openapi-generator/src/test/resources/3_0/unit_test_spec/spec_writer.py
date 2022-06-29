@@ -98,6 +98,7 @@ class ExclusionReason:
     ref_to_adjacent_property_bug = 'Refing an adjacent property does not work, issue at https://github.com/OpenAPITools/openapi-generator/issues/12729'
     swagger_parser_anytype_bug = 'Swagger parser sets type incorrectly for this anyType schema https://github.com/swagger-api/swagger-parser/issues/1603'
     component_ref_component_bug = 'A component refing another component does not work, issue at https://github.com/OpenAPITools/openapi-generator/issues/12730'
+    not_running_the_localhost_server = 'the openapo-generator is not running the localhost server needed to serve remoteRef files'
 
 json_schema_test_draft = 'draft6'
 openapi_additions = 'openapi_additions'
@@ -165,7 +166,17 @@ FILEPATH_TO_EXCLUDED_CASE_AND_REASON = {
         'property refs adjacent property': ExclusionReason.ref_to_adjacent_property_bug,
         'property refs containing component schema': ExclusionReason.swagger_parser_anytype_bug,
         'component refs another component': ExclusionReason.component_ref_component_bug,
-    }
+    },
+    (json_schema_test_draft, 'refRemote.json'): {
+        'base URI change - change folder': ExclusionReason.v303_does_not_support_id,
+        'base URI change - change folder in subschema': ExclusionReason.v303_does_not_support_definitions,
+        'remote ref with ref to definitions': ExclusionReason.v303_does_not_support_id,
+        'root ref in remote ref': ExclusionReason.v303_does_not_support_id,
+        'base URI change': ExclusionReason.v303_does_not_support_id,
+        'remote ref': ExclusionReason.not_running_the_localhost_server,
+        'fragment within remote ref': ExclusionReason.not_running_the_localhost_server,
+        'ref within remote ref': ExclusionReason.not_running_the_localhost_server,
+    },
 }
 FILEPATH_TO_EXCLUDE_REASON = {
     (json_schema_test_draft, 'additionalItems.json'): ExclusionReason.v303_does_not_support_additionalItems,
@@ -213,8 +224,9 @@ JSON_SCHEMA_TEST_FILE_TO_FOLDERS = {
 #     'pattern.json': (json_schema_test_draft,),
 #     'patternProperties.json': (json_schema_test_draft,),
 #     'properties.json': (json_schema_test_draft,),
-    'propertyNames.json': (json_schema_test_draft,),
-    'ref.json': (json_schema_test_draft, openapi_additions),
+#     'propertyNames.json': (json_schema_test_draft,),
+#     'ref.json': (json_schema_test_draft, openapi_additions),
+    'refRemote.json': (json_schema_test_draft,),
 #     'type.json': (json_schema_test_draft, openapi_additions),
 }
 
