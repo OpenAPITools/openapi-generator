@@ -383,11 +383,9 @@ public class CppUE4ClientCodegen extends AbstractCppCodegen {
 
         if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
-            String inner = getSchemaType(ap.getItems());
-            return getSchemaType(p) + "<" + getTypeDeclaration(inner) + ">";
+            return getSchemaType(p) + "<" + getTypeDeclaration(ap.getItems()) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
-            String inner = getSchemaType(getAdditionalProperties(p));
-            return getSchemaType(p) + "<FString, " + getTypeDeclaration(inner) + ">";
+            return getSchemaType(p) + "<FString, " + getTypeDeclaration(getAdditionalProperties(p)) + ">";
         }
 
         if (pointerClasses.contains(openAPIType)) {
