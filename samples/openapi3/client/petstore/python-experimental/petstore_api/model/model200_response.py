@@ -78,7 +78,7 @@ class Model200Response(
     """
     name = Int32Schema
     _class = StrSchema
-    locals()['class'] = _class
+    locals()["class"] = _class
     del locals()['_class']
 
     def __new__(
