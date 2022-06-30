@@ -24,30 +24,24 @@ class TestForbiddenProperty(unittest.TestCase):
         # property present
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             ForbiddenProperty._from_openapi_data(
-                                {
-                    
+                {
                     "foo":
-                                                1,
-                    
+                        1,
                     "bar":
-                                                2,
-                }
-,
+                        2,
+                },
                 _configuration=self._configuration
             )
 
     def test_property_absent_passes(self):
         # property absent
         ForbiddenProperty._from_openapi_data(
-                        {
-                
+            {
                 "bar":
-                                        1,
-                
+                    1,
                 "baz":
-                                        2,
-            }
-,
+                    2,
+            },
             _configuration=self._configuration
         )
 

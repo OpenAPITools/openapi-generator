@@ -24,7 +24,7 @@ class TestInvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInf(unittest.TestCa
         # always invalid, but naive implementations may raise an overflow error
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             InvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInf._from_openapi_data(
-                                1.0E308,
+                1.0E308,
                 _configuration=self._configuration
             )
 

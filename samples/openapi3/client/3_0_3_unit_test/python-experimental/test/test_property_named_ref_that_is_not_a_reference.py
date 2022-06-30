@@ -23,13 +23,10 @@ class TestPropertyNamedRefThatIsNotAReference(unittest.TestCase):
     def test_property_named_ref_valid_passes(self):
         # property named $ref valid
         PropertyNamedRefThatIsNotAReference._from_openapi_data(
-                        {
-                
+            {
                 "$ref":
-                    
                     "a",
-            }
-,
+            },
             _configuration=self._configuration
         )
 
@@ -37,12 +34,10 @@ class TestPropertyNamedRefThatIsNotAReference(unittest.TestCase):
         # property named $ref invalid
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             PropertyNamedRefThatIsNotAReference._from_openapi_data(
-                                {
-                    
+                {
                     "$ref":
-                                                2,
-                }
-,
+                        2,
+                },
                 _configuration=self._configuration
             )
 

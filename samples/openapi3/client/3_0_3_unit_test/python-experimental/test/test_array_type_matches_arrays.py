@@ -24,7 +24,7 @@ class TestArrayTypeMatchesArrays(unittest.TestCase):
         # a float is not an array
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             ArrayTypeMatchesArrays._from_openapi_data(
-                                1.1,
+                1.1,
                 _configuration=self._configuration
             )
 
@@ -32,7 +32,6 @@ class TestArrayTypeMatchesArrays(unittest.TestCase):
         # a boolean is not an array
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             ArrayTypeMatchesArrays._from_openapi_data(
-                
                 True,
                 _configuration=self._configuration
             )
@@ -41,7 +40,6 @@ class TestArrayTypeMatchesArrays(unittest.TestCase):
         # null is not an array
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             ArrayTypeMatchesArrays._from_openapi_data(
-                
                 None,
                 _configuration=self._configuration
             )
@@ -50,9 +48,8 @@ class TestArrayTypeMatchesArrays(unittest.TestCase):
         # an object is not an array
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             ArrayTypeMatchesArrays._from_openapi_data(
-                                {
-                }
-,
+                {
+                },
                 _configuration=self._configuration
             )
 
@@ -60,7 +57,6 @@ class TestArrayTypeMatchesArrays(unittest.TestCase):
         # a string is not an array
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             ArrayTypeMatchesArrays._from_openapi_data(
-                
                 "foo",
                 _configuration=self._configuration
             )
@@ -68,9 +64,8 @@ class TestArrayTypeMatchesArrays(unittest.TestCase):
     def test_an_array_is_an_array_passes(self):
         # an array is an array
         ArrayTypeMatchesArrays._from_openapi_data(
-                        [
-            ]
-,
+            [
+            ],
             _configuration=self._configuration
         )
 
@@ -78,7 +73,7 @@ class TestArrayTypeMatchesArrays(unittest.TestCase):
         # an integer is not an array
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             ArrayTypeMatchesArrays._from_openapi_data(
-                                1,
+                1,
                 _configuration=self._configuration
             )
 

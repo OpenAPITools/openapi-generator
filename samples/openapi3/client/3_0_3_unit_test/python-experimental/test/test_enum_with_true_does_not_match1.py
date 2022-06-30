@@ -24,14 +24,13 @@ class TestEnumWithTrueDoesNotMatch1(unittest.TestCase):
         # float one is invalid
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             EnumWithTrueDoesNotMatch1._from_openapi_data(
-                                1.0,
+                1.0,
                 _configuration=self._configuration
             )
 
     def test_true_is_valid_passes(self):
         # true is valid
         EnumWithTrueDoesNotMatch1._from_openapi_data(
-            
             True,
             _configuration=self._configuration
         )
@@ -40,7 +39,7 @@ class TestEnumWithTrueDoesNotMatch1(unittest.TestCase):
         # integer one is invalid
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             EnumWithTrueDoesNotMatch1._from_openapi_data(
-                                1,
+                1,
                 _configuration=self._configuration
             )
 

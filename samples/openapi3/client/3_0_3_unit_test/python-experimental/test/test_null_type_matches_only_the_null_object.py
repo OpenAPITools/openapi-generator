@@ -24,7 +24,7 @@ class TestNullTypeMatchesOnlyTheNullObject(unittest.TestCase):
         # a float is not null
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             NullTypeMatchesOnlyTheNullObject._from_openapi_data(
-                                1.1,
+                1.1,
                 _configuration=self._configuration
             )
 
@@ -32,9 +32,8 @@ class TestNullTypeMatchesOnlyTheNullObject(unittest.TestCase):
         # an object is not null
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             NullTypeMatchesOnlyTheNullObject._from_openapi_data(
-                                {
-                }
-,
+                {
+                },
                 _configuration=self._configuration
             )
 
@@ -42,7 +41,6 @@ class TestNullTypeMatchesOnlyTheNullObject(unittest.TestCase):
         # false is not null
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             NullTypeMatchesOnlyTheNullObject._from_openapi_data(
-                
                 False,
                 _configuration=self._configuration
             )
@@ -51,7 +49,7 @@ class TestNullTypeMatchesOnlyTheNullObject(unittest.TestCase):
         # an integer is not null
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             NullTypeMatchesOnlyTheNullObject._from_openapi_data(
-                                1,
+                1,
                 _configuration=self._configuration
             )
 
@@ -59,7 +57,6 @@ class TestNullTypeMatchesOnlyTheNullObject(unittest.TestCase):
         # true is not null
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             NullTypeMatchesOnlyTheNullObject._from_openapi_data(
-                
                 True,
                 _configuration=self._configuration
             )
@@ -68,7 +65,7 @@ class TestNullTypeMatchesOnlyTheNullObject(unittest.TestCase):
         # zero is not null
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             NullTypeMatchesOnlyTheNullObject._from_openapi_data(
-                                0,
+                0,
                 _configuration=self._configuration
             )
 
@@ -76,7 +73,6 @@ class TestNullTypeMatchesOnlyTheNullObject(unittest.TestCase):
         # an empty string is not null
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             NullTypeMatchesOnlyTheNullObject._from_openapi_data(
-                
                 "",
                 _configuration=self._configuration
             )
@@ -84,7 +80,6 @@ class TestNullTypeMatchesOnlyTheNullObject(unittest.TestCase):
     def test_null_is_null_passes(self):
         # null is null
         NullTypeMatchesOnlyTheNullObject._from_openapi_data(
-            
             None,
             _configuration=self._configuration
         )
@@ -93,9 +88,8 @@ class TestNullTypeMatchesOnlyTheNullObject(unittest.TestCase):
         # an array is not null
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             NullTypeMatchesOnlyTheNullObject._from_openapi_data(
-                                [
-                ]
-,
+                [
+                ],
                 _configuration=self._configuration
             )
 
@@ -103,7 +97,6 @@ class TestNullTypeMatchesOnlyTheNullObject(unittest.TestCase):
         # a string is not null
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             NullTypeMatchesOnlyTheNullObject._from_openapi_data(
-                
                 "foo",
                 _configuration=self._configuration
             )

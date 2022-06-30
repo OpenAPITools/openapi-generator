@@ -23,14 +23,14 @@ class TestMinimumValidationWithSignedInteger(unittest.TestCase):
     def test_boundary_point_is_valid_passes(self):
         # boundary point is valid
         MinimumValidationWithSignedInteger._from_openapi_data(
-                        -2,
+            -2,
             _configuration=self._configuration
         )
 
     def test_positive_above_the_minimum_is_valid_passes(self):
         # positive above the minimum is valid
         MinimumValidationWithSignedInteger._from_openapi_data(
-                        0,
+            0,
             _configuration=self._configuration
         )
 
@@ -38,7 +38,7 @@ class TestMinimumValidationWithSignedInteger(unittest.TestCase):
         # int below the minimum is invalid
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             MinimumValidationWithSignedInteger._from_openapi_data(
-                                -3,
+                -3,
                 _configuration=self._configuration
             )
 
@@ -46,28 +46,27 @@ class TestMinimumValidationWithSignedInteger(unittest.TestCase):
         # float below the minimum is invalid
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             MinimumValidationWithSignedInteger._from_openapi_data(
-                                -2.0001,
+                -2.0001,
                 _configuration=self._configuration
             )
 
     def test_boundary_point_with_float_is_valid_passes(self):
         # boundary point with float is valid
         MinimumValidationWithSignedInteger._from_openapi_data(
-                        -2.0,
+            -2.0,
             _configuration=self._configuration
         )
 
     def test_negative_above_the_minimum_is_valid_passes(self):
         # negative above the minimum is valid
         MinimumValidationWithSignedInteger._from_openapi_data(
-                        -1,
+            -1,
             _configuration=self._configuration
         )
 
     def test_ignores_non_numbers_passes(self):
         # ignores non-numbers
         MinimumValidationWithSignedInteger._from_openapi_data(
-            
             "x",
             _configuration=self._configuration
         )

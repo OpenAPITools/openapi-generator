@@ -23,16 +23,15 @@ class TestObjectPropertiesValidation(unittest.TestCase):
     def test_ignores_arrays_passes(self):
         # ignores arrays
         ObjectPropertiesValidation._from_openapi_data(
-                        [
-            ]
-,
+            [
+            ],
             _configuration=self._configuration
         )
 
     def test_ignores_other_non_objects_passes(self):
         # ignores other non-objects
         ObjectPropertiesValidation._from_openapi_data(
-                        12,
+            12,
             _configuration=self._configuration
         )
 
@@ -40,47 +39,36 @@ class TestObjectPropertiesValidation(unittest.TestCase):
         # one property invalid is invalid
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             ObjectPropertiesValidation._from_openapi_data(
-                                {
-                    
+                {
                     "foo":
-                                                1,
-                    
+                        1,
                     "bar":
-                                                {
-                        }
-,
-                }
-,
+                        {
+                        },
+                },
                 _configuration=self._configuration
             )
 
     def test_both_properties_present_and_valid_is_valid_passes(self):
         # both properties present and valid is valid
         ObjectPropertiesValidation._from_openapi_data(
-                        {
-                
+            {
                 "foo":
-                                        1,
-                
+                    1,
                 "bar":
-                    
                     "baz",
-            }
-,
+            },
             _configuration=self._configuration
         )
 
     def test_doesn_t_invalidate_other_properties_passes(self):
         # doesn&#x27;t invalidate other properties
         ObjectPropertiesValidation._from_openapi_data(
-                        {
-                
+            {
                 "quux":
-                                        [
-                    ]
-,
-            }
-,
+                    [
+                    ],
+            },
             _configuration=self._configuration
         )
 
@@ -88,19 +76,14 @@ class TestObjectPropertiesValidation(unittest.TestCase):
         # both properties invalid is invalid
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             ObjectPropertiesValidation._from_openapi_data(
-                                {
-                    
+                {
                     "foo":
-                                                [
-                        ]
-,
-                    
+                        [
+                        ],
                     "bar":
-                                                {
-                        }
-,
-                }
-,
+                        {
+                        },
+                },
                 _configuration=self._configuration
             )
 

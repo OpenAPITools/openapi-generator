@@ -23,35 +23,31 @@ class TestRequiredValidation(unittest.TestCase):
     def test_ignores_arrays_passes(self):
         # ignores arrays
         RequiredValidation._from_openapi_data(
-                        [
-            ]
-,
+            [
+            ],
             _configuration=self._configuration
         )
 
     def test_present_required_property_is_valid_passes(self):
         # present required property is valid
         RequiredValidation._from_openapi_data(
-                        {
-                
+            {
                 "foo":
-                                        1,
-            }
-,
+                    1,
+            },
             _configuration=self._configuration
         )
 
     def test_ignores_other_non_objects_passes(self):
         # ignores other non-objects
         RequiredValidation._from_openapi_data(
-                        12,
+            12,
             _configuration=self._configuration
         )
 
     def test_ignores_strings_passes(self):
         # ignores strings
         RequiredValidation._from_openapi_data(
-            
             "",
             _configuration=self._configuration
         )
@@ -60,12 +56,10 @@ class TestRequiredValidation(unittest.TestCase):
         # non-present required property is invalid
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             RequiredValidation._from_openapi_data(
-                                {
-                    
+                {
                     "bar":
-                                                1,
-                }
-,
+                        1,
+                },
                 _configuration=self._configuration
             )
 

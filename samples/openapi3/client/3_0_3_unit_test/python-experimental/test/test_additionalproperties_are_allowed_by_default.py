@@ -23,19 +23,14 @@ class TestAdditionalpropertiesAreAllowedByDefault(unittest.TestCase):
     def test_additional_properties_are_allowed_passes(self):
         # additional properties are allowed
         AdditionalpropertiesAreAllowedByDefault._from_openapi_data(
-                        {
-                
+            {
                 "foo":
-                                        1,
-                
+                    1,
                 "bar":
-                                        2,
-                
+                    2,
                 "quux":
-                    
                     True,
-            }
-,
+            },
             _configuration=self._configuration
         )
 

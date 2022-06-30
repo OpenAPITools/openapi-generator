@@ -23,45 +23,32 @@ class TestUniqueitemsValidation(unittest.TestCase):
     def test_unique_array_of_objects_is_valid_passes(self):
         # unique array of objects is valid
         UniqueitemsValidation._from_openapi_data(
-                        [
-                                {
-                    
+            [
+                {
                     "foo":
-                        
                         "bar",
-                }
-,
-                                {
-                    
+                },
+                {
                     "foo":
-                        
                         "baz",
-                }
-,
-            ]
-,
+                },
+            ],
             _configuration=self._configuration
         )
 
     def test_a_true_and_a1_are_unique_passes(self):
         # {&quot;a&quot;: true} and {&quot;a&quot;: 1} are unique
         UniqueitemsValidation._from_openapi_data(
-                        [
-                                {
-                    
+            [
+                {
                     "a":
-                        
                         True,
-                }
-,
-                                {
-                    
+                },
+                {
                     "a":
-                                                1,
-                }
-,
-            ]
-,
+                        1,
+                },
+            ],
             _configuration=self._configuration
         )
 
@@ -69,74 +56,54 @@ class TestUniqueitemsValidation(unittest.TestCase):
         # non-unique heterogeneous types are invalid
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             UniqueitemsValidation._from_openapi_data(
-                                [
-                                        {
-                    }
-,
-                                        [
-                                                1,
-                    ]
-,
-                    
+                [
+                    {
+                    },
+                    [
+                        1,
+                    ],
                     True,
-                    
                     None,
-                                        {
-                    }
-,
-                                        1,
-                ]
-,
+                    {
+                    },
+                    1,
+                ],
                 _configuration=self._configuration
             )
 
     def test_nested0_and_false_are_unique_passes(self):
         # nested [0] and [false] are unique
         UniqueitemsValidation._from_openapi_data(
-                        [
-                                [
-                                        [
-                                                0,
-                    ]
-,
-                    
+            [
+                [
+                    [
+                        0,
+                    ],
                     "foo",
-                ]
-,
-                                [
-                                        [
-                        
+                ],
+                [
+                    [
                         False,
-                    ]
-,
-                    
+                    ],
                     "foo",
-                ]
-,
-            ]
-,
+                ],
+            ],
             _configuration=self._configuration
         )
 
     def test_a_false_and_a0_are_unique_passes(self):
         # {&quot;a&quot;: false} and {&quot;a&quot;: 0} are unique
         UniqueitemsValidation._from_openapi_data(
-                        [
-                                {
-                    
+            [
+                {
                     "a":
-                        
                         False,
-                }
-,
-                                {
-                    
+                },
+                {
                     "a":
-                                                0,
-                }
-,
-            ]
-,
+                        0,
+                },
+            ],
             _configuration=self._configuration
         )
 
@@ -144,61 +111,49 @@ class TestUniqueitemsValidation(unittest.TestCase):
         # numbers are unique if mathematically unequal
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             UniqueitemsValidation._from_openapi_data(
-                                [
-                                        1.0,
-                                        1.0,
-                                        1,
-                ]
-,
+                [
+                    1.0,
+                    1.0,
+                    1,
+                ],
                 _configuration=self._configuration
             )
 
     def test_false_is_not_equal_to_zero_passes(self):
         # false is not equal to zero
         UniqueitemsValidation._from_openapi_data(
-                        [
-                                0,
-                
+            [
+                0,
                 False,
-            ]
-,
+            ],
             _configuration=self._configuration
         )
 
     def test_0_and_false_are_unique_passes(self):
         # [0] and [false] are unique
         UniqueitemsValidation._from_openapi_data(
-                        [
-                                [
-                                        0,
-                ]
-,
-                                [
-                    
+            [
+                [
+                    0,
+                ],
+                [
                     False,
-                ]
-,
-            ]
-,
+                ],
+            ],
             _configuration=self._configuration
         )
 
     def test_unique_array_of_arrays_is_valid_passes(self):
         # unique array of arrays is valid
         UniqueitemsValidation._from_openapi_data(
-                        [
-                                [
-                    
+            [
+                [
                     "foo",
-                ]
-,
-                                [
-                    
+                ],
+                [
                     "bar",
-                ]
-,
-            ]
-,
+                ],
+            ],
             _configuration=self._configuration
         )
 
@@ -206,43 +161,28 @@ class TestUniqueitemsValidation(unittest.TestCase):
         # non-unique array of nested objects is invalid
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             UniqueitemsValidation._from_openapi_data(
-                                [
-                                        {
-                        
+                [
+                    {
                         "foo":
-                                                        {
-                                
+                            {
                                 "bar":
-                                                                        {
-                                        
+                                    {
                                         "baz":
-                                            
                                             True,
-                                    }
-,
-                            }
-,
-                    }
-,
-                                        {
-                        
+                                    },
+                            },
+                    },
+                    {
                         "foo":
-                                                        {
-                                
+                            {
                                 "bar":
-                                                                        {
-                                        
+                                    {
                                         "baz":
-                                            
                                             True,
-                                    }
-,
-                            }
-,
-                    }
-,
-                ]
-,
+                                    },
+                            },
+                    },
+                ],
                 _configuration=self._configuration
             )
 
@@ -250,24 +190,21 @@ class TestUniqueitemsValidation(unittest.TestCase):
         # non-unique array of more than two integers is invalid
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             UniqueitemsValidation._from_openapi_data(
-                                [
-                                        1,
-                                        2,
-                                        1,
-                ]
-,
+                [
+                    1,
+                    2,
+                    1,
+                ],
                 _configuration=self._configuration
             )
 
     def test_true_is_not_equal_to_one_passes(self):
         # true is not equal to one
         UniqueitemsValidation._from_openapi_data(
-                        [
-                                1,
-                
+            [
+                1,
                 True,
-            ]
-,
+            ],
             _configuration=self._configuration
         )
 
@@ -275,98 +212,75 @@ class TestUniqueitemsValidation(unittest.TestCase):
         # objects are non-unique despite key order
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             UniqueitemsValidation._from_openapi_data(
-                                [
-                                        {
-                        
+                [
+                    {
                         "a":
-                                                        1,
-                        
+                            1,
                         "b":
-                                                        2,
-                    }
-,
-                                        {
-                        
+                            2,
+                    },
+                    {
                         "b":
-                                                        2,
-                        
+                            2,
                         "a":
-                                                        1,
-                    }
-,
-                ]
-,
+                            1,
+                    },
+                ],
                 _configuration=self._configuration
             )
 
     def test_unique_array_of_strings_is_valid_passes(self):
         # unique array of strings is valid
         UniqueitemsValidation._from_openapi_data(
-                        [
-                
+            [
                 "foo",
-                
                 "bar",
-                
                 "baz",
-            ]
-,
+            ],
             _configuration=self._configuration
         )
 
     def test_1_and_true_are_unique_passes(self):
         # [1] and [true] are unique
         UniqueitemsValidation._from_openapi_data(
-                        [
-                                [
-                                        1,
-                ]
-,
-                                [
-                    
+            [
+                [
+                    1,
+                ],
+                [
                     True,
-                ]
-,
-            ]
-,
+                ],
+            ],
             _configuration=self._configuration
         )
 
     def test_different_objects_are_unique_passes(self):
         # different objects are unique
         UniqueitemsValidation._from_openapi_data(
-                        [
-                                {
-                    
+            [
+                {
                     "a":
-                                                1,
-                    
+                        1,
                     "b":
-                                                2,
-                }
-,
-                                {
-                    
+                        2,
+                },
+                {
                     "a":
-                                                2,
-                    
+                        2,
                     "b":
-                                                1,
-                }
-,
-            ]
-,
+                        1,
+                },
+            ],
             _configuration=self._configuration
         )
 
     def test_unique_array_of_integers_is_valid_passes(self):
         # unique array of integers is valid
         UniqueitemsValidation._from_openapi_data(
-                        [
-                                1,
-                                2,
-            ]
-,
+            [
+                1,
+                2,
+            ],
             _configuration=self._configuration
         )
 
@@ -374,24 +288,17 @@ class TestUniqueitemsValidation(unittest.TestCase):
         # non-unique array of more than two arrays is invalid
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             UniqueitemsValidation._from_openapi_data(
-                                [
-                                        [
-                        
+                [
+                    [
                         "foo",
-                    ]
-,
-                                        [
-                        
+                    ],
+                    [
                         "bar",
-                    ]
-,
-                                        [
-                        
+                    ],
+                    [
                         "foo",
-                    ]
-,
-                ]
-,
+                    ],
+                ],
                 _configuration=self._configuration
             )
 
@@ -399,66 +306,44 @@ class TestUniqueitemsValidation(unittest.TestCase):
         # non-unique array of objects is invalid
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             UniqueitemsValidation._from_openapi_data(
-                                [
-                                        {
-                        
+                [
+                    {
                         "foo":
-                            
                             "bar",
-                    }
-,
-                                        {
-                        
+                    },
+                    {
                         "foo":
-                            
                             "bar",
-                    }
-,
-                ]
-,
+                    },
+                ],
                 _configuration=self._configuration
             )
 
     def test_unique_array_of_nested_objects_is_valid_passes(self):
         # unique array of nested objects is valid
         UniqueitemsValidation._from_openapi_data(
-                        [
-                                {
-                    
+            [
+                {
                     "foo":
-                                                {
-                            
+                        {
                             "bar":
-                                                                {
-                                    
+                                {
                                     "baz":
-                                        
                                         True,
-                                }
-,
-                        }
-,
-                }
-,
-                                {
-                    
+                                },
+                        },
+                },
+                {
                     "foo":
-                                                {
-                            
+                        {
                             "bar":
-                                                                {
-                                    
+                                {
                                     "baz":
-                                        
                                         False,
-                                }
-,
-                        }
-,
-                }
-,
-            ]
-,
+                                },
+                        },
+                },
+            ],
             _configuration=self._configuration
         )
 
@@ -466,19 +351,14 @@ class TestUniqueitemsValidation(unittest.TestCase):
         # non-unique array of arrays is invalid
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             UniqueitemsValidation._from_openapi_data(
-                                [
-                                        [
-                        
+                [
+                    [
                         "foo",
-                    ]
-,
-                                        [
-                        
+                    ],
+                    [
                         "foo",
-                    ]
-,
-                ]
-,
+                    ],
+                ],
                 _configuration=self._configuration
             )
 
@@ -486,66 +366,48 @@ class TestUniqueitemsValidation(unittest.TestCase):
         # non-unique array of strings is invalid
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             UniqueitemsValidation._from_openapi_data(
-                                [
-                    
+                [
                     "foo",
-                    
                     "bar",
-                    
                     "foo",
-                ]
-,
+                ],
                 _configuration=self._configuration
             )
 
     def test_nested1_and_true_are_unique_passes(self):
         # nested [1] and [true] are unique
         UniqueitemsValidation._from_openapi_data(
-                        [
-                                [
-                                        [
-                                                1,
-                    ]
-,
-                    
+            [
+                [
+                    [
+                        1,
+                    ],
                     "foo",
-                ]
-,
-                                [
-                                        [
-                        
+                ],
+                [
+                    [
                         True,
-                    ]
-,
-                    
+                    ],
                     "foo",
-                ]
-,
-            ]
-,
+                ],
+            ],
             _configuration=self._configuration
         )
 
     def test_unique_heterogeneous_types_are_valid_passes(self):
         # unique heterogeneous types are valid
         UniqueitemsValidation._from_openapi_data(
-                        [
-                                {
-                }
-,
-                                [
-                                        1,
-                ]
-,
-                
+            [
+                {
+                },
+                [
+                    1,
+                ],
                 True,
-                
                 None,
-                                1,
-                
+                1,
                 "{}",
-            ]
-,
+            ],
             _configuration=self._configuration
         )
 
@@ -553,11 +415,10 @@ class TestUniqueitemsValidation(unittest.TestCase):
         # non-unique array of integers is invalid
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             UniqueitemsValidation._from_openapi_data(
-                                [
-                                        1,
-                                        1,
-                ]
-,
+                [
+                    1,
+                    1,
+                ],
                 _configuration=self._configuration
             )
 

@@ -23,12 +23,10 @@ class TestAdditionalpropertiesAllowsASchemaWhichShouldValidate(unittest.TestCase
     def test_no_additional_properties_is_valid_passes(self):
         # no additional properties is valid
         AdditionalpropertiesAllowsASchemaWhichShouldValidate._from_openapi_data(
-                        {
-                
+            {
                 "foo":
-                                        1,
-            }
-,
+                    1,
+            },
             _configuration=self._configuration
         )
 
@@ -36,37 +34,28 @@ class TestAdditionalpropertiesAllowsASchemaWhichShouldValidate(unittest.TestCase
         # an additional invalid property is invalid
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             AdditionalpropertiesAllowsASchemaWhichShouldValidate._from_openapi_data(
-                                {
-                    
+                {
                     "foo":
-                                                1,
-                    
+                        1,
                     "bar":
-                                                2,
-                    
+                        2,
                     "quux":
-                                                12,
-                }
-,
+                        12,
+                },
                 _configuration=self._configuration
             )
 
     def test_an_additional_valid_property_is_valid_passes(self):
         # an additional valid property is valid
         AdditionalpropertiesAllowsASchemaWhichShouldValidate._from_openapi_data(
-                        {
-                
+            {
                 "foo":
-                                        1,
-                
+                    1,
                 "bar":
-                                        2,
-                
+                    2,
                 "quux":
-                    
                     True,
-            }
-,
+            },
             _configuration=self._configuration
         )
 

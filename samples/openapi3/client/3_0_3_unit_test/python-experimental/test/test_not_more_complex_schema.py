@@ -23,12 +23,10 @@ class TestNotMoreComplexSchema(unittest.TestCase):
     def test_other_match_passes(self):
         # other match
         NotMoreComplexSchema._from_openapi_data(
-                        {
-                
+            {
                 "foo":
-                                        1,
-            }
-,
+                    1,
+            },
             _configuration=self._configuration
         )
 
@@ -36,20 +34,17 @@ class TestNotMoreComplexSchema(unittest.TestCase):
         # mismatch
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             NotMoreComplexSchema._from_openapi_data(
-                                {
-                    
+                {
                     "foo":
-                        
                         "bar",
-                }
-,
+                },
                 _configuration=self._configuration
             )
 
     def test_match_passes(self):
         # match
         NotMoreComplexSchema._from_openapi_data(
-                        1,
+            1,
             _configuration=self._configuration
         )
 

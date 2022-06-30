@@ -24,25 +24,20 @@ class TestAdditionalpropertiesCanExistByItself(unittest.TestCase):
         # an additional invalid property is invalid
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             AdditionalpropertiesCanExistByItself._from_openapi_data(
-                                {
-                    
+                {
                     "foo":
-                                                1,
-                }
-,
+                        1,
+                },
                 _configuration=self._configuration
             )
 
     def test_an_additional_valid_property_is_valid_passes(self):
         # an additional valid property is valid
         AdditionalpropertiesCanExistByItself._from_openapi_data(
-                        {
-                
+            {
                 "foo":
-                    
                     True,
-            }
-,
+            },
             _configuration=self._configuration
         )
 

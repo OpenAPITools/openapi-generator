@@ -23,14 +23,14 @@ class TestEnumWith0DoesNotMatchFalse(unittest.TestCase):
     def test_integer_zero_is_valid_passes(self):
         # integer zero is valid
         EnumWith0DoesNotMatchFalse._from_openapi_data(
-                        0,
+            0,
             _configuration=self._configuration
         )
 
     def test_float_zero_is_valid_passes(self):
         # float zero is valid
         EnumWith0DoesNotMatchFalse._from_openapi_data(
-                        0.0,
+            0.0,
             _configuration=self._configuration
         )
 
@@ -38,7 +38,6 @@ class TestEnumWith0DoesNotMatchFalse(unittest.TestCase):
         # false is invalid
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             EnumWith0DoesNotMatchFalse._from_openapi_data(
-                
                 False,
                 _configuration=self._configuration
             )

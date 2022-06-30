@@ -24,14 +24,13 @@ class TestStringTypeMatchesStrings(unittest.TestCase):
         # 1 is not a string
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             StringTypeMatchesStrings._from_openapi_data(
-                                1,
+                1,
                 _configuration=self._configuration
             )
 
     def test_a_string_is_still_a_string_even_if_it_looks_like_a_number_passes(self):
         # a string is still a string, even if it looks like a number
         StringTypeMatchesStrings._from_openapi_data(
-            
             "1",
             _configuration=self._configuration
         )
@@ -39,7 +38,6 @@ class TestStringTypeMatchesStrings(unittest.TestCase):
     def test_an_empty_string_is_still_a_string_passes(self):
         # an empty string is still a string
         StringTypeMatchesStrings._from_openapi_data(
-            
             "",
             _configuration=self._configuration
         )
@@ -48,7 +46,7 @@ class TestStringTypeMatchesStrings(unittest.TestCase):
         # a float is not a string
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             StringTypeMatchesStrings._from_openapi_data(
-                                1.1,
+                1.1,
                 _configuration=self._configuration
             )
 
@@ -56,9 +54,8 @@ class TestStringTypeMatchesStrings(unittest.TestCase):
         # an object is not a string
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             StringTypeMatchesStrings._from_openapi_data(
-                                {
-                }
-,
+                {
+                },
                 _configuration=self._configuration
             )
 
@@ -66,9 +63,8 @@ class TestStringTypeMatchesStrings(unittest.TestCase):
         # an array is not a string
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             StringTypeMatchesStrings._from_openapi_data(
-                                [
-                ]
-,
+                [
+                ],
                 _configuration=self._configuration
             )
 
@@ -76,7 +72,6 @@ class TestStringTypeMatchesStrings(unittest.TestCase):
         # a boolean is not a string
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             StringTypeMatchesStrings._from_openapi_data(
-                
                 True,
                 _configuration=self._configuration
             )
@@ -85,7 +80,6 @@ class TestStringTypeMatchesStrings(unittest.TestCase):
         # null is not a string
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             StringTypeMatchesStrings._from_openapi_data(
-                
                 None,
                 _configuration=self._configuration
             )
@@ -93,7 +87,6 @@ class TestStringTypeMatchesStrings(unittest.TestCase):
     def test_a_string_is_a_string_passes(self):
         # a string is a string
         StringTypeMatchesStrings._from_openapi_data(
-            
             "foo",
             _configuration=self._configuration
         )

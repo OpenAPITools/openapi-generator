@@ -23,48 +23,36 @@ class TestNestedItems(unittest.TestCase):
     def test_valid_nested_array_passes(self):
         # valid nested array
         NestedItems._from_openapi_data(
+            [
+                [
+                    [
                         [
-                                [
-                                        [
-                                                [
-                                                        1,
-                        ]
-,
-                    ]
-,
-                                        [
-                                                [
-                                                        2,
-                        ]
-,
-                                                [
-                                                        3,
-                        ]
-,
-                    ]
-,
-                ]
-,
-                                [
-                                        [
-                                                [
-                                                        4,
-                        ]
-,
-                                                [
-                                                        5,
-                        ]
-,
-                                                [
-                                                        6,
-                        ]
-,
-                    ]
-,
-                ]
-,
-            ]
-,
+                            1,
+                        ],
+                    ],
+                    [
+                        [
+                            2,
+                        ],
+                        [
+                            3,
+                        ],
+                    ],
+                ],
+                [
+                    [
+                        [
+                            4,
+                        ],
+                        [
+                            5,
+                        ],
+                        [
+                            6,
+                        ],
+                    ],
+                ],
+            ],
             _configuration=self._configuration
         )
 
@@ -72,49 +60,36 @@ class TestNestedItems(unittest.TestCase):
         # nested array with invalid type
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             NestedItems._from_openapi_data(
-                                [
-                                        [
-                                                [
-                                                        [
-                                
+                [
+                    [
+                        [
+                            [
                                 "1",
-                            ]
-,
-                        ]
-,
-                                                [
-                                                        [
-                                                                2,
-                            ]
-,
-                                                        [
-                                                                3,
-                            ]
-,
-                        ]
-,
-                    ]
-,
-                                        [
-                                                [
-                                                        [
-                                                                4,
-                            ]
-,
-                                                        [
-                                                                5,
-                            ]
-,
-                                                        [
-                                                                6,
-                            ]
-,
-                        ]
-,
-                    ]
-,
-                ]
-,
+                            ],
+                        ],
+                        [
+                            [
+                                2,
+                            ],
+                            [
+                                3,
+                            ],
+                        ],
+                    ],
+                    [
+                        [
+                            [
+                                4,
+                            ],
+                            [
+                                5,
+                            ],
+                            [
+                                6,
+                            ],
+                        ],
+                    ],
+                ],
                 _configuration=self._configuration
             )
 
@@ -122,39 +97,30 @@ class TestNestedItems(unittest.TestCase):
         # not deep enough
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             NestedItems._from_openapi_data(
-                                [
-                                        [
-                                                [
-                                                        1,
-                        ]
-,
-                                                [
-                                                        2,
-                        ]
-,
-                                                [
-                                                        3,
-                        ]
-,
-                    ]
-,
-                                        [
-                                                [
-                                                        4,
-                        ]
-,
-                                                [
-                                                        5,
-                        ]
-,
-                                                [
-                                                        6,
-                        ]
-,
-                    ]
-,
-                ]
-,
+                [
+                    [
+                        [
+                            1,
+                        ],
+                        [
+                            2,
+                        ],
+                        [
+                            3,
+                        ],
+                    ],
+                    [
+                        [
+                            4,
+                        ],
+                        [
+                            5,
+                        ],
+                        [
+                            6,
+                        ],
+                    ],
+                ],
                 _configuration=self._configuration
             )
 

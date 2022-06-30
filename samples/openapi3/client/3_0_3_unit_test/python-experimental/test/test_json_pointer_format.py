@@ -23,16 +23,14 @@ class TestJsonPointerFormat(unittest.TestCase):
     def test_all_string_formats_ignore_objects_passes(self):
         # all string formats ignore objects
         JsonPointerFormat._from_openapi_data(
-                        {
-            }
-,
+            {
+            },
             _configuration=self._configuration
         )
 
     def test_all_string_formats_ignore_booleans_passes(self):
         # all string formats ignore booleans
         JsonPointerFormat._from_openapi_data(
-            
             False,
             _configuration=self._configuration
         )
@@ -40,30 +38,28 @@ class TestJsonPointerFormat(unittest.TestCase):
     def test_all_string_formats_ignore_integers_passes(self):
         # all string formats ignore integers
         JsonPointerFormat._from_openapi_data(
-                        12,
+            12,
             _configuration=self._configuration
         )
 
     def test_all_string_formats_ignore_floats_passes(self):
         # all string formats ignore floats
         JsonPointerFormat._from_openapi_data(
-                        13.7,
+            13.7,
             _configuration=self._configuration
         )
 
     def test_all_string_formats_ignore_arrays_passes(self):
         # all string formats ignore arrays
         JsonPointerFormat._from_openapi_data(
-                        [
-            ]
-,
+            [
+            ],
             _configuration=self._configuration
         )
 
     def test_all_string_formats_ignore_nulls_passes(self):
         # all string formats ignore nulls
         JsonPointerFormat._from_openapi_data(
-            
             None,
             _configuration=self._configuration
         )

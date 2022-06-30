@@ -24,16 +24,12 @@ class TestAdditionalpropertiesShouldNotLookInApplicators(unittest.TestCase):
         # properties defined in allOf are not examined
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             AdditionalpropertiesShouldNotLookInApplicators._from_openapi_data(
-                                {
-                    
+                {
                     "foo":
-                                                1,
-                    
+                        1,
                     "bar":
-                        
                         True,
-                }
-,
+                },
                 _configuration=self._configuration
             )
 

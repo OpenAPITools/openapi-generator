@@ -16,24 +16,26 @@ class Test{{classname}}(unittest.TestCase):
     _configuration = configuration.Configuration()
 
 {{#each testCases}}
-    {{#with this }}
+{{#with this }}
     def test_{{@key}}_{{#if valid}}passes{{else}}fails{{/if}}(self):
         # {{description}}
-        {{#if valid}}
+{{#if valid}}
         {{classname}}._from_openapi_data(
 {{#with data}}
-            {{>model_templates/payload_renderer}}{{/with}},
+            {{> model_templates/payload_renderer endChar=',' }}
+{{/with}}
             _configuration=self._configuration
         )
-        {{else}}
+{{else}}
         with self.assertRaises(({{packageName}}.ApiValueError, {{packageName}}.ApiTypeError)):
             {{classname}}._from_openapi_data(
 {{#with data}}
-                {{>model_templates/payload_renderer}}{{/with}},
+                {{> model_templates/payload_renderer endChar=','}}
+{{/with}}
                 _configuration=self._configuration
             )
-        {{/if}}
-    {{/with}}
+{{/if}}
+{{/with}}
 
 {{/each}}
 {{/with}}

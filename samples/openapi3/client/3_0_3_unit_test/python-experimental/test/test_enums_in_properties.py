@@ -23,13 +23,10 @@ class TestEnumsInProperties(unittest.TestCase):
     def test_missing_optional_property_is_valid_passes(self):
         # missing optional property is valid
         EnumsInProperties._from_openapi_data(
-                        {
-                
+            {
                 "bar":
-                    
                     "bar",
-            }
-,
+            },
             _configuration=self._configuration
         )
 
@@ -37,34 +34,24 @@ class TestEnumsInProperties(unittest.TestCase):
         # wrong foo value
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             EnumsInProperties._from_openapi_data(
-                                {
-                    
+                {
                     "foo":
-                        
                         "foot",
-                    
                     "bar":
-                        
                         "bar",
-                }
-,
+                },
                 _configuration=self._configuration
             )
 
     def test_both_properties_are_valid_passes(self):
         # both properties are valid
         EnumsInProperties._from_openapi_data(
-                        {
-                
+            {
                 "foo":
-                    
                     "foo",
-                
                 "bar":
-                    
                     "bar",
-            }
-,
+            },
             _configuration=self._configuration
         )
 
@@ -72,17 +59,12 @@ class TestEnumsInProperties(unittest.TestCase):
         # wrong bar value
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             EnumsInProperties._from_openapi_data(
-                                {
-                    
+                {
                     "foo":
-                        
                         "foo",
-                    
                     "bar":
-                        
                         "bart",
-                }
-,
+                },
                 _configuration=self._configuration
             )
 
@@ -90,9 +72,8 @@ class TestEnumsInProperties(unittest.TestCase):
         # missing all properties is invalid
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             EnumsInProperties._from_openapi_data(
-                                {
-                }
-,
+                {
+                },
                 _configuration=self._configuration
             )
 
@@ -100,13 +81,10 @@ class TestEnumsInProperties(unittest.TestCase):
         # missing required property is invalid
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             EnumsInProperties._from_openapi_data(
-                                {
-                    
+                {
                     "foo":
-                        
                         "foo",
-                }
-,
+                },
                 _configuration=self._configuration
             )
 

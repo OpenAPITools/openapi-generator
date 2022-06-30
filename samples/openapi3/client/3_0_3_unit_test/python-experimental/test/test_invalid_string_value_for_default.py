@@ -23,22 +23,18 @@ class TestInvalidStringValueForDefault(unittest.TestCase):
     def test_valid_when_property_is_specified_passes(self):
         # valid when property is specified
         InvalidStringValueForDefault._from_openapi_data(
-                        {
-                
+            {
                 "bar":
-                    
                     "good",
-            }
-,
+            },
             _configuration=self._configuration
         )
 
     def test_still_valid_when_the_invalid_default_is_used_passes(self):
         # still valid when the invalid default is used
         InvalidStringValueForDefault._from_openapi_data(
-                        {
-            }
-,
+            {
+            },
             _configuration=self._configuration
         )
 

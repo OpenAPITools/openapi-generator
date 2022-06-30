@@ -24,7 +24,6 @@ class TestBooleanTypeMatchesBooleans(unittest.TestCase):
         # an empty string is not a boolean
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             BooleanTypeMatchesBooleans._from_openapi_data(
-                
                 "",
                 _configuration=self._configuration
             )
@@ -33,7 +32,7 @@ class TestBooleanTypeMatchesBooleans(unittest.TestCase):
         # a float is not a boolean
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             BooleanTypeMatchesBooleans._from_openapi_data(
-                                1.1,
+                1.1,
                 _configuration=self._configuration
             )
 
@@ -41,7 +40,6 @@ class TestBooleanTypeMatchesBooleans(unittest.TestCase):
         # null is not a boolean
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             BooleanTypeMatchesBooleans._from_openapi_data(
-                
                 None,
                 _configuration=self._configuration
             )
@@ -50,7 +48,7 @@ class TestBooleanTypeMatchesBooleans(unittest.TestCase):
         # zero is not a boolean
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             BooleanTypeMatchesBooleans._from_openapi_data(
-                                0,
+                0,
                 _configuration=self._configuration
             )
 
@@ -58,9 +56,8 @@ class TestBooleanTypeMatchesBooleans(unittest.TestCase):
         # an array is not a boolean
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             BooleanTypeMatchesBooleans._from_openapi_data(
-                                [
-                ]
-,
+                [
+                ],
                 _configuration=self._configuration
             )
 
@@ -68,7 +65,6 @@ class TestBooleanTypeMatchesBooleans(unittest.TestCase):
         # a string is not a boolean
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             BooleanTypeMatchesBooleans._from_openapi_data(
-                
                 "foo",
                 _configuration=self._configuration
             )
@@ -76,7 +72,6 @@ class TestBooleanTypeMatchesBooleans(unittest.TestCase):
     def test_false_is_a_boolean_passes(self):
         # false is a boolean
         BooleanTypeMatchesBooleans._from_openapi_data(
-            
             False,
             _configuration=self._configuration
         )
@@ -85,14 +80,13 @@ class TestBooleanTypeMatchesBooleans(unittest.TestCase):
         # an integer is not a boolean
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             BooleanTypeMatchesBooleans._from_openapi_data(
-                                1,
+                1,
                 _configuration=self._configuration
             )
 
     def test_true_is_a_boolean_passes(self):
         # true is a boolean
         BooleanTypeMatchesBooleans._from_openapi_data(
-            
             True,
             _configuration=self._configuration
         )
@@ -101,9 +95,8 @@ class TestBooleanTypeMatchesBooleans(unittest.TestCase):
         # an object is not a boolean
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             BooleanTypeMatchesBooleans._from_openapi_data(
-                                {
-                }
-,
+                {
+                },
                 _configuration=self._configuration
             )
 

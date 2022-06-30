@@ -24,9 +24,8 @@ class TestIntegerTypeMatchesIntegers(unittest.TestCase):
         # an object is not an integer
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             IntegerTypeMatchesIntegers._from_openapi_data(
-                                {
-                }
-,
+                {
+                },
                 _configuration=self._configuration
             )
 
@@ -34,7 +33,6 @@ class TestIntegerTypeMatchesIntegers(unittest.TestCase):
         # a string is not an integer
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             IntegerTypeMatchesIntegers._from_openapi_data(
-                
                 "foo",
                 _configuration=self._configuration
             )
@@ -43,7 +41,6 @@ class TestIntegerTypeMatchesIntegers(unittest.TestCase):
         # null is not an integer
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             IntegerTypeMatchesIntegers._from_openapi_data(
-                
                 None,
                 _configuration=self._configuration
             )
@@ -51,7 +48,7 @@ class TestIntegerTypeMatchesIntegers(unittest.TestCase):
     def test_a_float_with_zero_fractional_part_is_an_integer_passes(self):
         # a float with zero fractional part is an integer
         IntegerTypeMatchesIntegers._from_openapi_data(
-                        1.0,
+            1.0,
             _configuration=self._configuration
         )
 
@@ -59,7 +56,7 @@ class TestIntegerTypeMatchesIntegers(unittest.TestCase):
         # a float is not an integer
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             IntegerTypeMatchesIntegers._from_openapi_data(
-                                1.1,
+                1.1,
                 _configuration=self._configuration
             )
 
@@ -67,7 +64,6 @@ class TestIntegerTypeMatchesIntegers(unittest.TestCase):
         # a boolean is not an integer
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             IntegerTypeMatchesIntegers._from_openapi_data(
-                
                 True,
                 _configuration=self._configuration
             )
@@ -75,7 +71,7 @@ class TestIntegerTypeMatchesIntegers(unittest.TestCase):
     def test_an_integer_is_an_integer_passes(self):
         # an integer is an integer
         IntegerTypeMatchesIntegers._from_openapi_data(
-                        1,
+            1,
             _configuration=self._configuration
         )
 
@@ -83,7 +79,6 @@ class TestIntegerTypeMatchesIntegers(unittest.TestCase):
         # a string is still not an integer, even if it looks like one
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             IntegerTypeMatchesIntegers._from_openapi_data(
-                
                 "1",
                 _configuration=self._configuration
             )
@@ -92,9 +87,8 @@ class TestIntegerTypeMatchesIntegers(unittest.TestCase):
         # an array is not an integer
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             IntegerTypeMatchesIntegers._from_openapi_data(
-                                [
-                ]
-,
+                [
+                ],
                 _configuration=self._configuration
             )
 
