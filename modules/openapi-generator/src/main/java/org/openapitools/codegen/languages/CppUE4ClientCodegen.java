@@ -145,6 +145,7 @@ public class CppUE4ClientCodegen extends AbstractCppCodegen {
                         "TArray",
                         "TArray<uint8>",  // For byte arrays
                         "TMap",
+                        "TSet",
                         "TSharedPtr<FJsonObject>",
                         "TSharedPtr<FJsonValue>")
         );
@@ -180,6 +181,7 @@ public class CppUE4ClientCodegen extends AbstractCppCodegen {
         typeMapping.put("date-time", "FDateTime");
         typeMapping.put("DateTime", "FDateTime");
         typeMapping.put("array", "TArray");
+        typeMapping.put("set", "TSet");
         typeMapping.put("list", "TArray");
         typeMapping.put("map", "TMap");
         typeMapping.put("object", "TSharedPtr<FJsonObject>");
