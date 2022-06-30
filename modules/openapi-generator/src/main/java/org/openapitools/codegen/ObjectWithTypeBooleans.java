@@ -16,7 +16,7 @@ public class ObjectWithTypeBooleans {
 
     /**
      * A wrapper class that is used to store payloads to be ingested by schemas
-     * This class includes the payload value in the valye property
+     * This class includes the payload value in the value property
      * Other booleans: isUnboundedInteger/isNumber/isString/isMap/isArray/isBoolean/isNull
      * allow generator templates to decide how to render each payload into code
      * based upon what type it is. The booleans isX describe the value in value.
