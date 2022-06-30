@@ -54,6 +54,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>TArray</li>
 <li>TArray&lt;uint8&gt;</li>
 <li>TMap</li>
+<li>TSet</li>
 <li>TSharedPtr&lt;FJsonObject&gt;</li>
 <li>TSharedPtr&lt;FJsonValue&gt;</li>
 <li>bool</li>
