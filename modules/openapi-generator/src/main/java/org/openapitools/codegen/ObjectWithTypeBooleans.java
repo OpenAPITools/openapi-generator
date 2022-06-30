@@ -8,13 +8,20 @@ public class ObjectWithTypeBooleans {
     public boolean isUnboundedInteger;
     public boolean isNumber;
     public boolean isString;
-    public boolean isMultilineString;
     public boolean isMap;
     public boolean isArray;
     public boolean isBoolean;
     public boolean isNull;
     public Object value;
 
+    /**
+     * A wrapper class that is used to store payloads to be ingested by schemas
+     * This class includes the payload value in the valye property
+     * Other booleans: isUnboundedInteger/isNumber/isString/isMap/isArray/isBoolean/isNull
+     * allow generator templates to decide how to render each payload into code
+     * based upon what type it is. The booleans isX describe the value in value.
+     * @param value the input payload that is stored
+     */
     public ObjectWithTypeBooleans(Object value) {
         Object usedValue = null;
         if (value instanceof Integer){
@@ -26,9 +33,6 @@ public class ObjectWithTypeBooleans {
         } else if (value instanceof String) {
             this.isString =  true;
             this.value = value;
-            if (((String) value).contains("\n") || ((String) value).contains("\r")) {
-                this.isMultilineString = true;
-            }
         } else if (value instanceof LinkedHashMap) {
             LinkedHashMap<String, Object> castValue = (LinkedHashMap<String, Object>) value;
             LinkedHashMap<ObjectWithTypeBooleans, ObjectWithTypeBooleans> castMap = new LinkedHashMap<>();

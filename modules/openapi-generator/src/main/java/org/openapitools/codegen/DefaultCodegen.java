@@ -2696,7 +2696,7 @@ public class DefaultCodegen implements CodegenConfig {
         setAddProps(schema, m);
     }
 
-    protected String toTesCaseName(String specTestCaseName) {
+    protected String toTestCaseName(String specTestCaseName) {
         return specTestCaseName;
     }
 
@@ -2731,7 +2731,7 @@ public class DefaultCodegen implements CodegenConfig {
         LinkedHashMap<String, LinkedHashMap<String, Object>> testNameToTesCase = (LinkedHashMap<String, LinkedHashMap<String, Object>>) schemaNameToTestCases.get(schemaName);
         for (Entry<String, LinkedHashMap<String, Object>> entry: testNameToTesCase.entrySet()) {
             LinkedHashMap<String, Object> testExample = (LinkedHashMap<String, Object>) entry.getValue();
-            String nameInSnakeCase = toTesCaseName(entry.getKey());
+            String nameInSnakeCase = toTestCaseName(entry.getKey());
             Object data = processTestExampleData(testExample.get("data"));
             SchemaTestCase testCase = new SchemaTestCase(
                     (String) testExample.getOrDefault("description", ""),

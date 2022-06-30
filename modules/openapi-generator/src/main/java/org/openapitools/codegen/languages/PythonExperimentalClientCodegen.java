@@ -1155,7 +1155,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         model.dataType = getTypeString(schema, "", "", referencedModelNames);
     }
 
-    protected String toTesCaseName(String specTestCaseName) {
+    protected String toTestCaseName(String specTestCaseName) {
         return CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, specTestCaseName);
     }
 
