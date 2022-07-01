@@ -53,8 +53,8 @@ defmodule OpenapiPetstore.Api.Fake do
   @spec fake_http_signature_test(Tesla.Env.client, OpenapiPetstore.Model.Pet.t, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
   def fake_http_signature_test(connection, pet, opts \\ []) do
     optional_params = %{
-      :"query_1" => :query,
-      :"header_1" => :headers
+      :query_1 => :query,
+      :header_1 => :headers
     }
     %{}
     |> method(:get)
@@ -284,7 +284,7 @@ defmodule OpenapiPetstore.Api.Fake do
     %{}
     |> method(:put)
     |> url("/fake/body-with-query-params")
-    |> add_param(:query, :"query", query)
+    |> add_param(:query, :query, query)
     |> add_param(:body, :body, user)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
@@ -350,24 +350,24 @@ defmodule OpenapiPetstore.Api.Fake do
   @spec test_endpoint_parameters(Tesla.Env.client, float(), float(), String.t, binary(), keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
   def test_endpoint_parameters(connection, number, double, pattern_without_delimiter, byte, opts \\ []) do
     optional_params = %{
-      :"integer" => :form,
-      :"int32" => :form,
-      :"int64" => :form,
-      :"float" => :form,
-      :"string" => :form,
-      :"binary" => :form,
-      :"date" => :form,
-      :"dateTime" => :form,
-      :"password" => :form,
-      :"callback" => :form
+      :integer => :form,
+      :int32 => :form,
+      :int64 => :form,
+      :float => :form,
+      :string => :form,
+      :binary => :form,
+      :date => :form,
+      :dateTime => :form,
+      :password => :form,
+      :callback => :form
     }
     %{}
     |> method(:post)
     |> url("/fake")
-    |> add_param(:form, :"number", number)
-    |> add_param(:form, :"double", double)
-    |> add_param(:form, :"pattern_without_delimiter", pattern_without_delimiter)
-    |> add_param(:form, :"byte", byte)
+    |> add_param(:form, :number, number)
+    |> add_param(:form, :double, double)
+    |> add_param(:form, :pattern_without_delimiter, pattern_without_delimiter)
+    |> add_param(:form, :byte, byte)
     |> add_optional_params(optional_params, opts)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
@@ -402,15 +402,15 @@ defmodule OpenapiPetstore.Api.Fake do
   @spec test_enum_parameters(Tesla.Env.client, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
   def test_enum_parameters(connection, opts \\ []) do
     optional_params = %{
-      :"enum_header_string_array" => :headers,
-      :"enum_header_string" => :headers,
-      :"enum_query_string_array" => :query,
-      :"enum_query_string" => :query,
-      :"enum_query_integer" => :query,
-      :"enum_query_double" => :query,
-      :"enum_query_model_array" => :query,
-      :"enum_form_string_array" => :form,
-      :"enum_form_string" => :form
+      :enum_header_string_array => :headers,
+      :enum_header_string => :headers,
+      :enum_query_string_array => :query,
+      :enum_query_string => :query,
+      :enum_query_integer => :query,
+      :enum_query_double => :query,
+      :enum_query_model_array => :query,
+      :enum_form_string_array => :form,
+      :enum_form_string => :form
     }
     %{}
     |> method(:get)
@@ -446,16 +446,16 @@ defmodule OpenapiPetstore.Api.Fake do
   @spec test_group_parameters(Tesla.Env.client, integer(), boolean(), integer(), keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
   def test_group_parameters(connection, required_string_group, required_boolean_group, required_int64_group, opts \\ []) do
     optional_params = %{
-      :"string_group" => :query,
-      :"boolean_group" => :headers,
-      :"int64_group" => :query
+      :string_group => :query,
+      :boolean_group => :headers,
+      :int64_group => :query
     }
     %{}
     |> method(:delete)
     |> url("/fake")
-    |> add_param(:query, :"required_string_group", required_string_group)
-    |> add_param(:headers, :"required_boolean_group", required_boolean_group)
-    |> add_param(:query, :"required_int64_group", required_int64_group)
+    |> add_param(:query, :required_string_group, required_string_group)
+    |> add_param(:headers, :required_boolean_group, required_boolean_group)
+    |> add_param(:query, :required_int64_group, required_int64_group)
     |> add_optional_params(optional_params, opts)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
@@ -511,8 +511,8 @@ defmodule OpenapiPetstore.Api.Fake do
     %{}
     |> method(:get)
     |> url("/fake/jsonFormData")
-    |> add_param(:form, :"param", param)
-    |> add_param(:form, :"param2", param2)
+    |> add_param(:form, :param, param)
+    |> add_param(:form, :param2, param2)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
@@ -542,17 +542,17 @@ defmodule OpenapiPetstore.Api.Fake do
   @spec test_query_parameter_collection_format(Tesla.Env.client, list(String.t), list(String.t), list(String.t), list(String.t), list(String.t), String.t, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
   def test_query_parameter_collection_format(connection, pipe, ioutil, http, url, context, allow_empty, opts \\ []) do
     optional_params = %{
-      :"language" => :query
+      :language => :query
     }
     %{}
     |> method(:put)
     |> url("/fake/test-query-parameters")
-    |> add_param(:query, :"pipe", pipe)
-    |> add_param(:query, :"ioutil", ioutil)
-    |> add_param(:query, :"http", http)
-    |> add_param(:query, :"url", url)
-    |> add_param(:query, :"context", context)
-    |> add_param(:query, :"allowEmpty", allow_empty)
+    |> add_param(:query, :pipe, pipe)
+    |> add_param(:query, :ioutil, ioutil)
+    |> add_param(:query, :http, http)
+    |> add_param(:query, :url, url)
+    |> add_param(:query, :context, context)
+    |> add_param(:query, :allowEmpty, allow_empty)
     |> add_optional_params(optional_params, opts)
     |> ensure_body()
     |> Enum.into([])

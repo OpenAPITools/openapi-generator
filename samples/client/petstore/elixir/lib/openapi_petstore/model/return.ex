@@ -9,11 +9,11 @@ defmodule OpenapiPetstore.Model.Return do
 
   @derive [Poison.Encoder]
   defstruct [
-    :"return"
+    :return
   ]
 
   @type t :: %__MODULE__{
-    :"return" => integer() | nil
+    :return => integer() | nil
   }
 end
 
