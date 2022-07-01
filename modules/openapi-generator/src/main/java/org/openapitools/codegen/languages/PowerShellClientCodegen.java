@@ -1566,7 +1566,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
             varName = varName.replaceAll("-", "MINUS_");
             varName = varName.replaceAll("\\+", "PLUS_");
             varName = varName.replaceAll("\\.", "_DOT_");
-            return varName;
+            return "NUMBER_" + varName;
         }
 
         // remove special character
