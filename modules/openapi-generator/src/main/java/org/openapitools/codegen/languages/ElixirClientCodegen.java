@@ -154,6 +154,10 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
                 "",
                 "mix.exs")
         );
+        supportingFiles.add(new SupportingFile("formatter.exs",
+                "",
+                ".formatter.exs")
+        );
         supportingFiles.add(new SupportingFile("test_helper.exs.mustache",
                 "test",
                 "test_helper.exs")
