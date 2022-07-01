@@ -44,7 +44,7 @@ import java.util.regex.Pattern;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
-public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig {
+public class ElixirClientCodegen extends DefaultCodegen {
     private final Logger LOGGER = LoggerFactory.getLogger(ElixirClientCodegen.class);
 
     private final Pattern simpleAtomPattern = Pattern.compile("^[a-zA-Z0-9_@]+$");
