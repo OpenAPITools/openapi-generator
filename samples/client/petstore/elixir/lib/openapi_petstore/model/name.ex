@@ -12,14 +12,14 @@ defmodule OpenapiPetstore.Model.Name do
     :name,
     :snake_case,
     :property,
-    :123Number
+    :"123Number"
   ]
 
   @type t :: %__MODULE__{
     :name => integer(),
     :snake_case => integer() | nil,
     :property => String.t | nil,
-    :123Number => integer() | nil
+    :"123Number" => integer() | nil
   }
 end
 
