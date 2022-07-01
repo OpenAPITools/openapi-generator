@@ -47,6 +47,8 @@ import static org.openapitools.codegen.utils.StringUtils.underscore;
 public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(ElixirClientCodegen.class);
 
+    private final Pattern simpleAtomPattern = Pattern.compile("^[a-zA-Z0-9_@]+$");
+
     protected String apiVersion = "1.0.0";
     protected String moduleName;
     protected static final String defaultModuleName = "OpenAPI.Client";
@@ -266,6 +268,19 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
                 writer.write(modulized(fragment.execute()));
             }
         });
+        additionalProperties.put("atom", new Mustache.Lambda() {
+            @Override
+            public void execute(Template.Fragment fragment, Writer writer) throws IOException {
+                writer.write(atomized(fragment.execute()));
+            }
+        });
+        additionalProperties.put("env_var", new Mustache.Lambda() {
+            @Override
+            public void execute(Template.Fragment fragment, Writer writer) throws IOException {
+                String text = underscored(fragment.execute());
+                writer.write(text.toUpperCase(Locale.ROOT));
+            }
+        });
 
         if (additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
             setModuleName((String) additionalProperties.get(CodegenConstants.INVOKER_PACKAGE));
@@ -380,6 +395,26 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
         }
         return join("", modulizedWords);
     }
+
+    private String atomized(String text) {
+      StringBuilder atom = new StringBuilder();
+      Matcher m = simpleAtomPattern.matcher(text);
+
+      atom.append(":");
+
+      if (!m.matches()) {
+        atom.append("\"");
+      }
+
+      atom.append(text);
+
+      if (!m.matches()) {
+        atom.append("\"");
+      }
+
+      return atom.toString();
+    }
+
 
     /**
      * Escapes a reserved word as defined in the `reservedWords` array. Handle escaping
