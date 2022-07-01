@@ -178,6 +178,25 @@ components:
       properties:
         $ref:
           type: string
+    RefInAdditionalproperties:
+      additionalProperties:
+        $ref: '#/components/schemas/PropertyNamedRefThatIsNotAReference'
+    RefInItems:
+      items:
+        $ref: '#/components/schemas/PropertyNamedRefThatIsNotAReference'
+    RefInProperty:
+      properties:
+        a:
+          $ref: '#/components/schemas/PropertyNamedRefThatIsNotAReference'
+    RefInAllof:
+      allOf:
+      - $ref: '#/components/schemas/PropertyNamedRefThatIsNotAReference'
+    RefInOneof:
+      oneOf:
+      - $ref: '#/components/schemas/PropertyNamedRefThatIsNotAReference'
+    RefInAnyof:
+      anyOf:
+      - $ref: '#/components/schemas/PropertyNamedRefThatIsNotAReference'
     RequiredValidation:
       properties:
         foo: {}
@@ -1069,6 +1088,76 @@ components:
           "foo\fbar": '1'
         valid: false
     PropertyNamedRefThatIsNotAReference:
+      PropertyNamedRefValid:
+        description: property named $ref valid
+        data:
+          $ref: a
+        valid: true
+      PropertyNamedRefInvalid:
+        description: property named $ref invalid
+        data:
+          $ref: 2
+        valid: false
+    RefInAdditionalproperties:
+      PropertyNamedRefValid:
+        description: property named $ref valid
+        data:
+          someProp:
+            $ref: a
+        valid: true
+      PropertyNamedRefInvalid:
+        description: property named $ref invalid
+        data:
+          someProp:
+            $ref: 2
+        valid: false
+    RefInItems:
+      PropertyNamedRefValid:
+        description: property named $ref valid
+        data:
+        - $ref: a
+        valid: true
+      PropertyNamedRefInvalid:
+        description: property named $ref invalid
+        data:
+        - $ref: 2
+        valid: false
+    RefInProperty:
+      PropertyNamedRefValid:
+        description: property named $ref valid
+        data:
+          a:
+            $ref: a
+        valid: true
+      PropertyNamedRefInvalid:
+        description: property named $ref invalid
+        data:
+          a:
+            $ref: 2
+        valid: false
+    RefInAllof:
+      PropertyNamedRefValid:
+        description: property named $ref valid
+        data:
+          $ref: a
+        valid: true
+      PropertyNamedRefInvalid:
+        description: property named $ref invalid
+        data:
+          $ref: 2
+        valid: false
+    RefInOneof:
+      PropertyNamedRefValid:
+        description: property named $ref valid
+        data:
+          $ref: a
+        valid: true
+      PropertyNamedRefInvalid:
+        description: property named $ref invalid
+        data:
+          $ref: 2
+        valid: false
+    RefInAnyof:
       PropertyNamedRefValid:
         description: property named $ref valid
         data:

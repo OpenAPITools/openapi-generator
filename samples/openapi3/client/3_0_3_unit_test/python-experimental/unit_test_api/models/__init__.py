@@ -58,6 +58,12 @@ from unit_test_api.model.pattern_is_not_anchored import PatternIsNotAnchored
 from unit_test_api.model.pattern_validation import PatternValidation
 from unit_test_api.model.properties_with_escaped_characters import PropertiesWithEscapedCharacters
 from unit_test_api.model.property_named_ref_that_is_not_a_reference import PropertyNamedRefThatIsNotAReference
+from unit_test_api.model.ref_in_additionalproperties import RefInAdditionalproperties
+from unit_test_api.model.ref_in_allof import RefInAllof
+from unit_test_api.model.ref_in_anyof import RefInAnyof
+from unit_test_api.model.ref_in_items import RefInItems
+from unit_test_api.model.ref_in_oneof import RefInOneof
+from unit_test_api.model.ref_in_property import RefInProperty
 from unit_test_api.model.required_default_validation import RequiredDefaultValidation
 from unit_test_api.model.required_validation import RequiredValidation
 from unit_test_api.model.required_with_empty_array import RequiredWithEmptyArray
