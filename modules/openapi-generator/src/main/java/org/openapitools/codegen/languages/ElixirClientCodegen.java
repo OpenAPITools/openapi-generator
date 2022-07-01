@@ -152,6 +152,10 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
                 "config",
                 "config.exs")
         );
+        supportingFiles.add(new SupportingFile("runtime.exs.mustache",
+                "config",
+                "runtime.exs")
+        );
         supportingFiles.add(new SupportingFile("mix.exs.mustache",
                 "",
                 "mix.exs")
