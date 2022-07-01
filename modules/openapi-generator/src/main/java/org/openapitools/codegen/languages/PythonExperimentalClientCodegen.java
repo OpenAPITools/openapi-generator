@@ -19,6 +19,7 @@ package org.openapitools.codegen.languages;
 import com.github.curiousoddman.rgxgen.RgxGen;
 import com.github.curiousoddman.rgxgen.config.RgxGenOption;
 import com.github.curiousoddman.rgxgen.config.RgxGenProperties;
+import com.google.common.base.CaseFormat;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.servers.Server;
@@ -848,6 +849,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         // templates use its presence to handle these badly named variables / keys
         if ((isReservedWord(name) || !isValidPythonVarOrClassName(name)) && !name.equals(cp.name)) {
             cp.nameInSnakeCase = cp.name;
+            cp.baseName = (String) processTestExampleData(name);
         } else {
             cp.nameInSnakeCase = null;
         }
@@ -1127,7 +1129,8 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         } else if ("bool".equals(datatype)) {
             return value.substring(0, 1).toUpperCase(Locale.ROOT) + value.substring(1);
         } else {
-            return ensureQuotes(value);
+            String fixedValue = (String) processTestExampleData(value);
+            return ensureQuotes(fixedValue);
         }
     }
 
@@ -1150,6 +1153,67 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
 
         List<String> referencedModelNames = new ArrayList<String>();
         model.dataType = getTypeString(schema, "", "", referencedModelNames);
+    }
+
+    protected String toTestCaseName(String specTestCaseName) {
+        return CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, specTestCaseName);
+    }
+
+    protected Object processTestExampleData(Object value) {
+        if (value instanceof Integer){
+            return value;
+        } else if (value instanceof Double || value instanceof Float || value instanceof Boolean){
+            return value;
+        } else if (value instanceof String) {
+            String stringValue = (String) value;
+            String backslash = "\\";
+            if (stringValue.contains(backslash)) {
+                stringValue = stringValue.replace(backslash, "\\\\");
+            }
+            String nullChar = "\0";
+            if (stringValue.contains(nullChar)) {
+                stringValue = stringValue.replace(nullChar, "\\x00");
+            }
+            String doubleQuoteChar = "\"";
+            if (stringValue.contains(doubleQuoteChar)) {
+                stringValue = stringValue.replace(doubleQuoteChar, "\\\"");
+            }
+            String lineSep = System.lineSeparator();
+            if (stringValue.contains(lineSep)) {
+                stringValue = stringValue.replace(lineSep, "\\n");
+            }
+            String carriageReturn = "\r";
+            if (stringValue.contains(carriageReturn)) {
+                stringValue = stringValue.replace(carriageReturn, "\\r");
+            }
+            String tab = "\t";
+            if (stringValue.contains(tab)) {
+                stringValue = stringValue.replace(tab, "\\t");
+            }
+            String formFeed = "\f";
+            if (stringValue.contains(formFeed)) {
+                stringValue = stringValue.replace(formFeed, "\\f");
+            }
+            return stringValue;
+        } else if (value instanceof LinkedHashMap) {
+            LinkedHashMap<String, Object> fixedValues = new LinkedHashMap();
+            for (Map.Entry entry: ((LinkedHashMap<String, Object>) value).entrySet()) {
+                String entryKey = (String) processTestExampleData(entry.getKey());
+                Object entryValue = processTestExampleData(entry.getValue());
+                fixedValues.put(entryKey, entryValue);
+            }
+            return fixedValues;
+        } else if (value instanceof ArrayList) {
+            ArrayList<Object> fixedValues = (ArrayList<Object>) value;
+            for (int i = 0; i < fixedValues.size(); i++) {
+                Object item = processTestExampleData(fixedValues.get(i));
+                fixedValues.set(i, item);
+            }
+            return fixedValues;
+        } else if (value == null) {
+            return value;
+        }
+        return value;
     }
 
     /**
@@ -1388,12 +1452,6 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
      * @return quoted string
      */
     private String ensureQuotes(String in) {
-        Pattern pattern = Pattern.compile("\r\n|\r|\n");
-        Matcher matcher = pattern.matcher(in);
-        if (matcher.find()) {
-            // if a string has a new line in it add triple quotes to make it a python multiline string
-            return "'''" + in + "'''";
-        }
         String strPattern = "^['\"].*?['\"]$";
         if (in.matches(strPattern)) {
             return in;

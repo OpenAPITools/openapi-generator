@@ -2696,6 +2696,52 @@ public class DefaultCodegen implements CodegenConfig {
         setAddProps(schema, m);
     }
 
+    protected String toTestCaseName(String specTestCaseName) {
+        return specTestCaseName;
+    }
+
+    /**
+     * A method that allows generators to pre-process test example payloads
+     * This can be useful if one needs to change how values like null in string are represnted
+     * @param data the test data payload
+     * @return the updated test data payload
+     */
+    protected Object processTestExampleData(Object data) {
+        return data;
+    }
+
+    /**
+     * Processes any test cases if they exist in the components.x-test-examples vendor extensions
+     * If they exist then cast them to java class instances and return them back in a map
+     * @param schemaName the component schema name that the test cases are for
+     * @param vendorExtensions the extensions that may or may not hold the data
+     */
+    private HashMap<String, SchemaTestCase> extractSchemaTestCases(String schemaName, HashMap<String, Object> vendorExtensions) {
+        String testExamplesKey = "x-schema-test-examples";
+        // schemaName to a map of test case name to test case
+        if (vendorExtensions ==  null || !vendorExtensions.containsKey(testExamplesKey)) {
+            return null;
+        }
+        HashMap<String, SchemaTestCase> schemaTestCases = new HashMap<>();
+        LinkedHashMap<String, Object> schemaNameToTestCases = (LinkedHashMap<String, Object>) vendorExtensions.get(testExamplesKey);
+
+        if (!schemaNameToTestCases.containsKey(schemaName)) {
+            return null;
+        }
+        LinkedHashMap<String, LinkedHashMap<String, Object>> testNameToTesCase = (LinkedHashMap<String, LinkedHashMap<String, Object>>) schemaNameToTestCases.get(schemaName);
+        for (Entry<String, LinkedHashMap<String, Object>> entry: testNameToTesCase.entrySet()) {
+            LinkedHashMap<String, Object> testExample = (LinkedHashMap<String, Object>) entry.getValue();
+            String nameInSnakeCase = toTestCaseName(entry.getKey());
+            Object data = processTestExampleData(testExample.get("data"));
+            SchemaTestCase testCase = new SchemaTestCase(
+                    (String) testExample.getOrDefault("description", ""),
+                    new ObjectWithTypeBooleans(data),
+                    (boolean) testExample.get("valid")
+            );
+            schemaTestCases.put(nameInSnakeCase, testCase);
+        }
+        return schemaTestCases;
+    }
 
     /**
      * Convert OAS Model object to Codegen Model object.
@@ -2721,6 +2767,11 @@ public class DefaultCodegen implements CodegenConfig {
 
         CodegenModel m = CodegenModelFactory.newInstance(CodegenModelType.MODEL);
         ModelUtils.syncValidationProperties(schema, m);
+        if (openAPI != null) {
+            HashMap<String, Object> vendorExtensions = (HashMap<String, Object>) openAPI.getComponents().getExtensions();
+            HashMap<String, SchemaTestCase> schemaTestCases = extractSchemaTestCases(name, vendorExtensions);
+            m.testCases = schemaTestCases;
+        }
 
         if (reservedWords.contains(name)) {
             m.name = escapeReservedWord(name);
