@@ -1564,20 +1564,28 @@ class Schema:
 
 def cast_to_allowed_types(arg: typing.Union[str, date, datetime, decimal.Decimal, int, float, None, dict, frozendict, list, tuple, bytes, Schema], from_server=False) -> typing.Union[str, bytes, decimal.Decimal, None, frozendict, tuple, Schema]:
     """
-    from_server=False date, datetime -> str
-    int, float -> Decimal
-    StrSchema will convert that to bytes and remember the encoding when we pass in str input
+    from_server=False
+    - date/datetime -> str
+    - int/float -> Decimal
+
+    Note:
+    If a Schema instance is passed in it is converted back to a primitive instance because
+    One may need to validate that data to the original Schema class AND additional different classes
+    those additional classes will need to be added to the new manufactured class for that payload
+    If the code didn't do this and kept the payload as a Schema instance it would fail to validate to other
+    Schema classes and the code wouldn't be able to mfg a new class that includes all valid schemas
+    TODO: store the validated schema classes in validation_metadata
     """
     if isinstance(arg, str):
-        return arg
-    elif type(arg) is dict or type(arg) is frozendict:
+        return str(arg)
+    elif isinstance(arg, (dict, frozendict)):
         return frozendict({key: cast_to_allowed_types(val) for key, val in arg.items()})
-    elif isinstance(arg, bool):
+    elif isinstance(arg, (bool, BoolClass)):
         """
         this check must come before isinstance(arg, (int, float))
         because isinstance(True, int) is True
         """
-        return arg
+        return bool(arg)
     elif isinstance(arg, int):
         return decimal.Decimal(arg)
     elif isinstance(arg, float):
@@ -1587,10 +1595,10 @@ def cast_to_allowed_types(arg: typing.Union[str, date, datetime, decimal.Decimal
             # 3.4028234663852886e+38 -> Decimal('340282346638528859811704183484516925440.0')
             return decimal.Decimal(str(decimal_from_float)+'.0')
         return decimal_from_float
-    elif type(arg) is list or type(arg) is tuple:
+    elif isinstance(arg, (tuple, list)):
         return tuple([cast_to_allowed_types(item) for item in arg])
-    elif arg is None:
-        return arg
+    elif isinstance(arg, (none_type, NoneClass)):
+        return None
     elif isinstance(arg, (date, datetime)):
         if not from_server:
             return arg.isoformat()
@@ -1602,16 +1610,12 @@ def cast_to_allowed_types(arg: typing.Union[str, date, datetime, decimal.Decimal
         # ApiTypeError will be thrown later by _validate_type
         return arg
     elif isinstance(arg, decimal.Decimal):
-        return arg
+        return decimal.Decimal(arg)
     elif isinstance(arg, bytes):
-        return arg
-    elif isinstance(arg, decimal.Decimal):
-        return arg
+        return bytes(arg)
     elif isinstance(arg, (io.FileIO, io.BufferedReader)):
         if arg.closed:
             raise ApiValueError('Invalid file state; file is closed and must be open')
-        return arg
-    elif isinstance(arg, Schema):
         return arg
     raise ValueError('Invalid type passed in got input={} type={}'.format(arg, type(arg)))
 
