@@ -84,14 +84,18 @@ class ValidationMetadata(frozendict):
         Args:
             path_to_item: the path to the current data being instantiated.
                 For {'a': [1]} if the code is handling, 1, then the path is ('args[0]', 'a', 0)
+                This changes from location to location
             from_server: whether or not this data came form the server
                 True when receiving server data
                 False when instantiating model with client side data not form the server
+                This does not change from location to location
             configuration: the Configuration instance to use
                 This is needed because in Configuration:
                 - one can disable validation checking
+                This does not change from location to location
             base_classes: when deserializing data that matches multiple schemas, this is used to store
                 the schemas that have been traversed. This is used to stop processing when a cycle is seen.
+                This changes from location to location
         """
         return super().__new__(
             cls,
@@ -1301,7 +1305,7 @@ class Schema:
         cls,
         arg,
         validation_metadata: ValidationMetadata,
-    ):
+    ) -> typing.Dict[typing.Tuple[typing.Union[str, int], ...], typing.Set[typing.Union['Schema', str, decimal.Decimal, BoolClass, NoneClass, frozendict, tuple]]]:
         """
         Schema _validate
         Runs all schema validation logic and
@@ -1484,8 +1488,9 @@ class Schema:
         """
         Schema _from_openapi_data
         """
-        arg = cast_to_allowed_types(arg, from_server=True)
         validation_metadata = ValidationMetadata(from_server=True, configuration=_configuration)
+        validated_path_to_schemas = {}
+        arg = cast_to_allowed_types(arg, validation_metadata.from_server, validated_path_to_schemas)
         path_to_schemas = cls.__get_new_cls(arg, validation_metadata)
         new_cls = path_to_schemas[validation_metadata.path_to_item]
         new_inst = new_cls._get_new_instance_without_conversion(
@@ -1528,7 +1533,9 @@ class Schema:
         else:
             arg = cls.__get_input_dict(*args, **kwargs)
         validation_metadata = ValidationMetadata(configuration=_configuration, from_server=False)
-        arg = cast_to_allowed_types(arg, from_server=validation_metadata.from_server)
+        validated_path_to_schemas = {}
+        arg = cast_to_allowed_types(
+            arg, validation_metadata.from_server, validated_path_to_schemas)
         path_to_schemas = cls.__get_new_cls(arg, validation_metadata)
         new_cls = path_to_schemas[validation_metadata.path_to_item]
         return new_cls._get_new_instance_without_conversion(
@@ -1555,26 +1562,35 @@ class Schema:
         pass
 
 
-def cast_to_allowed_types(arg: typing.Union[str, date, datetime, uuid.UUID, decimal.Decimal, int, float, None, dict, frozendict, list, tuple, bytes, Schema], from_server=False) -> typing.Union[str, bytes, decimal.Decimal, None, frozendict, tuple]:
+def cast_to_allowed_types(
+    arg: typing.Union[str, date, datetime, uuid.UUID, decimal.Decimal, int, float, None, dict, frozendict, list, tuple, bytes, Schema],
+    from_server: bool,
+    validated_path_to_schemas: typing.Dict[typing.Tuple[typing.Union[str, int], ...], typing.Set[typing.Union['Schema', str, decimal.Decimal, BoolClass, NoneClass, frozendict, tuple]]]
+) -> typing.Union[str, bytes, decimal.Decimal, None, frozendict, tuple]:
     """
     Casts the input payload arg into the allowed types
+    The input validated_path_to_schemas is mutated by running this function
 
-    from_server=False
-    - date/datetime -> str
-    - int/float -> Decimal
+    When from_server is False then
+    - date/datetime is cast to str
+    - int/float is cast to Decimal
 
-    Note:
     If a Schema instance is passed in it is converted back to a primitive instance because
     One may need to validate that data to the original Schema class AND additional different classes
     those additional classes will need to be added to the new manufactured class for that payload
     If the code didn't do this and kept the payload as a Schema instance it would fail to validate to other
     Schema classes and the code wouldn't be able to mfg a new class that includes all valid schemas
     TODO: store the validated schema classes in validation_metadata
+
+    Args:
+        arg: the payload
+        from_server: whether this payload came from the server or not
+        validated_path_to_schemas: a dict that stores the validated classes at any path location in the payload
     """
     if isinstance(arg, str):
         return str(arg)
     elif isinstance(arg, (dict, frozendict)):
-        return frozendict({key: cast_to_allowed_types(val) for key, val in arg.items()})
+        return frozendict({key: cast_to_allowed_types(val, from_server, validated_path_to_schemas) for key, val in arg.items()})
     elif isinstance(arg, (bool, BoolClass)):
         """
         this check must come before isinstance(arg, (int, float))
@@ -1591,7 +1607,7 @@ def cast_to_allowed_types(arg: typing.Union[str, date, datetime, uuid.UUID, deci
             return decimal.Decimal(str(decimal_from_float)+'.0')
         return decimal_from_float
     elif isinstance(arg, (tuple, list)):
-        return tuple([cast_to_allowed_types(item) for item in arg])
+        return tuple([cast_to_allowed_types(item, from_server, validated_path_to_schemas) for item in arg])
     elif isinstance(arg, (none_type, NoneClass)):
         return None
     elif isinstance(arg, (date, datetime)):
