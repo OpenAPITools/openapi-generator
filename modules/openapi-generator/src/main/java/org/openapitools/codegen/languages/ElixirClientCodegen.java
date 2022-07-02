@@ -47,7 +47,7 @@ import static org.openapitools.codegen.utils.StringUtils.underscore;
 public class ElixirClientCodegen extends DefaultCodegen {
     private final Logger LOGGER = LoggerFactory.getLogger(ElixirClientCodegen.class);
 
-    private final Pattern simpleAtomPattern = Pattern.compile("^([a-zA-Z_@][a-zA-Z0-9_@]*[?!]?|-)$");
+    private final Pattern simpleAtomPattern = Pattern.compile("\\A(?:(?:[_@\\p{Alpha}][_@\\p{Alnum}]*[?!]?)|-)\\z");
 
     protected String apiVersion = "1.0.0";
     protected String moduleName;
