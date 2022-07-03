@@ -365,7 +365,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
      */
     @Override
     public String getTypeDeclaration(Schema p) {
-        Schema<?> schema = ModelUtils.unaliasSchema(this.openAPI, p, importMapping);
+        Schema<?> schema = ModelUtils.unaliasSchema(this.openAPI, p, schemaMapping);
         Schema<?> target = ModelUtils.isGenerateAliasAsModel() ? p : schema;
         if (ModelUtils.isArraySchema(target)) {
             Schema<?> items = getSchemaItems((ArraySchema) schema);
@@ -674,6 +674,12 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
             return name;
         }
 
+        // If schemaMapping contains name, assume this is a legitimate model name.
+        if (schemaMapping.containsKey(name)) {
+            return schemaMapping.get(name);
+        }
+
+        // TODO review importMapping below as we've added schema mapping support
         // If importMapping contains name, assume this is a legitimate model name.
         if (importMapping.containsKey(name)) {
             return importMapping.get(name);

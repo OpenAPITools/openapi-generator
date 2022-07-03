@@ -160,6 +160,13 @@ public class Generate extends OpenApiGeneratorCommand {
     private List<String> importMappings = new ArrayList<>();
 
     @Option(
+            name = {"--schema-mappings"},
+            title = "schema mappings",
+            description = "specifies mappings between the schema and the new name in the format of schema_a=Cat,schema_b=Bird."
+                    + " You can also have multiple occurrences of this option.")
+    private List<String> schemaMappings = new ArrayList<>();
+
+    @Option(
             name = {"--inline-schema-name-mappings"},
             title = "inline schema name mappings",
             description = "specifies mappings between the inline schema name and the new name in the format of inline_object_2=Cat,inline_object_5=Bird."
@@ -437,6 +444,7 @@ public class Generate extends OpenApiGeneratorCommand {
         }
         applyInstantiationTypesKvpList(instantiationTypes, configurator);
         applyImportMappingsKvpList(importMappings, configurator);
+        applySchemaMappingsKvpList(schemaMappings, configurator);
         applyInlineSchemaNameMappingsKvpList(inlineSchemaNameMappings, configurator);
         applyInlineSchemaNameDefaultsKvpList(inlineSchemaNameDefaults, configurator);
         applyTypeMappingsKvpList(typeMappings, configurator);

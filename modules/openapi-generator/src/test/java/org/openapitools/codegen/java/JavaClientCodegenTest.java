@@ -652,13 +652,13 @@ public class JavaClientCodegenTest {
      * See https://github.com/OpenAPITools/openapi-generator/issues/3589
      */
     @Test
-    public void testImportMapping() throws IOException {
+    public void testSchemaMapping() throws IOException {
 
         Map<String, Object> properties = new HashMap<>();
         properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
 
-        Map<String, String> importMappings = new HashMap<>();
-        importMappings.put("TypeAlias", "foo.bar.TypeAlias");
+        Map<String, String> schemaMappings = new HashMap<>();
+        schemaMappings.put("TypeAlias", "foo.bar.TypeAlias");
 
         File output = Files.createTempDirectory("test").toFile();
         output.deleteOnExit();
@@ -667,13 +667,13 @@ public class JavaClientCodegenTest {
                 .setGeneratorName("java")
                 .setLibrary(JavaClientCodegen.RESTEASY)
                 .setAdditionalProperties(properties)
-                .setImportMappings(importMappings)
+                .setSchemaMappings(schemaMappings)
                 .setGenerateAliasAsModel(true)
                 .setInputSpec("src/test/resources/3_0/type-alias.yaml")
                 .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
-        Assert.assertEquals(clientOptInput.getConfig().importMapping().get("TypeAlias"), "foo.bar.TypeAlias");
+        Assert.assertEquals(clientOptInput.getConfig().schemaMapping().get("TypeAlias"), "foo.bar.TypeAlias");
 
         DefaultGenerator generator = new DefaultGenerator();
         generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
@@ -702,9 +702,9 @@ public class JavaClientCodegenTest {
         Matcher fieldMatcher = FIELD_PATTERN.matcher(parentTypeContents);
         Assert.assertTrue(fieldMatcher.matches());
 
-        // this is the type of the field 'typeAlias'. With a working importMapping it should
+        // this is the type of the field 'typeAlias'. With a working schemaMapping it should
         // be 'foo.bar.TypeAlias' or just 'TypeAlias'
-        Assert.assertEquals(fieldMatcher.group(1), "TypeAlias");
+        Assert.assertEquals(fieldMatcher.group(1), "foo.bar.TypeAlias");
     }
 
     @Test
