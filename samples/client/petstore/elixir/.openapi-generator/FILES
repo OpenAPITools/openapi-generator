@@ -1,6 +1,5 @@
 .formatter.exs
 .gitignore
-.openapi-generator-ignore
 README.md
 config/config.exs
 config/runtime.exs
