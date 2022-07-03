@@ -13,6 +13,8 @@
 #' @field item_self  integer [optional]
 #' @field item_private  character [optional]
 #' @field item_super  character [optional]
+#' @field 123_number  character [optional]
+#' @field array[test]  character [optional]
 #' @field empty_string  character [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
@@ -23,6 +25,8 @@ Special <- R6::R6Class(
     `item_self` = NULL,
     `item_private` = NULL,
     `item_super` = NULL,
+    `123_number` = NULL,
+    `array[test]` = NULL,
     `empty_string` = NULL,
     #' Initialize a new Special class.
     #'
@@ -32,11 +36,13 @@ Special <- R6::R6Class(
     #' @param item_self item_self
     #' @param item_private item_private
     #' @param item_super item_super
+    #' @param 123_number 123_number
+    #' @param array[test] array[test]
     #' @param empty_string empty_string
     #' @param ... Other optional arguments.
     #' @export
     initialize = function(
-        `item_self`=NULL, `item_private`=NULL, `item_super`=NULL, `empty_string`=NULL, ...
+        `item_self`=NULL, `item_private`=NULL, `item_super`=NULL, `123_number`=NULL, `array[test]`=NULL, `empty_string`=NULL, ...
     ) {
       if (!is.null(`item_self`)) {
         stopifnot(is.numeric(`item_self`), length(`item_self`) == 1)
@@ -49,6 +55,14 @@ Special <- R6::R6Class(
       if (!is.null(`item_super`)) {
         stopifnot(is.character(`item_super`), length(`item_super`) == 1)
         self$`item_super` <- `item_super`
+      }
+      if (!is.null(`123_number`)) {
+        stopifnot(is.character(`123_number`), length(`123_number`) == 1)
+        self$`123_number` <- `123_number`
+      }
+      if (!is.null(`array[test]`)) {
+        stopifnot(is.character(`array[test]`), length(`array[test]`) == 1)
+        self$`array[test]` <- `array[test]`
       }
       if (!is.null(`empty_string`)) {
         stopifnot(is.character(`empty_string`), length(`empty_string`) == 1)
@@ -76,6 +90,14 @@ Special <- R6::R6Class(
         SpecialObject[['super']] <-
           self$`item_super`
       }
+      if (!is.null(self$`123_number`)) {
+        SpecialObject[['123_number']] <-
+          self$`123_number`
+      }
+      if (!is.null(self$`array[test]`)) {
+        SpecialObject[['array[test]']] <-
+          self$`array[test]`
+      }
       if (!is.null(self$`empty_string`)) {
         SpecialObject[['empty_string']] <-
           self$`empty_string`
@@ -101,6 +123,12 @@ Special <- R6::R6Class(
       }
       if (!is.null(this_object$`super`)) {
         self$`item_super` <- this_object$`super`
+      }
+      if (!is.null(this_object$`123_number`)) {
+        self$`123_number` <- this_object$`123_number`
+      }
+      if (!is.null(this_object$`array[test]`)) {
+        self$`array[test]` <- this_object$`array[test]`
       }
       if (!is.null(this_object$`empty_string`)) {
         self$`empty_string` <- this_object$`empty_string`
@@ -137,6 +165,20 @@ Special <- R6::R6Class(
                 ',
         self$`item_super`
         )},
+        if (!is.null(self$`123_number`)) {
+        sprintf(
+        '"123_number":
+          "%s"
+                ',
+        self$`123_number`
+        )},
+        if (!is.null(self$`array[test]`)) {
+        sprintf(
+        '"array[test]":
+          "%s"
+                ',
+        self$`array[test]`
+        )},
         if (!is.null(self$`empty_string`)) {
         sprintf(
         '"empty_string":
@@ -161,6 +203,8 @@ Special <- R6::R6Class(
       self$`item_self` <- this_object$`item_self`
       self$`item_private` <- this_object$`item_private`
       self$`item_super` <- this_object$`item_super`
+      self$`123_number` <- this_object$`123_number`
+      self$`array[test]` <- this_object$`array[test]`
       self$`empty_string` <- this_object$`empty_string`
       self
     },

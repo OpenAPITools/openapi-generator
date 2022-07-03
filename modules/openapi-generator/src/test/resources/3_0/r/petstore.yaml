@@ -796,6 +796,10 @@ components:
           type: string
         super:
           type: string
+        "123_number":
+          type: string
+        "array[test]":
+          type: string
         "":
           type: string
     Dog:
