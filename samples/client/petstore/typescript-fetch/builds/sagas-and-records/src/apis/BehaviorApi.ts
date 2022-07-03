@@ -24,6 +24,7 @@ import {
     GetBehaviorTypeResponseFromJSON,
     GetBehaviorTypeResponseToJSON,
 } from '../models';
+import type { AdditionalRequestParameters, InitOverrideFunction } from '../runtime';
 
 export interface GetBehaviorPermissionsRequest {
     behaviorId: number;
@@ -36,12 +37,12 @@ export interface GetBehaviorTypeRequest {
 /**
  * 
  */
-export class BehaviorApi extends runtime.BaseAPI {
+export class BehaviorApi<RM = void> extends runtime.BaseAPI<RM> {
 
     /**
      * Get permissions for the behavior
      */
-    async getBehaviorPermissionsRaw(requestParameters: GetBehaviorPermissionsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetBehaviorPermissionsResponse>> {
+    async getBehaviorPermissionsRaw(requestParameters: GetBehaviorPermissionsRequest, initOverrides?: RequestInit | InitOverrideFunction, additionalParameters?: AdditionalRequestParameters<RM>): Promise<runtime.ApiResponse<GetBehaviorPermissionsResponse>> {
         if (requestParameters.behaviorId === null || requestParameters.behaviorId === undefined) {
             throw new runtime.RequiredError('behaviorId','Required parameter requestParameters.behaviorId was null or undefined when calling getBehaviorPermissions.');
         }
@@ -55,7 +56,7 @@ export class BehaviorApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        }, initOverrides, additionalParameters);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => GetBehaviorPermissionsResponseFromJSON(jsonValue));
     }
@@ -63,15 +64,15 @@ export class BehaviorApi extends runtime.BaseAPI {
     /**
      * Get permissions for the behavior
      */
-    async getBehaviorPermissions(behaviorId: number, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetBehaviorPermissionsResponse> {
-        const response = await this.getBehaviorPermissionsRaw({ behaviorId: behaviorId }, initOverrides);
+    async getBehaviorPermissions(behaviorId: number, initOverrides?: RequestInit | InitOverrideFunction, additionalParameters?: AdditionalRequestParameters<RM>): Promise<GetBehaviorPermissionsResponse> {
+        const response = await this.getBehaviorPermissionsRaw({ behaviorId: behaviorId }, initOverrides, additionalParameters);
         return await response.value();
     }
 
     /**
      * Get the type of behavior
      */
-    async getBehaviorTypeRaw(requestParameters: GetBehaviorTypeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetBehaviorTypeResponse>> {
+    async getBehaviorTypeRaw(requestParameters: GetBehaviorTypeRequest, initOverrides?: RequestInit | InitOverrideFunction, additionalParameters?: AdditionalRequestParameters<RM>): Promise<runtime.ApiResponse<GetBehaviorTypeResponse>> {
         if (requestParameters.behaviorId === null || requestParameters.behaviorId === undefined) {
             throw new runtime.RequiredError('behaviorId','Required parameter requestParameters.behaviorId was null or undefined when calling getBehaviorType.');
         }
@@ -85,7 +86,7 @@ export class BehaviorApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        }, initOverrides, additionalParameters);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => GetBehaviorTypeResponseFromJSON(jsonValue));
     }
@@ -93,8 +94,8 @@ export class BehaviorApi extends runtime.BaseAPI {
     /**
      * Get the type of behavior
      */
-    async getBehaviorType(behaviorId: number, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetBehaviorTypeResponse> {
-        const response = await this.getBehaviorTypeRaw({ behaviorId: behaviorId }, initOverrides);
+    async getBehaviorType(behaviorId: number, initOverrides?: RequestInit | InitOverrideFunction, additionalParameters?: AdditionalRequestParameters<RM>): Promise<GetBehaviorTypeResponse> {
+        const response = await this.getBehaviorTypeRaw({ behaviorId: behaviorId }, initOverrides, additionalParameters);
         return await response.value();
     }
 

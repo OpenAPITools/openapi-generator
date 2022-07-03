@@ -24,6 +24,7 @@ import {
     GetPetPartTypeResponseFromJSON,
     GetPetPartTypeResponseToJSON,
 } from '../models';
+import type { AdditionalRequestParameters, InitOverrideFunction } from '../runtime';
 
 export interface GetFakePetPartTypeRequest {
     fakePetPartId: number;
@@ -41,12 +42,12 @@ export interface GetMatchingPartsRequest {
 /**
  * 
  */
-export class PetPartApi extends runtime.BaseAPI {
+export class PetPartApi<RM = void> extends runtime.BaseAPI<RM> {
 
     /**
      * Returns single pet part type for the petPart id.
      */
-    async getFakePetPartTypeRaw(requestParameters: GetFakePetPartTypeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetPetPartTypeResponse>> {
+    async getFakePetPartTypeRaw(requestParameters: GetFakePetPartTypeRequest, initOverrides?: RequestInit | InitOverrideFunction, additionalParameters?: AdditionalRequestParameters<RM>): Promise<runtime.ApiResponse<GetPetPartTypeResponse>> {
         if (requestParameters.fakePetPartId === null || requestParameters.fakePetPartId === undefined) {
             throw new runtime.RequiredError('fakePetPartId','Required parameter requestParameters.fakePetPartId was null or undefined when calling getFakePetPartType.');
         }
@@ -60,7 +61,7 @@ export class PetPartApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        }, initOverrides, additionalParameters);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => GetPetPartTypeResponseFromJSON(jsonValue));
     }
@@ -68,15 +69,15 @@ export class PetPartApi extends runtime.BaseAPI {
     /**
      * Returns single pet part type for the petPart id.
      */
-    async getFakePetPartType(fakePetPartId: number, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetPetPartTypeResponse> {
-        const response = await this.getFakePetPartTypeRaw({ fakePetPartId: fakePetPartId }, initOverrides);
+    async getFakePetPartType(fakePetPartId: number, initOverrides?: RequestInit | InitOverrideFunction, additionalParameters?: AdditionalRequestParameters<RM>): Promise<GetPetPartTypeResponse> {
+        const response = await this.getFakePetPartTypeRaw({ fakePetPartId: fakePetPartId }, initOverrides, additionalParameters);
         return await response.value();
     }
 
     /**
      * Get the matching parts for the given pet part.
      */
-    async getMatchingPartsRaw(requestParameters: GetMatchingPartsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetMatchingPartsResponse>> {
+    async getMatchingPartsRaw(requestParameters: GetMatchingPartsRequest, initOverrides?: RequestInit | InitOverrideFunction, additionalParameters?: AdditionalRequestParameters<RM>): Promise<runtime.ApiResponse<GetMatchingPartsResponse>> {
         if (requestParameters.fakePetPartId === null || requestParameters.fakePetPartId === undefined) {
             throw new runtime.RequiredError('fakePetPartId','Required parameter requestParameters.fakePetPartId was null or undefined when calling getMatchingParts.');
         }
@@ -122,7 +123,7 @@ export class PetPartApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        }, initOverrides, additionalParameters);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => GetMatchingPartsResponseFromJSON(jsonValue));
     }
@@ -130,8 +131,8 @@ export class PetPartApi extends runtime.BaseAPI {
     /**
      * Get the matching parts for the given pet part.
      */
-    async getMatchingParts(fakePetPartId: number, _long: boolean, smooth: boolean, _short: boolean, name?: string, connectedPart?: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetMatchingPartsResponse> {
-        const response = await this.getMatchingPartsRaw({ fakePetPartId: fakePetPartId, _long: _long, smooth: smooth, _short: _short, name: name, connectedPart: connectedPart }, initOverrides);
+    async getMatchingParts(fakePetPartId: number, _long: boolean, smooth: boolean, _short: boolean, name?: string, connectedPart?: string, initOverrides?: RequestInit | InitOverrideFunction, additionalParameters?: AdditionalRequestParameters<RM>): Promise<GetMatchingPartsResponse> {
+        const response = await this.getMatchingPartsRaw({ fakePetPartId: fakePetPartId, _long: _long, smooth: smooth, _short: _short, name: name, connectedPart: connectedPart }, initOverrides, additionalParameters);
         return await response.value();
     }
 

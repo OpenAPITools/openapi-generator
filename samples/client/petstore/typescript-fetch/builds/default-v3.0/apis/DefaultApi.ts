@@ -21,15 +21,16 @@ import {
     FooGetDefaultResponseFromJSON,
     FooGetDefaultResponseToJSON,
 } from '../models';
+import type { AdditionalRequestParameters, InitOverrideFunction } from '../runtime';
 
 /**
  * 
  */
-export class DefaultApi extends runtime.BaseAPI {
+export class DefaultApi<RM = void> extends runtime.BaseAPI<RM> {
 
     /**
      */
-    async fooGetRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<FooGetDefaultResponse>> {
+    async fooGetRaw(initOverrides?: RequestInit | InitOverrideFunction, additionalParameters?: AdditionalRequestParameters<RM>): Promise<runtime.ApiResponse<FooGetDefaultResponse>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -39,15 +40,15 @@ export class DefaultApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        }, initOverrides, additionalParameters);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => FooGetDefaultResponseFromJSON(jsonValue));
     }
 
     /**
      */
-    async fooGet(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<FooGetDefaultResponse> {
-        const response = await this.fooGetRaw(initOverrides);
+    async fooGet(initOverrides?: RequestInit | InitOverrideFunction, additionalParameters?: AdditionalRequestParameters<RM>): Promise<FooGetDefaultResponse> {
+        const response = await this.fooGetRaw(initOverrides, additionalParameters);
         return await response.value();
     }
 

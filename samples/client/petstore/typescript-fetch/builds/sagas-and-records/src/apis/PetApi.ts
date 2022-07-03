@@ -36,6 +36,7 @@ import {
     PetRegionsResponseFromJSON,
     PetRegionsResponseToJSON,
 } from '../models';
+import type { AdditionalRequestParameters, InitOverrideFunction } from '../runtime';
 
 export interface AddPetRequest {
     dummyCat: Category;
@@ -94,12 +95,12 @@ export interface UploadFileRequest {
 /**
  * 
  */
-export class PetApi extends runtime.BaseAPI {
+export class PetApi<RM = void> extends runtime.BaseAPI<RM> {
 
     /**
      * Add a new pet to the store
      */
-    async addPetRaw(requestParameters: AddPetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async addPetRaw(requestParameters: AddPetRequest, initOverrides?: RequestInit | InitOverrideFunction, additionalParameters?: AdditionalRequestParameters<RM>): Promise<runtime.ApiResponse<void>> {
         if (requestParameters.dummyCat === null || requestParameters.dummyCat === undefined) {
             throw new runtime.RequiredError('dummyCat','Required parameter requestParameters.dummyCat was null or undefined when calling addPet.');
         }
@@ -121,7 +122,7 @@ export class PetApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: CategoryToJSON(requestParameters.dummyCat),
-        }, initOverrides);
+        }, initOverrides, additionalParameters);
 
         return new runtime.VoidApiResponse(response);
     }
@@ -129,14 +130,14 @@ export class PetApi extends runtime.BaseAPI {
     /**
      * Add a new pet to the store
      */
-    async addPet(dummyCat: Category, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.addPetRaw({ dummyCat: dummyCat }, initOverrides);
+    async addPet(dummyCat: Category, initOverrides?: RequestInit | InitOverrideFunction, additionalParameters?: AdditionalRequestParameters<RM>): Promise<void> {
+        await this.addPetRaw({ dummyCat: dummyCat }, initOverrides, additionalParameters);
     }
 
     /**
      * Deletes a pet
      */
-    async deletePetRaw(requestParameters: DeletePetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async deletePetRaw(requestParameters: DeletePetRequest, initOverrides?: RequestInit | InitOverrideFunction, additionalParameters?: AdditionalRequestParameters<RM>): Promise<runtime.ApiResponse<void>> {
         if (requestParameters.petId === null || requestParameters.petId === undefined) {
             throw new runtime.RequiredError('petId','Required parameter requestParameters.petId was null or undefined when calling deletePet.');
         }
@@ -159,7 +160,7 @@ export class PetApi extends runtime.BaseAPI {
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        }, initOverrides, additionalParameters);
 
         return new runtime.VoidApiResponse(response);
     }
@@ -167,15 +168,15 @@ export class PetApi extends runtime.BaseAPI {
     /**
      * Deletes a pet
      */
-    async deletePet(petId: number, apiKey?: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.deletePetRaw({ petId: petId, apiKey: apiKey }, initOverrides);
+    async deletePet(petId: number, apiKey?: string, initOverrides?: RequestInit | InitOverrideFunction, additionalParameters?: AdditionalRequestParameters<RM>): Promise<void> {
+        await this.deletePetRaw({ petId: petId, apiKey: apiKey }, initOverrides, additionalParameters);
     }
 
     /**
      * Multiple ids can be provided with comma separated strings.
      * Finds Pets by ids
      */
-    async findPetsByIdsRaw(requestParameters: FindPetsByIdsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Pet>>> {
+    async findPetsByIdsRaw(requestParameters: FindPetsByIdsRequest, initOverrides?: RequestInit | InitOverrideFunction, additionalParameters?: AdditionalRequestParameters<RM>): Promise<runtime.ApiResponse<Array<Pet>>> {
         if (requestParameters.ids === null || requestParameters.ids === undefined) {
             throw new runtime.RequiredError('ids','Required parameter requestParameters.ids was null or undefined when calling findPetsByIds.');
         }
@@ -198,7 +199,7 @@ export class PetApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        }, initOverrides, additionalParameters);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(PetFromJSON));
     }
@@ -207,8 +208,8 @@ export class PetApi extends runtime.BaseAPI {
      * Multiple ids can be provided with comma separated strings.
      * Finds Pets by ids
      */
-    async findPetsByIds(ids: Array<number>, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<Pet>> {
-        const response = await this.findPetsByIdsRaw({ ids: ids }, initOverrides);
+    async findPetsByIds(ids: Array<number>, initOverrides?: RequestInit | InitOverrideFunction, additionalParameters?: AdditionalRequestParameters<RM>): Promise<Array<Pet>> {
+        const response = await this.findPetsByIdsRaw({ ids: ids }, initOverrides, additionalParameters);
         return await response.value();
     }
 
@@ -216,7 +217,7 @@ export class PetApi extends runtime.BaseAPI {
      * Multiple status values can be provided with comma separated strings
      * Finds Pets by status
      */
-    async findPetsByStatusRaw(requestParameters: FindPetsByStatusRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<FindPetsByStatusResponse>> {
+    async findPetsByStatusRaw(requestParameters: FindPetsByStatusRequest, initOverrides?: RequestInit | InitOverrideFunction, additionalParameters?: AdditionalRequestParameters<RM>): Promise<runtime.ApiResponse<FindPetsByStatusResponse>> {
         if (requestParameters.status === null || requestParameters.status === undefined) {
             throw new runtime.RequiredError('status','Required parameter requestParameters.status was null or undefined when calling findPetsByStatus.');
         }
@@ -239,7 +240,7 @@ export class PetApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        }, initOverrides, additionalParameters);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => FindPetsByStatusResponseFromJSON(jsonValue));
     }
@@ -248,8 +249,8 @@ export class PetApi extends runtime.BaseAPI {
      * Multiple status values can be provided with comma separated strings
      * Finds Pets by status
      */
-    async findPetsByStatus(status: Array<FindPetsByStatusStatusEnum>, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<FindPetsByStatusResponse> {
-        const response = await this.findPetsByStatusRaw({ status: status }, initOverrides);
+    async findPetsByStatus(status: Array<FindPetsByStatusStatusEnum>, initOverrides?: RequestInit | InitOverrideFunction, additionalParameters?: AdditionalRequestParameters<RM>): Promise<FindPetsByStatusResponse> {
+        const response = await this.findPetsByStatusRaw({ status: status }, initOverrides, additionalParameters);
         return await response.value();
     }
 
@@ -257,7 +258,7 @@ export class PetApi extends runtime.BaseAPI {
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      * Finds Pets by tags
      */
-    async findPetsByTagsRaw(requestParameters: FindPetsByTagsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Pet>>> {
+    async findPetsByTagsRaw(requestParameters: FindPetsByTagsRequest, initOverrides?: RequestInit | InitOverrideFunction, additionalParameters?: AdditionalRequestParameters<RM>): Promise<runtime.ApiResponse<Array<Pet>>> {
         if (requestParameters.tags === null || requestParameters.tags === undefined) {
             throw new runtime.RequiredError('tags','Required parameter requestParameters.tags was null or undefined when calling findPetsByTags.');
         }
@@ -280,7 +281,7 @@ export class PetApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        }, initOverrides, additionalParameters);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(PetFromJSON));
     }
@@ -289,8 +290,8 @@ export class PetApi extends runtime.BaseAPI {
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      * Finds Pets by tags
      */
-    async findPetsByTags(tags: Array<string>, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<Pet>> {
-        const response = await this.findPetsByTagsRaw({ tags: tags }, initOverrides);
+    async findPetsByTags(tags: Array<string>, initOverrides?: RequestInit | InitOverrideFunction, additionalParameters?: AdditionalRequestParameters<RM>): Promise<Array<Pet>> {
+        const response = await this.findPetsByTagsRaw({ tags: tags }, initOverrides, additionalParameters);
         return await response.value();
     }
 
@@ -298,7 +299,7 @@ export class PetApi extends runtime.BaseAPI {
      * Multiple ids can be provided with comma separated strings.
      * Finds Pets by user ids
      */
-    async findPetsByUserIdsRaw(requestParameters: FindPetsByUserIdsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<FindPetsByUserResponse>> {
+    async findPetsByUserIdsRaw(requestParameters: FindPetsByUserIdsRequest, initOverrides?: RequestInit | InitOverrideFunction, additionalParameters?: AdditionalRequestParameters<RM>): Promise<runtime.ApiResponse<FindPetsByUserResponse>> {
         if (requestParameters.ids === null || requestParameters.ids === undefined) {
             throw new runtime.RequiredError('ids','Required parameter requestParameters.ids was null or undefined when calling findPetsByUserIds.');
         }
@@ -321,7 +322,7 @@ export class PetApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        }, initOverrides, additionalParameters);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => FindPetsByUserResponseFromJSON(jsonValue));
     }
@@ -330,8 +331,8 @@ export class PetApi extends runtime.BaseAPI {
      * Multiple ids can be provided with comma separated strings.
      * Finds Pets by user ids
      */
-    async findPetsByUserIds(ids: Array<number>, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<FindPetsByUserResponse> {
-        const response = await this.findPetsByUserIdsRaw({ ids: ids }, initOverrides);
+    async findPetsByUserIds(ids: Array<number>, initOverrides?: RequestInit | InitOverrideFunction, additionalParameters?: AdditionalRequestParameters<RM>): Promise<FindPetsByUserResponse> {
+        const response = await this.findPetsByUserIdsRaw({ ids: ids }, initOverrides, additionalParameters);
         return await response.value();
     }
 
@@ -339,7 +340,7 @@ export class PetApi extends runtime.BaseAPI {
      * Returns a single pet
      * Find pet by ID
      */
-    async getPetByIdRaw(requestParameters: GetPetByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Pet>> {
+    async getPetByIdRaw(requestParameters: GetPetByIdRequest, initOverrides?: RequestInit | InitOverrideFunction, additionalParameters?: AdditionalRequestParameters<RM>): Promise<runtime.ApiResponse<Pet>> {
         if (requestParameters.petId === null || requestParameters.petId === undefined) {
             throw new runtime.RequiredError('petId','Required parameter requestParameters.petId was null or undefined when calling getPetById.');
         }
@@ -357,7 +358,7 @@ export class PetApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        }, initOverrides, additionalParameters);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => PetFromJSON(jsonValue));
     }
@@ -366,15 +367,15 @@ export class PetApi extends runtime.BaseAPI {
      * Returns a single pet
      * Find pet by ID
      */
-    async getPetById(petId: number, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Pet> {
-        const response = await this.getPetByIdRaw({ petId: petId }, initOverrides);
+    async getPetById(petId: number, initOverrides?: RequestInit | InitOverrideFunction, additionalParameters?: AdditionalRequestParameters<RM>): Promise<Pet> {
+        const response = await this.getPetByIdRaw({ petId: petId }, initOverrides, additionalParameters);
         return await response.value();
     }
 
     /**
      * Gets regions for a single pet.
      */
-    async getPetRegionsRaw(requestParameters: GetPetRegionsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PetRegionsResponse>> {
+    async getPetRegionsRaw(requestParameters: GetPetRegionsRequest, initOverrides?: RequestInit | InitOverrideFunction, additionalParameters?: AdditionalRequestParameters<RM>): Promise<runtime.ApiResponse<PetRegionsResponse>> {
         if (requestParameters.petId === null || requestParameters.petId === undefined) {
             throw new runtime.RequiredError('petId','Required parameter requestParameters.petId was null or undefined when calling getPetRegions.');
         }
@@ -388,7 +389,7 @@ export class PetApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        }, initOverrides, additionalParameters);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => PetRegionsResponseFromJSON(jsonValue));
     }
@@ -396,15 +397,15 @@ export class PetApi extends runtime.BaseAPI {
     /**
      * Gets regions for a single pet.
      */
-    async getPetRegions(petId: number, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PetRegionsResponse> {
-        const response = await this.getPetRegionsRaw({ petId: petId }, initOverrides);
+    async getPetRegions(petId: number, initOverrides?: RequestInit | InitOverrideFunction, additionalParameters?: AdditionalRequestParameters<RM>): Promise<PetRegionsResponse> {
+        const response = await this.getPetRegionsRaw({ petId: petId }, initOverrides, additionalParameters);
         return await response.value();
     }
 
     /**
      * Update an existing pet
      */
-    async updatePetRaw(requestParameters: UpdatePetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async updatePetRaw(requestParameters: UpdatePetRequest, initOverrides?: RequestInit | InitOverrideFunction, additionalParameters?: AdditionalRequestParameters<RM>): Promise<runtime.ApiResponse<void>> {
         if (requestParameters.body === null || requestParameters.body === undefined) {
             throw new runtime.RequiredError('body','Required parameter requestParameters.body was null or undefined when calling updatePet.');
         }
@@ -426,7 +427,7 @@ export class PetApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: PetToJSON(requestParameters.body),
-        }, initOverrides);
+        }, initOverrides, additionalParameters);
 
         return new runtime.VoidApiResponse(response);
     }
@@ -434,14 +435,14 @@ export class PetApi extends runtime.BaseAPI {
     /**
      * Update an existing pet
      */
-    async updatePet(body: Pet, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.updatePetRaw({ body: body }, initOverrides);
+    async updatePet(body: Pet, initOverrides?: RequestInit | InitOverrideFunction, additionalParameters?: AdditionalRequestParameters<RM>): Promise<void> {
+        await this.updatePetRaw({ body: body }, initOverrides, additionalParameters);
     }
 
     /**
      * Updates the pet regions.
      */
-    async updatePetRegionsRaw(requestParameters: UpdatePetRegionsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PetRegionsResponse>> {
+    async updatePetRegionsRaw(requestParameters: UpdatePetRegionsRequest, initOverrides?: RequestInit | InitOverrideFunction, additionalParameters?: AdditionalRequestParameters<RM>): Promise<runtime.ApiResponse<PetRegionsResponse>> {
         if (requestParameters.petId === null || requestParameters.petId === undefined) {
             throw new runtime.RequiredError('petId','Required parameter requestParameters.petId was null or undefined when calling updatePetRegions.');
         }
@@ -462,7 +463,7 @@ export class PetApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: requestParameters.newRegions,
-        }, initOverrides);
+        }, initOverrides, additionalParameters);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => PetRegionsResponseFromJSON(jsonValue));
     }
@@ -470,15 +471,15 @@ export class PetApi extends runtime.BaseAPI {
     /**
      * Updates the pet regions.
      */
-    async updatePetRegions(petId: number, newRegions: Array<Array<number>>, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PetRegionsResponse> {
-        const response = await this.updatePetRegionsRaw({ petId: petId, newRegions: newRegions }, initOverrides);
+    async updatePetRegions(petId: number, newRegions: Array<Array<number>>, initOverrides?: RequestInit | InitOverrideFunction, additionalParameters?: AdditionalRequestParameters<RM>): Promise<PetRegionsResponse> {
+        const response = await this.updatePetRegionsRaw({ petId: petId, newRegions: newRegions }, initOverrides, additionalParameters);
         return await response.value();
     }
 
     /**
      * Updates a pet in the store with form data
      */
-    async updatePetWithFormRaw(requestParameters: UpdatePetWithFormRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async updatePetWithFormRaw(requestParameters: UpdatePetWithFormRequest, initOverrides?: RequestInit | InitOverrideFunction, additionalParameters?: AdditionalRequestParameters<RM>): Promise<runtime.ApiResponse<void>> {
         if (requestParameters.petId === null || requestParameters.petId === undefined) {
             throw new runtime.RequiredError('petId','Required parameter requestParameters.petId was null or undefined when calling updatePetWithForm.');
         }
@@ -520,7 +521,7 @@ export class PetApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: formParams,
-        }, initOverrides);
+        }, initOverrides, additionalParameters);
 
         return new runtime.VoidApiResponse(response);
     }
@@ -528,14 +529,14 @@ export class PetApi extends runtime.BaseAPI {
     /**
      * Updates a pet in the store with form data
      */
-    async updatePetWithForm(petId: number, name?: string, status?: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.updatePetWithFormRaw({ petId: petId, name: name, status: status }, initOverrides);
+    async updatePetWithForm(petId: number, name?: string, status?: string, initOverrides?: RequestInit | InitOverrideFunction, additionalParameters?: AdditionalRequestParameters<RM>): Promise<void> {
+        await this.updatePetWithFormRaw({ petId: petId, name: name, status: status }, initOverrides, additionalParameters);
     }
 
     /**
      * uploads an image
      */
-    async uploadFileRaw(requestParameters: UploadFileRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ModelApiResponse>> {
+    async uploadFileRaw(requestParameters: UploadFileRequest, initOverrides?: RequestInit | InitOverrideFunction, additionalParameters?: AdditionalRequestParameters<RM>): Promise<runtime.ApiResponse<ModelApiResponse>> {
         if (requestParameters.petId === null || requestParameters.petId === undefined) {
             throw new runtime.RequiredError('petId','Required parameter requestParameters.petId was null or undefined when calling uploadFile.');
         }
@@ -579,7 +580,7 @@ export class PetApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: formParams,
-        }, initOverrides);
+        }, initOverrides, additionalParameters);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ModelApiResponseFromJSON(jsonValue));
     }
@@ -587,8 +588,8 @@ export class PetApi extends runtime.BaseAPI {
     /**
      * uploads an image
      */
-    async uploadFile(petId: number, additionalMetadata?: string, file?: Blob, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ModelApiResponse> {
-        const response = await this.uploadFileRaw({ petId: petId, additionalMetadata: additionalMetadata, file: file }, initOverrides);
+    async uploadFile(petId: number, additionalMetadata?: string, file?: Blob, initOverrides?: RequestInit | InitOverrideFunction, additionalParameters?: AdditionalRequestParameters<RM>): Promise<ModelApiResponse> {
+        const response = await this.uploadFileRaw({ petId: petId, additionalMetadata: additionalMetadata, file: file }, initOverrides, additionalParameters);
         return await response.value();
     }
 

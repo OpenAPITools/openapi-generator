@@ -21,6 +21,7 @@ import {
     ClubFromJSON,
     ClubToJSON,
 } from '../models';
+import type { AdditionalRequestParameters, InitOverrideFunction } from '../runtime';
 
 export interface ListRequest {
     personId: string;
@@ -29,11 +30,11 @@ export interface ListRequest {
 /**
  * 
  */
-export class DefaultApi extends runtime.BaseAPI {
+export class DefaultApi<RM = void> extends runtime.BaseAPI<RM> {
 
     /**
      */
-    async listRaw(requestParameters: ListRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Club>> {
+    async listRaw(requestParameters: ListRequest, initOverrides?: RequestInit | InitOverrideFunction, additionalParameters?: AdditionalRequestParameters<RM>): Promise<runtime.ApiResponse<Club>> {
         if (requestParameters.personId === null || requestParameters.personId === undefined) {
             throw new runtime.RequiredError('personId','Required parameter requestParameters.personId was null or undefined when calling list.');
         }
@@ -47,15 +48,15 @@ export class DefaultApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        }, initOverrides, additionalParameters);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ClubFromJSON(jsonValue));
     }
 
     /**
      */
-    async list(requestParameters: ListRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Club> {
-        const response = await this.listRaw(requestParameters, initOverrides);
+    async list(requestParameters: ListRequest, initOverrides?: RequestInit | InitOverrideFunction, additionalParameters?: AdditionalRequestParameters<RM>): Promise<Club> {
+        const response = await this.listRaw(requestParameters, initOverrides, additionalParameters);
         return await response.value();
     }
 

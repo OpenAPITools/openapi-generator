@@ -15,10 +15,10 @@
 
 export const BASE_PATH = "http://petstore.swagger.io/v2".replace(/\/+$/, "");
 
-export interface ConfigurationParameters {
+export interface ConfigurationParameters<RM = void> {
     basePath?: string; // override base path
     fetchApi?: FetchAPI; // override for fetch implementation
-    middleware?: Middleware[]; // middleware to apply before/after fetch requests
+    middleware?: Middleware<RM>[]; // middleware to apply before/after fetch requests
     queryParamsStringify?: (params: HTTPQuery) => string; // stringify function for query strings
     username?: string; // parameter for basic security
     password?: string; // parameter for basic security
@@ -28,10 +28,10 @@ export interface ConfigurationParameters {
     credentials?: RequestCredentials; //value for the credentials param we want to use on each request
 }
 
-export class Configuration {
-    constructor(private configuration: ConfigurationParameters = {}) {}
+export class Configuration<RM = void> {
+    constructor(private configuration: ConfigurationParameters<RM> = {}) {}
 
-    set config(configuration: Configuration) {
+    set config(configuration: Configuration<RM>) {
         this.configuration = configuration;
     }
 
@@ -43,7 +43,7 @@ export class Configuration {
         return this.configuration.fetchApi;
     }
 
-    get middleware(): Middleware[] {
+    get middleware(): Middleware<RM>[] {
         return this.configuration.middleware || [];
     }
 
@@ -89,33 +89,33 @@ export const DefaultConfig = new Configuration();
 /**
  * This is the base class for all generated API classes.
  */
-export class BaseAPI {
+export class BaseAPI<RM = void> {
 
-    private middleware: Middleware[];
+    private middleware: Middleware<RM>[];
 
-    constructor(protected configuration = DefaultConfig) {
+    constructor(protected configuration = new Configuration<RM>()) {
         this.middleware = configuration.middleware;
     }
 
-    withMiddleware<T extends BaseAPI>(this: T, ...middlewares: Middleware[]) {
-        const next = this.clone<T>();
+    withMiddleware<T extends BaseAPI<RM>>(this: T, ...middlewares: Middleware<RM>[]) {
+        const next : T = this.clone<T>();
         next.middleware = next.middleware.concat(...middlewares);
         return next;
     }
 
-    withPreMiddleware<T extends BaseAPI>(this: T, ...preMiddlewares: Array<Middleware['pre']>) {
+    withPreMiddleware<T extends BaseAPI<RM>>(this: T, ...preMiddlewares: Array<Middleware<RM>['pre']>) {
         const middlewares = preMiddlewares.map((pre) => ({ pre }));
         return this.withMiddleware<T>(...middlewares);
     }
 
-    withPostMiddleware<T extends BaseAPI>(this: T, ...postMiddlewares: Array<Middleware['post']>) {
+    withPostMiddleware<T extends BaseAPI<RM>>(this: T, ...postMiddlewares: Array<Middleware<RM>['post']>) {
         const middlewares = postMiddlewares.map((post) => ({ post }));
         return this.withMiddleware<T>(...middlewares);
     }
 
-    protected async request(context: RequestOpts, initOverrides?: RequestInit | InitOverrideFunction): Promise<Response> {
+    protected async request(context: RequestOpts, initOverrides?: RequestInit | InitOverrideFunction, additionalParameters?: AdditionalRequestParameters<RM>): Promise<Response> {
         const { url, init } = await this.createFetchParams(context, initOverrides);
-        const response = await this.fetchApi(url, init);
+        const response = await this.fetchApi(url, init, additionalParameters?.metadata);
         if (response && (response.status >= 200 && response.status < 300)) {
             return response;
         }
@@ -146,7 +146,7 @@ export class BaseAPI {
             credentials: this.configuration.credentials,
         };
 
-        const overridedInit: RequestInit = {
+        const overriddenInit: RequestInit = {
             ...initParams,
             ...(await initOverrideFn({
                 init: initParams,
@@ -155,25 +155,26 @@ export class BaseAPI {
         }
 
         const init: RequestInit = {
-            ...overridedInit,
+            ...overriddenInit,
             body:
-                isFormData(overridedInit.body) ||
-                overridedInit.body instanceof URLSearchParams ||
-                isBlob(overridedInit.body)
-                    ? overridedInit.body
-                    : JSON.stringify(overridedInit.body),
+                isFormData(overriddenInit.body) ||
+                overriddenInit.body instanceof URLSearchParams ||
+                isBlob(overriddenInit.body)
+                    ? overriddenInit.body
+                    : JSON.stringify(overriddenInit.body),
         };
 
         return { url, init };
     }
 
-    private fetchApi = async (url: string, init: RequestInit) => {
+    private fetchApi = async (url: string, init: RequestInit, metadata?: RM) => {
         let fetchParams = { url, init };
         for (const middleware of this.middleware) {
             if (middleware.pre) {
                 fetchParams = await middleware.pre({
                     fetch: this.fetchApi,
                     ...fetchParams,
+                    metadata,
                 }) || fetchParams;
             }
         }
@@ -189,6 +190,7 @@ export class BaseAPI {
                         init: fetchParams.init,
                         error: e,
                         response: response ? response.clone() : undefined,
+                        metadata,
                     }) || response;
                 }
             }
@@ -207,6 +209,7 @@ export class BaseAPI {
                     url: fetchParams.url,
                     init: fetchParams.init,
                     response: response.clone(),
+                    metadata
                 }) || response;
             }
         }
@@ -217,7 +220,7 @@ export class BaseAPI {
      * Create a shallow clone of `this` by constructing a new instance
      * and then shallow cloning data members.
      */
-    private clone<T extends BaseAPI>(this: T): T {
+    private clone<T extends BaseAPI<RM>>(this: T): T {
         const constructor = this.constructor as any;
         const next = new constructor(this.configuration);
         next.middleware = this.middleware.slice();
@@ -272,6 +275,17 @@ export type HTTPRequestInit = { headers?: HTTPHeaders; method: HTTPMethod; crede
 export type ModelPropertyNaming = 'camelCase' | 'snake_case' | 'PascalCase' | 'original';
 
 export type InitOverrideFunction = (requestContext: { init: HTTPRequestInit, context: RequestOpts }) => Promise<RequestInit>
+
+/**
+ * Configures additional request execution aspects (e.g. middleware behaviour).
+ */
+export interface AdditionalRequestParameters<RM = void> {
+  /**
+   * Request metadata to be passed to the middleware. Typical use case - configure middleware
+   * behaviour on per-request basis.
+   */
+  metadata?: RM;
+}
 
 export interface FetchParams {
     url: string;
@@ -328,31 +342,34 @@ export interface Consume {
     contentType: string
 }
 
-export interface RequestContext {
+export interface RequestContext<RM = void> {
     fetch: FetchAPI;
     url: string;
     init: RequestInit;
+    metadata?: RM;
 }
 
-export interface ResponseContext {
+export interface ResponseContext<RM = void> {
     fetch: FetchAPI;
     url: string;
     init: RequestInit;
     response: Response;
+    metadata?: RM;
 }
 
-export interface ErrorContext {
+export interface ErrorContext<RM = void> {
     fetch: FetchAPI;
     url: string;
     init: RequestInit;
     error: unknown;
     response?: Response;
+    metadata?: RM;
 }
 
-export interface Middleware {
-    pre?(context: RequestContext): Promise<FetchParams | void>;
-    post?(context: ResponseContext): Promise<Response | void>;
-    onError?(context: ErrorContext): Promise<Response | void>;
+export interface Middleware<RM = void> {
+    pre?(context: RequestContext<RM>): Promise<FetchParams | void>;
+    post?(context: ResponseContext<RM>): Promise<Response | void>;
+    onError?(context: ErrorContext<RM>): Promise<Response | void>;
 }
 
 export interface ApiResponse<T> {
