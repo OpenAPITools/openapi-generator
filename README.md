@@ -9,18 +9,12 @@
 
 <div align="center">
 
-[Master](https://github.com/OpenAPITools/openapi-generator/tree/master) (`6.0.1`):
+[Master](https://github.com/OpenAPITools/openapi-generator/tree/master) (`6.1.0`):
 [![Build Status](https://img.shields.io/travis/OpenAPITools/openapi-generator/master.svg?label=Integration%20Test)](https://travis-ci.com/OpenAPITools/openapi-generator)
 [![Integration Test2](https://circleci.com/gh/OpenAPITools/openapi-generator.svg?style=shield)](https://circleci.com/gh/OpenAPITools/openapi-generator)
 [![Windows Test](https://ci.appveyor.com/api/projects/status/github/openapitools/openapi-generator?branch=master&svg=true&passingText=Windows%20Test%20-%20OK&failingText=Windows%20Test%20-%20Fails)](https://ci.appveyor.com/project/WilliamCheng/openapi-generator)
 [![Bitrise](https://img.shields.io/bitrise/4a2b10a819d12b67/master?label=bitrise%3A%20Swift+4,5&token=859FMDR8QHwabCzwvZK6vQ)](https://app.bitrise.io/app/4a2b10a819d12b67)
 [![GitHub Workflow Status (branch)](https://img.shields.io/github/workflow/status/openapitools/openapi-generator/Check%20Supported%20Java%20Versions/master?label=Check%20Supported%20Java%20Versions&logo=github&logoColor=green)](https://github.com/OpenAPITools/openapi-generator/actions?query=workflow%3A%22Check+Supported+Java+Versions%22)
-
-[6.1.x](https://github.com/OpenAPITools/openapi-generator/tree/6.1.x) (`6.1.x`):
-[![Build Status](https://img.shields.io/travis/OpenAPITools/openapi-generator/6.1.x.svg?label=Integration%20Test)](https://travis-ci.com/OpenAPITools/openapi-generator)
-[![Integration Test2](https://circleci.com/gh/OpenAPITools/openapi-generator/tree/6.1.x.svg?style=shield)](https://circleci.com/gh/OpenAPITools/openapi-generator)
-[![Windows Test](https://ci.appveyor.com/api/projects/status/github/openapitools/openapi-generator?branch=6.1.x&svg=true&passingText=Windows%20Test%20-%20OK&failingText=Windows%20Test%20-%20Fails)](https://ci.appveyor.com/project/WilliamCheng/openapi-generator)
-[![Bitrise](https://img.shields.io/bitrise/4a2b10a819d12b67/6.1.x?label=bitrise%3A%20Swift+4,5&token=859FMDR8QHwabCzwvZK6vQ)](https://app.bitrise.io/app/4a2b10a819d12b67)
 
 [7.0.x](https://github.com/OpenAPITools/openapi-generator/tree/7.0.x) (`7.0.x`):
 [![Build Status](https://img.shields.io/travis/OpenAPITools/openapi-generator/7.0.x.svg?label=Integration%20Test)](https://travis-ci.com/OpenAPITools/openapi-generator)
@@ -119,9 +113,8 @@ The OpenAPI Specification has undergone 3 revisions since initial creation in 20
 | OpenAPI Generator Version                                                                                                                                 | Release Date | Notes                                             |
 | --------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | ------------------------------------------------- |
 | 7.0.0 (upcoming major release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/7.0.0-SNAPSHOT/) | Feb/Mar 2023   | Major release with breaking changes (no fallback) |
-| 6.1.0 (upcoming minor release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/6.1.0-SNAPSHOT/) | 26.07 2022   | Minor release with breaking changes (with fallbac) |
-| 6.0.1 (upcoming patch release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/6.0.1-SNAPSHOT/) | 26.06 2022   | Patch release (enhancements, bug fixes, etc) |
-| [6.0.0](https://github.com/OpenAPITools/openapi-generator/releases/tag/v6.0.0) (latest stable release)                                                    | 26.05.2022   | Major release with breaking changes (no fallback) |
+| 6.1.0 (upcoming minor release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/6.1.0-SNAPSHOT/) | 03.08 2022   | Minor release with breaking changes (with fallback) |
+| [6.0.1](https://github.com/OpenAPITools/openapi-generator/releases/tag/v6.0.1) (latest stable release)                                                    | 03.07.2022   | Patch release (enhancements, bug fixes, etc) |
 | [5.4.0](https://github.com/OpenAPITools/openapi-generator/releases/tag/v5.4.0)                                                    | 31.01.2022   | Minor release with breaking changes (with fallback) |
 | [4.3.1](https://github.com/OpenAPITools/openapi-generator/releases/tag/v4.3.1)                                                    | 06.05.2020   | Patch release (enhancements, bug fixes, etc)                       |
 
