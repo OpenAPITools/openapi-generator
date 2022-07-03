@@ -448,6 +448,12 @@ class EnumMakerBase:
             return enum_classes
         for enum_value, enum_name in cls._enum_value_to_name.items():
             base_class = type(enum_value)
+            # todo remove this debugging
+            if 'Dynamic' in cls.__name__:
+                # import pdb
+                # pdb.set_trace()
+                pass
+
             if base_class is none_type:
                 enum_classes[enum_value] = get_new_class(
                       "Dynamic" + cls.__name__, (cls, NoneClass))
@@ -1403,6 +1409,12 @@ class Schema:
         # do not modify the returned result because it is cached and we would be modifying the cached value
         path_to_schemas = {}
         for path, schema_classes in _path_to_schemas.items():
+            """
+            Use cases
+            1. N number of schema classes, non-enum: base class in path_to_schemas: tuple/frozendict/str/decimal
+            2. N number of schema classes, non-enum: base class Not in path_to_schemas: bool/None
+            2. N number of schema classes, enum: base class may or may not be in path_to_schemas
+            """
             enum_schema = any(
                 hasattr(this_cls, '_enum_by_value') for this_cls in schema_classes)
             inheritable_primitive_type = schema_classes.intersection(inheritable_primitive_types_set)
@@ -1417,6 +1429,7 @@ class Schema:
             if len(chosen_schema_classes) == 1 and not suffix:
                 mfg_cls = tuple(chosen_schema_classes)[0]
             else:
+                # If a SomeSchema is a subclass of DictSchema then remove DiscSchema
                 x_schema = schema_descendents & chosen_schema_classes
                 if x_schema:
                     x_schema = x_schema.pop()
@@ -1572,7 +1585,8 @@ class Schema:
 def cast_to_allowed_types(
     arg: typing.Union[str, date, datetime, uuid.UUID, decimal.Decimal, int, float, None, dict, frozendict, list, tuple, bytes, Schema],
     from_server: bool,
-    validated_path_to_schemas: typing.Dict[typing.Tuple[typing.Union[str, int], ...], typing.Set[typing.Union['Schema', str, decimal.Decimal, BoolClass, NoneClass, frozendict, tuple]]]
+    validated_path_to_schemas: typing.Dict[typing.Tuple[typing.Union[str, int], ...], typing.Set[typing.Union['Schema', str, decimal.Decimal, BoolClass, NoneClass, frozendict, tuple]]],
+    path_to_item: typing.Tuple[typing.Union[str, int], ...] = tuple(['args[0]']),
 ) -> typing.Union[str, bytes, decimal.Decimal, None, frozendict, tuple]:
     """
     Casts the input payload arg into the allowed types
@@ -1594,10 +1608,21 @@ def cast_to_allowed_types(
         from_server: whether this payload came from the server or not
         validated_path_to_schemas: a dict that stores the validated classes at any path location in the payload
     """
+    if isinstance(arg, Schema):
+        schema_classes = set()
+        # store the already run validations
+        for cls in arg.__class__.__bases__:
+            if cls in {tuple, frozendict, str, decimal.Decimal}:
+                continue
+            schema_classes.add(cls)
+        # import pdb
+        # pdb.set_trace()
+        validated_path_to_schemas[path_to_item] = schema_classes
+
     if isinstance(arg, str):
         return str(arg)
     elif isinstance(arg, (dict, frozendict)):
-        return frozendict({key: cast_to_allowed_types(val, from_server, validated_path_to_schemas) for key, val in arg.items()})
+        return frozendict({key: cast_to_allowed_types(val, from_server, validated_path_to_schemas, path_to_item + (key,)) for key, val in arg.items()})
     elif isinstance(arg, (bool, BoolClass)):
         """
         this check must come before isinstance(arg, (int, float))
@@ -1614,7 +1639,7 @@ def cast_to_allowed_types(
             return decimal.Decimal(str(decimal_from_float)+'.0')
         return decimal_from_float
     elif isinstance(arg, (tuple, list)):
-        return tuple([cast_to_allowed_types(item, from_server, validated_path_to_schemas) for item in arg])
+        return tuple([cast_to_allowed_types(item, from_server, validated_path_to_schemas, path_to_item + (i,)) for i, item in enumerate(arg)])
     elif isinstance(arg, (none_type, NoneClass)):
         return None
     elif isinstance(arg, (date, datetime)):
