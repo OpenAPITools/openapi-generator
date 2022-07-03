@@ -1379,6 +1379,24 @@ class Schema:
         except KeyError:
             raise ApiValueError("Invalid value {} passed in to {}, {}".format(arg, cls, cls._enum_value_to_name))
 
+    @staticmethod
+    def __process_schema_classes(
+        schema_classes: typing.Set[typing.Union['Schema', str, decimal.Decimal, BoolClass, NoneClass, frozendict, tuple]]
+    ):
+        """
+        Processes and mutates schema_classes
+        If a SomeSchema is a subclass of DictSchema then remove DictSchema because it is already included
+        """
+        if len(schema_classes) < 2:
+            return
+        x_schema = schema_type_classes & schema_classes
+        if not x_schema:
+            return
+        x_schema = x_schema.pop()
+        if any(c is not x_schema and issubclass(c, x_schema) for c in schema_classes):
+            # needed to not have a mro error in get_new_class
+            schema_classes.remove(x_schema)
+
     @classmethod
     def __get_new_cls(
         cls,
@@ -1415,6 +1433,7 @@ class Schema:
             2. N number of schema classes, non-enum: base class Not in path_to_schemas: bool/None
             2. N number of schema classes, enum: base class may or may not be in path_to_schemas
             """
+            cls.__process_schema_classes(schema_classes)
             enum_schema = any(
                 hasattr(this_cls, '_enum_by_value') for this_cls in schema_classes)
             inheritable_primitive_type = schema_classes.intersection(inheritable_primitive_types_set)
@@ -1429,13 +1448,6 @@ class Schema:
             if len(chosen_schema_classes) == 1 and not suffix:
                 mfg_cls = tuple(chosen_schema_classes)[0]
             else:
-                # If a SomeSchema is a subclass of DictSchema then remove DiscSchema
-                x_schema = schema_descendents & chosen_schema_classes
-                if x_schema:
-                    x_schema = x_schema.pop()
-                    if any(c is not x_schema and issubclass(c, x_schema) for c in chosen_schema_classes):
-                        # needed to not have a mro error in get_new_class
-                        chosen_schema_classes.remove(x_schema)
                 used_classes = tuple(sorted(chosen_schema_classes, key=lambda a_cls: a_cls.__name__)) + suffix
                 mfg_cls = get_new_class(class_name='DynamicSchema', bases=used_classes)
 
@@ -2211,7 +2223,7 @@ class DictSchema(
         return super().__new__(cls, *args, **kwargs)
 
 
-schema_descendents = set([NoneSchema, DictSchema, ListSchema, NumberSchema, StrSchema, BoolSchema])
+schema_type_classes = set([NoneSchema, DictSchema, ListSchema, NumberSchema, StrSchema, BoolSchema])
 
 
 def deserialize_file(response_data, configuration, content_disposition=None):
