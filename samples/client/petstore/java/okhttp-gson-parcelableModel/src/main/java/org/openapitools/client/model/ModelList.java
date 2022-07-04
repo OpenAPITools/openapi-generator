@@ -175,7 +175,7 @@ public class ModelList implements Parcelable {
           throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `ModelList` properties. JSON: %s", entry.getKey(), jsonObj.toString()));
         }
       }
-      if (jsonObj.get("123-list") != null && !jsonObj.get("123-list").isJsonPrimitive()) {
+      if ((jsonObj.get("123-list") != null && !jsonObj.get("123-list").isJsonNull()) && !jsonObj.get("123-list").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `123-list` to be a primitive type in the JSON string but got `%s`", jsonObj.get("123-list").toString()));
       }
   }

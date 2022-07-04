@@ -190,7 +190,7 @@ public class AppleReq {
           throw new IllegalArgumentException(String.format("The required field `%s` is not found in the JSON string: %s", requiredField, jsonObj.toString()));
         }
       }
-      if (jsonObj.get("cultivar") != null && !jsonObj.get("cultivar").isJsonPrimitive()) {
+      if ((jsonObj.get("cultivar") != null && !jsonObj.get("cultivar").isJsonNull()) && !jsonObj.get("cultivar").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `cultivar` to be a primitive type in the JSON string but got `%s`", jsonObj.get("cultivar").toString()));
       }
   }
