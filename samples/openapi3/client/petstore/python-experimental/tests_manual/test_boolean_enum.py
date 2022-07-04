@@ -31,7 +31,7 @@ class TestBooleanEnum(unittest.TestCase):
         assert model is BooleanEnum.TRUE
         assert model.is_true()
         assert model.is_false() is False
-        assert repr(model) == '<DynamicBooleanEnum: True>'
+        assert repr(model) == '<DynamicSchema: True>'
         with self.assertRaises(petstore_api.ApiValueError):
             BooleanEnum(False)
 

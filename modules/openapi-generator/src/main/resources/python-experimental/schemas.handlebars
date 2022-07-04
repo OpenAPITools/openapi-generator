@@ -432,6 +432,20 @@ def _SchemaTypeChecker(union_type_cls: typing.Union[typing.Any]) -> TypeChecker:
 
 class EnumMakerBase:
     @classmethod
+    def _enum_suffix_classes(cls, value: typing.Any) -> typing.Tuple[type]:
+        """
+        These are the classes that are added at the end (as the bottom-most)
+        classes when manufacturing an enum class from other classes
+        """
+        assert value in cls._enum_value_to_name
+        base_class = type(value)
+        if base_class is none_type:
+            return (NoneClass,)
+        elif base_class is bool:
+            return (BoolClass,)
+        return (Singleton, base_class)
+
+    @classmethod
     @property
     def _enum_by_value(
         cls
@@ -1188,7 +1202,7 @@ class DictBase(Discriminable):
             return super().__getattribute__(name)
 
 
-inheritable_primitive_types_set = {decimal.Decimal, str, tuple, frozendict, FileIO, bytes}
+inheritable_primitive_types_set = {decimal.Decimal, str, tuple, frozendict, FileIO, bytes, BoolClass, NoneClass}
 
 
 class Schema:
@@ -1293,18 +1307,25 @@ class Schema:
         cls_name = "Dynamic"+cls.__name__
         if base_cls is bool:
             new_cls = get_new_class(cls_name, (cls, BoolBase, BoolClass))
-        elif base_cls is str:
-            new_cls = get_new_class(cls_name, (cls, StrBase, str))
-        elif base_cls is decimal.Decimal:
-            new_cls = get_new_class(cls_name, (cls, NumberBase, decimal.Decimal))
-        elif base_cls is tuple:
-            new_cls =  get_new_class(cls_name, (cls, ListBase, tuple))
-        elif base_cls is frozendict:
-            new_cls = get_new_class(cls_name, (cls, DictBase, frozendict))
         elif base_cls is none_type:
             new_cls = get_new_class(cls_name, (cls, NoneBase, NoneClass))
+        else:
+            raise ValueError(f'Invalid input base_cls={base_cls}')
         log_cache_usage(get_new_class)
         return new_cls
+
+    @classmethod
+    def _suffix_classes(cls, value: typing.Any) -> typing.Tuple[type]:
+        """
+        These are the classes that are added at the end (as the bottom-most)
+        classes when manufacturing an enum class from other classes
+        """
+        base_class = type(value)
+        if value is None:
+            return (NoneBase, NoneClass,)
+        elif isinstance(value, bool):
+            return (BoolBase, BoolClass,)
+        raise ValueError(f'Invalid input value={value} base_cls={base_cls}')
 
     @classmethod
     def _validate(
@@ -1357,12 +1378,14 @@ class Schema:
 
         if hasattr(cls, "_enum_by_value"):
             cls._validate_enum_value(arg)
-            return path_to_schemas
 
-        if base_class is none_type or base_class is bool:
-            return path_to_schemas
+        used_base_class = base_class
+        if base_class is none_type:
+            used_base_class = NoneClass
+        elif base_class is bool:
+            used_base_class = BoolClass
 
-        path_to_schemas[validation_metadata.path_to_item].add(base_class)
+        path_to_schemas[validation_metadata.path_to_item].add(used_base_class)
         return path_to_schemas
 
     @classmethod
@@ -1422,45 +1445,23 @@ class Schema:
         for path, schema_classes in _path_to_schemas.items():
             """
             Use cases
-            1. N number of schema classes, non-enum: base class in path_to_schemas: tuple/frozendict/str/decimal
-            2. N number of schema classes, non-enum: base class Not in path_to_schemas: bool/None
-            2. N number of schema classes, enum: base class may or may not be in path_to_schemas
+            1. N number of schema classes + enum + type != bool/None, classes in path_to_schemas: tuple/frozendict/str/Decimal/bytes/FileIo
+                needs Singleton added
+            2. N number of schema classes + enum + type == bool/None, classes in path_to_schemas: BoolClass/NoneClass
+                Singleton already added
+            3. N number of schema classes, classes in path_to_schemas: BoolClass/NoneClass/tuple/frozendict/str/Decimal/bytes/FileIo
             """
             cls.__process_schema_classes(schema_classes)
             enum_schema = any(
                 hasattr(this_cls, '_enum_by_value') for this_cls in schema_classes)
             inheritable_primitive_type = schema_classes.intersection(inheritable_primitive_types_set)
-            chosen_schema_classes = schema_classes
-            suffix = tuple()
-            if inheritable_primitive_type:
-                chosen_schema_classes = schema_classes - inheritable_primitive_types_set
-                if not enum_schema:
-                    # include the inheritable_primitive_type
-                    suffix = tuple(inheritable_primitive_type)
+            chosen_schema_classes = schema_classes - inheritable_primitive_type
+            suffix = tuple(inheritable_primitive_type)
+            if enum_schema and suffix[0] not in {NoneClass, BoolClass}:
+                suffix = (Singleton,) + suffix
 
-            if len(chosen_schema_classes) == 1 and not suffix:
-                mfg_cls = tuple(chosen_schema_classes)[0]
-            else:
-                used_classes = tuple(sorted(chosen_schema_classes, key=lambda a_cls: a_cls.__name__)) + suffix
-                mfg_cls = get_new_class(class_name='DynamicSchema', bases=used_classes)
-
-            if inheritable_primitive_type and not enum_schema:
-                path_to_schemas[path] = mfg_cls
-                continue
-
-            # Use case: value is None, True, False, or an enum value
-            value = arg
-            for key in path[1:]:
-                # if path is bigger than one, get the value that mfg_cls validated
-                value = value[key]
-            if hasattr(mfg_cls, '_enum_by_value'):
-                mfg_cls = mfg_cls._enum_by_value[value]
-            elif value in {True, False}:
-                mfg_cls = mfg_cls._class_by_base_class(bool)
-            elif value is None:
-                mfg_cls = mfg_cls._class_by_base_class(none_type)
-            else:
-                raise ApiValueError('Unhandled case value={} bases={}'.format(value, mfg_cls.__bases__))
+            used_classes = tuple(sorted(chosen_schema_classes, key=lambda a_cls: a_cls.__name__)) + suffix
+            mfg_cls = get_new_class(class_name='DynamicSchema', bases=used_classes)
             path_to_schemas[path] = mfg_cls
 
         return path_to_schemas

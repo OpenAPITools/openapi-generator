@@ -33,7 +33,7 @@ class TestNullableString(unittest.TestCase):
         assert isinstance(inst, NullableString)
         assert isinstance(inst, Schema)
         assert inst.is_none() is True
-        assert repr(inst) == '<DynamicNullableString: None>'
+        assert repr(inst) == '<DynamicSchema: None>'
 
         inst = NullableString('approved')
         assert inst.is_none() is False
