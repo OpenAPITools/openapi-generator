@@ -62,12 +62,18 @@ class ApiResponse {
     final _json = <String, dynamic>{};
     if (code != null) {
       _json[r'code'] = code;
+    } else {
+      _json[r'code'] = null;
     }
     if (type != null) {
       _json[r'type'] = type;
+    } else {
+      _json[r'type'] = null;
     }
     if (message != null) {
       _json[r'message'] = message;
+    } else {
+      _json[r'message'] = null;
     }
     return _json;
   }

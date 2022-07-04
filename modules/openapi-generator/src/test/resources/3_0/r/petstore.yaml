@@ -784,6 +784,24 @@ components:
           type: string
         message:
           type: string
+    Special:
+      title: An uploaded response
+      description: Describes the result of uploading an image resource
+      type: object
+      properties:
+        self:
+          type: integer
+          format: int32
+        private:
+          type: string
+        super:
+          type: string
+        "123_number":
+          type: string
+        "array[test]":
+          type: string
+        "":
+          type: string
     Dog:
       allOf:
         - $ref: '#/components/schemas/Animal'
@@ -849,3 +867,10 @@ components:
       required:
         - className
         - size
+    NestedOneOf:
+      type: object
+      properties:
+        size:
+          type: integer
+        nested_pig:
+          $ref: '#/components/schemas/Pig'

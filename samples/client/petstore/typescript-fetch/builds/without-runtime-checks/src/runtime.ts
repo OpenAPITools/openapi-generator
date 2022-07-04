@@ -177,7 +177,25 @@ export class BaseAPI {
                 }) || fetchParams;
             }
         }
-        let response = await (this.configuration.fetchApi || fetch)(fetchParams.url, fetchParams.init);
+        let response = undefined;
+        try {
+            response = await (this.configuration.fetchApi || fetch)(fetchParams.url, fetchParams.init);
+        } catch (e) {
+            for (const middleware of this.middleware) {
+                if (middleware.onError) {
+                    response = await middleware.onError({
+                        fetch: this.fetchApi,
+                        url: fetchParams.url,
+                        init: fetchParams.init,
+                        error: e,
+                        response: response ? response.clone() : undefined,
+                    }) || response;
+                }
+            }
+            if (response === undefined) {
+                throw new FetchError(e, 'The request failed and the interceptors did not return an alternative response');
+            }
+        }
         for (const middleware of this.middleware) {
             if (middleware.post) {
                 response = await middleware.post({
@@ -214,6 +232,13 @@ function isFormData(value: any): value is FormData {
 export class ResponseError extends Error {
     name: "ResponseError" = "ResponseError";
     constructor(public response: Response, msg?: string) {
+        super(msg);
+    }
+}
+
+export class FetchError extends Error {
+    name: "FetchError" = "FetchError";
+    constructor(public cause: unknown, msg?: string) {
         super(msg);
     }
 }
@@ -312,9 +337,18 @@ export interface ResponseContext {
     response: Response;
 }
 
+export interface ErrorContext {
+    fetch: FetchAPI;
+    url: string;
+    init: RequestInit;
+    error: unknown;
+    response?: Response;
+}
+
 export interface Middleware {
     pre?(context: RequestContext): Promise<FetchParams | void>;
     post?(context: ResponseContext): Promise<Response | void>;
+    onError?(context: ErrorContext): Promise<Response | void>;
 }
 
 export interface ApiResponse<T> {

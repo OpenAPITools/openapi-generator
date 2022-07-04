@@ -743,3 +743,13 @@ components:
           type: string
         message:
           type: string
+    TestAnyType:
+      title: test any type
+      description: test any type
+      type: object
+      properties:
+        code:
+          description: any type test
+        message:
+          type: string
+

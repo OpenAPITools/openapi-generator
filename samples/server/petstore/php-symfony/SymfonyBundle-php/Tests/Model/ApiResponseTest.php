@@ -29,20 +29,22 @@
 
 namespace OpenAPI\Server\Model;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
  * ApiResponseTest Class Doc Comment
  *
- * @category    Class */
-// * @description Describes the result of uploading an image resource
-/**
+ * @category    Class
+ * @description Describes the result of uploading an image resource
  * @package     OpenAPI\Server\Tests\Model
  * @author      openapi-generator contributors
  * @link        https://github.com/openapitools/openapi-generator
+ * @coversDefaultClass \OpenAPI\Server\Model\ApiResponse
  */
 class ApiResponseTest extends TestCase
 {
+    protected ApiResponse|MockObject $object;
 
     /**
      * Setup before running any test case
@@ -56,6 +58,7 @@ class ApiResponseTest extends TestCase
      */
     public function setUp(): void
     {
+         $this->object = $this->getMockBuilder(ApiResponse::class)->getMockForAbstractClass();
     }
 
     /**
@@ -73,31 +76,45 @@ class ApiResponseTest extends TestCase
     }
 
     /**
-     * Test "ApiResponse"
+     * @group integration
+     * @small
      */
-    public function testApiResponse()
+    public function testTestClassExists(): void
     {
-        $testApiResponse = new ApiResponse();
+        $this->assertTrue(class_exists(ApiResponse::class));
+        $this->assertInstanceOf(ApiResponse::class, $this->object);
     }
 
     /**
      * Test attribute "code"
+     *
+     * @group unit
+     * @small
      */
-    public function testPropertyCode()
+    public function testPropertyCode(): void
     {
+        $this->markTestSkipped('Test for property code not implemented');
     }
 
     /**
      * Test attribute "type"
+     *
+     * @group unit
+     * @small
      */
-    public function testPropertyType()
+    public function testPropertyType(): void
     {
+        $this->markTestSkipped('Test for property type not implemented');
     }
 
     /**
      * Test attribute "message"
+     *
+     * @group unit
+     * @small
      */
-    public function testPropertyMessage()
+    public function testPropertyMessage(): void
     {
+        $this->markTestSkipped('Test for property message not implemented');
     }
 }

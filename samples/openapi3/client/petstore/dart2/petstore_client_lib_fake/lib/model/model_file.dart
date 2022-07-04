@@ -41,6 +41,8 @@ class ModelFile {
     final _json = <String, dynamic>{};
     if (sourceURI != null) {
       _json[r'sourceURI'] = sourceURI;
+    } else {
+      _json[r'sourceURI'] = null;
     }
     return _json;
   }

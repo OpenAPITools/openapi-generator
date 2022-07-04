@@ -52,6 +52,8 @@ class Cat {
       _json[r'color'] = color;
     if (declawed != null) {
       _json[r'declawed'] = declawed;
+    } else {
+      _json[r'declawed'] = null;
     }
     return _json;
   }

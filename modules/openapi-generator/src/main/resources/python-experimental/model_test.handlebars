@@ -8,23 +8,36 @@ import {{packageName}}
 {{#each models}}
 {{#with model}}
 from {{packageName}}.{{modelPackage}}.{{classFilename}} import {{classname}}
+from {{packageName}} import configuration
 
 
 class Test{{classname}}(unittest.TestCase):
     """{{classname}} unit test stubs"""
+    _configuration = configuration.Configuration()
 
-    def setUp(self):
-        pass
+{{#each testCases}}
+{{#with this }}
+    def test_{{@key}}_{{#if valid}}passes{{else}}fails{{/if}}(self):
+        # {{description}}
+{{#if valid}}
+        {{classname}}._from_openapi_data(
+{{#with data}}
+            {{> model_templates/payload_renderer endChar=',' }}
+{{/with}}
+            _configuration=self._configuration
+        )
+{{else}}
+        with self.assertRaises(({{packageName}}.ApiValueError, {{packageName}}.ApiTypeError)):
+            {{classname}}._from_openapi_data(
+{{#with data}}
+                {{> model_templates/payload_renderer endChar=','}}
+{{/with}}
+                _configuration=self._configuration
+            )
+{{/if}}
+{{/with}}
 
-    def tearDown(self):
-        pass
-
-    def test_{{classname}}(self):
-        """Test {{classname}}"""
-        # FIXME: construct object with mandatory attributes with example values
-        # model = {{classname}}()  # noqa: E501
-        pass
-
+{{/each}}
 {{/with}}
 {{/each}}
 

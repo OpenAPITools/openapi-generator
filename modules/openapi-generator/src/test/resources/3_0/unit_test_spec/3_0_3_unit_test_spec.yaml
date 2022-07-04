@@ -1,0 +1,1741 @@
+openapi: 3.0.3
+info:
+  title: openapi 3.0.3 sample spec
+  description: sample spec for testing openapi functionality, built from json schema
+    tests for draft6
+  version: 0.0.1
+paths: {}
+components:
+  schemas:
+    AdditionalpropertiesAllowsASchemaWhichShouldValidate:
+      properties:
+        foo: {}
+        bar: {}
+      additionalProperties:
+        type: boolean
+    AdditionalpropertiesCanExistByItself:
+      additionalProperties:
+        type: boolean
+    AdditionalpropertiesAreAllowedByDefault:
+      properties:
+        foo: {}
+        bar: {}
+    AdditionalpropertiesShouldNotLookInApplicators:
+      allOf:
+      - properties:
+          foo: {}
+      additionalProperties:
+        type: boolean
+    InvalidStringValueForDefault:
+      properties:
+        bar:
+          type: string
+          minLength: 4
+          default: bad
+    TheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissing:
+      type: object
+      properties:
+        alpha:
+          type: number
+          maximum: 3
+          default: 5
+    SimpleEnumValidation:
+      enum:
+      - 1
+      - 2
+      - 3
+    EnumsInProperties:
+      type: object
+      properties:
+        foo:
+          enum:
+          - foo
+        bar:
+          enum:
+          - bar
+      required:
+      - bar
+    EnumWithEscapedCharacters:
+      enum:
+      - 'foo
+
+        bar'
+      - "foo\rbar"
+    EnumWithFalseDoesNotMatch0:
+      enum:
+      - false
+    EnumWithTrueDoesNotMatch1:
+      enum:
+      - true
+    EnumWith0DoesNotMatchFalse:
+      enum:
+      - 0
+    EnumWith1DoesNotMatchTrue:
+      enum:
+      - 1
+    NulCharactersInStrings:
+      enum:
+      - "hello\0there"
+    EmailFormat:
+      format: email
+    Ipv4Format:
+      format: ipv4
+    Ipv6Format:
+      format: ipv6
+    HostnameFormat:
+      format: hostname
+    DateTimeFormat:
+      format: date-time
+    JsonPointerFormat:
+      format: json-pointer
+    UriFormat:
+      format: uri
+    UriReferenceFormat:
+      format: uri-reference
+    UriTemplateFormat:
+      format: uri-template
+    NestedItems:
+      type: array
+      items:
+        type: array
+        items:
+          type: array
+          items:
+            type: array
+            items:
+              type: number
+    MaximumValidation:
+      maximum: 3.0
+    MaximumValidationWithUnsignedInteger:
+      maximum: 300
+    MaxitemsValidation:
+      maxItems: 2
+    MaxlengthValidation:
+      maxLength: 2
+    MaxpropertiesValidation:
+      maxProperties: 2
+    Maxproperties0MeansTheObjectIsEmpty:
+      maxProperties: 0
+    MinimumValidation:
+      minimum: 1.1
+    MinimumValidationWithSignedInteger:
+      minimum: -2
+    MinitemsValidation:
+      minItems: 1
+    MinlengthValidation:
+      minLength: 2
+    MinpropertiesValidation:
+      minProperties: 1
+    ByInt:
+      multipleOf: 2
+    ByNumber:
+      multipleOf: 1.5
+    BySmallNumber:
+      multipleOf: 0.0001
+    InvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInf:
+      type: integer
+      multipleOf: 0.123456789
+    Not:
+      not:
+        type: integer
+    NotMoreComplexSchema:
+      not:
+        type: object
+        properties:
+          foo:
+            type: string
+    ForbiddenProperty:
+      properties:
+        foo:
+          not: {}
+    PatternValidation:
+      pattern: ^a*$
+    PatternIsNotAnchored:
+      pattern: a+
+    ObjectPropertiesValidation:
+      properties:
+        foo:
+          type: integer
+        bar:
+          type: string
+    PropertiesWithEscapedCharacters:
+      properties:
+        ? 'foo
+
+          bar'
+        : type: number
+        foo"bar:
+          type: number
+        foo\bar:
+          type: number
+        "foo\rbar":
+          type: number
+        "foo\tbar":
+          type: number
+        "foo\fbar":
+          type: number
+    PropertyNamedRefThatIsNotAReference:
+      properties:
+        $ref:
+          type: string
+    RefInAdditionalproperties:
+      additionalProperties:
+        $ref: '#/components/schemas/PropertyNamedRefThatIsNotAReference'
+    RefInItems:
+      items:
+        $ref: '#/components/schemas/PropertyNamedRefThatIsNotAReference'
+    RefInProperty:
+      properties:
+        a:
+          $ref: '#/components/schemas/PropertyNamedRefThatIsNotAReference'
+    RefInAllof:
+      allOf:
+      - $ref: '#/components/schemas/PropertyNamedRefThatIsNotAReference'
+    RefInOneof:
+      oneOf:
+      - $ref: '#/components/schemas/PropertyNamedRefThatIsNotAReference'
+    RefInAnyof:
+      anyOf:
+      - $ref: '#/components/schemas/PropertyNamedRefThatIsNotAReference'
+    RequiredValidation:
+      properties:
+        foo: {}
+        bar: {}
+      required:
+      - foo
+    RequiredDefaultValidation:
+      properties:
+        foo: {}
+    RequiredWithEmptyArray:
+      properties:
+        foo: {}
+      required: []
+    IntegerTypeMatchesIntegers:
+      type: integer
+    NumberTypeMatchesNumbers:
+      type: number
+    StringTypeMatchesStrings:
+      type: string
+    ObjectTypeMatchesObjects:
+      type: object
+    BooleanTypeMatchesBooleans:
+      type: boolean
+    NullTypeMatchesOnlyTheNullObject:
+      type: 'null'
+    ArrayTypeMatchesArrays:
+      type: array
+      items: {}
+    UniqueitemsValidation:
+      uniqueItems: true
+    UniqueitemsFalseValidation:
+      uniqueItems: false
+  x-schema-test-examples:
+    AdditionalpropertiesAllowsASchemaWhichShouldValidate:
+      NoAdditionalPropertiesIsValid:
+        description: no additional properties is valid
+        data:
+          foo: 1
+        valid: true
+      AnAdditionalValidPropertyIsValid:
+        description: an additional valid property is valid
+        data:
+          foo: 1
+          bar: 2
+          quux: true
+        valid: true
+      AnAdditionalInvalidPropertyIsInvalid:
+        description: an additional invalid property is invalid
+        data:
+          foo: 1
+          bar: 2
+          quux: 12
+        valid: false
+    AdditionalpropertiesCanExistByItself:
+      AnAdditionalValidPropertyIsValid:
+        description: an additional valid property is valid
+        data:
+          foo: true
+        valid: true
+      AnAdditionalInvalidPropertyIsInvalid:
+        description: an additional invalid property is invalid
+        data:
+          foo: 1
+        valid: false
+    AdditionalpropertiesAreAllowedByDefault:
+      AdditionalPropertiesAreAllowed:
+        description: additional properties are allowed
+        data:
+          foo: 1
+          bar: 2
+          quux: true
+        valid: true
+    AdditionalpropertiesShouldNotLookInApplicators:
+      PropertiesDefinedInAllofAreNotExamined:
+        description: properties defined in allOf are not examined
+        data:
+          foo: 1
+          bar: true
+        valid: false
+    InvalidStringValueForDefault:
+      ValidWhenPropertyIsSpecified:
+        description: valid when property is specified
+        data:
+          bar: good
+        valid: true
+      StillValidWhenTheInvalidDefaultIsUsed:
+        description: still valid when the invalid default is used
+        data: {}
+        valid: true
+    TheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissing:
+      AnExplicitPropertyValueIsCheckedAgainstMaximumPassing:
+        description: an explicit property value is checked against maximum (passing)
+        data:
+          alpha: 1
+        valid: true
+      AnExplicitPropertyValueIsCheckedAgainstMaximumFailing:
+        description: an explicit property value is checked against maximum (failing)
+        data:
+          alpha: 5
+        valid: false
+      MissingPropertiesAreNotFilledInWithTheDefault:
+        description: missing properties are not filled in with the default
+        data: {}
+        valid: true
+    SimpleEnumValidation:
+      OneOfTheEnumIsValid:
+        description: one of the enum is valid
+        data: 1
+        valid: true
+      SomethingElseIsInvalid:
+        description: something else is invalid
+        data: 4
+        valid: false
+    EnumsInProperties:
+      BothPropertiesAreValid:
+        description: both properties are valid
+        data:
+          foo: foo
+          bar: bar
+        valid: true
+      WrongFooValue:
+        description: wrong foo value
+        data:
+          foo: foot
+          bar: bar
+        valid: false
+      WrongBarValue:
+        description: wrong bar value
+        data:
+          foo: foo
+          bar: bart
+        valid: false
+      MissingOptionalPropertyIsValid:
+        description: missing optional property is valid
+        data:
+          bar: bar
+        valid: true
+      MissingRequiredPropertyIsInvalid:
+        description: missing required property is invalid
+        data:
+          foo: foo
+        valid: false
+      MissingAllPropertiesIsInvalid:
+        description: missing all properties is invalid
+        data: {}
+        valid: false
+    EnumWithEscapedCharacters:
+      Member1IsValid:
+        description: member 1 is valid
+        data: 'foo
+
+          bar'
+        valid: true
+      Member2IsValid:
+        description: member 2 is valid
+        data: "foo\rbar"
+        valid: true
+      AnotherStringIsInvalid:
+        description: another string is invalid
+        data: abc
+        valid: false
+    EnumWithFalseDoesNotMatch0:
+      FalseIsValid:
+        description: false is valid
+        data: false
+        valid: true
+      IntegerZeroIsInvalid:
+        description: integer zero is invalid
+        data: 0
+        valid: false
+      FloatZeroIsInvalid:
+        description: float zero is invalid
+        data: 0.0
+        valid: false
+    EnumWithTrueDoesNotMatch1:
+      TrueIsValid:
+        description: true is valid
+        data: true
+        valid: true
+      IntegerOneIsInvalid:
+        description: integer one is invalid
+        data: 1
+        valid: false
+      FloatOneIsInvalid:
+        description: float one is invalid
+        data: 1.0
+        valid: false
+    EnumWith0DoesNotMatchFalse:
+      FalseIsInvalid:
+        description: false is invalid
+        data: false
+        valid: false
+      IntegerZeroIsValid:
+        description: integer zero is valid
+        data: 0
+        valid: true
+      FloatZeroIsValid:
+        description: float zero is valid
+        data: 0.0
+        valid: true
+    EnumWith1DoesNotMatchTrue:
+      TrueIsInvalid:
+        description: true is invalid
+        data: true
+        valid: false
+      IntegerOneIsValid:
+        description: integer one is valid
+        data: 1
+        valid: true
+      FloatOneIsValid:
+        description: float one is valid
+        data: 1.0
+        valid: true
+    NulCharactersInStrings:
+      MatchStringWithNul:
+        description: match string with nul
+        data: "hello\0there"
+        valid: true
+      DoNotMatchStringLackingNul:
+        description: do not match string lacking nul
+        data: hellothere
+        valid: false
+    EmailFormat:
+      AllStringFormatsIgnoreIntegers:
+        description: all string formats ignore integers
+        data: 12
+        valid: true
+      AllStringFormatsIgnoreFloats:
+        description: all string formats ignore floats
+        data: 13.7
+        valid: true
+      AllStringFormatsIgnoreObjects:
+        description: all string formats ignore objects
+        data: {}
+        valid: true
+      AllStringFormatsIgnoreArrays:
+        description: all string formats ignore arrays
+        data: []
+        valid: true
+      AllStringFormatsIgnoreBooleans:
+        description: all string formats ignore booleans
+        data: false
+        valid: true
+      AllStringFormatsIgnoreNulls:
+        description: all string formats ignore nulls
+        data: null
+        valid: true
+    Ipv4Format:
+      AllStringFormatsIgnoreIntegers:
+        description: all string formats ignore integers
+        data: 12
+        valid: true
+      AllStringFormatsIgnoreFloats:
+        description: all string formats ignore floats
+        data: 13.7
+        valid: true
+      AllStringFormatsIgnoreObjects:
+        description: all string formats ignore objects
+        data: {}
+        valid: true
+      AllStringFormatsIgnoreArrays:
+        description: all string formats ignore arrays
+        data: []
+        valid: true
+      AllStringFormatsIgnoreBooleans:
+        description: all string formats ignore booleans
+        data: false
+        valid: true
+      AllStringFormatsIgnoreNulls:
+        description: all string formats ignore nulls
+        data: null
+        valid: true
+    Ipv6Format:
+      AllStringFormatsIgnoreIntegers:
+        description: all string formats ignore integers
+        data: 12
+        valid: true
+      AllStringFormatsIgnoreFloats:
+        description: all string formats ignore floats
+        data: 13.7
+        valid: true
+      AllStringFormatsIgnoreObjects:
+        description: all string formats ignore objects
+        data: {}
+        valid: true
+      AllStringFormatsIgnoreArrays:
+        description: all string formats ignore arrays
+        data: []
+        valid: true
+      AllStringFormatsIgnoreBooleans:
+        description: all string formats ignore booleans
+        data: false
+        valid: true
+      AllStringFormatsIgnoreNulls:
+        description: all string formats ignore nulls
+        data: null
+        valid: true
+    HostnameFormat:
+      AllStringFormatsIgnoreIntegers:
+        description: all string formats ignore integers
+        data: 12
+        valid: true
+      AllStringFormatsIgnoreFloats:
+        description: all string formats ignore floats
+        data: 13.7
+        valid: true
+      AllStringFormatsIgnoreObjects:
+        description: all string formats ignore objects
+        data: {}
+        valid: true
+      AllStringFormatsIgnoreArrays:
+        description: all string formats ignore arrays
+        data: []
+        valid: true
+      AllStringFormatsIgnoreBooleans:
+        description: all string formats ignore booleans
+        data: false
+        valid: true
+      AllStringFormatsIgnoreNulls:
+        description: all string formats ignore nulls
+        data: null
+        valid: true
+    DateTimeFormat:
+      AllStringFormatsIgnoreIntegers:
+        description: all string formats ignore integers
+        data: 12
+        valid: true
+      AllStringFormatsIgnoreFloats:
+        description: all string formats ignore floats
+        data: 13.7
+        valid: true
+      AllStringFormatsIgnoreObjects:
+        description: all string formats ignore objects
+        data: {}
+        valid: true
+      AllStringFormatsIgnoreArrays:
+        description: all string formats ignore arrays
+        data: []
+        valid: true
+      AllStringFormatsIgnoreBooleans:
+        description: all string formats ignore booleans
+        data: false
+        valid: true
+      AllStringFormatsIgnoreNulls:
+        description: all string formats ignore nulls
+        data: null
+        valid: true
+    JsonPointerFormat:
+      AllStringFormatsIgnoreIntegers:
+        description: all string formats ignore integers
+        data: 12
+        valid: true
+      AllStringFormatsIgnoreFloats:
+        description: all string formats ignore floats
+        data: 13.7
+        valid: true
+      AllStringFormatsIgnoreObjects:
+        description: all string formats ignore objects
+        data: {}
+        valid: true
+      AllStringFormatsIgnoreArrays:
+        description: all string formats ignore arrays
+        data: []
+        valid: true
+      AllStringFormatsIgnoreBooleans:
+        description: all string formats ignore booleans
+        data: false
+        valid: true
+      AllStringFormatsIgnoreNulls:
+        description: all string formats ignore nulls
+        data: null
+        valid: true
+    UriFormat:
+      AllStringFormatsIgnoreIntegers:
+        description: all string formats ignore integers
+        data: 12
+        valid: true
+      AllStringFormatsIgnoreFloats:
+        description: all string formats ignore floats
+        data: 13.7
+        valid: true
+      AllStringFormatsIgnoreObjects:
+        description: all string formats ignore objects
+        data: {}
+        valid: true
+      AllStringFormatsIgnoreArrays:
+        description: all string formats ignore arrays
+        data: []
+        valid: true
+      AllStringFormatsIgnoreBooleans:
+        description: all string formats ignore booleans
+        data: false
+        valid: true
+      AllStringFormatsIgnoreNulls:
+        description: all string formats ignore nulls
+        data: null
+        valid: true
+    UriReferenceFormat:
+      AllStringFormatsIgnoreIntegers:
+        description: all string formats ignore integers
+        data: 12
+        valid: true
+      AllStringFormatsIgnoreFloats:
+        description: all string formats ignore floats
+        data: 13.7
+        valid: true
+      AllStringFormatsIgnoreObjects:
+        description: all string formats ignore objects
+        data: {}
+        valid: true
+      AllStringFormatsIgnoreArrays:
+        description: all string formats ignore arrays
+        data: []
+        valid: true
+      AllStringFormatsIgnoreBooleans:
+        description: all string formats ignore booleans
+        data: false
+        valid: true
+      AllStringFormatsIgnoreNulls:
+        description: all string formats ignore nulls
+        data: null
+        valid: true
+    UriTemplateFormat:
+      AllStringFormatsIgnoreIntegers:
+        description: all string formats ignore integers
+        data: 12
+        valid: true
+      AllStringFormatsIgnoreFloats:
+        description: all string formats ignore floats
+        data: 13.7
+        valid: true
+      AllStringFormatsIgnoreObjects:
+        description: all string formats ignore objects
+        data: {}
+        valid: true
+      AllStringFormatsIgnoreArrays:
+        description: all string formats ignore arrays
+        data: []
+        valid: true
+      AllStringFormatsIgnoreBooleans:
+        description: all string formats ignore booleans
+        data: false
+        valid: true
+      AllStringFormatsIgnoreNulls:
+        description: all string formats ignore nulls
+        data: null
+        valid: true
+    NestedItems:
+      ValidNestedArray:
+        description: valid nested array
+        data:
+        - - - - 1
+          - - - 2
+            - - 3
+        - - - - 4
+            - - 5
+            - - 6
+        valid: true
+      NestedArrayWithInvalidType:
+        description: nested array with invalid type
+        data:
+        - - - - '1'
+          - - - 2
+            - - 3
+        - - - - 4
+            - - 5
+            - - 6
+        valid: false
+      NotDeepEnough:
+        description: not deep enough
+        data:
+        - - - 1
+          - - 2
+          - - 3
+        - - - 4
+          - - 5
+          - - 6
+        valid: false
+    MaximumValidation:
+      BelowTheMaximumIsValid:
+        description: below the maximum is valid
+        data: 2.6
+        valid: true
+      BoundaryPointIsValid:
+        description: boundary point is valid
+        data: 3.0
+        valid: true
+      AboveTheMaximumIsInvalid:
+        description: above the maximum is invalid
+        data: 3.5
+        valid: false
+      IgnoresNonNumbers:
+        description: ignores non-numbers
+        data: x
+        valid: true
+    MaximumValidationWithUnsignedInteger:
+      BelowTheMaximumIsInvalid:
+        description: below the maximum is invalid
+        data: 299.97
+        valid: true
+      BoundaryPointIntegerIsValid:
+        description: boundary point integer is valid
+        data: 300
+        valid: true
+      BoundaryPointFloatIsValid:
+        description: boundary point float is valid
+        data: 300.0
+        valid: true
+      AboveTheMaximumIsInvalid:
+        description: above the maximum is invalid
+        data: 300.5
+        valid: false
+    MaxitemsValidation:
+      ShorterIsValid:
+        description: shorter is valid
+        data:
+        - 1
+        valid: true
+      ExactLengthIsValid:
+        description: exact length is valid
+        data:
+        - 1
+        - 2
+        valid: true
+      TooLongIsInvalid:
+        description: too long is invalid
+        data:
+        - 1
+        - 2
+        - 3
+        valid: false
+      IgnoresNonArrays:
+        description: ignores non-arrays
+        data: foobar
+        valid: true
+    MaxlengthValidation:
+      ShorterIsValid:
+        description: shorter is valid
+        data: f
+        valid: true
+      ExactLengthIsValid:
+        description: exact length is valid
+        data: fo
+        valid: true
+      TooLongIsInvalid:
+        description: too long is invalid
+        data: foo
+        valid: false
+      IgnoresNonStrings:
+        description: ignores non-strings
+        data: 100
+        valid: true
+      TwoSupplementaryUnicodeCodePointsIsLongEnough:
+        description: two supplementary Unicode code points is long enough
+        data: "\U0001F4A9\U0001F4A9"
+        valid: true
+    MaxpropertiesValidation:
+      ShorterIsValid:
+        description: shorter is valid
+        data:
+          foo: 1
+        valid: true
+      ExactLengthIsValid:
+        description: exact length is valid
+        data:
+          foo: 1
+          bar: 2
+        valid: true
+      TooLongIsInvalid:
+        description: too long is invalid
+        data:
+          foo: 1
+          bar: 2
+          baz: 3
+        valid: false
+      IgnoresArrays:
+        description: ignores arrays
+        data:
+        - 1
+        - 2
+        - 3
+        valid: true
+      IgnoresStrings:
+        description: ignores strings
+        data: foobar
+        valid: true
+      IgnoresOtherNonObjects:
+        description: ignores other non-objects
+        data: 12
+        valid: true
+    Maxproperties0MeansTheObjectIsEmpty:
+      NoPropertiesIsValid:
+        description: no properties is valid
+        data: {}
+        valid: true
+      OnePropertyIsInvalid:
+        description: one property is invalid
+        data:
+          foo: 1
+        valid: false
+    MinimumValidation:
+      AboveTheMinimumIsValid:
+        description: above the minimum is valid
+        data: 2.6
+        valid: true
+      BoundaryPointIsValid:
+        description: boundary point is valid
+        data: 1.1
+        valid: true
+      BelowTheMinimumIsInvalid:
+        description: below the minimum is invalid
+        data: 0.6
+        valid: false
+      IgnoresNonNumbers:
+        description: ignores non-numbers
+        data: x
+        valid: true
+    MinimumValidationWithSignedInteger:
+      NegativeAboveTheMinimumIsValid:
+        description: negative above the minimum is valid
+        data: -1
+        valid: true
+      PositiveAboveTheMinimumIsValid:
+        description: positive above the minimum is valid
+        data: 0
+        valid: true
+      BoundaryPointIsValid:
+        description: boundary point is valid
+        data: -2
+        valid: true
+      BoundaryPointWithFloatIsValid:
+        description: boundary point with float is valid
+        data: -2.0
+        valid: true
+      FloatBelowTheMinimumIsInvalid:
+        description: float below the minimum is invalid
+        data: -2.0001
+        valid: false
+      IntBelowTheMinimumIsInvalid:
+        description: int below the minimum is invalid
+        data: -3
+        valid: false
+      IgnoresNonNumbers:
+        description: ignores non-numbers
+        data: x
+        valid: true
+    MinitemsValidation:
+      LongerIsValid:
+        description: longer is valid
+        data:
+        - 1
+        - 2
+        valid: true
+      ExactLengthIsValid:
+        description: exact length is valid
+        data:
+        - 1
+        valid: true
+      TooShortIsInvalid:
+        description: too short is invalid
+        data: []
+        valid: false
+      IgnoresNonArrays:
+        description: ignores non-arrays
+        data: ''
+        valid: true
+    MinlengthValidation:
+      LongerIsValid:
+        description: longer is valid
+        data: foo
+        valid: true
+      ExactLengthIsValid:
+        description: exact length is valid
+        data: fo
+        valid: true
+      TooShortIsInvalid:
+        description: too short is invalid
+        data: f
+        valid: false
+      IgnoresNonStrings:
+        description: ignores non-strings
+        data: 1
+        valid: true
+      OneSupplementaryUnicodeCodePointIsNotLongEnough:
+        description: one supplementary Unicode code point is not long enough
+        data: "\U0001F4A9"
+        valid: false
+    MinpropertiesValidation:
+      LongerIsValid:
+        description: longer is valid
+        data:
+          foo: 1
+          bar: 2
+        valid: true
+      ExactLengthIsValid:
+        description: exact length is valid
+        data:
+          foo: 1
+        valid: true
+      TooShortIsInvalid:
+        description: too short is invalid
+        data: {}
+        valid: false
+      IgnoresArrays:
+        description: ignores arrays
+        data: []
+        valid: true
+      IgnoresStrings:
+        description: ignores strings
+        data: ''
+        valid: true
+      IgnoresOtherNonObjects:
+        description: ignores other non-objects
+        data: 12
+        valid: true
+    ByInt:
+      IntByInt:
+        description: int by int
+        data: 10
+        valid: true
+      IntByIntFail:
+        description: int by int fail
+        data: 7
+        valid: false
+      IgnoresNonNumbers:
+        description: ignores non-numbers
+        data: foo
+        valid: true
+    ByNumber:
+      ZeroIsMultipleOfAnything:
+        description: zero is multiple of anything
+        data: 0
+        valid: true
+      45IsMultipleOf15:
+        description: 4.5 is multiple of 1.5
+        data: 4.5
+        valid: true
+      35IsNotMultipleOf15:
+        description: 35 is not multiple of 1.5
+        data: 35
+        valid: false
+    BySmallNumber:
+      00075IsMultipleOf00001:
+        description: 0.0075 is multiple of 0.0001
+        data: 0.0075
+        valid: true
+      000751IsNotMultipleOf00001:
+        description: 0.00751 is not multiple of 0.0001
+        data: 0.00751
+        valid: false
+    InvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInf:
+      AlwaysInvalidButNaiveImplementationsMayRaiseAnOverflowError:
+        description: always invalid, but naive implementations may raise an overflow
+          error
+        data: 1.0e+308
+        valid: false
+    Not:
+      Allowed:
+        description: allowed
+        data: foo
+        valid: true
+      Disallowed:
+        description: disallowed
+        data: 1
+        valid: false
+    NotMoreComplexSchema:
+      Match:
+        description: match
+        data: 1
+        valid: true
+      OtherMatch:
+        description: other match
+        data:
+          foo: 1
+        valid: true
+      Mismatch:
+        description: mismatch
+        data:
+          foo: bar
+        valid: false
+    ForbiddenProperty:
+      PropertyPresent:
+        description: property present
+        data:
+          foo: 1
+          bar: 2
+        valid: false
+      PropertyAbsent:
+        description: property absent
+        data:
+          bar: 1
+          baz: 2
+        valid: true
+    PatternValidation:
+      AMatchingPatternIsValid:
+        description: a matching pattern is valid
+        data: aaa
+        valid: true
+      ANonMatchingPatternIsInvalid:
+        description: a non-matching pattern is invalid
+        data: abc
+        valid: false
+      IgnoresBooleans:
+        description: ignores booleans
+        data: true
+        valid: true
+      IgnoresIntegers:
+        description: ignores integers
+        data: 123
+        valid: true
+      IgnoresFloats:
+        description: ignores floats
+        data: 1.0
+        valid: true
+      IgnoresObjects:
+        description: ignores objects
+        data: {}
+        valid: true
+      IgnoresArrays:
+        description: ignores arrays
+        data: []
+        valid: true
+      IgnoresNull:
+        description: ignores null
+        data: null
+        valid: true
+    PatternIsNotAnchored:
+      MatchesASubstring:
+        description: matches a substring
+        data: xxaayy
+        valid: true
+    ObjectPropertiesValidation:
+      BothPropertiesPresentAndValidIsValid:
+        description: both properties present and valid is valid
+        data:
+          foo: 1
+          bar: baz
+        valid: true
+      OnePropertyInvalidIsInvalid:
+        description: one property invalid is invalid
+        data:
+          foo: 1
+          bar: {}
+        valid: false
+      BothPropertiesInvalidIsInvalid:
+        description: both properties invalid is invalid
+        data:
+          foo: []
+          bar: {}
+        valid: false
+      DoesnTInvalidateOtherProperties:
+        description: doesn't invalidate other properties
+        data:
+          quux: []
+        valid: true
+      IgnoresArrays:
+        description: ignores arrays
+        data: []
+        valid: true
+      IgnoresOtherNonObjects:
+        description: ignores other non-objects
+        data: 12
+        valid: true
+    PropertiesWithEscapedCharacters:
+      ObjectWithAllNumbersIsValid:
+        description: object with all numbers is valid
+        data:
+          ? 'foo
+
+            bar'
+          : 1
+          foo"bar: 1
+          foo\bar: 1
+          "foo\rbar": 1
+          "foo\tbar": 1
+          "foo\fbar": 1
+        valid: true
+      ObjectWithStringsIsInvalid:
+        description: object with strings is invalid
+        data:
+          ? 'foo
+
+            bar'
+          : '1'
+          foo"bar: '1'
+          foo\bar: '1'
+          "foo\rbar": '1'
+          "foo\tbar": '1'
+          "foo\fbar": '1'
+        valid: false
+    PropertyNamedRefThatIsNotAReference:
+      PropertyNamedRefValid:
+        description: property named $ref valid
+        data:
+          $ref: a
+        valid: true
+      PropertyNamedRefInvalid:
+        description: property named $ref invalid
+        data:
+          $ref: 2
+        valid: false
+    RefInAdditionalproperties:
+      PropertyNamedRefValid:
+        description: property named $ref valid
+        data:
+          someProp:
+            $ref: a
+        valid: true
+      PropertyNamedRefInvalid:
+        description: property named $ref invalid
+        data:
+          someProp:
+            $ref: 2
+        valid: false
+    RefInItems:
+      PropertyNamedRefValid:
+        description: property named $ref valid
+        data:
+        - $ref: a
+        valid: true
+      PropertyNamedRefInvalid:
+        description: property named $ref invalid
+        data:
+        - $ref: 2
+        valid: false
+    RefInProperty:
+      PropertyNamedRefValid:
+        description: property named $ref valid
+        data:
+          a:
+            $ref: a
+        valid: true
+      PropertyNamedRefInvalid:
+        description: property named $ref invalid
+        data:
+          a:
+            $ref: 2
+        valid: false
+    RefInAllof:
+      PropertyNamedRefValid:
+        description: property named $ref valid
+        data:
+          $ref: a
+        valid: true
+      PropertyNamedRefInvalid:
+        description: property named $ref invalid
+        data:
+          $ref: 2
+        valid: false
+    RefInOneof:
+      PropertyNamedRefValid:
+        description: property named $ref valid
+        data:
+          $ref: a
+        valid: true
+      PropertyNamedRefInvalid:
+        description: property named $ref invalid
+        data:
+          $ref: 2
+        valid: false
+    RefInAnyof:
+      PropertyNamedRefValid:
+        description: property named $ref valid
+        data:
+          $ref: a
+        valid: true
+      PropertyNamedRefInvalid:
+        description: property named $ref invalid
+        data:
+          $ref: 2
+        valid: false
+    RequiredValidation:
+      PresentRequiredPropertyIsValid:
+        description: present required property is valid
+        data:
+          foo: 1
+        valid: true
+      NonPresentRequiredPropertyIsInvalid:
+        description: non-present required property is invalid
+        data:
+          bar: 1
+        valid: false
+      IgnoresArrays:
+        description: ignores arrays
+        data: []
+        valid: true
+      IgnoresStrings:
+        description: ignores strings
+        data: ''
+        valid: true
+      IgnoresOtherNonObjects:
+        description: ignores other non-objects
+        data: 12
+        valid: true
+    RequiredDefaultValidation:
+      NotRequiredByDefault:
+        description: not required by default
+        data: {}
+        valid: true
+    RequiredWithEmptyArray:
+      PropertyNotRequired:
+        description: property not required
+        data: {}
+        valid: true
+    IntegerTypeMatchesIntegers:
+      AnIntegerIsAnInteger:
+        description: an integer is an integer
+        data: 1
+        valid: true
+      AFloatWithZeroFractionalPartIsAnInteger:
+        description: a float with zero fractional part is an integer
+        data: 1.0
+        valid: true
+      AFloatIsNotAnInteger:
+        description: a float is not an integer
+        data: 1.1
+        valid: false
+      AStringIsNotAnInteger:
+        description: a string is not an integer
+        data: foo
+        valid: false
+      AStringIsStillNotAnIntegerEvenIfItLooksLikeOne:
+        description: a string is still not an integer, even if it looks like one
+        data: '1'
+        valid: false
+      AnObjectIsNotAnInteger:
+        description: an object is not an integer
+        data: {}
+        valid: false
+      AnArrayIsNotAnInteger:
+        description: an array is not an integer
+        data: []
+        valid: false
+      ABooleanIsNotAnInteger:
+        description: a boolean is not an integer
+        data: true
+        valid: false
+      NullIsNotAnInteger:
+        description: null is not an integer
+        data: null
+        valid: false
+    NumberTypeMatchesNumbers:
+      AnIntegerIsANumber:
+        description: an integer is a number
+        data: 1
+        valid: true
+      AFloatWithZeroFractionalPartIsANumberAndAnInteger:
+        description: a float with zero fractional part is a number (and an integer)
+        data: 1.0
+        valid: true
+      AFloatIsANumber:
+        description: a float is a number
+        data: 1.1
+        valid: true
+      AStringIsNotANumber:
+        description: a string is not a number
+        data: foo
+        valid: false
+      AStringIsStillNotANumberEvenIfItLooksLikeOne:
+        description: a string is still not a number, even if it looks like one
+        data: '1'
+        valid: false
+      AnObjectIsNotANumber:
+        description: an object is not a number
+        data: {}
+        valid: false
+      AnArrayIsNotANumber:
+        description: an array is not a number
+        data: []
+        valid: false
+      ABooleanIsNotANumber:
+        description: a boolean is not a number
+        data: true
+        valid: false
+      NullIsNotANumber:
+        description: null is not a number
+        data: null
+        valid: false
+    StringTypeMatchesStrings:
+      1IsNotAString:
+        description: 1 is not a string
+        data: 1
+        valid: false
+      AFloatIsNotAString:
+        description: a float is not a string
+        data: 1.1
+        valid: false
+      AStringIsAString:
+        description: a string is a string
+        data: foo
+        valid: true
+      AStringIsStillAStringEvenIfItLooksLikeANumber:
+        description: a string is still a string, even if it looks like a number
+        data: '1'
+        valid: true
+      AnEmptyStringIsStillAString:
+        description: an empty string is still a string
+        data: ''
+        valid: true
+      AnObjectIsNotAString:
+        description: an object is not a string
+        data: {}
+        valid: false
+      AnArrayIsNotAString:
+        description: an array is not a string
+        data: []
+        valid: false
+      ABooleanIsNotAString:
+        description: a boolean is not a string
+        data: true
+        valid: false
+      NullIsNotAString:
+        description: null is not a string
+        data: null
+        valid: false
+    ObjectTypeMatchesObjects:
+      AnIntegerIsNotAnObject:
+        description: an integer is not an object
+        data: 1
+        valid: false
+      AFloatIsNotAnObject:
+        description: a float is not an object
+        data: 1.1
+        valid: false
+      AStringIsNotAnObject:
+        description: a string is not an object
+        data: foo
+        valid: false
+      AnObjectIsAnObject:
+        description: an object is an object
+        data: {}
+        valid: true
+      AnArrayIsNotAnObject:
+        description: an array is not an object
+        data: []
+        valid: false
+      ABooleanIsNotAnObject:
+        description: a boolean is not an object
+        data: true
+        valid: false
+      NullIsNotAnObject:
+        description: null is not an object
+        data: null
+        valid: false
+    BooleanTypeMatchesBooleans:
+      AnIntegerIsNotABoolean:
+        description: an integer is not a boolean
+        data: 1
+        valid: false
+      ZeroIsNotABoolean:
+        description: zero is not a boolean
+        data: 0
+        valid: false
+      AFloatIsNotABoolean:
+        description: a float is not a boolean
+        data: 1.1
+        valid: false
+      AStringIsNotABoolean:
+        description: a string is not a boolean
+        data: foo
+        valid: false
+      AnEmptyStringIsNotABoolean:
+        description: an empty string is not a boolean
+        data: ''
+        valid: false
+      AnObjectIsNotABoolean:
+        description: an object is not a boolean
+        data: {}
+        valid: false
+      AnArrayIsNotABoolean:
+        description: an array is not a boolean
+        data: []
+        valid: false
+      TrueIsABoolean:
+        description: true is a boolean
+        data: true
+        valid: true
+      FalseIsABoolean:
+        description: false is a boolean
+        data: false
+        valid: true
+      NullIsNotABoolean:
+        description: null is not a boolean
+        data: null
+        valid: false
+    NullTypeMatchesOnlyTheNullObject:
+      AnIntegerIsNotNull:
+        description: an integer is not null
+        data: 1
+        valid: false
+      AFloatIsNotNull:
+        description: a float is not null
+        data: 1.1
+        valid: false
+      ZeroIsNotNull:
+        description: zero is not null
+        data: 0
+        valid: false
+      AStringIsNotNull:
+        description: a string is not null
+        data: foo
+        valid: false
+      AnEmptyStringIsNotNull:
+        description: an empty string is not null
+        data: ''
+        valid: false
+      AnObjectIsNotNull:
+        description: an object is not null
+        data: {}
+        valid: false
+      AnArrayIsNotNull:
+        description: an array is not null
+        data: []
+        valid: false
+      TrueIsNotNull:
+        description: true is not null
+        data: true
+        valid: false
+      FalseIsNotNull:
+        description: false is not null
+        data: false
+        valid: false
+      NullIsNull:
+        description: null is null
+        data: null
+        valid: true
+    ArrayTypeMatchesArrays:
+      AnIntegerIsNotAnArray:
+        description: an integer is not an array
+        data: 1
+        valid: false
+      AFloatIsNotAnArray:
+        description: a float is not an array
+        data: 1.1
+        valid: false
+      AStringIsNotAnArray:
+        description: a string is not an array
+        data: foo
+        valid: false
+      AnObjectIsNotAnArray:
+        description: an object is not an array
+        data: {}
+        valid: false
+      AnArrayIsAnArray:
+        description: an array is an array
+        data: []
+        valid: true
+      ABooleanIsNotAnArray:
+        description: a boolean is not an array
+        data: true
+        valid: false
+      NullIsNotAnArray:
+        description: null is not an array
+        data: null
+        valid: false
+    UniqueitemsValidation:
+      UniqueArrayOfIntegersIsValid:
+        description: unique array of integers is valid
+        data:
+        - 1
+        - 2
+        valid: true
+      NonUniqueArrayOfIntegersIsInvalid:
+        description: non-unique array of integers is invalid
+        data:
+        - 1
+        - 1
+        valid: false
+      NonUniqueArrayOfMoreThanTwoIntegersIsInvalid:
+        description: non-unique array of more than two integers is invalid
+        data:
+        - 1
+        - 2
+        - 1
+        valid: false
+      NumbersAreUniqueIfMathematicallyUnequal:
+        description: numbers are unique if mathematically unequal
+        data:
+        - 1.0
+        - 1.0
+        - 1
+        valid: false
+      FalseIsNotEqualToZero:
+        description: false is not equal to zero
+        data:
+        - 0
+        - false
+        valid: true
+      TrueIsNotEqualToOne:
+        description: true is not equal to one
+        data:
+        - 1
+        - true
+        valid: true
+      UniqueArrayOfStringsIsValid:
+        description: unique array of strings is valid
+        data:
+        - foo
+        - bar
+        - baz
+        valid: true
+      NonUniqueArrayOfStringsIsInvalid:
+        description: non-unique array of strings is invalid
+        data:
+        - foo
+        - bar
+        - foo
+        valid: false
+      UniqueArrayOfObjectsIsValid:
+        description: unique array of objects is valid
+        data:
+        - foo: bar
+        - foo: baz
+        valid: true
+      NonUniqueArrayOfObjectsIsInvalid:
+        description: non-unique array of objects is invalid
+        data:
+        - foo: bar
+        - foo: bar
+        valid: false
+      UniqueArrayOfNestedObjectsIsValid:
+        description: unique array of nested objects is valid
+        data:
+        - foo:
+            bar:
+              baz: true
+        - foo:
+            bar:
+              baz: false
+        valid: true
+      NonUniqueArrayOfNestedObjectsIsInvalid:
+        description: non-unique array of nested objects is invalid
+        data:
+        - foo:
+            bar:
+              baz: true
+        - foo:
+            bar:
+              baz: true
+        valid: false
+      UniqueArrayOfArraysIsValid:
+        description: unique array of arrays is valid
+        data:
+        - - foo
+        - - bar
+        valid: true
+      NonUniqueArrayOfArraysIsInvalid:
+        description: non-unique array of arrays is invalid
+        data:
+        - - foo
+        - - foo
+        valid: false
+      NonUniqueArrayOfMoreThanTwoArraysIsInvalid:
+        description: non-unique array of more than two arrays is invalid
+        data:
+        - - foo
+        - - bar
+        - - foo
+        valid: false
+      1AndTrueAreUnique:
+        description: '[1] and [true] are unique'
+        data:
+        - - 1
+        - - true
+        valid: true
+      0AndFalseAreUnique:
+        description: '[0] and [false] are unique'
+        data:
+        - - 0
+        - - false
+        valid: true
+      Nested1AndTrueAreUnique:
+        description: nested [1] and [true] are unique
+        data:
+        - - - 1
+          - foo
+        - - - true
+          - foo
+        valid: true
+      Nested0AndFalseAreUnique:
+        description: nested [0] and [false] are unique
+        data:
+        - - - 0
+          - foo
+        - - - false
+          - foo
+        valid: true
+      UniqueHeterogeneousTypesAreValid:
+        description: unique heterogeneous types are valid
+        data:
+        - {}
+        - - 1
+        - true
+        - null
+        - 1
+        - '{}'
+        valid: true
+      NonUniqueHeterogeneousTypesAreInvalid:
+        description: non-unique heterogeneous types are invalid
+        data:
+        - {}
+        - - 1
+        - true
+        - null
+        - {}
+        - 1
+        valid: false
+      DifferentObjectsAreUnique:
+        description: different objects are unique
+        data:
+        - a: 1
+          b: 2
+        - a: 2
+          b: 1
+        valid: true
+      ObjectsAreNonUniqueDespiteKeyOrder:
+        description: objects are non-unique despite key order
+        data:
+        - a: 1
+          b: 2
+        - b: 2
+          a: 1
+        valid: false
+      AFalseAndA0AreUnique:
+        description: '{"a": false} and {"a": 0} are unique'
+        data:
+        - a: false
+        - a: 0
+        valid: true
+      ATrueAndA1AreUnique:
+        description: '{"a": true} and {"a": 1} are unique'
+        data:
+        - a: true
+        - a: 1
+        valid: true
+    UniqueitemsFalseValidation:
+      UniqueArrayOfIntegersIsValid:
+        description: unique array of integers is valid
+        data:
+        - 1
+        - 2
+        valid: true
+      NonUniqueArrayOfIntegersIsValid:
+        description: non-unique array of integers is valid
+        data:
+        - 1
+        - 1
+        valid: true
+      NumbersAreUniqueIfMathematicallyUnequal:
+        description: numbers are unique if mathematically unequal
+        data:
+        - 1.0
+        - 1.0
+        - 1
+        valid: true
+      FalseIsNotEqualToZero:
+        description: false is not equal to zero
+        data:
+        - 0
+        - false
+        valid: true
+      TrueIsNotEqualToOne:
+        description: true is not equal to one
+        data:
+        - 1
+        - true
+        valid: true
+      UniqueArrayOfObjectsIsValid:
+        description: unique array of objects is valid
+        data:
+        - foo: bar
+        - foo: baz
+        valid: true
+      NonUniqueArrayOfObjectsIsValid:
+        description: non-unique array of objects is valid
+        data:
+        - foo: bar
+        - foo: bar
+        valid: true
+      UniqueArrayOfNestedObjectsIsValid:
+        description: unique array of nested objects is valid
+        data:
+        - foo:
+            bar:
+              baz: true
+        - foo:
+            bar:
+              baz: false
+        valid: true
+      NonUniqueArrayOfNestedObjectsIsValid:
+        description: non-unique array of nested objects is valid
+        data:
+        - foo:
+            bar:
+              baz: true
+        - foo:
+            bar:
+              baz: true
+        valid: true
+      UniqueArrayOfArraysIsValid:
+        description: unique array of arrays is valid
+        data:
+        - - foo
+        - - bar
+        valid: true
+      NonUniqueArrayOfArraysIsValid:
+        description: non-unique array of arrays is valid
+        data:
+        - - foo
+        - - foo
+        valid: true
+      1AndTrueAreUnique:
+        description: 1 and true are unique
+        data:
+        - 1
+        - true
+        valid: true
+      0AndFalseAreUnique:
+        description: 0 and false are unique
+        data:
+        - 0
+        - false
+        valid: true
+      UniqueHeterogeneousTypesAreValid:
+        description: unique heterogeneous types are valid
+        data:
+        - {}
+        - - 1
+        - true
+        - null
+        - 1
+        valid: true
+      NonUniqueHeterogeneousTypesAreValid:
+        description: non-unique heterogeneous types are valid
+        data:
+        - {}
+        - - 1
+        - true
+        - null
+        - {}
+        - 1
+        valid: true

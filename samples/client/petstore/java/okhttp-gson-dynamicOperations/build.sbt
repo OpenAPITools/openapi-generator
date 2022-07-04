@@ -16,7 +16,7 @@ lazy val root = (project in file(".")).
       "org.apache.commons" % "commons-lang3" % "3.12.0",
       "javax.ws.rs" % "jsr311-api" % "1.1.1",
       "javax.ws.rs" % "javax.ws.rs-api" % "2.1.1",
-      "org.openapitools" % "jackson-databind-nullable" % "0.2.2",
+      "org.openapitools" % "jackson-databind-nullable" % "0.2.3",
       "org.apache.oltu.oauth2" % "org.apache.oltu.oauth2.client" % "1.0.1",
       "io.swagger.parser.v3" % "swagger-parser-v3" "2.0.30" % "compile"
       "io.gsonfire" % "gson-fire" % "1.8.5" % "compile",
