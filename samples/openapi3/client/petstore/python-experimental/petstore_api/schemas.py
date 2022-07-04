@@ -438,35 +438,7 @@ def _SchemaTypeChecker(union_type_cls: typing.Union[typing.Any]) -> TypeChecker:
 
 
 class EnumMakerBase:
-    @classmethod
-    @property
-    def _enum_by_value(
-        cls
-    ) -> type:
-        enum_classes = {}
-        if not hasattr(cls, "_enum_value_to_name"):
-            return enum_classes
-        for enum_value, enum_name in cls._enum_value_to_name.items():
-            base_class = type(enum_value)
-            # todo remove this debugging
-            if 'Dynamic' in cls.__name__:
-                # import pdb
-                # pdb.set_trace()
-                pass
-
-            if base_class is none_type:
-                enum_classes[enum_value] = get_new_class(
-                      "Dynamic" + cls.__name__, (cls, NoneClass))
-                log_cache_usage(get_new_class)
-            elif base_class is bool:
-                enum_classes[enum_value] = get_new_class(
-                      "Dynamic" + cls.__name__, (cls, BoolClass))
-                log_cache_usage(get_new_class)
-            else:
-                enum_classes[enum_value] = get_new_class(
-                    "Dynamic" + cls.__name__, (cls, Singleton, base_class))
-                log_cache_usage(get_new_class)
-        return enum_classes
+    pass
 
 
 class EnumMakerInterface(typing.Protocol):
@@ -475,13 +447,6 @@ class EnumMakerInterface(typing.Protocol):
     def _enum_value_to_name(
         cls
     ) -> typing.Dict[typing.Union[str, decimal.Decimal, bool, none_type], str]:
-        pass
-
-    @classmethod
-    @property
-    def _enum_by_value(
-        cls
-    ) -> type:
         pass
 
 
@@ -1312,9 +1277,7 @@ class Schema:
 
         Use cases:
         1. inheritable type: string/decimal.Decimal/frozendict/tuple
-        2. enum value cases: 'hi', 1 -> no base_class set because the enum includes the base class
-        3. uninheritable type: True/False/None -> no base_class because the base class is not inheritable
-            _enum_by_value will handle this use case
+        2. singletons: bool/None -> uses the base classes BoolClass/NoneClass
 
         Required Steps:
         1. verify type of input is valid vs the allowed _types
@@ -1344,7 +1307,7 @@ class Schema:
             path_to_schemas[validation_metadata.path_to_item] = set()
         path_to_schemas[validation_metadata.path_to_item].add(cls)
 
-        if hasattr(cls, "_enum_by_value"):
+        if hasattr(cls, "_enum_value_to_name"):
             cls._validate_enum_value(arg)
 
         used_base_class = base_class
@@ -1359,7 +1322,7 @@ class Schema:
     @classmethod
     def _validate_enum_value(cls, arg):
         try:
-            cls._enum_by_value[arg]
+            cls._enum_value_to_name[arg]
         except KeyError:
             raise ApiValueError("Invalid value {} passed in to {}, {}".format(arg, cls, cls._enum_value_to_name))
 
@@ -1421,7 +1384,7 @@ class Schema:
             """
             cls.__process_schema_classes(schema_classes)
             enum_schema = any(
-                hasattr(this_cls, '_enum_by_value') for this_cls in schema_classes)
+                hasattr(this_cls, '_enum_value_to_name') for this_cls in schema_classes)
             inheritable_primitive_type = schema_classes.intersection(inheritable_primitive_types_set)
             chosen_schema_classes = schema_classes - inheritable_primitive_type
             suffix = tuple(inheritable_primitive_type)

@@ -92,7 +92,7 @@ class StringEnum(
     @classmethod
     @property
     def NONE(cls):
-        return cls._enum_by_value[None](None)
+        return cls(None)
     
     @classmethod
     @property
