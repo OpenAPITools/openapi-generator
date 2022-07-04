@@ -192,7 +192,7 @@ export class BaseAPI {
                     }) || response;
                 }
             }
-            if (response !== undefined) {
+            if (response === undefined) {
                 throw new FetchError(e, 'The request failed and the interceptors did not return an alternative response');
             }
         }
