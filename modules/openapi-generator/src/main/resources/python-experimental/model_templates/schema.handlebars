@@ -39,7 +39,7 @@
             {{/or}}
         {{/or}}
         {{#if nameInSnakeCase}}
-locals()['{{baseName}}'] = {{name}}
+locals()["{{{baseName}}}"] = {{name}}
 del locals()['{{name}}']
         {{/if}}
     {{/if}}

@@ -51,9 +51,13 @@ class ReadOnlyFirst {
     final _json = <String, dynamic>{};
     if (bar != null) {
       _json[r'bar'] = bar;
+    } else {
+      _json[r'bar'] = null;
     }
     if (baz != null) {
       _json[r'baz'] = baz;
+    } else {
+      _json[r'baz'] = null;
     }
     return _json;
   }

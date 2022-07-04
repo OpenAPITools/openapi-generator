@@ -824,6 +824,12 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     @Override
     public String toModelName(final String name) {
+        // We need to check if schema-mapping has a different model for this class, so we use it
+        // instead of the auto-generated one.
+        if (schemaMapping.containsKey(name)) {
+            return schemaMapping.get(name);
+        }
+
         final String sanitizedName = sanitizeName(name);
 
         String nameWithPrefixSuffix = sanitizedName;
@@ -867,7 +873,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     @Override
     public String getTypeDeclaration(Schema p) {
-        Schema<?> schema = ModelUtils.unaliasSchema(this.openAPI, p, importMapping);
+        Schema<?> schema = ModelUtils.unaliasSchema(this.openAPI, p, schemaMapping);
         Schema<?> target = ModelUtils.isGenerateAliasAsModel() ? p : schema;
         if (ModelUtils.isArraySchema(target)) {
             Schema<?> items = getSchemaItems((ArraySchema) schema);
@@ -1329,6 +1335,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         if (property.isReadOnly) {
             model.getVendorExtensions().put("x-has-readonly-properties", true);
+        }
+
+        // if data type happens to be the same as the property name and both are upper case
+        if (property.dataType != null && property.dataType.equals(property.name) && property.dataType.toUpperCase(Locale.ROOT).equals(property.name)) {
+            property.name = property.name.toLowerCase(Locale.ROOT);
         }
     }
 

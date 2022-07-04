@@ -1427,4 +1427,33 @@ public class SpringCodegenTest {
             .assertMethod("getAllUsingGET1")
             .bodyContainsLines("if (mediaType.isCompatibleWith(MediaType.valueOf(\"application/hal+json\"))) {");
     }
+
+    @Test
+    public void shouldHandleContentTypeWithSecondWildcardSubtype_issue12457() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+            .readLocation("src/test/resources/bugs/issue_12457.yaml", null, new ParseOptions()).getOpenAPI();
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary(SPRING_BOOT);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(SpringCodegen.USE_TAGS, "true");
+
+        ClientOptInput input = new ClientOptInput()
+            .openAPI(openAPI)
+            .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(input).generate().stream()
+            .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("UsersApi.java"))
+            .assertMethod("wildcardSubTypeForContentType")
+            .assertMethodAnnotations()
+            .containsWithNameAndAttributes("RequestMapping", ImmutableMap.of(
+                "produces", "{ \"application/json\", \"application/*\" }",
+                "consumes", "{ \"application/octet-stream\", \"application/*\" }"
+            ));
+    }
 }

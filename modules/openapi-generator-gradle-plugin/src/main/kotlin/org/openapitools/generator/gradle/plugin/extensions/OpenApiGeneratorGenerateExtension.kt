@@ -142,9 +142,19 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
     val importMappings = project.objects.mapProperty<String, String>()
 
     /**
+     * Specifies mappings between a given schema and the new one
+     */
+    val schemaMappings = project.objects.mapProperty<String, String>()
+
+    /**
      * Specifies mappings between an inline schema name and the new name
      */
     val inlineSchemaNameMappings = project.objects.mapProperty<String, String>()
+
+    /**
+     * Specifies default values for inline schema naming convention
+     */
+    val inlineSchemaNameDefaults = project.objects.mapProperty<String, String>()
 
     /**
      * Root package for generated code.

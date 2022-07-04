@@ -186,6 +186,26 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#vendorExtensi
 
   {{/vars}}
 
+    @Override
+    public boolean equals(Object o) {
+      if (this == o) {
+        return true;
+      }
+      if (o == null || getClass() != o.getClass()) {
+        return false;
+      }
+      {{classname}} {{classVarName}} = ({{classname}}) o;{{#hasVars}}
+      return {{#vars}}Objects.equals({{name}}, {{classVarName}}.{{name}}){{^-last}} &&
+          {{/-last}}{{/vars}}{{#parent}} &&
+          super.equals(o){{/parent}};{{/hasVars}}{{^hasVars}}
+      return true;{{/hasVars}}
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hash({{#vars}}{{name}}{{^-last}}, {{/-last}}{{/vars}}{{#parent}}{{#hasVars}}, {{/hasVars}}super.hashCode(){{/parent}});
+    }
+
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

@@ -7,6 +7,7 @@ HEADERS += \
     $${PWD}/PFXOrder.h \
     $${PWD}/PFXPet.h \
     $${PWD}/PFXTag.h \
+    $${PWD}/PFXTestAnyType.h \
     $${PWD}/PFXUser.h \
 # APIs
     $${PWD}/PFXPetApi.h \
@@ -30,6 +31,7 @@ SOURCES += \
     $${PWD}/PFXOrder.cpp \
     $${PWD}/PFXPet.cpp \
     $${PWD}/PFXTag.cpp \
+    $${PWD}/PFXTestAnyType.cpp \
     $${PWD}/PFXUser.cpp \
 # APIs
     $${PWD}/PFXPetApi.cpp \

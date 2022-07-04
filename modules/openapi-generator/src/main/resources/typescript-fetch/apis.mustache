@@ -4,15 +4,19 @@
 
 import * as runtime from '../runtime';
 {{#imports.0}}
+import type {
+  {{#imports}}
+  {{className}},
+  {{/imports}}
+} from '../models';
+{{^withoutRuntimeChecks}}
 import {
     {{#imports}}
-    {{className}},
-    {{^withoutRuntimeChecks}}
     {{className}}FromJSON,
     {{className}}ToJSON,
-    {{/withoutRuntimeChecks}}
     {{/imports}}
 } from '../models';
+{{/withoutRuntimeChecks}}
 {{/imports.0}}
 
 {{#operations}}
@@ -52,7 +56,7 @@ export interface {{classname}}Interface {
      * @throws {RequiredError}
      * @memberof {{classname}}Interface
      */
-    {{nickname}}Raw({{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request, {{/allParams.0}}initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<{{{returnType}}}{{^returnType}}void{{/returnType}}>>;
+    {{nickname}}Raw({{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request, {{/allParams.0}}initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<{{{returnType}}}{{^returnType}}void{{/returnType}}>>;
 
     /**
      {{#notes}}
@@ -63,10 +67,10 @@ export interface {{classname}}Interface {
      {{/summary}}
      */
     {{^useSingleRequestParameter}}
-    {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{#isNullable}} | null{{/isNullable}}{{/isEnum}}, {{/allParams}}initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<{{{returnType}}}{{^returnType}}void{{/returnType}}>;
+    {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{#isNullable}} | null{{/isNullable}}{{/isEnum}}, {{/allParams}}initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<{{{returnType}}}{{^returnType}}void{{/returnType}}>;
     {{/useSingleRequestParameter}}
     {{#useSingleRequestParameter}}
-    {{nickname}}({{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request, {{/allParams.0}}initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<{{{returnType}}}{{^returnType}}void{{/returnType}}>;
+    {{nickname}}({{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request, {{/allParams.0}}initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<{{{returnType}}}{{^returnType}}void{{/returnType}}>;
     {{/useSingleRequestParameter}}
 
 {{/operation}}
@@ -94,7 +98,7 @@ export class {{classname}} extends runtime.BaseAPI {
      * {{&summary}}
      {{/summary}}
      */
-    async {{nickname}}Raw({{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request, {{/allParams.0}}initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<{{{returnType}}}{{^returnType}}void{{/returnType}}>> {
+    async {{nickname}}Raw({{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request, {{/allParams.0}}initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<{{{returnType}}}{{^returnType}}void{{/returnType}}>> {
         {{#allParams}}
         {{#required}}
         if (requestParameters.{{paramName}} === null || requestParameters.{{paramName}} === undefined) {
@@ -334,7 +338,7 @@ export class {{classname}} extends runtime.BaseAPI {
      {{/summary}}
      */
     {{^useSingleRequestParameter}}
-    async {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{#isNullable}} | null{{/isNullable}}{{/isEnum}}, {{/allParams}}initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<{{{returnType}}}{{^returnType}}void{{/returnType}}> {
+    async {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{#isNullable}} | null{{/isNullable}}{{/isEnum}}, {{/allParams}}initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<{{{returnType}}}{{^returnType}}void{{/returnType}}> {
         {{#returnType}}
         const response = await this.{{nickname}}Raw({{#allParams.0}}{ {{#allParams}}{{paramName}}: {{paramName}}{{^-last}}, {{/-last}}{{/allParams}} }, {{/allParams.0}}initOverrides);
         return await response.value();
@@ -345,7 +349,7 @@ export class {{classname}} extends runtime.BaseAPI {
     }
     {{/useSingleRequestParameter}}
     {{#useSingleRequestParameter}}
-    async {{nickname}}({{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request{{^hasRequiredParams}} = {}{{/hasRequiredParams}}, {{/allParams.0}}initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<{{{returnType}}}{{^returnType}}void{{/returnType}}> {
+    async {{nickname}}({{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request{{^hasRequiredParams}} = {}{{/hasRequiredParams}}, {{/allParams.0}}initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<{{{returnType}}}{{^returnType}}void{{/returnType}}> {
         {{#returnType}}
         const response = await this.{{nickname}}Raw({{#allParams.0}}requestParameters, {{/allParams.0}}initOverrides);
         return await response.value();

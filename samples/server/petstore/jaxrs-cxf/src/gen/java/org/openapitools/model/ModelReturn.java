@@ -36,6 +36,23 @@ public class ModelReturn  {
   }
 
 
+    @Override
+    public boolean equals(Object o) {
+      if (this == o) {
+        return true;
+      }
+      if (o == null || getClass() != o.getClass()) {
+        return false;
+      }
+      ModelReturn _return = (ModelReturn) o;
+      return Objects.equals(_return, _return._return);
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hash(_return);
+    }
+
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

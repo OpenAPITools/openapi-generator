@@ -180,7 +180,7 @@ public class ApiClient {
         }
 
 {{#hasOAuthMethods}}
-        String tokenUrl = "{{tokenUrl}}";
+        String tokenUrl = "{{{tokenUrl}}}";
         if (!"".equals(tokenUrl) && !URI.create(tokenUrl).isAbsolute()) {
             URI uri = URI.create(getBasePath());
             tokenUrl = uri.getScheme() + ":" +

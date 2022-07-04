@@ -182,7 +182,7 @@ internal class PetApi(basePath: kotlin.String = defaultBasePath, client: OkHttpC
         
         return RequestConfig(
             method = RequestMethod.DELETE,
-            path = "/pet/{petId}".replace("{"+"petId"+"}", "$petId"),
+            path = "/pet/{petId}".replace("{"+"petId"+"}", petId.toString()),
             query = localVariableQuery,
             headers = localVariableHeaders,
             body = localVariableBody
@@ -412,7 +412,7 @@ internal class PetApi(basePath: kotlin.String = defaultBasePath, client: OkHttpC
 
         return RequestConfig(
             method = RequestMethod.GET,
-            path = "/pet/{petId}".replace("{"+"petId"+"}", "$petId"),
+            path = "/pet/{petId}".replace("{"+"petId"+"}", petId.toString()),
             query = localVariableQuery,
             headers = localVariableHeaders,
             body = localVariableBody
@@ -555,7 +555,7 @@ internal class PetApi(basePath: kotlin.String = defaultBasePath, client: OkHttpC
         
         return RequestConfig(
             method = RequestMethod.POST,
-            path = "/pet/{petId}".replace("{"+"petId"+"}", "$petId"),
+            path = "/pet/{petId}".replace("{"+"petId"+"}", petId.toString()),
             query = localVariableQuery,
             headers = localVariableHeaders,
             body = localVariableBody
@@ -633,7 +633,7 @@ internal class PetApi(basePath: kotlin.String = defaultBasePath, client: OkHttpC
 
         return RequestConfig(
             method = RequestMethod.POST,
-            path = "/pet/{petId}/uploadImage".replace("{"+"petId"+"}", "$petId"),
+            path = "/pet/{petId}/uploadImage".replace("{"+"petId"+"}", petId.toString()),
             query = localVariableQuery,
             headers = localVariableHeaders,
             body = localVariableBody

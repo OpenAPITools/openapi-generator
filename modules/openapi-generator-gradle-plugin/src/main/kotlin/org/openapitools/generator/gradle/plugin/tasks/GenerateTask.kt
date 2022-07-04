@@ -220,11 +220,25 @@ open class GenerateTask : DefaultTask() {
     val importMappings = project.objects.mapProperty<String, String>()
 
     /**
+     * Specifies mappings between a given schema and the new one.
+     */
+    @Optional
+    @Input
+    val schemaMappings = project.objects.mapProperty<String, String>()
+
+    /**
      * Specifies mappings between the inline scheme name and the new name
      */
     @Optional
     @Input
     val inlineSchemaNameMappings = project.objects.mapProperty<String, String>()
+
+    /**
+     * Specifies default values for inline schema naming convention
+     */
+    @Optional
+    @Input
+    val inlineSchemaNameDefaults = project.objects.mapProperty<String, String>()
 
     /**
      * Root package for generated code.
@@ -685,9 +699,21 @@ open class GenerateTask : DefaultTask() {
                 }
             }
 
+            if (schemaMappings.isPresent) {
+                schemaMappings.get().forEach { entry ->
+                    configurator.addSchemaMapping(entry.key, entry.value)
+                }
+            }
+
             if (inlineSchemaNameMappings.isPresent) {
                 inlineSchemaNameMappings.get().forEach { entry ->
                     configurator.addInlineSchemaNameMapping(entry.key, entry.value)
+                }
+            }
+
+            if (inlineSchemaNameDefaults.isPresent) {
+                inlineSchemaNameDefaults.get().forEach { entry ->
+                    configurator.addInlineSchemaNameDefault(entry.key, entry.value)
                 }
             }
 

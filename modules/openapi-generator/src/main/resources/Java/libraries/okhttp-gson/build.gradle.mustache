@@ -119,7 +119,7 @@ dependencies {
     implementation 'javax.ws.rs:jsr311-api:1.1.1'
     implementation 'javax.ws.rs:javax.ws.rs-api:2.1.1'
     {{#openApiNullable}}
-    implementation 'org.openapitools:jackson-databind-nullable:0.2.2'
+    implementation 'org.openapitools:jackson-databind-nullable:0.2.3'
     {{/openApiNullable}}
     {{#hasOAuthMethods}}
     implementation group: 'org.apache.oltu.oauth2', name: 'org.apache.oltu.oauth2.client', version: '1.0.1'
@@ -134,6 +134,7 @@ dependencies {
     implementation "jakarta.annotation:jakarta.annotation-api:$jakarta_annotation_version"
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
     testImplementation 'org.mockito:mockito-core:3.12.4'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
 }
 
 javadoc {
@@ -165,4 +166,18 @@ spotless {
         removeUnusedImports()
         importOrder()
     }
+}
+
+test {
+    // Enable JUnit 5 (Gradle 4.6+).
+    useJUnitPlatform()
+
+    // Always run tests, even when nothing changed.
+    dependsOn 'cleanTest'
+
+    // Show test results.
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+
 }

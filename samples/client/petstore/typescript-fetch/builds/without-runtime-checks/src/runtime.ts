@@ -113,7 +113,7 @@ export class BaseAPI {
         return this.withMiddleware<T>(...middlewares);
     }
 
-    protected async request(context: RequestOpts, initOverrides?: RequestInit | InitOverideFunction): Promise<Response> {
+    protected async request(context: RequestOpts, initOverrides?: RequestInit | InitOverrideFunction): Promise<Response> {
         const { url, init } = await this.createFetchParams(context, initOverrides);
         const response = await this.fetchApi(url, init);
         if (response.status >= 200 && response.status < 300) {
@@ -122,7 +122,7 @@ export class BaseAPI {
         throw new ResponseError(response, 'Response returned an error code');
     }
 
-    private async createFetchParams(context: RequestOpts, initOverrides?: RequestInit | InitOverideFunction) {
+    private async createFetchParams(context: RequestOpts, initOverrides?: RequestInit | InitOverrideFunction) {
         let url = this.configuration.basePath + context.path;
         if (context.query !== undefined && Object.keys(context.query).length !== 0) {
             // only add the querystring to the URL if there are query parameters.
@@ -177,7 +177,25 @@ export class BaseAPI {
                 }) || fetchParams;
             }
         }
-        let response = await (this.configuration.fetchApi || fetch)(fetchParams.url, fetchParams.init);
+        let response = undefined;
+        try {
+            response = await (this.configuration.fetchApi || fetch)(fetchParams.url, fetchParams.init);
+        } catch (e) {
+            for (const middleware of this.middleware) {
+                if (middleware.onError) {
+                    response = await middleware.onError({
+                        fetch: this.fetchApi,
+                        url: fetchParams.url,
+                        init: fetchParams.init,
+                        error: e,
+                        response: response ? response.clone() : undefined,
+                    }) || response;
+                }
+            }
+            if (response !== undefined) {
+                throw new FetchError(e, 'The request failed and the interceptors did not return an alternative response');
+            }
+        }
         for (const middleware of this.middleware) {
             if (middleware.post) {
                 response = await middleware.post({
@@ -218,6 +236,13 @@ export class ResponseError extends Error {
     }
 }
 
+export class FetchError extends Error {
+    name: "FetchError" = "FetchError";
+    constructor(public cause: unknown, msg?: string) {
+        super(msg);
+    }
+}
+
 export class RequiredError extends Error {
     name: "RequiredError" = "RequiredError";
     constructor(public field: string, msg?: string) {
@@ -242,7 +267,7 @@ export type HTTPBody = Json | FormData | URLSearchParams;
 export type HTTPRequestInit = { headers?: HTTPHeaders; method: HTTPMethod; credentials?: RequestCredentials; body?: HTTPBody }
 export type ModelPropertyNaming = 'camelCase' | 'snake_case' | 'PascalCase' | 'original';
 
-export type InitOverideFunction = (requestContext: { init: HTTPRequestInit, context: RequestOpts }) => Promise<RequestInit>
+export type InitOverrideFunction = (requestContext: { init: HTTPRequestInit, context: RequestOpts }) => Promise<RequestInit>
 
 export interface FetchParams {
     url: string;
@@ -265,7 +290,7 @@ export function querystring(params: HTTPQuery, prefix: string = ''): string {
         .join('&');
 }
 
-function querystringSingleKey(key: string, value: string | number | null | boolean | Array<string | number | null | boolean> | Set<string | number | null | boolean> | HTTPQuery, keyPrefix: string = ''): string {
+function querystringSingleKey(key: string, value: string | number | null | undefined | boolean | Array<string | number | null | boolean> | Set<string | number | null | boolean> | HTTPQuery, keyPrefix: string = ''): string {
     const fullKey = keyPrefix + (keyPrefix.length ? `[${key}]` : key);
     if (value instanceof Array) {
         const multiValue = value.map(singleValue => encodeURIComponent(String(singleValue)))
@@ -312,9 +337,18 @@ export interface ResponseContext {
     response: Response;
 }
 
+export interface ErrorContext {
+    fetch: FetchAPI;
+    url: string;
+    init: RequestInit;
+    error: unknown;
+    response?: Response;
+}
+
 export interface Middleware {
     pre?(context: RequestContext): Promise<FetchParams | void>;
     post?(context: ResponseContext): Promise<Response | void>;
+    onError?(context: ErrorContext): Promise<Response | void>;
 }
 
 export interface ApiResponse<T> {

@@ -30,7 +30,7 @@ result <- tryCatch(
              ApiException = function(ex) ex
           )
 # In case of error, print the error object
-if(!is.null(result$ApiException)) {
+if (!is.null(result$ApiException)) {
   cat(result$ApiException$toString())
 } else {
   # response headers
@@ -82,11 +82,13 @@ api_instance <- StoreApi$new()
 # Configure API key authorization: api_key
 api_instance$api_client$api_keys['api_key'] <- 'TODO_YOUR_API_KEY';
 result <- tryCatch(
+             # to save the result into a file, simply add the optional `data_file` parameter, e.g.
+             # api_instance$GetInventory(data_file = "result.txt"),
              api_instance$GetInventory(),
              ApiException = function(ex) ex
           )
 # In case of error, print the error object
-if(!is.null(result$ApiException)) {
+if (!is.null(result$ApiException)) {
   cat(result$ApiException$toString())
 } else {
   # deserialized response object
@@ -135,11 +137,13 @@ var_order_id <- 56 # integer | ID of pet that needs to be fetched
 #Find purchase order by ID
 api_instance <- StoreApi$new()
 result <- tryCatch(
+             # to save the result into a file, simply add the optional `data_file` parameter, e.g.
+             # api_instance$GetOrderById(var_order_id, data_file = "result.txt"),
              api_instance$GetOrderById(var_order_id),
              ApiException = function(ex) ex
           )
 # In case of error, print the error object
-if(!is.null(result$ApiException)) {
+if (!is.null(result$ApiException)) {
   cat(result$ApiException$toString())
 } else {
   # deserialized response object
@@ -193,11 +197,13 @@ var_order <- Order$new(123, 123, 123, "shipDate_example", "placed", "complete_ex
 #Place an order for a pet
 api_instance <- StoreApi$new()
 result <- tryCatch(
+             # to save the result into a file, simply add the optional `data_file` parameter, e.g.
+             # api_instance$PlaceOrder(var_order, data_file = "result.txt"),
              api_instance$PlaceOrder(var_order),
              ApiException = function(ex) ex
           )
 # In case of error, print the error object
-if(!is.null(result$ApiException)) {
+if (!is.null(result$ApiException)) {
   cat(result$ApiException$toString())
 } else {
   # deserialized response object

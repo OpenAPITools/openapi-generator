@@ -618,6 +618,24 @@ components:
         application/xml:
           schema:
             $ref: '#/components/schemas/Pet'
+        multipart/related:  # message with binary body part
+          schema:
+            type: object
+            properties: # Request parts
+              jsonData:
+                $ref: '#/components/schemas/Pet'
+              binaryDataN2Information:
+                type: string
+                format: binary
+          encoding:
+            jsonData:
+              contentType:  application/json
+            binaryDataN2Information:
+              contentType:  application/vnd.3gpp.ngap
+              headers:
+                Content-Id:
+                  schema:
+                    type: string
       description: Pet object that needs to be added to the store
       required: true
   securitySchemes:
@@ -766,6 +784,24 @@ components:
           type: string
         message:
           type: string
+    Special:
+      title: An uploaded response
+      description: Describes the result of uploading an image resource
+      type: object
+      properties:
+        self:
+          type: integer
+          format: int32
+        private:
+          type: string
+        super:
+          type: string
+        "123_number":
+          type: string
+        "array[test]":
+          type: string
+        "":
+          type: string
     Dog:
       allOf:
         - $ref: '#/components/schemas/Animal'
@@ -801,3 +837,40 @@ components:
       allOf:
         - $ref: '#/components/schemas/Tag'
         - $ref: '#/components/schemas/ApiResponse'
+    AnyOfPig:
+      anyOf:
+        - $ref: '#/components/schemas/BasquePig'
+        - $ref: '#/components/schemas/DanishPig'
+    Pig:
+      oneOf:
+        - $ref: '#/components/schemas/BasquePig'
+        - $ref: '#/components/schemas/DanishPig'
+      discriminator:
+        propertyName: className
+    BasquePig:
+      type: object
+      properties:
+        className:
+          type: string
+        color:
+          type: string
+      required:
+        - className
+        - color
+    DanishPig:
+      type: object
+      properties:
+        className:
+          type: string
+        size:
+          type: integer
+      required:
+        - className
+        - size
+    NestedOneOf:
+      type: object
+      properties:
+        size:
+          type: integer
+        nested_pig:
+          $ref: '#/components/schemas/Pig'

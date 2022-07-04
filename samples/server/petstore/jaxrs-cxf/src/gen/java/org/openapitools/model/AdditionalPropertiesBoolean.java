@@ -32,6 +32,24 @@ public class AdditionalPropertiesBoolean extends HashMap<String, Boolean> {
   }
 
 
+    @Override
+    public boolean equals(Object o) {
+      if (this == o) {
+        return true;
+      }
+      if (o == null || getClass() != o.getClass()) {
+        return false;
+      }
+      AdditionalPropertiesBoolean additionalPropertiesBoolean = (AdditionalPropertiesBoolean) o;
+      return Objects.equals(name, additionalPropertiesBoolean.name) &&
+          super.equals(o);
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hash(name, super.hashCode());
+    }
+
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

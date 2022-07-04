@@ -190,6 +190,8 @@ class ApiClient {
           }
           final valueString = '$value'.toLowerCase();
           return valueString == 'true' || valueString == '1';
+        case 'DateTime':
+          return value is DateTime ? value : DateTime.tryParse(value);
         case 'AdditionalPropertiesClass':
           return AdditionalPropertiesClass.fromJson(value);
         case 'AllOfWithSingleRef':

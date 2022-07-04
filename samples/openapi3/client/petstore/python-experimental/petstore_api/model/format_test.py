@@ -124,7 +124,7 @@ class FormatTest(
         Float32Schema
     ):
         pass
-    locals()['float'] = _float
+    locals()["float"] = _float
     del locals()['_float']
     float32 = Float32Schema
     
