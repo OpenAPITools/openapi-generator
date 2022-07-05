@@ -27,7 +27,7 @@ export class {{classname}}Resource {
      {{#allParams}}{{^isCookieParam}}{{^isHeaderParam}}* @param {{paramName}} {{description}}
      {{/isHeaderParam}}{{/isCookieParam}}{{/allParams}}
      */
-    public {{nickname}}({{#allParams}}{{^isQueryParam}}{{^isCookieParam}}{{^isHeaderParam}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/isHeaderParam}}{{/isCookieParam}}{{/isQueryParam}}{{/allParams}}{{#hasQueryParams}}query?: { {{#queryParams}}{{#lambda.snakecase_param}}{{paramName}}{{/lambda.snakecase_param}}{{^required}}?{{/required}}: {{{dataType}}}{{^-last}},{{/-last}} {{/queryParams}}}, {{/hasQueryParams}}axiosConfig?: AxiosRequestConfig): Promise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}{}{{/returnType}}> {
+    public {{nickname}}({{#allParams}}{{^isQueryParam}}{{^isCookieParam}}{{^isHeaderParam}}{{^isBodyParam}}{{paramName}}{{/isBodyParam}}{{#isBodyParam}}body{{/isBodyParam}}{{^required}}?{{/required}}: {{{dataType}}}, {{/isHeaderParam}}{{/isCookieParam}}{{/isQueryParam}}{{/allParams}}{{#hasQueryParams}}query?: { {{#queryParams}}{{#lambda.snakecase_param}}{{paramName}}{{/lambda.snakecase_param}}{{^required}}?{{/required}}: {{{dataType}}}{{^-last}},{{/-last}} {{/queryParams}}}, {{/hasQueryParams}}axiosConfig?: AxiosRequestConfig): Promise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}{}{{/returnType}}> {
         const reqPath = '{{path}}'{{#pathParams}}
                     .replace('{' + '{{baseName}}}', String({{paramName}}{{#isDateTime}}.toISOString(){{/isDateTime}})){{/pathParams}};
 {{#hasFormParams}}
@@ -42,7 +42,7 @@ export class {{classname}}Resource {
             method: '{{httpMethod}}' as Method,
             url: reqPath{{#hasQueryParams}},
             params: query{{/hasQueryParams}}{{#bodyParam}},
-            data: {{paramName}}{{/bodyParam}}{{#hasFormParams}},
+            data: body{{/bodyParam}}{{#hasFormParams}},
             headers: { 'Content-Type': 'application/x-www-form-urlencoded'},
             data: stringify(reqFormParams)
 {{/hasFormParams}}
