@@ -63,9 +63,11 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String USE_RLANG_EXCEPTION = "useRlangExceptionHandling";
     public static final String DEFAULT = "default";
     public static final String RLANG = "rlang";
+    public static final String SUPPORT_STREAMING = "supportStreaming";
 
     protected boolean useDefaultExceptionHandling = false;
     protected boolean useRlangExceptionHandling = false;
+    protected boolean supportStreaming = false;
     protected String errorObjectType;
 
     public CodegenType getTag() {
@@ -174,6 +176,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
                 .defaultValue(Boolean.TRUE.toString()));
         cliOptions.add(new CliOption(CodegenConstants.EXCEPTION_ON_FAILURE, CodegenConstants.EXCEPTION_ON_FAILURE_DESC)
                 .defaultValue(Boolean.FALSE.toString()));
+        cliOptions.add(CliOption.newBoolean(SUPPORT_STREAMING, "Support streaming endpoint (beta)", this.supportStreaming));
 
         exceptionPackages.put(DEFAULT, "Use stop() for raising exceptions.");
         exceptionPackages.put(RLANG, "Use rlang package for exceptions.");
@@ -221,13 +224,16 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
         additionalProperties.put(CodegenConstants.ERROR_OBJECT_TYPE, errorObjectType);
 
+        if (additionalProperties.containsKey(SUPPORT_STREAMING)) {
+            this.setSupportStreaming(Boolean.parseBoolean(additionalProperties.get(SUPPORT_STREAMING).toString()));
+        }
+        additionalProperties.put(SUPPORT_STREAMING, supportStreaming);
+
         additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
         additionalProperties.put(CodegenConstants.PACKAGE_VERSION, packageVersion);
         additionalProperties.put(CodegenConstants.EXCEPTION_ON_FAILURE, returnExceptionOnFailure);
-
         additionalProperties.put(USE_DEFAULT_EXCEPTION, this.useDefaultExceptionHandling);
         additionalProperties.put(USE_RLANG_EXCEPTION, this.useRlangExceptionHandling);
-
 
         additionalProperties.put("apiDocPath", apiDocPath);
         additionalProperties.put("modelDocPath", modelDocPath);
@@ -525,6 +531,10 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     public void setErrorObjectType(final String errorObjectType) {
         this.errorObjectType = errorObjectType;
+    }
+
+    public void setSupportStreaming(final boolean supportStreaming) {
+        this.supportStreaming = supportStreaming;
     }
 
     @Override
