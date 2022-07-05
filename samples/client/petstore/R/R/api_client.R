@@ -133,7 +133,7 @@ ApiClient  <- R6::R6Class(
     #' @param ... Other optional arguments.
     #' @return HTTP response
     #' @export
-    CallApi = function(url, method, query_params, header_params, body, ...) {
+    CallApi = function(url, method, query_params, header_params, body, stream_callback = NULL, ...) {
 
       resp <- self$Execute(url, method, query_params, header_params, body, ...)
       status_code <- httr::status_code(resp)
@@ -147,7 +147,7 @@ ApiClient  <- R6::R6Class(
         for (i in 1 : self$max_retry_attempts) {
           if (status_code %in% self$retry_status_codes) {
             Sys.sleep((2 ^ i) + stats::runif(n = 1, min = 0, max = 1))
-            resp <- self$Execute(url, method, query_params, header_params, body, ...)
+            resp <- self$Execute(url, method, query_params, header_params, body, stream_callback = NULL, ...)
             status_code <- httr::status_code(resp)
           } else {
             break;
@@ -167,10 +167,11 @@ ApiClient  <- R6::R6Class(
     #' @param query_params The query parameters.
     #' @param header_params The header parameters.
     #' @param body The HTTP request body.
+    #' @param stream_callback callback function to process data stream
     #' @param ... Other optional arguments.
     #' @return HTTP response
     #' @export
-    Execute = function(url, method, query_params, header_params, body, ...) {
+    Execute = function(url, method, query_params, header_params, body, stream_callback = NULL, ...) {
       headers <- httr::add_headers(c(header_params, self$default_headers))
 
       http_timeout <- NULL
