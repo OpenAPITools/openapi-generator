@@ -10,6 +10,7 @@ import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 import io.swagger.annotations.ApiModelProperty;
+import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 
@@ -324,36 +325,35 @@ public class FormatTest  {
     return this;
   }
 
-
-    @Override
-    public boolean equals(Object o) {
-      if (this == o) {
-        return true;
-      }
-      if (o == null || getClass() != o.getClass()) {
-        return false;
-      }
-      FormatTest formatTest = (FormatTest) o;
-      return Objects.equals(integer, formatTest.integer) &&
-          Objects.equals(int32, formatTest.int32) &&
-          Objects.equals(int64, formatTest.int64) &&
-          Objects.equals(number, formatTest.number) &&
-          Objects.equals(_float, formatTest._float) &&
-          Objects.equals(_double, formatTest._double) &&
-          Objects.equals(string, formatTest.string) &&
-          Objects.equals(_byte, formatTest._byte) &&
-          Objects.equals(binary, formatTest.binary) &&
-          Objects.equals(date, formatTest.date) &&
-          Objects.equals(dateTime, formatTest.dateTime) &&
-          Objects.equals(uuid, formatTest.uuid) &&
-          Objects.equals(password, formatTest.password) &&
-          Objects.equals(bigDecimal, formatTest.bigDecimal);
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
     }
-
-    @Override
-    public int hashCode() {
-      return Objects.hash(integer, int32, int64, number, _float, _double, string, _byte, binary, date, dateTime, uuid, password, bigDecimal);
+    if (o == null || getClass() != o.getClass()) {
+      return false;
     }
+    FormatTest formatTest = (FormatTest) o;
+    return Objects.equals(integer, formatTest.integer) &&
+        Objects.equals(int32, formatTest.int32) &&
+        Objects.equals(int64, formatTest.int64) &&
+        Objects.equals(number, formatTest.number) &&
+        Objects.equals(_float, formatTest._float) &&
+        Objects.equals(_double, formatTest._double) &&
+        Objects.equals(string, formatTest.string) &&
+        Objects.equals(_byte, formatTest._byte) &&
+        Objects.equals(binary, formatTest.binary) &&
+        Objects.equals(date, formatTest.date) &&
+        Objects.equals(dateTime, formatTest.dateTime) &&
+        Objects.equals(uuid, formatTest.uuid) &&
+        Objects.equals(password, formatTest.password) &&
+        Objects.equals(bigDecimal, formatTest.bigDecimal);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(integer, int32, int64, number, _float, _double, string, _byte, binary, date, dateTime, uuid, password, bigDecimal);
+  }
 
   @Override
   public String toString() {
