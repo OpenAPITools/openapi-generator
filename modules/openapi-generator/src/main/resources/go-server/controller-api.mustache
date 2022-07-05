@@ -51,7 +51,7 @@ func (c *{{classname}}Controller) Routes() Routes {
 	return Routes{ {{#operations}}{{#operation}}
 		{
 			"{{operationId}}",
-			strings.ToUpper("{{httpMethod}}"),
+			http.Method{{httpMethod}},
 			"{{{basePathWithoutHost}}}{{{path}}}",
 			c.{{operationId}},
 		},{{/operation}}{{/operations}}
