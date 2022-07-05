@@ -6,6 +6,7 @@ import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 import io.swagger.annotations.ApiModelProperty;
+import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 
@@ -31,24 +32,23 @@ public class AdditionalPropertiesObject extends HashMap<String, Map> {
     return this;
   }
 
-
-    @Override
-    public boolean equals(Object o) {
-      if (this == o) {
-        return true;
-      }
-      if (o == null || getClass() != o.getClass()) {
-        return false;
-      }
-      AdditionalPropertiesObject additionalPropertiesObject = (AdditionalPropertiesObject) o;
-      return Objects.equals(name, additionalPropertiesObject.name) &&
-          super.equals(o);
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
     }
-
-    @Override
-    public int hashCode() {
-      return Objects.hash(name, super.hashCode());
+    if (o == null || getClass() != o.getClass()) {
+      return false;
     }
+    AdditionalPropertiesObject additionalPropertiesObject = (AdditionalPropertiesObject) o;
+    return Objects.equals(name, additionalPropertiesObject.name) &&
+        super.equals(o);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(name, super.hashCode());
+  }
 
   @Override
   public String toString() {

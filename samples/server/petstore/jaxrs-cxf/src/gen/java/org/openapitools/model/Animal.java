@@ -7,6 +7,7 @@ import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 import io.swagger.annotations.ApiModelProperty;
+import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "className", visible = true)
@@ -60,24 +61,23 @@ public class Animal  {
     return this;
   }
 
-
-    @Override
-    public boolean equals(Object o) {
-      if (this == o) {
-        return true;
-      }
-      if (o == null || getClass() != o.getClass()) {
-        return false;
-      }
-      Animal animal = (Animal) o;
-      return Objects.equals(className, animal.className) &&
-          Objects.equals(color, animal.color);
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
     }
-
-    @Override
-    public int hashCode() {
-      return Objects.hash(className, color);
+    if (o == null || getClass() != o.getClass()) {
+      return false;
     }
+    Animal animal = (Animal) o;
+    return Objects.equals(className, animal.className) &&
+        Objects.equals(color, animal.color);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(className, color);
+  }
 
   @Override
   public String toString() {

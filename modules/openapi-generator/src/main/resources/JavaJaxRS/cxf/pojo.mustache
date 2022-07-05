@@ -1,4 +1,5 @@
 import io.swagger.annotations.ApiModelProperty;
+import java.util.Objects;
 {{#withXml}}
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -185,26 +186,25 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#vendorExtensi
   {{/isReadOnly}}
 
   {{/vars}}
-
-    @Override
-    public boolean equals(Object o) {
-      if (this == o) {
-        return true;
-      }
-      if (o == null || getClass() != o.getClass()) {
-        return false;
-      }
-      {{classname}} {{classVarName}} = ({{classname}}) o;{{#hasVars}}
-      return {{#vars}}Objects.equals({{name}}, {{classVarName}}.{{name}}){{^-last}} &&
-          {{/-last}}{{/vars}}{{#parent}} &&
-          super.equals(o){{/parent}};{{/hasVars}}{{^hasVars}}
-      return true;{{/hasVars}}
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
     }
-
-    @Override
-    public int hashCode() {
-      return Objects.hash({{#vars}}{{name}}{{^-last}}, {{/-last}}{{/vars}}{{#parent}}{{#hasVars}}, {{/hasVars}}super.hashCode(){{/parent}});
+    if (o == null || getClass() != o.getClass()) {
+      return false;
     }
+    {{classname}} {{classVarName}} = ({{classname}}) o;{{#hasVars}}
+    return {{#vars}}Objects.equals({{name}}, {{classVarName}}.{{name}}){{^-last}} &&
+        {{/-last}}{{/vars}}{{#parent}} &&
+        super.equals(o){{/parent}};{{/hasVars}}{{^hasVars}}
+    return true;{{/hasVars}}
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash({{#vars}}{{name}}{{^-last}}, {{/-last}}{{/vars}}{{#parent}}{{#hasVars}}, {{/hasVars}}super.hashCode(){{/parent}});
+  }
 
   @Override
   public String toString() {
