@@ -49,6 +49,10 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
     public static final String PROP_SERVE_STATIC_DESC = "serve will serve files from the directory 'static'.";
     public static final Boolean PROP_SERVE_STATIC_DEFAULT = Boolean.TRUE;
 
+    public static final String USE_CUSTOM_MONAD = "useCustomMonad";
+    public static final String USE_CUSTOM_MONAD_DESC = "use a custom monad instead of the default Handler";
+    public static final Boolean USE_CUSTOM_MONAD_DEFAULT = Boolean.FALSE;
+
     /**
      * Configures the type of generator.
      *
@@ -214,6 +218,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         cliOptions.add(new CliOption(CodegenConstants.MODEL_PACKAGE, CodegenConstants.MODEL_PACKAGE_DESC));
         cliOptions.add(new CliOption(CodegenConstants.API_PACKAGE, CodegenConstants.API_PACKAGE_DESC));
         cliOptions.add(new CliOption(PROP_SERVE_STATIC, PROP_SERVE_STATIC_DESC).defaultValue(PROP_SERVE_STATIC_DEFAULT.toString()));
+        cliOptions.add(new CliOption(USE_CUSTOM_MONAD, USE_CUSTOM_MONAD_DESC).defaultValue(USE_CUSTOM_MONAD_DEFAULT.toString()));
     }
 
     public void setBooleanProperty(String property, Boolean defaultValue) {
@@ -233,6 +238,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         }
 
         setBooleanProperty(PROP_SERVE_STATIC, PROP_SERVE_STATIC_DEFAULT);
+        setBooleanProperty(USE_CUSTOM_MONAD, USE_CUSTOM_MONAD_DEFAULT);
     }
 
     /**
