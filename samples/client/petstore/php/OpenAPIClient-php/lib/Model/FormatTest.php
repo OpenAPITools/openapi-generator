@@ -594,7 +594,7 @@ class FormatTest implements ModelInterface, ArrayAccess, \JsonSerializable
     {
 
         if (!is_null($string) && (!preg_match("/[a-z]/i", $string))) {
-            throw new \InvalidArgumentException("invalid value for $string when calling FormatTest., must conform to the pattern /[a-z]/i.");
+            throw new \InvalidArgumentException("invalid value for \$string when calling FormatTest., must conform to the pattern /[a-z]/i.");
         }
 
         $this->container['string'] = $string;
@@ -774,7 +774,7 @@ class FormatTest implements ModelInterface, ArrayAccess, \JsonSerializable
     {
 
         if (!is_null($pattern_with_digits) && (!preg_match("/^\\d{10}$/", $pattern_with_digits))) {
-            throw new \InvalidArgumentException("invalid value for $pattern_with_digits when calling FormatTest., must conform to the pattern /^\\d{10}$/.");
+            throw new \InvalidArgumentException("invalid value for \$pattern_with_digits when calling FormatTest., must conform to the pattern /^\\d{10}$/.");
         }
 
         $this->container['pattern_with_digits'] = $pattern_with_digits;
@@ -803,7 +803,7 @@ class FormatTest implements ModelInterface, ArrayAccess, \JsonSerializable
     {
 
         if (!is_null($pattern_with_digits_and_delimiter) && (!preg_match("/^image_\\d{1,3}$/i", $pattern_with_digits_and_delimiter))) {
-            throw new \InvalidArgumentException("invalid value for $pattern_with_digits_and_delimiter when calling FormatTest., must conform to the pattern /^image_\\d{1,3}$/i.");
+            throw new \InvalidArgumentException("invalid value for \$pattern_with_digits_and_delimiter when calling FormatTest., must conform to the pattern /^image_\\d{1,3}$/i.");
         }
 
         $this->container['pattern_with_digits_and_delimiter'] = $pattern_with_digits_and_delimiter;
