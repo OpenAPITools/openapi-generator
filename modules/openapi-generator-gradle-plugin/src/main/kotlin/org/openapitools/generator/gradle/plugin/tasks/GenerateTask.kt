@@ -51,7 +51,6 @@ import org.openapitools.codegen.config.GlobalSettings
 @Suppress("UnstableApiUsage")
 @CacheableTask
 open class GenerateTask : DefaultTask() {
-
     /**
      * The verbosity of generation
      */
@@ -60,7 +59,7 @@ open class GenerateTask : DefaultTask() {
     val verbose = project.objects.property<Boolean>()
 
     /**
-     * Whether or not an input specification should be validated upon generation.
+     * Whether an input specification should be validated upon generation.
      */
     @Optional
     @Input
@@ -248,21 +247,21 @@ open class GenerateTask : DefaultTask() {
     val invokerPackage = project.objects.property<String>()
 
     /**
-     * GroupId in generated pom.xml/build.gradle or other build script. Language-specific conversions occur in non-jvm generators.
+     * GroupId in generated pom.xml/build.gradle.kts or other build script. Language-specific conversions occur in non-jvm generators.
      */
     @Optional
     @Input
     val groupId = project.objects.property<String>()
 
     /**
-     * ArtifactId in generated pom.xml/build.gradle or other build script. Language-specific conversions occur in non-jvm generators.
+     * ArtifactId in generated pom.xml/build.gradle.kts or other build script. Language-specific conversions occur in non-jvm generators.
      */
     @Optional
     @Input
     val id = project.objects.property<String>()
 
     /**
-     * Artifact version in generated pom.xml/build.gradle or other build script. Language-specific conversions occur in non-jvm generators.
+     * Artifact version in generated pom.xml/build.gradle.kts or other build script. Language-specific conversions occur in non-jvm generators.
      */
     @Optional
     @Input
@@ -365,7 +364,7 @@ open class GenerateTask : DefaultTask() {
     /**
      * Defines which supporting files should be generated. This allows you to create a subset of generated files (or none at all).
      *
-     * Supporting files are those related to projects/frameworks which may be modified
+     * Supporting files are those related to `projects/frameworks` which may be modified
      * by consumers.
      *
      * NOTE: Configuring any one of [apiFilesConstrainedTo], [modelFilesConstrainedTo], or [supportingFilesConstrainedTo] results
@@ -377,7 +376,7 @@ open class GenerateTask : DefaultTask() {
     val supportingFilesConstrainedTo = project.objects.listProperty<String>()
 
     /**
-     * Defines whether or not model-related _test_ files should be generated.
+     * Defines whether model-related _test_ files should be generated.
      *
      * This option enables/disables generation of ALL model-related _test_ files.
      *
@@ -389,7 +388,7 @@ open class GenerateTask : DefaultTask() {
     val generateModelTests = project.objects.property<Boolean>()
 
     /**
-     * Defines whether or not model-related _documentation_ files should be generated.
+     * Defines whether model-related _documentation_ files should be generated.
      *
      * This option enables/disables generation of ALL model-related _documentation_ files.
      *
@@ -401,7 +400,7 @@ open class GenerateTask : DefaultTask() {
     val generateModelDocumentation = project.objects.property<Boolean>()
 
     /**
-     * Defines whether or not api-related _test_ files should be generated.
+     * Defines whether api-related _test_ files should be generated.
      *
      * This option enables/disables generation of ALL api-related _test_ files.
      *
@@ -413,7 +412,7 @@ open class GenerateTask : DefaultTask() {
     val generateApiTests = project.objects.property<Boolean>()
 
     /**
-     * Defines whether or not api-related _documentation_ files should be generated.
+     * Defines whether api-related _documentation_ files should be generated.
      *
      * This option enables/disables generation of ALL api-related _documentation_ files.
      *
@@ -511,7 +510,10 @@ open class GenerateTask : DefaultTask() {
             }
 
             if (supportingFilesConstrainedTo.isPresent && supportingFilesConstrainedTo.get().isNotEmpty()) {
-                GlobalSettings.setProperty(CodegenConstants.SUPPORTING_FILES, supportingFilesConstrainedTo.get().joinToString(","))
+                GlobalSettings.setProperty(
+                    CodegenConstants.SUPPORTING_FILES,
+                    supportingFilesConstrainedTo.get().joinToString(",")
+                )
             } else {
                 GlobalSettings.clearProperty(CodegenConstants.SUPPORTING_FILES)
             }
@@ -748,11 +750,11 @@ open class GenerateTask : DefaultTask() {
             }
 
             val clientOptInput = configurator.toClientOptInput()
-            val codgenConfig = clientOptInput.config
+            val codegenConfig = clientOptInput.config
 
             if (configOptions.isPresent) {
                 val userSpecifiedConfigOptions = configOptions.get()
-                codgenConfig.cliOptions().forEach {
+                codegenConfig.cliOptions().forEach {
                     if (userSpecifiedConfigOptions.containsKey(it.opt)) {
                         clientOptInput.config.additionalProperties()[it.opt] = userSpecifiedConfigOptions[it.opt]
                     }
