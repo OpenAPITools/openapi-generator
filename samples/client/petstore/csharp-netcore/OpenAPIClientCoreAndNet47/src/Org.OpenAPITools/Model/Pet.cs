@@ -67,11 +67,15 @@ namespace Org.OpenAPITools.Model
         [DataMember(Name = "status", EmitDefaultValue = false)]
         [Obsolete]
         public StatusEnum? Status { get; set; }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Pet" /> class.
         /// </summary>
         [JsonConstructorAttribute]
-        protected Pet() { }
+        public Pet()
+        {
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Pet" /> class.
         /// </summary>

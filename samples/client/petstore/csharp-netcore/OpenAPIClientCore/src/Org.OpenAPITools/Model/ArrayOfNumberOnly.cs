@@ -32,6 +32,15 @@ namespace Org.OpenAPITools.Model
     [DataContract(Name = "ArrayOfNumberOnly")]
     public partial class ArrayOfNumberOnly : IEquatable<ArrayOfNumberOnly>, IValidatableObject
     {
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ArrayOfNumberOnly" /> class.
+        /// </summary>
+        [JsonConstructorAttribute]
+        public ArrayOfNumberOnly()
+        {
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ArrayOfNumberOnly" /> class.
         /// </summary>

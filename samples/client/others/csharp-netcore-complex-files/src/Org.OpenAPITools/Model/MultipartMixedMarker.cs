@@ -32,6 +32,15 @@ namespace Org.OpenAPITools.Model
     [DataContract(Name = "_multipart_mixed_marker")]
     public partial class MultipartMixedMarker : IEquatable<MultipartMixedMarker>, IValidatableObject
     {
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MultipartMixedMarker" /> class.
+        /// </summary>
+        [JsonConstructorAttribute]
+        public MultipartMixedMarker()
+        {
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="MultipartMixedMarker" /> class.
         /// </summary>

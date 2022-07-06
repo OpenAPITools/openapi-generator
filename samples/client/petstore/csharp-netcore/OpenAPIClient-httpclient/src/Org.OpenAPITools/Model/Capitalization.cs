@@ -33,6 +33,16 @@ namespace Org.OpenAPITools.Model
     [DataContract(Name = "Capitalization")]
     public partial class Capitalization : IEquatable<Capitalization>, IValidatableObject
     {
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Capitalization" /> class.
+        /// </summary>
+        [JsonConstructorAttribute]
+        public Capitalization()
+        {
+            this.AdditionalProperties = new Dictionary<string, object>();
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Capitalization" /> class.
         /// </summary>

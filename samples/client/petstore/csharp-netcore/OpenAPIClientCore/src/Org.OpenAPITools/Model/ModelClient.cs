@@ -32,6 +32,15 @@ namespace Org.OpenAPITools.Model
     [DataContract(Name = "_Client")]
     public partial class ModelClient : IEquatable<ModelClient>, IValidatableObject
     {
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ModelClient" /> class.
+        /// </summary>
+        [JsonConstructorAttribute]
+        public ModelClient()
+        {
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ModelClient" /> class.
         /// </summary>

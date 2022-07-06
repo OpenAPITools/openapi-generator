@@ -66,6 +66,16 @@ namespace Org.OpenAPITools.Model
         /// <value>Order Status</value>
         [DataMember(Name = "status", EmitDefaultValue = false)]
         public StatusEnum? Status { get; set; }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Order" /> class.
+        /// </summary>
+        [JsonConstructorAttribute]
+        public Order()
+        {
+            this.AdditionalProperties = new Dictionary<string, object>();
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Order" /> class.
         /// </summary>

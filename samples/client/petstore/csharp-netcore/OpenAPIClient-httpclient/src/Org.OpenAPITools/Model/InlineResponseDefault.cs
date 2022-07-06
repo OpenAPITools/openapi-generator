@@ -33,6 +33,16 @@ namespace Org.OpenAPITools.Model
     [DataContract(Name = "inline_response_default")]
     public partial class InlineResponseDefault : IEquatable<InlineResponseDefault>, IValidatableObject
     {
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="InlineResponseDefault" /> class.
+        /// </summary>
+        [JsonConstructorAttribute]
+        public InlineResponseDefault()
+        {
+            this.AdditionalProperties = new Dictionary<string, object>();
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="InlineResponseDefault" /> class.
         /// </summary>

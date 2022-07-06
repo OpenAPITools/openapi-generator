@@ -32,11 +32,15 @@ namespace Org.OpenAPITools.Model
     [DataContract(Name = "bananaReq")]
     public partial class BananaReq : IEquatable<BananaReq>, IValidatableObject
     {
+
         /// <summary>
         /// Initializes a new instance of the <see cref="BananaReq" /> class.
         /// </summary>
         [JsonConstructorAttribute]
-        protected BananaReq() { }
+        public BananaReq()
+        {
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="BananaReq" /> class.
         /// </summary>

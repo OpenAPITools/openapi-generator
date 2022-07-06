@@ -32,6 +32,15 @@ namespace Org.OpenAPITools.Model
     [DataContract(Name = "User")]
     public partial class User : IEquatable<User>, IValidatableObject
     {
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="User" /> class.
+        /// </summary>
+        [JsonConstructorAttribute]
+        public User()
+        {
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="User" /> class.
         /// </summary>

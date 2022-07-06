@@ -32,6 +32,15 @@ namespace Org.OpenAPITools.Model
     [DataContract(Name = "ReadOnlyFirst")]
     public partial class ReadOnlyFirst : IEquatable<ReadOnlyFirst>, IValidatableObject
     {
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReadOnlyFirst" /> class.
+        /// </summary>
+        [JsonConstructorAttribute]
+        public ReadOnlyFirst()
+        {
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ReadOnlyFirst" /> class.
         /// </summary>

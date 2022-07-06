@@ -36,11 +36,15 @@ namespace Org.OpenAPITools.Model
     [JsonSubtypes.KnownSubType(typeof(Dog), "Dog")]
     public partial class Animal : IEquatable<Animal>, IValidatableObject
     {
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Animal" /> class.
         /// </summary>
         [JsonConstructorAttribute]
-        protected Animal() { }
+        public Animal()
+        {
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Animal" /> class.
         /// </summary>

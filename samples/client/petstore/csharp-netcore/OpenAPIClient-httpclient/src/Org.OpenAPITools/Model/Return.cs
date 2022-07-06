@@ -33,6 +33,16 @@ namespace Org.OpenAPITools.Model
     [DataContract(Name = "Return")]
     public partial class Return : IEquatable<Return>, IValidatableObject
     {
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Return" /> class.
+        /// </summary>
+        [JsonConstructorAttribute]
+        public Return()
+        {
+            this.AdditionalProperties = new Dictionary<string, object>();
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Return" /> class.
         /// </summary>

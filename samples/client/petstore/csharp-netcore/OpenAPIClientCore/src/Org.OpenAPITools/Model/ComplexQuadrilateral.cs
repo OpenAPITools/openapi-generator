@@ -32,11 +32,15 @@ namespace Org.OpenAPITools.Model
     [DataContract(Name = "ComplexQuadrilateral")]
     public partial class ComplexQuadrilateral : IEquatable<ComplexQuadrilateral>, IValidatableObject
     {
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ComplexQuadrilateral" /> class.
         /// </summary>
         [JsonConstructorAttribute]
-        protected ComplexQuadrilateral() { }
+        public ComplexQuadrilateral()
+        {
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ComplexQuadrilateral" /> class.
         /// </summary>

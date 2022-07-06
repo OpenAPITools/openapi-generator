@@ -372,14 +372,16 @@ namespace Org.OpenAPITools.Model
         {
             return _flagOuterEnumIntegerDefaultValue;
         }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="EnumTest" /> class.
         /// </summary>
         [JsonConstructorAttribute]
-        protected EnumTest()
+        public EnumTest()
         {
             this.AdditionalProperties = new Dictionary<string, object>();
         }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="EnumTest" /> class.
         /// </summary>

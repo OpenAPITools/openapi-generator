@@ -32,6 +32,16 @@ namespace Org.OpenAPITools.Model
     [DataContract(Name = "200_response")]
     public partial class Model200Response : IEquatable<Model200Response>, IValidatableObject
     {
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Model200Response" /> class.
+        /// </summary>
+        [JsonConstructorAttribute]
+        public Model200Response()
+        {
+            this.AdditionalProperties = new Dictionary<string, object>();
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Model200Response" /> class.
         /// </summary>

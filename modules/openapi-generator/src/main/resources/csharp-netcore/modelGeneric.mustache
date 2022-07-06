@@ -103,23 +103,20 @@
         {{/conditionalSerialization}}
         {{/isEnum}}
         {{/vars}}
-    {{#hasRequired}}
+
     {{^hasOnlyReadOnly}}
         /// <summary>
         /// Initializes a new instance of the <see cref="{{classname}}" /> class.
         /// </summary>
         [JsonConstructorAttribute]
-        {{^isAdditionalPropertiesTrue}}
-        protected {{classname}}() { }
-        {{/isAdditionalPropertiesTrue}}
-        {{#isAdditionalPropertiesTrue}}
-        protected {{classname}}()
+        public {{classname}}()
         {
+            {{#isAdditionalPropertiesTrue}}
             this.AdditionalProperties = new Dictionary<string, object>();
+            {{/isAdditionalPropertiesTrue}}
         }
-        {{/isAdditionalPropertiesTrue}}
     {{/hasOnlyReadOnly}}
-    {{/hasRequired}}
+
         /// <summary>
         /// Initializes a new instance of the <see cref="{{classname}}" /> class.
         /// </summary>

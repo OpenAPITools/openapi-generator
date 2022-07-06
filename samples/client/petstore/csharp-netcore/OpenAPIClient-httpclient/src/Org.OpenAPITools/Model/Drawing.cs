@@ -33,6 +33,15 @@ namespace Org.OpenAPITools.Model
     [DataContract(Name = "Drawing")]
     public partial class Drawing : Dictionary<String, Fruit>, IEquatable<Drawing>, IValidatableObject
     {
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Drawing" /> class.
+        /// </summary>
+        [JsonConstructorAttribute]
+        public Drawing()
+        {
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Drawing" /> class.
         /// </summary>

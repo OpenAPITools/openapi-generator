@@ -32,6 +32,16 @@ namespace Org.OpenAPITools.Model
     [DataContract(Name = "Tag")]
     public partial class Tag : IEquatable<Tag>, IValidatableObject
     {
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Tag" /> class.
+        /// </summary>
+        [JsonConstructorAttribute]
+        public Tag()
+        {
+            this.AdditionalProperties = new Dictionary<string, object>();
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Tag" /> class.
         /// </summary>

@@ -32,6 +32,15 @@ namespace Org.OpenAPITools.Model
     [DataContract(Name = "inline_object")]
     public partial class InlineObject : IEquatable<InlineObject>, IValidatableObject
     {
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="InlineObject" /> class.
+        /// </summary>
+        [JsonConstructorAttribute]
+        public InlineObject()
+        {
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="InlineObject" /> class.
         /// </summary>

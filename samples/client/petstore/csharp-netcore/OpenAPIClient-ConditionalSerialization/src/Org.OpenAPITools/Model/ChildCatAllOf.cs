@@ -72,6 +72,16 @@ namespace Org.OpenAPITools.Model
         {
             return _flagPetType;
         }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ChildCatAllOf" /> class.
+        /// </summary>
+        [JsonConstructorAttribute]
+        public ChildCatAllOf()
+        {
+            this.AdditionalProperties = new Dictionary<string, object>();
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ChildCatAllOf" /> class.
         /// </summary>

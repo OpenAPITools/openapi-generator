@@ -33,6 +33,16 @@ namespace Org.OpenAPITools.Model
     [DataContract(Name = "Cat_allOf")]
     public partial class CatAllOf : IEquatable<CatAllOf>, IValidatableObject
     {
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CatAllOf" /> class.
+        /// </summary>
+        [JsonConstructorAttribute]
+        public CatAllOf()
+        {
+            this.AdditionalProperties = new Dictionary<string, object>();
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="CatAllOf" /> class.
         /// </summary>

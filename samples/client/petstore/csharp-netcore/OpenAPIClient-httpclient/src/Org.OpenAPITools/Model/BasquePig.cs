@@ -33,14 +33,16 @@ namespace Org.OpenAPITools.Model
     [DataContract(Name = "BasquePig")]
     public partial class BasquePig : IEquatable<BasquePig>, IValidatableObject
     {
+
         /// <summary>
         /// Initializes a new instance of the <see cref="BasquePig" /> class.
         /// </summary>
         [JsonConstructorAttribute]
-        protected BasquePig()
+        public BasquePig()
         {
             this.AdditionalProperties = new Dictionary<string, object>();
         }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="BasquePig" /> class.
         /// </summary>

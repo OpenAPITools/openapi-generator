@@ -32,6 +32,16 @@ namespace Org.OpenAPITools.Model
     [DataContract(Name = "OuterComposite")]
     public partial class OuterComposite : IEquatable<OuterComposite>, IValidatableObject
     {
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="OuterComposite" /> class.
+        /// </summary>
+        [JsonConstructorAttribute]
+        public OuterComposite()
+        {
+            this.AdditionalProperties = new Dictionary<string, object>();
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="OuterComposite" /> class.
         /// </summary>

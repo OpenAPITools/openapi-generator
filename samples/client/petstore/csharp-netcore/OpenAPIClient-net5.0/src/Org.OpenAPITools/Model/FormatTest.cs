@@ -32,14 +32,16 @@ namespace Org.OpenAPITools.Model
     [DataContract(Name = "format_test")]
     public partial class FormatTest : IEquatable<FormatTest>, IValidatableObject
     {
+
         /// <summary>
         /// Initializes a new instance of the <see cref="FormatTest" /> class.
         /// </summary>
         [JsonConstructorAttribute]
-        protected FormatTest()
+        public FormatTest()
         {
             this.AdditionalProperties = new Dictionary<string, object>();
         }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="FormatTest" /> class.
         /// </summary>

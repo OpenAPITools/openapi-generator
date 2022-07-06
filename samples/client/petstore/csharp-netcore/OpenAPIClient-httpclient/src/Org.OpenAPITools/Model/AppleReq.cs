@@ -33,11 +33,15 @@ namespace Org.OpenAPITools.Model
     [DataContract(Name = "appleReq")]
     public partial class AppleReq : IEquatable<AppleReq>, IValidatableObject
     {
+
         /// <summary>
         /// Initializes a new instance of the <see cref="AppleReq" /> class.
         /// </summary>
         [JsonConstructorAttribute]
-        protected AppleReq() { }
+        public AppleReq()
+        {
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="AppleReq" /> class.
         /// </summary>

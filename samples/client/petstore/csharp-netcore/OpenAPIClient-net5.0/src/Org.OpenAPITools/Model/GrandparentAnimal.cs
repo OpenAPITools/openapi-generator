@@ -36,14 +36,16 @@ namespace Org.OpenAPITools.Model
     [JsonSubtypes.KnownSubType(typeof(ParentPet), "ParentPet")]
     public partial class GrandparentAnimal : IEquatable<GrandparentAnimal>, IValidatableObject
     {
+
         /// <summary>
         /// Initializes a new instance of the <see cref="GrandparentAnimal" /> class.
         /// </summary>
         [JsonConstructorAttribute]
-        protected GrandparentAnimal()
+        public GrandparentAnimal()
         {
             this.AdditionalProperties = new Dictionary<string, object>();
         }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="GrandparentAnimal" /> class.
         /// </summary>

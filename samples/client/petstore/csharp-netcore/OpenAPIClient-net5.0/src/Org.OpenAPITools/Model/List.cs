@@ -32,6 +32,16 @@ namespace Org.OpenAPITools.Model
     [DataContract(Name = "List")]
     public partial class List : IEquatable<List>, IValidatableObject
     {
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="List" /> class.
+        /// </summary>
+        [JsonConstructorAttribute]
+        public List()
+        {
+            this.AdditionalProperties = new Dictionary<string, object>();
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="List" /> class.
         /// </summary>
