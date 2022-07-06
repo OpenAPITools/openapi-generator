@@ -27,7 +27,7 @@ class GeneratorsTaskDslTest : TestBase() {
                 .build()
 
         // Assert
-        assertTrue(result.output.contains("The following generators are available:"), "User friendly generator notice is missing.")
+        assertTrue(result.output.contains("The following generators are available:"), "User-friendly generator notice is missing.")
         assertTrue(result.output.contains("CLIENT generators:"), "Expected client generator header is missing.")
         assertTrue(result.output.contains("android"), "Spot-checking listed client generators is missing a client generator.")
         assertTrue(result.output.contains("SERVER generators:"), "Expected server generator header is missing.")

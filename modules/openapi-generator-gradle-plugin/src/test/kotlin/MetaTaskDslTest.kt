@@ -34,7 +34,7 @@ class MetaTaskDslTest : TestBase() {
                 .build()
 
         // Assert
-        assertTrue(result.output.contains("Wrote file to"), "User friendly write notice is missing.")
+        assertTrue(result.output.contains("Wrote file to"), "User-friendly write notice is missing.")
 
         // To avoid any OS-specific output causing issues with our stdout comparisons, only compare on expected filenames.
         listOf(
