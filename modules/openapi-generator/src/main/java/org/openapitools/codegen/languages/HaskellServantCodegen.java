@@ -576,7 +576,16 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         if (returnType.indexOf(" ") >= 0) {
             returnType = "(" + returnType + ")";
         }
-        path.add("Verb '" + op.httpMethod.toUpperCase(Locale.ROOT) + " 200 '[JSON] " + returnType);
+
+        String code = "200";
+        for (CodegenResponse r : op.responses) {
+            if (r.code.matches("2[0-9][0-9]")) {
+                code = r.code;
+                break;
+            }
+        }
+
+        path.add("Verb '" + op.httpMethod.toUpperCase(Locale.ROOT) + " " + code + " '[JSON] " + returnType);
         type.add("m " + returnType);
 
         op.vendorExtensions.put("x-route-type", joinStrings(" :> ", path));
