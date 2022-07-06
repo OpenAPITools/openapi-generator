@@ -1567,7 +1567,7 @@ def cast_to_allowed_types(
         schema_classes = set()
         # store the already run validations
         for cls in arg.__class__.__bases__:
-            if cls in inheritable_primitive_types_set or cls is Singleton:
+            if cls is Singleton:
                 continue
             schema_classes.add(cls)
         validated_path_to_schemas[path_to_item] = schema_classes
@@ -1729,9 +1729,6 @@ class ComposedBase(Discriminable):
         # validation checking on types, validations, and enums
         path_to_schemas = super()._validate(arg, validation_metadata=validation_metadata)
 
-        validated_schemas = validation_metadata.validated_path_to_schemas.get(validation_metadata.path_to_item, set())
-        if validated_schemas and cls in validated_schemas:
-            return {validation_metadata.path_to_item: validated_schemas}
         updated_vm = ValidationMetadata(
             configuration=validation_metadata.configuration,
             from_server=validation_metadata.from_server,
@@ -1798,7 +1795,7 @@ class ComposedBase(Discriminable):
             if other_path_to_schemas:
                 raise not_exception
 
-        if discriminated_cls is not None:
+        if discriminated_cls is not None and not updated_vm.validation_ran_earlier(discriminated_cls):
             # TODO use an exception from this package here
             assert discriminated_cls in path_to_schemas[updated_vm.path_to_item]
         return path_to_schemas

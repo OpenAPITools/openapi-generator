@@ -85,7 +85,7 @@ class ValidationMetadata(frozendict):
         path_to_item: typing.Tuple[typing.Union[str, int], ...] = tuple(['args[0]']),
         from_server: bool = False,
         configuration: typing.Optional[Configuration] = None,
-        base_classes: typing.FrozenSet[typing.Type] = frozenset(),
+        seen_classes: typing.FrozenSet[typing.Type] = frozenset(),
         validated_path_to_schemas: typing.Dict[typing.Tuple[typing.Union[str, int], ...], typing.Set['Schema']] = frozendict()
     ):
         """
@@ -101,7 +101,7 @@ class ValidationMetadata(frozendict):
                 This is needed because in Configuration:
                 - one can disable validation checking
                 This does not change from location to location
-            base_classes: when deserializing data that matches multiple schemas, this is used to store
+            seen_classes: when deserializing data that matches multiple schemas, this is used to store
                 the schemas that have been traversed. This is used to stop processing when a cycle is seen.
                 This changes from location to location
             validated_path_to_schemas: stores the already validated schema classes for a given path location
@@ -112,9 +112,18 @@ class ValidationMetadata(frozendict):
             path_to_item=path_to_item,
             from_server=from_server,
             configuration=configuration,
-            base_classes=base_classes,
+            seen_classes=seen_classes,
             validated_path_to_schemas=validated_path_to_schemas
         )
+
+    def validation_ran_earlier(self, cls: type) -> bool:
+        validated_schemas = self.validated_path_to_schemas.get(self.path_to_item, set())
+        validation_ran_earlier = validated_schemas and cls in validated_schemas
+        if validation_ran_earlier:
+            return True
+        if cls in self.seen_classes:
+            return True
+        return False
 
     @property
     def path_to_item(self) -> typing.Tuple[typing.Union[str, int], ...]:
@@ -129,8 +138,8 @@ class ValidationMetadata(frozendict):
         return self.get('configuration')
 
     @property
-    def base_classes(self) -> typing.FrozenSet[typing.Type]:
-        return self.get('base_classes')
+    def seen_classes(self) -> typing.FrozenSet[typing.Type]:
+        return self.get('seen_classes')
 
     @property
     def validated_path_to_schemas(self) -> typing.Dict[typing.Tuple[typing.Union[str, int], ...], typing.Set['Schema']]:
@@ -804,14 +813,14 @@ class ListBase:
         item_cls = getattr(cls, '_items', AnyTypeSchema)
         path_to_schemas = {}
         for i, value in enumerate(list_items):
-            if isinstance(value, item_cls):
-                continue
             item_validation_metadata = ValidationMetadata(
                 from_server=validation_metadata.from_server,
                 configuration=validation_metadata.configuration,
                 path_to_item=validation_metadata.path_to_item+(i,),
                 validated_path_to_schemas=validation_metadata.validated_path_to_schemas
             )
+            if item_validation_metadata.validation_ran_earlier(item_cls):
+                continue
             other_path_to_schemas = item_cls._validate(
                 value, validation_metadata=item_validation_metadata)
             update(path_to_schemas, other_path_to_schemas)
@@ -841,14 +850,11 @@ class ListBase:
         _path_to_schemas = super()._validate(arg, validation_metadata=validation_metadata)
         if not isinstance(arg, tuple):
             return _path_to_schemas
-        if cls in validation_metadata.base_classes:
-            # we have already moved through this class so stop here
-            return _path_to_schemas
         updated_vm = ValidationMetadata(
             configuration=validation_metadata.configuration,
             from_server=validation_metadata.from_server,
             path_to_item=validation_metadata.path_to_item,
-            base_classes=validation_metadata.base_classes | frozenset({cls}),
+            seen_classes=validation_metadata.seen_classes | frozenset({cls}),
             validated_path_to_schemas=validation_metadata.validated_path_to_schemas
         )
         other_path_to_schemas = cls._validate_items(arg, validation_metadata=updated_vm)
@@ -1015,14 +1021,14 @@ class DictBase(Discriminable):
                 raise ApiTypeError('Unable to find schema for value={} in class={} at path_to_item={}'.format(
                     value, cls, validation_metadata.path_to_item+(property_name,)
                 ))
-            if isinstance(value, schema):
-                continue
             arg_validation_metadata = ValidationMetadata(
                 from_server=validation_metadata.from_server,
                 configuration=validation_metadata.configuration,
                 path_to_item=validation_metadata.path_to_item+(property_name,),
                 validated_path_to_schemas=validation_metadata.validated_path_to_schemas
             )
+            if arg_validation_metadata.validation_ran_earlier(schema):
+                continue
             other_path_to_schemas = schema._validate(value, validation_metadata=arg_validation_metadata)
             update(path_to_schemas, other_path_to_schemas)
         return path_to_schemas
@@ -1075,16 +1081,15 @@ class DictBase(Discriminable):
                     validation_metadata.path_to_item + (disc_prop_name,)
                 )
             )
-        if discriminated_cls in validation_metadata.base_classes:
-            # we have already moved through this class so stop here
-            return _path_to_schemas
         updated_vm = ValidationMetadata(
             configuration=validation_metadata.configuration,
             from_server=validation_metadata.from_server,
             path_to_item=validation_metadata.path_to_item,
-            base_classes=validation_metadata.base_classes | frozenset({cls}),
+            seen_classes=validation_metadata.seen_classes | frozenset({cls}),
             validated_path_to_schemas=validation_metadata.validated_path_to_schemas
         )
+        if updated_vm.validation_ran_earlier(discriminated_cls):
+            return _path_to_schemas
         other_path_to_schemas = discriminated_cls._validate(arg, validation_metadata=updated_vm)
         update(_path_to_schemas, other_path_to_schemas)
         return _path_to_schemas
@@ -1303,8 +1308,6 @@ class Schema:
             ApiValueError: when a string can't be converted into a date or datetime and it must be one of those classes
             ApiTypeError: when the input type is not in the list of allowed spec types
         """
-        validated_schemas = validation_metadata.validated_path_to_schemas.get(validation_metadata.path_to_item, set())
-        validation_ran_earlier = validated_schemas and cls in validated_schemas
         base_class = cls.__get_simple_class(arg)
         path_to_schemas = {validation_metadata.path_to_item: set()}
 
@@ -1313,11 +1316,6 @@ class Schema:
             used_base_class = NoneClass
         elif base_class is bool:
             used_base_class = BoolClass
-
-        if validation_ran_earlier:
-            path_to_schemas[validation_metadata.path_to_item].update(validated_schemas)
-            path_to_schemas[validation_metadata.path_to_item].add(used_base_class)
-            return path_to_schemas
 
         failed_type_check_classes = cls._validate_type(base_class)
         if failed_type_check_classes:
@@ -1387,7 +1385,12 @@ class Schema:
             and in list/dict _get_items,_get_properties the value will be directly assigned
             because value is of the correct type, and validation was run earlier when the instance was created
         """
-        _path_to_schemas = cls._validate(arg, validation_metadata=validation_metadata)
+        _path_to_schemas = {}
+        if validation_metadata.validated_path_to_schemas:
+            update(_path_to_schemas, validation_metadata.validated_path_to_schemas)
+        if not validation_metadata.validation_ran_earlier(cls):
+            other_path_to_schemas = cls._validate(arg, validation_metadata=validation_metadata)
+            update(_path_to_schemas, other_path_to_schemas)
         # loop through it make a new class for each entry
         # do not modify the returned result because it is cached and we would be modifying the cached value
         path_to_schemas = {}
@@ -1571,7 +1574,7 @@ def cast_to_allowed_types(
         schema_classes = set()
         # store the already run validations
         for cls in arg.__class__.__bases__:
-            if cls in inheritable_primitive_types_set or cls is Singleton:
+            if cls is Singleton:
                 continue
             schema_classes.add(cls)
         validated_path_to_schemas[path_to_item] = schema_classes
@@ -1626,7 +1629,7 @@ class ComposedBase(Discriminable):
     def __get_allof_classes(cls, arg, validation_metadata: ValidationMetadata):
         path_to_schemas = defaultdict(set)
         for allof_cls in cls._composed_schemas['allOf']:
-            if allof_cls in validation_metadata.base_classes:
+            if validation_metadata.validation_ran_earlier(allof_cls):
                 continue
             other_path_to_schemas = allof_cls._validate(arg, validation_metadata=validation_metadata)
             update(path_to_schemas, other_path_to_schemas)
@@ -1641,27 +1644,20 @@ class ComposedBase(Discriminable):
         path_to_schemas: typing.Dict[typing.Tuple, typing.Set[typing.Type[Schema]]]
     ):
         oneof_classes = []
-        chosen_oneof_cls = None
-        original_base_classes = validation_metadata.base_classes
-        new_base_classes = validation_metadata.base_classes
         path_to_schemas = defaultdict(set)
         for oneof_cls in cls._composed_schemas['oneOf']:
             if oneof_cls in path_to_schemas[validation_metadata.path_to_item]:
                 oneof_classes.append(oneof_cls)
                 continue
-            if isinstance(arg, oneof_cls):
-                # passed in instance is the correct type
-                chosen_oneof_cls = oneof_cls
+            if validation_metadata.validation_ran_earlier(oneof_cls):
                 oneof_classes.append(oneof_cls)
                 continue
             try:
                 path_to_schemas = oneof_cls._validate(arg, validation_metadata=validation_metadata)
-                new_base_classes = validation_metadata.base_classes
             except (ApiValueError, ApiTypeError) as ex:
                 if discriminated_cls is not None and oneof_cls is discriminated_cls:
                     raise ex
                 continue
-            chosen_oneof_cls = oneof_cls
             oneof_classes.append(oneof_cls)
         if not oneof_classes:
             raise ApiValueError(
@@ -1683,15 +1679,9 @@ class ComposedBase(Discriminable):
         validation_metadata: ValidationMetadata
     ):
         anyof_classes = []
-        chosen_anyof_cls = None
-        original_base_classes = validation_metadata.base_classes
         path_to_schemas = defaultdict(set)
         for anyof_cls in cls._composed_schemas['anyOf']:
-            if anyof_cls in validation_metadata.base_classes:
-                continue
-            if isinstance(arg, anyof_cls):
-                # passed in instance is the correct type
-                chosen_anyof_cls = anyof_cls
+            if validation_metadata.validation_ran_earlier(anyof_cls):
                 anyof_classes.append(anyof_cls)
                 continue
 
@@ -1701,8 +1691,6 @@ class ComposedBase(Discriminable):
                 if discriminated_cls is not None and anyof_cls is discriminated_cls:
                     raise ex
                 continue
-            original_base_classes = validation_metadata.base_classes
-            chosen_anyof_cls = anyof_cls
             anyof_classes.append(anyof_cls)
             update(path_to_schemas, other_path_to_schemas)
         if not anyof_classes:
@@ -1748,14 +1736,11 @@ class ComposedBase(Discriminable):
         # validation checking on types, validations, and enums
         path_to_schemas = super()._validate(arg, validation_metadata=validation_metadata)
 
-        validated_schemas = validation_metadata.validated_path_to_schemas.get(validation_metadata.path_to_item, set())
-        if validated_schemas and cls in validated_schemas:
-            return {validation_metadata.path_to_item: validated_schemas}
         updated_vm = ValidationMetadata(
             configuration=validation_metadata.configuration,
             from_server=validation_metadata.from_server,
             path_to_item=validation_metadata.path_to_item,
-            base_classes=validation_metadata.base_classes | frozenset({cls}),
+            seen_classes=validation_metadata.seen_classes | frozenset({cls}),
             validated_path_to_schemas=validation_metadata.validated_path_to_schemas
         )
 
@@ -1800,20 +1785,24 @@ class ComposedBase(Discriminable):
         not_cls = cls._composed_schemas['not']
         if not_cls:
             other_path_to_schemas = None
+            not_exception = ApiValueError(
+                "Invalid value '{}' was passed in to {}. Value is invalid because it is disallowed by {}".format(
+                    arg,
+                    cls.__name__,
+                    not_cls.__name__,
+                )
+            )
+            if updated_vm.validation_ran_earlier(not_cls):
+                raise not_exception
+
             try:
                 other_path_to_schemas = not_cls._validate(arg, validation_metadata=updated_vm)
             except (ApiValueError, ApiTypeError):
                 pass
             if other_path_to_schemas:
-                raise ApiValueError(
-                    "Invalid value '{}' was passed in to {}. Value is invalid because it is disallowed by {}".format(
-                        arg,
-                        cls.__name__,
-                        not_cls.__name__,
-                    )
-                )
+                raise not_exception
 
-        if discriminated_cls is not None:
+        if discriminated_cls is not None and not updated_vm.validation_ran_earlier(discriminated_cls):
             # TODO use an exception from this package here
             assert discriminated_cls in path_to_schemas[updated_vm.path_to_item]
         return path_to_schemas
