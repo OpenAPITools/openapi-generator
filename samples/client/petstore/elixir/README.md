@@ -13,16 +13,17 @@ mix do deps.get, compile
 
 ## Installation
 
-If [available in Hex][], the package can be installed by adding `openapi_petstore` to your list of dependencies in `mix.exs`:
+If [available in Hex][], the package can be installed by adding `openapi_petstore` to
+your list of dependencies in `mix.exs`:
 
 ```elixir
 def deps do
-  [:openapi_petstore, "~> 1.0.0"}]
+  [{:openapi_petstore, "~> 1.0.0"}]
 end
 ```
 
-Documentation can be generated with [ExDoc][] and published on [HexDocs][]. Once published, the docs can
-be found at [https://hexdocs.pm/openapi_petstore][docs].
+Documentation can be generated with [ExDoc][] and published on [HexDocs][]. Once published, the docs can be found at
+[https://hexdocs.pm/openapi_petstore][docs].
 
 ## Configuration
 

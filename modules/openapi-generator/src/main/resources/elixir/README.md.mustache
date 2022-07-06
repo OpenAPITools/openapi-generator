@@ -13,16 +13,17 @@ mix do deps.get, compile
 
 ## Installation
 
-If [available in Hex][], the package can be installed by adding `{{#underscored}}{{packageName}}{{/underscored}}` to your list of dependencies in `mix.exs`:
+If [available in Hex][], the package can be installed by adding `{{#underscored}}{{packageName}}{{/underscored}}` to
+your list of dependencies in `mix.exs`:
 
 ```elixir
-def deps do
-  [{{#atom}}{{#underscored}}{{packageName}}{{/underscored}}{{/atom}}, "~> {{appVersion}}"}]
-end
+{{=<% %>=}}def deps do
+  [{<%#atom%><%#underscored%><%packageName%><%/underscored%><%/atom%>, "~> <%appVersion%>"}]
+end<%={{ }}=%>
 ```
 
-Documentation can be generated with [ExDoc][] and published on [HexDocs][]. Once published, the docs can
-be found at [https://hexdocs.pm/{{#underscored}}{{packageName}}{{/underscored}}][docs].
+Documentation can be generated with [ExDoc][] and published on [HexDocs][]. Once published, the docs can be found at
+[https://hexdocs.pm/{{#underscored}}{{packageName}}{{/underscored}}][docs].
 
 ## Configuration
 

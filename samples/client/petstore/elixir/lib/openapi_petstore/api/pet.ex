@@ -26,11 +26,12 @@ defmodule OpenapiPetstore.Api.Pet do
   """
   @spec add_pet(Tesla.Env.client, OpenapiPetstore.Model.Pet.t, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
   def add_pet(connection, pet, _opts \\ []) do
-    request = %{}
-    |> method(:post)
-    |> url("/pet")
-    |> add_param(:body, :body, pet)
-    |> Enum.into([])
+    request =
+      %{}
+      |> method(:post)
+      |> url("/pet")
+      |> add_param(:body, :body, pet)
+      |> Enum.into([])
 
     connection
     |> Connection.request(request)
@@ -61,11 +62,12 @@ defmodule OpenapiPetstore.Api.Pet do
       :api_key => :headers
     }
 
-    request = %{}
-    |> method(:delete)
-    |> url("/pet/#{pet_id}")
-    |> add_optional_params(optional_params, opts)
-    |> Enum.into([])
+    request =
+      %{}
+      |> method(:delete)
+      |> url("/pet/#{pet_id}")
+      |> add_optional_params(optional_params, opts)
+      |> Enum.into([])
 
     connection
     |> Connection.request(request)
@@ -91,11 +93,12 @@ defmodule OpenapiPetstore.Api.Pet do
   """
   @spec find_pets_by_status(Tesla.Env.client, list(String.t), keyword()) :: {:ok, nil} | {:ok, list(OpenapiPetstore.Model.Pet.t)} | {:error, Tesla.Env.t}
   def find_pets_by_status(connection, status, _opts \\ []) do
-    request = %{}
-    |> method(:get)
-    |> url("/pet/findByStatus")
-    |> add_param(:query, :status, status)
-    |> Enum.into([])
+    request =
+      %{}
+      |> method(:get)
+      |> url("/pet/findByStatus")
+      |> add_param(:query, :status, status)
+      |> Enum.into([])
 
     connection
     |> Connection.request(request)
@@ -121,11 +124,12 @@ defmodule OpenapiPetstore.Api.Pet do
   """
   @spec find_pets_by_tags(Tesla.Env.client, list(String.t), keyword()) :: {:ok, nil} | {:ok, list(OpenapiPetstore.Model.Pet.t)} | {:error, Tesla.Env.t}
   def find_pets_by_tags(connection, tags, _opts \\ []) do
-    request = %{}
-    |> method(:get)
-    |> url("/pet/findByTags")
-    |> add_param(:query, :tags, tags)
-    |> Enum.into([])
+    request =
+      %{}
+      |> method(:get)
+      |> url("/pet/findByTags")
+      |> add_param(:query, :tags, tags)
+      |> Enum.into([])
 
     connection
     |> Connection.request(request)
@@ -151,10 +155,11 @@ defmodule OpenapiPetstore.Api.Pet do
   """
   @spec get_pet_by_id(Tesla.Env.client, integer(), keyword()) :: {:ok, nil} | {:ok, OpenapiPetstore.Model.Pet.t} | {:error, Tesla.Env.t}
   def get_pet_by_id(connection, pet_id, _opts \\ []) do
-    request = %{}
-    |> method(:get)
-    |> url("/pet/#{pet_id}")
-    |> Enum.into([])
+    request =
+      %{}
+      |> method(:get)
+      |> url("/pet/#{pet_id}")
+      |> Enum.into([])
 
     connection
     |> Connection.request(request)
@@ -181,11 +186,12 @@ defmodule OpenapiPetstore.Api.Pet do
   """
   @spec update_pet(Tesla.Env.client, OpenapiPetstore.Model.Pet.t, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
   def update_pet(connection, pet, _opts \\ []) do
-    request = %{}
-    |> method(:put)
-    |> url("/pet")
-    |> add_param(:body, :body, pet)
-    |> Enum.into([])
+    request =
+      %{}
+      |> method(:put)
+      |> url("/pet")
+      |> add_param(:body, :body, pet)
+      |> Enum.into([])
 
     connection
     |> Connection.request(request)
@@ -220,12 +226,13 @@ defmodule OpenapiPetstore.Api.Pet do
       :status => :form
     }
 
-    request = %{}
-    |> method(:post)
-    |> url("/pet/#{pet_id}")
-    |> add_optional_params(optional_params, opts)
-    |> ensure_body()
-    |> Enum.into([])
+    request =
+      %{}
+      |> method(:post)
+      |> url("/pet/#{pet_id}")
+      |> add_optional_params(optional_params, opts)
+      |> ensure_body()
+      |> Enum.into([])
 
     connection
     |> Connection.request(request)
@@ -258,12 +265,13 @@ defmodule OpenapiPetstore.Api.Pet do
       :file => :form
     }
 
-    request = %{}
-    |> method(:post)
-    |> url("/pet/#{pet_id}/uploadImage")
-    |> add_optional_params(optional_params, opts)
-    |> ensure_body()
-    |> Enum.into([])
+    request =
+      %{}
+      |> method(:post)
+      |> url("/pet/#{pet_id}/uploadImage")
+      |> add_optional_params(optional_params, opts)
+      |> ensure_body()
+      |> Enum.into([])
 
     connection
     |> Connection.request(request)
@@ -294,12 +302,13 @@ defmodule OpenapiPetstore.Api.Pet do
       :additionalMetadata => :form
     }
 
-    request = %{}
-    |> method(:post)
-    |> url("/fake/#{pet_id}/uploadImageWithRequiredFile")
-    |> add_param(:file, :requiredFile, required_file)
-    |> add_optional_params(optional_params, opts)
-    |> Enum.into([])
+    request =
+      %{}
+      |> method(:post)
+      |> url("/fake/#{pet_id}/uploadImageWithRequiredFile")
+      |> add_param(:file, :requiredFile, required_file)
+      |> add_optional_params(optional_params, opts)
+      |> Enum.into([])
 
     connection
     |> Connection.request(request)

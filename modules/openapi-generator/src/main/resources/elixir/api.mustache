@@ -55,23 +55,24 @@ defmodule {{moduleName}}.Api.{{classname}} do
 
 {{/-last}}
 {{/optionalParams}}
-    request = %{}
-    |> method({{#atom}}{{#underscored}}{{httpMethod}}{{/underscored}}{{/atom}})
-    |> url("{{replacedPathName}}")
+    request =
+      %{}
+      |> method({{#atom}}{{#underscored}}{{httpMethod}}{{/underscored}}{{/atom}})
+      |> url("{{replacedPathName}}")
 {{#requiredParams}}
 {{^isPathParam}}
-    |> add_param({{#isBodyParam}}:body{{/isBodyParam}}{{#isFormParam}}{{#isMultipart}}{{#isFile}}:file{{/isFile}}{{^isFile}}:form{{/isFile}}{{/isMultipart}}{{^isMultipart}}:form{{/isMultipart}}{{/isFormParam}}{{#isQueryParam}}:query{{/isQueryParam}}{{#isHeaderParam}}:headers{{/isHeaderParam}}, {{#isBodyParam}}:body{{/isBodyParam}}{{^isBodyParam}}{{#atom}}{{baseName}}{{/atom}}{{/isBodyParam}}, {{#underscored}}{{paramName}}{{/underscored}})
+      |> add_param({{#isBodyParam}}:body{{/isBodyParam}}{{#isFormParam}}{{#isMultipart}}{{#isFile}}:file{{/isFile}}{{^isFile}}:form{{/isFile}}{{/isMultipart}}{{^isMultipart}}:form{{/isMultipart}}{{/isFormParam}}{{#isQueryParam}}:query{{/isQueryParam}}{{#isHeaderParam}}:headers{{/isHeaderParam}}, {{#isBodyParam}}:body{{/isBodyParam}}{{^isBodyParam}}{{#atom}}{{baseName}}{{/atom}}{{/isBodyParam}}, {{#underscored}}{{paramName}}{{/underscored}})
 {{/isPathParam}}
 {{/requiredParams}}
 {{#optionalParams}}
 {{#-first}}
-    |> add_optional_params(optional_params, opts)
+      |> add_optional_params(optional_params, opts)
 {{/-first}}
 {{/optionalParams}}
 {{#requiresHttpcWorkaround}}
-    |> ensure_body()
+      |> ensure_body()
 {{/requiresHttpcWorkaround}}
-    |> Enum.into([])
+      |> Enum.into([])
 
     connection
     |> Connection.request(request)

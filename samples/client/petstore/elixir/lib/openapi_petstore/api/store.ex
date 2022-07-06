@@ -26,10 +26,11 @@ defmodule OpenapiPetstore.Api.Store do
   """
   @spec delete_order(Tesla.Env.client, String.t, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
   def delete_order(connection, order_id, _opts \\ []) do
-    request = %{}
-    |> method(:delete)
-    |> url("/store/order/#{order_id}")
-    |> Enum.into([])
+    request =
+      %{}
+      |> method(:delete)
+      |> url("/store/order/#{order_id}")
+      |> Enum.into([])
 
     connection
     |> Connection.request(request)
@@ -54,10 +55,11 @@ defmodule OpenapiPetstore.Api.Store do
   """
   @spec get_inventory(Tesla.Env.client, keyword()) :: {:ok, map()} | {:error, Tesla.Env.t}
   def get_inventory(connection, _opts \\ []) do
-    request = %{}
-    |> method(:get)
-    |> url("/store/inventory")
-    |> Enum.into([])
+    request =
+      %{}
+      |> method(:get)
+      |> url("/store/inventory")
+      |> Enum.into([])
 
     connection
     |> Connection.request(request)
@@ -82,10 +84,11 @@ defmodule OpenapiPetstore.Api.Store do
   """
   @spec get_order_by_id(Tesla.Env.client, integer(), keyword()) :: {:ok, nil} | {:ok, OpenapiPetstore.Model.Order.t} | {:error, Tesla.Env.t}
   def get_order_by_id(connection, order_id, _opts \\ []) do
-    request = %{}
-    |> method(:get)
-    |> url("/store/order/#{order_id}")
-    |> Enum.into([])
+    request =
+      %{}
+      |> method(:get)
+      |> url("/store/order/#{order_id}")
+      |> Enum.into([])
 
     connection
     |> Connection.request(request)
@@ -112,11 +115,12 @@ defmodule OpenapiPetstore.Api.Store do
   """
   @spec place_order(Tesla.Env.client, OpenapiPetstore.Model.Order.t, keyword()) :: {:ok, nil} | {:ok, OpenapiPetstore.Model.Order.t} | {:error, Tesla.Env.t}
   def place_order(connection, order, _opts \\ []) do
-    request = %{}
-    |> method(:post)
-    |> url("/store/order")
-    |> add_param(:body, :body, order)
-    |> Enum.into([])
+    request =
+      %{}
+      |> method(:post)
+      |> url("/store/order")
+      |> add_param(:body, :body, order)
+      |> Enum.into([])
 
     connection
     |> Connection.request(request)

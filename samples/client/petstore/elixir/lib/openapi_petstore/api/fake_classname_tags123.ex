@@ -26,11 +26,12 @@ defmodule OpenapiPetstore.Api.FakeClassnameTags123 do
   """
   @spec test_classname(Tesla.Env.client, OpenapiPetstore.Model.Client.t, keyword()) :: {:ok, OpenapiPetstore.Model.Client.t} | {:error, Tesla.Env.t}
   def test_classname(connection, client, _opts \\ []) do
-    request = %{}
-    |> method(:patch)
-    |> url("/fake_classname_test")
-    |> add_param(:body, :body, client)
-    |> Enum.into([])
+    request =
+      %{}
+      |> method(:patch)
+      |> url("/fake_classname_test")
+      |> add_param(:body, :body, client)
+      |> Enum.into([])
 
     connection
     |> Connection.request(request)

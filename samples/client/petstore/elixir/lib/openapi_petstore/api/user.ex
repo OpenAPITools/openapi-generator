@@ -26,11 +26,12 @@ defmodule OpenapiPetstore.Api.User do
   """
   @spec create_user(Tesla.Env.client, OpenapiPetstore.Model.User.t, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
   def create_user(connection, user, _opts \\ []) do
-    request = %{}
-    |> method(:post)
-    |> url("/user")
-    |> add_param(:body, :body, user)
-    |> Enum.into([])
+    request =
+      %{}
+      |> method(:post)
+      |> url("/user")
+      |> add_param(:body, :body, user)
+      |> Enum.into([])
 
     connection
     |> Connection.request(request)
@@ -55,11 +56,12 @@ defmodule OpenapiPetstore.Api.User do
   """
   @spec create_users_with_array_input(Tesla.Env.client, list(OpenapiPetstore.Model.User.t), keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
   def create_users_with_array_input(connection, user, _opts \\ []) do
-    request = %{}
-    |> method(:post)
-    |> url("/user/createWithArray")
-    |> add_param(:body, :body, user)
-    |> Enum.into([])
+    request =
+      %{}
+      |> method(:post)
+      |> url("/user/createWithArray")
+      |> add_param(:body, :body, user)
+      |> Enum.into([])
 
     connection
     |> Connection.request(request)
@@ -84,11 +86,12 @@ defmodule OpenapiPetstore.Api.User do
   """
   @spec create_users_with_list_input(Tesla.Env.client, list(OpenapiPetstore.Model.User.t), keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
   def create_users_with_list_input(connection, user, _opts \\ []) do
-    request = %{}
-    |> method(:post)
-    |> url("/user/createWithList")
-    |> add_param(:body, :body, user)
-    |> Enum.into([])
+    request =
+      %{}
+      |> method(:post)
+      |> url("/user/createWithList")
+      |> add_param(:body, :body, user)
+      |> Enum.into([])
 
     connection
     |> Connection.request(request)
@@ -113,10 +116,11 @@ defmodule OpenapiPetstore.Api.User do
   """
   @spec delete_user(Tesla.Env.client, String.t, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
   def delete_user(connection, username, _opts \\ []) do
-    request = %{}
-    |> method(:delete)
-    |> url("/user/#{username}")
-    |> Enum.into([])
+    request =
+      %{}
+      |> method(:delete)
+      |> url("/user/#{username}")
+      |> Enum.into([])
 
     connection
     |> Connection.request(request)
@@ -142,10 +146,11 @@ defmodule OpenapiPetstore.Api.User do
   """
   @spec get_user_by_name(Tesla.Env.client, String.t, keyword()) :: {:ok, nil} | {:ok, OpenapiPetstore.Model.User.t} | {:error, Tesla.Env.t}
   def get_user_by_name(connection, username, _opts \\ []) do
-    request = %{}
-    |> method(:get)
-    |> url("/user/#{username}")
-    |> Enum.into([])
+    request =
+      %{}
+      |> method(:get)
+      |> url("/user/#{username}")
+      |> Enum.into([])
 
     connection
     |> Connection.request(request)
@@ -173,12 +178,13 @@ defmodule OpenapiPetstore.Api.User do
   """
   @spec login_user(Tesla.Env.client, String.t, String.t, keyword()) :: {:ok, nil} | {:ok, String.t} | {:error, Tesla.Env.t}
   def login_user(connection, username, password, _opts \\ []) do
-    request = %{}
-    |> method(:get)
-    |> url("/user/login")
-    |> add_param(:query, :username, username)
-    |> add_param(:query, :password, password)
-    |> Enum.into([])
+    request =
+      %{}
+      |> method(:get)
+      |> url("/user/login")
+      |> add_param(:query, :username, username)
+      |> add_param(:query, :password, password)
+      |> Enum.into([])
 
     connection
     |> Connection.request(request)
@@ -203,10 +209,11 @@ defmodule OpenapiPetstore.Api.User do
   """
   @spec logout_user(Tesla.Env.client, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
   def logout_user(connection, _opts \\ []) do
-    request = %{}
-    |> method(:get)
-    |> url("/user/logout")
-    |> Enum.into([])
+    request =
+      %{}
+      |> method(:get)
+      |> url("/user/logout")
+      |> Enum.into([])
 
     connection
     |> Connection.request(request)
@@ -232,11 +239,12 @@ defmodule OpenapiPetstore.Api.User do
   """
   @spec update_user(Tesla.Env.client, String.t, OpenapiPetstore.Model.User.t, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
   def update_user(connection, username, user, _opts \\ []) do
-    request = %{}
-    |> method(:put)
-    |> url("/user/#{username}")
-    |> add_param(:body, :body, user)
-    |> Enum.into([])
+    request =
+      %{}
+      |> method(:put)
+      |> url("/user/#{username}")
+      |> add_param(:body, :body, user)
+      |> Enum.into([])
 
     connection
     |> Connection.request(request)
