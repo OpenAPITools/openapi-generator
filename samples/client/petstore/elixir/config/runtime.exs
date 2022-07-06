@@ -7,6 +7,6 @@ import Config
 # any compile-time configuration in here, as it won't be applied.
 # The block below contains prod specific runtime configuration.
 
-if env = System.get_env("OPEN_API_PETSTORE_BASE_URI") do
-  config :open_api_petstore, base_url: env
+if env = System.get_env("OPENAPI_PETSTORE_BASE_URI") do
+  config :openapi_petstore, base_url: "http://petstore.swagger.io:80/v2"
 end
