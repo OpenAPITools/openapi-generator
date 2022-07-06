@@ -147,7 +147,7 @@ ApiClient  <- R6::R6Class(
         for (i in 1 : self$max_retry_attempts) {
           if (status_code %in% self$retry_status_codes) {
             Sys.sleep((2 ^ i) + stats::runif(n = 1, min = 0, max = 1))
-            resp <- self$Execute(url, method, query_params, header_params, body, stream_callback = NULL, ...)
+            resp <- self$Execute(url, method, query_params, header_params, body, stream_callback = stream_callback, ...)
             status_code <- httr::status_code(resp)
           } else {
             break;
@@ -180,7 +180,11 @@ ApiClient  <- R6::R6Class(
       }
 
       if (method == "GET") {
-        httr::GET(url, query = query_params, headers, http_timeout, httr::user_agent(self$`user_agent`), ...)
+        if (is.null(stream_callback)) {
+          httr::GET(url, query = query_params, headers, http_timeout, httr::user_agent(self$`user_agent`), ...)
+        } else {
+          httr::GET(url, query = query_params, headers, http_timeout, httr::user_agent(self$`user_agent`), write_stream(stream_callback), ...)
+        }
       } else if (method == "POST") {
         httr::POST(url, query = query_params, headers, body = body, httr::content_type("application/json"), http_timeout, httr::user_agent(self$`user_agent`), ...)
       } else if (method == "PUT") {
