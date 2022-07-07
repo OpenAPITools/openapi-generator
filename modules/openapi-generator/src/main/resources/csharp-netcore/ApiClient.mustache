@@ -458,7 +458,13 @@ namespace {{packageName}}.Client
                 !string.IsNullOrEmpty(configuration.OAuthClientSecret) &&
                 configuration.OAuthFlow != null)
             {
-                client = client.UseAuthenticator(new OAuthAuthenticator(configuration.OAuthTokenUrl, configuration.OAuthClientId, configuration.OAuthClientSecret, configuration.OAuthFlow));
+                client = client.UseAuthenticator(new OAuthAuthenticator(
+                    configuration.OAuthTokenUrl,
+                    configuration.OAuthClientId,
+                    configuration.OAuthClientSecret,
+                    configuration.OAuthFlow,
+                    SerializerSettings,
+                    configuration));
             }
 
             {{/hasOAuthMethods}}
@@ -560,7 +566,13 @@ namespace {{packageName}}.Client
                 !string.IsNullOrEmpty(configuration.OAuthClientSecret) &&
                 configuration.OAuthFlow != null)
             {
-                client = client.UseAuthenticator(new OAuthAuthenticator(configuration.OAuthTokenUrl, configuration.OAuthClientId, configuration.OAuthClientSecret, configuration.OAuthFlow));
+                client = client.UseAuthenticator(new OAuthAuthenticator(
+                    configuration.OAuthTokenUrl,
+                    configuration.OAuthClientId,
+                    configuration.OAuthClientSecret,
+                    configuration.OAuthFlow,
+                    SerializerSettings,
+                    configuration));
             }
 
             {{/hasOAuthMethods}}

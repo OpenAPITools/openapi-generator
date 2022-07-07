@@ -458,7 +458,13 @@ namespace Org.OpenAPITools.Client
                 !string.IsNullOrEmpty(configuration.OAuthClientSecret) &&
                 configuration.OAuthFlow != null)
             {
-                client = client.UseAuthenticator(new OAuthAuthenticator(configuration.OAuthTokenUrl, configuration.OAuthClientId, configuration.OAuthClientSecret, configuration.OAuthFlow));
+                client = client.UseAuthenticator(new OAuthAuthenticator(
+                    configuration.OAuthTokenUrl,
+                    configuration.OAuthClientId,
+                    configuration.OAuthClientSecret,
+                    configuration.OAuthFlow,
+                    SerializerSettings,
+                    configuration));
             }
 
             InterceptRequest(req);
@@ -557,7 +563,13 @@ namespace Org.OpenAPITools.Client
                 !string.IsNullOrEmpty(configuration.OAuthClientSecret) &&
                 configuration.OAuthFlow != null)
             {
-                client = client.UseAuthenticator(new OAuthAuthenticator(configuration.OAuthTokenUrl, configuration.OAuthClientId, configuration.OAuthClientSecret, configuration.OAuthFlow));
+                client = client.UseAuthenticator(new OAuthAuthenticator(
+                    configuration.OAuthTokenUrl,
+                    configuration.OAuthClientId,
+                    configuration.OAuthClientSecret,
+                    configuration.OAuthFlow,
+                    SerializerSettings,
+                    configuration));
             }
 
             InterceptRequest(req);
