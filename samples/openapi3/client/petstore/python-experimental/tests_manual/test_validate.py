@@ -68,7 +68,7 @@ class TestValidateResults(unittest.TestCase):
 
     def test_nullable_enum_validate(self):
         vm = ValidationMetadata()
-        path_to_schemas = StringEnum._validate(None, validation_metadata=vm)
+        path_to_schemas = StringEnum._validate(NoneClass.NONE, validation_metadata=vm)
         assert path_to_schemas == {("args[0]",): {NoneClass, StringEnum}}
 
     def test_empty_list_validate(self):
@@ -117,7 +117,7 @@ class TestValidateResults(unittest.TestCase):
 
     def test_bool_enum_validate(self):
         vm = ValidationMetadata()
-        path_to_schemas = BooleanEnum._validate(True, validation_metadata=vm)
+        path_to_schemas = BooleanEnum._validate(BoolClass.TRUE, validation_metadata=vm)
         assert path_to_schemas == {("args[0]",): {BoolClass, BooleanEnum}}
 
     def test_oneof_composition_pig_validate(self):

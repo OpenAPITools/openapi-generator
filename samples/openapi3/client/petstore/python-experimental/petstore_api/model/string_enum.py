@@ -60,6 +60,8 @@ from petstore_api.schemas import (  # noqa: F401
     BoolBase,
     BinaryBase,
     Schema,
+    NoneClass,
+    BoolClass,
     _SchemaValidator,
     _SchemaTypeChecker,
     _SchemaEnumMaker
@@ -67,10 +69,10 @@ from petstore_api.schemas import (  # noqa: F401
 
 
 class StringEnum(
-    _SchemaTypeChecker(typing.Union[none_type, str, ]),
+    _SchemaTypeChecker(typing.Union[NoneClass, str, ]),
     _SchemaEnumMaker(
         enum_value_to_name={
-            None: "NONE",
+            NoneClass.NONE: "NONE",
             "placed": "PLACED",
             "approved": "APPROVED",
             "delivered": "DELIVERED",

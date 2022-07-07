@@ -223,31 +223,6 @@ class ValidatorBase:
                     )
 
     @classmethod
-    def __data_with_boolclass_instead_of_bool(cls, data: typing.Any) -> typing.Any:
-        """
-        In python bool is a subclass of int so 1 == True and 0 == False
-        This prevents code from being able to see the difference between 1 and True and 0 and False
-        To fix this swap in BoolClass singletons for True and False so they will differ from integers
-        """
-        if isinstance(data, (list, tuple)):
-            new_data = []
-            for item in data:
-                new_item = cls.__data_with_boolclass_instead_of_bool(item)
-                new_data.append(new_item)
-            return tuple(new_data)
-        elif isinstance(data, (dict, frozendict)):
-            new_data = {}
-            for key, value in data.items():
-                new_value = cls.__data_with_boolclass_instead_of_bool(value)
-                new_data[key] = new_value
-            return frozendict(new_data)
-        elif isinstance(data, bool):
-            if data:
-                return BoolClass.TRUE
-            return BoolClass.FALSE
-        return data
-
-    @classmethod
     def __check_tuple_validations(
             cls, validations, input_values,
             validation_metadata: ValidationMetadata):
@@ -274,7 +249,7 @@ class ValidatorBase:
 
         if (cls.__is_json_validation_enabled('uniqueItems', validation_metadata.configuration) and
                 'unique_items' in validations and validations['unique_items'] and input_values):
-            unique_items = set(cls.__data_with_boolclass_instead_of_bool(input_values))
+            unique_items = set(input_values)
             if len(input_values) > len(unique_items):
                 cls.__raise_validation_error_message(
                     value=input_values,
@@ -497,7 +472,12 @@ class Singleton:
         if key not in cls._instances:
             if arg in {None, True, False}:
                 inst = super().__new__(cls)
-                # inst._value = arg
+                cls._instances[key] = inst
+            elif isinstance(arg, BoolClass):
+                inst = super().__new__(cls)
+                cls._instances[key] = inst
+            elif isinstance(arg, NoneClass):
+                inst = super().__new__(cls)
                 cls._instances[key] = inst
             else:
                 cls._instances[key] = super().__new__(cls, arg)
@@ -507,7 +487,7 @@ class Singleton:
         if isinstance(self, NoneClass):
             return f'<{self.__class__.__name__}: None>'
         elif isinstance(self, BoolClass):
-            if (self.__class__, True) in self._instances:
+            if bool(self):
                 return f'<{self.__class__.__name__}: True>'
             return f'<{self.__class__.__name__}: False>'
         return f'<{self.__class__.__name__}: {super().__repr__()}>'
@@ -538,7 +518,7 @@ class BoolClass(Singleton):
     def __bool__(self) -> bool:
         for key, instance in self._instances.items():
             if self is instance:
-                return key[1]
+                return bool(key[1])
         raise ValueError('Unable to find the boolean value of this instance')
 
 
@@ -1202,26 +1182,16 @@ class Schema:
             return tuple
         elif isinstance(input_value, frozendict):
             return frozendict
-        elif isinstance(input_value, none_type):
-            return none_type
+        elif isinstance(input_value, NoneClass):
+            return NoneClass
         elif isinstance(input_value, bytes):
             return bytes
         elif isinstance(input_value, (io.FileIO, io.BufferedReader)):
             return FileIO
-        elif isinstance(input_value, bool):
+        elif isinstance(input_value, BoolClass):
             # this must be higher than the int check because
             # isinstance(True, int) == True
-            return bool
-        elif isinstance(input_value, int):
-            return int
-        elif isinstance(input_value, float):
-            return float
-        elif isinstance(input_value, datetime):
-            # this must be higher than the date check because
-            # isinstance(datetime_instance, date) == True
-            return datetime
-        elif isinstance(input_value, date):
-            return date
+            return BoolClass
         elif isinstance(input_value, str):
             return str
         return type(input_value)
@@ -1311,12 +1281,6 @@ class Schema:
         base_class = cls.__get_simple_class(arg)
         path_to_schemas = {validation_metadata.path_to_item: set()}
 
-        used_base_class = base_class
-        if base_class is none_type:
-            used_base_class = NoneClass
-        elif base_class is bool:
-            used_base_class = BoolClass
-
         failed_type_check_classes = cls._validate_type(base_class)
         if failed_type_check_classes:
             raise cls.__get_type_error(
@@ -1332,7 +1296,7 @@ class Schema:
         if hasattr(cls, "_enum_value_to_name"):
             cls._validate_enum_value(arg)
 
-        path_to_schemas[validation_metadata.path_to_item].add(used_base_class)
+        path_to_schemas[validation_metadata.path_to_item].add(base_class)
         return path_to_schemas
 
     @classmethod
@@ -1571,8 +1535,8 @@ def cast_to_allowed_types(
         validated_path_to_schemas: a dict that stores the validated classes at any path location in the payload
     """
     if isinstance(arg, Schema):
-        schema_classes = set()
         # store the already run validations
+        schema_classes = set()
         for cls in arg.__class__.__bases__:
             if cls is Singleton:
                 continue
@@ -1588,7 +1552,9 @@ def cast_to_allowed_types(
         this check must come before isinstance(arg, (int, float))
         because isinstance(True, int) is True
         """
-        return bool(arg)
+        if arg:
+            return BoolClass.TRUE
+        return BoolClass.FALSE
     elif isinstance(arg, int):
         return decimal.Decimal(arg)
     elif isinstance(arg, float):
@@ -1601,7 +1567,7 @@ def cast_to_allowed_types(
     elif isinstance(arg, (tuple, list)):
         return tuple([cast_to_allowed_types(item, from_server, validated_path_to_schemas, path_to_item + (i,)) for i, item in enumerate(arg)])
     elif isinstance(arg, (none_type, NoneClass)):
-        return None
+        return NoneClass.NONE
     elif isinstance(arg, (date, datetime)):
         if not from_server:
             return arg.isoformat()
@@ -1810,7 +1776,7 @@ class ComposedBase(Discriminable):
 
 # DictBase, ListBase, NumberBase, StrBase, BoolBase, NoneBase
 class ComposedSchema(
-    _SchemaTypeChecker(typing.Union[none_type, str, decimal.Decimal, bool, tuple, frozendict]),
+    _SchemaTypeChecker(typing.Union[NoneClass, str, decimal.Decimal, BoolClass, tuple, frozendict]),
     ComposedBase,
     DictBase,
     ListBase,
@@ -1848,7 +1814,7 @@ class ListSchema(
 
 
 class NoneSchema(
-    _SchemaTypeChecker(typing.Union[none_type]),
+    _SchemaTypeChecker(typing.Union[NoneClass]),
     NoneBase,
     Schema
 ):
@@ -2119,7 +2085,7 @@ class BinarySchema(
 
 
 class BoolSchema(
-    _SchemaTypeChecker(typing.Union[bool]),
+    _SchemaTypeChecker(typing.Union[BoolClass]),
     BoolBase,
     Schema
 ):
@@ -2134,7 +2100,7 @@ class BoolSchema(
 
 class AnyTypeSchema(
     _SchemaTypeChecker(
-        typing.Union[frozendict, tuple, decimal.Decimal, str, bool, none_type, bytes, FileIO]
+        typing.Union[frozendict, tuple, decimal.Decimal, str, BoolClass, NoneClass, bytes, FileIO]
     ),
     DictBase,
     ListBase,

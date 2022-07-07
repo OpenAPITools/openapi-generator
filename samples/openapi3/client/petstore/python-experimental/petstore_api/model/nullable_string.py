@@ -60,6 +60,8 @@ from petstore_api.schemas import (  # noqa: F401
     BoolBase,
     BinaryBase,
     Schema,
+    NoneClass,
+    BoolClass,
     _SchemaValidator,
     _SchemaTypeChecker,
     _SchemaEnumMaker
@@ -67,7 +69,7 @@ from petstore_api.schemas import (  # noqa: F401
 
 
 class NullableString(
-    _SchemaTypeChecker(typing.Union[none_type, str, ]),
+    _SchemaTypeChecker(typing.Union[NoneClass, str, ]),
     StrBase,
     NoneBase,
     Schema
