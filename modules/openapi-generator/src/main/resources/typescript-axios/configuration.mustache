@@ -2,7 +2,7 @@
 /* eslint-disable */
 {{>licenseInfo}}
 
-export interface ConfigurationParameters {
+export interface ApiConfigurationParameters {
     apiKey?: string | Promise<string> | ((name: string) => string) | ((name: string) => Promise<string>);
     username?: string;
     password?: string;
@@ -12,46 +12,46 @@ export interface ConfigurationParameters {
     formDataCtor?: new () => any;
 }
 
-export class Configuration {
+export class ApiConfiguration {
     /**
      * parameter for apiKey security
      * @param name security name
-     * @memberof Configuration
+     * @memberof ApiConfiguration
      */
     apiKey?: string | Promise<string> | ((name: string) => string) | ((name: string) => Promise<string>);
     /**
      * parameter for basic security
      *
      * @type {string}
-     * @memberof Configuration
+     * @memberof ApiConfiguration
      */
     username?: string;
     /**
      * parameter for basic security
      *
      * @type {string}
-     * @memberof Configuration
+     * @memberof ApiConfiguration
      */
     password?: string;
     /**
      * parameter for oauth2 security
      * @param name security name
      * @param scopes oauth2 scope
-     * @memberof Configuration
+     * @memberof ApiConfiguration
      */
     accessToken?: string | Promise<string> | ((name?: string, scopes?: string[]) => string) | ((name?: string, scopes?: string[]) => Promise<string>);
     /**
      * override base path
      *
      * @type {string}
-     * @memberof Configuration
+     * @memberof ApiConfiguration
      */
     basePath?: string;
     /**
      * base options for axios calls
      *
      * @type {any}
-     * @memberof Configuration
+     * @memberof ApiConfiguration
      */
     baseOptions?: any;
     /**
@@ -63,7 +63,7 @@ export class Configuration {
      */
     formDataCtor?: new () => any;
 
-    constructor(param: ConfigurationParameters = {}) {
+    constructor(param: ApiConfigurationParameters = {}) {
         this.apiKey = param.apiKey;
         this.username = param.username;
         this.password = param.password;

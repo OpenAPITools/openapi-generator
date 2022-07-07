@@ -13,7 +13,7 @@
  */
 
 
-import { Configuration } from './configuration';
+import { ApiConfiguration } from './configuration';
 import globalAxios, { AxiosPromise, AxiosInstance, AxiosRequestConfig } from 'axios';
 // Some imports not used depending on template conditions
 // @ts-ignore
@@ -226,7 +226,7 @@ export type PetsPatchRequest = Cat | Dog | any;
  * DefaultApi - axios parameter creator
  * @export
  */
-export const DefaultApiAxiosParamCreator = function (configuration?: Configuration) {
+export const DefaultApiAxiosParamCreator = function (apiConfiguration?: ApiConfiguration) {
     return {
         /**
          * 
@@ -239,8 +239,8 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
+            if (apiConfiguration) {
+                baseOptions = apiConfiguration.baseOptions;
             }
 
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
@@ -254,7 +254,7 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(filePostRequest, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(filePostRequest, localVarRequestOptions, apiConfiguration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -272,8 +272,8 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
+            if (apiConfiguration) {
+                baseOptions = apiConfiguration.baseOptions;
             }
 
             const localVarRequestOptions = { method: 'PATCH', ...baseOptions, ...options};
@@ -287,7 +287,7 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(petsFilteredPatchRequest, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(petsFilteredPatchRequest, localVarRequestOptions, apiConfiguration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -305,8 +305,8 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
+            if (apiConfiguration) {
+                baseOptions = apiConfiguration.baseOptions;
             }
 
             const localVarRequestOptions = { method: 'PATCH', ...baseOptions, ...options};
@@ -320,7 +320,7 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(petsPatchRequest, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(petsPatchRequest, localVarRequestOptions, apiConfiguration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -334,8 +334,8 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
  * DefaultApi - functional programming interface
  * @export
  */
-export const DefaultApiFp = function(configuration?: Configuration) {
-    const localVarAxiosParamCreator = DefaultApiAxiosParamCreator(configuration)
+export const DefaultApiFp = function(apiConfiguration?: ApiConfiguration) {
+    const localVarAxiosParamCreator = DefaultApiAxiosParamCreator(apiConfiguration)
     return {
         /**
          * 
@@ -345,7 +345,7 @@ export const DefaultApiFp = function(configuration?: Configuration) {
          */
         async filePost(filePostRequest?: FilePostRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.filePost(filePostRequest, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, apiConfiguration);
         },
         /**
          * 
@@ -355,7 +355,7 @@ export const DefaultApiFp = function(configuration?: Configuration) {
          */
         async petsFilteredPatch(petsFilteredPatchRequest?: PetsFilteredPatchRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.petsFilteredPatch(petsFilteredPatchRequest, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, apiConfiguration);
         },
         /**
          * 
@@ -365,7 +365,7 @@ export const DefaultApiFp = function(configuration?: Configuration) {
          */
         async petsPatch(petsPatchRequest?: PetsPatchRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.petsPatch(petsPatchRequest, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, apiConfiguration);
         },
     }
 };
@@ -374,8 +374,8 @@ export const DefaultApiFp = function(configuration?: Configuration) {
  * DefaultApi - factory interface
  * @export
  */
-export const DefaultApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    const localVarFp = DefaultApiFp(configuration)
+export const DefaultApiFactory = function (apiConfiguration?: ApiConfiguration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = DefaultApiFp(apiConfiguration)
     return {
         /**
          * 
@@ -422,7 +422,7 @@ export class DefaultApi extends BaseAPI {
      * @memberof DefaultApi
      */
     public filePost(filePostRequest?: FilePostRequest, options?: AxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).filePost(filePostRequest, options).then((request) => request(this.axios, this.basePath));
+        return DefaultApiFp(this.apiConfiguration).filePost(filePostRequest, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -433,7 +433,7 @@ export class DefaultApi extends BaseAPI {
      * @memberof DefaultApi
      */
     public petsFilteredPatch(petsFilteredPatchRequest?: PetsFilteredPatchRequest, options?: AxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).petsFilteredPatch(petsFilteredPatchRequest, options).then((request) => request(this.axios, this.basePath));
+        return DefaultApiFp(this.apiConfiguration).petsFilteredPatch(petsFilteredPatchRequest, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -444,7 +444,7 @@ export class DefaultApi extends BaseAPI {
      * @memberof DefaultApi
      */
     public petsPatch(petsPatchRequest?: PetsPatchRequest, options?: AxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).petsPatch(petsPatchRequest, options).then((request) => request(this.axios, this.basePath));
+        return DefaultApiFp(this.apiConfiguration).petsPatch(petsPatchRequest, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

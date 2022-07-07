@@ -14,7 +14,7 @@
 
 
 import globalAxios, { AxiosPromise, AxiosInstance, AxiosRequestConfig } from 'axios';
-import { Configuration } from '../../../configuration';
+import { ApiConfiguration } from '../../../configuration';
 // Some imports not used depending on template conditions
 // @ts-ignore
 import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, setSearchParams, serializeDataIfNeeded, toPathString, createRequestFunction } from '../../../common';
@@ -26,7 +26,7 @@ import { Order } from '../../../model/some/levels/deep';
  * StoreApi - axios parameter creator
  * @export
  */
-export const StoreApiAxiosParamCreator = function (configuration?: Configuration) {
+export const StoreApiAxiosParamCreator = function (apiConfiguration?: ApiConfiguration) {
     return {
         /**
          * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
@@ -43,8 +43,8 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
+            if (apiConfiguration) {
+                baseOptions = apiConfiguration.baseOptions;
             }
 
             const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
@@ -73,8 +73,8 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
+            if (apiConfiguration) {
+                baseOptions = apiConfiguration.baseOptions;
             }
 
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
@@ -82,7 +82,7 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
             const localVarQueryParameter = {} as any;
 
             // authentication api_key required
-            await setApiKeyToObject(localVarHeaderParameter, "api_key", configuration)
+            await setApiKeyToObject(localVarHeaderParameter, "api_key", apiConfiguration)
 
 
     
@@ -110,8 +110,8 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
+            if (apiConfiguration) {
+                baseOptions = apiConfiguration.baseOptions;
             }
 
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
@@ -143,8 +143,8 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
+            if (apiConfiguration) {
+                baseOptions = apiConfiguration.baseOptions;
             }
 
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
@@ -158,7 +158,7 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, apiConfiguration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -172,8 +172,8 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
  * StoreApi - functional programming interface
  * @export
  */
-export const StoreApiFp = function(configuration?: Configuration) {
-    const localVarAxiosParamCreator = StoreApiAxiosParamCreator(configuration)
+export const StoreApiFp = function(apiConfiguration?: ApiConfiguration) {
+    const localVarAxiosParamCreator = StoreApiAxiosParamCreator(apiConfiguration)
     return {
         /**
          * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
@@ -184,7 +184,7 @@ export const StoreApiFp = function(configuration?: Configuration) {
          */
         async deleteOrder(orderId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.deleteOrder(orderId, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, apiConfiguration);
         },
         /**
          * Returns a map of status codes to quantities
@@ -194,7 +194,7 @@ export const StoreApiFp = function(configuration?: Configuration) {
          */
         async getInventory(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{ [key: string]: number; }>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getInventory(options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, apiConfiguration);
         },
         /**
          * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
@@ -205,7 +205,7 @@ export const StoreApiFp = function(configuration?: Configuration) {
          */
         async getOrderById(orderId: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Order>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getOrderById(orderId, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, apiConfiguration);
         },
         /**
          * 
@@ -216,7 +216,7 @@ export const StoreApiFp = function(configuration?: Configuration) {
          */
         async placeOrder(body: Order, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Order>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.placeOrder(body, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, apiConfiguration);
         },
     }
 };
@@ -225,8 +225,8 @@ export const StoreApiFp = function(configuration?: Configuration) {
  * StoreApi - factory interface
  * @export
  */
-export const StoreApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    const localVarFp = StoreApiFp(configuration)
+export const StoreApiFactory = function (apiConfiguration?: ApiConfiguration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = StoreApiFp(apiConfiguration)
     return {
         /**
          * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
@@ -286,7 +286,7 @@ export class StoreApi extends BaseAPI {
      * @memberof StoreApi
      */
     public deleteOrder(orderId: string, options?: AxiosRequestConfig) {
-        return StoreApiFp(this.configuration).deleteOrder(orderId, options).then((request) => request(this.axios, this.basePath));
+        return StoreApiFp(this.apiConfiguration).deleteOrder(orderId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -297,7 +297,7 @@ export class StoreApi extends BaseAPI {
      * @memberof StoreApi
      */
     public getInventory(options?: AxiosRequestConfig) {
-        return StoreApiFp(this.configuration).getInventory(options).then((request) => request(this.axios, this.basePath));
+        return StoreApiFp(this.apiConfiguration).getInventory(options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -309,7 +309,7 @@ export class StoreApi extends BaseAPI {
      * @memberof StoreApi
      */
     public getOrderById(orderId: number, options?: AxiosRequestConfig) {
-        return StoreApiFp(this.configuration).getOrderById(orderId, options).then((request) => request(this.axios, this.basePath));
+        return StoreApiFp(this.apiConfiguration).getOrderById(orderId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -321,6 +321,6 @@ export class StoreApi extends BaseAPI {
      * @memberof StoreApi
      */
     public placeOrder(body: Order, options?: AxiosRequestConfig) {
-        return StoreApiFp(this.configuration).placeOrder(body, options).then((request) => request(this.axios, this.basePath));
+        return StoreApiFp(this.apiConfiguration).placeOrder(body, options).then((request) => request(this.axios, this.basePath));
     }
 }

@@ -4,7 +4,7 @@
 {{>licenseInfo}}
 
 import globalAxios, { AxiosPromise, AxiosInstance, AxiosRequestConfig } from 'axios';
-import { Configuration } from '{{apiRelativeToRoot}}configuration';
+import { ApiConfiguration } from '{{apiRelativeToRoot}}configuration';
 {{#withNodeImports}}
 // URLSearchParams not necessarily used
 // @ts-ignore
@@ -31,7 +31,7 @@ import { {{classname}} } from '{{apiRelativeToRoot}}{{tsModelPackage}}';
  * {{&description}}{{/description}}
  * @export
  */
-export const {{classname}}AxiosParamCreator = function (configuration?: Configuration) {
+export const {{classname}}AxiosParamCreator = function (apiConfiguration?: ApiConfiguration) {
     return {
     {{#operation}}
         /**
@@ -58,36 +58,36 @@ export const {{classname}}AxiosParamCreator = function (configuration?: Configur
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
+            if (apiConfiguration) {
+                baseOptions = apiConfiguration.baseOptions;
             }
 
             const localVarRequestOptions = { method: '{{httpMethod}}', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;{{#vendorExtensions}}{{#hasFormParams}}
-            const localVarFormParams = new {{^multipartFormData}}URLSearchParams(){{/multipartFormData}}{{#multipartFormData}}((configuration && configuration.formDataCtor) || FormData)(){{/multipartFormData}};{{/hasFormParams}}{{/vendorExtensions}}
+            const localVarFormParams = new {{^multipartFormData}}URLSearchParams(){{/multipartFormData}}{{#multipartFormData}}((apiConfiguration && apiConfiguration.formDataCtor) || FormData)(){{/multipartFormData}};{{/hasFormParams}}{{/vendorExtensions}}
 
     {{#authMethods}}
             // authentication {{name}} required
             {{#isApiKey}}
             {{#isKeyInHeader}}
-            await setApiKeyToObject(localVarHeaderParameter, "{{keyParamName}}", configuration)
+            await setApiKeyToObject(localVarHeaderParameter, "{{keyParamName}}", apiConfiguration)
             {{/isKeyInHeader}}
             {{#isKeyInQuery}}
-            await setApiKeyToObject(localVarQueryParameter, "{{keyParamName}}", configuration)
+            await setApiKeyToObject(localVarQueryParameter, "{{keyParamName}}", apiConfiguration)
             {{/isKeyInQuery}}
             {{/isApiKey}}
             {{#isBasicBasic}}
             // http basic authentication required
-            setBasicAuthToObject(localVarRequestOptions, configuration)
+            setBasicAuthToObject(localVarRequestOptions, apiConfiguration)
             {{/isBasicBasic}}
             {{#isBasicBearer}}
             // http bearer authentication required
-            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+            await setBearerAuthToObject(localVarHeaderParameter, apiConfiguration)
             {{/isBasicBearer}}
             {{#isOAuth}}
             // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "{{name}}", [{{#scopes}}"{{{scope}}}"{{^-last}}, {{/-last}}{{/scopes}}], configuration)
+            await setOAuthToObject(localVarHeaderParameter, "{{name}}", [{{#scopes}}"{{{scope}}}"{{^-last}}, {{/-last}}{{/scopes}}], apiConfiguration)
             {{/isOAuth}}
 
     {{/authMethods}}
@@ -197,7 +197,7 @@ export const {{classname}}AxiosParamCreator = function (configuration?: Configur
             localVarRequestOptions.data = localVarFormParams{{#vendorExtensions}}{{^multipartFormData}}.toString(){{/multipartFormData}}{{/vendorExtensions}};
     {{/hasFormParams}}
     {{#bodyParam}}
-            localVarRequestOptions.data = serializeDataIfNeeded({{paramName}}, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded({{paramName}}, localVarRequestOptions, apiConfiguration)
     {{/bodyParam}}
 
             return {
@@ -214,8 +214,8 @@ export const {{classname}}AxiosParamCreator = function (configuration?: Configur
  * {{{.}}}{{/description}}
  * @export
  */
-export const {{classname}}Fp = function(configuration?: Configuration) {
-    const localVarAxiosParamCreator = {{classname}}AxiosParamCreator(configuration)
+export const {{classname}}Fp = function(apiConfiguration?: ApiConfiguration) {
+    const localVarAxiosParamCreator = {{classname}}AxiosParamCreator(apiConfiguration)
     return {
     {{#operation}}
         /**
@@ -232,7 +232,7 @@ export const {{classname}}Fp = function(configuration?: Configuration) {
          */
         async {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{{{returnType}}}{{^returnType}}void{{/returnType}}>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.{{nickname}}({{#allParams}}{{paramName}}, {{/allParams}}options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, apiConfiguration);
         },
     {{/operation}}
     }
@@ -243,8 +243,8 @@ export const {{classname}}Fp = function(configuration?: Configuration) {
  * {{&description}}{{/description}}
  * @export
  */
-export const {{classname}}Factory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    const localVarFp = {{classname}}Fp(configuration)
+export const {{classname}}Factory = function (apiConfiguration?: ApiConfiguration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = {{classname}}Fp(apiConfiguration)
     return {
     {{#operation}}
         /**
@@ -355,12 +355,12 @@ export class {{classname}} extends BaseAPI {
      */
     {{#useSingleRequestParameter}}
     public {{nickname}}({{#allParams.0}}requestParameters: {{classname}}{{operationIdCamelCase}}Request{{^hasRequiredParams}} = {}{{/hasRequiredParams}}, {{/allParams.0}}options?: AxiosRequestConfig) {
-        return {{classname}}Fp(this.configuration).{{nickname}}({{#allParams.0}}{{#allParams}}requestParameters.{{paramName}}, {{/allParams}}{{/allParams.0}}options).then((request) => request(this.axios, this.basePath));
+        return {{classname}}Fp(this.apiConfiguration).{{nickname}}({{#allParams.0}}{{#allParams}}requestParameters.{{paramName}}, {{/allParams}}{{/allParams.0}}options).then((request) => request(this.axios, this.basePath));
     }
     {{/useSingleRequestParameter}}
     {{^useSingleRequestParameter}}
     public {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options?: AxiosRequestConfig) {
-        return {{classname}}Fp(this.configuration).{{nickname}}({{#allParams}}{{paramName}}, {{/allParams}}options).then((request) => request(this.axios, this.basePath));
+        return {{classname}}Fp(this.apiConfiguration).{{nickname}}({{#allParams}}{{paramName}}, {{/allParams}}options).then((request) => request(this.axios, this.basePath));
     }
     {{/useSingleRequestParameter}}
     {{^-last}}

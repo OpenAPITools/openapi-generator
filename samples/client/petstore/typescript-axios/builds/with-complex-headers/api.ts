@@ -13,7 +13,7 @@
  */
 
 
-import { Configuration } from './configuration';
+import { ApiConfiguration } from './configuration';
 import globalAxios, { AxiosPromise, AxiosInstance, AxiosRequestConfig } from 'axios';
 // Some imports not used depending on template conditions
 // @ts-ignore
@@ -248,7 +248,7 @@ export interface User {
  * PetApi - axios parameter creator
  * @export
  */
-export const PetApiAxiosParamCreator = function (configuration?: Configuration) {
+export const PetApiAxiosParamCreator = function (apiConfiguration?: ApiConfiguration) {
     return {
         /**
          * 
@@ -266,8 +266,8 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
+            if (apiConfiguration) {
+                baseOptions = apiConfiguration.baseOptions;
             }
 
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
@@ -276,7 +276,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
 
             // authentication petstore_auth required
             // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "petstore_auth", ["write:pets", "read:pets"], configuration)
+            await setOAuthToObject(localVarHeaderParameter, "petstore_auth", ["write:pets", "read:pets"], apiConfiguration)
 
             if (header1 !== undefined && header1 !== null) {
                 localVarHeaderParameter['header1'] = String(JSON.stringify(header1));
@@ -294,7 +294,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(pet, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(pet, localVarRequestOptions, apiConfiguration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -317,8 +317,8 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
+            if (apiConfiguration) {
+                baseOptions = apiConfiguration.baseOptions;
             }
 
             const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
@@ -327,7 +327,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
 
             // authentication petstore_auth required
             // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "petstore_auth", ["write:pets", "read:pets"], configuration)
+            await setOAuthToObject(localVarHeaderParameter, "petstore_auth", ["write:pets", "read:pets"], apiConfiguration)
 
             if (apiKey !== undefined && apiKey !== null) {
                 localVarHeaderParameter['api_key'] = String(apiKey);
@@ -358,8 +358,8 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
+            if (apiConfiguration) {
+                baseOptions = apiConfiguration.baseOptions;
             }
 
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
@@ -368,7 +368,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
 
             // authentication petstore_auth required
             // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "petstore_auth", ["write:pets", "read:pets"], configuration)
+            await setOAuthToObject(localVarHeaderParameter, "petstore_auth", ["write:pets", "read:pets"], apiConfiguration)
 
             if (status) {
                 localVarQueryParameter['status'] = status.join(COLLECTION_FORMATS.csv);
@@ -400,8 +400,8 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
+            if (apiConfiguration) {
+                baseOptions = apiConfiguration.baseOptions;
             }
 
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
@@ -410,7 +410,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
 
             // authentication petstore_auth required
             // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "petstore_auth", ["write:pets", "read:pets"], configuration)
+            await setOAuthToObject(localVarHeaderParameter, "petstore_auth", ["write:pets", "read:pets"], apiConfiguration)
 
             if (tags) {
                 localVarQueryParameter['tags'] = tags.join(COLLECTION_FORMATS.csv);
@@ -442,8 +442,8 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
+            if (apiConfiguration) {
+                baseOptions = apiConfiguration.baseOptions;
             }
 
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
@@ -451,7 +451,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             const localVarQueryParameter = {} as any;
 
             // authentication api_key required
-            await setApiKeyToObject(localVarHeaderParameter, "api_key", configuration)
+            await setApiKeyToObject(localVarHeaderParameter, "api_key", apiConfiguration)
 
 
     
@@ -478,8 +478,8 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
+            if (apiConfiguration) {
+                baseOptions = apiConfiguration.baseOptions;
             }
 
             const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
@@ -488,7 +488,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
 
             // authentication petstore_auth required
             // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "petstore_auth", ["write:pets", "read:pets"], configuration)
+            await setOAuthToObject(localVarHeaderParameter, "petstore_auth", ["write:pets", "read:pets"], apiConfiguration)
 
 
     
@@ -497,7 +497,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(pet, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(pet, localVarRequestOptions, apiConfiguration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -521,8 +521,8 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
+            if (apiConfiguration) {
+                baseOptions = apiConfiguration.baseOptions;
             }
 
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
@@ -532,7 +532,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
 
             // authentication petstore_auth required
             // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "petstore_auth", ["write:pets", "read:pets"], configuration)
+            await setOAuthToObject(localVarHeaderParameter, "petstore_auth", ["write:pets", "read:pets"], apiConfiguration)
 
 
             if (name !== undefined) { 
@@ -573,18 +573,18 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
+            if (apiConfiguration) {
+                baseOptions = apiConfiguration.baseOptions;
             }
 
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
-            const localVarFormParams = new ((configuration && configuration.formDataCtor) || FormData)();
+            const localVarFormParams = new ((apiConfiguration && apiConfiguration.formDataCtor) || FormData)();
 
             // authentication petstore_auth required
             // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "petstore_auth", ["write:pets", "read:pets"], configuration)
+            await setOAuthToObject(localVarHeaderParameter, "petstore_auth", ["write:pets", "read:pets"], apiConfiguration)
 
 
             if (additionalMetadata !== undefined) { 
@@ -615,8 +615,8 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
  * PetApi - functional programming interface
  * @export
  */
-export const PetApiFp = function(configuration?: Configuration) {
-    const localVarAxiosParamCreator = PetApiAxiosParamCreator(configuration)
+export const PetApiFp = function(apiConfiguration?: ApiConfiguration) {
+    const localVarAxiosParamCreator = PetApiAxiosParamCreator(apiConfiguration)
     return {
         /**
          * 
@@ -629,7 +629,7 @@ export const PetApiFp = function(configuration?: Configuration) {
          */
         async addPet(pet: Pet, header1?: Pet, header2?: Array<Pet>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.addPet(pet, header1, header2, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, apiConfiguration);
         },
         /**
          * 
@@ -641,7 +641,7 @@ export const PetApiFp = function(configuration?: Configuration) {
          */
         async deletePet(petId: number, apiKey?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.deletePet(petId, apiKey, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, apiConfiguration);
         },
         /**
          * Multiple status values can be provided with comma separated strings
@@ -652,7 +652,7 @@ export const PetApiFp = function(configuration?: Configuration) {
          */
         async findPetsByStatus(status: Array<'available' | 'pending' | 'sold'>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Pet>>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.findPetsByStatus(status, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, apiConfiguration);
         },
         /**
          * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
@@ -664,7 +664,7 @@ export const PetApiFp = function(configuration?: Configuration) {
          */
         async findPetsByTags(tags: Array<string>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Pet>>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.findPetsByTags(tags, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, apiConfiguration);
         },
         /**
          * Returns a single pet
@@ -675,7 +675,7 @@ export const PetApiFp = function(configuration?: Configuration) {
          */
         async getPetById(petId: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Pet>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getPetById(petId, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, apiConfiguration);
         },
         /**
          * 
@@ -686,7 +686,7 @@ export const PetApiFp = function(configuration?: Configuration) {
          */
         async updatePet(pet: Pet, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.updatePet(pet, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, apiConfiguration);
         },
         /**
          * 
@@ -699,7 +699,7 @@ export const PetApiFp = function(configuration?: Configuration) {
          */
         async updatePetWithForm(petId: number, name?: string, status?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.updatePetWithForm(petId, name, status, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, apiConfiguration);
         },
         /**
          * 
@@ -712,7 +712,7 @@ export const PetApiFp = function(configuration?: Configuration) {
          */
         async uploadFile(petId: number, additionalMetadata?: string, file?: any, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApiResponse>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.uploadFile(petId, additionalMetadata, file, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, apiConfiguration);
         },
     }
 };
@@ -721,8 +721,8 @@ export const PetApiFp = function(configuration?: Configuration) {
  * PetApi - factory interface
  * @export
  */
-export const PetApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    const localVarFp = PetApiFp(configuration)
+export const PetApiFactory = function (apiConfiguration?: ApiConfiguration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = PetApiFp(apiConfiguration)
     return {
         /**
          * 
@@ -833,7 +833,7 @@ export class PetApi extends BaseAPI {
      * @memberof PetApi
      */
     public addPet(pet: Pet, header1?: Pet, header2?: Array<Pet>, options?: AxiosRequestConfig) {
-        return PetApiFp(this.configuration).addPet(pet, header1, header2, options).then((request) => request(this.axios, this.basePath));
+        return PetApiFp(this.apiConfiguration).addPet(pet, header1, header2, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -846,7 +846,7 @@ export class PetApi extends BaseAPI {
      * @memberof PetApi
      */
     public deletePet(petId: number, apiKey?: string, options?: AxiosRequestConfig) {
-        return PetApiFp(this.configuration).deletePet(petId, apiKey, options).then((request) => request(this.axios, this.basePath));
+        return PetApiFp(this.apiConfiguration).deletePet(petId, apiKey, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -858,7 +858,7 @@ export class PetApi extends BaseAPI {
      * @memberof PetApi
      */
     public findPetsByStatus(status: Array<'available' | 'pending' | 'sold'>, options?: AxiosRequestConfig) {
-        return PetApiFp(this.configuration).findPetsByStatus(status, options).then((request) => request(this.axios, this.basePath));
+        return PetApiFp(this.apiConfiguration).findPetsByStatus(status, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -871,7 +871,7 @@ export class PetApi extends BaseAPI {
      * @memberof PetApi
      */
     public findPetsByTags(tags: Array<string>, options?: AxiosRequestConfig) {
-        return PetApiFp(this.configuration).findPetsByTags(tags, options).then((request) => request(this.axios, this.basePath));
+        return PetApiFp(this.apiConfiguration).findPetsByTags(tags, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -883,7 +883,7 @@ export class PetApi extends BaseAPI {
      * @memberof PetApi
      */
     public getPetById(petId: number, options?: AxiosRequestConfig) {
-        return PetApiFp(this.configuration).getPetById(petId, options).then((request) => request(this.axios, this.basePath));
+        return PetApiFp(this.apiConfiguration).getPetById(petId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -895,7 +895,7 @@ export class PetApi extends BaseAPI {
      * @memberof PetApi
      */
     public updatePet(pet: Pet, options?: AxiosRequestConfig) {
-        return PetApiFp(this.configuration).updatePet(pet, options).then((request) => request(this.axios, this.basePath));
+        return PetApiFp(this.apiConfiguration).updatePet(pet, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -909,7 +909,7 @@ export class PetApi extends BaseAPI {
      * @memberof PetApi
      */
     public updatePetWithForm(petId: number, name?: string, status?: string, options?: AxiosRequestConfig) {
-        return PetApiFp(this.configuration).updatePetWithForm(petId, name, status, options).then((request) => request(this.axios, this.basePath));
+        return PetApiFp(this.apiConfiguration).updatePetWithForm(petId, name, status, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -923,7 +923,7 @@ export class PetApi extends BaseAPI {
      * @memberof PetApi
      */
     public uploadFile(petId: number, additionalMetadata?: string, file?: any, options?: AxiosRequestConfig) {
-        return PetApiFp(this.configuration).uploadFile(petId, additionalMetadata, file, options).then((request) => request(this.axios, this.basePath));
+        return PetApiFp(this.apiConfiguration).uploadFile(petId, additionalMetadata, file, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -932,7 +932,7 @@ export class PetApi extends BaseAPI {
  * StoreApi - axios parameter creator
  * @export
  */
-export const StoreApiAxiosParamCreator = function (configuration?: Configuration) {
+export const StoreApiAxiosParamCreator = function (apiConfiguration?: ApiConfiguration) {
     return {
         /**
          * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
@@ -949,8 +949,8 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
+            if (apiConfiguration) {
+                baseOptions = apiConfiguration.baseOptions;
             }
 
             const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
@@ -979,8 +979,8 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
+            if (apiConfiguration) {
+                baseOptions = apiConfiguration.baseOptions;
             }
 
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
@@ -988,7 +988,7 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
             const localVarQueryParameter = {} as any;
 
             // authentication api_key required
-            await setApiKeyToObject(localVarHeaderParameter, "api_key", configuration)
+            await setApiKeyToObject(localVarHeaderParameter, "api_key", apiConfiguration)
 
 
     
@@ -1016,8 +1016,8 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
+            if (apiConfiguration) {
+                baseOptions = apiConfiguration.baseOptions;
             }
 
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
@@ -1049,8 +1049,8 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
+            if (apiConfiguration) {
+                baseOptions = apiConfiguration.baseOptions;
             }
 
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
@@ -1064,7 +1064,7 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(order, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(order, localVarRequestOptions, apiConfiguration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -1078,8 +1078,8 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
  * StoreApi - functional programming interface
  * @export
  */
-export const StoreApiFp = function(configuration?: Configuration) {
-    const localVarAxiosParamCreator = StoreApiAxiosParamCreator(configuration)
+export const StoreApiFp = function(apiConfiguration?: ApiConfiguration) {
+    const localVarAxiosParamCreator = StoreApiAxiosParamCreator(apiConfiguration)
     return {
         /**
          * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
@@ -1090,7 +1090,7 @@ export const StoreApiFp = function(configuration?: Configuration) {
          */
         async deleteOrder(orderId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.deleteOrder(orderId, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, apiConfiguration);
         },
         /**
          * Returns a map of status codes to quantities
@@ -1100,7 +1100,7 @@ export const StoreApiFp = function(configuration?: Configuration) {
          */
         async getInventory(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{ [key: string]: number; }>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getInventory(options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, apiConfiguration);
         },
         /**
          * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
@@ -1111,7 +1111,7 @@ export const StoreApiFp = function(configuration?: Configuration) {
          */
         async getOrderById(orderId: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Order>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getOrderById(orderId, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, apiConfiguration);
         },
         /**
          * 
@@ -1122,7 +1122,7 @@ export const StoreApiFp = function(configuration?: Configuration) {
          */
         async placeOrder(order: Order, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Order>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.placeOrder(order, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, apiConfiguration);
         },
     }
 };
@@ -1131,8 +1131,8 @@ export const StoreApiFp = function(configuration?: Configuration) {
  * StoreApi - factory interface
  * @export
  */
-export const StoreApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    const localVarFp = StoreApiFp(configuration)
+export const StoreApiFactory = function (apiConfiguration?: ApiConfiguration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = StoreApiFp(apiConfiguration)
     return {
         /**
          * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
@@ -1192,7 +1192,7 @@ export class StoreApi extends BaseAPI {
      * @memberof StoreApi
      */
     public deleteOrder(orderId: string, options?: AxiosRequestConfig) {
-        return StoreApiFp(this.configuration).deleteOrder(orderId, options).then((request) => request(this.axios, this.basePath));
+        return StoreApiFp(this.apiConfiguration).deleteOrder(orderId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -1203,7 +1203,7 @@ export class StoreApi extends BaseAPI {
      * @memberof StoreApi
      */
     public getInventory(options?: AxiosRequestConfig) {
-        return StoreApiFp(this.configuration).getInventory(options).then((request) => request(this.axios, this.basePath));
+        return StoreApiFp(this.apiConfiguration).getInventory(options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -1215,7 +1215,7 @@ export class StoreApi extends BaseAPI {
      * @memberof StoreApi
      */
     public getOrderById(orderId: number, options?: AxiosRequestConfig) {
-        return StoreApiFp(this.configuration).getOrderById(orderId, options).then((request) => request(this.axios, this.basePath));
+        return StoreApiFp(this.apiConfiguration).getOrderById(orderId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -1227,7 +1227,7 @@ export class StoreApi extends BaseAPI {
      * @memberof StoreApi
      */
     public placeOrder(order: Order, options?: AxiosRequestConfig) {
-        return StoreApiFp(this.configuration).placeOrder(order, options).then((request) => request(this.axios, this.basePath));
+        return StoreApiFp(this.apiConfiguration).placeOrder(order, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -1236,7 +1236,7 @@ export class StoreApi extends BaseAPI {
  * UserApi - axios parameter creator
  * @export
  */
-export const UserApiAxiosParamCreator = function (configuration?: Configuration) {
+export const UserApiAxiosParamCreator = function (apiConfiguration?: ApiConfiguration) {
     return {
         /**
          * This can only be done by the logged in user.
@@ -1252,8 +1252,8 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
+            if (apiConfiguration) {
+                baseOptions = apiConfiguration.baseOptions;
             }
 
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
@@ -1267,7 +1267,7 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(user, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(user, localVarRequestOptions, apiConfiguration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -1288,8 +1288,8 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
+            if (apiConfiguration) {
+                baseOptions = apiConfiguration.baseOptions;
             }
 
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
@@ -1303,7 +1303,7 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(user, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(user, localVarRequestOptions, apiConfiguration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -1324,8 +1324,8 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
+            if (apiConfiguration) {
+                baseOptions = apiConfiguration.baseOptions;
             }
 
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
@@ -1339,7 +1339,7 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(user, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(user, localVarRequestOptions, apiConfiguration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -1361,8 +1361,8 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
+            if (apiConfiguration) {
+                baseOptions = apiConfiguration.baseOptions;
             }
 
             const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
@@ -1395,8 +1395,8 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
+            if (apiConfiguration) {
+                baseOptions = apiConfiguration.baseOptions;
             }
 
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
@@ -1431,8 +1431,8 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
+            if (apiConfiguration) {
+                baseOptions = apiConfiguration.baseOptions;
             }
 
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
@@ -1469,8 +1469,8 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
+            if (apiConfiguration) {
+                baseOptions = apiConfiguration.baseOptions;
             }
 
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
@@ -1506,8 +1506,8 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
+            if (apiConfiguration) {
+                baseOptions = apiConfiguration.baseOptions;
             }
 
             const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
@@ -1521,7 +1521,7 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(user, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(user, localVarRequestOptions, apiConfiguration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -1535,8 +1535,8 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
  * UserApi - functional programming interface
  * @export
  */
-export const UserApiFp = function(configuration?: Configuration) {
-    const localVarAxiosParamCreator = UserApiAxiosParamCreator(configuration)
+export const UserApiFp = function(apiConfiguration?: ApiConfiguration) {
+    const localVarAxiosParamCreator = UserApiAxiosParamCreator(apiConfiguration)
     return {
         /**
          * This can only be done by the logged in user.
@@ -1547,7 +1547,7 @@ export const UserApiFp = function(configuration?: Configuration) {
          */
         async createUser(user: User, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.createUser(user, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, apiConfiguration);
         },
         /**
          * 
@@ -1558,7 +1558,7 @@ export const UserApiFp = function(configuration?: Configuration) {
          */
         async createUsersWithArrayInput(user: Array<User>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.createUsersWithArrayInput(user, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, apiConfiguration);
         },
         /**
          * 
@@ -1569,7 +1569,7 @@ export const UserApiFp = function(configuration?: Configuration) {
          */
         async createUsersWithListInput(user: Array<User>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.createUsersWithListInput(user, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, apiConfiguration);
         },
         /**
          * This can only be done by the logged in user.
@@ -1580,7 +1580,7 @@ export const UserApiFp = function(configuration?: Configuration) {
          */
         async deleteUser(username: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.deleteUser(username, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, apiConfiguration);
         },
         /**
          * 
@@ -1591,7 +1591,7 @@ export const UserApiFp = function(configuration?: Configuration) {
          */
         async getUserByName(username: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<User>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getUserByName(username, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, apiConfiguration);
         },
         /**
          * 
@@ -1603,7 +1603,7 @@ export const UserApiFp = function(configuration?: Configuration) {
          */
         async loginUser(username: string, password: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.loginUser(username, password, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, apiConfiguration);
         },
         /**
          * 
@@ -1613,7 +1613,7 @@ export const UserApiFp = function(configuration?: Configuration) {
          */
         async logoutUser(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.logoutUser(options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, apiConfiguration);
         },
         /**
          * This can only be done by the logged in user.
@@ -1625,7 +1625,7 @@ export const UserApiFp = function(configuration?: Configuration) {
          */
         async updateUser(username: string, user: User, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.updateUser(username, user, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, apiConfiguration);
         },
     }
 };
@@ -1634,8 +1634,8 @@ export const UserApiFp = function(configuration?: Configuration) {
  * UserApi - factory interface
  * @export
  */
-export const UserApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    const localVarFp = UserApiFp(configuration)
+export const UserApiFactory = function (apiConfiguration?: ApiConfiguration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = UserApiFp(apiConfiguration)
     return {
         /**
          * This can only be done by the logged in user.
@@ -1737,7 +1737,7 @@ export class UserApi extends BaseAPI {
      * @memberof UserApi
      */
     public createUser(user: User, options?: AxiosRequestConfig) {
-        return UserApiFp(this.configuration).createUser(user, options).then((request) => request(this.axios, this.basePath));
+        return UserApiFp(this.apiConfiguration).createUser(user, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -1749,7 +1749,7 @@ export class UserApi extends BaseAPI {
      * @memberof UserApi
      */
     public createUsersWithArrayInput(user: Array<User>, options?: AxiosRequestConfig) {
-        return UserApiFp(this.configuration).createUsersWithArrayInput(user, options).then((request) => request(this.axios, this.basePath));
+        return UserApiFp(this.apiConfiguration).createUsersWithArrayInput(user, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -1761,7 +1761,7 @@ export class UserApi extends BaseAPI {
      * @memberof UserApi
      */
     public createUsersWithListInput(user: Array<User>, options?: AxiosRequestConfig) {
-        return UserApiFp(this.configuration).createUsersWithListInput(user, options).then((request) => request(this.axios, this.basePath));
+        return UserApiFp(this.apiConfiguration).createUsersWithListInput(user, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -1773,7 +1773,7 @@ export class UserApi extends BaseAPI {
      * @memberof UserApi
      */
     public deleteUser(username: string, options?: AxiosRequestConfig) {
-        return UserApiFp(this.configuration).deleteUser(username, options).then((request) => request(this.axios, this.basePath));
+        return UserApiFp(this.apiConfiguration).deleteUser(username, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -1785,7 +1785,7 @@ export class UserApi extends BaseAPI {
      * @memberof UserApi
      */
     public getUserByName(username: string, options?: AxiosRequestConfig) {
-        return UserApiFp(this.configuration).getUserByName(username, options).then((request) => request(this.axios, this.basePath));
+        return UserApiFp(this.apiConfiguration).getUserByName(username, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -1798,7 +1798,7 @@ export class UserApi extends BaseAPI {
      * @memberof UserApi
      */
     public loginUser(username: string, password: string, options?: AxiosRequestConfig) {
-        return UserApiFp(this.configuration).loginUser(username, password, options).then((request) => request(this.axios, this.basePath));
+        return UserApiFp(this.apiConfiguration).loginUser(username, password, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -1809,7 +1809,7 @@ export class UserApi extends BaseAPI {
      * @memberof UserApi
      */
     public logoutUser(options?: AxiosRequestConfig) {
-        return UserApiFp(this.configuration).logoutUser(options).then((request) => request(this.axios, this.basePath));
+        return UserApiFp(this.apiConfiguration).logoutUser(options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -1822,7 +1822,7 @@ export class UserApi extends BaseAPI {
      * @memberof UserApi
      */
     public updateUser(username: string, user: User, options?: AxiosRequestConfig) {
-        return UserApiFp(this.configuration).updateUser(username, user, options).then((request) => request(this.axios, this.basePath));
+        return UserApiFp(this.apiConfiguration).updateUser(username, user, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
