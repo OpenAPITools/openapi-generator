@@ -36,6 +36,16 @@ from petstore_api.schemas import (
 )
 
 
+def spy_decorator(method_to_decorate: typing.Callable):
+    mock = unittest.mock.MagicMock()
+
+    def wrapper(self, *args, **kwargs):
+        mock(*args, **kwargs)
+        return method_to_decorate(self, *args, **kwargs)
+    wrapper.mock = mock
+    return wrapper
+
+
 class TestValidateResults(unittest.TestCase):
     def test_str_validate(self):
         vm = ValidationMetadata()
@@ -323,37 +333,14 @@ class TestValidateCalls(unittest.TestCase):
             Foo(bar="a")
 
     def test_dict_validate_direct_instantiation_cast_item(self):
-        expected_call_by_index = {
-            0: [
-                Foo,
-                (frozendict({"bar": "a"}),),
-                ValidationMetadata(path_to_item=("args[0]",)),
-            ],
-        }
-        call_index = 0
-        result_by_call_index = {
-            0: defaultdict(set, [(("args[0]",), set([Foo, frozendict]))]),
-        }
-
-        @classmethod
-        def new_validate(
-            cls,
-            *args,
-            validation_metadata: typing.Optional[ValidationMetadata] = None,
-        ):
-            nonlocal call_index
-            assert [cls, args, validation_metadata] == expected_call_by_index[
-                call_index
-            ]
-            result = result_by_call_index.get(call_index)
-            call_index += 1
-            if result is None:
-                raise petstore_api.ApiValueError("boom")
-            return result
-
         bar = StrSchema("a")
-        with patch.object(Schema, "_validate", new=new_validate):
+        new_validate = spy_decorator(Schema._validate)
+        with patch.object(Schema, "_validate", new_validate) as wrapped_vaidate:
             Foo(bar=bar)
+            self.assertEqual(
+                wrapped_vaidate.mock_calls,
+                []
+            )
 
     def test_dict_validate_from_openapi_data_instantiation(self):
         expected_call_by_index = {

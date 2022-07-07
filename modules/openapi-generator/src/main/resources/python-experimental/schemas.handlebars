@@ -1205,16 +1205,6 @@ class Schema:
             # this must be higher than the int check because
             # isinstance(True, int) == True
             return bool
-        elif isinstance(input_value, int):
-            return int
-        elif isinstance(input_value, float):
-            return float
-        elif isinstance(input_value, datetime):
-            # this must be higher than the date check because
-            # isinstance(datetime_instance, date) == True
-            return datetime
-        elif isinstance(input_value, date):
-            return date
         elif isinstance(input_value, str):
             return str
         return type(input_value)
