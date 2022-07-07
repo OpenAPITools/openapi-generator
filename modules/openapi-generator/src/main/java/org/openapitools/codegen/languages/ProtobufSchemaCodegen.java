@@ -293,8 +293,9 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                     addEnumIndexes(enumVars);
                 }
             }
-
-            int index = 1;
+            
+            //to keep track of the indexes used, prevent duplicate indexes
+            Set<Integer> usedIndexes = new HashSet<Integer>();
             for (CodegenProperty var : cm.vars) {
                 // add x-protobuf-type: repeated if it's an array
                 if (Boolean.TRUE.equals(var.isArray)) {
@@ -324,19 +325,74 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                     }
                 }
 
-                // Add x-protobuf-index, unless already specified
-                if(this.numberedFieldNumberList) {
-                    var.vendorExtensions.putIfAbsent("x-protobuf-index", index);
-                    index++;
-                }
-                else {
-                    try {
-                        var.vendorExtensions.putIfAbsent("x-protobuf-index", generateFieldNumberFromString(var.getName()));
-                    } catch (ProtoBufIndexComputationException e) {
-                        LOGGER.error("Exception when assigning a index to a protobuf field", e);
-                        var.vendorExtensions.putIfAbsent("x-protobuf-index", "Generated field number is in reserved range (19000, 19999)");
+                //add x-protobuf-index
+                int protobufIndex = 0;
+                if (var.vendorExtensions.containsKey("x-protobuf-index")) {
+                    protobufIndex = (int) var.vendorExtensions.get("x-protobuf-index");
+                    if (protobufIndex > 0) {
+                        if (!usedIndexes.contains(protobufIndex)) {
+                            //update usedIndexes list
+                            usedIndexes.add(protobufIndex);
+                        }
+                        else {
+                            LOGGER.error("Field number " + protobufIndex + " already used");
+                            throw new RuntimeException("A same field number is used multiple times");
+                        }
+                    }
+                    else {
+                        LOGGER.error("Field number " + protobufIndex + " not strictly positive");
+                        throw new RuntimeException("Only stricly positive field numbers are allowed");
                     }
                 }
+                else if (var.vendorExtensions.containsKey("x-protobuf-field-number")) {
+                    protobufIndex = (int) var.vendorExtensions.get("x-protobuf-field-number");                    
+                    if (protobufIndex > 0) {
+                        if (!usedIndexes.contains(protobufIndex)) {
+                            //update usedIndexes list and add x-protobuf-index
+                            usedIndexes.add(protobufIndex);
+                            var.vendorExtensions.put("x-protobuf-index", protobufIndex);
+                        }
+                        else {
+                            LOGGER.error("Field number " + protobufIndex + " already used");
+                            throw new RuntimeException("A same field number is used multiple times");
+                        }
+                    }
+                    else {
+                        LOGGER.error("Field number " + protobufIndex + " not strictly positive");
+                        throw new RuntimeException("Only stricly positive field numbers are allowed");
+                    }
+                }
+            }
+            //automatic index generation when index not specified using extensions
+            int index = 1;
+            for (CodegenProperty var : cm.vars) {
+                if (!var.vendorExtensions.containsKey("x-protobuf-index")) {
+                    if (this.numberedFieldNumberList) {
+                        //prevent from using index already used
+                        while (usedIndexes.contains(index)) {
+                            index++;
+                        }
+                        usedIndexes.add(index);
+                        var.vendorExtensions.put("x-protobuf-index", index);
+                    }
+                    else {
+                        try {
+                            int protobufIndex = generateFieldNumberFromString(var.getName());
+                            if (!usedIndexes.contains(protobufIndex)) {
+                                //update usedIndexes list and add x-protobuf-index
+                                usedIndexes.add(protobufIndex);
+                                var.vendorExtensions.put("x-protobuf-index", protobufIndex);
+                            }
+                            else {
+                                LOGGER.error("Field number " + protobufIndex + " already used");
+                                throw new RuntimeException("A same field number is used multiple times");
+                            }
+                        } catch (ProtoBufIndexComputationException e) {
+                            LOGGER.error("Exception when assigning a index to a protobuf field", e);
+                            var.vendorExtensions.put("x-protobuf-index", "Generated field number is in reserved range (19000, 19999)");
+                        }
+                    }
+                }                
             }
         }
         return objs;
@@ -547,7 +603,8 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         OperationMap operations = objs.getOperations();
         List<CodegenOperation> operationList = operations.getOperation();
         for (CodegenOperation op : operationList) {
-            int index = 1;
+            //to keep track of the indexes used, prevent duplicate indexes
+            Set<Integer> usedIndexes = new HashSet<Integer>();
             for (CodegenParameter p : op.allParams) {
                 // add x-protobuf-type: repeated if it's an array
                 
@@ -571,8 +628,55 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                     }
                 }
 
-                p.vendorExtensions.putIfAbsent("x-protobuf-index", index);
-                index++;
+                //add x-protobuf-index
+                int protobufIndex = 0;
+                if (p.vendorExtensions.containsKey("x-protobuf-index")) {
+                    protobufIndex = (int) p.vendorExtensions.get("x-protobuf-index");
+                    if (protobufIndex > 0) {
+                        if (!usedIndexes.contains(protobufIndex)) {
+                            //update usedIndexes list
+                            usedIndexes.add(protobufIndex);
+                        }
+                        else {
+                            LOGGER.error("Field number " + protobufIndex + " already used");
+                            throw new RuntimeException("A same field number is used multiple times");
+                        }
+                    }
+                    else {
+                        LOGGER.error("Field number " + protobufIndex + " not strictly positive");
+                        throw new RuntimeException("Only stricly positive field numbers are allowed");
+                    }
+                }
+                else if (p.vendorExtensions.containsKey("x-protobuf-field-number")) {
+                    protobufIndex = (int) p.vendorExtensions.get("x-protobuf-field-number");                    
+                    if (protobufIndex > 0) {
+                        if (!usedIndexes.contains(protobufIndex)) {
+                            //update usedIndexes list and add x-protobuf-index
+                            usedIndexes.add(protobufIndex);
+                            p.vendorExtensions.put("x-protobuf-index", protobufIndex);
+                        }
+                        else {
+                            LOGGER.error("Field number " + protobufIndex + " already used");
+                            throw new RuntimeException("A same field number is used multiple times");
+                        }
+                    }
+                    else {
+                        LOGGER.error("Field number " + protobufIndex + " not strictly positive");
+                        throw new RuntimeException("Only stricly positive field numbers are allowed");
+                    }
+                }
+            }
+            //automatic index generation when index not specified using extensions
+            int index = 1;
+            for (CodegenParameter p : op.allParams) {
+                if (!p.vendorExtensions.containsKey("x-protobuf-index")) {
+                    //prevent from using index already used
+                    while (usedIndexes.contains(index)) {
+                        index++;
+                    }
+                    usedIndexes.add(index);
+                    p.vendorExtensions.put("x-protobuf-index", index);
+                }                
             }
 
             if (StringUtils.isEmpty(op.returnType)) {
