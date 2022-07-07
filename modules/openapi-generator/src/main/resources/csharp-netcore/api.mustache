@@ -433,6 +433,13 @@ namespace {{packageName}}.{{apiPackage}}
             {{/isBasicBasic}}
             {{#isBasicBearer}}
             // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+            {{/isBasicBearer}}
+            {{#isOAuth}}
+            // oauth required
             if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
                 if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
@@ -440,21 +447,14 @@ namespace {{packageName}}.{{apiPackage}}
                     localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
                 }
                 {{#hasOAuthMethods}}
-                else if (!string.IsNullOrEmpty(this.Configuration.ClientId) &&
-                         !string.IsNullOrEmpty(this.Configuration.ClientSecret) &&
+                else if (!string.IsNullOrEmpty(this.Configuration.TokenUrl) &&
                          !string.IsNullOrEmpty(this.Configuration.ClientId) &&
-                         !string.IsNullOrEmpty(this.Configuration.ClientSecret))
+                         !string.IsNullOrEmpty(this.Configuration.ClientSecret) &&
+                         this.Configuration.OAuthFlow != null)
                 {
                     localVarRequestOptions.OAuth = True;
                 }
                 {{/hasOAuthMethods}}
-            }
-            {{/isBasicBearer}}
-            {{#isOAuth}}
-            // oauth required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-            {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
             {{/isOAuth}}
             {{#isHttpSignature}}
@@ -690,10 +690,10 @@ namespace {{packageName}}.{{apiPackage}}
                     localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
                 }
                 {{#hasOAuthMethods}}
-                else if (!string.IsNullOrEmpty(this.Configuration.ClientId) &&
-                         !string.IsNullOrEmpty(this.Configuration.ClientSecret) &&
+                else if (!string.IsNullOrEmpty(this.Configuration.TokenUrl) &&
                          !string.IsNullOrEmpty(this.Configuration.ClientId) &&
-                         !string.IsNullOrEmpty(this.Configuration.ClientSecret))
+                         !string.IsNullOrEmpty(this.Configuration.ClientSecret) &&
+                         this.Configuration.OAuthFlow != null)
                 {
                     localVarRequestOptions.OAuth = True;
                 }
