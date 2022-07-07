@@ -1,0 +1,60 @@
+{{>partial_header}}
+
+using System;
+using System.Threading.Tasks;
+using RestSharp;
+using RestSharp.Authenticators;
+
+namespace {{packageName}}.Client.Auth
+{
+    public class OAuthAuthenticator : AuthenticatorBase
+    {
+        readonly string _tokenUrl;
+        readonly string _clientId;
+        readonly string _clientSecret;
+        readonly string _grantType;
+
+        public OAuthAuthenticator(string tokenUrl, string clientId, string clientSecret, OAuthFlow? flow) : base("")
+        {
+            _tokenUrl = tokenUrl;
+            _clientId = clientId;
+            _clientSecret = clientSecret;
+
+            switch (flow)
+            {
+                /*case OAuthFlow.ACCESS_CODE:
+                    _grantType = "authorization_code";
+                    break;
+                case OAuthFlow.IMPLICIT:
+                    _grantType = "implicit";
+                    break;
+                case OAuthFlow.PASSWORD:
+                    _grantType = "password";
+                    break;*/
+                case OAuthFlow.APPLICATION:
+                    _grantType = "client_credentials";
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        protected override async ValueTask<Parameter> GetAuthenticationParameter(string accessToken)
+        {
+            var token = string.IsNullOrEmpty(Token) ? await GetToken() : Token;
+            return new HeaderParameter(KnownHeaders.Authorization, token);
+        }
+
+        async Task<string> GetToken()
+        {
+            var client = new RestClient(_tokenUrl);
+
+            var request = new RestRequest()
+                .AddParameter("grant_type", _grantType)
+                .AddParameter("client_id", _clientId)
+                .AddParameter("client_secret", _clientSecret);
+            var response = await client.PostAsync<TokenResponse>(request);
+            return $"{response.TokenType} {response.AccessToken}";
+        }
+    }
+}
