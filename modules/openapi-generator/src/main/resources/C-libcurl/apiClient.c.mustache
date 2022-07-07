@@ -453,8 +453,8 @@ void apiClient_invoke(apiClient_t    *apiClient,
                     curl_easy_setopt(handle, CURLOPT_SSL_VERIFYHOST, 2L);
                 }
             } else {
-                curl_easy_setopt(handle, CURLOPT_SSL_VERIFYPEER, 0L);
-                curl_easy_setopt(handle, CURLOPT_SSL_VERIFYHOST, 0L);
+                curl_easy_setopt(handle, CURLOPT_SSL_VERIFYPEER, 1L);
+                curl_easy_setopt(handle, CURLOPT_SSL_VERIFYHOST, 2L);
             }
         }
 
