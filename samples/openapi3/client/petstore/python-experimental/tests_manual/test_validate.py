@@ -334,11 +334,11 @@ class TestValidateCalls(unittest.TestCase):
 
     def test_dict_validate_direct_instantiation_cast_item(self):
         bar = StrSchema("a")
-        new_validate = spy_decorator(Schema._validate)
-        with patch.object(Schema, "_validate", new_validate) as wrapped_vaidate:
+        # new_validate = spy_decorator(Schema._validate)
+        with patch.object(Schema, "_validate", side_effect=Schema._validate, autospec=True) as wrapped_validate:
             Foo(bar=bar)
             self.assertEqual(
-                wrapped_vaidate.mock_calls,
+                wrapped_validate.mock_calls,
                 []
             )
 

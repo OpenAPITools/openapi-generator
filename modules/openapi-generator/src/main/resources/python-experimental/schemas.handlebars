@@ -369,7 +369,7 @@ class ValidatorBase:
             return True
 
 
-class Validator(typing.Protocol):
+class ValidationValidator(typing.Protocol):
     def _validate_validations_pass(
         cls,
         input_values,
@@ -378,7 +378,7 @@ class Validator(typing.Protocol):
         pass
 
 
-def _SchemaValidator(**validations: typing.Union[str, bool, None, int, float, list[dict[str, typing.Union[str, int, float]]]]) -> Validator:
+def _SchemaValidator(**validations: typing.Union[str, bool, None, int, float, list[dict[str, typing.Union[str, int, float]]]]) -> ValidationValidator:
     class SchemaValidator(ValidatorBase):
         @classmethod
         def _validate_validations_pass(
@@ -393,69 +393,6 @@ def _SchemaValidator(**validations: typing.Union[str, bool, None, int, float, li
                 return True
 
     return SchemaValidator
-
-
-class TypeChecker(typing.Protocol):
-    @classmethod
-    def _validate_type(
-        cls, arg_simple_class: type
-    ) -> typing.Tuple[type]:
-        pass
-
-
-def _SchemaTypeChecker(union_type_cls: typing.Union[typing.Any]) -> TypeChecker:
-    if typing.get_origin(union_type_cls) is typing.Union:
-        union_classes = typing.get_args(union_type_cls)
-    else:
-        # note: when a union of a single class is passed in, the union disappears
-        union_classes = tuple([union_type_cls])
-    """
-    I want the type hint... union_type_cls
-    and to use it as a base class but when I do, I get
-    TypeError: metaclass conflict: the metaclass of a derived class must be a (non-strict) subclass of the metaclasses of all its bases
-    """
-    class SchemaTypeChecker:
-        @classmethod
-        def _validate_type(cls, arg_simple_class: type):
-            if arg_simple_class not in union_classes:
-                return union_classes
-            try:
-                return super()._validate_type(arg_simple_class)
-            except AttributeError:
-                return tuple()
-
-    return SchemaTypeChecker
-
-
-class EnumMakerBase:
-    pass
-
-
-class EnumMakerInterface(typing.Protocol):
-    @classmethod
-    @property
-    def _enum_value_to_name(
-        cls
-    ) -> typing.Dict[typing.Union[str, decimal.Decimal, bool, none_type], str]:
-        pass
-
-
-def _SchemaEnumMaker(enum_value_to_name: typing.Dict[typing.Union[str, decimal.Decimal, bool, none_type], str]) -> EnumMakerInterface:
-    class SchemaEnumMaker(EnumMakerBase):
-        @classmethod
-        @property
-        def _enum_value_to_name(
-                cls
-        ) -> typing.Dict[typing.Union[str, decimal.Decimal, bool, none_type], str]:
-            pass
-            try:
-                super_enum_value_to_name = super()._enum_value_to_name
-            except AttributeError:
-                return enum_value_to_name
-            intersection = dict(enum_value_to_name.items() & super_enum_value_to_name.items())
-            return intersection
-
-    return SchemaEnumMaker
 
 
 class Singleton:
@@ -518,6 +455,133 @@ class BoolClass(Singleton):
             if self is instance:
                 return bool(key[1])
         raise ValueError('Unable to find the boolean value of this instance')
+
+
+class Validator(typing.Protocol):
+    @classmethod
+    def _validate(
+        cls,
+        arg,
+        validation_metadata: ValidationMetadata,
+    ) -> typing.Dict[typing.Tuple[typing.Union[str, int], ...], typing.Set[typing.Union['Schema', str, decimal.Decimal, BoolClass, NoneClass, frozendict, tuple]]]:
+        pass
+
+
+def _SchemaTypeChecker(union_type_cls: typing.Union[typing.Any]) -> Validator:
+    if typing.get_origin(union_type_cls) is typing.Union:
+        union_classes = typing.get_args(union_type_cls)
+    else:
+        # note: when a union of a single class is passed in, the union disappears
+        union_classes = tuple([union_type_cls])
+    """
+    I want the type hint... union_type_cls
+    and to use it as a base class but when I do, I get
+    TypeError: metaclass conflict: the metaclass of a derived class must be a (non-strict) subclass of the metaclasses of all its bases
+    """
+    class SchemaTypeChecker:
+        @staticmethod
+        def __get_valid_classes_phrase(input_classes):
+            """Returns a string phrase describing what types are allowed"""
+            all_classes = list(input_classes)
+            all_classes = sorted(all_classes, key=lambda cls: cls.__name__)
+            all_class_names = [cls.__name__ for cls in all_classes]
+            if len(all_class_names) == 1:
+                return "is {0}".format(all_class_names[0])
+            return "is one of [{0}]".format(", ".join(all_class_names))
+
+        @classmethod
+        def __type_error_message(
+            cls, var_value=None, var_name=None, valid_classes=None, key_type=None
+        ):
+            """
+            Keyword Args:
+                var_value (any): the variable which has the type_error
+                var_name (str): the name of the variable which has the typ error
+                valid_classes (tuple): the accepted classes for current_item's
+                                          value
+                key_type (bool): False if our value is a value in a dict
+                                 True if it is a key in a dict
+                                 False if our item is an item in a tuple
+            """
+            key_or_value = "value"
+            if key_type:
+                key_or_value = "key"
+            valid_classes_phrase = cls.__get_valid_classes_phrase(valid_classes)
+            msg = "Invalid type. Required {1} type {2} and " "passed type was {3}".format(
+                var_name,
+                key_or_value,
+                valid_classes_phrase,
+                type(var_value).__name__,
+            )
+            return msg
+
+        @classmethod
+        def _get_type_error(cls, var_value, path_to_item, valid_classes, key_type=False):
+            error_msg = cls.__type_error_message(
+                var_name=path_to_item[-1],
+                var_value=var_value,
+                valid_classes=valid_classes,
+                key_type=key_type,
+            )
+            return ApiTypeError(
+                error_msg,
+                path_to_item=path_to_item,
+                valid_classes=valid_classes,
+                key_type=key_type,
+            )
+
+        @classmethod
+        def _validate(
+            cls,
+            arg,
+            validation_metadata: ValidationMetadata,
+        ) -> typing.Dict[typing.Tuple[typing.Union[str, int], ...], typing.Set[typing.Union['Schema', str, decimal.Decimal, BoolClass, NoneClass, frozendict, tuple]]]:
+            """
+            SchemaTypeChecker _validate
+            Validates arg's type
+            """
+            arg_type = type(arg)
+            if arg_type in union_classes:
+                return super()._validate(arg, validation_metadata)
+            raise cls._get_type_error(
+                arg,
+                validation_metadata.path_to_item,
+                union_classes,
+                key_type=False,
+            )
+
+    return SchemaTypeChecker
+
+
+class EnumMakerBase:
+    pass
+
+
+class EnumMakerInterface(typing.Protocol):
+    @classmethod
+    @property
+    def _enum_value_to_name(
+        cls
+    ) -> typing.Dict[typing.Union[str, decimal.Decimal, bool, none_type], str]:
+        pass
+
+
+def _SchemaEnumMaker(enum_value_to_name: typing.Dict[typing.Union[str, decimal.Decimal, bool, none_type], str]) -> EnumMakerInterface:
+    class SchemaEnumMaker(EnumMakerBase):
+        @classmethod
+        @property
+        def _enum_value_to_name(
+                cls
+        ) -> typing.Dict[typing.Union[str, decimal.Decimal, bool, none_type], str]:
+            pass
+            try:
+                super_enum_value_to_name = super()._enum_value_to_name
+            except AttributeError:
+                return enum_value_to_name
+            intersection = dict(enum_value_to_name.items() & super_enum_value_to_name.items())
+            return intersection
+
+    return SchemaEnumMaker
 
 
 class BoolBase:
@@ -1168,57 +1232,6 @@ class Schema:
     - payload value is an allowed enum value
     """
 
-    @staticmethod
-    def __get_valid_classes_phrase(input_classes):
-        """Returns a string phrase describing what types are allowed"""
-        all_classes = list(input_classes)
-        all_classes = sorted(all_classes, key=lambda cls: cls.__name__)
-        all_class_names = [cls.__name__ for cls in all_classes]
-        if len(all_class_names) == 1:
-            return "is {0}".format(all_class_names[0])
-        return "is one of [{0}]".format(", ".join(all_class_names))
-
-    @classmethod
-    def __type_error_message(
-        cls, var_value=None, var_name=None, valid_classes=None, key_type=None
-    ):
-        """
-        Keyword Args:
-            var_value (any): the variable which has the type_error
-            var_name (str): the name of the variable which has the typ error
-            valid_classes (tuple): the accepted classes for current_item's
-                                      value
-            key_type (bool): False if our value is a value in a dict
-                             True if it is a key in a dict
-                             False if our item is an item in a tuple
-        """
-        key_or_value = "value"
-        if key_type:
-            key_or_value = "key"
-        valid_classes_phrase = cls.__get_valid_classes_phrase(valid_classes)
-        msg = "Invalid type. Required {1} type {2} and " "passed type was {3}".format(
-            var_name,
-            key_or_value,
-            valid_classes_phrase,
-            type(var_value).__name__,
-        )
-        return msg
-
-    @classmethod
-    def __get_type_error(cls, var_value, path_to_item, valid_classes, key_type=False):
-        error_msg = cls.__type_error_message(
-            var_name=path_to_item[-1],
-            var_value=var_value,
-            valid_classes=valid_classes,
-            key_type=key_type,
-        )
-        return ApiTypeError(
-            error_msg,
-            path_to_item=path_to_item,
-            valid_classes=valid_classes,
-            key_type=key_type,
-        )
-
     @classmethod
     def _validate(
         cls,
@@ -1253,14 +1266,6 @@ class Schema:
         base_class = type(arg)
         path_to_schemas = {validation_metadata.path_to_item: set()}
 
-        failed_type_check_classes = cls._validate_type(base_class)
-        if failed_type_check_classes:
-            raise cls.__get_type_error(
-                arg,
-                validation_metadata.path_to_item,
-                failed_type_check_classes,
-                key_type=False,
-            )
         if hasattr(cls, '_validate_validations_pass'):
             cls._validate_validations_pass(arg, validation_metadata)
         path_to_schemas[validation_metadata.path_to_item].add(cls)
@@ -1363,6 +1368,7 @@ class Schema:
     ):
         # We have a Dynamic class and we are making an instance of it
         if issubclass(cls, frozendict):
+            print(cls.__bases__)
             properties = cls._get_properties(arg, path_to_item, path_to_schemas)
             return super(Schema, cls).__new__(cls, properties)
         elif issubclass(cls, tuple):
