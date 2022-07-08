@@ -443,13 +443,12 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
             // Set<String> directParentNames = cm.allOf == null ? new HashSet<>() : cm.allOf;
             Set<String> compositeProperties = new HashSet<>();
             
-            Set<String> compositeModelNames = new HashSet<String>() {
-                {
-                    addAll(ObjectUtils.firstNonNull(cm.oneOf, new HashSet<>()));
-                    addAll(ObjectUtils.firstNonNull(cm.anyOf, new HashSet<>()));
-                    addAll(allAncestors);
-                }
-            };
+            Set<String> compositeModelNames = new HashSet<String>();
+            compositeModelNames.addAll(ObjectUtils.firstNonNull(cm.oneOf, new HashSet<>()));
+            compositeModelNames.addAll(ObjectUtils.firstNonNull(cm.anyOf, new HashSet<>()));
+            compositeModelNames.addAll(allAncestors);
+            
+
             for (String compositeModelName : compositeModelNames) {
                 CodegenModel _model =  allModels.get(compositeModelName);
                 if (_model == null) continue;
