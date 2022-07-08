@@ -334,12 +334,17 @@ class TestValidateCalls(unittest.TestCase):
 
     def test_dict_validate_direct_instantiation_cast_item(self):
         bar = StrSchema("a")
-        # new_validate = spy_decorator(Schema._validate)
-        with patch.object(Schema, "_validate", side_effect=Schema._validate, autospec=True) as wrapped_validate:
+        return_value = {
+            ("args[0]",): {Foo, frozendict}
+        }
+        # only the Foo dict is validated because the bar property value was already validated
+        with patch.object(Schema, "_validate", return_value=return_value) as mock_validate:
             Foo(bar=bar)
-            self.assertEqual(
-                wrapped_validate.mock_calls,
-                []
+            mock_validate.assert_called_once_with(
+                frozendict(dict(bar='a')),
+                validation_metadata=ValidationMetadata(
+                    validated_path_to_schemas={('args[0]', 'bar'): {str, StrSchema}}
+                )
             )
 
     def test_dict_validate_from_openapi_data_instantiation(self):
