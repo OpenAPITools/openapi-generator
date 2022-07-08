@@ -409,6 +409,14 @@ namespace Org.OpenAPITools.Client
                 }
             }
 
+            if (response.ContentHeaders != null)
+            {
+                foreach (var responseHeader in response.ContentHeaders)
+                {
+                    transformed.Headers.Add(responseHeader.Name, ClientUtils.ParameterToString(responseHeader.Value));
+                }
+            }
+
             if (response.Cookies != null)
             {
                 foreach (var responseCookies in response.Cookies.Cast<Cookie>())

@@ -681,12 +681,12 @@ namespace Org.OpenAPITools.Api
                 {
                     localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
                 }
-                else if (!string.IsNullOrEmpty(this.Configuration.TokenUrl) &&
-                         !string.IsNullOrEmpty(this.Configuration.ClientId) &&
-                         !string.IsNullOrEmpty(this.Configuration.ClientSecret) &&
+                else if (!string.IsNullOrEmpty(this.Configuration.OAuthTokenUrl) &&
+                         !string.IsNullOrEmpty(this.Configuration.OAuthClientId) &&
+                         !string.IsNullOrEmpty(this.Configuration.OAuthClientSecret) &&
                          this.Configuration.OAuthFlow != null)
                 {
-                    localVarRequestOptions.OAuth = True;
+                    localVarRequestOptions.OAuth = true;
                 }
             }
 
@@ -786,12 +786,12 @@ namespace Org.OpenAPITools.Api
                 {
                     localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
                 }
-                else if (!string.IsNullOrEmpty(this.Configuration.TokenUrl) &&
-                         !string.IsNullOrEmpty(this.Configuration.ClientId) &&
-                         !string.IsNullOrEmpty(this.Configuration.ClientSecret) &&
+                else if (!string.IsNullOrEmpty(this.Configuration.OAuthTokenUrl) &&
+                         !string.IsNullOrEmpty(this.Configuration.OAuthClientId) &&
+                         !string.IsNullOrEmpty(this.Configuration.OAuthClientSecret) &&
                          this.Configuration.OAuthFlow != null)
                 {
-                    localVarRequestOptions.OAuth = True;
+                    localVarRequestOptions.OAuth = true;
                 }
             }
 
@@ -871,12 +871,12 @@ namespace Org.OpenAPITools.Api
                 {
                     localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
                 }
-                else if (!string.IsNullOrEmpty(this.Configuration.TokenUrl) &&
-                         !string.IsNullOrEmpty(this.Configuration.ClientId) &&
-                         !string.IsNullOrEmpty(this.Configuration.ClientSecret) &&
+                else if (!string.IsNullOrEmpty(this.Configuration.OAuthTokenUrl) &&
+                         !string.IsNullOrEmpty(this.Configuration.OAuthClientId) &&
+                         !string.IsNullOrEmpty(this.Configuration.OAuthClientSecret) &&
                          this.Configuration.OAuthFlow != null)
                 {
-                    localVarRequestOptions.OAuth = True;
+                    localVarRequestOptions.OAuth = true;
                 }
             }
 
@@ -958,12 +958,12 @@ namespace Org.OpenAPITools.Api
                 {
                     localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
                 }
-                else if (!string.IsNullOrEmpty(this.Configuration.TokenUrl) &&
-                         !string.IsNullOrEmpty(this.Configuration.ClientId) &&
-                         !string.IsNullOrEmpty(this.Configuration.ClientSecret) &&
+                else if (!string.IsNullOrEmpty(this.Configuration.OAuthTokenUrl) &&
+                         !string.IsNullOrEmpty(this.Configuration.OAuthClientId) &&
+                         !string.IsNullOrEmpty(this.Configuration.OAuthClientSecret) &&
                          this.Configuration.OAuthFlow != null)
                 {
-                    localVarRequestOptions.OAuth = True;
+                    localVarRequestOptions.OAuth = true;
                 }
             }
 
@@ -1062,12 +1062,12 @@ namespace Org.OpenAPITools.Api
                 {
                     localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
                 }
-                else if (!string.IsNullOrEmpty(this.Configuration.TokenUrl) &&
-                         !string.IsNullOrEmpty(this.Configuration.ClientId) &&
-                         !string.IsNullOrEmpty(this.Configuration.ClientSecret) &&
+                else if (!string.IsNullOrEmpty(this.Configuration.OAuthTokenUrl) &&
+                         !string.IsNullOrEmpty(this.Configuration.OAuthClientId) &&
+                         !string.IsNullOrEmpty(this.Configuration.OAuthClientSecret) &&
                          this.Configuration.OAuthFlow != null)
                 {
-                    localVarRequestOptions.OAuth = True;
+                    localVarRequestOptions.OAuth = true;
                 }
             }
 
@@ -1168,12 +1168,12 @@ namespace Org.OpenAPITools.Api
                 {
                     localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
                 }
-                else if (!string.IsNullOrEmpty(this.Configuration.TokenUrl) &&
-                         !string.IsNullOrEmpty(this.Configuration.ClientId) &&
-                         !string.IsNullOrEmpty(this.Configuration.ClientSecret) &&
+                else if (!string.IsNullOrEmpty(this.Configuration.OAuthTokenUrl) &&
+                         !string.IsNullOrEmpty(this.Configuration.OAuthClientId) &&
+                         !string.IsNullOrEmpty(this.Configuration.OAuthClientSecret) &&
                          this.Configuration.OAuthFlow != null)
                 {
-                    localVarRequestOptions.OAuth = True;
+                    localVarRequestOptions.OAuth = true;
                 }
             }
 
@@ -1274,12 +1274,12 @@ namespace Org.OpenAPITools.Api
                 {
                     localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
                 }
-                else if (!string.IsNullOrEmpty(this.Configuration.TokenUrl) &&
-                         !string.IsNullOrEmpty(this.Configuration.ClientId) &&
-                         !string.IsNullOrEmpty(this.Configuration.ClientSecret) &&
+                else if (!string.IsNullOrEmpty(this.Configuration.OAuthTokenUrl) &&
+                         !string.IsNullOrEmpty(this.Configuration.OAuthClientId) &&
+                         !string.IsNullOrEmpty(this.Configuration.OAuthClientSecret) &&
                          this.Configuration.OAuthFlow != null)
                 {
-                    localVarRequestOptions.OAuth = True;
+                    localVarRequestOptions.OAuth = true;
                 }
             }
 
@@ -1382,12 +1382,12 @@ namespace Org.OpenAPITools.Api
                 {
                     localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
                 }
-                else if (!string.IsNullOrEmpty(this.Configuration.TokenUrl) &&
-                         !string.IsNullOrEmpty(this.Configuration.ClientId) &&
-                         !string.IsNullOrEmpty(this.Configuration.ClientSecret) &&
+                else if (!string.IsNullOrEmpty(this.Configuration.OAuthTokenUrl) &&
+                         !string.IsNullOrEmpty(this.Configuration.OAuthClientId) &&
+                         !string.IsNullOrEmpty(this.Configuration.OAuthClientSecret) &&
                          this.Configuration.OAuthFlow != null)
                 {
-                    localVarRequestOptions.OAuth = True;
+                    localVarRequestOptions.OAuth = true;
                 }
             }
 
@@ -1629,12 +1629,12 @@ namespace Org.OpenAPITools.Api
                 {
                     localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
                 }
-                else if (!string.IsNullOrEmpty(this.Configuration.TokenUrl) &&
-                         !string.IsNullOrEmpty(this.Configuration.ClientId) &&
-                         !string.IsNullOrEmpty(this.Configuration.ClientSecret) &&
+                else if (!string.IsNullOrEmpty(this.Configuration.OAuthTokenUrl) &&
+                         !string.IsNullOrEmpty(this.Configuration.OAuthClientId) &&
+                         !string.IsNullOrEmpty(this.Configuration.OAuthClientSecret) &&
                          this.Configuration.OAuthFlow != null)
                 {
-                    localVarRequestOptions.OAuth = True;
+                    localVarRequestOptions.OAuth = true;
                 }
             }
 
@@ -1734,12 +1734,12 @@ namespace Org.OpenAPITools.Api
                 {
                     localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
                 }
-                else if (!string.IsNullOrEmpty(this.Configuration.TokenUrl) &&
-                         !string.IsNullOrEmpty(this.Configuration.ClientId) &&
-                         !string.IsNullOrEmpty(this.Configuration.ClientSecret) &&
+                else if (!string.IsNullOrEmpty(this.Configuration.OAuthTokenUrl) &&
+                         !string.IsNullOrEmpty(this.Configuration.OAuthClientId) &&
+                         !string.IsNullOrEmpty(this.Configuration.OAuthClientSecret) &&
                          this.Configuration.OAuthFlow != null)
                 {
-                    localVarRequestOptions.OAuth = True;
+                    localVarRequestOptions.OAuth = true;
                 }
             }
 
@@ -1826,12 +1826,12 @@ namespace Org.OpenAPITools.Api
                 {
                     localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
                 }
-                else if (!string.IsNullOrEmpty(this.Configuration.TokenUrl) &&
-                         !string.IsNullOrEmpty(this.Configuration.ClientId) &&
-                         !string.IsNullOrEmpty(this.Configuration.ClientSecret) &&
+                else if (!string.IsNullOrEmpty(this.Configuration.OAuthTokenUrl) &&
+                         !string.IsNullOrEmpty(this.Configuration.OAuthClientId) &&
+                         !string.IsNullOrEmpty(this.Configuration.OAuthClientSecret) &&
                          this.Configuration.OAuthFlow != null)
                 {
-                    localVarRequestOptions.OAuth = True;
+                    localVarRequestOptions.OAuth = true;
                 }
             }
 
@@ -1920,12 +1920,12 @@ namespace Org.OpenAPITools.Api
                 {
                     localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
                 }
-                else if (!string.IsNullOrEmpty(this.Configuration.TokenUrl) &&
-                         !string.IsNullOrEmpty(this.Configuration.ClientId) &&
-                         !string.IsNullOrEmpty(this.Configuration.ClientSecret) &&
+                else if (!string.IsNullOrEmpty(this.Configuration.OAuthTokenUrl) &&
+                         !string.IsNullOrEmpty(this.Configuration.OAuthClientId) &&
+                         !string.IsNullOrEmpty(this.Configuration.OAuthClientSecret) &&
                          this.Configuration.OAuthFlow != null)
                 {
-                    localVarRequestOptions.OAuth = True;
+                    localVarRequestOptions.OAuth = true;
                 }
             }
 
@@ -2014,12 +2014,12 @@ namespace Org.OpenAPITools.Api
                 {
                     localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
                 }
-                else if (!string.IsNullOrEmpty(this.Configuration.TokenUrl) &&
-                         !string.IsNullOrEmpty(this.Configuration.ClientId) &&
-                         !string.IsNullOrEmpty(this.Configuration.ClientSecret) &&
+                else if (!string.IsNullOrEmpty(this.Configuration.OAuthTokenUrl) &&
+                         !string.IsNullOrEmpty(this.Configuration.OAuthClientId) &&
+                         !string.IsNullOrEmpty(this.Configuration.OAuthClientSecret) &&
                          this.Configuration.OAuthFlow != null)
                 {
-                    localVarRequestOptions.OAuth = True;
+                    localVarRequestOptions.OAuth = true;
                 }
             }
 
@@ -2110,12 +2110,12 @@ namespace Org.OpenAPITools.Api
                 {
                     localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
                 }
-                else if (!string.IsNullOrEmpty(this.Configuration.TokenUrl) &&
-                         !string.IsNullOrEmpty(this.Configuration.ClientId) &&
-                         !string.IsNullOrEmpty(this.Configuration.ClientSecret) &&
+                else if (!string.IsNullOrEmpty(this.Configuration.OAuthTokenUrl) &&
+                         !string.IsNullOrEmpty(this.Configuration.OAuthClientId) &&
+                         !string.IsNullOrEmpty(this.Configuration.OAuthClientSecret) &&
                          this.Configuration.OAuthFlow != null)
                 {
-                    localVarRequestOptions.OAuth = True;
+                    localVarRequestOptions.OAuth = true;
                 }
             }
 
@@ -2207,12 +2207,12 @@ namespace Org.OpenAPITools.Api
                 {
                     localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
                 }
-                else if (!string.IsNullOrEmpty(this.Configuration.TokenUrl) &&
-                         !string.IsNullOrEmpty(this.Configuration.ClientId) &&
-                         !string.IsNullOrEmpty(this.Configuration.ClientSecret) &&
+                else if (!string.IsNullOrEmpty(this.Configuration.OAuthTokenUrl) &&
+                         !string.IsNullOrEmpty(this.Configuration.OAuthClientId) &&
+                         !string.IsNullOrEmpty(this.Configuration.OAuthClientSecret) &&
                          this.Configuration.OAuthFlow != null)
                 {
-                    localVarRequestOptions.OAuth = True;
+                    localVarRequestOptions.OAuth = true;
                 }
             }
 
@@ -2306,12 +2306,12 @@ namespace Org.OpenAPITools.Api
                 {
                     localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
                 }
-                else if (!string.IsNullOrEmpty(this.Configuration.TokenUrl) &&
-                         !string.IsNullOrEmpty(this.Configuration.ClientId) &&
-                         !string.IsNullOrEmpty(this.Configuration.ClientSecret) &&
+                else if (!string.IsNullOrEmpty(this.Configuration.OAuthTokenUrl) &&
+                         !string.IsNullOrEmpty(this.Configuration.OAuthClientId) &&
+                         !string.IsNullOrEmpty(this.Configuration.OAuthClientSecret) &&
                          this.Configuration.OAuthFlow != null)
                 {
-                    localVarRequestOptions.OAuth = True;
+                    localVarRequestOptions.OAuth = true;
                 }
             }
 
