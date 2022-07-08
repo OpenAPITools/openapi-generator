@@ -545,7 +545,7 @@ class EnumMakerBase:
     pass
 
 
-class EnumMakerInterface(typing.Protocol):
+class EnumMakerInterface(Validator):
     @classmethod
     @property
     def _enum_value_to_name(
@@ -568,6 +568,22 @@ def _SchemaEnumMaker(enum_value_to_name: typing.Dict[typing.Union[str, decimal.D
                 return enum_value_to_name
             intersection = dict(enum_value_to_name.items() & super_enum_value_to_name.items())
             return intersection
+
+        @classmethod
+        def _validate(
+            cls,
+            arg,
+            validation_metadata: ValidationMetadata,
+        ) -> typing.Dict[typing.Tuple[typing.Union[str, int], ...], typing.Set[typing.Union['Schema', str, decimal.Decimal, BoolClass, NoneClass, frozendict, tuple]]]:
+            """
+            SchemaEnumMaker _validate
+            Validates that arg is in the enum's allowed values
+            """
+            try:
+                cls._enum_value_to_name[arg]
+            except KeyError:
+                raise ApiValueError("Invalid value {} passed in to {}, {}".format(arg, cls, cls._enum_value_to_name))
+            return super()._validate(arg, validation_metadata)
 
     return SchemaEnumMaker
 
@@ -1254,19 +1270,8 @@ class Schema:
         base_class = type(arg)
         path_to_schemas = {validation_metadata.path_to_item: set()}
         path_to_schemas[validation_metadata.path_to_item].add(cls)
-
-        if hasattr(cls, "_enum_value_to_name"):
-            cls._validate_enum_value(arg)
-
         path_to_schemas[validation_metadata.path_to_item].add(base_class)
         return path_to_schemas
-
-    @classmethod
-    def _validate_enum_value(cls, arg):
-        try:
-            cls._enum_value_to_name[arg]
-        except KeyError:
-            raise ApiValueError("Invalid value {} passed in to {}, {}".format(arg, cls, cls._enum_value_to_name))
 
     @staticmethod
     def __process_schema_classes(
