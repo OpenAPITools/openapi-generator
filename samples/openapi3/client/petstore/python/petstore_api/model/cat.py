@@ -31,9 +31,7 @@ from petstore_api.exceptions import ApiAttributeError
 
 def lazy_import():
     from petstore_api.model.animal import Animal
-    from petstore_api.model.cat_all_of import CatAllOf
     globals()['Animal'] = Animal
-    globals()['CatAllOf'] = CatAllOf
 
 
 class Cat(ModelComposed):

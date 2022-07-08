@@ -30,11 +30,7 @@ from petstore_api.exceptions import ApiAttributeError
 
 
 def lazy_import():
-    from petstore_api.model.egress_threshold_options import EgressThresholdOptions
-    from petstore_api.model.publish_options import PublishOptions
     from petstore_api.model.publish_options_publish import PublishOptionsPublish
-    globals()['EgressThresholdOptions'] = EgressThresholdOptions
-    globals()['PublishOptions'] = PublishOptions
     globals()['PublishOptionsPublish'] = PublishOptionsPublish
 
 

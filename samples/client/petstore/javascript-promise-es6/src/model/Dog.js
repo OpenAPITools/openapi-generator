@@ -13,7 +13,6 @@
 
 import ApiClient from '../ApiClient';
 import Animal from './Animal';
-import DogAllOf from './DogAllOf';
 
 /**
  * The Dog model module.
