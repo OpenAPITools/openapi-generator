@@ -46,11 +46,16 @@ class FileIO(io.FileIO):
 
     def __new__(cls, arg: typing.Union[io.FileIO, io.BufferedReader]):
         if isinstance(arg, (io.FileIO, io.BufferedReader)):
+            if arg.closed:
+                raise ApiValueError('Invalid file state; file is closed and must be open')
             arg.close()
             inst = super(FileIO, cls).__new__(cls, arg.name)
             super(FileIO, inst).__init__(arg.name)
             return inst
         raise ApiValueError('FileIO must be passed arg which contains the open file')
+
+    def __init__(self, arg: typing.Union[io.FileIO, io.BufferedReader]):
+        pass
 
 
 def update(d: dict, u: dict):
@@ -1164,32 +1169,6 @@ class Schema:
     """
 
     @staticmethod
-    def __get_simple_class(input_value):
-        """Returns an input_value's simple class that we will use for type checking
-
-        Args:
-            input_value (class/class_instance): the item for which we will return
-                                                the simple class
-        """
-        if isinstance(input_value, tuple):
-            return tuple
-        elif isinstance(input_value, frozendict):
-            return frozendict
-        elif isinstance(input_value, NoneClass):
-            return NoneClass
-        elif isinstance(input_value, bytes):
-            return bytes
-        elif isinstance(input_value, (io.FileIO, io.BufferedReader)):
-            return FileIO
-        elif isinstance(input_value, BoolClass):
-            # this must be higher than the int check because
-            # isinstance(True, int) == True
-            return BoolClass
-        elif isinstance(input_value, str):
-            return str
-        return type(input_value)
-
-    @staticmethod
     def __get_valid_classes_phrase(input_classes):
         """Returns a string phrase describing what types are allowed"""
         all_classes = list(input_classes)
@@ -1271,7 +1250,7 @@ class Schema:
             ApiValueError: when a string can't be converted into a date or datetime and it must be one of those classes
             ApiTypeError: when the input type is not in the list of allowed spec types
         """
-        base_class = cls.__get_simple_class(arg)
+        base_class = type(arg)
         path_to_schemas = {validation_metadata.path_to_item: set()}
 
         failed_type_check_classes = cls._validate_type(base_class)
@@ -1506,7 +1485,7 @@ def cast_to_allowed_types(
     from_server: bool,
     validated_path_to_schemas: typing.Dict[typing.Tuple[typing.Union[str, int], ...], typing.Set[typing.Union['Schema', str, decimal.Decimal, BoolClass, NoneClass, frozendict, tuple]]],
     path_to_item: typing.Tuple[typing.Union[str, int], ...] = tuple(['args[0]']),
-) -> typing.Union[str, bytes, decimal.Decimal, None, frozendict, tuple]:
+) -> typing.Union[frozendict, tuple, decimal.Decimal, str, bytes, BoolClass, NoneClass, FileIO]:
     """
     Casts the input payload arg into the allowed types
     The input validated_path_to_schemas is mutated by running this function
@@ -1576,9 +1555,7 @@ def cast_to_allowed_types(
     elif isinstance(arg, bytes):
         return bytes(arg)
     elif isinstance(arg, (io.FileIO, io.BufferedReader)):
-        if arg.closed:
-            raise ApiValueError('Invalid file state; file is closed and must be open')
-        return arg
+        return FileIO(arg)
     raise ValueError('Invalid type passed in got input={} type={}'.format(arg, type(arg)))
 
 
