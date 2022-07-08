@@ -370,36 +370,6 @@ class ValidatorBase:
             cls.__check_dict_validations(validations, input_values, validation_metadata)
         elif isinstance(input_values, decimal.Decimal):
             cls.__check_numeric_validations(validations, input_values, validation_metadata)
-        try:
-            return super()._validate_validations_pass(input_values, validation_metadata)
-        except AttributeError:
-            return True
-
-
-class ValidationValidator(typing.Protocol):
-    def _validate_validations_pass(
-        cls,
-        input_values,
-        validation_metadata: ValidationMetadata
-    ):
-        pass
-
-
-def _SchemaValidator(**validations: typing.Union[str, bool, None, int, float, list[dict[str, typing.Union[str, int, float]]]]) -> ValidationValidator:
-    class SchemaValidator(ValidatorBase):
-        @classmethod
-        def _validate_validations_pass(
-                cls,
-                input_values,
-                validation_metadata: ValidationMetadata
-        ):
-            cls._check_validations_for_types(validations, input_values, validation_metadata)
-            try:
-                return super()._validate_validations_pass(input_values, validation_metadata)
-            except AttributeError:
-                return True
-
-    return SchemaValidator
 
 
 class Singleton:
@@ -472,6 +442,24 @@ class Validator(typing.Protocol):
         validation_metadata: ValidationMetadata,
     ) -> typing.Dict[typing.Tuple[typing.Union[str, int], ...], typing.Set[typing.Union['Schema', str, decimal.Decimal, BoolClass, NoneClass, frozendict, tuple]]]:
         pass
+
+
+def _SchemaValidator(**validations: typing.Union[str, bool, None, int, float, list[dict[str, typing.Union[str, int, float]]]]) -> Validator:
+    class SchemaValidator(ValidatorBase):
+        @classmethod
+        def _validate(
+            cls,
+            arg,
+            validation_metadata: ValidationMetadata,
+        ) -> typing.Dict[typing.Tuple[typing.Union[str, int], ...], typing.Set[typing.Union['Schema', str, decimal.Decimal, BoolClass, NoneClass, frozendict, tuple]]]:
+            """
+            SchemaValidator _validate
+            Validates that validations pass
+            """
+            cls._check_validations_for_types(validations, arg, validation_metadata)
+            return super()._validate(arg, validation_metadata)
+
+    return SchemaValidator
 
 
 def _SchemaTypeChecker(union_type_cls: typing.Union[typing.Any]) -> Validator:
@@ -1272,9 +1260,6 @@ class Schema:
         """
         base_class = type(arg)
         path_to_schemas = {validation_metadata.path_to_item: set()}
-
-        if hasattr(cls, '_validate_validations_pass'):
-            cls._validate_validations_pass(arg, validation_metadata)
         path_to_schemas[validation_metadata.path_to_item].add(cls)
 
         if hasattr(cls, "_enum_value_to_name"):
