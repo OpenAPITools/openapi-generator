@@ -36,16 +36,6 @@ from petstore_api.schemas import (
 )
 
 
-def spy_decorator(method_to_decorate: typing.Callable):
-    mock = unittest.mock.MagicMock()
-
-    def wrapper(self, *args, **kwargs):
-        mock(*args, **kwargs)
-        return method_to_decorate(self, *args, **kwargs)
-    wrapper.mock = mock
-    return wrapper
-
-
 class TestValidateResults(unittest.TestCase):
     def test_str_validate(self):
         vm = ValidationMetadata()
