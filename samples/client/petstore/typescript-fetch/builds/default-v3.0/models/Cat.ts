@@ -13,14 +13,14 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import type { Animal } from './Animal';
 import {
-    Animal,
     AnimalFromJSON,
     AnimalFromJSONTyped,
     AnimalToJSON,
 } from './Animal';
+import type { CatAllOf } from './CatAllOf';
 import {
-    CatAllOf,
     CatAllOfFromJSON,
     CatAllOfFromJSONTyped,
     CatAllOfToJSON,
@@ -38,6 +38,15 @@ export interface Cat extends Animal {
      * @memberof Cat
      */
     declawed?: boolean;
+}
+
+/**
+ * Check if a given object implements the Cat interface.
+ */
+export function instanceOfCat(value: object): boolean {
+    let isInstance = true;
+
+    return isInstance;
 }
 
 export function CatFromJSON(json: any): Cat {

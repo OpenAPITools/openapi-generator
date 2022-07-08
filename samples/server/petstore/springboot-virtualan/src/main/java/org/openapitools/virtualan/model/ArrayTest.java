@@ -4,8 +4,6 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
 import org.openapitools.virtualan.model.ReadOnlyFirst;
@@ -13,6 +11,7 @@ import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
@@ -55,7 +54,7 @@ public class ArrayTest {
    * @return arrayOfString
   */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "array_of_string", required = false)
   public List<String> getArrayOfString() {
     return arrayOfString;
   }
@@ -82,7 +81,7 @@ public class ArrayTest {
    * @return arrayArrayOfInteger
   */
   @Valid 
-  @ApiModelProperty(value = "")
+  @Schema(name = "array_array_of_integer", required = false)
   public List<List<Long>> getArrayArrayOfInteger() {
     return arrayArrayOfInteger;
   }
@@ -109,7 +108,7 @@ public class ArrayTest {
    * @return arrayArrayOfModel
   */
   @Valid 
-  @ApiModelProperty(value = "")
+  @Schema(name = "array_array_of_model", required = false)
   public List<List<ReadOnlyFirst>> getArrayArrayOfModel() {
     return arrayArrayOfModel;
   }

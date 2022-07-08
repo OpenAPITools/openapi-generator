@@ -9,6 +9,7 @@ import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 import io.swagger.annotations.ApiModelProperty;
+import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 
@@ -150,6 +151,25 @@ UPPER(String.valueOf("UPPER")), LOWER(String.valueOf("lower"));
     return this;
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    MapTest mapTest = (MapTest) o;
+    return Objects.equals(mapMapOfString, mapTest.mapMapOfString) &&
+        Objects.equals(mapOfEnumString, mapTest.mapOfEnumString) &&
+        Objects.equals(directMap, mapTest.directMap) &&
+        Objects.equals(indirectMap, mapTest.indirectMap);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(mapMapOfString, mapOfEnumString, directMap, indirectMap);
+  }
 
   @Override
   public String toString() {

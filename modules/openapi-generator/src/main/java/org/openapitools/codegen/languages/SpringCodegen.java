@@ -178,7 +178,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(SINGLE_CONTENT_TYPES,
                 "Whether to select only one produces/consumes content-type by operation.", singleContentTypes));
         cliOptions.add(CliOption.newBoolean(SKIP_DEFAULT_INTERFACE,
-                "Whether to generate default implementations for java8 interfaces", skipDefaultInterface));
+                "Whether to skip generation of default implementations for java8 interfaces", skipDefaultInterface));
         cliOptions.add(CliOption.newBoolean(ASYNC, "use async Callable controllers", async));
         cliOptions.add(CliOption.newBoolean(REACTIVE, "wrap responses in Mono/Flux Reactor types (spring-boot only)",
                 reactive));

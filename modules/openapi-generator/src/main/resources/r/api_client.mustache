@@ -1,5 +1,4 @@
 {{>partial_header}}
-
 #' ApiClient Class
 #'
 #' Generic API client for OpenAPI client library builds.
@@ -18,11 +17,11 @@
 #' @format An \code{R6Class} generator object
 #' @field base_path Base url
 #' @field user_agent Default user agent
-#' @field default_headers
+#' @field default_headers Default headers
 #' @field username Username for HTTP basic authentication
 #' @field password Password for HTTP basic authentication
-#' @field api_keys
-#' @field access_token
+#' @field api_keys API keys
+#' @field access_token Access token
 #' @field timeout Default timeout in seconds
 #' @field retry_status_codes vector of status codes to retry
 #' @field max_retry_attempts maximum number of retries for the status codes
@@ -54,7 +53,22 @@ ApiClient  <- R6::R6Class(
     retry_status_codes = NULL,
     # Maximum number of retry attempts for the retry status codes
     max_retry_attempts = NULL,
-    # constructor
+    #' Initialize a new ApiClient.
+    #'
+    #' @description
+    #' Initialize a new ApiClient.
+    #'
+    #' @param base_path Base path.
+    #' @param user_agent User agent.
+    #' @param default_headers Default headers.
+    #' @param username User name.
+    #' @param password Password.
+    #' @param api_keys API keys.
+    #' @param access_token Access token.
+    #' @param timeout Timeout.
+    #' @param retry_status_codes Status codes for retry.
+    #' @param max_retry_attempts Maxmium number of retry.
+    #' @export
     initialize = function(base_path=NULL, user_agent=NULL, default_headers=NULL,
                           username=NULL, password=NULL, api_keys=NULL,
                           access_token=NULL, timeout=NULL,
@@ -101,7 +115,19 @@ ApiClient  <- R6::R6Class(
         self$max_retry_attempts <- max_retry_attempts
       }
     },
-
+    #' Prepare to make an API call with the retry logic.
+    #'
+    #' @description
+    #' Prepare to make an API call with the retry logic.
+    #'
+    #' @param url URL.
+    #' @param method HTTP method.
+    #' @param query_params The query parameters.
+    #' @param header_params The header parameters.
+    #' @param body The HTTP request body.
+    #' @param ... Other optional arguments.
+    #' @return HTTP response
+    #' @export
     CallApi = function(url, method, query_params, header_params, body, ...) {
 
       resp <- self$Execute(url, method, query_params, header_params, body, ...)
@@ -126,7 +152,19 @@ ApiClient  <- R6::R6Class(
 
       resp
     },
-
+    #' Make an API call
+    #'
+    #' @description
+    #' Make an API call
+    #'
+    #' @param url URL.
+    #' @param method HTTP method.
+    #' @param query_params The query parameters.
+    #' @param header_params The header parameters.
+    #' @param body The HTTP request body.
+    #' @param ... Other optional arguments.
+    #' @return HTTP response
+    #' @export
     Execute = function(url, method, query_params, header_params, body, ...) {
       headers <- httr::add_headers(c(header_params, self$default_headers))
 
@@ -158,18 +196,33 @@ ApiClient  <- R6::R6Class(
         {{/useRlangExceptionHandling}}
       }
     },
-
-    # Deserialize the content of api response to the given type.
+    #' Deserialize the content of api response to the given type.
+    #'
+    #' @description
+    #' Deserialize the content of api response to the given type.
+    #'
+    #' @param resp Response object.
+    #' @param return_type R return type.
+    #' @param pkg_env Package environment.
+    #' @return Deserialized object.
+    #' @export
     deserialize = function(resp, return_type, pkg_env) {
       resp_obj <- jsonlite::fromJSON(httr::content(resp, "text", encoding = "UTF-8"))
       self$deserializeObj(resp_obj, return_type, pkg_env)
     },
 
-
-    # Deserialize the response from jsonlite object based on the given type
-    # by handling complex and nested types by iterating recursively
-    # Example return_types will be like "array[integer]", "map(Pet)", "array[map(Tag)]", etc.,
-
+    #' Deserialize the response from jsonlite object based on the given type
+    #'
+    #' @description
+    #' Deserialize the response from jsonlite object based on the given type
+    #' by handling complex and nested types by iterating recursively
+    #' Example return_types will be like "array[integer]", "map(Pet)", "array[map(Tag)]", etc.,
+    #'
+    #' @param obj Response object.
+    #' @param return_type R return type.
+    #' @param pkg_env Package environment.
+    #' @return Deserialized object.
+    #' @export
     deserializeObj = function(obj, return_type, pkg_env) {
       return_obj <- NULL
       primitive_types <- c("character", "numeric", "integer", "logical", "complex")

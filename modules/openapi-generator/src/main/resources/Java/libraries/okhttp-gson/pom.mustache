@@ -77,7 +77,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.0.0-M5</version>
+                <version>2.22.2</version>
                 <configuration>
                     <systemProperties>
                         <property>
@@ -89,6 +89,14 @@
                     <parallel>methods</parallel>
                     <threadCount>10</threadCount>
                 </configuration>
+                <dependencies>
+                    <!--Custom provider and engine for Junit 5 to surefire-->
+                    <dependency>
+                        <groupId>org.junit.jupiter</groupId>
+                        <artifactId>junit-jupiter-engine</artifactId>
+                        <version>${junit-version}</version>
+                    </dependency>
+                </dependencies>
             </plugin>
             <plugin>
                 <artifactId>maven-dependency-plugin</artifactId>
@@ -370,8 +378,14 @@
         <!-- test dependencies -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
+            <artifactId>junit-jupiter-engine</artifactId>
             <version>${junit-version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-runner</artifactId>
+            <version>${junit-platform-runner.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -391,7 +405,7 @@
         <gson-version>2.9.0</gson-version>
         <commons-lang3-version>3.12.0</commons-lang3-version>
         {{#openApiNullable}}
-        <jackson-databind-nullable-version>0.2.2</jackson-databind-nullable-version>
+        <jackson-databind-nullable-version>0.2.3</jackson-databind-nullable-version>
         {{/openApiNullable}}
         {{#joda}}
         <jodatime-version>2.10.13</jodatime-version>
@@ -404,6 +418,7 @@
         <beanvalidation-version>2.0.2</beanvalidation-version>
 {{/useBeanValidation}}
         <junit-version>5.8.2</junit-version>
+        <junit-platform-runner.version>1.6.2</junit-platform-runner.version>
         <mockito-core-version>3.12.4</mockito-core-version>
         <javax.ws.rs-api-version>2.1.1</javax.ws.rs-api-version>
         <jsr311-api-version>1.1.1</jsr311-api-version>

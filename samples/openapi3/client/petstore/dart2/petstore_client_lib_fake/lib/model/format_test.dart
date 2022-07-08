@@ -193,43 +193,67 @@ class FormatTest {
     final _json = <String, dynamic>{};
     if (integer != null) {
       _json[r'integer'] = integer;
+    } else {
+      _json[r'integer'] = null;
     }
     if (int32 != null) {
       _json[r'int32'] = int32;
+    } else {
+      _json[r'int32'] = null;
     }
     if (int64 != null) {
       _json[r'int64'] = int64;
+    } else {
+      _json[r'int64'] = null;
     }
       _json[r'number'] = number;
     if (float != null) {
       _json[r'float'] = float;
+    } else {
+      _json[r'float'] = null;
     }
     if (double_ != null) {
       _json[r'double'] = double_;
+    } else {
+      _json[r'double'] = null;
     }
     if (decimal != null) {
       _json[r'decimal'] = decimal;
+    } else {
+      _json[r'decimal'] = null;
     }
     if (string != null) {
       _json[r'string'] = string;
+    } else {
+      _json[r'string'] = null;
     }
       _json[r'byte'] = byte;
     if (binary != null) {
       _json[r'binary'] = binary;
+    } else {
+      _json[r'binary'] = null;
     }
       _json[r'date'] = _dateFormatter.format(date.toUtc());
     if (dateTime != null) {
       _json[r'dateTime'] = dateTime!.toUtc().toIso8601String();
+    } else {
+      _json[r'dateTime'] = null;
     }
     if (uuid != null) {
       _json[r'uuid'] = uuid;
+    } else {
+      _json[r'uuid'] = null;
     }
       _json[r'password'] = password;
     if (patternWithDigits != null) {
       _json[r'pattern_with_digits'] = patternWithDigits;
+    } else {
+      _json[r'pattern_with_digits'] = null;
     }
     if (patternWithDigitsAndDelimiter != null) {
       _json[r'pattern_with_digits_and_delimiter'] = patternWithDigitsAndDelimiter;
+    } else {
+      _json[r'pattern_with_digits_and_delimiter'] = null;
     }
     return _json;
   }

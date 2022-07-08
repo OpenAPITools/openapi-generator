@@ -14,6 +14,11 @@
   infoLink: "https://www.adesso.de/"
   pinned: false
 -
+  caption: "Adyen"
+  image: "img/companies/adyen.png"
+  infoLink: "https://www.adyen.com/"
+  pinned: false
+-
   caption: "Agoda"
   image: "img/companies/agoda.png"
   infoLink: "https://www.agoda.com/"
@@ -174,9 +179,9 @@
   infoLink: "https://www.emineo.ch/"
   pinned: false
 -
-  caption: "freee"
-  image: "img/companies/freee.png"
-  infoLink: "https://corp.freee.co.jp/en/"
+  caption: "fastly"
+  image: "img/companies/fastly.png"
+  infoLink: "https://www.fastly.com/"
   pinned: false
 -
   caption: "Fenergo"
@@ -187,6 +192,11 @@
   caption: FiNC Technologies
   image: "img/companies/finc-technologies.png"
   infoLink: "https://company.finc.com/"
+  pinned: false
+-
+  caption: "freee"
+  image: "img/companies/freee.png"
+  infoLink: "https://corp.freee.co.jp/en/"
   pinned: false
 -
   caption: "FreshCells"
@@ -222,6 +232,11 @@
   caption: "GoDaddy"
   image: "img/companies/godaddy.png"
   infoLink: "https://www.godaddy.com/"
+  pinned: false
+-
+  caption: Gradle Enterprise
+  image: "img/companies/gradle-enterprise.png"
+  infoLink: "https://gradle.com/"
   pinned: false
 -
   caption: "Gumtree"
@@ -387,6 +402,11 @@
   caption: Puppet
   image: "img/companies/puppet.svg"
   infoLink: "https://www.puppet.com"
+  pinned: false
+-
+  caption: Qovery
+  image: "img/companies/qovery.png"
+  infoLink: "https://www.qovery.com"
   pinned: false
 -
   caption: "Qulix Systems"
@@ -564,4 +584,3 @@
   image: "img/companies/outscale.png"
   infoLink: "https://www.outscale.com/"
   pinned: false
-

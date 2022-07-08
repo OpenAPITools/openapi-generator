@@ -472,10 +472,17 @@ public class {{classname}} {
         {{#isDeprecated}}
         @Deprecated
         {{/isDeprecated}}
+        {{^vendorExtensions.x-streaming}}
         public {{{returnType}}}{{^returnType}}void{{/returnType}} execute() throws ApiException {
             {{#returnType}}ApiResponse<{{{.}}}> localVarResp = {{/returnType}}{{operationId}}WithHttpInfo({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});{{#returnType}}
             return localVarResp.getData();{{/returnType}}
         }
+        {{/vendorExtensions.x-streaming}}
+        {{#vendorExtensions.x-streaming}}
+        public InputStream execute() throws ApiException {
+            return {{operationId}}WithHttpInfo({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
+        }
+        {{/vendorExtensions.x-streaming}}
 
         /**
          * Execute {{operationId}} request with HTTP info returned
@@ -497,9 +504,16 @@ public class {{classname}} {
         {{#isDeprecated}}
         @Deprecated
         {{/isDeprecated}}
+        {{^vendorExtensions.x-streaming}}
         public ApiResponse<{{{returnType}}}{{^returnType}}Void{{/returnType}}> executeWithHttpInfo() throws ApiException {
             return {{operationId}}WithHttpInfo({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
         }
+        {{/vendorExtensions.x-streaming}}
+        {{#vendorExtensions.x-streaming}}
+        public InputStream executeWithHttpInfo() throws ApiException {
+            return {{operationId}}WithHttpInfo({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
+        }
+        {{/vendorExtensions.x-streaming}}
 
         /**
          * Execute {{operationId}} request (asynchronously)

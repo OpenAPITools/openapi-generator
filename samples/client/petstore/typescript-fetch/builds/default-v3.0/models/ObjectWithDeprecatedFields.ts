@@ -13,8 +13,8 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import type { DeprecatedObject } from './DeprecatedObject';
 import {
-    DeprecatedObject,
     DeprecatedObjectFromJSON,
     DeprecatedObjectFromJSONTyped,
     DeprecatedObjectToJSON,
@@ -53,6 +53,15 @@ export interface ObjectWithDeprecatedFields {
      * @deprecated
      */
     bars?: Array<string>;
+}
+
+/**
+ * Check if a given object implements the ObjectWithDeprecatedFields interface.
+ */
+export function instanceOfObjectWithDeprecatedFields(value: object): boolean {
+    let isInstance = true;
+
+    return isInstance;
 }
 
 export function ObjectWithDeprecatedFieldsFromJSON(json: any): ObjectWithDeprecatedFields {

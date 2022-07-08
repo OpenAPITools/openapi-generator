@@ -9,16 +9,16 @@ defmodule OpenapiPetstore.Model.Name do
 
   @derive [Poison.Encoder]
   defstruct [
-    :"name",
-    :"snake_case",
-    :"property",
+    :name,
+    :snake_case,
+    :property,
     :"123Number"
   ]
 
   @type t :: %__MODULE__{
-    :"name" => integer(),
-    :"snake_case" => integer() | nil,
-    :"property" => String.t | nil,
+    :name => integer(),
+    :snake_case => integer() | nil,
+    :property => String.t | nil,
     :"123Number" => integer() | nil
   }
 end

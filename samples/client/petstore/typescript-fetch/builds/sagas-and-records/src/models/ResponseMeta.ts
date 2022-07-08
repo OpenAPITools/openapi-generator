@@ -13,8 +13,8 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import type { ErrorCode } from './ErrorCode';
 import {
-    ErrorCode,
     ErrorCodeFromJSON,
     ErrorCodeFromJSONTyped,
     ErrorCodeToJSON,
@@ -95,6 +95,16 @@ export const ResponseMetaCodeEnum = {
 } as const;
 export type ResponseMetaCodeEnum = typeof ResponseMetaCodeEnum[keyof typeof ResponseMetaCodeEnum];
 
+
+/**
+ * Check if a given object implements the ResponseMeta interface.
+ */
+export function instanceOfResponseMeta(value: object): boolean {
+    let isInstance = true;
+    isInstance = isInstance && "code" in value;
+
+    return isInstance;
+}
 
 export function ResponseMetaFromJSON(json: any): ResponseMeta {
     return ResponseMetaFromJSONTyped(json, false);

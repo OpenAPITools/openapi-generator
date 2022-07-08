@@ -940,7 +940,7 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
 
     public String getModelName(Schema sc) {
         if (sc.get$ref() != null) {
-            Schema unaliasedSchema = unaliasSchema(sc, importMapping);
+            Schema unaliasedSchema = unaliasSchema(sc, schemaMapping);
             if (unaliasedSchema.get$ref() != null) {
                 return toModelName(ModelUtils.getSimpleRef(sc.get$ref()));
             }
@@ -1568,12 +1568,35 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
             return;
         }
 
-        String[] parts = type.split("( [|&] )|[<>]");
+        String[] parts = splitComposedType(type);
         for (String s : parts) {
             if (needToImport(s)) {
                 m.imports.add(s);
             }
         }
+    }
+
+    @Override
+    protected void addImport(Set<String> importsToBeAddedTo, String type) {
+        if (type == null) {
+            return;
+        }
+
+        String[] parts = splitComposedType(type);
+        for (String s : parts) {
+            super.addImport(importsToBeAddedTo, s);
+        }
+    }
+
+    /**
+     * Split composed types
+     * e.g. TheFirstType | TheSecondType to TheFirstType and TheSecondType
+     *
+     * @param type String with composed types
+     * @return list of types
+     */
+    protected String[] splitComposedType(String type) {
+        return type.replace(" ","").split("[|&<>]");
     }
 
     @Override

@@ -1740,26 +1740,26 @@ components:
         - placed
         - approved
         - delivered
-    #OuterEnumInteger:
-    #  type: integer
-    #  enum:
-    #  - 0
-    #  - 1
-    #  - 2
-    #OuterEnumDefaultValue:
-    #  type: string
-    #  enum:
-    #  - placed
-    #  - approved
-    #  - delivered
-    #  default: placed
-    #OuterEnumIntegerDefaultValue:
-    #  type: integer
-    #  enum:
-    #  - 0
-    #  - 1
-    #  - 2
-    #  default: 0
+    OuterEnumInteger:
+      type: integer
+      enum:
+      - 0
+      - 1
+      - 2
+    OuterEnumDefaultValue:
+      type: string
+      enum:
+      - placed
+      - approved
+      - delivered
+      default: placed
+    OuterEnumIntegerDefaultValue:
+      type: integer
+      enum:
+      - 0
+      - 1
+      - 2
+      default: 0
     OuterComposite:
       type: object
       properties:

@@ -170,6 +170,9 @@ public class ExampleGenerator {
                         kv.put(EXAMPLE, example);
                         output.add(kv);
                     }
+                } else {
+                    kv.put(EXAMPLE, null);
+                    output.add(kv);
                 }
             }
         } else {

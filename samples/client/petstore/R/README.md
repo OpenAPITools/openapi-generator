@@ -28,7 +28,7 @@ git clone https://github.com/GIT_USER_ID/GIT_REPO_ID
 cd GIT_REPO_ID
 R CMD build .
 R CMD check petstore_1.0.0.tar.gz --no-manual
-R CMD INSTALL petstore_1.0.0.tar.gz
+R CMD INSTALL --preclean petstore_1.0.0.tar.gz
 ```
 
 ### Install the package
@@ -42,6 +42,11 @@ To install directly from Github, use `devtools`:
 install.packages("devtools")
 library(devtools)
 install_github("GIT_USER_ID/GIT_REPO_ID")
+```
+
+To install the package from a local file:
+```R
+install.packages("petstore_1.0.0.tar.gz", repos = NULL, type = "source")
 ```
 
 ### Usage
@@ -81,11 +86,24 @@ Class | Method | HTTP request | Description
 
 ## Documentation for Models
 
+ - [AllofTagApiResponse](docs/AllofTagApiResponse.md)
+ - [Animal](docs/Animal.md)
+ - [AnyOfPig](docs/AnyOfPig.md)
+ - [BasquePig](docs/BasquePig.md)
+ - [Cat](docs/Cat.md)
+ - [CatAllOf](docs/CatAllOf.md)
  - [Category](docs/Category.md)
+ - [DanishPig](docs/DanishPig.md)
+ - [Dog](docs/Dog.md)
+ - [DogAllOf](docs/DogAllOf.md)
  - [ModelApiResponse](docs/ModelApiResponse.md)
+ - [NestedOneOf](docs/NestedOneOf.md)
  - [Order](docs/Order.md)
  - [Pet](docs/Pet.md)
+ - [Pig](docs/Pig.md)
+ - [Special](docs/Special.md)
  - [Tag](docs/Tag.md)
+ - [UpdatePetRequest](docs/UpdatePetRequest.md)
  - [User](docs/User.md)
 
 

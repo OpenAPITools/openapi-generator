@@ -299,7 +299,7 @@
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-databind</artifactId>
-                <version>${jackson-version}</version>
+                <version>${jackson-databind-version}</version>
             </dependency>
             {{#openApiNullable}}
             <dependency>
@@ -364,9 +364,10 @@
         <swagger-annotations-version>1.6.3</swagger-annotations-version>
         {{#usePlayWS}}
         <jackson-version>2.12.1</jackson-version>
+        <jackson-databind-version>2.12.6.1</jackson-databind-version>
         <play-version>2.6.7</play-version>
         {{#openApiNullable}}
-        <jackson-databind-nullable-version>0.2.2</jackson-databind-nullable-version>
+        <jackson-databind-nullable-version>0.2.3</jackson-databind-nullable-version>
         {{/openApiNullable}}
         {{/usePlayWS}}
         <retrofit-version>2.5.0</retrofit-version>

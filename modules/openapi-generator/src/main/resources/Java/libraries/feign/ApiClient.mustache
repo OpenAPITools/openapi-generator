@@ -83,7 +83,7 @@ public class ApiClient {
         auth = new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{#isKeyInQuery}}"query"{{/isKeyInQuery}}{{#isKeyInCookie}}"cookie"{{/isKeyInCookie}}, "{{keyParamName}}");
       {{/isApiKey}}
       {{#isOAuth}}
-        auth = buildOauthRequestInterceptor(OAuthFlow.{{#lambda.uppercase}}{{#lambda.snakecase}}{{flow}}{{/lambda.snakecase}}{{/lambda.uppercase}}, "{{authorizationUrl}}", "{{tokenUrl}}", "{{#scopes}}{{scope}}{{^-last}}, {{/-last}}{{/scopes}}");
+        auth = buildOauthRequestInterceptor(OAuthFlow.{{#lambda.uppercase}}{{#lambda.snakecase}}{{flow}}{{/lambda.snakecase}}{{/lambda.uppercase}}, "{{{authorizationUrl}}}", "{{{tokenUrl}}}", "{{#scopes}}{{scope}}{{^-last}}, {{/-last}}{{/scopes}}");
       {{/isOAuth}}
       } else {{/authMethods}}{
         throw new RuntimeException("auth name \"" + authName + "\" not found in available auth names");
