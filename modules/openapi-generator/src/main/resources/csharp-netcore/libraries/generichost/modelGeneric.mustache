@@ -32,16 +32,16 @@
             {{/required}}
             {{/isInherited}}
             {{/allVars}}
-            {{#lambda.titlecase}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.titlecase}} = {{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}};
+            this.{{#lambda.titlecase}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.titlecase}} = {{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}};
             {{#composedSchemas.allOf}}
-            {{#lambda.titlecase}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.titlecase}} = {{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}};
+            this.{{#lambda.titlecase}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.titlecase}} = {{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}};
             {{/composedSchemas.allOf}}
             {{#composedSchemas.anyOf}}
-            {{#lambda.titlecase}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.titlecase}} = {{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}};
+            this.{{#lambda.titlecase}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.titlecase}} = {{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}};
             {{/composedSchemas.anyOf}}
             {{#allVars}}
             {{^isInherited}}
-            {{name}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}};
+            this.{{name}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}};
             {{/isInherited}}
             {{/allVars}}
         }
@@ -77,15 +77,15 @@
             {{/allVars}}
             {{#composedSchemas.allOf}}
             {{^isInherited}}
-            {{#lambda.titlecase}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.titlecase}} = {{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}};
+            this.{{#lambda.titlecase}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.titlecase}} = {{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}};
             {{/isInherited}}
             {{/composedSchemas.allOf}}
             {{#composedSchemas.anyOf}}
-            {{#lambda.titlecase}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.titlecase}} = {{#lambda.titlecase}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.titlecase}};
+            this.{{#lambda.titlecase}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.titlecase}} = {{#lambda.titlecase}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.titlecase}};
             {{/composedSchemas.anyOf}}
             {{#allVars}}
             {{^isInherited}}
-            {{name}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}};
+            this.{{name}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}};
             {{/isInherited}}
             {{/allVars}}
         }
