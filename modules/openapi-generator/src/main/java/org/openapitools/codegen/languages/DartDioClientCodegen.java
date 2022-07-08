@@ -345,7 +345,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
     }
 
     /// Gets all ancestors of a given model, and puts it in accumulator
-    protected void _getAncestors(CodegenModel cm, Map<String,CodegenModel> allModels, Set<String> accumulator) {
+    private void getAncestors(CodegenModel cm, Map<String,CodegenModel> allModels, Set<String> accumulator) {
        
         //get direct parents
         Set<String> directParentNames = cm.allOf;        
@@ -353,14 +353,14 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
             for (String directParentName : directParentNames) {
                 if (accumulator.add(directParentName)) {
                     CodegenModel parent = allModels.get(directParentName);                    
-                    _getAncestors(parent, allModels, accumulator);
+                    getAncestors(parent, allModels, accumulator);
                 }
             }
         }
     }
 
     //adapts codegen models and property to dart rules of inheritance
-    protected void _adaptToDartInheritance(Map<String, ModelsMap> objs) {
+    private void adaptToDartInheritance(Map<String, ModelsMap> objs) {
         //get all models
         Map<String, CodegenModel> allModels = new HashMap<>();
         for (ModelsMap modelsEntries : objs.values()) {
@@ -378,7 +378,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
             Set<String> allAncestors = new HashSet<>();
             //get all ancestors
             // TODO: optimize this logic ?
-            _getAncestors(cm.getValue(), allModels, allAncestors);
+            getAncestors(cm.getValue(), allModels, allAncestors);
             //just in case, a model can't be its own ancestor
             allAncestors.remove(cm.getKey());
 
@@ -503,7 +503,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
     public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
         objs = super.postProcessAllModels(objs);
         if (SERIALIZATION_LIBRARY_BUILT_VALUE.equals(library)) {
-            _adaptToDartInheritance(objs);
+            adaptToDartInheritance(objs);
         }
         return objs;
     }
