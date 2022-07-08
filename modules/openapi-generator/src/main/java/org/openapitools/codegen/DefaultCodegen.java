@@ -2581,7 +2581,13 @@ public class DefaultCodegen implements CodegenConfig {
                 final String modelName = toModelName(ref);
                 CodegenProperty interfaceProperty = fromProperty(modelName, interfaceSchema);
                 m.interfaces.add(modelName);
-                addImport(m, modelName);
+                // import only if it's not allOf composition schema (without discriminator)
+                if (!(composed.getAllOf() != null && refSchema.getDiscriminator() == null)) {
+                    addImport(m, modelName);
+                } else {
+                    LOGGER.debug("Skipped import for allOf composition schema {}", modelName);
+                }
+
                 if (allDefinitions != null && refSchema != null) {
                     if (allParents.contains(ref) && supportsMultipleInheritance) {
                         // multiple inheritance
