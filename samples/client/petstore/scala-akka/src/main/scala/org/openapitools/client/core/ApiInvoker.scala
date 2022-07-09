@@ -268,11 +268,20 @@ class ApiInvoker(formats: Formats)(implicit system: ActorSystem) extends CustomC
         Unmarshal(response.entity)
           .to[T]
           .recoverWith {
-            case e => throw ApiError(response.status.intValue, s"Unable to unmarshall content to [$manifest]", Some(response.entity.toString), e)
+            case e => 
+            response
+                .entity
+                .toStrict(FiniteDuration(6, TimeUnit.SECONDS))
+                .map(_.data.utf8String)
+                .map(data => throw ApiError(response.status.intValue, s"Unable to unmarshall content to [$manifest]", Some(data), e))
           }
           .map(value => responseForState(state, value))
       case None | Some(_) =>
-        Future.failed(ApiError(response.status.intValue, "Unexpected response code", Some(response.entity.toString)))
+         response
+          .entity
+          .toStrict(FiniteDuration(6, TimeUnit.SECONDS))
+          .map(_.data.utf8String)
+          .flatMap{ data => Future.failed(ApiError(response.status.intValue, "Unexpected response code", Some(data))) }
     }
   }
 }
