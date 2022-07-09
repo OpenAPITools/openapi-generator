@@ -3959,6 +3959,7 @@ public class DefaultCodegen implements CodegenConfig {
             if (languageSpecificPrimitives().contains(op.returnBaseType) || op.returnBaseType == null) {
                 op.returnTypeIsPrimitive = true;
             }
+            op.returnProperty = cm;
         }
         addHeaders(methodResponse, op.responseHeaders);
     }
