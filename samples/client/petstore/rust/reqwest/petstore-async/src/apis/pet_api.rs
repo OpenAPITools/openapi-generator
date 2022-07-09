@@ -25,7 +25,7 @@ pub struct AddPetParams {
 #[derive(Clone, Debug, Default)]
 pub struct DeletePetParams {
     /// Pet id to delete
-    pub pet_id: i64,
+    pub petid: i64,
     pub api_key: Option<String>
 }
 
@@ -47,7 +47,7 @@ pub struct FindPetsByTagsParams {
 #[derive(Clone, Debug, Default)]
 pub struct GetPetByIdParams {
     /// ID of pet to return
-    pub pet_id: i64
+    pub petid: i64
 }
 
 /// struct for passing parameters to the method [`update_pet`]
@@ -61,7 +61,7 @@ pub struct UpdatePetParams {
 #[derive(Clone, Debug, Default)]
 pub struct UpdatePetWithFormParams {
     /// ID of pet that needs to be updated
-    pub pet_id: i64,
+    pub petid: i64,
     /// Updated name of the pet
     pub name: Option<String>,
     /// Updated status of the pet
@@ -72,9 +72,9 @@ pub struct UpdatePetWithFormParams {
 #[derive(Clone, Debug, Default)]
 pub struct UploadFileParams {
     /// ID of pet to update
-    pub pet_id: i64,
+    pub petid: i64,
     /// Additional data to pass to server
-    pub additional_metadata: Option<String>,
+    pub additionalmetadata: Option<String>,
     /// file to upload
     pub file: Option<std::path::PathBuf>
 }
@@ -252,13 +252,13 @@ pub async fn delete_pet(configuration: &configuration::Configuration, params: De
     let local_var_configuration = configuration;
 
     // unbox the parameters
-    let pet_id = params.pet_id;
+    let petid = params.petid;
     let api_key = params.api_key;
 
 
     let local_var_client = &local_var_configuration.client;
 
-    let local_var_uri_str = format!("{}/pet/{petId}", local_var_configuration.base_path, petId=pet_id);
+    let local_var_uri_str = format!("{}/pet/{petId}", local_var_configuration.base_path, petId=petid);
     let mut local_var_req_builder = local_var_client.request(reqwest::Method::DELETE, local_var_uri_str.as_str());
 
     if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
@@ -375,12 +375,12 @@ pub async fn get_pet_by_id(configuration: &configuration::Configuration, params:
     let local_var_configuration = configuration;
 
     // unbox the parameters
-    let pet_id = params.pet_id;
+    let petid = params.petid;
 
 
     let local_var_client = &local_var_configuration.client;
 
-    let local_var_uri_str = format!("{}/pet/{petId}", local_var_configuration.base_path, petId=pet_id);
+    let local_var_uri_str = format!("{}/pet/{petId}", local_var_configuration.base_path, petId=petid);
     let mut local_var_req_builder = local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
     if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
@@ -455,14 +455,14 @@ pub async fn update_pet_with_form(configuration: &configuration::Configuration, 
     let local_var_configuration = configuration;
 
     // unbox the parameters
-    let pet_id = params.pet_id;
+    let petid = params.petid;
     let name = params.name;
     let status = params.status;
 
 
     let local_var_client = &local_var_configuration.client;
 
-    let local_var_uri_str = format!("{}/pet/{petId}", local_var_configuration.base_path, petId=pet_id);
+    let local_var_uri_str = format!("{}/pet/{petId}", local_var_configuration.base_path, petId=petid);
     let mut local_var_req_builder = local_var_client.request(reqwest::Method::POST, local_var_uri_str.as_str());
 
     if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
@@ -502,14 +502,14 @@ pub async fn upload_file(configuration: &configuration::Configuration, params: U
     let local_var_configuration = configuration;
 
     // unbox the parameters
-    let pet_id = params.pet_id;
-    let additional_metadata = params.additional_metadata;
+    let petid = params.petid;
+    let additionalmetadata = params.additionalmetadata;
     let file = params.file;
 
 
     let local_var_client = &local_var_configuration.client;
 
-    let local_var_uri_str = format!("{}/pet/{petId}/uploadImage", local_var_configuration.base_path, petId=pet_id);
+    let local_var_uri_str = format!("{}/pet/{petId}/uploadImage", local_var_configuration.base_path, petId=petid);
     let mut local_var_req_builder = local_var_client.request(reqwest::Method::POST, local_var_uri_str.as_str());
 
     if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
@@ -519,7 +519,7 @@ pub async fn upload_file(configuration: &configuration::Configuration, params: U
         local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
     };
     let mut local_var_form = reqwest::multipart::Form::new();
-    if let Some(local_var_param_value) = additional_metadata {
+    if let Some(local_var_param_value) = additionalmetadata {
         local_var_form = local_var_form.text("additionalMetadata", local_var_param_value.to_string());
     }
     // TODO: support file upload for 'file' parameter
