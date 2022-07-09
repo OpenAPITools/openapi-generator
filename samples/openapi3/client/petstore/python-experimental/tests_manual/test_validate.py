@@ -3,7 +3,7 @@
 from collections import defaultdict
 from decimal import Decimal
 import typing
-from unittest.mock import patch
+from unittest.mock import patch, call
 import unittest
 
 import petstore_api
@@ -285,42 +285,25 @@ class TestValidateCalls(unittest.TestCase):
             ArrayWithValidationsInItems._from_openapi_data([7])
 
     def test_dict_validate_direct_instantiation(self):
-        expected_call_by_index = {
-            0: [
-                Foo,
-                (frozendict({"bar": "a"}),),
-                ValidationMetadata(path_to_item=("args[0]",)),
-            ],
-            1: [
-                StrSchema,
-                ("a",),
-                ValidationMetadata(path_to_item=("args[0]", "bar")),
-            ],
-        }
-        call_index = 0
-        result_by_call_index = {
-            0: defaultdict(set, [(("args[0]",), set([Foo, frozendict]))]),
-            1: defaultdict(set, [(("args[0]", "bar"), set([StrSchema, str]))]),
-        }
-
-        @classmethod
-        def new_validate(
-            cls,
-            *args,
-            validation_metadata: typing.Optional[ValidationMetadata] = None,
-        ):
-            nonlocal call_index
-            assert [cls, args, validation_metadata] == expected_call_by_index[
-                call_index
-            ]
-            result = result_by_call_index.get(call_index)
-            call_index += 1
-            if result is None:
-                raise petstore_api.ApiValueError("boom")
-            return result
-
-        with patch.object(Schema, "_validate", new=new_validate):
+        call_results = [
+            {("args[0]",): {Foo, frozendict}},
+            {("args[0]", "bar"): {StrSchema, str}}
+        ]
+        with patch.object(Schema, "_validate", side_effect=call_results) as mock_validate:
             Foo(bar="a")
+            calls = [
+                call(
+                    frozendict({"bar": "a"}),
+                    validation_metadata=ValidationMetadata(path_to_item=("args[0]",)),
+                ),
+                call(
+                    "a",
+                    ValidationMetadata(path_to_item=("args[0]", "bar")),
+                ),
+            ]
+            mock_validate.assert_has_calls(
+                calls
+            )
 
     def test_dict_validate_direct_instantiation_cast_item(self):
         bar = StrSchema("a")
