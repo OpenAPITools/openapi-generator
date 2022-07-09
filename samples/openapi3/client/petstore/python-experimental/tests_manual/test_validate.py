@@ -163,47 +163,25 @@ class TestValidateCalls(unittest.TestCase):
             assert mock_validate.call_count == 1
 
     def test_list_validate_direct_instantiation(self):
-        expected_call_by_index = {
-            0: [
-                ArrayWithValidationsInItems,
-                ((Decimal("7"),),),
-                ValidationMetadata(path_to_item=("args[0]",)),
-            ],
-            1: [
-                ArrayWithValidationsInItems._items,
-                (Decimal("7"),),
-                ValidationMetadata(path_to_item=("args[0]", 0)),
-            ],
-        }
-        call_index = 0
-        result_by_call_index = {
-            0: defaultdict(
-                set, [(("args[0]",), set([ArrayWithValidationsInItems, tuple]))]
-            ),
-            1: defaultdict(
-                set,
-                [(("args[0]", 0), set([ArrayWithValidationsInItems._items, Decimal]))],
-            ),
-        }
-
-        @classmethod
-        def new_validate(
-            cls,
-            *args,
-            validation_metadata: typing.Optional[ValidationMetadata] = None,
-        ):
-            nonlocal call_index
-            assert [cls, args, validation_metadata] == expected_call_by_index[
-                call_index
-            ]
-            result = result_by_call_index.get(call_index)
-            call_index += 1
-            if result is None:
-                raise petstore_api.ApiValueError("boom")
-            return result
-
-        with patch.object(Schema, "_validate", new=new_validate):
+        results = [
+            {("args[0]",): {ArrayWithValidationsInItems, tuple}},
+            {("args[0]", 0): {ArrayWithValidationsInItems._items, Decimal}}
+        ]
+        with patch.object(Schema, "_validate", side_effect=results) as mock_validate:
             ArrayWithValidationsInItems([7])
+            calls = [
+                call(
+                    (Decimal("7"),),
+                    validation_metadata=ValidationMetadata(path_to_item=("args[0]",))
+                ),
+                call(
+                    Decimal("7"),
+                    ValidationMetadata(path_to_item=("args[0]", 0))
+                )
+            ]
+            mock_validate.assert_has_calls(
+                calls
+            )
 
     def test_list_validate_direct_instantiation_cast_item(self):
         # item validation is skipped if items are of the correct type
