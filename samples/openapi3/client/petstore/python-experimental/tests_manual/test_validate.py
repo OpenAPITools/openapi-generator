@@ -206,40 +206,17 @@ class TestValidateCalls(unittest.TestCase):
             ArrayWithValidationsInItems([7])
 
     def test_list_validate_direct_instantiation_cast_item(self):
-        # validation is skipped if items are of the correct type
-        expected_call_by_index = {
-            0: [
-                ArrayWithValidationsInItems,
-                ((Decimal("7"),),),
-                ValidationMetadata(path_to_item=("args[0]",)),
-            ],
-        }
-        call_index = 0
-        result_by_call_index = {
-            0: defaultdict(
-                set, [(("args[0]",), set([ArrayWithValidationsInItems, tuple]))]
-            ),
-        }
-
-        @classmethod
-        def new_validate(
-            cls,
-            *args,
-            validation_metadata: typing.Optional[ValidationMetadata] = None,
-        ):
-            nonlocal call_index
-            assert [cls, args, validation_metadata] == expected_call_by_index[
-                call_index
-            ]
-            result = result_by_call_index.get(call_index)
-            call_index += 1
-            if result is None:
-                raise petstore_api.ApiValueError("boom")
-            return result
-
+        # item validation is skipped if items are of the correct type
         item = ArrayWithValidationsInItems._items(7)
-        with patch.object(Schema, "_validate", new=new_validate):
+        return_value = {("args[0]",): {ArrayWithValidationsInItems, tuple}}
+        with patch.object(Schema, "_validate", return_value=return_value) as mock_validate:
             ArrayWithValidationsInItems([item])
+            mock_validate.assert_called_once_with(
+                tuple([Decimal('7')]),
+                validation_metadata=ValidationMetadata(
+                    validated_path_to_schemas={('args[0]', 0): {ArrayWithValidationsInItems._items, Decimal}}
+                )
+            )
 
     def test_list_validate_from_openai_data_instantiation(self):
         expected_call_by_index = {
