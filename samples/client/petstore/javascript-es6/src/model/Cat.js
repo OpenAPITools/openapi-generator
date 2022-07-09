@@ -13,6 +13,7 @@
 
 import ApiClient from '../ApiClient';
 import Animal from './Animal';
+import CatAllOf from './CatAllOf';
 
 /**
  * The Cat model module.
