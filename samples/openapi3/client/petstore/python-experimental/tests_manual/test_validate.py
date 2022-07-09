@@ -139,7 +139,7 @@ class TestValidateCalls(unittest.TestCase):
         with patch.object(
             Schema, "_validate", return_value=return_value
         ) as mock_validate:
-            instance = ArrayHoldingAnyType([])
+            ArrayHoldingAnyType([])
             assert mock_validate.call_count == 1
 
         with patch.object(
@@ -153,7 +153,7 @@ class TestValidateCalls(unittest.TestCase):
         with patch.object(
             Schema, "_validate", return_value=return_value
         ) as mock_validate:
-            instance = Foo({})
+            Foo({})
             assert mock_validate.call_count == 1
 
         with patch.object(
@@ -255,44 +255,26 @@ class TestValidateCalls(unittest.TestCase):
             )
 
     def test_dict_validate_from_openapi_data_instantiation(self):
-        expected_call_by_index = {
-            0: [
-                Foo,
-                (frozendict({"bar": "a"}),),
-                ValidationMetadata(path_to_item=("args[0]",), from_server=True),
-            ],
-            1: [
-                StrSchema,
-                ("a",),
-                ValidationMetadata(
-                    path_to_item=("args[0]", "bar"), from_server=True
-                ),
-            ],
-        }
-        call_index = 0
-        result_by_call_index = {
-            0: defaultdict(set, [(("args[0]",), set([Foo, frozendict]))]),
-            1: defaultdict(set, [(("args[0]", "bar"), set([StrSchema, str]))]),
-        }
 
-        @classmethod
-        def new_validate(
-            cls,
-            *args,
-            validation_metadata: typing.Optional[ValidationMetadata] = None,
-        ):
-            nonlocal call_index
-            assert [cls, args, validation_metadata] == expected_call_by_index[
-                call_index
-            ]
-            result = result_by_call_index.get(call_index)
-            call_index += 1
-            if result is None:
-                raise petstore_api.ApiValueError("boom")
-            return result
-
-        with patch.object(Schema, "_validate", new=new_validate):
+        return_values = [
+            {("args[0]",): {Foo, frozendict}},
+            {("args[0]", 'bar'): {StrSchema, str}}
+        ]
+        with patch.object(Schema, "_validate", side_effect=return_values) as mock_validate:
             Foo._from_openapi_data({"bar": "a"})
+            calls = [
+                call(
+                    frozendict({"bar": "a"}),
+                    validation_metadata=ValidationMetadata(path_to_item=("args[0]",), from_server=True),
+                ),
+                call(
+                    "a",
+                    ValidationMetadata(path_to_item=("args[0]", "bar"), from_server=True),
+                ),
+            ]
+            mock_validate.assert_has_calls(
+                calls
+            )
 
 
 if __name__ == "__main__":
