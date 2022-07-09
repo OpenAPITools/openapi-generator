@@ -52,6 +52,11 @@ library(devtools)
 install_github("{{{gitUserId}}}/{{{gitRepoId}}}")
 ```
 
+To install the package from a local file:
+```R
+install.packages("{{{packageName}}}_{{{packageVersion}}}.tar.gz", repos = NULL, type = "source")
+```
+
 ### Usage
 
 ```R

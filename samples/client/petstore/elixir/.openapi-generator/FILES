@@ -1,6 +1,8 @@
+.formatter.exs
 .gitignore
 README.md
 config/config.exs
+config/runtime.exs
 lib/openapi_petstore/api/another_fake.ex
 lib/openapi_petstore/api/default.ex
 lib/openapi_petstore/api/fake.ex

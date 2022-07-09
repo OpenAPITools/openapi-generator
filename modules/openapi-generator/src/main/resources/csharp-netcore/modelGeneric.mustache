@@ -1,6 +1,12 @@
     /// <summary>
     /// {{description}}{{^description}}{{classname}}{{/description}}
     /// </summary>
+    {{#vendorExtensions.x-cls-compliant}}
+    [CLSCompliant({{{vendorExtensions.x-cls-compliant}}})]
+    {{/vendorExtensions.x-cls-compliant}}
+    {{#vendorExtensions.x-com-visible}}
+    [ComVisible({{{vendorExtensions.x-com-visible}}})]
+    {{/vendorExtensions.x-com-visible}}
     [DataContract(Name = "{{{name}}}")]
     {{#discriminator}}
     [JsonConverter(typeof(JsonSubtypes), "{{{discriminatorName}}}")]

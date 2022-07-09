@@ -1191,12 +1191,12 @@ public class ModelUtils {
      *
      * @param openAPI        OpenAPI document containing the schemas.
      * @param schema         schema (alias or direct reference)
-     * @param importMappings mappings of external types to be omitted by unaliasing
+     * @param schemaMappings mappings of external types to be omitted by unaliasing
      * @return actual schema
      */
     public static Schema unaliasSchema(OpenAPI openAPI,
                                        Schema schema,
-                                       Map<String, String> importMappings) {
+                                       Map<String, String> schemaMappings) {
         Map<String, Schema> allSchemas = getSchemas(openAPI);
         if (allSchemas == null || allSchemas.isEmpty()) {
             // skip the warning as the spec can have no model defined
@@ -1206,8 +1206,8 @@ public class ModelUtils {
 
         if (schema != null && StringUtils.isNotEmpty(schema.get$ref())) {
             String simpleRef = ModelUtils.getSimpleRef(schema.get$ref());
-            if (importMappings.containsKey(simpleRef)) {
-                LOGGER.debug("Schema unaliasing of {} omitted because aliased class is to be mapped to {}", simpleRef, importMappings.get(simpleRef));
+            if (schemaMappings.containsKey(simpleRef)) {
+                LOGGER.debug("Schema unaliasing of {} omitted because aliased class is to be mapped to {}", simpleRef, schemaMappings.get(simpleRef));
                 return schema;
             }
             Schema ref = allSchemas.get(simpleRef);
@@ -1222,7 +1222,7 @@ public class ModelUtils {
                     return schema; // generate a model extending array
                 } else {
                     return unaliasSchema(openAPI, allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())),
-                            importMappings);
+                            schemaMappings);
                 }
             } else if (isComposedSchema(ref)) {
                 return schema;
@@ -1235,7 +1235,7 @@ public class ModelUtils {
                     } else {
                         // treat it as a typical map
                         return unaliasSchema(openAPI, allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())),
-                                importMappings);
+                                schemaMappings);
                     }
                 }
             } else if (isObjectSchema(ref)) { // model
@@ -1250,10 +1250,10 @@ public class ModelUtils {
                     }
                 } else { // free form object (type: object)
                     return unaliasSchema(openAPI, allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())),
-                            importMappings);
+                            schemaMappings);
                 }
             } else {
-                return unaliasSchema(openAPI, allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())), importMappings);
+                return unaliasSchema(openAPI, allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())), schemaMappings);
             }
         }
         return schema;

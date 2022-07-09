@@ -14,8 +14,8 @@
 
 
 import * as runtime from '../runtime';
-import {
-    Order,
+import type {
+  Order,
 } from '../models';
 
 export interface DeleteOrderRequest {

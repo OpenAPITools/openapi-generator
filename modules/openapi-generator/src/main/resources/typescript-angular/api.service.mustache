@@ -95,6 +95,7 @@ export class {{classname}} {
     }
 {{/hasSomeFormParams}}
 
+    // @ts-ignore
     private addToHttpParams(httpParams: HttpParams, value: any, key?: string): HttpParams {
         {{#isQueryParamObjectFormatJson}}
         httpParams = this.addToHttpParamsRecursive(httpParams, value, key);

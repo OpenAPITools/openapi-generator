@@ -40,6 +40,8 @@ class NumberOnly {
     final _json = <String, dynamic>{};
     if (justNumber != null) {
       _json[r'JustNumber'] = justNumber;
+    } else {
+      _json[r'JustNumber'] = null;
     }
     return _json;
   }
