@@ -36,13 +36,13 @@ impl<C: hyper::client::connect::Connect> PetApiClient<C>
 
 pub trait PetApi {
     fn add_pet(&self, pet: crate::models::Pet) -> Pin<Box<dyn Future<Output = Result<crate::models::Pet, Error>>>>;
-    fn delete_pet(&self, pet_id: i64, api_key: Option<&str>) -> Pin<Box<dyn Future<Output = Result<(), Error>>>>;
+    fn delete_pet(&self, petid: i64, api_key: Option<&str>) -> Pin<Box<dyn Future<Output = Result<(), Error>>>>;
     fn find_pets_by_status(&self, status: Vec<String>) -> Pin<Box<dyn Future<Output = Result<Vec<crate::models::Pet>, Error>>>>;
     fn find_pets_by_tags(&self, tags: Vec<String>) -> Pin<Box<dyn Future<Output = Result<Vec<crate::models::Pet>, Error>>>>;
-    fn get_pet_by_id(&self, pet_id: i64) -> Pin<Box<dyn Future<Output = Result<crate::models::Pet, Error>>>>;
+    fn get_pet_by_id(&self, petid: i64) -> Pin<Box<dyn Future<Output = Result<crate::models::Pet, Error>>>>;
     fn update_pet(&self, pet: crate::models::Pet) -> Pin<Box<dyn Future<Output = Result<crate::models::Pet, Error>>>>;
-    fn update_pet_with_form(&self, pet_id: i64, name: Option<&str>, status: Option<&str>) -> Pin<Box<dyn Future<Output = Result<(), Error>>>>;
-    fn upload_file(&self, pet_id: i64, additional_metadata: Option<&str>, file: Option<std::path::PathBuf>) -> Pin<Box<dyn Future<Output = Result<crate::models::ApiResponse, Error>>>>;
+    fn update_pet_with_form(&self, petid: i64, name: Option<&str>, status: Option<&str>) -> Pin<Box<dyn Future<Output = Result<(), Error>>>>;
+    fn upload_file(&self, petid: i64, additionalmetadata: Option<&str>, file: Option<std::path::PathBuf>) -> Pin<Box<dyn Future<Output = Result<crate::models::ApiResponse, Error>>>>;
 }
 
 impl<C: hyper::client::connect::Connect>PetApi for PetApiClient<C>
@@ -58,11 +58,11 @@ impl<C: hyper::client::connect::Connect>PetApi for PetApiClient<C>
     }
 
     #[allow(unused_mut)]
-    fn delete_pet(&self, pet_id: i64, api_key: Option<&str>) -> Pin<Box<dyn Future<Output = Result<(), Error>>>> {
+    fn delete_pet(&self, petid: i64, api_key: Option<&str>) -> Pin<Box<dyn Future<Output = Result<(), Error>>>> {
         let mut req = __internal_request::Request::new(hyper::Method::DELETE, "/pet/{petId}".to_string())
             .with_auth(__internal_request::Auth::Oauth)
         ;
-        req = req.with_path_param("petId".to_string(), pet_id.to_string());
+        req = req.with_path_param("petId".to_string(), petid.to_string());
         if let Some(param_value) = api_key {
             req = req.with_header_param("api_key".to_string(), param_value.to_string());
         }
@@ -92,7 +92,7 @@ impl<C: hyper::client::connect::Connect>PetApi for PetApiClient<C>
     }
 
     #[allow(unused_mut)]
-    fn get_pet_by_id(&self, pet_id: i64) -> Pin<Box<dyn Future<Output = Result<crate::models::Pet, Error>>>> {
+    fn get_pet_by_id(&self, petid: i64) -> Pin<Box<dyn Future<Output = Result<crate::models::Pet, Error>>>> {
         let mut req = __internal_request::Request::new(hyper::Method::GET, "/pet/{petId}".to_string())
             .with_auth(__internal_request::Auth::ApiKey(__internal_request::ApiKey{
                 in_header: true,
@@ -100,7 +100,7 @@ impl<C: hyper::client::connect::Connect>PetApi for PetApiClient<C>
                 param_name: "api_key".to_owned(),
             }))
         ;
-        req = req.with_path_param("petId".to_string(), pet_id.to_string());
+        req = req.with_path_param("petId".to_string(), petid.to_string());
 
         req.execute(self.configuration.borrow())
     }
@@ -116,11 +116,11 @@ impl<C: hyper::client::connect::Connect>PetApi for PetApiClient<C>
     }
 
     #[allow(unused_mut)]
-    fn update_pet_with_form(&self, pet_id: i64, name: Option<&str>, status: Option<&str>) -> Pin<Box<dyn Future<Output = Result<(), Error>>>> {
+    fn update_pet_with_form(&self, petid: i64, name: Option<&str>, status: Option<&str>) -> Pin<Box<dyn Future<Output = Result<(), Error>>>> {
         let mut req = __internal_request::Request::new(hyper::Method::POST, "/pet/{petId}".to_string())
             .with_auth(__internal_request::Auth::Oauth)
         ;
-        req = req.with_path_param("petId".to_string(), pet_id.to_string());
+        req = req.with_path_param("petId".to_string(), petid.to_string());
         if let Some(param_value) = name {
             req = req.with_form_param("name".to_string(), param_value.to_string());
         }
@@ -133,12 +133,12 @@ impl<C: hyper::client::connect::Connect>PetApi for PetApiClient<C>
     }
 
     #[allow(unused_mut)]
-    fn upload_file(&self, pet_id: i64, additional_metadata: Option<&str>, file: Option<std::path::PathBuf>) -> Pin<Box<dyn Future<Output = Result<crate::models::ApiResponse, Error>>>> {
+    fn upload_file(&self, petid: i64, additionalmetadata: Option<&str>, file: Option<std::path::PathBuf>) -> Pin<Box<dyn Future<Output = Result<crate::models::ApiResponse, Error>>>> {
         let mut req = __internal_request::Request::new(hyper::Method::POST, "/pet/{petId}/uploadImage".to_string())
             .with_auth(__internal_request::Auth::Oauth)
         ;
-        req = req.with_path_param("petId".to_string(), pet_id.to_string());
-        if let Some(param_value) = additional_metadata {
+        req = req.with_path_param("petId".to_string(), petid.to_string());
+        if let Some(param_value) = additionalmetadata {
             req = req.with_form_param("additionalMetadata".to_string(), param_value.to_string());
         }
         if let Some(param_value) = file {
