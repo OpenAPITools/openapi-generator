@@ -1127,7 +1127,10 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         if ("int".equals(datatype) || "float".equals(datatype) || datatype.equals("int, float")) {
             return value;
         } else if ("bool".equals(datatype)) {
-            return value.substring(0, 1).toUpperCase(Locale.ROOT) + value.substring(1);
+            if (value.equals("true")) {
+                return "BoolClass.TRUE";
+            }
+            return "BoolClass.FALSE";
         } else {
             String fixedValue = (String) processTestExampleData(value);
             return ensureQuotes(fixedValue);
