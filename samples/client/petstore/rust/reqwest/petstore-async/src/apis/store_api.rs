@@ -18,14 +18,14 @@ use super::{Error, configuration};
 #[derive(Clone, Debug, Default)]
 pub struct DeleteOrderParams {
     /// ID of the order that needs to be deleted
-    pub order_id: String
+    pub orderid: String
 }
 
 /// struct for passing parameters to the method [`get_order_by_id`]
 #[derive(Clone, Debug, Default)]
 pub struct GetOrderByIdParams {
     /// ID of pet that needs to be fetched
-    pub order_id: i64
+    pub orderid: i64
 }
 
 /// struct for passing parameters to the method [`place_order`]
@@ -106,12 +106,12 @@ pub async fn delete_order(configuration: &configuration::Configuration, params: 
     let local_var_configuration = configuration;
 
     // unbox the parameters
-    let order_id = params.order_id;
+    let orderid = params.orderid;
 
 
     let local_var_client = &local_var_configuration.client;
 
-    let local_var_uri_str = format!("{}/store/order/{orderId}", local_var_configuration.base_path, orderId=crate::apis::urlencode(order_id));
+    let local_var_uri_str = format!("{}/store/order/{orderId}", local_var_configuration.base_path, orderId=crate::apis::urlencode(orderid));
     let mut local_var_req_builder = local_var_client.request(reqwest::Method::DELETE, local_var_uri_str.as_str());
 
     if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
@@ -181,12 +181,12 @@ pub async fn get_order_by_id(configuration: &configuration::Configuration, param
     let local_var_configuration = configuration;
 
     // unbox the parameters
-    let order_id = params.order_id;
+    let orderid = params.orderid;
 
 
     let local_var_client = &local_var_configuration.client;
 
-    let local_var_uri_str = format!("{}/store/order/{orderId}", local_var_configuration.base_path, orderId=order_id);
+    let local_var_uri_str = format!("{}/store/order/{orderId}", local_var_configuration.base_path, orderId=orderid);
     let mut local_var_req_builder = local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
     if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
