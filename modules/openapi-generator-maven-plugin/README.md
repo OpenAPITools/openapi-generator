@@ -127,7 +127,7 @@ The `key` and `value` text are any values you'd like to provide for that option.
 </configuration>
 ```
 
-Not that some of these environment variable options may overwrite or conflict with other options available to the maven plugin. For example, the above `globalProperties` example is equivalent to the following:
+Notice that some of these environment variable options may overwrite or conflict with other options available to the maven plugin. For example, the above `globalProperties` example is equivalent to the following:
 
 ```xml
 <configuration>
