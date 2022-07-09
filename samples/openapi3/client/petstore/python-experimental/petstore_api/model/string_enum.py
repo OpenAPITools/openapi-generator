@@ -75,8 +75,10 @@ class StringEnum(
             "approved": "APPROVED",
             "delivered": "DELIVERED",
             "single quoted": "SINGLE_QUOTED",
-            "multiple\nlines": "MULTIPLE_LINES",
-            "double quote \n with newline": "DOUBLE_QUOTE_WITH_NEWLINE",
+            "multiple
+lines": "MULTIPLE_LINES",
+            "double quote 
+ with newline": "DOUBLE_QUOTE_WITH_NEWLINE",
         }
     ),
     StrBase,
@@ -117,12 +119,14 @@ class StringEnum(
     @classmethod
     @property
     def MULTIPLE_LINES(cls):
-        return cls("multiple\nlines")
+        return cls("multiple
+lines")
     
     @classmethod
     @property
     def DOUBLE_QUOTE_WITH_NEWLINE(cls):
-        return cls("double quote \n with newline")
+        return cls("double quote 
+ with newline")
 
     def __new__(
         cls,

@@ -69,7 +69,8 @@ from unit_test_api.schemas import (  # noqa: F401
 class EnumWithEscapedCharacters(
     _SchemaEnumMaker(
         enum_value_to_name={
-            "foo\nbar": "FOO_BAR",
+            "foo
+bar": "FOO_BAR",
             "foo\rbar": "FOO_BAR",
         }
     ),
@@ -84,7 +85,8 @@ class EnumWithEscapedCharacters(
     @classmethod
     @property
     def FOO_BAR(cls):
-        return cls("foo\nbar")
+        return cls("foo
+bar")
     
     @classmethod
     @property

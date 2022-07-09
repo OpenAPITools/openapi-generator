@@ -30,7 +30,8 @@ class TestEnumWithEscapedCharacters(unittest.TestCase):
     def test_member1_is_valid_passes(self):
         # member 1 is valid
         EnumWithEscapedCharacters._from_openapi_data(
-            "foo\nbar",
+            "foo
+bar",
             _configuration=self._configuration
         )
 

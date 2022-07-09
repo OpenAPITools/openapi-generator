@@ -75,7 +75,8 @@ class PropertiesWithEscapedCharacters(
     Do not edit the class manually.
     """
     foobar = NumberSchema
-    locals()["foo\nbar"] = foobar
+    locals()["foo
+bar"] = foobar
     del locals()['foobar']
     foobar = NumberSchema
     locals()["foo\"bar"] = foobar
