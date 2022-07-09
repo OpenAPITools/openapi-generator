@@ -51,9 +51,13 @@ class Model200Response {
     final _json = <String, dynamic>{};
     if (name != null) {
       _json[r'name'] = name;
+    } else {
+      _json[r'name'] = null;
     }
     if (class_ != null) {
       _json[r'class'] = class_;
+    } else {
+      _json[r'class'] = null;
     }
     return _json;
   }

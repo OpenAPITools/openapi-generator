@@ -77,7 +77,7 @@ class ModelReturn(
     Model for testing reserved words
     """
     _return = Int32Schema
-    locals()['return'] = _return
+    locals()["return"] = _return
     del locals()['_return']
 
     def __new__(

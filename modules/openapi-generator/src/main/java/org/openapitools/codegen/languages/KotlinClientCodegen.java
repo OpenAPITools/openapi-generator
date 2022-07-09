@@ -72,6 +72,8 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     public static final String GENERATE_ROOM_MODELS = "generateRoomModels";
     public static final String ROOM_MODEL_PACKAGE = "roomModelPackage";
     public static final String OMIT_GRADLE_PLUGIN_VERSIONS = "omitGradlePluginVersions";
+    public static final String OMIT_GRADLE_WRAPPER = "omitGradleWrapper";
+    public static final String IDEA = "idea";
 
     public static final String DATE_LIBRARY = "dateLibrary";
     public static final String REQUEST_DATE_CONVERTER = "requestDateConverter";
@@ -233,6 +235,8 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         cliOptions.add(CliOption.newBoolean(USE_RX_JAVA3, "Whether to use the RxJava3 adapter with the retrofit2 library."));
         cliOptions.add(CliOption.newBoolean(USE_COROUTINES, "Whether to use the Coroutines adapter with the retrofit2 library."));
         cliOptions.add(CliOption.newBoolean(OMIT_GRADLE_PLUGIN_VERSIONS, "Whether to declare Gradle plugin versions in build files."));
+        cliOptions.add(CliOption.newBoolean(OMIT_GRADLE_WRAPPER, "Whether to omit Gradle wrapper for creating a sub project."));
+        cliOptions.add(CliOption.newBoolean(IDEA, "Add IntellJ Idea plugin and mark Kotlin main and test folders as source folders."));
 
         cliOptions.add(CliOption.newBoolean(MOSHI_CODE_GEN, "Whether to enable codegen with the Moshi library. Refer to the [official Moshi doc](https://github.com/square/moshi#codegen) for more info."));
 

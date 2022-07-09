@@ -8,6 +8,7 @@ import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 import io.swagger.annotations.ApiModelProperty;
+import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 
@@ -259,27 +260,26 @@ NUMBER_1_DOT_1(Double.valueOf(1.1)), NUMBER_MINUS_1_DOT_2(Double.valueOf(-1.2));
     return this;
   }
 
-
-    @Override
-    public boolean equals(Object o) {
-      if (this == o) {
-        return true;
-      }
-      if (o == null || getClass() != o.getClass()) {
-        return false;
-      }
-      EnumTest enumTest = (EnumTest) o;
-      return Objects.equals(enumString, enumTest.enumString) &&
-          Objects.equals(enumStringRequired, enumTest.enumStringRequired) &&
-          Objects.equals(enumInteger, enumTest.enumInteger) &&
-          Objects.equals(enumNumber, enumTest.enumNumber) &&
-          Objects.equals(outerEnum, enumTest.outerEnum);
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
     }
-
-    @Override
-    public int hashCode() {
-      return Objects.hash(enumString, enumStringRequired, enumInteger, enumNumber, outerEnum);
+    if (o == null || getClass() != o.getClass()) {
+      return false;
     }
+    EnumTest enumTest = (EnumTest) o;
+    return Objects.equals(enumString, enumTest.enumString) &&
+        Objects.equals(enumStringRequired, enumTest.enumStringRequired) &&
+        Objects.equals(enumInteger, enumTest.enumInteger) &&
+        Objects.equals(enumNumber, enumTest.enumNumber) &&
+        Objects.equals(outerEnum, enumTest.outerEnum);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(enumString, enumStringRequired, enumInteger, enumNumber, outerEnum);
+  }
 
   @Override
   public String toString() {

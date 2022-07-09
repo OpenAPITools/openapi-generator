@@ -15,7 +15,7 @@
 				<groupId>org.openapitools</groupId>
 				<artifactId>openapi-generator-maven-plugin</artifactId>
 				<!-- RELEASE_VERSION -->
-				<version>6.0.1-SNAPSHOT</version>
+				<version>6.1.0-SNAPSHOT</version>
 				<!-- /RELEASE_VERSION -->
 				<executions>
 					<execution>
@@ -27,11 +27,11 @@
 							<!-- specify the swagger yaml -->
 							<inputSpec>${project.basedir}/swagger.yaml</inputSpec>
 
-							<!-- target to generate java client code -->
+							<!-- target to generate kotlin client code -->
 							<generatorName>kotlin</generatorName>
 
-							<!-- hint: if you want to generate java server code, e.g. based on Spring Boot,
-								 you can use the following target: <generatorName>spring</generatorName> -->
+							<!-- hint: if you want to generate kotlin server code, e.g. based on Spring Boot,
+								 you can use the following generator: <generatorName>kotlin-spring</generatorName> -->
 
 							<!-- pass any necessary config options -->
 							<configOptions>

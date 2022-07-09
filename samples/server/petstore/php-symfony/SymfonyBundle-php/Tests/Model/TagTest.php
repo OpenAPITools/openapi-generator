@@ -29,20 +29,22 @@
 
 namespace OpenAPI\Server\Model;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
  * TagTest Class Doc Comment
  *
- * @category    Class */
-// * @description A tag for a pet
-/**
+ * @category    Class
+ * @description A tag for a pet
  * @package     OpenAPI\Server\Tests\Model
  * @author      openapi-generator contributors
  * @link        https://github.com/openapitools/openapi-generator
+ * @coversDefaultClass \OpenAPI\Server\Model\Tag
  */
 class TagTest extends TestCase
 {
+    protected Tag|MockObject $object;
 
     /**
      * Setup before running any test case
@@ -56,6 +58,7 @@ class TagTest extends TestCase
      */
     public function setUp(): void
     {
+         $this->object = $this->getMockBuilder(Tag::class)->getMockForAbstractClass();
     }
 
     /**
@@ -73,24 +76,34 @@ class TagTest extends TestCase
     }
 
     /**
-     * Test "Tag"
+     * @group integration
+     * @small
      */
-    public function testTag()
+    public function testTestClassExists(): void
     {
-        $testTag = new Tag();
+        $this->assertTrue(class_exists(Tag::class));
+        $this->assertInstanceOf(Tag::class, $this->object);
     }
 
     /**
      * Test attribute "id"
+     *
+     * @group unit
+     * @small
      */
-    public function testPropertyId()
+    public function testPropertyId(): void
     {
+        $this->markTestSkipped('Test for property id not implemented');
     }
 
     /**
      * Test attribute "name"
+     *
+     * @group unit
+     * @small
      */
-    public function testPropertyName()
+    public function testPropertyName(): void
     {
+        $this->markTestSkipped('Test for property name not implemented');
     }
 }

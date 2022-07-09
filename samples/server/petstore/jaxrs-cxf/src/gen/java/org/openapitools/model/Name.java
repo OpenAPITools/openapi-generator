@@ -5,6 +5,7 @@ import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 import io.swagger.annotations.ApiModelProperty;
+import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -82,26 +83,25 @@ public class Name  {
   }
 
 
-
-    @Override
-    public boolean equals(Object o) {
-      if (this == o) {
-        return true;
-      }
-      if (o == null || getClass() != o.getClass()) {
-        return false;
-      }
-      Name name = (Name) o;
-      return Objects.equals(name, name.name) &&
-          Objects.equals(snakeCase, name.snakeCase) &&
-          Objects.equals(property, name.property) &&
-          Objects.equals(_123number, name._123number);
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
     }
-
-    @Override
-    public int hashCode() {
-      return Objects.hash(name, snakeCase, property, _123number);
+    if (o == null || getClass() != o.getClass()) {
+      return false;
     }
+    Name name = (Name) o;
+    return Objects.equals(name, name.name) &&
+        Objects.equals(snakeCase, name.snakeCase) &&
+        Objects.equals(property, name.property) &&
+        Objects.equals(_123number, name._123number);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(name, snakeCase, property, _123number);
+  }
 
   @Override
   public String toString() {

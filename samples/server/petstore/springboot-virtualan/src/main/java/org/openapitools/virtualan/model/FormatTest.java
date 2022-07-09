@@ -5,8 +5,6 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
@@ -17,6 +15,7 @@ import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
@@ -86,7 +85,7 @@ public class FormatTest {
    * @return integer
   */
   @Min(10) @Max(100) 
-  @ApiModelProperty(value = "")
+  @Schema(name = "integer", required = false)
   public Integer getInteger() {
     return integer;
   }
@@ -107,7 +106,7 @@ public class FormatTest {
    * @return int32
   */
   @Min(20) @Max(200) 
-  @ApiModelProperty(value = "")
+  @Schema(name = "int32", required = false)
   public Integer getInt32() {
     return int32;
   }
@@ -126,7 +125,7 @@ public class FormatTest {
    * @return int64
   */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "int64", required = false)
   public Long getInt64() {
     return int64;
   }
@@ -147,7 +146,7 @@ public class FormatTest {
    * @return number
   */
   @NotNull @Valid @DecimalMin("32.1") @DecimalMax("543.2") 
-  @ApiModelProperty(required = true, value = "")
+  @Schema(name = "number", required = true)
   public BigDecimal getNumber() {
     return number;
   }
@@ -168,7 +167,7 @@ public class FormatTest {
    * @return _float
   */
   @DecimalMin("54.3") @DecimalMax("987.6") 
-  @ApiModelProperty(value = "")
+  @Schema(name = "float", required = false)
   public Float getFloat() {
     return _float;
   }
@@ -189,7 +188,7 @@ public class FormatTest {
    * @return _double
   */
   @DecimalMin("67.8") @DecimalMax("123.4") 
-  @ApiModelProperty(value = "")
+  @Schema(name = "double", required = false)
   public Double getDouble() {
     return _double;
   }
@@ -208,7 +207,7 @@ public class FormatTest {
    * @return string
   */
   @Pattern(regexp = "/[a-z]/i") 
-  @ApiModelProperty(value = "")
+  @Schema(name = "string", required = false)
   public String getString() {
     return string;
   }
@@ -227,7 +226,7 @@ public class FormatTest {
    * @return _byte
   */
   @NotNull 
-  @ApiModelProperty(required = true, value = "")
+  @Schema(name = "byte", required = true)
   public byte[] getByte() {
     return _byte;
   }
@@ -246,7 +245,7 @@ public class FormatTest {
    * @return binary
   */
   @Valid 
-  @ApiModelProperty(value = "")
+  @Schema(name = "binary", required = false)
   public org.springframework.core.io.Resource getBinary() {
     return binary;
   }
@@ -265,7 +264,7 @@ public class FormatTest {
    * @return date
   */
   @NotNull @Valid 
-  @ApiModelProperty(required = true, value = "")
+  @Schema(name = "date", required = true)
   public LocalDate getDate() {
     return date;
   }
@@ -284,7 +283,7 @@ public class FormatTest {
    * @return dateTime
   */
   @Valid 
-  @ApiModelProperty(value = "")
+  @Schema(name = "dateTime", required = false)
   public OffsetDateTime getDateTime() {
     return dateTime;
   }
@@ -303,7 +302,7 @@ public class FormatTest {
    * @return uuid
   */
   @Valid 
-  @ApiModelProperty(example = "72f98069-206d-4f12-9f12-3d1e525a8e84", value = "")
+  @Schema(name = "uuid", example = "72f98069-206d-4f12-9f12-3d1e525a8e84", required = false)
   public UUID getUuid() {
     return uuid;
   }
@@ -322,7 +321,7 @@ public class FormatTest {
    * @return password
   */
   @NotNull @Size(min = 10, max = 64) 
-  @ApiModelProperty(required = true, value = "")
+  @Schema(name = "password", required = true)
   public String getPassword() {
     return password;
   }
@@ -341,7 +340,7 @@ public class FormatTest {
    * @return bigDecimal
   */
   @Valid 
-  @ApiModelProperty(value = "")
+  @Schema(name = "BigDecimal", required = false)
   public BigDecimal getBigDecimal() {
     return bigDecimal;
   }

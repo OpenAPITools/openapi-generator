@@ -5,8 +5,6 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +12,7 @@ import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
@@ -95,7 +94,7 @@ public class MapTest {
    * @return mapMapOfString
   */
   @Valid 
-  @ApiModelProperty(value = "")
+  @Schema(name = "map_map_of_string", required = false)
   public Map<String, Map<String, String>> getMapMapOfString() {
     return mapMapOfString;
   }
@@ -122,7 +121,7 @@ public class MapTest {
    * @return mapOfEnumString
   */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "map_of_enum_string", required = false)
   public Map<String, InnerEnum> getMapOfEnumString() {
     return mapOfEnumString;
   }
@@ -149,7 +148,7 @@ public class MapTest {
    * @return directMap
   */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "direct_map", required = false)
   public Map<String, Boolean> getDirectMap() {
     return directMap;
   }
@@ -176,7 +175,7 @@ public class MapTest {
    * @return indirectMap
   */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "indirect_map", required = false)
   public Map<String, Boolean> getIndirectMap() {
     return indirectMap;
   }

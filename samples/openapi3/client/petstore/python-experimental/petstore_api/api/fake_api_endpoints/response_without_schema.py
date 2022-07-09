@@ -112,6 +112,7 @@ class ResponseWithoutSchema(api_client.Api):
             api_response.body and api_response.headers will not be deserialized into schema
             class instances
         """
+        used_path = _path
 
         _headers = HTTPHeaderDict()
         # TODO add cookie handling
@@ -120,7 +121,7 @@ class ResponseWithoutSchema(api_client.Api):
                 _headers.add('Accept', accept_content_type)
 
         response = self.api_client.call_api(
-            resource_path=_path,
+            resource_path=used_path,
             method=_method,
             headers=_headers,
             stream=stream,

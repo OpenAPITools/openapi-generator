@@ -13,17 +13,16 @@ from email.mime import nonmultipart
 import io
 import sys
 import unittest
-import json
 import typing
 from unittest.mock import patch
 
 import urllib3
-from urllib3._collections import HTTPHeaderDict
-
 import petstore_api
 from petstore_api import api_client, schemas, exceptions
 from petstore_api.api.fake_api import FakeApi  # noqa: E501
 from petstore_api.rest import RESTClientObject
+
+from . import ApiTestMixin
 
 
 class MIMEFormdata(nonmultipart.MIMENonMultipart):
@@ -33,108 +32,10 @@ class MIMEFormdata(nonmultipart.MIMENonMultipart):
             "Content-Disposition", "form-data; name=\"%s\"" % keyname)
 
 
-class TestFakeApi(unittest.TestCase):
+class TestFakeApi(ApiTestMixin):
     """FakeApi unit test stubs"""
-    json_content_type = 'application/json'
     configuration = petstore_api.Configuration()
     api = FakeApi(api_client=api_client.ApiClient(configuration=configuration))
-    user_agent = 'OpenAPI-Generator/1.0.0/python'
-
-    @staticmethod
-    def headers_for_content_type(content_type: str) -> dict[str, str]:
-        return {'content-type': content_type}
-
-    @classmethod
-    def __response(
-        cls,
-        body: typing.Union[str, bytes],
-        status: int = 200,
-        content_type: str = json_content_type,
-        headers: typing.Optional[dict[str, str]] = None,
-        preload_content: bool = True
-    ) -> urllib3.HTTPResponse:
-        if headers is None:
-            headers = {}
-        headers.update(cls.headers_for_content_type(content_type))
-        return urllib3.HTTPResponse(
-            body,
-            headers=headers,
-            status=status,
-            preload_content=preload_content
-        )
-
-    @staticmethod
-    def __json_bytes(in_data: typing.Any) -> bytes:
-        return json.dumps(in_data, separators=(",", ":"), ensure_ascii=False).encode('utf-8')
-
-    @classmethod
-    def __assert_request_called_with(
-        cls,
-        mock_request,
-        url: str,
-        method: str = 'POST',
-        body: typing.Optional[bytes] = None,
-        content_type: typing.Optional[str] = 'application/json',
-        fields: typing.Optional[tuple[api_client.RequestField, ...]] = None,
-        accept_content_type: str = 'application/json',
-        stream: bool = False,
-        query_params: typing.Optional[typing.Tuple[typing.Tuple[str, str], ...]] = None
-    ):
-        headers = {
-            'Accept': accept_content_type,
-            'User-Agent': cls.user_agent
-        }
-        if accept_content_type:
-            headers['Accept'] = accept_content_type
-        if content_type:
-            headers['Content-Type'] = content_type
-        kwargs = dict(
-            headers=HTTPHeaderDict(headers),
-            query_params=query_params,
-            fields=fields,
-            stream=stream,
-            timeout=None,
-        )
-        if method != 'GET':
-            kwargs['body'] = body
-        mock_request.assert_called_with(
-            method,
-            url,
-            **kwargs
-        )
-
-    @classmethod
-    def __assert_pool_manager_request_called_with(
-        cls,
-        mock_request,
-        url: str,
-        method: str = 'POST',
-        body: typing.Optional[bytes] = None,
-        content_type: typing.Optional[str] = 'application/json',
-        accept_content_type: typing.Optional[str] = 'application/json',
-        stream: bool = False,
-        query_params: typing.Optional[typing.Tuple[typing.Tuple[str, str], ...]] = None,
-    ):
-        headers = {
-            'User-Agent': cls.user_agent
-        }
-        if accept_content_type:
-            headers['Accept'] = accept_content_type
-        if content_type:
-            headers['Content-Type'] = content_type
-        kwargs = dict(
-            headers=HTTPHeaderDict(headers),
-            fields=query_params,
-            preload_content=not stream,
-            timeout=None,
-        )
-        if content_type and method != 'GET':
-            kwargs['body'] = body
-        mock_request.assert_called_with(
-            method,
-            url,
-            **kwargs
-        )
 
     def test_array_model(self):
         from petstore_api.model import animal_farm, animal
@@ -142,17 +43,17 @@ class TestFakeApi(unittest.TestCase):
         # serialization + deserialization works
         with patch.object(RESTClientObject, 'request') as mock_request:
             json_data = [{"className": "Cat", "color": "black"}]
-            mock_request.return_value = self.__response(
-                self.__json_bytes(json_data)
+            mock_request.return_value = self.response(
+                self.json_bytes(json_data)
             )
 
             cat = animal.Animal(className="Cat", color="black")
             body = animal_farm.AnimalFarm([cat])
             api_response = self.api.array_model(body=body)
-            self.__assert_request_called_with(
+            self.assert_request_called_with(
                 mock_request,
                 'http://petstore.swagger.io:80/v2/fake/refs/arraymodel',
-                body=self.__json_bytes(json_data)
+                body=self.json_bytes(json_data)
             )
 
             assert isinstance(api_response.body, animal_farm.AnimalFarm)
@@ -172,15 +73,15 @@ class TestFakeApi(unittest.TestCase):
             value = [string_enum.StringEnum("placed")]
             body = array_of_enums.ArrayOfEnums(value)
             value_simple = ["placed"]
-            mock_request.return_value = self.__response(
-                self.__json_bytes(value_simple)
+            mock_request.return_value = self.response(
+                self.json_bytes(value_simple)
             )
 
             api_response = self.api.array_of_enums(body=body)
-            self.__assert_request_called_with(
+            self.assert_request_called_with(
                 mock_request,
                 'http://petstore.swagger.io:80/v2/fake/refs/array-of-enums',
-                body=self.__json_bytes(value_simple)
+                body=self.json_bytes(value_simple)
             )
 
             assert isinstance(api_response.body, array_of_enums.ArrayOfEnums)
@@ -193,15 +94,15 @@ class TestFakeApi(unittest.TestCase):
         with patch.object(RESTClientObject, 'request') as mock_request:
             value = 10.0
             body = number_with_validations.NumberWithValidations(value)
-            mock_request.return_value = self.__response(
-                self.__json_bytes(value)
+            mock_request.return_value = self.response(
+                self.json_bytes(value)
             )
 
             api_response = self.api.number_with_validations(body=body)
-            self.__assert_request_called_with(
+            self.assert_request_called_with(
                 mock_request,
                 'http://petstore.swagger.io:80/v2/fake/refs/number',
-                body=self.__json_bytes(value)
+                body=self.json_bytes(value)
             )
 
             assert isinstance(api_response.body, number_with_validations.NumberWithValidations)
@@ -225,15 +126,15 @@ class TestFakeApi(unittest.TestCase):
         ]
         for (body, value_simple) in cast_to_simple_value:
             with patch.object(RESTClientObject, 'request') as mock_request:
-                mock_request.return_value = self.__response(
-                    self.__json_bytes(value_simple)
+                mock_request.return_value = self.response(
+                    self.json_bytes(value_simple)
                 )
 
                 api_response = self.api.composed_one_of_different_types(body=body)
-                self.__assert_request_called_with(
+                self.assert_request_called_with(
                     mock_request,
                     'http://petstore.swagger.io:80/v2/fake/refs/composed_one_of_number_with_validations',
-                    body=self.__json_bytes(value_simple)
+                    body=self.json_bytes(value_simple)
                 )
 
                 assert isinstance(api_response.body, composed_one_of_different_types.ComposedOneOfDifferentTypes)
@@ -242,15 +143,15 @@ class TestFakeApi(unittest.TestCase):
         # inputting the uncast values into the endpoint also works
         for (body, value_simple) in cast_to_simple_value:
             with patch.object(RESTClientObject, 'request') as mock_request:
-                mock_request.return_value = self.__response(
-                    self.__json_bytes(value_simple)
+                mock_request.return_value = self.response(
+                    self.json_bytes(value_simple)
                 )
 
                 api_response = self.api.composed_one_of_different_types(body=value_simple)
-                self.__assert_request_called_with(
+                self.assert_request_called_with(
                     mock_request,
                     'http://petstore.swagger.io:80/v2/fake/refs/composed_one_of_number_with_validations',
-                    body=self.__json_bytes(value_simple)
+                    body=self.json_bytes(value_simple)
                 )
 
                 assert isinstance(api_response.body, composed_one_of_different_types.ComposedOneOfDifferentTypes)
@@ -261,15 +162,15 @@ class TestFakeApi(unittest.TestCase):
         with patch.object(RESTClientObject, 'request') as mock_request:
             body = "blah"
             value_simple = body
-            mock_request.return_value = self.__response(
-                self.__json_bytes(value_simple)
+            mock_request.return_value = self.response(
+                self.json_bytes(value_simple)
             )
 
             api_response = self.api.string(body=body)
-            self.__assert_request_called_with(
+            self.assert_request_called_with(
                 mock_request,
                 'http://petstore.swagger.io:80/v2/fake/refs/string',
-                body=self.__json_bytes(value_simple)
+                body=self.json_bytes(value_simple)
             )
 
             assert isinstance(api_response.body, str)
@@ -281,15 +182,15 @@ class TestFakeApi(unittest.TestCase):
         with patch.object(RESTClientObject, 'request') as mock_request:
             value = "placed"
             body = string_enum.StringEnum(value)
-            mock_request.return_value = self.__response(
-                self.__json_bytes(value)
+            mock_request.return_value = self.response(
+                self.json_bytes(value)
             )
 
             api_response = self.api.string_enum(body=body)
-            self.__assert_request_called_with(
+            self.assert_request_called_with(
                 mock_request,
                 'http://petstore.swagger.io:80/v2/fake/refs/enum',
-                body=self.__json_bytes(value)
+                body=self.json_bytes(value)
             )
 
             assert isinstance(api_response.body, string_enum.StringEnum)
@@ -301,15 +202,15 @@ class TestFakeApi(unittest.TestCase):
         with patch.object(RESTClientObject, 'request') as mock_request:
             body = Mammal(className="BasquePig")
             value_simple = dict(className='BasquePig')
-            mock_request.return_value = self.__response(
-                self.__json_bytes(value_simple)
+            mock_request.return_value = self.response(
+                self.json_bytes(value_simple)
             )
 
             api_response = self.api.mammal(body=body)
-            self.__assert_request_called_with(
+            self.assert_request_called_with(
                 mock_request,
                 'http://petstore.swagger.io:80/v2/fake/refs/mammal',
-                body=self.__json_bytes(value_simple)
+                body=self.json_bytes(value_simple)
             )
 
             assert isinstance(api_response.body, Mammal)
@@ -333,6 +234,36 @@ class TestFakeApi(unittest.TestCase):
         with self.assertRaises(petstore_api.ApiValueError):
             self.api.body_with_query_params(body=schemas.unset, query_params=dict(query=schemas.unset))
 
+    def test_body_with_query_params(self):
+        from petstore_api.model import user
+        with patch.object(RESTClientObject, 'request') as mock_request:
+
+            value_simple = dict(
+                id=1,
+                username='first last',
+                firstName='first',
+                lastName='last'
+            )
+            body = user.User(**value_simple)
+            mock_request.return_value = self.response(
+                b''
+            )
+
+            api_response = self.api.body_with_query_params(
+                body=body,
+                query_params=dict(query='hi there')
+            )
+            self.assert_request_called_with(
+                mock_request,
+                'http://petstore.swagger.io:80/v2/fake/body-with-query-params?query=hi%20there',
+                method='PUT',
+                body=self.json_bytes(value_simple),
+                accept_content_type=None
+            )
+
+            assert isinstance(api_response.body, api_client.Unset)
+            assert api_response.response.status == 200
+
     def test_upload_download_file_tx_bytes_and_file(self):
         """Test case for upload_download_file
         uploads a file and downloads a file using application/octet-stream  # noqa: E501
@@ -346,7 +277,7 @@ class TestFakeApi(unittest.TestCase):
         with open(file_path1, "rb") as some_file:
             file_bytes = some_file.read()
         file1 = open(file_path1, "rb")
-        mock_response = self.__response(
+        mock_response = self.response(
             file_bytes,
             content_type='application/octet-stream'
         )
@@ -354,7 +285,7 @@ class TestFakeApi(unittest.TestCase):
             with patch.object(RESTClientObject, 'request') as mock_request:
                 mock_request.return_value = mock_response
                 api_response = self.api.upload_download_file(body=file1)
-                self.__assert_request_called_with(
+                self.assert_request_called_with(
                     mock_request,
                     'http://petstore.swagger.io:80/v2/fake/uploadDownloadFile',
                     body=file_bytes,
@@ -374,7 +305,7 @@ class TestFakeApi(unittest.TestCase):
         with patch.object(RESTClientObject, 'request') as mock_request:
             mock_request.return_value = mock_response
             api_response = self.api.upload_download_file(body=file_bytes)
-            self.__assert_request_called_with(
+            self.assert_request_called_with(
                 mock_request,
                 'http://petstore.swagger.io:80/v2/fake/uploadDownloadFile',
                 body=file_bytes,
@@ -411,7 +342,7 @@ class TestFakeApi(unittest.TestCase):
 
         streamable_body = StreamableBody(file1)
 
-        mock_response = self.__response(
+        mock_response = self.response(
             streamable_body,
             content_type='application/octet-stream',
             preload_content=False
@@ -419,7 +350,7 @@ class TestFakeApi(unittest.TestCase):
         with patch.object(RESTClientObject, 'request') as mock_request:
             mock_request.return_value = mock_response
             api_response = self.api.upload_download_file(body=file_bytes, stream=True)
-            self.__assert_request_called_with(
+            self.assert_request_called_with(
                 mock_request,
                 'http://petstore.swagger.io:80/v2/fake/uploadDownloadFile',
                 body=file_bytes,
@@ -443,7 +374,7 @@ class TestFakeApi(unittest.TestCase):
         when streaming is used and the response contains the content disposition header with a filename
         that filename is used when saving the file locally
         """
-        mock_response = self.__response(
+        mock_response = self.response(
             streamable_body,
             content_type='application/octet-stream',
             headers={'content-disposition': f'attachment; filename="{saved_file_name}"'},
@@ -452,7 +383,7 @@ class TestFakeApi(unittest.TestCase):
         with patch.object(RESTClientObject, 'request') as mock_request:
             mock_request.return_value = mock_response
             api_response = self.api.upload_download_file(body=file_bytes, stream=True)
-            self.__assert_request_called_with(
+            self.assert_request_called_with(
                 mock_request,
                 'http://petstore.swagger.io:80/v2/fake/uploadDownloadFile',
                 body=file_bytes,
@@ -489,11 +420,11 @@ class TestFakeApi(unittest.TestCase):
         }
         try:
             with patch.object(RESTClientObject, 'request') as mock_request:
-                mock_request.return_value = self.__response(
-                    self.__json_bytes(response_json)
+                mock_request.return_value = self.response(
+                    self.json_bytes(response_json)
                 )
                 api_response = self.api.upload_file(body={'file': file1})
-                self.__assert_request_called_with(
+                self.assert_request_called_with(
                     mock_request,
                     'http://petstore.swagger.io:80/v2/fake/uploadFile',
                     fields=(
@@ -514,11 +445,11 @@ class TestFakeApi(unittest.TestCase):
 
         # sending just bytes works also
         with patch.object(RESTClientObject, 'request') as mock_request:
-            mock_request.return_value = self.__response(
-                self.__json_bytes(response_json)
+            mock_request.return_value = self.response(
+                self.json_bytes(response_json)
             )
             api_response = self.api.upload_file(body={'file': file_bytes})
-            self.__assert_request_called_with(
+            self.assert_request_called_with(
                 mock_request,
                 'http://petstore.swagger.io:80/v2/fake/uploadFile',
                 fields=(
@@ -567,11 +498,11 @@ class TestFakeApi(unittest.TestCase):
         }
         try:
             with patch.object(RESTClientObject, 'request') as mock_request:
-                mock_request.return_value = self.__response(
-                    self.__json_bytes(response_json)
+                mock_request.return_value = self.response(
+                    self.json_bytes(response_json)
                 )
                 api_response = self.api.upload_files(body={'files': [file1, file1]})
-                self.__assert_request_called_with(
+                self.assert_request_called_with(
                     mock_request,
                     'http://petstore.swagger.io:80/v2/fake/uploadFiles',
                     fields=(
@@ -598,11 +529,11 @@ class TestFakeApi(unittest.TestCase):
 
         # sending just bytes works also
         with patch.object(RESTClientObject, 'request') as mock_request:
-            mock_request.return_value = self.__response(
-                self.__json_bytes(response_json)
+            mock_request.return_value = self.response(
+                self.json_bytes(response_json)
             )
             api_response = self.api.upload_files(body={'files': [file_bytes, file_bytes]})
-            self.__assert_request_called_with(
+            self.assert_request_called_with(
                 mock_request,
                 'http://petstore.swagger.io:80/v2/fake/uploadFiles',
                 fields=(
@@ -640,11 +571,11 @@ class TestFakeApi(unittest.TestCase):
        testing composed schemas at inline locations  # noqa: E501
        """
        single_char_str = 'a'
-       json_bytes = self.__json_bytes(single_char_str)
+       json_bytes = self.json_bytes(single_char_str)
 
        # tx and rx json with composition at root level of schema for request + response body
        content_type = 'application/json'
-       mock_request.return_value = self.__response(
+       mock_request.return_value = self.response(
            json_bytes
        )
        api_response = self.api.inline_composition(
@@ -655,12 +586,11 @@ class TestFakeApi(unittest.TestCase):
            },
            accept_content_types=(content_type,)
        )
-       self.__assert_request_called_with(
+       self.assert_request_called_with(
            mock_request,
-           'http://petstore.swagger.io:80/v2/fake/inlineComposition/',
+           'http://petstore.swagger.io:80/v2/fake/inlineComposition/?compositionAtRoot=a&someProp=a',
            accept_content_type=content_type,
            content_type=content_type,
-           query_params=(('compositionAtRoot', 'a'), ('someProp', 'a')),
            body=json_bytes
        )
        self.assertEqual(api_response.body, single_char_str)
@@ -669,7 +599,7 @@ class TestFakeApi(unittest.TestCase):
        # tx and rx json with composition at property level of schema for request + response body
        content_type = 'multipart/form-data'
        multipart_response = self.__encode_multipart_formdata(fields={'someProp': single_char_str})
-       mock_request.return_value = self.__response(
+       mock_request.return_value = self.response(
            bytes(multipart_response),
            content_type=multipart_response.get_content_type()
        )
@@ -682,12 +612,11 @@ class TestFakeApi(unittest.TestCase):
            content_type=content_type,
            accept_content_types=(content_type,)
        )
-       self.__assert_request_called_with(
+       self.assert_request_called_with(
            mock_request,
-           'http://petstore.swagger.io:80/v2/fake/inlineComposition/',
+           'http://petstore.swagger.io:80/v2/fake/inlineComposition/?compositionAtRoot=a&someProp=a',
            accept_content_type=content_type,
            content_type=content_type,
-           query_params=(('compositionAtRoot', 'a'), ('someProp', 'a')),
            fields=(
                api_client.RequestField(
                    name='someProp',
@@ -707,7 +636,7 @@ class TestFakeApi(unittest.TestCase):
            values[invalid_index] = invalid_value
            with self.assertRaises(exceptions.ApiValueError):
                multipart_response = self.__encode_multipart_formdata(fields={'someProp': values[0]})
-               mock_request.return_value = self.__response(
+               mock_request.return_value = self.response(
                    bytes(multipart_response),
                    content_type=multipart_response.get_content_type()
                )
@@ -726,16 +655,16 @@ class TestFakeApi(unittest.TestCase):
         with patch.object(RESTClientObject, 'request') as mock_request:
             body = None
             content_type_with_charset = 'application/json; charset=utf-8'
-            mock_request.return_value = self.__response(
-                self.__json_bytes(body),
+            mock_request.return_value = self.response(
+                self.json_bytes(body),
                 content_type=content_type_with_charset
             )
 
             api_response = self.api.json_with_charset(body=body)
-            self.__assert_request_called_with(
+            self.assert_request_called_with(
                 mock_request,
                 'http://petstore.swagger.io:80/v2/fake/jsonWithCharset',
-                body=self.__json_bytes(body),
+                body=self.json_bytes(body),
                 content_type=content_type_with_charset,
                 accept_content_type=content_type_with_charset
             )
@@ -749,12 +678,12 @@ class TestFakeApi(unittest.TestCase):
         with patch.object(RESTClientObject, 'request') as mock_request:
             body = None
             content_type = 'application/json'
-            mock_request.return_value = self.__response(
-                self.__json_bytes(body),
+            mock_request.return_value = self.response(
+                self.json_bytes(body),
             )
 
             api_response = self.api.response_without_schema()
-            self.__assert_request_called_with(
+            self.assert_request_called_with(
                 mock_request,
                 'http://petstore.swagger.io:80/v2/fake/responseWithoutSchema',
                 method='GET',
@@ -766,7 +695,7 @@ class TestFakeApi(unittest.TestCase):
 
 
         with patch.object(RESTClientObject, 'request') as mock_request:
-            mock_request.return_value = self.__response(
+            mock_request.return_value = self.response(
                 'blah',
                 content_type='text/plain'
             )
@@ -779,12 +708,12 @@ class TestFakeApi(unittest.TestCase):
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
 
             body = None
-            mock_request.return_value = self.__response(
-                self.__json_bytes(body),
+            mock_request.return_value = self.response(
+                self.json_bytes(body),
             )
 
             api_response = self.api.delete_coffee(path_params=dict(id='1'))
-            self.__assert_pool_manager_request_called_with(
+            self.assert_pool_manager_request_called_with(
                 mock_request,
                 'http://petstore.swagger.io:80/v2/fake/deleteCoffee/1',
                 method='DELETE',

@@ -26,6 +26,9 @@
         {{/swagger2AnnotationLibrary}}
         {{/springDocDocumentationProvider}}
         {{/springFoxDocumentationProvider}}
+        {{#virtualService}}
+        <virtualan.version>2.5.2</virtualan.version>
+        {{/virtualService}}
         {{#useSwaggerUI}}
         <swagger-ui.version>4.10.3</swagger-ui.version>
         {{/useSwaggerUI}}
@@ -208,13 +211,12 @@
         <dependency>
             <groupId>io.virtualan</groupId>
             <artifactId>virtualan-plugin</artifactId>
-            <version>2.2.1</version>
+            <version>${virtualan.version}</version>
         </dependency>
         <!-- HyperSQL DB -->
         <dependency>
             <groupId>org.hsqldb</groupId>
             <artifactId>hsqldb</artifactId>
-            <version>2.5.0</version>
         </dependency>
     <!-- END Virtual Service API support -->
 {{/virtualService}}

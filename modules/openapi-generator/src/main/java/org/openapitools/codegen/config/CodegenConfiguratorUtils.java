@@ -81,6 +81,19 @@ public final class CodegenConfiguratorUtils {
         }
     }
 
+    public static void applySchemaMappingsKvpList(List<String> schemaMappings, CodegenConfigurator configurator) {
+        for (String propString : schemaMappings) {
+            applySchemaMappingsKvp(propString, configurator);
+        }
+    }
+
+    public static void applySchemaMappingsKvp(String schemaMappings, CodegenConfigurator configurator) {
+        final Map<String, String> map = createMapFromKeyValuePairs(schemaMappings);
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            configurator.addSchemaMapping(entry.getKey().trim(), entry.getValue().trim());
+        }
+    }
+
     public static void applyInlineSchemaNameMappingsKvpList(List<String> inlineSchemaNameMappings, CodegenConfigurator configurator) {
         for (String propString : inlineSchemaNameMappings) {
             applyInlineSchemaNameMappingsKvp(propString, configurator);
@@ -91,6 +104,19 @@ public final class CodegenConfiguratorUtils {
         final Map<String, String> map = createMapFromKeyValuePairs(inlineSchemaNameMappings);
         for (Map.Entry<String, String> entry : map.entrySet()) {
             configurator.addInlineSchemaNameMapping(entry.getKey().trim(), entry.getValue().trim());
+        }
+    }
+
+    public static void applyInlineSchemaNameDefaultsKvpList(List<String> inlineSchemaNameDefaults, CodegenConfigurator configurator) {
+        for (String propString : inlineSchemaNameDefaults) {
+            applyInlineSchemaNameDefaultsKvp(propString, configurator);
+        }
+    }
+
+    public static void applyInlineSchemaNameDefaultsKvp(String inlineSchemaNameDefaults, CodegenConfigurator configurator) {
+        final Map<String, String> map = createMapFromKeyValuePairs(inlineSchemaNameDefaults);
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            configurator.addInlineSchemaNameDefault(entry.getKey().trim(), entry.getValue().trim());
         }
     }
 
