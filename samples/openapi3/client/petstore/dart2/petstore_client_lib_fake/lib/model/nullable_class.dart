@@ -89,34 +89,54 @@ class NullableClass {
     final _json = <String, dynamic>{};
     if (integerProp != null) {
       _json[r'integer_prop'] = integerProp;
+    } else {
+      _json[r'integer_prop'] = null;
     }
     if (numberProp != null) {
       _json[r'number_prop'] = numberProp;
+    } else {
+      _json[r'number_prop'] = null;
     }
     if (booleanProp != null) {
       _json[r'boolean_prop'] = booleanProp;
+    } else {
+      _json[r'boolean_prop'] = null;
     }
     if (stringProp != null) {
       _json[r'string_prop'] = stringProp;
+    } else {
+      _json[r'string_prop'] = null;
     }
     if (dateProp != null) {
       _json[r'date_prop'] = _dateFormatter.format(dateProp!.toUtc());
+    } else {
+      _json[r'date_prop'] = null;
     }
     if (datetimeProp != null) {
       _json[r'datetime_prop'] = datetimeProp!.toUtc().toIso8601String();
+    } else {
+      _json[r'datetime_prop'] = null;
     }
     if (arrayNullableProp != null) {
       _json[r'array_nullable_prop'] = arrayNullableProp;
+    } else {
+      _json[r'array_nullable_prop'] = null;
     }
     if (arrayAndItemsNullableProp != null) {
       _json[r'array_and_items_nullable_prop'] = arrayAndItemsNullableProp;
+    } else {
+      _json[r'array_and_items_nullable_prop'] = null;
     }
       _json[r'array_items_nullable'] = arrayItemsNullable;
     if (objectNullableProp != null) {
       _json[r'object_nullable_prop'] = objectNullableProp;
+    } else {
+      _json[r'object_nullable_prop'] = null;
     }
     if (objectAndItemsNullableProp != null) {
       _json[r'object_and_items_nullable_prop'] = objectAndItemsNullableProp;
+    } else {
+      _json[r'object_and_items_nullable_prop'] = null;
     }
       _json[r'object_items_nullable'] = objectItemsNullable;
     return _json;

@@ -2121,6 +2121,21 @@ public class DefaultCodegenTest {
         CodegenModel codegenModel = codegen.fromModel("ParentType", openAPI.getComponents().getSchemas().get("ParentType"));
 
         Assert.assertEquals(codegenModel.vars.size(), 1);
+        Assert.assertEquals(codegenModel.vars.get(0).getBaseType(), "string");
+    }
+
+    @Test
+    public void schemaMapping() {
+        DefaultCodegen codegen = new DefaultCodegen();
+        codegen.schemaMapping.put("TypeAlias", "foo.bar.TypeAlias");
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/type-alias.yaml", null, new ParseOptions()).getOpenAPI();
+        codegen.setOpenAPI(openAPI);
+
+        CodegenModel codegenModel = codegen.fromModel("ParentType", openAPI.getComponents().getSchemas().get("ParentType"));
+
+        Assert.assertEquals(codegenModel.vars.size(), 1);
         Assert.assertEquals(codegenModel.vars.get(0).getBaseType(), "TypeAlias");
     }
 

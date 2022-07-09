@@ -34,6 +34,8 @@ class HealthCheckResult {
     final _json = <String, dynamic>{};
     if (nullableMessage != null) {
       _json[r'NullableMessage'] = nullableMessage;
+    } else {
+      _json[r'NullableMessage'] = null;
     }
     return _json;
   }

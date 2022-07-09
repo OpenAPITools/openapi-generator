@@ -62,12 +62,18 @@ class OuterComposite {
     final _json = <String, dynamic>{};
     if (myNumber != null) {
       _json[r'my_number'] = myNumber;
+    } else {
+      _json[r'my_number'] = null;
     }
     if (myString != null) {
       _json[r'my_string'] = myString;
+    } else {
+      _json[r'my_string'] = null;
     }
     if (myBoolean != null) {
       _json[r'my_boolean'] = myBoolean;
+    } else {
+      _json[r'my_boolean'] = null;
     }
     return _json;
   }

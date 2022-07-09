@@ -111,7 +111,7 @@ class StoreApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient =
         
         return RequestConfig(
             method = RequestMethod.DELETE,
-            path = "/store/order/{orderId}".replace("{"+"orderId"+"}", "$orderId"),
+            path = "/store/order/{orderId}".replace("{"+"orderId"+"}", orderId.toString()),
             query = localVariableQuery,
             headers = localVariableHeaders,
             body = localVariableBody
@@ -248,7 +248,7 @@ class StoreApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient =
 
         return RequestConfig(
             method = RequestMethod.GET,
-            path = "/store/order/{orderId}".replace("{"+"orderId"+"}", "$orderId"),
+            path = "/store/order/{orderId}".replace("{"+"orderId"+"}", orderId.toString()),
             query = localVariableQuery,
             headers = localVariableHeaders,
             body = localVariableBody

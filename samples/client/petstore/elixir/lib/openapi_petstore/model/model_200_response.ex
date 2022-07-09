@@ -9,13 +9,13 @@ defmodule OpenapiPetstore.Model.Model200Response do
 
   @derive [Poison.Encoder]
   defstruct [
-    :"name",
-    :"class"
+    :name,
+    :class
   ]
 
   @type t :: %__MODULE__{
-    :"name" => integer() | nil,
-    :"class" => String.t | nil
+    :name => integer() | nil,
+    :class => String.t | nil
   }
 end
 

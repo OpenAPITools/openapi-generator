@@ -43,7 +43,6 @@ class ConfigurationTests(unittest.TestCase):
             mock_request.assert_called_with(
                 'POST',
                 'http://path-server-test.petstore.local/v2/pet',
-                query_params=None,
                 headers=HTTPHeaderDict({
                     'Content-Type': 'application/json',
                     'User-Agent': 'OpenAPI-Generator/1.0.0/python'
@@ -60,7 +59,6 @@ class ConfigurationTests(unittest.TestCase):
             mock_request.assert_called_with(
                 'DELETE',
                 'https://localhost:8080/v1/pet/123456789',
-                query_params=None,
                 headers={'User-Agent': 'OpenAPI-Generator/1.0.0/python'},
                 fields=None,
                 body=None,

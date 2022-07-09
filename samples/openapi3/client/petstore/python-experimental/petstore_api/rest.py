@@ -90,7 +90,6 @@ class RESTClientObject(object):
         self,
         method: str,
         url: str,
-        query_params: typing.Optional[typing.Tuple[typing.Tuple[str, str], ...]] = None,
         headers: typing.Optional[HTTPHeaderDict] = None,
         fields: typing.Optional[typing.Tuple[typing.Tuple[str, typing.Any], ...]] = None,
         body: typing.Optional[typing.Union[str, bytes]] = None,
@@ -101,7 +100,6 @@ class RESTClientObject(object):
 
         :param method: http request method
         :param url: http request url
-        :param query_params: query parameters in the url
         :param headers: http request headers
         :param body: request body, for other types
         :param fields: request parameters for
@@ -137,13 +135,10 @@ class RESTClientObject(object):
         try:
             # For `POST`, `PUT`, `PATCH`, `OPTIONS`, `DELETE`
             if method in ['POST', 'PUT', 'PATCH', 'OPTIONS', 'DELETE']:
-                if query_params:
-                    url += '?' + urlencode(query_params)
                 if 'Content-Type' not in headers and body is None:
                     r = self.pool_manager.request(
                         method,
                         url,
-                        fields=query_params,
                         preload_content=not stream,
                         timeout=timeout,
                         headers=headers
@@ -188,7 +183,6 @@ class RESTClientObject(object):
             # For `GET`, `HEAD`
             else:
                 r = self.pool_manager.request(method, url,
-                                              fields=query_params,
                                               preload_content=not stream,
                                               timeout=timeout,
                                               headers=headers)
@@ -202,63 +196,58 @@ class RESTClientObject(object):
 
         return r
 
-    def GET(self, url, headers=None, query_params=None, stream=False,
+    def GET(self, url, headers=None, stream=False,
             timeout=None, fields=None) -> urllib3.HTTPResponse:
         return self.request("GET", url,
                             headers=headers,
                             stream=stream,
                             timeout=timeout,
-                            query_params=query_params, fields=fields)
+                            fields=fields)
 
-    def HEAD(self, url, headers=None, query_params=None, stream=False,
+    def HEAD(self, url, headers=None, stream=False,
              timeout=None, fields=None) -> urllib3.HTTPResponse:
         return self.request("HEAD", url,
                             headers=headers,
                             stream=stream,
                             timeout=timeout,
-                            query_params=query_params, fields=fields)
+                            fields=fields)
 
-    def OPTIONS(self, url, headers=None, query_params=None,
+    def OPTIONS(self, url, headers=None,
                 body=None, stream=False, timeout=None, fields=None) -> urllib3.HTTPResponse:
         return self.request("OPTIONS", url,
                             headers=headers,
-                            query_params=query_params,
                             stream=stream,
                             timeout=timeout,
                             body=body, fields=fields)
 
-    def DELETE(self, url, headers=None, query_params=None, body=None,
+    def DELETE(self, url, headers=None, body=None,
                stream=False, timeout=None, fields=None) -> urllib3.HTTPResponse:
         return self.request("DELETE", url,
                             headers=headers,
-                            query_params=query_params,
                             stream=stream,
                             timeout=timeout,
                             body=body, fields=fields)
 
-    def POST(self, url, headers=None, query_params=None,
+    def POST(self, url, headers=None,
              body=None, stream=False, timeout=None, fields=None) -> urllib3.HTTPResponse:
         return self.request("POST", url,
                             headers=headers,
-                            query_params=query_params,
                             stream=stream,
                             timeout=timeout,
                             body=body, fields=fields)
 
-    def PUT(self, url, headers=None, query_params=None,
+    def PUT(self, url, headers=None,
             body=None, stream=False, timeout=None, fields=None) -> urllib3.HTTPResponse:
         return self.request("PUT", url,
                             headers=headers,
-                            query_params=query_params,
                             stream=stream,
                             timeout=timeout,
                             body=body, fields=fields)
 
-    def PATCH(self, url, headers=None, query_params=None,
+    def PATCH(self, url, headers=None,
               body=None, stream=False, timeout=None, fields=None) -> urllib3.HTTPResponse:
         return self.request("PATCH", url,
                             headers=headers,
-                            query_params=query_params,
                             stream=stream,
                             timeout=timeout,
                             body=body, fields=fields)
