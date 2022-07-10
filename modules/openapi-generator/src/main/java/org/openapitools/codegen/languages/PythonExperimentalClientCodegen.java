@@ -750,9 +750,6 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
     public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
         super.postProcessAllModels(objs);
 
-        if (testFolder != null) {
-            String a = "a";
-        }
         boolean anyModelContainsTestCases = false;
         Map<String, Schema> allDefinitions = ModelUtils.getSchemas(this.openAPI);
         for (String schemaName : allDefinitions.keySet()) {

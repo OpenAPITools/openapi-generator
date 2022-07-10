@@ -1434,7 +1434,7 @@ components:
         valid: false
       AStringIsNotAnArray:
         description: a string is not an array
-        data: foo
+        data: fooA
         valid: false
       AnObjectIsNotAnArray:
         description: an object is not an array
