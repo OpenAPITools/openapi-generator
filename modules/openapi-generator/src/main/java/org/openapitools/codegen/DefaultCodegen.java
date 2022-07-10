@@ -2581,7 +2581,8 @@ public class DefaultCodegen implements CodegenConfig {
                 final String modelName = toModelName(ref);
                 CodegenProperty interfaceProperty = fromProperty(modelName, interfaceSchema);
                 m.interfaces.add(modelName);
-                addImport(m, modelName);
+                addImport(composed, refSchema, m, modelName);
+
                 if (allDefinitions != null && refSchema != null) {
                     if (allParents.contains(ref) && supportsMultipleInheritance) {
                         // multiple inheritance
@@ -5306,6 +5307,23 @@ public class DefaultCodegen implements CodegenConfig {
     protected void addImport(Set<String> importsToBeAddedTo, String type) {
         if (shouldAddImport(type)) {
             importsToBeAddedTo.add(type);
+        }
+    }
+
+    /**
+     * Add the model name of the child schema in a composed schema to the set of imports
+     *
+     * @param composed composed schema
+     * @param childSchema composed schema
+     * @param model codegen model
+     * @param modelName model name
+     */
+    protected void addImport(ComposedSchema composed, Schema childSchema, CodegenModel model, String modelName ) {
+        // import only if it's not allOf composition schema (without discriminator)
+        if (!(composed.getAllOf() != null && childSchema.getDiscriminator() == null)) {
+            addImport(model, modelName);
+        } else {
+            LOGGER.debug("Skipped import for allOf composition schema {}", modelName);
         }
     }
 
