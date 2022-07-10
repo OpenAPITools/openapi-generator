@@ -28,16 +28,16 @@ result <- tryCatch(
              ApiException = function(ex) ex
           )
 # In case of error, print the error object
-if (!is.null(result$ApiException)) {
-  cat(result$ApiException$toString())
-} else {
-  # deserialized response object
-  response.object <- result$content
-  # response headers
-  response.headers <- result$response$headers
-  # response status code
-  response.status.code <- result$response$status_code
-}
+#if (!is.null(result$ApiException)) {
+#  cat(result$ApiException$toString())
+#} #else {
+#  # deserialized response object
+#  response.object <- result$content
+#  # response headers
+#  response.headers <- result$response$headers
+#  # response status code
+#  response.status.code <- result$response$status_code
+#}
 
 
 ##errorMsg <- "{\"code\":1,\"type\":\"error\",\"message\":\"Pet not found\"}"

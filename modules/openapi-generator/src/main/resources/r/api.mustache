@@ -188,6 +188,12 @@
     #' @export
     {{{operationId}}} = function({{#requiredParams}}{{paramName}}, {{/requiredParams}}{{#optionalParams}}{{paramName}}={{^defaultValue}}NULL{{/defaultValue}}{{{defaultValue}}}, {{/optionalParams}}{{#vendorExtensions.x-streaming}}stream_callback=NULL, {{/vendorExtensions.x-streaming}}{{#returnType}}data_file=NULL, {{/returnType}}...) {
       api_response <- self${{{operationId}}}WithHttpInfo({{#allParams}}{{paramName}}, {{/allParams}}{{#vendorExtensions.x-streaming}}stream_callback = stream_callback, {{/vendorExtensions.x-streaming}}{{#returnType}}data_file = data_file, {{/returnType}}...)
+      {{#vendorExtensions.x-streaming}}
+      if (typeof(stream_callback) == "closure") { # return void if streaming is enabled
+        return(invisible(NULL))
+      }
+
+      {{/vendorExtensions.x-streaming}}
       resp <- api_response$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         api_response$content
@@ -322,6 +328,12 @@
                                  {{/vendorExtensions.x-streaming}}
                                  ...)
 
+      {{#vendorExtensions.x-streaming}}
+      if (typeof(stream_callback) == "closure") { # return void if streaming is enabled
+        return(invisible(NULL))
+      }
+
+      {{/vendorExtensions.x-streaming}}
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         {{#returnType}}
         {{#isPrimitiveType}}

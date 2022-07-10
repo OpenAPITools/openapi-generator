@@ -24,7 +24,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |packageName|R package name (convention: lowercase).| |openapi|
 |packageVersion|R package version.| |1.0.0|
 |returnExceptionOnFailure|Throw an exception on non success response codes| |false|
-|supportStreaming|Support streaming endpoint (beta)| |false|
 
 ## IMPORT MAPPING
 

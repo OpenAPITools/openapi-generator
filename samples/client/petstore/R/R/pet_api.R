@@ -983,6 +983,10 @@ PetApi <- R6::R6Class(
     #' @export
     GetPetByIdStreaming = function(pet_id, stream_callback=NULL, data_file=NULL, ...) {
       api_response <- self$GetPetByIdStreamingWithHttpInfo(pet_id, stream_callback = stream_callback, data_file = data_file, ...)
+      if (typeof(stream_callback) == "closure") { # return void if streaming is enabled
+        return(invisible(NULL))
+      }
+
       resp <- api_response$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         api_response$content
@@ -1032,6 +1036,10 @@ PetApi <- R6::R6Class(
                                  body = body,
                                  stream_callback = stream_callback,
                                  ...)
+
+      if (typeof(stream_callback) == "closure") { # return void if streaming is enabled
+        return(invisible(NULL))
+      }
 
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         # save response in a file
