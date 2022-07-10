@@ -436,9 +436,9 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
         // replace - with _ e.g. created-at => created_at
         name = sanitizeName(name.replaceAll("-", "_"));
 
-        // if it's all upper case, do nothing
+        // if it's all upper case, convert to lower case
         if (name.matches("^[A-Z_]*$"))
-            return name;
+            return name.toLowerCase(Locale.ROOT);
 
         // snake_case, e.g. PetId => pet_id
         name = underscore(name);
@@ -456,8 +456,7 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toParamName(String name) {
-        // $ref appears to be all uppercase which is contrary to rustfmt practice so lowercase parameters
-        return toVarName(name.toLowerCase(Locale.ROOT));
+        return toVarName(name);
     }
 
     @Override

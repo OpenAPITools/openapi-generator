@@ -115,12 +115,12 @@ pub fn add_pet(configuration: &configuration::Configuration, pet: crate::models:
 }
 
 /// 
-pub fn delete_pet(configuration: &configuration::Configuration, petid: i64, api_key: Option<&str>) -> Result<(), Error<DeletePetError>> {
+pub fn delete_pet(configuration: &configuration::Configuration, pet_id: i64, api_key: Option<&str>) -> Result<(), Error<DeletePetError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
 
-    let local_var_uri_str = format!("{}/pet/{petId}", local_var_configuration.base_path, petId=petid);
+    let local_var_uri_str = format!("{}/pet/{petId}", local_var_configuration.base_path, petId=pet_id);
     let mut local_var_req_builder = local_var_client.request(reqwest::Method::DELETE, local_var_uri_str.as_str());
 
     if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
@@ -219,12 +219,12 @@ pub fn find_pets_by_tags(configuration: &configuration::Configuration, tags: Vec
 }
 
 /// Returns a single pet
-pub fn get_pet_by_id(configuration: &configuration::Configuration, petid: i64) -> Result<crate::models::Pet, Error<GetPetByIdError>> {
+pub fn get_pet_by_id(configuration: &configuration::Configuration, pet_id: i64) -> Result<crate::models::Pet, Error<GetPetByIdError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
 
-    let local_var_uri_str = format!("{}/pet/{petId}", local_var_configuration.base_path, petId=petid);
+    let local_var_uri_str = format!("{}/pet/{petId}", local_var_configuration.base_path, petId=pet_id);
     let mut local_var_req_builder = local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
     if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
@@ -287,12 +287,12 @@ pub fn update_pet(configuration: &configuration::Configuration, pet: crate::mode
 }
 
 /// 
-pub fn update_pet_with_form(configuration: &configuration::Configuration, petid: i64, name: Option<&str>, status: Option<&str>) -> Result<(), Error<UpdatePetWithFormError>> {
+pub fn update_pet_with_form(configuration: &configuration::Configuration, pet_id: i64, name: Option<&str>, status: Option<&str>) -> Result<(), Error<UpdatePetWithFormError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
 
-    let local_var_uri_str = format!("{}/pet/{petId}", local_var_configuration.base_path, petId=petid);
+    let local_var_uri_str = format!("{}/pet/{petId}", local_var_configuration.base_path, petId=pet_id);
     let mut local_var_req_builder = local_var_client.request(reqwest::Method::POST, local_var_uri_str.as_str());
 
     if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
@@ -326,12 +326,12 @@ pub fn update_pet_with_form(configuration: &configuration::Configuration, petid:
 }
 
 /// 
-pub fn upload_file(configuration: &configuration::Configuration, petid: i64, additionalmetadata: Option<&str>, file: Option<std::path::PathBuf>) -> Result<crate::models::ApiResponse, Error<UploadFileError>> {
+pub fn upload_file(configuration: &configuration::Configuration, pet_id: i64, additional_metadata: Option<&str>, file: Option<std::path::PathBuf>) -> Result<crate::models::ApiResponse, Error<UploadFileError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
 
-    let local_var_uri_str = format!("{}/pet/{petId}/uploadImage", local_var_configuration.base_path, petId=petid);
+    let local_var_uri_str = format!("{}/pet/{petId}/uploadImage", local_var_configuration.base_path, petId=pet_id);
     let mut local_var_req_builder = local_var_client.request(reqwest::Method::POST, local_var_uri_str.as_str());
 
     if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
@@ -341,7 +341,7 @@ pub fn upload_file(configuration: &configuration::Configuration, petid: i64, add
         local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
     };
     let mut local_var_form = reqwest::multipart::Form::new();
-    if let Some(local_var_param_value) = additionalmetadata {
+    if let Some(local_var_param_value) = additional_metadata {
         local_var_form = local_var_form.text("additionalMetadata", local_var_param_value.to_string());
     }
     if let Some(local_var_param_value) = file {

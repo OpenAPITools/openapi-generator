@@ -26,7 +26,7 @@ pub enum TestNullableRequiredParamError {
 
 
 /// 
-pub fn test_nullable_required_param(configuration: &configuration::Configuration, username: &str, dummy_required_nullable_param: Option<&str>) -> Result<(), Error<TestNullableRequiredParamError>> {
+pub fn test_nullable_required_param(configuration: &configuration::Configuration, username: &str, dummy_required_nullable_param: Option<&str>, uppercase: Option<&str>) -> Result<(), Error<TestNullableRequiredParamError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -40,6 +40,9 @@ pub fn test_nullable_required_param(configuration: &configuration::Configuration
     match dummy_required_nullable_param {
         Some(local_var_param_value) => { local_var_req_builder = local_var_req_builder.header("dummy_required_nullable_param", local_var_param_value.to_string()); },
         None => { local_var_req_builder = local_var_req_builder.header("dummy_required_nullable_param", ""); },
+    }
+    if let Some(local_var_param_value) = uppercase {
+        local_var_req_builder = local_var_req_builder.header("UPPERCASE", local_var_param_value.to_string());
     }
 
     let local_var_req = local_var_req_builder.build()?;
