@@ -5466,9 +5466,18 @@ public class DefaultCodegen implements CodegenConfig {
      * @param property The codegen representation of the OAS schema's property.
      */
     protected void addImportsForPropertyType(CodegenModel model, CodegenProperty property) {
-        if (property.isContainer) {
-            addImport(model.imports, typeMapping.get("array"));
+        if (property.isArray) {
+            if (property.getUniqueItems()) { // set
+                addImport(model.imports, typeMapping.get("set"));
+            } else { // array
+                addImport(model.imports, typeMapping.get("array"));
+            }
         }
+
+        if (property.isMap) { // map
+            addImport(model.imports, typeMapping.get("map"));
+        }
+
         addImports(model, property);
     }
 
