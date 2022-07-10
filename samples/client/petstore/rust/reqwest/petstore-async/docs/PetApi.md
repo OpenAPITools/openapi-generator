@@ -47,7 +47,7 @@ Name | Type | Description  | Required | Notes
 
 ## delete_pet
 
-> delete_pet(petid, api_key)
+> delete_pet(pet_id, api_key)
 Deletes a pet
 
 
@@ -57,7 +57,7 @@ Deletes a pet
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**petid** | **i64** | Pet id to delete | [required] |
+**pet_id** | **i64** | Pet id to delete | [required] |
 **api_key** | Option<**String**> |  |  |
 
 ### Return type
@@ -138,7 +138,7 @@ Name | Type | Description  | Required | Notes
 
 ## get_pet_by_id
 
-> crate::models::Pet get_pet_by_id(petid)
+> crate::models::Pet get_pet_by_id(pet_id)
 Find pet by ID
 
 Returns a single pet
@@ -148,7 +148,7 @@ Returns a single pet
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**petid** | **i64** | ID of pet to return | [required] |
+**pet_id** | **i64** | ID of pet to return | [required] |
 
 ### Return type
 
@@ -198,7 +198,7 @@ Name | Type | Description  | Required | Notes
 
 ## update_pet_with_form
 
-> update_pet_with_form(petid, name, status)
+> update_pet_with_form(pet_id, name, status)
 Updates a pet in the store with form data
 
 
@@ -208,7 +208,7 @@ Updates a pet in the store with form data
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**petid** | **i64** | ID of pet that needs to be updated | [required] |
+**pet_id** | **i64** | ID of pet that needs to be updated | [required] |
 **name** | Option<**String**> | Updated name of the pet |  |
 **status** | Option<**String**> | Updated status of the pet |  |
 
@@ -230,7 +230,7 @@ Name | Type | Description  | Required | Notes
 
 ## upload_file
 
-> crate::models::ApiResponse upload_file(petid, additionalmetadata, file)
+> crate::models::ApiResponse upload_file(pet_id, additional_metadata, file)
 uploads an image
 
 
@@ -240,8 +240,8 @@ uploads an image
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**petid** | **i64** | ID of pet to update | [required] |
-**additionalmetadata** | Option<**String**> | Additional data to pass to server |  |
+**pet_id** | **i64** | ID of pet to update | [required] |
+**additional_metadata** | Option<**String**> | Additional data to pass to server |  |
 **file** | Option<**std::path::PathBuf**> | file to upload |  |
 
 ### Return type

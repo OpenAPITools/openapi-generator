@@ -13,7 +13,7 @@ Method | HTTP request | Description
 
 ## delete_order
 
-> delete_order(orderid)
+> delete_order(order_id)
 Delete purchase order by ID
 
 For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
@@ -23,7 +23,7 @@ For valid response try integer IDs with value < 1000. Anything above 1000 or non
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**orderid** | **String** | ID of the order that needs to be deleted | [required] |
+**order_id** | **String** | ID of the order that needs to be deleted | [required] |
 
 ### Return type
 
@@ -70,7 +70,7 @@ This endpoint does not need any parameter.
 
 ## get_order_by_id
 
-> crate::models::Order get_order_by_id(orderid)
+> crate::models::Order get_order_by_id(order_id)
 Find purchase order by ID
 
 For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
@@ -80,7 +80,7 @@ For valid response try integer IDs with value <= 5 or > 10. Other values will ge
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**orderid** | **i64** | ID of pet that needs to be fetched | [required] |
+**order_id** | **i64** | ID of pet that needs to be fetched | [required] |
 
 ### Return type
 

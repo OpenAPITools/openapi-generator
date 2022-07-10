@@ -587,6 +587,11 @@ paths:
           schema:
             type: string
             nullable: true
+        - name: UPPERCASE
+          in: header 
+          description: To test parameter names in upper case
+          schema:
+            type: string
       responses:
         '200':
           description: successful operation
