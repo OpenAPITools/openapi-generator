@@ -50,12 +50,12 @@ pub enum PlaceOrderError {
 
 
 /// For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
-pub fn delete_order(configuration: &configuration::Configuration, order_id: &str) -> Result<(), Error<DeleteOrderError>> {
+pub fn delete_order(configuration: &configuration::Configuration, orderid: &str) -> Result<(), Error<DeleteOrderError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
 
-    let local_var_uri_str = format!("{}/store/order/{orderId}", local_var_configuration.base_path, orderId=crate::apis::urlencode(order_id));
+    let local_var_uri_str = format!("{}/store/order/{orderId}", local_var_configuration.base_path, orderId=crate::apis::urlencode(orderid));
     let mut local_var_req_builder = local_var_client.request(reqwest::Method::DELETE, local_var_uri_str.as_str());
 
     if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
@@ -127,12 +127,12 @@ pub fn get_inventory(configuration: &configuration::Configuration, ) -> Result<:
 }
 
 /// For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
-pub fn get_order_by_id(configuration: &configuration::Configuration, order_id: i64) -> Result<crate::models::Order, Error<GetOrderByIdError>> {
+pub fn get_order_by_id(configuration: &configuration::Configuration, orderid: i64) -> Result<crate::models::Order, Error<GetOrderByIdError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
 
-    let local_var_uri_str = format!("{}/store/order/{orderId}", local_var_configuration.base_path, orderId=order_id);
+    let local_var_uri_str = format!("{}/store/order/{orderId}", local_var_configuration.base_path, orderId=orderid);
     let mut local_var_req_builder = local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
     if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
