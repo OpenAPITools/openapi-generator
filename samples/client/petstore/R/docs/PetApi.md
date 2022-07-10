@@ -5,12 +5,13 @@ All URIs are relative to *http://petstore.swagger.io/v2*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**AddPet**](PetApi.md#AddPet) | **POST** /pet | Add a new pet to the store
-[**DeletePet**](PetApi.md#DeletePet) | **DELETE** /pet/{petId} | Deletes a pet
+[**DeletePet**](PetApi.md#DeletePet) | **DELETE** /pet/{petId}?streaming | Deletes a pet
 [**FindPetsByStatus**](PetApi.md#FindPetsByStatus) | **GET** /pet/findByStatus | Finds Pets by status
 [**FindPetsByTags**](PetApi.md#FindPetsByTags) | **GET** /pet/findByTags | Finds Pets by tags
 [**GetPetById**](PetApi.md#GetPetById) | **GET** /pet/{petId} | Find pet by ID
+[**GetPetByIdStreaming**](PetApi.md#GetPetByIdStreaming) | **GET** /pet/{petId}?streaming | Find pet by ID (streaming)
 [**UpdatePet**](PetApi.md#UpdatePet) | **PUT** /pet | Update an existing pet
-[**UpdatePetWithForm**](PetApi.md#UpdatePetWithForm) | **POST** /pet/{petId} | Updates a pet in the store with form data
+[**UpdatePetWithForm**](PetApi.md#UpdatePetWithForm) | **POST** /pet/{petId}?streaming | Updates a pet in the store with form data
 [**UploadFile**](PetApi.md#UploadFile) | **POST** /pet/{petId}/uploadImage | uploads an image
 
 
@@ -276,6 +277,68 @@ result <- tryCatch(
              # to save the result into a file, simply add the optional `data_file` parameter, e.g.
              # api_instance$GetPetById(var_pet_id, data_file = "result.txt"),
              api_instance$GetPetById(var_pet_id),
+             ApiException = function(ex) ex
+          )
+# In case of error, print the error object
+if (!is.null(result$ApiException)) {
+  cat(result$ApiException$toString())
+} else {
+  # deserialized response object
+  response.object <- result$content
+  # response headers
+  response.headers <- result$response$headers
+  # response status code
+  response.status.code <- result$response$status_code
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **pet_id** | **integer**| ID of pet to return | 
+
+### Return type
+
+[**Pet**](Pet.md)
+
+### Authorization
+
+[api_key](../README.md#api_key)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/xml, application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | successful operation |  -  |
+| **400** | Invalid ID supplied |  -  |
+| **404** | Pet not found |  -  |
+
+# **GetPetByIdStreaming**
+> Pet GetPetByIdStreaming(pet_id)
+
+Find pet by ID (streaming)
+
+Returns a single pet
+
+### Example
+```R
+library(petstore)
+
+var_pet_id <- 56 # integer | ID of pet to return
+
+#Find pet by ID (streaming)
+api_instance <- PetApi$new()
+# Configure API key authorization: api_key
+api_instance$api_client$api_keys['api_key'] <- 'TODO_YOUR_API_KEY';
+result <- tryCatch(
+             # to save the result into a file, simply add the optional `data_file` parameter, e.g.
+             # api_instance$GetPetByIdStreaming(var_pet_id, data_file = "result.txt"),
+             api_instance$GetPetByIdStreaming(var_pet_id, stream_callback = function(x){ print(length(x)) }),
              ApiException = function(ex) ex
           )
 # In case of error, print the error object
