@@ -26,6 +26,65 @@ components:
           foo: {}
       additionalProperties:
         type: boolean
+    Allof:
+      allOf:
+      - properties:
+          bar:
+            type: integer
+        required:
+        - bar
+      - properties:
+          foo:
+            type: string
+        required:
+        - foo
+    AllofWithBaseSchema:
+      properties:
+        bar:
+          type: integer
+      required:
+      - bar
+      allOf:
+      - properties:
+          foo:
+            type: string
+        required:
+        - foo
+      - properties:
+          baz:
+            type: 'null'
+        required:
+        - baz
+    AllofSimpleTypes:
+      allOf:
+      - maximum: 30
+      - minimum: 20
+    AllofWithOneEmptySchema:
+      allOf:
+      - {}
+    AllofWithTwoEmptySchemas:
+      allOf:
+      - {}
+      - {}
+    AllofWithTheFirstEmptySchema:
+      allOf:
+      - {}
+      - type: number
+    AllofWithTheLastEmptySchema:
+      allOf:
+      - type: number
+      - {}
+    NestedAllofToCheckValidationSemantics:
+      allOf:
+      - allOf:
+        - type: 'null'
+    AllofCombinedWithAnyofOneof:
+      allOf:
+      - multipleOf: 2
+      anyOf:
+      - multipleOf: 3
+      oneOf:
+      - multipleOf: 5
     InvalidStringValueForDefault:
       properties:
         bar:
@@ -276,6 +335,139 @@ components:
           foo: 1
           bar: true
         valid: false
+    Allof:
+      Allof:
+        description: allOf
+        data:
+          foo: baz
+          bar: 2
+        valid: true
+      MismatchSecond:
+        description: mismatch second
+        data:
+          foo: baz
+        valid: false
+      MismatchFirst:
+        description: mismatch first
+        data:
+          bar: 2
+        valid: false
+      WrongType:
+        description: wrong type
+        data:
+          foo: baz
+          bar: quux
+        valid: false
+    AllofWithBaseSchema:
+      Valid:
+        description: valid
+        data:
+          foo: quux
+          bar: 2
+          baz: null
+        valid: true
+      MismatchBaseSchema:
+        description: mismatch base schema
+        data:
+          foo: quux
+          baz: null
+        valid: false
+      MismatchFirstAllof:
+        description: mismatch first allOf
+        data:
+          bar: 2
+          baz: null
+        valid: false
+      MismatchSecondAllof:
+        description: mismatch second allOf
+        data:
+          foo: quux
+          bar: 2
+        valid: false
+      MismatchBoth:
+        description: mismatch both
+        data:
+          bar: 2
+        valid: false
+    AllofSimpleTypes:
+      Valid:
+        description: valid
+        data: 25
+        valid: true
+      MismatchOne:
+        description: mismatch one
+        data: 35
+        valid: false
+    AllofWithOneEmptySchema:
+      AnyDataIsValid:
+        description: any data is valid
+        data: 1
+        valid: true
+    AllofWithTwoEmptySchemas:
+      AnyDataIsValid:
+        description: any data is valid
+        data: 1
+        valid: true
+    AllofWithTheFirstEmptySchema:
+      NumberIsValid:
+        description: number is valid
+        data: 1
+        valid: true
+      StringIsInvalid:
+        description: string is invalid
+        data: foo
+        valid: false
+    AllofWithTheLastEmptySchema:
+      NumberIsValid:
+        description: number is valid
+        data: 1
+        valid: true
+      StringIsInvalid:
+        description: string is invalid
+        data: foo
+        valid: false
+    NestedAllofToCheckValidationSemantics:
+      NullIsValid:
+        description: null is valid
+        data: null
+        valid: true
+      AnythingNonNullIsInvalid:
+        description: anything non-null is invalid
+        data: 123
+        valid: false
+    AllofCombinedWithAnyofOneof:
+      AllofFalseAnyofFalseOneofFalse:
+        description: 'allOf: false, anyOf: false, oneOf: false'
+        data: 1
+        valid: false
+      AllofFalseAnyofFalseOneofTrue:
+        description: 'allOf: false, anyOf: false, oneOf: true'
+        data: 5
+        valid: false
+      AllofFalseAnyofTrueOneofFalse:
+        description: 'allOf: false, anyOf: true, oneOf: false'
+        data: 3
+        valid: false
+      AllofFalseAnyofTrueOneofTrue:
+        description: 'allOf: false, anyOf: true, oneOf: true'
+        data: 15
+        valid: false
+      AllofTrueAnyofFalseOneofFalse:
+        description: 'allOf: true, anyOf: false, oneOf: false'
+        data: 2
+        valid: false
+      AllofTrueAnyofFalseOneofTrue:
+        description: 'allOf: true, anyOf: false, oneOf: true'
+        data: 10
+        valid: false
+      AllofTrueAnyofTrueOneofFalse:
+        description: 'allOf: true, anyOf: true, oneOf: false'
+        data: 6
+        valid: false
+      AllofTrueAnyofTrueOneofTrue:
+        description: 'allOf: true, anyOf: true, oneOf: true'
+        data: 30
+        valid: true
     InvalidStringValueForDefault:
       ValidWhenPropertyIsSpecified:
         description: valid when property is specified

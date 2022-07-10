@@ -108,6 +108,11 @@ json_schema_test_draft = 'draft6'
 openapi_additions = 'openapi_additions'
 
 FILEPATH_TO_EXCLUDED_CASE_AND_REASON = {
+    (json_schema_test_draft, 'allOf.json'): {
+        'allOf with boolean schemas, all true': ExclusionReason.v303_does_not_support_boolean_schemas_in_location,
+        'allOf with boolean schemas, some false': ExclusionReason.v303_does_not_support_boolean_schemas_in_location,
+        'allOf with boolean schemas, all false': ExclusionReason.v303_does_not_support_boolean_schemas_in_location,
+    },
     (json_schema_test_draft, 'default.json'): {
         'invalid type for default': ExclusionReason.v303_requires_that_the_default_value_is_an_allowed_type,
     },
@@ -213,7 +218,7 @@ FILEPATH_TO_EXCLUDE_REASON = {
 JSON_SCHEMA_TEST_FILE_TO_FOLDERS = {
     'additionalItems.json': (json_schema_test_draft,),
     'additionalProperties.json': (json_schema_test_draft,),
-#     'allOf.json': (json_schema_test_draft,),  # activate later after fixing composition processing
+    'allOf.json': (json_schema_test_draft,),  # activate later after fixing composition processing
 #     'anyOf.json': (json_schema_test_draft,),  # activate later after fixing composition processing
     'boolean_schema.json': (json_schema_test_draft,),
     'const.json': (json_schema_test_draft,),

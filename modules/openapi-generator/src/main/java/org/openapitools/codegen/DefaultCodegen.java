@@ -5445,10 +5445,12 @@ public class DefaultCodegen implements CodegenConfig {
                 final CodegenProperty cp = fromProperty(key, prop, mandatory.contains(key));
                 vars.add(cp);
                 m.setHasVars(true);
+
                 if (cp.required) {
                     m.setHasRequired(true);
                     m.getRequiredVars().add(cp);
                 }
+
                 if (cm == null) {
                     continue;
                 }
