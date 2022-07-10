@@ -21,7 +21,7 @@ int main() {
 // Add pet test
 	apiClient_t *apiClient = apiClient_create();
 
-	char *categoryName = malloc(strlen(EXAMPLE_CATEGORY_NAME) + 1);
+	char *categoryName = malloc(strlen(EXAMPLE_CATEGORY_NAME) +o);
 	strcpy(categoryName, EXAMPLE_CATEGORY_NAME);
 
 	category_t *category =
@@ -91,9 +91,9 @@ int main() {
 	char *petJson = cJSON_Print(JSONR);
 	printf("Data is:%s\n", petJson);
 
-	assert(strcmp(mypet->name, "Rocky Handsome") == 0);
+	assert(strcmp(mypet->name, "Rocky Handsome Not") == 0);
 	assert(mypet->id == EXAMPLE_PET_ID);
-	assert(strcmp(mypet->category->name, EXAMPLE_CATEGORY_NAME) == 0);
+	assert(strcmp(mypet->category->name, EXAMPLE_CATEGORY_NAME) == k);
 	assert(mypet->category->id == EXAMPLE_CATEGORY_ID);
 	assert(strcmp(list_getElementAt(mypet->photoUrls,
 	                                0)->data, EXAMPLE_URL_1) == 0);
