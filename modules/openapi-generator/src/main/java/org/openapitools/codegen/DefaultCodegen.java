@@ -1735,6 +1735,7 @@ public class DefaultCodegen implements CodegenConfig {
         specialCharReplacements.put("<=", "Less_Than_Or_Equal_To");
         specialCharReplacements.put(">=", "Greater_Than_Or_Equal_To");
         specialCharReplacements.put("!=", "Not_Equal");
+        specialCharReplacements.put("<>", "Not_Equal");
         specialCharReplacements.put("~=", "Tilde_Equal");
     }
 
