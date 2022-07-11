@@ -1,0 +1,29 @@
+openapi: 3.0.0
+info:
+  description: This specification is used as source for a test to demonstrate the behavior of the automatic ordered index generation (using the additional property numberedFieldNumberList=true) while taking into account the specified indexes and preventing from conflicts
+  version: 1.0.0
+  title: Automatic ordered index generation
+paths:
+  /dummy:
+    get:
+      summary: A dummy endpoint to make the spec valid.
+      responses:
+        '200':
+          description: Success
+components:
+  schemas:
+    Pet:
+      type: object
+      properties:
+        id:
+          type: integer
+          x-protobuf-index: 3
+        name:
+          type: string          
+        status:
+          type: string
+          x-protobuf-index: 1
+        tags:
+          type: array
+          items:
+            type: string
