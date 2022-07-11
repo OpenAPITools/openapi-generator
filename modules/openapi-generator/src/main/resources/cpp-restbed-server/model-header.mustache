@@ -18,6 +18,9 @@
 #include <array>
 {{/hasEnums}}
 #include <boost/property_tree/ptree.hpp>
+{{#interfaces}}
+#include "{{{this}}}.h"
+{{/interfaces}}
 
 {{#modelNamespaceDeclarations}}
 namespace {{this}} {
@@ -79,8 +82,8 @@ protected:
     {{/vars}}
     {{#vars}}
     {{#isEnum}}
-    const std::array<std::string, {{#allowableValues}}{{#enumVars}}{{#-last}}{{-index}}{{/-last}}{{/enumVars}}{{/allowableValues}}> m_{{enumName}} = {
-          {{#allowableValues}}{{#enumVars}}"{{{value}}}"{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}
+    const std::array<{{{dataType}}}, {{#allowableValues}}{{#enumVars}}{{#-last}}{{-index}}{{/-last}}{{/enumVars}}{{/allowableValues}}> m_{{enumName}} = {
+        {{#allowableValues}}{{#enumVars}}{{^isNumeric}}"{{/isNumeric}}{{{value}}}{{^isNumeric}}"{{/isNumeric}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}
     };
 
     {{/isEnum}}

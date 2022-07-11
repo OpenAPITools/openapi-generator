@@ -16,9 +16,11 @@
 
 #include <string>
 #include <vector>
+#include <map>
 #include <sstream>
 #include <stdexcept>
 #include <algorithm>
+#include <boost/lexical_cast.hpp>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
 
@@ -30,6 +32,55 @@ namespace org {
 namespace openapitools {
 namespace server {
 namespace model {
+
+namespace {
+template <class T>
+void propertyTreeToMap(const std::string& propertyName, boost::property_tree::ptree const& pt, std::map<std::string, T> &map) {
+    for (const auto &childTree: pt.get_child(propertyName)) {
+        map.emplace(childTree.first, childTree.second.get_value<T>());
+    }
+}
+
+template <class T>
+void propertyTreeToMap(const std::string& propertyName, boost::property_tree::ptree const &pt, std::map<std::string, std::map<std::string, T>> & map ) {
+    for (const auto &childTree: pt.get_child(propertyName)) {
+        propertyTreeToMap(childTree.first, childTree.second, map);
+    }
+}
+
+template <class T>
+void propertyTreeToModelMap(const std::string& propertyName, boost::property_tree::ptree const& pt, std::map<std::string, T> &map) {
+    for (const auto &childTree: pt.get_child(propertyName)) {
+        T tmp;
+        tmp->fromPropertyTree(childTree.second);
+        map.emplace(childTree.first, tmp);
+    }
+}
+
+template <class T>
+void propertyTreeToModelMap(const std::string& propertyName, boost::property_tree::ptree const &pt, std::map<std::string, std::map<std::string, T>> & map ) {
+    for (const auto &childTree: pt.get_child(propertyName)) {
+       propertyTreeToMap(childTree.first, childTree.second, map);
+    }
+}
+
+template <class T>
+void mapToPropertyTree(const std::map<std::string, T> & map, boost::property_tree::ptree &pt) {
+    for (const auto &childEntry : map) {
+        pt.push_back(boost::property_tree::ptree::value_type(childEntry.first, childEntry.second));
+    }
+}
+
+template <class T>
+void mapToPropertyTree(const std::map<std::string, std::map<std::string, T>> & map, boost::property_tree::ptree &pt) {
+    for (const auto &childEntry : map) {
+        boost::property_tree::ptree child_node;
+        mapToPropertyTree(childEntry.second, child_node);
+        pt.push_back(boost::property_tree::ptree::value_type(childEntry.first, child_node));
+    }
+}
+}
+
 
 Order::Order(boost::property_tree::ptree const& pt)
 {
@@ -141,7 +192,7 @@ void Order::setStatus(std::string value)
 	if (std::find(m_StatusEnum.begin(), m_StatusEnum.end(), value) != m_StatusEnum.end()) {
 		m_Status = value;
 	} else {
-		throw std::runtime_error("Value " + value + " not allowed");
+		throw std::runtime_error("Value " + boost::lexical_cast<std::string>(value) + " not allowed");
 	}
 }
 bool Order::isComplete() const

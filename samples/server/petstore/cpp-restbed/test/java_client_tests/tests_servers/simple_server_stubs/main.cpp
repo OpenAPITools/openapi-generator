@@ -25,8 +25,8 @@ std::shared_ptr<Pet> createPetForTesting_2() {
 
 class MyPetApiPetResource : public PetResource {
 public:
-  std::pair<int, std::shared_ptr<Pet>>
-  handler_POST(const std::shared_ptr<Pet> &Pet) override {
+    std::pair<int, std::shared_ptr<Pet>>
+    handler_POST(const std::shared_ptr<Pet> &Pet) override {
     return std::make_pair(200, Pet);
   }
 

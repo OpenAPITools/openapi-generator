@@ -16,6 +16,7 @@
 
 #include <string>
 #include <vector>
+#include <map>
 #include <sstream>
 #include <stdexcept>
 #include <boost/property_tree/ptree.hpp>
@@ -29,6 +30,55 @@ namespace org {
 namespace openapitools {
 namespace server {
 namespace model {
+
+namespace {
+template <class T>
+void propertyTreeToMap(const std::string& propertyName, boost::property_tree::ptree const& pt, std::map<std::string, T> &map) {
+    for (const auto &childTree: pt.get_child(propertyName)) {
+        map.emplace(childTree.first, childTree.second.get_value<T>());
+    }
+}
+
+template <class T>
+void propertyTreeToMap(const std::string& propertyName, boost::property_tree::ptree const &pt, std::map<std::string, std::map<std::string, T>> & map ) {
+    for (const auto &childTree: pt.get_child(propertyName)) {
+        propertyTreeToMap(childTree.first, childTree.second, map);
+    }
+}
+
+template <class T>
+void propertyTreeToModelMap(const std::string& propertyName, boost::property_tree::ptree const& pt, std::map<std::string, T> &map) {
+    for (const auto &childTree: pt.get_child(propertyName)) {
+        T tmp;
+        tmp->fromPropertyTree(childTree.second);
+        map.emplace(childTree.first, tmp);
+    }
+}
+
+template <class T>
+void propertyTreeToModelMap(const std::string& propertyName, boost::property_tree::ptree const &pt, std::map<std::string, std::map<std::string, T>> & map ) {
+    for (const auto &childTree: pt.get_child(propertyName)) {
+       propertyTreeToMap(childTree.first, childTree.second, map);
+    }
+}
+
+template <class T>
+void mapToPropertyTree(const std::map<std::string, T> & map, boost::property_tree::ptree &pt) {
+    for (const auto &childEntry : map) {
+        pt.push_back(boost::property_tree::ptree::value_type(childEntry.first, childEntry.second));
+    }
+}
+
+template <class T>
+void mapToPropertyTree(const std::map<std::string, std::map<std::string, T>> & map, boost::property_tree::ptree &pt) {
+    for (const auto &childEntry : map) {
+        boost::property_tree::ptree child_node;
+        mapToPropertyTree(childEntry.second, child_node);
+        pt.push_back(boost::property_tree::ptree::value_type(childEntry.first, child_node));
+    }
+}
+}
+
 
 User::User(boost::property_tree::ptree const& pt)
 {

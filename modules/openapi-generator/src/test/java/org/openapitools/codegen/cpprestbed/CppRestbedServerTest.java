@@ -16,9 +16,8 @@ import java.util.Map;
 public class CppRestbedServerTest {
 
     @DataProvider(name = "providedPaths")
-    public Object [] [] providedPaths ()
-    {
-        Object [] [] data = new Object [3] [2];
+    public Object[][] providedPaths() {
+        Object[][] data = new Object[3][2];
         data[0][0] = "/abc/{id}";
         data[0][1] = "/abc/{id: .*}";
 

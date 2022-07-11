@@ -22,7 +22,6 @@
 
 
 #include <string>
-#include <vector>
 #include <memory>
 #include <vector>
 #include <array>
@@ -106,7 +105,7 @@ protected:
     std::string m_Status = "";
     bool m_Complete = false;
     const std::array<std::string, 3> m_StatusEnum = {
-          "placed","approved","delivered"
+        "placed", "approved", "delivered"
     };
 
 };

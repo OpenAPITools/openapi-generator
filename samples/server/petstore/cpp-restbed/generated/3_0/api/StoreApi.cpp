@@ -316,7 +316,6 @@ void StoreInventoryResource::handler_GET_internal(const std::shared_ptr<restbed:
     }
     
     if (status_code == 200) {
-        result = resultObject->toJsonString();
         result = convertMapResponse(resultObject);
     
         const constexpr auto contentType = "application/json";

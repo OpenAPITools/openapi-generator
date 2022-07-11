@@ -31,8 +31,6 @@ import org.openapitools.codegen.utils.ModelUtils;
 import java.io.File;
 import java.util.*;
 import java.util.Map.Entry;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
@@ -113,10 +111,12 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
         typeMapping.put("boolean", "bool");
         typeMapping.put("array", "std::vector");
         typeMapping.put("map", "std::map");
+        typeMapping.put("set", "std::set");
         typeMapping.put("file", "std::string");
         typeMapping.put("object", "Object");
         typeMapping.put("binary", "restbed::Bytes");
         typeMapping.put("number", "double");
+        typeMapping.put("decimal", "std::string");
         typeMapping.put("UUID", "std::string");
         typeMapping.put("URI", "std::string");
         typeMapping.put("ByteArray", "std::string");
@@ -124,6 +124,8 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
         super.importMapping = new HashMap<>();
         importMapping.put("std::vector", "#include <vector>");
         importMapping.put("std::map", "#include <map>");
+        importMapping.put("std::set", "#include <set>");
+        importMapping.put("file", "#include <string>");
         importMapping.put("std::string", "#include <string>");
         importMapping.put("Object", "#include \"Object.h\"");
         importMapping.put("restbed::Bytes", "#include <corvusoft/restbed/byte.hpp>");
@@ -271,10 +273,6 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
                 codegenModel.imports.add(newImp);
             }
         }
-        // Import vector if an enum is present
-        if (codegenModel.hasEnums) {
-            codegenModel.imports.add("#include <vector>");
-        }
         return codegenModel;
     }
 
@@ -302,7 +300,7 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
         if (pathSegment.matches(OPEN_API_PATH_PARAM_PATTERN)) {
             convertedSegnemt = pathSegment.substring(1, pathSegment.length() - 1);
         }
-        return capitalizeFirstChar(convertedSegnemt);
+        return capitalizeFirstChar(sanitizeName(convertedSegnemt));
     }
 
     private String convertPathParamPattern(String pathSegment) {
@@ -382,9 +380,11 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
             return getSchemaType(p) + "<std::string, " + getTypeDeclaration(inner) + ">";
         } else if (ModelUtils.isByteArraySchema(p)) {
             return "std::string";
+        } else if (ModelUtils.isFileSchema(p)) {
+            return "std::string";
         } else if (ModelUtils.isStringSchema(p)
                 || ModelUtils.isDateSchema(p)
-                || ModelUtils.isDateTimeSchema(p) || ModelUtils.isFileSchema(p)
+                || ModelUtils.isDateTimeSchema(p)
                 || languageSpecificPrimitives.contains(openAPIType)) {
             return toModelName(openAPIType);
         }
@@ -417,6 +417,12 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
                 return "\"" + p.getDefault().toString() + "\"";
             } else {
                 return "\"\"";
+            }
+        } else if (ModelUtils.isFileSchema(p)) {
+            if (p.getDefault() != null) {
+                return "std::make_shared<std::string>(" + "\"" + p.getDefault().toString() + "\"" + ")";
+            } else {
+                return "std::make_shared<std::string>()";
             }
         } else if (ModelUtils.isNumberSchema(p)) {
             if (ModelUtils.isFloatSchema(p)) { // float
@@ -455,6 +461,13 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
         } else if (ModelUtils.isMapSchema(p)) {
             String inner = getSchemaType(getAdditionalProperties(p));
             return "std::map<std::string, " + inner + ">()";
+        } else if (ModelUtils.isSet(p)) {
+            ArraySchema ap = (ArraySchema) p;
+            String inner = getSchemaType(ap.getItems());
+            if (!languageSpecificPrimitives.contains(inner)) {
+                inner = "std::shared_ptr<" + inner + ">";
+            }
+            return "std::set<" + inner + ">()";
         } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             String inner = getSchemaType(ap.getItems());
@@ -476,10 +489,11 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
         boolean isPrimitiveType = parameter.isPrimitiveType == Boolean.TRUE;
         boolean isArray = parameter.isArray == Boolean.TRUE;
         boolean isString = parameter.isString == Boolean.TRUE;
+        boolean isEnum = parameter.isEnum == Boolean.TRUE;
 
         if (!isPrimitiveType && !isArray && !isString && !parameter.dataType.startsWith("std::shared_ptr")) {
-            parameter.dataType = "std::shared_ptr<" + parameter.dataType + ">";
             parameter.defaultValue = "std::make_shared<" + parameter.dataType + ">()";
+            parameter.dataType = "std::shared_ptr<" + parameter.dataType + ">";
         }
     }
 

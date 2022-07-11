@@ -73,8 +73,7 @@ class PetApiTest {
         Pet pet = new Pet();
         pet.name("ReturnsStatus200");
         pet.status(Pet.StatusEnum.AVAILABLE);
-        Pet response = apiInstance.addPet(pet).block();
-        approveResponseAsJson(response);
+        apiInstance.addPet(pet).block();
     }
 
     @Test

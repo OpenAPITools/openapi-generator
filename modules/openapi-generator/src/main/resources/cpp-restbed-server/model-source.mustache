@@ -5,10 +5,12 @@
 
 #include <string>
 #include <vector>
+#include <map>
 #include <sstream>
 #include <stdexcept>
 {{#hasEnums}}
 #include <algorithm>
+#include <boost/lexical_cast.hpp>
 {{/hasEnums}}
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
@@ -20,6 +22,55 @@ using boost::property_tree::write_json;
 {{#modelNamespaceDeclarations}}
 namespace {{this}} {
 {{/modelNamespaceDeclarations}}
+
+namespace {
+template <class T>
+void propertyTreeToMap(const std::string& propertyName, boost::property_tree::ptree const& pt, std::map<std::string, T> &map) {
+    for (const auto &childTree: pt.get_child(propertyName)) {
+        map.emplace(childTree.first, childTree.second.get_value<T>());
+    }
+}
+
+template <class T>
+void propertyTreeToMap(const std::string& propertyName, boost::property_tree::ptree const &pt, std::map<std::string, std::map<std::string, T>> & map ) {
+    for (const auto &childTree: pt.get_child(propertyName)) {
+        propertyTreeToMap(childTree.first, childTree.second, map);
+    }
+}
+
+template <class T>
+void propertyTreeToModelMap(const std::string& propertyName, boost::property_tree::ptree const& pt, std::map<std::string, T> &map) {
+    for (const auto &childTree: pt.get_child(propertyName)) {
+        T tmp;
+        tmp->fromPropertyTree(childTree.second);
+        map.emplace(childTree.first, tmp);
+    }
+}
+
+template <class T>
+void propertyTreeToModelMap(const std::string& propertyName, boost::property_tree::ptree const &pt, std::map<std::string, std::map<std::string, T>> & map ) {
+    for (const auto &childTree: pt.get_child(propertyName)) {
+       propertyTreeToMap(childTree.first, childTree.second, map);
+    }
+}
+
+template <class T>
+void mapToPropertyTree(const std::map<std::string, T> & map, boost::property_tree::ptree &pt) {
+    for (const auto &childEntry : map) {
+        pt.push_back(boost::property_tree::ptree::value_type(childEntry.first, childEntry.second));
+    }
+}
+
+template <class T>
+void mapToPropertyTree(const std::map<std::string, std::map<std::string, T>> & map, boost::property_tree::ptree &pt) {
+    for (const auto &childEntry : map) {
+        boost::property_tree::ptree child_node;
+        mapToPropertyTree(childEntry.second, child_node);
+        pt.push_back(boost::property_tree::ptree::value_type(childEntry.first, child_node));
+    }
+}
+}
+
 
 {{classname}}::{{classname}}(boost::property_tree::ptree const& pt)
 {
@@ -89,6 +140,23 @@ ptree {{classname}}::toPropertyTree_internal()
 	{{/isContainer}}
 	{{#isContainer}}
 	// generate tree for {{name}}
+    {{#isMap}}
+    {{#isModel}}
+    if (!m_{{name}}.empty()) {
+        for (const auto &childEntry : m_{{name}}) {
+            {{#items}}
+            {{#isModel}}
+            tmp_node.push_back(std::make_pair("", childEntry->toPropertyTree()));
+            {{/isModel}}
+            {{^isModel}}
+
+            mapToPropertyTree(childEntry, tmp_node);
+            {{/isModel}}
+            {{/items}}
+    {{/isModel}}
+    {{/isMap}}
+    tmp_node.clear();
+    {{^isMap}}
 	if (!m_{{name}}.empty()) {
 		for (const auto &childEntry : m_{{name}}) {
             {{#items}}
@@ -105,6 +173,7 @@ ptree {{classname}}::toPropertyTree_internal()
 		pt.add_child("{{baseName}}", tmp_node);
 		tmp_node.clear();
 	}
+    {{/isMap}}
 	{{/isContainer}}
 	{{/vars}}
 	return pt;
@@ -142,8 +211,26 @@ void {{classname}}::fromPropertyTree_internal(ptree const &pt)
 	{{/isModel}}
 	{{/isContainer}}
 	{{#isContainer}}
-	{{^isModelContainer}}
-	// push all items of {{name}} into member vector
+    {{#isMap}}
+    for (const auto &childEntry : pt) {
+        {{#isModel}}
+        tmp_node.add_child(childEntry.first, childEntry.second->toPropertyTree()));
+        {{/isModel}}
+        {{^isModel}}
+        {{#mostInnerItems}}
+        {{#isModel}}
+        propertyTreeToModelMap(
+        {{/isModel}}
+        {{^isModel}}
+        propertyTreeToMap(
+        {{/isModel}}
+        {{/mostInnerItems}}
+            childEntry.first, childEntry.second, m_{{name}});
+        {{/isModel}}
+    }
+    {{/isMap}}
+    {{^isMap}}
+	// push all items of {{name}} into member
 	if (pt.get_child_optional("{{baseName}}")) {
 		for (const auto &childTree : pt.get_child("{{baseName}}")) {
 		    {{#mostInnerItems}}
@@ -175,11 +262,16 @@ void {{classname}}::fromPropertyTree_internal(ptree const &pt)
             {{#isModel}}
                 std::make_shared<{{baseType}}>(childTree.second);
             {{/isModel}}
-            m_{{name}}.emplace_back(std::move(val));
 		    {{/mostInnerItems}}
+            {{#uniqueItems}}
+            m_{{name}}.insert(std::move(val));
+            {{/uniqueItems}}
+            {{^uniqueItems}}
+            m_{{name}}.emplace_back(std::move(val));
+            {{/uniqueItems}}
 		}
 	}
-	{{/isModelContainer}}
+    {{/isMap}}
 	{{#isModelContainer}}
 	// generate new {{complexType}} Object for each item and assign it to the current
 	if (pt.get_child_optional("{{baseName}}")) {
@@ -206,7 +298,7 @@ void {{classname}}::{{setter}}({{{dataType}}} value)
 	{{#isEnum}}if (std::find(m_{{enumName}}.begin(), m_{{enumName}}.end(), value) != m_{{enumName}}.end()) {
 		{{/isEnum}}m_{{name}} = value;{{#isEnum}}
 	} else {
-		throw std::runtime_error("Value " + value + " not allowed");
+		throw std::runtime_error("Value " + boost::lexical_cast<std::string>(value) + " not allowed");
 	}{{/isEnum}}
 }
 {{/vars}}

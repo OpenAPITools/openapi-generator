@@ -108,7 +108,7 @@ protected:
     std::vector<std::shared_ptr<Tag>> m_Tags;
     std::string m_Status = "";
     const std::array<std::string, 3> m_StatusEnum = {
-          "available","pending","sold"
+        "available", "pending", "sold"
     };
 
 };

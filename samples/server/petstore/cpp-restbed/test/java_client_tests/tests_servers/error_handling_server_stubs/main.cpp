@@ -68,17 +68,13 @@ std::string intToErrorRaisingString(const int64_t &id) {
 
 class MyPetApiPetResource : public PetResource {
 public:
-  std::pair<int, std::shared_ptr<Pet>>
-  handler_POST(const std::shared_ptr<Pet> &pet) override {
+  std::pair<int, std::shared_ptr<Pet>> handler_POST(const std::shared_ptr<Pet> &pet) override {
     const std::string &name = pet->getName();
-
     return raiseErrorForTesting<Pet, PetApiException>(pet, name);
   }
 
-  std::pair<int, std::shared_ptr<Pet>>
-  handler_PUT(const std::shared_ptr<Pet> &pet) override {
+    std::pair<int, std::shared_ptr<Pet>> handler_PUT(const std::shared_ptr<Pet> &pet) override {
     const std::string &name = pet->getName();
-
     return raiseErrorForTesting<Pet, PetApiException>(pet, name);
   }
 };

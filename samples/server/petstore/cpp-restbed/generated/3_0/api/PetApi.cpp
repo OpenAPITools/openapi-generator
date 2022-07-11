@@ -391,8 +391,8 @@ void PetPetIdResource::handler_GET_internal(const std::shared_ptr<restbed::Sessi
 // x-extension
 void PetPetIdResource::handler_POST_internal(const std::shared_ptr<restbed::Session> session) {
     const auto request = session->get_request();
-    auto name = extractFormParamsFromBody("name", extractBodyContent(session));
-    auto status = extractFormParamsFromBody("status", extractBodyContent(session));
+    auto name = boost::lexical_cast<std::string>(extractFormParamsFromBody("name", extractBodyContent(session)));
+    auto status = boost::lexical_cast<std::string>(extractFormParamsFromBody("status", extractBodyContent(session)));
     // Getting the path params
     const int64_t petId = request->get_path_parameter("petId", 0L);
     
@@ -732,8 +732,8 @@ void PetPetIdUploadImageResource::defaultSessionClose(const std::shared_ptr<rest
 void PetPetIdUploadImageResource::handler_POST_internal(const std::shared_ptr<restbed::Session> session)
 {
     const auto request = session->get_request();
-    auto additionalMetadata = extractFormParamsFromBody("additionalMetadata", extractBodyContent(session));
-    auto file = extractFormParamsFromBody("file", extractBodyContent(session));
+    auto additionalMetadata = boost::lexical_cast<std::string>(extractFormParamsFromBody("additionalMetadata", extractBodyContent(session)));
+    auto file = boost::lexical_cast<std::string>(extractFormParamsFromBody("file", extractBodyContent(session)));
     // Getting the path params
     const int64_t petId = request->get_path_parameter("petId", 0L);
     
