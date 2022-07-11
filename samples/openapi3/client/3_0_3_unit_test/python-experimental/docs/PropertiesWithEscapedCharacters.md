@@ -3,8 +3,7 @@
 #### Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**foo
-bar** | **int, float** |  | [optional] 
+**foo\nbar** | **int, float** |  | [optional] 
 **foo\&quot;bar** | **int, float** |  | [optional] 
 **foo\\bar** | **int, float** |  | [optional] 
 **foo\rbar** | **int, float** |  | [optional] 
