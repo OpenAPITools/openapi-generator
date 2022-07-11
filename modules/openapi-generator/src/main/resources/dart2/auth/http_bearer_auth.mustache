@@ -1,23 +1,29 @@
 {{>header}}
 {{>part_of}}
-typedef HttpBearerAuthProvider = String Function();
+typedef {{{modelNamePrefix}}}HttpBearerAuthProvider{{{modelNameSuffix}}} = String Function();
 
-class HttpBearerAuth implements Authentication {
-  HttpBearerAuth();
+class {{{modelNamePrefix}}}HttpBearerAuthentication{{{modelNameSuffix}}} implements {{{modelNamePrefix}}}Authentication{{{modelNameSuffix}}} {
+
+  /// Constucts [HttpBearerAuthentication] from an optional [accessToken] which will be included in request headers
+  /// using the `Authorization: Bearer [token]` method.
+  {{{modelNamePrefix}}}HttpBearerAuthentication{{{modelNameSuffix}}}([dynamic accessToken]) {
+    this.accessToken = accessToken;
+  }
 
   dynamic _accessToken;
 
   dynamic get accessToken => _accessToken;
 
+  /// may be a String or a Function that returns a string.
   set accessToken(dynamic accessToken) {
-    if (accessToken is! String && accessToken is! HttpBearerAuthProvider) {
+    if (accessToken is! String && accessToken is! {{{modelNamePrefix}}}HttpBearerAuthProvider{{{modelNameSuffix}}}) {
       throw ArgumentError('accessToken value must be either a String or a String Function().');
     }
     _accessToken = accessToken;
   }
 
   @override
-  void applyToParams(List<QueryParam> queryParams, Map<String, String> headerParams) {
+  void applyToParams(List<{{{modelNamePrefix}}}QueryParam{{{modelNameSuffix}}}> queryParams, Map<String, String> headerParams) {
     if (_accessToken == null) {
       return;
     }
@@ -26,7 +32,7 @@ class HttpBearerAuth implements Authentication {
 
     if (_accessToken is String) {
       accessToken = _accessToken;
-    } else if (_accessToken is HttpBearerAuthProvider) {
+    } else if (_accessToken is {{{modelNamePrefix}}}HttpBearerAuthProvider{{{modelNameSuffix}}}) {
       accessToken = _accessToken!();
     } else {
       return;

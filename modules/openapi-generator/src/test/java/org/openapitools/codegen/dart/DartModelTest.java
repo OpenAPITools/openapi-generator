@@ -33,7 +33,7 @@ import java.util.*;
 @SuppressWarnings("static-method")
 public class DartModelTest {
 
-    @Test(description = "convert a simple php model")
+    @Test(description = "convert a simple dart model")
     public void simpleModelTest() {
         final Schema model = new Schema()
                 .description("a sample model")
@@ -46,12 +46,15 @@ public class DartModelTest {
                 .addRequiredItem("id")
                 .addRequiredItem("name");
         final DefaultCodegen codegen = new DartClientCodegen();
+        codegen.setModelNamePrefix("Prefix");
+        codegen.setModelNameSuffix("Suffix");
+
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
 
         Assert.assertEquals(cm.name, "sample");
-        Assert.assertEquals(cm.classname, "Sample");
+        Assert.assertEquals(cm.classname, "PrefixSampleSuffix");
         Assert.assertEquals(cm.description, "a sample model");
         Assert.assertEquals(cm.vars.size(), 6);
 

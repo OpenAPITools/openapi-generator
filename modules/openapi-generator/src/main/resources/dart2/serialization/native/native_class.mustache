@@ -168,7 +168,7 @@ class {{{classname}}} {
               {{^items.isArray}}
                 {{#items.isMap}}
                   {{#items.complexType}}
-        {{{name}}}: {{items.complexType}}.mapFromJson(json[r'{{{baseName}}}']){{#required}}{{^isNullable}}!{{/isNullable}}{{/required}}{{^required}}{{#defaultValue}} ?? {{{.}}}{{/defaultValue}}{{/required}},
+        {{{name}}}: {{items.complexType}}.mapFromJson(json[r'{{{baseName}}}']{{#required}}{{^isNullable}}!{{/isNullable}}{{/required}}{{^required}}{{#defaultValue}} ?? {{{.}}}{{/defaultValue}}{{/required}}),
                   {{/items.complexType}}
                   {{^items.complexType}}
         {{{name}}}: mapCastOfType<String, dynamic>(json, r'{{{baseName}}}'){{#required}}{{^isNullable}}!{{/isNullable}}{{/required}}{{^required}}{{#defaultValue}} ?? {{{.}}}{{/defaultValue}}{{/required}},
@@ -176,7 +176,7 @@ class {{{classname}}} {
                 {{/items.isMap}}
                 {{^items.isMap}}
                   {{#items.complexType}}
-        {{{name}}}: {{{items.complexType}}}.mapFromJson(json[r'{{{baseName}}}'{{#required}}{{^isNullable}}!{{/isNullable}}{{/required}}{{^required}}{{#defaultValue}}]) ?? {{{.}}}{{/defaultValue}}{{/required}},
+        {{{name}}}: {{{items.complexType}}}.mapFromJson(json[r'{{{baseName}}}']{{#required}}{{^isNullable}}!{{/isNullable}}{{/required}}{{^required}}{{#defaultValue}} ?? {{{.}}}{{/defaultValue}}{{/required}}),
                   {{/items.complexType}}
                   {{^items.complexType}}
         {{{name}}}: mapCastOfType<String, {{items.dataType}}>(json, r'{{{baseName}}}'){{#required}}{{^isNullable}}!{{/isNullable}}{{/required}}{{^required}}{{#defaultValue}} ?? {{{.}}}{{/defaultValue}}{{/required}},

@@ -30,4 +30,12 @@ final _regList = RegExp(r'^List<(.*)>$');
 final _regSet = RegExp(r'^Set<(.*)>$');
 final _regMap = RegExp(r'^Map<String,(.*)>$');
 
-ApiClient defaultApiClient = ApiClient();
+/// also add individual apis as getters on the primary default api client
+extension {{#apiClientName}}{{.}}{{/apiClientName}}{{^apiClientName}}{{{modelNamePrefix}}}ApiClient{{{modelNameSuffix}}}{{/apiClientName}}Extension on {{#apiClientName}}{{.}}{{/apiClientName}}{{^apiClientName}}{{{modelNamePrefix}}}ApiClient{{{modelNameSuffix}}}{{/apiClientName}} {
+	{{#apiInfo}}{{#apis}}
+	{{{classname}}} get {{{classVarName}}} => {{{classname}}}(this);
+	{{/apis}}{{/apiInfo}}
+}
+
+
+{{#apiClientName}}{{.}}{{/apiClientName}}{{^apiClientName}}{{{modelNamePrefix}}}ApiClient{{{modelNameSuffix}}}{{/apiClientName}} default{{#apiClientName}}{{.}}{{/apiClientName}}{{^apiClientName}}{{{modelNamePrefix}}}ApiClient{{{modelNameSuffix}}}{{/apiClientName}} = {{#apiClientName}}{{.}}{{/apiClientName}}{{^apiClientName}}{{{modelNamePrefix}}}ApiClient{{{modelNameSuffix}}}{{/apiClientName}}();

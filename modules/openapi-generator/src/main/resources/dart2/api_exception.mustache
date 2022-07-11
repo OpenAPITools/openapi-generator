@@ -1,9 +1,9 @@
 {{>header}}
 {{>part_of}}
-class ApiException implements Exception {
-  ApiException(this.code, this.message);
+class {{{modelNamePrefix}}}ApiException{{{modelNameSuffix}}} implements Exception {
+  {{{modelNamePrefix}}}ApiException{{{modelNameSuffix}}}(this.code, this.message);
 
-  ApiException.withInner(this.code, this.message, this.innerException, this.stackTrace);
+  {{{modelNamePrefix}}}ApiException{{{modelNameSuffix}}}.withInner(this.code, this.message, this.innerException, this.stackTrace);
 
   int code = 0;
   String? message;
@@ -13,11 +13,11 @@ class ApiException implements Exception {
   @override
   String toString() {
     if (message == null) {
-      return 'ApiException';
+      return '{{{modelNamePrefix}}}ApiException{{{modelNameSuffix}}}';
     }
     if (innerException == null) {
-      return 'ApiException $code: $message';
+      return '{{{modelNamePrefix}}}ApiException{{{modelNameSuffix}}} $code: $message';
     }
-    return 'ApiException $code: $message (Inner exception: $innerException)\n\n$stackTrace';
+    return '{{{modelNamePrefix}}}ApiException{{{modelNameSuffix}}} $code: $message (Inner exception: $innerException)\n\n$stackTrace';
   }
 }

@@ -39,17 +39,17 @@ class NullableClass {
 
   DateTime? datetimeProp;
 
-  List<Object>? arrayNullableProp;
+  List<Map>? arrayNullableProp;
 
-  List<Object>? arrayAndItemsNullableProp;
+  List<Map>? arrayAndItemsNullableProp;
 
-  List<Object> arrayItemsNullable;
+  List<Map> arrayItemsNullable;
 
-  Map<String, Object>? objectNullableProp;
+  Map<String, Map>? objectNullableProp;
 
-  Map<String, Object>? objectAndItemsNullableProp;
+  Map<String, Map>? objectAndItemsNullableProp;
 
-  Map<String, Object> objectItemsNullable;
+  Map<String, Map> objectItemsNullable;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is NullableClass &&
@@ -169,12 +169,12 @@ class NullableClass {
         stringProp: mapValueOfType<String>(json, r'string_prop'),
         dateProp: mapDateTime(json, r'date_prop', ''),
         datetimeProp: mapDateTime(json, r'datetime_prop', ''),
-        arrayNullableProp: Object.listFromJson(json[r'array_nullable_prop']) ?? const [],
-        arrayAndItemsNullableProp: Object.listFromJson(json[r'array_and_items_nullable_prop']) ?? const [],
-        arrayItemsNullable: Object.listFromJson(json[r'array_items_nullable']) ?? const [],
-        objectNullableProp: mapCastOfType<String, Object>(json, r'object_nullable_prop') ?? const {},
-        objectAndItemsNullableProp: mapCastOfType<String, Object>(json, r'object_and_items_nullable_prop') ?? const {},
-        objectItemsNullable: mapCastOfType<String, Object>(json, r'object_items_nullable') ?? const {},
+        arrayNullableProp: Map.listFromJson(json[r'array_nullable_prop']) ?? const [],
+        arrayAndItemsNullableProp: Map.listFromJson(json[r'array_and_items_nullable_prop']) ?? const [],
+        arrayItemsNullable: Map.listFromJson(json[r'array_items_nullable']) ?? const [],
+        objectNullableProp: mapCastOfType<String, Map>(json, r'object_nullable_prop') ?? const {},
+        objectAndItemsNullableProp: mapCastOfType<String, Map>(json, r'object_and_items_nullable_prop') ?? const {},
+        objectItemsNullable: mapCastOfType<String, Map>(json, r'object_items_nullable') ?? const {},
       );
     }
     return null;

@@ -122,7 +122,7 @@ class NullableClass {
   )
 
 
-  final List<Object>? arrayNullableProp;
+  final List<Map>? arrayNullableProp;
 
 
 
@@ -134,7 +134,7 @@ class NullableClass {
   )
 
 
-  final List<Object>? arrayAndItemsNullableProp;
+  final List<Map>? arrayAndItemsNullableProp;
 
 
 
@@ -146,7 +146,7 @@ class NullableClass {
   )
 
 
-  final List<Object>? arrayItemsNullable;
+  final List<Map>? arrayItemsNullable;
 
 
 
@@ -158,7 +158,7 @@ class NullableClass {
   )
 
 
-  final Map<String, Object>? objectNullableProp;
+  final Map<String, Map>? objectNullableProp;
 
 
 
@@ -170,7 +170,7 @@ class NullableClass {
   )
 
 
-  final Map<String, Object>? objectAndItemsNullableProp;
+  final Map<String, Map>? objectAndItemsNullableProp;
 
 
 
@@ -182,7 +182,7 @@ class NullableClass {
   )
 
 
-  final Map<String, Object>? objectItemsNullable;
+  final Map<String, Map>? objectItemsNullable;
 
 
 
