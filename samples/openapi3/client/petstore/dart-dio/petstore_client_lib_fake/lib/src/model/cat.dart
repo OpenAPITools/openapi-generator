@@ -3,6 +3,7 @@
 //
 
 import 'package:openapi/src/model/animal.dart';
+import 'package:openapi/src/model/cat_all_of.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 

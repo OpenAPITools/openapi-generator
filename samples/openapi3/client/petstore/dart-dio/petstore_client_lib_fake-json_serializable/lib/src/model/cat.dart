@@ -3,6 +3,7 @@
 //
 
 import 'package:openapi/src/model/animal.dart';
+import 'package:openapi/src/model/cat_all_of.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'cat.g.dart';
