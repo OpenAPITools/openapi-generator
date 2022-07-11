@@ -25,7 +25,6 @@ import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import org.openapitools.client.model.Animal;
 import org.openapitools.client.model.BigCat;
-import org.openapitools.client.model.CatAllOf;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
