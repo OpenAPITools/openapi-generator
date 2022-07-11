@@ -3,6 +3,7 @@ package org.openapitools.codegen.cpprestbed;
 import org.jetbrains.annotations.NotNull;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.languages.CppRestbedServerCodegen;
+import org.openapitools.codegen.model.OperationsMap;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -34,10 +35,10 @@ public class CppRestbedServerTest {
     void testPathProcessing(String providedPath, String expectedPath) {
         // Arrange
         CppRestbedServerCodegen codegen = new CppRestbedServerCodegen();
-        Map<String, Object> objs = setupOperationWithPath(providedPath);
+        OperationsMap objs = setupOperationWithPath(providedPath);
 
         // Act
-        Map<String, Object> processedObjs = codegen.postProcessOperationsWithModels(objs, new ArrayList<>());
+        OperationsMap processedObjs = codegen.postProcessOperationsWithModels(objs, new ArrayList<>());
 
         // Assert
         List<CodegenOperation> processedObjsOperationList = extractOperationsList(processedObjs);
@@ -53,7 +54,7 @@ public class CppRestbedServerTest {
     }
 
     @NotNull
-    private static Map<String, Object> setupOperationWithPath(String path) {
+    private static OperationsMap setupOperationWithPath(String path) {
         CodegenOperation op = new CodegenOperation();
         op.path = path;
 
@@ -63,7 +64,7 @@ public class CppRestbedServerTest {
         Map<String, Object> operations = new HashMap<>();
         operations.put("operation", operationsList);
 
-        Map<String, Object> objs = new HashMap<>();
+        OperationsMap objs = new OperationsMap();
         objs.put("operations", operations);
         return objs;
     }
