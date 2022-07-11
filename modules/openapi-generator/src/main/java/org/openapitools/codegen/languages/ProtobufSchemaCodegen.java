@@ -325,7 +325,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                     }
                 }
 
-                //add x-protobuf-index
+                //check x-protobuf-index
                 if (var.vendorExtensions.containsKey("x-protobuf-index")) {
                     int protobufIndex = (int) var.vendorExtensions.get("x-protobuf-index");
                     checkIndex(protobufIndex, usedIndexes);                    
@@ -596,7 +596,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                     }
                 }
 
-                //add x-protobuf-index
+                //check x-protobuf-index
                 if (p.vendorExtensions.containsKey("x-protobuf-index")) {
                     int protobufIndex = (int) p.vendorExtensions.get("x-protobuf-index");
                     checkIndex(protobufIndex, usedIndexes);
@@ -649,7 +649,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         }
         else {
             LOGGER.error("Field number " + protobufIndex + " not strictly positive");
-            throw new RuntimeException("Only stricly positive field numbers are allowed");
+            throw new RuntimeException("Only strictly positive field numbers are allowed");
         }
     }
 
