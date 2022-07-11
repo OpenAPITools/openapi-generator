@@ -436,9 +436,9 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             String nullSafeSuffix = getNullSafeAdditionalProps() ? " | undefined" : "";
             return "{ [key: string]: " + getTypeDeclaration(ModelUtils.unaliasSchema(this.openAPI, inner)) + nullSafeSuffix  + "; }";
         } else if (ModelUtils.isFileSchema(p)) {
-            return "any";
+            return "File";
         } else if (ModelUtils.isBinarySchema(p)) {
-            return "any";
+            return "ArrayBuffer";
         }
         return super.getTypeDeclaration(p);
     }
