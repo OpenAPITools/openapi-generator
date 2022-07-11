@@ -87,7 +87,7 @@ public class ProtobufSchemaCodegenTest {
             fail("No exception thrown!");
         }
         catch (RuntimeException e) {
-            assertEquals(e.getCause().getMessage(), "Only stricly positive field numbers are allowed");
+            assertEquals(e.getCause().getMessage(), "Only strictly positive field numbers are allowed");
         }        
     }
 
