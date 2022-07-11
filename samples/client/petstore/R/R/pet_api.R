@@ -139,6 +139,38 @@
 #' }
 #' }
 #'
+#' \strong{ GetPetByIdStreaming } \emph{ Find pet by ID (streaming) }
+#' Returns a single pet
+#'
+#' \itemize{
+#' \item \emph{ @param } pet_id integer
+#' \item \emph{ @returnType } \link{Pet} \cr
+#'
+#' \item On encountering errors, an error of subclass ApiException will be thrown.
+#'
+#' \item status code : 200 | successful operation
+#'
+#' \item return type : Pet 
+#' \item response headers :
+#'
+#' \tabular{ll}{
+#' }
+#' \item status code : 400 | Invalid ID supplied
+#'
+#'
+#' \item response headers :
+#'
+#' \tabular{ll}{
+#' }
+#' \item status code : 404 | Pet not found
+#'
+#'
+#' \item response headers :
+#'
+#' \tabular{ll}{
+#' }
+#' }
+#'
 #' \strong{ UpdatePet } \emph{ Update an existing pet }
 #' 
 #'
@@ -346,6 +378,34 @@
 #'
 #'result <- tryCatch(
 #'             api.instance$GetPetById(var.pet_id),
+#'             ApiException = function(ex) ex
+#'          )
+#' # In case of error, print the error object
+#' if(!is.null(result$ApiException)) {
+#'   cat(result$ApiException$toString())
+#' } else {
+#' # deserialized response object
+#' response.object <- result$content
+#' # response headers
+#' response.headers <- result$response$headers
+#' # response status code
+#' response.status.code <- result$response$status_code
+#' }
+#'
+#'
+#' ####################  GetPetByIdStreaming  ####################
+#'
+#' library(petstore)
+#' var.pet_id <- 56 # integer | ID of pet to return
+#'
+#' #Find pet by ID (streaming)
+#' api.instance <- PetApi$new()
+#'
+#' #Configure API key authorization: api_key
+#' api.instance$api_client$api_keys['api_key'] <- 'TODO_YOUR_API_KEY';
+#'
+#'result <- tryCatch(
+#'             api.instance$GetPetByIdStreaming(var.pet_id),
 #'             ApiException = function(ex) ex
 #'          )
 #' # In case of error, print the error object
@@ -606,7 +666,7 @@ PetApi <- R6::R6Class(
       }
 
       body <- NULL
-      url_path <- "/pet/{petId}"
+      url_path <- "/pet/{petId}?streaming"
       if (!missing(`pet_id`)) {
         url_path <- gsub(paste0("\\{", "petId", "\\}"), URLencode(as.character(`pet_id`), reserved = TRUE), url_path)
       }
@@ -910,6 +970,110 @@ PetApi <- R6::R6Class(
         rlang::abort(message = error_msg, .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
       }
     },
+    #' Find pet by ID (streaming)
+    #'
+    #' @description
+    #' Find pet by ID (streaming)
+    #'
+    #' @param pet_id ID of pet to return
+    #' @param stream_callback (optional) callback function to process the data stream
+    #' @param data_file (optional) name of the data file to save the result
+    #' @param ... Other optional arguments
+    #' @return Pet
+    #' @export
+    GetPetByIdStreaming = function(pet_id, stream_callback=NULL, data_file=NULL, ...) {
+      api_response <- self$GetPetByIdStreamingWithHttpInfo(pet_id, stream_callback = stream_callback, data_file = data_file, ...)
+      if (typeof(stream_callback) == "closure") { # return void if streaming is enabled
+        return(invisible(NULL))
+      }
+
+      resp <- api_response$response
+      if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
+        api_response$content
+      } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
+        api_response
+      } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
+        api_response
+      } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
+        api_response
+      }
+    },
+    #' Find pet by ID (streaming)
+    #'
+    #' @description
+    #' Find pet by ID (streaming)
+    #'
+    #' @param pet_id ID of pet to return
+    #' @param stream_callback (optional) callback function to process the data stream
+    #' @param data_file (optional) name of the data file to save the result
+    #' @param ... Other optional arguments
+    #' @return API response (Pet) with additional information such as HTTP status code, headers
+    #' @export
+    GetPetByIdStreamingWithHttpInfo = function(pet_id, stream_callback=NULL, data_file = NULL, ...) {
+      args <- list(...)
+      query_params <- list()
+      header_params <- c()
+
+      if (missing(`pet_id`)) {
+        rlang::abort(message = "Missing required parameter `pet_id`.", .subclass = "ApiException", ApiException = ApiException$new(status = 0, reason = "Missing required parameter `pet_id`."))
+      }
+
+      body <- NULL
+      url_path <- "/pet/{petId}?streaming"
+      if (!missing(`pet_id`)) {
+        url_path <- gsub(paste0("\\{", "petId", "\\}"), URLencode(as.character(`pet_id`), reserved = TRUE), url_path)
+      }
+
+      # API key authentication
+      if ("api_key" %in% names(self$api_client$api_keys) && nchar(self$api_client$api_keys["api_key"]) > 0) {
+        header_params["api_key"] <- paste(unlist(self$api_client$api_keys["api_key"]), collapse = "")
+      }
+
+      resp <- self$api_client$CallApi(url = paste0(self$api_client$base_path, url_path),
+                                 method = "GET",
+                                 query_params = query_params,
+                                 header_params = header_params,
+                                 body = body,
+                                 stream_callback = stream_callback,
+                                 ...)
+
+      if (typeof(stream_callback) == "closure") { # return void if streaming is enabled
+        return(invisible(NULL))
+      }
+
+      if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
+        # save response in a file
+        if (!is.null(data_file)) {
+            write(httr::content(resp, "text", encoding = "UTF-8", simplifyVector = FALSE), data_file)
+        }
+
+        deserialized_resp_obj <- tryCatch(
+          self$api_client$deserialize(resp, "Pet", loadNamespace("petstore")),
+          error = function(e) {
+             rlang::abort(message = "Failed to deserialize response", .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
+          }
+        )
+        ApiResponse$new(deserialized_resp_obj, resp)
+      } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
+        error_msg <- toString(content(resp))
+        if(error_msg == "") {
+          error_msg <- paste("Server returned ", httr::status_code(resp), " response status code.")
+        }
+        rlang::abort(message = error_msg, .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
+      } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
+        error_msg <- toString(content(resp))
+        if(error_msg == "") {
+          error_msg <- "Api client exception encountered."
+        }
+        rlang::abort(message = error_msg, .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
+      } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
+        error_msg <- toString(content(resp))
+        if(error_msg == "") {
+          error_msg <- "Api server exception encountered."
+        }
+        rlang::abort(message = error_msg, .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
+      }
+    },
     #' Update an existing pet
     #'
     #' @description
@@ -1051,7 +1215,7 @@ PetApi <- R6::R6Class(
         "status" = status
       )
 
-      url_path <- "/pet/{petId}"
+      url_path <- "/pet/{petId}?streaming"
       if (!missing(`pet_id`)) {
         url_path <- gsub(paste0("\\{", "petId", "\\}"), URLencode(as.character(`pet_id`), reserved = TRUE), url_path)
       }

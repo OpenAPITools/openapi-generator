@@ -60,6 +60,8 @@ from petstore_api.schemas import (  # noqa: F401
     BoolBase,
     BinaryBase,
     Schema,
+    NoneClass,
+    BoolClass,
     _SchemaValidator,
     _SchemaTypeChecker,
     _SchemaEnumMaker
@@ -86,7 +88,7 @@ class User(
     
     
     class objectWithNoDeclaredPropsNullable(
-        _SchemaTypeChecker(typing.Union[frozendict, none_type, ]),
+        _SchemaTypeChecker(typing.Union[frozendict, NoneClass, ]),
         DictBase,
         NoneBase,
         Schema

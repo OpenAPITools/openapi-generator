@@ -31,7 +31,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.openapitools.client.model.ChildCatAllOf;
 import org.openapitools.client.model.ParentPet;
 import java.util.Set;
 import java.util.HashSet;
