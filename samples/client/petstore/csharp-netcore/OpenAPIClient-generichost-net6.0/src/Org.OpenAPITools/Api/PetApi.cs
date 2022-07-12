@@ -1513,7 +1513,8 @@ namespace Org.OpenAPITools.Api
                         request.Content.Headers.Add("ContentType", contentType);
 
                     string[] accepts = new string[] { 
-                        "application/json" 
+                        "application/json", 
+                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" 
                     };
 
                     string accept = ClientUtils.SelectHeaderAccept(accepts);
