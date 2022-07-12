@@ -249,10 +249,12 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
             }
         }
 
+        // update values
         if(allowableValues.containsKey("values")) {
             List<String> values = (List<String>)allowableValues.get("values");
-            for(String value : values) {
-                value = prefix + "_" + value;
+            for(int i = 0 ; i < values.size() ; i++) {
+                // replace value by value with prefix
+                values.set(i, prefix + "_" + values.get(i));
             }
         }
     }
@@ -281,6 +283,13 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                 values.add(0, value);
             }
         }
+    }
+
+    //override default behaviour: Return the Enum name (e.g. Status given 'status')
+    @Override
+    @SuppressWarnings("static-method")
+    public String toEnumName(CodegenProperty property) {
+        return StringUtils.capitalize(property.name);
     }
 
     /**
