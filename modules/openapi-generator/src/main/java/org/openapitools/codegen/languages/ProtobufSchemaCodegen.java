@@ -56,6 +56,8 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
     public static final String START_ENUMS_WITH_UNKNOWN = "startEnumsWithUnknown";
 
     public static final String START_ENUMS_WITH_UNSPECIFIED = "startEnumsWithUnspecified";
+    
+    public static final String FIELD_NAMES_IN_SNAKE_CASE = "fieldNamesInSnakeCase";
 
     private final Logger LOGGER = LoggerFactory.getLogger(ProtobufSchemaCodegen.class);
 
@@ -66,6 +68,8 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
     private boolean startEnumsWithUnknown = false;
 
     private boolean startEnumsWithUnspecified = false;
+    
+    private boolean fieldNamesInSnakeCase = false;
 
     @Override
     public CodegenType getTag() {
@@ -164,6 +168,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         addSwitch(NUMBERED_FIELD_NUMBER_LIST, "Field numbers in order.", numberedFieldNumberList);
         addSwitch(START_ENUMS_WITH_UNKNOWN, "Introduces \"UNKNOWN\" as the first element of enumerations.", startEnumsWithUnknown);
         addSwitch(START_ENUMS_WITH_UNSPECIFIED, "Introduces \"UNSPECIFIED\" as the first element of enumerations.", startEnumsWithUnspecified);
+        addSwitch(FIELD_NAMES_IN_SNAKE_CASE, "Field names in snake_case.", fieldNamesInSnakeCase);
     }
 
     @Override
@@ -201,6 +206,10 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
 
         if (additionalProperties.containsKey(this.START_ENUMS_WITH_UNSPECIFIED)) {
             this.startEnumsWithUnspecified = convertPropertyToBooleanAndWriteBack(START_ENUMS_WITH_UNSPECIFIED);
+        }
+        
+        if (additionalProperties.containsKey(this.FIELD_NAMES_IN_SNAKE_CASE)) {
+            this.fieldNamesInSnakeCase = convertPropertyToBooleanAndWriteBack(FIELD_NAMES_IN_SNAKE_CASE);
         }
 
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
@@ -335,10 +344,19 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                     }
                 }
 
+                if (fieldNamesInSnakeCase) {
+                    var.name = underscore(var.getName());
+                }
+
                 //check x-protobuf-index
                 if (var.vendorExtensions.containsKey("x-protobuf-index")) {
                     int protobufIndex = (int) var.vendorExtensions.get("x-protobuf-index");
                     checkIndex(protobufIndex, usedIndexes);                    
+                }
+                else if (var.vendorExtensions.containsKey("x-protobuf-field-number")) {
+                    int protobufIndex = (int) var.vendorExtensions.get("x-protobuf-field-number");
+                    checkIndex(protobufIndex, usedIndexes);
+                    var.vendorExtensions.put("x-protobuf-index", protobufIndex);
                 }
             }
             //automatic index generation when index not specified using extensions
@@ -606,10 +624,19 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                     }
                 }
 
+                if (fieldNamesInSnakeCase) {
+                    p.paramName = underscore(p.paramName);
+                }
+
                 //check x-protobuf-index
                 if (p.vendorExtensions.containsKey("x-protobuf-index")) {
                     int protobufIndex = (int) p.vendorExtensions.get("x-protobuf-index");
                     checkIndex(protobufIndex, usedIndexes);
+                }
+                else if (p.vendorExtensions.containsKey("x-protobuf-field-number")) {
+                    int protobufIndex = (int) p.vendorExtensions.get("x-protobuf-field-number");
+                    checkIndex(protobufIndex, usedIndexes);
+                    p.vendorExtensions.put("x-protobuf-index", protobufIndex);
                 }
             }
             //automatic index generation when index not specified using extensions

@@ -66,6 +66,19 @@ public class ProtobufSchemaCodegenTest {
     }
 
     @Test
+    public void testExtensionFieldNumber() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+
+        File output = Files.createTempDirectory("test").toFile();
+        List<File> files = generate(output, properties, "src/test/resources/3_0/protobuf-schema/extension-field-number.yaml");
+        TestUtils.ensureContainsFile(files, output, "models/pet.proto");
+        Path path = Paths.get(output + "/models/pet.proto");
+        assertFileEquals(path, Paths.get("src/test/resources/3_0/protobuf-schema/extension-field-number.proto"));
+
+        output.delete();
+    }
+
+    @Test
     public void testAutomaticOrderedIndexGeneration() throws IOException {
         Map<String, Object> properties = new HashMap<>();
         properties.put("numberedFieldNumberList", "True");
@@ -150,6 +163,20 @@ public class ProtobufSchemaCodegenTest {
         assertFileEquals(path, Paths.get("src/test/resources/3_0/protobuf-schema/order.proto"));
 
         output.delete();
+    }
+
+    @Test
+    public void testNameSnakeCase() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("fieldNamesInSnakeCase", true);
+
+        File output = Files.createTempDirectory("test").toFile();
+        List<File> files = generate(output, properties, "src/test/resources/3_0/protobuf-schema/name-snakecase.yaml");
+        TestUtils.ensureContainsFile(files, output, "models/pet.proto");
+        Path path = Paths.get(output + "/models/pet.proto");
+        assertFileEquals(path, Paths.get("src/test/resources/3_0/protobuf-schema/name-snakecase.proto"));
+
+        output.delete();       
     }
 
     private void assertFileEquals(Path generatedFilePath, Path expectedFilePath) throws IOException {
