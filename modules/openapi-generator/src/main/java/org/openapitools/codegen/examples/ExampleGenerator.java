@@ -171,7 +171,7 @@ public class ExampleGenerator {
                         output.add(kv);
                     }
                 } else {
-                    kv.put(EXAMPLE, null);
+                    kv.put(EXAMPLE, "null");
                     output.add(kv);
                 }
             }
