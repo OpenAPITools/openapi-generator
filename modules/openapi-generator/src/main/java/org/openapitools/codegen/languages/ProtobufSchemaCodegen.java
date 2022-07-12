@@ -285,6 +285,13 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         }
     }
 
+    //override default behaviour: Return the Enum name (e.g. Status given 'status')
+    @Override
+    @SuppressWarnings("static-method")
+    public String toEnumName(CodegenProperty property) {
+        return StringUtils.capitalize(property.name);
+    }
+
     /**
      * Iterates enum vars and puts index to them
      *
