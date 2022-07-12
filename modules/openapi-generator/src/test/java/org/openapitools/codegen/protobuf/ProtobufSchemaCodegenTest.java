@@ -52,11 +52,12 @@ public class ProtobufSchemaCodegenTest {
     @Test
     public void testCodeGenWithAllOf() throws IOException {
         Map<String, Object> properties = new HashMap<>();
+        Map<String, String> globalProperties = new HashMap<>();
         // set line break to \n across all platforms
         System.setProperty("line.separator", "\n");
 
         File output = Files.createTempDirectory("test").toFile();
-        List<File> files = generate(output, properties, "src/test/resources/3_0/allOf_composition_discriminator.yaml");
+        List<File> files = generate(output, properties, globalProperties, "src/test/resources/3_0/allOf_composition_discriminator.yaml");
         TestUtils.ensureContainsFile(files, output, "models/pet.proto");
         Path path = Paths.get(output + "/models/pet.proto");
         assertFileEquals(path, Paths.get("src/test/resources/3_0/protobuf-schema/pet.proto"));
@@ -67,9 +68,10 @@ public class ProtobufSchemaCodegenTest {
     @Test
     public void testExtensionFieldNumber() throws IOException {
         Map<String, Object> properties = new HashMap<>();
+        Map<String, String> globalProperties = new HashMap<>();
 
         File output = Files.createTempDirectory("test").toFile();
-        List<File> files = generate(output, properties, "src/test/resources/3_0/protobuf-schema/extension-field-number.yaml");
+        List<File> files = generate(output, properties, globalProperties, "src/test/resources/3_0/protobuf-schema/extension-field-number.yaml");
         TestUtils.ensureContainsFile(files, output, "models/pet.proto");
         Path path = Paths.get(output + "/models/pet.proto");
         assertFileEquals(path, Paths.get("src/test/resources/3_0/protobuf-schema/extension-field-number.proto"));
@@ -81,9 +83,10 @@ public class ProtobufSchemaCodegenTest {
     public void testAutomaticOrderedIndexGeneration() throws IOException {
         Map<String, Object> properties = new HashMap<>();
         properties.put("numberedFieldNumberList", "True");
+        Map<String, String> globalProperties = new HashMap<>();
 
         File output = Files.createTempDirectory("test").toFile();
-        List<File> files = generate(output, properties, "src/test/resources/3_0/protobuf-schema/automatic-ordered-index-generation.yaml");
+        List<File> files = generate(output, properties, globalProperties, "src/test/resources/3_0/protobuf-schema/automatic-ordered-index-generation.yaml");
         TestUtils.ensureContainsFile(files, output, "models/pet.proto");
         Path path = Paths.get(output + "/models/pet.proto");
         assertFileEquals(path, Paths.get("src/test/resources/3_0/protobuf-schema/automatic-ordered-index-generation.proto"));
@@ -95,8 +98,9 @@ public class ProtobufSchemaCodegenTest {
     public void testExtensionNegativeIndex() throws IOException {
         try {
             Map<String, Object> properties = new HashMap<>();
+            Map<String, String> globalProperties = new HashMap<>();
             File output = Files.createTempDirectory("test").toFile();
-            List<File> files = generate(output, properties, "src/test/resources/3_0/protobuf-schema/extension-negative-index.yaml");
+            List<File> files = generate(output, properties, globalProperties, "src/test/resources/3_0/protobuf-schema/extension-negative-index.yaml");
             fail("No exception thrown!");
         }
         catch (RuntimeException e) {
@@ -108,8 +112,9 @@ public class ProtobufSchemaCodegenTest {
     public void testExtensionNonIntegerIndex() throws IOException {
         try {
             Map<String, Object> properties = new HashMap<>();
+            Map<String, String> globalProperties = new HashMap<>();
             File output = Files.createTempDirectory("test").toFile();
-            List<File> files = generate(output, properties, "src/test/resources/3_0/protobuf-schema/extension-non-integer-index.yaml");
+            List<File> files = generate(output, properties, globalProperties, "src/test/resources/3_0/protobuf-schema/extension-non-integer-index.yaml");
             fail("No exception thrown!");
         }
         catch (RuntimeException e) {
@@ -121,8 +126,9 @@ public class ProtobufSchemaCodegenTest {
     public void testExtensionDuplicateIndexes() throws IOException {
         try {
             Map<String, Object> properties = new HashMap<>();
+            Map<String, String> globalProperties = new HashMap<>();
             File output = Files.createTempDirectory("test").toFile();
-            List<File> files = generate(output, properties, "src/test/resources/3_0/protobuf-schema/extension-duplicate-indexes.yaml");
+            List<File> files = generate(output, properties, globalProperties, "src/test/resources/3_0/protobuf-schema/extension-duplicate-indexes.yaml");
             fail("No exception thrown!");
         }
         catch (RuntimeException e) {
@@ -134,8 +140,9 @@ public class ProtobufSchemaCodegenTest {
     public void testExtensionAutoGeneratedDuplicateIndexes() throws IOException {
         try {
             Map<String, Object> properties = new HashMap<>();
+            Map<String, String> globalProperties = new HashMap<>();
             File output = Files.createTempDirectory("test").toFile();
-            List<File> files = generate(output, properties, "src/test/resources/3_0/protobuf-schema/extension-auto-generated-duplicate-indexes.yaml");
+            List<File> files = generate(output, properties, globalProperties, "src/test/resources/3_0/protobuf-schema/extension-auto-generated-duplicate-indexes.yaml");
             fail("No exception thrown!");
         }
         catch (RuntimeException e) {
@@ -144,12 +151,29 @@ public class ProtobufSchemaCodegenTest {
     }
 
     @Test
+    void testCodeGenWithEnum() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("startEnumsWithUnspecified", true);
+        Map<String, String> globalProperties = new HashMap<>();
+        globalProperties.put("models", "Order");
+
+        File output = Files.createTempDirectory("test").toFile();
+        List<File> files = generate(output, properties, globalProperties, "src/test/resources/3_0/petstore.yaml");
+        TestUtils.ensureContainsFile(files, output, "models/order.proto");
+        Path path = Paths.get(output + "/models/order.proto");
+        assertFileEquals(path, Paths.get("src/test/resources/3_0/protobuf-schema/order.proto"));
+
+        output.delete();
+    }
+
+    @Test
     public void testNameSnakeCase() throws IOException {
         Map<String, Object> properties = new HashMap<>();
         properties.put("fieldNamesInSnakeCase", true);
+        Map<String, String> globalProperties = new HashMap<>();
 
         File output = Files.createTempDirectory("test").toFile();
-        List<File> files = generate(output, properties, "src/test/resources/3_0/protobuf-schema/name-snakecase.yaml");
+        List<File> files = generate(output, properties, globalProperties, "src/test/resources/3_0/protobuf-schema/name-snakecase.yaml");
         TestUtils.ensureContainsFile(files, output, "models/pet.proto");
         Path path = Paths.get(output + "/models/pet.proto");
         assertFileEquals(path, Paths.get("src/test/resources/3_0/protobuf-schema/name-snakecase.proto"));
@@ -166,10 +190,11 @@ public class ProtobufSchemaCodegenTest {
         assertEquals(generatedFile, expectedFile);
     }
 
-    private List<File> generate(File output, Map<String, Object> properties, String inputFile) {        
+    private List<File> generate(File output, Map<String, Object> properties, Map<String, String> globalProperties, String inputFile) {        
         final CodegenConfigurator configurator = new CodegenConfigurator()
                 .setGeneratorName("protobuf-schema")
                 .setAdditionalProperties(properties)
+                .setGlobalProperties(globalProperties)
                 .setInputSpec(inputFile)
                 .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
