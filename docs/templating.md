@@ -908,6 +908,29 @@ produces:
 x-content-type: application/json
 ```
 
+### Protobuf
+
+#### Enum
+
+`x-enum-protobuf-indexes` can be used to override individual field numbers for each value.
+It is expected to be list of items containing the same number of items as `enum`.
+The order of the items in the list matters: their position is used to group them together.
+
+Example:
+
+```yaml
+WeatherType:
+  type: string
+  enum:
+    - sunny
+    - cloudy
+    - rainy
+  x-enum-protobuf-indexes:
+    - 0
+    - 1
+    - 2
+```
+
 ### Rust-server
 
 #### x-response-id
