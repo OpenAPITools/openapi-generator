@@ -356,16 +356,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                 }
 
                 // add x-protobuf-name
-                String fieldName = "";
-                if (var.vendorExtensions.containsKey("x-protobuf-name")) {
-                    fieldName = (String) var.vendorExtensions.get("x-protobuf-name");
-                }
-                else {
-                    fieldName = var.getName();
-                }
-                if (fieldNamesInSnakeCase) {
-                    fieldName = underscore(fieldName);
-                }
+                String fieldName = getProtobufName(var.vendorExtensions, var.getName());                
                 //check duplicate names
                 checkName(fieldName, usedNames);
                 var.vendorExtensions.put("x-protobuf-name", fieldName);
@@ -414,6 +405,26 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
             }
         }
         return objs;
+    }
+
+    // return the field name to use
+    private String getProtobufName(Map<String, Object> vendorExtensions, String defaultName) {
+        String fieldName = "";
+        if (vendorExtensions.containsKey("x-protobuf-name")) {
+            fieldName = (String) vendorExtensions.get("x-protobuf-name");
+        }
+        else if (vendorExtensions.containsKey("x-protobuf-field-name")) {
+            fieldName = (String) vendorExtensions.get("x-protobuf-field-name");
+        }
+        else {
+            fieldName = defaultName;
+        }
+
+        if (fieldNamesInSnakeCase) {
+            fieldName = underscore(fieldName);
+        }
+
+        return fieldName;
     }
 
     /**
@@ -649,16 +660,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                 }
 
                 // add x-protobuf-name
-                String fieldName = "";
-                if (p.vendorExtensions.containsKey("x-protobuf-name")) {
-                    fieldName = (String) p.vendorExtensions.get("x-protobuf-name");
-                }
-                else {
-                    fieldName = p.paramName;
-                }
-                if (fieldNamesInSnakeCase) {
-                    fieldName = underscore(fieldName);
-                }
+                String fieldName = getProtobufName(p.vendorExtensions, p.paramName);
                 //check duplicate names
                 checkName(fieldName, usedNames);
                 p.vendorExtensions.put("x-protobuf-name", fieldName);
