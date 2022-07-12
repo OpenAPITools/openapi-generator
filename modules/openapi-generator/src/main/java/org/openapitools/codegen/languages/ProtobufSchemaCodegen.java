@@ -343,6 +343,11 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                     int protobufIndex = (int) var.vendorExtensions.get("x-protobuf-index");
                     checkIndex(protobufIndex, usedIndexes);                    
                 }
+                else if (var.vendorExtensions.containsKey("x-protobuf-field-number")) {
+                    int protobufIndex = (int) var.vendorExtensions.get("x-protobuf-field-number");
+                    checkIndex(protobufIndex, usedIndexes);
+                    var.vendorExtensions.put("x-protobuf-index", protobufIndex);
+                }
             }
             //automatic index generation when index not specified using extensions
             int index = 1;
@@ -617,6 +622,11 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                 if (p.vendorExtensions.containsKey("x-protobuf-index")) {
                     int protobufIndex = (int) p.vendorExtensions.get("x-protobuf-index");
                     checkIndex(protobufIndex, usedIndexes);
+                }
+                else if (p.vendorExtensions.containsKey("x-protobuf-field-number")) {
+                    int protobufIndex = (int) p.vendorExtensions.get("x-protobuf-field-number");
+                    checkIndex(protobufIndex, usedIndexes);
+                    p.vendorExtensions.put("x-protobuf-index", protobufIndex);
                 }
             }
             //automatic index generation when index not specified using extensions
