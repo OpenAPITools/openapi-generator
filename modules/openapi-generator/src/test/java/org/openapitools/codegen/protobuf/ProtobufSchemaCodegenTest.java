@@ -65,6 +65,19 @@ public class ProtobufSchemaCodegenTest {
     }
 
     @Test
+    public void testExtensionFieldNumber() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+
+        File output = Files.createTempDirectory("test").toFile();
+        List<File> files = generate(output, properties, "src/test/resources/3_0/protobuf-schema/extension-field-number.yaml");
+        TestUtils.ensureContainsFile(files, output, "models/pet.proto");
+        Path path = Paths.get(output + "/models/pet.proto");
+        assertFileEquals(path, Paths.get("src/test/resources/3_0/protobuf-schema/extension-field-number.proto"));
+
+        output.delete();
+    }
+
+    @Test
     public void testAutomaticOrderedIndexGeneration() throws IOException {
         Map<String, Object> properties = new HashMap<>();
         properties.put("numberedFieldNumberList", "True");
