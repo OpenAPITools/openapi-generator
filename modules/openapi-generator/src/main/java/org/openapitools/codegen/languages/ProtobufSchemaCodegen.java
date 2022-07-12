@@ -55,6 +55,8 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
 
     public static final String START_ENUMS_WITH_UNKNOWN = "startEnumsWithUnknown";
 
+    public static final String FIELD_NAMES_IN_SNAKE_CASE = "fieldNamesInSnakeCase";
+
     private final Logger LOGGER = LoggerFactory.getLogger(ProtobufSchemaCodegen.class);
 
     protected String packageName = "openapitools";
@@ -62,6 +64,8 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
     private boolean numberedFieldNumberList = false;
 
     private boolean startEnumsWithUnknown = false;
+
+    private boolean fieldNamesInSnakeCase = false;
 
     @Override
     public CodegenType getTag() {
@@ -159,6 +163,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
 
         addSwitch(NUMBERED_FIELD_NUMBER_LIST, "Field numbers in order.", numberedFieldNumberList);
         addSwitch(START_ENUMS_WITH_UNKNOWN, "Introduces \"UNKNOWN\" as the first element of enumerations.", startEnumsWithUnknown);
+        addSwitch(FIELD_NAMES_IN_SNAKE_CASE, "Field names in snake_case.", fieldNamesInSnakeCase);
     }
 
     @Override
@@ -192,6 +197,10 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
 
         if (additionalProperties.containsKey(this.START_ENUMS_WITH_UNKNOWN)) {
             this.startEnumsWithUnknown = convertPropertyToBooleanAndWriteBack(START_ENUMS_WITH_UNKNOWN);
+        }
+
+        if (additionalProperties.containsKey(this.FIELD_NAMES_IN_SNAKE_CASE)) {
+            this.fieldNamesInSnakeCase = convertPropertyToBooleanAndWriteBack(FIELD_NAMES_IN_SNAKE_CASE);
         }
 
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
@@ -323,6 +332,10 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                         List<Map<String, Object>> enumVars = (List<Map<String, Object>>) var.allowableValues.get("enumVars");
                         addEnumIndexes(enumVars);
                     }
+                }
+
+                if (fieldNamesInSnakeCase) {
+                    var.name = underscore(var.getName());
                 }
 
                 //check x-protobuf-index
@@ -594,6 +607,10 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                     } else {
                         p.vendorExtensions.put("x-protobuf-data-type", p.dataType);
                     }
+                }
+
+                if (fieldNamesInSnakeCase) {
+                    p.paramName = underscore(p.paramName);
                 }
 
                 //check x-protobuf-index
