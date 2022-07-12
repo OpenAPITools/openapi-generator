@@ -344,9 +344,18 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                     }
                 }
 
-                if (fieldNamesInSnakeCase) {
-                    var.name = underscore(var.getName());
+                // add x-protobuf-name
+                String fieldName = "";
+                if (var.vendorExtensions.containsKey("x-protobuf-name")) {
+                    fieldName = (String) var.vendorExtensions.get("x-protobuf-name");
                 }
+                else {
+                    fieldName = var.getName();
+                }
+                if (fieldNamesInSnakeCase) {
+                    fieldName = underscore(fieldName);
+                }
+                var.vendorExtensions.put("x-protobuf-name", fieldName);
 
                 //check x-protobuf-index
                 if (var.vendorExtensions.containsKey("x-protobuf-index")) {
@@ -624,9 +633,18 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                     }
                 }
 
-                if (fieldNamesInSnakeCase) {
-                    p.paramName = underscore(p.paramName);
+                // add x-protobuf-name
+                String fieldName = "";
+                if (p.vendorExtensions.containsKey("x-protobuf-name")) {
+                    fieldName = (String) p.vendorExtensions.get("x-protobuf-name");
                 }
+                else {
+                    fieldName = p.paramName;
+                }
+                if (fieldNamesInSnakeCase) {
+                    fieldName = underscore(fieldName);
+                }
+                p.vendorExtensions.put("x-protobuf-name", fieldName);
 
                 //check x-protobuf-index
                 if (p.vendorExtensions.containsKey("x-protobuf-index")) {
