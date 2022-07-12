@@ -25,10 +25,10 @@ message Order {
 
   // Order Status
   enum StatusEnum {
-    StatusEnum_UNSPECIFIED = 0;
-    StatusEnum_PLACED = 1;
-    StatusEnum_APPROVED = 2;
-    StatusEnum_DELIVERED = 3;
+    STATUS_ENUM_UNSPECIFIED = 0;
+    STATUS_ENUM_PLACED = 1;
+    STATUS_ENUM_APPROVED = 2;
+    STATUS_ENUM_DELIVERED = 3;
   }
 
   StatusEnum status = 355610639;
