@@ -55,6 +55,8 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
 
     public static final String START_ENUMS_WITH_UNKNOWN = "startEnumsWithUnknown";
 
+    public static final String START_ENUMS_WITH_UNSPECIFIED = "startEnumsWithUnspecified";
+
     private final Logger LOGGER = LoggerFactory.getLogger(ProtobufSchemaCodegen.class);
 
     protected String packageName = "openapitools";
@@ -62,6 +64,8 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
     private boolean numberedFieldNumberList = false;
 
     private boolean startEnumsWithUnknown = false;
+
+    private boolean startEnumsWithUnspecified = false;
 
     @Override
     public CodegenType getTag() {
@@ -159,6 +163,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
 
         addSwitch(NUMBERED_FIELD_NUMBER_LIST, "Field numbers in order.", numberedFieldNumberList);
         addSwitch(START_ENUMS_WITH_UNKNOWN, "Introduces \"UNKNOWN\" as the first element of enumerations.", startEnumsWithUnknown);
+        addSwitch(START_ENUMS_WITH_UNSPECIFIED, "Introduces \"UNSPECIFIED\" as the first element of enumerations.", startEnumsWithUnspecified);
     }
 
     @Override
@@ -192,6 +197,10 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
 
         if (additionalProperties.containsKey(this.START_ENUMS_WITH_UNKNOWN)) {
             this.startEnumsWithUnknown = convertPropertyToBooleanAndWriteBack(START_ENUMS_WITH_UNKNOWN);
+        }
+
+        if (additionalProperties.containsKey(this.START_ENUMS_WITH_UNSPECIFIED)) {
+            this.startEnumsWithUnspecified = convertPropertyToBooleanAndWriteBack(START_ENUMS_WITH_UNSPECIFIED);
         }
 
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
@@ -245,21 +254,22 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
      * @param allowableValues allowable values
      */
     public void addUnknownToAllowableValues(Map<String, Object> allowableValues) {
-        if(startEnumsWithUnknown) {
+        if(startEnumsWithUnspecified || startEnumsWithUnknown) {
+            String value = startEnumsWithUnspecified ? "UNSPECIFIED" : "UNKNOWN";
             if(allowableValues.containsKey("enumVars")) {
                 List<Map<String, Object>> enumVars = (List<Map<String, Object>>)allowableValues.get("enumVars");
 
                 HashMap<String, Object> unknown = new HashMap<String, Object>();
-                unknown.put("name", "UNKNOWN");
+                unknown.put("name", value);
                 unknown.put("isString", "false");
-                unknown.put("value", "\"UNKNOWN\"");
+                unknown.put("value", "\"" + value + "\"");
 
                 enumVars.add(0, unknown);
             }
 
             if(allowableValues.containsKey("values")) {
                 List<String> values = (List<String>)allowableValues.get("values");           
-                values.add(0, "UNKNOWN");
+                values.add(0, value);
             }
         }
     }
