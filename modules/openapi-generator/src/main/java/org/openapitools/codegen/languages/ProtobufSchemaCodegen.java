@@ -315,6 +315,8 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
 
             //to keep track of the indexes used, prevent duplicate indexes
             Set<Integer> usedIndexes = new HashSet<Integer>();
+            // store names used to prevent from duplicate names
+            Set<String> usedNames = new HashSet<String>();
             for (CodegenProperty var : cm.vars) {
                 // add x-protobuf-type: repeated if it's an array
                 if (Boolean.TRUE.equals(var.isArray)) {
@@ -355,6 +357,8 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                 if (fieldNamesInSnakeCase) {
                     fieldName = underscore(fieldName);
                 }
+                //check duplicate names
+                checkName(fieldName, usedNames);
                 var.vendorExtensions.put("x-protobuf-name", fieldName);
 
                 //check x-protobuf-index
@@ -610,6 +614,8 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         for (CodegenOperation op : operationList) {
             //to keep track of the indexes used, prevent duplicate indexes
             Set<Integer> usedIndexes = new HashSet<Integer>();
+            // store names used to prevent from duplicate names
+            Set<String> usedNames = new HashSet<String>();
             for (CodegenParameter p : op.allParams) {
                 // add x-protobuf-type: repeated if it's an array
                 
@@ -644,6 +650,8 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                 if (fieldNamesInSnakeCase) {
                     fieldName = underscore(fieldName);
                 }
+                //check duplicate names
+                checkName(fieldName, usedNames);
                 p.vendorExtensions.put("x-protobuf-name", fieldName);
 
                 //check x-protobuf-index
@@ -706,6 +714,17 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
             LOGGER.error("Field number " + protobufIndex + " not strictly positive");
             throw new RuntimeException("Only strictly positive field numbers are allowed");
         }
+    }
+
+    private void checkName(String name, Set<String> usedNames) {
+        if (!usedNames.contains(name)) {
+            //update usedNames set            
+            usedNames.add(name);
+        }
+        else {
+            LOGGER.error("Field name '" + name + "' already used");
+            throw new RuntimeException("A same field name is used multiple times");
+        }   
     }
 
     @Override

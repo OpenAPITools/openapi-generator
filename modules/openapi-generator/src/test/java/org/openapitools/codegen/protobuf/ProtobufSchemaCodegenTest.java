@@ -195,6 +195,21 @@ public class ProtobufSchemaCodegenTest {
         output.delete();       
     }
 
+    @Test
+    public void testExtensionDuplicateNames() throws IOException {
+        try {
+            Map<String, Object> properties = new HashMap<>();
+            Map<String, String> globalProperties = new HashMap<>();
+            
+            File output = Files.createTempDirectory("test").toFile();
+            List<File> files = generate(output, properties, globalProperties, "src/test/resources/3_0/protobuf-schema/extension-duplicate-names.yaml");
+            fail("No exception thrown!");
+        }
+        catch (RuntimeException e) {
+            assertEquals(e.getCause().getMessage(), "A same field name is used multiple times");
+        }      
+    }
+
     private void assertFileEquals(Path generatedFilePath, Path expectedFilePath) throws IOException {
         String generatedFile = new String(Files.readAllBytes(generatedFilePath), StandardCharsets.UTF_8)
             .replace("\n", "").replace("\r", "");
