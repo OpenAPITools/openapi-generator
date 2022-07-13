@@ -80,6 +80,8 @@ namespace Org.OpenAPITools
             services
                 .AddSwaggerGen(c =>
                 {
+                    c.GeneratePolymorphicSchemas();
+                    
                     c.SwaggerDoc("1.0.0", new OpenApiInfo
                     {
                         Title = "OpenAPI Petstore",
