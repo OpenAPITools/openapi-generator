@@ -394,6 +394,21 @@ public class ProtobufSchemaCodegenTest {
         output.delete();       
     }
 
+    @Test
+    public void testNoDuplicateEnumUnknownValueAllOf() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("startEnumsWithUnknown", true);
+        Map<String, String> globalProperties = new HashMap<>();
+
+        File output = Files.createTempDirectory("test").toFile();
+        List<File> files = generate(output, properties, globalProperties, "src/test/resources/3_0/protobuf-schema/no-duplicate-enum-unknown-value-allOf.yaml");
+        TestUtils.ensureContainsFile(files, output, "models/cat.proto");
+        Path path = Paths.get(output + "/models/cat.proto");
+        assertFileEquals(path, Paths.get("src/test/resources/3_0/protobuf-schema/no-duplicate-enum-unknown-value-allOf.proto"));
+
+        output.delete(); 
+    }
+
     private void assertFileEquals(Path generatedFilePath, Path expectedFilePath) throws IOException {
         String generatedFile = new String(Files.readAllBytes(generatedFilePath), StandardCharsets.UTF_8)
             .replace("\n", "").replace("\r", "");
