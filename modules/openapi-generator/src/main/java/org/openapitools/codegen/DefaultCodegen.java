@@ -3526,6 +3526,19 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
+     * TODO remove this in 7.0.0 as a breaking change
+     * This method was kept when required was added to the fromProperty signature
+     * to ensure that the change was non-breaking
+     *
+     * @param name     name of the property
+     * @param p        OAS property schema
+     * @return Codegen Property object
+     */
+    public CodegenProperty fromProperty(String name, Schema p) {
+        return fromProperty(name, p, false);
+    }
+
+    /**
      * Convert OAS Property object to Codegen Property object.
      * <p>
      * The return value is cached. An internal cache is looked up to determine
@@ -3534,8 +3547,9 @@ public class DefaultCodegen implements CodegenConfig {
      * Any subsequent processing of the CodegenModel return value must be idempotent
      * for a given (String name, Schema schema).
      *
-     * @param name name of the property
-     * @param p    OAS property schema
+     * @param name     name of the property
+     * @param p        OAS property schema
+     * @param required true if the property is required in the next higher object schema, false otherwise
      * @return Codegen Property object
      */
     public CodegenProperty fromProperty(String name, Schema p, boolean required) {
