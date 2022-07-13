@@ -4864,7 +4864,9 @@ public class DefaultCodegen implements CodegenConfig {
             imports.add(codegenProperty.baseType);
         }
         codegenParameter.dataFormat = codegenProperty.dataFormat;
-        codegenParameter.required = parameter.getRequired().booleanValue();
+        if (parameter.getRequired() != null) {
+            codegenParameter.required = parameter.getRequired().booleanValue();
+        }
 
         if (codegenProperty.isEnum) {
             codegenParameter.datatypeWithEnum = codegenProperty.datatypeWithEnum;
