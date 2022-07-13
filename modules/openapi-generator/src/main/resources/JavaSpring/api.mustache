@@ -134,6 +134,9 @@ public interface {{classname}} {
      * @see <a href="{{url}}">{{summary}} Documentation</a>
     {{/externalDocs}}
      */
+    {{#isDeprecated}}
+    @Deprecated
+    {{/isDeprecated}}
     {{#virtualService}}
     @ApiVirtual
     {{/virtualService}}
