@@ -849,8 +849,8 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
      * @return Codegen Property object
      */
     @Override
-    public CodegenProperty fromProperty(String name, Schema p) {
-        CodegenProperty cp = super.fromProperty(name, p);
+    public CodegenProperty fromProperty(String name, Schema p, boolean required) {
+        CodegenProperty cp = super.fromProperty(name, p, required);
         if (cp.isAnyType && cp.isNullable) {
             cp.isNullable = false;
         }
@@ -964,7 +964,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
             return cp;
         }
         Schema unaliasedSchema = unaliasSchema(schema, schemaMapping);
-        CodegenProperty unaliasedProp = fromProperty("body", unaliasedSchema);
+        CodegenProperty unaliasedProp = fromProperty("body", unaliasedSchema, false);
         Boolean dataTypeMismatch = !cp.dataType.equals(unaliasedProp.dataType);
         Boolean baseTypeMismatch = !cp.baseType.equals(unaliasedProp.complexType) && unaliasedProp.complexType != null;
         if (dataTypeMismatch || baseTypeMismatch) {
@@ -1022,7 +1022,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
             codegenParameter.isNullable = codegenModel.isNullable;
             imports.add(codegenParameter.baseType);
         } else {
-            CodegenProperty codegenProperty = fromProperty("property", schema);
+            CodegenProperty codegenProperty = fromProperty("property", schema, false);
 
             if (codegenProperty != null && codegenProperty.getComplexType() != null && codegenProperty.getComplexType().contains(" | ")) {
                 List<String> parts = Arrays.asList(codegenProperty.getComplexType().split(" \\| "));
@@ -2033,7 +2033,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
                 isAdditionalPropertiesTrue = true;
                 // pass in the hashCode as the name to ensure that the returned property is not from the cache
                 // if we need to set indent on every one, then they need to be different
-                addPropProp = fromProperty(String.valueOf(property.hashCode()),  new Schema());
+                addPropProp = fromProperty(String.valueOf(property.hashCode()),  new Schema(), false);
                 addPropProp.name = "";
                 addPropProp.baseName = "";
                 addPropProp.nameInSnakeCase = null;
@@ -2042,14 +2042,14 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         } else if (schema.getAdditionalProperties() instanceof Boolean) {
             if (Boolean.TRUE.equals(schema.getAdditionalProperties())) {
                 isAdditionalPropertiesTrue = true;
-                addPropProp = fromProperty(String.valueOf(property.hashCode()),  new Schema());
+                addPropProp = fromProperty(String.valueOf(property.hashCode()),  new Schema(), false);
                 addPropProp.name = "";
                 addPropProp.baseName = "";
                 addPropProp.nameInSnakeCase = null;
                 additionalPropertiesIsAnyType = true;
             }
         } else {
-            addPropProp = fromProperty(String.valueOf(property.hashCode()), (Schema) schema.getAdditionalProperties());
+            addPropProp = fromProperty(String.valueOf(property.hashCode()), (Schema) schema.getAdditionalProperties(), false);
             addPropProp.name = "";
             addPropProp.baseName = "";
             addPropProp.nameInSnakeCase = null;

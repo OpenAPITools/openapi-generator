@@ -5428,10 +5428,14 @@ public class DefaultCodegen implements CodegenConfig {
             } else {
                 final CodegenProperty cp = fromProperty(key, prop, mandatory.contains(key));
                 vars.add(cp);
+                m.setHasVars(true);
+                if (cp.required) {
+                    m.setHasRequired(true);
+                    m.getRequiredVars().add(cp);
+                }
                 if (cm == null) {
                     continue;
                 }
-                cm.hasRequired = cm.hasRequired || cp.required;
                 cm.hasOptional = cm.hasOptional || !cp.required;
                 if (cp.isEnum) {
                     // FIXME: if supporting inheritance, when called a second time for allProperties it is possible for
@@ -5447,9 +5451,7 @@ public class DefaultCodegen implements CodegenConfig {
                 addImportsForPropertyType(cm, cp);
 
                 // if required, add to the list "requiredVars"
-                if (Boolean.TRUE.equals(cp.required)) {
-                    cm.requiredVars.add(cp);
-                } else { // else add to the list "optionalVars" for optional property
+                if (Boolean.FALSE.equals(cp.required)) {
                     cm.optionalVars.add(cp);
                 }
 
@@ -7051,27 +7053,9 @@ public class DefaultCodegen implements CodegenConfig {
 
     protected void addVarsRequiredVarsAdditionalProps(Schema schema, IJsonSchemaValidationProperties property) {
         setAddProps(schema, property);
-        if (!"object".equals(schema.getType())) {
-            return;
-        }
-        if (schema instanceof ObjectSchema) {
-            ObjectSchema objSchema = (ObjectSchema) schema;
-            HashSet<String> requiredVars = new HashSet<>();
-            if (objSchema.getRequired() != null) {
-                requiredVars.addAll(objSchema.getRequired());
-            }
-            if (objSchema.getProperties() != null && objSchema.getProperties().size() > 0) {
-                property.setHasVars(true);
-            }
-            addVars(property, property.getVars(), objSchema.getProperties(), requiredVars);
-            List<CodegenProperty> requireCpVars = property.getVars()
-                    .stream()
-                    .filter(p -> Boolean.TRUE.equals(p.required)).collect(Collectors.toList());
-            property.setRequiredVars(requireCpVars);
-            if (property.getRequiredVars() != null && property.getRequiredVars().size() > 0) {
-                property.setHasRequired(true);
-            }
-        }
+        Set<String> mandatory = schema.getRequired() == null ? Collections.emptySet()
+                : new TreeSet<>(schema.getRequired());
+        addVars(property, property.getVars(), schema.getProperties(), mandatory);
     }
 
     private void addJsonSchemaForBodyRequestInCaseItsNotPresent(CodegenParameter codegenParameter, RequestBody body) {

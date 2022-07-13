@@ -443,8 +443,8 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     }
 
     @Override
-    public ExtendedCodegenProperty fromProperty(String name, Schema p) {
-        CodegenProperty cp = super.fromProperty(name, p);
+    public ExtendedCodegenProperty fromProperty(String name, Schema p, boolean required) {
+        CodegenProperty cp = super.fromProperty(name, p, required);
         return new ExtendedCodegenProperty(cp);
     }
 
@@ -515,7 +515,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
                     if (op.returnPassthrough instanceof String && cm != null) {
                         cp = (ExtendedCodegenProperty) this.processCodeGenModel(cm).vars.get(1);
                     } else if (responseSchema != null) {
-                        cp = fromProperty("response", responseSchema);
+                        cp = fromProperty("response", responseSchema, false);
                         this.processCodegenProperty(cp, "", null);
                     }
 

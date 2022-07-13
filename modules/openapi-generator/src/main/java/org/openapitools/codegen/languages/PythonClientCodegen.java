@@ -446,8 +446,8 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
      * @return Codegen Property object
      */
     @Override
-    public CodegenProperty fromProperty(String name, Schema p) {
-        CodegenProperty cp = super.fromProperty(name, p);
+    public CodegenProperty fromProperty(String name, Schema p, boolean required) {
+        CodegenProperty cp = super.fromProperty(name, p, required);
         if (cp.isEnum) {
             updateCodegenPropertyEnum(cp);
         }
@@ -518,7 +518,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
             return cp;
         }
         Schema unaliasedSchema = unaliasSchema(schema, schemaMapping);
-        CodegenProperty unaliasedProp = fromProperty("body", unaliasedSchema);
+        CodegenProperty unaliasedProp = fromProperty("body", unaliasedSchema, false);
         Boolean dataTypeMismatch = !cp.dataType.equals(unaliasedProp.dataType);
         Boolean baseTypeMismatch = !cp.baseType.equals(unaliasedProp.complexType) && unaliasedProp.complexType != null;
         if (dataTypeMismatch || baseTypeMismatch) {
