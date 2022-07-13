@@ -698,6 +698,10 @@ public class DefaultCodegen implements CodegenConfig {
                 updateCodegenPropertyEnum(var);
             }
 
+            for (CodegenProperty var : cm.nonNullableVars) {
+                updateCodegenPropertyEnum(var);
+            }
+
             for (CodegenProperty var : cm.requiredVars) {
                 updateCodegenPropertyEnum(var);
             }
@@ -5452,6 +5456,10 @@ public class DefaultCodegen implements CodegenConfig {
                 } else { // else add to readWriteVars (list of properties)
                     // duplicated properties will be removed by removeAllDuplicatedProperty later
                     cm.readWriteVars.add(cp);
+                }
+
+                if (Boolean.FALSE.equals(cp.isNullable)){
+                    cm.nonNullableVars.add(cp);
                 }
             }
         }
