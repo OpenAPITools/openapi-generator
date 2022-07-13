@@ -353,7 +353,7 @@ public class JavaModelTest {
         Assert.assertEquals(cm.classname, "Sample");
         Assert.assertEquals(cm.description, "a sample model");
         Assert.assertEquals(cm.vars.size(), 1);
-        Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("Map", "List", "Children")).size(), 3);
+        Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("Map", "Children")).size(), 2);
 
         final CodegenProperty property = cm.vars.get(0);
         Assert.assertEquals(property.baseName, "children");
@@ -367,8 +367,73 @@ public class JavaModelTest {
         Assert.assertEquals(property.containerType, "map");
         Assert.assertFalse(property.required);
         Assert.assertTrue(property.isContainer);
+        Assert.assertTrue(property.isMap);
     }
 
+    @Test(description = "convert a model with complex array property")
+    public void complexArrayPropertyTest() {
+        final Schema schema = new Schema()
+                .description("a sample model")
+                .addProperties("children", new ArraySchema()
+                        .items(new Schema().$ref("#/components/schemas/Children")));
+        final DefaultCodegen codegen = new JavaClientCodegen();
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
+
+        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.classname, "Sample");
+        Assert.assertEquals(cm.description, "a sample model");
+        Assert.assertEquals(cm.vars.size(), 1);
+        Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("List", "Children")).size(), 2);
+
+        final CodegenProperty property = cm.vars.get(0);
+        Assert.assertEquals(property.baseName, "children");
+        Assert.assertEquals(property.complexType, "Children");
+        Assert.assertEquals(property.getter, "getChildren");
+        Assert.assertEquals(property.setter, "setChildren");
+        Assert.assertEquals(property.dataType, "List<Children>");
+        Assert.assertEquals(property.name, "children");
+        Assert.assertEquals(property.defaultValue, "new ArrayList<>()");
+        Assert.assertEquals(property.baseType, "List");
+        Assert.assertEquals(property.containerType, "array");
+        Assert.assertFalse(property.required);
+        Assert.assertTrue(property.isContainer);
+        Assert.assertTrue(property.isArray);
+    }
+
+    @Test(description = "convert a model with complex set property")
+    public void complexSetPropertyTest() {
+        Schema set = new ArraySchema().items(new Schema().$ref("#/components/schemas/Children"));
+        set.setUniqueItems(true); // set
+        final Schema schema = new Schema()
+                .description("a sample model")
+                .addProperties("children", set);
+        final DefaultCodegen codegen = new JavaClientCodegen();
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
+
+        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.classname, "Sample");
+        Assert.assertEquals(cm.description, "a sample model");
+        Assert.assertEquals(cm.vars.size(), 1);
+        Assert.assertTrue(cm.imports.contains("Set"));
+
+        final CodegenProperty property = cm.vars.get(0);
+        Assert.assertEquals(property.baseName, "children");
+        Assert.assertEquals(property.complexType, "Children");
+        Assert.assertEquals(property.getter, "getChildren");
+        Assert.assertEquals(property.setter, "setChildren");
+        Assert.assertEquals(property.dataType, "Set<Children>");
+        Assert.assertEquals(property.name, "children");
+        Assert.assertEquals(property.defaultValue, "new LinkedHashSet<>()");
+        Assert.assertEquals(property.baseType, "Set");
+        Assert.assertEquals(property.containerType, "set");
+        Assert.assertFalse(property.required);
+        Assert.assertTrue(property.isContainer);
+        Assert.assertTrue(property.getUniqueItems());
+    }
     @Test(description = "convert a model with an array property with item name")
     public void arrayModelWithItemNameTest() {
         final Schema propertySchema = new ArraySchema()

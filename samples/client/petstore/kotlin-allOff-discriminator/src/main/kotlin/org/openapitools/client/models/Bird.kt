@@ -21,7 +21,6 @@
 package org.openapitools.client.models
 
 import org.openapitools.client.models.Animal
-import org.openapitools.client.models.BirdAllOf
 
 import com.squareup.moshi.Json
 

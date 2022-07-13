@@ -3,7 +3,7 @@
 @classmethod
 @property
 def NONE(cls):
-    return cls._enum_by_value[None](None)
+    return cls(None)
 {{/if}}
 {{#with allowableValues}}
 {{#each enumVars}}

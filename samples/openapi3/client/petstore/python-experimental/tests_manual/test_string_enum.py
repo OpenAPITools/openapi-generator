@@ -31,14 +31,14 @@ class TestStringEnum(unittest.TestCase):
         inst = StringEnum(None)
         assert isinstance(inst, StringEnum)
         assert isinstance(inst, NoneClass)
-        assert repr(inst) == '<DynamicStringEnum: None>'
+        assert repr(inst) == '<DynamicSchema: None>'
 
         inst = StringEnum('approved')
         assert isinstance(inst, StringEnum)
         assert isinstance(inst, Singleton)
         assert isinstance(inst, str)
         assert inst == 'approved'
-        assert repr(inst) == "<DynamicStringEnum: 'approved'>"
+        assert repr(inst) == "<DynamicSchema: 'approved'>"
 
         with self.assertRaises(petstore_api.ApiValueError):
             StringEnum('garbage')

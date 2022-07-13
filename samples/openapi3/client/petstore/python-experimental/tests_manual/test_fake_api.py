@@ -491,6 +491,7 @@ class TestFakeApi(ApiTestMixin):
         with open(file_path1, "rb") as some_file:
             file_bytes = some_file.read()
         file1 = open(file_path1, "rb")
+        file2 = open(file_path1, "rb")
         response_json = {
             'code': 200,
             'type': 'blah',
@@ -501,7 +502,7 @@ class TestFakeApi(ApiTestMixin):
                 mock_request.return_value = self.response(
                     self.json_bytes(response_json)
                 )
-                api_response = self.api.upload_files(body={'files': [file1, file1]})
+                api_response = self.api.upload_files(body={'files': [file1, file2]})
                 self.assert_request_called_with(
                     mock_request,
                     'http://petstore.swagger.io:80/v2/fake/uploadFiles',
@@ -526,6 +527,7 @@ class TestFakeApi(ApiTestMixin):
             self.fail("upload_file() raised {0} unexpectedly".format(type(e)))
         finally:
             file1.close()
+            file2.close()
 
         # sending just bytes works also
         with patch.object(RESTClientObject, 'request') as mock_request:

@@ -46,11 +46,16 @@ class FileIO(io.FileIO):
 
     def __new__(cls, arg: typing.Union[io.FileIO, io.BufferedReader]):
         if isinstance(arg, (io.FileIO, io.BufferedReader)):
+            if arg.closed:
+                raise ApiValueError('Invalid file state; file is closed and must be open')
             arg.close()
             inst = super(FileIO, cls).__new__(cls, arg.name)
             super(FileIO, inst).__init__(arg.name)
             return inst
         raise ApiValueError('FileIO must be passed arg which contains the open file')
+
+    def __init__(self, arg: typing.Union[io.FileIO, io.BufferedReader]):
+        pass
 
 
 def update(d: dict, u: dict):
@@ -78,28 +83,45 @@ class ValidationMetadata(frozendict):
         path_to_item: typing.Tuple[typing.Union[str, int], ...] = tuple(['args[0]']),
         from_server: bool = False,
         configuration: typing.Optional[Configuration] = None,
-        base_classes: typing.FrozenSet[typing.Type] = frozenset(),
+        seen_classes: typing.FrozenSet[typing.Type] = frozenset(),
+        validated_path_to_schemas: typing.Dict[typing.Tuple[typing.Union[str, int], ...], typing.Set['Schema']] = frozendict()
     ):
         """
         Args:
             path_to_item: the path to the current data being instantiated.
                 For {'a': [1]} if the code is handling, 1, then the path is ('args[0]', 'a', 0)
+                This changes from location to location
             from_server: whether or not this data came form the server
                 True when receiving server data
                 False when instantiating model with client side data not form the server
+                This does not change from location to location
             configuration: the Configuration instance to use
                 This is needed because in Configuration:
                 - one can disable validation checking
-            base_classes: when deserializing data that matches multiple schemas, this is used to store
+                This does not change from location to location
+            seen_classes: when deserializing data that matches multiple schemas, this is used to store
                 the schemas that have been traversed. This is used to stop processing when a cycle is seen.
+                This changes from location to location
+            validated_path_to_schemas: stores the already validated schema classes for a given path location
+                This does not change from location to location
         """
         return super().__new__(
             cls,
             path_to_item=path_to_item,
             from_server=from_server,
             configuration=configuration,
-            base_classes=base_classes,
+            seen_classes=seen_classes,
+            validated_path_to_schemas=validated_path_to_schemas
         )
+
+    def validation_ran_earlier(self, cls: type) -> bool:
+        validated_schemas = self.validated_path_to_schemas.get(self.path_to_item, set())
+        validation_ran_earlier = validated_schemas and cls in validated_schemas
+        if validation_ran_earlier:
+            return True
+        if cls in self.seen_classes:
+            return True
+        return False
 
     @property
     def path_to_item(self) -> typing.Tuple[typing.Union[str, int], ...]:
@@ -114,8 +136,12 @@ class ValidationMetadata(frozendict):
         return self.get('configuration')
 
     @property
-    def base_classes(self) -> typing.FrozenSet[typing.Type]:
-        return self.get('base_classes')
+    def seen_classes(self) -> typing.FrozenSet[typing.Type]:
+        return self.get('seen_classes')
+
+    @property
+    def validated_path_to_schemas(self) -> typing.Dict[typing.Tuple[typing.Union[str, int], ...], typing.Set['Schema']]:
+        return self.get('validated_path_to_schemas')
 
 
 class ValidatorBase:
@@ -195,31 +221,6 @@ class ValidatorBase:
                     )
 
     @classmethod
-    def __data_with_boolclass_instead_of_bool(cls, data: typing.Any) -> typing.Any:
-        """
-        In python bool is a subclass of int so 1 == True and 0 == False
-        This prevents code from being able to see the difference between 1 and True and 0 and False
-        To fix this swap in BoolClass singletons for True and False so they will differ from integers
-        """
-        if isinstance(data, (list, tuple)):
-            new_data = []
-            for item in data:
-                new_item = cls.__data_with_boolclass_instead_of_bool(item)
-                new_data.append(new_item)
-            return tuple(new_data)
-        elif isinstance(data, (dict, frozendict)):
-            new_data = {}
-            for key, value in data.items():
-                new_value = cls.__data_with_boolclass_instead_of_bool(value)
-                new_data[key] = new_value
-            return frozendict(new_data)
-        elif isinstance(data, bool):
-            if data:
-                return BoolClass.TRUE
-            return BoolClass.FALSE
-        return data
-
-    @classmethod
     def __check_tuple_validations(
             cls, validations, input_values,
             validation_metadata: ValidationMetadata):
@@ -246,7 +247,7 @@ class ValidatorBase:
 
         if (cls.__is_json_validation_enabled('uniqueItems', validation_metadata.configuration) and
                 'unique_items' in validations and validations['unique_items'] and input_values):
-            unique_items = set(cls.__data_with_boolclass_instead_of_bool(input_values))
+            unique_items = set(input_values)
             if len(input_values) > len(unique_items):
                 cls.__raise_validation_error_message(
                     value=input_values,
@@ -362,128 +363,6 @@ class ValidatorBase:
             cls.__check_dict_validations(validations, input_values, validation_metadata)
         elif isinstance(input_values, decimal.Decimal):
             cls.__check_numeric_validations(validations, input_values, validation_metadata)
-        try:
-            return super()._validate_validations_pass(input_values, validation_metadata)
-        except AttributeError:
-            return True
-
-
-class Validator(typing.Protocol):
-    def _validate_validations_pass(
-        cls,
-        input_values,
-        validation_metadata: ValidationMetadata
-    ):
-        pass
-
-
-def _SchemaValidator(**validations: typing.Union[str, bool, None, int, float, list[dict[str, typing.Union[str, int, float]]]]) -> Validator:
-    class SchemaValidator(ValidatorBase):
-        @classmethod
-        def _validate_validations_pass(
-                cls,
-                input_values,
-                validation_metadata: ValidationMetadata
-        ):
-            cls._check_validations_for_types(validations, input_values, validation_metadata)
-            try:
-                return super()._validate_validations_pass(input_values, validation_metadata)
-            except AttributeError:
-                return True
-
-    return SchemaValidator
-
-
-class TypeChecker(typing.Protocol):
-    @classmethod
-    def _validate_type(
-        cls, arg_simple_class: type
-    ) -> typing.Tuple[type]:
-        pass
-
-
-def _SchemaTypeChecker(union_type_cls: typing.Union[typing.Any]) -> TypeChecker:
-    if typing.get_origin(union_type_cls) is typing.Union:
-        union_classes = typing.get_args(union_type_cls)
-    else:
-        # note: when a union of a single class is passed in, the union disappears
-        union_classes = tuple([union_type_cls])
-    """
-    I want the type hint... union_type_cls
-    and to use it as a base class but when I do, I get
-    TypeError: metaclass conflict: the metaclass of a derived class must be a (non-strict) subclass of the metaclasses of all its bases
-    """
-    class SchemaTypeChecker:
-        @classmethod
-        def _validate_type(cls, arg_simple_class: type):
-            if arg_simple_class not in union_classes:
-                return union_classes
-            try:
-                return super()._validate_type(arg_simple_class)
-            except AttributeError:
-                return tuple()
-
-    return SchemaTypeChecker
-
-
-class EnumMakerBase:
-    @classmethod
-    @property
-    def _enum_by_value(
-        cls
-    ) -> type:
-        enum_classes = {}
-        if not hasattr(cls, "_enum_value_to_name"):
-            return enum_classes
-        for enum_value, enum_name in cls._enum_value_to_name.items():
-            base_class = type(enum_value)
-            if base_class is none_type:
-                enum_classes[enum_value] = get_new_class(
-                      "Dynamic" + cls.__name__, (cls, NoneClass))
-                log_cache_usage(get_new_class)
-            elif base_class is bool:
-                enum_classes[enum_value] = get_new_class(
-                      "Dynamic" + cls.__name__, (cls, BoolClass))
-                log_cache_usage(get_new_class)
-            else:
-                enum_classes[enum_value] = get_new_class(
-                    "Dynamic" + cls.__name__, (cls, Singleton, base_class))
-                log_cache_usage(get_new_class)
-        return enum_classes
-
-
-class EnumMakerInterface(typing.Protocol):
-    @classmethod
-    @property
-    def _enum_value_to_name(
-        cls
-    ) -> typing.Dict[typing.Union[str, decimal.Decimal, bool, none_type], str]:
-        pass
-
-    @classmethod
-    @property
-    def _enum_by_value(
-        cls
-    ) -> type:
-        pass
-
-
-def _SchemaEnumMaker(enum_value_to_name: typing.Dict[typing.Union[str, decimal.Decimal, bool, none_type], str]) -> EnumMakerInterface:
-    class SchemaEnumMaker(EnumMakerBase):
-        @classmethod
-        @property
-        def _enum_value_to_name(
-                cls
-        ) -> typing.Dict[typing.Union[str, decimal.Decimal, bool, none_type], str]:
-            pass
-            try:
-                super_enum_value_to_name = super()._enum_value_to_name
-            except AttributeError:
-                return enum_value_to_name
-            intersection = dict(enum_value_to_name.items() & super_enum_value_to_name.items())
-            return intersection
-
-    return SchemaEnumMaker
 
 
 class Singleton:
@@ -498,7 +377,12 @@ class Singleton:
         if key not in cls._instances:
             if arg in {None, True, False}:
                 inst = super().__new__(cls)
-                # inst._value = arg
+                cls._instances[key] = inst
+            elif isinstance(arg, BoolClass):
+                inst = super().__new__(cls)
+                cls._instances[key] = inst
+            elif isinstance(arg, NoneClass):
+                inst = super().__new__(cls)
                 cls._instances[key] = inst
             else:
                 cls._instances[key] = super().__new__(cls, arg)
@@ -508,7 +392,7 @@ class Singleton:
         if isinstance(self, NoneClass):
             return f'<{self.__class__.__name__}: None>'
         elif isinstance(self, BoolClass):
-            if (self.__class__, True) in self._instances:
+            if bool(self):
                 return f'<{self.__class__.__name__}: True>'
             return f'<{self.__class__.__name__}: False>'
         return f'<{self.__class__.__name__}: {super().__repr__()}>'
@@ -539,8 +423,169 @@ class BoolClass(Singleton):
     def __bool__(self) -> bool:
         for key, instance in self._instances.items():
             if self is instance:
-                return key[1]
+                return bool(key[1])
         raise ValueError('Unable to find the boolean value of this instance')
+
+
+class Validator(typing.Protocol):
+    @classmethod
+    def _validate(
+        cls,
+        arg,
+        validation_metadata: ValidationMetadata,
+    ) -> typing.Dict[typing.Tuple[typing.Union[str, int], ...], typing.Set[typing.Union['Schema', str, decimal.Decimal, BoolClass, NoneClass, frozendict, tuple]]]:
+        pass
+
+
+def _SchemaValidator(**validations: typing.Union[str, bool, None, int, float, list[dict[str, typing.Union[str, int, float]]]]) -> Validator:
+    class SchemaValidator(ValidatorBase):
+        @classmethod
+        def _validate(
+            cls,
+            arg,
+            validation_metadata: ValidationMetadata,
+        ) -> typing.Dict[typing.Tuple[typing.Union[str, int], ...], typing.Set[typing.Union['Schema', str, decimal.Decimal, BoolClass, NoneClass, frozendict, tuple]]]:
+            """
+            SchemaValidator _validate
+            Validates that validations pass
+            """
+            cls._check_validations_for_types(validations, arg, validation_metadata)
+            return super()._validate(arg, validation_metadata)
+
+    return SchemaValidator
+
+
+def _SchemaTypeChecker(union_type_cls: typing.Union[typing.Any]) -> Validator:
+    if typing.get_origin(union_type_cls) is typing.Union:
+        union_classes = typing.get_args(union_type_cls)
+    else:
+        # note: when a union of a single class is passed in, the union disappears
+        union_classes = tuple([union_type_cls])
+    """
+    I want the type hint... union_type_cls
+    and to use it as a base class but when I do, I get
+    TypeError: metaclass conflict: the metaclass of a derived class must be a (non-strict) subclass of the metaclasses of all its bases
+    """
+    class SchemaTypeChecker:
+        @staticmethod
+        def __get_valid_classes_phrase(input_classes):
+            """Returns a string phrase describing what types are allowed"""
+            all_classes = list(input_classes)
+            all_classes = sorted(all_classes, key=lambda cls: cls.__name__)
+            all_class_names = [cls.__name__ for cls in all_classes]
+            if len(all_class_names) == 1:
+                return "is {0}".format(all_class_names[0])
+            return "is one of [{0}]".format(", ".join(all_class_names))
+
+        @classmethod
+        def __type_error_message(
+            cls, var_value=None, var_name=None, valid_classes=None, key_type=None
+        ):
+            """
+            Keyword Args:
+                var_value (any): the variable which has the type_error
+                var_name (str): the name of the variable which has the typ error
+                valid_classes (tuple): the accepted classes for current_item's
+                                          value
+                key_type (bool): False if our value is a value in a dict
+                                 True if it is a key in a dict
+                                 False if our item is an item in a tuple
+            """
+            key_or_value = "value"
+            if key_type:
+                key_or_value = "key"
+            valid_classes_phrase = cls.__get_valid_classes_phrase(valid_classes)
+            msg = "Invalid type. Required {1} type {2} and " "passed type was {3}".format(
+                var_name,
+                key_or_value,
+                valid_classes_phrase,
+                type(var_value).__name__,
+            )
+            return msg
+
+        @classmethod
+        def _get_type_error(cls, var_value, path_to_item, valid_classes, key_type=False):
+            error_msg = cls.__type_error_message(
+                var_name=path_to_item[-1],
+                var_value=var_value,
+                valid_classes=valid_classes,
+                key_type=key_type,
+            )
+            return ApiTypeError(
+                error_msg,
+                path_to_item=path_to_item,
+                valid_classes=valid_classes,
+                key_type=key_type,
+            )
+
+        @classmethod
+        def _validate(
+            cls,
+            arg,
+            validation_metadata: ValidationMetadata,
+        ) -> typing.Dict[typing.Tuple[typing.Union[str, int], ...], typing.Set[typing.Union['Schema', str, decimal.Decimal, BoolClass, NoneClass, frozendict, tuple]]]:
+            """
+            SchemaTypeChecker _validate
+            Validates arg's type
+            """
+            arg_type = type(arg)
+            if arg_type in union_classes:
+                return super()._validate(arg, validation_metadata)
+            raise cls._get_type_error(
+                arg,
+                validation_metadata.path_to_item,
+                union_classes,
+                key_type=False,
+            )
+
+    return SchemaTypeChecker
+
+
+class EnumMakerBase:
+    pass
+
+
+class EnumMakerInterface(Validator):
+    @classmethod
+    @property
+    def _enum_value_to_name(
+        cls
+    ) -> typing.Dict[typing.Union[str, decimal.Decimal, bool, none_type], str]:
+        pass
+
+
+def _SchemaEnumMaker(enum_value_to_name: typing.Dict[typing.Union[str, decimal.Decimal, bool, none_type], str]) -> EnumMakerInterface:
+    class SchemaEnumMaker(EnumMakerBase):
+        @classmethod
+        @property
+        def _enum_value_to_name(
+                cls
+        ) -> typing.Dict[typing.Union[str, decimal.Decimal, bool, none_type], str]:
+            pass
+            try:
+                super_enum_value_to_name = super()._enum_value_to_name
+            except AttributeError:
+                return enum_value_to_name
+            intersection = dict(enum_value_to_name.items() & super_enum_value_to_name.items())
+            return intersection
+
+        @classmethod
+        def _validate(
+            cls,
+            arg,
+            validation_metadata: ValidationMetadata,
+        ) -> typing.Dict[typing.Tuple[typing.Union[str, int], ...], typing.Set[typing.Union['Schema', str, decimal.Decimal, BoolClass, NoneClass, frozendict, tuple]]]:
+            """
+            SchemaEnumMaker _validate
+            Validates that arg is in the enum's allowed values
+            """
+            try:
+                cls._enum_value_to_name[arg]
+            except KeyError:
+                raise ApiValueError("Invalid value {} passed in to {}, {}".format(arg, cls, cls._enum_value_to_name))
+            return super()._validate(arg, validation_metadata)
+
+    return SchemaEnumMaker
 
 
 class BoolBase:
@@ -814,13 +859,14 @@ class ListBase:
         item_cls = getattr(cls, '_items', AnyTypeSchema)
         path_to_schemas = {}
         for i, value in enumerate(list_items):
-            if isinstance(value, item_cls):
-                continue
             item_validation_metadata = ValidationMetadata(
                 from_server=validation_metadata.from_server,
                 configuration=validation_metadata.configuration,
-                path_to_item=validation_metadata.path_to_item+(i,)
+                path_to_item=validation_metadata.path_to_item+(i,),
+                validated_path_to_schemas=validation_metadata.validated_path_to_schemas
             )
+            if item_validation_metadata.validation_ran_earlier(item_cls):
+                continue
             other_path_to_schemas = item_cls._validate(
                 value, validation_metadata=item_validation_metadata)
             update(path_to_schemas, other_path_to_schemas)
@@ -850,14 +896,12 @@ class ListBase:
         _path_to_schemas = super()._validate(arg, validation_metadata=validation_metadata)
         if not isinstance(arg, tuple):
             return _path_to_schemas
-        if cls in validation_metadata.base_classes:
-            # we have already moved through this class so stop here
-            return _path_to_schemas
         updated_vm = ValidationMetadata(
             configuration=validation_metadata.configuration,
             from_server=validation_metadata.from_server,
             path_to_item=validation_metadata.path_to_item,
-            base_classes=validation_metadata.base_classes | frozenset({cls})
+            seen_classes=validation_metadata.seen_classes | frozenset({cls}),
+            validated_path_to_schemas=validation_metadata.validated_path_to_schemas
         )
         other_path_to_schemas = cls._validate_items(arg, validation_metadata=updated_vm)
         update(_path_to_schemas, other_path_to_schemas)
@@ -1023,13 +1067,14 @@ class DictBase(Discriminable):
                 raise ApiTypeError('Unable to find schema for value={} in class={} at path_to_item={}'.format(
                     value, cls, validation_metadata.path_to_item+(property_name,)
                 ))
-            if isinstance(value, schema):
-                continue
             arg_validation_metadata = ValidationMetadata(
                 from_server=validation_metadata.from_server,
                 configuration=validation_metadata.configuration,
-                path_to_item=validation_metadata.path_to_item+(property_name,)
+                path_to_item=validation_metadata.path_to_item+(property_name,),
+                validated_path_to_schemas=validation_metadata.validated_path_to_schemas
             )
+            if arg_validation_metadata.validation_ran_earlier(schema):
+                continue
             other_path_to_schemas = schema._validate(value, validation_metadata=arg_validation_metadata)
             update(path_to_schemas, other_path_to_schemas)
         return path_to_schemas
@@ -1082,15 +1127,15 @@ class DictBase(Discriminable):
                     validation_metadata.path_to_item + (disc_prop_name,)
                 )
             )
-        if discriminated_cls in validation_metadata.base_classes:
-            # we have already moved through this class so stop here
-            return _path_to_schemas
         updated_vm = ValidationMetadata(
             configuration=validation_metadata.configuration,
             from_server=validation_metadata.from_server,
             path_to_item=validation_metadata.path_to_item,
-            base_classes=validation_metadata.base_classes | frozenset({cls})
+            seen_classes=validation_metadata.seen_classes | frozenset({cls}),
+            validated_path_to_schemas=validation_metadata.validated_path_to_schemas
         )
+        if updated_vm.validation_ran_earlier(discriminated_cls):
+            return _path_to_schemas
         other_path_to_schemas = discriminated_cls._validate(arg, validation_metadata=updated_vm)
         update(_path_to_schemas, other_path_to_schemas)
         return _path_to_schemas
@@ -1178,7 +1223,7 @@ class DictBase(Discriminable):
             return super().__getattribute__(name)
 
 
-inheritable_primitive_types_set = {decimal.Decimal, str, tuple, frozendict, FileIO, bytes}
+inheritable_primitive_types_set = {decimal.Decimal, str, tuple, frozendict, FileIO, bytes, BoolClass, NoneClass}
 
 
 class Schema:
@@ -1191,117 +1236,12 @@ class Schema:
     - payload value is an allowed enum value
     """
 
-    @staticmethod
-    def __get_simple_class(input_value):
-        """Returns an input_value's simple class that we will use for type checking
-
-        Args:
-            input_value (class/class_instance): the item for which we will return
-                                                the simple class
-        """
-        if isinstance(input_value, tuple):
-            return tuple
-        elif isinstance(input_value, frozendict):
-            return frozendict
-        elif isinstance(input_value, none_type):
-            return none_type
-        elif isinstance(input_value, bytes):
-            return bytes
-        elif isinstance(input_value, (io.FileIO, io.BufferedReader)):
-            return FileIO
-        elif isinstance(input_value, bool):
-            # this must be higher than the int check because
-            # isinstance(True, int) == True
-            return bool
-        elif isinstance(input_value, int):
-            return int
-        elif isinstance(input_value, float):
-            return float
-        elif isinstance(input_value, datetime):
-            # this must be higher than the date check because
-            # isinstance(datetime_instance, date) == True
-            return datetime
-        elif isinstance(input_value, date):
-            return date
-        elif isinstance(input_value, str):
-            return str
-        return type(input_value)
-
-    @staticmethod
-    def __get_valid_classes_phrase(input_classes):
-        """Returns a string phrase describing what types are allowed"""
-        all_classes = list(input_classes)
-        all_classes = sorted(all_classes, key=lambda cls: cls.__name__)
-        all_class_names = [cls.__name__ for cls in all_classes]
-        if len(all_class_names) == 1:
-            return "is {0}".format(all_class_names[0])
-        return "is one of [{0}]".format(", ".join(all_class_names))
-
-    @classmethod
-    def __type_error_message(
-        cls, var_value=None, var_name=None, valid_classes=None, key_type=None
-    ):
-        """
-        Keyword Args:
-            var_value (any): the variable which has the type_error
-            var_name (str): the name of the variable which has the typ error
-            valid_classes (tuple): the accepted classes for current_item's
-                                      value
-            key_type (bool): False if our value is a value in a dict
-                             True if it is a key in a dict
-                             False if our item is an item in a tuple
-        """
-        key_or_value = "value"
-        if key_type:
-            key_or_value = "key"
-        valid_classes_phrase = cls.__get_valid_classes_phrase(valid_classes)
-        msg = "Invalid type. Required {1} type {2} and " "passed type was {3}".format(
-            var_name,
-            key_or_value,
-            valid_classes_phrase,
-            type(var_value).__name__,
-        )
-        return msg
-
-    @classmethod
-    def __get_type_error(cls, var_value, path_to_item, valid_classes, key_type=False):
-        error_msg = cls.__type_error_message(
-            var_name=path_to_item[-1],
-            var_value=var_value,
-            valid_classes=valid_classes,
-            key_type=key_type,
-        )
-        return ApiTypeError(
-            error_msg,
-            path_to_item=path_to_item,
-            valid_classes=valid_classes,
-            key_type=key_type,
-        )
-
-    @classmethod
-    def _class_by_base_class(cls, base_cls: type) -> type:
-        cls_name = "Dynamic"+cls.__name__
-        if base_cls is bool:
-            new_cls = get_new_class(cls_name, (cls, BoolBase, BoolClass))
-        elif base_cls is str:
-            new_cls = get_new_class(cls_name, (cls, StrBase, str))
-        elif base_cls is decimal.Decimal:
-            new_cls = get_new_class(cls_name, (cls, NumberBase, decimal.Decimal))
-        elif base_cls is tuple:
-            new_cls =  get_new_class(cls_name, (cls, ListBase, tuple))
-        elif base_cls is frozendict:
-            new_cls = get_new_class(cls_name, (cls, DictBase, frozendict))
-        elif base_cls is none_type:
-            new_cls = get_new_class(cls_name, (cls, NoneBase, NoneClass))
-        log_cache_usage(get_new_class)
-        return new_cls
-
     @classmethod
     def _validate(
         cls,
         arg,
         validation_metadata: ValidationMetadata,
-    ):
+    ) -> typing.Dict[typing.Tuple[typing.Union[str, int], ...], typing.Set[typing.Union['Schema', str, decimal.Decimal, BoolClass, NoneClass, frozendict, tuple]]]:
         """
         Schema _validate
         Runs all schema validation logic and
@@ -1313,9 +1253,7 @@ class Schema:
 
         Use cases:
         1. inheritable type: string/decimal.Decimal/frozendict/tuple
-        2. enum value cases: 'hi', 1 -> no base_class set because the enum includes the base class
-        3. uninheritable type: True/False/None -> no base_class because the base class is not inheritable
-            _enum_by_value will handle this use case
+        2. singletons: bool/None -> uses the base classes BoolClass/NoneClass
 
         Required Steps:
         1. verify type of input is valid vs the allowed _types
@@ -1329,38 +1267,29 @@ class Schema:
             ApiValueError: when a string can't be converted into a date or datetime and it must be one of those classes
             ApiTypeError: when the input type is not in the list of allowed spec types
         """
-        base_class = cls.__get_simple_class(arg)
-        failed_type_check_classes = cls._validate_type(base_class)
-        if failed_type_check_classes:
-            raise cls.__get_type_error(
-                arg,
-                validation_metadata.path_to_item,
-                failed_type_check_classes,
-                key_type=False,
-            )
-        if hasattr(cls, '_validate_validations_pass'):
-            cls._validate_validations_pass(arg, validation_metadata)
-        path_to_schemas = {}
-        if validation_metadata.path_to_item not in path_to_schemas:
-            path_to_schemas[validation_metadata.path_to_item] = set()
+        base_class = type(arg)
+        path_to_schemas = {validation_metadata.path_to_item: set()}
         path_to_schemas[validation_metadata.path_to_item].add(cls)
-
-        if hasattr(cls, "_enum_by_value"):
-            cls._validate_enum_value(arg)
-            return path_to_schemas
-
-        if base_class is none_type or base_class is bool:
-            return path_to_schemas
-
         path_to_schemas[validation_metadata.path_to_item].add(base_class)
         return path_to_schemas
 
-    @classmethod
-    def _validate_enum_value(cls, arg):
-        try:
-            cls._enum_by_value[arg]
-        except KeyError:
-            raise ApiValueError("Invalid value {} passed in to {}, {}".format(arg, cls, cls._enum_value_to_name))
+    @staticmethod
+    def __process_schema_classes(
+        schema_classes: typing.Set[typing.Union['Schema', str, decimal.Decimal, BoolClass, NoneClass, frozendict, tuple]]
+    ):
+        """
+        Processes and mutates schema_classes
+        If a SomeSchema is a subclass of DictSchema then remove DictSchema because it is already included
+        """
+        if len(schema_classes) < 2:
+            return
+        x_schema = schema_type_classes & schema_classes
+        if not x_schema:
+            return
+        x_schema = x_schema.pop()
+        if any(c is not x_schema and issubclass(c, x_schema) for c in schema_classes):
+            # needed to not have a mro error in get_new_class
+            schema_classes.remove(x_schema)
 
     @classmethod
     def __get_new_cls(
@@ -1387,51 +1316,35 @@ class Schema:
             and in list/dict _get_items,_get_properties the value will be directly assigned
             because value is of the correct type, and validation was run earlier when the instance was created
         """
-        _path_to_schemas = cls._validate(arg, validation_metadata=validation_metadata)
+        _path_to_schemas = {}
+        if validation_metadata.validated_path_to_schemas:
+            update(_path_to_schemas, validation_metadata.validated_path_to_schemas)
+        if not validation_metadata.validation_ran_earlier(cls):
+            other_path_to_schemas = cls._validate(arg, validation_metadata=validation_metadata)
+            update(_path_to_schemas, other_path_to_schemas)
         # loop through it make a new class for each entry
         # do not modify the returned result because it is cached and we would be modifying the cached value
         path_to_schemas = {}
         for path, schema_classes in _path_to_schemas.items():
+            """
+            Use cases
+            1. N number of schema classes + enum + type != bool/None, classes in path_to_schemas: tuple/frozendict/str/Decimal/bytes/FileIo
+                needs Singleton added
+            2. N number of schema classes + enum + type == bool/None, classes in path_to_schemas: BoolClass/NoneClass
+                Singleton already added
+            3. N number of schema classes, classes in path_to_schemas: BoolClass/NoneClass/tuple/frozendict/str/Decimal/bytes/FileIo
+            """
+            cls.__process_schema_classes(schema_classes)
             enum_schema = any(
-                hasattr(this_cls, '_enum_by_value') for this_cls in schema_classes)
+                hasattr(this_cls, '_enum_value_to_name') for this_cls in schema_classes)
             inheritable_primitive_type = schema_classes.intersection(inheritable_primitive_types_set)
-            chosen_schema_classes = schema_classes
-            suffix = tuple()
-            if inheritable_primitive_type:
-                chosen_schema_classes = schema_classes - inheritable_primitive_types_set
-                if not enum_schema:
-                    # include the inheritable_primitive_type
-                    suffix = tuple(inheritable_primitive_type)
+            chosen_schema_classes = schema_classes - inheritable_primitive_type
+            suffix = tuple(inheritable_primitive_type)
+            if enum_schema and suffix[0] not in {NoneClass, BoolClass}:
+                suffix = (Singleton,) + suffix
 
-            if len(chosen_schema_classes) == 1 and not suffix:
-                mfg_cls = tuple(chosen_schema_classes)[0]
-            else:
-                x_schema = schema_descendents & chosen_schema_classes
-                if x_schema:
-                    x_schema = x_schema.pop()
-                    if any(c is not x_schema and issubclass(c, x_schema) for c in chosen_schema_classes):
-                        # needed to not have a mro error in get_new_class
-                        chosen_schema_classes.remove(x_schema)
-                used_classes = tuple(sorted(chosen_schema_classes, key=lambda a_cls: a_cls.__name__)) + suffix
-                mfg_cls = get_new_class(class_name='DynamicSchema', bases=used_classes)
-
-            if inheritable_primitive_type and not enum_schema:
-                path_to_schemas[path] = mfg_cls
-                continue
-
-            # Use case: value is None, True, False, or an enum value
-            value = arg
-            for key in path[1:]:
-                # if path is bigger than one, get the value that mfg_cls validated
-                value = value[key]
-            if hasattr(mfg_cls, '_enum_by_value'):
-                mfg_cls = mfg_cls._enum_by_value[value]
-            elif value in {True, False}:
-                mfg_cls = mfg_cls._class_by_base_class(bool)
-            elif value is None:
-                mfg_cls = mfg_cls._class_by_base_class(none_type)
-            else:
-                raise ApiValueError('Unhandled case value={} bases={}'.format(value, mfg_cls.__bases__))
+            used_classes = tuple(sorted(chosen_schema_classes, key=lambda a_cls: a_cls.__name__)) + suffix
+            mfg_cls = get_new_class(class_name='DynamicSchema', bases=used_classes)
             path_to_schemas[path] = mfg_cls
 
         return path_to_schemas
@@ -1445,6 +1358,7 @@ class Schema:
     ):
         # We have a Dynamic class and we are making an instance of it
         if issubclass(cls, frozendict):
+            print(cls.__bases__)
             properties = cls._get_properties(arg, path_to_item, path_to_schemas)
             return super(Schema, cls).__new__(cls, properties)
         elif issubclass(cls, tuple):
@@ -1484,8 +1398,11 @@ class Schema:
         """
         Schema _from_openapi_data
         """
-        arg = cast_to_allowed_types(arg, from_server=True)
-        validation_metadata = ValidationMetadata(from_server=True, configuration=_configuration)
+        from_server = True
+        validated_path_to_schemas = {}
+        arg = cast_to_allowed_types(arg, from_server, validated_path_to_schemas)
+        validation_metadata = ValidationMetadata(
+            from_server=from_server, configuration=_configuration, validated_path_to_schemas=validated_path_to_schemas)
         path_to_schemas = cls.__get_new_cls(arg, validation_metadata)
         new_cls = path_to_schemas[validation_metadata.path_to_item]
         new_inst = new_cls._get_new_instance_without_conversion(
@@ -1527,8 +1444,12 @@ class Schema:
             arg = args[0]
         else:
             arg = cls.__get_input_dict(*args, **kwargs)
-        validation_metadata = ValidationMetadata(configuration=_configuration, from_server=False)
-        arg = cast_to_allowed_types(arg, from_server=validation_metadata.from_server)
+        from_server = False
+        validated_path_to_schemas = {}
+        arg = cast_to_allowed_types(
+            arg, from_server, validated_path_to_schemas)
+        validation_metadata = ValidationMetadata(
+            configuration=_configuration, from_server=from_server, validated_path_to_schemas=validated_path_to_schemas)
         path_to_schemas = cls.__get_new_cls(arg, validation_metadata)
         new_cls = path_to_schemas[validation_metadata.path_to_item]
         return new_cls._get_new_instance_without_conversion(
@@ -1555,22 +1476,53 @@ class Schema:
         pass
 
 
-def cast_to_allowed_types(arg: typing.Union[str, date, datetime, decimal.Decimal, int, float, None, dict, frozendict, list, tuple, bytes, Schema], from_server=False) -> typing.Union[str, bytes, decimal.Decimal, None, frozendict, tuple, Schema]:
+def cast_to_allowed_types(
+    arg: typing.Union[str, date, datetime, uuid.UUID, decimal.Decimal, int, float, None, dict, frozendict, list, tuple, bytes, Schema],
+    from_server: bool,
+    validated_path_to_schemas: typing.Dict[typing.Tuple[typing.Union[str, int], ...], typing.Set[typing.Union['Schema', str, decimal.Decimal, BoolClass, NoneClass, frozendict, tuple]]],
+    path_to_item: typing.Tuple[typing.Union[str, int], ...] = tuple(['args[0]']),
+) -> typing.Union[frozendict, tuple, decimal.Decimal, str, bytes, BoolClass, NoneClass, FileIO]:
     """
-    from_server=False date, datetime -> str
-    int, float -> Decimal
-    StrSchema will convert that to bytes and remember the encoding when we pass in str input
+    Casts the input payload arg into the allowed types
+    The input validated_path_to_schemas is mutated by running this function
+
+    When from_server is False then
+    - date/datetime is cast to str
+    - int/float is cast to Decimal
+
+    If a Schema instance is passed in it is converted back to a primitive instance because
+    One may need to validate that data to the original Schema class AND additional different classes
+    those additional classes will need to be added to the new manufactured class for that payload
+    If the code didn't do this and kept the payload as a Schema instance it would fail to validate to other
+    Schema classes and the code wouldn't be able to mfg a new class that includes all valid schemas
+    TODO: store the validated schema classes in validation_metadata
+
+    Args:
+        arg: the payload
+        from_server: whether this payload came from the server or not
+        validated_path_to_schemas: a dict that stores the validated classes at any path location in the payload
     """
+    if isinstance(arg, Schema):
+        # store the already run validations
+        schema_classes = set()
+        for cls in arg.__class__.__bases__:
+            if cls is Singleton:
+                continue
+            schema_classes.add(cls)
+        validated_path_to_schemas[path_to_item] = schema_classes
+
     if isinstance(arg, str):
-        return arg
-    elif type(arg) is dict or type(arg) is frozendict:
-        return frozendict({key: cast_to_allowed_types(val) for key, val in arg.items()})
-    elif isinstance(arg, bool):
+        return str(arg)
+    elif isinstance(arg, (dict, frozendict)):
+        return frozendict({key: cast_to_allowed_types(val, from_server, validated_path_to_schemas, path_to_item + (key,)) for key, val in arg.items()})
+    elif isinstance(arg, (bool, BoolClass)):
         """
         this check must come before isinstance(arg, (int, float))
         because isinstance(True, int) is True
         """
-        return arg
+        if arg:
+            return BoolClass.TRUE
+        return BoolClass.FALSE
     elif isinstance(arg, int):
         return decimal.Decimal(arg)
     elif isinstance(arg, float):
@@ -1580,10 +1532,10 @@ def cast_to_allowed_types(arg: typing.Union[str, date, datetime, decimal.Decimal
             # 3.4028234663852886e+38 -> Decimal('340282346638528859811704183484516925440.0')
             return decimal.Decimal(str(decimal_from_float)+'.0')
         return decimal_from_float
-    elif type(arg) is list or type(arg) is tuple:
-        return tuple([cast_to_allowed_types(item) for item in arg])
-    elif arg is None:
-        return arg
+    elif isinstance(arg, (tuple, list)):
+        return tuple([cast_to_allowed_types(item, from_server, validated_path_to_schemas, path_to_item + (i,)) for i, item in enumerate(arg)])
+    elif isinstance(arg, (none_type, NoneClass)):
+        return NoneClass.NONE
     elif isinstance(arg, (date, datetime)):
         if not from_server:
             return arg.isoformat()
@@ -1595,17 +1547,11 @@ def cast_to_allowed_types(arg: typing.Union[str, date, datetime, decimal.Decimal
         # ApiTypeError will be thrown later by _validate_type
         return arg
     elif isinstance(arg, decimal.Decimal):
-        return arg
+        return decimal.Decimal(arg)
     elif isinstance(arg, bytes):
-        return arg
-    elif isinstance(arg, decimal.Decimal):
-        return arg
+        return bytes(arg)
     elif isinstance(arg, (io.FileIO, io.BufferedReader)):
-        if arg.closed:
-            raise ApiValueError('Invalid file state; file is closed and must be open')
-        return arg
-    elif isinstance(arg, Schema):
-        return arg
+        return FileIO(arg)
     raise ValueError('Invalid type passed in got input={} type={}'.format(arg, type(arg)))
 
 
@@ -1615,7 +1561,7 @@ class ComposedBase(Discriminable):
     def __get_allof_classes(cls, arg, validation_metadata: ValidationMetadata):
         path_to_schemas = defaultdict(set)
         for allof_cls in cls._composed_schemas['allOf']:
-            if allof_cls in validation_metadata.base_classes:
+            if validation_metadata.validation_ran_earlier(allof_cls):
                 continue
             other_path_to_schemas = allof_cls._validate(arg, validation_metadata=validation_metadata)
             update(path_to_schemas, other_path_to_schemas)
@@ -1630,27 +1576,20 @@ class ComposedBase(Discriminable):
         path_to_schemas: typing.Dict[typing.Tuple, typing.Set[typing.Type[Schema]]]
     ):
         oneof_classes = []
-        chosen_oneof_cls = None
-        original_base_classes = validation_metadata.base_classes
-        new_base_classes = validation_metadata.base_classes
         path_to_schemas = defaultdict(set)
         for oneof_cls in cls._composed_schemas['oneOf']:
             if oneof_cls in path_to_schemas[validation_metadata.path_to_item]:
                 oneof_classes.append(oneof_cls)
                 continue
-            if isinstance(arg, oneof_cls):
-                # passed in instance is the correct type
-                chosen_oneof_cls = oneof_cls
+            if validation_metadata.validation_ran_earlier(oneof_cls):
                 oneof_classes.append(oneof_cls)
                 continue
             try:
                 path_to_schemas = oneof_cls._validate(arg, validation_metadata=validation_metadata)
-                new_base_classes = validation_metadata.base_classes
             except (ApiValueError, ApiTypeError) as ex:
                 if discriminated_cls is not None and oneof_cls is discriminated_cls:
                     raise ex
                 continue
-            chosen_oneof_cls = oneof_cls
             oneof_classes.append(oneof_cls)
         if not oneof_classes:
             raise ApiValueError(
@@ -1672,15 +1611,9 @@ class ComposedBase(Discriminable):
         validation_metadata: ValidationMetadata
     ):
         anyof_classes = []
-        chosen_anyof_cls = None
-        original_base_classes = validation_metadata.base_classes
         path_to_schemas = defaultdict(set)
         for anyof_cls in cls._composed_schemas['anyOf']:
-            if anyof_cls in validation_metadata.base_classes:
-                continue
-            if isinstance(arg, anyof_cls):
-                # passed in instance is the correct type
-                chosen_anyof_cls = anyof_cls
+            if validation_metadata.validation_ran_earlier(anyof_cls):
                 anyof_classes.append(anyof_cls)
                 continue
 
@@ -1690,8 +1623,6 @@ class ComposedBase(Discriminable):
                 if discriminated_cls is not None and anyof_cls is discriminated_cls:
                     raise ex
                 continue
-            original_base_classes = validation_metadata.base_classes
-            chosen_anyof_cls = anyof_cls
             anyof_classes.append(anyof_cls)
             update(path_to_schemas, other_path_to_schemas)
         if not anyof_classes:
@@ -1706,7 +1637,7 @@ class ComposedBase(Discriminable):
         cls,
         arg,
         validation_metadata: ValidationMetadata,
-    ):
+    ) -> typing.Dict[typing.Tuple[typing.Union[str, int], ...], typing.Set[typing.Union['Schema', str, decimal.Decimal, BoolClass, NoneClass, frozendict, tuple]]]:
         """
         ComposedBase _validate
         We return dynamic classes of different bases depending upon the inputs
@@ -1741,7 +1672,8 @@ class ComposedBase(Discriminable):
             configuration=validation_metadata.configuration,
             from_server=validation_metadata.from_server,
             path_to_item=validation_metadata.path_to_item,
-            base_classes=validation_metadata.base_classes | frozenset({cls})
+            seen_classes=validation_metadata.seen_classes | frozenset({cls}),
+            validated_path_to_schemas=validation_metadata.validated_path_to_schemas
         )
 
         # process composed schema
@@ -1785,20 +1717,24 @@ class ComposedBase(Discriminable):
         not_cls = cls._composed_schemas['not']
         if not_cls:
             other_path_to_schemas = None
+            not_exception = ApiValueError(
+                "Invalid value '{}' was passed in to {}. Value is invalid because it is disallowed by {}".format(
+                    arg,
+                    cls.__name__,
+                    not_cls.__name__,
+                )
+            )
+            if updated_vm.validation_ran_earlier(not_cls):
+                raise not_exception
+
             try:
                 other_path_to_schemas = not_cls._validate(arg, validation_metadata=updated_vm)
             except (ApiValueError, ApiTypeError):
                 pass
             if other_path_to_schemas:
-                raise ApiValueError(
-                    "Invalid value '{}' was passed in to {}. Value is invalid because it is disallowed by {}".format(
-                        arg,
-                        cls.__name__,
-                        not_cls.__name__,
-                    )
-                )
+                raise not_exception
 
-        if discriminated_cls is not None:
+        if discriminated_cls is not None and not updated_vm.validation_ran_earlier(discriminated_cls):
             # TODO use an exception from this package here
             assert discriminated_cls in path_to_schemas[updated_vm.path_to_item]
         return path_to_schemas
@@ -1806,7 +1742,7 @@ class ComposedBase(Discriminable):
 
 # DictBase, ListBase, NumberBase, StrBase, BoolBase, NoneBase
 class ComposedSchema(
-    _SchemaTypeChecker(typing.Union[none_type, str, decimal.Decimal, bool, tuple, frozendict]),
+    _SchemaTypeChecker(typing.Union[NoneClass, str, decimal.Decimal, BoolClass, tuple, frozendict]),
     ComposedBase,
     DictBase,
     ListBase,
@@ -1844,7 +1780,7 @@ class ListSchema(
 
 
 class NoneSchema(
-    _SchemaTypeChecker(typing.Union[none_type]),
+    _SchemaTypeChecker(typing.Union[NoneClass]),
     NoneBase,
     Schema
 ):
@@ -2115,7 +2051,7 @@ class BinarySchema(
 
 
 class BoolSchema(
-    _SchemaTypeChecker(typing.Union[bool]),
+    _SchemaTypeChecker(typing.Union[BoolClass]),
     BoolBase,
     Schema
 ):
@@ -2130,7 +2066,7 @@ class BoolSchema(
 
 class AnyTypeSchema(
     _SchemaTypeChecker(
-        typing.Union[frozendict, tuple, decimal.Decimal, str, bool, none_type, bytes, FileIO]
+        typing.Union[frozendict, tuple, decimal.Decimal, str, BoolClass, NoneClass, bytes, FileIO]
     ),
     DictBase,
     ListBase,
@@ -2157,7 +2093,7 @@ class DictSchema(
         return super().__new__(cls, *args, **kwargs)
 
 
-schema_descendents = set([NoneSchema, DictSchema, ListSchema, NumberSchema, StrSchema, BoolSchema])
+schema_type_classes = set([NoneSchema, DictSchema, ListSchema, NumberSchema, StrSchema, BoolSchema])
 
 
 def deserialize_file(response_data, configuration, content_disposition=None):

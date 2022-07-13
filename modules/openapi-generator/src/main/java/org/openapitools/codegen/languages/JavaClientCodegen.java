@@ -926,6 +926,8 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                         // only add JsonNullable and related imports to optional and nullable values
                         addImports |= isOptionalNullable;
                         var.getVendorExtensions().put("x-is-jackson-optional-nullable", isOptionalNullable);
+                        findByName(var.name, cm.readOnlyVars)
+                            .ifPresent(p -> p.getVendorExtensions().put("x-is-jackson-optional-nullable", isOptionalNullable));
                     }
 
                     if (Boolean.TRUE.equals(var.getVendorExtensions().get("x-enum-as-string"))) {

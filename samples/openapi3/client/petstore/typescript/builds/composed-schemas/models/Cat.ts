@@ -10,7 +10,6 @@
  * Do not edit the class manually.
  */
 
-import { CatAllOf } from './CatAllOf';
 import { HttpFile } from '../http/http';
 
 export class Cat {

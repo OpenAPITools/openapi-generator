@@ -92,6 +92,13 @@ test_that("GetPetById", {
   )
 })
 
+test_that("GetPetByIdStreaming", {
+  result <- tryCatch(
+               pet_api$GetPetByIdStreaming(pet_id, stream_callback = function(x) { print(x) }),
+               ApiException = function(ex) ex
+            )
+})
+
 #test_that("test GetPetById exception", {
 #  # test exception 
 #  result <- tryCatch(petApi$GetPetById(98765), # petId not exist

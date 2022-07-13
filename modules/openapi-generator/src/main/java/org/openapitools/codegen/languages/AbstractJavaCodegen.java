@@ -2054,6 +2054,22 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     }
 
     /**
+     * Search for property by {@link CodegenProperty#name}
+     * @param name - name to search for
+     * @param properties - list of properties
+     * @return either found property or {@link Optional#empty()} if nothing has been found
+     */
+    protected Optional<CodegenProperty> findByName(String name, List<CodegenProperty> properties) {
+        if (properties == null || properties.isEmpty()) {
+            return Optional.empty();
+        }
+
+        return properties.stream()
+            .filter(p -> p.name.equals(name))
+            .findFirst();
+    }
+
+    /**
      * This method removes all implicit header parameters from the list of parameters
      *
      * @param operation - operation to be processed

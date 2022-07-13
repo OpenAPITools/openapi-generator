@@ -1515,4 +1515,10 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
 
     @Override
     public String generatorLanguageVersion() { return ">=3.6"; };
+
+    @Override
+    protected void addImport(ComposedSchema composed, Schema childSchema, CodegenModel model, String modelName ) {
+        // import everything (including child schema of a composed schema)
+        addImport(model, modelName);
+    }
 }
