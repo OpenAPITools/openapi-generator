@@ -15,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.utils.StringUtils.*;
 
@@ -747,18 +748,8 @@ public class PureCloudJavaScriptClientCodegen extends DefaultCodegen implements 
         Map<String, Object> apiInfo = (Map<String, Object>) objs.get("apiInfo");
         List<HashMap<String, Object>> apiList = (List<HashMap<String, Object>>) apiInfo.get("apis");
         // removing duplicate apis
-        // external sdk
-        if (apiList.size() == 124) {
-            apiList.subList(62, apiList.size()).clear();
-        }
-        // internal sdk
-        if (apiList.size() == 168) {
-            apiList.subList(84, apiList.size()).clear();
-        }
-        // guest sdk
-        if (apiList.size() == 2) {
-            apiList.subList(1, apiList.size()).clear();
-        }
+        apiList.subList(apiList.size() / 2, apiList.size()).clear();
+
         return objs;
     }
 
