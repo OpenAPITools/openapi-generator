@@ -1,6 +1,6 @@
 /**
  * OpenAPI Petstore
- * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
+ * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  * The version of the OpenAPI document: 1.0.0
  * 
@@ -75,8 +75,8 @@ public:
     // Set these to implement the server functionality //
     /////////////////////////////////////////////////////
     std::function<int(
-        std::shared_ptr<User> const & user)> handler_POST_func =
-            [](std::shared_ptr<User> const &) -> int
+        User & user)> handler_POST_func =
+            [](User &) -> int
                 { throw UserApiException(501, "Not implemented"); };
 
 
@@ -87,7 +87,7 @@ protected:
     //////////////////////////////////////////////////////////
 
     virtual int handler_POST(
-        std::shared_ptr<User> const & user);
+        User & user);
 
 
 protected:
@@ -106,7 +106,7 @@ protected:
         const std::string& header);
 
     virtual void returnResponse(const std::shared_ptr<restbed::Session>& session,
-        const int status, const std::string& result, const std::string& contentType);
+        const int status, const std::string& result, std::multimap<std::string, std::string>& contentType);
     virtual void defaultSessionClose(const std::shared_ptr<restbed::Session>& session,
         const int status, const std::string& result);
 
@@ -130,8 +130,8 @@ public:
     // Set these to implement the server functionality //
     /////////////////////////////////////////////////////
     std::function<int(
-        std::vector<std::shared_ptr<User>> const & user)> handler_POST_func =
-            [](std::vector<std::shared_ptr<User>> const &) -> int
+        std::vector<User> & user)> handler_POST_func =
+            [](std::vector<User> &) -> int
                 { throw UserApiException(501, "Not implemented"); };
 
 
@@ -142,7 +142,7 @@ protected:
     //////////////////////////////////////////////////////////
 
     virtual int handler_POST(
-        std::vector<std::shared_ptr<User>> const & user);
+        std::vector<User> & user);
 
 
 protected:
@@ -161,7 +161,7 @@ protected:
         const std::string& header);
 
     virtual void returnResponse(const std::shared_ptr<restbed::Session>& session,
-        const int status, const std::string& result, const std::string& contentType);
+        const int status, const std::string& result, std::multimap<std::string, std::string>& contentType);
     virtual void defaultSessionClose(const std::shared_ptr<restbed::Session>& session,
         const int status, const std::string& result);
 
@@ -185,8 +185,8 @@ public:
     // Set these to implement the server functionality //
     /////////////////////////////////////////////////////
     std::function<int(
-        std::vector<std::shared_ptr<User>> const & user)> handler_POST_func =
-            [](std::vector<std::shared_ptr<User>> const &) -> int
+        std::vector<User> & user)> handler_POST_func =
+            [](std::vector<User> &) -> int
                 { throw UserApiException(501, "Not implemented"); };
 
 
@@ -197,7 +197,7 @@ protected:
     //////////////////////////////////////////////////////////
 
     virtual int handler_POST(
-        std::vector<std::shared_ptr<User>> const & user);
+        std::vector<User> & user);
 
 
 protected:
@@ -216,7 +216,7 @@ protected:
         const std::string& header);
 
     virtual void returnResponse(const std::shared_ptr<restbed::Session>& session,
-        const int status, const std::string& result, const std::string& contentType);
+        const int status, const std::string& result, std::multimap<std::string, std::string>& contentType);
     virtual void defaultSessionClose(const std::shared_ptr<restbed::Session>& session,
         const int status, const std::string& result);
 
@@ -240,18 +240,18 @@ public:
     // Set these to implement the server functionality //
     /////////////////////////////////////////////////////
     std::function<int(
-        std::string const & username)> handler_DELETE_func =
-            [](std::string const &) -> int
+        std::string & username)> handler_DELETE_func =
+            [](std::string &) -> int
                 { throw UserApiException(501, "Not implemented"); };
 
-    std::function<std::pair<int, std::shared_ptr<User>>(
-        std::string const & username)> handler_GET_func =
-            [](std::string const &) -> std::pair<int, std::shared_ptr<User>>
+    std::function<std::pair<int, User>(
+        std::string & username)> handler_GET_func =
+            [](std::string &) -> std::pair<int, User>
                 { throw UserApiException(501, "Not implemented"); };
 
     std::function<int(
-        std::string const & username, std::shared_ptr<User> const & user)> handler_PUT_func =
-            [](std::string const &, std::shared_ptr<User> const &) -> int
+        std::string & username, User & user)> handler_PUT_func =
+            [](std::string &, User &) -> int
                 { throw UserApiException(501, "Not implemented"); };
 
 
@@ -262,12 +262,12 @@ protected:
     //////////////////////////////////////////////////////////
 
     virtual int handler_DELETE(
-        std::string const & username);
+        std::string & username);
 
-    virtual std::pair<int, std::shared_ptr<User>> handler_GET(
-        std::string const & username);
+    virtual std::pair<int, User> handler_GET(
+        std::string & username);
     virtual int handler_PUT(
-        std::string const & username, std::shared_ptr<User> const & user);
+        std::string & username, User & user);
 
 protected:
     //////////////////////////////////////
@@ -285,7 +285,7 @@ protected:
         const std::string& header);
 
     virtual void returnResponse(const std::shared_ptr<restbed::Session>& session,
-        const int status, const std::string& result, const std::string& contentType);
+        const int status, const std::string& result, std::multimap<std::string, std::string>& contentType);
     virtual void defaultSessionClose(const std::shared_ptr<restbed::Session>& session,
         const int status, const std::string& result);
 
@@ -311,8 +311,8 @@ public:
     // Set these to implement the server functionality //
     /////////////////////////////////////////////////////
     std::function<std::pair<int, std::string>(
-        std::string const & username, std::string const & password)> handler_GET_func =
-            [](std::string const &, std::string const &) -> std::pair<int, std::string>
+        std::string & username, std::string & password)> handler_GET_func =
+            [](std::string &, std::string &) -> std::pair<int, std::string>
                 { throw UserApiException(501, "Not implemented"); };
 
 
@@ -323,7 +323,7 @@ protected:
     //////////////////////////////////////////////////////////
 
     virtual std::pair<int, std::string> handler_GET(
-        std::string const & username, std::string const & password);
+        std::string & username, std::string & password);
 
 
 protected:
@@ -342,7 +342,7 @@ protected:
         const std::string& header);
 
     virtual void returnResponse(const std::shared_ptr<restbed::Session>& session,
-        const int status, const std::string& result, const std::string& contentType);
+        const int status, const std::string& result, std::multimap<std::string, std::string>& contentType);
     virtual void defaultSessionClose(const std::shared_ptr<restbed::Session>& session,
         const int status, const std::string& result);
 
@@ -397,7 +397,7 @@ protected:
         const std::string& header);
 
     virtual void returnResponse(const std::shared_ptr<restbed::Session>& session,
-        const int status, const std::string& result, const std::string& contentType);
+        const int status, const std::string& result, std::multimap<std::string, std::string>& contentType);
     virtual void defaultSessionClose(const std::shared_ptr<restbed::Session>& session,
         const int status, const std::string& result);
 

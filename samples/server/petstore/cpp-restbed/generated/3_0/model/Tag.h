@@ -1,6 +1,6 @@
 /**
  * OpenAPI Petstore
- * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
+ * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  * The version of the OpenAPI document: 1.0.0
  * 
@@ -13,7 +13,7 @@
 /*
  * Tag.h
  *
- * A tag for a pet
+ * 
  */
 
 #ifndef Tag_H_
@@ -25,6 +25,7 @@
 #include <memory>
 #include <vector>
 #include <boost/property_tree/ptree.hpp>
+#include "helpers.h"
 
 namespace org {
 namespace openapitools {
@@ -32,7 +33,7 @@ namespace server {
 namespace model {
 
 /// <summary>
-/// A tag for a pet
+/// 
 /// </summary>
 class  Tag 
 {
@@ -41,9 +42,15 @@ public:
     explicit Tag(boost::property_tree::ptree const& pt);
     virtual ~Tag() = default;
 
-    std::string toJsonString(bool prettyJson = false);
+    Tag(const Tag& other) = default; // copy constructor
+    Tag(Tag&& other) noexcept = default; // move constructor
+
+    Tag& operator=(const Tag& other) = default; // copy assignment
+    Tag& operator=(Tag&& other) noexcept = default; // move assignment
+
+    std::string toJsonString(bool prettyJson = false) const;
     void fromJsonString(std::string const& jsonString);
-    boost::property_tree::ptree toPropertyTree();
+    boost::property_tree::ptree toPropertyTree() const;
     void fromPropertyTree(boost::property_tree::ptree const& pt);
 
     /////////////////////////////////////////////
@@ -62,22 +69,25 @@ public:
     void setName(std::string value);
 
 protected:
-    //////////////////////////////////////
-    // Override these for customization //
-    //////////////////////////////////////
-
-    virtual std::string toJsonString_internal(bool prettyJson = false);
-    virtual void fromJsonString_internal(std::string const& jsonString);
-    virtual boost::property_tree::ptree toPropertyTree_internal();
-    virtual void fromPropertyTree_internal(boost::property_tree::ptree const& pt);
-
-
-protected:
     int64_t m_Id = 0L;
     std::string m_Name = "";
+
+
 };
 
 std::vector<Tag> createTagVectorFromJsonString(const std::string& json);
+
+template<>
+inline boost::property_tree::ptree toPt<Tag>(const Tag& val) {
+    return val.toPropertyTree();
+}
+
+template<>
+inline Tag fromPt<Tag>(const boost::property_tree::ptree& pt) {
+    Tag ret;
+    ret.fromPropertyTree(pt);
+    return ret;
+}
 
 }
 }

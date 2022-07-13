@@ -63,14 +63,14 @@ public:
     // Set these to implement the server functionality //
     /////////////////////////////////////////////////////
     std::function<{{#returnType}}std::pair<int, {{{.}}}>{{/returnType}}{{^returnType}}int{{/returnType}}(
-        {{#allParams}}{{{dataType}}} const & {{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}})> handler_{{httpMethod}}_func =
-            []({{#allParams}}{{{dataType}}} const &{{^-last}}, {{/-last}}{{/allParams}}) -> {{#returnType}}std::pair<int, {{{.}}}>{{/returnType}}{{^returnType}}int{{/returnType}}
+        {{#allParams}}{{{dataType}}} & {{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}})> handler_{{httpMethod}}_func =
+            []({{#allParams}}{{{dataType}}} &{{^-last}}, {{/-last}}{{/allParams}}) -> {{#returnType}}std::pair<int, {{{.}}}>{{/returnType}}{{^returnType}}int{{/returnType}}
                 { throw {{classname}}Exception(501, "Not implemented"); };
 
     {{#vendorExtensions.x-codegen-other-methods}}
     std::function<{{#returnType}}std::pair<int, {{{.}}}>{{/returnType}}{{^returnType}}int{{/returnType}}(
-        {{#allParams}}{{{dataType}}} const & {{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}})> handler_{{httpMethod}}_func =
-            []({{#allParams}}{{{dataType}}} const &{{^-last}}, {{/-last}}{{/allParams}}) -> {{#returnType}}std::pair<int, {{{.}}}>{{/returnType}}{{^returnType}}int{{/returnType}}
+        {{#allParams}}{{{dataType}}} & {{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}})> handler_{{httpMethod}}_func =
+            []({{#allParams}}{{{dataType}}} &{{^-last}}, {{/-last}}{{/allParams}}) -> {{#returnType}}std::pair<int, {{{.}}}>{{/returnType}}{{^returnType}}int{{/returnType}}
                 { throw {{classname}}Exception(501, "Not implemented"); };
 
     {{/vendorExtensions.x-codegen-other-methods}}
@@ -82,11 +82,11 @@ protected:
     //////////////////////////////////////////////////////////
 
     virtual {{#returnType}}std::pair<int, {{{.}}}>{{/returnType}}{{^returnType}}int{{/returnType}} handler_{{httpMethod}}(
-        {{#allParams}}{{{dataType}}} const & {{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}});
+        {{#allParams}}{{{dataType}}} & {{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}});
 
     {{#vendorExtensions.x-codegen-other-methods}}
     virtual {{#returnType}}std::pair<int, {{{.}}}>{{/returnType}}{{^returnType}}int{{/returnType}} handler_{{httpMethod}}(
-        {{#allParams}}{{{dataType}}} const & {{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}});
+        {{#allParams}}{{{dataType}}} & {{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}});
     {{/vendorExtensions.x-codegen-other-methods}}
 
 protected:
@@ -105,7 +105,7 @@ protected:
         const std::string& header);
 
     virtual void returnResponse(const std::shared_ptr<restbed::Session>& session,
-        const int status, const std::string& result, const std::string& contentType);
+        const int status, const std::string& result, std::multimap<std::string, std::string>& contentType);
     virtual void defaultSessionClose(const std::shared_ptr<restbed::Session>& session,
         const int status, const std::string& result);
 

@@ -7,11 +7,11 @@ using namespace org::openapitools::server::api::PetApiResources;
 using namespace org::openapitools::server::api::StoreApiResources;
 using namespace org::openapitools::server::api::UserApiResources;
 
-std::shared_ptr<Pet> createPetForTesting_1() {
-  auto pet = std::make_shared<Pet>();
-  pet->setName("HelloPet");
-  pet->setId(23);
-  pet->setStatus("available");
+Pet createPetForTesting_1() {
+  auto pet = Pet();
+  pet.setName("HelloPet");
+  pet.setId(23);
+  pet.setStatus("available");
   return pet;
 }
 
@@ -25,47 +25,47 @@ std::shared_ptr<Pet> createPetForTesting_2() {
 
 class MyPetApiPetResource : public PetResource {
 public:
-    std::pair<int, std::shared_ptr<Pet>>
-    handler_POST(const std::shared_ptr<Pet> &Pet) override {
-    return std::make_pair(200, Pet);
+    int
+    handler_POST(Pet &pet) override {
+    return 200;
   }
 
-  std::pair<int, std::shared_ptr<Pet>>
-  handler_PUT(const std::shared_ptr<Pet> &Pet) override {
-    return std::make_pair(200, Pet);
+  int
+  handler_PUT(Pet &pet) override {
+    return 200;
   }
 };
 
 class MyPetApiPetPetIdResource : public PetPetIdResource {
 public:
-  int handler_DELETE(const int64_t &petId,
-                     const std::string &api_key) override {
+  int handler_DELETE(int64_t &petId,
+                     std::string &api_key) override {
     return 200;
   }
 
-  std::pair<int, std::shared_ptr<Pet>>
-  handler_GET(const int64_t &petId) override {
-    std::shared_ptr<Pet> pet = createPetForTesting_1();
+  std::pair<int, Pet>
+  handler_GET(int64_t &petId) override {
+    Pet pet = createPetForTesting_1();
 
     return std::make_pair(200, pet);
   }
 };
 
-class MyStoreApiStoreOrderOrderIdResource : public StoreOrderOrderIdResource {
+class MyStoreApiStoreOrderOrderIdResource : public StoreOrderOrder_idResource {
 public:
-  int handler_DELETE(const std::string &orderId) override {
+  int handler_DELETE(std::string &orderId) override {
     return 200;
   }
 
-  std::pair<int, std::shared_ptr<Order>>
-  handler_GET(const int64_t &orderId) override {
-    auto order = std::make_shared<Order>();
-    order->setStatus("placed");
-    order->setId(orderId);
-    order->setComplete(false);
-    order->setPetId(4444L);
-    order->setQuantity(3);
-    order->setShipDate("2011-09-21T17:32:28Z");
+  std::pair<int, Order>
+  handler_GET(int64_t &orderId) override {
+    auto order = Order();
+    order.setStatus("placed");
+    order.setId(orderId);
+    order.setComplete(false);
+    order.setPetId(4444L);
+    order.setQuantity(3);
+    order.setShipDate("2011-09-21T17:32:28Z");
 
     return std::make_pair(200, order);
   }
@@ -81,17 +81,17 @@ public:
 
 class MyStoreApiStoreOrderResource: public StoreOrderResource {
 public:
-  std::pair<int, std::shared_ptr<Order>>
-  handler_POST(const std::shared_ptr<Order> &order) override {
-    order->setStatus("placed");
-    order->setShipDate("2011-01-12T23:24:02Z");
+  std::pair<int, Order>
+  handler_POST(Order &order) override {
+    order.setStatus("placed");
+    order.setShipDate("2011-01-12T23:24:02Z");
     return {200, order};
   }
 };
 
 class MyUserApiUserResource : public UserResource {
 public:
-  int handler_POST(const std::shared_ptr<User> &User) override {
+  int handler_POST(User &User) override {
     return 200;
   }
 };
@@ -99,14 +99,14 @@ public:
 
 class MyUserApiUserCreateWithArrayResource : public UserCreateWithArrayResource {
 public:
-  int handler_POST(const std::vector<std::shared_ptr<User>> &User) override {
+  int handler_POST(std::vector<User> &User) override {
     return 200;
   }
 };
 
 class MyUserApiUserCreateWithListResource : public UserCreateWithListResource {
 public:
-  int handler_POST(const std::vector<std::shared_ptr<User>> &User) override {
+  int handler_POST(std::vector<User> &User) override {
     return 200;
   }
 };
@@ -114,8 +114,8 @@ public:
 class MyUserApiUserLoginResource : public UserLoginResource {
 public:
   std::pair<int, std::string>
-  handler_GET(const std::string &username,
-              const std::string &password) override {
+  handler_GET(std::string &username,
+              std::string &password) override {
     return {200, username};
   }
 };

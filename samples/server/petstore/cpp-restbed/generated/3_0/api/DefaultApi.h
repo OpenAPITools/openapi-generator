@@ -72,9 +72,9 @@ public:
     /////////////////////////////////////////////////////
     // Set these to implement the server functionality //
     /////////////////////////////////////////////////////
-    std::function<std::pair<int, std::shared_ptr<_foo_get_default_response>>(
+    std::function<std::pair<int, _foo_get_default_response>(
         )> handler_GET_func =
-            []() -> std::pair<int, std::shared_ptr<_foo_get_default_response>>
+            []() -> std::pair<int, _foo_get_default_response>
                 { throw DefaultApiException(501, "Not implemented"); };
 
 
@@ -84,7 +84,7 @@ protected:
     // override these to implement the server functionality //
     //////////////////////////////////////////////////////////
 
-    virtual std::pair<int, std::shared_ptr<_foo_get_default_response>> handler_GET(
+    virtual std::pair<int, _foo_get_default_response> handler_GET(
         );
 
 
@@ -104,7 +104,7 @@ protected:
         const std::string& header);
 
     virtual void returnResponse(const std::shared_ptr<restbed::Session>& session,
-        const int status, const std::string& result, const std::string& contentType);
+        const int status, const std::string& result, std::multimap<std::string, std::string>& contentType);
     virtual void defaultSessionClose(const std::shared_ptr<restbed::Session>& session,
         const int status, const std::string& result);
 

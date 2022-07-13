@@ -23,7 +23,8 @@ class PetApiTest {
     @Test
     void addPet() {
         Pet pet = createTestPet();
-        apiInstance.addPet(pet).block();
+        Pet responsePet = apiInstance.addPet(pet).block();
+        approveResponseAsJson(responsePet);
     }
 
     @Test

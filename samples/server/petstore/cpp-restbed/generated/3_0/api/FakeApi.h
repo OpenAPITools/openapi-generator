@@ -80,9 +80,9 @@ public:
     /////////////////////////////////////////////////////
     // Set these to implement the server functionality //
     /////////////////////////////////////////////////////
-    std::function<std::pair<int, std::shared_ptr<HealthCheckResult>>(
+    std::function<std::pair<int, HealthCheckResult>(
         )> handler_GET_func =
-            []() -> std::pair<int, std::shared_ptr<HealthCheckResult>>
+            []() -> std::pair<int, HealthCheckResult>
                 { throw FakeApiException(501, "Not implemented"); };
 
 
@@ -92,7 +92,7 @@ protected:
     // override these to implement the server functionality //
     //////////////////////////////////////////////////////////
 
-    virtual std::pair<int, std::shared_ptr<HealthCheckResult>> handler_GET(
+    virtual std::pair<int, HealthCheckResult> handler_GET(
         );
 
 
@@ -112,7 +112,7 @@ protected:
         const std::string& header);
 
     virtual void returnResponse(const std::shared_ptr<restbed::Session>& session,
-        const int status, const std::string& result, const std::string& contentType);
+        const int status, const std::string& result, std::multimap<std::string, std::string>& contentType);
     virtual void defaultSessionClose(const std::shared_ptr<restbed::Session>& session,
         const int status, const std::string& result);
 
@@ -136,8 +136,8 @@ public:
     // Set these to implement the server functionality //
     /////////////////////////////////////////////////////
     std::function<int(
-        std::shared_ptr<Pet> const & pet, std::string const & query1, std::string const & header1)> handler_GET_func =
-            [](std::shared_ptr<Pet> const &, std::string const &, std::string const &) -> int
+        Pet & pet, std::string & query1, std::string & header1)> handler_GET_func =
+            [](Pet &, std::string &, std::string &) -> int
                 { throw FakeApiException(501, "Not implemented"); };
 
 
@@ -148,7 +148,7 @@ protected:
     //////////////////////////////////////////////////////////
 
     virtual int handler_GET(
-        std::shared_ptr<Pet> const & pet, std::string const & query1, std::string const & header1);
+        Pet & pet, std::string & query1, std::string & header1);
 
 
 protected:
@@ -167,7 +167,7 @@ protected:
         const std::string& header);
 
     virtual void returnResponse(const std::shared_ptr<restbed::Session>& session,
-        const int status, const std::string& result, const std::string& contentType);
+        const int status, const std::string& result, std::multimap<std::string, std::string>& contentType);
     virtual void defaultSessionClose(const std::shared_ptr<restbed::Session>& session,
         const int status, const std::string& result);
 
@@ -191,8 +191,8 @@ public:
     // Set these to implement the server functionality //
     /////////////////////////////////////////////////////
     std::function<std::pair<int, bool>(
-        bool const & body)> handler_POST_func =
-            [](bool const &) -> std::pair<int, bool>
+        bool & body)> handler_POST_func =
+            [](bool &) -> std::pair<int, bool>
                 { throw FakeApiException(501, "Not implemented"); };
 
 
@@ -203,7 +203,7 @@ protected:
     //////////////////////////////////////////////////////////
 
     virtual std::pair<int, bool> handler_POST(
-        bool const & body);
+        bool & body);
 
 
 protected:
@@ -222,7 +222,7 @@ protected:
         const std::string& header);
 
     virtual void returnResponse(const std::shared_ptr<restbed::Session>& session,
-        const int status, const std::string& result, const std::string& contentType);
+        const int status, const std::string& result, std::multimap<std::string, std::string>& contentType);
     virtual void defaultSessionClose(const std::shared_ptr<restbed::Session>& session,
         const int status, const std::string& result);
 
@@ -245,9 +245,9 @@ public:
     /////////////////////////////////////////////////////
     // Set these to implement the server functionality //
     /////////////////////////////////////////////////////
-    std::function<std::pair<int, std::shared_ptr<OuterComposite>>(
-        std::shared_ptr<OuterComposite> const & outerComposite)> handler_POST_func =
-            [](std::shared_ptr<OuterComposite> const &) -> std::pair<int, std::shared_ptr<OuterComposite>>
+    std::function<std::pair<int, OuterComposite>(
+        OuterComposite & outerComposite)> handler_POST_func =
+            [](OuterComposite &) -> std::pair<int, OuterComposite>
                 { throw FakeApiException(501, "Not implemented"); };
 
 
@@ -257,8 +257,8 @@ protected:
     // override these to implement the server functionality //
     //////////////////////////////////////////////////////////
 
-    virtual std::pair<int, std::shared_ptr<OuterComposite>> handler_POST(
-        std::shared_ptr<OuterComposite> const & outerComposite);
+    virtual std::pair<int, OuterComposite> handler_POST(
+        OuterComposite & outerComposite);
 
 
 protected:
@@ -277,7 +277,7 @@ protected:
         const std::string& header);
 
     virtual void returnResponse(const std::shared_ptr<restbed::Session>& session,
-        const int status, const std::string& result, const std::string& contentType);
+        const int status, const std::string& result, std::multimap<std::string, std::string>& contentType);
     virtual void defaultSessionClose(const std::shared_ptr<restbed::Session>& session,
         const int status, const std::string& result);
 
@@ -301,8 +301,8 @@ public:
     // Set these to implement the server functionality //
     /////////////////////////////////////////////////////
     std::function<std::pair<int, double>(
-        double const & body)> handler_POST_func =
-            [](double const &) -> std::pair<int, double>
+        double & body)> handler_POST_func =
+            [](double &) -> std::pair<int, double>
                 { throw FakeApiException(501, "Not implemented"); };
 
 
@@ -313,7 +313,7 @@ protected:
     //////////////////////////////////////////////////////////
 
     virtual std::pair<int, double> handler_POST(
-        double const & body);
+        double & body);
 
 
 protected:
@@ -332,7 +332,7 @@ protected:
         const std::string& header);
 
     virtual void returnResponse(const std::shared_ptr<restbed::Session>& session,
-        const int status, const std::string& result, const std::string& contentType);
+        const int status, const std::string& result, std::multimap<std::string, std::string>& contentType);
     virtual void defaultSessionClose(const std::shared_ptr<restbed::Session>& session,
         const int status, const std::string& result);
 
@@ -356,8 +356,8 @@ public:
     // Set these to implement the server functionality //
     /////////////////////////////////////////////////////
     std::function<std::pair<int, std::string>(
-        std::string const & body)> handler_POST_func =
-            [](std::string const &) -> std::pair<int, std::string>
+        std::string & body)> handler_POST_func =
+            [](std::string &) -> std::pair<int, std::string>
                 { throw FakeApiException(501, "Not implemented"); };
 
 
@@ -368,7 +368,7 @@ protected:
     //////////////////////////////////////////////////////////
 
     virtual std::pair<int, std::string> handler_POST(
-        std::string const & body);
+        std::string & body);
 
 
 protected:
@@ -387,7 +387,7 @@ protected:
         const std::string& header);
 
     virtual void returnResponse(const std::shared_ptr<restbed::Session>& session,
-        const int status, const std::string& result, const std::string& contentType);
+        const int status, const std::string& result, std::multimap<std::string, std::string>& contentType);
     virtual void defaultSessionClose(const std::shared_ptr<restbed::Session>& session,
         const int status, const std::string& result);
 
@@ -410,9 +410,9 @@ public:
     /////////////////////////////////////////////////////
     // Set these to implement the server functionality //
     /////////////////////////////////////////////////////
-    std::function<std::pair<int, std::shared_ptr<OuterObjectWithEnumProperty>>(
-        std::shared_ptr<OuterObjectWithEnumProperty> const & outerObjectWithEnumProperty)> handler_POST_func =
-            [](std::shared_ptr<OuterObjectWithEnumProperty> const &) -> std::pair<int, std::shared_ptr<OuterObjectWithEnumProperty>>
+    std::function<std::pair<int, OuterObjectWithEnumProperty>(
+        OuterObjectWithEnumProperty & outerObjectWithEnumProperty)> handler_POST_func =
+            [](OuterObjectWithEnumProperty &) -> std::pair<int, OuterObjectWithEnumProperty>
                 { throw FakeApiException(501, "Not implemented"); };
 
 
@@ -422,8 +422,8 @@ protected:
     // override these to implement the server functionality //
     //////////////////////////////////////////////////////////
 
-    virtual std::pair<int, std::shared_ptr<OuterObjectWithEnumProperty>> handler_POST(
-        std::shared_ptr<OuterObjectWithEnumProperty> const & outerObjectWithEnumProperty);
+    virtual std::pair<int, OuterObjectWithEnumProperty> handler_POST(
+        OuterObjectWithEnumProperty & outerObjectWithEnumProperty);
 
 
 protected:
@@ -442,7 +442,7 @@ protected:
         const std::string& header);
 
     virtual void returnResponse(const std::shared_ptr<restbed::Session>& session,
-        const int status, const std::string& result, const std::string& contentType);
+        const int status, const std::string& result, std::multimap<std::string, std::string>& contentType);
     virtual void defaultSessionClose(const std::shared_ptr<restbed::Session>& session,
         const int status, const std::string& result);
 
@@ -466,8 +466,8 @@ public:
     // Set these to implement the server functionality //
     /////////////////////////////////////////////////////
     std::function<int(
-        std::string const & body)> handler_PUT_func =
-            [](std::string const &) -> int
+        std::string & body)> handler_PUT_func =
+            [](std::string &) -> int
                 { throw FakeApiException(501, "Not implemented"); };
 
 
@@ -478,7 +478,7 @@ protected:
     //////////////////////////////////////////////////////////
 
     virtual int handler_PUT(
-        std::string const & body);
+        std::string & body);
 
 
 protected:
@@ -497,7 +497,7 @@ protected:
         const std::string& header);
 
     virtual void returnResponse(const std::shared_ptr<restbed::Session>& session,
-        const int status, const std::string& result, const std::string& contentType);
+        const int status, const std::string& result, std::multimap<std::string, std::string>& contentType);
     virtual void defaultSessionClose(const std::shared_ptr<restbed::Session>& session,
         const int status, const std::string& result);
 
@@ -521,8 +521,8 @@ public:
     // Set these to implement the server functionality //
     /////////////////////////////////////////////////////
     std::function<int(
-        std::shared_ptr<FileSchemaTestClass> const & fileSchemaTestClass)> handler_PUT_func =
-            [](std::shared_ptr<FileSchemaTestClass> const &) -> int
+        FileSchemaTestClass & fileSchemaTestClass)> handler_PUT_func =
+            [](FileSchemaTestClass &) -> int
                 { throw FakeApiException(501, "Not implemented"); };
 
 
@@ -533,7 +533,7 @@ protected:
     //////////////////////////////////////////////////////////
 
     virtual int handler_PUT(
-        std::shared_ptr<FileSchemaTestClass> const & fileSchemaTestClass);
+        FileSchemaTestClass & fileSchemaTestClass);
 
 
 protected:
@@ -552,7 +552,7 @@ protected:
         const std::string& header);
 
     virtual void returnResponse(const std::shared_ptr<restbed::Session>& session,
-        const int status, const std::string& result, const std::string& contentType);
+        const int status, const std::string& result, std::multimap<std::string, std::string>& contentType);
     virtual void defaultSessionClose(const std::shared_ptr<restbed::Session>& session,
         const int status, const std::string& result);
 
@@ -576,8 +576,8 @@ public:
     // Set these to implement the server functionality //
     /////////////////////////////////////////////////////
     std::function<int(
-        std::string const & query, std::shared_ptr<User> const & user)> handler_PUT_func =
-            [](std::string const &, std::shared_ptr<User> const &) -> int
+        std::string & query, User & user)> handler_PUT_func =
+            [](std::string &, User &) -> int
                 { throw FakeApiException(501, "Not implemented"); };
 
 
@@ -588,7 +588,7 @@ protected:
     //////////////////////////////////////////////////////////
 
     virtual int handler_PUT(
-        std::string const & query, std::shared_ptr<User> const & user);
+        std::string & query, User & user);
 
 
 protected:
@@ -607,7 +607,7 @@ protected:
         const std::string& header);
 
     virtual void returnResponse(const std::shared_ptr<restbed::Session>& session,
-        const int status, const std::string& result, const std::string& contentType);
+        const int status, const std::string& result, std::multimap<std::string, std::string>& contentType);
     virtual void defaultSessionClose(const std::shared_ptr<restbed::Session>& session,
         const int status, const std::string& result);
 
@@ -630,24 +630,24 @@ public:
     /////////////////////////////////////////////////////
     // Set these to implement the server functionality //
     /////////////////////////////////////////////////////
-    std::function<std::pair<int, std::shared_ptr<Client>>(
-        std::shared_ptr<Client> const & client)> handler_PATCH_func =
-            [](std::shared_ptr<Client> const &) -> std::pair<int, std::shared_ptr<Client>>
+    std::function<std::pair<int, Client>(
+        Client & client)> handler_PATCH_func =
+            [](Client &) -> std::pair<int, Client>
                 { throw FakeApiException(501, "Not implemented"); };
 
     std::function<int(
-        double const & number, double const & r_double, std::string const & patternWithoutDelimiter, std::string const & byte, int32_t const & integer, int32_t const & int32, int64_t const & int64, float const & r_float, std::string const & string, std::string const & binary, std::string const & date, std::string const & dateTime, std::string const & password, std::string const & callback)> handler_POST_func =
-            [](double const &, double const &, std::string const &, std::string const &, int32_t const &, int32_t const &, int64_t const &, float const &, std::string const &, std::string const &, std::string const &, std::string const &, std::string const &, std::string const &) -> int
+        double & number, double & r_double, std::string & patternWithoutDelimiter, std::string & byte, int32_t & integer, int32_t & int32, int64_t & int64, float & r_float, std::string & string, std::string & binary, std::string & date, std::string & dateTime, std::string & password, std::string & callback)> handler_POST_func =
+            [](double &, double &, std::string &, std::string &, int32_t &, int32_t &, int64_t &, float &, std::string &, std::string &, std::string &, std::string &, std::string &, std::string &) -> int
                 { throw FakeApiException(501, "Not implemented"); };
 
     std::function<int(
-        std::vector<std::string> const & enumHeaderStringArray, std::string const & enumHeaderString, std::vector<std::string> const & enumQueryStringArray, std::string const & enumQueryString, int32_t const & enumQueryInteger, double const & enumQueryDouble, std::vector<std::string> const & enumFormStringArray, std::string const & enumFormString)> handler_GET_func =
-            [](std::vector<std::string> const &, std::string const &, std::vector<std::string> const &, std::string const &, int32_t const &, double const &, std::vector<std::string> const &, std::string const &) -> int
+        std::vector<std::string> & enumHeaderStringArray, std::string & enumHeaderString, std::vector<std::string> & enumQueryStringArray, std::string & enumQueryString, int32_t & enumQueryInteger, double & enumQueryDouble, std::vector<std::string> & enumFormStringArray, std::string & enumFormString)> handler_GET_func =
+            [](std::vector<std::string> &, std::string &, std::vector<std::string> &, std::string &, int32_t &, double &, std::vector<std::string> &, std::string &) -> int
                 { throw FakeApiException(501, "Not implemented"); };
 
     std::function<int(
-        int32_t const & requiredStringGroup, bool const & requiredBooleanGroup, int64_t const & requiredInt64Group, int32_t const & stringGroup, bool const & booleanGroup, int64_t const & int64Group)> handler_DELETE_func =
-            [](int32_t const &, bool const &, int64_t const &, int32_t const &, bool const &, int64_t const &) -> int
+        int32_t & requiredStringGroup, bool & requiredBooleanGroup, int64_t & requiredInt64Group, int32_t & stringGroup, bool & booleanGroup, int64_t & int64Group)> handler_DELETE_func =
+            [](int32_t &, bool &, int64_t &, int32_t &, bool &, int64_t &) -> int
                 { throw FakeApiException(501, "Not implemented"); };
 
 
@@ -657,15 +657,15 @@ protected:
     // override these to implement the server functionality //
     //////////////////////////////////////////////////////////
 
-    virtual std::pair<int, std::shared_ptr<Client>> handler_PATCH(
-        std::shared_ptr<Client> const & client);
+    virtual std::pair<int, Client> handler_PATCH(
+        Client & client);
 
     virtual int handler_POST(
-        double const & number, double const & r_double, std::string const & patternWithoutDelimiter, std::string const & byte, int32_t const & integer, int32_t const & int32, int64_t const & int64, float const & r_float, std::string const & string, std::string const & binary, std::string const & date, std::string const & dateTime, std::string const & password, std::string const & callback);
+        double & number, double & r_double, std::string & patternWithoutDelimiter, std::string & byte, int32_t & integer, int32_t & int32, int64_t & int64, float & r_float, std::string & string, std::string & binary, std::string & date, std::string & dateTime, std::string & password, std::string & callback);
     virtual int handler_GET(
-        std::vector<std::string> const & enumHeaderStringArray, std::string const & enumHeaderString, std::vector<std::string> const & enumQueryStringArray, std::string const & enumQueryString, int32_t const & enumQueryInteger, double const & enumQueryDouble, std::vector<std::string> const & enumFormStringArray, std::string const & enumFormString);
+        std::vector<std::string> & enumHeaderStringArray, std::string & enumHeaderString, std::vector<std::string> & enumQueryStringArray, std::string & enumQueryString, int32_t & enumQueryInteger, double & enumQueryDouble, std::vector<std::string> & enumFormStringArray, std::string & enumFormString);
     virtual int handler_DELETE(
-        int32_t const & requiredStringGroup, bool const & requiredBooleanGroup, int64_t const & requiredInt64Group, int32_t const & stringGroup, bool const & booleanGroup, int64_t const & int64Group);
+        int32_t & requiredStringGroup, bool & requiredBooleanGroup, int64_t & requiredInt64Group, int32_t & stringGroup, bool & booleanGroup, int64_t & int64Group);
 
 protected:
     //////////////////////////////////////
@@ -683,7 +683,7 @@ protected:
         const std::string& header);
 
     virtual void returnResponse(const std::shared_ptr<restbed::Session>& session,
-        const int status, const std::string& result, const std::string& contentType);
+        const int status, const std::string& result, std::multimap<std::string, std::string>& contentType);
     virtual void defaultSessionClose(const std::shared_ptr<restbed::Session>& session,
         const int status, const std::string& result);
 
@@ -710,8 +710,8 @@ public:
     // Set these to implement the server functionality //
     /////////////////////////////////////////////////////
     std::function<int(
-        std::shared_ptr<std::map<std::string, std::string>> const & requestBody)> handler_POST_func =
-            [](std::shared_ptr<std::map<std::string, std::string>> const &) -> int
+        std::map<std::string, std::string> & requestBody)> handler_POST_func =
+            [](std::map<std::string, std::string> &) -> int
                 { throw FakeApiException(501, "Not implemented"); };
 
 
@@ -722,7 +722,7 @@ protected:
     //////////////////////////////////////////////////////////
 
     virtual int handler_POST(
-        std::shared_ptr<std::map<std::string, std::string>> const & requestBody);
+        std::map<std::string, std::string> & requestBody);
 
 
 protected:
@@ -741,7 +741,7 @@ protected:
         const std::string& header);
 
     virtual void returnResponse(const std::shared_ptr<restbed::Session>& session,
-        const int status, const std::string& result, const std::string& contentType);
+        const int status, const std::string& result, std::multimap<std::string, std::string>& contentType);
     virtual void defaultSessionClose(const std::shared_ptr<restbed::Session>& session,
         const int status, const std::string& result);
 
@@ -765,8 +765,8 @@ public:
     // Set these to implement the server functionality //
     /////////////////////////////////////////////////////
     std::function<int(
-        std::string const & param, std::string const & param2)> handler_GET_func =
-            [](std::string const &, std::string const &) -> int
+        std::string & param, std::string & param2)> handler_GET_func =
+            [](std::string &, std::string &) -> int
                 { throw FakeApiException(501, "Not implemented"); };
 
 
@@ -777,7 +777,7 @@ protected:
     //////////////////////////////////////////////////////////
 
     virtual int handler_GET(
-        std::string const & param, std::string const & param2);
+        std::string & param, std::string & param2);
 
 
 protected:
@@ -796,7 +796,7 @@ protected:
         const std::string& header);
 
     virtual void returnResponse(const std::shared_ptr<restbed::Session>& session,
-        const int status, const std::string& result, const std::string& contentType);
+        const int status, const std::string& result, std::multimap<std::string, std::string>& contentType);
     virtual void defaultSessionClose(const std::shared_ptr<restbed::Session>& session,
         const int status, const std::string& result);
 
@@ -820,8 +820,8 @@ public:
     // Set these to implement the server functionality //
     /////////////////////////////////////////////////////
     std::function<int(
-        std::vector<std::string> const & pipe, std::vector<std::string> const & ioutil, std::vector<std::string> const & http, std::vector<std::string> const & url, std::vector<std::string> const & context, std::string const & allowEmpty, std::shared_ptr<std::map<std::string, std::string>> const & language)> handler_PUT_func =
-            [](std::vector<std::string> const &, std::vector<std::string> const &, std::vector<std::string> const &, std::vector<std::string> const &, std::vector<std::string> const &, std::string const &, std::shared_ptr<std::map<std::string, std::string>> const &) -> int
+        std::vector<std::string> & pipe, std::vector<std::string> & ioutil, std::vector<std::string> & http, std::vector<std::string> & url, std::vector<std::string> & context, std::string & allowEmpty, std::map<std::string, std::string> & language)> handler_PUT_func =
+            [](std::vector<std::string> &, std::vector<std::string> &, std::vector<std::string> &, std::vector<std::string> &, std::vector<std::string> &, std::string &, std::map<std::string, std::string> &) -> int
                 { throw FakeApiException(501, "Not implemented"); };
 
 
@@ -832,7 +832,7 @@ protected:
     //////////////////////////////////////////////////////////
 
     virtual int handler_PUT(
-        std::vector<std::string> const & pipe, std::vector<std::string> const & ioutil, std::vector<std::string> const & http, std::vector<std::string> const & url, std::vector<std::string> const & context, std::string const & allowEmpty, std::shared_ptr<std::map<std::string, std::string>> const & language);
+        std::vector<std::string> & pipe, std::vector<std::string> & ioutil, std::vector<std::string> & http, std::vector<std::string> & url, std::vector<std::string> & context, std::string & allowEmpty, std::map<std::string, std::string> & language);
 
 
 protected:
@@ -851,7 +851,7 @@ protected:
         const std::string& header);
 
     virtual void returnResponse(const std::shared_ptr<restbed::Session>& session,
-        const int status, const std::string& result, const std::string& contentType);
+        const int status, const std::string& result, std::multimap<std::string, std::string>& contentType);
     virtual void defaultSessionClose(const std::shared_ptr<restbed::Session>& session,
         const int status, const std::string& result);
 

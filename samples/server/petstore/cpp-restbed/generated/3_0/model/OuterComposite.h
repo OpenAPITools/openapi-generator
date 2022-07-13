@@ -25,6 +25,7 @@
 #include <memory>
 #include <vector>
 #include <boost/property_tree/ptree.hpp>
+#include "helpers.h"
 
 namespace org {
 namespace openapitools {
@@ -41,9 +42,15 @@ public:
     explicit OuterComposite(boost::property_tree::ptree const& pt);
     virtual ~OuterComposite() = default;
 
-    std::string toJsonString(bool prettyJson = false);
+    OuterComposite(const OuterComposite& other) = default; // copy constructor
+    OuterComposite(OuterComposite&& other) noexcept = default; // move constructor
+
+    OuterComposite& operator=(const OuterComposite& other) = default; // copy assignment
+    OuterComposite& operator=(OuterComposite&& other) noexcept = default; // move assignment
+
+    std::string toJsonString(bool prettyJson = false) const;
     void fromJsonString(std::string const& jsonString);
-    boost::property_tree::ptree toPropertyTree();
+    boost::property_tree::ptree toPropertyTree() const;
     void fromPropertyTree(boost::property_tree::ptree const& pt);
 
     /////////////////////////////////////////////
@@ -68,23 +75,27 @@ public:
     void setMyBoolean(bool value);
 
 protected:
-    //////////////////////////////////////
-    // Override these for customization //
-    //////////////////////////////////////
-
-    virtual std::string toJsonString_internal(bool prettyJson = false);
-    virtual void fromJsonString_internal(std::string const& jsonString);
-    virtual boost::property_tree::ptree toPropertyTree_internal();
-    virtual void fromPropertyTree_internal(boost::property_tree::ptree const& pt);
-
-
-protected:
     double m_My_number = 0.0;
     std::string m_My_string = "";
     bool m_My_boolean = false;
+
+
+
 };
 
 std::vector<OuterComposite> createOuterCompositeVectorFromJsonString(const std::string& json);
+
+template<>
+inline boost::property_tree::ptree toPt<OuterComposite>(const OuterComposite& val) {
+    return val.toPropertyTree();
+}
+
+template<>
+inline OuterComposite fromPt<OuterComposite>(const boost::property_tree::ptree& pt) {
+    OuterComposite ret;
+    ret.fromPropertyTree(pt);
+    return ret;
+}
 
 }
 }

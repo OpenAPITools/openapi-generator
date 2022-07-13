@@ -24,6 +24,7 @@
 #include <memory>
 #include <vector>
 #include <boost/property_tree/ptree.hpp>
+#include "helpers.h"
 
 namespace org {
 namespace openapitools {
@@ -40,9 +41,15 @@ public:
     explicit Cat_allOf(boost::property_tree::ptree const& pt);
     virtual ~Cat_allOf() = default;
 
-    std::string toJsonString(bool prettyJson = false);
+    Cat_allOf(const Cat_allOf& other) = default; // copy constructor
+    Cat_allOf(Cat_allOf&& other) noexcept = default; // move constructor
+
+    Cat_allOf& operator=(const Cat_allOf& other) = default; // copy assignment
+    Cat_allOf& operator=(Cat_allOf&& other) noexcept = default; // move assignment
+
+    std::string toJsonString(bool prettyJson = false) const;
     void fromJsonString(std::string const& jsonString);
-    boost::property_tree::ptree toPropertyTree();
+    boost::property_tree::ptree toPropertyTree() const;
     void fromPropertyTree(boost::property_tree::ptree const& pt);
 
     /////////////////////////////////////////////
@@ -55,21 +62,23 @@ public:
     void setDeclawed(bool value);
 
 protected:
-    //////////////////////////////////////
-    // Override these for customization //
-    //////////////////////////////////////
-
-    virtual std::string toJsonString_internal(bool prettyJson = false);
-    virtual void fromJsonString_internal(std::string const& jsonString);
-    virtual boost::property_tree::ptree toPropertyTree_internal();
-    virtual void fromPropertyTree_internal(boost::property_tree::ptree const& pt);
-
-
-protected:
     bool m_Declawed = false;
+
 };
 
 std::vector<Cat_allOf> createCat_allOfVectorFromJsonString(const std::string& json);
+
+template<>
+inline boost::property_tree::ptree toPt<Cat_allOf>(const Cat_allOf& val) {
+    return val.toPropertyTree();
+}
+
+template<>
+inline Cat_allOf fromPt<Cat_allOf>(const boost::property_tree::ptree& pt) {
+    Cat_allOf ret;
+    ret.fromPropertyTree(pt);
+    return ret;
+}
 
 }
 }

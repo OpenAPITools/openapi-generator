@@ -1,6 +1,6 @@
 /**
  * OpenAPI Petstore
- * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
+ * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  * The version of the OpenAPI document: 1.0.0
  * 
@@ -13,7 +13,7 @@
 /*
  * User.h
  *
- * A User who is purchasing from the pet store
+ * 
  */
 
 #ifndef User_H_
@@ -25,6 +25,7 @@
 #include <memory>
 #include <vector>
 #include <boost/property_tree/ptree.hpp>
+#include "helpers.h"
 
 namespace org {
 namespace openapitools {
@@ -32,7 +33,7 @@ namespace server {
 namespace model {
 
 /// <summary>
-/// A User who is purchasing from the pet store
+/// 
 /// </summary>
 class  User 
 {
@@ -41,9 +42,15 @@ public:
     explicit User(boost::property_tree::ptree const& pt);
     virtual ~User() = default;
 
-    std::string toJsonString(bool prettyJson = false);
+    User(const User& other) = default; // copy constructor
+    User(User&& other) noexcept = default; // move constructor
+
+    User& operator=(const User& other) = default; // copy assignment
+    User& operator=(User&& other) noexcept = default; // move assignment
+
+    std::string toJsonString(bool prettyJson = false) const;
     void fromJsonString(std::string const& jsonString);
-    boost::property_tree::ptree toPropertyTree();
+    boost::property_tree::ptree toPropertyTree() const;
     void fromPropertyTree(boost::property_tree::ptree const& pt);
 
     /////////////////////////////////////////////
@@ -98,17 +105,6 @@ public:
     void setUserStatus(int32_t value);
 
 protected:
-    //////////////////////////////////////
-    // Override these for customization //
-    //////////////////////////////////////
-
-    virtual std::string toJsonString_internal(bool prettyJson = false);
-    virtual void fromJsonString_internal(std::string const& jsonString);
-    virtual boost::property_tree::ptree toPropertyTree_internal();
-    virtual void fromPropertyTree_internal(boost::property_tree::ptree const& pt);
-
-
-protected:
     int64_t m_Id = 0L;
     std::string m_Username = "";
     std::string m_FirstName = "";
@@ -117,9 +113,29 @@ protected:
     std::string m_Password = "";
     std::string m_Phone = "";
     int32_t m_UserStatus = 0;
+
+
+
+
+
+
+
+
 };
 
 std::vector<User> createUserVectorFromJsonString(const std::string& json);
+
+template<>
+inline boost::property_tree::ptree toPt<User>(const User& val) {
+    return val.toPropertyTree();
+}
+
+template<>
+inline User fromPt<User>(const boost::property_tree::ptree& pt) {
+    User ret;
+    ret.fromPropertyTree(pt);
+    return ret;
+}
 
 }
 }

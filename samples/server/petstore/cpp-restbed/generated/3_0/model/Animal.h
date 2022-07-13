@@ -25,6 +25,7 @@
 #include <memory>
 #include <vector>
 #include <boost/property_tree/ptree.hpp>
+#include "helpers.h"
 
 namespace org {
 namespace openapitools {
@@ -41,9 +42,15 @@ public:
     explicit Animal(boost::property_tree::ptree const& pt);
     virtual ~Animal() = default;
 
-    std::string toJsonString(bool prettyJson = false);
+    Animal(const Animal& other) = default; // copy constructor
+    Animal(Animal&& other) noexcept = default; // move constructor
+
+    Animal& operator=(const Animal& other) = default; // copy assignment
+    Animal& operator=(Animal&& other) noexcept = default; // move assignment
+
+    std::string toJsonString(bool prettyJson = false) const;
     void fromJsonString(std::string const& jsonString);
-    boost::property_tree::ptree toPropertyTree();
+    boost::property_tree::ptree toPropertyTree() const;
     void fromPropertyTree(boost::property_tree::ptree const& pt);
 
     /////////////////////////////////////////////
@@ -62,22 +69,25 @@ public:
     void setColor(std::string value);
 
 protected:
-    //////////////////////////////////////
-    // Override these for customization //
-    //////////////////////////////////////
-
-    virtual std::string toJsonString_internal(bool prettyJson = false);
-    virtual void fromJsonString_internal(std::string const& jsonString);
-    virtual boost::property_tree::ptree toPropertyTree_internal();
-    virtual void fromPropertyTree_internal(boost::property_tree::ptree const& pt);
-
-
-protected:
     std::string m_ClassName = "";
     std::string m_Color = "red";
+
+
 };
 
 std::vector<Animal> createAnimalVectorFromJsonString(const std::string& json);
+
+template<>
+inline boost::property_tree::ptree toPt<Animal>(const Animal& val) {
+    return val.toPropertyTree();
+}
+
+template<>
+inline Animal fromPt<Animal>(const boost::property_tree::ptree& pt) {
+    Animal ret;
+    ret.fromPropertyTree(pt);
+    return ret;
+}
 
 }
 }

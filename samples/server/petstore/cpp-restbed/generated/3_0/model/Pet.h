@@ -1,6 +1,6 @@
 /**
  * OpenAPI Petstore
- * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
+ * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  * The version of the OpenAPI document: 1.0.0
  * 
@@ -13,7 +13,7 @@
 /*
  * Pet.h
  *
- * A pet for sale in the pet store
+ * 
  */
 
 #ifndef Pet_H_
@@ -25,10 +25,12 @@
 #include <string>
 #include "Category.h"
 #include <vector>
+#include <set>
 #include <memory>
 #include <vector>
 #include <array>
 #include <boost/property_tree/ptree.hpp>
+#include "helpers.h"
 
 namespace org {
 namespace openapitools {
@@ -36,7 +38,7 @@ namespace server {
 namespace model {
 
 /// <summary>
-/// A pet for sale in the pet store
+/// 
 /// </summary>
 class  Pet 
 {
@@ -45,9 +47,15 @@ public:
     explicit Pet(boost::property_tree::ptree const& pt);
     virtual ~Pet() = default;
 
-    std::string toJsonString(bool prettyJson = false);
+    Pet(const Pet& other) = default; // copy constructor
+    Pet(Pet&& other) noexcept = default; // move constructor
+
+    Pet& operator=(const Pet& other) = default; // copy assignment
+    Pet& operator=(Pet&& other) noexcept = default; // move assignment
+
+    std::string toJsonString(bool prettyJson = false) const;
     void fromJsonString(std::string const& jsonString);
-    boost::property_tree::ptree toPropertyTree();
+    boost::property_tree::ptree toPropertyTree() const;
     void fromPropertyTree(boost::property_tree::ptree const& pt);
 
     /////////////////////////////////////////////
@@ -62,8 +70,8 @@ public:
     /// <summary>
     /// 
     /// </summary>
-    std::shared_ptr<Category> getCategory() const;
-    void setCategory(std::shared_ptr<Category> value);
+    Category getCategory() const;
+    void setCategory(Category value);
 
     /// <summary>
     /// 
@@ -74,14 +82,14 @@ public:
     /// <summary>
     /// 
     /// </summary>
-    std::vector<std::string> getPhotoUrls() const;
-    void setPhotoUrls(std::vector<std::string> value);
+    std::set<std::string> getPhotoUrls() const;
+    void setPhotoUrls(std::set<std::string> value);
 
     /// <summary>
     /// 
     /// </summary>
-    std::vector<std::shared_ptr<Tag>> getTags() const;
-    void setTags(std::vector<std::shared_ptr<Tag>> value);
+    std::vector<Tag> getTags() const;
+    void setTags(std::vector<Tag> value);
 
     /// <summary>
     /// pet status in the store
@@ -90,30 +98,36 @@ public:
     void setStatus(std::string value);
 
 protected:
-    //////////////////////////////////////
-    // Override these for customization //
-    //////////////////////////////////////
-
-    virtual std::string toJsonString_internal(bool prettyJson = false);
-    virtual void fromJsonString_internal(std::string const& jsonString);
-    virtual boost::property_tree::ptree toPropertyTree_internal();
-    virtual void fromPropertyTree_internal(boost::property_tree::ptree const& pt);
-
-
-protected:
     int64_t m_Id = 0L;
-    std::shared_ptr<Category> m_Category;
+    Category m_Category;
     std::string m_Name = "";
-    std::vector<std::string> m_PhotoUrls;
-    std::vector<std::shared_ptr<Tag>> m_Tags;
+    std::set<std::string> m_PhotoUrls;
+    std::vector<Tag> m_Tags;
     std::string m_Status = "";
-    const std::array<std::string, 3> m_StatusEnum = {
+
+
+
+
+
+
+    std::array<std::string, 3> m_StatusEnum = {
         "available", "pending", "sold"
     };
-
 };
 
 std::vector<Pet> createPetVectorFromJsonString(const std::string& json);
+
+template<>
+inline boost::property_tree::ptree toPt<Pet>(const Pet& val) {
+    return val.toPropertyTree();
+}
+
+template<>
+inline Pet fromPt<Pet>(const boost::property_tree::ptree& pt) {
+    Pet ret;
+    ret.fromPropertyTree(pt);
+    return ret;
+}
 
 }
 }

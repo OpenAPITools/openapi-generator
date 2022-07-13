@@ -1,6 +1,6 @@
 /**
  * OpenAPI Petstore
- * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
+ * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  * The version of the OpenAPI document: 1.0.0
  * 
@@ -13,7 +13,7 @@
 /*
  * ApiResponse.h
  *
- * Describes the result of uploading an image resource
+ * 
  */
 
 #ifndef ApiResponse_H_
@@ -25,6 +25,7 @@
 #include <memory>
 #include <vector>
 #include <boost/property_tree/ptree.hpp>
+#include "helpers.h"
 
 namespace org {
 namespace openapitools {
@@ -32,7 +33,7 @@ namespace server {
 namespace model {
 
 /// <summary>
-/// Describes the result of uploading an image resource
+/// 
 /// </summary>
 class  ApiResponse 
 {
@@ -41,9 +42,15 @@ public:
     explicit ApiResponse(boost::property_tree::ptree const& pt);
     virtual ~ApiResponse() = default;
 
-    std::string toJsonString(bool prettyJson = false);
+    ApiResponse(const ApiResponse& other) = default; // copy constructor
+    ApiResponse(ApiResponse&& other) noexcept = default; // move constructor
+
+    ApiResponse& operator=(const ApiResponse& other) = default; // copy assignment
+    ApiResponse& operator=(ApiResponse&& other) noexcept = default; // move assignment
+
+    std::string toJsonString(bool prettyJson = false) const;
     void fromJsonString(std::string const& jsonString);
-    boost::property_tree::ptree toPropertyTree();
+    boost::property_tree::ptree toPropertyTree() const;
     void fromPropertyTree(boost::property_tree::ptree const& pt);
 
     /////////////////////////////////////////////
@@ -68,23 +75,27 @@ public:
     void setMessage(std::string value);
 
 protected:
-    //////////////////////////////////////
-    // Override these for customization //
-    //////////////////////////////////////
-
-    virtual std::string toJsonString_internal(bool prettyJson = false);
-    virtual void fromJsonString_internal(std::string const& jsonString);
-    virtual boost::property_tree::ptree toPropertyTree_internal();
-    virtual void fromPropertyTree_internal(boost::property_tree::ptree const& pt);
-
-
-protected:
     int32_t m_Code = 0;
     std::string m_Type = "";
     std::string m_Message = "";
+
+
+
 };
 
 std::vector<ApiResponse> createApiResponseVectorFromJsonString(const std::string& json);
+
+template<>
+inline boost::property_tree::ptree toPt<ApiResponse>(const ApiResponse& val) {
+    return val.toPropertyTree();
+}
+
+template<>
+inline ApiResponse fromPt<ApiResponse>(const boost::property_tree::ptree& pt) {
+    ApiResponse ret;
+    ret.fromPropertyTree(pt);
+    return ret;
+}
 
 }
 }

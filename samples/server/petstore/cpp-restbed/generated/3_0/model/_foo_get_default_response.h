@@ -25,6 +25,7 @@
 #include <memory>
 #include <vector>
 #include <boost/property_tree/ptree.hpp>
+#include "helpers.h"
 
 namespace org {
 namespace openapitools {
@@ -41,9 +42,15 @@ public:
     explicit _foo_get_default_response(boost::property_tree::ptree const& pt);
     virtual ~_foo_get_default_response() = default;
 
-    std::string toJsonString(bool prettyJson = false);
+    _foo_get_default_response(const _foo_get_default_response& other) = default; // copy constructor
+    _foo_get_default_response(_foo_get_default_response&& other) noexcept = default; // move constructor
+
+    _foo_get_default_response& operator=(const _foo_get_default_response& other) = default; // copy assignment
+    _foo_get_default_response& operator=(_foo_get_default_response&& other) noexcept = default; // move assignment
+
+    std::string toJsonString(bool prettyJson = false) const;
     void fromJsonString(std::string const& jsonString);
-    boost::property_tree::ptree toPropertyTree();
+    boost::property_tree::ptree toPropertyTree() const;
     void fromPropertyTree(boost::property_tree::ptree const& pt);
 
     /////////////////////////////////////////////
@@ -52,25 +59,27 @@ public:
     /// <summary>
     /// 
     /// </summary>
-    std::shared_ptr<Foo> getString() const;
-    void setString(std::shared_ptr<Foo> value);
+    Foo getString() const;
+    void setString(Foo value);
 
 protected:
-    //////////////////////////////////////
-    // Override these for customization //
-    //////////////////////////////////////
+    Foo m_string;
 
-    virtual std::string toJsonString_internal(bool prettyJson = false);
-    virtual void fromJsonString_internal(std::string const& jsonString);
-    virtual boost::property_tree::ptree toPropertyTree_internal();
-    virtual void fromPropertyTree_internal(boost::property_tree::ptree const& pt);
-
-
-protected:
-    std::shared_ptr<Foo> m_string;
 };
 
 std::vector<_foo_get_default_response> create_foo_get_default_responseVectorFromJsonString(const std::string& json);
+
+template<>
+inline boost::property_tree::ptree toPt<_foo_get_default_response>(const _foo_get_default_response& val) {
+    return val.toPropertyTree();
+}
+
+template<>
+inline _foo_get_default_response fromPt<_foo_get_default_response>(const boost::property_tree::ptree& pt) {
+    _foo_get_default_response ret;
+    ret.fromPropertyTree(pt);
+    return ret;
+}
 
 }
 }

@@ -24,6 +24,7 @@
 #include <memory>
 #include <vector>
 #include <boost/property_tree/ptree.hpp>
+#include "helpers.h"
 
 namespace org {
 namespace openapitools {
@@ -40,29 +41,36 @@ public:
     explicit OuterEnumIntegerDefaultValue(boost::property_tree::ptree const& pt);
     virtual ~OuterEnumIntegerDefaultValue() = default;
 
-    std::string toJsonString(bool prettyJson = false);
+    OuterEnumIntegerDefaultValue(const OuterEnumIntegerDefaultValue& other) = default; // copy constructor
+    OuterEnumIntegerDefaultValue(OuterEnumIntegerDefaultValue&& other) noexcept = default; // move constructor
+
+    OuterEnumIntegerDefaultValue& operator=(const OuterEnumIntegerDefaultValue& other) = default; // copy assignment
+    OuterEnumIntegerDefaultValue& operator=(OuterEnumIntegerDefaultValue&& other) noexcept = default; // move assignment
+
+    std::string toJsonString(bool prettyJson = false) const;
     void fromJsonString(std::string const& jsonString);
-    boost::property_tree::ptree toPropertyTree();
+    boost::property_tree::ptree toPropertyTree() const;
     void fromPropertyTree(boost::property_tree::ptree const& pt);
 
     /////////////////////////////////////////////
     /// OuterEnumIntegerDefaultValue members
 
 protected:
-    //////////////////////////////////////
-    // Override these for customization //
-    //////////////////////////////////////
-
-    virtual std::string toJsonString_internal(bool prettyJson = false);
-    virtual void fromJsonString_internal(std::string const& jsonString);
-    virtual boost::property_tree::ptree toPropertyTree_internal();
-    virtual void fromPropertyTree_internal(boost::property_tree::ptree const& pt);
-
-
-protected:
 };
 
 std::vector<OuterEnumIntegerDefaultValue> createOuterEnumIntegerDefaultValueVectorFromJsonString(const std::string& json);
+
+template<>
+inline boost::property_tree::ptree toPt<OuterEnumIntegerDefaultValue>(const OuterEnumIntegerDefaultValue& val) {
+    return val.toPropertyTree();
+}
+
+template<>
+inline OuterEnumIntegerDefaultValue fromPt<OuterEnumIntegerDefaultValue>(const boost::property_tree::ptree& pt) {
+    OuterEnumIntegerDefaultValue ret;
+    ret.fromPropertyTree(pt);
+    return ret;
+}
 
 }
 }

@@ -19,6 +19,32 @@ namespace {{this}} {
 
 using namespace {{modelNamespace}};
 
+namespace {
+[[maybe_unused]]
+std::string selectPreferredContentType(const std::vector<std::string>& contentTypes) {
+    if (contentTypes.size() == 0) {
+        return "application/json";
+    }
+
+    if (contentTypes.size() == 1) {
+        return contentTypes.at(0);
+    }
+
+    static const std::array<std::string, 2> preferredTypes = {"json", "xml"};
+    for (const auto& preferredType: preferredTypes) {
+        const auto ret = std::find_if(contentTypes.cbegin(),
+        contentTypes.cend(),
+        [preferredType](const std::string& str) {
+            return str.find(preferredType) != std::string::npos;});
+        if (ret != contentTypes.cend()) {
+            return *ret;
+        }
+    }
+
+    return contentTypes.at(0);
+}
+}
+
 {{classname}}Exception::{{classname}}Exception(int status_code, std::string what)
   : m_status(status_code),
     m_what(what)
@@ -36,26 +62,26 @@ const char* {{classname}}Exception::what() const noexcept
 
 
 template<class MODEL_T>
-std::shared_ptr<MODEL_T> extractJsonModelBodyParam(const std::string& bodyContent)
+MODEL_T extractJsonModelBodyParam(const std::string& bodyContent)
 {
     std::stringstream sstream(bodyContent);
     boost::property_tree::ptree pt;
     boost::property_tree::json_parser::read_json(sstream, pt);
 
-    auto model = std::make_shared<MODEL_T>(pt);
+    auto model = MODEL_T(pt);
     return model;
 }
 
 template<class MODEL_T>
-std::vector<std::shared_ptr<MODEL_T>> extractJsonArrayBodyParam(const std::string& bodyContent)
+std::vector<MODEL_T> extractJsonArrayBodyParam(const std::string& bodyContent)
 {
     std::stringstream sstream(bodyContent);
     boost::property_tree::ptree pt;
     boost::property_tree::json_parser::read_json(sstream, pt);
 
-    auto arrayRet = std::vector<std::shared_ptr<MODEL_T>>();
+    auto arrayRet = std::vector<MODEL_T>();
     for (const auto& child: pt) {
-        arrayRet.emplace_back(std::make_shared<MODEL_T>(child.second));
+        arrayRet.emplace_back(MODEL_T(child.second));
     }
     return arrayRet;
 }
@@ -115,9 +141,10 @@ void {{vendorExtensions.x-codegen-resource-name}}Resource::setResponseHeader(con
     session->set_header(header, "");
 }
 
-void {{vendorExtensions.x-codegen-resource-name}}Resource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, const std::string& contentType)
+void {{vendorExtensions.x-codegen-resource-name}}Resource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, std::multimap<std::string, std::string>& responseHeaders)
 {
-    session->close(status, result, { {"Connection", "close"}, {"Content-Type", contentType} });
+    responseHeaders.insert(std::make_pair("Connection", "close"));
+    session->close(status, result, responseHeaders);
 }
 
 void {{vendorExtensions.x-codegen-resource-name}}Resource::defaultSessionClose(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result)
@@ -148,14 +175,14 @@ void {{vendorExtensions.x-codegen-resource-name}}Resource::handler_{{httpMethod}
 {{/vendorExtensions.x-codegen-other-methods}}
 
 {{#returnType}}std::pair<int, {{{.}}}>{{/returnType}}{{^returnType}}int{{/returnType}} {{vendorExtensions.x-codegen-resource-name}}Resource::handler_{{httpMethod}}(
-        {{#allParams}}{{{dataType}}} const & {{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}})
+        {{#allParams}}{{{dataType}}} & {{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}})
 {
     return handler_{{httpMethod}}_func({{#allParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}});
 }
 
 {{#vendorExtensions.x-codegen-other-methods}}
 {{#returnType}}std::pair<int, {{{.}}}>{{/returnType}}{{^returnType}}int{{/returnType}} {{vendorExtensions.x-codegen-resource-name}}Resource::handler_{{httpMethod}}(
-    {{#allParams}}{{{dataType}}} const & {{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}})
+    {{#allParams}}{{{dataType}}} & {{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}})
 {
     return handler_{{httpMethod}}_func({{#allParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}});
 }

@@ -19,8 +19,10 @@
 #include <map>
 #include <sstream>
 #include <stdexcept>
+#include <regex>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
+#include "helpers.h"
 
 using boost::property_tree::ptree;
 using boost::property_tree::read_json;
@@ -31,88 +33,23 @@ namespace openapitools {
 namespace server {
 namespace model {
 
-namespace {
-template <class T>
-void propertyTreeToMap(const std::string& propertyName, boost::property_tree::ptree const& pt, std::map<std::string, T> &map) {
-    for (const auto &childTree: pt.get_child(propertyName)) {
-        map.emplace(childTree.first, childTree.second.get_value<T>());
-    }
-}
-
-template <class T>
-void propertyTreeToMap(const std::string& propertyName, boost::property_tree::ptree const &pt, std::map<std::string, std::map<std::string, T>> & map ) {
-    for (const auto &childTree: pt.get_child(propertyName)) {
-        propertyTreeToMap(childTree.first, childTree.second, map);
-    }
-}
-
-template <class T>
-void propertyTreeToModelMap(const std::string& propertyName, boost::property_tree::ptree const& pt, std::map<std::string, T> &map) {
-    for (const auto &childTree: pt.get_child(propertyName)) {
-        T tmp;
-        tmp->fromPropertyTree(childTree.second);
-        map.emplace(childTree.first, tmp);
-    }
-}
-
-template <class T>
-void propertyTreeToModelMap(const std::string& propertyName, boost::property_tree::ptree const &pt, std::map<std::string, std::map<std::string, T>> & map ) {
-    for (const auto &childTree: pt.get_child(propertyName)) {
-       propertyTreeToMap(childTree.first, childTree.second, map);
-    }
-}
-
-template <class T>
-void mapToPropertyTree(const std::map<std::string, T> & map, boost::property_tree::ptree &pt) {
-    for (const auto &childEntry : map) {
-        pt.push_back(boost::property_tree::ptree::value_type(childEntry.first, childEntry.second));
-    }
-}
-
-template <class T>
-void mapToPropertyTree(const std::map<std::string, std::map<std::string, T>> & map, boost::property_tree::ptree &pt) {
-    for (const auto &childEntry : map) {
-        boost::property_tree::ptree child_node;
-        mapToPropertyTree(childEntry.second, child_node);
-        pt.push_back(boost::property_tree::ptree::value_type(childEntry.first, child_node));
-    }
-}
-}
-
-
 AdditionalPropertiesClass::AdditionalPropertiesClass(boost::property_tree::ptree const& pt)
 {
         fromPropertyTree(pt);
 }
 
-std::string AdditionalPropertiesClass::toJsonString(bool prettyJson /* = false */)
-{
-    return toJsonString_internal(prettyJson);
-}
 
-void AdditionalPropertiesClass::fromJsonString(std::string const& jsonString)
-{
-    fromJsonString_internal(jsonString);
-}
-
-boost::property_tree::ptree AdditionalPropertiesClass::toPropertyTree()
-{
-    return toPropertyTree_internal();
-}
-
-void AdditionalPropertiesClass::fromPropertyTree(boost::property_tree::ptree const& pt)
-{
-    fromPropertyTree_internal(pt);
-}
-
-std::string AdditionalPropertiesClass::toJsonString_internal(bool prettyJson)
+std::string AdditionalPropertiesClass::toJsonString(bool prettyJson /* = false */) const
 {
 	std::stringstream ss;
 	write_json(ss, this->toPropertyTree(), prettyJson);
-	return ss.str();
+    // workaround inspired by: https://stackoverflow.com/a/56395440
+    std::regex reg("\\\"([0-9]+\\.{0,1}[0-9]*)\\\"");
+    std::string result = std::regex_replace(ss.str(), reg, "$1");
+    return result;
 }
 
-void AdditionalPropertiesClass::fromJsonString_internal(std::string const& jsonString)
+void AdditionalPropertiesClass::fromJsonString(std::string const& jsonString)
 {
 	std::stringstream ss(jsonString);
 	ptree pt;
@@ -120,27 +57,33 @@ void AdditionalPropertiesClass::fromJsonString_internal(std::string const& jsonS
 	this->fromPropertyTree(pt);
 }
 
-ptree AdditionalPropertiesClass::toPropertyTree_internal()
+ptree AdditionalPropertiesClass::toPropertyTree() const
 {
 	ptree pt;
 	ptree tmp_node;
 	// generate tree for Map_property
+    if (!m_Map_property.empty()) {
+        tmp_node = toPt(m_Map_property);
+        pt.add_child("map_property", tmp_node);
+    }
     tmp_node.clear();
 	// generate tree for Map_of_map_property
+    if (!m_Map_of_map_property.empty()) {
+        tmp_node = toPt(m_Map_of_map_property);
+        pt.add_child("map_of_map_property", tmp_node);
+    }
     tmp_node.clear();
 	return pt;
 }
 
-void AdditionalPropertiesClass::fromPropertyTree_internal(ptree const &pt)
+void AdditionalPropertiesClass::fromPropertyTree(ptree const &pt)
 {
 	ptree tmp_node;
-    for (const auto &childEntry : pt) {
-        propertyTreeToMap(
-            childEntry.first, childEntry.second, m_Map_property);
+    if (pt.get_child_optional("map_property")) {
+        m_Map_property = fromPt<std::map<std::string, std::string>>(pt.get_child("map_property"));
     }
-    for (const auto &childEntry : pt) {
-        propertyTreeToMap(
-            childEntry.first, childEntry.second, m_Map_of_map_property);
+    if (pt.get_child_optional("map_of_map_property")) {
+        m_Map_of_map_property = fromPt<std::map<std::string, std::map<std::string, std::string>>>(pt.get_child("map_of_map_property"));
     }
 }
 
@@ -151,8 +94,10 @@ std::map<std::string, std::string> AdditionalPropertiesClass::getMapProperty() c
 
 void AdditionalPropertiesClass::setMapProperty(std::map<std::string, std::string> value)
 {
-	m_Map_property = value;
+    m_Map_property = value;
 }
+
+
 std::map<std::string, std::map<std::string, std::string>> AdditionalPropertiesClass::getMapOfMapProperty() const
 {
     return m_Map_of_map_property;
@@ -160,8 +105,10 @@ std::map<std::string, std::map<std::string, std::string>> AdditionalPropertiesCl
 
 void AdditionalPropertiesClass::setMapOfMapProperty(std::map<std::string, std::map<std::string, std::string>> value)
 {
-	m_Map_of_map_property = value;
+    m_Map_of_map_property = value;
 }
+
+
 
 std::vector<AdditionalPropertiesClass> createAdditionalPropertiesClassVectorFromJsonString(const std::string& json)
 {

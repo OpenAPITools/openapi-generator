@@ -19,8 +19,10 @@
 #include <map>
 #include <sstream>
 #include <stdexcept>
+#include <regex>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
+#include "helpers.h"
 
 using boost::property_tree::ptree;
 using boost::property_tree::read_json;
@@ -31,88 +33,23 @@ namespace openapitools {
 namespace server {
 namespace model {
 
-namespace {
-template <class T>
-void propertyTreeToMap(const std::string& propertyName, boost::property_tree::ptree const& pt, std::map<std::string, T> &map) {
-    for (const auto &childTree: pt.get_child(propertyName)) {
-        map.emplace(childTree.first, childTree.second.get_value<T>());
-    }
-}
-
-template <class T>
-void propertyTreeToMap(const std::string& propertyName, boost::property_tree::ptree const &pt, std::map<std::string, std::map<std::string, T>> & map ) {
-    for (const auto &childTree: pt.get_child(propertyName)) {
-        propertyTreeToMap(childTree.first, childTree.second, map);
-    }
-}
-
-template <class T>
-void propertyTreeToModelMap(const std::string& propertyName, boost::property_tree::ptree const& pt, std::map<std::string, T> &map) {
-    for (const auto &childTree: pt.get_child(propertyName)) {
-        T tmp;
-        tmp->fromPropertyTree(childTree.second);
-        map.emplace(childTree.first, tmp);
-    }
-}
-
-template <class T>
-void propertyTreeToModelMap(const std::string& propertyName, boost::property_tree::ptree const &pt, std::map<std::string, std::map<std::string, T>> & map ) {
-    for (const auto &childTree: pt.get_child(propertyName)) {
-       propertyTreeToMap(childTree.first, childTree.second, map);
-    }
-}
-
-template <class T>
-void mapToPropertyTree(const std::map<std::string, T> & map, boost::property_tree::ptree &pt) {
-    for (const auto &childEntry : map) {
-        pt.push_back(boost::property_tree::ptree::value_type(childEntry.first, childEntry.second));
-    }
-}
-
-template <class T>
-void mapToPropertyTree(const std::map<std::string, std::map<std::string, T>> & map, boost::property_tree::ptree &pt) {
-    for (const auto &childEntry : map) {
-        boost::property_tree::ptree child_node;
-        mapToPropertyTree(childEntry.second, child_node);
-        pt.push_back(boost::property_tree::ptree::value_type(childEntry.first, child_node));
-    }
-}
-}
-
-
 FileSchemaTestClass::FileSchemaTestClass(boost::property_tree::ptree const& pt)
 {
         fromPropertyTree(pt);
 }
 
-std::string FileSchemaTestClass::toJsonString(bool prettyJson /* = false */)
-{
-    return toJsonString_internal(prettyJson);
-}
 
-void FileSchemaTestClass::fromJsonString(std::string const& jsonString)
-{
-    fromJsonString_internal(jsonString);
-}
-
-boost::property_tree::ptree FileSchemaTestClass::toPropertyTree()
-{
-    return toPropertyTree_internal();
-}
-
-void FileSchemaTestClass::fromPropertyTree(boost::property_tree::ptree const& pt)
-{
-    fromPropertyTree_internal(pt);
-}
-
-std::string FileSchemaTestClass::toJsonString_internal(bool prettyJson)
+std::string FileSchemaTestClass::toJsonString(bool prettyJson /* = false */) const
 {
 	std::stringstream ss;
 	write_json(ss, this->toPropertyTree(), prettyJson);
-	return ss.str();
+    // workaround inspired by: https://stackoverflow.com/a/56395440
+    std::regex reg("\\\"([0-9]+\\.{0,1}[0-9]*)\\\"");
+    std::string result = std::regex_replace(ss.str(), reg, "$1");
+    return result;
 }
 
-void FileSchemaTestClass::fromJsonString_internal(std::string const& jsonString)
+void FileSchemaTestClass::fromJsonString(std::string const& jsonString)
 {
 	std::stringstream ss(jsonString);
 	ptree pt;
@@ -120,60 +57,55 @@ void FileSchemaTestClass::fromJsonString_internal(std::string const& jsonString)
 	this->fromPropertyTree(pt);
 }
 
-ptree FileSchemaTestClass::toPropertyTree_internal()
+ptree FileSchemaTestClass::toPropertyTree() const
 {
 	ptree pt;
 	ptree tmp_node;
-	if (m_file != nullptr) {
-		pt.add_child("file", m_file->toPropertyTree());
-	}
+	pt.add_child("file", m_file.toPropertyTree());
 	// generate tree for Files
     tmp_node.clear();
 	if (!m_Files.empty()) {
-		for (const auto &childEntry : m_Files) {
-            tmp_node.push_back(std::make_pair("", childEntry->toPropertyTree()));
-		}
+        tmp_node = toPt(m_Files);
 		pt.add_child("files", tmp_node);
 		tmp_node.clear();
 	}
 	return pt;
 }
 
-void FileSchemaTestClass::fromPropertyTree_internal(ptree const &pt)
+void FileSchemaTestClass::fromPropertyTree(ptree const &pt)
 {
 	ptree tmp_node;
 	if (pt.get_child_optional("file")) {
-		m_file = std::make_shared<File>();
-		m_file->fromPropertyTree(pt.get_child("file"));
+        m_file = fromPt<File>(pt.get_child("file"));
 	}
 	// push all items of Files into member
 	if (pt.get_child_optional("files")) {
-		for (const auto &childTree : pt.get_child("files")) {
-            std::shared_ptr<File> val =
-                std::make_shared<File>(childTree.second);
-            m_Files.emplace_back(std::move(val));
-		}
+        m_Files = fromPt<std::vector<File>>(pt.get_child("files"));
 	}
 }
 
-std::shared_ptr<File> FileSchemaTestClass::getFile() const
+File FileSchemaTestClass::getFile() const
 {
     return m_file;
 }
 
-void FileSchemaTestClass::setFile(std::shared_ptr<File> value)
+void FileSchemaTestClass::setFile(File value)
 {
-	m_file = value;
+    m_file = value;
 }
-std::vector<std::shared_ptr<File>> FileSchemaTestClass::getFiles() const
+
+
+std::vector<File> FileSchemaTestClass::getFiles() const
 {
     return m_Files;
 }
 
-void FileSchemaTestClass::setFiles(std::vector<std::shared_ptr<File>> value)
+void FileSchemaTestClass::setFiles(std::vector<File> value)
 {
-	m_Files = value;
+    m_Files = value;
 }
+
+
 
 std::vector<FileSchemaTestClass> createFileSchemaTestClassVectorFromJsonString(const std::string& json)
 {

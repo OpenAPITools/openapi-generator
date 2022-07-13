@@ -30,6 +30,32 @@ namespace api {
 
 using namespace org::openapitools::server::model;
 
+namespace {
+[[maybe_unused]]
+std::string selectPreferredContentType(const std::vector<std::string>& contentTypes) {
+    if (contentTypes.size() == 0) {
+        return "application/json";
+    }
+
+    if (contentTypes.size() == 1) {
+        return contentTypes.at(0);
+    }
+
+    static const std::array<std::string, 2> preferredTypes = {"json", "xml"};
+    for (const auto& preferredType: preferredTypes) {
+        const auto ret = std::find_if(contentTypes.cbegin(),
+        contentTypes.cend(),
+        [preferredType](const std::string& str) {
+            return str.find(preferredType) != std::string::npos;});
+        if (ret != contentTypes.cend()) {
+            return *ret;
+        }
+    }
+
+    return contentTypes.at(0);
+}
+}
+
 FakeApiException::FakeApiException(int status_code, std::string what)
   : m_status(status_code),
     m_what(what)
@@ -47,26 +73,26 @@ const char* FakeApiException::what() const noexcept
 
 
 template<class MODEL_T>
-std::shared_ptr<MODEL_T> extractJsonModelBodyParam(const std::string& bodyContent)
+MODEL_T extractJsonModelBodyParam(const std::string& bodyContent)
 {
     std::stringstream sstream(bodyContent);
     boost::property_tree::ptree pt;
     boost::property_tree::json_parser::read_json(sstream, pt);
 
-    auto model = std::make_shared<MODEL_T>(pt);
+    auto model = MODEL_T(pt);
     return model;
 }
 
 template<class MODEL_T>
-std::vector<std::shared_ptr<MODEL_T>> extractJsonArrayBodyParam(const std::string& bodyContent)
+std::vector<MODEL_T> extractJsonArrayBodyParam(const std::string& bodyContent)
 {
     std::stringstream sstream(bodyContent);
     boost::property_tree::ptree pt;
     boost::property_tree::json_parser::read_json(sstream, pt);
 
-    auto arrayRet = std::vector<std::shared_ptr<MODEL_T>>();
+    auto arrayRet = std::vector<MODEL_T>();
     for (const auto& child: pt) {
-        arrayRet.emplace_back(std::make_shared<MODEL_T>(child.second));
+        arrayRet.emplace_back(MODEL_T(child.second));
     }
     return arrayRet;
 }
@@ -120,9 +146,10 @@ void FakeHealthResource::setResponseHeader(const std::shared_ptr<restbed::Sessio
     session->set_header(header, "");
 }
 
-void FakeHealthResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, const std::string& contentType)
+void FakeHealthResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, std::multimap<std::string, std::string>& responseHeaders)
 {
-    session->close(status, result, { {"Connection", "close"}, {"Content-Type", contentType} });
+    responseHeaders.insert(std::make_pair("Connection", "close"));
+    session->close(status, result, responseHeaders);
 }
 
 void FakeHealthResource::defaultSessionClose(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result)
@@ -135,7 +162,7 @@ void FakeHealthResource::handler_GET_internal(const std::shared_ptr<restbed::Ses
     const auto request = session->get_request();
     
     int status_code = 500;
-    std::shared_ptr<HealthCheckResult> resultObject = std::make_shared<HealthCheckResult>();
+    HealthCheckResult resultObject = HealthCheckResult{};
     std::string result = "";
     
     try {
@@ -152,18 +179,28 @@ void FakeHealthResource::handler_GET_internal(const std::shared_ptr<restbed::Ses
         std::tie(status_code, result) = handleUnspecifiedException();
     }
     
-    if (status_code == 200) {
-        result = resultObject->toJsonString();
+    std::multimap< std::string, std::string > responseHeaders {};
+    static const std::vector<std::string> contentTypes{
+        "application/json",
+    };
+    static const std::string acceptTypes{
+    };
     
-        const constexpr auto contentType = "application/json";
-        returnResponse(session, 200, result.empty() ? "The instance started successfully" : result, contentType);
+    if (status_code == 200) {
+        responseHeaders.insert(std::make_pair("Content-Type", selectPreferredContentType(contentTypes)));
+        if (!acceptTypes.empty()) {
+            responseHeaders.insert(std::make_pair("Accept", acceptTypes));
+        }
+    
+        result = resultObject.toJsonString();
+        returnResponse(session, 200, result.empty() ? "{}" : result, responseHeaders);
         return;
     }
     defaultSessionClose(session, status_code, result);
 }
 
 
-std::pair<int, std::shared_ptr<HealthCheckResult>> FakeHealthResource::handler_GET(
+std::pair<int, HealthCheckResult> FakeHealthResource::handler_GET(
         )
 {
     return handler_GET_func();
@@ -224,9 +261,10 @@ void FakeHttp_signature_testResource::setResponseHeader(const std::shared_ptr<re
     session->set_header(header, "");
 }
 
-void FakeHttp_signature_testResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, const std::string& contentType)
+void FakeHttp_signature_testResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, std::multimap<std::string, std::string>& responseHeaders)
 {
-    session->close(status, result, { {"Connection", "close"}, {"Content-Type", contentType} });
+    responseHeaders.insert(std::make_pair("Connection", "close"));
+    session->close(status, result, responseHeaders);
 }
 
 void FakeHttp_signature_testResource::defaultSessionClose(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result)
@@ -241,9 +279,9 @@ void FakeHttp_signature_testResource::handler_GET_internal(const std::shared_ptr
     std::string bodyContent = extractBodyContent(session);
     auto pet = extractJsonModelBodyParam<Pet>(bodyContent);
     // Getting the query params
-    const std::string query1 = request->get_query_parameter("query1", "");
+    std::string query1 = request->get_query_parameter("query1", "");
     // Getting the headers
-    const std::string header1 = request->get_header("header_1", "");
+    std::string header1 = request->get_header("header_1", "");
     
     int status_code = 500;
     std::string result = "";
@@ -262,10 +300,21 @@ void FakeHttp_signature_testResource::handler_GET_internal(const std::shared_ptr
         std::tie(status_code, result) = handleUnspecifiedException();
     }
     
-    if (status_code == 200) {
+    std::multimap< std::string, std::string > responseHeaders {};
+    static const std::vector<std::string> contentTypes{
+        "application/json"
+    };
+    static const std::string acceptTypes{
+        "application/json, application/xml, "
+    };
     
-        const constexpr auto contentType = "text/plain";
-        returnResponse(session, 200, result.empty() ? "The instance started successfully" : result, contentType);
+    if (status_code == 200) {
+        responseHeaders.insert(std::make_pair("Content-Type", selectPreferredContentType(contentTypes)));
+        if (!acceptTypes.empty()) {
+            responseHeaders.insert(std::make_pair("Accept", acceptTypes));
+        }
+    
+        returnResponse(session, 200, result.empty() ? "{}" : result, responseHeaders);
         return;
     }
     defaultSessionClose(session, status_code, result);
@@ -273,7 +322,7 @@ void FakeHttp_signature_testResource::handler_GET_internal(const std::shared_ptr
 
 
 int FakeHttp_signature_testResource::handler_GET(
-        std::shared_ptr<Pet> const & pet, std::string const & query1, std::string const & header1)
+        Pet & pet, std::string & query1, std::string & header1)
 {
     return handler_GET_func(pet, query1, header1);
 }
@@ -333,9 +382,10 @@ void FakeOuterBooleanResource::setResponseHeader(const std::shared_ptr<restbed::
     session->set_header(header, "");
 }
 
-void FakeOuterBooleanResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, const std::string& contentType)
+void FakeOuterBooleanResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, std::multimap<std::string, std::string>& responseHeaders)
 {
-    session->close(status, result, { {"Connection", "close"}, {"Content-Type", contentType} });
+    responseHeaders.insert(std::make_pair("Connection", "close"));
+    session->close(status, result, responseHeaders);
 }
 
 void FakeOuterBooleanResource::defaultSessionClose(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result)
@@ -368,10 +418,21 @@ void FakeOuterBooleanResource::handler_POST_internal(const std::shared_ptr<restb
         std::tie(status_code, result) = handleUnspecifiedException();
     }
     
-    if (status_code == 200) {
+    std::multimap< std::string, std::string > responseHeaders {};
+    static const std::vector<std::string> contentTypes{
+        "*/*",
+    };
+    static const std::string acceptTypes{
+        "application/json, "
+    };
     
-        const constexpr auto contentType = "text/plain";
-        returnResponse(session, 200, result.empty() ? "Output boolean" : result, contentType);
+    if (status_code == 200) {
+        responseHeaders.insert(std::make_pair("Content-Type", selectPreferredContentType(contentTypes)));
+        if (!acceptTypes.empty()) {
+            responseHeaders.insert(std::make_pair("Accept", acceptTypes));
+        }
+    
+        returnResponse(session, 200, result.empty() ? "{}" : result, responseHeaders);
         return;
     }
     defaultSessionClose(session, status_code, result);
@@ -379,7 +440,7 @@ void FakeOuterBooleanResource::handler_POST_internal(const std::shared_ptr<restb
 
 
 std::pair<int, bool> FakeOuterBooleanResource::handler_POST(
-        bool const & body)
+        bool & body)
 {
     return handler_POST_func(body);
 }
@@ -439,9 +500,10 @@ void FakeOuterCompositeResource::setResponseHeader(const std::shared_ptr<restbed
     session->set_header(header, "");
 }
 
-void FakeOuterCompositeResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, const std::string& contentType)
+void FakeOuterCompositeResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, std::multimap<std::string, std::string>& responseHeaders)
 {
-    session->close(status, result, { {"Connection", "close"}, {"Content-Type", contentType} });
+    responseHeaders.insert(std::make_pair("Connection", "close"));
+    session->close(status, result, responseHeaders);
 }
 
 void FakeOuterCompositeResource::defaultSessionClose(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result)
@@ -457,7 +519,7 @@ void FakeOuterCompositeResource::handler_POST_internal(const std::shared_ptr<res
     auto outerComposite = extractJsonModelBodyParam<OuterComposite>(bodyContent);
     
     int status_code = 500;
-    std::shared_ptr<OuterComposite> resultObject = std::make_shared<OuterComposite>();
+    OuterComposite resultObject = OuterComposite{};
     std::string result = "";
     
     try {
@@ -474,19 +536,30 @@ void FakeOuterCompositeResource::handler_POST_internal(const std::shared_ptr<res
         std::tie(status_code, result) = handleUnspecifiedException();
     }
     
-    if (status_code == 200) {
-        result = resultObject->toJsonString();
+    std::multimap< std::string, std::string > responseHeaders {};
+    static const std::vector<std::string> contentTypes{
+        "*/*",
+    };
+    static const std::string acceptTypes{
+        "application/json, "
+    };
     
-        const constexpr auto contentType = "application/json";
-        returnResponse(session, 200, result.empty() ? "Output composite" : result, contentType);
+    if (status_code == 200) {
+        responseHeaders.insert(std::make_pair("Content-Type", selectPreferredContentType(contentTypes)));
+        if (!acceptTypes.empty()) {
+            responseHeaders.insert(std::make_pair("Accept", acceptTypes));
+        }
+    
+        result = resultObject.toJsonString();
+        returnResponse(session, 200, result.empty() ? "{}" : result, responseHeaders);
         return;
     }
     defaultSessionClose(session, status_code, result);
 }
 
 
-std::pair<int, std::shared_ptr<OuterComposite>> FakeOuterCompositeResource::handler_POST(
-        std::shared_ptr<OuterComposite> const & outerComposite)
+std::pair<int, OuterComposite> FakeOuterCompositeResource::handler_POST(
+        OuterComposite & outerComposite)
 {
     return handler_POST_func(outerComposite);
 }
@@ -546,9 +619,10 @@ void FakeOuterNumberResource::setResponseHeader(const std::shared_ptr<restbed::S
     session->set_header(header, "");
 }
 
-void FakeOuterNumberResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, const std::string& contentType)
+void FakeOuterNumberResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, std::multimap<std::string, std::string>& responseHeaders)
 {
-    session->close(status, result, { {"Connection", "close"}, {"Content-Type", contentType} });
+    responseHeaders.insert(std::make_pair("Connection", "close"));
+    session->close(status, result, responseHeaders);
 }
 
 void FakeOuterNumberResource::defaultSessionClose(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result)
@@ -581,10 +655,21 @@ void FakeOuterNumberResource::handler_POST_internal(const std::shared_ptr<restbe
         std::tie(status_code, result) = handleUnspecifiedException();
     }
     
-    if (status_code == 200) {
+    std::multimap< std::string, std::string > responseHeaders {};
+    static const std::vector<std::string> contentTypes{
+        "*/*",
+    };
+    static const std::string acceptTypes{
+        "application/json, "
+    };
     
-        const constexpr auto contentType = "text/plain";
-        returnResponse(session, 200, result.empty() ? "Output number" : result, contentType);
+    if (status_code == 200) {
+        responseHeaders.insert(std::make_pair("Content-Type", selectPreferredContentType(contentTypes)));
+        if (!acceptTypes.empty()) {
+            responseHeaders.insert(std::make_pair("Accept", acceptTypes));
+        }
+    
+        returnResponse(session, 200, result.empty() ? "{}" : result, responseHeaders);
         return;
     }
     defaultSessionClose(session, status_code, result);
@@ -592,7 +677,7 @@ void FakeOuterNumberResource::handler_POST_internal(const std::shared_ptr<restbe
 
 
 std::pair<int, double> FakeOuterNumberResource::handler_POST(
-        double const & body)
+        double & body)
 {
     return handler_POST_func(body);
 }
@@ -652,9 +737,10 @@ void FakeOuterStringResource::setResponseHeader(const std::shared_ptr<restbed::S
     session->set_header(header, "");
 }
 
-void FakeOuterStringResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, const std::string& contentType)
+void FakeOuterStringResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, std::multimap<std::string, std::string>& responseHeaders)
 {
-    session->close(status, result, { {"Connection", "close"}, {"Content-Type", contentType} });
+    responseHeaders.insert(std::make_pair("Connection", "close"));
+    session->close(status, result, responseHeaders);
 }
 
 void FakeOuterStringResource::defaultSessionClose(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result)
@@ -687,11 +773,22 @@ void FakeOuterStringResource::handler_POST_internal(const std::shared_ptr<restbe
         std::tie(status_code, result) = handleUnspecifiedException();
     }
     
-    if (status_code == 200) {
-        result = resultObject;
+    std::multimap< std::string, std::string > responseHeaders {};
+    static const std::vector<std::string> contentTypes{
+        "*/*",
+    };
+    static const std::string acceptTypes{
+        "application/json, "
+    };
     
-        const constexpr auto contentType = "application/json";
-        returnResponse(session, 200, result.empty() ? "Output string" : result, contentType);
+    if (status_code == 200) {
+        responseHeaders.insert(std::make_pair("Content-Type", selectPreferredContentType(contentTypes)));
+        if (!acceptTypes.empty()) {
+            responseHeaders.insert(std::make_pair("Accept", acceptTypes));
+        }
+    
+        result = resultObject;
+        returnResponse(session, 200, result.empty() ? "{}" : result, responseHeaders);
         return;
     }
     defaultSessionClose(session, status_code, result);
@@ -699,7 +796,7 @@ void FakeOuterStringResource::handler_POST_internal(const std::shared_ptr<restbe
 
 
 std::pair<int, std::string> FakeOuterStringResource::handler_POST(
-        std::string const & body)
+        std::string & body)
 {
     return handler_POST_func(body);
 }
@@ -759,9 +856,10 @@ void FakePropertyEnum_intResource::setResponseHeader(const std::shared_ptr<restb
     session->set_header(header, "");
 }
 
-void FakePropertyEnum_intResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, const std::string& contentType)
+void FakePropertyEnum_intResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, std::multimap<std::string, std::string>& responseHeaders)
 {
-    session->close(status, result, { {"Connection", "close"}, {"Content-Type", contentType} });
+    responseHeaders.insert(std::make_pair("Connection", "close"));
+    session->close(status, result, responseHeaders);
 }
 
 void FakePropertyEnum_intResource::defaultSessionClose(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result)
@@ -777,7 +875,7 @@ void FakePropertyEnum_intResource::handler_POST_internal(const std::shared_ptr<r
     auto outerObjectWithEnumProperty = extractJsonModelBodyParam<OuterObjectWithEnumProperty>(bodyContent);
     
     int status_code = 500;
-    std::shared_ptr<OuterObjectWithEnumProperty> resultObject = std::make_shared<OuterObjectWithEnumProperty>();
+    OuterObjectWithEnumProperty resultObject = OuterObjectWithEnumProperty{};
     std::string result = "";
     
     try {
@@ -794,19 +892,30 @@ void FakePropertyEnum_intResource::handler_POST_internal(const std::shared_ptr<r
         std::tie(status_code, result) = handleUnspecifiedException();
     }
     
-    if (status_code == 200) {
-        result = resultObject->toJsonString();
+    std::multimap< std::string, std::string > responseHeaders {};
+    static const std::vector<std::string> contentTypes{
+        "*/*",
+    };
+    static const std::string acceptTypes{
+        "application/json, "
+    };
     
-        const constexpr auto contentType = "application/json";
-        returnResponse(session, 200, result.empty() ? "Output enum (int)" : result, contentType);
+    if (status_code == 200) {
+        responseHeaders.insert(std::make_pair("Content-Type", selectPreferredContentType(contentTypes)));
+        if (!acceptTypes.empty()) {
+            responseHeaders.insert(std::make_pair("Accept", acceptTypes));
+        }
+    
+        result = resultObject.toJsonString();
+        returnResponse(session, 200, result.empty() ? "{}" : result, responseHeaders);
         return;
     }
     defaultSessionClose(session, status_code, result);
 }
 
 
-std::pair<int, std::shared_ptr<OuterObjectWithEnumProperty>> FakePropertyEnum_intResource::handler_POST(
-        std::shared_ptr<OuterObjectWithEnumProperty> const & outerObjectWithEnumProperty)
+std::pair<int, OuterObjectWithEnumProperty> FakePropertyEnum_intResource::handler_POST(
+        OuterObjectWithEnumProperty & outerObjectWithEnumProperty)
 {
     return handler_POST_func(outerObjectWithEnumProperty);
 }
@@ -866,9 +975,10 @@ void FakeBody_with_binaryResource::setResponseHeader(const std::shared_ptr<restb
     session->set_header(header, "");
 }
 
-void FakeBody_with_binaryResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, const std::string& contentType)
+void FakeBody_with_binaryResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, std::multimap<std::string, std::string>& responseHeaders)
 {
-    session->close(status, result, { {"Connection", "close"}, {"Content-Type", contentType} });
+    responseHeaders.insert(std::make_pair("Connection", "close"));
+    session->close(status, result, responseHeaders);
 }
 
 void FakeBody_with_binaryResource::defaultSessionClose(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result)
@@ -900,10 +1010,21 @@ void FakeBody_with_binaryResource::handler_PUT_internal(const std::shared_ptr<re
         std::tie(status_code, result) = handleUnspecifiedException();
     }
     
-    if (status_code == 200) {
+    std::multimap< std::string, std::string > responseHeaders {};
+    static const std::vector<std::string> contentTypes{
+        "application/json"
+    };
+    static const std::string acceptTypes{
+        "image/png, "
+    };
     
-        const constexpr auto contentType = "text/plain";
-        returnResponse(session, 200, result.empty() ? "Success" : result, contentType);
+    if (status_code == 200) {
+        responseHeaders.insert(std::make_pair("Content-Type", selectPreferredContentType(contentTypes)));
+        if (!acceptTypes.empty()) {
+            responseHeaders.insert(std::make_pair("Accept", acceptTypes));
+        }
+    
+        returnResponse(session, 200, result.empty() ? "{}" : result, responseHeaders);
         return;
     }
     defaultSessionClose(session, status_code, result);
@@ -911,7 +1032,7 @@ void FakeBody_with_binaryResource::handler_PUT_internal(const std::shared_ptr<re
 
 
 int FakeBody_with_binaryResource::handler_PUT(
-        std::string const & body)
+        std::string & body)
 {
     return handler_PUT_func(body);
 }
@@ -971,9 +1092,10 @@ void FakeBody_with_file_schemaResource::setResponseHeader(const std::shared_ptr<
     session->set_header(header, "");
 }
 
-void FakeBody_with_file_schemaResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, const std::string& contentType)
+void FakeBody_with_file_schemaResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, std::multimap<std::string, std::string>& responseHeaders)
 {
-    session->close(status, result, { {"Connection", "close"}, {"Content-Type", contentType} });
+    responseHeaders.insert(std::make_pair("Connection", "close"));
+    session->close(status, result, responseHeaders);
 }
 
 void FakeBody_with_file_schemaResource::defaultSessionClose(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result)
@@ -1005,10 +1127,21 @@ void FakeBody_with_file_schemaResource::handler_PUT_internal(const std::shared_p
         std::tie(status_code, result) = handleUnspecifiedException();
     }
     
-    if (status_code == 200) {
+    std::multimap< std::string, std::string > responseHeaders {};
+    static const std::vector<std::string> contentTypes{
+        "application/json"
+    };
+    static const std::string acceptTypes{
+        "application/json, "
+    };
     
-        const constexpr auto contentType = "text/plain";
-        returnResponse(session, 200, result.empty() ? "Success" : result, contentType);
+    if (status_code == 200) {
+        responseHeaders.insert(std::make_pair("Content-Type", selectPreferredContentType(contentTypes)));
+        if (!acceptTypes.empty()) {
+            responseHeaders.insert(std::make_pair("Accept", acceptTypes));
+        }
+    
+        returnResponse(session, 200, result.empty() ? "{}" : result, responseHeaders);
         return;
     }
     defaultSessionClose(session, status_code, result);
@@ -1016,7 +1149,7 @@ void FakeBody_with_file_schemaResource::handler_PUT_internal(const std::shared_p
 
 
 int FakeBody_with_file_schemaResource::handler_PUT(
-        std::shared_ptr<FileSchemaTestClass> const & fileSchemaTestClass)
+        FileSchemaTestClass & fileSchemaTestClass)
 {
     return handler_PUT_func(fileSchemaTestClass);
 }
@@ -1076,9 +1209,10 @@ void FakeBody_with_query_paramsResource::setResponseHeader(const std::shared_ptr
     session->set_header(header, "");
 }
 
-void FakeBody_with_query_paramsResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, const std::string& contentType)
+void FakeBody_with_query_paramsResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, std::multimap<std::string, std::string>& responseHeaders)
 {
-    session->close(status, result, { {"Connection", "close"}, {"Content-Type", contentType} });
+    responseHeaders.insert(std::make_pair("Connection", "close"));
+    session->close(status, result, responseHeaders);
 }
 
 void FakeBody_with_query_paramsResource::defaultSessionClose(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result)
@@ -1093,7 +1227,7 @@ void FakeBody_with_query_paramsResource::handler_PUT_internal(const std::shared_
     std::string bodyContent = extractBodyContent(session);
     auto user = extractJsonModelBodyParam<User>(bodyContent);
     // Getting the query params
-    const std::string query = request->get_query_parameter("query", "");
+    std::string query = request->get_query_parameter("query", "");
     
     int status_code = 500;
     std::string result = "";
@@ -1112,10 +1246,21 @@ void FakeBody_with_query_paramsResource::handler_PUT_internal(const std::shared_
         std::tie(status_code, result) = handleUnspecifiedException();
     }
     
-    if (status_code == 200) {
+    std::multimap< std::string, std::string > responseHeaders {};
+    static const std::vector<std::string> contentTypes{
+        "application/json"
+    };
+    static const std::string acceptTypes{
+        "application/json, "
+    };
     
-        const constexpr auto contentType = "text/plain";
-        returnResponse(session, 200, result.empty() ? "Success" : result, contentType);
+    if (status_code == 200) {
+        responseHeaders.insert(std::make_pair("Content-Type", selectPreferredContentType(contentTypes)));
+        if (!acceptTypes.empty()) {
+            responseHeaders.insert(std::make_pair("Accept", acceptTypes));
+        }
+    
+        returnResponse(session, 200, result.empty() ? "{}" : result, responseHeaders);
         return;
     }
     defaultSessionClose(session, status_code, result);
@@ -1123,7 +1268,7 @@ void FakeBody_with_query_paramsResource::handler_PUT_internal(const std::shared_
 
 
 int FakeBody_with_query_paramsResource::handler_PUT(
-        std::string const & query, std::shared_ptr<User> const & user)
+        std::string & query, User & user)
 {
     return handler_PUT_func(query, user);
 }
@@ -1192,9 +1337,10 @@ void FakeResource::setResponseHeader(const std::shared_ptr<restbed::Session>& se
     session->set_header(header, "");
 }
 
-void FakeResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, const std::string& contentType)
+void FakeResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, std::multimap<std::string, std::string>& responseHeaders)
 {
-    session->close(status, result, { {"Connection", "close"}, {"Content-Type", contentType} });
+    responseHeaders.insert(std::make_pair("Connection", "close"));
+    session->close(status, result, responseHeaders);
 }
 
 void FakeResource::defaultSessionClose(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result)
@@ -1210,7 +1356,7 @@ void FakeResource::handler_PATCH_internal(const std::shared_ptr<restbed::Session
     auto client = extractJsonModelBodyParam<Client>(bodyContent);
     
     int status_code = 500;
-    std::shared_ptr<Client> resultObject = std::make_shared<Client>();
+    Client resultObject = Client{};
     std::string result = "";
     
     try {
@@ -1227,11 +1373,22 @@ void FakeResource::handler_PATCH_internal(const std::shared_ptr<restbed::Session
         std::tie(status_code, result) = handleUnspecifiedException();
     }
     
-    if (status_code == 200) {
-        result = resultObject->toJsonString();
+    std::multimap< std::string, std::string > responseHeaders {};
+    static const std::vector<std::string> contentTypes{
+        "application/json",
+    };
+    static const std::string acceptTypes{
+        "application/json, "
+    };
     
-        const constexpr auto contentType = "application/json";
-        returnResponse(session, 200, result.empty() ? "successful operation" : result, contentType);
+    if (status_code == 200) {
+        responseHeaders.insert(std::make_pair("Content-Type", selectPreferredContentType(contentTypes)));
+        if (!acceptTypes.empty()) {
+            responseHeaders.insert(std::make_pair("Accept", acceptTypes));
+        }
+    
+        result = resultObject.toJsonString();
+        returnResponse(session, 200, result.empty() ? "{}" : result, responseHeaders);
         return;
     }
     defaultSessionClose(session, status_code, result);
@@ -1272,16 +1429,26 @@ void FakeResource::handler_POST_internal(const std::shared_ptr<restbed::Session>
         std::tie(status_code, result) = handleUnspecifiedException();
     }
     
-    if (status_code == 400) {
+    std::multimap< std::string, std::string > responseHeaders {};
+    static const std::vector<std::string> contentTypes{
+        "application/json"
+    };
+    static const std::string acceptTypes{
+        "application/x-www-form-urlencoded, "
+    };
     
-        const constexpr auto contentType = "text/plain";
-        returnResponse(session, 400, result.empty() ? "Invalid username supplied" : result, contentType);
+    if (status_code == 400) {
+        responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
+        result = "Invalid username supplied";
+    
+        returnResponse(session, 400, result.empty() ? "{}" : result, responseHeaders);
         return;
     }
     if (status_code == 404) {
+        responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
+        result = "User not found";
     
-        const constexpr auto contentType = "text/plain";
-        returnResponse(session, 404, result.empty() ? "User not found" : result, contentType);
+        returnResponse(session, 404, result.empty() ? "{}" : result, responseHeaders);
         return;
     }
     defaultSessionClose(session, status_code, result);
@@ -1289,22 +1456,22 @@ void FakeResource::handler_POST_internal(const std::shared_ptr<restbed::Session>
 // x-extension
 void FakeResource::handler_GET_internal(const std::shared_ptr<restbed::Session> session) {
     const auto request = session->get_request();
-    const std::string enumFormStringArray_raw = extractFormParamsFromBody("enumFormStringArray", extractBodyContent(session));
+    std::string enumFormStringArray_raw = extractFormParamsFromBody("enumFormStringArray", extractBodyContent(session));
     std::vector<std::string> enumFormStringArray;
     boost::split(enumFormStringArray, enumFormStringArray_raw, boost::is_any_of(","));
     auto enumFormString = boost::lexical_cast<std::string>(extractFormParamsFromBody("enumFormString", extractBodyContent(session)));
     // Getting the query params
-    const std::string enumQueryStringArray_raw = request->get_query_parameter("enumQueryStringArray");
+    std::string enumQueryStringArray_raw = request->get_query_parameter("enumQueryStringArray");
     std::vector<std::string> enumQueryStringArray;
     boost::split(enumQueryStringArray, enumQueryStringArray_raw, boost::is_any_of(","));
-    const std::string enumQueryString = request->get_query_parameter("enumQueryString", "-efg");
-    const int32_t enumQueryInteger = request->get_query_parameter("enumQueryInteger", 0);
-    const double enumQueryDouble = request->get_query_parameter("enumQueryDouble", 0.0);
+    std::string enumQueryString = request->get_query_parameter("enumQueryString", "-efg");
+    int32_t enumQueryInteger = request->get_query_parameter("enumQueryInteger", 0);
+    double enumQueryDouble = request->get_query_parameter("enumQueryDouble", 0.0);
     // Getting the headers
-    const std::string enumHeaderStringArray_raw = request->get_header("enumHeaderStringArray");
+    std::string enumHeaderStringArray_raw = request->get_header("enumHeaderStringArray");
     std::vector<std::string> enumHeaderStringArray;
     boost::split(enumHeaderStringArray, enumHeaderStringArray_raw, boost::is_any_of(","));
-    const std::string enumHeaderString = request->get_header("enum_header_string", "-efg");
+    std::string enumHeaderString = request->get_header("enum_header_string", "-efg");
     
     int status_code = 500;
     std::string result = "";
@@ -1323,16 +1490,26 @@ void FakeResource::handler_GET_internal(const std::shared_ptr<restbed::Session> 
         std::tie(status_code, result) = handleUnspecifiedException();
     }
     
-    if (status_code == 400) {
+    std::multimap< std::string, std::string > responseHeaders {};
+    static const std::vector<std::string> contentTypes{
+        "application/json"
+    };
+    static const std::string acceptTypes{
+        "application/x-www-form-urlencoded, "
+    };
     
-        const constexpr auto contentType = "text/plain";
-        returnResponse(session, 400, result.empty() ? "Invalid request" : result, contentType);
+    if (status_code == 400) {
+        responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
+        result = "Invalid request";
+    
+        returnResponse(session, 400, result.empty() ? "{}" : result, responseHeaders);
         return;
     }
     if (status_code == 404) {
+        responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
+        result = "Not found";
     
-        const constexpr auto contentType = "text/plain";
-        returnResponse(session, 404, result.empty() ? "Not found" : result, contentType);
+        returnResponse(session, 404, result.empty() ? "{}" : result, responseHeaders);
         return;
     }
     defaultSessionClose(session, status_code, result);
@@ -1341,13 +1518,13 @@ void FakeResource::handler_GET_internal(const std::shared_ptr<restbed::Session> 
 void FakeResource::handler_DELETE_internal(const std::shared_ptr<restbed::Session> session) {
     const auto request = session->get_request();
     // Getting the query params
-    const int32_t requiredStringGroup = request->get_query_parameter("requiredStringGroup", 0);
-    const int64_t requiredInt64Group = request->get_query_parameter("requiredInt64Group", 0L);
-    const int32_t stringGroup = request->get_query_parameter("stringGroup", 0);
-    const int64_t int64Group = request->get_query_parameter("int64Group", 0L);
+    int32_t requiredStringGroup = request->get_query_parameter("requiredStringGroup", 0);
+    int64_t requiredInt64Group = request->get_query_parameter("requiredInt64Group", 0L);
+    int32_t stringGroup = request->get_query_parameter("stringGroup", 0);
+    int64_t int64Group = request->get_query_parameter("int64Group", 0L);
     // Getting the headers
-    const bool requiredBooleanGroup = request->get_header("required_boolean_group", false);
-    const bool booleanGroup = request->get_header("boolean_group", false);
+    bool requiredBooleanGroup = request->get_header("required_boolean_group", false);
+    bool booleanGroup = request->get_header("boolean_group", false);
     
     int status_code = 500;
     std::string result = "";
@@ -1366,33 +1543,41 @@ void FakeResource::handler_DELETE_internal(const std::shared_ptr<restbed::Sessio
         std::tie(status_code, result) = handleUnspecifiedException();
     }
     
-    if (status_code == 400) {
+    std::multimap< std::string, std::string > responseHeaders {};
+    static const std::vector<std::string> contentTypes{
+        "application/json"
+    };
+    static const std::string acceptTypes{
+    };
     
-        const constexpr auto contentType = "text/plain";
-        returnResponse(session, 400, result.empty() ? "Someting wrong" : result, contentType);
+    if (status_code == 400) {
+        responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
+        result = "Someting wrong";
+    
+        returnResponse(session, 400, result.empty() ? "{}" : result, responseHeaders);
         return;
     }
     defaultSessionClose(session, status_code, result);
 }
 
-std::pair<int, std::shared_ptr<Client>> FakeResource::handler_PATCH(
-        std::shared_ptr<Client> const & client)
+std::pair<int, Client> FakeResource::handler_PATCH(
+        Client & client)
 {
     return handler_PATCH_func(client);
 }
 
 int FakeResource::handler_POST(
-    double const & number, double const & r_double, std::string const & patternWithoutDelimiter, std::string const & byte, int32_t const & integer, int32_t const & int32, int64_t const & int64, float const & r_float, std::string const & string, std::string const & binary, std::string const & date, std::string const & dateTime, std::string const & password, std::string const & callback)
+    double & number, double & r_double, std::string & patternWithoutDelimiter, std::string & byte, int32_t & integer, int32_t & int32, int64_t & int64, float & r_float, std::string & string, std::string & binary, std::string & date, std::string & dateTime, std::string & password, std::string & callback)
 {
     return handler_POST_func(number, r_double, patternWithoutDelimiter, byte, integer, int32, int64, r_float, string, binary, date, dateTime, password, callback);
 }
 int FakeResource::handler_GET(
-    std::vector<std::string> const & enumHeaderStringArray, std::string const & enumHeaderString, std::vector<std::string> const & enumQueryStringArray, std::string const & enumQueryString, int32_t const & enumQueryInteger, double const & enumQueryDouble, std::vector<std::string> const & enumFormStringArray, std::string const & enumFormString)
+    std::vector<std::string> & enumHeaderStringArray, std::string & enumHeaderString, std::vector<std::string> & enumQueryStringArray, std::string & enumQueryString, int32_t & enumQueryInteger, double & enumQueryDouble, std::vector<std::string> & enumFormStringArray, std::string & enumFormString)
 {
     return handler_GET_func(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString);
 }
 int FakeResource::handler_DELETE(
-    int32_t const & requiredStringGroup, bool const & requiredBooleanGroup, int64_t const & requiredInt64Group, int32_t const & stringGroup, bool const & booleanGroup, int64_t const & int64Group)
+    int32_t & requiredStringGroup, bool & requiredBooleanGroup, int64_t & requiredInt64Group, int32_t & stringGroup, bool & booleanGroup, int64_t & int64Group)
 {
     return handler_DELETE_func(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
 }
@@ -1451,9 +1636,10 @@ void FakeInline_additionalPropertiesResource::setResponseHeader(const std::share
     session->set_header(header, "");
 }
 
-void FakeInline_additionalPropertiesResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, const std::string& contentType)
+void FakeInline_additionalPropertiesResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, std::multimap<std::string, std::string>& responseHeaders)
 {
-    session->close(status, result, { {"Connection", "close"}, {"Content-Type", contentType} });
+    responseHeaders.insert(std::make_pair("Connection", "close"));
+    session->close(status, result, responseHeaders);
 }
 
 void FakeInline_additionalPropertiesResource::defaultSessionClose(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result)
@@ -1466,7 +1652,7 @@ void FakeInline_additionalPropertiesResource::handler_POST_internal(const std::s
     const auto request = session->get_request();
     // body params or form params here from the body content string
     std::string bodyContent = extractBodyContent(session);
-    std::shared_ptr<std::map<std::string, std::string>> requestBody; // TODO
+    std::map<std::string, std::string> requestBody; // TODO
     
     int status_code = 500;
     std::string result = "";
@@ -1485,10 +1671,21 @@ void FakeInline_additionalPropertiesResource::handler_POST_internal(const std::s
         std::tie(status_code, result) = handleUnspecifiedException();
     }
     
-    if (status_code == 200) {
+    std::multimap< std::string, std::string > responseHeaders {};
+    static const std::vector<std::string> contentTypes{
+        "application/json"
+    };
+    static const std::string acceptTypes{
+        "application/json, "
+    };
     
-        const constexpr auto contentType = "text/plain";
-        returnResponse(session, 200, result.empty() ? "successful operation" : result, contentType);
+    if (status_code == 200) {
+        responseHeaders.insert(std::make_pair("Content-Type", selectPreferredContentType(contentTypes)));
+        if (!acceptTypes.empty()) {
+            responseHeaders.insert(std::make_pair("Accept", acceptTypes));
+        }
+    
+        returnResponse(session, 200, result.empty() ? "{}" : result, responseHeaders);
         return;
     }
     defaultSessionClose(session, status_code, result);
@@ -1496,7 +1693,7 @@ void FakeInline_additionalPropertiesResource::handler_POST_internal(const std::s
 
 
 int FakeInline_additionalPropertiesResource::handler_POST(
-        std::shared_ptr<std::map<std::string, std::string>> const & requestBody)
+        std::map<std::string, std::string> & requestBody)
 {
     return handler_POST_func(requestBody);
 }
@@ -1556,9 +1753,10 @@ void FakeJsonFormDataResource::setResponseHeader(const std::shared_ptr<restbed::
     session->set_header(header, "");
 }
 
-void FakeJsonFormDataResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, const std::string& contentType)
+void FakeJsonFormDataResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, std::multimap<std::string, std::string>& responseHeaders)
 {
-    session->close(status, result, { {"Connection", "close"}, {"Content-Type", contentType} });
+    responseHeaders.insert(std::make_pair("Connection", "close"));
+    session->close(status, result, responseHeaders);
 }
 
 void FakeJsonFormDataResource::defaultSessionClose(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result)
@@ -1589,10 +1787,21 @@ void FakeJsonFormDataResource::handler_GET_internal(const std::shared_ptr<restbe
         std::tie(status_code, result) = handleUnspecifiedException();
     }
     
-    if (status_code == 200) {
+    std::multimap< std::string, std::string > responseHeaders {};
+    static const std::vector<std::string> contentTypes{
+        "application/json"
+    };
+    static const std::string acceptTypes{
+        "application/x-www-form-urlencoded, "
+    };
     
-        const constexpr auto contentType = "text/plain";
-        returnResponse(session, 200, result.empty() ? "successful operation" : result, contentType);
+    if (status_code == 200) {
+        responseHeaders.insert(std::make_pair("Content-Type", selectPreferredContentType(contentTypes)));
+        if (!acceptTypes.empty()) {
+            responseHeaders.insert(std::make_pair("Accept", acceptTypes));
+        }
+    
+        returnResponse(session, 200, result.empty() ? "{}" : result, responseHeaders);
         return;
     }
     defaultSessionClose(session, status_code, result);
@@ -1600,7 +1809,7 @@ void FakeJsonFormDataResource::handler_GET_internal(const std::shared_ptr<restbe
 
 
 int FakeJsonFormDataResource::handler_GET(
-        std::string const & param, std::string const & param2)
+        std::string & param, std::string & param2)
 {
     return handler_GET_func(param, param2);
 }
@@ -1660,9 +1869,10 @@ void FakeTest_query_parametersResource::setResponseHeader(const std::shared_ptr<
     session->set_header(header, "");
 }
 
-void FakeTest_query_parametersResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, const std::string& contentType)
+void FakeTest_query_parametersResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, std::multimap<std::string, std::string>& responseHeaders)
 {
-    session->close(status, result, { {"Connection", "close"}, {"Content-Type", contentType} });
+    responseHeaders.insert(std::make_pair("Connection", "close"));
+    session->close(status, result, responseHeaders);
 }
 
 void FakeTest_query_parametersResource::defaultSessionClose(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result)
@@ -1674,29 +1884,29 @@ void FakeTest_query_parametersResource::handler_PUT_internal(const std::shared_p
 {
     const auto request = session->get_request();
     // Getting the query params
-    const std::string pipe_raw = request->get_query_parameter("pipe");
+    std::string pipe_raw = request->get_query_parameter("pipe");
     std::vector<std::string> pipe;
     boost::split(pipe, pipe_raw, boost::is_any_of(","));
-    const std::string ioutil_raw = request->get_query_parameter("ioutil");
+    std::string ioutil_raw = request->get_query_parameter("ioutil");
     std::vector<std::string> ioutil;
     boost::split(ioutil, ioutil_raw, boost::is_any_of(","));
-    const std::string http_raw = request->get_query_parameter("http");
+    std::string http_raw = request->get_query_parameter("http");
     std::vector<std::string> http;
     boost::split(http, http_raw, boost::is_any_of(","));
-    const std::string url_raw = request->get_query_parameter("url");
+    std::string url_raw = request->get_query_parameter("url");
     std::vector<std::string> url;
     boost::split(url, url_raw, boost::is_any_of(","));
-    const std::string context_raw = request->get_query_parameter("context");
+    std::string context_raw = request->get_query_parameter("context");
     std::vector<std::string> context;
     boost::split(context, context_raw, boost::is_any_of(","));
     std::stringstream language_raw(request->get_query_parameter("language"));
     boost::property_tree::ptree language_pt;
     boost::property_tree::json_parser::read_json(language_raw,language_pt);
-    std::shared_ptr<std::map<std::string, std::string>> language = std::make_shared<std::map<std::string, std::string>>();
+    std::map<std::string, std::string> language = std::map<std::string, std::string>{};
     for (auto& item: language_pt) {
-        language->emplace(item.first, item.second.get_value<std::string>());
+        language.emplace(item.first, item.second.get_value<std::string>());
     }
-    const std::string allowEmpty = request->get_query_parameter("allowEmpty", "");
+    std::string allowEmpty = request->get_query_parameter("allowEmpty", "");
     
     int status_code = 500;
     std::string result = "";
@@ -1715,10 +1925,20 @@ void FakeTest_query_parametersResource::handler_PUT_internal(const std::shared_p
         std::tie(status_code, result) = handleUnspecifiedException();
     }
     
-    if (status_code == 200) {
+    std::multimap< std::string, std::string > responseHeaders {};
+    static const std::vector<std::string> contentTypes{
+        "application/json"
+    };
+    static const std::string acceptTypes{
+    };
     
-        const constexpr auto contentType = "text/plain";
-        returnResponse(session, 200, result.empty() ? "Success" : result, contentType);
+    if (status_code == 200) {
+        responseHeaders.insert(std::make_pair("Content-Type", selectPreferredContentType(contentTypes)));
+        if (!acceptTypes.empty()) {
+            responseHeaders.insert(std::make_pair("Accept", acceptTypes));
+        }
+    
+        returnResponse(session, 200, result.empty() ? "{}" : result, responseHeaders);
         return;
     }
     defaultSessionClose(session, status_code, result);
@@ -1726,7 +1946,7 @@ void FakeTest_query_parametersResource::handler_PUT_internal(const std::shared_p
 
 
 int FakeTest_query_parametersResource::handler_PUT(
-        std::vector<std::string> const & pipe, std::vector<std::string> const & ioutil, std::vector<std::string> const & http, std::vector<std::string> const & url, std::vector<std::string> const & context, std::string const & allowEmpty, std::shared_ptr<std::map<std::string, std::string>> const & language)
+        std::vector<std::string> & pipe, std::vector<std::string> & ioutil, std::vector<std::string> & http, std::vector<std::string> & url, std::vector<std::string> & context, std::string & allowEmpty, std::map<std::string, std::string> & language)
 {
     return handler_PUT_func(pipe, ioutil, http, url, context, allowEmpty, language);
 }

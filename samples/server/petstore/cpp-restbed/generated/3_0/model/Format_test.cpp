@@ -19,8 +19,10 @@
 #include <map>
 #include <sstream>
 #include <stdexcept>
+#include <regex>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
+#include "helpers.h"
 
 using boost::property_tree::ptree;
 using boost::property_tree::read_json;
@@ -31,88 +33,23 @@ namespace openapitools {
 namespace server {
 namespace model {
 
-namespace {
-template <class T>
-void propertyTreeToMap(const std::string& propertyName, boost::property_tree::ptree const& pt, std::map<std::string, T> &map) {
-    for (const auto &childTree: pt.get_child(propertyName)) {
-        map.emplace(childTree.first, childTree.second.get_value<T>());
-    }
-}
-
-template <class T>
-void propertyTreeToMap(const std::string& propertyName, boost::property_tree::ptree const &pt, std::map<std::string, std::map<std::string, T>> & map ) {
-    for (const auto &childTree: pt.get_child(propertyName)) {
-        propertyTreeToMap(childTree.first, childTree.second, map);
-    }
-}
-
-template <class T>
-void propertyTreeToModelMap(const std::string& propertyName, boost::property_tree::ptree const& pt, std::map<std::string, T> &map) {
-    for (const auto &childTree: pt.get_child(propertyName)) {
-        T tmp;
-        tmp->fromPropertyTree(childTree.second);
-        map.emplace(childTree.first, tmp);
-    }
-}
-
-template <class T>
-void propertyTreeToModelMap(const std::string& propertyName, boost::property_tree::ptree const &pt, std::map<std::string, std::map<std::string, T>> & map ) {
-    for (const auto &childTree: pt.get_child(propertyName)) {
-       propertyTreeToMap(childTree.first, childTree.second, map);
-    }
-}
-
-template <class T>
-void mapToPropertyTree(const std::map<std::string, T> & map, boost::property_tree::ptree &pt) {
-    for (const auto &childEntry : map) {
-        pt.push_back(boost::property_tree::ptree::value_type(childEntry.first, childEntry.second));
-    }
-}
-
-template <class T>
-void mapToPropertyTree(const std::map<std::string, std::map<std::string, T>> & map, boost::property_tree::ptree &pt) {
-    for (const auto &childEntry : map) {
-        boost::property_tree::ptree child_node;
-        mapToPropertyTree(childEntry.second, child_node);
-        pt.push_back(boost::property_tree::ptree::value_type(childEntry.first, child_node));
-    }
-}
-}
-
-
 Format_test::Format_test(boost::property_tree::ptree const& pt)
 {
         fromPropertyTree(pt);
 }
 
-std::string Format_test::toJsonString(bool prettyJson /* = false */)
-{
-    return toJsonString_internal(prettyJson);
-}
 
-void Format_test::fromJsonString(std::string const& jsonString)
-{
-    fromJsonString_internal(jsonString);
-}
-
-boost::property_tree::ptree Format_test::toPropertyTree()
-{
-    return toPropertyTree_internal();
-}
-
-void Format_test::fromPropertyTree(boost::property_tree::ptree const& pt)
-{
-    fromPropertyTree_internal(pt);
-}
-
-std::string Format_test::toJsonString_internal(bool prettyJson)
+std::string Format_test::toJsonString(bool prettyJson /* = false */) const
 {
 	std::stringstream ss;
 	write_json(ss, this->toPropertyTree(), prettyJson);
-	return ss.str();
+    // workaround inspired by: https://stackoverflow.com/a/56395440
+    std::regex reg("\\\"([0-9]+\\.{0,1}[0-9]*)\\\"");
+    std::string result = std::regex_replace(ss.str(), reg, "$1");
+    return result;
 }
 
-void Format_test::fromJsonString_internal(std::string const& jsonString)
+void Format_test::fromJsonString(std::string const& jsonString)
 {
 	std::stringstream ss(jsonString);
 	ptree pt;
@@ -120,7 +57,7 @@ void Format_test::fromJsonString_internal(std::string const& jsonString)
 	this->fromPropertyTree(pt);
 }
 
-ptree Format_test::toPropertyTree_internal()
+ptree Format_test::toPropertyTree() const
 {
 	ptree pt;
 	ptree tmp_node;
@@ -140,7 +77,7 @@ ptree Format_test::toPropertyTree_internal()
 	return pt;
 }
 
-void Format_test::fromPropertyTree_internal(ptree const &pt)
+void Format_test::fromPropertyTree(ptree const &pt)
 {
 	ptree tmp_node;
 	m_integer = pt.get("integer", 0);
@@ -165,8 +102,10 @@ int32_t Format_test::getInteger() const
 
 void Format_test::setInteger(int32_t value)
 {
-	m_integer = value;
+    m_integer = value;
 }
+
+
 int32_t Format_test::getInt32() const
 {
     return m_Int32;
@@ -174,8 +113,10 @@ int32_t Format_test::getInt32() const
 
 void Format_test::setInt32(int32_t value)
 {
-	m_Int32 = value;
+    m_Int32 = value;
 }
+
+
 int64_t Format_test::getInt64() const
 {
     return m_Int64;
@@ -183,8 +124,10 @@ int64_t Format_test::getInt64() const
 
 void Format_test::setInt64(int64_t value)
 {
-	m_Int64 = value;
+    m_Int64 = value;
 }
+
+
 double Format_test::getNumber() const
 {
     return m_number;
@@ -192,8 +135,10 @@ double Format_test::getNumber() const
 
 void Format_test::setNumber(double value)
 {
-	m_number = value;
+    m_number = value;
 }
+
+
 float Format_test::getFloat() const
 {
     return m_float;
@@ -201,8 +146,10 @@ float Format_test::getFloat() const
 
 void Format_test::setFloat(float value)
 {
-	m_float = value;
+    m_float = value;
 }
+
+
 double Format_test::getDouble() const
 {
     return m_double;
@@ -210,8 +157,10 @@ double Format_test::getDouble() const
 
 void Format_test::setDouble(double value)
 {
-	m_double = value;
+    m_double = value;
 }
+
+
 std::string Format_test::getDecimal() const
 {
     return m_decimal;
@@ -219,8 +168,10 @@ std::string Format_test::getDecimal() const
 
 void Format_test::setDecimal(std::string value)
 {
-	m_decimal = value;
+    m_decimal = value;
 }
+
+
 std::string Format_test::getString() const
 {
     return m_string;
@@ -228,8 +179,10 @@ std::string Format_test::getString() const
 
 void Format_test::setString(std::string value)
 {
-	m_string = value;
+    m_string = value;
 }
+
+
 std::string Format_test::getByte() const
 {
     return m_Byte;
@@ -237,8 +190,10 @@ std::string Format_test::getByte() const
 
 void Format_test::setByte(std::string value)
 {
-	m_Byte = value;
+    m_Byte = value;
 }
+
+
 std::string Format_test::getBinary() const
 {
     return m_binary;
@@ -246,8 +201,10 @@ std::string Format_test::getBinary() const
 
 void Format_test::setBinary(std::string value)
 {
-	m_binary = value;
+    m_binary = value;
 }
+
+
 std::string Format_test::getDate() const
 {
     return m_date;
@@ -255,8 +212,10 @@ std::string Format_test::getDate() const
 
 void Format_test::setDate(std::string value)
 {
-	m_date = value;
+    m_date = value;
 }
+
+
 std::string Format_test::getDateTime() const
 {
     return m_DateTime;
@@ -264,8 +223,10 @@ std::string Format_test::getDateTime() const
 
 void Format_test::setDateTime(std::string value)
 {
-	m_DateTime = value;
+    m_DateTime = value;
 }
+
+
 std::string Format_test::getUuid() const
 {
     return m_Uuid;
@@ -273,8 +234,10 @@ std::string Format_test::getUuid() const
 
 void Format_test::setUuid(std::string value)
 {
-	m_Uuid = value;
+    m_Uuid = value;
 }
+
+
 std::string Format_test::getPassword() const
 {
     return m_Password;
@@ -282,8 +245,10 @@ std::string Format_test::getPassword() const
 
 void Format_test::setPassword(std::string value)
 {
-	m_Password = value;
+    m_Password = value;
 }
+
+
 std::string Format_test::getPatternWithDigits() const
 {
     return m_Pattern_with_digits;
@@ -291,8 +256,10 @@ std::string Format_test::getPatternWithDigits() const
 
 void Format_test::setPatternWithDigits(std::string value)
 {
-	m_Pattern_with_digits = value;
+    m_Pattern_with_digits = value;
 }
+
+
 std::string Format_test::getPatternWithDigitsAndDelimiter() const
 {
     return m_Pattern_with_digits_and_delimiter;
@@ -300,8 +267,10 @@ std::string Format_test::getPatternWithDigitsAndDelimiter() const
 
 void Format_test::setPatternWithDigitsAndDelimiter(std::string value)
 {
-	m_Pattern_with_digits_and_delimiter = value;
+    m_Pattern_with_digits_and_delimiter = value;
 }
+
+
 
 std::vector<Format_test> createFormat_testVectorFromJsonString(const std::string& json)
 {

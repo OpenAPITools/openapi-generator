@@ -25,6 +25,7 @@
 #include <memory>
 #include <vector>
 #include <boost/property_tree/ptree.hpp>
+#include "helpers.h"
 
 namespace org {
 namespace openapitools {
@@ -41,9 +42,15 @@ public:
     explicit ClassModel(boost::property_tree::ptree const& pt);
     virtual ~ClassModel() = default;
 
-    std::string toJsonString(bool prettyJson = false);
+    ClassModel(const ClassModel& other) = default; // copy constructor
+    ClassModel(ClassModel&& other) noexcept = default; // move constructor
+
+    ClassModel& operator=(const ClassModel& other) = default; // copy assignment
+    ClassModel& operator=(ClassModel&& other) noexcept = default; // move assignment
+
+    std::string toJsonString(bool prettyJson = false) const;
     void fromJsonString(std::string const& jsonString);
-    boost::property_tree::ptree toPropertyTree();
+    boost::property_tree::ptree toPropertyTree() const;
     void fromPropertyTree(boost::property_tree::ptree const& pt);
 
     /////////////////////////////////////////////
@@ -56,21 +63,23 @@ public:
     void set_Class(std::string value);
 
 protected:
-    //////////////////////////////////////
-    // Override these for customization //
-    //////////////////////////////////////
-
-    virtual std::string toJsonString_internal(bool prettyJson = false);
-    virtual void fromJsonString_internal(std::string const& jsonString);
-    virtual boost::property_tree::ptree toPropertyTree_internal();
-    virtual void fromPropertyTree_internal(boost::property_tree::ptree const& pt);
-
-
-protected:
     std::string m__class = "";
+
 };
 
 std::vector<ClassModel> createClassModelVectorFromJsonString(const std::string& json);
+
+template<>
+inline boost::property_tree::ptree toPt<ClassModel>(const ClassModel& val) {
+    return val.toPropertyTree();
+}
+
+template<>
+inline ClassModel fromPt<ClassModel>(const boost::property_tree::ptree& pt) {
+    ClassModel ret;
+    ret.fromPropertyTree(pt);
+    return ret;
+}
 
 }
 }

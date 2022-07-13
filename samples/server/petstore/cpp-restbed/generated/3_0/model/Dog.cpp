@@ -19,8 +19,10 @@
 #include <map>
 #include <sstream>
 #include <stdexcept>
+#include <regex>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
+#include "helpers.h"
 
 using boost::property_tree::ptree;
 using boost::property_tree::read_json;
@@ -31,88 +33,23 @@ namespace openapitools {
 namespace server {
 namespace model {
 
-namespace {
-template <class T>
-void propertyTreeToMap(const std::string& propertyName, boost::property_tree::ptree const& pt, std::map<std::string, T> &map) {
-    for (const auto &childTree: pt.get_child(propertyName)) {
-        map.emplace(childTree.first, childTree.second.get_value<T>());
-    }
-}
-
-template <class T>
-void propertyTreeToMap(const std::string& propertyName, boost::property_tree::ptree const &pt, std::map<std::string, std::map<std::string, T>> & map ) {
-    for (const auto &childTree: pt.get_child(propertyName)) {
-        propertyTreeToMap(childTree.first, childTree.second, map);
-    }
-}
-
-template <class T>
-void propertyTreeToModelMap(const std::string& propertyName, boost::property_tree::ptree const& pt, std::map<std::string, T> &map) {
-    for (const auto &childTree: pt.get_child(propertyName)) {
-        T tmp;
-        tmp->fromPropertyTree(childTree.second);
-        map.emplace(childTree.first, tmp);
-    }
-}
-
-template <class T>
-void propertyTreeToModelMap(const std::string& propertyName, boost::property_tree::ptree const &pt, std::map<std::string, std::map<std::string, T>> & map ) {
-    for (const auto &childTree: pt.get_child(propertyName)) {
-       propertyTreeToMap(childTree.first, childTree.second, map);
-    }
-}
-
-template <class T>
-void mapToPropertyTree(const std::map<std::string, T> & map, boost::property_tree::ptree &pt) {
-    for (const auto &childEntry : map) {
-        pt.push_back(boost::property_tree::ptree::value_type(childEntry.first, childEntry.second));
-    }
-}
-
-template <class T>
-void mapToPropertyTree(const std::map<std::string, std::map<std::string, T>> & map, boost::property_tree::ptree &pt) {
-    for (const auto &childEntry : map) {
-        boost::property_tree::ptree child_node;
-        mapToPropertyTree(childEntry.second, child_node);
-        pt.push_back(boost::property_tree::ptree::value_type(childEntry.first, child_node));
-    }
-}
-}
-
-
 Dog::Dog(boost::property_tree::ptree const& pt)
 {
         fromPropertyTree(pt);
 }
 
-std::string Dog::toJsonString(bool prettyJson /* = false */)
-{
-    return toJsonString_internal(prettyJson);
-}
 
-void Dog::fromJsonString(std::string const& jsonString)
-{
-    fromJsonString_internal(jsonString);
-}
-
-boost::property_tree::ptree Dog::toPropertyTree()
-{
-    return toPropertyTree_internal();
-}
-
-void Dog::fromPropertyTree(boost::property_tree::ptree const& pt)
-{
-    fromPropertyTree_internal(pt);
-}
-
-std::string Dog::toJsonString_internal(bool prettyJson)
+std::string Dog::toJsonString(bool prettyJson /* = false */) const
 {
 	std::stringstream ss;
 	write_json(ss, this->toPropertyTree(), prettyJson);
-	return ss.str();
+    // workaround inspired by: https://stackoverflow.com/a/56395440
+    std::regex reg("\\\"([0-9]+\\.{0,1}[0-9]*)\\\"");
+    std::string result = std::regex_replace(ss.str(), reg, "$1");
+    return result;
 }
 
-void Dog::fromJsonString_internal(std::string const& jsonString)
+void Dog::fromJsonString(std::string const& jsonString)
 {
 	std::stringstream ss(jsonString);
 	ptree pt;
@@ -120,7 +57,7 @@ void Dog::fromJsonString_internal(std::string const& jsonString)
 	this->fromPropertyTree(pt);
 }
 
-ptree Dog::toPropertyTree_internal()
+ptree Dog::toPropertyTree() const
 {
 	ptree pt;
 	ptree tmp_node;
@@ -130,7 +67,7 @@ ptree Dog::toPropertyTree_internal()
 	return pt;
 }
 
-void Dog::fromPropertyTree_internal(ptree const &pt)
+void Dog::fromPropertyTree(ptree const &pt)
 {
 	ptree tmp_node;
 	m_ClassName = pt.get("className", "");
@@ -145,8 +82,10 @@ std::string Dog::getClassName() const
 
 void Dog::setClassName(std::string value)
 {
-	m_ClassName = value;
+    m_ClassName = value;
 }
+
+
 std::string Dog::getColor() const
 {
     return m_Color;
@@ -154,8 +93,10 @@ std::string Dog::getColor() const
 
 void Dog::setColor(std::string value)
 {
-	m_Color = value;
+    m_Color = value;
 }
+
+
 std::string Dog::getBreed() const
 {
     return m_Breed;
@@ -163,8 +104,10 @@ std::string Dog::getBreed() const
 
 void Dog::setBreed(std::string value)
 {
-	m_Breed = value;
+    m_Breed = value;
 }
+
+
 
 std::vector<Dog> createDogVectorFromJsonString(const std::string& json)
 {

@@ -1,6 +1,6 @@
 /**
  * OpenAPI Petstore
- * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
+ * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  * The version of the OpenAPI document: 1.0.0
  * 
@@ -19,8 +19,10 @@
 #include <map>
 #include <sstream>
 #include <stdexcept>
+#include <regex>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
+#include "helpers.h"
 
 using boost::property_tree::ptree;
 using boost::property_tree::read_json;
@@ -31,88 +33,23 @@ namespace openapitools {
 namespace server {
 namespace model {
 
-namespace {
-template <class T>
-void propertyTreeToMap(const std::string& propertyName, boost::property_tree::ptree const& pt, std::map<std::string, T> &map) {
-    for (const auto &childTree: pt.get_child(propertyName)) {
-        map.emplace(childTree.first, childTree.second.get_value<T>());
-    }
-}
-
-template <class T>
-void propertyTreeToMap(const std::string& propertyName, boost::property_tree::ptree const &pt, std::map<std::string, std::map<std::string, T>> & map ) {
-    for (const auto &childTree: pt.get_child(propertyName)) {
-        propertyTreeToMap(childTree.first, childTree.second, map);
-    }
-}
-
-template <class T>
-void propertyTreeToModelMap(const std::string& propertyName, boost::property_tree::ptree const& pt, std::map<std::string, T> &map) {
-    for (const auto &childTree: pt.get_child(propertyName)) {
-        T tmp;
-        tmp->fromPropertyTree(childTree.second);
-        map.emplace(childTree.first, tmp);
-    }
-}
-
-template <class T>
-void propertyTreeToModelMap(const std::string& propertyName, boost::property_tree::ptree const &pt, std::map<std::string, std::map<std::string, T>> & map ) {
-    for (const auto &childTree: pt.get_child(propertyName)) {
-       propertyTreeToMap(childTree.first, childTree.second, map);
-    }
-}
-
-template <class T>
-void mapToPropertyTree(const std::map<std::string, T> & map, boost::property_tree::ptree &pt) {
-    for (const auto &childEntry : map) {
-        pt.push_back(boost::property_tree::ptree::value_type(childEntry.first, childEntry.second));
-    }
-}
-
-template <class T>
-void mapToPropertyTree(const std::map<std::string, std::map<std::string, T>> & map, boost::property_tree::ptree &pt) {
-    for (const auto &childEntry : map) {
-        boost::property_tree::ptree child_node;
-        mapToPropertyTree(childEntry.second, child_node);
-        pt.push_back(boost::property_tree::ptree::value_type(childEntry.first, child_node));
-    }
-}
-}
-
-
 Category::Category(boost::property_tree::ptree const& pt)
 {
         fromPropertyTree(pt);
 }
 
-std::string Category::toJsonString(bool prettyJson /* = false */)
-{
-    return toJsonString_internal(prettyJson);
-}
 
-void Category::fromJsonString(std::string const& jsonString)
-{
-    fromJsonString_internal(jsonString);
-}
-
-boost::property_tree::ptree Category::toPropertyTree()
-{
-    return toPropertyTree_internal();
-}
-
-void Category::fromPropertyTree(boost::property_tree::ptree const& pt)
-{
-    fromPropertyTree_internal(pt);
-}
-
-std::string Category::toJsonString_internal(bool prettyJson)
+std::string Category::toJsonString(bool prettyJson /* = false */) const
 {
 	std::stringstream ss;
 	write_json(ss, this->toPropertyTree(), prettyJson);
-	return ss.str();
+    // workaround inspired by: https://stackoverflow.com/a/56395440
+    std::regex reg("\\\"([0-9]+\\.{0,1}[0-9]*)\\\"");
+    std::string result = std::regex_replace(ss.str(), reg, "$1");
+    return result;
 }
 
-void Category::fromJsonString_internal(std::string const& jsonString)
+void Category::fromJsonString(std::string const& jsonString)
 {
 	std::stringstream ss(jsonString);
 	ptree pt;
@@ -120,7 +57,7 @@ void Category::fromJsonString_internal(std::string const& jsonString)
 	this->fromPropertyTree(pt);
 }
 
-ptree Category::toPropertyTree_internal()
+ptree Category::toPropertyTree() const
 {
 	ptree pt;
 	ptree tmp_node;
@@ -129,11 +66,11 @@ ptree Category::toPropertyTree_internal()
 	return pt;
 }
 
-void Category::fromPropertyTree_internal(ptree const &pt)
+void Category::fromPropertyTree(ptree const &pt)
 {
 	ptree tmp_node;
 	m_Id = pt.get("id", 0L);
-	m_Name = pt.get("name", "");
+	m_Name = pt.get("name", "default-name");
 }
 
 int64_t Category::getId() const
@@ -143,8 +80,10 @@ int64_t Category::getId() const
 
 void Category::setId(int64_t value)
 {
-	m_Id = value;
+    m_Id = value;
 }
+
+
 std::string Category::getName() const
 {
     return m_Name;
@@ -152,8 +91,10 @@ std::string Category::getName() const
 
 void Category::setName(std::string value)
 {
-	m_Name = value;
+    m_Name = value;
 }
+
+
 
 std::vector<Category> createCategoryVectorFromJsonString(const std::string& json)
 {

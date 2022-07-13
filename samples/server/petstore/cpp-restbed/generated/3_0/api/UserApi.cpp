@@ -1,6 +1,6 @@
 /**
  * OpenAPI Petstore
- * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
+ * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  * The version of the OpenAPI document: 1.0.0
  * 
@@ -30,6 +30,32 @@ namespace api {
 
 using namespace org::openapitools::server::model;
 
+namespace {
+[[maybe_unused]]
+std::string selectPreferredContentType(const std::vector<std::string>& contentTypes) {
+    if (contentTypes.size() == 0) {
+        return "application/json";
+    }
+
+    if (contentTypes.size() == 1) {
+        return contentTypes.at(0);
+    }
+
+    static const std::array<std::string, 2> preferredTypes = {"json", "xml"};
+    for (const auto& preferredType: preferredTypes) {
+        const auto ret = std::find_if(contentTypes.cbegin(),
+        contentTypes.cend(),
+        [preferredType](const std::string& str) {
+            return str.find(preferredType) != std::string::npos;});
+        if (ret != contentTypes.cend()) {
+            return *ret;
+        }
+    }
+
+    return contentTypes.at(0);
+}
+}
+
 UserApiException::UserApiException(int status_code, std::string what)
   : m_status(status_code),
     m_what(what)
@@ -47,26 +73,26 @@ const char* UserApiException::what() const noexcept
 
 
 template<class MODEL_T>
-std::shared_ptr<MODEL_T> extractJsonModelBodyParam(const std::string& bodyContent)
+MODEL_T extractJsonModelBodyParam(const std::string& bodyContent)
 {
     std::stringstream sstream(bodyContent);
     boost::property_tree::ptree pt;
     boost::property_tree::json_parser::read_json(sstream, pt);
 
-    auto model = std::make_shared<MODEL_T>(pt);
+    auto model = MODEL_T(pt);
     return model;
 }
 
 template<class MODEL_T>
-std::vector<std::shared_ptr<MODEL_T>> extractJsonArrayBodyParam(const std::string& bodyContent)
+std::vector<MODEL_T> extractJsonArrayBodyParam(const std::string& bodyContent)
 {
     std::stringstream sstream(bodyContent);
     boost::property_tree::ptree pt;
     boost::property_tree::json_parser::read_json(sstream, pt);
 
-    auto arrayRet = std::vector<std::shared_ptr<MODEL_T>>();
+    auto arrayRet = std::vector<MODEL_T>();
     for (const auto& child: pt) {
-        arrayRet.emplace_back(std::make_shared<MODEL_T>(child.second));
+        arrayRet.emplace_back(MODEL_T(child.second));
     }
     return arrayRet;
 }
@@ -120,9 +146,10 @@ void UserResource::setResponseHeader(const std::shared_ptr<restbed::Session>& se
     session->set_header(header, "");
 }
 
-void UserResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, const std::string& contentType)
+void UserResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, std::multimap<std::string, std::string>& responseHeaders)
 {
-    session->close(status, result, { {"Connection", "close"}, {"Content-Type", contentType} });
+    responseHeaders.insert(std::make_pair("Connection", "close"));
+    session->close(status, result, responseHeaders);
 }
 
 void UserResource::defaultSessionClose(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result)
@@ -154,10 +181,19 @@ void UserResource::handler_POST_internal(const std::shared_ptr<restbed::Session>
         std::tie(status_code, result) = handleUnspecifiedException();
     }
     
-    if (status_code == 0) {
+    std::multimap< std::string, std::string > responseHeaders {};
+    static const std::vector<std::string> contentTypes{
+        "application/json"
+    };
+    static const std::string acceptTypes{
+        "application/json, "
+    };
     
-        const constexpr auto contentType = "text/plain";
-        returnResponse(session, 0, result.empty() ? "successful operation" : result, contentType);
+    if (status_code == 0) {
+        responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
+        result = "successful operation";
+    
+        returnResponse(session, 0, result.empty() ? "{}" : result, responseHeaders);
         return;
     }
     defaultSessionClose(session, status_code, result);
@@ -165,7 +201,7 @@ void UserResource::handler_POST_internal(const std::shared_ptr<restbed::Session>
 
 
 int UserResource::handler_POST(
-        std::shared_ptr<User> const & user)
+        User & user)
 {
     return handler_POST_func(user);
 }
@@ -225,9 +261,10 @@ void UserCreateWithArrayResource::setResponseHeader(const std::shared_ptr<restbe
     session->set_header(header, "");
 }
 
-void UserCreateWithArrayResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, const std::string& contentType)
+void UserCreateWithArrayResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, std::multimap<std::string, std::string>& responseHeaders)
 {
-    session->close(status, result, { {"Connection", "close"}, {"Content-Type", contentType} });
+    responseHeaders.insert(std::make_pair("Connection", "close"));
+    session->close(status, result, responseHeaders);
 }
 
 void UserCreateWithArrayResource::defaultSessionClose(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result)
@@ -259,10 +296,19 @@ void UserCreateWithArrayResource::handler_POST_internal(const std::shared_ptr<re
         std::tie(status_code, result) = handleUnspecifiedException();
     }
     
-    if (status_code == 0) {
+    std::multimap< std::string, std::string > responseHeaders {};
+    static const std::vector<std::string> contentTypes{
+        "application/json"
+    };
+    static const std::string acceptTypes{
+        "application/json, "
+    };
     
-        const constexpr auto contentType = "text/plain";
-        returnResponse(session, 0, result.empty() ? "successful operation" : result, contentType);
+    if (status_code == 0) {
+        responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
+        result = "successful operation";
+    
+        returnResponse(session, 0, result.empty() ? "{}" : result, responseHeaders);
         return;
     }
     defaultSessionClose(session, status_code, result);
@@ -270,7 +316,7 @@ void UserCreateWithArrayResource::handler_POST_internal(const std::shared_ptr<re
 
 
 int UserCreateWithArrayResource::handler_POST(
-        std::vector<std::shared_ptr<User>> const & user)
+        std::vector<User> & user)
 {
     return handler_POST_func(user);
 }
@@ -330,9 +376,10 @@ void UserCreateWithListResource::setResponseHeader(const std::shared_ptr<restbed
     session->set_header(header, "");
 }
 
-void UserCreateWithListResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, const std::string& contentType)
+void UserCreateWithListResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, std::multimap<std::string, std::string>& responseHeaders)
 {
-    session->close(status, result, { {"Connection", "close"}, {"Content-Type", contentType} });
+    responseHeaders.insert(std::make_pair("Connection", "close"));
+    session->close(status, result, responseHeaders);
 }
 
 void UserCreateWithListResource::defaultSessionClose(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result)
@@ -364,10 +411,19 @@ void UserCreateWithListResource::handler_POST_internal(const std::shared_ptr<res
         std::tie(status_code, result) = handleUnspecifiedException();
     }
     
-    if (status_code == 0) {
+    std::multimap< std::string, std::string > responseHeaders {};
+    static const std::vector<std::string> contentTypes{
+        "application/json"
+    };
+    static const std::string acceptTypes{
+        "application/json, "
+    };
     
-        const constexpr auto contentType = "text/plain";
-        returnResponse(session, 0, result.empty() ? "successful operation" : result, contentType);
+    if (status_code == 0) {
+        responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
+        result = "successful operation";
+    
+        returnResponse(session, 0, result.empty() ? "{}" : result, responseHeaders);
         return;
     }
     defaultSessionClose(session, status_code, result);
@@ -375,7 +431,7 @@ void UserCreateWithListResource::handler_POST_internal(const std::shared_ptr<res
 
 
 int UserCreateWithListResource::handler_POST(
-        std::vector<std::shared_ptr<User>> const & user)
+        std::vector<User> & user)
 {
     return handler_POST_func(user);
 }
@@ -441,9 +497,10 @@ void UserUsernameResource::setResponseHeader(const std::shared_ptr<restbed::Sess
     session->set_header(header, "");
 }
 
-void UserUsernameResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, const std::string& contentType)
+void UserUsernameResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, std::multimap<std::string, std::string>& responseHeaders)
 {
-    session->close(status, result, { {"Connection", "close"}, {"Content-Type", contentType} });
+    responseHeaders.insert(std::make_pair("Connection", "close"));
+    session->close(status, result, responseHeaders);
 }
 
 void UserUsernameResource::defaultSessionClose(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result)
@@ -455,7 +512,7 @@ void UserUsernameResource::handler_DELETE_internal(const std::shared_ptr<restbed
 {
     const auto request = session->get_request();
     // Getting the path params
-    const std::string username = request->get_path_parameter("username", "");
+    std::string username = request->get_path_parameter("username", "");
     
     int status_code = 500;
     std::string result = "";
@@ -474,16 +531,25 @@ void UserUsernameResource::handler_DELETE_internal(const std::shared_ptr<restbed
         std::tie(status_code, result) = handleUnspecifiedException();
     }
     
-    if (status_code == 400) {
+    std::multimap< std::string, std::string > responseHeaders {};
+    static const std::vector<std::string> contentTypes{
+        "application/json"
+    };
+    static const std::string acceptTypes{
+    };
     
-        const constexpr auto contentType = "text/plain";
-        returnResponse(session, 400, result.empty() ? "Invalid username supplied" : result, contentType);
+    if (status_code == 400) {
+        responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
+        result = "Invalid username supplied";
+    
+        returnResponse(session, 400, result.empty() ? "{}" : result, responseHeaders);
         return;
     }
     if (status_code == 404) {
+        responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
+        result = "User not found";
     
-        const constexpr auto contentType = "text/plain";
-        returnResponse(session, 404, result.empty() ? "User not found" : result, contentType);
+        returnResponse(session, 404, result.empty() ? "{}" : result, responseHeaders);
         return;
     }
     defaultSessionClose(session, status_code, result);
@@ -493,10 +559,10 @@ void UserUsernameResource::handler_DELETE_internal(const std::shared_ptr<restbed
 void UserUsernameResource::handler_GET_internal(const std::shared_ptr<restbed::Session> session) {
     const auto request = session->get_request();
     // Getting the path params
-    const std::string username = request->get_path_parameter("username", "");
+    std::string username = request->get_path_parameter("username", "");
     
     int status_code = 500;
-    std::shared_ptr<User> resultObject = std::make_shared<User>();
+    User resultObject = User{};
     std::string result = "";
     
     try {
@@ -513,23 +579,35 @@ void UserUsernameResource::handler_GET_internal(const std::shared_ptr<restbed::S
         std::tie(status_code, result) = handleUnspecifiedException();
     }
     
-    if (status_code == 200) {
-        result = resultObject->toJsonString();
+    std::multimap< std::string, std::string > responseHeaders {};
+    static const std::vector<std::string> contentTypes{
+        "application/xml","application/json",
+    };
+    static const std::string acceptTypes{
+    };
     
-        const constexpr auto contentType = "application/json";
-        returnResponse(session, 200, result.empty() ? "successful operation" : result, contentType);
+    if (status_code == 200) {
+        responseHeaders.insert(std::make_pair("Content-Type", selectPreferredContentType(contentTypes)));
+        if (!acceptTypes.empty()) {
+            responseHeaders.insert(std::make_pair("Accept", acceptTypes));
+        }
+    
+        result = resultObject.toJsonString();
+        returnResponse(session, 200, result.empty() ? "{}" : result, responseHeaders);
         return;
     }
     if (status_code == 400) {
+        responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
+        result = "Invalid username supplied";
     
-        const constexpr auto contentType = "text/plain";
-        returnResponse(session, 400, result.empty() ? "Invalid username supplied" : result, contentType);
+        returnResponse(session, 400, result.empty() ? "{}" : result, responseHeaders);
         return;
     }
     if (status_code == 404) {
+        responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
+        result = "User not found";
     
-        const constexpr auto contentType = "text/plain";
-        returnResponse(session, 404, result.empty() ? "User not found" : result, contentType);
+        returnResponse(session, 404, result.empty() ? "{}" : result, responseHeaders);
         return;
     }
     defaultSessionClose(session, status_code, result);
@@ -541,7 +619,7 @@ void UserUsernameResource::handler_PUT_internal(const std::shared_ptr<restbed::S
     std::string bodyContent = extractBodyContent(session);
     auto user = extractJsonModelBodyParam<User>(bodyContent);
     // Getting the path params
-    const std::string username = request->get_path_parameter("username", "");
+    std::string username = request->get_path_parameter("username", "");
     
     int status_code = 500;
     std::string result = "";
@@ -560,34 +638,44 @@ void UserUsernameResource::handler_PUT_internal(const std::shared_ptr<restbed::S
         std::tie(status_code, result) = handleUnspecifiedException();
     }
     
-    if (status_code == 400) {
+    std::multimap< std::string, std::string > responseHeaders {};
+    static const std::vector<std::string> contentTypes{
+        "application/json"
+    };
+    static const std::string acceptTypes{
+        "application/json, "
+    };
     
-        const constexpr auto contentType = "text/plain";
-        returnResponse(session, 400, result.empty() ? "Invalid user supplied" : result, contentType);
+    if (status_code == 400) {
+        responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
+        result = "Invalid user supplied";
+    
+        returnResponse(session, 400, result.empty() ? "{}" : result, responseHeaders);
         return;
     }
     if (status_code == 404) {
+        responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
+        result = "User not found";
     
-        const constexpr auto contentType = "text/plain";
-        returnResponse(session, 404, result.empty() ? "User not found" : result, contentType);
+        returnResponse(session, 404, result.empty() ? "{}" : result, responseHeaders);
         return;
     }
     defaultSessionClose(session, status_code, result);
 }
 
 int UserUsernameResource::handler_DELETE(
-        std::string const & username)
+        std::string & username)
 {
     return handler_DELETE_func(username);
 }
 
-std::pair<int, std::shared_ptr<User>> UserUsernameResource::handler_GET(
-    std::string const & username)
+std::pair<int, User> UserUsernameResource::handler_GET(
+    std::string & username)
 {
     return handler_GET_func(username);
 }
 int UserUsernameResource::handler_PUT(
-    std::string const & username, std::shared_ptr<User> const & user)
+    std::string & username, User & user)
 {
     return handler_PUT_func(username, user);
 }
@@ -646,9 +734,10 @@ void UserLoginResource::setResponseHeader(const std::shared_ptr<restbed::Session
     session->set_header(header, "");
 }
 
-void UserLoginResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, const std::string& contentType)
+void UserLoginResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, std::multimap<std::string, std::string>& responseHeaders)
 {
-    session->close(status, result, { {"Connection", "close"}, {"Content-Type", contentType} });
+    responseHeaders.insert(std::make_pair("Connection", "close"));
+    session->close(status, result, responseHeaders);
 }
 
 void UserLoginResource::defaultSessionClose(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result)
@@ -660,8 +749,8 @@ void UserLoginResource::handler_GET_internal(const std::shared_ptr<restbed::Sess
 {
     const auto request = session->get_request();
     // Getting the query params
-    const std::string username = request->get_query_parameter("username", "");
-    const std::string password = request->get_query_parameter("password", "");
+    std::string username = request->get_query_parameter("username", "");
+    std::string password = request->get_query_parameter("password", "");
     
     int status_code = 500;
     std::string resultObject = "";
@@ -681,23 +770,32 @@ void UserLoginResource::handler_GET_internal(const std::shared_ptr<restbed::Sess
         std::tie(status_code, result) = handleUnspecifiedException();
     }
     
+    std::multimap< std::string, std::string > responseHeaders {};
+    static const std::vector<std::string> contentTypes{
+        "application/xml","application/json",
+    };
+    static const std::string acceptTypes{
+    };
+    
     if (status_code == 200) {
+        responseHeaders.insert(std::make_pair("Content-Type", selectPreferredContentType(contentTypes)));
+        if (!acceptTypes.empty()) {
+            responseHeaders.insert(std::make_pair("Accept", acceptTypes));
+        }
+    
         result = resultObject;
-        // Description: Cookie authentication key for use with the `api_key` apiKey authentication.
-        setResponseHeader(session, "Set-Cookie");
         // Description: calls per hour allowed by the user
         setResponseHeader(session, "X-Rate-Limit");
         // Description: date in UTC when token expires
         setResponseHeader(session, "X-Expires-After");
-    
-        const constexpr auto contentType = "application/json";
-        returnResponse(session, 200, result.empty() ? "successful operation" : result, contentType);
+        returnResponse(session, 200, result.empty() ? "{}" : result, responseHeaders);
         return;
     }
     if (status_code == 400) {
+        responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
+        result = "Invalid username/password supplied";
     
-        const constexpr auto contentType = "text/plain";
-        returnResponse(session, 400, result.empty() ? "Invalid username/password supplied" : result, contentType);
+        returnResponse(session, 400, result.empty() ? "{}" : result, responseHeaders);
         return;
     }
     defaultSessionClose(session, status_code, result);
@@ -705,7 +803,7 @@ void UserLoginResource::handler_GET_internal(const std::shared_ptr<restbed::Sess
 
 
 std::pair<int, std::string> UserLoginResource::handler_GET(
-        std::string const & username, std::string const & password)
+        std::string & username, std::string & password)
 {
     return handler_GET_func(username, password);
 }
@@ -765,9 +863,10 @@ void UserLogoutResource::setResponseHeader(const std::shared_ptr<restbed::Sessio
     session->set_header(header, "");
 }
 
-void UserLogoutResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, const std::string& contentType)
+void UserLogoutResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, std::multimap<std::string, std::string>& responseHeaders)
 {
-    session->close(status, result, { {"Connection", "close"}, {"Content-Type", contentType} });
+    responseHeaders.insert(std::make_pair("Connection", "close"));
+    session->close(status, result, responseHeaders);
 }
 
 void UserLogoutResource::defaultSessionClose(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result)
@@ -796,10 +895,18 @@ void UserLogoutResource::handler_GET_internal(const std::shared_ptr<restbed::Ses
         std::tie(status_code, result) = handleUnspecifiedException();
     }
     
-    if (status_code == 0) {
+    std::multimap< std::string, std::string > responseHeaders {};
+    static const std::vector<std::string> contentTypes{
+        "application/json"
+    };
+    static const std::string acceptTypes{
+    };
     
-        const constexpr auto contentType = "text/plain";
-        returnResponse(session, 0, result.empty() ? "successful operation" : result, contentType);
+    if (status_code == 0) {
+        responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
+        result = "successful operation";
+    
+        returnResponse(session, 0, result.empty() ? "{}" : result, responseHeaders);
         return;
     }
     defaultSessionClose(session, status_code, result);

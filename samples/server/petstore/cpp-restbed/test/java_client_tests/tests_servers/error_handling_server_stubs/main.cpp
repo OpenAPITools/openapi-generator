@@ -33,8 +33,8 @@ int extractReturnStatus(const std::string &errorType) {
 
 
 template <class RETURN_T, class API_EXCEPTION_T>
-std::pair<int, std::shared_ptr<RETURN_T>>
-raiseErrorForTesting(const std::shared_ptr<RETURN_T> &modelObj,
+std::pair<int, RETURN_T>
+raiseErrorForTesting(const RETURN_T &modelObj,
                      const std::string &errorType) {
   if ("ThrowsApiException" == errorType) {
     throw API_EXCEPTION_T(500, "ApiException raised");
@@ -68,52 +68,58 @@ std::string intToErrorRaisingString(const int64_t &id) {
 
 class MyPetApiPetResource : public PetResource {
 public:
-  std::pair<int, std::shared_ptr<Pet>> handler_POST(const std::shared_ptr<Pet> &pet) override {
-    const std::string &name = pet->getName();
-    return raiseErrorForTesting<Pet, PetApiException>(pet, name);
+  int handler_POST(Pet &pet) override {
+    const std::string &name = pet.getName();
+    int status;
+    Pet pet_;
+    std::tie(status, pet_) = raiseErrorForTesting<Pet, PetApiException>(pet, name);
+    return status;
   }
 
-    std::pair<int, std::shared_ptr<Pet>> handler_PUT(const std::shared_ptr<Pet> &pet) override {
-    const std::string &name = pet->getName();
-    return raiseErrorForTesting<Pet, PetApiException>(pet, name);
+    int handler_PUT(Pet &pet) override {
+    const std::string &name = pet.getName();
+    int status;
+    Pet pet_;
+    std::tie(status, pet_) =  raiseErrorForTesting<Pet, PetApiException>(pet, name);
+    return status;
   }
 };
 
 class MyPetApiPetPetIdResource : public PetPetIdResource {
 public:
-  int handler_DELETE(const int64_t &petId,
-                     const std::string &api_key) override {
+  int handler_DELETE(int64_t &petId,
+                     std::string &api_key) override {
     int status;
-    std::shared_ptr<Pet> pet;
-    std::tie(status, pet) = raiseErrorForTesting<Pet, PetApiException>(std::make_shared<Pet>(), api_key);
+    Pet pet;
+    std::tie(status, pet) = raiseErrorForTesting<Pet, PetApiException>(Pet(), api_key);
     return status;
   }
 
-  std::pair<int, std::shared_ptr<Pet>>
-  handler_GET(const int64_t &id) override {
+  std::pair<int, Pet>
+  handler_GET(int64_t &id) override {
     std::string errorType = intToErrorRaisingString(id);
 
-    auto pet = std::make_shared<Pet>();
-    pet->setName("MyPuppy");
-    pet->setStatus("available");
+    auto pet = Pet();
+    pet.setName("MyPuppy");
+    pet.setStatus("available");
 
     return raiseErrorForTesting<Pet, PetApiException>(pet, errorType);
   }
 };
 
-class MyStoreApiStoreOrderOrderIdResource : public StoreOrderOrderIdResource {
+class MyStoreApiStoreOrderOrderIdResource : public StoreOrderOrder_idResource {
 public:
-  int handler_DELETE(const std::string &orderId) override {
+  int handler_DELETE(std::string &orderId) override {
     int status;
-    std::shared_ptr<Pet> pet;
-    std::tie(status, pet) = raiseErrorForTesting<Pet, PetApiException>(std::make_shared<Pet>(), orderId);
+    Pet pet;
+    std::tie(status, pet) = raiseErrorForTesting<Pet, PetApiException>(Pet(), orderId);
     return status;
   }
 
-  std::pair<int, std::shared_ptr<Order>>
-  handler_GET(const int64_t &orderId) override {
+  std::pair<int, Order>
+  handler_GET(int64_t &orderId) override {
     std::string errorType = intToErrorRaisingString(orderId);
-    const auto order = std::make_shared<Order>();
+    const auto order = Order();
     return raiseErrorForTesting<Order, StoreApiException>(order, errorType);
   }
 };
@@ -128,31 +134,31 @@ public:
 
 class MyStoreApiStoreOrderResource : public StoreOrderResource {
 public:
-  std::pair<int, std::shared_ptr<Order>>
-  handler_POST(const std::shared_ptr<Order> &order) override {
-    std::string errorType = intToErrorRaisingString(order->getId());
+  std::pair<int, Order>
+  handler_POST(Order &order) override {
+    std::string errorType = intToErrorRaisingString(order.getId());
     return raiseErrorForTesting<Order, StoreApiException>(order, errorType);
   }
 };
 
 class MyUserApiUserCreateWithArrayResource : public UserCreateWithArrayResource {
 public:
-  int handler_POST(const std::vector<std::shared_ptr<User>> &user) override {
-    const auto errorType = user[0]->getFirstName();
+  int handler_POST(std::vector<User> &user) override {
+    const auto errorType = user[0].getFirstName();
     int status;
-    std::shared_ptr<User> user_;
-    std::tie(status, user_) = raiseErrorForTesting<User, UserApiException>(std::make_shared<User>(), errorType);
+    User user_;
+    std::tie(status, user_) = raiseErrorForTesting<User, UserApiException>(User(), errorType);
     return status;
   }
 };
 
 class MyUserApiUserCreateWithListResource : public UserCreateWithListResource {
 public:
-  int handler_POST(const std::vector<std::shared_ptr<User>> &user) override {
-    const auto errorType = user[0]->getFirstName();
+  int handler_POST(std::vector<User> &user) override {
+    const auto errorType = user[0].getFirstName();
     int status;
-    std::shared_ptr<User> user_;
-    std::tie(status, user_) = raiseErrorForTesting<User, UserApiException>(std::make_shared<User>(), errorType);
+    User user_;
+    std::tie(status, user_) = raiseErrorForTesting<User, UserApiException>(User(), errorType);
     return status;
   }
 };
@@ -160,11 +166,11 @@ public:
 class MyUserApiUserLoginResource : public UserLoginResource {
 public:
   std::pair<int, std::string>
-  handler_GET(const std::string &username,
-              const std::string &password) override {
+  handler_GET(std::string &username,
+              std::string &password) override {
     int status;
-    std::shared_ptr<User> user_;
-    std::tie(status, user_) = raiseErrorForTesting<User, UserApiException>(std::make_shared<User>(), username);
+    User user_;
+    std::tie(status, user_) = raiseErrorForTesting<User, UserApiException>(User(), username);
     return {status, username};
   }
 };
@@ -191,10 +197,10 @@ int main() {
   storeApi.setResource(std::make_shared<MyStoreApiStoreOrderResource>());
 
   auto userApi = UserApi(service);
-  userApi.getUserResource()->handler_POST_func = [](const auto& user) {
-            const auto errorType = user->getFirstName();
+  userApi.getUserResource()->handler_POST_func = [](auto& user) {
+            const auto errorType = user.getFirstName();
             int status;
-            std::shared_ptr<User> user_;
+            User user_;
             std::tie(status, user_) = raiseErrorForTesting<User, UserApiException>(user, errorType);
             return status;
         };

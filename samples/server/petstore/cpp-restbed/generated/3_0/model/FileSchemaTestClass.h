@@ -26,6 +26,7 @@
 #include <memory>
 #include <vector>
 #include <boost/property_tree/ptree.hpp>
+#include "helpers.h"
 
 namespace org {
 namespace openapitools {
@@ -42,9 +43,15 @@ public:
     explicit FileSchemaTestClass(boost::property_tree::ptree const& pt);
     virtual ~FileSchemaTestClass() = default;
 
-    std::string toJsonString(bool prettyJson = false);
+    FileSchemaTestClass(const FileSchemaTestClass& other) = default; // copy constructor
+    FileSchemaTestClass(FileSchemaTestClass&& other) noexcept = default; // move constructor
+
+    FileSchemaTestClass& operator=(const FileSchemaTestClass& other) = default; // copy assignment
+    FileSchemaTestClass& operator=(FileSchemaTestClass&& other) noexcept = default; // move assignment
+
+    std::string toJsonString(bool prettyJson = false) const;
     void fromJsonString(std::string const& jsonString);
-    boost::property_tree::ptree toPropertyTree();
+    boost::property_tree::ptree toPropertyTree() const;
     void fromPropertyTree(boost::property_tree::ptree const& pt);
 
     /////////////////////////////////////////////
@@ -53,32 +60,35 @@ public:
     /// <summary>
     /// 
     /// </summary>
-    std::shared_ptr<File> getFile() const;
-    void setFile(std::shared_ptr<File> value);
+    File getFile() const;
+    void setFile(File value);
 
     /// <summary>
     /// 
     /// </summary>
-    std::vector<std::shared_ptr<File>> getFiles() const;
-    void setFiles(std::vector<std::shared_ptr<File>> value);
+    std::vector<File> getFiles() const;
+    void setFiles(std::vector<File> value);
 
 protected:
-    //////////////////////////////////////
-    // Override these for customization //
-    //////////////////////////////////////
-
-    virtual std::string toJsonString_internal(bool prettyJson = false);
-    virtual void fromJsonString_internal(std::string const& jsonString);
-    virtual boost::property_tree::ptree toPropertyTree_internal();
-    virtual void fromPropertyTree_internal(boost::property_tree::ptree const& pt);
+    File m_file;
+    std::vector<File> m_Files;
 
 
-protected:
-    std::shared_ptr<File> m_file;
-    std::vector<std::shared_ptr<File>> m_Files;
 };
 
 std::vector<FileSchemaTestClass> createFileSchemaTestClassVectorFromJsonString(const std::string& json);
+
+template<>
+inline boost::property_tree::ptree toPt<FileSchemaTestClass>(const FileSchemaTestClass& val) {
+    return val.toPropertyTree();
+}
+
+template<>
+inline FileSchemaTestClass fromPt<FileSchemaTestClass>(const boost::property_tree::ptree& pt) {
+    FileSchemaTestClass ret;
+    ret.fromPropertyTree(pt);
+    return ret;
+}
 
 }
 }

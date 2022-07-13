@@ -27,6 +27,7 @@
 #include <memory>
 #include <vector>
 #include <boost/property_tree/ptree.hpp>
+#include "helpers.h"
 
 namespace org {
 namespace openapitools {
@@ -43,9 +44,15 @@ public:
     explicit MixedPropertiesAndAdditionalPropertiesClass(boost::property_tree::ptree const& pt);
     virtual ~MixedPropertiesAndAdditionalPropertiesClass() = default;
 
-    std::string toJsonString(bool prettyJson = false);
+    MixedPropertiesAndAdditionalPropertiesClass(const MixedPropertiesAndAdditionalPropertiesClass& other) = default; // copy constructor
+    MixedPropertiesAndAdditionalPropertiesClass(MixedPropertiesAndAdditionalPropertiesClass&& other) noexcept = default; // move constructor
+
+    MixedPropertiesAndAdditionalPropertiesClass& operator=(const MixedPropertiesAndAdditionalPropertiesClass& other) = default; // copy assignment
+    MixedPropertiesAndAdditionalPropertiesClass& operator=(MixedPropertiesAndAdditionalPropertiesClass&& other) noexcept = default; // move assignment
+
+    std::string toJsonString(bool prettyJson = false) const;
     void fromJsonString(std::string const& jsonString);
-    boost::property_tree::ptree toPropertyTree();
+    boost::property_tree::ptree toPropertyTree() const;
     void fromPropertyTree(boost::property_tree::ptree const& pt);
 
     /////////////////////////////////////////////
@@ -66,27 +73,31 @@ public:
     /// <summary>
     /// 
     /// </summary>
-    std::map<std::string, std::shared_ptr<Animal>> getMap() const;
-    void setMap(std::map<std::string, std::shared_ptr<Animal>> value);
-
-protected:
-    //////////////////////////////////////
-    // Override these for customization //
-    //////////////////////////////////////
-
-    virtual std::string toJsonString_internal(bool prettyJson = false);
-    virtual void fromJsonString_internal(std::string const& jsonString);
-    virtual boost::property_tree::ptree toPropertyTree_internal();
-    virtual void fromPropertyTree_internal(boost::property_tree::ptree const& pt);
-
+    std::map<std::string, Animal> getMap() const;
+    void setMap(std::map<std::string, Animal> value);
 
 protected:
     std::string m_Uuid = "";
     std::string m_DateTime = "";
-    std::map<std::string, std::shared_ptr<Animal>> m_map;
+    std::map<std::string, Animal> m_map;
+
+
+
 };
 
 std::vector<MixedPropertiesAndAdditionalPropertiesClass> createMixedPropertiesAndAdditionalPropertiesClassVectorFromJsonString(const std::string& json);
+
+template<>
+inline boost::property_tree::ptree toPt<MixedPropertiesAndAdditionalPropertiesClass>(const MixedPropertiesAndAdditionalPropertiesClass& val) {
+    return val.toPropertyTree();
+}
+
+template<>
+inline MixedPropertiesAndAdditionalPropertiesClass fromPt<MixedPropertiesAndAdditionalPropertiesClass>(const boost::property_tree::ptree& pt) {
+    MixedPropertiesAndAdditionalPropertiesClass ret;
+    ret.fromPropertyTree(pt);
+    return ret;
+}
 
 }
 }

@@ -19,8 +19,10 @@
 #include <map>
 #include <sstream>
 #include <stdexcept>
+#include <regex>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
+#include "helpers.h"
 
 using boost::property_tree::ptree;
 using boost::property_tree::read_json;
@@ -31,88 +33,23 @@ namespace openapitools {
 namespace server {
 namespace model {
 
-namespace {
-template <class T>
-void propertyTreeToMap(const std::string& propertyName, boost::property_tree::ptree const& pt, std::map<std::string, T> &map) {
-    for (const auto &childTree: pt.get_child(propertyName)) {
-        map.emplace(childTree.first, childTree.second.get_value<T>());
-    }
-}
-
-template <class T>
-void propertyTreeToMap(const std::string& propertyName, boost::property_tree::ptree const &pt, std::map<std::string, std::map<std::string, T>> & map ) {
-    for (const auto &childTree: pt.get_child(propertyName)) {
-        propertyTreeToMap(childTree.first, childTree.second, map);
-    }
-}
-
-template <class T>
-void propertyTreeToModelMap(const std::string& propertyName, boost::property_tree::ptree const& pt, std::map<std::string, T> &map) {
-    for (const auto &childTree: pt.get_child(propertyName)) {
-        T tmp;
-        tmp->fromPropertyTree(childTree.second);
-        map.emplace(childTree.first, tmp);
-    }
-}
-
-template <class T>
-void propertyTreeToModelMap(const std::string& propertyName, boost::property_tree::ptree const &pt, std::map<std::string, std::map<std::string, T>> & map ) {
-    for (const auto &childTree: pt.get_child(propertyName)) {
-       propertyTreeToMap(childTree.first, childTree.second, map);
-    }
-}
-
-template <class T>
-void mapToPropertyTree(const std::map<std::string, T> & map, boost::property_tree::ptree &pt) {
-    for (const auto &childEntry : map) {
-        pt.push_back(boost::property_tree::ptree::value_type(childEntry.first, childEntry.second));
-    }
-}
-
-template <class T>
-void mapToPropertyTree(const std::map<std::string, std::map<std::string, T>> & map, boost::property_tree::ptree &pt) {
-    for (const auto &childEntry : map) {
-        boost::property_tree::ptree child_node;
-        mapToPropertyTree(childEntry.second, child_node);
-        pt.push_back(boost::property_tree::ptree::value_type(childEntry.first, child_node));
-    }
-}
-}
-
-
 r_200_response::r_200_response(boost::property_tree::ptree const& pt)
 {
         fromPropertyTree(pt);
 }
 
-std::string r_200_response::toJsonString(bool prettyJson /* = false */)
-{
-    return toJsonString_internal(prettyJson);
-}
 
-void r_200_response::fromJsonString(std::string const& jsonString)
-{
-    fromJsonString_internal(jsonString);
-}
-
-boost::property_tree::ptree r_200_response::toPropertyTree()
-{
-    return toPropertyTree_internal();
-}
-
-void r_200_response::fromPropertyTree(boost::property_tree::ptree const& pt)
-{
-    fromPropertyTree_internal(pt);
-}
-
-std::string r_200_response::toJsonString_internal(bool prettyJson)
+std::string r_200_response::toJsonString(bool prettyJson /* = false */) const
 {
 	std::stringstream ss;
 	write_json(ss, this->toPropertyTree(), prettyJson);
-	return ss.str();
+    // workaround inspired by: https://stackoverflow.com/a/56395440
+    std::regex reg("\\\"([0-9]+\\.{0,1}[0-9]*)\\\"");
+    std::string result = std::regex_replace(ss.str(), reg, "$1");
+    return result;
 }
 
-void r_200_response::fromJsonString_internal(std::string const& jsonString)
+void r_200_response::fromJsonString(std::string const& jsonString)
 {
 	std::stringstream ss(jsonString);
 	ptree pt;
@@ -120,7 +57,7 @@ void r_200_response::fromJsonString_internal(std::string const& jsonString)
 	this->fromPropertyTree(pt);
 }
 
-ptree r_200_response::toPropertyTree_internal()
+ptree r_200_response::toPropertyTree() const
 {
 	ptree pt;
 	ptree tmp_node;
@@ -129,7 +66,7 @@ ptree r_200_response::toPropertyTree_internal()
 	return pt;
 }
 
-void r_200_response::fromPropertyTree_internal(ptree const &pt)
+void r_200_response::fromPropertyTree(ptree const &pt)
 {
 	ptree tmp_node;
 	m_Name = pt.get("name", 0);
@@ -143,8 +80,10 @@ int32_t r_200_response::getName() const
 
 void r_200_response::setName(int32_t value)
 {
-	m_Name = value;
+    m_Name = value;
 }
+
+
 std::string r_200_response::getRClass() const
 {
     return m_r_class;
@@ -152,8 +91,10 @@ std::string r_200_response::getRClass() const
 
 void r_200_response::setRClass(std::string value)
 {
-	m_r_class = value;
+    m_r_class = value;
 }
+
+
 
 std::vector<r_200_response> creater_200_responseVectorFromJsonString(const std::string& json)
 {

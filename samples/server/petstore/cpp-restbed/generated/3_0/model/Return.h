@@ -24,6 +24,7 @@
 #include <memory>
 #include <vector>
 #include <boost/property_tree/ptree.hpp>
+#include "helpers.h"
 
 namespace org {
 namespace openapitools {
@@ -40,9 +41,15 @@ public:
     explicit Return(boost::property_tree::ptree const& pt);
     virtual ~Return() = default;
 
-    std::string toJsonString(bool prettyJson = false);
+    Return(const Return& other) = default; // copy constructor
+    Return(Return&& other) noexcept = default; // move constructor
+
+    Return& operator=(const Return& other) = default; // copy assignment
+    Return& operator=(Return&& other) noexcept = default; // move assignment
+
+    std::string toJsonString(bool prettyJson = false) const;
     void fromJsonString(std::string const& jsonString);
-    boost::property_tree::ptree toPropertyTree();
+    boost::property_tree::ptree toPropertyTree() const;
     void fromPropertyTree(boost::property_tree::ptree const& pt);
 
     /////////////////////////////////////////////
@@ -55,21 +62,23 @@ public:
     void setRReturn(int32_t value);
 
 protected:
-    //////////////////////////////////////
-    // Override these for customization //
-    //////////////////////////////////////
-
-    virtual std::string toJsonString_internal(bool prettyJson = false);
-    virtual void fromJsonString_internal(std::string const& jsonString);
-    virtual boost::property_tree::ptree toPropertyTree_internal();
-    virtual void fromPropertyTree_internal(boost::property_tree::ptree const& pt);
-
-
-protected:
     int32_t m_r_return = 0;
+
 };
 
 std::vector<Return> createReturnVectorFromJsonString(const std::string& json);
+
+template<>
+inline boost::property_tree::ptree toPt<Return>(const Return& val) {
+    return val.toPropertyTree();
+}
+
+template<>
+inline Return fromPt<Return>(const boost::property_tree::ptree& pt) {
+    Return ret;
+    ret.fromPropertyTree(pt);
+    return ret;
+}
 
 }
 }

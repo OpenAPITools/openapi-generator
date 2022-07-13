@@ -24,7 +24,7 @@ auto {{paramName}} = boost::lexical_cast<{{{dataType}}}>(bodyContent);
 {{#hasFormParams}}
 {{#formParams}}
 {{#isContainer}}
-const std::string {{{paramName}}}_raw = extractFormParamsFromBody("{{paramName}}", extractBodyContent(session));
+std::string {{{paramName}}}_raw = extractFormParamsFromBody("{{paramName}}", extractBodyContent(session));
 {{{dataType}}} {{{paramName}}};
 boost::split({{{paramName}}}, {{{paramName}}}_raw, boost::is_any_of(","));
 {{/isContainer}}
@@ -37,7 +37,7 @@ auto {{paramName}} = boost::lexical_cast<{{{dataType}}}>(extractFormParamsFromBo
 // Getting the path params
 {{#pathParams}}
 {{#isPrimitiveType}}
-const {{{dataType}}} {{{paramName}}} = request->get_path_parameter("{{{baseName}}}", {{{defaultValue}}});
+{{{dataType}}} {{{paramName}}} = request->get_path_parameter("{{{baseName}}}", {{{defaultValue}}});
 {{/isPrimitiveType}}
 {{/pathParams}}
 {{/hasPathParams}}
@@ -45,11 +45,11 @@ const {{{dataType}}} {{{paramName}}} = request->get_path_parameter("{{{baseName}
 // Getting the query params
 {{#queryParams}}
 {{#isPrimitiveType}}
-const {{{dataType}}} {{{paramName}}} = request->get_query_parameter("{{{paramName}}}", {{{defaultValue}}});
+{{{dataType}}} {{{paramName}}} = request->get_query_parameter("{{{paramName}}}", {{{defaultValue}}});
 {{/isPrimitiveType}}
 {{^isPrimitiveType}}
 {{#isArray}}
-const std::string {{{paramName}}}_raw = request->get_query_parameter("{{{paramName}}}");
+std::string {{{paramName}}}_raw = request->get_query_parameter("{{{paramName}}}");
 {{{dataType}}} {{{paramName}}};
 boost::split({{{paramName}}}, {{{paramName}}}_raw, boost::is_any_of(","));
 {{/isArray}}
@@ -59,7 +59,7 @@ boost::property_tree::ptree {{{paramName}}}_pt;
 boost::property_tree::json_parser::read_json({{{paramName}}}_raw,{{{paramName}}}_pt);
 {{{dataType}}} {{{paramName}}} = {{{defaultValue}}};
 for (auto& item: {{{paramName}}}_pt) {
-    {{{paramName}}}->emplace(item.first, item.second.get_value<{{{baseType}}}>());
+    {{{paramName}}}.emplace(item.first, item.second.get_value<{{{baseType}}}>());
 }
 {{/isMap}}
 {{/isPrimitiveType}}
@@ -69,10 +69,10 @@ for (auto& item: {{{paramName}}}_pt) {
 // Getting the headers
 {{#headerParams}}
 {{#isPrimitiveType}}
-const {{{dataType}}} {{{paramName}}} = request->get_header("{{{baseName}}}", {{{defaultValue}}});
+{{{dataType}}} {{{paramName}}} = request->get_header("{{{baseName}}}", {{{defaultValue}}});
 {{/isPrimitiveType}}
 {{#isContainer}}
-const std::string {{{paramName}}}_raw = request->get_header("{{{paramName}}}");
+std::string {{{paramName}}}_raw = request->get_header("{{{paramName}}}");
 {{{dataType}}} {{{paramName}}};
 boost::split({{{paramName}}}, {{{paramName}}}_raw, boost::is_any_of(","));
 {{/isContainer}}
@@ -104,8 +104,34 @@ catch(...) {
     std::tie(status_code, result) = handleUnspecifiedException();
 }
 
+std::multimap< std::string, std::string > responseHeaders {};
+static const std::vector<std::string> contentTypes{
+{{#hasProduces}}
+    {{#produces}}"{{{mediaType}}}",{{/produces}}
+{{/hasProduces}}
+{{^hasProduces}}
+    "application/json"
+{{/hasProduces}}
+};
+static const std::string acceptTypes{
+{{#hasConsumes}}
+    "{{#consumes}}{{{mediaType}}}, {{/consumes}}"
+{{/hasConsumes}}
+};
+
 {{#responses}}
 if (status_code == {{code}}) {
+{{#is2xx}}
+    responseHeaders.insert(std::make_pair("Content-Type", selectPreferredContentType(contentTypes)));
+    if (!acceptTypes.empty()) {
+        responseHeaders.insert(std::make_pair("Accept", acceptTypes));
+    }
+{{/is2xx}}
+{{^is2xx}}
+    responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
+    result = "{{message}}";
+{{/is2xx}}
+
 {{#returnType}}
 {{#isModel}}
 {{#isString}}
@@ -113,7 +139,7 @@ if (status_code == {{code}}) {
 {{/isString}}
 {{^isString}}
 {{^isMap}}
-    result = resultObject->toJsonString();
+    result = resultObject.toJsonString();
 {{/isMap}}
 {{/isString}}
 {{/isModel}}
@@ -125,14 +151,7 @@ if (status_code == {{code}}) {
     // Description: {{{description}}}
     setResponseHeader(session, "{{baseName}}");
 {{/headers}}
-
-{{#primitiveType}}
-    const constexpr auto contentType = "text/plain";
-{{/primitiveType}}
-{{^primitiveType}}
-    const constexpr auto contentType = "application/json";
-{{/primitiveType}}
-    returnResponse(session, {{code}}, result.empty() ? "{{message}}" : result, contentType);
+    returnResponse(session, {{code}}, result.empty() ? "{}" : result, responseHeaders);
     return;
 }
 {{/responses}}

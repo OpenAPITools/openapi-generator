@@ -19,8 +19,10 @@
 #include <map>
 #include <sstream>
 #include <stdexcept>
+#include <regex>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
+#include "helpers.h"
 
 using boost::property_tree::ptree;
 using boost::property_tree::read_json;
@@ -31,88 +33,23 @@ namespace openapitools {
 namespace server {
 namespace model {
 
-namespace {
-template <class T>
-void propertyTreeToMap(const std::string& propertyName, boost::property_tree::ptree const& pt, std::map<std::string, T> &map) {
-    for (const auto &childTree: pt.get_child(propertyName)) {
-        map.emplace(childTree.first, childTree.second.get_value<T>());
-    }
-}
-
-template <class T>
-void propertyTreeToMap(const std::string& propertyName, boost::property_tree::ptree const &pt, std::map<std::string, std::map<std::string, T>> & map ) {
-    for (const auto &childTree: pt.get_child(propertyName)) {
-        propertyTreeToMap(childTree.first, childTree.second, map);
-    }
-}
-
-template <class T>
-void propertyTreeToModelMap(const std::string& propertyName, boost::property_tree::ptree const& pt, std::map<std::string, T> &map) {
-    for (const auto &childTree: pt.get_child(propertyName)) {
-        T tmp;
-        tmp->fromPropertyTree(childTree.second);
-        map.emplace(childTree.first, tmp);
-    }
-}
-
-template <class T>
-void propertyTreeToModelMap(const std::string& propertyName, boost::property_tree::ptree const &pt, std::map<std::string, std::map<std::string, T>> & map ) {
-    for (const auto &childTree: pt.get_child(propertyName)) {
-       propertyTreeToMap(childTree.first, childTree.second, map);
-    }
-}
-
-template <class T>
-void mapToPropertyTree(const std::map<std::string, T> & map, boost::property_tree::ptree &pt) {
-    for (const auto &childEntry : map) {
-        pt.push_back(boost::property_tree::ptree::value_type(childEntry.first, childEntry.second));
-    }
-}
-
-template <class T>
-void mapToPropertyTree(const std::map<std::string, std::map<std::string, T>> & map, boost::property_tree::ptree &pt) {
-    for (const auto &childEntry : map) {
-        boost::property_tree::ptree child_node;
-        mapToPropertyTree(childEntry.second, child_node);
-        pt.push_back(boost::property_tree::ptree::value_type(childEntry.first, child_node));
-    }
-}
-}
-
-
 MixedPropertiesAndAdditionalPropertiesClass::MixedPropertiesAndAdditionalPropertiesClass(boost::property_tree::ptree const& pt)
 {
         fromPropertyTree(pt);
 }
 
-std::string MixedPropertiesAndAdditionalPropertiesClass::toJsonString(bool prettyJson /* = false */)
-{
-    return toJsonString_internal(prettyJson);
-}
 
-void MixedPropertiesAndAdditionalPropertiesClass::fromJsonString(std::string const& jsonString)
-{
-    fromJsonString_internal(jsonString);
-}
-
-boost::property_tree::ptree MixedPropertiesAndAdditionalPropertiesClass::toPropertyTree()
-{
-    return toPropertyTree_internal();
-}
-
-void MixedPropertiesAndAdditionalPropertiesClass::fromPropertyTree(boost::property_tree::ptree const& pt)
-{
-    fromPropertyTree_internal(pt);
-}
-
-std::string MixedPropertiesAndAdditionalPropertiesClass::toJsonString_internal(bool prettyJson)
+std::string MixedPropertiesAndAdditionalPropertiesClass::toJsonString(bool prettyJson /* = false */) const
 {
 	std::stringstream ss;
 	write_json(ss, this->toPropertyTree(), prettyJson);
-	return ss.str();
+    // workaround inspired by: https://stackoverflow.com/a/56395440
+    std::regex reg("\\\"([0-9]+\\.{0,1}[0-9]*)\\\"");
+    std::string result = std::regex_replace(ss.str(), reg, "$1");
+    return result;
 }
 
-void MixedPropertiesAndAdditionalPropertiesClass::fromJsonString_internal(std::string const& jsonString)
+void MixedPropertiesAndAdditionalPropertiesClass::fromJsonString(std::string const& jsonString)
 {
 	std::stringstream ss(jsonString);
 	ptree pt;
@@ -120,25 +57,28 @@ void MixedPropertiesAndAdditionalPropertiesClass::fromJsonString_internal(std::s
 	this->fromPropertyTree(pt);
 }
 
-ptree MixedPropertiesAndAdditionalPropertiesClass::toPropertyTree_internal()
+ptree MixedPropertiesAndAdditionalPropertiesClass::toPropertyTree() const
 {
 	ptree pt;
 	ptree tmp_node;
 	pt.put("uuid", m_Uuid);
 	pt.put("dateTime", m_DateTime);
 	// generate tree for map
+    if (!m_map.empty()) {
+        tmp_node = toPt(m_map);
+        pt.add_child("map", tmp_node);
+    }
     tmp_node.clear();
 	return pt;
 }
 
-void MixedPropertiesAndAdditionalPropertiesClass::fromPropertyTree_internal(ptree const &pt)
+void MixedPropertiesAndAdditionalPropertiesClass::fromPropertyTree(ptree const &pt)
 {
 	ptree tmp_node;
 	m_Uuid = pt.get("uuid", "");
 	m_DateTime = pt.get("dateTime", "");
-    for (const auto &childEntry : pt) {
-        propertyTreeToModelMap(
-            childEntry.first, childEntry.second, m_map);
+    if (pt.get_child_optional("map")) {
+        m_map = fromPt<std::map<std::string, Animal>>(pt.get_child("map"));
     }
 }
 
@@ -149,8 +89,10 @@ std::string MixedPropertiesAndAdditionalPropertiesClass::getUuid() const
 
 void MixedPropertiesAndAdditionalPropertiesClass::setUuid(std::string value)
 {
-	m_Uuid = value;
+    m_Uuid = value;
 }
+
+
 std::string MixedPropertiesAndAdditionalPropertiesClass::getDateTime() const
 {
     return m_DateTime;
@@ -158,17 +100,21 @@ std::string MixedPropertiesAndAdditionalPropertiesClass::getDateTime() const
 
 void MixedPropertiesAndAdditionalPropertiesClass::setDateTime(std::string value)
 {
-	m_DateTime = value;
+    m_DateTime = value;
 }
-std::map<std::string, std::shared_ptr<Animal>> MixedPropertiesAndAdditionalPropertiesClass::getMap() const
+
+
+std::map<std::string, Animal> MixedPropertiesAndAdditionalPropertiesClass::getMap() const
 {
     return m_map;
 }
 
-void MixedPropertiesAndAdditionalPropertiesClass::setMap(std::map<std::string, std::shared_ptr<Animal>> value)
+void MixedPropertiesAndAdditionalPropertiesClass::setMap(std::map<std::string, Animal> value)
 {
-	m_map = value;
+    m_map = value;
 }
+
+
 
 std::vector<MixedPropertiesAndAdditionalPropertiesClass> createMixedPropertiesAndAdditionalPropertiesClassVectorFromJsonString(const std::string& json)
 {

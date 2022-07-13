@@ -1,6 +1,6 @@
 /**
  * OpenAPI Petstore
- * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
+ * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  * The version of the OpenAPI document: 1.0.0
  * 
@@ -65,23 +65,23 @@ namespace StoreApiResources {
 /// <remarks>
 /// For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
 /// </remarks>
-class  StoreOrderOrderIdResource: public restbed::Resource
+class  StoreOrderOrder_idResource: public restbed::Resource
 {
 public:
-    StoreOrderOrderIdResource(const std::string& context = "/v2");
-    virtual ~StoreOrderOrderIdResource();
+    StoreOrderOrder_idResource(const std::string& context = "/v2");
+    virtual ~StoreOrderOrder_idResource();
 
     /////////////////////////////////////////////////////
     // Set these to implement the server functionality //
     /////////////////////////////////////////////////////
     std::function<int(
-        std::string const & orderId)> handler_DELETE_func =
-            [](std::string const &) -> int
+        std::string & orderId)> handler_DELETE_func =
+            [](std::string &) -> int
                 { throw StoreApiException(501, "Not implemented"); };
 
-    std::function<std::pair<int, std::shared_ptr<Order>>(
-        int64_t const & orderId)> handler_GET_func =
-            [](int64_t const &) -> std::pair<int, std::shared_ptr<Order>>
+    std::function<std::pair<int, Order>(
+        int64_t & orderId)> handler_GET_func =
+            [](int64_t &) -> std::pair<int, Order>
                 { throw StoreApiException(501, "Not implemented"); };
 
 
@@ -92,10 +92,10 @@ protected:
     //////////////////////////////////////////////////////////
 
     virtual int handler_DELETE(
-        std::string const & orderId);
+        std::string & orderId);
 
-    virtual std::pair<int, std::shared_ptr<Order>> handler_GET(
-        int64_t const & orderId);
+    virtual std::pair<int, Order> handler_GET(
+        int64_t & orderId);
 
 protected:
     //////////////////////////////////////
@@ -113,7 +113,7 @@ protected:
         const std::string& header);
 
     virtual void returnResponse(const std::shared_ptr<restbed::Session>& session,
-        const int status, const std::string& result, const std::string& contentType);
+        const int status, const std::string& result, std::multimap<std::string, std::string>& contentType);
     virtual void defaultSessionClose(const std::shared_ptr<restbed::Session>& session,
         const int status, const std::string& result);
 
@@ -169,7 +169,7 @@ protected:
         const std::string& header);
 
     virtual void returnResponse(const std::shared_ptr<restbed::Session>& session,
-        const int status, const std::string& result, const std::string& contentType);
+        const int status, const std::string& result, std::multimap<std::string, std::string>& contentType);
     virtual void defaultSessionClose(const std::shared_ptr<restbed::Session>& session,
         const int status, const std::string& result);
 
@@ -192,9 +192,9 @@ public:
     /////////////////////////////////////////////////////
     // Set these to implement the server functionality //
     /////////////////////////////////////////////////////
-    std::function<std::pair<int, std::shared_ptr<Order>>(
-        std::shared_ptr<Order> const & order)> handler_POST_func =
-            [](std::shared_ptr<Order> const &) -> std::pair<int, std::shared_ptr<Order>>
+    std::function<std::pair<int, Order>(
+        Order & order)> handler_POST_func =
+            [](Order &) -> std::pair<int, Order>
                 { throw StoreApiException(501, "Not implemented"); };
 
 
@@ -204,8 +204,8 @@ protected:
     // override these to implement the server functionality //
     //////////////////////////////////////////////////////////
 
-    virtual std::pair<int, std::shared_ptr<Order>> handler_POST(
-        std::shared_ptr<Order> const & order);
+    virtual std::pair<int, Order> handler_POST(
+        Order & order);
 
 
 protected:
@@ -224,7 +224,7 @@ protected:
         const std::string& header);
 
     virtual void returnResponse(const std::shared_ptr<restbed::Session>& session,
-        const int status, const std::string& result, const std::string& contentType);
+        const int status, const std::string& result, std::multimap<std::string, std::string>& contentType);
     virtual void defaultSessionClose(const std::shared_ptr<restbed::Session>& session,
         const int status, const std::string& result);
 
@@ -234,7 +234,7 @@ private:
 
 } /* namespace StoreApiResources */
 
-using StoreApiStoreOrderOrderIdResource [[deprecated]] = StoreApiResources::StoreOrderOrderIdResource;
+using StoreApiStoreOrderOrder_idResource [[deprecated]] = StoreApiResources::StoreOrderOrder_idResource;
 using StoreApiStoreInventoryResource [[deprecated]] = StoreApiResources::StoreInventoryResource;
 using StoreApiStoreOrderResource [[deprecated]] = StoreApiResources::StoreOrderResource;
 
@@ -247,15 +247,15 @@ public:
     explicit StoreApi(std::shared_ptr<restbed::Service> const& restbedService);
 	virtual ~StoreApi();
 
-    std::shared_ptr<StoreApiResources::StoreOrderOrderIdResource> getStoreOrderOrderIdResource();
+    std::shared_ptr<StoreApiResources::StoreOrderOrder_idResource> getStoreOrderOrder_idResource();
     std::shared_ptr<StoreApiResources::StoreInventoryResource> getStoreInventoryResource();
     std::shared_ptr<StoreApiResources::StoreOrderResource> getStoreOrderResource();
 
-    void setResource(std::shared_ptr<StoreApiResources::StoreOrderOrderIdResource> resource);
+    void setResource(std::shared_ptr<StoreApiResources::StoreOrderOrder_idResource> resource);
     void setResource(std::shared_ptr<StoreApiResources::StoreInventoryResource> resource);
     void setResource(std::shared_ptr<StoreApiResources::StoreOrderResource> resource);
     [[deprecated("use setResource()")]]
-    virtual void setStoreApiStoreOrderOrderIdResource(std::shared_ptr<StoreApiResources::StoreOrderOrderIdResource> spStoreApiStoreOrderOrderIdResource);
+    virtual void setStoreApiStoreOrderOrder_idResource(std::shared_ptr<StoreApiResources::StoreOrderOrder_idResource> spStoreApiStoreOrderOrder_idResource);
     [[deprecated("use setResource()")]]
     virtual void setStoreApiStoreInventoryResource(std::shared_ptr<StoreApiResources::StoreInventoryResource> spStoreApiStoreInventoryResource);
     [[deprecated("use setResource()")]]
@@ -266,7 +266,7 @@ public:
     virtual std::shared_ptr<restbed::Service> service();
 
 protected:
-	std::shared_ptr<StoreApiResources::StoreOrderOrderIdResource> m_spStoreOrderOrderIdResource;
+	std::shared_ptr<StoreApiResources::StoreOrderOrder_idResource> m_spStoreOrderOrder_idResource;
 	std::shared_ptr<StoreApiResources::StoreInventoryResource> m_spStoreInventoryResource;
 	std::shared_ptr<StoreApiResources::StoreOrderResource> m_spStoreOrderResource;
 

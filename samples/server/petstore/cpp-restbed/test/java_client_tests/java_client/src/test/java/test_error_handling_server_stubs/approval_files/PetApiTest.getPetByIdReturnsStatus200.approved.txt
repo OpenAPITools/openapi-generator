@@ -1,6 +1,9 @@
 {
   "id" : 0,
-  "category" : null,
+  "category" : {
+    "id" : 0,
+    "name" : "default-name"
+  },
   "name" : "MyPuppy",
   "photoUrls" : [ ],
   "tags" : null,

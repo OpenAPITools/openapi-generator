@@ -25,6 +25,7 @@
 #include <memory>
 #include <vector>
 #include <boost/property_tree/ptree.hpp>
+#include "helpers.h"
 
 namespace org {
 namespace openapitools {
@@ -41,9 +42,15 @@ public:
     explicit Format_test(boost::property_tree::ptree const& pt);
     virtual ~Format_test() = default;
 
-    std::string toJsonString(bool prettyJson = false);
+    Format_test(const Format_test& other) = default; // copy constructor
+    Format_test(Format_test&& other) noexcept = default; // move constructor
+
+    Format_test& operator=(const Format_test& other) = default; // copy assignment
+    Format_test& operator=(Format_test&& other) noexcept = default; // move assignment
+
+    std::string toJsonString(bool prettyJson = false) const;
     void fromJsonString(std::string const& jsonString);
-    boost::property_tree::ptree toPropertyTree();
+    boost::property_tree::ptree toPropertyTree() const;
     void fromPropertyTree(boost::property_tree::ptree const& pt);
 
     /////////////////////////////////////////////
@@ -146,17 +153,6 @@ public:
     void setPatternWithDigitsAndDelimiter(std::string value);
 
 protected:
-    //////////////////////////////////////
-    // Override these for customization //
-    //////////////////////////////////////
-
-    virtual std::string toJsonString_internal(bool prettyJson = false);
-    virtual void fromJsonString_internal(std::string const& jsonString);
-    virtual boost::property_tree::ptree toPropertyTree_internal();
-    virtual void fromPropertyTree_internal(boost::property_tree::ptree const& pt);
-
-
-protected:
     int32_t m_integer = 0;
     int32_t m_Int32 = 0;
     int64_t m_Int64 = 0L;
@@ -173,9 +169,37 @@ protected:
     std::string m_Password = "";
     std::string m_Pattern_with_digits = "";
     std::string m_Pattern_with_digits_and_delimiter = "";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 };
 
 std::vector<Format_test> createFormat_testVectorFromJsonString(const std::string& json);
+
+template<>
+inline boost::property_tree::ptree toPt<Format_test>(const Format_test& val) {
+    return val.toPropertyTree();
+}
+
+template<>
+inline Format_test fromPt<Format_test>(const boost::property_tree::ptree& pt) {
+    Format_test ret;
+    ret.fromPropertyTree(pt);
+    return ret;
+}
 
 }
 }

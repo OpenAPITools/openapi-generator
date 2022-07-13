@@ -10,6 +10,8 @@ target_sources(model_tests
         category_model_test.cpp
         order_model_test.cpp
         api_response_model_test.cpp
+        _foo_get_default_response_test.cpp
+        additional_properties_class_test.cpp
 )
 
 target_include_directories(model_tests

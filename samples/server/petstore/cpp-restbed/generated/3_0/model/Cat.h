@@ -28,6 +28,7 @@
 #include <boost/property_tree/ptree.hpp>
 #include "Animal.h"
 #include "Cat_allOf.h"
+#include "helpers.h"
 
 namespace org {
 namespace openapitools {
@@ -44,9 +45,15 @@ public:
     explicit Cat(boost::property_tree::ptree const& pt);
     virtual ~Cat() = default;
 
-    std::string toJsonString(bool prettyJson = false);
+    Cat(const Cat& other) = default; // copy constructor
+    Cat(Cat&& other) noexcept = default; // move constructor
+
+    Cat& operator=(const Cat& other) = default; // copy assignment
+    Cat& operator=(Cat&& other) noexcept = default; // move assignment
+
+    std::string toJsonString(bool prettyJson = false) const;
     void fromJsonString(std::string const& jsonString);
-    boost::property_tree::ptree toPropertyTree();
+    boost::property_tree::ptree toPropertyTree() const;
     void fromPropertyTree(boost::property_tree::ptree const& pt);
 
     /////////////////////////////////////////////
@@ -71,23 +78,27 @@ public:
     void setDeclawed(bool value);
 
 protected:
-    //////////////////////////////////////
-    // Override these for customization //
-    //////////////////////////////////////
-
-    virtual std::string toJsonString_internal(bool prettyJson = false);
-    virtual void fromJsonString_internal(std::string const& jsonString);
-    virtual boost::property_tree::ptree toPropertyTree_internal();
-    virtual void fromPropertyTree_internal(boost::property_tree::ptree const& pt);
-
-
-protected:
     std::string m_ClassName = "";
     std::string m_Color = "red";
     bool m_Declawed = false;
+
+
+
 };
 
 std::vector<Cat> createCatVectorFromJsonString(const std::string& json);
+
+template<>
+inline boost::property_tree::ptree toPt<Cat>(const Cat& val) {
+    return val.toPropertyTree();
+}
+
+template<>
+inline Cat fromPt<Cat>(const boost::property_tree::ptree& pt) {
+    Cat ret;
+    ret.fromPropertyTree(pt);
+    return ret;
+}
 
 }
 }

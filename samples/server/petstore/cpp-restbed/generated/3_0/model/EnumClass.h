@@ -24,6 +24,7 @@
 #include <memory>
 #include <vector>
 #include <boost/property_tree/ptree.hpp>
+#include "helpers.h"
 
 namespace org {
 namespace openapitools {
@@ -40,29 +41,36 @@ public:
     explicit EnumClass(boost::property_tree::ptree const& pt);
     virtual ~EnumClass() = default;
 
-    std::string toJsonString(bool prettyJson = false);
+    EnumClass(const EnumClass& other) = default; // copy constructor
+    EnumClass(EnumClass&& other) noexcept = default; // move constructor
+
+    EnumClass& operator=(const EnumClass& other) = default; // copy assignment
+    EnumClass& operator=(EnumClass&& other) noexcept = default; // move assignment
+
+    std::string toJsonString(bool prettyJson = false) const;
     void fromJsonString(std::string const& jsonString);
-    boost::property_tree::ptree toPropertyTree();
+    boost::property_tree::ptree toPropertyTree() const;
     void fromPropertyTree(boost::property_tree::ptree const& pt);
 
     /////////////////////////////////////////////
     /// EnumClass members
 
 protected:
-    //////////////////////////////////////
-    // Override these for customization //
-    //////////////////////////////////////
-
-    virtual std::string toJsonString_internal(bool prettyJson = false);
-    virtual void fromJsonString_internal(std::string const& jsonString);
-    virtual boost::property_tree::ptree toPropertyTree_internal();
-    virtual void fromPropertyTree_internal(boost::property_tree::ptree const& pt);
-
-
-protected:
 };
 
 std::vector<EnumClass> createEnumClassVectorFromJsonString(const std::string& json);
+
+template<>
+inline boost::property_tree::ptree toPt<EnumClass>(const EnumClass& val) {
+    return val.toPropertyTree();
+}
+
+template<>
+inline EnumClass fromPt<EnumClass>(const boost::property_tree::ptree& pt) {
+    EnumClass ret;
+    ret.fromPropertyTree(pt);
+    return ret;
+}
 
 }
 }

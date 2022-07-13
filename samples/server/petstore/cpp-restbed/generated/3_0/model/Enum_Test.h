@@ -30,6 +30,7 @@
 #include <vector>
 #include <array>
 #include <boost/property_tree/ptree.hpp>
+#include "helpers.h"
 
 namespace org {
 namespace openapitools {
@@ -46,9 +47,15 @@ public:
     explicit Enum_Test(boost::property_tree::ptree const& pt);
     virtual ~Enum_Test() = default;
 
-    std::string toJsonString(bool prettyJson = false);
+    Enum_Test(const Enum_Test& other) = default; // copy constructor
+    Enum_Test(Enum_Test&& other) noexcept = default; // move constructor
+
+    Enum_Test& operator=(const Enum_Test& other) = default; // copy assignment
+    Enum_Test& operator=(Enum_Test&& other) noexcept = default; // move assignment
+
+    std::string toJsonString(bool prettyJson = false) const;
     void fromJsonString(std::string const& jsonString);
-    boost::property_tree::ptree toPropertyTree();
+    boost::property_tree::ptree toPropertyTree() const;
     void fromPropertyTree(boost::property_tree::ptree const& pt);
 
     /////////////////////////////////////////////
@@ -81,66 +88,71 @@ public:
     /// <summary>
     /// 
     /// </summary>
-    std::shared_ptr<OuterEnum> getOuterEnum() const;
-    void setOuterEnum(std::shared_ptr<OuterEnum> value);
+    OuterEnum getOuterEnum() const;
+    void setOuterEnum(OuterEnum value);
 
     /// <summary>
     /// 
     /// </summary>
-    std::shared_ptr<OuterEnumInteger> getOuterEnumInteger() const;
-    void setOuterEnumInteger(std::shared_ptr<OuterEnumInteger> value);
+    OuterEnumInteger getOuterEnumInteger() const;
+    void setOuterEnumInteger(OuterEnumInteger value);
 
     /// <summary>
     /// 
     /// </summary>
-    std::shared_ptr<OuterEnumDefaultValue> getOuterEnumDefaultValue() const;
-    void setOuterEnumDefaultValue(std::shared_ptr<OuterEnumDefaultValue> value);
+    OuterEnumDefaultValue getOuterEnumDefaultValue() const;
+    void setOuterEnumDefaultValue(OuterEnumDefaultValue value);
 
     /// <summary>
     /// 
     /// </summary>
-    std::shared_ptr<OuterEnumIntegerDefaultValue> getOuterEnumIntegerDefaultValue() const;
-    void setOuterEnumIntegerDefaultValue(std::shared_ptr<OuterEnumIntegerDefaultValue> value);
-
-protected:
-    //////////////////////////////////////
-    // Override these for customization //
-    //////////////////////////////////////
-
-    virtual std::string toJsonString_internal(bool prettyJson = false);
-    virtual void fromJsonString_internal(std::string const& jsonString);
-    virtual boost::property_tree::ptree toPropertyTree_internal();
-    virtual void fromPropertyTree_internal(boost::property_tree::ptree const& pt);
-
+    OuterEnumIntegerDefaultValue getOuterEnumIntegerDefaultValue() const;
+    void setOuterEnumIntegerDefaultValue(OuterEnumIntegerDefaultValue value);
 
 protected:
     std::string m_Enum_string = "";
     std::string m_Enum_string_required = "";
     int32_t m_Enum_integer = 0;
     double m_Enum_number = 0.0;
-    std::shared_ptr<OuterEnum> m_OuterEnum = std::make_shared<OuterEnum>();
-    std::shared_ptr<OuterEnumInteger> m_OuterEnumInteger = std::make_shared<OuterEnumInteger>();
-    std::shared_ptr<OuterEnumDefaultValue> m_OuterEnumDefaultValue = std::make_shared<OuterEnumDefaultValue>();
-    std::shared_ptr<OuterEnumIntegerDefaultValue> m_OuterEnumIntegerDefaultValue = std::make_shared<OuterEnumIntegerDefaultValue>();
-    const std::array<std::string, 3> m_Enum_stringEnum = {
+    OuterEnum m_OuterEnum = OuterEnum{};
+    OuterEnumInteger m_OuterEnumInteger = OuterEnumInteger{};
+    OuterEnumDefaultValue m_OuterEnumDefaultValue = OuterEnumDefaultValue{};
+    OuterEnumIntegerDefaultValue m_OuterEnumIntegerDefaultValue = OuterEnumIntegerDefaultValue{};
+
+    std::array<std::string, 3> m_Enum_stringEnum = {
         "UPPER", "lower", ""
     };
 
-    const std::array<std::string, 3> m_Enum_string_requiredEnum = {
+    std::array<std::string, 3> m_Enum_string_requiredEnum = {
         "UPPER", "lower", ""
     };
 
-    const std::array<int32_t, 2> m_Enum_integerEnum = {
+    std::array<int32_t, 2> m_Enum_integerEnum = {
         1, -1
     };
 
-    const std::array<double, 2> m_Enum_numberEnum = {
+    std::array<double, 2> m_Enum_numberEnum = {
         1.1, -1.2
     };
+
+
+
 
 };
 
 std::vector<Enum_Test> createEnum_TestVectorFromJsonString(const std::string& json);
+
+template<>
+inline boost::property_tree::ptree toPt<Enum_Test>(const Enum_Test& val) {
+    return val.toPropertyTree();
+}
+
+template<>
+inline Enum_Test fromPt<Enum_Test>(const boost::property_tree::ptree& pt) {
+    Enum_Test ret;
+    ret.fromPropertyTree(pt);
+    return ret;
+}
 
 }
 }

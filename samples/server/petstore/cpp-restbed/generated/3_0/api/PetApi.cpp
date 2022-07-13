@@ -1,6 +1,6 @@
 /**
  * OpenAPI Petstore
- * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
+ * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  * The version of the OpenAPI document: 1.0.0
  * 
@@ -30,6 +30,32 @@ namespace api {
 
 using namespace org::openapitools::server::model;
 
+namespace {
+[[maybe_unused]]
+std::string selectPreferredContentType(const std::vector<std::string>& contentTypes) {
+    if (contentTypes.size() == 0) {
+        return "application/json";
+    }
+
+    if (contentTypes.size() == 1) {
+        return contentTypes.at(0);
+    }
+
+    static const std::array<std::string, 2> preferredTypes = {"json", "xml"};
+    for (const auto& preferredType: preferredTypes) {
+        const auto ret = std::find_if(contentTypes.cbegin(),
+        contentTypes.cend(),
+        [preferredType](const std::string& str) {
+            return str.find(preferredType) != std::string::npos;});
+        if (ret != contentTypes.cend()) {
+            return *ret;
+        }
+    }
+
+    return contentTypes.at(0);
+}
+}
+
 PetApiException::PetApiException(int status_code, std::string what)
   : m_status(status_code),
     m_what(what)
@@ -47,26 +73,26 @@ const char* PetApiException::what() const noexcept
 
 
 template<class MODEL_T>
-std::shared_ptr<MODEL_T> extractJsonModelBodyParam(const std::string& bodyContent)
+MODEL_T extractJsonModelBodyParam(const std::string& bodyContent)
 {
     std::stringstream sstream(bodyContent);
     boost::property_tree::ptree pt;
     boost::property_tree::json_parser::read_json(sstream, pt);
 
-    auto model = std::make_shared<MODEL_T>(pt);
+    auto model = MODEL_T(pt);
     return model;
 }
 
 template<class MODEL_T>
-std::vector<std::shared_ptr<MODEL_T>> extractJsonArrayBodyParam(const std::string& bodyContent)
+std::vector<MODEL_T> extractJsonArrayBodyParam(const std::string& bodyContent)
 {
     std::stringstream sstream(bodyContent);
     boost::property_tree::ptree pt;
     boost::property_tree::json_parser::read_json(sstream, pt);
 
-    auto arrayRet = std::vector<std::shared_ptr<MODEL_T>>();
+    auto arrayRet = std::vector<MODEL_T>();
     for (const auto& child: pt) {
-        arrayRet.emplace_back(std::make_shared<MODEL_T>(child.second));
+        arrayRet.emplace_back(MODEL_T(child.second));
     }
     return arrayRet;
 }
@@ -123,9 +149,10 @@ void PetResource::setResponseHeader(const std::shared_ptr<restbed::Session>& ses
     session->set_header(header, "");
 }
 
-void PetResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, const std::string& contentType)
+void PetResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, std::multimap<std::string, std::string>& responseHeaders)
 {
-    session->close(status, result, { {"Connection", "close"}, {"Content-Type", contentType} });
+    responseHeaders.insert(std::make_pair("Connection", "close"));
+    session->close(status, result, responseHeaders);
 }
 
 void PetResource::defaultSessionClose(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result)
@@ -141,11 +168,10 @@ void PetResource::handler_POST_internal(const std::shared_ptr<restbed::Session> 
     auto pet = extractJsonModelBodyParam<Pet>(bodyContent);
     
     int status_code = 500;
-    std::shared_ptr<Pet> resultObject = std::make_shared<Pet>();
     std::string result = "";
     
     try {
-        std::tie(status_code, resultObject) =
+        status_code =
             handler_POST(pet);
     }
     catch(const PetApiException& e) {
@@ -158,17 +184,28 @@ void PetResource::handler_POST_internal(const std::shared_ptr<restbed::Session> 
         std::tie(status_code, result) = handleUnspecifiedException();
     }
     
-    if (status_code == 200) {
-        result = resultObject->toJsonString();
+    std::multimap< std::string, std::string > responseHeaders {};
+    static const std::vector<std::string> contentTypes{
+        "application/json"
+    };
+    static const std::string acceptTypes{
+        "application/json, application/xml, "
+    };
     
-        const constexpr auto contentType = "application/json";
-        returnResponse(session, 200, result.empty() ? "successful operation" : result, contentType);
+    if (status_code == 200) {
+        responseHeaders.insert(std::make_pair("Content-Type", selectPreferredContentType(contentTypes)));
+        if (!acceptTypes.empty()) {
+            responseHeaders.insert(std::make_pair("Accept", acceptTypes));
+        }
+    
+        returnResponse(session, 200, result.empty() ? "{}" : result, responseHeaders);
         return;
     }
     if (status_code == 405) {
+        responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
+        result = "Invalid input";
     
-        const constexpr auto contentType = "text/plain";
-        returnResponse(session, 405, result.empty() ? "Invalid input" : result, contentType);
+        returnResponse(session, 405, result.empty() ? "{}" : result, responseHeaders);
         return;
     }
     defaultSessionClose(session, status_code, result);
@@ -182,11 +219,10 @@ void PetResource::handler_PUT_internal(const std::shared_ptr<restbed::Session> s
     auto pet = extractJsonModelBodyParam<Pet>(bodyContent);
     
     int status_code = 500;
-    std::shared_ptr<Pet> resultObject = std::make_shared<Pet>();
     std::string result = "";
     
     try {
-        std::tie(status_code, resultObject) =
+        status_code =
             handler_PUT(pet);
     }
     catch(const PetApiException& e) {
@@ -199,42 +235,55 @@ void PetResource::handler_PUT_internal(const std::shared_ptr<restbed::Session> s
         std::tie(status_code, result) = handleUnspecifiedException();
     }
     
-    if (status_code == 200) {
-        result = resultObject->toJsonString();
+    std::multimap< std::string, std::string > responseHeaders {};
+    static const std::vector<std::string> contentTypes{
+        "application/json"
+    };
+    static const std::string acceptTypes{
+        "application/json, application/xml, "
+    };
     
-        const constexpr auto contentType = "application/json";
-        returnResponse(session, 200, result.empty() ? "successful operation" : result, contentType);
+    if (status_code == 200) {
+        responseHeaders.insert(std::make_pair("Content-Type", selectPreferredContentType(contentTypes)));
+        if (!acceptTypes.empty()) {
+            responseHeaders.insert(std::make_pair("Accept", acceptTypes));
+        }
+    
+        returnResponse(session, 200, result.empty() ? "{}" : result, responseHeaders);
         return;
     }
     if (status_code == 400) {
+        responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
+        result = "Invalid ID supplied";
     
-        const constexpr auto contentType = "text/plain";
-        returnResponse(session, 400, result.empty() ? "Invalid ID supplied" : result, contentType);
+        returnResponse(session, 400, result.empty() ? "{}" : result, responseHeaders);
         return;
     }
     if (status_code == 404) {
+        responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
+        result = "Pet not found";
     
-        const constexpr auto contentType = "text/plain";
-        returnResponse(session, 404, result.empty() ? "Pet not found" : result, contentType);
+        returnResponse(session, 404, result.empty() ? "{}" : result, responseHeaders);
         return;
     }
     if (status_code == 405) {
+        responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
+        result = "Validation exception";
     
-        const constexpr auto contentType = "text/plain";
-        returnResponse(session, 405, result.empty() ? "Validation exception" : result, contentType);
+        returnResponse(session, 405, result.empty() ? "{}" : result, responseHeaders);
         return;
     }
     defaultSessionClose(session, status_code, result);
 }
 
-std::pair<int, std::shared_ptr<Pet>> PetResource::handler_POST(
-        std::shared_ptr<Pet> const & pet)
+int PetResource::handler_POST(
+        Pet & pet)
 {
     return handler_POST_func(pet);
 }
 
-std::pair<int, std::shared_ptr<Pet>> PetResource::handler_PUT(
-    std::shared_ptr<Pet> const & pet)
+int PetResource::handler_PUT(
+    Pet & pet)
 {
     return handler_PUT_func(pet);
 }
@@ -299,9 +348,10 @@ void PetPetIdResource::setResponseHeader(const std::shared_ptr<restbed::Session>
     session->set_header(header, "");
 }
 
-void PetPetIdResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, const std::string& contentType)
+void PetPetIdResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, std::multimap<std::string, std::string>& responseHeaders)
 {
-    session->close(status, result, { {"Connection", "close"}, {"Content-Type", contentType} });
+    responseHeaders.insert(std::make_pair("Connection", "close"));
+    session->close(status, result, responseHeaders);
 }
 
 void PetPetIdResource::defaultSessionClose(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result)
@@ -313,9 +363,9 @@ void PetPetIdResource::handler_DELETE_internal(const std::shared_ptr<restbed::Se
 {
     const auto request = session->get_request();
     // Getting the path params
-    const int64_t petId = request->get_path_parameter("petId", 0L);
+    int64_t petId = request->get_path_parameter("petId", 0L);
     // Getting the headers
-    const std::string apiKey = request->get_header("api_key", "");
+    std::string apiKey = request->get_header("api_key", "");
     
     int status_code = 500;
     std::string result = "";
@@ -334,10 +384,27 @@ void PetPetIdResource::handler_DELETE_internal(const std::shared_ptr<restbed::Se
         std::tie(status_code, result) = handleUnspecifiedException();
     }
     
-    if (status_code == 400) {
+    std::multimap< std::string, std::string > responseHeaders {};
+    static const std::vector<std::string> contentTypes{
+        "application/json"
+    };
+    static const std::string acceptTypes{
+    };
     
-        const constexpr auto contentType = "text/plain";
-        returnResponse(session, 400, result.empty() ? "Invalid pet value" : result, contentType);
+    if (status_code == 200) {
+        responseHeaders.insert(std::make_pair("Content-Type", selectPreferredContentType(contentTypes)));
+        if (!acceptTypes.empty()) {
+            responseHeaders.insert(std::make_pair("Accept", acceptTypes));
+        }
+    
+        returnResponse(session, 200, result.empty() ? "{}" : result, responseHeaders);
+        return;
+    }
+    if (status_code == 400) {
+        responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
+        result = "Invalid pet value";
+    
+        returnResponse(session, 400, result.empty() ? "{}" : result, responseHeaders);
         return;
     }
     defaultSessionClose(session, status_code, result);
@@ -347,10 +414,10 @@ void PetPetIdResource::handler_DELETE_internal(const std::shared_ptr<restbed::Se
 void PetPetIdResource::handler_GET_internal(const std::shared_ptr<restbed::Session> session) {
     const auto request = session->get_request();
     // Getting the path params
-    const int64_t petId = request->get_path_parameter("petId", 0L);
+    int64_t petId = request->get_path_parameter("petId", 0L);
     
     int status_code = 500;
-    std::shared_ptr<Pet> resultObject = std::make_shared<Pet>();
+    Pet resultObject = Pet{};
     std::string result = "";
     
     try {
@@ -367,23 +434,35 @@ void PetPetIdResource::handler_GET_internal(const std::shared_ptr<restbed::Sessi
         std::tie(status_code, result) = handleUnspecifiedException();
     }
     
-    if (status_code == 200) {
-        result = resultObject->toJsonString();
+    std::multimap< std::string, std::string > responseHeaders {};
+    static const std::vector<std::string> contentTypes{
+        "application/xml","application/json",
+    };
+    static const std::string acceptTypes{
+    };
     
-        const constexpr auto contentType = "application/json";
-        returnResponse(session, 200, result.empty() ? "successful operation" : result, contentType);
+    if (status_code == 200) {
+        responseHeaders.insert(std::make_pair("Content-Type", selectPreferredContentType(contentTypes)));
+        if (!acceptTypes.empty()) {
+            responseHeaders.insert(std::make_pair("Accept", acceptTypes));
+        }
+    
+        result = resultObject.toJsonString();
+        returnResponse(session, 200, result.empty() ? "{}" : result, responseHeaders);
         return;
     }
     if (status_code == 400) {
+        responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
+        result = "Invalid ID supplied";
     
-        const constexpr auto contentType = "text/plain";
-        returnResponse(session, 400, result.empty() ? "Invalid ID supplied" : result, contentType);
+        returnResponse(session, 400, result.empty() ? "{}" : result, responseHeaders);
         return;
     }
     if (status_code == 404) {
+        responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
+        result = "Pet not found";
     
-        const constexpr auto contentType = "text/plain";
-        returnResponse(session, 404, result.empty() ? "Pet not found" : result, contentType);
+        returnResponse(session, 404, result.empty() ? "{}" : result, responseHeaders);
         return;
     }
     defaultSessionClose(session, status_code, result);
@@ -394,7 +473,7 @@ void PetPetIdResource::handler_POST_internal(const std::shared_ptr<restbed::Sess
     auto name = boost::lexical_cast<std::string>(extractFormParamsFromBody("name", extractBodyContent(session)));
     auto status = boost::lexical_cast<std::string>(extractFormParamsFromBody("status", extractBodyContent(session)));
     // Getting the path params
-    const int64_t petId = request->get_path_parameter("petId", 0L);
+    int64_t petId = request->get_path_parameter("petId", 0L);
     
     int status_code = 500;
     std::string result = "";
@@ -413,28 +492,46 @@ void PetPetIdResource::handler_POST_internal(const std::shared_ptr<restbed::Sess
         std::tie(status_code, result) = handleUnspecifiedException();
     }
     
-    if (status_code == 405) {
+    std::multimap< std::string, std::string > responseHeaders {};
+    static const std::vector<std::string> contentTypes{
+        "application/json"
+    };
+    static const std::string acceptTypes{
+        "application/x-www-form-urlencoded, "
+    };
     
-        const constexpr auto contentType = "text/plain";
-        returnResponse(session, 405, result.empty() ? "Invalid input" : result, contentType);
+    if (status_code == 200) {
+        responseHeaders.insert(std::make_pair("Content-Type", selectPreferredContentType(contentTypes)));
+        if (!acceptTypes.empty()) {
+            responseHeaders.insert(std::make_pair("Accept", acceptTypes));
+        }
+    
+        returnResponse(session, 200, result.empty() ? "{}" : result, responseHeaders);
+        return;
+    }
+    if (status_code == 405) {
+        responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
+        result = "Invalid input";
+    
+        returnResponse(session, 405, result.empty() ? "{}" : result, responseHeaders);
         return;
     }
     defaultSessionClose(session, status_code, result);
 }
 
 int PetPetIdResource::handler_DELETE(
-        int64_t const & petId, std::string const & apiKey)
+        int64_t & petId, std::string & apiKey)
 {
     return handler_DELETE_func(petId, apiKey);
 }
 
-std::pair<int, std::shared_ptr<Pet>> PetPetIdResource::handler_GET(
-    int64_t const & petId)
+std::pair<int, Pet> PetPetIdResource::handler_GET(
+    int64_t & petId)
 {
     return handler_GET_func(petId);
 }
 int PetPetIdResource::handler_POST(
-    int64_t const & petId, std::string const & name, std::string const & status)
+    int64_t & petId, std::string & name, std::string & status)
 {
     return handler_POST_func(petId, name, status);
 }
@@ -493,9 +590,10 @@ void PetFindByStatusResource::setResponseHeader(const std::shared_ptr<restbed::S
     session->set_header(header, "");
 }
 
-void PetFindByStatusResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, const std::string& contentType)
+void PetFindByStatusResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, std::multimap<std::string, std::string>& responseHeaders)
 {
-    session->close(status, result, { {"Connection", "close"}, {"Content-Type", contentType} });
+    responseHeaders.insert(std::make_pair("Connection", "close"));
+    session->close(status, result, responseHeaders);
 }
 
 void PetFindByStatusResource::defaultSessionClose(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result)
@@ -507,12 +605,12 @@ void PetFindByStatusResource::handler_GET_internal(const std::shared_ptr<restbed
 {
     const auto request = session->get_request();
     // Getting the query params
-    const std::string status_raw = request->get_query_parameter("status");
+    std::string status_raw = request->get_query_parameter("status");
     std::vector<std::string> status;
     boost::split(status, status_raw, boost::is_any_of(","));
     
     int status_code = 500;
-    std::vector<std::shared_ptr<Pet>> resultObject = std::vector<std::shared_ptr<Pet>>();
+    std::vector<Pet> resultObject = std::vector<Pet>();
     std::string result = "";
     
     try {
@@ -529,24 +627,35 @@ void PetFindByStatusResource::handler_GET_internal(const std::shared_ptr<restbed
         std::tie(status_code, result) = handleUnspecifiedException();
     }
     
-    if (status_code == 200) {
+    std::multimap< std::string, std::string > responseHeaders {};
+    static const std::vector<std::string> contentTypes{
+        "application/xml","application/json",
+    };
+    static const std::string acceptTypes{
+    };
     
-        const constexpr auto contentType = "application/json";
-        returnResponse(session, 200, result.empty() ? "successful operation" : result, contentType);
+    if (status_code == 200) {
+        responseHeaders.insert(std::make_pair("Content-Type", selectPreferredContentType(contentTypes)));
+        if (!acceptTypes.empty()) {
+            responseHeaders.insert(std::make_pair("Accept", acceptTypes));
+        }
+    
+        returnResponse(session, 200, result.empty() ? "{}" : result, responseHeaders);
         return;
     }
     if (status_code == 400) {
+        responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
+        result = "Invalid status value";
     
-        const constexpr auto contentType = "text/plain";
-        returnResponse(session, 400, result.empty() ? "Invalid status value" : result, contentType);
+        returnResponse(session, 400, result.empty() ? "{}" : result, responseHeaders);
         return;
     }
     defaultSessionClose(session, status_code, result);
 }
 
 
-std::pair<int, std::vector<std::shared_ptr<Pet>>> PetFindByStatusResource::handler_GET(
-        std::vector<std::string> const & status)
+std::pair<int, std::vector<Pet>> PetFindByStatusResource::handler_GET(
+        std::vector<std::string> & status)
 {
     return handler_GET_func(status);
 }
@@ -606,9 +715,10 @@ void PetFindByTagsResource::setResponseHeader(const std::shared_ptr<restbed::Ses
     session->set_header(header, "");
 }
 
-void PetFindByTagsResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, const std::string& contentType)
+void PetFindByTagsResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, std::multimap<std::string, std::string>& responseHeaders)
 {
-    session->close(status, result, { {"Connection", "close"}, {"Content-Type", contentType} });
+    responseHeaders.insert(std::make_pair("Connection", "close"));
+    session->close(status, result, responseHeaders);
 }
 
 void PetFindByTagsResource::defaultSessionClose(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result)
@@ -620,12 +730,12 @@ void PetFindByTagsResource::handler_GET_internal(const std::shared_ptr<restbed::
 {
     const auto request = session->get_request();
     // Getting the query params
-    const std::string tags_raw = request->get_query_parameter("tags");
-    std::vector<std::string> tags;
+    std::string tags_raw = request->get_query_parameter("tags");
+    std::set<std::string> tags;
     boost::split(tags, tags_raw, boost::is_any_of(","));
     
     int status_code = 500;
-    std::vector<std::shared_ptr<Pet>> resultObject = std::vector<std::shared_ptr<Pet>>();
+    std::set<Pet> resultObject = std::set<Pet>();
     std::string result = "";
     
     try {
@@ -642,24 +752,35 @@ void PetFindByTagsResource::handler_GET_internal(const std::shared_ptr<restbed::
         std::tie(status_code, result) = handleUnspecifiedException();
     }
     
-    if (status_code == 200) {
+    std::multimap< std::string, std::string > responseHeaders {};
+    static const std::vector<std::string> contentTypes{
+        "application/xml","application/json",
+    };
+    static const std::string acceptTypes{
+    };
     
-        const constexpr auto contentType = "application/json";
-        returnResponse(session, 200, result.empty() ? "successful operation" : result, contentType);
+    if (status_code == 200) {
+        responseHeaders.insert(std::make_pair("Content-Type", selectPreferredContentType(contentTypes)));
+        if (!acceptTypes.empty()) {
+            responseHeaders.insert(std::make_pair("Accept", acceptTypes));
+        }
+    
+        returnResponse(session, 200, result.empty() ? "{}" : result, responseHeaders);
         return;
     }
     if (status_code == 400) {
+        responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
+        result = "Invalid tag value";
     
-        const constexpr auto contentType = "text/plain";
-        returnResponse(session, 400, result.empty() ? "Invalid tag value" : result, contentType);
+        returnResponse(session, 400, result.empty() ? "{}" : result, responseHeaders);
         return;
     }
     defaultSessionClose(session, status_code, result);
 }
 
 
-std::pair<int, std::vector<std::shared_ptr<Pet>>> PetFindByTagsResource::handler_GET(
-        std::vector<std::string> const & tags)
+std::pair<int, std::set<Pet>> PetFindByTagsResource::handler_GET(
+        std::set<std::string> & tags)
 {
     return handler_GET_func(tags);
 }
@@ -719,9 +840,10 @@ void PetPetIdUploadImageResource::setResponseHeader(const std::shared_ptr<restbe
     session->set_header(header, "");
 }
 
-void PetPetIdUploadImageResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, const std::string& contentType)
+void PetPetIdUploadImageResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, std::multimap<std::string, std::string>& responseHeaders)
 {
-    session->close(status, result, { {"Connection", "close"}, {"Content-Type", contentType} });
+    responseHeaders.insert(std::make_pair("Connection", "close"));
+    session->close(status, result, responseHeaders);
 }
 
 void PetPetIdUploadImageResource::defaultSessionClose(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result)
@@ -735,10 +857,10 @@ void PetPetIdUploadImageResource::handler_POST_internal(const std::shared_ptr<re
     auto additionalMetadata = boost::lexical_cast<std::string>(extractFormParamsFromBody("additionalMetadata", extractBodyContent(session)));
     auto file = boost::lexical_cast<std::string>(extractFormParamsFromBody("file", extractBodyContent(session)));
     // Getting the path params
-    const int64_t petId = request->get_path_parameter("petId", 0L);
+    int64_t petId = request->get_path_parameter("petId", 0L);
     
     int status_code = 500;
-    std::shared_ptr<ApiResponse> resultObject = std::make_shared<ApiResponse>();
+    ApiResponse resultObject = ApiResponse{};
     std::string result = "";
     
     try {
@@ -755,19 +877,30 @@ void PetPetIdUploadImageResource::handler_POST_internal(const std::shared_ptr<re
         std::tie(status_code, result) = handleUnspecifiedException();
     }
     
-    if (status_code == 200) {
-        result = resultObject->toJsonString();
+    std::multimap< std::string, std::string > responseHeaders {};
+    static const std::vector<std::string> contentTypes{
+        "application/json",
+    };
+    static const std::string acceptTypes{
+        "multipart/form-data, "
+    };
     
-        const constexpr auto contentType = "application/json";
-        returnResponse(session, 200, result.empty() ? "successful operation" : result, contentType);
+    if (status_code == 200) {
+        responseHeaders.insert(std::make_pair("Content-Type", selectPreferredContentType(contentTypes)));
+        if (!acceptTypes.empty()) {
+            responseHeaders.insert(std::make_pair("Accept", acceptTypes));
+        }
+    
+        result = resultObject.toJsonString();
+        returnResponse(session, 200, result.empty() ? "{}" : result, responseHeaders);
         return;
     }
     defaultSessionClose(session, status_code, result);
 }
 
 
-std::pair<int, std::shared_ptr<ApiResponse>> PetPetIdUploadImageResource::handler_POST(
-        int64_t const & petId, std::string const & additionalMetadata, std::string const & file)
+std::pair<int, ApiResponse> PetPetIdUploadImageResource::handler_POST(
+        int64_t & petId, std::string & additionalMetadata, std::string & file)
 {
     return handler_POST_func(petId, additionalMetadata, file);
 }
@@ -787,6 +920,126 @@ std::string PetPetIdUploadImageResource::extractBodyContent(const std::shared_pt
 }
 
 std::string PetPetIdUploadImageResource::extractFormParamsFromBody(const std::string& paramName, const std::string& body) {
+    const auto uri = restbed::Uri("urlencoded?" + body, true);
+    const auto params = uri.get_query_parameters();
+    const auto result = params.find(paramName);
+    if (result != params.cend()) {
+        return result->second;
+    }
+    return "";
+}
+FakePetIdUploadImageWithRequiredFileResource::FakePetIdUploadImageWithRequiredFileResource(const std::string& context /* = "/v2" */)
+{
+	this->set_path(context + "/fake/{petId: .*}/uploadImageWithRequiredFile");
+	this->set_method_handler("POST",
+		std::bind(&FakePetIdUploadImageWithRequiredFileResource::handler_POST_internal, this,
+			std::placeholders::_1));
+}
+
+FakePetIdUploadImageWithRequiredFileResource::~FakePetIdUploadImageWithRequiredFileResource()
+{
+}
+
+std::pair<int, std::string> FakePetIdUploadImageWithRequiredFileResource::handlePetApiException(const PetApiException& e)
+{
+    return std::make_pair<int, std::string>(e.getStatus(), e.what());
+}
+
+std::pair<int, std::string> FakePetIdUploadImageWithRequiredFileResource::handleStdException(const std::exception& e)
+{
+    return std::make_pair<int, std::string>(500, e.what());
+}
+
+std::pair<int, std::string> FakePetIdUploadImageWithRequiredFileResource::handleUnspecifiedException()
+{
+    return std::make_pair<int, std::string>(500, "Unknown exception occurred");
+}
+
+void FakePetIdUploadImageWithRequiredFileResource::setResponseHeader(const std::shared_ptr<restbed::Session>& session, const std::string& header)
+{
+    session->set_header(header, "");
+}
+
+void FakePetIdUploadImageWithRequiredFileResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, std::multimap<std::string, std::string>& responseHeaders)
+{
+    responseHeaders.insert(std::make_pair("Connection", "close"));
+    session->close(status, result, responseHeaders);
+}
+
+void FakePetIdUploadImageWithRequiredFileResource::defaultSessionClose(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result)
+{
+    session->close(status, result, { {"Connection", "close"} });
+}
+
+void FakePetIdUploadImageWithRequiredFileResource::handler_POST_internal(const std::shared_ptr<restbed::Session> session)
+{
+    const auto request = session->get_request();
+    auto additionalMetadata = boost::lexical_cast<std::string>(extractFormParamsFromBody("additionalMetadata", extractBodyContent(session)));
+    auto requiredFile = boost::lexical_cast<std::string>(extractFormParamsFromBody("requiredFile", extractBodyContent(session)));
+    // Getting the path params
+    int64_t petId = request->get_path_parameter("petId", 0L);
+    
+    int status_code = 500;
+    ApiResponse resultObject = ApiResponse{};
+    std::string result = "";
+    
+    try {
+        std::tie(status_code, resultObject) =
+            handler_POST(petId, requiredFile, additionalMetadata);
+    }
+    catch(const PetApiException& e) {
+        std::tie(status_code, result) = handlePetApiException(e);
+    }
+    catch(const std::exception& e) {
+        std::tie(status_code, result) = handleStdException(e);
+    }
+    catch(...) {
+        std::tie(status_code, result) = handleUnspecifiedException();
+    }
+    
+    std::multimap< std::string, std::string > responseHeaders {};
+    static const std::vector<std::string> contentTypes{
+        "application/json",
+    };
+    static const std::string acceptTypes{
+        "multipart/form-data, "
+    };
+    
+    if (status_code == 200) {
+        responseHeaders.insert(std::make_pair("Content-Type", selectPreferredContentType(contentTypes)));
+        if (!acceptTypes.empty()) {
+            responseHeaders.insert(std::make_pair("Accept", acceptTypes));
+        }
+    
+        result = resultObject.toJsonString();
+        returnResponse(session, 200, result.empty() ? "{}" : result, responseHeaders);
+        return;
+    }
+    defaultSessionClose(session, status_code, result);
+}
+
+
+std::pair<int, ApiResponse> FakePetIdUploadImageWithRequiredFileResource::handler_POST(
+        int64_t & petId, std::string & requiredFile, std::string & additionalMetadata)
+{
+    return handler_POST_func(petId, requiredFile, additionalMetadata);
+}
+
+
+std::string FakePetIdUploadImageWithRequiredFileResource::extractBodyContent(const std::shared_ptr<restbed::Session>& session) {
+  const auto request = session->get_request();
+  int content_length = request->get_header("Content-Length", 0);
+  std::string bodyContent;
+  session->fetch(content_length,
+                 [&bodyContent](const std::shared_ptr<restbed::Session> session,
+                                const restbed::Bytes &body) {
+                   bodyContent = restbed::String::format(
+                       "%.*s\n", (int)body.size(), body.data());
+                 });
+  return bodyContent;
+}
+
+std::string FakePetIdUploadImageWithRequiredFileResource::extractFormParamsFromBody(const std::string& paramName, const std::string& body) {
     const auto uri = restbed::Uri("urlencoded?" + body, true);
     const auto params = uri.get_query_parameters();
     const auto result = params.find(paramName);
@@ -835,6 +1088,12 @@ std::shared_ptr<PetApiResources::PetPetIdUploadImageResource> PetApi::getPetPetI
     }
     return m_spPetPetIdUploadImageResource;
 }
+std::shared_ptr<PetApiResources::FakePetIdUploadImageWithRequiredFileResource> PetApi::getFakePetIdUploadImageWithRequiredFileResource() {
+    if (!m_spFakePetIdUploadImageWithRequiredFileResource) {
+        setResource(std::make_shared<PetApiResources::FakePetIdUploadImageWithRequiredFileResource>());
+    }
+    return m_spFakePetIdUploadImageWithRequiredFileResource;
+}
 void PetApi::setResource(std::shared_ptr<PetApiResources::PetResource> resource) {
     m_spPetResource = resource;
     m_service->publish(m_spPetResource);
@@ -854,6 +1113,10 @@ void PetApi::setResource(std::shared_ptr<PetApiResources::PetFindByTagsResource>
 void PetApi::setResource(std::shared_ptr<PetApiResources::PetPetIdUploadImageResource> resource) {
     m_spPetPetIdUploadImageResource = resource;
     m_service->publish(m_spPetPetIdUploadImageResource);
+}
+void PetApi::setResource(std::shared_ptr<PetApiResources::FakePetIdUploadImageWithRequiredFileResource> resource) {
+    m_spFakePetIdUploadImageWithRequiredFileResource = resource;
+    m_service->publish(m_spFakePetIdUploadImageWithRequiredFileResource);
 }
 void PetApi::setPetApiPetResource(std::shared_ptr<PetApiResources::PetResource> spPetResource) {
     m_spPetResource = spPetResource;
@@ -875,6 +1138,10 @@ void PetApi::setPetApiPetPetIdUploadImageResource(std::shared_ptr<PetApiResource
     m_spPetPetIdUploadImageResource = spPetPetIdUploadImageResource;
     m_service->publish(m_spPetPetIdUploadImageResource);
 }
+void PetApi::setPetApiFakePetIdUploadImageWithRequiredFileResource(std::shared_ptr<PetApiResources::FakePetIdUploadImageWithRequiredFileResource> spFakePetIdUploadImageWithRequiredFileResource) {
+    m_spFakePetIdUploadImageWithRequiredFileResource = spFakePetIdUploadImageWithRequiredFileResource;
+    m_service->publish(m_spFakePetIdUploadImageWithRequiredFileResource);
+}
 
 
 void PetApi::publishDefaultResources() {
@@ -892,6 +1159,9 @@ void PetApi::publishDefaultResources() {
     }
     if (!m_spPetPetIdUploadImageResource) {
         setResource(std::make_shared<PetApiResources::PetPetIdUploadImageResource>());
+    }
+    if (!m_spFakePetIdUploadImageWithRequiredFileResource) {
+        setResource(std::make_shared<PetApiResources::FakePetIdUploadImageWithRequiredFileResource>());
     }
 }
 

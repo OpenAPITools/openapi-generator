@@ -25,6 +25,7 @@
 #include <memory>
 #include <vector>
 #include <boost/property_tree/ptree.hpp>
+#include "helpers.h"
 
 namespace org {
 namespace openapitools {
@@ -41,9 +42,15 @@ public:
     explicit Dog_allOf(boost::property_tree::ptree const& pt);
     virtual ~Dog_allOf() = default;
 
-    std::string toJsonString(bool prettyJson = false);
+    Dog_allOf(const Dog_allOf& other) = default; // copy constructor
+    Dog_allOf(Dog_allOf&& other) noexcept = default; // move constructor
+
+    Dog_allOf& operator=(const Dog_allOf& other) = default; // copy assignment
+    Dog_allOf& operator=(Dog_allOf&& other) noexcept = default; // move assignment
+
+    std::string toJsonString(bool prettyJson = false) const;
     void fromJsonString(std::string const& jsonString);
-    boost::property_tree::ptree toPropertyTree();
+    boost::property_tree::ptree toPropertyTree() const;
     void fromPropertyTree(boost::property_tree::ptree const& pt);
 
     /////////////////////////////////////////////
@@ -56,21 +63,23 @@ public:
     void setBreed(std::string value);
 
 protected:
-    //////////////////////////////////////
-    // Override these for customization //
-    //////////////////////////////////////
-
-    virtual std::string toJsonString_internal(bool prettyJson = false);
-    virtual void fromJsonString_internal(std::string const& jsonString);
-    virtual boost::property_tree::ptree toPropertyTree_internal();
-    virtual void fromPropertyTree_internal(boost::property_tree::ptree const& pt);
-
-
-protected:
     std::string m_Breed = "";
+
 };
 
 std::vector<Dog_allOf> createDog_allOfVectorFromJsonString(const std::string& json);
+
+template<>
+inline boost::property_tree::ptree toPt<Dog_allOf>(const Dog_allOf& val) {
+    return val.toPropertyTree();
+}
+
+template<>
+inline Dog_allOf fromPt<Dog_allOf>(const boost::property_tree::ptree& pt) {
+    Dog_allOf ret;
+    ret.fromPropertyTree(pt);
+    return ret;
+}
 
 }
 }

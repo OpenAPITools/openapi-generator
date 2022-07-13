@@ -19,10 +19,12 @@
 #include <map>
 #include <sstream>
 #include <stdexcept>
+#include <regex>
 #include <algorithm>
 #include <boost/lexical_cast.hpp>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
+#include "helpers.h"
 
 using boost::property_tree::ptree;
 using boost::property_tree::read_json;
@@ -33,88 +35,23 @@ namespace openapitools {
 namespace server {
 namespace model {
 
-namespace {
-template <class T>
-void propertyTreeToMap(const std::string& propertyName, boost::property_tree::ptree const& pt, std::map<std::string, T> &map) {
-    for (const auto &childTree: pt.get_child(propertyName)) {
-        map.emplace(childTree.first, childTree.second.get_value<T>());
-    }
-}
-
-template <class T>
-void propertyTreeToMap(const std::string& propertyName, boost::property_tree::ptree const &pt, std::map<std::string, std::map<std::string, T>> & map ) {
-    for (const auto &childTree: pt.get_child(propertyName)) {
-        propertyTreeToMap(childTree.first, childTree.second, map);
-    }
-}
-
-template <class T>
-void propertyTreeToModelMap(const std::string& propertyName, boost::property_tree::ptree const& pt, std::map<std::string, T> &map) {
-    for (const auto &childTree: pt.get_child(propertyName)) {
-        T tmp;
-        tmp->fromPropertyTree(childTree.second);
-        map.emplace(childTree.first, tmp);
-    }
-}
-
-template <class T>
-void propertyTreeToModelMap(const std::string& propertyName, boost::property_tree::ptree const &pt, std::map<std::string, std::map<std::string, T>> & map ) {
-    for (const auto &childTree: pt.get_child(propertyName)) {
-       propertyTreeToMap(childTree.first, childTree.second, map);
-    }
-}
-
-template <class T>
-void mapToPropertyTree(const std::map<std::string, T> & map, boost::property_tree::ptree &pt) {
-    for (const auto &childEntry : map) {
-        pt.push_back(boost::property_tree::ptree::value_type(childEntry.first, childEntry.second));
-    }
-}
-
-template <class T>
-void mapToPropertyTree(const std::map<std::string, std::map<std::string, T>> & map, boost::property_tree::ptree &pt) {
-    for (const auto &childEntry : map) {
-        boost::property_tree::ptree child_node;
-        mapToPropertyTree(childEntry.second, child_node);
-        pt.push_back(boost::property_tree::ptree::value_type(childEntry.first, child_node));
-    }
-}
-}
-
-
 Enum_Test::Enum_Test(boost::property_tree::ptree const& pt)
 {
         fromPropertyTree(pt);
 }
 
-std::string Enum_Test::toJsonString(bool prettyJson /* = false */)
-{
-    return toJsonString_internal(prettyJson);
-}
 
-void Enum_Test::fromJsonString(std::string const& jsonString)
-{
-    fromJsonString_internal(jsonString);
-}
-
-boost::property_tree::ptree Enum_Test::toPropertyTree()
-{
-    return toPropertyTree_internal();
-}
-
-void Enum_Test::fromPropertyTree(boost::property_tree::ptree const& pt)
-{
-    fromPropertyTree_internal(pt);
-}
-
-std::string Enum_Test::toJsonString_internal(bool prettyJson)
+std::string Enum_Test::toJsonString(bool prettyJson /* = false */) const
 {
 	std::stringstream ss;
 	write_json(ss, this->toPropertyTree(), prettyJson);
-	return ss.str();
+    // workaround inspired by: https://stackoverflow.com/a/56395440
+    std::regex reg("\\\"([0-9]+\\.{0,1}[0-9]*)\\\"");
+    std::string result = std::regex_replace(ss.str(), reg, "$1");
+    return result;
 }
 
-void Enum_Test::fromJsonString_internal(std::string const& jsonString)
+void Enum_Test::fromJsonString(std::string const& jsonString)
 {
 	std::stringstream ss(jsonString);
 	ptree pt;
@@ -122,7 +59,7 @@ void Enum_Test::fromJsonString_internal(std::string const& jsonString)
 	this->fromPropertyTree(pt);
 }
 
-ptree Enum_Test::toPropertyTree_internal()
+ptree Enum_Test::toPropertyTree() const
 {
 	ptree pt;
 	ptree tmp_node;
@@ -133,7 +70,7 @@ ptree Enum_Test::toPropertyTree_internal()
 	return pt;
 }
 
-void Enum_Test::fromPropertyTree_internal(ptree const &pt)
+void Enum_Test::fromPropertyTree(ptree const &pt)
 {
 	ptree tmp_node;
 	setEnumString(pt.get("enum_string", ""));
@@ -149,12 +86,14 @@ std::string Enum_Test::getEnumString() const
 
 void Enum_Test::setEnumString(std::string value)
 {
-	if (std::find(m_Enum_stringEnum.begin(), m_Enum_stringEnum.end(), value) != m_Enum_stringEnum.end()) {
+    if (std::find(m_Enum_stringEnum.begin(), m_Enum_stringEnum.end(), value) != m_Enum_stringEnum.end()) {
 		m_Enum_string = value;
 	} else {
 		throw std::runtime_error("Value " + boost::lexical_cast<std::string>(value) + " not allowed");
 	}
 }
+
+
 std::string Enum_Test::getEnumStringRequired() const
 {
     return m_Enum_string_required;
@@ -162,12 +101,14 @@ std::string Enum_Test::getEnumStringRequired() const
 
 void Enum_Test::setEnumStringRequired(std::string value)
 {
-	if (std::find(m_Enum_string_requiredEnum.begin(), m_Enum_string_requiredEnum.end(), value) != m_Enum_string_requiredEnum.end()) {
+    if (std::find(m_Enum_string_requiredEnum.begin(), m_Enum_string_requiredEnum.end(), value) != m_Enum_string_requiredEnum.end()) {
 		m_Enum_string_required = value;
 	} else {
 		throw std::runtime_error("Value " + boost::lexical_cast<std::string>(value) + " not allowed");
 	}
 }
+
+
 int32_t Enum_Test::getEnumInteger() const
 {
     return m_Enum_integer;
@@ -175,12 +116,14 @@ int32_t Enum_Test::getEnumInteger() const
 
 void Enum_Test::setEnumInteger(int32_t value)
 {
-	if (std::find(m_Enum_integerEnum.begin(), m_Enum_integerEnum.end(), value) != m_Enum_integerEnum.end()) {
+    if (std::find(m_Enum_integerEnum.begin(), m_Enum_integerEnum.end(), value) != m_Enum_integerEnum.end()) {
 		m_Enum_integer = value;
 	} else {
 		throw std::runtime_error("Value " + boost::lexical_cast<std::string>(value) + " not allowed");
 	}
 }
+
+
 double Enum_Test::getEnumNumber() const
 {
     return m_Enum_number;
@@ -188,48 +131,58 @@ double Enum_Test::getEnumNumber() const
 
 void Enum_Test::setEnumNumber(double value)
 {
-	if (std::find(m_Enum_numberEnum.begin(), m_Enum_numberEnum.end(), value) != m_Enum_numberEnum.end()) {
+    if (std::find(m_Enum_numberEnum.begin(), m_Enum_numberEnum.end(), value) != m_Enum_numberEnum.end()) {
 		m_Enum_number = value;
 	} else {
 		throw std::runtime_error("Value " + boost::lexical_cast<std::string>(value) + " not allowed");
 	}
 }
-std::shared_ptr<OuterEnum> Enum_Test::getOuterEnum() const
+
+
+OuterEnum Enum_Test::getOuterEnum() const
 {
     return m_OuterEnum;
 }
 
-void Enum_Test::setOuterEnum(std::shared_ptr<OuterEnum> value)
+void Enum_Test::setOuterEnum(OuterEnum value)
 {
-	m_OuterEnum = value;
+    m_OuterEnum = value;
 }
-std::shared_ptr<OuterEnumInteger> Enum_Test::getOuterEnumInteger() const
+
+
+OuterEnumInteger Enum_Test::getOuterEnumInteger() const
 {
     return m_OuterEnumInteger;
 }
 
-void Enum_Test::setOuterEnumInteger(std::shared_ptr<OuterEnumInteger> value)
+void Enum_Test::setOuterEnumInteger(OuterEnumInteger value)
 {
-	m_OuterEnumInteger = value;
+    m_OuterEnumInteger = value;
 }
-std::shared_ptr<OuterEnumDefaultValue> Enum_Test::getOuterEnumDefaultValue() const
+
+
+OuterEnumDefaultValue Enum_Test::getOuterEnumDefaultValue() const
 {
     return m_OuterEnumDefaultValue;
 }
 
-void Enum_Test::setOuterEnumDefaultValue(std::shared_ptr<OuterEnumDefaultValue> value)
+void Enum_Test::setOuterEnumDefaultValue(OuterEnumDefaultValue value)
 {
-	m_OuterEnumDefaultValue = value;
+    m_OuterEnumDefaultValue = value;
 }
-std::shared_ptr<OuterEnumIntegerDefaultValue> Enum_Test::getOuterEnumIntegerDefaultValue() const
+
+
+OuterEnumIntegerDefaultValue Enum_Test::getOuterEnumIntegerDefaultValue() const
 {
     return m_OuterEnumIntegerDefaultValue;
 }
 
-void Enum_Test::setOuterEnumIntegerDefaultValue(std::shared_ptr<OuterEnumIntegerDefaultValue> value)
+void Enum_Test::setOuterEnumIntegerDefaultValue(OuterEnumIntegerDefaultValue value)
 {
-	m_OuterEnumIntegerDefaultValue = value;
+    m_OuterEnumIntegerDefaultValue = value;
 }
+
+
 
 std::vector<Enum_Test> createEnum_TestVectorFromJsonString(const std::string& json)
 {

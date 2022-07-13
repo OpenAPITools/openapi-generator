@@ -1,6 +1,6 @@
 /**
  * OpenAPI Petstore
- * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
+ * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  * The version of the OpenAPI document: 1.0.0
  * 
@@ -33,6 +33,7 @@
 
 #include "ApiResponse.h"
 #include "Pet.h"
+#include <set>
 #include <string>
 
 namespace org {
@@ -74,14 +75,14 @@ public:
     /////////////////////////////////////////////////////
     // Set these to implement the server functionality //
     /////////////////////////////////////////////////////
-    std::function<std::pair<int, std::shared_ptr<Pet>>(
-        std::shared_ptr<Pet> const & pet)> handler_POST_func =
-            [](std::shared_ptr<Pet> const &) -> std::pair<int, std::shared_ptr<Pet>>
+    std::function<int(
+        Pet & pet)> handler_POST_func =
+            [](Pet &) -> int
                 { throw PetApiException(501, "Not implemented"); };
 
-    std::function<std::pair<int, std::shared_ptr<Pet>>(
-        std::shared_ptr<Pet> const & pet)> handler_PUT_func =
-            [](std::shared_ptr<Pet> const &) -> std::pair<int, std::shared_ptr<Pet>>
+    std::function<int(
+        Pet & pet)> handler_PUT_func =
+            [](Pet &) -> int
                 { throw PetApiException(501, "Not implemented"); };
 
 
@@ -91,11 +92,11 @@ protected:
     // override these to implement the server functionality //
     //////////////////////////////////////////////////////////
 
-    virtual std::pair<int, std::shared_ptr<Pet>> handler_POST(
-        std::shared_ptr<Pet> const & pet);
+    virtual int handler_POST(
+        Pet & pet);
 
-    virtual std::pair<int, std::shared_ptr<Pet>> handler_PUT(
-        std::shared_ptr<Pet> const & pet);
+    virtual int handler_PUT(
+        Pet & pet);
 
 protected:
     //////////////////////////////////////
@@ -113,7 +114,7 @@ protected:
         const std::string& header);
 
     virtual void returnResponse(const std::shared_ptr<restbed::Session>& session,
-        const int status, const std::string& result, const std::string& contentType);
+        const int status, const std::string& result, std::multimap<std::string, std::string>& contentType);
     virtual void defaultSessionClose(const std::shared_ptr<restbed::Session>& session,
         const int status, const std::string& result);
 
@@ -138,18 +139,18 @@ public:
     // Set these to implement the server functionality //
     /////////////////////////////////////////////////////
     std::function<int(
-        int64_t const & petId, std::string const & apiKey)> handler_DELETE_func =
-            [](int64_t const &, std::string const &) -> int
+        int64_t & petId, std::string & apiKey)> handler_DELETE_func =
+            [](int64_t &, std::string &) -> int
                 { throw PetApiException(501, "Not implemented"); };
 
-    std::function<std::pair<int, std::shared_ptr<Pet>>(
-        int64_t const & petId)> handler_GET_func =
-            [](int64_t const &) -> std::pair<int, std::shared_ptr<Pet>>
+    std::function<std::pair<int, Pet>(
+        int64_t & petId)> handler_GET_func =
+            [](int64_t &) -> std::pair<int, Pet>
                 { throw PetApiException(501, "Not implemented"); };
 
     std::function<int(
-        int64_t const & petId, std::string const & name, std::string const & status)> handler_POST_func =
-            [](int64_t const &, std::string const &, std::string const &) -> int
+        int64_t & petId, std::string & name, std::string & status)> handler_POST_func =
+            [](int64_t &, std::string &, std::string &) -> int
                 { throw PetApiException(501, "Not implemented"); };
 
 
@@ -160,12 +161,12 @@ protected:
     //////////////////////////////////////////////////////////
 
     virtual int handler_DELETE(
-        int64_t const & petId, std::string const & apiKey);
+        int64_t & petId, std::string & apiKey);
 
-    virtual std::pair<int, std::shared_ptr<Pet>> handler_GET(
-        int64_t const & petId);
+    virtual std::pair<int, Pet> handler_GET(
+        int64_t & petId);
     virtual int handler_POST(
-        int64_t const & petId, std::string const & name, std::string const & status);
+        int64_t & petId, std::string & name, std::string & status);
 
 protected:
     //////////////////////////////////////
@@ -183,7 +184,7 @@ protected:
         const std::string& header);
 
     virtual void returnResponse(const std::shared_ptr<restbed::Session>& session,
-        const int status, const std::string& result, const std::string& contentType);
+        const int status, const std::string& result, std::multimap<std::string, std::string>& contentType);
     virtual void defaultSessionClose(const std::shared_ptr<restbed::Session>& session,
         const int status, const std::string& result);
 
@@ -208,9 +209,9 @@ public:
     /////////////////////////////////////////////////////
     // Set these to implement the server functionality //
     /////////////////////////////////////////////////////
-    std::function<std::pair<int, std::vector<std::shared_ptr<Pet>>>(
-        std::vector<std::string> const & status)> handler_GET_func =
-            [](std::vector<std::string> const &) -> std::pair<int, std::vector<std::shared_ptr<Pet>>>
+    std::function<std::pair<int, std::vector<Pet>>(
+        std::vector<std::string> & status)> handler_GET_func =
+            [](std::vector<std::string> &) -> std::pair<int, std::vector<Pet>>
                 { throw PetApiException(501, "Not implemented"); };
 
 
@@ -220,8 +221,8 @@ protected:
     // override these to implement the server functionality //
     //////////////////////////////////////////////////////////
 
-    virtual std::pair<int, std::vector<std::shared_ptr<Pet>>> handler_GET(
-        std::vector<std::string> const & status);
+    virtual std::pair<int, std::vector<Pet>> handler_GET(
+        std::vector<std::string> & status);
 
 
 protected:
@@ -240,7 +241,7 @@ protected:
         const std::string& header);
 
     virtual void returnResponse(const std::shared_ptr<restbed::Session>& session,
-        const int status, const std::string& result, const std::string& contentType);
+        const int status, const std::string& result, std::multimap<std::string, std::string>& contentType);
     virtual void defaultSessionClose(const std::shared_ptr<restbed::Session>& session,
         const int status, const std::string& result);
 
@@ -263,9 +264,9 @@ public:
     /////////////////////////////////////////////////////
     // Set these to implement the server functionality //
     /////////////////////////////////////////////////////
-    std::function<std::pair<int, std::vector<std::shared_ptr<Pet>>>(
-        std::vector<std::string> const & tags)> handler_GET_func =
-            [](std::vector<std::string> const &) -> std::pair<int, std::vector<std::shared_ptr<Pet>>>
+    std::function<std::pair<int, std::set<Pet>>(
+        std::set<std::string> & tags)> handler_GET_func =
+            [](std::set<std::string> &) -> std::pair<int, std::set<Pet>>
                 { throw PetApiException(501, "Not implemented"); };
 
 
@@ -275,8 +276,8 @@ protected:
     // override these to implement the server functionality //
     //////////////////////////////////////////////////////////
 
-    virtual std::pair<int, std::vector<std::shared_ptr<Pet>>> handler_GET(
-        std::vector<std::string> const & tags);
+    virtual std::pair<int, std::set<Pet>> handler_GET(
+        std::set<std::string> & tags);
 
 
 protected:
@@ -295,7 +296,7 @@ protected:
         const std::string& header);
 
     virtual void returnResponse(const std::shared_ptr<restbed::Session>& session,
-        const int status, const std::string& result, const std::string& contentType);
+        const int status, const std::string& result, std::multimap<std::string, std::string>& contentType);
     virtual void defaultSessionClose(const std::shared_ptr<restbed::Session>& session,
         const int status, const std::string& result);
 
@@ -318,9 +319,9 @@ public:
     /////////////////////////////////////////////////////
     // Set these to implement the server functionality //
     /////////////////////////////////////////////////////
-    std::function<std::pair<int, std::shared_ptr<ApiResponse>>(
-        int64_t const & petId, std::string const & additionalMetadata, std::string const & file)> handler_POST_func =
-            [](int64_t const &, std::string const &, std::string const &) -> std::pair<int, std::shared_ptr<ApiResponse>>
+    std::function<std::pair<int, ApiResponse>(
+        int64_t & petId, std::string & additionalMetadata, std::string & file)> handler_POST_func =
+            [](int64_t &, std::string &, std::string &) -> std::pair<int, ApiResponse>
                 { throw PetApiException(501, "Not implemented"); };
 
 
@@ -330,8 +331,8 @@ protected:
     // override these to implement the server functionality //
     //////////////////////////////////////////////////////////
 
-    virtual std::pair<int, std::shared_ptr<ApiResponse>> handler_POST(
-        int64_t const & petId, std::string const & additionalMetadata, std::string const & file);
+    virtual std::pair<int, ApiResponse> handler_POST(
+        int64_t & petId, std::string & additionalMetadata, std::string & file);
 
 
 protected:
@@ -350,7 +351,62 @@ protected:
         const std::string& header);
 
     virtual void returnResponse(const std::shared_ptr<restbed::Session>& session,
-        const int status, const std::string& result, const std::string& contentType);
+        const int status, const std::string& result, std::multimap<std::string, std::string>& contentType);
+    virtual void defaultSessionClose(const std::shared_ptr<restbed::Session>& session,
+        const int status, const std::string& result);
+
+private:
+    void handler_POST_internal(const std::shared_ptr<restbed::Session> session);
+};
+
+/// <summary>
+/// uploads an image (required)
+/// </summary>
+/// <remarks>
+/// 
+/// </remarks>
+class  FakePetIdUploadImageWithRequiredFileResource: public restbed::Resource
+{
+public:
+    FakePetIdUploadImageWithRequiredFileResource(const std::string& context = "/v2");
+    virtual ~FakePetIdUploadImageWithRequiredFileResource();
+
+    /////////////////////////////////////////////////////
+    // Set these to implement the server functionality //
+    /////////////////////////////////////////////////////
+    std::function<std::pair<int, ApiResponse>(
+        int64_t & petId, std::string & requiredFile, std::string & additionalMetadata)> handler_POST_func =
+            [](int64_t &, std::string &, std::string &) -> std::pair<int, ApiResponse>
+                { throw PetApiException(501, "Not implemented"); };
+
+
+protected:
+    //////////////////////////////////////////////////////////
+    // As an alternative to setting the `std::function`s    //
+    // override these to implement the server functionality //
+    //////////////////////////////////////////////////////////
+
+    virtual std::pair<int, ApiResponse> handler_POST(
+        int64_t & petId, std::string & requiredFile, std::string & additionalMetadata);
+
+
+protected:
+    //////////////////////////////////////
+    // Override these for customization //
+    //////////////////////////////////////
+
+    virtual std::string extractBodyContent(const std::shared_ptr<restbed::Session>& session);
+    virtual std::string extractFormParamsFromBody(const std::string& paramName, const std::string& body);
+
+    virtual std::pair<int, std::string> handlePetApiException(const PetApiException& e);
+    virtual std::pair<int, std::string> handleStdException(const std::exception& e);
+    virtual std::pair<int, std::string> handleUnspecifiedException();
+
+    virtual void setResponseHeader(const std::shared_ptr<restbed::Session>& session,
+        const std::string& header);
+
+    virtual void returnResponse(const std::shared_ptr<restbed::Session>& session,
+        const int status, const std::string& result, std::multimap<std::string, std::string>& contentType);
     virtual void defaultSessionClose(const std::shared_ptr<restbed::Session>& session,
         const int status, const std::string& result);
 
@@ -365,6 +421,7 @@ using PetApiPetPetIdResource [[deprecated]] = PetApiResources::PetPetIdResource;
 using PetApiPetFindByStatusResource [[deprecated]] = PetApiResources::PetFindByStatusResource;
 using PetApiPetFindByTagsResource [[deprecated]] = PetApiResources::PetFindByTagsResource;
 using PetApiPetPetIdUploadImageResource [[deprecated]] = PetApiResources::PetPetIdUploadImageResource;
+using PetApiFakePetIdUploadImageWithRequiredFileResource [[deprecated]] = PetApiResources::FakePetIdUploadImageWithRequiredFileResource;
 
 //
 // The restbed service to actually implement the REST server
@@ -380,12 +437,14 @@ public:
     std::shared_ptr<PetApiResources::PetFindByStatusResource> getPetFindByStatusResource();
     std::shared_ptr<PetApiResources::PetFindByTagsResource> getPetFindByTagsResource();
     std::shared_ptr<PetApiResources::PetPetIdUploadImageResource> getPetPetIdUploadImageResource();
+    std::shared_ptr<PetApiResources::FakePetIdUploadImageWithRequiredFileResource> getFakePetIdUploadImageWithRequiredFileResource();
 
     void setResource(std::shared_ptr<PetApiResources::PetResource> resource);
     void setResource(std::shared_ptr<PetApiResources::PetPetIdResource> resource);
     void setResource(std::shared_ptr<PetApiResources::PetFindByStatusResource> resource);
     void setResource(std::shared_ptr<PetApiResources::PetFindByTagsResource> resource);
     void setResource(std::shared_ptr<PetApiResources::PetPetIdUploadImageResource> resource);
+    void setResource(std::shared_ptr<PetApiResources::FakePetIdUploadImageWithRequiredFileResource> resource);
     [[deprecated("use setResource()")]]
     virtual void setPetApiPetResource(std::shared_ptr<PetApiResources::PetResource> spPetApiPetResource);
     [[deprecated("use setResource()")]]
@@ -396,6 +455,8 @@ public:
     virtual void setPetApiPetFindByTagsResource(std::shared_ptr<PetApiResources::PetFindByTagsResource> spPetApiPetFindByTagsResource);
     [[deprecated("use setResource()")]]
     virtual void setPetApiPetPetIdUploadImageResource(std::shared_ptr<PetApiResources::PetPetIdUploadImageResource> spPetApiPetPetIdUploadImageResource);
+    [[deprecated("use setResource()")]]
+    virtual void setPetApiFakePetIdUploadImageWithRequiredFileResource(std::shared_ptr<PetApiResources::FakePetIdUploadImageWithRequiredFileResource> spPetApiFakePetIdUploadImageWithRequiredFileResource);
 
     virtual void publishDefaultResources();
 
@@ -407,6 +468,7 @@ protected:
 	std::shared_ptr<PetApiResources::PetFindByStatusResource> m_spPetFindByStatusResource;
 	std::shared_ptr<PetApiResources::PetFindByTagsResource> m_spPetFindByTagsResource;
 	std::shared_ptr<PetApiResources::PetPetIdUploadImageResource> m_spPetPetIdUploadImageResource;
+	std::shared_ptr<PetApiResources::FakePetIdUploadImageWithRequiredFileResource> m_spFakePetIdUploadImageWithRequiredFileResource;
 
 private:
     std::shared_ptr<restbed::Service> m_service;

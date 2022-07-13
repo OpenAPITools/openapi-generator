@@ -25,6 +25,7 @@
 #include <memory>
 #include <vector>
 #include <boost/property_tree/ptree.hpp>
+#include "helpers.h"
 
 namespace org {
 namespace openapitools {
@@ -41,9 +42,15 @@ public:
     explicit HealthCheckResult(boost::property_tree::ptree const& pt);
     virtual ~HealthCheckResult() = default;
 
-    std::string toJsonString(bool prettyJson = false);
+    HealthCheckResult(const HealthCheckResult& other) = default; // copy constructor
+    HealthCheckResult(HealthCheckResult&& other) noexcept = default; // move constructor
+
+    HealthCheckResult& operator=(const HealthCheckResult& other) = default; // copy assignment
+    HealthCheckResult& operator=(HealthCheckResult&& other) noexcept = default; // move assignment
+
+    std::string toJsonString(bool prettyJson = false) const;
     void fromJsonString(std::string const& jsonString);
-    boost::property_tree::ptree toPropertyTree();
+    boost::property_tree::ptree toPropertyTree() const;
     void fromPropertyTree(boost::property_tree::ptree const& pt);
 
     /////////////////////////////////////////////
@@ -56,21 +63,23 @@ public:
     void setNullableMessage(std::string value);
 
 protected:
-    //////////////////////////////////////
-    // Override these for customization //
-    //////////////////////////////////////
-
-    virtual std::string toJsonString_internal(bool prettyJson = false);
-    virtual void fromJsonString_internal(std::string const& jsonString);
-    virtual boost::property_tree::ptree toPropertyTree_internal();
-    virtual void fromPropertyTree_internal(boost::property_tree::ptree const& pt);
-
-
-protected:
     std::string m_NullableMessage = "";
+
 };
 
 std::vector<HealthCheckResult> createHealthCheckResultVectorFromJsonString(const std::string& json);
+
+template<>
+inline boost::property_tree::ptree toPt<HealthCheckResult>(const HealthCheckResult& val) {
+    return val.toPropertyTree();
+}
+
+template<>
+inline HealthCheckResult fromPt<HealthCheckResult>(const boost::property_tree::ptree& pt) {
+    HealthCheckResult ret;
+    ret.fromPropertyTree(pt);
+    return ret;
+}
 
 }
 }

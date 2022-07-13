@@ -19,8 +19,10 @@
 #include <map>
 #include <sstream>
 #include <stdexcept>
+#include <regex>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
+#include "helpers.h"
 
 using boost::property_tree::ptree;
 using boost::property_tree::read_json;
@@ -31,88 +33,23 @@ namespace openapitools {
 namespace server {
 namespace model {
 
-namespace {
-template <class T>
-void propertyTreeToMap(const std::string& propertyName, boost::property_tree::ptree const& pt, std::map<std::string, T> &map) {
-    for (const auto &childTree: pt.get_child(propertyName)) {
-        map.emplace(childTree.first, childTree.second.get_value<T>());
-    }
-}
-
-template <class T>
-void propertyTreeToMap(const std::string& propertyName, boost::property_tree::ptree const &pt, std::map<std::string, std::map<std::string, T>> & map ) {
-    for (const auto &childTree: pt.get_child(propertyName)) {
-        propertyTreeToMap(childTree.first, childTree.second, map);
-    }
-}
-
-template <class T>
-void propertyTreeToModelMap(const std::string& propertyName, boost::property_tree::ptree const& pt, std::map<std::string, T> &map) {
-    for (const auto &childTree: pt.get_child(propertyName)) {
-        T tmp;
-        tmp->fromPropertyTree(childTree.second);
-        map.emplace(childTree.first, tmp);
-    }
-}
-
-template <class T>
-void propertyTreeToModelMap(const std::string& propertyName, boost::property_tree::ptree const &pt, std::map<std::string, std::map<std::string, T>> & map ) {
-    for (const auto &childTree: pt.get_child(propertyName)) {
-       propertyTreeToMap(childTree.first, childTree.second, map);
-    }
-}
-
-template <class T>
-void mapToPropertyTree(const std::map<std::string, T> & map, boost::property_tree::ptree &pt) {
-    for (const auto &childEntry : map) {
-        pt.push_back(boost::property_tree::ptree::value_type(childEntry.first, childEntry.second));
-    }
-}
-
-template <class T>
-void mapToPropertyTree(const std::map<std::string, std::map<std::string, T>> & map, boost::property_tree::ptree &pt) {
-    for (const auto &childEntry : map) {
-        boost::property_tree::ptree child_node;
-        mapToPropertyTree(childEntry.second, child_node);
-        pt.push_back(boost::property_tree::ptree::value_type(childEntry.first, child_node));
-    }
-}
-}
-
-
 OuterComposite::OuterComposite(boost::property_tree::ptree const& pt)
 {
         fromPropertyTree(pt);
 }
 
-std::string OuterComposite::toJsonString(bool prettyJson /* = false */)
-{
-    return toJsonString_internal(prettyJson);
-}
 
-void OuterComposite::fromJsonString(std::string const& jsonString)
-{
-    fromJsonString_internal(jsonString);
-}
-
-boost::property_tree::ptree OuterComposite::toPropertyTree()
-{
-    return toPropertyTree_internal();
-}
-
-void OuterComposite::fromPropertyTree(boost::property_tree::ptree const& pt)
-{
-    fromPropertyTree_internal(pt);
-}
-
-std::string OuterComposite::toJsonString_internal(bool prettyJson)
+std::string OuterComposite::toJsonString(bool prettyJson /* = false */) const
 {
 	std::stringstream ss;
 	write_json(ss, this->toPropertyTree(), prettyJson);
-	return ss.str();
+    // workaround inspired by: https://stackoverflow.com/a/56395440
+    std::regex reg("\\\"([0-9]+\\.{0,1}[0-9]*)\\\"");
+    std::string result = std::regex_replace(ss.str(), reg, "$1");
+    return result;
 }
 
-void OuterComposite::fromJsonString_internal(std::string const& jsonString)
+void OuterComposite::fromJsonString(std::string const& jsonString)
 {
 	std::stringstream ss(jsonString);
 	ptree pt;
@@ -120,7 +57,7 @@ void OuterComposite::fromJsonString_internal(std::string const& jsonString)
 	this->fromPropertyTree(pt);
 }
 
-ptree OuterComposite::toPropertyTree_internal()
+ptree OuterComposite::toPropertyTree() const
 {
 	ptree pt;
 	ptree tmp_node;
@@ -130,7 +67,7 @@ ptree OuterComposite::toPropertyTree_internal()
 	return pt;
 }
 
-void OuterComposite::fromPropertyTree_internal(ptree const &pt)
+void OuterComposite::fromPropertyTree(ptree const &pt)
 {
 	ptree tmp_node;
 	m_My_number = pt.get("my_number", 0.0);
@@ -145,8 +82,10 @@ double OuterComposite::getMyNumber() const
 
 void OuterComposite::setMyNumber(double value)
 {
-	m_My_number = value;
+    m_My_number = value;
 }
+
+
 std::string OuterComposite::getMyString() const
 {
     return m_My_string;
@@ -154,8 +93,10 @@ std::string OuterComposite::getMyString() const
 
 void OuterComposite::setMyString(std::string value)
 {
-	m_My_string = value;
+    m_My_string = value;
 }
+
+
 bool OuterComposite::isMyBoolean() const
 {
     return m_My_boolean;
@@ -163,8 +104,10 @@ bool OuterComposite::isMyBoolean() const
 
 void OuterComposite::setMyBoolean(bool value)
 {
-	m_My_boolean = value;
+    m_My_boolean = value;
 }
+
+
 
 std::vector<OuterComposite> createOuterCompositeVectorFromJsonString(const std::string& json)
 {

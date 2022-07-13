@@ -25,6 +25,7 @@
 #include <memory>
 #include <vector>
 #include <boost/property_tree/ptree.hpp>
+#include "helpers.h"
 
 namespace org {
 namespace openapitools {
@@ -41,9 +42,15 @@ public:
     explicit r_200_response(boost::property_tree::ptree const& pt);
     virtual ~r_200_response() = default;
 
-    std::string toJsonString(bool prettyJson = false);
+    r_200_response(const r_200_response& other) = default; // copy constructor
+    r_200_response(r_200_response&& other) noexcept = default; // move constructor
+
+    r_200_response& operator=(const r_200_response& other) = default; // copy assignment
+    r_200_response& operator=(r_200_response&& other) noexcept = default; // move assignment
+
+    std::string toJsonString(bool prettyJson = false) const;
     void fromJsonString(std::string const& jsonString);
-    boost::property_tree::ptree toPropertyTree();
+    boost::property_tree::ptree toPropertyTree() const;
     void fromPropertyTree(boost::property_tree::ptree const& pt);
 
     /////////////////////////////////////////////
@@ -62,22 +69,25 @@ public:
     void setRClass(std::string value);
 
 protected:
-    //////////////////////////////////////
-    // Override these for customization //
-    //////////////////////////////////////
-
-    virtual std::string toJsonString_internal(bool prettyJson = false);
-    virtual void fromJsonString_internal(std::string const& jsonString);
-    virtual boost::property_tree::ptree toPropertyTree_internal();
-    virtual void fromPropertyTree_internal(boost::property_tree::ptree const& pt);
-
-
-protected:
     int32_t m_Name = 0;
     std::string m_r_class = "";
+
+
 };
 
 std::vector<r_200_response> creater_200_responseVectorFromJsonString(const std::string& json);
+
+template<>
+inline boost::property_tree::ptree toPt<r_200_response>(const r_200_response& val) {
+    return val.toPropertyTree();
+}
+
+template<>
+inline r_200_response fromPt<r_200_response>(const boost::property_tree::ptree& pt) {
+    r_200_response ret;
+    ret.fromPropertyTree(pt);
+    return ret;
+}
 
 }
 }

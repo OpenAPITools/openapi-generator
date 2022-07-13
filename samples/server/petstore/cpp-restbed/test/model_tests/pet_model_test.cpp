@@ -33,7 +33,7 @@ BOOST_AUTO_TEST_CASE(toJsonStringWithCategory)
   Pet pet;
   pet.setId(1);
   pet.setName("MyName");
-  auto category = std::make_shared<Category>();
+  auto category = Category();
   pet.setCategory(category);
   pet.setStatus("pending");
 
@@ -45,8 +45,8 @@ BOOST_AUTO_TEST_CASE(toJsonStringWithCategory)
   BOOST_TEST(newPet.getName() == "MyName");
 
   const auto newCategory = newPet.getCategory();
-  BOOST_TEST(newCategory->getName() == "");
-  BOOST_TEST(newCategory->getId() == 0);
+  BOOST_TEST(newCategory.getName() == "default-name");
+  BOOST_TEST(newCategory.getId() == 0);
 
 
 }
@@ -58,14 +58,14 @@ BOOST_AUTO_TEST_CASE(toJsonStringWithTags)
   pet.setName("MyName");
   pet.setStatus("sold");
 
-  std::vector<std::shared_ptr<Tag>> tags;
-  auto tag1 = std::make_shared<Tag>();
-  tag1->setName("tag1");
-  tag1->setId(1);
+  std::vector<Tag> tags;
+  auto tag1 = Tag();
+  tag1.setName("tag1");
+  tag1.setId(1);
   tags.emplace_back(tag1);
-  auto tag2 = std::make_shared<Tag>();
-  tag2->setName("tag2");
-  tag2->setId(2);
+  auto tag2 = Tag();
+  tag2.setName("tag2");
+  tag2.setId(2);
   tags.emplace_back(tag2);
   pet.setTags(tags);
 
@@ -182,19 +182,19 @@ BOOST_AUTO_TEST_CASE(toPropertyTree)
 {
   Pet pet;
 
-  std::vector<std::shared_ptr<Tag>> tags;
-  auto tag = std::make_shared<Tag>();
-  tag->setName("Tag1");
+  std::vector<Tag> tags;
+  auto tag = Tag();
+  tag.setName("Tag1");
   tags.emplace_back(tag);
   pet.setTags(tags);
 
-  std::vector<std::string> photoUrls;
-  photoUrls.emplace_back("www.example.com/photo1");
-  photoUrls.emplace_back("www.example.com/photo2");
+  std::set<std::string> photoUrls;
+  photoUrls.insert("www.example.com/photo1");
+  photoUrls.insert("www.example.com/photo2");
   pet.setPhotoUrls(photoUrls);
 
-  auto category = std::make_shared<Category>();
-  category->setName("Category1");
+  auto category = Category();
+  category.setName("Category1");
   pet.setCategory(category);
 
   auto pt = pet.toPropertyTree();
@@ -209,7 +209,7 @@ BOOST_AUTO_TEST_CASE(toPropertyTree)
   auto photoUrlsFromPt = pt.get_child("photoUrls");
   BOOST_TEST(photoUrlsFromPt.size() == 2);
 
-  BOOST_TEST(pet.getCategory()->getName() == "Category1");
+  BOOST_TEST(pet.getCategory().getName() == "Category1");
   auto categoryFromPt = pt.get_child("category");
   BOOST_TEST(categoryFromPt.get<std::string>("name") == "Category1");
 }
@@ -217,12 +217,12 @@ BOOST_AUTO_TEST_CASE(toPropertyTree)
 BOOST_AUTO_TEST_CASE(photoUrls)
 {
   Pet pet;
-  std::vector<std::string> photoUrls{"url1", "url2"};
+  std::set<std::string> photoUrls{"url1", "url2"};
   pet.setPhotoUrls(photoUrls);
 
   BOOST_TEST(pet.getPhotoUrls().size() == 2);
-  BOOST_TEST(pet.getPhotoUrls()[0] == "url1");
-  BOOST_TEST(pet.getPhotoUrls()[1] == "url2");
+  BOOST_TEST(pet.getPhotoUrls().count("url1") == 1);
+  BOOST_TEST(pet.getPhotoUrls().count("url2") == 1);
 }
 
 BOOST_AUTO_TEST_CASE(fromJsonWithTags) {
@@ -247,8 +247,8 @@ BOOST_AUTO_TEST_CASE(fromJsonWithTags) {
   pet.fromJsonString(json_str);
 
   BOOST_TEST(pet.getTags().size() == 2);
-  BOOST_TEST(pet.getTags()[0]->getId() == 1);
-  BOOST_TEST(pet.getTags()[1]->getId() == 2);
+  BOOST_TEST(pet.getTags()[0].getId() == 1);
+  BOOST_TEST(pet.getTags()[1].getId() == 2);
 }
 
 BOOST_DATA_TEST_CASE(validStatusValues,

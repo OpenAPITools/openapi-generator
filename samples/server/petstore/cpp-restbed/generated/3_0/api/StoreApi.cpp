@@ -1,6 +1,6 @@
 /**
  * OpenAPI Petstore
- * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
+ * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  * The version of the OpenAPI document: 1.0.0
  * 
@@ -30,6 +30,32 @@ namespace api {
 
 using namespace org::openapitools::server::model;
 
+namespace {
+[[maybe_unused]]
+std::string selectPreferredContentType(const std::vector<std::string>& contentTypes) {
+    if (contentTypes.size() == 0) {
+        return "application/json";
+    }
+
+    if (contentTypes.size() == 1) {
+        return contentTypes.at(0);
+    }
+
+    static const std::array<std::string, 2> preferredTypes = {"json", "xml"};
+    for (const auto& preferredType: preferredTypes) {
+        const auto ret = std::find_if(contentTypes.cbegin(),
+        contentTypes.cend(),
+        [preferredType](const std::string& str) {
+            return str.find(preferredType) != std::string::npos;});
+        if (ret != contentTypes.cend()) {
+            return *ret;
+        }
+    }
+
+    return contentTypes.at(0);
+}
+}
+
 StoreApiException::StoreApiException(int status_code, std::string what)
   : m_status(status_code),
     m_what(what)
@@ -47,26 +73,26 @@ const char* StoreApiException::what() const noexcept
 
 
 template<class MODEL_T>
-std::shared_ptr<MODEL_T> extractJsonModelBodyParam(const std::string& bodyContent)
+MODEL_T extractJsonModelBodyParam(const std::string& bodyContent)
 {
     std::stringstream sstream(bodyContent);
     boost::property_tree::ptree pt;
     boost::property_tree::json_parser::read_json(sstream, pt);
 
-    auto model = std::make_shared<MODEL_T>(pt);
+    auto model = MODEL_T(pt);
     return model;
 }
 
 template<class MODEL_T>
-std::vector<std::shared_ptr<MODEL_T>> extractJsonArrayBodyParam(const std::string& bodyContent)
+std::vector<MODEL_T> extractJsonArrayBodyParam(const std::string& bodyContent)
 {
     std::stringstream sstream(bodyContent);
     boost::property_tree::ptree pt;
     boost::property_tree::json_parser::read_json(sstream, pt);
 
-    auto arrayRet = std::vector<std::shared_ptr<MODEL_T>>();
+    auto arrayRet = std::vector<MODEL_T>();
     for (const auto& child: pt) {
-        arrayRet.emplace_back(std::make_shared<MODEL_T>(child.second));
+        arrayRet.emplace_back(MODEL_T(child.second));
     }
     return arrayRet;
 }
@@ -88,56 +114,57 @@ std::string convertMapResponse(const std::map<KEY_T, VAL_T>& map)
 }
 
 namespace StoreApiResources {
-StoreOrderOrderIdResource::StoreOrderOrderIdResource(const std::string& context /* = "/v2" */)
+StoreOrderOrder_idResource::StoreOrderOrder_idResource(const std::string& context /* = "/v2" */)
 {
-	this->set_path(context + "/store/order/{orderId: .*}");
+	this->set_path(context + "/store/order/{order_id: .*}");
 	this->set_method_handler("DELETE",
-		std::bind(&StoreOrderOrderIdResource::handler_DELETE_internal, this,
+		std::bind(&StoreOrderOrder_idResource::handler_DELETE_internal, this,
 			std::placeholders::_1));
 	this->set_method_handler("GET",
-		std::bind(&StoreOrderOrderIdResource::handler_GET_internal, this,
+		std::bind(&StoreOrderOrder_idResource::handler_GET_internal, this,
 			std::placeholders::_1));
 }
 
-StoreOrderOrderIdResource::~StoreOrderOrderIdResource()
+StoreOrderOrder_idResource::~StoreOrderOrder_idResource()
 {
 }
 
-std::pair<int, std::string> StoreOrderOrderIdResource::handleStoreApiException(const StoreApiException& e)
+std::pair<int, std::string> StoreOrderOrder_idResource::handleStoreApiException(const StoreApiException& e)
 {
     return std::make_pair<int, std::string>(e.getStatus(), e.what());
 }
 
-std::pair<int, std::string> StoreOrderOrderIdResource::handleStdException(const std::exception& e)
+std::pair<int, std::string> StoreOrderOrder_idResource::handleStdException(const std::exception& e)
 {
     return std::make_pair<int, std::string>(500, e.what());
 }
 
-std::pair<int, std::string> StoreOrderOrderIdResource::handleUnspecifiedException()
+std::pair<int, std::string> StoreOrderOrder_idResource::handleUnspecifiedException()
 {
     return std::make_pair<int, std::string>(500, "Unknown exception occurred");
 }
 
-void StoreOrderOrderIdResource::setResponseHeader(const std::shared_ptr<restbed::Session>& session, const std::string& header)
+void StoreOrderOrder_idResource::setResponseHeader(const std::shared_ptr<restbed::Session>& session, const std::string& header)
 {
     session->set_header(header, "");
 }
 
-void StoreOrderOrderIdResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, const std::string& contentType)
+void StoreOrderOrder_idResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, std::multimap<std::string, std::string>& responseHeaders)
 {
-    session->close(status, result, { {"Connection", "close"}, {"Content-Type", contentType} });
+    responseHeaders.insert(std::make_pair("Connection", "close"));
+    session->close(status, result, responseHeaders);
 }
 
-void StoreOrderOrderIdResource::defaultSessionClose(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result)
+void StoreOrderOrder_idResource::defaultSessionClose(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result)
 {
     session->close(status, result, { {"Connection", "close"} });
 }
 
-void StoreOrderOrderIdResource::handler_DELETE_internal(const std::shared_ptr<restbed::Session> session)
+void StoreOrderOrder_idResource::handler_DELETE_internal(const std::shared_ptr<restbed::Session> session)
 {
     const auto request = session->get_request();
     // Getting the path params
-    const std::string orderId = request->get_path_parameter("orderId", "");
+    std::string orderId = request->get_path_parameter("order_id", "");
     
     int status_code = 500;
     std::string result = "";
@@ -156,29 +183,38 @@ void StoreOrderOrderIdResource::handler_DELETE_internal(const std::shared_ptr<re
         std::tie(status_code, result) = handleUnspecifiedException();
     }
     
-    if (status_code == 400) {
+    std::multimap< std::string, std::string > responseHeaders {};
+    static const std::vector<std::string> contentTypes{
+        "application/json"
+    };
+    static const std::string acceptTypes{
+    };
     
-        const constexpr auto contentType = "text/plain";
-        returnResponse(session, 400, result.empty() ? "Invalid ID supplied" : result, contentType);
+    if (status_code == 400) {
+        responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
+        result = "Invalid ID supplied";
+    
+        returnResponse(session, 400, result.empty() ? "{}" : result, responseHeaders);
         return;
     }
     if (status_code == 404) {
+        responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
+        result = "Order not found";
     
-        const constexpr auto contentType = "text/plain";
-        returnResponse(session, 404, result.empty() ? "Order not found" : result, contentType);
+        returnResponse(session, 404, result.empty() ? "{}" : result, responseHeaders);
         return;
     }
     defaultSessionClose(session, status_code, result);
 }
 
 // x-extension
-void StoreOrderOrderIdResource::handler_GET_internal(const std::shared_ptr<restbed::Session> session) {
+void StoreOrderOrder_idResource::handler_GET_internal(const std::shared_ptr<restbed::Session> session) {
     const auto request = session->get_request();
     // Getting the path params
-    const int64_t orderId = request->get_path_parameter("orderId", 0L);
+    int64_t orderId = request->get_path_parameter("order_id", 0L);
     
     int status_code = 500;
-    std::shared_ptr<Order> resultObject = std::make_shared<Order>();
+    Order resultObject = Order{};
     std::string result = "";
     
     try {
@@ -195,41 +231,53 @@ void StoreOrderOrderIdResource::handler_GET_internal(const std::shared_ptr<restb
         std::tie(status_code, result) = handleUnspecifiedException();
     }
     
-    if (status_code == 200) {
-        result = resultObject->toJsonString();
+    std::multimap< std::string, std::string > responseHeaders {};
+    static const std::vector<std::string> contentTypes{
+        "application/xml","application/json",
+    };
+    static const std::string acceptTypes{
+    };
     
-        const constexpr auto contentType = "application/json";
-        returnResponse(session, 200, result.empty() ? "successful operation" : result, contentType);
+    if (status_code == 200) {
+        responseHeaders.insert(std::make_pair("Content-Type", selectPreferredContentType(contentTypes)));
+        if (!acceptTypes.empty()) {
+            responseHeaders.insert(std::make_pair("Accept", acceptTypes));
+        }
+    
+        result = resultObject.toJsonString();
+        returnResponse(session, 200, result.empty() ? "{}" : result, responseHeaders);
         return;
     }
     if (status_code == 400) {
+        responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
+        result = "Invalid ID supplied";
     
-        const constexpr auto contentType = "text/plain";
-        returnResponse(session, 400, result.empty() ? "Invalid ID supplied" : result, contentType);
+        returnResponse(session, 400, result.empty() ? "{}" : result, responseHeaders);
         return;
     }
     if (status_code == 404) {
+        responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
+        result = "Order not found";
     
-        const constexpr auto contentType = "text/plain";
-        returnResponse(session, 404, result.empty() ? "Order not found" : result, contentType);
+        returnResponse(session, 404, result.empty() ? "{}" : result, responseHeaders);
         return;
     }
     defaultSessionClose(session, status_code, result);
 }
 
-int StoreOrderOrderIdResource::handler_DELETE(
-        std::string const & orderId)
+int StoreOrderOrder_idResource::handler_DELETE(
+        std::string & orderId)
 {
     return handler_DELETE_func(orderId);
 }
 
-std::pair<int, std::shared_ptr<Order>> StoreOrderOrderIdResource::handler_GET(
-    int64_t const & orderId)
+std::pair<int, Order> StoreOrderOrder_idResource::handler_GET(
+    int64_t & orderId)
 {
     return handler_GET_func(orderId);
 }
 
-std::string StoreOrderOrderIdResource::extractBodyContent(const std::shared_ptr<restbed::Session>& session) {
+std::string StoreOrderOrder_idResource::extractBodyContent(const std::shared_ptr<restbed::Session>& session) {
   const auto request = session->get_request();
   int content_length = request->get_header("Content-Length", 0);
   std::string bodyContent;
@@ -242,7 +290,7 @@ std::string StoreOrderOrderIdResource::extractBodyContent(const std::shared_ptr<
   return bodyContent;
 }
 
-std::string StoreOrderOrderIdResource::extractFormParamsFromBody(const std::string& paramName, const std::string& body) {
+std::string StoreOrderOrder_idResource::extractFormParamsFromBody(const std::string& paramName, const std::string& body) {
     const auto uri = restbed::Uri("urlencoded?" + body, true);
     const auto params = uri.get_query_parameters();
     const auto result = params.find(paramName);
@@ -283,9 +331,10 @@ void StoreInventoryResource::setResponseHeader(const std::shared_ptr<restbed::Se
     session->set_header(header, "");
 }
 
-void StoreInventoryResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, const std::string& contentType)
+void StoreInventoryResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, std::multimap<std::string, std::string>& responseHeaders)
 {
-    session->close(status, result, { {"Connection", "close"}, {"Content-Type", contentType} });
+    responseHeaders.insert(std::make_pair("Connection", "close"));
+    session->close(status, result, responseHeaders);
 }
 
 void StoreInventoryResource::defaultSessionClose(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result)
@@ -315,11 +364,21 @@ void StoreInventoryResource::handler_GET_internal(const std::shared_ptr<restbed:
         std::tie(status_code, result) = handleUnspecifiedException();
     }
     
-    if (status_code == 200) {
-        result = convertMapResponse(resultObject);
+    std::multimap< std::string, std::string > responseHeaders {};
+    static const std::vector<std::string> contentTypes{
+        "application/json",
+    };
+    static const std::string acceptTypes{
+    };
     
-        const constexpr auto contentType = "application/json";
-        returnResponse(session, 200, result.empty() ? "successful operation" : result, contentType);
+    if (status_code == 200) {
+        responseHeaders.insert(std::make_pair("Content-Type", selectPreferredContentType(contentTypes)));
+        if (!acceptTypes.empty()) {
+            responseHeaders.insert(std::make_pair("Accept", acceptTypes));
+        }
+    
+        result = convertMapResponse(resultObject);
+        returnResponse(session, 200, result.empty() ? "{}" : result, responseHeaders);
         return;
     }
     defaultSessionClose(session, status_code, result);
@@ -387,9 +446,10 @@ void StoreOrderResource::setResponseHeader(const std::shared_ptr<restbed::Sessio
     session->set_header(header, "");
 }
 
-void StoreOrderResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, const std::string& contentType)
+void StoreOrderResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, std::multimap<std::string, std::string>& responseHeaders)
 {
-    session->close(status, result, { {"Connection", "close"}, {"Content-Type", contentType} });
+    responseHeaders.insert(std::make_pair("Connection", "close"));
+    session->close(status, result, responseHeaders);
 }
 
 void StoreOrderResource::defaultSessionClose(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result)
@@ -405,7 +465,7 @@ void StoreOrderResource::handler_POST_internal(const std::shared_ptr<restbed::Se
     auto order = extractJsonModelBodyParam<Order>(bodyContent);
     
     int status_code = 500;
-    std::shared_ptr<Order> resultObject = std::make_shared<Order>();
+    Order resultObject = Order{};
     std::string result = "";
     
     try {
@@ -422,25 +482,37 @@ void StoreOrderResource::handler_POST_internal(const std::shared_ptr<restbed::Se
         std::tie(status_code, result) = handleUnspecifiedException();
     }
     
-    if (status_code == 200) {
-        result = resultObject->toJsonString();
+    std::multimap< std::string, std::string > responseHeaders {};
+    static const std::vector<std::string> contentTypes{
+        "application/xml","application/json",
+    };
+    static const std::string acceptTypes{
+        "application/json, "
+    };
     
-        const constexpr auto contentType = "application/json";
-        returnResponse(session, 200, result.empty() ? "successful operation" : result, contentType);
+    if (status_code == 200) {
+        responseHeaders.insert(std::make_pair("Content-Type", selectPreferredContentType(contentTypes)));
+        if (!acceptTypes.empty()) {
+            responseHeaders.insert(std::make_pair("Accept", acceptTypes));
+        }
+    
+        result = resultObject.toJsonString();
+        returnResponse(session, 200, result.empty() ? "{}" : result, responseHeaders);
         return;
     }
     if (status_code == 400) {
+        responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
+        result = "Invalid Order";
     
-        const constexpr auto contentType = "text/plain";
-        returnResponse(session, 400, result.empty() ? "Invalid Order" : result, contentType);
+        returnResponse(session, 400, result.empty() ? "{}" : result, responseHeaders);
         return;
     }
     defaultSessionClose(session, status_code, result);
 }
 
 
-std::pair<int, std::shared_ptr<Order>> StoreOrderResource::handler_POST(
-        std::shared_ptr<Order> const & order)
+std::pair<int, Order> StoreOrderResource::handler_POST(
+        Order & order)
 {
     return handler_POST_func(order);
 }
@@ -478,11 +550,11 @@ StoreApi::StoreApi(std::shared_ptr<restbed::Service> const& restbedService)
 
 StoreApi::~StoreApi() {}
 
-std::shared_ptr<StoreApiResources::StoreOrderOrderIdResource> StoreApi::getStoreOrderOrderIdResource() {
-    if (!m_spStoreOrderOrderIdResource) {
-        setResource(std::make_shared<StoreApiResources::StoreOrderOrderIdResource>());
+std::shared_ptr<StoreApiResources::StoreOrderOrder_idResource> StoreApi::getStoreOrderOrder_idResource() {
+    if (!m_spStoreOrderOrder_idResource) {
+        setResource(std::make_shared<StoreApiResources::StoreOrderOrder_idResource>());
     }
-    return m_spStoreOrderOrderIdResource;
+    return m_spStoreOrderOrder_idResource;
 }
 std::shared_ptr<StoreApiResources::StoreInventoryResource> StoreApi::getStoreInventoryResource() {
     if (!m_spStoreInventoryResource) {
@@ -496,9 +568,9 @@ std::shared_ptr<StoreApiResources::StoreOrderResource> StoreApi::getStoreOrderRe
     }
     return m_spStoreOrderResource;
 }
-void StoreApi::setResource(std::shared_ptr<StoreApiResources::StoreOrderOrderIdResource> resource) {
-    m_spStoreOrderOrderIdResource = resource;
-    m_service->publish(m_spStoreOrderOrderIdResource);
+void StoreApi::setResource(std::shared_ptr<StoreApiResources::StoreOrderOrder_idResource> resource) {
+    m_spStoreOrderOrder_idResource = resource;
+    m_service->publish(m_spStoreOrderOrder_idResource);
 }
 void StoreApi::setResource(std::shared_ptr<StoreApiResources::StoreInventoryResource> resource) {
     m_spStoreInventoryResource = resource;
@@ -508,9 +580,9 @@ void StoreApi::setResource(std::shared_ptr<StoreApiResources::StoreOrderResource
     m_spStoreOrderResource = resource;
     m_service->publish(m_spStoreOrderResource);
 }
-void StoreApi::setStoreApiStoreOrderOrderIdResource(std::shared_ptr<StoreApiResources::StoreOrderOrderIdResource> spStoreOrderOrderIdResource) {
-    m_spStoreOrderOrderIdResource = spStoreOrderOrderIdResource;
-    m_service->publish(m_spStoreOrderOrderIdResource);
+void StoreApi::setStoreApiStoreOrderOrder_idResource(std::shared_ptr<StoreApiResources::StoreOrderOrder_idResource> spStoreOrderOrder_idResource) {
+    m_spStoreOrderOrder_idResource = spStoreOrderOrder_idResource;
+    m_service->publish(m_spStoreOrderOrder_idResource);
 }
 void StoreApi::setStoreApiStoreInventoryResource(std::shared_ptr<StoreApiResources::StoreInventoryResource> spStoreInventoryResource) {
     m_spStoreInventoryResource = spStoreInventoryResource;
@@ -523,8 +595,8 @@ void StoreApi::setStoreApiStoreOrderResource(std::shared_ptr<StoreApiResources::
 
 
 void StoreApi::publishDefaultResources() {
-    if (!m_spStoreOrderOrderIdResource) {
-        setResource(std::make_shared<StoreApiResources::StoreOrderOrderIdResource>());
+    if (!m_spStoreOrderOrder_idResource) {
+        setResource(std::make_shared<StoreApiResources::StoreOrderOrder_idResource>());
     }
     if (!m_spStoreInventoryResource) {
         setResource(std::make_shared<StoreApiResources::StoreInventoryResource>());

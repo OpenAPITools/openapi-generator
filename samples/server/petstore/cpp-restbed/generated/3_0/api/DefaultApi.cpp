@@ -30,6 +30,32 @@ namespace api {
 
 using namespace org::openapitools::server::model;
 
+namespace {
+[[maybe_unused]]
+std::string selectPreferredContentType(const std::vector<std::string>& contentTypes) {
+    if (contentTypes.size() == 0) {
+        return "application/json";
+    }
+
+    if (contentTypes.size() == 1) {
+        return contentTypes.at(0);
+    }
+
+    static const std::array<std::string, 2> preferredTypes = {"json", "xml"};
+    for (const auto& preferredType: preferredTypes) {
+        const auto ret = std::find_if(contentTypes.cbegin(),
+        contentTypes.cend(),
+        [preferredType](const std::string& str) {
+            return str.find(preferredType) != std::string::npos;});
+        if (ret != contentTypes.cend()) {
+            return *ret;
+        }
+    }
+
+    return contentTypes.at(0);
+}
+}
+
 DefaultApiException::DefaultApiException(int status_code, std::string what)
   : m_status(status_code),
     m_what(what)
@@ -47,26 +73,26 @@ const char* DefaultApiException::what() const noexcept
 
 
 template<class MODEL_T>
-std::shared_ptr<MODEL_T> extractJsonModelBodyParam(const std::string& bodyContent)
+MODEL_T extractJsonModelBodyParam(const std::string& bodyContent)
 {
     std::stringstream sstream(bodyContent);
     boost::property_tree::ptree pt;
     boost::property_tree::json_parser::read_json(sstream, pt);
 
-    auto model = std::make_shared<MODEL_T>(pt);
+    auto model = MODEL_T(pt);
     return model;
 }
 
 template<class MODEL_T>
-std::vector<std::shared_ptr<MODEL_T>> extractJsonArrayBodyParam(const std::string& bodyContent)
+std::vector<MODEL_T> extractJsonArrayBodyParam(const std::string& bodyContent)
 {
     std::stringstream sstream(bodyContent);
     boost::property_tree::ptree pt;
     boost::property_tree::json_parser::read_json(sstream, pt);
 
-    auto arrayRet = std::vector<std::shared_ptr<MODEL_T>>();
+    auto arrayRet = std::vector<MODEL_T>();
     for (const auto& child: pt) {
-        arrayRet.emplace_back(std::make_shared<MODEL_T>(child.second));
+        arrayRet.emplace_back(MODEL_T(child.second));
     }
     return arrayRet;
 }
@@ -120,9 +146,10 @@ void FooResource::setResponseHeader(const std::shared_ptr<restbed::Session>& ses
     session->set_header(header, "");
 }
 
-void FooResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, const std::string& contentType)
+void FooResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, std::multimap<std::string, std::string>& responseHeaders)
 {
-    session->close(status, result, { {"Connection", "close"}, {"Content-Type", contentType} });
+    responseHeaders.insert(std::make_pair("Connection", "close"));
+    session->close(status, result, responseHeaders);
 }
 
 void FooResource::defaultSessionClose(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result)
@@ -135,7 +162,7 @@ void FooResource::handler_GET_internal(const std::shared_ptr<restbed::Session> s
     const auto request = session->get_request();
     
     int status_code = 500;
-    std::shared_ptr<_foo_get_default_response> resultObject = std::make_shared<_foo_get_default_response>();
+    _foo_get_default_response resultObject = _foo_get_default_response{};
     std::string result = "";
     
     try {
@@ -152,18 +179,26 @@ void FooResource::handler_GET_internal(const std::shared_ptr<restbed::Session> s
         std::tie(status_code, result) = handleUnspecifiedException();
     }
     
-    if (status_code == 0) {
-        result = resultObject->toJsonString();
+    std::multimap< std::string, std::string > responseHeaders {};
+    static const std::vector<std::string> contentTypes{
+        "application/json",
+    };
+    static const std::string acceptTypes{
+    };
     
-        const constexpr auto contentType = "application/json";
-        returnResponse(session, 0, result.empty() ? "response" : result, contentType);
+    if (status_code == 0) {
+        responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
+        result = "response";
+    
+        result = resultObject.toJsonString();
+        returnResponse(session, 0, result.empty() ? "{}" : result, responseHeaders);
         return;
     }
     defaultSessionClose(session, status_code, result);
 }
 
 
-std::pair<int, std::shared_ptr<_foo_get_default_response>> FooResource::handler_GET(
+std::pair<int, _foo_get_default_response> FooResource::handler_GET(
         )
 {
     return handler_GET_func();

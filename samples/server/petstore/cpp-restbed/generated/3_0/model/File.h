@@ -25,6 +25,7 @@
 #include <memory>
 #include <vector>
 #include <boost/property_tree/ptree.hpp>
+#include "helpers.h"
 
 namespace org {
 namespace openapitools {
@@ -41,9 +42,15 @@ public:
     explicit File(boost::property_tree::ptree const& pt);
     virtual ~File() = default;
 
-    std::string toJsonString(bool prettyJson = false);
+    File(const File& other) = default; // copy constructor
+    File(File&& other) noexcept = default; // move constructor
+
+    File& operator=(const File& other) = default; // copy assignment
+    File& operator=(File&& other) noexcept = default; // move assignment
+
+    std::string toJsonString(bool prettyJson = false) const;
     void fromJsonString(std::string const& jsonString);
-    boost::property_tree::ptree toPropertyTree();
+    boost::property_tree::ptree toPropertyTree() const;
     void fromPropertyTree(boost::property_tree::ptree const& pt);
 
     /////////////////////////////////////////////
@@ -56,21 +63,23 @@ public:
     void setSourceURI(std::string value);
 
 protected:
-    //////////////////////////////////////
-    // Override these for customization //
-    //////////////////////////////////////
-
-    virtual std::string toJsonString_internal(bool prettyJson = false);
-    virtual void fromJsonString_internal(std::string const& jsonString);
-    virtual boost::property_tree::ptree toPropertyTree_internal();
-    virtual void fromPropertyTree_internal(boost::property_tree::ptree const& pt);
-
-
-protected:
     std::string m_SourceURI = "";
+
 };
 
 std::vector<File> createFileVectorFromJsonString(const std::string& json);
+
+template<>
+inline boost::property_tree::ptree toPt<File>(const File& val) {
+    return val.toPropertyTree();
+}
+
+template<>
+inline File fromPt<File>(const boost::property_tree::ptree& pt) {
+    File ret;
+    ret.fromPropertyTree(pt);
+    return ret;
+}
 
 }
 }

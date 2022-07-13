@@ -25,6 +25,7 @@
 #include <memory>
 #include <vector>
 #include <boost/property_tree/ptree.hpp>
+#include "helpers.h"
 
 namespace org {
 namespace openapitools {
@@ -41,9 +42,15 @@ public:
     explicit Client(boost::property_tree::ptree const& pt);
     virtual ~Client() = default;
 
-    std::string toJsonString(bool prettyJson = false);
+    Client(const Client& other) = default; // copy constructor
+    Client(Client&& other) noexcept = default; // move constructor
+
+    Client& operator=(const Client& other) = default; // copy assignment
+    Client& operator=(Client&& other) noexcept = default; // move assignment
+
+    std::string toJsonString(bool prettyJson = false) const;
     void fromJsonString(std::string const& jsonString);
-    boost::property_tree::ptree toPropertyTree();
+    boost::property_tree::ptree toPropertyTree() const;
     void fromPropertyTree(boost::property_tree::ptree const& pt);
 
     /////////////////////////////////////////////
@@ -56,21 +63,23 @@ public:
     void setClient(std::string value);
 
 protected:
-    //////////////////////////////////////
-    // Override these for customization //
-    //////////////////////////////////////
-
-    virtual std::string toJsonString_internal(bool prettyJson = false);
-    virtual void fromJsonString_internal(std::string const& jsonString);
-    virtual boost::property_tree::ptree toPropertyTree_internal();
-    virtual void fromPropertyTree_internal(boost::property_tree::ptree const& pt);
-
-
-protected:
     std::string m_Client = "";
+
 };
 
 std::vector<Client> createClientVectorFromJsonString(const std::string& json);
+
+template<>
+inline boost::property_tree::ptree toPt<Client>(const Client& val) {
+    return val.toPropertyTree();
+}
+
+template<>
+inline Client fromPt<Client>(const boost::property_tree::ptree& pt) {
+    Client ret;
+    ret.fromPropertyTree(pt);
+    return ret;
+}
 
 }
 }

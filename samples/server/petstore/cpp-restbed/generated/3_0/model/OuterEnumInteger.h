@@ -24,6 +24,7 @@
 #include <memory>
 #include <vector>
 #include <boost/property_tree/ptree.hpp>
+#include "helpers.h"
 
 namespace org {
 namespace openapitools {
@@ -40,29 +41,36 @@ public:
     explicit OuterEnumInteger(boost::property_tree::ptree const& pt);
     virtual ~OuterEnumInteger() = default;
 
-    std::string toJsonString(bool prettyJson = false);
+    OuterEnumInteger(const OuterEnumInteger& other) = default; // copy constructor
+    OuterEnumInteger(OuterEnumInteger&& other) noexcept = default; // move constructor
+
+    OuterEnumInteger& operator=(const OuterEnumInteger& other) = default; // copy assignment
+    OuterEnumInteger& operator=(OuterEnumInteger&& other) noexcept = default; // move assignment
+
+    std::string toJsonString(bool prettyJson = false) const;
     void fromJsonString(std::string const& jsonString);
-    boost::property_tree::ptree toPropertyTree();
+    boost::property_tree::ptree toPropertyTree() const;
     void fromPropertyTree(boost::property_tree::ptree const& pt);
 
     /////////////////////////////////////////////
     /// OuterEnumInteger members
 
 protected:
-    //////////////////////////////////////
-    // Override these for customization //
-    //////////////////////////////////////
-
-    virtual std::string toJsonString_internal(bool prettyJson = false);
-    virtual void fromJsonString_internal(std::string const& jsonString);
-    virtual boost::property_tree::ptree toPropertyTree_internal();
-    virtual void fromPropertyTree_internal(boost::property_tree::ptree const& pt);
-
-
-protected:
 };
 
 std::vector<OuterEnumInteger> createOuterEnumIntegerVectorFromJsonString(const std::string& json);
+
+template<>
+inline boost::property_tree::ptree toPt<OuterEnumInteger>(const OuterEnumInteger& val) {
+    return val.toPropertyTree();
+}
+
+template<>
+inline OuterEnumInteger fromPt<OuterEnumInteger>(const boost::property_tree::ptree& pt) {
+    OuterEnumInteger ret;
+    ret.fromPropertyTree(pt);
+    return ret;
+}
 
 }
 }

@@ -3,6 +3,7 @@ package org.openapitools.codegen.cpprestbed;
 import org.jetbrains.annotations.NotNull;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.languages.CppRestbedServerCodegen;
+import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
@@ -60,7 +61,7 @@ public class CppRestbedServerTest {
         List<CodegenOperation> operationsList = new ArrayList<>();
         operationsList.add(op);
 
-        Map<String, Object> operations = new HashMap<>();
+        OperationMap operations = new OperationMap();
         operations.put("operation", operationsList);
 
         OperationsMap objs = new OperationsMap();

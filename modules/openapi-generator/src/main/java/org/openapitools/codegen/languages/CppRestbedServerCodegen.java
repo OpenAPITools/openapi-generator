@@ -98,6 +98,7 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+        supportingFiles.add(new SupportingFile("model-helpers-header.mustache", modelFileFolder(), "helpers.h"));
 
         languageSpecificPrimitives = new HashSet<>(
                 Arrays.asList("int", "char", "bool", "long", "float", "double", "int32_t", "int64_t"));
@@ -113,7 +114,7 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
         typeMapping.put("map", "std::map");
         typeMapping.put("set", "std::set");
         typeMapping.put("file", "std::string");
-        typeMapping.put("object", "Object");
+        typeMapping.put("object", "std::string");
         typeMapping.put("binary", "restbed::Bytes");
         typeMapping.put("number", "double");
         typeMapping.put("decimal", "std::string");
@@ -127,7 +128,6 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
         importMapping.put("std::set", "#include <set>");
         importMapping.put("file", "#include <string>");
         importMapping.put("std::string", "#include <string>");
-        importMapping.put("Object", "#include \"Object.h\"");
         importMapping.put("restbed::Bytes", "#include <corvusoft/restbed/byte.hpp>");
     }
 
@@ -207,6 +207,11 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
     @Override
     public String getHelp() {
         return "Generates a C++ API Server with Restbed (https://github.com/Corvusoft/restbed).";
+    }
+
+    @Override
+    public String getTypeDeclaration(String str) {
+        return toModelName(str);
     }
 
     @Override
@@ -389,7 +394,7 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
             return toModelName(openAPIType);
         }
 
-        return "std::shared_ptr<" + openAPIType + ">";
+        return openAPIType;
     }
 
     @Override
@@ -420,9 +425,9 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
             }
         } else if (ModelUtils.isFileSchema(p)) {
             if (p.getDefault() != null) {
-                return "std::make_shared<std::string>(" + "\"" + p.getDefault().toString() + "\"" + ")";
+                return p.getDefault().toString();
             } else {
-                return "std::make_shared<std::string>()";
+                return "std::string{}";
             }
         } else if (ModelUtils.isNumberSchema(p)) {
             if (ModelUtils.isFloatSchema(p)) { // float
@@ -464,19 +469,16 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
         } else if (ModelUtils.isSet(p)) {
             ArraySchema ap = (ArraySchema) p;
             String inner = getSchemaType(ap.getItems());
-            if (!languageSpecificPrimitives.contains(inner)) {
-                inner = "std::shared_ptr<" + inner + ">";
-            }
             return "std::set<" + inner + ">()";
         } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             String inner = getSchemaType(ap.getItems());
-            if (!languageSpecificPrimitives.contains(inner)) {
-                inner = "std::shared_ptr<" + inner + ">";
-            }
             return "std::vector<" + inner + ">()";
+        } else if (ModelUtils.isModel(p)) {
+            String modelName = getTypeDeclaration(p);
+            return modelName + "{}";
         } else if (!StringUtils.isEmpty(p.get$ref())) {
-            return "std::make_shared<" + toModelName(ModelUtils.getSimpleRef(p.get$ref())) + ">()";
+            return toModelName(ModelUtils.getSimpleRef(p.get$ref())) + "{}";
         }
 
         return "nullptr";
@@ -489,11 +491,9 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
         boolean isPrimitiveType = parameter.isPrimitiveType == Boolean.TRUE;
         boolean isArray = parameter.isArray == Boolean.TRUE;
         boolean isString = parameter.isString == Boolean.TRUE;
-        boolean isEnum = parameter.isEnum == Boolean.TRUE;
 
         if (!isPrimitiveType && !isArray && !isString && !parameter.dataType.startsWith("std::shared_ptr")) {
-            parameter.defaultValue = "std::make_shared<" + parameter.dataType + ">()";
-            parameter.dataType = "std::shared_ptr<" + parameter.dataType + ">";
+            parameter.defaultValue =  parameter.dataType + "{}";
         }
     }
 

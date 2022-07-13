@@ -72,9 +72,9 @@ public:
     /////////////////////////////////////////////////////
     // Set these to implement the server functionality //
     /////////////////////////////////////////////////////
-    std::function<std::pair<int, std::shared_ptr<Client>>(
-        std::shared_ptr<Client> const & client)> handler_PATCH_func =
-            [](std::shared_ptr<Client> const &) -> std::pair<int, std::shared_ptr<Client>>
+    std::function<std::pair<int, Client>(
+        Client & client)> handler_PATCH_func =
+            [](Client &) -> std::pair<int, Client>
                 { throw FakeClassnameTags123ApiException(501, "Not implemented"); };
 
 
@@ -84,8 +84,8 @@ protected:
     // override these to implement the server functionality //
     //////////////////////////////////////////////////////////
 
-    virtual std::pair<int, std::shared_ptr<Client>> handler_PATCH(
-        std::shared_ptr<Client> const & client);
+    virtual std::pair<int, Client> handler_PATCH(
+        Client & client);
 
 
 protected:
@@ -104,7 +104,7 @@ protected:
         const std::string& header);
 
     virtual void returnResponse(const std::shared_ptr<restbed::Session>& session,
-        const int status, const std::string& result, const std::string& contentType);
+        const int status, const std::string& result, std::multimap<std::string, std::string>& contentType);
     virtual void defaultSessionClose(const std::shared_ptr<restbed::Session>& session,
         const int status, const std::string& result);
 
