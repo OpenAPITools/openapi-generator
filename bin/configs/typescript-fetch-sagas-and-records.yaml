@@ -8,7 +8,6 @@ additionalProperties:
   npmRepository: https://skimdb.npmjs.com/registry
   useSingleRequestParameter: false
   supportsES6: true
-  typescriptThreePlus: true
   sagasAndRecords: true
   detectPassthroughModelsWithSuffixAndField: 'Response.data'
   inferUniqueIdFromNameSuffix: true

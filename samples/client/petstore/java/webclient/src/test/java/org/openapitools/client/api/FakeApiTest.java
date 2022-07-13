@@ -20,6 +20,7 @@ import org.openapitools.client.model.FileSchemaTestClass;
 import org.openapitools.client.model.HealthCheckResult;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
+import org.openapitools.client.model.EnumClass;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.OuterObjectWithEnumProperty;
 import org.openapitools.client.model.Pet;
@@ -223,12 +224,13 @@ public class FakeApiTest {
         List<String> enumHeaderStringArray = null;
         String enumHeaderString = null;
         List<String> enumQueryStringArray = null;
+        List<EnumClass> enumQueryModelArray = null;
         String enumQueryString = null;
         Integer enumQueryInteger = null;
         Double enumQueryDouble = null;
         List<String> enumFormStringArray = null;
         String enumFormString = null;
-        api.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString).block();
+        api.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString).block();
 
         // TODO: test validations
     }

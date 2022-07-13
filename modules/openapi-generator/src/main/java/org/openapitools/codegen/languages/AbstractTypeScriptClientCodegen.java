@@ -430,11 +430,11 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
             Schema<?> items = getSchemaItems((ArraySchema) p);
-            return getSchemaType(p) + "<" + getTypeDeclaration(ModelUtils.unaliasSchema(this.openAPI, items)) + ">";
+            return getSchemaType(p) + "<" + getTypeDeclaration(ModelUtils.unaliasSchema(this.openAPI, items, schemaMapping)) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema<?> inner = getSchemaAdditionalProperties(p);
             String nullSafeSuffix = getNullSafeAdditionalProps() ? " | undefined" : "";
-            return "{ [key: string]: " + getTypeDeclaration(ModelUtils.unaliasSchema(this.openAPI, inner)) + nullSafeSuffix  + "; }";
+            return "{ [key: string]: " + getTypeDeclaration(ModelUtils.unaliasSchema(this.openAPI, inner, schemaMapping)) + nullSafeSuffix  + "; }";
         } else if (ModelUtils.isFileSchema(p)) {
             return "any";
         } else if (ModelUtils.isBinarySchema(p)) {

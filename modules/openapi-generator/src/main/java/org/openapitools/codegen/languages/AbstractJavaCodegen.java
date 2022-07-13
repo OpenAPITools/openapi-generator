@@ -38,6 +38,8 @@ import org.openapitools.codegen.languages.features.DocumentationProviderFeatures
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -822,6 +824,12 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     @Override
     public String toModelName(final String name) {
+        // We need to check if schema-mapping has a different model for this class, so we use it
+        // instead of the auto-generated one.
+        if (schemaMapping.containsKey(name)) {
+            return schemaMapping.get(name);
+        }
+
         final String sanitizedName = sanitizeName(name);
 
         String nameWithPrefixSuffix = sanitizedName;
@@ -865,7 +873,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     @Override
     public String getTypeDeclaration(Schema p) {
-        Schema<?> schema = ModelUtils.unaliasSchema(this.openAPI, p, importMapping);
+        Schema<?> schema = ModelUtils.unaliasSchema(this.openAPI, p, schemaMapping);
         Schema<?> target = ModelUtils.isGenerateAliasAsModel() ? p : schema;
         if (ModelUtils.isArraySchema(target)) {
             Schema<?> items = getSchemaItems((ArraySchema) schema);
@@ -1328,6 +1336,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         if (property.isReadOnly) {
             model.getVendorExtensions().put("x-has-readonly-properties", true);
         }
+
+        // if data type happens to be the same as the property name and both are upper case
+        if (property.dataType != null && property.dataType.equals(property.name) && property.dataType.toUpperCase(Locale.ROOT).equals(property.name)) {
+            property.name = property.name.toLowerCase(Locale.ROOT);
+        }
     }
 
     @Override
@@ -1362,10 +1375,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<ModelMap> allModels) {
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         // Remove imports of List, ArrayList, Map and HashMap as they are
         // imported in the template already.
-        List<Map<String, String>> imports = (List<Map<String, String>>) objs.get("imports");
+        List<Map<String, String>> imports = objs.getImports();
         Pattern pattern = Pattern.compile("java\\.util\\.(List|ArrayList|Map|HashMap)");
         for (Iterator<Map<String, String>> itr = imports.iterator(); itr.hasNext(); ) {
             String itrImport = itr.next().get("import");
@@ -1374,8 +1387,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             }
         }
 
-        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
-        List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
+        OperationMap operations = objs.getOperations();
+        List<CodegenOperation> operationList = operations.getOperation();
         for (CodegenOperation op : operationList) {
             Collection<String> operationImports = new ConcurrentSkipListSet<>();
             for (CodegenParameter p : op.allParams) {
@@ -2038,6 +2051,22 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             codegenModel.additionalPropertiesType = getSchemaType(s);
             addImport(codegenModel, codegenModel.additionalPropertiesType);
         }
+    }
+
+    /**
+     * Search for property by {@link CodegenProperty#name}
+     * @param name - name to search for
+     * @param properties - list of properties
+     * @return either found property or {@link Optional#empty()} if nothing has been found
+     */
+    protected Optional<CodegenProperty> findByName(String name, List<CodegenProperty> properties) {
+        if (properties == null || properties.isEmpty()) {
+            return Optional.empty();
+        }
+
+        return properties.stream()
+            .filter(p -> p.name.equals(name))
+            .findFirst();
     }
 
     /**

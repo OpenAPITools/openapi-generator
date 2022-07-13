@@ -57,7 +57,7 @@ defmodule OpenapiPetstore.Api.Pet do
   @spec delete_pet(Tesla.Env.client, integer(), keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
   def delete_pet(connection, pet_id, opts \\ []) do
     optional_params = %{
-      :"api_key" => :headers
+      :api_key => :headers
     }
     %{}
     |> method(:delete)
@@ -90,7 +90,7 @@ defmodule OpenapiPetstore.Api.Pet do
     %{}
     |> method(:get)
     |> url("/pet/findByStatus")
-    |> add_param(:query, :"status", status)
+    |> add_param(:query, :status, status)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
@@ -118,7 +118,7 @@ defmodule OpenapiPetstore.Api.Pet do
     %{}
     |> method(:get)
     |> url("/pet/findByTags")
-    |> add_param(:query, :"tags", tags)
+    |> add_param(:query, :tags, tags)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
@@ -204,8 +204,8 @@ defmodule OpenapiPetstore.Api.Pet do
   @spec update_pet_with_form(Tesla.Env.client, integer(), keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
   def update_pet_with_form(connection, pet_id, opts \\ []) do
     optional_params = %{
-      :"name" => :form,
-      :"status" => :form
+      :name => :form,
+      :status => :form
     }
     %{}
     |> method(:post)
@@ -239,8 +239,8 @@ defmodule OpenapiPetstore.Api.Pet do
   @spec upload_file(Tesla.Env.client, integer(), keyword()) :: {:ok, OpenapiPetstore.Model.ApiResponse.t} | {:error, Tesla.Env.t}
   def upload_file(connection, pet_id, opts \\ []) do
     optional_params = %{
-      :"additionalMetadata" => :form,
-      :"file" => :form
+      :additionalMetadata => :form,
+      :file => :form
     }
     %{}
     |> method(:post)
@@ -273,12 +273,12 @@ defmodule OpenapiPetstore.Api.Pet do
   @spec upload_file_with_required_file(Tesla.Env.client, integer(), String.t, keyword()) :: {:ok, OpenapiPetstore.Model.ApiResponse.t} | {:error, Tesla.Env.t}
   def upload_file_with_required_file(connection, pet_id, required_file, opts \\ []) do
     optional_params = %{
-      :"additionalMetadata" => :form
+      :additionalMetadata => :form
     }
     %{}
     |> method(:post)
     |> url("/fake/#{pet_id}/uploadImageWithRequiredFile")
-    |> add_param(:file, :"requiredFile", required_file)
+    |> add_param(:file, :requiredFile, required_file)
     |> add_optional_params(optional_params, opts)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()

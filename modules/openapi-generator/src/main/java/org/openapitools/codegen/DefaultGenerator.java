@@ -44,8 +44,11 @@ import org.openapitools.codegen.languages.PythonClientCodegen;
 import org.openapitools.codegen.languages.PythonExperimentalClientCodegen;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
+import org.openapitools.codegen.model.ApiInfoMap;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.serializer.SerializerUtils;
 import org.openapitools.codegen.templating.CommonTemplateContentLocator;
 import org.openapitools.codegen.templating.GeneratorTemplateContentLocator;
@@ -438,6 +441,19 @@ public class DefaultGenerator implements Generator {
         // process models only
         for (String name : modelKeys) {
             try {
+                //don't generate models that have an import mapping
+                if (config.schemaMapping().containsKey(name)) {
+                    LOGGER.debug("Model {} not imported due to import mapping", name);
+
+                    for (String templateName : config.modelTemplateFiles().keySet()) {
+                        // HACK: Because this returns early, could lead to some invalid model reporting.
+                        String filename = config.modelFilename(templateName, name);
+                        Path path = java.nio.file.Paths.get(filename);
+                        this.templateProcessor.skip(path,"Skipped prior to model processing due to schema mapping." );
+                    }
+                    continue;
+                }
+
                 // don't generate models that are not used as object (e.g. form parameters)
                 if (unusedModels.contains(name)) {
                     if (Boolean.FALSE.equals(skipFormModel)) {
@@ -461,7 +477,7 @@ public class DefaultGenerator implements Generator {
                     // generators may choose to make models for use case 2 + 3
                     Schema refSchema = new Schema();
                     refSchema.set$ref("#/components/schemas/" + name);
-                    Schema unaliasedSchema = config.unaliasSchema(refSchema, config.importMapping());
+                    Schema unaliasedSchema = config.unaliasSchema(refSchema, config.schemaMapping());
                     if (unaliasedSchema.get$ref() == null) {
                         LOGGER.info("Model {} not generated since it's a free-form object", name);
                         continue;
@@ -505,6 +521,11 @@ public class DefaultGenerator implements Generator {
             ModelsMap models = allProcessedModels.get(modelName);
             models.put("modelPackage", config.modelPackage());
             try {
+                //don't generate models that have a schema mapping
+                if (config.schemaMapping().containsKey(modelName)) {
+                    continue;
+                }
+
                 // TODO revise below as we've already performed unaliasing so that the isAlias check may be removed
                 List<ModelMap> modelList = models.getModels();
                 if (modelList != null && !modelList.isEmpty()) {
@@ -541,7 +562,7 @@ public class DefaultGenerator implements Generator {
     }
 
     @SuppressWarnings("unchecked")
-    void generateApis(List<File> files, List<Object> allOperations, List<ModelMap> allModels) {
+    void generateApis(List<File> files, List<OperationsMap> allOperations, List<ModelMap> allModels) {
         if (!generateApis) {
             // TODO: Process these anyway and present info via dryRun?
             LOGGER.info("Skipping generation of APIs.");
@@ -566,7 +587,7 @@ public class DefaultGenerator implements Generator {
             try {
                 List<CodegenOperation> ops = paths.get(tag);
                 ops.sort((one, another) -> ObjectUtils.compare(one.operationId, another.operationId));
-                Map<String, Object> operation = processOperations(config, tag, ops, allModels);
+                OperationsMap operation = processOperations(config, tag, ops, allModels);
                 URL url = URLPathUtils.getServerURL(openAPI, config.serverVariableOverrides());
                 operation.put("basePath", basePath);
                 operation.put("basePathWithoutHost", removeTrailingSlash(config.encodePath(url.getPath())));
@@ -595,9 +616,8 @@ public class DefaultGenerator implements Generator {
                 if (config.vendorExtensions().containsKey("x-group-parameters")) {
                     boolean isGroupParameters = Boolean.parseBoolean(config.vendorExtensions().get("x-group-parameters").toString());
 
-                    Map<String, Object> objectMap = (Map<String, Object>) operation.get("operations");
-                    @SuppressWarnings("unchecked")
-                    List<CodegenOperation> operations = (List<CodegenOperation>) objectMap.get("operation");
+                    OperationMap objectMap = operation.getOperations();
+                    List<CodegenOperation> operations = objectMap.getOperation();
                     for (CodegenOperation op : operations) {
                         if (isGroupParameters && !op.vendorExtensions.containsKey("x-group-parameters")) {
                             op.vendorExtensions.put("x-group-parameters", Boolean.TRUE);
@@ -617,7 +637,7 @@ public class DefaultGenerator implements Generator {
                 processMimeTypes(swagger.getProduces(), operation, "produces");
                 */
 
-                allOperations.add(new HashMap<>(operation));
+                allOperations.add(operation);
 
                 addAuthenticationSwitches(operation);
 
@@ -746,14 +766,13 @@ public class DefaultGenerator implements Generator {
         generateVersionMetadata(files);
     }
 
-    @SuppressWarnings("unchecked")
-    Map<String, Object> buildSupportFileBundle(List<Object> allOperations, List<ModelMap> allModels) {
+    Map<String, Object> buildSupportFileBundle(List<OperationsMap> allOperations, List<ModelMap> allModels) {
 
         Map<String, Object> bundle = new HashMap<>(config.additionalProperties());
         bundle.put("apiPackage", config.apiPackage());
 
-        Map<String, Object> apis = new HashMap<>();
-        apis.put("apis", allOperations);
+        ApiInfoMap apis = new ApiInfoMap();
+        apis.setApis(allOperations);
 
         URL url = URLPathUtils.getServerURL(openAPI, config.serverVariableOverrides());
 
@@ -871,8 +890,12 @@ public class DefaultGenerator implements Generator {
         }
 
         // resolve inline models
-        InlineModelResolver inlineModelResolver = new InlineModelResolver();
-        inlineModelResolver.flatten(openAPI);
+        if (config.getUseInlineModelResolver()) {
+            InlineModelResolver inlineModelResolver = new InlineModelResolver();
+            inlineModelResolver.setInlineSchemaNameMapping(config.inlineSchemaNameMapping());
+            inlineModelResolver.setInlineSchemaNameDefaults(config.inlineSchemaNameDefault());
+            inlineModelResolver.flatten(openAPI);
+        }
 
         configureGeneratorProperties();
         configureOpenAPIInfo();
@@ -887,7 +910,7 @@ public class DefaultGenerator implements Generator {
         List<ModelMap> allModels = new ArrayList<>();
         generateModels(files, allModels, filteredSchemas);
         // apis
-        List<Object> allOperations = new ArrayList<>();
+        List<OperationsMap> allOperations = new ArrayList<>();
         generateApis(files, allOperations, allModels);
 
         // supporting files
@@ -1170,11 +1193,11 @@ public class DefaultGenerator implements Generator {
         return parameter.getName() + ":" + parameter.getIn();
     }
 
-    private Map<String, Object> processOperations(CodegenConfig config, String tag, List<CodegenOperation> ops, List<ModelMap> allModels) {
-        Map<String, Object> operations = new HashMap<>();
-        Map<String, Object> objs = new HashMap<>();
-        objs.put("classname", config.toApiName(tag));
-        objs.put("pathPrefix", config.toApiVarName(tag));
+    private OperationsMap processOperations(CodegenConfig config, String tag, List<CodegenOperation> ops, List<ModelMap> allModels) {
+        OperationsMap operations = new OperationsMap();
+        OperationMap objs = new OperationMap();
+        objs.setClassname(config.toApiName(tag));
+        objs.setPathPrefix(config.toApiVarName(tag));
 
         // check for operationId uniqueness
         Set<String> opIds = new HashSet<>();
@@ -1187,9 +1210,9 @@ public class DefaultGenerator implements Generator {
             }
             opIds.add(opId);
         }
-        objs.put("operation", ops);
+        objs.setOperation(ops);
 
-        operations.put("operations", objs);
+        operations.setOperation(objs);
         operations.put("package", config.apiPackage());
 
         Set<String> allImports = new ConcurrentSkipListSet<>();
@@ -1201,10 +1224,10 @@ public class DefaultGenerator implements Generator {
         Set<Map<String, String>> imports = toImportsObjects(mappings);
 
         //Some codegen implementations rely on a list interface for the imports
-        operations.put("imports", imports.stream().collect(Collectors.toList()));
+        operations.setImports(new ArrayList<>(imports));
 
         // add a flag to indicate whether there's any {{import}}
-        if (imports.size() > 0) {
+        if (!imports.isEmpty()) {
             operations.put("hasImport", true);
         }
 
@@ -1239,18 +1262,14 @@ public class DefaultGenerator implements Generator {
      * @return The set of unique imports
      */
     private Set<Map<String, String>> toImportsObjects(Map<String, String> mappedImports) {
-        Set<Map<String, String>> result = new TreeSet<Map<String, String>>(
-                (Comparator<Map<String, String>>) (o1, o2) -> {
-                    String s1 = o1.get("classname");
-                    String s2 = o2.get("classname");
-                    return s1.compareTo(s2);
-                }
+        Set<Map<String, String>> result = new TreeSet<>(
+            Comparator.comparing(o -> o.get("classname"))
         );
 
-        mappedImports.entrySet().forEach(mapping -> {
+        mappedImports.forEach((key, value) -> {
             Map<String, String> im = new LinkedHashMap<>();
-            im.put("import", mapping.getKey());
-            im.put("classname", mapping.getValue());
+            im.put("import", key);
+            im.put("classname", value);
             result.add(im);
         });
         return result;

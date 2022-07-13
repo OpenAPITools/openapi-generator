@@ -408,12 +408,27 @@ public class PetWithRequiredTags {
       if (jsonObj.getAsJsonObject("category") != null) {
         Category.validateJsonObject(jsonObj.getAsJsonObject("category"));
       }
+      if (jsonObj.get("name") != null && !jsonObj.get("name").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `name` to be a primitive type in the JSON string but got `%s`", jsonObj.get("name").toString()));
+      }
+      // ensure the json data is an array
+      if (jsonObj.get("photoUrls") != null && !jsonObj.get("photoUrls").isJsonArray()) {
+        throw new IllegalArgumentException(String.format("Expected the field `photoUrls` to be an array in the JSON string but got `%s`", jsonObj.get("photoUrls").toString()));
+      }
       JsonArray jsonArraytags = jsonObj.getAsJsonArray("tags");
-      // validate the optional field `tags` (array)
       if (jsonArraytags != null) {
+        // ensure the json data is an array
+        if (!jsonObj.get("tags").isJsonArray()) {
+          throw new IllegalArgumentException(String.format("Expected the field `tags` to be an array in the JSON string but got `%s`", jsonObj.get("tags").toString()));
+        }
+
+        // validate the optional field `tags` (array)
         for (int i = 0; i < jsonArraytags.size(); i++) {
           Tag.validateJsonObject(jsonArraytags.get(i).getAsJsonObject());
         };
+      }
+      if (jsonObj.get("status") != null && !jsonObj.get("status").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `status` to be a primitive type in the JSON string but got `%s`", jsonObj.get("status").toString()));
       }
   }
 

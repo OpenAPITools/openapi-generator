@@ -21,8 +21,10 @@ add_library(${PROJECT_NAME}
     PFXOrder.cpp
     PFXPet.cpp
     PFXTag.cpp
+    PFXTestAnyType.cpp
     PFXUser.cpp
     PFXPetApi.cpp
+    PFXPrimitivesApi.cpp
     PFXStoreApi.cpp
     PFXUserApi.cpp
     PFXHelpers.cpp
@@ -32,6 +34,7 @@ add_library(${PROJECT_NAME}
 )
 target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Core Qt5::Network Qt5::Gui)
 if(NOT APPLE)
+  find_package(OpenSSL REQUIRED)
   target_link_libraries(${PROJECT_NAME} PRIVATE ssl crypto)
 endif()
 

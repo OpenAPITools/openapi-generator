@@ -175,14 +175,8 @@ public class AnotherFakeApi {
      */
     public ApiResponse<Client> call123testSpecialTagsWithHttpInfo(Client client) throws ApiException {
         okhttp3.Call localVarCall = call123testSpecialTagsValidateBeforeCall(client, null);
-        try {
-            Type localVarReturnType = new TypeToken<Client>(){}.getType();
-            return localVarApiClient.execute(localVarCall, localVarReturnType);
-        } catch (ApiException e) {
-            e.setErrorObject(localVarApiClient.getJSON().getGson().fromJson(e.getResponseBody(), new TypeToken<Client>(){}.getType()));
-            e.setErrorObjectType(new GenericType<Client>(){});
-            throw e;
-        }
+        Type localVarReturnType = new TypeToken<Client>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**

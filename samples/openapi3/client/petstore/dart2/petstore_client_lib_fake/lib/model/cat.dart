@@ -47,13 +47,15 @@ class Cat {
   String toString() => 'Cat[className=$className, color=$color, declawed=$declawed]';
 
   Map<String, dynamic> toJson() {
-    final json = <String, dynamic>{};
-      json[r'className'] = className;
-      json[r'color'] = color;
+    final _json = <String, dynamic>{};
+      _json[r'className'] = className;
+      _json[r'color'] = color;
     if (declawed != null) {
-      json[r'declawed'] = declawed;
+      _json[r'declawed'] = declawed;
+    } else {
+      _json[r'declawed'] = null;
     }
-    return json;
+    return _json;
   }
 
   /// Returns a new [Cat] instance and imports its values from

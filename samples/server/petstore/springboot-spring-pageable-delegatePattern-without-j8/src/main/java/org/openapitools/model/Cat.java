@@ -10,7 +10,6 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.model.Animal;
-import org.openapitools.model.CatAllOf;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -48,6 +47,16 @@ public class Cat extends Animal {
 
   public void setDeclawed(Boolean declawed) {
     this.declawed = declawed;
+  }
+
+  public Cat className(String className) {
+    super.setClassName(className);
+    return this;
+  }
+
+  public Cat color(String color) {
+    super.setColor(color);
+    return this;
   }
 
   @Override

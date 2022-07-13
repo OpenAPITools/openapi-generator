@@ -85,7 +85,7 @@ private:
     /// 
     /// </remarks>
     /// <param name="body">List of user object</param>
-    virtual void create_users_with_array_input(const std::vector<User> &body, Pistache::Http::ResponseWriter &response) = 0;
+    virtual void create_users_with_array_input(const std::vector<org::openapitools::server::model::User> &body, Pistache::Http::ResponseWriter &response) = 0;
     /// <summary>
     /// Creates list of users with given input array
     /// </summary>
@@ -93,7 +93,7 @@ private:
     /// 
     /// </remarks>
     /// <param name="body">List of user object</param>
-    virtual void create_users_with_list_input(const std::vector<User> &body, Pistache::Http::ResponseWriter &response) = 0;
+    virtual void create_users_with_list_input(const std::vector<org::openapitools::server::model::User> &body, Pistache::Http::ResponseWriter &response) = 0;
     /// <summary>
     /// Delete user
     /// </summary>

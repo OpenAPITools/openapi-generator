@@ -1,0 +1,73 @@
+[
+    {
+        "description": "validation of URI References",
+        "schema": { "format": "uri-reference" },
+        "tests": [
+            {
+                "description": "all string formats ignore integers",
+                "data": 12,
+                "valid": true
+            },
+            {
+                "description": "all string formats ignore floats",
+                "data": 13.7,
+                "valid": true
+            },
+            {
+                "description": "all string formats ignore objects",
+                "data": {},
+                "valid": true
+            },
+            {
+                "description": "all string formats ignore arrays",
+                "data": [],
+                "valid": true
+            },
+            {
+                "description": "all string formats ignore booleans",
+                "data": false,
+                "valid": true
+            },
+            {
+                "description": "all string formats ignore nulls",
+                "data": null,
+                "valid": true
+            },
+            {
+                "description": "a valid URI",
+                "data": "http://foo.bar/?baz=qux#quux",
+                "valid": true
+            },
+            {
+                "description": "a valid protocol-relative URI Reference",
+                "data": "//foo.bar/?baz=qux#quux",
+                "valid": true
+            },
+            {
+                "description": "a valid relative URI Reference",
+                "data": "/abc",
+                "valid": true
+            },
+            {
+                "description": "an invalid URI Reference",
+                "data": "\\\\WINDOWS\\fileshare",
+                "valid": false
+            },
+            {
+                "description": "a valid URI Reference",
+                "data": "abc",
+                "valid": true
+            },
+            {
+                "description": "a valid URI fragment",
+                "data": "#fragment",
+                "valid": true
+            },
+            {
+                "description": "an invalid URI fragment",
+                "data": "#frag\\ment",
+                "valid": false
+            }
+        ]
+    }
+]

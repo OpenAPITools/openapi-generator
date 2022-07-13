@@ -15,8 +15,6 @@ package org.openapitools.model;
 import java.util.Objects;
 import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.*;
 
 import javax.validation.constraints.*;
@@ -49,16 +47,15 @@ public class ModelList {
      * @return _123list
      **/
     @Nullable
-    @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_123LIST)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public String get123list() {
+    public String get123list() {
         return _123list;
     }
 
     @JsonProperty(JSON_PROPERTY_123LIST)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public void set123list(String _123list) {
+    public void set123list(String _123list) {
         this._123list = _123list;
     }
 

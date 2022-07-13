@@ -18,10 +18,10 @@
  * @export
  */
 export const StringEnum = {
-    One: 'one' as 'one',
-    Two: 'two' as 'two',
-    Three: 'three' as 'three'
-};
+    One: 'one',
+    Two: 'two',
+    Three: 'three'
+} as const;
 export type StringEnum = typeof StringEnum[keyof typeof StringEnum];
 
 

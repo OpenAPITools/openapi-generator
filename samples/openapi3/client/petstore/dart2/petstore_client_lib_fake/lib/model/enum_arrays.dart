@@ -36,12 +36,14 @@ class EnumArrays {
   String toString() => 'EnumArrays[justSymbol=$justSymbol, arrayEnum=$arrayEnum]';
 
   Map<String, dynamic> toJson() {
-    final json = <String, dynamic>{};
+    final _json = <String, dynamic>{};
     if (justSymbol != null) {
-      json[r'just_symbol'] = justSymbol;
+      _json[r'just_symbol'] = justSymbol;
+    } else {
+      _json[r'just_symbol'] = null;
     }
-      json[r'array_enum'] = arrayEnum;
-    return json;
+      _json[r'array_enum'] = arrayEnum;
+    return _json;
   }
 
   /// Returns a new [EnumArrays] instance and imports its values from

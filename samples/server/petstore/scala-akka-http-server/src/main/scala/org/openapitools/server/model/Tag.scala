@@ -10,7 +10,7 @@ package org.openapitools.server.model
  * @param name  for example: ''null''
 */
 final case class Tag (
-  id: Option[Long],
-  name: Option[String]
+  id: Option[Long] = None,
+  name: Option[String] = None
 )
 

@@ -2,14 +2,13 @@
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
 
-Method | HTTP request | Description
-------------- | ------------- | -------------
-[**FooGet**](DefaultApi.md#fooget) | **GET** /foo | 
-
+| Method | HTTP request | Description |
+|--------|--------------|-------------|
+| [**FooGet**](DefaultApi.md#fooget) | **GET** /foo |  |
 
 <a name="fooget"></a>
 # **FooGet**
-> InlineResponseDefault FooGet ()
+> FooGetDefaultResponse FooGet ()
 
 
 
@@ -37,13 +36,13 @@ namespace Example
 
             try
             {
-                InlineResponseDefault result = apiInstance.FooGet();
+                FooGetDefaultResponse result = apiInstance.FooGet();
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
             {
-                Debug.Print("Exception when calling DefaultApi.FooGet: " + e.Message );
-                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print("Exception when calling DefaultApi.FooGet: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
                 Debug.Print(e.StackTrace);
             }
         }
@@ -51,12 +50,30 @@ namespace Example
 }
 ```
 
+#### Using the FooGetWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    ApiResponse<FooGetDefaultResponse> response = apiInstance.FooGetWithHttpInfo();
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling DefaultApi.FooGetWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
 ### Parameters
 This endpoint does not need any parameter.
-
 ### Return type
 
-[**InlineResponseDefault**](InlineResponseDefault.md)
+[**FooGetDefaultResponse**](FooGetDefaultResponse.md)
 
 ### Authorization
 

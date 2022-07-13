@@ -11,8 +11,7 @@
 import unittest
 import collections
 
-from petstore_api import api_client
-from petstore_api import schemas
+from petstore_api import api_client, exceptions, schemas
 
 ParamTestCase = collections.namedtuple('ParamTestCase', 'payload expected_serialization explode', defaults=[False])
 
@@ -24,6 +23,11 @@ class TestParameter(unittest.TestCase):
         api_client.ParameterInType.COOKIE: api_client.CookieParameter,
         api_client.ParameterInType.HEADER: api_client.HeaderParameter,
     }
+
+    invalid_inputs = (
+        True,
+        False
+    )
 
     def test_throws_exception_when_schema_and_content_omitted(self):
         with self.assertRaises(ValueError):
@@ -95,68 +99,52 @@ class TestParameter(unittest.TestCase):
         test_cases = (
             ParamTestCase(
                 None,
-                ()
+                dict(color='')
             ),
             ParamTestCase(
                 1,
-                (('color', '1'),)
+                dict(color='?color=1')
             ),
             ParamTestCase(
                 3.14,
-                (('color', '3.14'),)
+                dict(color='?color=3.14')
             ),
             ParamTestCase(
                 'blue',
-                (('color', 'blue'),)
+                dict(color='?color=blue')
             ),
             ParamTestCase(
                 'hello world',
-                (('color', 'hello%20world'),)
+                dict(color='?color=hello%20world')
             ),
             ParamTestCase(
                 '',
-                (('color', ''),)
-            ),
-            ParamTestCase(
-                True,
-                (('color', 'true'),)
-            ),
-            ParamTestCase(
-                False,
-                (('color', 'false'),)
+                dict(color='?color=')
             ),
             ParamTestCase(
                 [],
-                ()
+                dict(color='')
             ),
             ParamTestCase(
                 ['blue', 'black', 'brown'],
-                (('color', 'blue,black,brown'),)
+                dict(color='?color=blue,black,brown')
             ),
             ParamTestCase(
                 ['blue', 'black', 'brown'],
-                (
-                    ('color', 'blue'),
-                    ('color', 'black'),
-                    ('color', 'brown'),
-                ),
+                dict(color='?color=blue&color=black&color=brown'),
                 explode=True
             ),
             ParamTestCase(
                 {},
-                ()
+                dict(color='')
             ),
             ParamTestCase(
                 dict(R=100, G=200, B=150),
-                (('color', 'R,100,G,200,B,150'),)
+                dict(color='?color=R,100,G,200,B,150')
             ),
             ParamTestCase(
                 dict(R=100, G=200, B=150),
-                (
-                    ('R', '100'),
-                    ('G', '200'),
-                    ('B', '150'),
-                ),
+                dict(color='?R=100&G=200&B=150'),
                 explode=True
             ),
         )
@@ -170,73 +158,68 @@ class TestParameter(unittest.TestCase):
             serialization = parameter.serialize(test_case.payload)
             self.assertEqual(serialization, test_case.expected_serialization)
 
+        with self.assertRaises(exceptions.ApiValueError):
+            for invalid_input in self.invalid_inputs:
+                for explode in (True, False):
+                    parameter = api_client.QueryParameter(
+                        name=name,
+                        style=api_client.ParameterStyle.FORM,
+                        schema=schemas.AnyTypeSchema,
+                        explode=explode,
+                    )
+                    parameter.serialize(invalid_input)
+
     def test_cookie_style_form_serialization(self):
         name = 'color'
         test_cases = (
             ParamTestCase(
                 None,
-                ()
+                dict(color='')
             ),
             ParamTestCase(
                 1,
-                (('color', '1'),)
+                dict(color='color=1')
             ),
             ParamTestCase(
                 3.14,
-                (('color', '3.14'),)
+                dict(color='color=3.14')
             ),
             ParamTestCase(
                 'blue',
-                (('color', 'blue'),)
+                dict(color='color=blue')
             ),
             ParamTestCase(
                 'hello world',
-                (('color', 'hello%20world'),)
+                dict(color='color=hello world')
             ),
             ParamTestCase(
                 '',
-                (('color', ''),)
-            ),
-            ParamTestCase(
-                True,
-                (('color', 'true'),)
-            ),
-            ParamTestCase(
-                False,
-                (('color', 'false'),)
+                dict(color='color=')
             ),
             ParamTestCase(
                 [],
-                ()
+                dict(color='')
             ),
             ParamTestCase(
                 ['blue', 'black', 'brown'],
-                (('color', 'blue,black,brown'),)
+                dict(color='color=blue,black,brown')
             ),
             ParamTestCase(
                 ['blue', 'black', 'brown'],
-                (
-                    ('color', 'blue'),
-                    ('color', 'black'),
-                    ('color', 'brown'),
-                ),
+                dict(color='color=blue&color=black&color=brown'),
                 explode=True
             ),
             ParamTestCase(
                 {},
-                ()
+                dict(color='')
             ),
             ParamTestCase(
                 dict(R=100, G=200, B=150),
-                (('color', 'R,100,G,200,B,150'),)
+                dict(color='color=R,100,G,200,B,150')
             ),
             ParamTestCase(
                 dict(R=100, G=200, B=150),
-                (
-                    ('R', '100'),
-                    ('G', '200'),
-                    ('B', '150'),
-                ),
+                dict(color='R=100&G=200&B=150'),
                 explode=True
             ),
         )
@@ -249,6 +232,17 @@ class TestParameter(unittest.TestCase):
             )
             serialization = parameter.serialize(test_case.payload)
             self.assertEqual(serialization, test_case.expected_serialization)
+
+        with self.assertRaises(exceptions.ApiValueError):
+            for invalid_input in self.invalid_inputs:
+                for explode in (True, False):
+                    parameter = api_client.CookieParameter(
+                        name=name,
+                        style=api_client.ParameterStyle.FORM,
+                        schema=schemas.AnyTypeSchema,
+                        explode=explode,
+                    )
+                    parameter.serialize(invalid_input)
 
     def test_style_simple_in_path_serialization(self):
         name = 'color'
@@ -276,14 +270,6 @@ class TestParameter(unittest.TestCase):
             ParamTestCase(
                 '',
                 dict(color='')
-            ),
-            ParamTestCase(
-                True,
-                dict(color='true')
-            ),
-            ParamTestCase(
-                False,
-                dict(color='false')
             ),
             ParamTestCase(
                 [],
@@ -322,12 +308,23 @@ class TestParameter(unittest.TestCase):
             serialization = parameter.serialize(test_case.payload)
             self.assertEqual(serialization, test_case.expected_serialization)
 
+        with self.assertRaises(exceptions.ApiValueError):
+            for invalid_input in self.invalid_inputs:
+                for explode in (True, False):
+                    parameter = api_client.PathParameter(
+                        name=name,
+                        style=api_client.ParameterStyle.SIMPLE,
+                        schema=schemas.AnyTypeSchema,
+                        explode=explode,
+                    )
+                    parameter.serialize(invalid_input)
+
     def test_style_simple_in_header_serialization(self):
         name = 'color'
         test_cases = (
             ParamTestCase(
                 None,
-                {}
+                dict(color='')
             ),
             ParamTestCase(
                 1,
@@ -343,23 +340,15 @@ class TestParameter(unittest.TestCase):
             ),
             ParamTestCase(
                 'hello world',
-                dict(color='hello%20world')
+                dict(color='hello world')
             ),
             ParamTestCase(
                 '',
                 dict(color='')
             ),
             ParamTestCase(
-                True,
-                dict(color='true')
-            ),
-            ParamTestCase(
-                False,
-                dict(color='false')
-            ),
-            ParamTestCase(
                 [],
-                {}
+                dict(color='')
             ),
             ParamTestCase(
                 ['blue', 'black', 'brown'],
@@ -372,7 +361,7 @@ class TestParameter(unittest.TestCase):
             ),
             ParamTestCase(
                 {},
-                {}
+                dict(color='')
             ),
             ParamTestCase(
                 dict(R=100, G=200, B=150),
@@ -385,7 +374,6 @@ class TestParameter(unittest.TestCase):
             ),
         )
         for test_case in test_cases:
-            print(test_case.payload)
             parameter = api_client.HeaderParameter(
                 name=name,
                 style=api_client.ParameterStyle.SIMPLE,
@@ -394,6 +382,17 @@ class TestParameter(unittest.TestCase):
             )
             serialization = parameter.serialize(test_case.payload)
             self.assertEqual(serialization, test_case.expected_serialization)
+
+        with self.assertRaises(exceptions.ApiValueError):
+            for invalid_input in self.invalid_inputs:
+                for explode in (True, False):
+                    parameter = api_client.HeaderParameter(
+                        name=name,
+                        style=api_client.ParameterStyle.SIMPLE,
+                        schema=schemas.AnyTypeSchema,
+                        explode=explode,
+                    )
+                    parameter.serialize(invalid_input)
 
     def test_style_label_in_path_serialization(self):
         name = 'color'
@@ -421,14 +420,6 @@ class TestParameter(unittest.TestCase):
             ParamTestCase(
                 '',
                 dict(color='.')
-            ),
-            ParamTestCase(
-                True,
-                dict(color='.true')
-            ),
-            ParamTestCase(
-                False,
-                dict(color='.false')
             ),
             ParamTestCase(
                 [],
@@ -467,6 +458,17 @@ class TestParameter(unittest.TestCase):
             serialization = parameter.serialize(test_case.payload)
             self.assertEqual(serialization, test_case.expected_serialization)
 
+        with self.assertRaises(exceptions.ApiValueError):
+            for invalid_input in self.invalid_inputs:
+                for explode in (True, False):
+                    parameter = api_client.PathParameter(
+                        name=name,
+                        style=api_client.ParameterStyle.LABEL,
+                        schema=schemas.AnyTypeSchema,
+                        explode=explode,
+                    )
+                    parameter.serialize(invalid_input)
+
     def test_style_matrix_in_path_serialization(self):
         name = 'color'
         test_cases = (
@@ -493,14 +495,6 @@ class TestParameter(unittest.TestCase):
             ParamTestCase(
                 '',
                 dict(color=';color')
-            ),
-            ParamTestCase(
-                True,
-                dict(color=';color=true')
-            ),
-            ParamTestCase(
-                False,
-                dict(color=';color=false')
             ),
             ParamTestCase(
                 [],
@@ -539,66 +533,59 @@ class TestParameter(unittest.TestCase):
             serialization = parameter.serialize(test_case.payload)
             self.assertEqual(serialization, test_case.expected_serialization)
 
+        with self.assertRaises(exceptions.ApiValueError):
+            for invalid_input in self.invalid_inputs:
+                for explode in (True, False):
+                    parameter = api_client.PathParameter(
+                        name=name,
+                        style=api_client.ParameterStyle.MATRIX,
+                        schema=schemas.AnyTypeSchema,
+                        explode=explode,
+                    )
+                    parameter.serialize(invalid_input)
+
     def test_style_space_delimited_serialization(self):
         name = 'color'
         test_cases = (
             ParamTestCase(
                 None,
-                ()
+                dict(color='')
             ),
             ParamTestCase(
                 1,
-                (('color', '1'),)
+                dict(color='1')
             ),
             ParamTestCase(
                 3.14,
-                (('color', '3.14'),)
+                dict(color='3.14')
             ),
             ParamTestCase(
                 'blue',
-                (('color', 'blue'),)
+                dict(color='blue')
             ),
             ParamTestCase(
                 'hello world',
-                (('color', 'hello%20world'),)
+                dict(color='hello%20world')
             ),
             ParamTestCase(
                 '',
-                (('color', ''),)
-            ),
-            ParamTestCase(
-                True,
-                (('color', 'true'),)
-            ),
-            ParamTestCase(
-                False,
-                (('color', 'false'),)
+                dict(color='')
             ),
             ParamTestCase(
                 [],
-                ()
+                dict(color='')
             ),
             ParamTestCase(
                 ['blue', 'black', 'brown'],
-                (('color', 'blue%20black%20brown'),)
-            ),
-            ParamTestCase(
-                ['blue', 'black', 'brown'],
-                (('color', 'color=blue%20color=black%20color=brown'),),
-                explode=True
+                dict(color='blue%20black%20brown')
             ),
             ParamTestCase(
                 {},
-                ()
+                dict(color='')
             ),
             ParamTestCase(
                 dict(R=100, G=200, B=150),
-                (('color', 'R%20100%20G%20200%20B%20150'),)
-            ),
-            ParamTestCase(
-                dict(R=100, G=200, B=150),
-                (('color', 'R=100%20G=200%20B=150'),),
-                explode=True
+                dict(color='R%20100%20G%20200%20B%20150')
             ),
         )
         for test_case in test_cases:
@@ -611,66 +598,59 @@ class TestParameter(unittest.TestCase):
             serialization = parameter.serialize(test_case.payload)
             self.assertEqual(serialization, test_case.expected_serialization)
 
+        with self.assertRaises(exceptions.ApiValueError):
+            for invalid_input in self.invalid_inputs:
+                for explode in (True, False):
+                    parameter = api_client.QueryParameter(
+                        name=name,
+                        style=api_client.ParameterStyle.SPACE_DELIMITED,
+                        schema=schemas.AnyTypeSchema,
+                        explode=explode,
+                    )
+                    parameter.serialize(invalid_input)
+
     def test_style_pipe_delimited_serialization(self):
         name = 'color'
         test_cases = (
             ParamTestCase(
                 None,
-                ()
+                dict(color='')
             ),
             ParamTestCase(
                 1,
-                (('color', '1'),)
+                dict(color='1')
             ),
             ParamTestCase(
                 3.14,
-                (('color', '3.14'),)
+                dict(color='3.14')
             ),
             ParamTestCase(
                 'blue',
-                (('color', 'blue'),)
+                dict(color='blue')
             ),
             ParamTestCase(
                 'hello world',
-                (('color', 'hello%20world'),)
+                dict(color='hello%20world')
             ),
             ParamTestCase(
                 '',
-                (('color', ''),)
-            ),
-            ParamTestCase(
-                True,
-                (('color', 'true'),)
-            ),
-            ParamTestCase(
-                False,
-                (('color', 'false'),)
+                dict(color='')
             ),
             ParamTestCase(
                 [],
-                ()
+                dict(color='')
             ),
             ParamTestCase(
                 ['blue', 'black', 'brown'],
-                (('color', 'blue|black|brown'),)
-            ),
-            ParamTestCase(
-                ['blue', 'black', 'brown'],
-                (('color', 'color=blue|color=black|color=brown'),),
-                explode=True
+                dict(color='blue|black|brown')
             ),
             ParamTestCase(
                 {},
-                ()
+                dict(color='')
             ),
             ParamTestCase(
                 dict(R=100, G=200, B=150),
-                (('color', 'R|100|G|200|B|150'),)
-            ),
-            ParamTestCase(
-                dict(R=100, G=200, B=150),
-                (('color', 'R=100|G=200|B=150'),),
-                explode=True
+                dict(color='R|100|G|200|B|150')
             ),
         )
         for test_case in test_cases:
@@ -682,6 +662,17 @@ class TestParameter(unittest.TestCase):
             )
             serialization = parameter.serialize(test_case.payload)
             self.assertEqual(serialization, test_case.expected_serialization)
+
+        with self.assertRaises(exceptions.ApiValueError):
+            for invalid_input in self.invalid_inputs:
+                for explode in (True, False):
+                    parameter = api_client.QueryParameter(
+                        name=name,
+                        style=api_client.ParameterStyle.PIPE_DELIMITED,
+                        schema=schemas.AnyTypeSchema,
+                        explode=explode,
+                    )
+                    parameter.serialize(invalid_input)
 
     def test_path_params_no_style(self):
         name = 'color'
@@ -711,14 +702,6 @@ class TestParameter(unittest.TestCase):
                 dict(color='')
             ),
             ParamTestCase(
-                True,
-                dict(color='true')
-            ),
-            ParamTestCase(
-                False,
-                dict(color='false')
-            ),
-            ParamTestCase(
                 [],
                 dict(color='')
             ),
@@ -743,12 +726,20 @@ class TestParameter(unittest.TestCase):
             serialization = parameter.serialize(test_case.payload)
             self.assertEqual(serialization, test_case.expected_serialization)
 
+        with self.assertRaises(exceptions.ApiValueError):
+            for invalid_input in self.invalid_inputs:
+                parameter = api_client.PathParameter(
+                    name=name,
+                    schema=schemas.AnyTypeSchema,
+                )
+                parameter.serialize(invalid_input)
+
     def test_header_params_no_style(self):
         name = 'color'
         test_cases = (
             ParamTestCase(
                 None,
-                {}
+                dict(color='')
             ),
             ParamTestCase(
                 1,
@@ -764,23 +755,15 @@ class TestParameter(unittest.TestCase):
             ),
             ParamTestCase(
                 'hello world',
-                dict(color='hello%20world')
+                dict(color='hello world')
             ),
             ParamTestCase(
                 '',
                 dict(color='')
             ),
             ParamTestCase(
-                True,
-                dict(color='true')
-            ),
-            ParamTestCase(
-                False,
-                dict(color='false')
-            ),
-            ParamTestCase(
                 [],
-                {}
+                dict(color='')
             ),
             ParamTestCase(
                 ['blue', 'black', 'brown'],
@@ -788,7 +771,7 @@ class TestParameter(unittest.TestCase):
             ),
             ParamTestCase(
                 {},
-                {}
+                dict(color='')
             ),
             ParamTestCase(
                 dict(R=100, G=200, B=150),
@@ -803,67 +786,136 @@ class TestParameter(unittest.TestCase):
             serialization = parameter.serialize(test_case.payload)
             self.assertEqual(serialization, test_case.expected_serialization)
 
-    def test_query_or_cookie_params_no_style(self):
+        with self.assertRaises(exceptions.ApiValueError):
+            for invalid_input in self.invalid_inputs:
+                parameter = api_client.HeaderParameter(
+                    name=name,
+                    schema=schemas.AnyTypeSchema,
+                )
+                parameter.serialize(invalid_input)
+
+    def test_query_params_no_style(self):
         name = 'color'
         test_cases = (
             ParamTestCase(
                 None,
-                ()
+                dict(color='')
             ),
             ParamTestCase(
                 1,
-                (('color', '1'),)
+                dict(color='?color=1')
             ),
             ParamTestCase(
                 3.14,
-                (('color', '3.14'),)
+                dict(color='?color=3.14')
             ),
             ParamTestCase(
                 'blue',
-                (('color', 'blue'),)
+                dict(color='?color=blue')
             ),
             ParamTestCase(
                 'hello world',
-                (('color', 'hello%20world'),)
+                dict(color='?color=hello%20world')
             ),
             ParamTestCase(
                 '',
-                (('color', ''),)
-            ),
-            ParamTestCase(
-                True,
-                (('color', 'true'),)
-            ),
-            ParamTestCase(
-                False,
-                (('color', 'false'),)
+                dict(color='?color=')
             ),
             ParamTestCase(
                 [],
-                ()
+                dict(color='')
             ),
             ParamTestCase(
                 ['blue', 'black', 'brown'],
-                (('color', 'blue,black,brown'),)
+                dict(color='?color=blue&color=black&color=brown')
             ),
             ParamTestCase(
                 {},
-                ()
+                dict(color='')
             ),
             ParamTestCase(
                 dict(R=100, G=200, B=150),
-                (('color', 'R,100,G,200,B,150'),)
+                dict(color='?R=100&G=200&B=150')
             ),
         )
-        for in_type in {api_client.ParameterInType.QUERY, api_client.ParameterInType.COOKIE}:
-            for test_case in test_cases:
-                parameter_cls = self.in_type_to_parameter_cls[in_type]
-                parameter = parameter_cls(
+        for test_case in test_cases:
+            parameter = api_client.QueryParameter(
+                name=name,
+                schema=schemas.AnyTypeSchema,
+            )
+            print(parameter.explode)
+            print(test_case.payload)
+            serialization = parameter.serialize(test_case.payload)
+            self.assertEqual(serialization, test_case.expected_serialization)
+
+        with self.assertRaises(exceptions.ApiValueError):
+            for invalid_input in self.invalid_inputs:
+                parameter = api_client.QueryParameter(
                     name=name,
                     schema=schemas.AnyTypeSchema,
                 )
-                serialization = parameter.serialize(test_case.payload)
-                self.assertEqual(serialization, test_case.expected_serialization)
+                parameter.serialize(invalid_input)
+
+    def test_cookie_params_no_style(self):
+        name = 'color'
+        test_cases = (
+            ParamTestCase(
+                None,
+                dict(color='')
+            ),
+            ParamTestCase(
+                1,
+                dict(color='color=1')
+            ),
+            ParamTestCase(
+                3.14,
+                dict(color='color=3.14')
+            ),
+            ParamTestCase(
+                'blue',
+                dict(color='color=blue')
+            ),
+            ParamTestCase(
+                'hello world',
+                dict(color='color=hello world')
+            ),
+            ParamTestCase(
+                '',
+                dict(color='color=')
+            ),
+            ParamTestCase(
+                [],
+                dict(color='')
+            ),
+            ParamTestCase(
+                ['blue', 'black', 'brown'],
+                dict(color='color=blue&color=black&color=brown')
+            ),
+            ParamTestCase(
+                {},
+                dict(color='')
+            ),
+            ParamTestCase(
+                dict(R=100, G=200, B=150),
+                dict(color='R=100&G=200&B=150')
+            ),
+        )
+        for test_case in test_cases:
+            parameter = api_client.CookieParameter(
+                name=name,
+                schema=schemas.AnyTypeSchema,
+            )
+            print(test_case.payload)
+            serialization = parameter.serialize(test_case.payload)
+            self.assertEqual(serialization, test_case.expected_serialization)
+
+        with self.assertRaises(exceptions.ApiValueError):
+            for invalid_input in self.invalid_inputs:
+                parameter = api_client.CookieParameter(
+                    name=name,
+                    schema=schemas.AnyTypeSchema,
+                )
+                parameter.serialize(invalid_input)
 
     def test_checks_content_lengths(self):
         with self.assertRaises(ValueError):

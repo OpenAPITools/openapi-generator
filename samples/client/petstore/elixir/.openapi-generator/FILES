@@ -1,6 +1,8 @@
+.formatter.exs
 .gitignore
 README.md
 config/config.exs
+config/runtime.exs
 lib/openapi_petstore/api/another_fake.ex
 lib/openapi_petstore/api/default.ex
 lib/openapi_petstore/api/fake.ex
@@ -10,8 +12,10 @@ lib/openapi_petstore/api/store.ex
 lib/openapi_petstore/api/user.ex
 lib/openapi_petstore/connection.ex
 lib/openapi_petstore/deserializer.ex
+lib/openapi_petstore/model/_foo_get_default_response.ex
 lib/openapi_petstore/model/_special_model_name_.ex
 lib/openapi_petstore/model/additional_properties_class.ex
+lib/openapi_petstore/model/all_of_with_single_ref.ex
 lib/openapi_petstore/model/animal.ex
 lib/openapi_petstore/model/api_response.ex
 lib/openapi_petstore/model/array_of_array_of_number_only.ex
@@ -35,7 +39,6 @@ lib/openapi_petstore/model/foo.ex
 lib/openapi_petstore/model/format_test.ex
 lib/openapi_petstore/model/has_only_read_only.ex
 lib/openapi_petstore/model/health_check_result.ex
-lib/openapi_petstore/model/inline_response_default.ex
 lib/openapi_petstore/model/list.ex
 lib/openapi_petstore/model/map_test.ex
 lib/openapi_petstore/model/mixed_properties_and_additional_properties_class.ex
@@ -54,6 +57,7 @@ lib/openapi_petstore/model/outer_object_with_enum_property.ex
 lib/openapi_petstore/model/pet.ex
 lib/openapi_petstore/model/read_only_first.ex
 lib/openapi_petstore/model/return.ex
+lib/openapi_petstore/model/single_ref_type.ex
 lib/openapi_petstore/model/tag.ex
 lib/openapi_petstore/model/user.ex
 lib/openapi_petstore/request_builder.ex

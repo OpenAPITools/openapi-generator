@@ -10,7 +10,6 @@
 """
 
 
-import sys
 import unittest
 
 import petstore_api
@@ -34,8 +33,10 @@ class TestNullableString(unittest.TestCase):
         assert isinstance(inst, NullableString)
         assert isinstance(inst, Schema)
         assert inst.is_none() is True
+        assert repr(inst) == '<DynamicSchema: None>'
 
         inst = NullableString('approved')
+        assert inst.is_none() is False
         assert isinstance(inst, NullableString)
         assert isinstance(inst, Schema)
         assert isinstance(inst, str)
@@ -45,7 +46,7 @@ class TestNullableString(unittest.TestCase):
         for invalid_value in invalid_values:
             with self.assertRaisesRegex(
                 petstore_api.ApiTypeError,
-                r"Invalid type. Required value type is one of \[NoneType, str\] and passed type was Decimal at \['args\[0\]'\]"
+                r"Invalid type. Required value type is one of \[NoneClass, str\] and passed type was Decimal at \['args\[0\]'\]"
             ):
                 NullableString(invalid_value)
 

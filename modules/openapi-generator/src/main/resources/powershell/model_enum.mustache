@@ -1,0 +1,18 @@
+<#
+.SYNOPSIS
+
+{{{summary}}}{{^summary}}Enum {{{classname}}}.{{/summary}}
+
+.DESCRIPTION
+
+{{{description}}}{{^description}}No description available.{{/description}}
+#>
+
+enum {{{classname}}} {
+    {{#allowableValues}}
+    {{#enumVars}}
+    # enum value: {{{value}}}
+    {{{name}}}
+    {{/enumVars}}
+    {{/allowableValues}}
+}

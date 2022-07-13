@@ -9,11 +9,11 @@ defmodule OpenapiPetstore.Model.CatAllOf do
 
   @derive [Poison.Encoder]
   defstruct [
-    :"declawed"
+    :declawed
   ]
 
   @type t :: %__MODULE__{
-    :"declawed" => boolean() | nil
+    :declawed => boolean() | nil
   }
 end
 

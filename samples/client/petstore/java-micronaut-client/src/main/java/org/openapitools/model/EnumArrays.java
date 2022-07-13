@@ -14,8 +14,6 @@ package org.openapitools.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
 import com.fasterxml.jackson.annotation.*;
@@ -120,16 +118,15 @@ public class EnumArrays {
      * @return justSymbol
      **/
     @Nullable
-    @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_JUST_SYMBOL)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public JustSymbolEnum getJustSymbol() {
+    public JustSymbolEnum getJustSymbol() {
         return justSymbol;
     }
 
     @JsonProperty(JSON_PROPERTY_JUST_SYMBOL)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public void setJustSymbol(JustSymbolEnum justSymbol) {
+    public void setJustSymbol(JustSymbolEnum justSymbol) {
         this.justSymbol = justSymbol;
     }
 
@@ -151,16 +148,15 @@ public class EnumArrays {
      * @return arrayEnum
      **/
     @Nullable
-    @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_ARRAY_ENUM)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public List<ArrayEnumEnum> getArrayEnum() {
+    public List<ArrayEnumEnum> getArrayEnum() {
         return arrayEnum;
     }
 
     @JsonProperty(JSON_PROPERTY_ARRAY_ENUM)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public void setArrayEnum(List<ArrayEnumEnum> arrayEnum) {
+    public void setArrayEnum(List<ArrayEnumEnum> arrayEnum) {
         this.arrayEnum = arrayEnum;
     }
 

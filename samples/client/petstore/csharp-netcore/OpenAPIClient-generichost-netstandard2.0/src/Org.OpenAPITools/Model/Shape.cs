@@ -32,21 +32,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Shape" /> class.
         /// </summary>
-        /// <param name="quadrilateral">quadrilateral</param>
-        /// <param name="quadrilateralType">quadrilateralType (required)</param>
-        public Shape(Quadrilateral quadrilateral, string quadrilateralType)
-        {
-            if (quadrilateralType == null)
-                throw new ArgumentNullException("quadrilateralType is a required property for Shape and cannot be null.");
-
-            Quadrilateral = quadrilateral;
-            QuadrilateralType = quadrilateralType;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Shape" /> class.
-        /// </summary>
-        /// <param name="triangle">triangle</param>
+        /// <param name="triangle"></param>
         /// <param name="quadrilateralType">quadrilateralType (required)</param>
         public Shape(Triangle triangle, string quadrilateralType)
         {
@@ -58,14 +44,28 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Gets or Sets Shape
+        /// Initializes a new instance of the <see cref="Shape" /> class.
         /// </summary>
-        public Quadrilateral Quadrilateral { get; set; }
+        /// <param name="quadrilateral"></param>
+        /// <param name="quadrilateralType">quadrilateralType (required)</param>
+        public Shape(Quadrilateral quadrilateral, string quadrilateralType)
+        {
+            if (quadrilateralType == null)
+                throw new ArgumentNullException("quadrilateralType is a required property for Shape and cannot be null.");
+
+            Quadrilateral = quadrilateral;
+            QuadrilateralType = quadrilateralType;
+        }
 
         /// <summary>
-        /// Gets or Sets Shape
+        /// Gets or Sets Triangle
         /// </summary>
         public Triangle Triangle { get; set; }
+
+        /// <summary>
+        /// Gets or Sets Quadrilateral
+        /// </summary>
+        public Quadrilateral Quadrilateral { get; set; }
 
         /// <summary>
         /// Gets or Sets QuadrilateralType
@@ -182,11 +182,11 @@ namespace Org.OpenAPITools.Model
             if (reader.TokenType != JsonTokenType.StartObject)
                 throw new JsonException();
 
-            Utf8JsonReader quadrilateralReader = reader;
-            Client.ClientUtils.TryDeserialize<Quadrilateral>(ref quadrilateralReader, options, out Quadrilateral quadrilateral);
-
             Utf8JsonReader triangleReader = reader;
-            Client.ClientUtils.TryDeserialize<Triangle>(ref triangleReader, options, out Triangle triangle);
+            bool triangleDeserialized = Client.ClientUtils.TryDeserialize<Triangle>(ref triangleReader, options, out Triangle triangle);
+
+            Utf8JsonReader quadrilateralReader = reader;
+            bool quadrilateralDeserialized = Client.ClientUtils.TryDeserialize<Quadrilateral>(ref quadrilateralReader, options, out Quadrilateral quadrilateral);
 
             string quadrilateralType = default;
 
@@ -209,11 +209,11 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (quadrilateral != null)
-                return new Shape(quadrilateral, quadrilateralType);
-
-            if (triangle != null)
+            if (triangleDeserialized)
                 return new Shape(triangle, quadrilateralType);
+
+            if (quadrilateralDeserialized)
+                return new Shape(quadrilateral, quadrilateralType);
 
             throw new JsonException();
         }

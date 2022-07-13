@@ -37,11 +37,13 @@ class SpecialModelName {
   String toString() => 'SpecialModelName[dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket=$dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket]';
 
   Map<String, dynamic> toJson() {
-    final json = <String, dynamic>{};
+    final _json = <String, dynamic>{};
     if (dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket != null) {
-      json[r'$special[property.name]'] = dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket;
+      _json[r'$special[property.name]'] = dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket;
+    } else {
+      _json[r'$special[property.name]'] = null;
     }
-    return json;
+    return _json;
   }
 
   /// Returns a new [SpecialModelName] instance and imports its values from

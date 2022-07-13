@@ -11,6 +11,7 @@ import re  # noqa: F401
 import sys  # noqa: F401
 import typing
 import urllib3
+import functools  # noqa: F401
 from urllib3._collections import HTTPHeaderDict
 
 from petstore_api import api_client, exceptions
@@ -30,6 +31,7 @@ from petstore_api.schemas import (  # noqa: F401
     Float32Schema,
     Float64Schema,
     NumberSchema,
+    UUIDSchema,
     DateSchema,
     DateTimeSchema,
     DecimalSchema,
@@ -51,11 +53,14 @@ from petstore_api.schemas import (  # noqa: F401
     Float32Base,
     Float64Base,
     NumberBase,
+    UUIDBase,
     DateBase,
     DateTimeBase,
     BoolBase,
     BinaryBase,
     Schema,
+    NoneClass,
+    BoolClass,
     _SchemaValidator,
     _SchemaTypeChecker,
     _SchemaEnumMaker
@@ -82,12 +87,12 @@ class EnumQueryStringArraySchema(
         @classmethod
         @property
         def GREATER_THAN(cls):
-            return cls._enum_by_value[">"](">")
+            return cls(">")
         
         @classmethod
         @property
         def DOLLAR(cls):
-            return cls._enum_by_value["$"]("$")
+            return cls("$")
 
 
 class EnumQueryStringSchema(
@@ -104,17 +109,17 @@ class EnumQueryStringSchema(
     @classmethod
     @property
     def _ABC(cls):
-        return cls._enum_by_value["_abc"]("_abc")
+        return cls("_abc")
     
     @classmethod
     @property
     def EFG(cls):
-        return cls._enum_by_value["-efg"]("-efg")
+        return cls("-efg")
     
     @classmethod
     @property
     def XYZ(cls):
-        return cls._enum_by_value["(xyz)"]("(xyz)")
+        return cls("(xyz)")
 
 
 class EnumQueryIntegerSchema(
@@ -130,12 +135,12 @@ class EnumQueryIntegerSchema(
     @classmethod
     @property
     def POSITIVE_1(cls):
-        return cls._enum_by_value[1](1)
+        return cls(1)
     
     @classmethod
     @property
     def NEGATIVE_2(cls):
-        return cls._enum_by_value[-2](-2)
+        return cls(-2)
 
 
 class EnumQueryDoubleSchema(
@@ -151,12 +156,12 @@ class EnumQueryDoubleSchema(
     @classmethod
     @property
     def POSITIVE_1_PT_1(cls):
-        return cls._enum_by_value[1.1](1.1)
+        return cls(1.1)
     
     @classmethod
     @property
     def NEGATIVE_1_PT_2(cls):
-        return cls._enum_by_value[-1.2](-1.2)
+        return cls(-1.2)
 RequestRequiredQueryParams = typing.TypedDict(
     'RequestRequiredQueryParams',
     {
@@ -223,12 +228,12 @@ class EnumHeaderStringArraySchema(
         @classmethod
         @property
         def GREATER_THAN(cls):
-            return cls._enum_by_value[">"](">")
+            return cls(">")
         
         @classmethod
         @property
         def DOLLAR(cls):
-            return cls._enum_by_value["$"]("$")
+            return cls("$")
 
 
 class EnumHeaderStringSchema(
@@ -245,17 +250,17 @@ class EnumHeaderStringSchema(
     @classmethod
     @property
     def _ABC(cls):
-        return cls._enum_by_value["_abc"]("_abc")
+        return cls("_abc")
     
     @classmethod
     @property
     def EFG(cls):
-        return cls._enum_by_value["-efg"]("-efg")
+        return cls("-efg")
     
     @classmethod
     @property
     def XYZ(cls):
-        return cls._enum_by_value["(xyz)"]("(xyz)")
+        return cls("(xyz)")
 RequestRequiredHeaderParams = typing.TypedDict(
     'RequestRequiredHeaderParams',
     {
@@ -311,12 +316,12 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
             @classmethod
             @property
             def GREATER_THAN(cls):
-                return cls._enum_by_value[">"](">")
+                return cls(">")
             
             @classmethod
             @property
             def DOLLAR(cls):
-                return cls._enum_by_value["$"]("$")
+                return cls("$")
     
     
     class enum_form_string(
@@ -333,17 +338,17 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
         @classmethod
         @property
         def _ABC(cls):
-            return cls._enum_by_value["_abc"]("_abc")
+            return cls("_abc")
         
         @classmethod
         @property
         def EFG(cls):
-            return cls._enum_by_value["-efg"]("-efg")
+            return cls("-efg")
         
         @classmethod
         @property
         def XYZ(cls):
-            return cls._enum_by_value["(xyz)"]("(xyz)")
+            return cls("(xyz)")
 
 
     def __new__(
@@ -424,8 +429,9 @@ class EnumParameters(api_client.Api):
         """
         self._verify_typed_dict_inputs(RequestQueryParams, query_params)
         self._verify_typed_dict_inputs(RequestHeaderParams, header_params)
+        used_path = _path
 
-        _query_params = []
+        prefix_separator_iterator = None
         for parameter in (
             request_query_enum_query_string_array,
             request_query_enum_query_string,
@@ -435,8 +441,11 @@ class EnumParameters(api_client.Api):
             parameter_data = query_params.get(parameter.name, unset)
             if parameter_data is unset:
                 continue
-            serialized_data = parameter.serialize(parameter_data)
-            _query_params.extend(serialized_data)
+            if prefix_separator_iterator is None:
+                prefix_separator_iterator = parameter.get_prefix_separator_iterator()
+            serialized_data = parameter.serialize(parameter_data, prefix_separator_iterator)
+            for serialized_value in serialized_data.values():
+                used_path += serialized_value
 
         _headers = HTTPHeaderDict()
         for parameter in (
@@ -460,9 +469,8 @@ class EnumParameters(api_client.Api):
             elif 'body' in serialized_data:
                 _body = serialized_data['body']
         response = self.api_client.call_api(
-            resource_path=_path,
+            resource_path=used_path,
             method=_method,
-            query_params=tuple(_query_params),
             headers=_headers,
             fields=_fields,
             body=_body,

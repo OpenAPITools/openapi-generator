@@ -25,7 +25,6 @@ import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import java.time.OffsetDateTime;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import org.openapitools.client.model.Animal;
@@ -254,6 +253,9 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
         } else { // has required fields
           throw new IllegalArgumentException(String.format("The required field(s) %s in MixedPropertiesAndAdditionalPropertiesClass is not found in the empty JSON string", MixedPropertiesAndAdditionalPropertiesClass.openapiRequiredFields.toString()));
         }
+      }
+      if (jsonObj.get("uuid") != null && !jsonObj.get("uuid").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `uuid` to be a primitive type in the JSON string but got `%s`", jsonObj.get("uuid").toString()));
       }
   }
 

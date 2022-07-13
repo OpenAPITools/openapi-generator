@@ -48,14 +48,18 @@ class Tag {
   String toString() => 'Tag[id=$id, name=$name]';
 
   Map<String, dynamic> toJson() {
-    final json = <String, dynamic>{};
+    final _json = <String, dynamic>{};
     if (id != null) {
-      json[r'id'] = id;
+      _json[r'id'] = id;
+    } else {
+      _json[r'id'] = null;
     }
     if (name != null) {
-      json[r'name'] = name;
+      _json[r'name'] = name;
+    } else {
+      _json[r'name'] = null;
     }
-    return json;
+    return _json;
   }
 
   /// Returns a new [Tag] instance and imports its values from

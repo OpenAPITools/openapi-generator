@@ -222,6 +222,8 @@ samples/server/petstore/haskell-yesod/stack.yaml.lock
 .Rproj.user
 samples/client/petstore/R/**/petstore.Rcheck/
 samples/client/petstore/R/**/*.tar.gz
+samples/client/petstore/R/R.Rproj
+samples/client/petstore/R/man/
 
 # elixir
 samples/client/petstore/elixir/_build/
@@ -266,3 +268,6 @@ samples/client/petstore/crystal/lib
 
 # Go
 samples/openapi3/client/petstore/go/privatekey.pem
+
+## OCaml
+samples/client/petstore/ocaml/_build/
