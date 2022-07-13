@@ -12,8 +12,8 @@ syntax = "proto3";
 
 package openapitools;
 
-import public "models/cat_all_of.proto";
-import public "models/pet.proto";
+import "models/cat_all_of.proto";
+import "models/pet.proto";
 
 message Cat {
 
