@@ -24,13 +24,13 @@ message Order {
   string shipDate = 517554166;
 
   // Order Status
-  enum StatusEnum {
-    StatusEnum_PLACED = 0;
-    StatusEnum_APPROVED = 1;
-    StatusEnum_DELIVERED = 2;
+  enum Status {
+    STATUS_PLACED = 0;
+    STATUS_APPROVED = 1;
+    STATUS_DELIVERED = 2;
   }
 
-  StatusEnum status = 355610639;
+  Status status = 355610639;
 
   bool complete = 62574280;
 
