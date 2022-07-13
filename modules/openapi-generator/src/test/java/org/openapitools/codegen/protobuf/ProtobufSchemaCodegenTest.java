@@ -196,6 +196,20 @@ public class ProtobufSchemaCodegenTest {
     }
 
     @Test
+    public void testExtensionFieldName() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        Map<String, String> globalProperties = new HashMap<>();
+
+        File output = Files.createTempDirectory("test").toFile();
+        List<File> files = generate(output, properties, globalProperties, "src/test/resources/3_0/protobuf-schema/extension-field-name.yaml");
+        TestUtils.ensureContainsFile(files, output, "models/pet.proto");
+        Path path = Paths.get(output + "/models/pet.proto");
+        assertFileEquals(path, Paths.get("src/test/resources/3_0/protobuf-schema/extension-field-name.proto"));
+
+        output.delete();       
+    }
+
+    @Test
     public void testExtensionDuplicateNames() throws IOException {
         try {
             Map<String, Object> properties = new HashMap<>();
