@@ -1,0 +1,6 @@
+generatorName: protobuf-version-2-schema
+outputDir: samples/config/petstore/protobuf-version-2-schema
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/protobuf-version-2-schema
+additionalProperties:
+  packageName: petstore
