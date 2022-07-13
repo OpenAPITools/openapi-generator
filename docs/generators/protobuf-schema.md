@@ -18,10 +18,10 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
+|fieldNamesInSnakeCase|Field names in snake_case.| |false|
 |numberedFieldNumberList|Field numbers in order.| |false|
 |startEnumsWithUnknown|Introduces &quot;UNKNOWN&quot; as the first element of enumerations.| |false|
 |startEnumsWithUnspecified|Introduces &quot;UNSPECIFIED&quot; as the first element of enumerations.| |false|
-|fieldNamesInSnakeCase|Field names in snake_case.| |false|
 
 ## IMPORT MAPPING
 
