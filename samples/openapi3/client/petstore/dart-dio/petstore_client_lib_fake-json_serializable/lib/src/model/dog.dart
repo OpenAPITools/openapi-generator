@@ -2,7 +2,6 @@
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
 
-import 'package:openapi/src/model/dog_all_of.dart';
 import 'package:openapi/src/model/animal.dart';
 import 'package:json_annotation/json_annotation.dart';
 

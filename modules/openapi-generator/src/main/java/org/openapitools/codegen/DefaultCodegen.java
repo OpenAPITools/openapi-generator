@@ -698,6 +698,10 @@ public class DefaultCodegen implements CodegenConfig {
                 updateCodegenPropertyEnum(var);
             }
 
+            for (CodegenProperty var : cm.nonNullableVars) {
+                updateCodegenPropertyEnum(var);
+            }
+
             for (CodegenProperty var : cm.requiredVars) {
                 updateCodegenPropertyEnum(var);
             }
@@ -1735,6 +1739,7 @@ public class DefaultCodegen implements CodegenConfig {
         specialCharReplacements.put("<=", "Less_Than_Or_Equal_To");
         specialCharReplacements.put(">=", "Greater_Than_Or_Equal_To");
         specialCharReplacements.put("!=", "Not_Equal");
+        specialCharReplacements.put("<>", "Not_Equal");
         specialCharReplacements.put("~=", "Tilde_Equal");
     }
 
@@ -2581,7 +2586,8 @@ public class DefaultCodegen implements CodegenConfig {
                 final String modelName = toModelName(ref);
                 CodegenProperty interfaceProperty = fromProperty(modelName, interfaceSchema);
                 m.interfaces.add(modelName);
-                addImport(m, modelName);
+                addImport(composed, refSchema, m, modelName);
+
                 if (allDefinitions != null && refSchema != null) {
                     if (allParents.contains(ref) && supportsMultipleInheritance) {
                         // multiple inheritance
@@ -4020,6 +4026,7 @@ public class DefaultCodegen implements CodegenConfig {
             if (languageSpecificPrimitives().contains(op.returnBaseType) || op.returnBaseType == null) {
                 op.returnTypeIsPrimitive = true;
             }
+            op.returnProperty = cm;
         }
         addHeaders(methodResponse, op.responseHeaders);
     }
@@ -5309,6 +5316,23 @@ public class DefaultCodegen implements CodegenConfig {
         }
     }
 
+    /**
+     * Add the model name of the child schema in a composed schema to the set of imports
+     *
+     * @param composed composed schema
+     * @param childSchema composed schema
+     * @param model codegen model
+     * @param modelName model name
+     */
+    protected void addImport(ComposedSchema composed, Schema childSchema, CodegenModel model, String modelName ) {
+        // import only if it's not allOf composition schema (without discriminator)
+        if (!(composed.getAllOf() != null && childSchema.getDiscriminator() == null)) {
+            addImport(model, modelName);
+        } else {
+            LOGGER.debug("Skipped import for allOf composition schema {}", modelName);
+        }
+    }
+
     protected boolean shouldAddImport(String type) {
         return type != null && needToImport(type);
     }
@@ -5434,6 +5458,10 @@ public class DefaultCodegen implements CodegenConfig {
                     // duplicated properties will be removed by removeAllDuplicatedProperty later
                     cm.readWriteVars.add(cp);
                 }
+
+                if (Boolean.FALSE.equals(cp.isNullable)){
+                    cm.nonNullableVars.add(cp);
+                }
             }
         }
         return;
@@ -5448,9 +5476,18 @@ public class DefaultCodegen implements CodegenConfig {
      * @param property The codegen representation of the OAS schema's property.
      */
     protected void addImportsForPropertyType(CodegenModel model, CodegenProperty property) {
-        if (property.isContainer) {
-            addImport(model.imports, typeMapping.get("array"));
+        if (property.isArray) {
+            if (property.getUniqueItems()) { // set
+                addImport(model.imports, typeMapping.get("set"));
+            } else { // array
+                addImport(model.imports, typeMapping.get("array"));
+            }
         }
+
+        if (property.isMap) { // map
+            addImport(model.imports, typeMapping.get("map"));
+        }
+
         addImports(model, property);
     }
 
