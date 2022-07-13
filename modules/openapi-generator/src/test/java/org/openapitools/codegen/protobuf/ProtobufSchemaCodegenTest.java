@@ -196,6 +196,20 @@ public class ProtobufSchemaCodegenTest {
     }
 
     @Test
+    public void testExtensionFieldName() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        Map<String, String> globalProperties = new HashMap<>();
+
+        File output = Files.createTempDirectory("test").toFile();
+        List<File> files = generate(output, properties, globalProperties, "src/test/resources/3_0/protobuf-schema/extension-field-name.yaml");
+        TestUtils.ensureContainsFile(files, output, "models/pet.proto");
+        Path path = Paths.get(output + "/models/pet.proto");
+        assertFileEquals(path, Paths.get("src/test/resources/3_0/protobuf-schema/extension-field-name.proto"));
+
+        output.delete();       
+    }
+
+    @Test
     public void testExtensionDuplicateNames() throws IOException {
         try {
             Map<String, Object> properties = new HashMap<>();
@@ -211,6 +225,176 @@ public class ProtobufSchemaCodegenTest {
     }
 
     @Test
+    public void testExtensionEnumIndexes() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        Map<String, String> globalProperties = new HashMap<>();
+
+        File output = Files.createTempDirectory("test").toFile();
+        List<File> files = generate(output, properties, globalProperties, "src/test/resources/3_0/protobuf-schema/extension-enum-indexes.yaml");
+        TestUtils.ensureContainsFile(files, output, "models/pet.proto");
+        Path path = Paths.get(output + "/models/pet.proto");
+        assertFileEquals(path, Paths.get("src/test/resources/3_0/protobuf-schema/extension-enum-indexes.proto"));
+
+        output.delete();
+    }
+
+    @Test
+    public void testExtensionEnumMissingIndex() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        Map<String, String> globalProperties = new HashMap<>();
+
+        File output = Files.createTempDirectory("test").toFile();
+        List<File> files = generate(output, properties, globalProperties, "src/test/resources/3_0/protobuf-schema/extension-enum-missing-index.yaml");
+        TestUtils.ensureContainsFile(files, output, "models/pet.proto");
+        Path path = Paths.get(output + "/models/pet.proto");
+        assertFileEquals(path, Paths.get("src/test/resources/3_0/protobuf-schema/extension-enum-missing-index.proto"));
+
+        output.delete();
+    }
+
+    @Test
+    public void testExtensionEnumDuplicateIndexes() throws IOException {
+        try {
+            Map<String, Object> properties = new HashMap<>();
+            Map<String, String> globalProperties = new HashMap<>();
+            File output = Files.createTempDirectory("test").toFile();
+            List<File> files = generate(output, properties, globalProperties, "src/test/resources/3_0/protobuf-schema/extension-enum-duplicate-indexes.yaml");
+            fail("No exception thrown!");
+        }
+        catch (RuntimeException e) {
+            assertEquals(e.getCause().getMessage(), "Enum indexes must be unique");
+        }        
+    }
+
+    @Test
+    public void testExtensionEnumNegativeIndex() throws IOException {
+        try {
+            Map<String, Object> properties = new HashMap<>();
+            Map<String, String> globalProperties = new HashMap<>();
+            File output = Files.createTempDirectory("test").toFile();
+            List<File> files = generate(output, properties, globalProperties, "src/test/resources/3_0/protobuf-schema/extension-enum-negative-index.yaml");
+            fail("No exception thrown!");
+        }
+        catch (RuntimeException e) {
+            assertEquals(e.getCause().getMessage(), "Negative enum field numbers are not allowed");
+        }        
+    }
+
+    @Test
+    public void testExtensionEnumNonIntegerIndex() throws IOException {
+        try {
+            Map<String, Object> properties = new HashMap<>();
+            Map<String, String> globalProperties = new HashMap<>();
+            File output = Files.createTempDirectory("test").toFile();
+            List<File> files = generate(output, properties, globalProperties, "src/test/resources/3_0/protobuf-schema/extension-enum-non-integer-index.yaml");
+            fail("No exception thrown!");
+        }
+        catch (RuntimeException e) {
+            assertEquals(e.getCause().getMessage(), "java.lang.String cannot be cast to java.lang.Integer");
+        }        
+    }
+
+    @Test
+    public void testExtensionEnumFirstValueZero() throws IOException {
+        try {
+            Map<String, Object> properties = new HashMap<>();
+            Map<String, String> globalProperties = new HashMap<>();
+            File output = Files.createTempDirectory("test").toFile();
+            List<File> files = generate(output, properties, globalProperties, "src/test/resources/3_0/protobuf-schema/extension-enum-first-value-zero.yaml");
+            fail("No exception thrown!");
+        }
+        catch (RuntimeException e) {
+            assertEquals(e.getCause().getMessage(), "Enum definitions must start with enum value zero");
+        }        
+    }
+
+    @Test
+    public void testExtensionEnumZeroReserved() throws IOException {
+        try {
+            Map<String, Object> properties = new HashMap<>();
+            Map<String, String> globalProperties = new HashMap<>();
+            properties.put("startEnumsWithUnknown", true);
+            File output = Files.createTempDirectory("test").toFile();
+            List<File> files = generate(output, properties, globalProperties, "src/test/resources/3_0/protobuf-schema/extension-enum-zero-reserved.yaml");
+            fail("No exception thrown!");
+        }
+        catch (RuntimeException e) {
+            assertEquals(e.getCause().getMessage(), "Field number zero reserved for first enum value");
+        }        
+    }
+
+    @Test
+    public void testExtensionEnumDescriptions() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        Map<String, String> globalProperties = new HashMap<>();
+
+        File output = Files.createTempDirectory("test").toFile();
+        List<File> files = generate(output, properties, globalProperties, "src/test/resources/3_0/protobuf-schema/extension-enum-descriptions.yaml");
+        TestUtils.ensureContainsFile(files, output, "models/pet.proto");
+        Path path = Paths.get(output + "/models/pet.proto");
+        assertFileEquals(path, Paths.get("src/test/resources/3_0/protobuf-schema/extension-enum-descriptions.proto"));
+
+        output.delete();
+    }
+
+    @Test
+    public void testExtensionEnumDuplicateNames() throws IOException {
+        try {
+            Map<String, Object> properties = new HashMap<>();
+            Map<String, String> globalProperties = new HashMap<>();
+
+            File output = Files.createTempDirectory("test").toFile();
+            List<File> files = generate(output, properties, globalProperties, "src/test/resources/3_0/protobuf-schema/extension-enum-duplicate-names.yaml");
+            fail("No exception thrown!");
+        }
+        catch (RuntimeException e) {
+            assertEquals(e.getCause().getMessage(), "Duplicate enum name");
+        }     
+    }
+
+    @Test
+    public void testPropertyAnyType1() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        Map<String, String> globalProperties = new HashMap<>();
+
+        File output = Files.createTempDirectory("test").toFile();
+        List<File> files = generate(output, properties, globalProperties, "src/test/resources/3_0/protobuf-schema/property-any-type-1.yaml");
+        TestUtils.ensureContainsFile(files, output, "models/pet.proto");
+        Path path = Paths.get(output + "/models/pet.proto");
+        assertFileEquals(path, Paths.get("src/test/resources/3_0/protobuf-schema/property-any-type.proto"));
+
+        output.delete();   
+    }
+
+    @Test
+    public void testPropertyAnyType2() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        Map<String, String> globalProperties = new HashMap<>();
+
+        File output = Files.createTempDirectory("test").toFile();
+        List<File> files = generate(output, properties, globalProperties, "src/test/resources/3_0/protobuf-schema/property-any-type-2.yaml");
+        TestUtils.ensureContainsFile(files, output, "models/pet.proto");
+        Path path = Paths.get(output + "/models/pet.proto");
+        assertFileEquals(path, Paths.get("src/test/resources/3_0/protobuf-schema/property-any-type.proto"));
+
+        output.delete();   
+    }
+
+    @Test
+    public void testOperationAnyType() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        Map<String, String> globalProperties = new HashMap<>();
+
+        File output = Files.createTempDirectory("test").toFile();
+        List<File> files = generate(output, properties, globalProperties, "src/test/resources/3_0/protobuf-schema/operation-any-type.yaml");
+        TestUtils.ensureContainsFile(files, output, "services/default_service.proto");
+        Path path = Paths.get(output + "/services/default_service.proto");
+        assertFileEquals(path, Paths.get("src/test/resources/3_0/protobuf-schema/operation-any-type.proto"));
+
+        output.delete();       
+    }
+
+    @Test
     public void testNoDuplicateEnumUnknownValueAllOf() throws IOException {
         Map<String, Object> properties = new HashMap<>();
         properties.put("startEnumsWithUnknown", true);
@@ -222,7 +406,7 @@ public class ProtobufSchemaCodegenTest {
         Path path = Paths.get(output + "/models/cat.proto");
         assertFileEquals(path, Paths.get("src/test/resources/3_0/protobuf-schema/no-duplicate-enum-unknown-value-allOf.proto"));
 
-        output.delete();
+        output.delete(); 
     }
 
     private void assertFileEquals(Path generatedFilePath, Path expectedFilePath) throws IOException {

@@ -27,6 +27,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 | Type/Alias | Imports |
 | ---------- | ------- |
+|google.protobuf.Any|google/protobuf/any|
 
 
 ## INSTANTIATION TYPES
