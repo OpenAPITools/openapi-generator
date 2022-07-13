@@ -6126,13 +6126,46 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     protected void updateEnumVarsWithExtensions(List<Map<String, Object>> enumVars, Map<String, Object> vendorExtensions, String dataType) {
-        if (vendorExtensions != null) {
-            updateEnumVarsWithExtensions(enumVars, vendorExtensions, "x-enum-varnames", "name");
-            updateEnumVarsWithExtensions(enumVars, vendorExtensions, "x-enum-descriptions", "enumDescription");
+        if (vendorExtensions != null) {            
+            updateEnumVarsWithAmadeusExtensions(enumVars, vendorExtensions, dataType, "protobuf-enum-field-name", "name");
+            updateEnumVarsWithAmadeusExtensions(enumVars, vendorExtensions, dataType, "description", "enumDescription");
+            updateEnumVarsWithExtensions(enumVars, vendorExtensions, dataType, "x-enum-varnames", "name");
+            updateEnumVarsWithExtensions(enumVars, vendorExtensions, dataType, "x-enum-descriptions", "enumDescription");
         }
     }
 
-    private void updateEnumVarsWithExtensions(List<Map<String, Object>> enumVars, Map<String, Object> vendorExtensions, String extensionKey, String key) {
+    //amadeus enum extension handling
+    private void updateEnumVarsWithAmadeusExtensions(List<Map<String, Object>> enumVars, Map<String, Object> vendorExtensions, String dataType, String extensionKey, String key) {
+        if (vendorExtensions.containsKey("x-ama-enum") && ((LinkedHashMap) vendorExtensions.get("x-ama-enum")).containsKey("values")) {
+            //values specified in x-ama-enum
+            List<Map<String, Object>> amaEnumValues = (List<Map<String, Object>>) ((LinkedHashMap) vendorExtensions.get("x-ama-enum")).get("values");
+            for (int i = 0; i < enumVars.size(); i++) {
+                if (enumVars.get(i).containsKey("value")) {
+                    String value = (String) (enumVars.get(i).get("value"));
+                    //Search matching specified value in x-ama-enum for enum value 
+                    for(Map<String, Object> amaEnumValue : amaEnumValues) {
+                        //enum values have additional "\"" at start and end
+                        if (amaEnumValue.containsKey("value") && 
+                        amaEnumValue.get("value").equals(value.replace("\"", ""))) {
+                            //update enum
+                            if (amaEnumValue.containsKey(extensionKey)) {
+                                String extension = (String) amaEnumValue.get(extensionKey);
+                                if ("name".equals(key)) {
+                                    enumVars.get(i).put(key, toEnumVarName(extension, dataType));
+                                }
+                                else {
+                                    enumVars.get(i).put(key, extension);
+                                }
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    protected void updateEnumVarsWithExtensions(List<Map<String, Object>> enumVars, Map<String, Object> vendorExtensions, String dataType, String extensionKey, String key) {
         if (vendorExtensions.containsKey(extensionKey)) {
             List<String> values = (List<String>) vendorExtensions.get(extensionKey);
             int size = Math.min(enumVars.size(), values.size());
