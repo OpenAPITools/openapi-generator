@@ -86,7 +86,7 @@ namespace {{packageName}}
             services
                 .AddSwaggerGen(c =>
                 {
-                    c.GeneratePolymorphicSchemas();
+                    c.EnableAnnotations(enableAnnotationsForInheritance: true, enableAnnotationsForPolymorphism: true);
                     
                     c.SwaggerDoc("{{{version}}}{{^version}}v1{{/version}}", new OpenApiInfo
                     {

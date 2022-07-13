@@ -80,7 +80,7 @@ namespace Org.OpenAPITools
             services
                 .AddSwaggerGen(c =>
                 {
-                    c.GeneratePolymorphicSchemas();
+                    c.EnableAnnotations(enableAnnotationsForInheritance: true, enableAnnotationsForPolymorphism: true);
                     
                     c.SwaggerDoc("1.0.0", new OpenApiInfo
                     {
