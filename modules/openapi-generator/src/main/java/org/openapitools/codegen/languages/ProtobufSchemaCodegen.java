@@ -257,8 +257,10 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         if(allowableValues.containsKey("values")) {
             List<String> values = (List<String>)allowableValues.get("values");
             for(int i = 0 ; i < values.size() ; i++) {
-                // replace value by value with prefix
-                values.set(i, prefix + "_" + values.get(i));
+                if (!values.get(i).startsWith(prefix + "_")) {
+                    // replace value by value with prefix
+                    values.set(i, prefix + "_" + values.get(i));
+                }
             }
         }
     }
@@ -274,26 +276,38 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
             if(allowableValues.containsKey("enumVars")) {
                 List<Map<String, Object>> enumVars = (List<Map<String, Object>>)allowableValues.get("enumVars");
 
-                HashMap<String, Object> unknown = new HashMap<String, Object>();
-                unknown.put("name", value);
-                unknown.put("isString", "false");
-                unknown.put("value", "\"" + value + "\"");
+                // add unspecified only if not already present
+                if (enumVars.size() > 0 && !value.equals(enumVars.get(0).get("name"))) {
+                    HashMap<String, Object> unknown = new HashMap<String, Object>();
+                    unknown.put("name", value);
+                    unknown.put("isString", "false");
+                    unknown.put("value", "\"" + value + "\"");
 
-                enumVars.add(0, unknown);
+                    enumVars.add(0, unknown);
+                }
             }
 
-            if(allowableValues.containsKey("values")) {
+            // add unspecified only if not already present
+            if(allowableValues.containsKey("values") && !((List<String>)allowableValues.get("values")).get(0).endsWith(value)) {
                 List<String> values = (List<String>)allowableValues.get("values");           
                 values.add(0, value);
             }
         }
     }
 
-    //override default behaviour: Return the Enum name (e.g. Status given 'status')
+    //override default behaviour: Return the Enum name (e.g. Status given 'status'), using x-ama-enum.name if defined
     @Override
     @SuppressWarnings("static-method")
     public String toEnumName(CodegenProperty property) {
-        return StringUtils.capitalize(property.name);
+        String name = "";
+        Map<String, Object> extensions = property.getVendorExtensions();
+        if (extensions.containsKey("x-ama-enum") && ((LinkedHashMap) extensions.get("x-ama-enum")).containsKey("name")) {
+            name = (String) ((LinkedHashMap) extensions.get("x-ama-enum")).get("name");
+        }
+        else {
+            name = property.name;
+        }
+        return StringUtils.capitalize(name);
     }
 
     /**
@@ -305,42 +319,106 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
     public void addEnumIndexes(List<Map<String, Object>> enumVars, Map<String, Object> vendorExtensions) throws ProtoBufIndexComputationException {
         //store used indexes to prevent duplicates
         Set<Integer> usedIndexes = new HashSet<Integer>();
-        String extensionKey = "x-enum-protobuf-indexes";
-        if (vendorExtensions != null && vendorExtensions.containsKey(extensionKey)) { 
-            List<Integer> indexes = (List<Integer>) vendorExtensions.get(extensionKey);
-            // first value of x-enum-protobuf-indexes is associated to the second enum value if the first enum value is the 'unknown' or 'unspecified'
-            int i = (startEnumsWithUnknown || startEnumsWithUnspecified) ? 1 : 0;
-            int j = 0;
-            while (i < enumVars.size() && j < indexes.size()) {
-                // ref : https://cloud.google.com/apis/design/proto3
-                if (i == 0 && indexes.get(j) != 0) {
-                    LOGGER.error("First enum value '" + enumVars.get(i).get("name") + "' must have field number zero since enum definitions must start with enum value zero");
-                    throw new RuntimeException("Enum definitions must start with enum value zero");
-                }
-                else if (indexes.get(j) == 0 && i != 0) {
-                    LOGGER.error("Enum value '" + enumVars.get(i).get("name") + "' must NOT have field number zero since field number zero must be only used for first enum value '" + enumVars.get(0).get("name") + "'");
-                    throw new RuntimeException("Field number zero reserved for first enum value");
-                }
-                else if (indexes.get(j) < 0) {
-                    LOGGER.error("x-enum-protobuf-indexes contains negative value: " + indexes.get(j));
-                    throw new RuntimeException("Negative enum field numbers are not allowed");
-                }
-                else {
-                    if (!usedIndexes.contains(indexes.get(j))) {
-                        //add protobuf-enum-index and update usedIndexes list
-                        enumVars.get(i).put("protobuf-enum-index", indexes.get(j));
-                        usedIndexes.add(indexes.get(j));
-                        i++;
-                        j++;          
+        if (vendorExtensions != null) { 
+            String extensionKey = "x-enum-protobuf-indexes";
+            if (vendorExtensions.containsKey(extensionKey)) {
+                List<Integer> indexes = (List<Integer>) vendorExtensions.get(extensionKey);
+                // first value of x-enum-protobuf-indexes is associated to the second enum value if the first enum value is the 'unknown'
+                int i = startEnumsWithUnknown || startEnumsWithUnspecified ? 1 : 0;
+                int j = 0;
+                while (i < enumVars.size() && j < indexes.size()) {
+                    // ref : https://cloud.google.com/apis/design/proto3
+                    if (i == 0 && indexes.get(j) != 0) {
+                        LOGGER.error("First enum value '" + enumVars.get(i).get("name") + "' must have field number zero since enum definitions must start with enum value zero");
+                        throw new RuntimeException("Enum definitions must start with enum value zero");
+                    }
+                    else if (indexes.get(j) == 0 && i != 0) {
+                        LOGGER.error("Enum value '" + enumVars.get(i).get("name") + "' must NOT have field number zero since field number zero must be only used for first enum value '" + enumVars.get(0).get("name") + "'");
+                        throw new RuntimeException("Field number zero reserved for first enum value");
+                    }
+                    else if (indexes.get(j) < 0) {
+                        LOGGER.error("x-enum-protobuf-indexes contains negative value: " + indexes.get(j));
+                        throw new RuntimeException("Negative enum field numbers are not allowed");
                     }
                     else {
-                        LOGGER.error("There are duplicates field numbers: " + indexes.get(j));
-                        throw new RuntimeException("Enum indexes must be unique");
+                        if (!usedIndexes.contains(indexes.get(j))) {
+                            //add protobuf-enum-index and update usedIndexes list
+                            enumVars.get(i).put("protobuf-enum-index", indexes.get(j));
+                            usedIndexes.add(indexes.get(j));
+                            i++;
+                            j++;      
+                        }
+                        else {
+                            LOGGER.error("There are duplicates field numbers: " + indexes.get(j));
+                            throw new RuntimeException("Enum indexes must be unique");
+                        }
+                    }
+                }        
+            }
+
+            //amadeus enum extension handling
+            extensionKey = "x-ama-enum";
+            if (vendorExtensions.containsKey(extensionKey) && ((LinkedHashMap) vendorExtensions.get(extensionKey)).containsKey("values")) {
+                //values specified in x-ama-enum
+                List<Map<String, Object>> amaEnumValues = (List<Map<String, Object>>) ((LinkedHashMap) vendorExtensions.get(extensionKey)).get("values");
+                
+                // check duplicate values in x-ama-enum
+                Set<String> amaUniqueEnumValues = new HashSet<String>();
+                for(Map<String, Object> amaEnumValue : amaEnumValues) {
+                    if (amaEnumValue.containsKey("value")) {
+                        String value = (String) amaEnumValue.get("value");
+                        if (amaUniqueEnumValues.contains(value)) {
+                            LOGGER.error("Duplicate value in x-ama-enum.values: " + value);
+                            throw new RuntimeException("Duplicate value in x-ama-enum.values");
+                        }
+                        else {
+                            amaUniqueEnumValues.add(value);
+                        }
+                    } 
+                }
+                
+                for (int i = 0; i < enumVars.size(); i++) {
+                    //add protobuf-enum-index, unless already specified
+                    if (!enumVars.get(i).containsKey("protobuf-enum-index") && enumVars.get(i).containsKey("value")) {
+                        String value = (String) (enumVars.get(i).get("value"));
+                        //Search matching specified value in x-ama-enum for enum value 
+                        for(Map<String, Object> amaEnumValue : amaEnumValues) {
+                            //enum values have additional "\"" at start and end
+                            if (amaEnumValue.containsKey("value") && 
+                            amaEnumValue.get("value").equals(value.replace("\"", "")) &&
+                            amaEnumValue.containsKey("protobuf-enum-field-number")) {
+                                int enumFieldNumber = (int) amaEnumValue.get("protobuf-enum-field-number");
+                                if (enumFieldNumber < 0) {
+                                    LOGGER.error("protobuf-enum-field-number is negative: " + enumFieldNumber);
+                                    throw new RuntimeException("Negative enum field numbers are not allowed");
+                                }
+                                else {
+                                    if (i == 0 && enumFieldNumber != 0) {
+                                        LOGGER.error("First enum value '" + enumVars.get(i).get("name") + "' must have field number zero since enum definitions must start with enum value zero");
+                                        throw new RuntimeException("Enum definitions must start with enum value zero");
+                                    } 
+                                    else if (enumFieldNumber == 0 && i != 0) {
+                                        LOGGER.error("Enum value '" + enumVars.get(i).get("name") + "' must NOT have field number zero since field number zero must be only used for first enum value '" + enumVars.get(0).get("name") + "'");
+                                        throw new RuntimeException("Field number zero reserved for first enum value");
+                                    }
+                                    else if (!usedIndexes.contains(enumFieldNumber)) {
+                                        //add protobuf-enum-index and update usedIndexes list
+                                        enumVars.get(i).put("protobuf-enum-index", enumFieldNumber);
+                                        usedIndexes.add(enumFieldNumber);
+                                    }
+                                    else {
+                                        LOGGER.error("There are duplicates field numbers: " + enumFieldNumber);
+                                        throw new RuntimeException("Enum indexes must be unique");
+                                    }
+                                }
+                                break;
+                            }
+                        }
                     }
                 }
-            }            
+            }
         }
-        
+
         //Add protobuf-enum-index generated automatically, unless already specified
         int enumIndex = 0;
         for (Map<String, Object> enumVar : enumVars) {
@@ -376,6 +454,22 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
     }
 
     @Override
+    protected void updateEnumVarsWithExtensions(List<Map<String, Object>> enumVars, Map<String, Object> vendorExtensions, String dataType, String extensionKey, String key) {
+        if (vendorExtensions.containsKey(extensionKey)) {
+            List<String> values = (List<String>) vendorExtensions.get(extensionKey);
+            int size = Math.min(enumVars.size(), values.size());
+            for (int i = 0; i < size; i++) {
+                if ("name".equals(key)) {
+                    enumVars.get(i).put(key, toEnumVarName(values.get(i), dataType));
+                }
+                else {
+                    enumVars.get(i).put(key, values.get(i));
+                }                
+            }
+        }
+    }
+
+    @Override
     public ModelsMap postProcessModels(ModelsMap objs) {
         objs = postProcessModelsEnum(objs);
 
@@ -385,7 +479,6 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
             if(cm.isEnum) {
                 Map<String, Object> allowableValues = cm.getAllowableValues();
                 addUnknownToAllowableValues(allowableValues);
-                addEnumValuesPrefix(allowableValues, cm.getClassname());
                 if (allowableValues.containsKey("enumVars")) {
                     List<Map<String, Object>> enumVars = (List<Map<String, Object>>)allowableValues.get("enumVars");
                     try {
@@ -396,6 +489,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                         throw new RuntimeException("Exception when assigning an index to a protobuf enum field");
                     }
                 }
+                addEnumValuesPrefix(allowableValues, cm.getClassname());
             }
 
             //to keep track of the indexes used, prevent duplicate indexes
@@ -423,8 +517,6 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
 
                 if (var.isEnum) {
                     addUnknownToAllowableValues(var.allowableValues);
-                    addEnumValuesPrefix(var.allowableValues, var.getEnumName());
-                
                     if(var.allowableValues.containsKey("enumVars")) {
                         List<Map<String, Object>> enumVars = (List<Map<String, Object>>) var.allowableValues.get("enumVars");
                         try {
@@ -435,6 +527,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                             throw new RuntimeException("Exception when assigning an index to a protobuf enum field");
                         }
                     }
+                    addEnumValuesPrefix(var.allowableValues, var.getEnumName());
                 }
 
                 // add x-protobuf-name

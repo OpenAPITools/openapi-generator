@@ -353,6 +353,48 @@ public class ProtobufSchemaCodegenTest {
     }
 
     @Test
+    public void testExtensionAmaEnum() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        Map<String, String> globalProperties = new HashMap<>();
+
+        File output = Files.createTempDirectory("test").toFile();
+        List<File> files = generate(output, properties, globalProperties, "src/test/resources/3_0/protobuf-schema/extension-ama-enum.yaml");
+        TestUtils.ensureContainsFile(files, output, "models/pet.proto");
+        Path path = Paths.get(output + "/models/pet.proto");
+        assertFileEquals(path, Paths.get("src/test/resources/3_0/protobuf-schema/extension-ama-enum.proto"));
+
+        output.delete();
+    }
+
+    @Test
+    public void testExtensionAmaEnumNonMatchingItem() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        Map<String, String> globalProperties = new HashMap<>();
+
+        File output = Files.createTempDirectory("test").toFile();
+        List<File> files = generate(output, properties, globalProperties, "src/test/resources/3_0/protobuf-schema/extension-ama-enum-non-matching-item.yaml");
+        TestUtils.ensureContainsFile(files, output, "models/pet.proto");
+        Path path = Paths.get(output + "/models/pet.proto");
+        assertFileEquals(path, Paths.get("src/test/resources/3_0/protobuf-schema/extension-ama-enum-non-matching-item.proto"));
+
+        output.delete();
+    }
+
+    @Test
+    public void testExtensionAmaEnumDuplicateValues() throws IOException {
+        try {
+            Map<String, Object> properties = new HashMap<>();
+            Map<String, String> globalProperties = new HashMap<>();
+            File output = Files.createTempDirectory("test").toFile();
+            List<File> files = generate(output, properties, globalProperties, "src/test/resources/3_0/protobuf-schema/extension-ama-enum-duplicate-values.yaml");
+            fail("No exception thrown!");
+        }
+        catch (RuntimeException e) {
+            assertEquals(e.getCause().getMessage(), "Duplicate value in x-ama-enum.values");
+        }        
+    }
+
+    @Test
     public void testPropertyAnyType1() throws IOException {
         Map<String, Object> properties = new HashMap<>();
         Map<String, String> globalProperties = new HashMap<>();
@@ -392,6 +434,21 @@ public class ProtobufSchemaCodegenTest {
         assertFileEquals(path, Paths.get("src/test/resources/3_0/protobuf-schema/operation-any-type.proto"));
 
         output.delete();       
+    }
+
+    @Test
+    public void testNoDuplicateEnumUnknownValueAllOf() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("startEnumsWithUnknown", true);
+        Map<String, String> globalProperties = new HashMap<>();
+
+        File output = Files.createTempDirectory("test").toFile();
+        List<File> files = generate(output, properties, globalProperties, "src/test/resources/3_0/protobuf-schema/no-duplicate-enum-unknown-value-allOf.yaml");
+        TestUtils.ensureContainsFile(files, output, "models/cat.proto");
+        Path path = Paths.get(output + "/models/cat.proto");
+        assertFileEquals(path, Paths.get("src/test/resources/3_0/protobuf-schema/no-duplicate-enum-unknown-value-allOf.proto"));
+
+        output.delete(); 
     }
 
     private void assertFileEquals(Path generatedFilePath, Path expectedFilePath) throws IOException {

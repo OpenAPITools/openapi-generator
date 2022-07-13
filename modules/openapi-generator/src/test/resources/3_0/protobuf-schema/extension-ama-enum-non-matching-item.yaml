@@ -1,0 +1,40 @@
+openapi: 3.0.0
+info:
+  description: This specification is used as source for a test to demonstrate handling of x-ama-enum extension with non matching item
+  version: 1.0.0
+  title: Extension ama-enum non matching item
+paths:
+  /dummy:
+    get:
+      summary: A dummy endpoint to make the spec valid.
+      responses:
+        '200':
+          description: Success
+components:
+  schemas:
+    Pet:
+      type: object
+      properties:
+        id:
+          type: integer
+        status:
+          type: string
+          enum:
+            - AVB
+            - P
+            - S
+          x-ama-enum:
+            name: petStatus
+            values:
+            - value: AVB
+              protobuf-enum-field-name: available
+              description: Pet is available 
+              protobuf-enum-field-number: 0
+            - value: PWRONG
+              protobuf-enum-field-name: pending
+              description: Pet is pending
+              protobuf-enum-field-number: 2
+            - value: S
+              protobuf-enum-field-name: sold
+              description: Pet is sold
+              protobuf-enum-field-number: 3
