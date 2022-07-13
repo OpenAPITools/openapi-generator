@@ -253,8 +253,10 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         if(allowableValues.containsKey("values")) {
             List<String> values = (List<String>)allowableValues.get("values");
             for(int i = 0 ; i < values.size() ; i++) {
-                // replace value by value with prefix
-                values.set(i, prefix + "_" + values.get(i));
+                if (!values.get(i).startsWith(prefix + "_")) {
+                    // replace value by value with prefix
+                    values.set(i, prefix + "_" + values.get(i));
+                }
             }
         }
     }
@@ -270,15 +272,19 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
             if(allowableValues.containsKey("enumVars")) {
                 List<Map<String, Object>> enumVars = (List<Map<String, Object>>)allowableValues.get("enumVars");
 
-                HashMap<String, Object> unknown = new HashMap<String, Object>();
-                unknown.put("name", value);
-                unknown.put("isString", "false");
-                unknown.put("value", "\"" + value + "\"");
+                // add unspecified only if not already present
+                if (enumVars.size() > 0 && !value.equals(enumVars.get(0).get("name"))) {
+                    HashMap<String, Object> unknown = new HashMap<String, Object>();
+                    unknown.put("name", value);
+                    unknown.put("isString", "false");
+                    unknown.put("value", "\"" + value + "\"");
 
-                enumVars.add(0, unknown);
+                    enumVars.add(0, unknown);
+                }
             }
 
-            if(allowableValues.containsKey("values")) {
+            // add unspecified only if not already present
+            if(allowableValues.containsKey("values") && !((List<String>)allowableValues.get("values")).get(0).endsWith(value)) {
                 List<String> values = (List<String>)allowableValues.get("values");           
                 values.add(0, value);
             }
