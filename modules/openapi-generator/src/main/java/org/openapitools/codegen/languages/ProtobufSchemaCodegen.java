@@ -352,6 +352,26 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
     }
 
     @Override
+    public void updateEnumVarsWithExtensions(List<Map<String, Object>> enumVars, Map<String, Object> vendorExtensions, String dataType) {
+        super.updateEnumVarsWithExtensions(enumVars, vendorExtensions, dataType);
+
+        //check for duplicate enum names
+        Set<String> uniqueNames = new HashSet<String>();
+        for (int i = 0; i < enumVars.size(); i++) {
+            if (enumVars.get(i).containsKey("name")) {
+                String name = (String) enumVars.get(i).get("name");
+                if (uniqueNames.contains(name)) {
+                    LOGGER.error("Duplicate enum name: " + name);
+                    throw new RuntimeException("Duplicate enum name");
+                }
+                else {
+                    uniqueNames.add(name);
+                }
+            }
+        }
+    }
+
+    @Override
     public ModelsMap postProcessModels(ModelsMap objs) {
         objs = postProcessModelsEnum(objs);
 
