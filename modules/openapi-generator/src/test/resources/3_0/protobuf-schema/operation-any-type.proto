@@ -13,7 +13,7 @@ syntax = "proto3";
 package openapitools.services.defaultservice;
 
 import "google/protobuf/empty.proto";
-import public "google/protobuf/any.proto";
+import "google/protobuf/any.proto";
 
 service DefaultService {
   rpc AddAny (AddAnyRequest) returns (google.protobuf.Any);

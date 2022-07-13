@@ -5,7 +5,7 @@ package {{#lambda.lowercase}}{{{packageName}}};{{/lambda.lowercase}}
 
 {{#imports}}
 {{#import}}
-import public "{{{import}}}.proto";
+import {{#publicImports}}public {{/publicImports}}"{{{import}}}.proto";
 {{/import}}
 {{/imports}}
 

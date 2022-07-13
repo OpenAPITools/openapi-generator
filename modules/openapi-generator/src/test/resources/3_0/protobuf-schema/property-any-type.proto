@@ -12,7 +12,7 @@ syntax = "proto3";
 
 package openapitools;
 
-import public "google/protobuf/any.proto";
+import "google/protobuf/any.proto";
 
 message Pet {
 

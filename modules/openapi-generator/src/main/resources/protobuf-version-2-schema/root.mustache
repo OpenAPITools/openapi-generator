@@ -10,13 +10,13 @@ option {{{.}}};
 // Models
 {{#models}}
 {{#model}}
-import public "{{modelPackage}}/{{classFilename}}.proto";
+import {{#publicImports}}public {{/publicImports}}"{{modelPackage}}/{{classFilename}}.proto";
 {{/model}}
 {{/models}}
 
 // APIs
 {{#apiInfo}}
 {{#apis}}
-import public "{{apiPackage}}/{{classFilename}}.proto";
+import {{#publicImports}}public {{/publicImports}}"{{apiPackage}}/{{classFilename}}.proto";
 {{/apis}}
 {{/apiInfo}}
