@@ -24,6 +24,9 @@ import public "{{{modelPackage}}}/{{{import}}}.proto";
   enum {{enumName}} {
     {{#allowableValues}}
     {{#enumVars}}
+    {{#enumDescription}}
+    // {{{.}}}
+    {{/enumDescription}}
     {{#lambda.uppercase}}{{#lambda.snakecase}}{{{name}}}{{/lambda.snakecase}}{{/lambda.uppercase}} = {{{protobuf-enum-index}}};
     {{/enumVars}}
     {{/allowableValues}}
