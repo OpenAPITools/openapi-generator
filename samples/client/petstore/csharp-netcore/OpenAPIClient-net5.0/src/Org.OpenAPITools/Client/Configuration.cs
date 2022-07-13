@@ -17,7 +17,7 @@ using System.Net;
 using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
-using System.Web;
+using System.Net.Http;
 using Org.OpenAPITools.Client.Auth;
 
 namespace Org.OpenAPITools.Client
@@ -120,7 +120,7 @@ namespace Org.OpenAPITools.Client
         public Configuration()
         {
             Proxy = null;
-            UserAgent = HttpUtility.UrlEncode("OpenAPI-Generator/1.0.0/csharp");
+            UserAgent = WebUtility.UrlEncode("OpenAPI-Generator/1.0.0/csharp");
             BasePath = "http://petstore.swagger.io:80/v2";
             DefaultHeaders = new ConcurrentDictionary<string, string>();
             ApiKey = new ConcurrentDictionary<string, string>();
