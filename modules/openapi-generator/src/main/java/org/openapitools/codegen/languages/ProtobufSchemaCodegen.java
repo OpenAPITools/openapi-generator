@@ -156,9 +156,11 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         typeMapping.put("file", "string");
         typeMapping.put("binary", "string");
         typeMapping.put("ByteArray", "bytes");
-        typeMapping.put("object", "TODO_OBJECT_MAPPING");
+        typeMapping.put("object", "google.protobuf.Any");
+        typeMapping.put("AnyType", "google.protobuf.Any");
 
         importMapping.clear();
+        importMapping.put("google.protobuf.Any", "google/protobuf/any");
 
         modelDocTemplateFiles.put("model_doc.mustache", ".md");
         apiDocTemplateFiles.put("api_doc.mustache", ".md");
@@ -534,12 +536,15 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
     }
 
     public void addImport(Map<String, ModelsMap> objs, CodegenModel cm, String importValue) {
-        String modelFileName = this.toModelFilename(importValue);
-        boolean skipImport = isImportAlreadyPresentInModel(objs, cm, modelFileName);
+        String mapping = importMapping().get(importValue);
+        if (mapping == null) {
+            mapping = toModelImport(importValue);
+        }
+        boolean skipImport = isImportAlreadyPresentInModel(objs, cm, mapping);
         if (!skipImport) {
             this.addImport(cm, importValue);
             Map<String, String> importItem = new HashMap<>();
-            importItem.put(IMPORT, modelFileName);
+            importItem.put(IMPORT, mapping);
             objs.get(cm.getName()).getImports().add(importItem);
         }
     }
@@ -818,7 +823,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
 
     @Override
     public String toModelImport(String name) {
-        return underscore(name);
+        return modelPackage() + "/" + underscore(name);
     }
 
     @Override
