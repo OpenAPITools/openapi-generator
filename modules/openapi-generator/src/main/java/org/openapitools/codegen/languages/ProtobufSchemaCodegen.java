@@ -63,6 +63,8 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
 
     protected String packageName = "openapitools";
 
+    protected String protoVersion = "proto3";
+
     private boolean numberedFieldNumberList = false;
 
     private boolean startEnumsWithUnknown = false;
@@ -81,7 +83,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
     }
 
     public String getHelp() {
-        return "Generates gRPC and protocol buffer schema files (beta)";
+        return "Generates gRPC and protocol buffer 3 schema files (beta)";
     }
 
     public ProtobufSchemaCodegen() {
@@ -959,6 +961,10 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
             }
         }
         return containsVar;
+    }
+
+    private String getProtoVersion() {
+        return this.protoVersion;
     }
 
     @Override
