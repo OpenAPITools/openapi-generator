@@ -139,7 +139,7 @@ module Petstore
     attr_accessor :force_ending_format
 
     def initialize
-      @scheme = 'http'
+      @scheme = 'https'
       @host = 'petstore.swagger.io'
       @base_path = '/v2'
       @server_index = 0
@@ -259,7 +259,7 @@ module Petstore
     def server_settings
       [
         {
-          url: "http://{server}.swagger.io:{port}/v2",
+          url: "https://{server}.swagger.io:{port}/v2",
           description: "petstore server",
           variables: {
             server: {
@@ -273,9 +273,9 @@ module Petstore
               },
             port: {
                 description: "No description provided",
-                default_value: "80",
+                default_value: "443",
                 enum_values: [
-                  "80",
+                  "443",
                   "8080"
                 ]
               }
@@ -306,7 +306,7 @@ module Petstore
       {
         "PetApi.add_pet": [
           {
-          url: "http://petstore.swagger.io/v2",
+          url: "https://petstore.swagger.io:443/v2",
           description: "No description provided",
           },
           {
@@ -316,7 +316,7 @@ module Petstore
         ],
         "PetApi.update_pet": [
           {
-          url: "http://petstore.swagger.io/v2",
+          url: "https://petstore.swagger.io:443/v2",
           description: "No description provided",
           },
           {
