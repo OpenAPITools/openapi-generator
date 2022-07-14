@@ -145,6 +145,11 @@ FILEPATH_TO_EXCLUDED_CASE_AND_REASON = {
     },
     (json_schema_test_draft, 'oneOf.json'): {
         'oneOf with missing optional property': ExclusionReason.v303_does_not_support_boolean_schemas_in_location,
+        'oneOf with boolean schemas, all true': ExclusionReason.v303_does_not_support_boolean_schemas_in_location,
+        'oneOf with boolean schemas, one true': ExclusionReason.v303_does_not_support_boolean_schemas_in_location,
+        'oneOf with boolean schemas, more than one true': ExclusionReason.v303_does_not_support_boolean_schemas_in_location,
+        'oneOf with boolean schemas, all false': ExclusionReason.v303_does_not_support_boolean_schemas_in_location,
+        'oneOf with required': ExclusionReason.required_vars_missing_for_anytype_schema_bug,
     },
     (json_schema_test_draft, 'properties.json'): {
         'properties, patternProperties, additionalProperties interaction': ExclusionReason.v303_does_not_support_patternProperties,
@@ -248,7 +253,7 @@ JSON_SCHEMA_TEST_FILE_TO_FOLDERS = {
     'minProperties.json': (json_schema_test_draft,),
     'multipleOf.json': (json_schema_test_draft,),
     'not.json': (json_schema_test_draft,),
-#     'oneOf.json': (json_schema_test_draft,),  # activate after fixing this
+    'oneOf.json': (json_schema_test_draft,),
     'pattern.json': (json_schema_test_draft,),
     'patternProperties.json': (json_schema_test_draft,),
     'properties.json': (json_schema_test_draft,),

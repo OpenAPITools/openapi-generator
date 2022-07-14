@@ -236,6 +236,35 @@ components:
       properties:
         foo:
           not: {}
+    Oneof:
+      oneOf:
+      - type: integer
+      - minimum: 2
+    OneofWithBaseSchema:
+      type: string
+      oneOf:
+      - minLength: 2
+      - maxLength: 4
+    OneofComplexTypes:
+      oneOf:
+      - properties:
+          bar:
+            type: integer
+        required:
+        - bar
+      - properties:
+          foo:
+            type: string
+        required:
+        - foo
+    OneofWithEmptySchema:
+      oneOf:
+      - type: number
+      - {}
+    NestedOneofToCheckValidationSemantics:
+      oneOf:
+      - oneOf:
+        - type: 'null'
     PatternValidation:
       pattern: ^a*$
     PatternIsNotAnchored:
@@ -1282,6 +1311,77 @@ components:
           bar: 1
           baz: 2
         valid: true
+    Oneof:
+      FirstOneofValid:
+        description: first oneOf valid
+        data: 1
+        valid: true
+      SecondOneofValid:
+        description: second oneOf valid
+        data: 2.5
+        valid: true
+      BothOneofValid:
+        description: both oneOf valid
+        data: 3
+        valid: false
+      NeitherOneofValid:
+        description: neither oneOf valid
+        data: 1.5
+        valid: false
+    OneofWithBaseSchema:
+      MismatchBaseSchema:
+        description: mismatch base schema
+        data: 3
+        valid: false
+      OneOneofValid:
+        description: one oneOf valid
+        data: foobar
+        valid: true
+      BothOneofValid:
+        description: both oneOf valid
+        data: foo
+        valid: false
+    OneofComplexTypes:
+      FirstOneofValidComplex:
+        description: first oneOf valid (complex)
+        data:
+          bar: 2
+        valid: true
+      SecondOneofValidComplex:
+        description: second oneOf valid (complex)
+        data:
+          foo: baz
+        valid: true
+      BothOneofValidComplex:
+        description: both oneOf valid (complex)
+        data:
+          foo: baz
+          bar: 2
+        valid: false
+      NeitherOneofValidComplex:
+        description: neither oneOf valid (complex)
+        data:
+          foo: 2
+          bar: quux
+        valid: false
+    OneofWithEmptySchema:
+      OneValidValid:
+        description: one valid - valid
+        data: foo
+        valid: true
+      BothValidInvalid:
+        description: both valid - invalid
+        data: 123
+        valid: false
+    NestedOneofToCheckValidationSemantics:
+      NullIsValid:
+        description: null is valid
+        data: null
+        valid: true
+      AnythingNonNullIsInvalid:
+        description: anything non-null is invalid
+        data: 123
+        valid: false
     PatternValidation:
       AMatchingPatternIsValid:
         description: a matching pattern is valid
