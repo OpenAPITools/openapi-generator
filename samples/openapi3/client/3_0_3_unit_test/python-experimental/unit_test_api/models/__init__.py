@@ -23,6 +23,10 @@ from unit_test_api.model.allof_with_one_empty_schema import AllofWithOneEmptySch
 from unit_test_api.model.allof_with_the_first_empty_schema import AllofWithTheFirstEmptySchema
 from unit_test_api.model.allof_with_the_last_empty_schema import AllofWithTheLastEmptySchema
 from unit_test_api.model.allof_with_two_empty_schemas import AllofWithTwoEmptySchemas
+from unit_test_api.model.anyof import Anyof
+from unit_test_api.model.anyof_complex_types import AnyofComplexTypes
+from unit_test_api.model.anyof_with_base_schema import AnyofWithBaseSchema
+from unit_test_api.model.anyof_with_one_empty_schema import AnyofWithOneEmptySchema
 from unit_test_api.model.array_type_matches_arrays import ArrayTypeMatchesArrays
 from unit_test_api.model.boolean_type_matches_booleans import BooleanTypeMatchesBooleans
 from unit_test_api.model.by_int import ByInt
@@ -57,6 +61,7 @@ from unit_test_api.model.minlength_validation import MinlengthValidation
 from unit_test_api.model.minproperties_validation import MinpropertiesValidation
 from unit_test_api.model.model_not import ModelNot
 from unit_test_api.model.nested_allof_to_check_validation_semantics import NestedAllofToCheckValidationSemantics
+from unit_test_api.model.nested_anyof_to_check_validation_semantics import NestedAnyofToCheckValidationSemantics
 from unit_test_api.model.nested_items import NestedItems
 from unit_test_api.model.not_more_complex_schema import NotMoreComplexSchema
 from unit_test_api.model.nul_characters_in_strings import NulCharactersInStrings

@@ -14,6 +14,10 @@ docs/AllofWithOneEmptySchema.md
 docs/AllofWithTheFirstEmptySchema.md
 docs/AllofWithTheLastEmptySchema.md
 docs/AllofWithTwoEmptySchemas.md
+docs/Anyof.md
+docs/AnyofComplexTypes.md
+docs/AnyofWithBaseSchema.md
+docs/AnyofWithOneEmptySchema.md
 docs/ArrayTypeMatchesArrays.md
 docs/BooleanTypeMatchesBooleans.md
 docs/ByInt.md
@@ -48,6 +52,7 @@ docs/MinlengthValidation.md
 docs/MinpropertiesValidation.md
 docs/ModelNot.md
 docs/NestedAllofToCheckValidationSemantics.md
+docs/NestedAnyofToCheckValidationSemantics.md
 docs/NestedItems.md
 docs/NotMoreComplexSchema.md
 docs/NulCharactersInStrings.md
@@ -93,6 +98,10 @@ test/test_allof_with_one_empty_schema.py
 test/test_allof_with_the_first_empty_schema.py
 test/test_allof_with_the_last_empty_schema.py
 test/test_allof_with_two_empty_schemas.py
+test/test_anyof.py
+test/test_anyof_complex_types.py
+test/test_anyof_with_base_schema.py
+test/test_anyof_with_one_empty_schema.py
 test/test_array_type_matches_arrays.py
 test/test_boolean_type_matches_booleans.py
 test/test_by_int.py
@@ -127,6 +136,7 @@ test/test_minlength_validation.py
 test/test_minproperties_validation.py
 test/test_model_not.py
 test/test_nested_allof_to_check_validation_semantics.py
+test/test_nested_anyof_to_check_validation_semantics.py
 test/test_nested_items.py
 test/test_not_more_complex_schema.py
 test/test_nul_characters_in_strings.py
@@ -174,6 +184,10 @@ unit_test_api/model/allof_with_one_empty_schema.py
 unit_test_api/model/allof_with_the_first_empty_schema.py
 unit_test_api/model/allof_with_the_last_empty_schema.py
 unit_test_api/model/allof_with_two_empty_schemas.py
+unit_test_api/model/anyof.py
+unit_test_api/model/anyof_complex_types.py
+unit_test_api/model/anyof_with_base_schema.py
+unit_test_api/model/anyof_with_one_empty_schema.py
 unit_test_api/model/array_type_matches_arrays.py
 unit_test_api/model/boolean_type_matches_booleans.py
 unit_test_api/model/by_int.py
@@ -208,6 +222,7 @@ unit_test_api/model/minlength_validation.py
 unit_test_api/model/minproperties_validation.py
 unit_test_api/model/model_not.py
 unit_test_api/model/nested_allof_to_check_validation_semantics.py
+unit_test_api/model/nested_anyof_to_check_validation_semantics.py
 unit_test_api/model/nested_items.py
 unit_test_api/model/not_more_complex_schema.py
 unit_test_api/model/nul_characters_in_strings.py
