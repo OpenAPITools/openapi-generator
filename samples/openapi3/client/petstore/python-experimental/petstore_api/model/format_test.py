@@ -88,7 +88,7 @@ class FormatTest(
         _SchemaValidator(
             inclusive_maximum=100,
             inclusive_minimum=10,
-            multiple_of=[2],
+            multiple_of=2,
         ),
         IntSchema
     ):
@@ -111,7 +111,7 @@ class FormatTest(
         _SchemaValidator(
             inclusive_maximum=543.2,
             inclusive_minimum=32.1,
-            multiple_of=[32.5],
+            multiple_of=32.5,
         ),
         NumberSchema
     ):
