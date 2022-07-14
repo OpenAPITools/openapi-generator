@@ -292,41 +292,81 @@ def get_json_schema_test_schemas(file_path: typing.Tuple[str]) -> typing.List[Js
 
 openapi_version = '3.0.3'
 
-
-@dataclasses.dataclass
-class OpenApiDocumentInfo:
-    title: str
-    description: str
-    version: str
-
 OpenApiSchema = typing.TypedDict(
     'OpenApiSchema',
     {
         'type': str,
-        'x-test-examples': typing.Dict[str, JsonSchemaTestCase],
         'items': 'OpenApiSchema',
-        'properties': typing.Dict[str, 'OpenApiSchema']
-    }
+        'properties': typing.Dict[str, 'OpenApiSchema'],
+        '$ref': str
+    },
+    total=False
 )
 
-@dataclasses.dataclass
-class OpenApiExample:
-    description: str
-    value: typing.Union[str, int, float, bool, None, list, dict]
+JsonSchemaTestCases = typing.Dict[str, JsonSchemaTestCase]
 
 OpenApiComponents = typing.TypedDict(
     'OpenApiComponents',
     {
-        'schemas': typing.Dict[str, typing.Union[bool, OpenApiSchema]],
-        'x-schema-test-examples': typing.Dict[str, typing.Dict[str, JsonSchemaTestCase]]
+        'schemas': typing.Dict[str, OpenApiSchema],
+        'x-schema-test-examples': typing.Dict[str, JsonSchemaTestCases]
     }
 )
+
+OpenApiMediaType = typing.TypedDict(
+    'OpenApiMediaType',
+    {
+        'schema': OpenApiSchema,
+        'x-schema-test-examples': JsonSchemaTestCases
+    },
+    total=False
+)
+
+class OpenApiRequestBody(typing.TypedDict, total=False):
+    description: str
+    content: typing.Dict[str, OpenApiMediaType]
+    required: bool
+
+class OpenApiResponseObject(typing.TypedDict):
+    description: str
+    headers: typing.Optional[typing.Dict[str, typing.Any]] = None
+    content: typing.Optional[typing.Dict[str, OpenApiMediaType]] = None
+
+class OpenApiOperation(typing.TypedDict, total=False):
+    tags: typing.List[str]
+    summary: str
+    description: str
+    operationId: str
+    requestBody: OpenApiRequestBody
+    responses: typing.Dict[str, OpenApiResponseObject]
+
+class OpenApiPathItem(typing.TypedDict, total=False):
+    summary: str
+    description: str
+    get: OpenApiOperation
+    put: OpenApiOperation
+    post: OpenApiOperation
+    delete: OpenApiOperation
+    options: OpenApiOperation
+    head: OpenApiOperation
+    patch: OpenApiOperation
+    trace: OpenApiOperation
+
+OpenApiPaths = typing.Dict[str, OpenApiPathItem]
+
+
+@dataclasses.dataclass
+class OpenApiDocumentInfo:
+    title: str
+    version: str
+    description: typing.Optional[str] = None
+
 
 @dataclasses.dataclass
 class OpenApiDocument:
     openapi: str
     info: OpenApiDocumentInfo
-    paths: typing.Dict[str, typing.Any]
+    paths: OpenApiPaths
     components: OpenApiComponents
 
 
@@ -376,6 +416,7 @@ def get_component_schemas_and_test_examples(json_schema_test_file: str, folders:
 
 def write_openapi_spec():
     openapi = get_new_openapi()
+    # write component schemas and tests
     for json_schema_test_file, folders in JSON_SCHEMA_TEST_FILE_TO_FOLDERS.items():
         component_schemas, component_name_to_test_examples = (
             get_component_schemas_and_test_examples(json_schema_test_file, folders)
@@ -388,6 +429,38 @@ def write_openapi_spec():
             if component_name in openapi.components['x-schema-test-examples']:
                 raise ValueError('A component schema test example map with that name is already defined!')
             openapi.components['x-schema-test-examples'][component_name] = test_examples
+
+            # write post endpoints
+            method = 'post'
+            ref_schema_path = f'#/components/schemas/{component_name}'
+            media_type = OpenApiMediaType(
+                {
+                    'schema': OpenApiSchema({'$ref': ref_schema_path}),
+                    'x-schema-test-examples': test_examples
+                }
+            )
+            request_body = OpenApiRequestBody(
+                {
+                    'content': {'application/json': media_type},
+                    'required': True
+                }
+            )
+            operationId = f'{method}{component_name}RequestBody'
+            response_object = OpenApiResponseObject({'description': 'success'})
+            operation = OpenApiOperation(
+                {
+                    'operationId': operationId,
+                    'requestBody': request_body,
+                    'responses': {'200': response_object}
+                }
+            )
+            path_item = OpenApiPathItem(
+                {
+                    'post': operation
+                }
+            )
+            openapi.paths[f'/{operationId}'] = path_item
+
     print(
         yaml.dump(
             dataclasses.asdict(openapi),
