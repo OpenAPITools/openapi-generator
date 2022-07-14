@@ -35,19 +35,19 @@ impl<C: hyper::client::connect::Connect> StoreApiClient<C>
 }
 
 pub trait StoreApi {
-    fn delete_order(&self, orderid: &str) -> Pin<Box<dyn Future<Output = Result<(), Error>>>>;
+    fn delete_order(&self, order_id: &str) -> Pin<Box<dyn Future<Output = Result<(), Error>>>>;
     fn get_inventory(&self, ) -> Pin<Box<dyn Future<Output = Result<::std::collections::HashMap<String, i32>, Error>>>>;
-    fn get_order_by_id(&self, orderid: i64) -> Pin<Box<dyn Future<Output = Result<crate::models::Order, Error>>>>;
+    fn get_order_by_id(&self, order_id: i64) -> Pin<Box<dyn Future<Output = Result<crate::models::Order, Error>>>>;
     fn place_order(&self, order: crate::models::Order) -> Pin<Box<dyn Future<Output = Result<crate::models::Order, Error>>>>;
 }
 
 impl<C: hyper::client::connect::Connect>StoreApi for StoreApiClient<C>
     where C: Clone + std::marker::Send + Sync {
     #[allow(unused_mut)]
-    fn delete_order(&self, orderid: &str) -> Pin<Box<dyn Future<Output = Result<(), Error>>>> {
+    fn delete_order(&self, order_id: &str) -> Pin<Box<dyn Future<Output = Result<(), Error>>>> {
         let mut req = __internal_request::Request::new(hyper::Method::DELETE, "/store/order/{orderId}".to_string())
         ;
-        req = req.with_path_param("orderId".to_string(), orderid.to_string());
+        req = req.with_path_param("orderId".to_string(), order_id.to_string());
         req = req.returns_nothing();
 
         req.execute(self.configuration.borrow())
@@ -67,10 +67,10 @@ impl<C: hyper::client::connect::Connect>StoreApi for StoreApiClient<C>
     }
 
     #[allow(unused_mut)]
-    fn get_order_by_id(&self, orderid: i64) -> Pin<Box<dyn Future<Output = Result<crate::models::Order, Error>>>> {
+    fn get_order_by_id(&self, order_id: i64) -> Pin<Box<dyn Future<Output = Result<crate::models::Order, Error>>>> {
         let mut req = __internal_request::Request::new(hyper::Method::GET, "/store/order/{orderId}".to_string())
         ;
-        req = req.with_path_param("orderId".to_string(), orderid.to_string());
+        req = req.with_path_param("orderId".to_string(), order_id.to_string());
 
         req.execute(self.configuration.borrow())
     }
