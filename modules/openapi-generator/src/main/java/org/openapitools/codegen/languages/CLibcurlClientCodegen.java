@@ -852,8 +852,8 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
     }
 
     @Override
-    public CodegenProperty fromProperty(String name, Schema p) {
-        CodegenProperty cm = super.fromProperty(name, p);
+    public CodegenProperty fromProperty(String name, Schema p, boolean required) {
+        CodegenProperty cm = super.fromProperty(name, p, required);
         Schema ref = ModelUtils.getReferencedSchema(openAPI, p);
         if (ref != null) {
             if (ref.getEnum() != null) {

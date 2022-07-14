@@ -384,8 +384,8 @@ public class GoClientCodegen extends AbstractGoCodegen {
     }
 
     @Override
-    public CodegenProperty fromProperty(String name, Schema p) {
-        CodegenProperty prop = super.fromProperty(name, p);
+    public CodegenProperty fromProperty(String name, Schema p, boolean required) {
+        CodegenProperty prop = super.fromProperty(name, p, required);
         String cc = camelize(prop.name, true);
         if (isReservedWord(cc)) {
             cc = escapeReservedWord(cc);

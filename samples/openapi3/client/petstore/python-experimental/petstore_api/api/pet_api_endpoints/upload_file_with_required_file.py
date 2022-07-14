@@ -101,6 +101,7 @@ class SchemaForRequestBodyMultipartFormData(
     DictSchema
 ):
     _required_property_names = set((
+        'requiredFile',
     ))
     additionalMetadata = StrSchema
     requiredFile = BinarySchema
@@ -109,6 +110,7 @@ class SchemaForRequestBodyMultipartFormData(
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
+        requiredFile: requiredFile,
         additionalMetadata: typing.Union[additionalMetadata, Unset] = unset,
         _configuration: typing.Optional[Configuration] = None,
         **kwargs: typing.Type[Schema],
@@ -116,6 +118,7 @@ class SchemaForRequestBodyMultipartFormData(
         return super().__new__(
             cls,
             *args,
+            requiredFile=requiredFile,
             additionalMetadata=additionalMetadata,
             _configuration=_configuration,
             **kwargs,

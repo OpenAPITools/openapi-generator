@@ -1315,7 +1315,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **additionalMetadata** | **str** | Additional data to pass to server | [optional] 
-**file** | **file_type** | file to upload | 
+**file** | **file_type** | file to upload | [optional] 
 **any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
 
 ### path_params
