@@ -2243,21 +2243,23 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
      */
     public void postProcessPattern(String pattern, Map<String, Object> vendorExtensions) {
         if (pattern != null) {
+            int regexLength = pattern.length();
+            String regex = pattern;
             int i = pattern.lastIndexOf('/');
-
-            //Must follow Perl /pattern/modifiers convention
-            if (pattern.charAt(0) != '/' || i < 2) {
-                throw new IllegalArgumentException("Pattern must follow the Perl "
-                        + "/pattern/modifiers convention. " + pattern + " is not valid.");
+            if (regexLength >= 2 && pattern.charAt(0) == '/' && i != -1) {
+                // json schema tests do not include the leading and trailing slashes
+                // so I do not think that they are required
+                regex = pattern.substring(1, i);
             }
-
-            String regex = pattern.substring(1, i).replace("'", "\\'");
+            regex = regex.replace("'", "\\'");
             List<String> modifiers = new ArrayList<String>();
 
-            for (char c : pattern.substring(i).toCharArray()) {
-                if (regexModifiers.containsKey(c)) {
-                    String modifier = regexModifiers.get(c);
-                    modifiers.add(modifier);
+            if (i != -1) {
+                for (char c : pattern.substring(i).toCharArray()) {
+                    if (regexModifiers.containsKey(c)) {
+                        String modifier = regexModifiers.get(c);
+                        modifiers.add(modifier);
+                    }
                 }
             }
 

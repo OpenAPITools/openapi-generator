@@ -51,6 +51,94 @@ Please follow the [installation procedure](#installation--usage) and then run th
 import time
 import unit_test_api
 from pprint import pprint
+from unit_test_api.api import default_api
+from unit_test_api.model.additionalproperties_allows_a_schema_which_should_validate import AdditionalpropertiesAllowsASchemaWhichShouldValidate
+from unit_test_api.model.additionalproperties_are_allowed_by_default import AdditionalpropertiesAreAllowedByDefault
+from unit_test_api.model.additionalproperties_can_exist_by_itself import AdditionalpropertiesCanExistByItself
+from unit_test_api.model.additionalproperties_should_not_look_in_applicators import AdditionalpropertiesShouldNotLookInApplicators
+from unit_test_api.model.allof import Allof
+from unit_test_api.model.allof_combined_with_anyof_oneof import AllofCombinedWithAnyofOneof
+from unit_test_api.model.allof_simple_types import AllofSimpleTypes
+from unit_test_api.model.allof_with_base_schema import AllofWithBaseSchema
+from unit_test_api.model.allof_with_one_empty_schema import AllofWithOneEmptySchema
+from unit_test_api.model.allof_with_the_first_empty_schema import AllofWithTheFirstEmptySchema
+from unit_test_api.model.allof_with_the_last_empty_schema import AllofWithTheLastEmptySchema
+from unit_test_api.model.allof_with_two_empty_schemas import AllofWithTwoEmptySchemas
+from unit_test_api.model.anyof import Anyof
+from unit_test_api.model.anyof_complex_types import AnyofComplexTypes
+from unit_test_api.model.anyof_with_base_schema import AnyofWithBaseSchema
+from unit_test_api.model.anyof_with_one_empty_schema import AnyofWithOneEmptySchema
+from unit_test_api.model.array_type_matches_arrays import ArrayTypeMatchesArrays
+from unit_test_api.model.by_int import ByInt
+from unit_test_api.model.by_number import ByNumber
+from unit_test_api.model.by_small_number import BySmallNumber
+from unit_test_api.model.enum_with0_does_not_match_false import EnumWith0DoesNotMatchFalse
+from unit_test_api.model.enum_with1_does_not_match_true import EnumWith1DoesNotMatchTrue
+from unit_test_api.model.enum_with_escaped_characters import EnumWithEscapedCharacters
+from unit_test_api.model.enum_with_false_does_not_match0 import EnumWithFalseDoesNotMatch0
+from unit_test_api.model.enum_with_true_does_not_match1 import EnumWithTrueDoesNotMatch1
+from unit_test_api.model.enums_in_properties import EnumsInProperties
+from unit_test_api.model.forbidden_property import ForbiddenProperty
+from unit_test_api.model.invalid_instance_should_not_raise_error_when_float_division_inf import InvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInf
+from unit_test_api.model.invalid_string_value_for_default import InvalidStringValueForDefault
+from unit_test_api.model.maximum_validation import MaximumValidation
+from unit_test_api.model.maximum_validation_with_unsigned_integer import MaximumValidationWithUnsignedInteger
+from unit_test_api.model.maxitems_validation import MaxitemsValidation
+from unit_test_api.model.maxlength_validation import MaxlengthValidation
+from unit_test_api.model.maxproperties0_means_the_object_is_empty import Maxproperties0MeansTheObjectIsEmpty
+from unit_test_api.model.maxproperties_validation import MaxpropertiesValidation
+from unit_test_api.model.minimum_validation import MinimumValidation
+from unit_test_api.model.minimum_validation_with_signed_integer import MinimumValidationWithSignedInteger
+from unit_test_api.model.minitems_validation import MinitemsValidation
+from unit_test_api.model.minlength_validation import MinlengthValidation
+from unit_test_api.model.minproperties_validation import MinpropertiesValidation
+from unit_test_api.model.nested_allof_to_check_validation_semantics import NestedAllofToCheckValidationSemantics
+from unit_test_api.model.nested_anyof_to_check_validation_semantics import NestedAnyofToCheckValidationSemantics
+from unit_test_api.model.nested_items import NestedItems
+from unit_test_api.model.nested_oneof_to_check_validation_semantics import NestedOneofToCheckValidationSemantics
+from unit_test_api.model.nul_characters_in_strings import NulCharactersInStrings
+from unit_test_api.model.object_properties_validation import ObjectPropertiesValidation
+from unit_test_api.model.oneof import Oneof
+from unit_test_api.model.oneof_complex_types import OneofComplexTypes
+from unit_test_api.model.oneof_with_base_schema import OneofWithBaseSchema
+from unit_test_api.model.oneof_with_empty_schema import OneofWithEmptySchema
+from unit_test_api.model.pattern_is_not_anchored import PatternIsNotAnchored
+from unit_test_api.model.pattern_validation import PatternValidation
+from unit_test_api.model.properties_with_escaped_characters import PropertiesWithEscapedCharacters
+from unit_test_api.model.property_named_ref_that_is_not_a_reference import PropertyNamedRefThatIsNotAReference
+from unit_test_api.model.ref_in_additionalproperties import RefInAdditionalproperties
+from unit_test_api.model.ref_in_allof import RefInAllof
+from unit_test_api.model.ref_in_anyof import RefInAnyof
+from unit_test_api.model.ref_in_items import RefInItems
+from unit_test_api.model.ref_in_oneof import RefInOneof
+from unit_test_api.model.ref_in_property import RefInProperty
+from unit_test_api.model.required_default_validation import RequiredDefaultValidation
+from unit_test_api.model.required_validation import RequiredValidation
+from unit_test_api.model.required_with_empty_array import RequiredWithEmptyArray
+from unit_test_api.model.simple_enum_validation import SimpleEnumValidation
+from unit_test_api.model.the_default_keyword_does_not_do_anything_if_the_property_is_missing import TheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissing
+from unit_test_api.model.uniqueitems_false_validation import UniqueitemsFalseValidation
+from unit_test_api.model.uniqueitems_validation import UniqueitemsValidation
+# Defining the host is optional and defaults to http://localhost
+# See configuration.py for a list of all supported configuration parameters.
+configuration = unit_test_api.Configuration(
+    host = "http://localhost"
+)
+
+
+# Enter a context with an instance of the API client
+with unit_test_api.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = default_api.DefaultApi(api_client)
+    additionalproperties_allows_a_schema_which_should_validate = AdditionalpropertiesAllowsASchemaWhichShouldValidate(
+        foo=None,
+        bar=None,
+    ) # AdditionalpropertiesAllowsASchemaWhichShouldValidate | 
+
+    try:
+        api_instance.post_additionalproperties_allows_a_schema_which_should_validate_request_body(additionalproperties_allows_a_schema_which_should_validate)
+    except unit_test_api.ApiException as e:
+        print("Exception when calling DefaultApi->post_additionalproperties_allows_a_schema_which_should_validate_request_body: %s\n" % e)
 ```
 
 ## Documentation for API Endpoints
@@ -59,6 +147,90 @@ All URIs are relative to *http://localhost*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+*DefaultApi* | [**post_additionalproperties_allows_a_schema_which_should_validate_request_body**](docs/DefaultApi.md#post_additionalproperties_allows_a_schema_which_should_validate_request_body) | **POST** /postAdditionalpropertiesAllowsASchemaWhichShouldValidateRequestBody | 
+*DefaultApi* | [**post_additionalproperties_are_allowed_by_default_request_body**](docs/DefaultApi.md#post_additionalproperties_are_allowed_by_default_request_body) | **POST** /postAdditionalpropertiesAreAllowedByDefaultRequestBody | 
+*DefaultApi* | [**post_additionalproperties_can_exist_by_itself_request_body**](docs/DefaultApi.md#post_additionalproperties_can_exist_by_itself_request_body) | **POST** /postAdditionalpropertiesCanExistByItselfRequestBody | 
+*DefaultApi* | [**post_additionalproperties_should_not_look_in_applicators_request_body**](docs/DefaultApi.md#post_additionalproperties_should_not_look_in_applicators_request_body) | **POST** /postAdditionalpropertiesShouldNotLookInApplicatorsRequestBody | 
+*DefaultApi* | [**post_allof_combined_with_anyof_oneof_request_body**](docs/DefaultApi.md#post_allof_combined_with_anyof_oneof_request_body) | **POST** /postAllofCombinedWithAnyofOneofRequestBody | 
+*DefaultApi* | [**post_allof_request_body**](docs/DefaultApi.md#post_allof_request_body) | **POST** /postAllofRequestBody | 
+*DefaultApi* | [**post_allof_simple_types_request_body**](docs/DefaultApi.md#post_allof_simple_types_request_body) | **POST** /postAllofSimpleTypesRequestBody | 
+*DefaultApi* | [**post_allof_with_base_schema_request_body**](docs/DefaultApi.md#post_allof_with_base_schema_request_body) | **POST** /postAllofWithBaseSchemaRequestBody | 
+*DefaultApi* | [**post_allof_with_one_empty_schema_request_body**](docs/DefaultApi.md#post_allof_with_one_empty_schema_request_body) | **POST** /postAllofWithOneEmptySchemaRequestBody | 
+*DefaultApi* | [**post_allof_with_the_first_empty_schema_request_body**](docs/DefaultApi.md#post_allof_with_the_first_empty_schema_request_body) | **POST** /postAllofWithTheFirstEmptySchemaRequestBody | 
+*DefaultApi* | [**post_allof_with_the_last_empty_schema_request_body**](docs/DefaultApi.md#post_allof_with_the_last_empty_schema_request_body) | **POST** /postAllofWithTheLastEmptySchemaRequestBody | 
+*DefaultApi* | [**post_allof_with_two_empty_schemas_request_body**](docs/DefaultApi.md#post_allof_with_two_empty_schemas_request_body) | **POST** /postAllofWithTwoEmptySchemasRequestBody | 
+*DefaultApi* | [**post_anyof_complex_types_request_body**](docs/DefaultApi.md#post_anyof_complex_types_request_body) | **POST** /postAnyofComplexTypesRequestBody | 
+*DefaultApi* | [**post_anyof_request_body**](docs/DefaultApi.md#post_anyof_request_body) | **POST** /postAnyofRequestBody | 
+*DefaultApi* | [**post_anyof_with_base_schema_request_body**](docs/DefaultApi.md#post_anyof_with_base_schema_request_body) | **POST** /postAnyofWithBaseSchemaRequestBody | 
+*DefaultApi* | [**post_anyof_with_one_empty_schema_request_body**](docs/DefaultApi.md#post_anyof_with_one_empty_schema_request_body) | **POST** /postAnyofWithOneEmptySchemaRequestBody | 
+*DefaultApi* | [**post_array_type_matches_arrays_request_body**](docs/DefaultApi.md#post_array_type_matches_arrays_request_body) | **POST** /postArrayTypeMatchesArraysRequestBody | 
+*DefaultApi* | [**post_boolean_type_matches_booleans_request_body**](docs/DefaultApi.md#post_boolean_type_matches_booleans_request_body) | **POST** /postBooleanTypeMatchesBooleansRequestBody | 
+*DefaultApi* | [**post_by_int_request_body**](docs/DefaultApi.md#post_by_int_request_body) | **POST** /postByIntRequestBody | 
+*DefaultApi* | [**post_by_number_request_body**](docs/DefaultApi.md#post_by_number_request_body) | **POST** /postByNumberRequestBody | 
+*DefaultApi* | [**post_by_small_number_request_body**](docs/DefaultApi.md#post_by_small_number_request_body) | **POST** /postBySmallNumberRequestBody | 
+*DefaultApi* | [**post_date_time_format_request_body**](docs/DefaultApi.md#post_date_time_format_request_body) | **POST** /postDateTimeFormatRequestBody | 
+*DefaultApi* | [**post_email_format_request_body**](docs/DefaultApi.md#post_email_format_request_body) | **POST** /postEmailFormatRequestBody | 
+*DefaultApi* | [**post_enum_with0_does_not_match_false_request_body**](docs/DefaultApi.md#post_enum_with0_does_not_match_false_request_body) | **POST** /postEnumWith0DoesNotMatchFalseRequestBody | 
+*DefaultApi* | [**post_enum_with1_does_not_match_true_request_body**](docs/DefaultApi.md#post_enum_with1_does_not_match_true_request_body) | **POST** /postEnumWith1DoesNotMatchTrueRequestBody | 
+*DefaultApi* | [**post_enum_with_escaped_characters_request_body**](docs/DefaultApi.md#post_enum_with_escaped_characters_request_body) | **POST** /postEnumWithEscapedCharactersRequestBody | 
+*DefaultApi* | [**post_enum_with_false_does_not_match0_request_body**](docs/DefaultApi.md#post_enum_with_false_does_not_match0_request_body) | **POST** /postEnumWithFalseDoesNotMatch0RequestBody | 
+*DefaultApi* | [**post_enum_with_true_does_not_match1_request_body**](docs/DefaultApi.md#post_enum_with_true_does_not_match1_request_body) | **POST** /postEnumWithTrueDoesNotMatch1RequestBody | 
+*DefaultApi* | [**post_enums_in_properties_request_body**](docs/DefaultApi.md#post_enums_in_properties_request_body) | **POST** /postEnumsInPropertiesRequestBody | 
+*DefaultApi* | [**post_forbidden_property_request_body**](docs/DefaultApi.md#post_forbidden_property_request_body) | **POST** /postForbiddenPropertyRequestBody | 
+*DefaultApi* | [**post_hostname_format_request_body**](docs/DefaultApi.md#post_hostname_format_request_body) | **POST** /postHostnameFormatRequestBody | 
+*DefaultApi* | [**post_integer_type_matches_integers_request_body**](docs/DefaultApi.md#post_integer_type_matches_integers_request_body) | **POST** /postIntegerTypeMatchesIntegersRequestBody | 
+*DefaultApi* | [**post_invalid_instance_should_not_raise_error_when_float_division_inf_request_body**](docs/DefaultApi.md#post_invalid_instance_should_not_raise_error_when_float_division_inf_request_body) | **POST** /postInvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInfRequestBody | 
+*DefaultApi* | [**post_invalid_string_value_for_default_request_body**](docs/DefaultApi.md#post_invalid_string_value_for_default_request_body) | **POST** /postInvalidStringValueForDefaultRequestBody | 
+*DefaultApi* | [**post_ipv4_format_request_body**](docs/DefaultApi.md#post_ipv4_format_request_body) | **POST** /postIpv4FormatRequestBody | 
+*DefaultApi* | [**post_ipv6_format_request_body**](docs/DefaultApi.md#post_ipv6_format_request_body) | **POST** /postIpv6FormatRequestBody | 
+*DefaultApi* | [**post_json_pointer_format_request_body**](docs/DefaultApi.md#post_json_pointer_format_request_body) | **POST** /postJsonPointerFormatRequestBody | 
+*DefaultApi* | [**post_maximum_validation_request_body**](docs/DefaultApi.md#post_maximum_validation_request_body) | **POST** /postMaximumValidationRequestBody | 
+*DefaultApi* | [**post_maximum_validation_with_unsigned_integer_request_body**](docs/DefaultApi.md#post_maximum_validation_with_unsigned_integer_request_body) | **POST** /postMaximumValidationWithUnsignedIntegerRequestBody | 
+*DefaultApi* | [**post_maxitems_validation_request_body**](docs/DefaultApi.md#post_maxitems_validation_request_body) | **POST** /postMaxitemsValidationRequestBody | 
+*DefaultApi* | [**post_maxlength_validation_request_body**](docs/DefaultApi.md#post_maxlength_validation_request_body) | **POST** /postMaxlengthValidationRequestBody | 
+*DefaultApi* | [**post_maxproperties0_means_the_object_is_empty_request_body**](docs/DefaultApi.md#post_maxproperties0_means_the_object_is_empty_request_body) | **POST** /postMaxproperties0MeansTheObjectIsEmptyRequestBody | 
+*DefaultApi* | [**post_maxproperties_validation_request_body**](docs/DefaultApi.md#post_maxproperties_validation_request_body) | **POST** /postMaxpropertiesValidationRequestBody | 
+*DefaultApi* | [**post_minimum_validation_request_body**](docs/DefaultApi.md#post_minimum_validation_request_body) | **POST** /postMinimumValidationRequestBody | 
+*DefaultApi* | [**post_minimum_validation_with_signed_integer_request_body**](docs/DefaultApi.md#post_minimum_validation_with_signed_integer_request_body) | **POST** /postMinimumValidationWithSignedIntegerRequestBody | 
+*DefaultApi* | [**post_minitems_validation_request_body**](docs/DefaultApi.md#post_minitems_validation_request_body) | **POST** /postMinitemsValidationRequestBody | 
+*DefaultApi* | [**post_minlength_validation_request_body**](docs/DefaultApi.md#post_minlength_validation_request_body) | **POST** /postMinlengthValidationRequestBody | 
+*DefaultApi* | [**post_minproperties_validation_request_body**](docs/DefaultApi.md#post_minproperties_validation_request_body) | **POST** /postMinpropertiesValidationRequestBody | 
+*DefaultApi* | [**post_nested_allof_to_check_validation_semantics_request_body**](docs/DefaultApi.md#post_nested_allof_to_check_validation_semantics_request_body) | **POST** /postNestedAllofToCheckValidationSemanticsRequestBody | 
+*DefaultApi* | [**post_nested_anyof_to_check_validation_semantics_request_body**](docs/DefaultApi.md#post_nested_anyof_to_check_validation_semantics_request_body) | **POST** /postNestedAnyofToCheckValidationSemanticsRequestBody | 
+*DefaultApi* | [**post_nested_items_request_body**](docs/DefaultApi.md#post_nested_items_request_body) | **POST** /postNestedItemsRequestBody | 
+*DefaultApi* | [**post_nested_oneof_to_check_validation_semantics_request_body**](docs/DefaultApi.md#post_nested_oneof_to_check_validation_semantics_request_body) | **POST** /postNestedOneofToCheckValidationSemanticsRequestBody | 
+*DefaultApi* | [**post_not_more_complex_schema_request_body**](docs/DefaultApi.md#post_not_more_complex_schema_request_body) | **POST** /postNotMoreComplexSchemaRequestBody | 
+*DefaultApi* | [**post_not_request_body**](docs/DefaultApi.md#post_not_request_body) | **POST** /postNotRequestBody | 
+*DefaultApi* | [**post_nul_characters_in_strings_request_body**](docs/DefaultApi.md#post_nul_characters_in_strings_request_body) | **POST** /postNulCharactersInStringsRequestBody | 
+*DefaultApi* | [**post_null_type_matches_only_the_null_object_request_body**](docs/DefaultApi.md#post_null_type_matches_only_the_null_object_request_body) | **POST** /postNullTypeMatchesOnlyTheNullObjectRequestBody | 
+*DefaultApi* | [**post_number_type_matches_numbers_request_body**](docs/DefaultApi.md#post_number_type_matches_numbers_request_body) | **POST** /postNumberTypeMatchesNumbersRequestBody | 
+*DefaultApi* | [**post_object_properties_validation_request_body**](docs/DefaultApi.md#post_object_properties_validation_request_body) | **POST** /postObjectPropertiesValidationRequestBody | 
+*DefaultApi* | [**post_object_type_matches_objects_request_body**](docs/DefaultApi.md#post_object_type_matches_objects_request_body) | **POST** /postObjectTypeMatchesObjectsRequestBody | 
+*DefaultApi* | [**post_oneof_complex_types_request_body**](docs/DefaultApi.md#post_oneof_complex_types_request_body) | **POST** /postOneofComplexTypesRequestBody | 
+*DefaultApi* | [**post_oneof_request_body**](docs/DefaultApi.md#post_oneof_request_body) | **POST** /postOneofRequestBody | 
+*DefaultApi* | [**post_oneof_with_base_schema_request_body**](docs/DefaultApi.md#post_oneof_with_base_schema_request_body) | **POST** /postOneofWithBaseSchemaRequestBody | 
+*DefaultApi* | [**post_oneof_with_empty_schema_request_body**](docs/DefaultApi.md#post_oneof_with_empty_schema_request_body) | **POST** /postOneofWithEmptySchemaRequestBody | 
+*DefaultApi* | [**post_pattern_is_not_anchored_request_body**](docs/DefaultApi.md#post_pattern_is_not_anchored_request_body) | **POST** /postPatternIsNotAnchoredRequestBody | 
+*DefaultApi* | [**post_pattern_validation_request_body**](docs/DefaultApi.md#post_pattern_validation_request_body) | **POST** /postPatternValidationRequestBody | 
+*DefaultApi* | [**post_properties_with_escaped_characters_request_body**](docs/DefaultApi.md#post_properties_with_escaped_characters_request_body) | **POST** /postPropertiesWithEscapedCharactersRequestBody | 
+*DefaultApi* | [**post_property_named_ref_that_is_not_a_reference_request_body**](docs/DefaultApi.md#post_property_named_ref_that_is_not_a_reference_request_body) | **POST** /postPropertyNamedRefThatIsNotAReferenceRequestBody | 
+*DefaultApi* | [**post_ref_in_additionalproperties_request_body**](docs/DefaultApi.md#post_ref_in_additionalproperties_request_body) | **POST** /postRefInAdditionalpropertiesRequestBody | 
+*DefaultApi* | [**post_ref_in_allof_request_body**](docs/DefaultApi.md#post_ref_in_allof_request_body) | **POST** /postRefInAllofRequestBody | 
+*DefaultApi* | [**post_ref_in_anyof_request_body**](docs/DefaultApi.md#post_ref_in_anyof_request_body) | **POST** /postRefInAnyofRequestBody | 
+*DefaultApi* | [**post_ref_in_items_request_body**](docs/DefaultApi.md#post_ref_in_items_request_body) | **POST** /postRefInItemsRequestBody | 
+*DefaultApi* | [**post_ref_in_oneof_request_body**](docs/DefaultApi.md#post_ref_in_oneof_request_body) | **POST** /postRefInOneofRequestBody | 
+*DefaultApi* | [**post_ref_in_property_request_body**](docs/DefaultApi.md#post_ref_in_property_request_body) | **POST** /postRefInPropertyRequestBody | 
+*DefaultApi* | [**post_required_default_validation_request_body**](docs/DefaultApi.md#post_required_default_validation_request_body) | **POST** /postRequiredDefaultValidationRequestBody | 
+*DefaultApi* | [**post_required_validation_request_body**](docs/DefaultApi.md#post_required_validation_request_body) | **POST** /postRequiredValidationRequestBody | 
+*DefaultApi* | [**post_required_with_empty_array_request_body**](docs/DefaultApi.md#post_required_with_empty_array_request_body) | **POST** /postRequiredWithEmptyArrayRequestBody | 
+*DefaultApi* | [**post_simple_enum_validation_request_body**](docs/DefaultApi.md#post_simple_enum_validation_request_body) | **POST** /postSimpleEnumValidationRequestBody | 
+*DefaultApi* | [**post_string_type_matches_strings_request_body**](docs/DefaultApi.md#post_string_type_matches_strings_request_body) | **POST** /postStringTypeMatchesStringsRequestBody | 
+*DefaultApi* | [**post_the_default_keyword_does_not_do_anything_if_the_property_is_missing_request_body**](docs/DefaultApi.md#post_the_default_keyword_does_not_do_anything_if_the_property_is_missing_request_body) | **POST** /postTheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissingRequestBody | 
+*DefaultApi* | [**post_uniqueitems_false_validation_request_body**](docs/DefaultApi.md#post_uniqueitems_false_validation_request_body) | **POST** /postUniqueitemsFalseValidationRequestBody | 
+*DefaultApi* | [**post_uniqueitems_validation_request_body**](docs/DefaultApi.md#post_uniqueitems_validation_request_body) | **POST** /postUniqueitemsValidationRequestBody | 
+*DefaultApi* | [**post_uri_format_request_body**](docs/DefaultApi.md#post_uri_format_request_body) | **POST** /postUriFormatRequestBody | 
+*DefaultApi* | [**post_uri_reference_format_request_body**](docs/DefaultApi.md#post_uri_reference_format_request_body) | **POST** /postUriReferenceFormatRequestBody | 
+*DefaultApi* | [**post_uri_template_format_request_body**](docs/DefaultApi.md#post_uri_template_format_request_body) | **POST** /postUriTemplateFormatRequestBody | 
 
 ## Documentation For Models
 
@@ -151,6 +323,7 @@ Class | Method | HTTP request | Description
  All endpoints do not require authorization.
 
 ## Author
+
 
 
 ## Notes for Large OpenAPI documents
