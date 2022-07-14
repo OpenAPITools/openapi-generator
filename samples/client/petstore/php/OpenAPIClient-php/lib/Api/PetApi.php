@@ -121,7 +121,7 @@ class PetApi
      * Add a new pet to the store
      *
      * This operation contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
-     * URL: http://petstore.swagger.io/v2
+     * URL: https://petstore.swagger.io:443/v2
      * URL: http://path-server-test.petstore.local/v2
      *
      * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
@@ -141,7 +141,7 @@ class PetApi
      * Add a new pet to the store
      *
      * This operation contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
-     * URL: http://petstore.swagger.io/v2
+     * URL: https://petstore.swagger.io:443/v2
      * URL: http://path-server-test.petstore.local/v2
      *
      * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
@@ -204,7 +204,7 @@ class PetApi
      * Add a new pet to the store
      *
      * This operation contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
-     * URL: http://petstore.swagger.io/v2
+     * URL: https://petstore.swagger.io:443/v2
      * URL: http://path-server-test.petstore.local/v2
      *
      * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
@@ -228,7 +228,7 @@ class PetApi
      * Add a new pet to the store
      *
      * This operation contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
-     * URL: http://petstore.swagger.io/v2
+     * URL: https://petstore.swagger.io:443/v2
      * URL: http://path-server-test.petstore.local/v2
      *
      * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
@@ -268,7 +268,7 @@ class PetApi
      * Create request for operation 'addPet'
      *
      * This operation contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
-     * URL: http://petstore.swagger.io/v2
+     * URL: https://petstore.swagger.io:443/v2
      * URL: http://path-server-test.petstore.local/v2
      *
      * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
@@ -354,7 +354,7 @@ class PetApi
             $headers
         );
 
-        $operationHosts = ["http://petstore.swagger.io/v2", "http://path-server-test.petstore.local/v2"];
+        $operationHosts = ["https://petstore.swagger.io:443/v2", "http://path-server-test.petstore.local/v2"];
         if ($this->hostIndex < 0 || $this->hostIndex >= sizeof($operationHosts)) {
             throw new \InvalidArgumentException("Invalid index {$this->hostIndex} when selecting the host. Must be less than ".sizeof($operationHosts));
         }
@@ -1475,7 +1475,7 @@ class PetApi
      * Update an existing pet
      *
      * This operation contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
-     * URL: http://petstore.swagger.io/v2
+     * URL: https://petstore.swagger.io:443/v2
      * URL: http://path-server-test.petstore.local/v2
      *
      * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
@@ -1495,7 +1495,7 @@ class PetApi
      * Update an existing pet
      *
      * This operation contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
-     * URL: http://petstore.swagger.io/v2
+     * URL: https://petstore.swagger.io:443/v2
      * URL: http://path-server-test.petstore.local/v2
      *
      * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
@@ -1558,7 +1558,7 @@ class PetApi
      * Update an existing pet
      *
      * This operation contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
-     * URL: http://petstore.swagger.io/v2
+     * URL: https://petstore.swagger.io:443/v2
      * URL: http://path-server-test.petstore.local/v2
      *
      * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
@@ -1582,7 +1582,7 @@ class PetApi
      * Update an existing pet
      *
      * This operation contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
-     * URL: http://petstore.swagger.io/v2
+     * URL: https://petstore.swagger.io:443/v2
      * URL: http://path-server-test.petstore.local/v2
      *
      * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
@@ -1622,7 +1622,7 @@ class PetApi
      * Create request for operation 'updatePet'
      *
      * This operation contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
-     * URL: http://petstore.swagger.io/v2
+     * URL: https://petstore.swagger.io:443/v2
      * URL: http://path-server-test.petstore.local/v2
      *
      * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
@@ -1708,7 +1708,7 @@ class PetApi
             $headers
         );
 
-        $operationHosts = ["http://petstore.swagger.io/v2", "http://path-server-test.petstore.local/v2"];
+        $operationHosts = ["https://petstore.swagger.io:443/v2", "http://path-server-test.petstore.local/v2"];
         if ($this->hostIndex < 0 || $this->hostIndex >= sizeof($operationHosts)) {
             throw new \InvalidArgumentException("Invalid index {$this->hostIndex} when selecting the host. Must be less than ".sizeof($operationHosts));
         }

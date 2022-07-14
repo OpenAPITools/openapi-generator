@@ -93,7 +93,7 @@ class Configuration
      *
      * @var string
      */
-    protected $host = 'http://petstore.swagger.io:80/v2';
+    protected $host = 'https://petstore.swagger.io:443/v2';
 
     /**
      * User agent of the HTTP request, set to "OpenAPI-Generator/{version}/PHP" by default
@@ -472,7 +472,7 @@ class Configuration
     {
         return [
             [
-                "url" => "http://{server}.swagger.io:{port}/v2",
+                "url" => "https://{server}.swagger.io:{port}/v2",
                 "description" => "petstore server",
                 "variables" => [
                     "server" => [
@@ -486,9 +486,9 @@ class Configuration
                     ],
                     "port" => [
                         "description" => "No description provided",
-                        "default_value" => "80",
+                        "default_value" => "443",
                         "enum_values" => [
-                            "80",
+                            "443",
                             "8080"
                         ]
                     ]
