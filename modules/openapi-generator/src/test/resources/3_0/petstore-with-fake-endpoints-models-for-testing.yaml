@@ -31,7 +31,7 @@ paths:
                     $ref: '#/components/schemas/Foo'
   /pet:
     servers:
-    - url: 'http://petstore.swagger.io/v2'
+    - url: 'https://petstore.swagger.io:443/v2'
     - url: 'http://path-server-test.petstore.local/v2'
     post:
       tags:
@@ -1196,7 +1196,7 @@ paths:
         200:
           description: The instance started successfully
 servers:
-  - url: 'http://{server}.swagger.io:{port}/v2'
+  - url: 'https://{server}.swagger.io:{port}/v2'
     description: petstore server
     variables:
       server:
@@ -1207,9 +1207,9 @@ servers:
         default: 'petstore'
       port:
         enum:
-          - 80
+          - 443
           - 8080
-        default: 80
+        default: 443
   - url: https://localhost:8080/{version}
     description: The local server
     variables:
