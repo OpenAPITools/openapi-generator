@@ -126,14 +126,12 @@ class Allof(
                 cls,
                 *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
                 foo: foo,
-                foo: typing.Union[foo, Unset] = unset,
                 _configuration: typing.Optional[Configuration] = None,
                 **kwargs: typing.Type[Schema],
             ) -> 'allOf_1':
                 return super().__new__(
                     cls,
                     *args,
-                    foo=foo,
                     foo=foo,
                     _configuration=_configuration,
                     **kwargs,
