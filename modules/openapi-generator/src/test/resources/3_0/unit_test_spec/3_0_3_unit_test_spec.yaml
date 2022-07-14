@@ -85,6 +85,35 @@ components:
       - multipleOf: 3
       oneOf:
       - multipleOf: 5
+    Anyof:
+      anyOf:
+      - type: integer
+      - minimum: 2
+    AnyofWithBaseSchema:
+      type: string
+      anyOf:
+      - maxLength: 2
+      - minLength: 4
+    AnyofComplexTypes:
+      anyOf:
+      - properties:
+          bar:
+            type: integer
+        required:
+        - bar
+      - properties:
+          foo:
+            type: string
+        required:
+        - foo
+    AnyofWithOneEmptySchema:
+      anyOf:
+      - type: number
+      - {}
+    NestedAnyofToCheckValidationSemantics:
+      anyOf:
+      - anyOf:
+        - type: 'null'
     InvalidStringValueForDefault:
       properties:
         bar:
@@ -207,6 +236,35 @@ components:
       properties:
         foo:
           not: {}
+    Oneof:
+      oneOf:
+      - type: integer
+      - minimum: 2
+    OneofWithBaseSchema:
+      type: string
+      oneOf:
+      - minLength: 2
+      - maxLength: 4
+    OneofComplexTypes:
+      oneOf:
+      - properties:
+          bar:
+            type: integer
+        required:
+        - bar
+      - properties:
+          foo:
+            type: string
+        required:
+        - foo
+    OneofWithEmptySchema:
+      oneOf:
+      - type: number
+      - {}
+    NestedOneofToCheckValidationSemantics:
+      oneOf:
+      - oneOf:
+        - type: 'null'
     PatternValidation:
       pattern: ^a*$
     PatternIsNotAnchored:
@@ -468,6 +526,77 @@ components:
         description: 'allOf: true, anyOf: true, oneOf: true'
         data: 30
         valid: true
+    Anyof:
+      FirstAnyofValid:
+        description: first anyOf valid
+        data: 1
+        valid: true
+      SecondAnyofValid:
+        description: second anyOf valid
+        data: 2.5
+        valid: true
+      BothAnyofValid:
+        description: both anyOf valid
+        data: 3
+        valid: true
+      NeitherAnyofValid:
+        description: neither anyOf valid
+        data: 1.5
+        valid: false
+    AnyofWithBaseSchema:
+      MismatchBaseSchema:
+        description: mismatch base schema
+        data: 3
+        valid: false
+      OneAnyofValid:
+        description: one anyOf valid
+        data: foobar
+        valid: true
+      BothAnyofInvalid:
+        description: both anyOf invalid
+        data: foo
+        valid: false
+    AnyofComplexTypes:
+      FirstAnyofValidComplex:
+        description: first anyOf valid (complex)
+        data:
+          bar: 2
+        valid: true
+      SecondAnyofValidComplex:
+        description: second anyOf valid (complex)
+        data:
+          foo: baz
+        valid: true
+      BothAnyofValidComplex:
+        description: both anyOf valid (complex)
+        data:
+          foo: baz
+          bar: 2
+        valid: true
+      NeitherAnyofValidComplex:
+        description: neither anyOf valid (complex)
+        data:
+          foo: 2
+          bar: quux
+        valid: false
+    AnyofWithOneEmptySchema:
+      StringIsValid:
+        description: string is valid
+        data: foo
+        valid: true
+      NumberIsValid:
+        description: number is valid
+        data: 123
+        valid: true
+    NestedAnyofToCheckValidationSemantics:
+      NullIsValid:
+        description: null is valid
+        data: null
+        valid: true
+      AnythingNonNullIsInvalid:
+        description: anything non-null is invalid
+        data: 123
+        valid: false
     InvalidStringValueForDefault:
       ValidWhenPropertyIsSpecified:
         description: valid when property is specified
@@ -1182,6 +1311,77 @@ components:
           bar: 1
           baz: 2
         valid: true
+    Oneof:
+      FirstOneofValid:
+        description: first oneOf valid
+        data: 1
+        valid: true
+      SecondOneofValid:
+        description: second oneOf valid
+        data: 2.5
+        valid: true
+      BothOneofValid:
+        description: both oneOf valid
+        data: 3
+        valid: false
+      NeitherOneofValid:
+        description: neither oneOf valid
+        data: 1.5
+        valid: false
+    OneofWithBaseSchema:
+      MismatchBaseSchema:
+        description: mismatch base schema
+        data: 3
+        valid: false
+      OneOneofValid:
+        description: one oneOf valid
+        data: foobar
+        valid: true
+      BothOneofValid:
+        description: both oneOf valid
+        data: foo
+        valid: false
+    OneofComplexTypes:
+      FirstOneofValidComplex:
+        description: first oneOf valid (complex)
+        data:
+          bar: 2
+        valid: true
+      SecondOneofValidComplex:
+        description: second oneOf valid (complex)
+        data:
+          foo: baz
+        valid: true
+      BothOneofValidComplex:
+        description: both oneOf valid (complex)
+        data:
+          foo: baz
+          bar: 2
+        valid: false
+      NeitherOneofValidComplex:
+        description: neither oneOf valid (complex)
+        data:
+          foo: 2
+          bar: quux
+        valid: false
+    OneofWithEmptySchema:
+      OneValidValid:
+        description: one valid - valid
+        data: foo
+        valid: true
+      BothValidInvalid:
+        description: both valid - invalid
+        data: 123
+        valid: false
+    NestedOneofToCheckValidationSemantics:
+      NullIsValid:
+        description: null is valid
+        data: null
+        valid: true
+      AnythingNonNullIsInvalid:
+        description: anything non-null is invalid
+        data: 123
+        valid: false
     PatternValidation:
       AMatchingPatternIsValid:
         description: a matching pattern is valid
