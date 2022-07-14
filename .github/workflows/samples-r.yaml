@@ -1,8 +1,10 @@
 on:
   push:
-    branches: [main, master, r-github-action]
+    paths:
+      - samples/client/petstore/R/
   pull_request:
-    branches: [main, master, r-github-action]
+    paths:
+      - samples/client/petstore/R/
 
 name: R petstore tests
 
