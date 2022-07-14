@@ -84,7 +84,7 @@ String. The OAuth access token.
 
 String. The base URL of the API
 
-default: http://petstore.swagger.io:80/v2
+default: https://petstore.swagger.io:443/v2
 
 =back
 
@@ -110,7 +110,7 @@ sub new {
     $p{access_token} //= '';
 
     # base_url
-    $p{base_url} //= 'http://petstore.swagger.io:80/v2';
+    $p{base_url} //= 'https://petstore.swagger.io:443/v2';
 
     return bless \%p => $self;
 }
