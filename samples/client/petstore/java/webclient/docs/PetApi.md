@@ -1,6 +1,6 @@
 # PetApi
 
-All URIs are relative to *http://petstore.swagger.io:80/v2*
+All URIs are relative to *https://petstore.swagger.io:443/v2*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
@@ -38,7 +38,7 @@ import org.openapitools.client.api.PetApi;
 public class Example {
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
-        defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
+        defaultClient.setBasePath("https://petstore.swagger.io:443/v2");
         
         // Configure OAuth2 access token for authorization: petstore_auth
         OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
@@ -109,7 +109,7 @@ import org.openapitools.client.api.PetApi;
 public class Example {
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
-        defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
+        defaultClient.setBasePath("https://petstore.swagger.io:443/v2");
         
         // Configure OAuth2 access token for authorization: petstore_auth
         OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
@@ -182,7 +182,7 @@ import org.openapitools.client.api.PetApi;
 public class Example {
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
-        defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
+        defaultClient.setBasePath("https://petstore.swagger.io:443/v2");
         
         // Configure OAuth2 access token for authorization: petstore_auth
         OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
@@ -254,7 +254,7 @@ import org.openapitools.client.api.PetApi;
 public class Example {
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
-        defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
+        defaultClient.setBasePath("https://petstore.swagger.io:443/v2");
         
         // Configure OAuth2 access token for authorization: petstore_auth
         OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
@@ -326,7 +326,7 @@ import org.openapitools.client.api.PetApi;
 public class Example {
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
-        defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
+        defaultClient.setBasePath("https://petstore.swagger.io:443/v2");
         
         // Configure API key authorization: api_key
         ApiKeyAuth api_key = (ApiKeyAuth) defaultClient.getAuthentication("api_key");
@@ -401,7 +401,7 @@ import org.openapitools.client.api.PetApi;
 public class Example {
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
-        defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
+        defaultClient.setBasePath("https://petstore.swagger.io:443/v2");
         
         // Configure OAuth2 access token for authorization: petstore_auth
         OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
@@ -474,7 +474,7 @@ import org.openapitools.client.api.PetApi;
 public class Example {
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
-        defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
+        defaultClient.setBasePath("https://petstore.swagger.io:443/v2");
         
         // Configure OAuth2 access token for authorization: petstore_auth
         OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
@@ -549,7 +549,7 @@ import org.openapitools.client.api.PetApi;
 public class Example {
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
-        defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
+        defaultClient.setBasePath("https://petstore.swagger.io:443/v2");
         
         // Configure OAuth2 access token for authorization: petstore_auth
         OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
@@ -624,7 +624,7 @@ import org.openapitools.client.api.PetApi;
 public class Example {
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
-        defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
+        defaultClient.setBasePath("https://petstore.swagger.io:443/v2");
         
         // Configure OAuth2 access token for authorization: petstore_auth
         OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");

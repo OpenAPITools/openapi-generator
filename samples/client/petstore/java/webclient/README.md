@@ -88,7 +88,7 @@ public class AnotherFakeApiExample {
 
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
-        defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
+        defaultClient.setBasePath("https://petstore.swagger.io:443/v2");
         
         AnotherFakeApi apiInstance = new AnotherFakeApi(defaultClient);
         Client client = new Client(); // Client | client model
@@ -109,7 +109,7 @@ public class AnotherFakeApiExample {
 
 ## Documentation for API Endpoints
 
-All URIs are relative to *http://petstore.swagger.io:80/v2*
+All URIs are relative to *https://petstore.swagger.io:443/v2*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------

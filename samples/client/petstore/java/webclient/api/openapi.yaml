@@ -10,7 +10,7 @@ info:
   version: 1.0.0
 servers:
 - description: petstore server
-  url: "http://{server}.swagger.io:{port}/v2"
+  url: "https://{server}.swagger.io:{port}/v2"
   variables:
     server:
       default: petstore
@@ -19,9 +19,9 @@ servers:
       - qa-petstore
       - dev-petstore
     port:
-      default: "80"
+      default: "443"
       enum:
-      - "80"
+      - "443"
       - "8080"
 - description: The local server
   url: "https://localhost:8080/{version}"
@@ -96,7 +96,7 @@ paths:
       x-content-type: application/json
       x-accepts: application/json
     servers:
-    - url: http://petstore.swagger.io/v2
+    - url: https://petstore.swagger.io:443/v2
     - url: http://path-server-test.petstore.local/v2
   /pet/findByStatus:
     get:

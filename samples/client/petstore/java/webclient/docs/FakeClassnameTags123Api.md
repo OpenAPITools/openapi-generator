@@ -1,6 +1,6 @@
 # FakeClassnameTags123Api
 
-All URIs are relative to *http://petstore.swagger.io:80/v2*
+All URIs are relative to *https://petstore.swagger.io:443/v2*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
@@ -30,7 +30,7 @@ import org.openapitools.client.api.FakeClassnameTags123Api;
 public class Example {
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
-        defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
+        defaultClient.setBasePath("https://petstore.swagger.io:443/v2");
         
         // Configure API key authorization: api_key_query
         ApiKeyAuth api_key_query = (ApiKeyAuth) defaultClient.getAuthentication("api_key_query");
