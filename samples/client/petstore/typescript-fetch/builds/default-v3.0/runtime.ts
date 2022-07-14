@@ -13,7 +13,7 @@
  */
 
 
-export const BASE_PATH = "http://petstore.swagger.io:80/v2".replace(/\/+$/, "");
+export const BASE_PATH = "https://petstore.swagger.io:443/v2".replace(/\/+$/, "");
 
 export interface ConfigurationParameters {
     basePath?: string; // override base path
