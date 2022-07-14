@@ -2,11 +2,16 @@
 
 namespace OpenAPI\Client;
 
+use GuzzleHttp\Client;
+use GuzzleHttp\Handler\CurlHandler;
+use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Middleware;
 use OpenAPI\Client\Api\PetApi;
 use OpenAPI\Client\Model\ApiResponse;
 use OpenAPI\Client\Model\Pet;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Assert;
+use Psr\Http\Message\RequestInterface;
 
 class PetApiTest extends TestCase
 {
@@ -43,16 +48,39 @@ class PetApiTest extends TestCase
         $newPet->setCategory($category);
 
         $config = new Configuration();
-        $petApi = new Api\PetApi(null, $config);
+        $client = new Client([
+            'handler' => self::getHandlerStack(),
+        ]);
+        $petApi = new Api\PetApi($client, $config);
 
         // add a new pet (model)
         list(, $status) = $petApi->addPetWithHttpInfo($newPet);
         Assert::assertEquals(200, $status);
     }
 
+    private static function getHandlerStack(): HandlerStack
+    {
+        $stack = new HandlerStack();
+        $stack->setHandler(new CurlHandler());
+
+        $stack->push(Middleware::mapRequest(function (RequestInterface $request) {
+            return $request
+                ->withHeader('Access-Control-Allow-Credentials', 'true')
+                ->withHeader('Access-Control-Allow-Origin', '*')
+                ->withHeader('Access-Control-Allow-Headers', 'origin, x-requested-with, Content-Type, Authorization, api_key')
+                ->withHeader('Access-Control-Allow-Methods', 'GET,POST,OPTIONS,DELETE,PUT')
+                ;
+        }));
+
+        return $stack;
+    }
+
     public function setUp(): void
     {
-        $this->api = new Api\PetApi();
+        $client = new Client([
+            'handler' => $this->getHandlerStack(),
+        ]);
+        $this->api = new Api\PetApi($client);
     }
 
     public function testGetPetById()

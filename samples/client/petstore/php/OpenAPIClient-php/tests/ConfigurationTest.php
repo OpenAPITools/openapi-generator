@@ -16,10 +16,10 @@ class ConfigurationTest extends TestCase
         $servers = $config->getHostSettings();
 
         $this->assertCount(3, $servers);
-        $this->assertSame("http://{server}.swagger.io:{port}/v2", $servers[0]["url"]);
+        $this->assertSame("https://{server}.swagger.io:{port}/v2", $servers[0]["url"]);
         $this->assertSame("petstore", $servers[0]["variables"]["server"]["default_value"]);
-        $this->assertSame("80", $servers[0]["variables"]["port"]["default_value"]);
-        $this->assertSame(array("80", "8080"), $servers[0]["variables"]["port"]["enum_values"]);
+        $this->assertSame("443", $servers[0]["variables"]["port"]["default_value"]);
+        $this->assertSame(array("443", "8080"), $servers[0]["variables"]["port"]["enum_values"]);
     }
 
     /**
@@ -30,15 +30,15 @@ class ConfigurationTest extends TestCase
         $config = new Configuration();
         // default value
         $url = $config->getHostFromSettings(0);
-        $this->assertSame("http://petstore.swagger.io:80/v2", $url);
+        $this->assertSame("https://petstore.swagger.io:443/v2", $url);
 
         // using a variable
         $url = $config->getHostFromSettings(0, array("server" => "dev-petstore"));
-        $this->assertSame("http://dev-petstore.swagger.io:80/v2", $url);
+        $this->assertSame("https://dev-petstore.swagger.io:443/v2", $url);
 
         // using 2 variables
         $url = $config->getHostFromSettings(0, array("server" => "dev-petstore", "port" => "8080"));
-        $this->assertSame("http://dev-petstore.swagger.io:8080/v2", $url);
+        $this->assertSame("https://dev-petstore.swagger.io:8080/v2", $url);
     }
 
     /**
@@ -59,7 +59,7 @@ class ConfigurationTest extends TestCase
     {
         // using 2 variables with invalid values
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('The variable `port` in the host URL has invalid value 8. Must be 80,8080');
+        $this->expectExceptionMessage('The variable `port` in the host URL has invalid value 8. Must be 443,8080');
         $config = new Configuration();
         $url = $config->getHostFromSettings(0, array("server" => "dev-petstore", "port" => "8"));
         $this->assertSame("http://dev-petstore.swagger.io:8080/v2", $url);

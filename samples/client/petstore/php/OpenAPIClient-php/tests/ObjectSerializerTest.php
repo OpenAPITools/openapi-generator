@@ -30,7 +30,7 @@ class ObjectSerializerTest extends TestCase
      * Test SplFileObject class deserialization.
      *
      * @see https://github.com/OpenAPITools/openapi-generator/pull/11184
-     * @covers ObjectSerializer::serialize
+     * @covers \OpenAPI\Client\ObjectSerializer::deserialize
      * @dataProvider provideFileStreams
      */
     public function testDeserializeFile($stream, ?array $httpHeaders = null, ?string $expectedFilename = null): void
@@ -70,7 +70,7 @@ class ObjectSerializerTest extends TestCase
     }
 
     /**
-     * @covers ObjectSerializer::sanitizeTimestamp
+     * @covers \OpenAPI\Client\ObjectSerializer::sanitizeTimestamp
      * @dataProvider provideTimestamps
      */
     public function testSanitizeTimestamp(string $timestamp, string $expected): void
@@ -81,7 +81,7 @@ class ObjectSerializerTest extends TestCase
     /**
      * Test datetime deserialization.
      *
-     * @covers ObjectSerializer::deserialize
+     * @covers \OpenAPI\Client\ObjectSerializer::deserialize
      * @dataProvider provideTimestamps
      *
      * @see https://github.com/OpenAPITools/openapi-generator/issues/7942
@@ -132,7 +132,8 @@ class ObjectSerializerTest extends TestCase
     }
 
     /**
-     * @covers ObjectSerializer::toQueryValue
+     * @covers \OpenAPI\Client\ObjectSerializer::toQueryValue
+     * @covers \OpenAPI\Client\ObjectSerializer::buildQuery
      * @dataProvider provideQueryParams
      */
     public function testToQueryValue(
@@ -308,7 +309,8 @@ class ObjectSerializerTest extends TestCase
     }
 
     /**
-     * @covers ObjectSerializer::toQueryValue
+     * @covers \OpenAPI\Client\ObjectSerializer::toQueryValue
+     * @covers \OpenAPI\Client\ObjectSerializer::buildQuery
      * @dataProvider provideDeepObjects
      */
     public function testDeepObjectStyleQueryParam(
@@ -390,7 +392,8 @@ class ObjectSerializerTest extends TestCase
         ];
     }
     /**
-     * @covers ObjectSerializer::toQueryValue
+     * @covers \OpenAPI\Client\ObjectSerializer::toQueryValue
+     * @covers \OpenAPI\Client\ObjectSerializer::buildQuery
      * @dataProvider provideQueryParamsWithStringBooleanFormatForQueryString
      */
     public function testToQueryValueWithStringBooleanFormatForQueryString(
