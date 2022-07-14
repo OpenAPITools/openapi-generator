@@ -130,6 +130,7 @@ ApiClient  <- R6::R6Class(
     #' @param query_params The query parameters.
     #' @param header_params The header parameters.
     #' @param body The HTTP request body.
+    #' @param stream_callback Callback function to process the data stream
     #' @param ... Other optional arguments.
     #' @return HTTP response
     #' @export
@@ -167,7 +168,7 @@ ApiClient  <- R6::R6Class(
     #' @param query_params The query parameters.
     #' @param header_params The header parameters.
     #' @param body The HTTP request body.
-    #' @param stream_callback callback function to process data stream
+    #' @param stream_callback Callback function to process data stream
     #' @param ... Other optional arguments.
     #' @return HTTP response
     #' @export
