@@ -133,9 +133,9 @@ ApiClient  <- R6::R6Class(
     #' @param ... Other optional arguments.
     #' @return HTTP response
     #' @export
-    CallApi = function(url, method, query_params, header_params, body, ...) {
+    CallApi = function(url, method, query_params, header_params, body, stream_callback = NULL, ...) {
 
-      resp <- self$Execute(url, method, query_params, header_params, body, ...)
+      resp <- self$Execute(url, method, query_params, header_params, body, stream_callback = stream_callback, ...)
       status_code <- httr::status_code(resp)
 
       if (is.null(self$max_retry_attempts)) {
@@ -147,7 +147,7 @@ ApiClient  <- R6::R6Class(
         for (i in 1 : self$max_retry_attempts) {
           if (status_code %in% self$retry_status_codes) {
             Sys.sleep((2 ^ i) + stats::runif(n = 1, min = 0, max = 1))
-            resp <- self$Execute(url, method, query_params, header_params, body, ...)
+            resp <- self$Execute(url, method, query_params, header_params, body, stream_callback = stream_callback, ...)
             status_code <- httr::status_code(resp)
           } else {
             break;
@@ -167,10 +167,11 @@ ApiClient  <- R6::R6Class(
     #' @param query_params The query parameters.
     #' @param header_params The header parameters.
     #' @param body The HTTP request body.
+    #' @param stream_callback callback function to process data stream
     #' @param ... Other optional arguments.
     #' @return HTTP response
     #' @export
-    Execute = function(url, method, query_params, header_params, body, ...) {
+    Execute = function(url, method, query_params, header_params, body, stream_callback = NULL, ...) {
       headers <- httr::add_headers(c(header_params, self$default_headers))
 
       http_timeout <- NULL
@@ -179,17 +180,41 @@ ApiClient  <- R6::R6Class(
       }
 
       if (method == "GET") {
-        httr::GET(url, query = query_params, headers, http_timeout, httr::user_agent(self$`user_agent`), ...)
+        if (typeof(stream_callback) == "closure") {
+          httr::GET(url, query = query_params, headers, http_timeout, httr::user_agent(self$`user_agent`), write_stream(stream_callback), ...)
+        } else {
+          httr::GET(url, query = query_params, headers, http_timeout, httr::user_agent(self$`user_agent`), ...)
+        }
       } else if (method == "POST") {
-        httr::POST(url, query = query_params, headers, body = body, httr::content_type("application/json"), http_timeout, httr::user_agent(self$`user_agent`), ...)
+        if (typeof(stream_callback) == "closure") {
+          httr::POST(url, query = query_params, headers, body = body, httr::content_type("application/json"), http_timeout, httr::user_agent(self$`user_agent`), write_stream(stream_callback), ...)
+        } else {
+          httr::POST(url, query = query_params, headers, body = body, httr::content_type("application/json"), http_timeout, httr::user_agent(self$`user_agent`), ...)
+        }
       } else if (method == "PUT") {
-        httr::PUT(url, query = query_params, headers, body = body, httr::content_type("application/json"), http_timeout, http_timeout, httr::user_agent(self$`user_agent`), ...)
+        if (typeof(stream_callback) == "closure") {
+          httr::PUT(url, query = query_params, headers, body = body, httr::content_type("application/json"), http_timeout, http_timeout, httr::user_agent(self$`user_agent`), write_stream(stream_callback), ...)
+        } else {
+          httr::PUT(url, query = query_params, headers, body = body, httr::content_type("application/json"), http_timeout, http_timeout, httr::user_agent(self$`user_agent`), ...)
+        }
       } else if (method == "PATCH") {
-        httr::PATCH(url, query = query_params, headers, body = body, httr::content_type("application/json"), http_timeout, http_timeout, httr::user_agent(self$`user_agent`), ...)
+        if (typeof(stream_callback) == "closure") {
+          httr::PATCH(url, query = query_params, headers, body = body, httr::content_type("application/json"), http_timeout, http_timeout, httr::user_agent(self$`user_agent`), write_stream(stream_callback), ...)
+        } else {
+          httr::PATCH(url, query = query_params, headers, body = body, httr::content_type("application/json"), http_timeout, http_timeout, httr::user_agent(self$`user_agent`), ...)
+        }
       } else if (method == "HEAD") {
-        httr::HEAD(url, query = query_params, headers, http_timeout, http_timeout, httr::user_agent(self$`user_agent`), ...)
+        if (typeof(stream_callback) == "closure") {
+          httr::HEAD(url, query = query_params, headers, http_timeout, http_timeout, httr::user_agent(self$`user_agent`), write_stream(stream_callback), ...)
+        } else {
+          httr::HEAD(url, query = query_params, headers, http_timeout, http_timeout, httr::user_agent(self$`user_agent`), ...)
+        }
       } else if (method == "DELETE") {
-        httr::DELETE(url, query = query_params, headers, http_timeout, http_timeout, httr::user_agent(self$`user_agent`), ...)
+        if (typeof(stream_callback) == "closure") {
+          httr::DELETE(url, query = query_params, headers, http_timeout, http_timeout, httr::user_agent(self$`user_agent`), write_stream(stream_callback), ...)
+        } else {
+          httr::DELETE(url, query = query_params, headers, http_timeout, http_timeout, httr::user_agent(self$`user_agent`), ...)
+        }
       } else {
         err_msg <- "Http method must be `GET`, `HEAD`, `OPTIONS`, `POST`, `PATCH`, `PUT` or `DELETE`."
         rlang::abort(message = err_msg, .subclass = "ApiException", ApiException = ApiException$new(status = 0, reason = err_msg))

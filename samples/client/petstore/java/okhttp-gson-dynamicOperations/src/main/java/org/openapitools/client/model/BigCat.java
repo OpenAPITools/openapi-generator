@@ -23,7 +23,6 @@ import com.google.gson.stream.JsonWriter;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
-import org.openapitools.client.model.BigCatAllOf;
 import org.openapitools.client.model.Cat;
 
 import com.google.gson.Gson;
