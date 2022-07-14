@@ -52,10 +52,10 @@ import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
+# Defining the host is optional and defaults to https://petstore.swagger.io:443/v2
 # See configuration.py for a list of all supported configuration parameters.
 configuration = petstore_api.Configuration(
-    host = "http://petstore.swagger.io:80/v2"
+    host = "https://petstore.swagger.io:443/v2"
 )
 
 
@@ -77,7 +77,7 @@ with petstore_api.ApiClient(configuration) as api_client:
 
 ## Documentation for API Endpoints
 
-All URIs are relative to *http://petstore.swagger.io:80/v2*
+All URIs are relative to *https://petstore.swagger.io:443/v2*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------

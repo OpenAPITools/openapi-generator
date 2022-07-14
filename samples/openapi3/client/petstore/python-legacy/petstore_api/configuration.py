@@ -174,7 +174,7 @@ conf = petstore_api.Configuration(
                  ):
         """Constructor
         """
-        self._base_path = "http://petstore.swagger.io:80/v2" if host is None else host
+        self._base_path = "https://petstore.swagger.io:443/v2" if host is None else host
         """Default Base url
         """
         self.server_index = 0 if server_index is None and host is None else server_index
@@ -528,7 +528,7 @@ conf = petstore_api.Configuration(
         """
         return [
             {
-                'url': "http://{server}.swagger.io:{port}/v2",
+                'url': "https://{server}.swagger.io:{port}/v2",
                 'description': "petstore server",
                 'variables': {
                     'server': {
@@ -542,9 +542,9 @@ conf = petstore_api.Configuration(
                         },
                     'port': {
                         'description': "No description provided",
-                        'default_value': "80",
+                        'default_value': "443",
                         'enum_values': [
-                            "80",
+                            "443",
                             "8080"
                         ]
                         }

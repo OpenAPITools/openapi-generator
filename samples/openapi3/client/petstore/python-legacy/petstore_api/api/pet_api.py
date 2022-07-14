@@ -103,7 +103,7 @@ class PetApi(object):
         """
 
         local_var_hosts = [
-            'http://petstore.swagger.io/v2',
+            'https://petstore.swagger.io:443/v2',
             'http://path-server-test.petstore.local/v2'
         ]
         local_var_host = local_var_hosts[0]
@@ -811,7 +811,7 @@ class PetApi(object):
         """
 
         local_var_hosts = [
-            'http://petstore.swagger.io/v2',
+            'https://petstore.swagger.io:443/v2',
             'http://path-server-test.petstore.local/v2'
         ]
         local_var_host = local_var_hosts[0]
