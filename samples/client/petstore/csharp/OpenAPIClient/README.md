@@ -77,7 +77,7 @@ namespace Example
         public static void Main()
         {
 
-            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
+            Configuration.Default.BasePath = "https://petstore.swagger.io:443/v2";
             var apiInstance = new AnotherFakeApi(Configuration.Default);
             var modelClient = new ModelClient(); // ModelClient | client model
 
@@ -101,7 +101,7 @@ namespace Example
 
 ## Documentation for API Endpoints
 
-All URIs are relative to *http://petstore.swagger.io:80/v2*
+All URIs are relative to *https://petstore.swagger.io:443/v2*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------

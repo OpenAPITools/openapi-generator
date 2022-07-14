@@ -1,6 +1,6 @@
 # Org.OpenAPITools.Api.PetApi
 
-All URIs are relative to *http://petstore.swagger.io:80/v2*
+All URIs are relative to *https://petstore.swagger.io:443/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -37,7 +37,7 @@ namespace Example
     {
         public static void Main()
         {
-            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
+            Configuration.Default.BasePath = "https://petstore.swagger.io:443/v2";
             // Configure OAuth2 access token for authorization: petstore_auth
             Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";
 
@@ -114,7 +114,7 @@ namespace Example
     {
         public static void Main()
         {
-            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
+            Configuration.Default.BasePath = "https://petstore.swagger.io:443/v2";
             // Configure OAuth2 access token for authorization: petstore_auth
             Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";
 
@@ -195,7 +195,7 @@ namespace Example
     {
         public static void Main()
         {
-            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
+            Configuration.Default.BasePath = "https://petstore.swagger.io:443/v2";
             // Configure OAuth2 access token for authorization: petstore_auth
             Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";
 
@@ -275,7 +275,7 @@ namespace Example
     {
         public static void Main()
         {
-            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
+            Configuration.Default.BasePath = "https://petstore.swagger.io:443/v2";
             // Configure OAuth2 access token for authorization: petstore_auth
             Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";
 
@@ -355,7 +355,7 @@ namespace Example
     {
         public static void Main()
         {
-            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
+            Configuration.Default.BasePath = "https://petstore.swagger.io:443/v2";
             // Configure API key authorization: api_key
             Configuration.Default.AddApiKey("api_key", "YOUR_API_KEY");
             // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -436,7 +436,7 @@ namespace Example
     {
         public static void Main()
         {
-            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
+            Configuration.Default.BasePath = "https://petstore.swagger.io:443/v2";
             // Configure OAuth2 access token for authorization: petstore_auth
             Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";
 
@@ -515,7 +515,7 @@ namespace Example
     {
         public static void Main()
         {
-            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
+            Configuration.Default.BasePath = "https://petstore.swagger.io:443/v2";
             // Configure OAuth2 access token for authorization: petstore_auth
             Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";
 
@@ -596,7 +596,7 @@ namespace Example
     {
         public static void Main()
         {
-            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
+            Configuration.Default.BasePath = "https://petstore.swagger.io:443/v2";
             // Configure OAuth2 access token for authorization: petstore_auth
             Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";
 
@@ -677,7 +677,7 @@ namespace Example
     {
         public static void Main()
         {
-            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
+            Configuration.Default.BasePath = "https://petstore.swagger.io:443/v2";
             // Configure OAuth2 access token for authorization: petstore_auth
             Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";
 

@@ -1,6 +1,6 @@
 # Org.OpenAPITools.Api.FakeApi
 
-All URIs are relative to *http://petstore.swagger.io:80/v2*
+All URIs are relative to *https://petstore.swagger.io:443/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -45,7 +45,7 @@ namespace Example
     {
         public static void Main()
         {
-            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
+            Configuration.Default.BasePath = "https://petstore.swagger.io:443/v2";
             var apiInstance = new FakeApi(Configuration.Default);
 
             try
@@ -115,7 +115,7 @@ namespace Example
     {
         public static void Main()
         {
-            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
+            Configuration.Default.BasePath = "https://petstore.swagger.io:443/v2";
 
             var apiInstance = new FakeApi(Configuration.Default);
             var pet = new Pet(); // Pet | Pet object that needs to be added to the store
@@ -195,7 +195,7 @@ namespace Example
     {
         public static void Main()
         {
-            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
+            Configuration.Default.BasePath = "https://petstore.swagger.io:443/v2";
             var apiInstance = new FakeApi(Configuration.Default);
             var body = true;  // bool? | Input boolean as post body (optional) 
 
@@ -270,7 +270,7 @@ namespace Example
     {
         public static void Main()
         {
-            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
+            Configuration.Default.BasePath = "https://petstore.swagger.io:443/v2";
             var apiInstance = new FakeApi(Configuration.Default);
             var outerComposite = new OuterComposite(); // OuterComposite | Input composite as post body (optional) 
 
@@ -345,7 +345,7 @@ namespace Example
     {
         public static void Main()
         {
-            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
+            Configuration.Default.BasePath = "https://petstore.swagger.io:443/v2";
             var apiInstance = new FakeApi(Configuration.Default);
             var body = 8.14D;  // decimal? | Input number as post body (optional) 
 
@@ -420,7 +420,7 @@ namespace Example
     {
         public static void Main()
         {
-            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
+            Configuration.Default.BasePath = "https://petstore.swagger.io:443/v2";
             var apiInstance = new FakeApi(Configuration.Default);
             var body = "body_example";  // string | Input string as post body (optional) 
 
@@ -495,7 +495,7 @@ namespace Example
     {
         public static void Main()
         {
-            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
+            Configuration.Default.BasePath = "https://petstore.swagger.io:443/v2";
             var apiInstance = new FakeApi(Configuration.Default);
             var outerObjectWithEnumProperty = new OuterObjectWithEnumProperty(); // OuterObjectWithEnumProperty | Input enum (int) as post body
 
@@ -570,7 +570,7 @@ namespace Example
     {
         public static void Main()
         {
-            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
+            Configuration.Default.BasePath = "https://petstore.swagger.io:443/v2";
             var apiInstance = new FakeApi(Configuration.Default);
             var body = new System.IO.MemoryStream(System.IO.File.ReadAllBytes("/path/to/file.txt"));  // System.IO.Stream | image to upload
 
@@ -644,7 +644,7 @@ namespace Example
     {
         public static void Main()
         {
-            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
+            Configuration.Default.BasePath = "https://petstore.swagger.io:443/v2";
             var apiInstance = new FakeApi(Configuration.Default);
             var fileSchemaTestClass = new FileSchemaTestClass(); // FileSchemaTestClass | 
 
@@ -716,7 +716,7 @@ namespace Example
     {
         public static void Main()
         {
-            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
+            Configuration.Default.BasePath = "https://petstore.swagger.io:443/v2";
             var apiInstance = new FakeApi(Configuration.Default);
             var query = "query_example";  // string | 
             var user = new User(); // User | 
@@ -792,7 +792,7 @@ namespace Example
     {
         public static void Main()
         {
-            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
+            Configuration.Default.BasePath = "https://petstore.swagger.io:443/v2";
             var apiInstance = new FakeApi(Configuration.Default);
             var modelClient = new ModelClient(); // ModelClient | client model
 
@@ -868,7 +868,7 @@ namespace Example
     {
         public static void Main()
         {
-            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
+            Configuration.Default.BasePath = "https://petstore.swagger.io:443/v2";
             // Configure HTTP basic authorization: http_basic_test
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
@@ -974,7 +974,7 @@ namespace Example
     {
         public static void Main()
         {
-            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
+            Configuration.Default.BasePath = "https://petstore.swagger.io:443/v2";
             var apiInstance = new FakeApi(Configuration.Default);
             var enumHeaderStringArray = new List<string>(); // List<string> | Header parameter enum test (string array) (optional) 
             var enumHeaderString = "_abc";  // string | Header parameter enum test (string) (optional)  (default to -efg)
@@ -1066,7 +1066,7 @@ namespace Example
     {
         public static void Main()
         {
-            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
+            Configuration.Default.BasePath = "https://petstore.swagger.io:443/v2";
             // Configure HTTP bearer authorization: bearer_test
             Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";
 
@@ -1152,7 +1152,7 @@ namespace Example
     {
         public static void Main()
         {
-            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
+            Configuration.Default.BasePath = "https://petstore.swagger.io:443/v2";
             var apiInstance = new FakeApi(Configuration.Default);
             var requestBody = new Dictionary<string, string>(); // Dictionary<string, string> | request body
 
@@ -1225,7 +1225,7 @@ namespace Example
     {
         public static void Main()
         {
-            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
+            Configuration.Default.BasePath = "https://petstore.swagger.io:443/v2";
             var apiInstance = new FakeApi(Configuration.Default);
             var param = "param_example";  // string | field1
             var param2 = "param2_example";  // string | field2
@@ -1302,7 +1302,7 @@ namespace Example
     {
         public static void Main()
         {
-            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
+            Configuration.Default.BasePath = "https://petstore.swagger.io:443/v2";
             var apiInstance = new FakeApi(Configuration.Default);
             var pipe = new List<string>(); // List<string> | 
             var ioutil = new List<string>(); // List<string> | 

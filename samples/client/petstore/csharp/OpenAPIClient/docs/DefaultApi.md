@@ -1,6 +1,6 @@
 # Org.OpenAPITools.Api.DefaultApi
 
-All URIs are relative to *http://petstore.swagger.io:80/v2*
+All URIs are relative to *https://petstore.swagger.io:443/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -29,7 +29,7 @@ namespace Example
     {
         public static void Main()
         {
-            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
+            Configuration.Default.BasePath = "https://petstore.swagger.io:443/v2";
             var apiInstance = new DefaultApi(Configuration.Default);
 
             try

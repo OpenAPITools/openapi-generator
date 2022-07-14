@@ -115,7 +115,7 @@ namespace Org.OpenAPITools.Client
         public Configuration()
         {
             UserAgent = "OpenAPI-Generator/1.0.0/csharp";
-            BasePath = "http://petstore.swagger.io:80/v2";
+            BasePath = "https://petstore.swagger.io:443/v2";
             DefaultHeader = new ConcurrentDictionary<string, string>();
             ApiKey = new ConcurrentDictionary<string, string>();
             ApiKeyPrefix = new ConcurrentDictionary<string, string>();
@@ -131,7 +131,7 @@ namespace Org.OpenAPITools.Client
             IDictionary<string, string> defaultHeader,
             IDictionary<string, string> apiKey,
             IDictionary<string, string> apiKeyPrefix,
-            string basePath = "http://petstore.swagger.io:80/v2") : this()
+            string basePath = "https://petstore.swagger.io:443/v2") : this()
         {
             if (string.IsNullOrWhiteSpace(basePath))
                 throw new ArgumentException("The provided basePath is invalid.", "basePath");
