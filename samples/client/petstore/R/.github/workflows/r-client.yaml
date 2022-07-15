@@ -23,4 +23,11 @@ jobs:
         with:
           extra-packages: any::rcmdcheck
           needs: check
+      - name: Install roxygen2
+        run: install.packages("roxygen2")
+        shell: Rscript {0}
+      - name: Roxygenize
+        run: |
+          roxygen2::roxygenize('.', roclets = c('rd', 'collate', 'namespace'))
+        shell: Rscript {0}
       - uses: r-lib/actions/check-r-package@v2
