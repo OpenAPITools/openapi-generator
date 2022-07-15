@@ -11,8 +11,8 @@ syntax = "proto2";
 
 package petstore;
 
-import public "models/models/category.proto";
-import public "models/models/tag.proto";
+import "models/category.proto";
+import "models/tag.proto";
 
 message Pet {
 
@@ -28,9 +28,9 @@ message Pet {
 
   // pet status in the store
   enum Status {
-    Status_AVAILABLE = 0;
-    Status_PENDING = 1;
-    Status_SOLD = 2;
+    STATUS_AVAILABLE = 0;
+    STATUS_PENDING = 1;
+    STATUS_SOLD = 2;
   }
 
   optional Status status = 355610639;

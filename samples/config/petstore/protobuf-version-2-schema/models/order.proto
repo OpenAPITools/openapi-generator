@@ -24,9 +24,9 @@ message Order {
 
   // Order Status
   enum Status {
-    Status_PLACED = 0;
-    Status_APPROVED = 1;
-    Status_DELIVERED = 2;
+    STATUS_PLACED = 0;
+    STATUS_APPROVED = 1;
+    STATUS_DELIVERED = 2;
   }
 
   optional Status status = 355610639;
