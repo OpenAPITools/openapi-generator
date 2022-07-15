@@ -30,7 +30,7 @@ export interface InlineResponse200 {
      * @type {string}
      * @memberof InlineResponse200
      */
-    nullableStringEnum?: InlineResponse200NullableStringEnumEnum;
+    nullableStringEnum?: string | null;
     /**
      * 
      * @type {number}
@@ -42,7 +42,7 @@ export interface InlineResponse200 {
      * @type {number}
      * @memberof InlineResponse200
      */
-    nullableNumberEnum?: InlineResponse200NullableNumberEnumEnum;
+    nullableNumberEnum?: number | null;
 }
 
 
@@ -59,32 +59,12 @@ export type InlineResponse200StringEnumEnum = typeof InlineResponse200StringEnum
 /**
  * @export
  */
-export const InlineResponse200NullableStringEnumEnum = {
-    One: 'one',
-    Two: 'two',
-    Three: 'three'
-} as const;
-export type InlineResponse200NullableStringEnumEnum = typeof InlineResponse200NullableStringEnumEnum[keyof typeof InlineResponse200NullableStringEnumEnum];
-
-/**
- * @export
- */
 export const InlineResponse200NumberEnumEnum = {
     NUMBER_1: 1,
     NUMBER_2: 2,
     NUMBER_3: 3
 } as const;
 export type InlineResponse200NumberEnumEnum = typeof InlineResponse200NumberEnumEnum[keyof typeof InlineResponse200NumberEnumEnum];
-
-/**
- * @export
- */
-export const InlineResponse200NullableNumberEnumEnum = {
-    NUMBER_1: 1,
-    NUMBER_2: 2,
-    NUMBER_3: 3
-} as const;
-export type InlineResponse200NullableNumberEnumEnum = typeof InlineResponse200NullableNumberEnumEnum[keyof typeof InlineResponse200NullableNumberEnumEnum];
 
 
 export function InlineResponse200FromJSON(json: any): InlineResponse200 {

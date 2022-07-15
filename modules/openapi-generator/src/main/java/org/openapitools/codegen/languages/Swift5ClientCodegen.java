@@ -70,6 +70,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     public static final String USE_BACKTICK_ESCAPES = "useBacktickEscapes";
     public static final String GENERATE_MODEL_ADDITIONAL_PROPERTIES = "generateModelAdditionalProperties";
     public static final String HASHABLE_MODELS = "hashableModels";
+    public static final String USE_JSON_ENCODABLE = "useJsonEncodable";
     public static final String MAP_FILE_BINARY_TO_DATA = "mapFileBinaryToData";
     protected static final String LIBRARY_ALAMOFIRE = "alamofire";
     protected static final String LIBRARY_URLSESSION = "urlsession";
@@ -93,6 +94,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     protected boolean useBacktickEscapes = false;
     protected boolean generateModelAdditionalProperties = true;
     protected boolean hashableModels = true;
+    protected boolean useJsonEncodable = true;
     protected boolean mapFileBinaryToData = false;
     protected String[] responseAs = new String[0];
     protected String sourceFolder = swiftPackagePath;
@@ -299,6 +301,10 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
             "Make hashable models (default: true)")
             .defaultValue(Boolean.TRUE.toString()));
 
+        cliOptions.add(new CliOption(USE_JSON_ENCODABLE,
+            "Make models conform to JSONEncodable protocol (default: true)")
+            .defaultValue(Boolean.TRUE.toString()));
+
         cliOptions.add(new CliOption(MAP_FILE_BINARY_TO_DATA,
             "[WARNING] This option will be removed and enabled by default in the future once we've enhanced the code to work with `Data` in all the different situations. Map File and Binary to Data (default: false)")
             .defaultValue(Boolean.FALSE.toString()));
@@ -496,6 +502,11 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
             setHashableModels(convertPropertyToBooleanAndWriteBack(HASHABLE_MODELS));
         }
         additionalProperties.put(HASHABLE_MODELS, hashableModels);
+
+        if (additionalProperties.containsKey(USE_JSON_ENCODABLE)) {
+            setUseJsonEncodable(convertPropertyToBooleanAndWriteBack(USE_JSON_ENCODABLE));
+        }
+        additionalProperties.put(USE_JSON_ENCODABLE, useJsonEncodable);
 
         if (additionalProperties.containsKey(MAP_FILE_BINARY_TO_DATA)) {
             setMapFileBinaryToData(convertPropertyToBooleanAndWriteBack(MAP_FILE_BINARY_TO_DATA));
@@ -953,6 +964,10 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         this.hashableModels = hashableModels;
     }
 
+    public void setUseJsonEncodable(boolean useJsonEncodable) {
+        this.useJsonEncodable = useJsonEncodable;
+    }
+
     @Override
     public String toEnumValue(String value, String datatype) {
         // for string, array of string
@@ -995,7 +1010,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         if (getSymbolName(name) != null) {
             return camelize(WordUtils.capitalizeFully(getSymbolName(name).toUpperCase(Locale.ROOT)), true);
         }
-        
+
         // Camelize only when we have a structure defined below
         Boolean camelized = false;
         if (name.matches("[A-Z][a-z0-9]+[a-zA-Z0-9]*")) {

@@ -359,7 +359,7 @@ export interface ChildCat extends ParentPet {
      * @type {string}
      * @memberof ChildCat
      */
-    'pet_type': ChildCatPetTypeEnum;
+    'pet_type'?: ChildCatPetTypeEnum;
 }
 
 export const ChildCatPetTypeEnum = {

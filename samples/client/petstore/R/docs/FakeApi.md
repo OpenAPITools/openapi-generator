@@ -8,7 +8,7 @@ Method | HTTP request | Description
 
 
 # **FakeDataFile**
-> User FakeDataFile(dummy, var_data_file=var.var_data_file)
+> User FakeDataFile(dummy, var_data_file = var.var_data_file)
 
 test data_file to ensure it's escaped correctly
 
@@ -18,13 +18,28 @@ test data_file to ensure it's escaped correctly
 ```R
 library(petstore)
 
-var.dummy <- 'dummy_example' # character | dummy required parameter
-var.var_data_file <- 'var_data_file_example' # character | header data file
+var_dummy <- 'dummy_example' # character | dummy required parameter
+var_var_data_file <- 'var_data_file_example' # character | header data file
 
 #test data_file to ensure it's escaped correctly
-api.instance <- FakeApi$new()
-result <- api.instance$FakeDataFile(var.dummy, var_data_file=var.var_data_file)
-dput(result)
+api_instance <- FakeApi$new()
+result <- tryCatch(
+             # to save the result into a file, simply add the optional `data_file` parameter, e.g.
+             # api_instance$FakeDataFile(var_dummy, var_data_file = var_var_data_file, data_file = "result.txt"),
+             api_instance$FakeDataFile(var_dummy, var_data_file = var_var_data_file),
+             ApiException = function(ex) ex
+          )
+# In case of error, print the error object
+if (!is.null(result$ApiException)) {
+  cat(result$ApiException$toString())
+} else {
+  # deserialized response object
+  response.object <- result$content
+  # response headers
+  response.headers <- result$response$headers
+  # response status code
+  response.status.code <- result$response$status_code
+}
 ```
 
 ### Parameters

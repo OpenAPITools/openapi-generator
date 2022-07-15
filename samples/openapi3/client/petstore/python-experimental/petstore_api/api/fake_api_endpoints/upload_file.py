@@ -59,6 +59,8 @@ from petstore_api.schemas import (  # noqa: F401
     BoolBase,
     BinaryBase,
     Schema,
+    NoneClass,
+    BoolClass,
     _SchemaValidator,
     _SchemaTypeChecker,
     _SchemaEnumMaker
@@ -73,6 +75,7 @@ class SchemaForRequestBodyMultipartFormData(
     DictSchema
 ):
     _required_property_names = set((
+        'file',
     ))
     additionalMetadata = StrSchema
     file = BinarySchema
@@ -81,6 +84,7 @@ class SchemaForRequestBodyMultipartFormData(
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
+        file: file,
         additionalMetadata: typing.Union[additionalMetadata, Unset] = unset,
         _configuration: typing.Optional[Configuration] = None,
         **kwargs: typing.Type[Schema],
@@ -88,6 +92,7 @@ class SchemaForRequestBodyMultipartFormData(
         return super().__new__(
             cls,
             *args,
+            file=file,
             additionalMetadata=additionalMetadata,
             _configuration=_configuration,
             **kwargs,
@@ -149,6 +154,7 @@ class UploadFile(api_client.Api):
             api_response.body and api_response.headers will not be deserialized into schema
             class instances
         """
+        used_path = _path
 
         _headers = HTTPHeaderDict()
         # TODO add cookie handling
@@ -166,7 +172,7 @@ class UploadFile(api_client.Api):
             elif 'body' in serialized_data:
                 _body = serialized_data['body']
         response = self.api_client.call_api(
-            resource_path=_path,
+            resource_path=used_path,
             method=_method,
             headers=_headers,
             fields=_fields,

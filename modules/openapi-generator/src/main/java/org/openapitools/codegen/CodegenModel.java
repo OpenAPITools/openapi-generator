@@ -75,6 +75,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     public List<CodegenProperty> readOnlyVars = new ArrayList<>(); // a list of read-only properties
     public List<CodegenProperty> readWriteVars = new ArrayList<>(); // a list of properties for read, write
     public List<CodegenProperty> parentVars = new ArrayList<>();
+    public List<CodegenProperty> nonNullableVars = new ArrayList<>(); // a list of non-nullable properties
     public Map<String, Object> allowableValues;
 
     // Sorted sets of required parameters.
@@ -109,6 +110,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     public Map<String, Object> vendorExtensions = new HashMap<>();
     private CodegenComposedSchemas composedSchemas;
     private boolean hasMultipleTypes = false;
+    public HashMap<String, SchemaTestCase> testCases = new HashMap<>();
 
     /**
      * The type of the value for the additionalProperties keyword in the OAS document.
@@ -193,6 +195,14 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
 
     public void setAllVars(List<CodegenProperty> allVars) {
         this.allVars = allVars;
+    }
+
+    public List<CodegenProperty> getNonNullableVars() {
+        return nonNullableVars;
+    }
+
+    public void setNonNullableVars(List<CodegenProperty> nonNullableVars) {
+        this.nonNullableVars = nonNullableVars;
     }
 
     public Map<String, Object> getAllowableValues() {
@@ -946,6 +956,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 Objects.equals(arrayModelType, that.arrayModelType) &&
                 Objects.equals(vars, that.vars) &&
                 Objects.equals(allVars, that.allVars) &&
+                Objects.equals(nonNullableVars, that.nonNullableVars) &&
                 Objects.equals(requiredVars, that.requiredVars) &&
                 Objects.equals(optionalVars, that.optionalVars) &&
                 Objects.equals(readOnlyVars, that.readOnlyVars) &&
@@ -981,7 +992,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 getXmlName(), getClassFilename(), getUnescapedDescription(), getDiscriminator(), getDefaultValue(),
                 getArrayModelType(), isAlias, isString, isInteger, isLong, isNumber, isNumeric, isFloat, isDouble,
                 isDate, isDateTime, isNull, hasValidation, isShort, isUnboundedInteger, isBoolean,
-                getVars(), getAllVars(), getRequiredVars(), getOptionalVars(), getReadOnlyVars(), getReadWriteVars(),
+                getVars(), getAllVars(), getNonNullableVars(), getRequiredVars(), getOptionalVars(), getReadOnlyVars(), getReadWriteVars(),
                 getParentVars(), getAllowableValues(), getMandatory(), getAllMandatory(), getImports(), hasVars,
                 isEmptyVars(), hasMoreModels, hasEnums, isEnum, isNullable, hasRequired, hasOptional, isArray,
                 hasChildren, isMap, isDeprecated, hasOnlyReadOnly, getExternalDocumentation(), getVendorExtensions(),
@@ -999,10 +1010,10 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         sb.append(", parent='").append(parent).append('\'');
         sb.append(", parentSchema='").append(parentSchema).append('\'');
         sb.append(", interfaces=").append(interfaces);
-        sb.append(", interfaceModels=").append(interfaceModels!=null?interfaceModels.size():"[]");
+        sb.append(", interfaceModels=").append(interfaceModels !=null ? interfaceModels.size() : "[]");
         sb.append(", allParents=").append(allParents);
         sb.append(", parentModel=").append(parentModel);
-        sb.append(", children=").append(children!=null?children.size():"[]");
+        sb.append(", children=").append(children != null ? children.size() : "[]");
         sb.append(", anyOf=").append(anyOf);
         sb.append(", oneOf=").append(oneOf);
         sb.append(", allOf=").append(allOf);
@@ -1035,6 +1046,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         sb.append(", isDateTime=").append(isDateTime);
         sb.append(", vars=").append(vars);
         sb.append(", allVars=").append(allVars);
+        sb.append(", nonNullableVars=").append(nonNullableVars);
         sb.append(", requiredVars=").append(requiredVars);
         sb.append(", optionalVars=").append(optionalVars);
         sb.append(", readOnlyVars=").append(readOnlyVars);
@@ -1122,6 +1134,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         requiredVars = removeDuplicatedProperty(requiredVars);
         parentVars = removeDuplicatedProperty(parentVars);
         allVars = removeDuplicatedProperty(allVars);
+        nonNullableVars = removeDuplicatedProperty(nonNullableVars);
         readOnlyVars = removeDuplicatedProperty(readOnlyVars);
         readWriteVars = removeDuplicatedProperty(readWriteVars);
     }

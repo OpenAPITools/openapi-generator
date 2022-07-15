@@ -43,7 +43,7 @@ import org.openapitools.client.infrastructure.ResponseType
 import org.openapitools.client.infrastructure.Success
 import org.openapitools.client.infrastructure.toMultiValue
 
-class UserApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = ApiClient.defaultClient) : ApiClient(basePath) {
+class UserApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = ApiClient.defaultClient) : ApiClient(basePath, client) {
     companion object {
         @JvmStatic
         val defaultBasePath: String by lazy {
@@ -312,7 +312,7 @@ class UserApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = 
         
         return RequestConfig(
             method = RequestMethod.DELETE,
-            path = "/user/{username}".replace("{"+"username"+"}", "$username"),
+            path = "/user/{username}".replace("{"+"username"+"}", username.toString()),
             query = localVariableQuery,
             headers = localVariableHeaders,
             body = localVariableBody
@@ -382,7 +382,7 @@ class UserApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = 
 
         return RequestConfig(
             method = RequestMethod.GET,
-            path = "/user/{username}".replace("{"+"username"+"}", "$username"),
+            path = "/user/{username}".replace("{"+"username"+"}", username.toString()),
             query = localVariableQuery,
             headers = localVariableHeaders,
             body = localVariableBody
@@ -593,7 +593,7 @@ class UserApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = 
         
         return RequestConfig(
             method = RequestMethod.PUT,
-            path = "/user/{username}".replace("{"+"username"+"}", "$username"),
+            path = "/user/{username}".replace("{"+"username"+"}", username.toString()),
             query = localVariableQuery,
             headers = localVariableHeaders,
             body = localVariableBody

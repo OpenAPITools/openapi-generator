@@ -59,6 +59,8 @@ from petstore_api.schemas import (  # noqa: F401
     BoolBase,
     BinaryBase,
     Schema,
+    NoneClass,
+    BoolClass,
     _SchemaValidator,
     _SchemaTypeChecker,
     _SchemaEnumMaker
@@ -158,6 +160,7 @@ class UpdatePet(api_client.Api):
             api_response.body and api_response.headers will not be deserialized into schema
             class instances
         """
+        used_path = _path
 
         _headers = HTTPHeaderDict()
         # TODO add cookie handling
@@ -176,7 +179,7 @@ class UpdatePet(api_client.Api):
         host = self.get_host('update_pet', _servers, host_index)
 
         response = self.api_client.call_api(
-            resource_path=_path,
+            resource_path=used_path,
             method=_method,
             headers=_headers,
             fields=_fields,

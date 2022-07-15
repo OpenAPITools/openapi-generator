@@ -159,6 +159,8 @@ public class JavaCXFClientCodegen extends AbstractJavaCodegen
             if (openApiNullable) {
                 if (Boolean.FALSE.equals(property.required) && Boolean.TRUE.equals(property.isNullable)) {
                     property.getVendorExtensions().put("x-is-jackson-optional-nullable", true);
+                    findByName(property.name, model.readOnlyVars)
+                        .ifPresent(p -> p.getVendorExtensions().put("x-is-jackson-optional-nullable", true));
                     model.imports.add("JsonNullable");
                     model.imports.add("JsonIgnore");
                 }

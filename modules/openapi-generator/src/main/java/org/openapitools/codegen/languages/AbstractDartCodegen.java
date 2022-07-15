@@ -488,7 +488,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
 
     @Override
     public String getTypeDeclaration(Schema p) {
-        Schema<?> schema = ModelUtils.unaliasSchema(this.openAPI, p, importMapping);
+        Schema<?> schema = ModelUtils.unaliasSchema(this.openAPI, p, schemaMapping);
         Schema<?> target = ModelUtils.isGenerateAliasAsModel() ? p : schema;
         if (ModelUtils.isArraySchema(target)) {
             Schema<?> items = getSchemaItems((ArraySchema) schema);
@@ -551,8 +551,8 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
     }
 
     @Override
-    public CodegenProperty fromProperty(String name, Schema p) {
-        final CodegenProperty property = super.fromProperty(name, p);
+    public CodegenProperty fromProperty(String name, Schema p, boolean required) {
+        final CodegenProperty property = super.fromProperty(name, p, required);
 
         // Handle composed properties
         if (ModelUtils.isComposedSchema(p)) {

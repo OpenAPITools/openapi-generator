@@ -27,10 +27,11 @@ public class CodegenOperation {
     public boolean hasAuthMethods, hasConsumes, hasProduces, hasParams, hasOptionalParams, hasRequiredParams,
             returnTypeIsPrimitive, returnSimpleType, subresourceOperation, isMap,
             isArray, isMultipart,
-            isResponseBinary = false, isResponseFile = false, hasReference = false,
+            isResponseBinary = false, isResponseFile = false, isResponseOptional = false, hasReference = false,
             isRestfulIndex, isRestfulShow, isRestfulCreate, isRestfulUpdate, isRestfulDestroy,
             isRestful, isDeprecated, isCallbackRequest, uniqueItems, hasDefaultResponse = false,
             hasErrorResponseObject; // if 4xx, 5xx responses have at least one error object defined
+    public CodegenProperty returnProperty;
     public String path, operationId, returnType, returnFormat, httpMethod, returnBaseType,
             returnContainer, summary, unescapedNotes, notes, baseName, defaultResponse;
     public CodegenDiscriminator discriminator;
@@ -298,10 +299,12 @@ public class CodegenOperation {
         sb.append(", returnSimpleType=").append(returnSimpleType);
         sb.append(", subresourceOperation=").append(subresourceOperation);
         sb.append(", isMap=").append(isMap);
+        sb.append(", returnProperty=").append(returnProperty);
         sb.append(", isArray=").append(isArray);
         sb.append(", isMultipart=").append(isMultipart);
         sb.append(", isResponseBinary=").append(isResponseBinary);
         sb.append(", isResponseFile=").append(isResponseFile);
+        sb.append(", isResponseFile=").append(isResponseOptional);
         sb.append(", hasReference=").append(hasReference);
         sb.append(", hasDefaultResponse=").append(hasDefaultResponse);
         sb.append(", hasErrorResponseObject=").append(hasErrorResponseObject);
@@ -377,6 +380,7 @@ public class CodegenOperation {
                 isMultipart == that.isMultipart &&
                 isResponseBinary == that.isResponseBinary &&
                 isResponseFile == that.isResponseFile &&
+                isResponseOptional == that.isResponseOptional &&
                 hasReference == that.hasReference &&
                 hasDefaultResponse == that.hasDefaultResponse &&
                 hasErrorResponseObject == that.hasErrorResponseObject &&
@@ -389,6 +393,7 @@ public class CodegenOperation {
                 isDeprecated == that.isDeprecated &&
                 isCallbackRequest == that.isCallbackRequest &&
                 uniqueItems == that.uniqueItems &&
+                Objects.equals(returnProperty, that.returnProperty) &&
                 Objects.equals(responseHeaders, that.responseHeaders) &&
                 Objects.equals(path, that.path) &&
                 Objects.equals(operationId, that.operationId) &&
@@ -437,14 +442,14 @@ public class CodegenOperation {
 
         return Objects.hash(responseHeaders, hasAuthMethods, hasConsumes, hasProduces, hasParams, hasOptionalParams,
                 hasRequiredParams, returnTypeIsPrimitive, returnSimpleType, subresourceOperation, isMap,
-                isArray, isMultipart, isResponseBinary, isResponseFile, hasReference, hasDefaultResponse, isRestfulIndex,
-                isRestfulShow, isRestfulCreate, isRestfulUpdate, isRestfulDestroy, isRestful, isDeprecated,
-                isCallbackRequest, uniqueItems, path, operationId, returnType, httpMethod, returnBaseType,
-                returnContainer, summary, unescapedNotes, notes, baseName, defaultResponse, discriminator, consumes,
-                produces, prioritizedContentTypes, servers, bodyParam, allParams, bodyParams, pathParams, queryParams,
-                headerParams, formParams, cookieParams, requiredParams, optionalParams, authMethods, tags,
-                responses, callbacks, imports, examples, requestBodyExamples, externalDocs, vendorExtensions,
-                nickname, operationIdOriginal, operationIdLowerCase, operationIdCamelCase, operationIdSnakeCase,
-                hasErrorResponseObject);
+                isArray, isMultipart, isResponseBinary, isResponseFile, isResponseOptional, hasReference,
+                hasDefaultResponse, isRestfulIndex, isRestfulShow, isRestfulCreate, isRestfulUpdate, isRestfulDestroy,
+                isRestful, isDeprecated, isCallbackRequest, uniqueItems, path, operationId, returnType, httpMethod,
+                returnBaseType, returnContainer, summary, unescapedNotes, notes, baseName, defaultResponse,
+                discriminator, consumes, produces, prioritizedContentTypes, servers, bodyParam, allParams, bodyParams,
+                pathParams, queryParams, headerParams, formParams, cookieParams, requiredParams, returnProperty, optionalParams,
+                authMethods, tags, responses, callbacks, imports, examples, requestBodyExamples, externalDocs,
+                vendorExtensions, nickname, operationIdOriginal, operationIdLowerCase, operationIdCamelCase,
+                operationIdSnakeCase, hasErrorResponseObject);
     }
 }

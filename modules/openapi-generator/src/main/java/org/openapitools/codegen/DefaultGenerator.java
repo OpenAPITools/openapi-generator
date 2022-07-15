@@ -447,6 +447,19 @@ public class DefaultGenerator implements Generator {
         // process models only
         for (String name : modelKeys) {
             try {
+                //don't generate models that have an import mapping
+                if (config.schemaMapping().containsKey(name)) {
+                    LOGGER.debug("Model {} not imported due to import mapping", name);
+
+                    for (String templateName : config.modelTemplateFiles().keySet()) {
+                        // HACK: Because this returns early, could lead to some invalid model reporting.
+                        String filename = config.modelFilename(templateName, name);
+                        Path path = java.nio.file.Paths.get(filename);
+                        this.templateProcessor.skip(path,"Skipped prior to model processing due to schema mapping." );
+                    }
+                    continue;
+                }
+
                 // don't generate models that are not used as object (e.g. form parameters)
                 if (unusedModels.contains(name)) {
                     if (Boolean.FALSE.equals(skipFormModel)) {
@@ -470,7 +483,7 @@ public class DefaultGenerator implements Generator {
                     // generators may choose to make models for use case 2 + 3
                     Schema refSchema = new Schema();
                     refSchema.set$ref("#/components/schemas/" + name);
-                    Schema unaliasedSchema = config.unaliasSchema(refSchema, config.importMapping());
+                    Schema unaliasedSchema = config.unaliasSchema(refSchema, config.schemaMapping());
                     if (unaliasedSchema.get$ref() == null) {
                         LOGGER.info("Model {} not generated since it's a free-form object", name);
                         continue;
@@ -514,6 +527,11 @@ public class DefaultGenerator implements Generator {
             ModelsMap models = allProcessedModels.get(modelName);
             models.put("modelPackage", config.modelPackage());
             try {
+                //don't generate models that have a schema mapping
+                if (config.schemaMapping().containsKey(modelName)) {
+                    continue;
+                }
+
                 // TODO revise below as we've already performed unaliasing so that the isAlias check may be removed
                 List<ModelMap> modelList = models.getModels();
                 if (modelList != null && !modelList.isEmpty()) {
@@ -881,6 +899,7 @@ public class DefaultGenerator implements Generator {
         if (config.getUseInlineModelResolver()) {
             InlineModelResolver inlineModelResolver = new InlineModelResolver();
             inlineModelResolver.setInlineSchemaNameMapping(config.inlineSchemaNameMapping());
+            inlineModelResolver.setInlineSchemaNameDefaults(config.inlineSchemaNameDefault());
             inlineModelResolver.flatten(openAPI);
         }
 

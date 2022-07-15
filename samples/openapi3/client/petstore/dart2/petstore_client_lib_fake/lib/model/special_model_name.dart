@@ -40,6 +40,8 @@ class SpecialModelName {
     final _json = <String, dynamic>{};
     if (dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket != null) {
       _json[r'$special[property.name]'] = dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket;
+    } else {
+      _json[r'$special[property.name]'] = null;
     }
     return _json;
   }

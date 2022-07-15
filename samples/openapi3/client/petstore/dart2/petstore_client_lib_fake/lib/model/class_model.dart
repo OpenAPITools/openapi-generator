@@ -40,6 +40,8 @@ class ClassModel {
     final _json = <String, dynamic>{};
     if (class_ != null) {
       _json[r'_class'] = class_;
+    } else {
+      _json[r'_class'] = null;
     }
     return _json;
   }

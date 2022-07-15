@@ -2121,6 +2121,21 @@ public class DefaultCodegenTest {
         CodegenModel codegenModel = codegen.fromModel("ParentType", openAPI.getComponents().getSchemas().get("ParentType"));
 
         Assert.assertEquals(codegenModel.vars.size(), 1);
+        Assert.assertEquals(codegenModel.vars.get(0).getBaseType(), "string");
+    }
+
+    @Test
+    public void schemaMapping() {
+        DefaultCodegen codegen = new DefaultCodegen();
+        codegen.schemaMapping.put("TypeAlias", "foo.bar.TypeAlias");
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/type-alias.yaml", null, new ParseOptions()).getOpenAPI();
+        codegen.setOpenAPI(openAPI);
+
+        CodegenModel codegenModel = codegen.fromModel("ParentType", openAPI.getComponents().getSchemas().get("ParentType"));
+
+        Assert.assertEquals(codegenModel.vars.size(), 1);
         Assert.assertEquals(codegenModel.vars.get(0).getBaseType(), "TypeAlias");
     }
 
@@ -4204,5 +4219,30 @@ public class DefaultCodegenTest {
 
         Assert.assertEquals(codegenParameter.defaultValue, "1971-12-19T03:39:57-08:00");
         Assert.assertEquals(codegenParameter.getSchema(), null);
+    }
+
+    @Test
+    public void testFromPropertyRequiredAndOptional() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_12857.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setDisallowAdditionalPropertiesIfNotPresent(false);
+
+        String modelName = "FooRequired";
+        Schema sc = openAPI.getComponents().getSchemas().get(modelName);
+        CodegenModel fooRequired = codegen.fromModel(modelName, sc);
+        modelName = "FooOptional";
+        sc = openAPI.getComponents().getSchemas().get(modelName);
+        CodegenModel fooOptional = codegen.fromModel(modelName, sc);
+        Assert.assertTrue(fooRequired.vars.get(0).required);
+        Assert.assertEquals(fooRequired.vars.get(0).name, "foo");
+
+        Assert.assertEquals(fooRequired.requiredVars.size(), 1);
+        Assert.assertEquals(fooRequired.requiredVars.get(0).name, "foo");
+        Assert.assertTrue(fooRequired.requiredVars.get(0).required);
+
+        Assert.assertFalse(fooOptional.vars.get(0).required);
+        Assert.assertEquals(fooOptional.vars.get(0).name, "foo");
+        Assert.assertEquals(fooOptional.requiredVars.size(), 0);
     }
 }

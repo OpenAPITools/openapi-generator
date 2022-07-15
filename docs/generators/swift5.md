@@ -53,6 +53,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |swiftUseApiNamespace|Flag to make all the API classes inner-class of {{projectName}}API| |null|
 |useBacktickEscapes|Escape reserved words using backticks (default: false)| |false|
 |useClasses|Use final classes for models instead of structs (default: false)| |false|
+|useJsonEncodable|Make models conform to JSONEncodable protocol (default: true)| |true|
 |useSPMFileStructure|Use SPM file structure and set the source path to Sources/{{projectName}} (default: false).| |null|
 
 ## IMPORT MAPPING

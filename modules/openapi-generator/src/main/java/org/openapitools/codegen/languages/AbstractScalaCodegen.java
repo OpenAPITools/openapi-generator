@@ -357,7 +357,7 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
 
     @Override
     public String getTypeDeclaration(Schema p) {
-        Schema<?> schema = ModelUtils.unaliasSchema(this.openAPI, p, importMapping);
+        Schema<?> schema = ModelUtils.unaliasSchema(this.openAPI, p, schemaMapping);
         Schema<?> target = ModelUtils.isGenerateAliasAsModel() ? p : schema;
         if (ModelUtils.isArraySchema(target)) {
             Schema<?> items = getSchemaItems((ArraySchema) schema);
@@ -461,8 +461,8 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
      * @return Codegen Property object
      */
     @Override
-    public CodegenProperty fromProperty(String name, Schema p) {
-        CodegenProperty prop = super.fromProperty(name, p);
+    public CodegenProperty fromProperty(String name, Schema p, boolean required) {
+        CodegenProperty prop = super.fromProperty(name, p, required);
         if (ModelUtils.isArraySchema(p)) {
             ArraySchema as = (ArraySchema) p;
             if (ModelUtils.isSet(as)) {

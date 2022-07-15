@@ -9,13 +9,13 @@ defmodule OpenapiPetstore.Model.EnumArrays do
 
   @derive [Poison.Encoder]
   defstruct [
-    :"just_symbol",
-    :"array_enum"
+    :just_symbol,
+    :array_enum
   ]
 
   @type t :: %__MODULE__{
-    :"just_symbol" => String.t | nil,
-    :"array_enum" => [String.t] | nil
+    :just_symbol => String.t | nil,
+    :array_enum => [String.t] | nil
   }
 end
 

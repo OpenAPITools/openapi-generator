@@ -74,6 +74,194 @@ public class PingApi {
         this.localCustomBaseUrl = customBaseUrl;
     }
 
+    private okhttp3.Call getPingCall(Long petId, String name, String status, final ApiCallback _callback) throws ApiException {
+        String basePath = null;
+        // Operation Servers
+        String[] localBasePaths = new String[] {  };
+
+        // Determine Base Path to Use
+        if (localCustomBaseUrl != null){
+            basePath = localCustomBaseUrl;
+        } else if ( localBasePaths.length > 0 ) {
+            basePath = localBasePaths[localHostIndex];
+        } else {
+            basePath = null;
+        }
+
+        Object localVarPostBody = null;
+
+        // create path and map variables
+        String localVarPath = "/ping";
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, String> localVarCookieParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+        if (name != null) {
+            localVarFormParams.put("name", name);
+        }
+
+        if (status != null) {
+            localVarFormParams.put("status", status);
+        }
+
+        if (petId != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("petId", petId));
+        }
+
+        final String[] localVarAccepts = {
+            "application/json"
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+            "application/x-www-form-urlencoded"
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        if (localVarContentType != null) {
+            localVarHeaderParams.put("Content-Type", localVarContentType);
+        }
+
+        String[] localVarAuthNames = new String[] {  };
+        return localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call getPingValidateBeforeCall(Long petId, String name, String status, final ApiCallback _callback) throws ApiException {
+        
+        // verify the required parameter 'petId' is set
+        if (petId == null) {
+            throw new ApiException("Missing the required parameter 'petId' when calling getPing(Async)");
+        }
+        
+
+        okhttp3.Call localVarCall = getPingCall(petId, name, status, _callback);
+        return localVarCall;
+
+    }
+
+
+    private InputStream getPingWithHttpInfo(Long petId, String name, String status) throws ApiException {
+        okhttp3.Call localVarCall = getPingValidateBeforeCall(petId, name, status, null);
+        Type localVarReturnType = new TypeToken<SomeObj>(){}.getType();
+        return localVarApiClient.executeStream(localVarCall, localVarReturnType);
+    }
+    
+    private okhttp3.Call getPingAsync(Long petId, String name, String status, final ApiCallback<SomeObj> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = getPingValidateBeforeCall(petId, name, status, _callback);
+        Type localVarReturnType = new TypeToken<SomeObj>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
+    }
+
+    public class APIgetPingRequest {
+        private final Long petId;
+        private String name;
+        private String status;
+
+        private APIgetPingRequest(Long petId) {
+            this.petId = petId;
+        }
+
+        /**
+         * Set name
+         * @param name Updated name of the pet (optional)
+         * @return APIgetPingRequest
+         */
+        public APIgetPingRequest name(String name) {
+            this.name = name;
+            return this;
+        }
+
+        /**
+         * Set status
+         * @param status Updated status of the pet (optional)
+         * @return APIgetPingRequest
+         */
+        public APIgetPingRequest status(String status) {
+            this.status = status;
+            return this;
+        }
+
+        /**
+         * Build call for getPing
+         * @param _callback ApiCallback API callback
+         * @return Call to execute
+         * @throws ApiException If fail to serialize the request body object
+         * @http.response.details
+         <table summary="Response Details" border="1">
+            <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+            <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
+         </table>
+         */
+        public okhttp3.Call buildCall(final ApiCallback _callback) throws ApiException {
+            return getPingCall(petId, name, status, _callback);
+        }
+
+        /**
+         * Execute getPing request
+         * @return SomeObj
+         * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+         * @http.response.details
+         <table summary="Response Details" border="1">
+            <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+            <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
+         </table>
+         */
+        public InputStream execute() throws ApiException {
+            return getPingWithHttpInfo(petId, name, status);
+        }
+
+        /**
+         * Execute getPing request with HTTP info returned
+         * @return ApiResponse&lt;SomeObj&gt;
+         * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+         * @http.response.details
+         <table summary="Response Details" border="1">
+            <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+            <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
+         </table>
+         */
+        public InputStream executeWithHttpInfo() throws ApiException {
+            return getPingWithHttpInfo(petId, name, status);
+        }
+
+        /**
+         * Execute getPing request (asynchronously)
+         * @param _callback The callback to be executed when the API call finishes
+         * @return The request call
+         * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+         * @http.response.details
+         <table summary="Response Details" border="1">
+            <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+            <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
+         </table>
+         */
+        public okhttp3.Call executeAsync(final ApiCallback<SomeObj> _callback) throws ApiException {
+            return getPingAsync(petId, name, status, _callback);
+        }
+    }
+
+    /**
+     * 
+     * 
+     * @param petId ID of pet that needs to be updated (required)
+     * @return APIgetPingRequest
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
+     </table>
+     */
+    public APIgetPingRequest getPing(Long petId) {
+        return new APIgetPingRequest(petId);
+    }
     /**
      * Build call for postPing
      * @param someObj  (optional)

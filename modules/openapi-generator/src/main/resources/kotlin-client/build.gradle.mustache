@@ -1,10 +1,12 @@
 group '{{groupId}}'
 version '{{artifactVersion}}'
+{{^omitGradleWrapper}}
 
 wrapper {
     gradleVersion = '6.8.3'
     distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-all.zip"
 }
+{{/omitGradleWrapper}}
 
 buildscript {
     ext.kotlin_version = '1.5.10'
@@ -45,6 +47,9 @@ apply plugin: 'kotlin-parcelize'
 {{#kotlinx_serialization}}
 apply plugin: 'kotlinx-serialization'
 {{/kotlinx_serialization}}
+{{#idea}}
+apply plugin: 'idea'
+{{/idea}}
 
 repositories {
     maven { url "https://repo1.maven.org/maven2" }
@@ -53,6 +58,15 @@ repositories {
 test {
     useJUnitPlatform()
 }
+{{#idea}}
+
+idea {
+    module {
+        sourceDirs += file('src/main/kotlin')
+        testSourceDirs += file('src/test/kotlin')
+    }
+}
+{{/idea}}
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"

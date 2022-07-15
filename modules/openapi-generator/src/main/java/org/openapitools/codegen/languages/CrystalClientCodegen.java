@@ -560,6 +560,9 @@ public class CrystalClientCodegen extends DefaultCodegen {
     @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         objs = super.postProcessOperationsWithModels(objs, allModels);
+        if (isSkipOperationExample()) {
+            return objs;
+        }
         OperationMap operations = objs.getOperations();
         HashMap<String, CodegenModel> modelMaps = new HashMap<>();
         HashMap<String, Integer> processedModelMaps = new HashMap<>();

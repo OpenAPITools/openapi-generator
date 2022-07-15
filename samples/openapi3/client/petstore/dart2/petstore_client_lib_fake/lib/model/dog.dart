@@ -52,6 +52,8 @@ class Dog {
       _json[r'color'] = color;
     if (breed != null) {
       _json[r'breed'] = breed;
+    } else {
+      _json[r'breed'] = null;
     }
     return _json;
   }

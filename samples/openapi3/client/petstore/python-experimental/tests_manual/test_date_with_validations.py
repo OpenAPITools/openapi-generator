@@ -66,8 +66,8 @@ class TestDateWithValidations(unittest.TestCase):
 
         # value error is raised if an invalid string is passed in
         with self.assertRaisesRegex(
-            petstore_api.ApiValueError,
-            r"Value does not conform to the required ISO-8601 date format. Invalid value 'abcd' for type date at \('args\[0\]',\)"
+                petstore_api.ApiValueError,
+                r"Invalid value `abcd`, must match regular expression `.+?` at \('args\[0\]',\)"
         ):
             DateWithValidations._from_openapi_data("abcd")
 

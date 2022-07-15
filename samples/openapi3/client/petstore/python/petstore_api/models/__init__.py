@@ -40,6 +40,7 @@ from petstore_api.model.danish_pig import DanishPig
 from petstore_api.model.dog import Dog
 from petstore_api.model.dog_all_of import DogAllOf
 from petstore_api.model.drawing import Drawing
+from petstore_api.model.egress_threshold_options import EgressThresholdOptions
 from petstore_api.model.enum_arrays import EnumArrays
 from petstore_api.model.enum_class import EnumClass
 from petstore_api.model.enum_test import EnumTest
@@ -84,6 +85,8 @@ from petstore_api.model.pet import Pet
 from petstore_api.model.pig import Pig
 from petstore_api.model.post_inline_additional_properties_payload_request import PostInlineAdditionalPropertiesPayloadRequest
 from petstore_api.model.post_inline_additional_properties_payload_request_array_data_inner import PostInlineAdditionalPropertiesPayloadRequestArrayDataInner
+from petstore_api.model.publish_options import PublishOptions
+from petstore_api.model.publish_options_publish import PublishOptionsPublish
 from petstore_api.model.quadrilateral import Quadrilateral
 from petstore_api.model.quadrilateral_interface import QuadrilateralInterface
 from petstore_api.model.read_only_first import ReadOnlyFirst
@@ -96,6 +99,7 @@ from petstore_api.model.simple_quadrilateral import SimpleQuadrilateral
 from petstore_api.model.some_object import SomeObject
 from petstore_api.model.some_object_with_self_attr import SomeObjectWithSelfAttr
 from petstore_api.model.special_model_name import SpecialModelName
+from petstore_api.model.stream_options import StreamOptions
 from petstore_api.model.string_boolean_map import StringBooleanMap
 from petstore_api.model.string_enum import StringEnum
 from petstore_api.model.string_enum_with_default_value import StringEnumWithDefaultValue
