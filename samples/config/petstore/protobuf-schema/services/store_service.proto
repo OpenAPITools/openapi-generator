@@ -20,9 +20,9 @@ service StoreService {
 
   rpc GetInventory (google.protobuf.Empty) returns (GetInventoryResponse);
 
-  rpc GetOrderById (GetOrderByIdRequest) returns (Order);
+  rpc GetOrderById (GetOrderByIdRequest) returns (petstore.Order);
 
-  rpc PlaceOrder (PlaceOrderRequest) returns (Order);
+  rpc PlaceOrder (PlaceOrderRequest) returns (petstore.Order);
 
 }
 
@@ -44,7 +44,7 @@ message GetOrderByIdRequest {
 
 message PlaceOrderRequest {
   // order placed for purchasing the pet
-  Order order = 1;
+  petstore.Order order = 1;
 
 }
 
