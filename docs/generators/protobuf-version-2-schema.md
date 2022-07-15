@@ -1,17 +1,17 @@
 ---
-title: Documentation for the protobuf-schema Generator
+title: Documentation for the protobuf-version-2-schema Generator
 ---
 
 ## METADATA
 
 | Property | Value | Notes |
 | -------- | ----- | ----- |
-| generator name | protobuf-schema | pass this to the generate command after -g |
+| generator name | protobuf-version-2-schema | pass this to the generate command after -g |
 | generator stability | BETA | |
 | generator type | SCHEMA | |
 | generator language | Protocol Buffers (Protobuf) | |
 | generator default templating engine | mustache | |
-| helpTxt | Generates gRPC and protocol buffer 3 schema files (beta) | |
+| helpTxt | Generates gRPC and protocol buffer 2 schema files (beta) | |
 
 ## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
