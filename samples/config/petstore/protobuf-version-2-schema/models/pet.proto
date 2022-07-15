@@ -11,8 +11,8 @@ syntax = "proto2";
 
 package petstore;
 
-import public "models/models/category.proto";
-import public "models/models/tag.proto";
+import "models/category.proto";
+import "models/tag.proto";
 
 message Pet {
 
