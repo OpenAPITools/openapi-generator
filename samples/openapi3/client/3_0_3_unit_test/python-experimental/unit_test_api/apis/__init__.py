@@ -7,7 +7,7 @@
 # raise a `RecursionError`.
 # In order to avoid this, import only the API that you directly need like:
 #
-#   from unit_test_api.api.default_api import DefaultApi
+#   from unit_test_api.api.json_api import JsonApi
 #
 # or import this package, but before doing it, use:
 #
@@ -15,4 +15,6 @@
 #   sys.setrecursionlimit(n)
 
 # Import APIs into API package:
-from unit_test_api.api.default_api import DefaultApi
+from unit_test_api.api.json_api import JsonApi
+from unit_test_api.api.post_api import PostApi
+from unit_test_api.api.request_body_api import RequestBodyApi
