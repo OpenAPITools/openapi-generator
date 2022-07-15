@@ -19,6 +19,7 @@ package org.openapitools.codegen.languages;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 
+import com.google.common.base.CaseFormat;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.exceptions.ProtoBufIndexComputationException;
 import org.openapitools.codegen.meta.GeneratorMetadata;
@@ -31,6 +32,8 @@ import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
+import org.openapitools.codegen.option.CustomOptionDefinition;
+import org.openapitools.codegen.option.CustomOption;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -73,6 +76,12 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
     
     private boolean fieldNamesInSnakeCase = false;
 
+    // store the available custom options
+    // <option name as vendor extension, CustomOptionDefinition>
+    protected Map<String, CustomOptionDefinition> customOptionsMapping = new HashMap<String, CustomOptionDefinition>();
+
+    private String customOptionsFileName = "custom_options";
+
     @Override
     public CodegenType getTag() {
         return CodegenType.SCHEMA;
@@ -101,12 +110,14 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         );
 
         outputFolder = "generated-code/protobuf-schema";
+        customOptionsTemplateFiles.put("custom_options.mustache", ".proto");
         modelTemplateFiles.put("model.mustache", ".proto");
         apiTemplateFiles.put("api.mustache", ".proto");
         embeddedTemplateDir = templateDir = "protobuf-schema";
         hideGenerationTimestamp = Boolean.TRUE;
         modelPackage = "models";
         apiPackage = "services";
+        customOptionsPackage = "custom_options";
 
         defaultIncludes = new HashSet<>(
                 Arrays.asList(
@@ -242,14 +253,14 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
      * @param allowableValues allowable values
      * @param prefix added prefix
      */
-    public void addEnumValuesPrefix(Map<String, Object> allowableValues, String prefix){
+    public void addEnumValuesPrefix(Map<String, Object> allowableValues, String prefix, String dataType){
         if(allowableValues.containsKey("enumVars")) {
             List<Map<String, Object>> enumVars = (List<Map<String, Object>>)allowableValues.get("enumVars");
 
             for(Map<String, Object> value : enumVars) {
                 String name = (String)value.get("name");
-                value.put("name", prefix + "_" + name);
-                value.put("value", "\"" + prefix + "_" + name + "\"");
+                value.put("name", toEnumVarName(prefix + "_" + name, dataType));
+                value.put("value", toEnumValue (prefix + "_" + name, dataType));
             }
         }
 
@@ -259,7 +270,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
             for(int i = 0 ; i < values.size() ; i++) {
                 if (!values.get(i).startsWith(prefix + "_")) {
                     // replace value by value with prefix
-                    values.set(i, prefix + "_" + values.get(i));
+                    values.set(i, underscore(prefix + "_" + values.get(i)).toUpperCase());
                 }
             }
         }
@@ -292,6 +303,36 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                 List<String> values = (List<String>)allowableValues.get("values");           
                 values.add(0, value);
             }
+        }
+    }
+
+    //override default behaviour: value in SNAKE_CASE
+    // e.g. PhoneNumber.mobile => PHONE_NUMBER_MOBILE
+    @Override
+    public String toEnumValue(String value, String datatype) {
+        if ("number".equalsIgnoreCase(datatype) || "boolean".equalsIgnoreCase(datatype)) {
+            return value;
+        } else {
+            value = underscore(value).toUpperCase();
+            return "\"" + escapeText(value) + "\"";
+        }
+    }
+
+    //override default behaviour: put variable name for enum to SNAKE_CASE and sanitize it
+    // e.g. PhoneNumber.mobile => PHONE_NUMBER_MOBILE
+    @Override
+    public String toEnumVarName(String value, String datatype) {       
+        if (value.length() == 0) {
+            return "EMPTY";
+        }
+
+        String var = underscore(value);
+
+        var = var.replaceAll("\\W+", "_").toUpperCase(Locale.ROOT);
+        if (var.matches("\\d.*")) {
+            return "_" + var;
+        } else {
+            return var;
         }
     }
 
@@ -470,6 +511,97 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
     }
 
     @Override
+    public void postProcessAllCustomOptions(List<CodegenProperty> customOptions, String customOptionsFileName) {
+        // file name used for import
+        this.customOptionsFileName = customOptionsFileName;
+
+        // range 50000-99999 is reserved for internal use within individual organizations
+        // https://developers.google.com/protocol-buffers/docs/proto#customoptions
+        int index = 55000;
+
+        for (CodegenProperty customOption : customOptions) {
+            // update codegen property enum with proper naming convention
+            updateCodegenPropertyEnum(customOption);
+
+            // add indexes
+            if(customOption.vendorExtensions != null) {                
+                customOption.vendorExtensions.put("x-protobuf-index", index);
+            }
+            index++;
+        }
+
+        // add types and names for each option
+        processProtoTypesAndNames(customOptions);
+
+        // overwrite type if it is a category (considered as object)
+        for (CodegenProperty customOption : customOptions) {
+            if (typeMapping.get("object").equals(customOption.vendorExtensions.get("x-protobuf-data-type"))) {
+                customOption.vendorExtensions.put("x-protobuf-data-type", toModelName(customOption.name));
+            }
+        }
+    }
+
+    @Override
+    public CodegenModel postProcessCustomOptionCategory(CodegenModel optionCategory) {
+        int index = 1;
+
+        for (CodegenProperty option : optionCategory.vars) {
+            // update codegen property enum with proper naming convention
+            updateCodegenPropertyEnum(option);
+
+            // add indexes
+            option.vendorExtensions.put("x-protobuf-index", index);
+            index++;
+        }
+
+        // add types and names for each var
+        processProtoTypesAndNames(optionCategory.vars);
+
+        return optionCategory;
+    }
+
+    @Override
+    public void updateCustomOptionsMapping(List<CodegenProperty> customOptions, Map<String, CodegenModel> categories) {
+        for (CodegenProperty customOption : customOptions) {
+            // if property is a custom option category
+            if (categories.containsKey(customOption.baseName)) {
+                CodegenModel category = categories.get(customOption.baseName);
+                // add each option of the category
+                for(CodegenProperty option : category.vars) {
+                    addCustomOptionMapping(option, category);
+                }
+            }
+            else {
+                addCustomOptionMapping(customOption, null);
+            }
+        }   
+    }
+
+    private void addCustomOptionMapping(CodegenProperty option, CodegenModel category) {
+        String name = option.getNameInCamelCase();
+        String categoryClassName = "";
+        String categoryGlobalName = "";
+        String optionName = fieldNamesInSnakeCase ? underscore(name) : option.getName();
+        if (category != null) {
+            categoryClassName = category.getClassname();
+            categoryGlobalName = customOptionsPackage + "." + category.getClassFilename();
+        }
+        else {
+            optionName = customOptionsPackage + "." + optionName;
+        }
+        // extension name is built from option category and option name in kebab case prefixed with "x-"
+        // e.g. category AmaRisk, option name personalDataField => x-ama-risk-personal-data-field
+        String extensionName = "x-" + CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_HYPHEN, categoryClassName + name);
+        CustomOptionDefinition customOptionDef = new CustomOptionDefinition(optionName, categoryGlobalName, option.baseType);
+        
+        if (option.isEnum){
+            // useful to check valid value
+            customOptionDef.setEnum((List<String>) option.allowableValues.get("values"));
+        }
+        customOptionsMapping.put(extensionName, customOptionDef);
+    }
+
+    @Override
     public ModelsMap postProcessModels(ModelsMap objs) {
         objs = postProcessModelsEnum(objs);
 
@@ -489,53 +621,15 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                         throw new RuntimeException("Exception when assigning an index to a protobuf enum field");
                     }
                 }
-                addEnumValuesPrefix(allowableValues, cm.getClassname());
+                addEnumValuesPrefix(allowableValues, cm.getClassname(), cm.dataType);
             }
 
+            // add types and names for each var
+            processProtoTypesAndNames(cm.vars);
+
             //to keep track of the indexes used, prevent duplicate indexes
-            Set<Integer> usedIndexes = new HashSet<Integer>();
-            // store names used to prevent from duplicate names
-            Set<String> usedNames = new HashSet<String>();
+            Set<Integer> usedIndexes = new HashSet<Integer>();             
             for (CodegenProperty var : cm.vars) {
-                // add x-protobuf-type: repeated if it's an array
-                if (Boolean.TRUE.equals(var.isArray)) {
-                    var.vendorExtensions.put("x-protobuf-type", "repeated");
-                }
-                else if (Boolean.TRUE.equals(var.isNullable &&  var.isPrimitiveType)) {
-                    var.vendorExtensions.put("x-protobuf-type", "optional");
-                }
-
-                // add x-protobuf-data-type
-                // ref: https://developers.google.com/protocol-buffers/docs/proto3
-                if (!var.vendorExtensions.containsKey("x-protobuf-data-type")) {
-                    if (var.isArray) {
-                        var.vendorExtensions.put("x-protobuf-data-type", var.items.dataType);
-                    } else {
-                        var.vendorExtensions.put("x-protobuf-data-type", var.dataType);
-                    }
-                }
-
-                if (var.isEnum) {
-                    addUnknownToAllowableValues(var.allowableValues);
-                    if(var.allowableValues.containsKey("enumVars")) {
-                        List<Map<String, Object>> enumVars = (List<Map<String, Object>>) var.allowableValues.get("enumVars");
-                        try {
-                            addEnumIndexes(enumVars, var.getVendorExtensions());
-                        }
-                        catch (ProtoBufIndexComputationException e) {
-                            LOGGER.error("Exception when assigning an index to a protobuf enum field", e);
-                            throw new RuntimeException("Exception when assigning an index to a protobuf enum field");
-                        }
-                    }
-                    addEnumValuesPrefix(var.allowableValues, var.getEnumName());
-                }
-
-                // add x-protobuf-name
-                String fieldName = getProtobufName(var.vendorExtensions, var.getName());                
-                //check duplicate names
-                checkName(fieldName, usedNames);
-                var.vendorExtensions.put("x-protobuf-name", fieldName);
-
                 //check x-protobuf-index
                 if (var.vendorExtensions.containsKey("x-protobuf-index")) {
                     int protobufIndex = (int) var.vendorExtensions.get("x-protobuf-index");
@@ -545,6 +639,88 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                     int protobufIndex = (int) var.vendorExtensions.get("x-protobuf-field-number");
                     checkIndex(protobufIndex, usedIndexes);
                     var.vendorExtensions.put("x-protobuf-index", protobufIndex);
+                }
+
+                // manage custom options
+                for (Map.Entry<String, Object> extension : var.vendorExtensions.entrySet()) {
+                    if (customOptionsMapping.containsKey(extension.getKey())) {
+                        String customOptionsLocation = customOptionsPackage + "/" + this.customOptionsFileName;
+                        //add import
+                        if (!cm.getImports().contains(customOptionsLocation)) {
+                            cm.getImports().add(customOptionsLocation);
+                            Map<String, String> importItem = new HashMap<>();
+                            importItem.put(IMPORT, customOptionsLocation);
+                            ((List<Map<String, String>>) objs.get(IMPORTS)).add(importItem);
+                        }
+
+                        CustomOptionDefinition customOptionDef = customOptionsMapping.get(extension.getKey());                        
+                        Object value = extension.getValue();
+
+                        // check valid value
+                        try {
+                            switch(customOptionDef.getBaseType()) {
+                                case "array": 
+                                    value = (List<Object>) value;
+                                    break;
+                                case "int32":
+                                    value = Integer.valueOf(value.toString());
+                                    break;
+                                case "int64":
+                                    value = Long.valueOf(value.toString());
+                                    break;
+                                case "float":
+                                    value = Float.valueOf(value.toString());
+                                    break;
+                                case "double":
+                                    value = Double.valueOf(value.toString());
+                                    break;
+                                case "bool":
+                                    value = (boolean) value;
+                                    break;
+                                case "bytes":
+                                    value = Byte.valueOf(value.toString());
+                                    break;
+                                default:
+                                    value = value.toString();
+                                    break;
+                            }
+                        }
+                        catch( Exception e) {
+                            throw new RuntimeException("value \"" + value + "\" is of type " + value.getClass().getSimpleName() + ", expected " + customOptionDef.getBaseType());
+                        }
+
+                        if (customOptionDef.getIsEnum() && "String".equals(value.getClass().getSimpleName())) {
+                            // add enum prefix
+                            value = toEnumVarName(customOptionDef.getName() + "_" + value, "string");
+
+                            //check valid value
+                            if (!customOptionDef.getAllowedValues().contains(value)) {
+                                throw new RuntimeException("value \"" + value + "\" is not part of allowed enum values " + customOptionDef.getAllowedValues().toString());
+                            }
+                        }
+                        else if ("String".equals(value.getClass().getSimpleName())) {
+                            // add quotes for string
+                            value = "\"" + value + "\"";
+                        }
+
+                        // add custom option to field
+                        if (value instanceof Collection) {
+                            // each item of the list
+                            for (Object item : (List<Object>) value) {
+                                if ("String".equals(item.getClass().getSimpleName())) {
+                                    // add quotes for string
+                                    item = "\"" + item + "\"";
+                                }
+
+                                CustomOption option = new CustomOption(customOptionDef, item);
+                                var.customOptions.add(option);
+                            }
+                        }
+                        else {
+                            CustomOption option = new CustomOption(customOptionDef, value);                        
+                            var.customOptions.add(option);
+                        }
+                    }
                 }
             }
             //automatic index generation when index not specified using extensions
@@ -600,6 +776,53 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         }
 
         return fieldName;
+    }
+
+    private void processProtoTypesAndNames(List<CodegenProperty> vars) {
+        // store names used to prevent from duplicate names
+        Set<String> usedNames = new HashSet<String>();
+        for (CodegenProperty var : vars) {
+            // add x-protobuf-type: repeated if it's an array
+            if (Boolean.TRUE.equals(var.isArray)) {
+                var.vendorExtensions.put("x-protobuf-type", "repeated");
+            }
+            else if (Boolean.TRUE.equals(var.isNullable &&  var.isPrimitiveType)) {
+                var.vendorExtensions.put("x-protobuf-type", "optional");
+            }
+
+            // add x-protobuf-data-type
+            // ref: https://developers.google.com/protocol-buffers/docs/proto3
+            if (!var.vendorExtensions.containsKey("x-protobuf-data-type")) {
+                if (var.isArray) {
+                    var.vendorExtensions.put("x-protobuf-data-type", var.items.dataType);
+                } else {
+                    var.vendorExtensions.put("x-protobuf-data-type", var.dataType);
+                }
+            }
+            
+            // add x-protobuf-name
+            String fieldName = getProtobufName(var.vendorExtensions, var.getName());                
+            //check duplicate names
+            checkName(fieldName, usedNames);
+            var.vendorExtensions.put("x-protobuf-name", fieldName);             
+            
+            if (var.isEnum) {
+                addUnknownToAllowableValues(var.allowableValues);
+            
+                //add enum indexes
+                if(var.allowableValues.containsKey("enumVars")) {
+                    List<Map<String, Object>> enumVars = (List<Map<String, Object>>) var.allowableValues.get("enumVars");
+                    try {
+                        addEnumIndexes(enumVars, var.getVendorExtensions());
+                    }
+                    catch (ProtoBufIndexComputationException e) {
+                        LOGGER.error("Exception when assigning an index to a protobuf enum field", e);
+                        throw new RuntimeException("Exception when assigning an index to a protobuf enum field");
+                    }
+                }
+                addEnumValuesPrefix(var.allowableValues, var.getEnumName(), var.dataType);
+            }
+        }
     }
 
     /**
@@ -719,6 +942,11 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
     @Override
     public String modelFileFolder() {
         return outputFolder + File.separatorChar + modelPackage;
+    }
+
+    @Override
+    public String customOptionsFileFolder() {
+        return outputFolder + File.separatorChar + customOptionsPackage;
     }
 
     @Override

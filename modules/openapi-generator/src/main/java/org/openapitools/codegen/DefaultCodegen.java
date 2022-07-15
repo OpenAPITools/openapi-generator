@@ -160,6 +160,7 @@ public class DefaultCodegen implements CodegenConfig {
     // a map to store the inline schema naming conventions
     protected Map<String, String> inlineSchemaNameDefault = new HashMap<>();
     protected String modelPackage = "", apiPackage = "", fileSuffix;
+    protected String customOptionsPackage = "";
     protected String modelNamePrefix = "", modelNameSuffix = "";
     protected String apiNamePrefix = "", apiNameSuffix = "Api";
     protected String testPackage = "";
@@ -169,6 +170,7 @@ public class DefaultCodegen implements CodegenConfig {
     apiTemplateFiles are for API outputs only (controllers/handlers).
     API templates may be written multiple times; APIs are grouped by tag and the file is written once per tag group.
     */
+    protected Map<String, String> customOptionsTemplateFiles = new HashMap<>();
     protected Map<String, String> apiTemplateFiles = new HashMap<>();
     protected Map<String, String> modelTemplateFiles = new HashMap<>();
     protected Map<String, String> apiTestTemplateFiles = new HashMap<>();
@@ -663,6 +665,22 @@ public class DefaultCodegen implements CodegenConfig {
 
     // override with any special post-processing
     @Override
+    public void postProcessAllCustomOptions(List<CodegenProperty> customOptions, String customOptionsFileName) {
+    }
+
+    // override with any special post-processing
+    @Override
+    public CodegenModel postProcessCustomOptionCategory(CodegenModel optionCategory) {
+        return optionCategory;
+    }
+
+    // override with any special post-processing
+    @Override
+    public void updateCustomOptionsMapping(List<CodegenProperty> customOptions, Map<String, CodegenModel> categories) {
+    }
+
+    // override with any special post-processing
+    @Override
     @SuppressWarnings("static-method")
     public ModelsMap postProcessModels(ModelsMap objs) {
         return objs;
@@ -1137,6 +1155,11 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     @Override
+    public Map<String, String> customOptionsTemplateFiles() {
+        return customOptionsTemplateFiles;
+    }
+
+    @Override
     public Map<String, String> apiTemplateFiles() {
         return apiTemplateFiles;
     }
@@ -1154,6 +1177,16 @@ public class DefaultCodegen implements CodegenConfig {
     @Override
     public String modelFileFolder() {
         return outputFolder + File.separator + modelPackage().replace('.', File.separatorChar);
+    }
+
+    @Override
+    public String customOptionsPackage() {
+        return customOptionsPackage;
+    }
+
+    @Override
+    public String customOptionsFileFolder() {
+        return outputFolder + File.separator + customOptionsPackage().replace('.', File.separatorChar);
     }
 
     @Override

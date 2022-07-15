@@ -39,24 +39,44 @@ public class ProtobufVersion2SchemaCodegen extends ProtobufSchemaCodegen impleme
     }
 
     @Override
+    public void postProcessAllCustomOptions(List<CodegenProperty> customOptions, String customOptionsFileName) {
+        super.postProcessAllCustomOptions(customOptions, customOptionsFileName);
+
+        addProtobufType(customOptions);
+    }
+
+    @Override
+    public CodegenModel postProcessCustomOptionCategory(CodegenModel optionCategory) {
+        optionCategory = super.postProcessCustomOptionCategory(optionCategory);
+
+        addProtobufType(optionCategory.vars);
+
+        return optionCategory;
+    }
+
+    @Override
     public ModelsMap postProcessModels(ModelsMap objs) {
         objs = super.postProcessModels(objs);
 
         for (ModelMap mo : objs.getModels()) {
             CodegenModel cm = mo.getModel();
             
-            for (CodegenProperty var : cm.vars) {
-                // add x-protobuf-type unless already set
-                if (var.getRequired()) {
-                    var.vendorExtensions.putIfAbsent("x-protobuf-type", "required");
-                }
-                else {
-                    var.vendorExtensions.putIfAbsent("x-protobuf-type", "optional");
-                }
-            }
+            addProtobufType(cm.vars);
         }
 
         return objs;
+    }
+
+    private void addProtobufType(List<CodegenProperty> vars) {
+        for (CodegenProperty var : vars) {
+            // add x-protobuf-type unless already set
+            if (var.getRequired()) {
+                var.vendorExtensions.putIfAbsent("x-protobuf-type", "required");
+            }
+            else {
+                var.vendorExtensions.putIfAbsent("x-protobuf-type", "optional");
+            }
+        }
     }
 
     @Override

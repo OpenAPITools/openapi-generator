@@ -30,6 +30,7 @@ public class CodegenConstants {
     public static final String MODEL_DOCS = "modelDocs";
     public static final String API_TESTS = "apiTests";
     public static final String API_DOCS = "apiDocs";
+    public static final String CUSTOM_OPTIONS = "customOptions";
 
     public static final String WITH_XML = "withXml";
     public static final String SKIP_FORM_MODEL = "skipFormModel";
@@ -401,4 +402,5 @@ public class CodegenConstants {
 
     public static final String ERROR_OBJECT_TYPE = "errorObjectType";
 
+    public static final String CUSTOM_OPTIONS_SPEC = "customOptionsSpec";
 }

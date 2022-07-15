@@ -18,6 +18,7 @@
 package org.openapitools.codegen;
 
 import java.util.*;
+import org.openapitools.codegen.option.CustomOption;
 
 public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperties {
     /**
@@ -157,6 +158,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     public boolean isDiscriminator;
     public List<String> _enum;
     public Map<String, Object> allowableValues;
+    public List<CustomOption> customOptions = new ArrayList<>();
     // If 'additionalProperties' is not set, items is null.
     // If 'additionalProperties' is set to a type or refers to a type, 'items' provides the type information for
     // the undeclared properties.

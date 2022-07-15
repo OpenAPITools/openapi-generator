@@ -75,6 +75,10 @@ public interface CodegenConfig {
 
     String modelFileFolder();
 
+    String customOptionsPackage();
+
+    String customOptionsFileFolder();
+
     String modelTestFileFolder();
 
     String modelDocFileFolder();
@@ -123,6 +127,8 @@ public interface CodegenConfig {
 
     void setOutputDir(String dir);
 
+    CodegenProperty fromProperty(String name, Schema p);
+
     CodegenModel fromModel(String name, Schema schema);
 
     CodegenOperation fromOperation(String resourcePath, String httpMethod, Operation operation, List<Server> servers);
@@ -140,6 +146,8 @@ public interface CodegenConfig {
     Map<String, String> instantiationTypes();
 
     Map<String, String> importMapping();
+
+    Map<String, String> customOptionsTemplateFiles();
 
     Map<String, String> schemaMapping();
 
@@ -196,6 +204,12 @@ public interface CodegenConfig {
     Map<String, ModelsMap> updateAllModels(Map<String, ModelsMap> objs);
 
     void postProcess();
+
+    void postProcessAllCustomOptions(List<CodegenProperty> customOptions, String customOptionsFileName);
+    
+    CodegenModel postProcessCustomOptionCategory(CodegenModel optionCategory);
+
+    void updateCustomOptionsMapping(List<CodegenProperty> customOptions, Map<String, CodegenModel> categories);
 
     Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs);
 

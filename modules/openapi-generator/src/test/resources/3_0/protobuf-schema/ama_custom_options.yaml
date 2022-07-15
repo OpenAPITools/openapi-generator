@@ -1,0 +1,77 @@
+openapi: 3.0.0
+info:
+  title: 'Amadeus custom options'
+  description: 'Specification of the amadeus custom options'
+  version: '1.0'
+
+paths:
+  /dummy:
+    get:
+      summary: A dummy endpoint to make the spec valid.
+      responses:
+        '200':
+          description: Success
+components:
+  schemas:
+    AmaRisk:
+      type: object
+      properties:
+        personalDataField:
+          type: string
+          enum:
+            - PASSENGER_NAME
+            - CREDIT_CARD_HOLDER_NAME
+            - PASSENGER_TITLE
+            - PASSENGER_TYPE
+            - NATIONAL_DOCUMENT_NUMBER
+            - PASSPORT_NUMBER
+            - CITIZENSHIP
+            - PHONE_NUMBER
+            - EMAIL_ADDRESS
+            - ADDRESS
+            - DATE_OF_BIRTH
+            - AMADEUS_IDENTIFIER
+            - PNR_RECORD_LOCATOR
+            - AIRLINE_TICKET_NUMBER
+            - HOTEL_CONFIRMATION_NUMBER
+            - CAR_CONFIRMATION_NUMBER
+            - INSURANCE_CONFIRMATION_NUMBER
+            - TYPE_OF_MEAL
+            - FREQUENT_FLYER_NUMBER
+            - GROUP_NAME
+            - BROWSER_VISITOR_ID
+            - COOKIES_ID
+            - REMARKS
+        paymentDataField:
+          type: string
+          enum:
+            - CREDIT_CARD_NUMBER
+            - CREDIT_CARD_HOLDER_NAME
+            - CREDIT_CARD_CVV2
+            - CREDIT_CARD_MAGNETIC_STRIPE
+            - CREDIT_CARD_PIN   
+    ValidationOptions:
+      type: object
+      properties:
+        isAllowedAtIssuance:
+          type: boolean
+        isPassthroughZone:
+          type: boolean
+        maxRepetitions:
+          type: integer
+          format: int64
+        regexFormat:
+          type: string
+    EnumFilteringOption:
+      type: object
+      properties:
+        attribute:
+          type: string
+        criterion:
+          type: string
+        values:
+          type: array
+          items:
+            type: string
+    SingleOption:
+      type: string
