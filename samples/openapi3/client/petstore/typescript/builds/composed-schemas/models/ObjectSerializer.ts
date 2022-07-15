@@ -227,7 +227,7 @@ export class ObjectSerializer {
      */
     public static stringify(data: any, mediaType: string): string {
         if (mediaType === "text/plain") {
-            return data;
+            return String(data);
         }
 
         if (mediaType === "application/json") {
