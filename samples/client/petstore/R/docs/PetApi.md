@@ -338,7 +338,9 @@ api_instance$api_client$api_keys['api_key'] <- 'TODO_YOUR_API_KEY';
 result <- tryCatch(
              # to save the result into a file, simply add the optional `data_file` parameter, e.g.
              # api_instance$GetPetByIdStreaming(var_pet_id, data_file = "result.txt"),
-             api_instance$GetPetByIdStreaming(var_pet_id, stream_callback = function(x){ print(length(x)) }),
+             # this endpoint supports data streaming via a callback function using the optional `stream_callback` parameter, e.g.
+             # api_instance$GetPetByIdStreaming(var_pet_id, stream_callback = function(x){ print(length(x)) }),
+             api_instance$GetPetByIdStreaming(var_pet_id),
              ApiException = function(ex) ex
           )
 # In case of error, print the error object
