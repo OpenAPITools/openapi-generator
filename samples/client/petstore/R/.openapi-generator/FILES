@@ -1,4 +1,5 @@
 .Rbuildignore
+.github/workflows/r-client.yaml
 .gitignore
 .travis.yml
 DESCRIPTION

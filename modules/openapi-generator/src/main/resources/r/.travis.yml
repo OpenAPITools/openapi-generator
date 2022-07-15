@@ -6,6 +6,7 @@ cache:
 r_packages:
 - jsonlite
 - httr
+- testthat
 # uncomment below to install deps with devtools
 #install:
 #- R -e 'devtools::install_deps(dep = T)'
