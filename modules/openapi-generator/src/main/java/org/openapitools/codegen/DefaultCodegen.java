@@ -6203,7 +6203,7 @@ public class DefaultCodegen implements CodegenConfig {
                     for(Map<String, Object> amaEnumValue : amaEnumValues) {
                         //enum values have additional "\"" at start and end
                         if (amaEnumValue.containsKey("value") && 
-                        amaEnumValue.get("value").equals(value.replace("\"", ""))) {
+                        toEnumValue((String) amaEnumValue.get("value"), dataType).equals(value)) {
                             //update enum
                             if (amaEnumValue.containsKey(extensionKey)) {
                                 String extension = (String) amaEnumValue.get(extensionKey);

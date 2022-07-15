@@ -357,7 +357,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
      * @param enumVars list of enum vars
      * @param vendorExtensions vendor extensions
      */
-    public void addEnumIndexes(List<Map<String, Object>> enumVars, Map<String, Object> vendorExtensions) throws ProtoBufIndexComputationException {
+    public void addEnumIndexes(List<Map<String, Object>> enumVars, Map<String, Object> vendorExtensions, String dataType) throws ProtoBufIndexComputationException {
         //store used indexes to prevent duplicates
         Set<Integer> usedIndexes = new HashSet<Integer>();
         if (vendorExtensions != null) { 
@@ -426,7 +426,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                         for(Map<String, Object> amaEnumValue : amaEnumValues) {
                             //enum values have additional "\"" at start and end
                             if (amaEnumValue.containsKey("value") && 
-                            amaEnumValue.get("value").equals(value.replace("\"", "")) &&
+                            toEnumValue((String) amaEnumValue.get("value"), dataType).equals(value) &&
                             amaEnumValue.containsKey("protobuf-enum-field-number")) {
                                 int enumFieldNumber = (int) amaEnumValue.get("protobuf-enum-field-number");
                                 if (enumFieldNumber < 0) {
@@ -653,7 +653,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                 if (allowableValues.containsKey("enumVars")) {
                     List<Map<String, Object>> enumVars = (List<Map<String, Object>>)allowableValues.get("enumVars");
                     try {
-                        addEnumIndexes(enumVars, cm.getVendorExtensions());
+                        addEnumIndexes(enumVars, cm.getVendorExtensions(), cm.getDataType());
                     }
                     catch (ProtoBufIndexComputationException e) {
                         LOGGER.error("Exception when assigning an index to a protobuf enum field", e);
@@ -852,7 +852,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                 if(var.allowableValues.containsKey("enumVars")) {
                     List<Map<String, Object>> enumVars = (List<Map<String, Object>>) var.allowableValues.get("enumVars");
                     try {
-                        addEnumIndexes(enumVars, var.getVendorExtensions());
+                        addEnumIndexes(enumVars, var.getVendorExtensions(), var.getDataType());
                     }
                     catch (ProtoBufIndexComputationException e) {
                         LOGGER.error("Exception when assigning an index to a protobuf enum field", e);
