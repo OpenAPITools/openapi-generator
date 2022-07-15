@@ -18,7 +18,7 @@ import {{#publicImports}}public {{/publicImports}}"{{{import}}}.proto";
   // {{{.}}}
   {{/description}}
   {{^isEnum}}
-  {{#vendorExtensions.x-protobuf-type}}{{{.}}} {{/vendorExtensions.x-protobuf-type}}{{{vendorExtensions.x-protobuf-data-type}}} {{{vendorExtensions.x-protobuf-name}}} = {{vendorExtensions.x-protobuf-index}}{{#vendorExtensions.x-protobuf-packed}} [packed=true]{{/vendorExtensions.x-protobuf-packed}};
+  {{#vendorExtensions.x-protobuf-type}}{{{.}}} {{/vendorExtensions.x-protobuf-type}}{{{vendorExtensions.x-protobuf-data-type}}} {{{vendorExtensions.x-protobuf-name}}} = {{vendorExtensions.x-protobuf-index}}{{#vendorExtensions.x-protobuf-packed}} [packed=true]{{/vendorExtensions.x-protobuf-packed}}{{^customOptions.isEmpty}} [{{#customOptions}}{{^definition.category.isEmpty}}({{definition.category}}).{{definition.name}}{{/definition.category.isEmpty}}{{#definition.category.isEmpty}}({{definition.name}}){{/definition.category.isEmpty}} = {{{value}}}{{^-last}}, {{/-last}}{{/customOptions}}]{{/customOptions.isEmpty}};
   {{/isEnum}}
   {{#isEnum}}
   enum {{enumName}} {
@@ -27,7 +27,7 @@ import {{#publicImports}}public {{/publicImports}}"{{{import}}}.proto";
     {{#enumDescription}}
     // {{{.}}}
     {{/enumDescription}}
-    {{#lambda.uppercase}}{{#lambda.snakecase}}{{{name}}}{{/lambda.snakecase}}{{/lambda.uppercase}} = {{{protobuf-enum-index}}};
+    {{{name}}} = {{{protobuf-enum-index}}};
     {{/enumVars}}
     {{/allowableValues}}
   }

@@ -451,6 +451,85 @@ public class ProtobufSchemaCodegenTest {
         output.delete(); 
     }
 
+    @Test
+    public void testCustomOptions() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("customOptionsSpec", "src/test/resources/3_0/protobuf-schema/ama_custom_options.yaml");
+        properties.put("enumStructNameAsPrefix", true);
+        properties.put("fieldNamesInSnakeCase", true);
+        properties.put("startEnumsWithUnspecified", true);
+        properties.put("removeEnumValuePrefix", false);
+        Map<String, String> globalProperties = new HashMap<>();
+
+        File output = Files.createTempDirectory("test").toFile();
+        List<File> files = generate(output, properties, globalProperties, "src/test/resources/3_0/protobuf-schema/custom-options.yaml");
+        TestUtils.ensureContainsFile(files, output, "models/pet.proto");
+        TestUtils.ensureContainsFile(files, output, "custom_options/ama_custom_options.proto");
+        Path path = Paths.get(output + "/models/pet.proto");
+        assertFileEquals(path, Paths.get("src/test/resources/3_0/protobuf-schema/custom-options.proto"));
+        path = Paths.get(output + "/custom_options/ama_custom_options.proto");
+        assertFileEquals(path, Paths.get("src/test/resources/3_0/protobuf-schema/ama_custom_options.proto"));
+
+        output.delete();
+    }
+
+    @Test
+    public void testCustomOptionArray() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("customOptionsSpec", "src/test/resources/3_0/protobuf-schema/ama_custom_options.yaml");
+        properties.put("enumStructNameAsPrefix", true);
+        properties.put("fieldNamesInSnakeCase", true);
+        properties.put("startEnumsWithUnspecified", true);
+        properties.put("removeEnumValuePrefix", false);
+        Map<String, String> globalProperties = new HashMap<>();
+
+        File output = Files.createTempDirectory("test").toFile();
+        List<File> files = generate(output, properties, globalProperties, "src/test/resources/3_0/protobuf-schema/custom-option-array.yaml");
+        TestUtils.ensureContainsFile(files, output, "models/pet.proto");
+        Path path = Paths.get(output + "/models/pet.proto");
+        assertFileEquals(path, Paths.get("src/test/resources/3_0/protobuf-schema/custom-option-array.proto"));
+
+        output.delete();
+    }
+    
+    @Test
+    public void testCustomOptionNoCategory() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("customOptionsSpec", "src/test/resources/3_0/protobuf-schema/ama_custom_options.yaml");
+        properties.put("enumStructNameAsPrefix", true);
+        properties.put("fieldNamesInSnakeCase", true);
+        properties.put("startEnumsWithUnspecified", true);
+        properties.put("removeEnumValuePrefix", false);
+        Map<String, String> globalProperties = new HashMap<>();
+
+        File output = Files.createTempDirectory("test").toFile();
+        List<File> files = generate(output, properties, globalProperties, "src/test/resources/3_0/protobuf-schema/custom-option-no-category.yaml");
+        TestUtils.ensureContainsFile(files, output, "models/pet.proto");
+        Path path = Paths.get(output + "/models/pet.proto");
+        assertFileEquals(path, Paths.get("src/test/resources/3_0/protobuf-schema/custom-option-no-category.proto"));
+
+        output.delete();
+    }
+
+    @Test
+    public void testCustomOptionsNotValidValue() throws IOException {
+
+        try {
+            Map<String, Object> properties = new HashMap<>();
+            properties.put("customOptionsSpec", "src/test/resources/3_0/protobuf-schema/ama_custom_options.yaml");
+            properties.put("enumStructNameAsPrefix", true);
+            properties.put("fieldNamesInSnakeCase", true);
+            properties.put("startEnumsWithUnspecified", true);
+            Map<String, String> globalProperties = new HashMap<>();
+            File output = Files.createTempDirectory("test").toFile();
+            List<File> files = generate(output, properties, globalProperties, "src/test/resources/3_0/protobuf-schema/custom-options-not-valid-value.yaml");
+            fail("No exception thrown!");
+        }
+        catch (RuntimeException e) {
+            assertTrue(e.getCause().getMessage().startsWith("value \"PERSONAL_DATA_FIELD_WRONG\" is not part of allowed enum values"));
+        }    
+    }
+
     private void assertFileEquals(Path generatedFilePath, Path expectedFilePath) throws IOException {
         String generatedFile = new String(Files.readAllBytes(generatedFilePath), StandardCharsets.UTF_8)
             .replace("\n", "").replace("\r", "");
