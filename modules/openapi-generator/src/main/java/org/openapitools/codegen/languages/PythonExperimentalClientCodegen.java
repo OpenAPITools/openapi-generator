@@ -498,13 +498,15 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
     @Override
     protected void addVarsRequiredVarsAdditionalProps(Schema schema, IJsonSchemaValidationProperties property){
         setAddProps(schema, property);
-        if (schema instanceof ComposedSchema && supportsAdditionalPropertiesWithComposedSchema) {
-            // if schema has properties outside of allOf/oneOf/anyOf also add them
-            ComposedSchema cs = (ComposedSchema) schema;
+        if (ModelUtils.isAnyType(schema) && supportsAdditionalPropertiesWithComposedSchema) {
+            // if anyType schema has properties then add them
             if (schema.getProperties() != null && !schema.getProperties().isEmpty()) {
-                if (cs.getOneOf() != null && !cs.getOneOf().isEmpty()) {
-                    LOGGER.warn("'oneOf' is intended to include only the additional optional OAS extension discriminator object. " +
-                            "For more details, see https://json-schema.org/draft/2019-09/json-schema-core.html#rfc.section.9.2.1.3 and the OAS section on 'Composition and Inheritance'.");
+                if (schema instanceof ComposedSchema) {
+                    ComposedSchema cs = (ComposedSchema) schema;
+                    if (cs.getOneOf() != null && !cs.getOneOf().isEmpty()) {
+                        LOGGER.warn("'oneOf' is intended to include only the additional optional OAS extension discriminator object. " +
+                                "For more details, see https://json-schema.org/draft/2019-09/json-schema-core.html#rfc.section.9.2.1.3 and the OAS section on 'Composition and Inheritance'.");
+                    }
                 }
                 HashSet<String> requiredVars = new HashSet<>();
                 if (schema.getRequired() != null) {
@@ -849,8 +851,8 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
      * @return Codegen Property object
      */
     @Override
-    public CodegenProperty fromProperty(String name, Schema p) {
-        CodegenProperty cp = super.fromProperty(name, p);
+    public CodegenProperty fromProperty(String name, Schema p, boolean required) {
+        CodegenProperty cp = super.fromProperty(name, p, required);
         if (cp.isAnyType && cp.isNullable) {
             cp.isNullable = false;
         }
@@ -964,7 +966,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
             return cp;
         }
         Schema unaliasedSchema = unaliasSchema(schema, schemaMapping);
-        CodegenProperty unaliasedProp = fromProperty("body", unaliasedSchema);
+        CodegenProperty unaliasedProp = fromProperty("body", unaliasedSchema, false);
         Boolean dataTypeMismatch = !cp.dataType.equals(unaliasedProp.dataType);
         Boolean baseTypeMismatch = !cp.baseType.equals(unaliasedProp.complexType) && unaliasedProp.complexType != null;
         if (dataTypeMismatch || baseTypeMismatch) {
@@ -1022,7 +1024,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
             codegenParameter.isNullable = codegenModel.isNullable;
             imports.add(codegenParameter.baseType);
         } else {
-            CodegenProperty codegenProperty = fromProperty("property", schema);
+            CodegenProperty codegenProperty = fromProperty("property", schema, false);
 
             if (codegenProperty != null && codegenProperty.getComplexType() != null && codegenProperty.getComplexType().contains(" | ")) {
                 List<String> parts = Arrays.asList(codegenProperty.getComplexType().split(" \\| "));
@@ -2031,27 +2033,19 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         if (schema.getAdditionalProperties() == null) {
             if (!disallowAdditionalPropertiesIfNotPresent) {
                 isAdditionalPropertiesTrue = true;
-                // pass in the hashCode as the name to ensure that the returned property is not from the cache
-                // if we need to set indent on every one, then they need to be different
-                addPropProp = fromProperty(String.valueOf(property.hashCode()),  new Schema());
-                addPropProp.name = "";
-                addPropProp.baseName = "";
+                addPropProp = fromProperty("",  new Schema());
                 addPropProp.nameInSnakeCase = null;
                 additionalPropertiesIsAnyType = true;
             }
         } else if (schema.getAdditionalProperties() instanceof Boolean) {
             if (Boolean.TRUE.equals(schema.getAdditionalProperties())) {
                 isAdditionalPropertiesTrue = true;
-                addPropProp = fromProperty(String.valueOf(property.hashCode()),  new Schema());
-                addPropProp.name = "";
-                addPropProp.baseName = "";
+                addPropProp = fromProperty("",  new Schema());
                 addPropProp.nameInSnakeCase = null;
                 additionalPropertiesIsAnyType = true;
             }
         } else {
-            addPropProp = fromProperty(String.valueOf(property.hashCode()), (Schema) schema.getAdditionalProperties());
-            addPropProp.name = "";
-            addPropProp.baseName = "";
+            addPropProp = fromProperty("", (Schema) schema.getAdditionalProperties());
             addPropProp.nameInSnakeCase = null;
             if (isAnyTypeSchema((Schema) schema.getAdditionalProperties())) {
                 additionalPropertiesIsAnyType = true;

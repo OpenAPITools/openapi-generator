@@ -664,6 +664,10 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
             return "EMPTY";
         }
 
+        if(name.trim().length() == 0) {
+            return "SPACE_" + name.length();
+        }
+
         // for symbol, e.g. $, #
         if (getSymbolName(name) != null) {
             return (getSymbolName(name)).toUpperCase(Locale.ROOT);
@@ -736,6 +740,11 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
     @Override
     public String escapeText(String input) {
         if (input == null) {
+            return input;
+        }
+
+        // If the string contains only "trim-able" characters, don't trim it
+        if(input.trim().length() == 0) {
             return input;
         }
 

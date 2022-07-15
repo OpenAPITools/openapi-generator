@@ -70,7 +70,7 @@ from unit_test_api.schemas import (  # noqa: F401
 
 class ByInt(
     _SchemaValidator(
-        multiple_of=[2],
+        multiple_of=2,
     ),
     AnyTypeSchema
 ):
