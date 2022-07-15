@@ -32,6 +32,7 @@ import java.util.stream.Stream;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.config.CodegenConfigurator;
+import org.openapitools.codegen.config.GlobalSettings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -120,6 +121,10 @@ public class Generate extends OpenApiGeneratorCommand {
     @Option(name = {"--model-name-suffix"}, title = "model name suffix",
             description = CodegenConstants.MODEL_NAME_SUFFIX_DESC)
     private String modelNameSuffix;
+
+    @Option(name = {"--split-response-types"}, title = "split response types",
+        description = CodegenConstants.SPLIT_RESPONSE_TYPES_DESC)
+    private Boolean splitResponseTypes;
 
     @Option(
             name = {"--instantiation-types"},
@@ -355,6 +360,10 @@ public class Generate extends OpenApiGeneratorCommand {
 
         if (isNotEmpty(modelNameSuffix)) {
             configurator.setModelNameSuffix(modelNameSuffix);
+        }
+
+        if (splitResponseTypes != null) {
+            GlobalSettings.setProperty(CodegenConstants.SPLIT_RESPONSE_TYPES, splitResponseTypes.toString());
         }
 
         if (isNotEmpty(invokerPackage)) {

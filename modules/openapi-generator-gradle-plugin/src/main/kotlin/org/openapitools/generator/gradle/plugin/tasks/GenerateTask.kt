@@ -411,6 +411,13 @@ open class GenerateTask : DefaultTask() {
     val generateApiDocumentation = project.objects.property<Boolean>()
 
     /**
+     * Split operations that have multiple response content-types into separate operations
+     */
+    @Optional
+    @Input
+    val splitOperation = project.objects.property<Boolean>()
+
+    /**
      * A special-case setting which configures some generators with XML support. In some cases,
      * this forces json OR xml, so the default here is false.
      */
@@ -528,6 +535,10 @@ open class GenerateTask : DefaultTask() {
 
             if (generateApiTests.isPresent) {
                 GlobalSettings.setProperty(CodegenConstants.API_TESTS, generateApiTests.get().toString())
+            }
+
+            if (splitOperation.isPresent) {
+                GlobalSettings.setProperty(CodegenConstants.SPLIT_RESPONSE_TYPES, splitOperation.get().toString())
             }
 
             if (withXml.isPresent) {

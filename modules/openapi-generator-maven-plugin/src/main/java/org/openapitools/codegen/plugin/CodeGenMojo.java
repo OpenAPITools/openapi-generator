@@ -395,6 +395,12 @@ public class CodeGenMojo extends AbstractMojo {
     private Boolean generateApiDocumentation = true;
 
     /**
+     * Split operations by response content-type when it has multiple values
+     */
+    @Parameter(name = "splitOperation", property = "openapi.generator.maven.plugin.splitOperation")
+    private Boolean splitOperation = false;
+
+    /**
      * Generate the api documentation
      */
     @Parameter(name = "withXml", property = "openapi.generator.maven.plugin.withXml")
@@ -650,6 +656,7 @@ public class CodeGenMojo extends AbstractMojo {
             GlobalSettings.setProperty(CodegenConstants.MODEL_DOCS, generateModelDocumentation.toString());
             GlobalSettings.setProperty(CodegenConstants.API_TESTS, generateApiTests.toString());
             GlobalSettings.setProperty(CodegenConstants.API_DOCS, generateApiDocumentation.toString());
+            GlobalSettings.setProperty(CodegenConstants.SPLIT_RESPONSE_TYPES, splitOperation.toString());
             GlobalSettings.setProperty(CodegenConstants.WITH_XML, withXml.toString());
 
             if (configOptions != null) {

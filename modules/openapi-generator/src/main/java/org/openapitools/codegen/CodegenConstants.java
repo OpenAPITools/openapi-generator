@@ -46,6 +46,9 @@ public class CodegenConstants {
     public static final String MODEL_PACKAGE = "modelPackage";
     public static final String MODEL_PACKAGE_DESC = "package for generated models";
 
+    public static final String SPLIT_RESPONSE_TYPES = "splitResponseTypes";
+    public static final String SPLIT_RESPONSE_TYPES_DESC = "Split operation which has multiple response types into different operations per response type";
+
     public static final String TEMPLATE_DIR = "templateDir";
 
     public static final String ALLOW_UNICODE_IDENTIFIERS = "allowUnicodeIdentifiers";

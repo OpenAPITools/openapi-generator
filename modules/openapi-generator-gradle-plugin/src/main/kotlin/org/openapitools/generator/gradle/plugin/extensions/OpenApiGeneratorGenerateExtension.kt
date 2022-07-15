@@ -287,6 +287,11 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
     val generateApiDocumentation = project.objects.property<Boolean>()
 
     /**
+     * Split operations that have multiple response content-types into separate operations
+     */
+    val splitOperation = project.objects.property<Boolean>()
+
+    /**
      * A special-case setting which configures some generators with XML support. In some cases,
      * this forces json OR xml, so the default here is false.
      */
@@ -341,6 +346,7 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
         generateModelDocumentation.set(true)
         generateApiTests.set(true)
         generateApiDocumentation.set(true)
+        splitOperation.set(false)
         withXml.set(false)
         configOptions.set(mapOf())
         validateSpec.set(true)

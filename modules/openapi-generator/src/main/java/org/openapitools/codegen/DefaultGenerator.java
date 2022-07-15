@@ -25,8 +25,12 @@ import io.swagger.v3.oas.models.Paths;
 import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
+import io.swagger.v3.oas.models.media.Content;
+import io.swagger.v3.oas.models.media.MediaType;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
+import io.swagger.v3.oas.models.responses.ApiResponse;
+import io.swagger.v3.oas.models.responses.ApiResponses;
 import io.swagger.v3.oas.models.security.*;
 import io.swagger.v3.oas.models.tags.Tag;
 import org.apache.commons.io.FilenameUtils;
@@ -91,6 +95,7 @@ public class DefaultGenerator implements Generator {
     private Boolean generateModelTests = null;
     private Boolean generateModelDocumentation = null;
     private Boolean generateMetadata = true;
+    private Boolean splitResponseTypes = false;
     private String basePath;
     private String basePathWithoutHost;
     private String contextPath;
@@ -229,6 +234,7 @@ public class DefaultGenerator implements Generator {
         generateModelDocumentation = GlobalSettings.getProperty(CodegenConstants.MODEL_DOCS) != null ? Boolean.valueOf(GlobalSettings.getProperty(CodegenConstants.MODEL_DOCS)) : getGeneratorPropertyDefaultSwitch(CodegenConstants.MODEL_DOCS, true);
         generateApiTests = GlobalSettings.getProperty(CodegenConstants.API_TESTS) != null ? Boolean.valueOf(GlobalSettings.getProperty(CodegenConstants.API_TESTS)) : getGeneratorPropertyDefaultSwitch(CodegenConstants.API_TESTS, true);
         generateApiDocumentation = GlobalSettings.getProperty(CodegenConstants.API_DOCS) != null ? Boolean.valueOf(GlobalSettings.getProperty(CodegenConstants.API_DOCS)) : getGeneratorPropertyDefaultSwitch(CodegenConstants.API_DOCS, true);
+        splitResponseTypes = GlobalSettings.getProperty(CodegenConstants.SPLIT_RESPONSE_TYPES) != null ? Boolean.valueOf(GlobalSettings.getProperty(CodegenConstants.SPLIT_RESPONSE_TYPES)) : getGeneratorPropertyDefaultSwitch(CodegenConstants.SPLIT_RESPONSE_TYPES, false);
 
         // Additional properties added for tests to exclude references in project related files
         config.additionalProperties().put(CodegenConstants.GENERATE_API_TESTS, generateApiTests);
@@ -1067,17 +1073,17 @@ public class DefaultGenerator implements Generator {
         return ops;
     }
 
-    private void processOperation(String resourcePath, String httpMethod, Operation operation, Map<String, List<CodegenOperation>> operations, PathItem path) {
-        if (operation == null) {
+    private void processOperation(String resourcePath, String httpMethod, Operation inputOperation, Map<String, List<CodegenOperation>> operations, PathItem path) {
+        if (inputOperation == null) {
             return;
         }
 
         if (GlobalSettings.getProperty("debugOperations") != null) {
-            LOGGER.info("processOperation: resourcePath=  {}\t;{} {}\n", resourcePath, httpMethod, operation);
+            LOGGER.info("processOperation: resourcePath=  {}\t;{} {}\n", resourcePath, httpMethod, inputOperation);
         }
 
         List<Tag> tags = new ArrayList<>();
-        List<String> tagNames = operation.getTags();
+        List<String> tagNames = inputOperation.getTags();
         List<Tag> swaggerTags = openAPI.getTags();
         if (tagNames != null) {
             if (swaggerTags == null) {
@@ -1112,8 +1118,8 @@ public class DefaultGenerator implements Generator {
           i'm assuming "location" == "in"
         */
         Set<String> operationParameters = new HashSet<>();
-        if (operation.getParameters() != null) {
-            for (Parameter parameter : operation.getParameters()) {
+        if (inputOperation.getParameters() != null) {
+            for (Parameter parameter : inputOperation.getParameters()) {
                 operationParameters.add(generateParameterId(parameter));
             }
         }
@@ -1123,51 +1129,126 @@ public class DefaultGenerator implements Generator {
             for (Parameter parameter : path.getParameters()) {
                 //skip propagation if a parameter with the same name is already defined at the operation level
                 if (!operationParameters.contains(generateParameterId(parameter))) {
-                    operation.addParametersItem(parameter);
+                    inputOperation.addParametersItem(parameter);
                 }
             }
         }
 
         final Map<String, SecurityScheme> securitySchemes = openAPI.getComponents() != null ? openAPI.getComponents().getSecuritySchemes() : null;
         final List<SecurityRequirement> globalSecurities = openAPI.getSecurity();
-        for (Tag tag : tags) {
-            try {
-                CodegenOperation codegenOperation = config.fromOperation(resourcePath, httpMethod, operation, path.getServers());
-                codegenOperation.tags = new ArrayList<>(tags);
-                config.addOperationToGroup(config.sanitizeTag(tag.getName()), resourcePath, operation, codegenOperation, operations);
+        for (Operation operation : processMultipleResponseContentTypes(inputOperation)) {
+            for (Tag tag : tags) {
+                try {
+                    CodegenOperation codegenOperation = config.fromOperation(resourcePath, httpMethod, operation, path.getServers());
+                    codegenOperation.tags = new ArrayList<>(tags);
+                    config.addOperationToGroup(config.sanitizeTag(tag.getName()), resourcePath, operation, codegenOperation, operations);
 
-                List<SecurityRequirement> securities = operation.getSecurity();
-                if (securities != null && securities.isEmpty()) {
-                    continue;
-                }
+                    List<SecurityRequirement> securities = operation.getSecurity();
+                    if (securities != null && securities.isEmpty()) {
+                        continue;
+                    }
 
-                Map<String, SecurityScheme> authMethods = getAuthMethods(securities, securitySchemes);
-
-                if (authMethods != null && !authMethods.isEmpty()) {
-                    List<CodegenSecurity> fullAuthMethods = config.fromSecurity(authMethods);
-                    codegenOperation.authMethods = filterAuthMethods(fullAuthMethods, securities);
-                    codegenOperation.hasAuthMethods = true;
-                } else {
-                    authMethods = getAuthMethods(globalSecurities, securitySchemes);
+                    Map<String, SecurityScheme> authMethods = getAuthMethods(securities, securitySchemes);
 
                     if (authMethods != null && !authMethods.isEmpty()) {
                         List<CodegenSecurity> fullAuthMethods = config.fromSecurity(authMethods);
-                        codegenOperation.authMethods = filterAuthMethods(fullAuthMethods, globalSecurities);
+                        codegenOperation.authMethods = filterAuthMethods(fullAuthMethods, securities);
                         codegenOperation.hasAuthMethods = true;
-                    }
-                }
+                    } else {
+                        authMethods = getAuthMethods(globalSecurities, securitySchemes);
 
-            } catch (Exception ex) {
-                String msg = "Could not process operation:\n" //
+                        if (authMethods != null && !authMethods.isEmpty()) {
+                            List<CodegenSecurity> fullAuthMethods = config.fromSecurity(authMethods);
+                            codegenOperation.authMethods = filterAuthMethods(fullAuthMethods, globalSecurities);
+                            codegenOperation.hasAuthMethods = true;
+                        }
+                    }
+
+                } catch (Exception ex) {
+                    String msg = "Could not process operation:\n" //
                         + "  Tag: " + tag + "\n"//
                         + "  Operation: " + operation.getOperationId() + "\n" //
                         + "  Resource: " + httpMethod + " " + resourcePath + "\n"//
                         + "  Schemas: " + openAPI.getComponents().getSchemas() + "\n"  //
                         + "  Exception: " + ex.getMessage();
-                throw new RuntimeException(msg, ex);
+                    throw new RuntimeException(msg, ex);
+                }
             }
         }
+    }
 
+    private List<Operation> processMultipleResponseContentTypes(Operation operation) {
+        if (!splitResponseTypes) {
+            return Collections.singletonList(operation);
+        }
+
+        ApiResponses apiResponses = operation.getResponses();
+        ApiResponse methodResponse = DefaultCodegen.findMethodResponse(apiResponses);
+        if (methodResponse == null || methodResponse.getContent().size() < 2) {
+            return Collections.singletonList(operation);
+        }
+
+        LOGGER.info("Split operation is enabled: operation {} would be split into {} different operations", operation.getOperationId(), methodResponse.getContent().size());
+        List<Operation> operations = new ArrayList<>();
+        String methodResponseCodeWithMultipleContentTypes = DefaultCodegen.findMethodResponseCode(apiResponses);
+        Content methodResponseAllContentTypes = methodResponse.getContent();
+        for (String contentTypeName : methodResponseAllContentTypes.keySet()) {
+            MediaType contentType = methodResponseAllContentTypes.get(contentTypeName);
+
+            Content contentTypeWithSingeValue = new Content();
+            contentTypeWithSingeValue.addMediaType(contentTypeName, contentType);
+            ApiResponse apiResponseWithSingeContentType = copyApiResponse(methodResponse);
+            apiResponseWithSingeContentType.setContent(contentTypeWithSingeValue);
+
+            ApiResponses singleContentTypeApiResponses = copyApiResponses(apiResponses);
+            singleContentTypeApiResponses.put(methodResponseCodeWithMultipleContentTypes, apiResponseWithSingeContentType);
+
+            Operation singleContentTypeOperation = copyOperation(operation);
+            singleContentTypeOperation.setResponses(singleContentTypeApiResponses);
+            // correct operation name should be handled by final generator
+            singleContentTypeOperation.setOperationId(operation.getOperationId() + "-" + contentTypeName);
+
+            operations.add(singleContentTypeOperation);
+        }
+
+        return operations;
+    }
+
+    private static Operation copyOperation(Operation operation) {
+        Operation copy = new Operation();
+        copy.setTags(operation.getTags());
+        copy.setSummary(operation.getSummary());
+        copy.setDescription(operation.getDescription());
+        copy.setExternalDocs(operation.getExternalDocs());
+        copy.setOperationId(operation.getOperationId());
+        copy.setParameters(operation.getParameters());
+        copy.setRequestBody(operation.getRequestBody());
+        copy.setResponses(operation.getResponses());
+        copy.setCallbacks(operation.getCallbacks());
+        copy.setDeprecated(operation.getDeprecated());
+        copy.setSecurity(operation.getSecurity());
+        copy.setServers(operation.getServers());
+        copy.setExtensions(operation.getExtensions());
+        return copy;
+    }
+
+    private static ApiResponses copyApiResponses(ApiResponses apiResponses) {
+        ApiResponses copy = new ApiResponses();
+        copy.setExtensions(apiResponses.getExtensions());
+        apiResponses.forEach((code, value) -> copy.put(code, copyApiResponse(value)));
+        return copy;
+    }
+
+    private static ApiResponse copyApiResponse(ApiResponse apiResponse) {
+        ApiResponse copy = new ApiResponse();
+        copy.setDescription(apiResponse.getDescription());
+        copy.setHeaders(apiResponse.getHeaders());
+        copy.setContent(apiResponse.getContent());
+        copy.setLinks(apiResponse.getLinks());
+        copy.setExtensions(apiResponse.getExtensions());
+        copy.set$ref(apiResponse.get$ref());
+
+        return copy;
     }
 
     private static String generateParameterId(Parameter parameter) {

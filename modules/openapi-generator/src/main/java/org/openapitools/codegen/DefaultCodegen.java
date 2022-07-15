@@ -3842,12 +3842,20 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * Override with any special handling of response codes
-     *
      * @param responses OAS Operation's responses
      * @return default method response or <code>null</code> if not found
      */
-    protected ApiResponse findMethodResponse(ApiResponses responses) {
+    public static ApiResponse findMethodResponse(ApiResponses responses) {
+        String code = findMethodResponseCode(responses);
+        return code == null ? null : responses.get(code);
+    }
+
+    /**
+     *
+     * @param responses OAS Operation's responses
+     * @return value of code that contains method response
+     */
+    public static String findMethodResponseCode(ApiResponses responses) {
         String code = null;
         for (String responseCode : responses.keySet()) {
             if (responseCode.startsWith("2") || responseCode.equals("default")) {
@@ -3856,10 +3864,7 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             }
         }
-        if (code == null) {
-            return null;
-        }
-        return responses.get(code);
+        return code;
     }
 
     /**
