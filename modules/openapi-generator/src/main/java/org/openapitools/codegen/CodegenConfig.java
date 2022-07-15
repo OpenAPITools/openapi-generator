@@ -85,6 +85,8 @@ public interface CodegenConfig {
 
     String modelPackage();
 
+    String modelPackage(String modelName);
+
     String toApiName(String name);
 
     String toApiVarName(String name);
@@ -147,6 +149,8 @@ public interface CodegenConfig {
 
     Map<String, String> importMapping();
 
+    Map<String, String> modelsPackage();
+
     Map<String, String> customOptionsTemplateFiles();
 
     Map<String, String> schemaMapping();
@@ -202,6 +206,8 @@ public interface CodegenConfig {
     void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations);
 
     Map<String, ModelsMap> updateAllModels(Map<String, ModelsMap> objs);
+
+    void processPackageMapping(Map<String, Schema> schemas, Set<String> modelKeys);
 
     void postProcess();
 

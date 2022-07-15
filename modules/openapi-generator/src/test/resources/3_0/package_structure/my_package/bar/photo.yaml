@@ -1,0 +1,8 @@
+title: Pet photo
+type: object
+x-package-name: my_package.bar
+properties:
+  url:
+    type: "string"
+  tag:
+    $ref: ../../other/tag.yaml

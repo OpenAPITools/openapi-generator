@@ -1,0 +1,9 @@
+title: Pet Tag
+description: A tag for a pet - no x-package-name defined, using default
+type: object
+properties:
+  id:
+    type: integer
+    format: int64
+  name:
+    type: string

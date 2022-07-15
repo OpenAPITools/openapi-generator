@@ -1,7 +1,7 @@
 {{>partial_header}}
 syntax = "proto2";
 
-package {{#lambda.lowercase}}{{{packageName}}};{{/lambda.lowercase}}
+package {{#lambda.lowercase}}{{{vendorExtensions.x-package-name}}};{{/lambda.lowercase}}
 
 {{#imports}}
 {{#import}}
