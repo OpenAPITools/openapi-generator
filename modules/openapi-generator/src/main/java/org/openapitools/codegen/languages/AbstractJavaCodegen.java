@@ -129,6 +129,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     protected AnnotationLibrary annotationLibrary;
     protected boolean implicitHeaders = false;
     protected String implicitHeadersRegex = null;
+	
+	// A cache to efficiently lookup schema `toModelName()` based on the schema Key
+    private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
 
     public AbstractJavaCodegen() {
         super();
@@ -829,6 +832,12 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         if (schemaMapping.containsKey(name)) {
             return schemaMapping.get(name);
         }
+		
+		// memoization
+		String origName = name;
+        if (schemaKeyToModelNameCache.containsKey(origName)) {
+            return schemaKeyToModelNameCache.get(origName);
+        }
 
         final String sanitizedName = sanitizeName(name);
 
@@ -846,6 +855,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         // camelize the model name
         // phone_number => PhoneNumber
         final String camelizedName = camelize(nameWithPrefixSuffix);
+		schemaKeyToModelNameCache.put(origName, camelizedName);
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(camelizedName)) {
