@@ -426,7 +426,6 @@ def get_component_schemas_and_test_examples(
 
 def generate_post_operation_with_request_body(
     component_name: str,
-    test_examples: typing.Dict[str, JsonSchemaTestSchema],
     tags: typing.List[OpenApiTag]
 ) -> OpenApiOperation:
     method = 'post'
@@ -475,7 +474,7 @@ def write_openapi_spec():
                 raise ValueError('A component schema test example map with that name is already defined!')
             openapi.components['x-schema-test-examples'][component_name] = test_examples
 
-            operation = generate_post_operation_with_request_body(component_name, test_examples, [request_body_tag, post_tag, json_tag])
+            operation = generate_post_operation_with_request_body(component_name, [request_body_tag, post_tag, json_tag])
             path_item = OpenApiPathItem(post=operation)
             openapi.paths[f'/requestBody/{operation["operationId"]}'] = path_item
             # todo add put and patch with paths requestBody/someIdentifier
