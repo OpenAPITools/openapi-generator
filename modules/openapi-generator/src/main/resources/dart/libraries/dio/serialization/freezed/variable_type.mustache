@@ -1,0 +1,14 @@
+{{!
+Required   Nullable  Result
+true	   true	     required Type?
+true	   false	 required Type
+false	   true	     Type?
+false	   false	 Type?
+}}
+
+{{#required}}
+    {{#required}}required {{/required}}{{#isContainer}}{{baseType}}<{{#isMap}}String, {{/isMap}}{{#items}}{{>serialization/built_value/variable_type}}{{/items}}>{{/isContainer}}{{^isContainer}}{{{datatypeWithEnum}}}{{/isContainer}}{{#isNullable}}?{{/isNullable}}
+{{/required}}
+{{^required}}
+    {{#isContainer}}{{baseType}}<{{#isMap}}String, {{/isMap}}{{#items}}{{>serialization/built_value/variable_type}}{{/items}}>{{/isContainer}}{{^isContainer}}{{{datatypeWithEnum}}}{{/isContainer}}?
+{{/required}}
