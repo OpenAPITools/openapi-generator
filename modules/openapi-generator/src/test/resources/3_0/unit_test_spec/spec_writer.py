@@ -431,10 +431,11 @@ def generate_post_operation_with_request_body(
 ) -> OpenApiOperation:
     method = 'post'
     ref_schema_path = f'#/components/schemas/{component_name}'
+    ref_test_example_path = f'#/components/x-schema-test-examples/{component_name}'
     media_type = OpenApiMediaType(
         {
             'schema': OpenApiSchema({'$ref': ref_schema_path}),
-            'x-schema-test-examples': test_examples
+            'x-schema-test-examples': {'$ref': ref_test_example_path}
         }
     )
     request_body = OpenApiRequestBody(
