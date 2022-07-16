@@ -18,8 +18,8 @@ Name | Type | Description | Notes
 **string** | **string** |  | [optional] 
 **byte** | **string** |  | 
 **binary** | **string** |  | [optional] 
-**date** | **DateTime** |  | 
-**date_time** | **DateTime** |  | [optional] 
+**date** | **DATE** |  | 
+**date_time** | **DATE_TIME** |  | [optional] 
 **uuid** | **string** |  | [optional] 
 **password** | **string** |  | 
 **pattern_with_digits** | **string** | A string that is a 10 digit number. Can have leading zeros. | [optional] 
