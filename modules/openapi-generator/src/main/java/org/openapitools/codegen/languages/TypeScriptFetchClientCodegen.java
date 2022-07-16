@@ -510,7 +510,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
                 }
 
                 if (!op.hasReturnPassthroughVoid) {
-                    Schema responseSchema = unaliasSchema(ModelUtils.getSchemaFromResponse(methodResponse), schemaMapping);
+                    Schema responseSchema = unaliasSchema(ModelUtils.getSchemaFromResponse(methodResponse));
                     ExtendedCodegenProperty cp = null;
                     if (op.returnPassthrough instanceof String && cm != null) {
                         cp = (ExtendedCodegenProperty) this.processCodeGenModel(cm).vars.get(1);
