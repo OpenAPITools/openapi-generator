@@ -1,0 +1,12 @@
+//ignore_for_file: invalid_annotation_target
+import 'package:freezed_annotation/freezed_annotation.dart';
+
+{{#description}}/// {{{description}}}{{/description}}
+enum {{classname}} {
+{{#allowableValues}}
+    {{#enumVars}}
+        @JsonValue({{#isString}}r{{/isString}}{{{value}}})
+        {{{name}}},
+    {{/enumVars}}
+{{/allowableValues}}
+}

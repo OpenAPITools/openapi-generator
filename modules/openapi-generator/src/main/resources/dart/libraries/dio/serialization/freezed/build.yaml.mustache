@@ -1,0 +1,11 @@
+targets:
+  $default:
+    builders:
+      freezed|freezed:
+        # This restricts freezed build runner to look
+        # files only inside models folder.
+        # If you prefer the build runner to scan the whole
+        # project for files then simply remove this build.yaml file
+        generate_for:
+          include:
+            - "lib/src/model/**.dart"
