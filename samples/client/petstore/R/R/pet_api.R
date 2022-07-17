@@ -605,7 +605,7 @@ PetApi <- R6::R6Class(
         ApiResponse$new(deserialized_resp_obj, resp)
       } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
         error_msg <- toString(content(resp))
-        if(error_msg == "") {
+        if (error_msg == "") {
           error_msg <- paste("Server returned ", httr::status_code(resp), " response status code.")
         }
         rlang::abort(message = error_msg, .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))

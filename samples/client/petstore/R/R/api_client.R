@@ -74,10 +74,11 @@ ApiClient  <- R6::R6Class(
     #' @param retry_status_codes Status codes for retry.
     #' @param max_retry_attempts Maxmium number of retry.
     #' @export
-    initialize = function(base_path=NULL, user_agent=NULL, default_headers=NULL,
-                          username=NULL, password=NULL, api_keys=NULL,
-                          access_token=NULL, timeout=NULL,
-                          retry_status_codes=NULL, max_retry_attempts=NULL) {
+    initialize = function(base_path = NULL, user_agent = NULL,
+                          default_headers = NULL,
+                          username = NULL, password = NULL, api_keys = NULL,
+                          access_token = NULL, timeout = NULL,
+                          retry_status_codes = NULL, max_retry_attempts = NULL) {
       if (!is.null(base_path)) {
         self$base_path <- base_path
       }

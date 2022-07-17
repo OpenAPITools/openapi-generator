@@ -146,7 +146,7 @@ AnyOfPig <- R6::R6Class(
     #' @export
     toString = function() {
       jsoncontent <- c(
-        sprintf('"actual_instance": %s', if (is.null(self$actual_instance)) {NULL} else {self$actual_instance$toJSONString()}),
+        sprintf('"actual_instance": %s', if (is.null(self$actual_instance)) NULL else self$actual_instance$toJSONString()),
         sprintf('"actual_type": "%s"', self$actual_type),
         sprintf('"any_of": "%s"',  paste( unlist(self$any_of), collapse=", "))
       )

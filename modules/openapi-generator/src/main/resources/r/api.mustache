@@ -11,7 +11,9 @@
 #' \describe{
 {{#operation}}
 #' \strong{ {{operationId}} } \emph{ {{summary}} }
+{{#notes}}
 #' {{notes}}
+{{/notes}}
 #'
 #' \itemize{
 {{#allParams}}
@@ -160,8 +162,7 @@
     initialize = function(api_client) {
       if (!missing(api_client)) {
         self$api_client <- api_client
-      }
-      else {
+      } else {
         self$api_client <- ApiClient$new()
       }
     },
@@ -175,7 +176,7 @@
     #' @param {{{paramName}}} {{{description}}}
     {{/requiredParams}}
     {{#optionalParams}}
-    #' @param {{{paramName}}} (optional) {{{description}}}{{#defaultValue}} (default value: {{{.}}}){{/defaultValue}}
+    #' @param {{{paramName}}} (optional){{{description}}} {{#defaultValue}} (default value: {{{.}}}){{/defaultValue}}
     {{/optionalParams}}
     {{#vendorExtensions.x-streaming}}
     #' @param stream_callback (optional) callback function to process the data stream
@@ -186,7 +187,7 @@
     #' @param ... Other optional arguments
     #' @return {{{returnType}}}{{^returnType}}void{{/returnType}}
     #' @export
-    {{{operationId}}} = function({{#requiredParams}}{{paramName}}, {{/requiredParams}}{{#optionalParams}}{{paramName}}={{^defaultValue}}NULL{{/defaultValue}}{{{defaultValue}}}, {{/optionalParams}}{{#vendorExtensions.x-streaming}}stream_callback=NULL, {{/vendorExtensions.x-streaming}}{{#returnType}}data_file=NULL, {{/returnType}}...) {
+    {{{operationId}}} = function({{#requiredParams}}{{paramName}}, {{/requiredParams}}{{#optionalParams}}{{paramName}}={{^defaultValue}}NULL{{/defaultValue}}{{{defaultValue}}}, {{/optionalParams}}{{#vendorExtensions.x-streaming}}stream_callback=NULL, {{/vendorExtensions.x-streaming}}{{#returnType}}data_file = NULL, {{/returnType}}...) {
       api_response <- self${{{operationId}}}WithHttpInfo({{#allParams}}{{paramName}}, {{/allParams}}{{#vendorExtensions.x-streaming}}stream_callback = stream_callback, {{/vendorExtensions.x-streaming}}{{#returnType}}data_file = data_file, {{/returnType}}...)
       {{#vendorExtensions.x-streaming}}
       if (typeof(stream_callback) == "closure") { # return void if streaming is enabled
@@ -236,7 +237,10 @@
         stop("Missing required parameter `{{{paramName}}}`.")
       {{/useDefaultExceptionHandling}}
       {{#useRlangExceptionHandling}}
-        rlang::abort(message = "Missing required parameter `{{{paramName}}}`.", .subclass = "ApiException", ApiException = ApiException$new(status = 0, reason = "Missing required parameter `{{{paramName}}}`."))
+        rlang::abort(message = "Missing required parameter `{{{paramName}}}`.",
+                     .subclass = "ApiException",
+                     ApiException = ApiException$new(status = 0,
+                                                     reason = "Missing required parameter `{{{paramName}}}`."))
       {{/useRlangExceptionHandling}}
       }
 
@@ -360,7 +364,9 @@
              stop("Failed to deserialize response")
            {{/useDefaultExceptionHandling}}
            {{#useRlangExceptionHandling}}
-             rlang::abort(message = "Failed to deserialize response", .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
+             rlang::abort(message = "Failed to deserialize response",
+                          .subclass = "ApiException",
+                          ApiException = ApiException$new(http_response = resp))
            {{/useRlangExceptionHandling}}
           }
         )
@@ -374,14 +380,16 @@
       } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
       {{#returnExceptionOnFailure}}
         error_msg <- toString(content(resp))
-        if(error_msg == "") {
+        if (error_msg == "") {
           error_msg <- paste("Server returned ", httr::status_code(resp), " response status code.")
         }
         {{#useDefaultExceptionHandling}}
         stop(error_msg)
         {{/useDefaultExceptionHandling}}
         {{#useRlangExceptionHandling}}
-        rlang::abort(message = error_msg, .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
+        rlang::abort(message = error_msg,
+                     .subclass = "ApiException",
+                     ApiException = ApiException$new(http_response = resp))
         {{/useRlangExceptionHandling}}
       {{/returnExceptionOnFailure}}
       {{^returnExceptionOnFailure}}
@@ -397,7 +405,9 @@
         stop(error_msg)
         {{/useDefaultExceptionHandling}}
         {{#useRlangExceptionHandling}}
-        rlang::abort(message = error_msg, .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
+        rlang::abort(message = error_msg,
+                     .subclass = "ApiException",
+                     ApiException = ApiException$new(http_response = resp))
         {{/useRlangExceptionHandling}}
       {{/returnExceptionOnFailure}}
       {{^returnExceptionOnFailure}}
@@ -413,7 +423,9 @@
         stop(error_msg)
         {{/useDefaultExceptionHandling}}
         {{#useRlangExceptionHandling}}
-        rlang::abort(message = error_msg, .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
+        rlang::abort(message = error_msg,
+                     .subclass = "ApiException",
+                     ApiException = ApiException$new(http_response = resp))
         {{/useRlangExceptionHandling}}
       {{/returnExceptionOnFailure}}
       {{^returnExceptionOnFailure}}
