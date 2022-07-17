@@ -5,10 +5,12 @@ on:
     paths:
       - 'samples/client/petstore/csharp-netcore/**net6.0**/'
       - 'samples/server/petstore/aspnetcore-6.0/**'
+      - 'samples/server/petstore/aspnetcore-6.0-pocoModels/**'
   pull_request:
     paths:
       - 'samples/client/petstore/csharp-netcore/**net6.0**/'
       - 'samples/server/petstore/aspnetcore-6.0/**'
+      - 'samples/server/petstore/aspnetcore-6.0-pocoModels/**'
 jobs:
   build:
     name: Build .Net projects
