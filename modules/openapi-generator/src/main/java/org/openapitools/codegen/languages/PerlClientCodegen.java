@@ -127,6 +127,7 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("float", "double");
         typeMapping.put("double", "double");
         typeMapping.put("number", "double");
+        typeMapping.put("decimal", "double");
         typeMapping.put("boolean", "boolean");
         typeMapping.put("string", "string");
         typeMapping.put("date", "DATE");
