@@ -211,7 +211,7 @@ defmodule {{moduleName}}.Connection do
       Keyword.get(
         options,
         :base_url,
-        Application.get_env(:open_api_petstore, :base_url, @default_base_url)
+        Application.get_env({{#atom}}{{#underscored}}{{packageName}}{{/underscored}}{{/atom}}, :base_url, @default_base_url)
       )
 
     tesla_options = Application.get_env(:tesla, __MODULE__, [])
