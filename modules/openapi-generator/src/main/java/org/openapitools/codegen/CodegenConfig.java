@@ -313,7 +313,7 @@ public interface CodegenConfig {
 
     void setRemoveEnumValuePrefix(boolean removeEnumValuePrefix);
 
-    Schema unaliasSchema(Schema schema, Map<String, String> schemaMappings);
+    Schema unaliasSchema(Schema schema);
 
     String defaultTemplatingEngine();
 
