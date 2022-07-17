@@ -20,7 +20,7 @@
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
 Special <- R6::R6Class(
-  'Special',
+  "Special",
   public = list(
     `item_self` = NULL,
     `item_private` = NULL,
@@ -42,7 +42,7 @@ Special <- R6::R6Class(
     #' @param ... Other optional arguments.
     #' @export
     initialize = function(
-        `item_self`=NULL, `item_private`=NULL, `item_super`=NULL, `123_number`=NULL, `array[test]`=NULL, `empty_string`=NULL, ...
+        `item_self` = NULL, `item_private` = NULL, `item_super` = NULL, `123_number` = NULL, `array[test]` = NULL, `empty_string` = NULL, ...
     ) {
       if (!is.null(`item_self`)) {
         stopifnot(is.numeric(`item_self`), length(`item_self`) == 1)
@@ -79,27 +79,27 @@ Special <- R6::R6Class(
     toJSON = function() {
       SpecialObject <- list()
       if (!is.null(self$`item_self`)) {
-        SpecialObject[['self']] <-
+        SpecialObject[["self"]] <-
           self$`item_self`
       }
       if (!is.null(self$`item_private`)) {
-        SpecialObject[['private']] <-
+        SpecialObject[["private"]] <-
           self$`item_private`
       }
       if (!is.null(self$`item_super`)) {
-        SpecialObject[['super']] <-
+        SpecialObject[["super"]] <-
           self$`item_super`
       }
       if (!is.null(self$`123_number`)) {
-        SpecialObject[['123_number']] <-
+        SpecialObject[["123_number"]] <-
           self$`123_number`
       }
       if (!is.null(self$`array[test]`)) {
-        SpecialObject[['array[test]']] <-
+        SpecialObject[["array[test]"]] <-
           self$`array[test]`
       }
       if (!is.null(self$`empty_string`)) {
-        SpecialObject[['empty_string']] <-
+        SpecialObject[["empty_string"]] <-
           self$`empty_string`
       }
 
@@ -145,50 +145,56 @@ Special <- R6::R6Class(
     toJSONString = function() {
       jsoncontent <- c(
         if (!is.null(self$`item_self`)) {
-        sprintf(
-        '"self":
-          %d
-                ',
-        self$`item_self`
-        )},
+          sprintf(
+          '"self":
+            %d
+                    ',
+          self$`item_self`
+          )
+        },
         if (!is.null(self$`item_private`)) {
-        sprintf(
-        '"private":
-          "%s"
-                ',
-        self$`item_private`
-        )},
+          sprintf(
+          '"private":
+            "%s"
+                    ',
+          self$`item_private`
+          )
+        },
         if (!is.null(self$`item_super`)) {
-        sprintf(
-        '"super":
-          "%s"
-                ',
-        self$`item_super`
-        )},
+          sprintf(
+          '"super":
+            "%s"
+                    ',
+          self$`item_super`
+          )
+        },
         if (!is.null(self$`123_number`)) {
-        sprintf(
-        '"123_number":
-          "%s"
-                ',
-        self$`123_number`
-        )},
+          sprintf(
+          '"123_number":
+            "%s"
+                    ',
+          self$`123_number`
+          )
+        },
         if (!is.null(self$`array[test]`)) {
-        sprintf(
-        '"array[test]":
-          "%s"
-                ',
-        self$`array[test]`
-        )},
+          sprintf(
+          '"array[test]":
+            "%s"
+                    ',
+          self$`array[test]`
+          )
+        },
         if (!is.null(self$`empty_string`)) {
-        sprintf(
-        '"empty_string":
-          "%s"
-                ',
-        self$`empty_string`
-        )}
+          sprintf(
+          '"empty_string":
+            "%s"
+                    ',
+          self$`empty_string`
+          )
+        }
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
-      as.character(jsonlite::minify(paste('{', jsoncontent, '}', sep = "")))
+      as.character(jsonlite::minify(paste("{", jsoncontent, "}", sep = "")))
     },
     #' Deserialize JSON string into an instance of Special
     #'

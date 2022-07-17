@@ -625,7 +625,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
             if (example == null) {
                 example = p.paramName + "_example";
             }
-            example = "'" + escapeText(example) + "'";
+            example = "\"" + escapeText(example) + "\"";
         } else if ("integer".equals(type)) {
             if (example == null) {
                 example = "56";
@@ -715,7 +715,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
                 if (Pattern.compile("\r\n|\r|\n").matcher((String) p.getDefault()).find())
                     return "'''" + p.getDefault() + "'''";
                 else
-                    return "'" + ((String) p.getDefault()).replaceAll("'", "\'") + "'";
+                    return "\"" + ((String) p.getDefault()).replaceAll("\"", "\\\"") + "\"";
             }
         } else if (ModelUtils.isArraySchema(p)) {
             if (p.getDefault() != null) {
