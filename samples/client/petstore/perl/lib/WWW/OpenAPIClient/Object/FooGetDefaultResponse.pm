@@ -152,6 +152,8 @@ sub _to_json_primitives {
             return $data->rfc3339;
         }
         return $data .q();
+    } else { # hash (model),  In this case, the TO_JSON of the $data object is executed
+        return $data;
     }
 }
 
