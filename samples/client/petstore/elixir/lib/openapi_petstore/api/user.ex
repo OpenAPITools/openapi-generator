@@ -16,7 +16,7 @@ defmodule OpenapiPetstore.Api.User do
   ### Parameters
 
   - `connection` (OpenapiPetstore.Connection): Connection to server
-  - user (User): Created user object
+  - `user` (User): Created user object
   - `opts` (keyword): Optional parameters
 
   ### Returns
@@ -39,6 +39,7 @@ defmodule OpenapiPetstore.Api.User do
       {:default, false}
     ])
   end
+
   @doc """
   Creates list of users with given input array
   
@@ -46,7 +47,7 @@ defmodule OpenapiPetstore.Api.User do
   ### Parameters
 
   - `connection` (OpenapiPetstore.Connection): Connection to server
-  - user ([OpenapiPetstore.Model.User.t]): List of user object
+  - `user` ([OpenapiPetstore.Model.User.t]): List of user object
   - `opts` (keyword): Optional parameters
 
   ### Returns
@@ -69,6 +70,7 @@ defmodule OpenapiPetstore.Api.User do
       {:default, false}
     ])
   end
+
   @doc """
   Creates list of users with given input array
   
@@ -76,7 +78,7 @@ defmodule OpenapiPetstore.Api.User do
   ### Parameters
 
   - `connection` (OpenapiPetstore.Connection): Connection to server
-  - user ([OpenapiPetstore.Model.User.t]): List of user object
+  - `user` ([OpenapiPetstore.Model.User.t]): List of user object
   - `opts` (keyword): Optional parameters
 
   ### Returns
@@ -99,6 +101,7 @@ defmodule OpenapiPetstore.Api.User do
       {:default, false}
     ])
   end
+
   @doc """
   Delete user
   This can only be done by the logged in user.
@@ -106,7 +109,7 @@ defmodule OpenapiPetstore.Api.User do
   ### Parameters
 
   - `connection` (OpenapiPetstore.Connection): Connection to server
-  - username (String.t): The name that needs to be deleted
+  - `username` (String.t): The name that needs to be deleted
   - `opts` (keyword): Optional parameters
 
   ### Returns
@@ -129,6 +132,7 @@ defmodule OpenapiPetstore.Api.User do
       {404, false}
     ])
   end
+
   @doc """
   Get user by user name
   
@@ -136,7 +140,7 @@ defmodule OpenapiPetstore.Api.User do
   ### Parameters
 
   - `connection` (OpenapiPetstore.Connection): Connection to server
-  - username (String.t): The name that needs to be fetched. Use user1 for testing.
+  - `username` (String.t): The name that needs to be fetched. Use user1 for testing.
   - `opts` (keyword): Optional parameters
 
   ### Returns
@@ -160,6 +164,7 @@ defmodule OpenapiPetstore.Api.User do
       {404, false}
     ])
   end
+
   @doc """
   Logs user into the system
   
@@ -167,8 +172,8 @@ defmodule OpenapiPetstore.Api.User do
   ### Parameters
 
   - `connection` (OpenapiPetstore.Connection): Connection to server
-  - username (String.t): The user name for login
-  - password (String.t): The password for login in clear text
+  - `username` (String.t): The user name for login
+  - `password` (String.t): The password for login in clear text
   - `opts` (keyword): Optional parameters
 
   ### Returns
@@ -193,6 +198,7 @@ defmodule OpenapiPetstore.Api.User do
       {400, false}
     ])
   end
+
   @doc """
   Logs out current logged in user session
   
@@ -221,6 +227,7 @@ defmodule OpenapiPetstore.Api.User do
       {:default, false}
     ])
   end
+
   @doc """
   Updated user
   This can only be done by the logged in user.
@@ -228,8 +235,8 @@ defmodule OpenapiPetstore.Api.User do
   ### Parameters
 
   - `connection` (OpenapiPetstore.Connection): Connection to server
-  - username (String.t): name that need to be deleted
-  - user (User): Updated user object
+  - `username` (String.t): name that need to be deleted
+  - `user` (User): Updated user object
   - `opts` (keyword): Optional parameters
 
   ### Returns

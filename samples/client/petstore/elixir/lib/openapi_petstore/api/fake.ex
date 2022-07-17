@@ -36,13 +36,14 @@ defmodule OpenapiPetstore.Api.Fake do
       {200, %OpenapiPetstore.Model.HealthCheckResult{}}
     ])
   end
+
   @doc """
   test http signature authentication
 
   ### Parameters
 
   - `connection` (OpenapiPetstore.Connection): Connection to server
-  - pet (Pet): Pet object that needs to be added to the store
+  - `pet` (Pet): Pet object that needs to be added to the store
   - `opts` (keyword): Optional parameters
     - `:query1` (String.t): query parameter
     - `:header1` (String.t): header parameter
@@ -73,6 +74,7 @@ defmodule OpenapiPetstore.Api.Fake do
       {200, false}
     ])
   end
+
   @doc """
   Test serialization of outer boolean types
 
@@ -107,6 +109,7 @@ defmodule OpenapiPetstore.Api.Fake do
       {200, false}
     ])
   end
+
   @doc """
   Test serialization of object with outer number type
 
@@ -141,6 +144,7 @@ defmodule OpenapiPetstore.Api.Fake do
       {200, %OpenapiPetstore.Model.OuterComposite{}}
     ])
   end
+
   @doc """
   Test serialization of outer number types
 
@@ -175,6 +179,7 @@ defmodule OpenapiPetstore.Api.Fake do
       {200, false}
     ])
   end
+
   @doc """
   Test serialization of outer string types
 
@@ -209,13 +214,14 @@ defmodule OpenapiPetstore.Api.Fake do
       {200, false}
     ])
   end
+
   @doc """
   Test serialization of enum (int) properties with examples
 
   ### Parameters
 
   - `connection` (OpenapiPetstore.Connection): Connection to server
-  - outer_object_with_enum_property (OuterObjectWithEnumProperty): Input enum (int) as post body
+  - `outer_object_with_enum_property` (OuterObjectWithEnumProperty): Input enum (int) as post body
   - `opts` (keyword): Optional parameters
 
   ### Returns
@@ -238,13 +244,14 @@ defmodule OpenapiPetstore.Api.Fake do
       {200, %OpenapiPetstore.Model.OuterObjectWithEnumProperty{}}
     ])
   end
+
   @doc """
   For this test, the body has to be a binary file.
 
   ### Parameters
 
   - `connection` (OpenapiPetstore.Connection): Connection to server
-  - body (String.t): image to upload
+  - `body` (String.t): image to upload
   - `opts` (keyword): Optional parameters
 
   ### Returns
@@ -267,13 +274,14 @@ defmodule OpenapiPetstore.Api.Fake do
       {200, false}
     ])
   end
+
   @doc """
   For this test, the body for this request must reference a schema named `File`.
 
   ### Parameters
 
   - `connection` (OpenapiPetstore.Connection): Connection to server
-  - file_schema_test_class (FileSchemaTestClass): 
+  - `file_schema_test_class` (FileSchemaTestClass): 
   - `opts` (keyword): Optional parameters
 
   ### Returns
@@ -296,13 +304,14 @@ defmodule OpenapiPetstore.Api.Fake do
       {200, false}
     ])
   end
+
   @doc """
 
   ### Parameters
 
   - `connection` (OpenapiPetstore.Connection): Connection to server
-  - query (String.t): 
-  - user (User): 
+  - `query` (String.t): 
+  - `user` (User): 
   - `opts` (keyword): Optional parameters
 
   ### Returns
@@ -326,6 +335,7 @@ defmodule OpenapiPetstore.Api.Fake do
       {200, false}
     ])
   end
+
   @doc """
   To test \"client\" model
   To test \"client\" model
@@ -333,7 +343,7 @@ defmodule OpenapiPetstore.Api.Fake do
   ### Parameters
 
   - `connection` (OpenapiPetstore.Connection): Connection to server
-  - client (Client): client model
+  - `client` (Client): client model
   - `opts` (keyword): Optional parameters
 
   ### Returns
@@ -356,6 +366,7 @@ defmodule OpenapiPetstore.Api.Fake do
       {200, %OpenapiPetstore.Model.Client{}}
     ])
   end
+
   @doc """
   Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
   Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -363,10 +374,10 @@ defmodule OpenapiPetstore.Api.Fake do
   ### Parameters
 
   - `connection` (OpenapiPetstore.Connection): Connection to server
-  - number (float()): None
-  - double (float()): None
-  - pattern_without_delimiter (String.t): None
-  - byte (binary()): None
+  - `number` (float()): None
+  - `double` (float()): None
+  - `pattern_without_delimiter` (String.t): None
+  - `byte` (binary()): None
   - `opts` (keyword): Optional parameters
     - `:integer` (integer()): None
     - `:int32` (integer()): None
@@ -417,6 +428,7 @@ defmodule OpenapiPetstore.Api.Fake do
       {404, false}
     ])
   end
+
   @doc """
   To test enum parameters
   To test enum parameters
@@ -468,6 +480,7 @@ defmodule OpenapiPetstore.Api.Fake do
       {404, false}
     ])
   end
+
   @doc """
   Fake endpoint to test group parameters (optional)
   Fake endpoint to test group parameters (optional)
@@ -475,9 +488,9 @@ defmodule OpenapiPetstore.Api.Fake do
   ### Parameters
 
   - `connection` (OpenapiPetstore.Connection): Connection to server
-  - required_string_group (integer()): Required String in group parameters
-  - required_boolean_group (boolean()): Required Boolean in group parameters
-  - required_int64_group (integer()): Required Integer in group parameters
+  - `required_string_group` (integer()): Required String in group parameters
+  - `required_boolean_group` (boolean()): Required Boolean in group parameters
+  - `required_int64_group` (integer()): Required Integer in group parameters
   - `opts` (keyword): Optional parameters
     - `:string_group` (integer()): String in group parameters
     - `:boolean_group` (boolean()): Boolean in group parameters
@@ -512,6 +525,7 @@ defmodule OpenapiPetstore.Api.Fake do
       {400, false}
     ])
   end
+
   @doc """
   test inline additionalProperties
   
@@ -519,7 +533,7 @@ defmodule OpenapiPetstore.Api.Fake do
   ### Parameters
 
   - `connection` (OpenapiPetstore.Connection): Connection to server
-  - request_body (%{optional(String.t) => String.t}): request body
+  - `request_body` (%{optional(String.t) => String.t}): request body
   - `opts` (keyword): Optional parameters
 
   ### Returns
@@ -542,6 +556,7 @@ defmodule OpenapiPetstore.Api.Fake do
       {200, false}
     ])
   end
+
   @doc """
   test json serialization of form data
   
@@ -549,8 +564,8 @@ defmodule OpenapiPetstore.Api.Fake do
   ### Parameters
 
   - `connection` (OpenapiPetstore.Connection): Connection to server
-  - param (String.t): field1
-  - param2 (String.t): field2
+  - `param` (String.t): field1
+  - `param2` (String.t): field2
   - `opts` (keyword): Optional parameters
 
   ### Returns
@@ -574,18 +589,19 @@ defmodule OpenapiPetstore.Api.Fake do
       {200, false}
     ])
   end
+
   @doc """
   To test the collection format in query parameters
 
   ### Parameters
 
   - `connection` (OpenapiPetstore.Connection): Connection to server
-  - pipe ([String.t]): 
-  - ioutil ([String.t]): 
-  - http ([String.t]): 
-  - url ([String.t]): 
-  - context ([String.t]): 
-  - allow_empty (String.t): 
+  - `pipe` ([String.t]): 
+  - `ioutil` ([String.t]): 
+  - `http` ([String.t]): 
+  - `url` ([String.t]): 
+  - `context` ([String.t]): 
+  - `allow_empty` (String.t): 
   - `opts` (keyword): Optional parameters
     - `:language` (%{optional(String.t) => String.t}): 
 

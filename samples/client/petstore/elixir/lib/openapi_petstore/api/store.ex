@@ -16,7 +16,7 @@ defmodule OpenapiPetstore.Api.Store do
   ### Parameters
 
   - `connection` (OpenapiPetstore.Connection): Connection to server
-  - order_id (String.t): ID of the order that needs to be deleted
+  - `order_id` (String.t): ID of the order that needs to be deleted
   - `opts` (keyword): Optional parameters
 
   ### Returns
@@ -39,6 +39,7 @@ defmodule OpenapiPetstore.Api.Store do
       {404, false}
     ])
   end
+
   @doc """
   Returns pet inventories by status
   Returns a map of status codes to quantities
@@ -67,6 +68,7 @@ defmodule OpenapiPetstore.Api.Store do
       {200, %{}}
     ])
   end
+
   @doc """
   Find purchase order by ID
   For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
@@ -74,7 +76,7 @@ defmodule OpenapiPetstore.Api.Store do
   ### Parameters
 
   - `connection` (OpenapiPetstore.Connection): Connection to server
-  - order_id (integer()): ID of pet that needs to be fetched
+  - `order_id` (integer()): ID of pet that needs to be fetched
   - `opts` (keyword): Optional parameters
 
   ### Returns
@@ -98,6 +100,7 @@ defmodule OpenapiPetstore.Api.Store do
       {404, false}
     ])
   end
+
   @doc """
   Place an order for a pet
   
@@ -105,7 +108,7 @@ defmodule OpenapiPetstore.Api.Store do
   ### Parameters
 
   - `connection` (OpenapiPetstore.Connection): Connection to server
-  - order (Order): order placed for purchasing the pet
+  - `order` (Order): order placed for purchasing the pet
   - `opts` (keyword): Optional parameters
 
   ### Returns

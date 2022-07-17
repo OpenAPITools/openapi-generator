@@ -34,6 +34,13 @@ configuration files).
 config :openapi_petstore, base_url: "http://petstore.swagger.io:80/v2"
 ```
 
+Multiple clients for the same API with different URLs can be created passing different `base_url`s when calling
+`OpenapiPetstore.Connection.new/1`:
+
+```elixir
+client = OpenapiPetstore.Connection.new(base_url: "http://petstore.swagger.io:80/v2")
+```
+
 [exdoc]: https://github.com/elixir-lang/ex_doc
 [hexdocs]: https://hexdocs.pm
 [available in hex]: https://hex.pm/docs/publish

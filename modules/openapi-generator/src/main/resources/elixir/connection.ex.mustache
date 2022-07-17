@@ -222,7 +222,11 @@ defmodule {{moduleName}}.Connection do
       Keyword.get(
         options,
         :user_agent,
-        Keyword.get(tesla_options, :user_agent, "OpenAPIPetStore Elixir")
+        Keyword.get(
+          tesla_options,
+          :user_agent,
+          "openapi-generator - {{moduleName}} {{appVersion}} - elixir"
+        )
       )
 
     {{#hasHttpBasicMethods}}

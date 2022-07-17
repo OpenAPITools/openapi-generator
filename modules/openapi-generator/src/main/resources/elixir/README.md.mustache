@@ -34,6 +34,13 @@ configuration files).
 config :{{#underscored}}{{packageName}}{{/underscored}}, base_url: "{{{basePath}}}"
 ```
 
+Multiple clients for the same API with different URLs can be created passing different `base_url`s when calling
+`{{moduleName}}.Connection.new/1`:
+
+```elixir
+client = {{moduleName}}.Connection.new(base_url: "{{{basePath}}}")
+```
+
 [exdoc]: https://github.com/elixir-lang/ex_doc
 [hexdocs]: https://hexdocs.pm
 [available in hex]: https://hex.pm/docs/publish

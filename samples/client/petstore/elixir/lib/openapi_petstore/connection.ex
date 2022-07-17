@@ -148,7 +148,7 @@ defmodule OpenapiPetstore.Connection do
       Keyword.get(
         options,
         :base_url,
-        Application.get_env(:open_api_petstore, :base_url, @default_base_url)
+        Application.get_env(:openapi_petstore, :base_url, @default_base_url)
       )
 
     tesla_options = Application.get_env(:tesla, __MODULE__, [])
@@ -159,7 +159,11 @@ defmodule OpenapiPetstore.Connection do
       Keyword.get(
         options,
         :user_agent,
-        Keyword.get(tesla_options, :user_agent, "OpenAPIPetStore Elixir")
+        Keyword.get(
+          tesla_options,
+          :user_agent,
+          "openapi-generator - OpenapiPetstore 1.0.0 - elixir"
+        )
       )
 
     username = Keyword.get(options, :username)

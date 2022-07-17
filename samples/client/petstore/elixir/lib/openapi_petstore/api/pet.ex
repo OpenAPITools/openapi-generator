@@ -16,7 +16,7 @@ defmodule OpenapiPetstore.Api.Pet do
   ### Parameters
 
   - `connection` (OpenapiPetstore.Connection): Connection to server
-  - pet (Pet): Pet object that needs to be added to the store
+  - `pet` (Pet): Pet object that needs to be added to the store
   - `opts` (keyword): Optional parameters
 
   ### Returns
@@ -40,6 +40,7 @@ defmodule OpenapiPetstore.Api.Pet do
       {405, false}
     ])
   end
+
   @doc """
   Deletes a pet
   
@@ -47,7 +48,7 @@ defmodule OpenapiPetstore.Api.Pet do
   ### Parameters
 
   - `connection` (OpenapiPetstore.Connection): Connection to server
-  - pet_id (integer()): Pet id to delete
+  - `pet_id` (integer()): Pet id to delete
   - `opts` (keyword): Optional parameters
     - `:api_key` (String.t): 
 
@@ -76,6 +77,7 @@ defmodule OpenapiPetstore.Api.Pet do
       {400, false}
     ])
   end
+
   @doc """
   Finds Pets by status
   Multiple status values can be provided with comma separated strings
@@ -83,7 +85,7 @@ defmodule OpenapiPetstore.Api.Pet do
   ### Parameters
 
   - `connection` (OpenapiPetstore.Connection): Connection to server
-  - status ([String.t]): Status values that need to be considered for filter
+  - `status` ([String.t]): Status values that need to be considered for filter
   - `opts` (keyword): Optional parameters
 
   ### Returns
@@ -107,6 +109,7 @@ defmodule OpenapiPetstore.Api.Pet do
       {400, false}
     ])
   end
+
   @doc """
   Finds Pets by tags
   Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
@@ -114,7 +117,7 @@ defmodule OpenapiPetstore.Api.Pet do
   ### Parameters
 
   - `connection` (OpenapiPetstore.Connection): Connection to server
-  - tags ([String.t]): Tags to filter by
+  - `tags` ([String.t]): Tags to filter by
   - `opts` (keyword): Optional parameters
 
   ### Returns
@@ -138,6 +141,7 @@ defmodule OpenapiPetstore.Api.Pet do
       {400, false}
     ])
   end
+
   @doc """
   Find pet by ID
   Returns a single pet
@@ -145,7 +149,7 @@ defmodule OpenapiPetstore.Api.Pet do
   ### Parameters
 
   - `connection` (OpenapiPetstore.Connection): Connection to server
-  - pet_id (integer()): ID of pet to return
+  - `pet_id` (integer()): ID of pet to return
   - `opts` (keyword): Optional parameters
 
   ### Returns
@@ -169,6 +173,7 @@ defmodule OpenapiPetstore.Api.Pet do
       {404, false}
     ])
   end
+
   @doc """
   Update an existing pet
   
@@ -176,7 +181,7 @@ defmodule OpenapiPetstore.Api.Pet do
   ### Parameters
 
   - `connection` (OpenapiPetstore.Connection): Connection to server
-  - pet (Pet): Pet object that needs to be added to the store
+  - `pet` (Pet): Pet object that needs to be added to the store
   - `opts` (keyword): Optional parameters
 
   ### Returns
@@ -202,6 +207,7 @@ defmodule OpenapiPetstore.Api.Pet do
       {405, false}
     ])
   end
+
   @doc """
   Updates a pet in the store with form data
   
@@ -209,7 +215,7 @@ defmodule OpenapiPetstore.Api.Pet do
   ### Parameters
 
   - `connection` (OpenapiPetstore.Connection): Connection to server
-  - pet_id (integer()): ID of pet that needs to be updated
+  - `pet_id` (integer()): ID of pet that needs to be updated
   - `opts` (keyword): Optional parameters
     - `:name` (String.t): Updated name of the pet
     - `:status` (String.t): Updated status of the pet
@@ -241,6 +247,7 @@ defmodule OpenapiPetstore.Api.Pet do
       {405, false}
     ])
   end
+
   @doc """
   uploads an image
   
@@ -248,7 +255,7 @@ defmodule OpenapiPetstore.Api.Pet do
   ### Parameters
 
   - `connection` (OpenapiPetstore.Connection): Connection to server
-  - pet_id (integer()): ID of pet to update
+  - `pet_id` (integer()): ID of pet to update
   - `opts` (keyword): Optional parameters
     - `:additional_metadata` (String.t): Additional data to pass to server
     - `:file` (String.t): file to upload
@@ -279,6 +286,7 @@ defmodule OpenapiPetstore.Api.Pet do
       {200, %OpenapiPetstore.Model.ApiResponse{}}
     ])
   end
+
   @doc """
   uploads an image (required)
   
@@ -286,8 +294,8 @@ defmodule OpenapiPetstore.Api.Pet do
   ### Parameters
 
   - `connection` (OpenapiPetstore.Connection): Connection to server
-  - pet_id (integer()): ID of pet to update
-  - required_file (String.t): file to upload
+  - `pet_id` (integer()): ID of pet to update
+  - `required_file` (String.t): file to upload
   - `opts` (keyword): Optional parameters
     - `:additional_metadata` (String.t): Additional data to pass to server
 

@@ -16,7 +16,7 @@ defmodule OpenapiPetstore.Api.FakeClassnameTags123 do
   ### Parameters
 
   - `connection` (OpenapiPetstore.Connection): Connection to server
-  - client (Client): client model
+  - `client` (Client): client model
   - `opts` (keyword): Optional parameters
 
   ### Returns
