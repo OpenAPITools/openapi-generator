@@ -36,11 +36,11 @@ AnyOfPig <- R6::R6Class(
       if (is.null(instance)) {
         # do nothing
       } else if (get(class(instance)[[1]], pos = -1)$classname ==  "BasquePig") {
-        self$actual_instance = instance
-        self$actual_type = "BasquePig"
+        self$actual_instance <- instance
+        self$actual_type <- "BasquePig"
       } else if (get(class(instance)[[1]], pos = -1)$classname ==  "DanishPig") {
-        self$actual_instance = instance
-        self$actual_type = "DanishPig"
+        self$actual_instance <- instance
+        self$actual_type <- "DanishPig"
       } else {
         stop(paste("Failed to initialize AnyOfPig with anyOf schemas BasquePig, DanishPig. Provided class name: ",
                    get(class(instance)[[1]], pos = -1)$classname))
@@ -148,7 +148,7 @@ AnyOfPig <- R6::R6Class(
       jsoncontent <- c(
         sprintf('"actual_instance": %s', if (is.null(self$actual_instance)) NULL else self$actual_instance$toJSONString()),
         sprintf('"actual_type": "%s"', self$actual_type),
-        sprintf('"any_of": "%s"',  paste( unlist(self$any_of), collapse=", "))
+        sprintf('"any_of": "%s"', paste(unlist(self$any_of), collapse = ", "))
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
       as.character(jsonlite::prettify(paste("{", jsoncontent, "}", sep = "")))

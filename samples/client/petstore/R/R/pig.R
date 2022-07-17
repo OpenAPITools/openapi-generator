@@ -36,11 +36,11 @@ Pig <- R6::R6Class(
       if (is.null(instance)) {
         # do nothing
       } else if (get(class(instance)[[1]], pos = -1)$classname ==  "BasquePig") {
-        self$actual_instance = instance
-        self$actual_type = "BasquePig"
+        self$actual_instance <- instance
+        self$actual_type <- "BasquePig"
       } else if (get(class(instance)[[1]], pos = -1)$classname ==  "DanishPig") {
-        self$actual_instance = instance
-        self$actual_type = "DanishPig"
+        self$actual_instance <- instance
+        self$actual_type <- "DanishPig"
       } else {
         stop(paste("Failed to initialize Pig with oneOf schemas BasquePig, DanishPig. Provided class name: ",
                    get(class(instance)[[1]], pos = -1)$classname))
@@ -162,9 +162,9 @@ Pig <- R6::R6Class(
     #' @export
     toString = function() {
       jsoncontent <- c(
-        sprintf('"actual_instance": %s', if (is.null(self$actual_instance)) {NULL} else {self$actual_instance$toJSONString()}),
+        sprintf('"actual_instance": %s', if (is.null(self$actual_instance)) NULL else self$actual_instance$toJSONString()),
         sprintf('"actual_type": "%s"', self$actual_type),
-        sprintf('"one_of": "%s"',  paste( unlist(self$one_of), collapse=", "))
+        sprintf('"one_of": "%s"', paste(unlist(self$one_of), collapse = ", "))
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
       as.character(jsonlite::prettify(paste("{", jsoncontent, "}", sep = "")))
