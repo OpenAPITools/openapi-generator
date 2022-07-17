@@ -251,6 +251,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("NAMESPACE.mustache", "", "NAMESPACE"));
         supportingFiles.add(new SupportingFile("testthat.mustache", File.separator + "tests", "testthat.R"));
         supportingFiles.add(new SupportingFile("r-client.mustache", File.separator + ".github" + File.separator + "workflows", "r-client.yaml"));
+        supportingFiles.add(new SupportingFile("lintr.mustache", "", ".lintr"));
 
         // add lambda for mustache templates to fix license field
         additionalProperties.put("lambdaLicense", new Mustache.Lambda() {
