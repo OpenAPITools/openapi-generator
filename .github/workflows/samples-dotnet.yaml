@@ -5,10 +5,12 @@ on:
     paths:
       - 'samples/client/petstore/csharp-netcore/**net6.0**/'
       - 'samples/server/petstore/aspnetcore-6.0/**'
+      - 'samples/server/petstore/aspnetcore-6.0-pocoModels/**'
   pull_request:
     paths:
       - 'samples/client/petstore/csharp-netcore/**net6.0**/'
       - 'samples/server/petstore/aspnetcore-6.0/**'
+      - 'samples/server/petstore/aspnetcore-6.0-pocoModels/**'
 jobs:
   build:
     name: Build .Net projects
@@ -21,6 +23,7 @@ jobs:
           - samples/client/petstore/csharp-netcore/OpenAPIClient-generichost-net6.0
           - samples/client/petstore/csharp-netcore/OpenAPIClient-generichost-net6.0-nrt
           - samples/server/petstore/aspnetcore-6.0
+          - samples/server/petstore/aspnetcore-6.0-pocoModels
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-dotnet@v2
