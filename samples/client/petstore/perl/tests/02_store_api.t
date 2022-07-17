@@ -1,4 +1,4 @@
-use Test::More tests => 52;
+use Test::More tests => 56;
 use Test::Exception;
 
 use lib 'lib';
@@ -171,3 +171,17 @@ like $order_to_json, qr/2020-11-06T09:20:48Z/, '$order{shipDate} to date-time fo
 like $order_to_json, qr/"101112"/, '$order{status} is number. But json type is string';
 
 like $order_to_json, qr/false/, '$order{complete} is number. But json type is boolean';
+
+my $pet_object = WWW::OpenAPIClient::Object::Pet->new->from_hash({
+    tags => [ 
+        WWW::OpenAPIClient::Object::Tag->new->from_hash({id => 123, name => 1000}), 
+        WWW::OpenAPIClient::Object::Tag->new->from_hash({id => 456, name => 'test2'}),
+    ]
+});
+
+
+my $pet_object_to_json = JSON->new->convert_blessed->encode($pet_object);
+like $pet_object_to_json, qr/\"id\":123/, '$pet_object->tags->[0]->id';
+like $pet_object_to_json, qr/\"name\":\"1000\"/, '$pet_object->tags->[0]->name';
+like $pet_object_to_json, qr/\"id\":456/, '$pet_object->tags->[1]->id';
+like $pet_object_to_json, qr/\"name\":\"test2\"/, '$pet_object->tags->[1]->name';
