@@ -299,6 +299,8 @@ public class SpringCodegen extends AbstractJavaCodegen
 
         useOneOfInterfaces = true;
         legacyDiscriminatorBehavior = false;
+
+        // Please refrain from updating values of Config Options after super.ProcessOpts() is called
         super.processOpts();
 
         if (DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider())) {
