@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 ## test_nullable_required_param
 
-> test_nullable_required_param(username, dummy_required_nullable_param, UPPERCASE)
+> test_nullable_required_param(username, dummy_required_nullable_param, uppercase)
 To test nullable required parameters
 
 
@@ -22,7 +22,7 @@ Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
 **username** | **String** | The name that needs to be fetched. Use user1 for testing. | [required] |
 **dummy_required_nullable_param** | Option<**String**> | To test nullable required parameters | [required] |
-**UPPERCASE** | Option<**String**> | To test parameter names in upper case |  |
+**uppercase** | Option<**String**> | To test parameter names in upper case |  |
 
 ### Return type
 
