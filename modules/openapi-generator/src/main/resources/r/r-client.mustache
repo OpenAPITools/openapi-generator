@@ -21,6 +21,13 @@ jobs:
           use-public-rspm: true
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          extra-packages: any::rcmdcheck
-          needs: check
+          extra-packages: any::rcmdcheck, any::roxygen2, any::lintr, local::.
+          needs: check, roxygen2, lint
+      - name: Lint
+        run: lintr::lint_package()
+        shell: Rscript {0}
+      - name: Roxygenize
+        run: |
+          roxygen2::roxygenize('.', roclets = c('rd', 'collate', 'namespace'))
+        shell: Rscript {0}
       - uses: r-lib/actions/check-r-package@v2

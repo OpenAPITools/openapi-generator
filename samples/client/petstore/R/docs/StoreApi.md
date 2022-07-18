@@ -21,7 +21,7 @@ For valid response try integer IDs with value < 1000. Anything above 1000 or non
 ```R
 library(petstore)
 
-var_order_id <- 'order_id_example' # character | ID of the order that needs to be deleted
+var_order_id <- "order_id_example" # character | ID of the order that needs to be deleted
 
 #Delete purchase order by ID
 api_instance <- StoreApi$new()

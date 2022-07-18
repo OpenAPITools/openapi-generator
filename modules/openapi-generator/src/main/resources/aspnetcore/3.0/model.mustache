@@ -30,7 +30,7 @@ namespace {{modelPackage}}
     [JsonSubtypes.KnownSubType(typeof({{{modelName}}}), "{{^vendorExtensions.x-discriminator-value}}{{{mappingName}}}{{/vendorExtensions.x-discriminator-value}}{{#vendorExtensions.x-discriminator-value}}{{{.}}}{{/vendorExtensions.x-discriminator-value}}")]
     {{/mappedModels}}
     {{/discriminator}}
-    public {{#modelClassModifier}}{{.}} {{/modelClassModifier}}class {{classname}} : {{#parent}}{{{.}}}, {{/parent}}IEquatable<{{classname}}>
+    public {{#modelClassModifier}}{{.}} {{/modelClassModifier}}class {{classname}} {{#parent}}: {{{.}}}{{^pocoModels}}, {{/pocoModels}}{{/parent}}{{^pocoModels}}{{^parent}}: {{/parent}}IEquatable<{{classname}}>{{/pocoModels}}
     {
         {{#vars}}
         {{#items.isEnum}}
@@ -67,6 +67,7 @@ namespace {{modelPackage}}
         {{/-last}}
         {{/vars}}
 
+        {{^pocoModels}}
         /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
@@ -160,6 +161,7 @@ namespace {{modelPackage}}
 
         #pragma warning restore 1591
         #endregion Operators
+        {{/pocoModels}}
     }
 {{/isEnum}}
 {{/model}}

@@ -1142,8 +1142,8 @@
                 <module>samples/server/petstore/php-lumen</module>-->
                 <module>samples/server/petstore/rust-server</module>
                 <!-- clients -->
-                <!--<module>samples/client/petstore/perl</module>
-                <module>samples/client/petstore/bash</module>-->
+                <module>samples/client/petstore/perl</module>
+                <!--<module>samples/client/petstore/bash</module>-->
                 <module>samples/client/petstore/ruby-faraday</module>
                 <module>samples/client/petstore/ruby</module>
                 <!-- comment out as it's not working as the moment
