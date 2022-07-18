@@ -297,8 +297,8 @@ public class SpringCodegen extends AbstractJavaCodegen
             LOGGER.info("Set base package to invoker package ({})", basePackage);
         }
 
-		useOneOfInterfaces = true;
-		legacyDiscriminatorBehavior = false;
+        useOneOfInterfaces = true;
+        legacyDiscriminatorBehavior = false;
         super.processOpts();
 
         if (DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider())) {
