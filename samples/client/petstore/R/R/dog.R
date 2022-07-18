@@ -29,12 +29,12 @@ Dog <- R6::R6Class(
     #' Initialize a new Dog class.
     #'
     #' @param className className
-    #' @param color color. Default to "red".
+    #' @param color color. Default to 'red'.
     #' @param breed breed
     #' @param ... Other optional arguments.
     #' @export
     initialize = function(
-        `className`, `color` = "red", `breed` = NULL, ...
+        `className`, `color` = 'red', `breed` = NULL, ...
     ) {
       if (!missing(`className`)) {
         stopifnot(is.character(`className`), length(`className`) == 1)

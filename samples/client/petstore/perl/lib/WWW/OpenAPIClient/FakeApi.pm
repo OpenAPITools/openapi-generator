@@ -759,8 +759,8 @@ sub test_client_model {
 # @param double $float None (optional)
 # @param string $string None (optional)
 # @param string $binary None (optional)
-# @param DATE $date None (optional)
-# @param DATE_TIME $date_time None (optional)
+# @param DateTime $date None (optional)
+# @param DateTime $date_time None (optional)
 # @param string $password None (optional)
 # @param string $callback None (optional)
 {
@@ -816,12 +816,12 @@ sub test_client_model {
         required => '0',
     },
     'date' => {
-        data_type => 'DATE',
+        data_type => 'DateTime',
         description => 'None',
         required => '0',
     },
     'date_time' => {
-        data_type => 'DATE_TIME',
+        data_type => 'DateTime',
         description => 'None',
         required => '0',
     },

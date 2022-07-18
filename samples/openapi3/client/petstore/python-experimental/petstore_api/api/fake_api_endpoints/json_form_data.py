@@ -73,8 +73,6 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
     DictSchema
 ):
     _required_property_names = set((
-        'param',
-        'param2',
     ))
     param = StrSchema
     param2 = StrSchema
@@ -83,16 +81,12 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        param: param,
-        param2: param2,
         _configuration: typing.Optional[Configuration] = None,
         **kwargs: typing.Type[Schema],
     ) -> 'SchemaForRequestBodyApplicationXWwwFormUrlencoded':
         return super().__new__(
             cls,
             *args,
-            param=param,
-            param2=param2,
             _configuration=_configuration,
             **kwargs,
         )

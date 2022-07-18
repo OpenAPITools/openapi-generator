@@ -88,54 +88,8 @@ class AnyofComplexTypes(
         # code would be run when this module is imported, and these composed
         # classes don't exist yet because their module has not finished
         # loading
-        
-        
-        class anyOf_0(
-            AnyTypeSchema
-        ):
-            _required_property_names = set((
-                'bar',
-            ))
-            bar = IntSchema
-        
-            def __new__(
-                cls,
-                *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
-                bar: bar,
-                _configuration: typing.Optional[Configuration] = None,
-                **kwargs: typing.Type[Schema],
-            ) -> 'anyOf_0':
-                return super().__new__(
-                    cls,
-                    *args,
-                    bar=bar,
-                    _configuration=_configuration,
-                    **kwargs,
-                )
-        
-        
-        class anyOf_1(
-            AnyTypeSchema
-        ):
-            _required_property_names = set((
-                'foo',
-            ))
-            foo = StrSchema
-        
-            def __new__(
-                cls,
-                *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
-                foo: foo,
-                _configuration: typing.Optional[Configuration] = None,
-                **kwargs: typing.Type[Schema],
-            ) -> 'anyOf_1':
-                return super().__new__(
-                    cls,
-                    *args,
-                    foo=foo,
-                    _configuration=_configuration,
-                    **kwargs,
-                )
+        anyOf_0 = AnyTypeSchema
+        anyOf_1 = AnyTypeSchema
         return {
             'allOf': [
             ],

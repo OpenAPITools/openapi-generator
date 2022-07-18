@@ -119,7 +119,7 @@
 #' ####################  DeleteOrder  ####################
 #'
 #' library(petstore)
-#' var.order_id <- "order_id_example" # character | ID of the order that needs to be deleted
+#' var.order_id <- 'order_id_example' # character | ID of the order that needs to be deleted
 #'
 #' #Delete purchase order by ID
 #' api.instance <- StoreApi$new()

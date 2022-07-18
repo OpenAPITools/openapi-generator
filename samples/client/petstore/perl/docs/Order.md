@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 **id** | **int** |  | [optional] 
 **pet_id** | **int** |  | [optional] 
 **quantity** | **int** |  | [optional] 
-**ship_date** | **DATE_TIME** |  | [optional] 
+**ship_date** | **DateTime** |  | [optional] 
 **status** | **string** | Order Status | [optional] 
 **complete** | **boolean** |  | [optional] [default to false]
 

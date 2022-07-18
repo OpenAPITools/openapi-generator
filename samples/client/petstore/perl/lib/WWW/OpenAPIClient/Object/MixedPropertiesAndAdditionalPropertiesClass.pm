@@ -222,7 +222,7 @@ __PACKAGE__->method_documentation({
         read_only => '',
             },
     'date_time' => {
-        datatype => 'DATE_TIME',
+        datatype => 'DateTime',
         base_name => 'dateTime',
         description => '',
         format => '',
@@ -239,7 +239,7 @@ __PACKAGE__->method_documentation({
 
 __PACKAGE__->openapi_types( {
     'uuid' => 'string',
-    'date_time' => 'DATE_TIME',
+    'date_time' => 'DateTime',
     'map' => 'HASH[string,Animal]'
 } );
 

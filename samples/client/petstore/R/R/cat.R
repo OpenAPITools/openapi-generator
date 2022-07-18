@@ -29,12 +29,12 @@ Cat <- R6::R6Class(
     #' Initialize a new Cat class.
     #'
     #' @param className className
-    #' @param color color. Default to "red".
+    #' @param color color. Default to 'red'.
     #' @param declawed declawed
     #' @param ... Other optional arguments.
     #' @export
     initialize = function(
-        `className`, `color` = "red", `declawed` = NULL, ...
+        `className`, `color` = 'red', `declawed` = NULL, ...
     ) {
       if (!missing(`className`)) {
         stopifnot(is.character(`className`), length(`className`) == 1)

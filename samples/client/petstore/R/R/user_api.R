@@ -276,7 +276,7 @@
 #' ####################  DeleteUser  ####################
 #'
 #' library(petstore)
-#' var.username <- "username_example" # character | The name that needs to be deleted
+#' var.username <- 'username_example' # character | The name that needs to be deleted
 #'
 #' #Delete user
 #' api.instance <- UserApi$new()
@@ -302,7 +302,7 @@
 #' ####################  GetUserByName  ####################
 #'
 #' library(petstore)
-#' var.username <- "username_example" # character | The name that needs to be fetched. Use user1 for testing.
+#' var.username <- 'username_example' # character | The name that needs to be fetched. Use user1 for testing.
 #'
 #' #Get user by user name
 #' api.instance <- UserApi$new()
@@ -327,8 +327,8 @@
 #' ####################  LoginUser  ####################
 #'
 #' library(petstore)
-#' var.username <- "username_example" # character | The user name for login
-#' var.password <- "password_example" # character | The password for login in clear text
+#' var.username <- 'username_example' # character | The user name for login
+#' var.password <- 'password_example' # character | The password for login in clear text
 #'
 #' #Logs user into the system
 #' api.instance <- UserApi$new()
@@ -378,7 +378,7 @@
 #' ####################  UpdateUser  ####################
 #'
 #' library(petstore)
-#' var.username <- "username_example" # character | name that need to be deleted
+#' var.username <- 'username_example' # character | name that need to be deleted
 #' var.user <- User$new() # User | Updated user object
 #'
 #' #Updated user

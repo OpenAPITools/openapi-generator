@@ -105,10 +105,10 @@ public class ChildCat extends ParentPet {
    * Get petType
    * @return petType
   **/
-  @jakarta.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @jakarta.annotation.Nonnull
+  @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_PET_TYPE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getPetType() {
     return petType;
@@ -116,7 +116,7 @@ public class ChildCat extends ParentPet {
 
 
   @JsonProperty(JSON_PROPERTY_PET_TYPE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setPetType(String petType) {
     if (!PET_TYPE_VALUES.contains(petType)) {
       throw new IllegalArgumentException(petType + " is invalid. Possible values for petType: " + String.join(", ", PET_TYPE_VALUES));

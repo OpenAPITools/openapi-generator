@@ -235,7 +235,7 @@ __PACKAGE__->method_documentation({
         read_only => '',
             },
     'ship_date' => {
-        datatype => 'DATE_TIME',
+        datatype => 'DateTime',
         base_name => 'shipDate',
         description => '',
         format => '',
@@ -261,7 +261,7 @@ __PACKAGE__->openapi_types( {
     'id' => 'int',
     'pet_id' => 'int',
     'quantity' => 'int',
-    'ship_date' => 'DATE_TIME',
+    'ship_date' => 'DateTime',
     'status' => 'string',
     'complete' => 'boolean'
 } );

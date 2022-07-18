@@ -41,8 +41,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 <ul class="column-ul">
 <li>ARRAY</li>
-<li>DATE</li>
-<li>DATE_TIME</li>
+<li>DateTime</li>
 <li>HASH</li>
 <li>boolean</li>
 <li>double</li>

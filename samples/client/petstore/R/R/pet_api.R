@@ -286,7 +286,7 @@
 #'
 #' library(petstore)
 #' var.pet_id <- 56 # integer | Pet id to delete
-#' var.api_key <- "api_key_example" # character | 
+#' var.api_key <- 'api_key_example' # character | 
 #'
 #' #Deletes a pet
 #' api.instance <- PetApi$new()
@@ -312,7 +312,7 @@
 #' ####################  FindPetsByStatus  ####################
 #'
 #' library(petstore)
-#' var.status <- ["status_example"] # array[character] | Status values that need to be considered for filter
+#' var.status <- ['status_example'] # array[character] | Status values that need to be considered for filter
 #'
 #' #Finds Pets by status
 #' api.instance <- PetApi$new()
@@ -340,7 +340,7 @@
 #' ####################  FindPetsByTags  ####################
 #'
 #' library(petstore)
-#' var.tags <- ["tags_example"] # array[character] | Tags to filter by
+#' var.tags <- ['tags_example'] # array[character] | Tags to filter by
 #'
 #' #Finds Pets by tags
 #' api.instance <- PetApi$new()
@@ -453,8 +453,8 @@
 #'
 #' library(petstore)
 #' var.pet_id <- 56 # integer | ID of pet that needs to be updated
-#' var.name <- "name_example" # character | Updated name of the pet
-#' var.status <- "status_example" # character | Updated status of the pet
+#' var.name <- 'name_example' # character | Updated name of the pet
+#' var.status <- 'status_example' # character | Updated status of the pet
 #'
 #' #Updates a pet in the store with form data
 #' api.instance <- PetApi$new()
@@ -481,7 +481,7 @@
 #'
 #' library(petstore)
 #' var.pet_id <- 56 # integer | ID of pet to update
-#' var.additional_metadata <- "additional_metadata_example" # character | Additional data to pass to server
+#' var.additional_metadata <- 'additional_metadata_example' # character | Additional data to pass to server
 #' var.file <- File.new('/path/to/file') # data.frame | file to upload
 #'
 #' #uploads an image

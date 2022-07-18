@@ -41,8 +41,8 @@
 #' ####################  FakeDataFile  ####################
 #'
 #' library(petstore)
-#' var.dummy <- "dummy_example" # character | dummy required parameter
-#' var.var_data_file <- "var_data_file_example" # character | header data file
+#' var.dummy <- 'dummy_example' # character | dummy required parameter
+#' var.var_data_file <- 'var_data_file_example' # character | header data file
 #'
 #' #test data_file to ensure it's escaped correctly
 #' api.instance <- FakeApi$new()
