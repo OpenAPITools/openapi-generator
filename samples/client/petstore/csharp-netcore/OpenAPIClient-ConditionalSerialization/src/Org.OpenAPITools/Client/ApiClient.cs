@@ -515,6 +515,7 @@ namespace Org.OpenAPITools.Client
             {
                 response.Data = (T)(object)response.RawBytes;
             }
+            else response.Data = (T)(object)response.Content;
 
             InterceptResponse(req, response);
 
@@ -632,6 +633,7 @@ namespace Org.OpenAPITools.Client
             {
                 response.Data = (T)(object)response.RawBytes;
             }
+            else response.Data = (T)(object)response.Content;
 
             InterceptResponse(req, response);
 
