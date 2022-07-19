@@ -166,7 +166,7 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("double", "f64");
         typeMapping.put("boolean", "bool");
         typeMapping.put("string", "String");
-        typeMapping.put("UUID", "String");
+        typeMapping.put("UUID", "uuid::Uuid");
         typeMapping.put("URI", "String");
         typeMapping.put("date", "string");
         typeMapping.put("DateTime", "String");

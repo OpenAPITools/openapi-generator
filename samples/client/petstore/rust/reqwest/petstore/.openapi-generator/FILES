@@ -8,6 +8,7 @@ docs/FakeApi.md
 docs/Order.md
 docs/Pet.md
 docs/PetApi.md
+docs/PropertyTest.md
 docs/StoreApi.md
 docs/Tag.md
 docs/User.md
@@ -25,5 +26,6 @@ src/models/category.rs
 src/models/mod.rs
 src/models/order.rs
 src/models/pet.rs
+src/models/property_test.rs
 src/models/tag.rs
 src/models/user.rs

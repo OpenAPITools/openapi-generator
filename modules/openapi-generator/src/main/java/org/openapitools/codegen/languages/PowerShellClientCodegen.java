@@ -70,6 +70,8 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
     protected String modelsCmdletVerb = "Initialize";
     protected boolean useClassNameInModelsExamples = true;
 
+    private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
+
     /**
      * Constructs an instance of `PowerShellClientCodegen`.
      */
@@ -907,6 +909,12 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
      */
     @Override
     public String toModelName(String name) {
+        // memoization
+        String origName = name;
+        if (schemaKeyToModelNameCache.containsKey(origName)) {
+            return schemaKeyToModelNameCache.get(origName);
+        }
+
         if (!StringUtils.isEmpty(modelNamePrefix)) {
             name = modelNamePrefix + "_" + name;
         }
@@ -932,6 +940,8 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
                     camelize("model_" + name));
             name = camelize("model_" + name); // e.g. 200Response => Model200Response (after camelize)
         }
+
+        schemaKeyToModelNameCache.put(origName, name);
 
         return name;
     }
