@@ -4,9 +4,11 @@ Cargo.toml
 README.md
 docs/ApiResponse.md
 docs/Category.md
+docs/FakeApi.md
 docs/Order.md
 docs/Pet.md
 docs/PetApi.md
+docs/PropertyTest.md
 docs/StoreApi.md
 docs/Tag.md
 docs/User.md
@@ -14,6 +16,7 @@ docs/UserApi.md
 git_push.sh
 src/apis/client.rs
 src/apis/configuration.rs
+src/apis/fake_api.rs
 src/apis/mod.rs
 src/apis/pet_api.rs
 src/apis/request.rs
@@ -25,5 +28,6 @@ src/models/category.rs
 src/models/mod.rs
 src/models/order.rs
 src/models/pet.rs
+src/models/property_test.rs
 src/models/tag.rs
 src/models/user.rs
