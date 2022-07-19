@@ -45,7 +45,7 @@ import kotlinx.parcelize.Parcelize
  * @param userStatus User Status
  */
 @Parcelize
-@Serializable(with = UserSerializer::class)
+@Serializable
 data class User (
 
     @SerialName(value = "id")

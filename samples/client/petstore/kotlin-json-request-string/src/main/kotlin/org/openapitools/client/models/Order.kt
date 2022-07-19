@@ -43,7 +43,7 @@ import kotlinx.parcelize.Parcelize
  * @param complete 
  */
 @Parcelize
-@Serializable(with = OrderSerializer::class)
+@Serializable
 data class Order (
 
     @SerialName(value = "id")
@@ -72,7 +72,7 @@ data class Order (
      *
      * Values: placed,approved,delivered,unknownDefaultOpenApi
      */
-    @Serializable
+    @Serializable(with = OrderSerializer::class)
     enum class Status(val value: kotlin.String) {
         @SerialName(value = "placed") placed("placed"),
         @SerialName(value = "approved") approved("approved"),

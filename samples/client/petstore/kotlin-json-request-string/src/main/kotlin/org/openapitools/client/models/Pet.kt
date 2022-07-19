@@ -45,7 +45,7 @@ import kotlinx.parcelize.Parcelize
  * @param status pet status in the store
  */
 @Parcelize
-@Serializable(with = PetSerializer::class)
+@Serializable
 data class Pet (
 
     @SerialName(value = "name")
@@ -74,7 +74,7 @@ data class Pet (
      *
      * Values: available,pending,sold,unknownDefaultOpenApi
      */
-    @Serializable
+    @Serializable(with = PetSerializer::class)
     enum class Status(val value: kotlin.String) {
         @SerialName(value = "available") available("available"),
         @SerialName(value = "pending") pending("pending"),

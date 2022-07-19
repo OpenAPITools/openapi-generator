@@ -39,7 +39,7 @@ import kotlinx.parcelize.Parcelize
  * @param name 
  */
 @Parcelize
-@Serializable(with = CategorySerializer::class)
+@Serializable
 data class Category (
 
     @SerialName(value = "id")

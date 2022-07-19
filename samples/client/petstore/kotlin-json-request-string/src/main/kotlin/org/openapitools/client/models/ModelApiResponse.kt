@@ -40,7 +40,7 @@ import kotlinx.parcelize.Parcelize
  * @param message 
  */
 @Parcelize
-@Serializable(with = ModelApiResponseSerializer::class)
+@Serializable
 data class ModelApiResponse (
 
     @SerialName(value = "code")
