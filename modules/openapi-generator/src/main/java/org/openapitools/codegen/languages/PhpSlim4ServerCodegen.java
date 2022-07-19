@@ -315,6 +315,15 @@ public class PhpSlim4ServerCodegen extends AbstractPhpCodegen {
         classname = classname.replaceAll("^" + abstractNamePrefix, "");
         classname = classname.replaceAll(abstractNameSuffix + "$", "");
         operations.put(USER_CLASSNAME_KEY, classname);
+
+        List<CodegenOperation> operationList = operations.getOperation();
+        for (CodegenOperation co : operationList) {
+            if (co.authMethods != null && !co.authMethods.isEmpty()) {
+                for (CodegenSecurity cs : co.authMethods) {
+                    cs.setClassname(camelize(cs.name));
+                }
+            }
+        }
     }
 
     @Override
