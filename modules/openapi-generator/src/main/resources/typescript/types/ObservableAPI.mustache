@@ -9,7 +9,7 @@ import { AbstractConfiguration } from "../services/configuration{{extensionForDe
 {{/useInversify}}
 {{#models}}
 {{#model}}
-import { {{{ classname }}} } from '../models/{{{ classFilename }}}{{extensionForDeno}}';
+import { {{{ classname }}} } from '{{{ importPath }}}{{extensionForDeno}}';
 {{/model}}
 {{/models}}
 {{#apiInfo}}

@@ -98,4 +98,32 @@ public class TypeScriptClientCodegenTest {
             Assert.fail("Exception was thrown.");
         }
     }
+
+    @Test
+    public void defaultModelImportTest() {
+        final DefaultCodegen codegen = new TypeScriptClientCodegen();
+        Assert.assertEquals(codegen.toModelImport("ApiResponse"), "../models/ApiResponse");
+    }
+
+    @Test
+    public void modelImportWithMappingTest() {
+        final DefaultCodegen codegen = new TypeScriptClientCodegen();
+        final String mappedName = "@namespace/dir/response";
+        codegen.importMapping().put("ApiResponse", mappedName);
+        Assert.assertEquals(codegen.toModelImport("ApiResponse"), mappedName);
+    }
+
+    @Test
+    public void defaulCurrentDirImportPathTest() {
+        final TypeScriptClientCodegen codegen = new TypeScriptClientCodegen();
+        Assert.assertEquals(codegen.toCurrentDirImportPath("ApiResponse"), "./ApiResponse");
+    }
+
+    @Test
+    public void currentDirImportPathWithMappingTest() {
+        final TypeScriptClientCodegen codegen = new TypeScriptClientCodegen();
+        final String mappedName = "@namespace/dir/response";
+        codegen.importMapping().put("ApiResponse", mappedName);
+        Assert.assertEquals(codegen.toCurrentDirImportPath("ApiResponse"), mappedName);
+    }
 }
