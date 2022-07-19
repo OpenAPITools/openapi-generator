@@ -284,9 +284,9 @@ public class PhpSlim4ServerCodegen extends AbstractPhpCodegen {
 
         // generate authenticator only when hasAuthMethods === true
         if (objs.containsKey("hasAuthMethods") && Boolean.TRUE.equals(objs.get("hasAuthMethods"))) {
-            supportingFiles.add(new SupportingFile("abstract_authenticator.mustache", toSrcPath(authPackage, srcBasePath), toAbstractName("Authenticator") + ".php"));
+            supportingFiles.add(new SupportingFile("abstract_security_schema.mustache", toSrcPath(authPackage, srcBasePath), toAbstractName("SecuritySchema") + ".php"));
         }
-        return objs;
+        return super.postProcessSupportingFileData(objs);
     }
 
     @Override
