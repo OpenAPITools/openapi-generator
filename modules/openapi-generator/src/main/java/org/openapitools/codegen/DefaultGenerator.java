@@ -60,6 +60,7 @@ import org.openapitools.codegen.utils.ImplementationVersion;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.ProcessUtils;
 import org.openapitools.codegen.utils.URLPathUtils;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -498,6 +499,8 @@ public class DefaultGenerator implements Generator {
                 Boolean.valueOf(GlobalSettings.getProperty(CodegenConstants.SKIP_FORM_MODEL)) :
                 getGeneratorPropertyDefaultSwitch(CodegenConstants.SKIP_FORM_MODEL, true);
 
+        config.processPackageMapping(schemas, modelKeys);
+
         // process models only
         for (String name : modelKeys) {
             try {
@@ -563,6 +566,15 @@ public class DefaultGenerator implements Generator {
                 schemaMap.put(name, schema);
                 ModelsMap models = processModels(config, schemaMap);
                 models.put("classname", config.toModelName(name));
+                // override vendor extension value with extension x-package-name used in spec
+                if (schema.getExtensions() != null && schema.getExtensions().get("x-package-name") != null) {
+                    Map<String, Object> vendorExtensions = (Map<String, Object>) models.get("vendorExtensions");
+                    if (vendorExtensions != null) {
+                        // x-package-name defined in OAS can be used to register the model package in config.modelsPackage through config.processPackageMapping
+                        // we thus retrieve the model package and convert it to a package name
+                        vendorExtensions.put("x-package-name", toPackageName(config.modelPackage(name)));
+                    }
+                }
                 models.putAll(config.additionalProperties());
                 allProcessedModels.put(name, models);
             } catch (Exception e) {
@@ -579,7 +591,7 @@ public class DefaultGenerator implements Generator {
         // generate files based on processed models
         for (String modelName : allProcessedModels.keySet()) {
             ModelsMap models = allProcessedModels.get(modelName);
-            models.put("modelPackage", config.modelPackage());
+            models.put("modelPackage", config.modelPackage(modelName));
             try {
                 //don't generate models that have a schema mapping
                 if (config.schemaMapping().containsKey(modelName)) {
@@ -619,6 +631,12 @@ public class DefaultGenerator implements Generator {
             Json.prettyPrint(allModels);
         }
 
+    }
+
+    // package name matches model package
+    // e.g. my_package/foo => my_package.foo
+    private String toPackageName(String modelPackage) {
+        return modelPackage.replace("/", ".");
     }
 
     @SuppressWarnings("unchecked")
@@ -1351,6 +1369,8 @@ public class DefaultGenerator implements Generator {
 
     private ModelsMap processModels(CodegenConfig config, Map<String, Schema> definitions) {
         ModelsMap objs = new ModelsMap();
+        Map<String, Object> vendorExtensions = new HashMap<>();
+        objs.put("vendorExtensions", vendorExtensions);
         objs.put("package", config.modelPackage());
         List<ModelMap> modelMaps = new ArrayList<>();
         Set<String> allImports = new LinkedHashSet<>();

@@ -530,6 +530,28 @@ public class ProtobufSchemaCodegenTest {
         }    
     }
 
+    @Test
+    public void testExtensionModelPackage() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        Map<String, String> globalProperties = new HashMap<>();
+
+        File output = Files.createTempDirectory("test").toFile();
+        List<File> files = generate(output, properties, globalProperties, "src/test/resources/3_0/package_structure/my_package/foo/extension-package-name.yaml");
+        // generation in different folders according to x-package-name
+        TestUtils.ensureContainsFile(files, output, "my_package/foo/pet.proto");
+        TestUtils.ensureContainsFile(files, output, "my_package/bar/photo.proto");
+        TestUtils.ensureContainsFile(files, output, "models/tag.proto");
+        
+        Path path = Paths.get(output + "/my_package/foo/pet.proto");
+        assertFileEquals(path, Paths.get("src/test/resources/3_0/protobuf-schema/package_structure/my_package/foo/pet.proto"));
+        path = Paths.get(output + "/my_package/bar/photo.proto");
+        assertFileEquals(path, Paths.get("src/test/resources/3_0/protobuf-schema/package_structure/my_package/bar/photo.proto"));
+        path = Paths.get(output + "/models/tag.proto");
+        assertFileEquals(path, Paths.get("src/test/resources/3_0/protobuf-schema/package_structure/models/tag.proto"));
+
+        output.delete();
+    }
+
     private void assertFileEquals(Path generatedFilePath, Path expectedFilePath) throws IOException {
         String generatedFile = new String(Files.readAllBytes(generatedFilePath), StandardCharsets.UTF_8)
             .replace("\n", "").replace("\r", "");

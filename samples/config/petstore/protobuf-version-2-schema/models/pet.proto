@@ -18,13 +18,13 @@ message Pet {
 
   optional int64 id = 3355;
 
-  optional Category category = 50511102;
+  optional petstore.Category category = 50511102;
 
   required string name = 3373707;
 
   repeated string photoUrls = 311086539;
 
-  repeated Tag tags = 3552281;
+  repeated petstore.Tag tags = 3552281;
 
   // pet status in the store
   enum Status {

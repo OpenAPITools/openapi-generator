@@ -24,7 +24,7 @@ service UserService {
 
   rpc DeleteUser (DeleteUserRequest) returns (google.protobuf.Empty);
 
-  rpc GetUserByName (GetUserByNameRequest) returns (User);
+  rpc GetUserByName (GetUserByNameRequest) returns (petstore.User);
 
   rpc LoginUser (LoginUserRequest) returns (LoginUserResponse);
 
@@ -36,19 +36,19 @@ service UserService {
 
 message CreateUserRequest {
   // Created user object
-  User user = 1;
+  petstore.User user = 1;
 
 }
 
 message CreateUsersWithArrayInputRequest {
   // List of user object
-  repeated User user = 1;
+  repeated petstore.User petstorePeriodUser = 1;
 
 }
 
 message CreateUsersWithListInputRequest {
   // List of user object
-  repeated User user = 1;
+  repeated petstore.User petstorePeriodUser = 1;
 
 }
 
@@ -80,7 +80,7 @@ message UpdateUserRequest {
   // name that need to be deleted
   string username = 1;
   // Updated user object
-  User user = 2;
+  petstore.User user = 2;
 
 }
 

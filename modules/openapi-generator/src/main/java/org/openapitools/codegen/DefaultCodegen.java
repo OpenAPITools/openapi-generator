@@ -159,6 +159,8 @@ public class DefaultCodegen implements CodegenConfig {
     protected Map<String, String> inlineSchemaNameMapping = new HashMap<>();
     // a map to store the inline schema naming conventions
     protected Map<String, String> inlineSchemaNameDefault = new HashMap<>();
+    //store models package path derived from extension x-package-name
+    protected Map<String, String> modelsPackage = new HashMap<>();
     protected String modelPackage = "", apiPackage = "", fileSuffix;
     protected String customOptionsPackage = "";
     protected String modelNamePrefix = "", modelNameSuffix = "";
@@ -441,6 +443,11 @@ public class DefaultCodegen implements CodegenConfig {
         additionalProperties.put("lambda", lambdas);
     }
 
+    // override with any special processing linked to models package mapping
+    @Override
+    public void processPackageMapping(Map<String, Schema> schemas, Set<String> modelKeys) {
+    }
+
     // override with any special post-processing for all models
     @Override
     @SuppressWarnings("static-method")
@@ -454,7 +461,7 @@ public class DefaultCodegen implements CodegenConfig {
                 List<Map<String, String>> importsValue = new ArrayList<>();
                 ModelsMap objsValue = new ModelsMap();
                 objsValue.setModels(Collections.singletonList(modelMapValue));
-                objsValue.put("package", modelPackage());
+                objsValue.put("package", modelPackage(cm.classname));
                 objsValue.setImports(importsValue);
                 objsValue.put("classname", cm.classname);
                 objsValue.putAll(additionalProperties);
@@ -1096,6 +1103,11 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     @Override
+    public Map<String, String> modelsPackage() {
+        return modelsPackage;
+    }
+
+    @Override
     public String testPackage() {
         return testPackage;
     }
@@ -1103,6 +1115,18 @@ public class DefaultCodegen implements CodegenConfig {
     @Override
     public String modelPackage() {
         return modelPackage;
+    }
+
+    // use model package defined using extension x-package-name if defined (and therefore stored in the map modelsPackage), otherwise use the modelPackage defined using the additional property 'modelPackage' (or default one)
+    @Override
+    public String modelPackage(String name) {
+        String modelName = toModelName(name);
+        if (modelsPackage.containsKey(modelName)) {
+            return modelsPackage.get(modelName);
+        }
+        else {
+            return modelPackage;
+        }
     }
 
     @Override
@@ -1579,10 +1603,10 @@ public class DefaultCodegen implements CodegenConfig {
      */
     @Override
     public String toModelImport(String name) {
-        if ("".equals(modelPackage())) {
+        if ("".equals(modelPackage(name))) {
             return name;
         } else {
-            return modelPackage() + "." + name;
+            return modelPackage(name) + "." + name;
         }
     }
 

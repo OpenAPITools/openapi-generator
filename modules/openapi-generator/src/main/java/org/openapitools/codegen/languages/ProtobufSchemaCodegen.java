@@ -474,6 +474,40 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         }
     }
 
+    public void processPackageMapping(Map<String, Schema> schemas, Set<String> modelKeys) {
+        // update models package mapping
+        for (String name : modelKeys) {
+            Schema schema = schemas.get(name);
+            String modelName = toModelName(name);
+            String modelPackageName = "";
+            if (schema.getExtensions() != null && schema.getExtensions().get("x-package-name") != null
+            && schema.getExtensions().get("x-package-name").toString().length() > 0) {
+                modelPackageName = toPackageName(schema.getExtensions().get("x-package-name").toString());
+                modelsPackage.put(modelName, toModelPackage(modelPackageName));
+            }
+            else {
+                modelPackageName = this.packageName;
+            }
+            // update typeMapping with x-package-name extension to map the models and the way they will be used as types
+            // update importMapping with x-package-name extension to map the models and their location
+            typeMapping.put(modelName, modelPackageName + "." + modelName);
+            importMapping.put(typeMapping.get(modelName), toModelImport(modelName));
+        }
+    }
+
+    // put in lower snake case with "." separations
+    // e.g. MyPackage.foo => my_package.foo
+    private String toPackageName(String name) {
+        // replace all "/" by "." after calling underscore and toLowerCase especially because underscore function replaces all "." by "/"        
+        return underscore(name).toLowerCase(Locale.ROOT).replace("/", ".");
+    }
+
+    // model package matches package name
+    // e.g. my_package.foo => my_package/foo
+    private String toModelPackage(String packageName) {        
+        return packageName.replace(".", "/");
+    }
+
     @Override
     public void updateEnumVarsWithExtensions(List<Map<String, Object>> enumVars, Map<String, Object> vendorExtensions, String dataType) {
         super.updateEnumVarsWithExtensions(enumVars, vendorExtensions, dataType);
@@ -604,6 +638,11 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
     @Override
     public ModelsMap postProcessModels(ModelsMap objs) {
         objs = postProcessModelsEnum(objs);
+        Map<String, Object> vendorExtensions = (Map<String, Object>) objs.get("vendorExtensions");
+        if (vendorExtensions != null) {
+            // in case x-package-name is not specified, all generated proto will be part of the package defined using the additional property 'packageName' (or openapitools package by default), within the folder defined using the additional property 'modelPackage' (models folder by default)
+            vendorExtensions.put("x-package-name", this.packageName);
+        }
 
         for (ModelMap mo : objs.getModels()) {
             CodegenModel cm = mo.getModel();
@@ -939,9 +978,12 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         return outputFolder + File.separatorChar + apiPackage;
     }
 
+    // override default behavior: the model file folder is based on the model package which can be defined when using the extension x-package-name
     @Override
-    public String modelFileFolder() {
-        return outputFolder + File.separatorChar + modelPackage;
+    public String modelFilename(String templateName, String modelName) {
+        String suffix = modelTemplateFiles().get(templateName);
+        String modelFileFolder = outputFolder + File.separatorChar + modelPackage(modelName);
+        return modelFileFolder + File.separator + toModelFilename(modelName) + suffix;
     }
 
     @Override
@@ -1146,7 +1188,18 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
 
     @Override
     public String toModelImport(String name) {
-        return modelPackage() + "/" + underscore(name);
+        return modelPackage(name) + "/" + underscore(name);
+    }
+
+    // override default behavior: search related type in typeMapping first
+    @Override
+    public String getTypeDeclaration(String name) {
+        if (typeMapping.containsKey(name)) {
+            return typeMapping.get(name);
+        }
+        else {
+            return name;
+        }
     }
 
     @Override

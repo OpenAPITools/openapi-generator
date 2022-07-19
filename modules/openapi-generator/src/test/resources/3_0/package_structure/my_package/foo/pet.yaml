@@ -1,0 +1,17 @@
+title: a Pet
+description: A pet for sale in the pet store
+type: object
+x-package-name: my_package.foo
+properties:
+  id:
+    type: integer
+  photoUrls:
+    type: array
+    items:
+      $ref: '../bar/photo.yaml'
+  name:
+    type: string
+  tags:
+    type: array
+    items:
+      $ref: '../../other/tag.yaml'

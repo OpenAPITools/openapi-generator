@@ -1,0 +1,16 @@
+openapi: 3.0.0
+info:
+  description: This specification is used as source for a test to demonstrate handling of x-package-name for generating files into different folders and packages
+  version: 1.0.0
+  title: Extension package name
+paths:
+  /models:
+    get:
+      description: This is a fake endpoint, used only to ease code-generation
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: pet.yaml
