@@ -68,6 +68,8 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected boolean useRlangExceptionHandling = false;
     protected String errorObjectType;
 
+    private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
+
     public CodegenType getTag() {
         return CodegenType.CLIENT;
     }
@@ -341,6 +343,12 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toModelName(String name) {
+        // memoization
+        String origName = name;
+        if (schemaKeyToModelNameCache.containsKey(origName)) {
+            return schemaKeyToModelNameCache.get(origName);
+        }
+
         if (!StringUtils.isEmpty(modelNamePrefix)) {
             name = modelNamePrefix + "_" + name;
         }
@@ -364,6 +372,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
             name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
         }
 
+        schemaKeyToModelNameCache.put(origName, camelize(name));
         return camelize(name);
     }
 
