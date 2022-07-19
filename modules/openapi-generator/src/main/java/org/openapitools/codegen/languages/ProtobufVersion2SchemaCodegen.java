@@ -20,8 +20,6 @@ import org.slf4j.LoggerFactory;
 
 public class ProtobufVersion2SchemaCodegen extends ProtobufSchemaCodegen implements CodegenConfig {
 
-    static final Logger LOGGER = LoggerFactory.getLogger(ProtobufVersion2SchemaCodegen.class);
-
     @Override
     public String getName() {
         return "protobuf-version-2-schema";

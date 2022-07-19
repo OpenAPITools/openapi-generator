@@ -12,8 +12,8 @@ syntax = "proto2";
 package petstore.services.petservice;
 
 import "google/protobuf/empty.proto";
-import public "models/models/api_response.proto";
-import public "models/models/pet.proto";
+import "models/api_response.proto";
+import "models/pet.proto";
 
 service PetService {
   rpc AddPet (AddPetRequest) returns (Pet);
