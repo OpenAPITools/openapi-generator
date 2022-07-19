@@ -1,5 +1,6 @@
 package org.openapitools.model;
 
+import java.util.Objects;
 import org.openapitools.model.Animal;
 import javax.validation.constraints.*;
 import javax.validation.Valid;

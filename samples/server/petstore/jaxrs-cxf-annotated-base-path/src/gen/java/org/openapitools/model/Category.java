@@ -1,5 +1,6 @@
 package org.openapitools.model;
 
+import java.util.Objects;
 import io.swagger.annotations.ApiModel;
 import javax.validation.constraints.*;
 import javax.validation.Valid;

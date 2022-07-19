@@ -1,5 +1,6 @@
 package org.openapitools.model;
 
+import java.util.Objects;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;

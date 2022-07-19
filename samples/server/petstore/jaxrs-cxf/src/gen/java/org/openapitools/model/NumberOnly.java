@@ -1,5 +1,6 @@
 package org.openapitools.model;
 
+import java.util.Objects;
 import java.math.BigDecimal;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
