@@ -13,7 +13,7 @@ syntax = "proto3";
 package petstore.services.userservice;
 
 import "google/protobuf/empty.proto";
-import public "models/user.proto";
+import "models/user.proto";
 
 service UserService {
   rpc CreateUser (CreateUserRequest) returns (google.protobuf.Empty);
