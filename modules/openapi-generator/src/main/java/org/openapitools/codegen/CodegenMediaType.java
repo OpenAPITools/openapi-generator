@@ -12,7 +12,9 @@ public class CodegenMediaType {
     public CodegenMediaType(CodegenProperty schema, LinkedHashMap<String, CodegenEncoding> encoding, HashMap<String, SchemaTestCase> testCases) {
         this.schema = schema;
         this.encoding = encoding;
-        this.testCases = testCases;
+        if (testCases != null) {
+            this.testCases = testCases;
+        }
     }
 
     public CodegenProperty getSchema() {
