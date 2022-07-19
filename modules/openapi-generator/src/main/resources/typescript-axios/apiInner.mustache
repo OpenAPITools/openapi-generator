@@ -146,12 +146,16 @@ export const {{classname}}AxiosParamCreator = function (configuration?: Configur
             }
             {{/isArray}}
             {{^isArray}}
-            if ({{paramName}} !== undefined && {{paramName}} !== null) {
+            {{! `val == null` covers for both `null` and `undefined`}}
+            if ({{paramName}} != null) {
                 {{#isString}}
                 localVarHeaderParameter['{{baseName}}'] = String({{paramName}});
                 {{/isString}}
                 {{^isString}}
-                localVarHeaderParameter['{{baseName}}'] = String(JSON.stringify({{paramName}}));
+                {{! isString is falsy also for $ref that defines a string or enum type}}
+                localVarHeaderParameter['{{baseName}}'] = typeof {{paramName}} === 'string' 
+                    ? {{paramName}} 
+                    : JSON.stringify({{paramName}});
                 {{/isString}}
             }
             {{/isArray}}
