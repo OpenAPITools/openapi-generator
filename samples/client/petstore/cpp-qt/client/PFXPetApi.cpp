@@ -363,7 +363,7 @@ void PFXPetApi::allPetsCallback(PFXHttpRequestWorker *worker) {
     QByteArray array(json.toStdString().c_str());
     QJsonDocument doc = QJsonDocument::fromJson(array);
     QJsonArray jsonArray = doc.array();
-    foreach (QJsonValue obj, jsonArray) {
+    for (QJsonValue obj : jsonArray) {
         PFXPet val;
         ::test_namespace::fromJsonValue(val, obj);
         output.insert(val);
@@ -501,7 +501,7 @@ void PFXPetApi::findPetsByStatus(const QList<QString> &status) {
         queryDelimiter = getParamStyleDelimiter(queryStyle, "status", false);
         if (status.size() > 0) {
             if (QString("csv").indexOf("multi") == 0) {
-                foreach (QString t, status) {
+                for (QString t : status) {
                     if (fullPath.indexOf("?") > 0)
                         fullPath.append(queryPrefix);
                     else
@@ -514,7 +514,7 @@ void PFXPetApi::findPetsByStatus(const QList<QString> &status) {
                 else
                     fullPath.append("?").append(queryPrefix).append("status").append(querySuffix);
                 qint32 count = 0;
-                foreach (QString t, status) {
+                for (QString t : status) {
                     if (count > 0) {
                         fullPath.append((false)? queryDelimiter : QUrl::toPercentEncoding(queryDelimiter));
                     }
@@ -527,7 +527,7 @@ void PFXPetApi::findPetsByStatus(const QList<QString> &status) {
                 else
                     fullPath.append("?").append(queryPrefix).append("status").append(querySuffix);
                 qint32 count = 0;
-                foreach (QString t, status) {
+                for (QString t : status) {
                     if (count > 0) {
                         fullPath.append("\t");
                     }
@@ -540,7 +540,7 @@ void PFXPetApi::findPetsByStatus(const QList<QString> &status) {
                 else
                     fullPath.append("?").append(queryPrefix).append("status").append(querySuffix);
                 qint32 count = 0;
-                foreach (QString t, status) {
+                for (QString t : status) {
                     if (count > 0) {
                         fullPath.append(queryDelimiter);
                     }
@@ -553,7 +553,7 @@ void PFXPetApi::findPetsByStatus(const QList<QString> &status) {
                 else
                     fullPath.append("?").append(queryPrefix).append("status").append(querySuffix);
                 qint32 count = 0;
-                foreach (QString t, status) {
+                for (QString t : status) {
                     if (count > 0) {
                         fullPath.append(queryDelimiter);
                     }
@@ -566,7 +566,7 @@ void PFXPetApi::findPetsByStatus(const QList<QString> &status) {
                 else
                     fullPath.append("?").append(queryPrefix).append("status").append(querySuffix);
                 qint32 count = 0;
-                foreach (QString t, status) {
+                for (QString t : status) {
                     if (count > 0) {
                         fullPath.append(queryDelimiter);
                     }
@@ -643,7 +643,7 @@ void PFXPetApi::findPetsByStatusCallback(PFXHttpRequestWorker *worker) {
     QByteArray array(json.toStdString().c_str());
     QJsonDocument doc = QJsonDocument::fromJson(array);
     QJsonArray jsonArray = doc.array();
-    foreach (QJsonValue obj, jsonArray) {
+    for (QJsonValue obj : jsonArray) {
         PFXPet val;
         ::test_namespace::fromJsonValue(val, obj);
         output.append(val);
@@ -685,7 +685,7 @@ void PFXPetApi::findPetsByTags(const QList<QString> &tags) {
         queryDelimiter = getParamStyleDelimiter(queryStyle, "tags", false);
         if (tags.size() > 0) {
             if (QString("csv").indexOf("multi") == 0) {
-                foreach (QString t, tags) {
+                for (QString t : tags) {
                     if (fullPath.indexOf("?") > 0)
                         fullPath.append(queryPrefix);
                     else
@@ -698,7 +698,7 @@ void PFXPetApi::findPetsByTags(const QList<QString> &tags) {
                 else
                     fullPath.append("?").append(queryPrefix).append("tags").append(querySuffix);
                 qint32 count = 0;
-                foreach (QString t, tags) {
+                for (QString t : tags) {
                     if (count > 0) {
                         fullPath.append((false)? queryDelimiter : QUrl::toPercentEncoding(queryDelimiter));
                     }
@@ -711,7 +711,7 @@ void PFXPetApi::findPetsByTags(const QList<QString> &tags) {
                 else
                     fullPath.append("?").append(queryPrefix).append("tags").append(querySuffix);
                 qint32 count = 0;
-                foreach (QString t, tags) {
+                for (QString t : tags) {
                     if (count > 0) {
                         fullPath.append("\t");
                     }
@@ -724,7 +724,7 @@ void PFXPetApi::findPetsByTags(const QList<QString> &tags) {
                 else
                     fullPath.append("?").append(queryPrefix).append("tags").append(querySuffix);
                 qint32 count = 0;
-                foreach (QString t, tags) {
+                for (QString t : tags) {
                     if (count > 0) {
                         fullPath.append(queryDelimiter);
                     }
@@ -737,7 +737,7 @@ void PFXPetApi::findPetsByTags(const QList<QString> &tags) {
                 else
                     fullPath.append("?").append(queryPrefix).append("tags").append(querySuffix);
                 qint32 count = 0;
-                foreach (QString t, tags) {
+                for (QString t : tags) {
                     if (count > 0) {
                         fullPath.append(queryDelimiter);
                     }
@@ -750,7 +750,7 @@ void PFXPetApi::findPetsByTags(const QList<QString> &tags) {
                 else
                     fullPath.append("?").append(queryPrefix).append("tags").append(querySuffix);
                 qint32 count = 0;
-                foreach (QString t, tags) {
+                for (QString t : tags) {
                     if (count > 0) {
                         fullPath.append(queryDelimiter);
                     }
@@ -827,7 +827,7 @@ void PFXPetApi::findPetsByTagsCallback(PFXHttpRequestWorker *worker) {
     QByteArray array(json.toStdString().c_str());
     QJsonDocument doc = QJsonDocument::fromJson(array);
     QJsonArray jsonArray = doc.array();
-    foreach (QJsonValue obj, jsonArray) {
+    for (QJsonValue obj : jsonArray) {
         PFXPet val;
         ::test_namespace::fromJsonValue(val, obj);
         output.append(val);

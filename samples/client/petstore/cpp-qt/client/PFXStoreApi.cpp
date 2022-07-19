@@ -326,7 +326,7 @@ void PFXStoreApi::getInventoryCallback(PFXHttpRequestWorker *worker) {
     QByteArray array(json.toStdString().c_str());
     QJsonDocument doc = QJsonDocument::fromJson(array);
     QJsonObject obj = doc.object();
-    foreach (QString key, obj.keys()) {
+    for (QString key : obj.keys()) {
         qint32 val;
         ::test_namespace::fromJsonValue(val, obj[key]);
         output.insert(key, val);
