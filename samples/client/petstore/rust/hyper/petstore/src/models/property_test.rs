@@ -15,7 +15,7 @@
 #[derive(Clone, Debug, PartialEq, Default, Serialize, Deserialize)]
 pub struct PropertyTest {
     #[serde(rename = "uuid", skip_serializing_if = "Option::is_none")]
-    pub uuid: Option<uuid::Uuid>,
+    pub uuid: Option<String>,
 }
 
 impl PropertyTest {
