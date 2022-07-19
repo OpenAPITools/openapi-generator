@@ -1180,7 +1180,7 @@ class StoreApi
      */
     protected function createHttpClientOption()
     {
-        $options = [];
+        $options = $this->config->getOptions();
         if ($this->config->getDebug()) {
             $options[RequestOptions::DEBUG] = fopen($this->config->getDebugFile(), 'a');
             if (!$options[RequestOptions::DEBUG]) {
