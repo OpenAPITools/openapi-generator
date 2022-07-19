@@ -13,26 +13,26 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import type { Category } from './Category';
 import {
-    Category,
     CategoryFromJSON,
     CategoryFromJSONTyped,
     CategoryToJSON,
 } from './Category';
+import type { DeploymentRequestStatus } from './DeploymentRequestStatus';
 import {
-    DeploymentRequestStatus,
     DeploymentRequestStatusFromJSON,
     DeploymentRequestStatusFromJSONTyped,
     DeploymentRequestStatusToJSON,
 } from './DeploymentRequestStatus';
+import type { Tag } from './Tag';
 import {
-    Tag,
     TagFromJSON,
     TagFromJSONTyped,
     TagToJSON,
 } from './Tag';
+import type { WarningCode } from './WarningCode';
 import {
-    WarningCode,
     WarningCodeFromJSON,
     WarningCodeFromJSONTyped,
     WarningCodeToJSON,
@@ -183,6 +183,29 @@ export const PetStatusEnum = {
 } as const;
 export type PetStatusEnum = typeof PetStatusEnum[keyof typeof PetStatusEnum];
 
+
+/**
+ * Check if a given object implements the Pet interface.
+ */
+export function instanceOfPet(value: object): boolean {
+    let isInstance = true;
+    isInstance = isInstance && "id" in value;
+    isInstance = isInstance && "otherFriendIds" in value;
+    isInstance = isInstance && "friendAge" in value;
+    isInstance = isInstance && "age" in value;
+    isInstance = isInstance && "isHappy" in value;
+    isInstance = isInstance && "isTall" in value;
+    isInstance = isInstance && "category" in value;
+    isInstance = isInstance && "name" in value;
+    isInstance = isInstance && "photoUrls" in value;
+    isInstance = isInstance && "warningStatus" in value;
+    isInstance = isInstance && "alternateStatus" in value;
+    isInstance = isInstance && "otherDepStatuses" in value;
+    isInstance = isInstance && "tags" in value;
+    isInstance = isInstance && "status" in value;
+
+    return isInstance;
+}
 
 export function PetFromJSON(json: any): Pet {
     return PetFromJSONTyped(json, false);

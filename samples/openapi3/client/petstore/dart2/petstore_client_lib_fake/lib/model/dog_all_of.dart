@@ -40,6 +40,8 @@ class DogAllOf {
     final _json = <String, dynamic>{};
     if (breed != null) {
       _json[r'breed'] = breed;
+    } else {
+      _json[r'breed'] = null;
     }
     return _json;
   }

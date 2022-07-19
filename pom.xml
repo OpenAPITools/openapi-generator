@@ -1142,8 +1142,8 @@
                 <module>samples/server/petstore/php-lumen</module>-->
                 <module>samples/server/petstore/rust-server</module>
                 <!-- clients -->
-                <!--<module>samples/client/petstore/perl</module>
-                <module>samples/client/petstore/bash</module>-->
+                <module>samples/client/petstore/perl</module>
+                <!--<module>samples/client/petstore/bash</module>-->
                 <module>samples/client/petstore/ruby-faraday</module>
                 <module>samples/client/petstore/ruby</module>
                 <!-- comment out as it's not working as the moment
@@ -1208,7 +1208,7 @@
                 <module>samples/client/petstore/typescript-nestjs-v6-provided-in-root</module>-->
                 <!-- comment out due to error `npm run build`
                 <module>samples/client/petstore/typescript-jquery/npm</module>-->
-                <module>samples/client/petstore/typescript-angular-v11-provided-in-root</module>
+                <module>samples/client/petstore/typescript-angular-v12-provided-in-root</module>
                 <module>samples/client/petstore/typescript-angular-v13-provided-in-root</module>
                 <module>samples/openapi3/client/petstore/typescript/builds/default</module>
                 <module>samples/openapi3/client/petstore/typescript/tests/default</module>

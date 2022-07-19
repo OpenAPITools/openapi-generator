@@ -60,6 +60,8 @@ from petstore_api.schemas import (  # noqa: F401
     BoolBase,
     BinaryBase,
     Schema,
+    NoneClass,
+    BoolClass,
     _SchemaValidator,
     _SchemaTypeChecker,
     _SchemaEnumMaker
@@ -80,13 +82,13 @@ class ObjectWithDifficultlyNamedProps(
         '123-list',
     ))
     special_property_name = Int64Schema
-    locals()['$special[property.name]'] = special_property_name
+    locals()["$special[property.name]"] = special_property_name
     del locals()['special_property_name']
     _123_list = StrSchema
-    locals()['123-list'] = _123_list
+    locals()["123-list"] = _123_list
     del locals()['_123_list']
     _123_number = IntSchema
-    locals()['123Number'] = _123_number
+    locals()["123Number"] = _123_number
     del locals()['_123_number']
 
 

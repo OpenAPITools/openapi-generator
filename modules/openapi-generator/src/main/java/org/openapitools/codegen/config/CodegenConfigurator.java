@@ -68,7 +68,9 @@ public class CodegenConfigurator {
     private Map<String, String> typeMappings = new HashMap<>();
     private Map<String, Object> additionalProperties = new HashMap<>();
     private Map<String, String> importMappings = new HashMap<>();
+    private Map<String, String> schemaMappings = new HashMap<>();
     private Map<String, String> inlineSchemaNameMappings = new HashMap<>();
+    private Map<String, String> inlineSchemaNameDefaults = new HashMap<>();
     private Set<String> languageSpecificPrimitives = new HashSet<>();
     private Map<String, String> reservedWordsMappings = new HashMap<>();
     private Map<String, String> serverVariables = new HashMap<>();
@@ -112,8 +114,14 @@ public class CodegenConfigurator {
             if(generatorSettings.getImportMappings() != null) {
                 configurator.importMappings.putAll(generatorSettings.getImportMappings());
             }
+            if(generatorSettings.getSchemaMappings() != null) {
+                configurator.schemaMappings.putAll(generatorSettings.getSchemaMappings());
+            }
             if(generatorSettings.getInlineSchemaNameMappings() != null) {
                 configurator.inlineSchemaNameMappings.putAll(generatorSettings.getInlineSchemaNameMappings());
+            }
+            if(generatorSettings.getInlineSchemaNameDefaults() != null) {
+                configurator.inlineSchemaNameDefaults.putAll(generatorSettings.getInlineSchemaNameDefaults());
             }
             if(generatorSettings.getLanguageSpecificPrimitives() != null) {
                 configurator.languageSpecificPrimitives.addAll(generatorSettings.getLanguageSpecificPrimitives());
@@ -184,9 +192,21 @@ public class CodegenConfigurator {
         return this;
     }
 
+    public CodegenConfigurator addSchemaMapping(String key, String value) {
+        this.schemaMappings.put(key, value);
+        generatorSettingsBuilder.withSchemaMapping(key, value);
+        return this;
+    }
+
     public CodegenConfigurator addInlineSchemaNameMapping(String key, String value) {
         this.inlineSchemaNameMappings.put(key, value);
         generatorSettingsBuilder.withInlineSchemaNameMapping(key, value);
+        return this;
+    }
+
+    public CodegenConfigurator addInlineSchemaNameDefault(String key, String value) {
+        this.inlineSchemaNameDefaults.put(key, value);
+        generatorSettingsBuilder.withInlineSchemaNameDefault(key, value);
         return this;
     }
 
@@ -344,9 +364,21 @@ public class CodegenConfigurator {
         return this;
     }
 
+    public CodegenConfigurator setSchemaMappings(Map<String, String> schemaMappings) {
+        this.schemaMappings = schemaMappings;
+        generatorSettingsBuilder.withSchemaMappings(schemaMappings);
+        return this;
+    }
+
     public CodegenConfigurator setInlineSchemaNameMappings(Map<String, String> inlineSchemaNameMappings) {
         this.inlineSchemaNameMappings = inlineSchemaNameMappings;
         generatorSettingsBuilder.withInlineSchemaNameMappings(inlineSchemaNameMappings);
+        return this;
+    }
+
+    public CodegenConfigurator setInlineSchemaNameDefaults(Map<String, String> inlineSchemaNameDefaults) {
+        this.inlineSchemaNameDefaults = inlineSchemaNameDefaults;
+        generatorSettingsBuilder.withInlineSchemaNameDefaults(inlineSchemaNameDefaults);
         return this;
     }
 
@@ -626,7 +658,9 @@ public class CodegenConfigurator {
         config.instantiationTypes().putAll(generatorSettings.getInstantiationTypes());
         config.typeMapping().putAll(generatorSettings.getTypeMappings());
         config.importMapping().putAll(generatorSettings.getImportMappings());
+        config.schemaMapping().putAll(generatorSettings.getSchemaMappings());
         config.inlineSchemaNameMapping().putAll(generatorSettings.getInlineSchemaNameMappings());
+        config.inlineSchemaNameDefault().putAll(generatorSettings.getInlineSchemaNameDefaults());
         config.languageSpecificPrimitives().addAll(generatorSettings.getLanguageSpecificPrimitives());
         config.reservedWordsMappings().putAll(generatorSettings.getReservedWordsMappings());
         config.additionalProperties().putAll(generatorSettings.getAdditionalProperties());

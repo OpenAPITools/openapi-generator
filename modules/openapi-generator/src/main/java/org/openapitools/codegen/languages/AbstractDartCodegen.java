@@ -109,7 +109,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         apiTestTemplateFiles.put("api_test.mustache", ".dart");
 
         final List<String> reservedWordsList = new ArrayList<>();
-        try(BufferedReader reader = new BufferedReader(
+        try (BufferedReader reader = new BufferedReader(
                 new InputStreamReader(DartClientCodegen.class.getResourceAsStream("/dart/dart-keywords.txt"),
                         StandardCharsets.UTF_8))) {
             while (reader.ready()) {
@@ -445,7 +445,8 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         return underscore(toModelName(name));
     }
 
-    @Override public String toModelDocFilename(String name) {
+    @Override
+    public String toModelDocFilename(String name) {
         return toModelName(name);
     }
 
@@ -488,7 +489,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
 
     @Override
     public String getTypeDeclaration(Schema p) {
-        Schema<?> schema = ModelUtils.unaliasSchema(this.openAPI, p, importMapping);
+        Schema<?> schema = unaliasSchema(p);
         Schema<?> target = ModelUtils.isGenerateAliasAsModel() ? p : schema;
         if (ModelUtils.isArraySchema(target)) {
             Schema<?> items = getSchemaItems((ArraySchema) schema);
@@ -551,8 +552,8 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
     }
 
     @Override
-    public CodegenProperty fromProperty(String name, Schema p) {
-        final CodegenProperty property = super.fromProperty(name, p);
+    public CodegenProperty fromProperty(String name, Schema p, boolean required) {
+        final CodegenProperty property = super.fromProperty(name, p, required);
 
         // Handle composed properties
         if (ModelUtils.isComposedSchema(p)) {
@@ -819,5 +820,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.DART; }
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.DART;
+    }
 }

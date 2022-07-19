@@ -42,6 +42,7 @@ public class InlineModelResolver {
     private Map<String, Schema> addedModels = new HashMap<>();
     private Map<String, String> generatedSignature = new HashMap<>();
     private Map<String, String> inlineSchemaNameMapping = new HashMap<>();
+    private Map<String, String> inlineSchemaNameDefaults = new HashMap<>();
     private Set<String> inlineSchemaNameMappingValues = new HashSet<>();
     public boolean resolveInlineEnums = false;
 
@@ -60,9 +61,18 @@ public class InlineModelResolver {
 
     final Logger LOGGER = LoggerFactory.getLogger(InlineModelResolver.class);
 
+    public InlineModelResolver() {
+        this.inlineSchemaNameDefaults.put("arrayItemSuffix", "_inner");
+        this.inlineSchemaNameDefaults.put("mapItemSuffix", "_value");
+    }
+
     public void setInlineSchemaNameMapping(Map inlineSchemaNameMapping) {
         this.inlineSchemaNameMapping = inlineSchemaNameMapping;
         this.inlineSchemaNameMappingValues = new HashSet<>(inlineSchemaNameMapping.values());
+    }
+
+    public void setInlineSchemaNameDefaults(Map inlineSchemaNameDefaults) {
+        this.inlineSchemaNameDefaults.putAll(inlineSchemaNameDefaults);
     }
 
     void flatten(OpenAPI openAPI) {
@@ -147,6 +157,26 @@ public class InlineModelResolver {
      * @param schema target schema
      */
     private boolean isModelNeeded(Schema schema) {
+        return isModelNeeded(schema, new HashSet<>());
+    }
+
+    /**
+     * Return false if model can be represented by primitives e.g. string, object
+     * without properties, array or map of other model (model contanier), etc.
+     * <p>
+     * Return true if a model should be generated e.g. object with properties,
+     * enum, oneOf, allOf, anyOf, etc.
+     *
+     * @param schema target schema
+     * @param visitedSchemas Visited schemas
+     */
+    private boolean isModelNeeded(Schema schema, Set<Schema> visitedSchemas) {
+        if (visitedSchemas.contains(schema)) { // circular reference
+            return true;
+        } else {
+            visitedSchemas.add(schema);
+        }
+
         if (resolveInlineEnums && schema.getEnum() != null && schema.getEnum().size() > 0) {
             return true;
         }
@@ -162,7 +192,7 @@ public class InlineModelResolver {
             if (m.getAllOf() != null && !m.getAllOf().isEmpty()) {
                 // check to ensure at least of the allOf item is model
                 for (Schema inner : m.getAllOf()) {
-                    if (isModelNeeded(ModelUtils.getReferencedSchema(openAPI, inner))) {
+                    if (isModelNeeded(ModelUtils.getReferencedSchema(openAPI, inner), visitedSchemas)) {
                         return true;
                     }
                 }
@@ -230,7 +260,7 @@ public class InlineModelResolver {
             if (schema.getAdditionalProperties() != null) {
                 if (schema.getAdditionalProperties() instanceof Schema) {
                     Schema inner = (Schema) schema.getAdditionalProperties();
-                    String schemaName = resolveModelName(schema.getTitle(), modelPrefix + "_value");
+                    String schemaName = resolveModelName(schema.getTitle(), modelPrefix + this.inlineSchemaNameDefaults.get("mapItemSuffix"));
                     // Recurse to create $refs for inner models
                     gatherInlineModels(inner, schemaName);
                     if (isModelNeeded(inner)) {
@@ -265,7 +295,7 @@ public class InlineModelResolver {
                         " items must be defined for array schemas:\n " + schema.toString());
                 return;
             }
-            String schemaName = resolveModelName(items.getTitle(), modelPrefix + "_inner");
+            String schemaName = resolveModelName(items.getTitle(), modelPrefix + this.inlineSchemaNameDefaults.get("arrayItemSuffix"));
 
             // Recurse to create $refs for inner models
             gatherInlineModels(items, schemaName);

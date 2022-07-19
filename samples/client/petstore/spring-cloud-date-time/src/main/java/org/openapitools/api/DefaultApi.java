@@ -54,7 +54,7 @@ public interface DefaultApi {
         @ApiParam(value = "A date path parameter", required = true, defaultValue = "1972-01-01") @PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
         @NotNull @ApiParam(value = "A date-time query parameter", required = true, defaultValue = "1973-12-19T03:39:57-08:00") @Valid @RequestParam(value = "dateTime", required = true, defaultValue = "1973-12-19T03:39:57-08:00") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime dateTime,
         @ApiParam(value = "A date header parameter", required = true, defaultValue = "1974-01-01") @RequestHeader(value = "X-Order-Date", required = true, defaultValue = "1974-01-01") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate xOrderDate,
-        @ApiParam(value = "A date cookie parameter", defaultValue = "1975-01-01") @CookieValue(name="loginDate", defaultValue = "1975-01-01") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate loginDate
+        @ApiParam(value = "A date cookie parameter", defaultValue = "1975-01-01") @CookieValue(name = "loginDate", required = false, defaultValue = "1975-01-01") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate loginDate
     );
 
 

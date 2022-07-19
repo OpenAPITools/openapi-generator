@@ -700,7 +700,7 @@ export interface List {
  * @type Mammal
  * @export
  */
-export type Mammal = Whale | Zebra;
+export type Mammal = { className: 'whale' } & Whale | { className: 'zebra' } & Zebra;
 
 /**
  * 

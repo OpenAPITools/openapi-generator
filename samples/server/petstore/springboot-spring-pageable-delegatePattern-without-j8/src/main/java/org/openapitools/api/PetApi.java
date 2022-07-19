@@ -149,6 +149,7 @@ public interface PetApi {
      *         or Invalid tag value (status code 400)
      * @deprecated
      */
+    @Deprecated
     @ApiOperation(
         tags = { "pet" },
         value = "Finds Pets by tags",

@@ -235,14 +235,14 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     }
 
     @Override
-    public String toModelImport(String name){
-        if(isUnionType(name)){
-           LOGGER.warn("The import is a union type. Consider using the toModelImportMap method.");
-           return toModelImportMap(name).values().stream().collect(Collectors.joining("|"));
+    public String toModelImport(String name) {
+        if (isUnionType(name)) {
+            LOGGER.warn("The import is a union type. Consider using the toModelImportMap method.");
+            return toModelImportMap(name).values().stream().collect(Collectors.joining("|"));
         }
-        if(isIntersectionType(name)){
-           LOGGER.warn("The import is a intersection type. Consider using the toModelImportMap method.");
-           return toModelImportMap(name).values().stream().collect(Collectors.joining("&"));
+        if (isIntersectionType(name)) {
+            LOGGER.warn("The import is a intersection type. Consider using the toModelImportMap method.");
+            return toModelImportMap(name).values().stream().collect(Collectors.joining("&"));
         }
         return super.toModelImport(name);
     }
@@ -255,26 +255,26 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
      * @return Map between the fully qualified model import and the initial given name.
      */
     @Override
-    public Map<String,String> toModelImportMap(String name){
+    public Map<String, String> toModelImportMap(String name) {
         return toImportMap(splitComposedType(name));
     }
 
-    private String[] splitComposedType (String name) {
-       return name.replace(" ","").split("[|&<>]");
+    private String[] splitComposedType(String name) {
+        return name.replace(" ", "").split("[|&<>]");
     }
 
-    private boolean isUnionType(String name){
+    private boolean isUnionType(String name) {
         return name.contains("|");
     }
 
-    private boolean isIntersectionType(String name){
+    private boolean isIntersectionType(String name) {
         return name.contains("&");
     }
 
-    private Map<String,String> toImportMap(String... names) {
-        Map<String,String> result = new HashMap<>();
-        for(final String name : names) {
-            if(needToImport(name)) {
+    private Map<String, String> toImportMap(String... names) {
+        Map<String, String> result = new HashMap<>();
+        for (final String name : names) {
+            if (needToImport(name)) {
                 result.put(toModelImport(name), name);
             }
         }
@@ -430,11 +430,11 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
             Schema<?> items = getSchemaItems((ArraySchema) p);
-            return getSchemaType(p) + "<" + getTypeDeclaration(ModelUtils.unaliasSchema(this.openAPI, items)) + ">";
+            return getSchemaType(p) + "<" + getTypeDeclaration(unaliasSchema(items)) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema<?> inner = getSchemaAdditionalProperties(p);
             String nullSafeSuffix = getNullSafeAdditionalProps() ? " | undefined" : "";
-            return "{ [key: string]: " + getTypeDeclaration(ModelUtils.unaliasSchema(this.openAPI, inner)) + nullSafeSuffix  + "; }";
+            return "{ [key: string]: " + getTypeDeclaration(unaliasSchema(inner)) + nullSafeSuffix + "; }";
         } else if (ModelUtils.isFileSchema(p)) {
             return "any";
         } else if (ModelUtils.isBinarySchema(p)) {
@@ -726,7 +726,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
                     .map(value -> "'" + value.name() + "'")
                     .collect(Collectors.joining(", "));
 
-            String msg = String.format(Locale.ROOT, "Invalid enum property naming '%s'. Must be one of %s.",naming, values);
+            String msg = String.format(Locale.ROOT, "Invalid enum property naming '%s'. Must be one of %s.", naming, values);
             throw new IllegalArgumentException(msg);
         }
     }
@@ -942,8 +942,8 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
      */
     protected List<String> getTypesFromSchemas(List<Schema> schemas) {
         List<Schema> filteredSchemas = schemas.size() > 1
-            ? schemas.stream().filter(schema -> !"AnyType".equals(super.getSchemaType(schema))).collect(Collectors.toList())
-            : schemas;
+                ? schemas.stream().filter(schema -> !"AnyType".equals(super.getSchemaType(schema))).collect(Collectors.toList())
+                : schemas;
 
         return filteredSchemas.stream().map(schema -> {
             String schemaType = getSchemaType(schema);
@@ -957,5 +957,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.TYPESCRIPT; }
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.TYPESCRIPT;
+    }
 }

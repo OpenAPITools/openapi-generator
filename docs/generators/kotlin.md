@@ -26,10 +26,12 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |enumPropertyNaming|Naming convention for enum properties: 'camelCase', 'PascalCase', 'snake_case', 'UPPERCASE', and 'original'| |camelCase|
 |generateRoomModels|Generate Android Room database models in addition to API models (JVM Volley library only)| |false|
 |groupId|Generated artifact package's organization (i.e. maven groupId).| |org.openapitools|
+|idea|Add IntellJ Idea plugin and mark Kotlin main and test folders as source folders.| |false|
 |library|Library template (sub-template) to use|<dl><dt>**jvm-ktor**</dt><dd>Platform: Java Virtual Machine. HTTP client: Ktor 1.6.7. JSON processing: Gson, Jackson (default).</dd><dt>**jvm-okhttp4**</dt><dd>[DEFAULT] Platform: Java Virtual Machine. HTTP client: OkHttp 4.2.0 (Android 5.0+ and Java 8+). JSON processing: Moshi 1.8.0.</dd><dt>**jvm-okhttp3**</dt><dd>Platform: Java Virtual Machine. HTTP client: OkHttp 3.12.4 (Android 2.3+ and Java 7+). JSON processing: Moshi 1.8.0.</dd><dt>**jvm-retrofit2**</dt><dd>Platform: Java Virtual Machine. HTTP client: Retrofit 2.6.2.</dd><dt>**multiplatform**</dt><dd>Platform: Kotlin multiplatform. HTTP client: Ktor 1.6.7. JSON processing: Kotlinx Serialization: 1.2.1.</dd><dt>**jvm-volley**</dt><dd>Platform: JVM for Android. HTTP client: Volley 1.2.1. JSON processing: gson 2.8.9</dd></dl>|jvm-okhttp4|
 |modelMutable|Create mutable models| |false|
 |moshiCodeGen|Whether to enable codegen with the Moshi library. Refer to the [official Moshi doc](https://github.com/square/moshi#codegen) for more info.| |false|
 |omitGradlePluginVersions|Whether to declare Gradle plugin versions in build files.| |false|
+|omitGradleWrapper|Whether to omit Gradle wrapper for creating a sub project.| |false|
 |packageName|Generated artifact package name.| |org.openapitools.client|
 |parcelizeModels|toggle &quot;@Parcelize&quot; for generated models| |null|
 |requestDateConverter|JVM-Option. Defines in how to handle date-time objects that are used for a request (as query or parameter)|<dl><dt>**toJson**</dt><dd>[DEFAULT] Date formatter option using a json converter.</dd><dt>**toString**</dt><dd>Use the 'toString'-method of the date-time object to retrieve the related string representation.</dd></dl>|toJson|

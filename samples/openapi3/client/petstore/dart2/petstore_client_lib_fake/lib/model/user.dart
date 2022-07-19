@@ -118,27 +118,43 @@ class User {
     final _json = <String, dynamic>{};
     if (id != null) {
       _json[r'id'] = id;
+    } else {
+      _json[r'id'] = null;
     }
     if (username != null) {
       _json[r'username'] = username;
+    } else {
+      _json[r'username'] = null;
     }
     if (firstName != null) {
       _json[r'firstName'] = firstName;
+    } else {
+      _json[r'firstName'] = null;
     }
     if (lastName != null) {
       _json[r'lastName'] = lastName;
+    } else {
+      _json[r'lastName'] = null;
     }
     if (email != null) {
       _json[r'email'] = email;
+    } else {
+      _json[r'email'] = null;
     }
     if (password != null) {
       _json[r'password'] = password;
+    } else {
+      _json[r'password'] = null;
     }
     if (phone != null) {
       _json[r'phone'] = phone;
+    } else {
+      _json[r'phone'] = null;
     }
     if (userStatus != null) {
       _json[r'userStatus'] = userStatus;
+    } else {
+      _json[r'userStatus'] = null;
     }
     return _json;
   }

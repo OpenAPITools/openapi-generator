@@ -115,7 +115,8 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
         languageSpecificPrimitives.add("double");
         languageSpecificPrimitives.add("string");
         languageSpecificPrimitives.add("boolean");
-        languageSpecificPrimitives.add("DateTime");
+        languageSpecificPrimitives.add("DATE");
+        languageSpecificPrimitives.add("DATE_TIME");
         languageSpecificPrimitives.add("ARRAY");
         languageSpecificPrimitives.add("HASH");
         languageSpecificPrimitives.add("object");
@@ -126,10 +127,11 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("float", "double");
         typeMapping.put("double", "double");
         typeMapping.put("number", "double");
+        typeMapping.put("decimal", "double");
         typeMapping.put("boolean", "boolean");
         typeMapping.put("string", "string");
-        typeMapping.put("date", "DateTime");
-        typeMapping.put("DateTime", "DateTime");
+        typeMapping.put("date", "DATE");
+        typeMapping.put("DateTime", "DATE_TIME");
         typeMapping.put("password", "string");
         typeMapping.put("array", "ARRAY");
         typeMapping.put("set", "ARRAY");

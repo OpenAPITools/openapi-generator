@@ -394,3 +394,51 @@ or
 ```
 --import-mappings Pet=my.models.MyPet --import-mappings Order=my.models.MyOrder
 ```
+
+## Schema Mapping
+
+One can map the schema to someting else (e.g. external objects/models outside of the package) using the `schemaMappings` option, e.g. in CLI
+```sh
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/type-alias.yaml -o /tmp/java2/ --schema-mapping TypeAlias=foo.bar.TypeAlias
+```
+Another example (in conjunction with --type-mappings):
+```sh
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i /tmp/alias.yaml -o /tmp/alias/ --schema-mappings stream=org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody --type-mappings string+binary=stream
+```
+while /tmp/alias.yaml is as follows:
+```yaml
+openapi: 3.0.3
+info:
+  title: Demo app
+  version: 1.0.0
+servers:
+  - url: /api/v1
+paths:
+  /demo:
+    get:
+      summary: Demo
+      operationId: demo
+      responses:
+        '200':
+          description: Demo response
+          content:
+            text/csv:
+              schema:
+                type: string
+                format: binary
+```
+
+## Inline Schema Naming
+
+Inline schemas are created as separate schemas automatically and the auto-generated schema name may not look good to everyone. One can customize the name using the `title` field or the `inlineSchemaNameMapping` option, e.g. in CLI
+
+```
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i  modules/openapi-generator/src/test/resources/3_0/inline_model_resolver.yaml -o /tmp/java3/ --skip-validate-spec --inline-schema-name-mappings inline_object_2=SomethingMapped,inline_object_4=nothing_new
+```
+
+Another useful option is `inlineSchemaNameDefaults`, which allows you to customize the suffix of the auto-generated inline schema name, e.g. in CLI
+```
+--inline-schema-name-defaults arrayItemSuffix=_array_item
+```
+
+Note: Only arrayItemSuffix, mapItemSuffix are supported at the moment.

@@ -68,12 +68,18 @@ class Name {
       _json[r'name'] = name;
     if (snakeCase != null) {
       _json[r'snake_case'] = snakeCase;
+    } else {
+      _json[r'snake_case'] = null;
     }
     if (property != null) {
       _json[r'property'] = property;
+    } else {
+      _json[r'property'] = null;
     }
     if (n123number != null) {
       _json[r'123Number'] = n123number;
+    } else {
+      _json[r'123Number'] = null;
     }
     return _json;
   }

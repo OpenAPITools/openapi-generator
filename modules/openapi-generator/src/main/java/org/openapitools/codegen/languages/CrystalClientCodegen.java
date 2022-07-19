@@ -171,6 +171,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
         typeMapping.put("float", "Float32");
         typeMapping.put("double", "Float64");
         typeMapping.put("number", "Float64");
+        typeMapping.put("decimal", "Float64");
         typeMapping.put("date", "Time");
         typeMapping.put("DateTime", "Time");
         typeMapping.put("array", "Array");
@@ -560,6 +561,9 @@ public class CrystalClientCodegen extends DefaultCodegen {
     @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         objs = super.postProcessOperationsWithModels(objs, allModels);
+        if (isSkipOperationExample()) {
+            return objs;
+        }
         OperationMap operations = objs.getOperations();
         HashMap<String, CodegenModel> modelMaps = new HashMap<>();
         HashMap<String, Integer> processedModelMaps = new HashMap<>();

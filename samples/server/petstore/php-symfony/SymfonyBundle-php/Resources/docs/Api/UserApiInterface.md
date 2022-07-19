@@ -57,7 +57,7 @@ class UserApi implements UserApiInterface
     /**
      * Implementation of UserApiInterface#createUser
      */
-    public function createUser(User $user, &$responseCode, array &$responseHeaders): void
+    public function createUser(User $user, int &$responseCode, array &$responseHeaders): void
     {
         // Implement the operation ...
     }
@@ -119,7 +119,7 @@ class UserApi implements UserApiInterface
     /**
      * Implementation of UserApiInterface#createUsersWithArrayInput
      */
-    public function createUsersWithArrayInput(array $user, &$responseCode, array &$responseHeaders): void
+    public function createUsersWithArrayInput(array $user, int &$responseCode, array &$responseHeaders): void
     {
         // Implement the operation ...
     }
@@ -181,7 +181,7 @@ class UserApi implements UserApiInterface
     /**
      * Implementation of UserApiInterface#createUsersWithListInput
      */
-    public function createUsersWithListInput(array $user, &$responseCode, array &$responseHeaders): void
+    public function createUsersWithListInput(array $user, int &$responseCode, array &$responseHeaders): void
     {
         // Implement the operation ...
     }
@@ -243,7 +243,7 @@ class UserApi implements UserApiInterface
     /**
      * Implementation of UserApiInterface#deleteUser
      */
-    public function deleteUser($username, &$responseCode, array &$responseHeaders): void
+    public function deleteUser(string $username, int &$responseCode, array &$responseHeaders): void
     {
         // Implement the operation ...
     }
@@ -297,7 +297,7 @@ class UserApi implements UserApiInterface
     /**
      * Implementation of UserApiInterface#getUserByName
      */
-    public function getUserByName($username, &$responseCode, array &$responseHeaders): array|\OpenAPI\Server\Model\User
+    public function getUserByName(string $username, int &$responseCode, array &$responseHeaders): array|object|null
     {
         // Implement the operation ...
     }
@@ -351,7 +351,7 @@ class UserApi implements UserApiInterface
     /**
      * Implementation of UserApiInterface#loginUser
      */
-    public function loginUser($username, $password, &$responseCode, array &$responseHeaders): array|\string
+    public function loginUser(string $username, string $password, int &$responseCode, array &$responseHeaders): array|object|null
     {
         // Implement the operation ...
     }
@@ -414,7 +414,7 @@ class UserApi implements UserApiInterface
     /**
      * Implementation of UserApiInterface#logoutUser
      */
-    public function logoutUser(, &$responseCode, array &$responseHeaders): void
+    public function logoutUser(int &$responseCode, array &$responseHeaders): void
     {
         // Implement the operation ...
     }
@@ -473,7 +473,7 @@ class UserApi implements UserApiInterface
     /**
      * Implementation of UserApiInterface#updateUser
      */
-    public function updateUser($username, User $user, &$responseCode, array &$responseHeaders): void
+    public function updateUser(string $username, User $user, int &$responseCode, array &$responseHeaders): void
     {
         // Implement the operation ...
     }

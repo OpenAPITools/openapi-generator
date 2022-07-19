@@ -59,6 +59,8 @@ from petstore_api.schemas import (  # noqa: F401
     BoolBase,
     BinaryBase,
     Schema,
+    NoneClass,
+    BoolClass,
     _SchemaValidator,
     _SchemaTypeChecker,
     _SchemaEnumMaker
@@ -71,6 +73,10 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
     DictSchema
 ):
     _required_property_names = set((
+        'number',
+        'double',
+        'pattern_without_delimiter',
+        'byte',
     ))
     
     
@@ -112,7 +118,7 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
         Float32Schema
     ):
         pass
-    locals()['float'] = _float
+    locals()["float"] = _float
     del locals()['_float']
     
     
@@ -169,6 +175,10 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
+        number: number,
+        double: double,
+        pattern_without_delimiter: pattern_without_delimiter,
+        byte: byte,
         integer: typing.Union[integer, Unset] = unset,
         int32: typing.Union[int32, Unset] = unset,
         int64: typing.Union[int64, Unset] = unset,
@@ -184,6 +194,10 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
         return super().__new__(
             cls,
             *args,
+            number=number,
+            double=double,
+            pattern_without_delimiter=pattern_without_delimiter,
+            byte=byte,
             integer=integer,
             int32=int32,
             int64=int64,
@@ -257,6 +271,7 @@ class EndpointParameters(api_client.Api):
             api_response.body and api_response.headers will not be deserialized into schema
             class instances
         """
+        used_path = _path
 
         _headers = HTTPHeaderDict()
         # TODO add cookie handling
@@ -271,7 +286,7 @@ class EndpointParameters(api_client.Api):
             elif 'body' in serialized_data:
                 _body = serialized_data['body']
         response = self.api_client.call_api(
-            resource_path=_path,
+            resource_path=used_path,
             method=_method,
             headers=_headers,
             fields=_fields,

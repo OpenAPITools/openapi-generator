@@ -247,6 +247,7 @@ namespace {{packageName}}.{{apiPackage}}
                 {
                     UriBuilder uriBuilder = new UriBuilder();
                     uriBuilder.Host = HttpClient.BaseAddress{{nrt!}}.Host;
+                    uriBuilder.Port = HttpClient.BaseAddress{{nrt!}}.Port;
                     uriBuilder.Scheme = ClientUtils.SCHEME;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "{{path}}";{{#pathParams}}{{#required}}
                     uriBuilder.Path = uriBuilder.Path.Replace("%7B{{baseName}}%7D", Uri.EscapeDataString({{paramName}}.ToString()));{{/required}}{{^required}}
