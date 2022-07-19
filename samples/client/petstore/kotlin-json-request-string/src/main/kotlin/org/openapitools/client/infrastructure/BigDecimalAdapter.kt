@@ -1,17 +1,17 @@
 package org.openapitools.client.infrastructure
 
-import kotlinx.serialization.KSerializer
-import kotlinx.serialization.Serializer
-import kotlinx.serialization.encoding.Decoder
-import kotlinx.serialization.encoding.Encoder
-import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
-import kotlinx.serialization.descriptors.PrimitiveKind
-import kotlinx.serialization.descriptors.SerialDescriptor
+import com.squareup.moshi.FromJson
+import com.squareup.moshi.ToJson
 import java.math.BigDecimal
 
-@Serializer(forClass = BigDecimal::class)
-object BigDecimalAdapter : KSerializer<BigDecimal> {
-    override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("BigDecimal", PrimitiveKind.STRING)
-    override fun deserialize(decoder: Decoder): BigDecimal = BigDecimal(decoder.decodeString())
-    override fun serialize(encoder: Encoder, value: BigDecimal) = encoder.encodeString(value.toPlainString())
+class BigDecimalAdapter {
+    @ToJson
+    fun toJson(value: BigDecimal): String {
+        return value.toPlainString()
+    }
+
+    @FromJson
+    fun fromJson(value: String): BigDecimal {
+        return BigDecimal(value)
+    }
 }
