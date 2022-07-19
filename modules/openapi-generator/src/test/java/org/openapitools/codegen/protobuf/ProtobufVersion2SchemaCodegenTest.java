@@ -64,6 +64,27 @@ public class ProtobufVersion2SchemaCodegenTest {
         output.delete();
     }
 
+    @Test
+    public void testCustomOptions() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("customOptionsSpec", "src/test/resources/3_0/protobuf-schema/ama_custom_options.yaml");
+        properties.put("enumStructNameAsPrefix", true);
+        properties.put("fieldNamesInSnakeCase", true);
+        properties.put("startEnumsWithUnspecified", true);
+        properties.put("removeEnumValuePrefix", false);
+
+        File output = Files.createTempDirectory("test").toFile();
+        List<File> files = generate(output, properties, "src/test/resources/3_0/protobuf-schema/custom-options.yaml");
+        TestUtils.ensureContainsFile(files, output, "models/pet.proto");
+        TestUtils.ensureContainsFile(files, output, "custom_options/ama_custom_options.proto");
+        Path path = Paths.get(output + "/models/pet.proto");
+        assertFileEquals(path, Paths.get("src/test/resources/3_0/protobuf-schema-version-2/custom-options.proto"));
+        path = Paths.get(output + "/custom_options/ama_custom_options.proto");
+        assertFileEquals(path, Paths.get("src/test/resources/3_0/protobuf-schema-version-2/ama_custom_options.proto"));
+
+        output.delete();
+    }
+
     private void assertFileEquals(Path generatedFilePath, Path expectedFilePath) throws IOException {
         String generatedFile = new String(Files.readAllBytes(generatedFilePath), StandardCharsets.UTF_8)
             .replace("\n", "").replace("\r", "");

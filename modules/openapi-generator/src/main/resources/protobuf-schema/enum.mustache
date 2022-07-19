@@ -4,7 +4,7 @@ enum {{classname}} {
   {{#enumDescription}}
     // {{{.}}}
     {{/enumDescription}}
-  {{#lambda.uppercase}}{{#lambda.snakecase}}{{{name}}}{{/lambda.snakecase}}{{/lambda.uppercase}} = {{{protobuf-enum-index}}};
+  {{{name}}} = {{{protobuf-enum-index}}};
   {{/enumVars}}
   {{/allowableValues}}
 }

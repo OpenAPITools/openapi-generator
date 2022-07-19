@@ -1,0 +1,31 @@
+openapi: 3.0.0
+info:
+  description: This specification is used as source for a test to demonstrate the handling of custom options
+  version: 1.0.0
+  title: Custom options
+paths:
+  /dummy:
+    get:
+      summary: A dummy endpoint to make the spec valid.
+      responses:
+        '200':
+          description: Success
+components:
+  schemas:
+    Pet:
+      type: object
+      properties:
+        id:
+          type: integer
+        age:
+          type: integer
+          x-validation-options-is-allowed-at-issuance: true
+        contact:
+          type: string
+          x-validation-options-regex-format: '^+([0-9]){10,16}$'
+          x-ama-risk-personal-data-field: 'PHONE_NUMBER' 
+        tags:
+          type: array
+          x-validation-options-max-repetitions: 3
+          items:
+            type: string

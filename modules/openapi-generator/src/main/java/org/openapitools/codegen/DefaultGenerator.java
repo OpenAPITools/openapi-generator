@@ -19,6 +19,8 @@ package org.openapitools.codegen;
 
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.parser.OpenAPIParser;
+import io.swagger.v3.parser.core.models.ParseOptions;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.Paths;
@@ -340,6 +342,64 @@ public class DefaultGenerator implements Generator {
 
         if (info.getTermsOfService() != null) {
             config.additionalProperties().put("termsOfService", config.escapeText(info.getTermsOfService()));
+        }
+    }
+
+    private void generateCustomOptions(List<File> files, String customOptionsSpec) {    
+        File customOptionsFile = new File(customOptionsSpec);
+        if(customOptionsFile.exists() && !customOptionsFile.isDirectory()) { 
+            String customOptionsFileName = FilenameUtils.removeExtension(customOptionsFile.getName());
+            OpenAPI customOptionsOpenAPI = new OpenAPIParser().readLocation(customOptionsSpec, null, new ParseOptions()).getOpenAPI();
+            final Map<String, Schema> schemas = ModelUtils.getSchemas(customOptionsOpenAPI);
+    
+            if (schemas == null) {
+                LOGGER.warn("Skipping generation of custom options because specification document has no schemas.");
+                return;
+            }
+    
+            Set<String> options = schemas.keySet();
+            // store all processed custom option categories and custom options
+            Map<String, Object> allProcessedCustomOptions = new HashMap<>();
+            allProcessedCustomOptions.put("customOptionsPackage", config.customOptionsPackage());
+            Map<String, CodegenModel> categories = new TreeMap<>((o1, o2) -> ObjectUtils.compare(config.toModelName(o1), config.toModelName(o2)));
+            List<CodegenProperty> customOptions = new ArrayList<>();
+    
+            // process custom options
+            for (String name : options) {
+                Schema schema = schemas.get(name);
+            
+                CodegenProperty var = config.fromProperty(name, schema);
+                customOptions.add(var);
+                // if var is a category
+                if (var.isModel) {
+                    CodegenModel optionCategory = processCustomOptionCategory(config, name, schema);
+                    categories.put(name, optionCategory);
+                }
+            }
+
+            config.postProcessAllCustomOptions(customOptions, customOptionsFileName);
+            allProcessedCustomOptions.put("optionCategories", categories.values());
+            allProcessedCustomOptions.put("customOptions", customOptions);
+            config.updateCustomOptionsMapping(customOptions, categories);
+    
+            try {
+                // to generate custom options file
+                for (String templateName : config.customOptionsTemplateFiles().keySet()) {
+                    String suffix = config.customOptionsTemplateFiles().get(templateName);
+                    String filename = config.customOptionsFileFolder() + File.separator + customOptionsFileName + suffix;
+    
+                    File written = processTemplateToFile(allProcessedCustomOptions, templateName, filename, true, CodegenConstants.CUSTOM_OPTIONS);
+                    if (written != null) {
+                        files.add(written);
+                    }
+                }
+    
+            } catch (Exception e) {
+                throw new RuntimeException("Could not generate custom options", e);
+            }
+        }
+        else {
+            throw new RuntimeException("Could not generate custom options. Custom options spec not found: " + customOptionsSpec);
         }
     }
 
@@ -905,6 +965,11 @@ public class DefaultGenerator implements Generator {
         processUserDefinedTemplates();
 
         List<File> files = new ArrayList<>();
+        // custom options
+        if (config.additionalProperties().containsKey(CodegenConstants.CUSTOM_OPTIONS_SPEC)) {
+            generateCustomOptions(files, config.additionalProperties().get(CodegenConstants.CUSTOM_OPTIONS_SPEC).toString());
+        }
+
         // models
         List<String> filteredSchemas = ModelUtils.getSchemasUsedOnlyInFormParam(openAPI);
         List<ModelMap> allModels = new ArrayList<>();
@@ -1273,6 +1338,15 @@ public class DefaultGenerator implements Generator {
             result.add(im);
         });
         return result;
+    }
+
+    private CodegenModel processCustomOptionCategory(CodegenConfig config, String optionCategoryName, Schema definition) {
+        if (definition == null)
+            throw new RuntimeException("schema cannot be null in processCustomOptionCategory");
+        CodegenModel optionCategory = config.fromModel(optionCategoryName, definition);
+
+        config.postProcessCustomOptionCategory(optionCategory);
+        return optionCategory;
     }
 
     private ModelsMap processModels(CodegenConfig config, Map<String, Schema> definitions) {
