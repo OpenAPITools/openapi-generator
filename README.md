@@ -616,6 +616,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [Gantner](https://www.gantner.com)
 - [GenFlow](https://github.com/RepreZen/GenFlow)
 - [GetYourGuide](https://www.getyourguide.com/)
+- [Glovo](https://glovoapp.com/)
 - [GMO Pepabo](https://pepabo.com/en/)
 - [GoDaddy](https://godaddy.com)
 - [Gumtree](https://gumtree.com)

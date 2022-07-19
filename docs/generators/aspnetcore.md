@@ -41,6 +41,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |packageName|C# package name (convention: Title.Case).| |Org.OpenAPITools|
 |packageTitle|Specifies an AssemblyTitle for the .NET Framework global assembly attributes stored in the AssemblyInfo file.| |OpenAPI Library|
 |packageVersion|C# package version.| |1.0.0|
+|pocoModels|Build POCO Models| |false|
 |returnICollection|Return ICollection&lt;T&gt; instead of the concrete type.| |false|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |sourceFolder|source folder for generated code| |src|

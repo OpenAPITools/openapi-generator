@@ -88,4 +88,13 @@ public class ApiException extends Exception {
     public String getResponseBody() {
         return responseBody;
     }
+
+    @Override
+    public String toString() {
+        return "ApiException{" +
+                "code=" + code +
+                ", responseHeaders=" + responseHeaders +
+                ", responseBody='" + responseBody + '\'' +
+                '}';
+    }
 }

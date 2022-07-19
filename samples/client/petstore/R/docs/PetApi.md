@@ -88,7 +88,7 @@ Deletes a pet
 library(petstore)
 
 var_pet_id <- 56 # integer | Pet id to delete
-var_api_key <- 'api_key_example' # character | 
+var_api_key <- "api_key_example" # character | 
 
 #Deletes a pet
 api_instance <- PetApi$new()
@@ -338,7 +338,9 @@ api_instance$api_client$api_keys['api_key'] <- 'TODO_YOUR_API_KEY';
 result <- tryCatch(
              # to save the result into a file, simply add the optional `data_file` parameter, e.g.
              # api_instance$GetPetByIdStreaming(var_pet_id, data_file = "result.txt"),
-             api_instance$GetPetByIdStreaming(var_pet_id, stream_callback = function(x){ print(length(x)) }),
+             # this endpoint supports data streaming via a callback function using the optional `stream_callback` parameter, e.g.
+             # api_instance$GetPetByIdStreaming(var_pet_id, stream_callback = function(x){ print(length(x)) }),
+             api_instance$GetPetByIdStreaming(var_pet_id),
              ApiException = function(ex) ex
           )
 # In case of error, print the error object
@@ -455,8 +457,8 @@ Updates a pet in the store with form data
 library(petstore)
 
 var_pet_id <- 56 # integer | ID of pet that needs to be updated
-var_name <- 'name_example' # character | Updated name of the pet
-var_status <- 'status_example' # character | Updated status of the pet
+var_name <- "name_example" # character | Updated name of the pet
+var_status <- "status_example" # character | Updated status of the pet
 
 #Updates a pet in the store with form data
 api_instance <- PetApi$new()
@@ -515,7 +517,7 @@ uploads an image
 library(petstore)
 
 var_pet_id <- 56 # integer | ID of pet to update
-var_additional_metadata <- 'additional_metadata_example' # character | Additional data to pass to server
+var_additional_metadata <- "additional_metadata_example" # character | Additional data to pass to server
 var_file <- File.new('/path/to/file') # data.frame | file to upload
 
 #uploads an image

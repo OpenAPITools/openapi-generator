@@ -68,6 +68,8 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected boolean useRlangExceptionHandling = false;
     protected String errorObjectType;
 
+    private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
+
     public CodegenType getTag() {
         return CodegenType.CLIENT;
     }
@@ -250,6 +252,8 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("api_client.mustache", File.separator + "R", "api_client.R"));
         supportingFiles.add(new SupportingFile("NAMESPACE.mustache", "", "NAMESPACE"));
         supportingFiles.add(new SupportingFile("testthat.mustache", File.separator + "tests", "testthat.R"));
+        supportingFiles.add(new SupportingFile("r-client.mustache", File.separator + ".github" + File.separator + "workflows", "r-client.yaml"));
+        supportingFiles.add(new SupportingFile("lintr.mustache", "", ".lintr"));
 
         // add lambda for mustache templates to fix license field
         additionalProperties.put("lambdaLicense", new Mustache.Lambda() {
@@ -339,6 +343,12 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toModelName(String name) {
+        // memoization
+        String origName = name;
+        if (schemaKeyToModelNameCache.containsKey(origName)) {
+            return schemaKeyToModelNameCache.get(origName);
+        }
+
         if (!StringUtils.isEmpty(modelNamePrefix)) {
             name = modelNamePrefix + "_" + name;
         }
@@ -362,6 +372,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
             name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
         }
 
+        schemaKeyToModelNameCache.put(origName, camelize(name));
         return camelize(name);
     }
 
@@ -623,7 +634,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
             if (example == null) {
                 example = p.paramName + "_example";
             }
-            example = "'" + escapeText(example) + "'";
+            example = "\"" + escapeText(example) + "\"";
         } else if ("integer".equals(type)) {
             if (example == null) {
                 example = "56";
@@ -713,7 +724,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
                 if (Pattern.compile("\r\n|\r|\n").matcher((String) p.getDefault()).find())
                     return "'''" + p.getDefault() + "'''";
                 else
-                    return "'" + ((String) p.getDefault()).replaceAll("'", "\'") + "'";
+                    return "\"" + ((String) p.getDefault()).replaceAll("\"", "\\\"") + "\"";
             }
         } else if (ModelUtils.isArraySchema(p)) {
             if (p.getDefault() != null) {

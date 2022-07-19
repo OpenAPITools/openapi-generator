@@ -224,6 +224,11 @@
   infoLink: "https://www.giantmonkey.de/"
   pinned: true
 -
+  caption: "Glovo"
+  image: "img/companies/glovo.svg"
+  infoLink: "https://glovoapp.com/"
+  pinned: false
+-
   caption: "GMO Pepabo"
   image: "img/companies/pepabo.png"
   infoLink: "https://pepabo.com/en/"

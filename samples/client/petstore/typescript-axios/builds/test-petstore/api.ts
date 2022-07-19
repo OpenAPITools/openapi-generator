@@ -359,7 +359,7 @@ export interface ChildCat extends ParentPet {
      * @type {string}
      * @memberof ChildCat
      */
-    'pet_type': ChildCatPetTypeEnum;
+    'pet_type'?: ChildCatPetTypeEnum;
 }
 
 export const ChildCatPetTypeEnum = {
@@ -2408,7 +2408,7 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
                 localVarHeaderParameter['enum_header_string_array'] = mapped.join(COLLECTION_FORMATS["csv"]);
             }
 
-            if (enumHeaderString !== undefined && enumHeaderString !== null) {
+            if (enumHeaderString != null) {
                 localVarHeaderParameter['enum_header_string'] = String(enumHeaderString);
             }
 
@@ -2485,12 +2485,16 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
                 localVarQueryParameter['int64_group'] = int64Group;
             }
 
-            if (requiredBooleanGroup !== undefined && requiredBooleanGroup !== null) {
-                localVarHeaderParameter['required_boolean_group'] = String(JSON.stringify(requiredBooleanGroup));
+            if (requiredBooleanGroup != null) {
+                localVarHeaderParameter['required_boolean_group'] = typeof requiredBooleanGroup === 'string' 
+                    ? requiredBooleanGroup 
+                    : JSON.stringify(requiredBooleanGroup);
             }
 
-            if (booleanGroup !== undefined && booleanGroup !== null) {
-                localVarHeaderParameter['boolean_group'] = String(JSON.stringify(booleanGroup));
+            if (booleanGroup != null) {
+                localVarHeaderParameter['boolean_group'] = typeof booleanGroup === 'string' 
+                    ? booleanGroup 
+                    : JSON.stringify(booleanGroup);
             }
 
 
@@ -3431,7 +3435,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "petstore_auth", ["write:pets", "read:pets"], configuration)
 
-            if (apiKey !== undefined && apiKey !== null) {
+            if (apiKey != null) {
                 localVarHeaderParameter['api_key'] = String(apiKey);
             }
 
