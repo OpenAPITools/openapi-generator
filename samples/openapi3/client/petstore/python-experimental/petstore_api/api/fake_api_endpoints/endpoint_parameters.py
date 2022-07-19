@@ -73,6 +73,10 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
     DictSchema
 ):
     _required_property_names = set((
+        'number',
+        'double',
+        'pattern_without_delimiter',
+        'byte',
     ))
     
     
@@ -171,6 +175,10 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
+        number: number,
+        double: double,
+        pattern_without_delimiter: pattern_without_delimiter,
+        byte: byte,
         integer: typing.Union[integer, Unset] = unset,
         int32: typing.Union[int32, Unset] = unset,
         int64: typing.Union[int64, Unset] = unset,
@@ -186,6 +194,10 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
         return super().__new__(
             cls,
             *args,
+            number=number,
+            double=double,
+            pattern_without_delimiter=pattern_without_delimiter,
+            byte=byte,
             integer=integer,
             int32=int32,
             int64=int64,

@@ -43,6 +43,7 @@ import static java.util.UUID.randomUUID;
 public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
 
     public static final String USE_SWASHBUCKLE = "useSwashbuckle";
+    public static final String MODEL_POCOMODE = "pocoModels";
     public static final String ASPNET_CORE_VERSION = "aspnetCoreVersion";
     public static final String SWASHBUCKLE_VERSION = "swashbuckleVersion";
     public static final String CLASS_MODIFIER = "classModifier";
@@ -70,6 +71,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     protected final Logger LOGGER = LoggerFactory.getLogger(AspNetCoreServerCodegen.class);
 
     private boolean useSwashbuckle = true;
+    private boolean pocoModels = false;
     protected int serverPort = 8080;
     protected String serverHost = "0.0.0.0";
     protected CliOption swashbuckleVersion = new CliOption(SWASHBUCKLE_VERSION, "Swashbuckle version: 3.0.0, 4.0.0, 5.0.0, 6.0.0");
@@ -238,6 +240,10 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
                 "Uses the Swashbuckle.AspNetCore NuGet package for documentation.",
                 useSwashbuckle);
 
+        addSwitch(MODEL_POCOMODE,
+                "Build POCO Models",
+                pocoModels);
+
         addSwitch(IS_LIBRARY,
                 "Is the build a library",
                 isLibrary);
@@ -360,6 +366,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         setClassModifier();
         setOperationModifier();
         setModelClassModifier();
+        setPocoModels();
         setUseSwashbuckle();
         setOperationIsAsync();
 
@@ -653,6 +660,14 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
 
             default:
                 return frameworkVersion;
+        }
+    }
+
+    private void setPocoModels() {
+        if (additionalProperties.containsKey(MODEL_POCOMODE)) {
+            pocoModels = convertPropertyToBooleanAndWriteBack(MODEL_POCOMODE);
+        } else {
+            additionalProperties.put(MODEL_POCOMODE, pocoModels);
         }
     }
 

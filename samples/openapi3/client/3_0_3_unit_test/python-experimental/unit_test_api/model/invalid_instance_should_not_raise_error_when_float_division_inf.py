@@ -70,7 +70,7 @@ from unit_test_api.schemas import (  # noqa: F401
 
 class InvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInf(
     _SchemaValidator(
-        multiple_of=[0.123456789],
+        multiple_of=0.123456789,
     ),
     IntSchema
 ):

@@ -37,7 +37,7 @@ ApiException <- R6::R6Class(
       if (!is.null(http_response)) {
         self$status <- http_response$status_code
         errorMsg <- toString(content(http_response))
-        if(errorMsg == ""){
+        if (errorMsg == "") {
           errorMsg <- "Api exception encountered. No details given."
         }
         self$body <- errorMsg
@@ -71,11 +71,11 @@ ApiException <- R6::R6Class(
       }
       if (!is.null(self$body)) {
         errorMsg <- paste(errorMsg, "Body : ", "\n", sep = "")
-        errorMsg <- paste(errorMsg, self$body,"\n")
+        errorMsg <- paste(errorMsg, self$body, "\n")
       }
       if (!is.null(self$errorObject)) {
         errorMsg <- paste(errorMsg, "Error object : ", "\n", sep = "")
-        errorMsg <- paste(errorMsg, self$errorObject$toJSONString(),"\n")
+        errorMsg <- paste(errorMsg, self$errorObject$toJSONString(), "\n")
       }
       errorMsg
     }

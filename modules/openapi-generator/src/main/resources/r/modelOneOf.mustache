@@ -9,7 +9,7 @@
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
 {{classname}} <- R6::R6Class(
-  '{{classname}}',
+  "{{classname}}",
   public = list(
     #' @field actual_instance the object stored in this instance.
     actual_instance = NULL,
@@ -28,10 +28,11 @@
       if (is.null(instance)) {
         # do nothing
       } {{#oneOf}}else if (get(class(instance)[[1]], pos = -1)$classname ==  "{{{.}}}") {
-        self$actual_instance = instance
-        self$actual_type = "{{{.}}}"
+        self$actual_instance <- instance
+        self$actual_type <- "{{{.}}}"
       } {{/oneOf}}else {
-        stop(paste("Failed to initialize {{{classname}}} with oneOf schemas {{#oneOf}}{{{.}}}{{^-last}}, {{/-last}}{{/oneOf}}. Provided class name: ", get(class(instance)[[1]], pos = -1)$classname))
+        stop(paste("Failed to initialize {{{classname}}} with oneOf schemas {{#oneOf}}{{{.}}}{{^-last}}, {{/-last}}{{/oneOf}}. Provided class name: ",
+                   get(class(instance)[[1]], pos = -1)$classname))
       }
     },
     #' Deserialize JSON string into an instance of {{{classname}}}.
@@ -60,8 +61,8 @@
         error = function(err) err
       )
 
-      if (!is.null({{{.}}}_result['error'])) {
-        error_messages <- append(error_messages, {{{.}}}_result['message'])
+      if (!is.null({{{.}}}_result["error"])) {
+        error_messages <- append(error_messages, {{{.}}}_result["message"])
       }
 
       {{/oneOf}}
@@ -71,10 +72,11 @@
         self$actual_type <- instance_type
       } else if (matched > 1) {
         # more than 1 match
-        stop("Multiple matches found when deserializing the payload into {{{classname}}} with oneOf schemas {{#oneOf}}{{{.}}}{{^-last}}, {{/-last}}{{/oneOf}}. ")
+        stop("Multiple matches found when deserializing the payload into {{{classname}}} with oneOf schemas {{#oneOf}}{{{.}}}{{^-last}}, {{/-last}}{{/oneOf}}.")
       } else {
         # no match
-        stop(paste("No match found when deserializing the payload into {{{classname}}} with oneOf schemas {{#oneOf}}{{{.}}}{{^-last}}, {{/-last}}{{/oneOf}}. Details: ", paste(error_messages, collapse = ', ')))
+        stop(paste("No match found when deserializing the payload into {{{classname}}} with oneOf schemas {{#oneOf}}{{{.}}}{{^-last}}, {{/-last}}{{/oneOf}}. Details: ",
+                   paste(error_messages, collapse = ", ")))
       }
 
       self
@@ -136,12 +138,12 @@
     #' @export
     toString = function() {
       jsoncontent <- c(
-        sprintf('"actual_instance": %s', if (is.null(self$actual_instance)) {NULL} else {self$actual_instance$toJSONString()}),
+        sprintf('"actual_instance": %s', if (is.null(self$actual_instance)) NULL else self$actual_instance$toJSONString()),
         sprintf('"actual_type": "%s"', self$actual_type),
-        sprintf('"one_of": "%s"',  paste( unlist(self$one_of), collapse=', '))
+        sprintf('"one_of": "%s"', paste(unlist(self$one_of), collapse = ", "))
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
-      as.character(jsonlite::prettify(paste('{', jsoncontent, '}', sep = "")))
+      as.character(jsonlite::prettify(paste("{", jsoncontent, "}", sep = "")))
     }
   )
 )

@@ -53,8 +53,8 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets PetType
         /// </summary>
 
-        [DataMember(Name = "pet_type", IsRequired = true, EmitDefaultValue = false)]
-        public PetTypeEnum PetType
+        [DataMember(Name = "pet_type", EmitDefaultValue = false)]
+        public PetTypeEnum? PetType
         {
             get{ return _PetType;}
             set
@@ -63,7 +63,7 @@ namespace Org.OpenAPITools.Model
                 _flagPetType = true;
             }
         }
-        private PetTypeEnum _PetType;
+        private PetTypeEnum? _PetType;
         private bool _flagPetType;
 
         /// <summary>
@@ -86,10 +86,9 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="ChildCat" /> class.
         /// </summary>
         /// <param name="name">name.</param>
-        /// <param name="petType">petType (required) (default to PetTypeEnum.ChildCat).</param>
-        public ChildCat(string name = default(string), PetTypeEnum petType = PetTypeEnum.ChildCat) : base()
+        /// <param name="petType">petType (default to PetTypeEnum.ChildCat).</param>
+        public ChildCat(string name = default(string), PetTypeEnum? petType = PetTypeEnum.ChildCat) : base()
         {
-            this._PetType = petType;
             this._Name = name;
             if (this.Name != null)
             {

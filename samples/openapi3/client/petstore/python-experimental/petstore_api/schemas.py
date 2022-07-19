@@ -295,18 +295,17 @@ class ValidatorBase:
 
         if cls.__is_json_validation_enabled('multipleOf',
                                       validation_metadata.configuration) and 'multiple_of' in validations:
-            multiple_of_values = validations['multiple_of']
-            for multiple_of_value in multiple_of_values:
-                if (isinstance(input_values, decimal.Decimal) and
-                        not (float(input_values) / multiple_of_value).is_integer()
-                ):
-                    # Note 'multipleOf' will be as good as the floating point arithmetic.
-                    cls.__raise_validation_error_message(
-                        value=input_values,
-                        constraint_msg="value must be a multiple of",
-                        constraint_value=multiple_of_value,
-                        path_to_item=validation_metadata.path_to_item
-                    )
+            multiple_of_value = validations['multiple_of']
+            if (isinstance(input_values, decimal.Decimal) and
+                    not (float(input_values) / multiple_of_value).is_integer()
+            ):
+                # Note 'multipleOf' will be as good as the floating point arithmetic.
+                cls.__raise_validation_error_message(
+                    value=input_values,
+                    constraint_msg="value must be a multiple of",
+                    constraint_value=multiple_of_value,
+                    path_to_item=validation_metadata.path_to_item
+                )
 
         checking_max_or_min_values = {'exclusive_maximum', 'inclusive_maximum', 'exclusive_minimum',
                                       'inclusive_minimum'}.isdisjoint(validations) is False
