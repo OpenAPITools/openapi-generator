@@ -74,7 +74,7 @@ void {{classname}}::setServerIndex(const QString &operation, int serverIndex) {
 }
 
 void {{classname}}::setApiKey(const QString &apiKeyName, const QString &apiKey) {
-    _apiKeys.insert(apiKeyName,apiKey);
+    _apiKeys.insert(apiKeyName, apiKey);
 }
 
 void {{classname}}::setBearerToken(const QString &token) {
@@ -697,7 +697,7 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
     _latestWorker->setWorkingDirectory(_workingDirectory);{{#contentCompression}}
     _latestWorker->setResponseCompressionEnabled(isResponseCompressionEnabled);
     _latestWorker->setRequestCompressionEnabled(isRequestCompressionEnabled);{{/contentCompression}}
-    
+
     connect(_latestWorker, &{{prefix}}HttpRequestWorker::on_execution_finished, this, &{{classname}}::{{nickname}}Callback);
     connect(this, &{{classname}}::abortRequestsSignal, _latestWorker, &QObject::deleteLater);
     connect(_latestWorker, &QObject::destroyed, [this](){
@@ -727,7 +727,7 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
     _latestWorker->setWorkingDirectory(_workingDirectory);{{#contentCompression}}
     _latestWorker->setResponseCompressionEnabled(isResponseCompressionEnabled);
     _latestWorker->setRequestCompressionEnabled(isRequestCompressionEnabled);{{/contentCompression}}
-    
+
     connect(_latestWorker, &{{prefix}}HttpRequestWorker::on_execution_finished, this, &{{classname}}::{{nickname}}Callback);
     connect(this, &{{classname}}::abortRequestsSignal, _latestWorker, &QObject::deleteLater);
     connect(_latestWorker, &QObject::destroyed, [this](){
@@ -757,7 +757,7 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
     _latestWorker->setWorkingDirectory(_workingDirectory);{{#contentCompression}}
     _latestWorker->setResponseCompressionEnabled(isResponseCompressionEnabled);
     _latestWorker->setRequestCompressionEnabled(isRequestCompressionEnabled);{{/contentCompression}}
-    
+
     connect(_latestWorker, &{{prefix}}HttpRequestWorker::on_execution_finished, this, &{{classname}}::{{nickname}}Callback);
     connect(this, &{{classname}}::abortRequestsSignal, _latestWorker, &QObject::deleteLater);
     connect(_latestWorker, &QObject::destroyed, [this](){
@@ -787,7 +787,7 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
     _latestWorker->setWorkingDirectory(_workingDirectory);{{#contentCompression}}
     _latestWorker->setResponseCompressionEnabled(isResponseCompressionEnabled);
     _latestWorker->setRequestCompressionEnabled(isRequestCompressionEnabled);{{/contentCompression}}
-    
+
     connect(_latestWorker, &{{prefix}}HttpRequestWorker::on_execution_finished, this, &{{classname}}::{{nickname}}Callback);
     connect(this, &{{classname}}::abortRequestsSignal, _latestWorker, &QObject::deleteLater);
     connect(_latestWorker, &QObject::destroyed, [this](){
@@ -917,8 +917,8 @@ void {{classname}}::{{nickname}}Callback({{prefix}}HttpRequestWorker *worker) {
 {{/operation}}
 {{/operations}}
 void {{classname}}::tokenAvailable(){
-  
-    oauthToken token; 
+
+    oauthToken token;
     switch (_OauthMethod) {
     case 1: //implicit flow
         token = _implicitFlow.getToken(_latestScope.join(" "));
@@ -936,7 +936,7 @@ void {{classname}}::tokenAvailable(){
             _latestInput.headers.insert("Authorization", "Bearer " + token.getToken());
             _latestWorker->execute(&_latestInput);
         }else{
-            _authFlow.removeToken(_latestScope.join(" "));    
+            _authFlow.removeToken(_latestScope.join(" "));
             qDebug() << "Could not retrieve a valid token";
         }
         break;
@@ -946,7 +946,7 @@ void {{classname}}::tokenAvailable(){
             _latestInput.headers.insert("Authorization", "Bearer " + token.getToken());
             _latestWorker->execute(&_latestInput);
         }else{
-            _credentialFlow.removeToken(_latestScope.join(" "));    
+            _credentialFlow.removeToken(_latestScope.join(" "));
             qDebug() << "Could not retrieve a valid token";
         }
         break;
@@ -956,7 +956,7 @@ void {{classname}}::tokenAvailable(){
             _latestInput.headers.insert("Authorization", "Bearer " + token.getToken());
             _latestWorker->execute(&_latestInput);
         }else{
-            _credentialFlow.removeToken(_latestScope.join(" "));    
+            _credentialFlow.removeToken(_latestScope.join(" "));
             qDebug() << "Could not retrieve a valid token";
         }
         break;

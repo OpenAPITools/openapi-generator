@@ -73,7 +73,7 @@ void PFXPetApi::setServerIndex(const QString &operation, int serverIndex) {
 }
 
 void PFXPetApi::setApiKey(const QString &apiKeyName, const QString &apiKey) {
-    _apiKeys.insert(apiKeyName,apiKey);
+    _apiKeys.insert(apiKeyName, apiKey);
 }
 
 void PFXPetApi::setBearerToken(const QString &token) {
@@ -274,7 +274,7 @@ void PFXPetApi::addPet(const PFXPet &pfx_pet) {
     _latestWorker = new PFXHttpRequestWorker(this, _manager);
     _latestWorker->setTimeOut(_timeOut);
     _latestWorker->setWorkingDirectory(_workingDirectory);
-    
+
     connect(_latestWorker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPetApi::addPetCallback);
     connect(this, &PFXPetApi::abortRequestsSignal, _latestWorker, &QObject::deleteLater);
     connect(_latestWorker, &QObject::destroyed, [this](){
@@ -440,7 +440,7 @@ void PFXPetApi::deletePet(const qint64 &pet_id, const ::test_namespace::Optional
     _latestWorker = new PFXHttpRequestWorker(this, _manager);
     _latestWorker->setTimeOut(_timeOut);
     _latestWorker->setWorkingDirectory(_workingDirectory);
-    
+
     connect(_latestWorker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPetApi::deletePetCallback);
     connect(this, &PFXPetApi::abortRequestsSignal, _latestWorker, &QObject::deleteLater);
     connect(_latestWorker, &QObject::destroyed, [this](){
@@ -614,7 +614,7 @@ void PFXPetApi::findPetsByStatus(const QList<QString> &status) {
     _latestWorker = new PFXHttpRequestWorker(this, _manager);
     _latestWorker->setTimeOut(_timeOut);
     _latestWorker->setWorkingDirectory(_workingDirectory);
-    
+
     connect(_latestWorker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPetApi::findPetsByStatusCallback);
     connect(this, &PFXPetApi::abortRequestsSignal, _latestWorker, &QObject::deleteLater);
     connect(_latestWorker, &QObject::destroyed, [this](){
@@ -798,7 +798,7 @@ void PFXPetApi::findPetsByTags(const QList<QString> &tags) {
     _latestWorker = new PFXHttpRequestWorker(this, _manager);
     _latestWorker->setTimeOut(_timeOut);
     _latestWorker->setWorkingDirectory(_workingDirectory);
-    
+
     connect(_latestWorker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPetApi::findPetsByTagsCallback);
     connect(this, &PFXPetApi::abortRequestsSignal, _latestWorker, &QObject::deleteLater);
     connect(_latestWorker, &QObject::destroyed, [this](){
@@ -968,7 +968,7 @@ void PFXPetApi::updatePet(const PFXPet &pfx_pet) {
     _latestWorker = new PFXHttpRequestWorker(this, _manager);
     _latestWorker->setTimeOut(_timeOut);
     _latestWorker->setWorkingDirectory(_workingDirectory);
-    
+
     connect(_latestWorker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPetApi::updatePetCallback);
     connect(this, &PFXPetApi::abortRequestsSignal, _latestWorker, &QObject::deleteLater);
     connect(_latestWorker, &QObject::destroyed, [this](){
@@ -1078,7 +1078,7 @@ void PFXPetApi::updatePetWithForm(const qint64 &pet_id, const ::test_namespace::
     _latestWorker = new PFXHttpRequestWorker(this, _manager);
     _latestWorker->setTimeOut(_timeOut);
     _latestWorker->setWorkingDirectory(_workingDirectory);
-    
+
     connect(_latestWorker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPetApi::updatePetWithFormCallback);
     connect(this, &PFXPetApi::abortRequestsSignal, _latestWorker, &QObject::deleteLater);
     connect(_latestWorker, &QObject::destroyed, [this](){
@@ -1188,7 +1188,7 @@ void PFXPetApi::uploadFile(const qint64 &pet_id, const ::test_namespace::Optiona
     _latestWorker = new PFXHttpRequestWorker(this, _manager);
     _latestWorker->setTimeOut(_timeOut);
     _latestWorker->setWorkingDirectory(_workingDirectory);
-    
+
     connect(_latestWorker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPetApi::uploadFileCallback);
     connect(this, &PFXPetApi::abortRequestsSignal, _latestWorker, &QObject::deleteLater);
     connect(_latestWorker, &QObject::destroyed, [this](){
@@ -1237,8 +1237,8 @@ void PFXPetApi::uploadFileCallback(PFXHttpRequestWorker *worker) {
 }
 
 void PFXPetApi::tokenAvailable(){
-  
-    oauthToken token; 
+
+    oauthToken token;
     switch (_OauthMethod) {
     case 1: //implicit flow
         token = _implicitFlow.getToken(_latestScope.join(" "));
@@ -1256,7 +1256,7 @@ void PFXPetApi::tokenAvailable(){
             _latestInput.headers.insert("Authorization", "Bearer " + token.getToken());
             _latestWorker->execute(&_latestInput);
         }else{
-            _authFlow.removeToken(_latestScope.join(" "));    
+            _authFlow.removeToken(_latestScope.join(" "));
             qDebug() << "Could not retrieve a valid token";
         }
         break;
@@ -1266,7 +1266,7 @@ void PFXPetApi::tokenAvailable(){
             _latestInput.headers.insert("Authorization", "Bearer " + token.getToken());
             _latestWorker->execute(&_latestInput);
         }else{
-            _credentialFlow.removeToken(_latestScope.join(" "));    
+            _credentialFlow.removeToken(_latestScope.join(" "));
             qDebug() << "Could not retrieve a valid token";
         }
         break;
@@ -1276,7 +1276,7 @@ void PFXPetApi::tokenAvailable(){
             _latestInput.headers.insert("Authorization", "Bearer " + token.getToken());
             _latestWorker->execute(&_latestInput);
         }else{
-            _credentialFlow.removeToken(_latestScope.join(" "));    
+            _credentialFlow.removeToken(_latestScope.join(" "));
             qDebug() << "Could not retrieve a valid token";
         }
         break;

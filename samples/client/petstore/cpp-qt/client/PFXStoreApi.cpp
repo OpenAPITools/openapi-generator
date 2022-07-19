@@ -63,7 +63,7 @@ void PFXStoreApi::setServerIndex(const QString &operation, int serverIndex) {
 }
 
 void PFXStoreApi::setApiKey(const QString &apiKeyName, const QString &apiKey) {
-    _apiKeys.insert(apiKeyName,apiKey);
+    _apiKeys.insert(apiKeyName, apiKey);
 }
 
 void PFXStoreApi::setBearerToken(const QString &token) {
@@ -460,8 +460,8 @@ void PFXStoreApi::placeOrderCallback(PFXHttpRequestWorker *worker) {
 }
 
 void PFXStoreApi::tokenAvailable(){
-  
-    oauthToken token; 
+
+    oauthToken token;
     switch (_OauthMethod) {
     case 1: //implicit flow
         token = _implicitFlow.getToken(_latestScope.join(" "));
@@ -479,7 +479,7 @@ void PFXStoreApi::tokenAvailable(){
             _latestInput.headers.insert("Authorization", "Bearer " + token.getToken());
             _latestWorker->execute(&_latestInput);
         }else{
-            _authFlow.removeToken(_latestScope.join(" "));    
+            _authFlow.removeToken(_latestScope.join(" "));
             qDebug() << "Could not retrieve a valid token";
         }
         break;
@@ -489,7 +489,7 @@ void PFXStoreApi::tokenAvailable(){
             _latestInput.headers.insert("Authorization", "Bearer " + token.getToken());
             _latestWorker->execute(&_latestInput);
         }else{
-            _credentialFlow.removeToken(_latestScope.join(" "));    
+            _credentialFlow.removeToken(_latestScope.join(" "));
             qDebug() << "Could not retrieve a valid token";
         }
         break;
@@ -499,7 +499,7 @@ void PFXStoreApi::tokenAvailable(){
             _latestInput.headers.insert("Authorization", "Bearer " + token.getToken());
             _latestWorker->execute(&_latestInput);
         }else{
-            _credentialFlow.removeToken(_latestScope.join(" "));    
+            _credentialFlow.removeToken(_latestScope.join(" "));
             qDebug() << "Could not retrieve a valid token";
         }
         break;
