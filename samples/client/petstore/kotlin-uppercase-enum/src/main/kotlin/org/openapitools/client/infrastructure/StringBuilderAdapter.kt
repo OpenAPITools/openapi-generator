@@ -7,16 +7,14 @@ import kotlinx.serialization.encoding.Encoder
 import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
 import kotlinx.serialization.descriptors.PrimitiveKind
 import kotlinx.serialization.descriptors.SerialDescriptor
-import java.math.BigInteger
 
-@Serializer(forClass = BigInteger::class)
-object BigIntegerAdapter : KSerializer<BigInteger> {
-    override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("BigInteger", PrimitiveKind.STRING)
-    override fun deserialize(decoder: Decoder): BigInteger {
-        return BigInteger(decoder.decodeString())
-    }
-
-    override fun serialize(encoder: Encoder, value: BigInteger) {
+@Serializer(forClass = StringBuilder::class)
+object StringBuilderAdapter : KSerializer<StringBuilder> {
+    override fun serialize(encoder: Encoder, value: StringBuilder) {
         encoder.encodeString(value.toString())
     }
+
+    override fun deserialize(decoder: Decoder): StringBuilder = StringBuilder(decoder.decodeString())
+
+    override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("StringBuilder", PrimitiveKind.STRING)
 }
