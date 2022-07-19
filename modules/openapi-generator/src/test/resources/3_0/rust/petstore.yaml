@@ -769,3 +769,11 @@ components:
           type: string
         message:
           type: string
+    property_test:
+      title: A model to test various formats, e.g. UUID
+      description: A model to test various formats, e.g. UUID
+      type: object
+      properties:
+        uuid:
+          type: string
+          format: uuid 
