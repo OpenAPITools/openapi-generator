@@ -43,7 +43,6 @@ public enum EnumClass {
     return String.valueOf(value);
   }
 
-  @JsonCreator
   public static EnumClass fromValue(String value) {
     for (EnumClass b : EnumClass.values()) {
       if (b.value.equals(value)) {

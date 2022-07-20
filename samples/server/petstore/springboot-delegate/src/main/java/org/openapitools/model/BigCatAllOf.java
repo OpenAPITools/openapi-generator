@@ -53,7 +53,6 @@ public class BigCatAllOf {
       return String.valueOf(value);
     }
 
-    @JsonCreator
     public static KindEnum fromValue(String value) {
       for (KindEnum b : KindEnum.values()) {
         if (b.value.equals(value)) {
