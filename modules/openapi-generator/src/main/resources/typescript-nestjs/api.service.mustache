@@ -121,6 +121,9 @@ export class {{classname}} {
 
 {{/isKeyInHeader}}
 {{#isKeyInQuery}}
+        {{^hasQueryParams}}
+        let queryParameters = {};
+        {{/hasQueryParams}}
         if (this.configuration.apiKeys["{{keyParamName}}"]) {
             queryParameters['{{keyParamName}}'] = this.configuration.apiKeys["{{keyParamName}}"];
         }
