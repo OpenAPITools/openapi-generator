@@ -73,7 +73,6 @@ public interface PetApi {
      * @param petId Pet id to delete (required)
      * @return Invalid pet value (status code 400)
      */
-    })
     @RequestMapping(
         method = RequestMethod.DELETE,
         value = "/pet/{petId}"
