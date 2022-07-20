@@ -905,12 +905,6 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
 
         supportingFiles.add(new SupportingFile("appveyor.mustache", "", "appveyor.yml"));
         supportingFiles.add(new SupportingFile("AbstractOpenAPISchema.mustache", modelPackageDir, "AbstractOpenAPISchema.cs"));
-
-        if (ProcessUtils.hasOAuthMethods(openAPI)) {
-            supportingFiles.add(new SupportingFile("auth/OAuthAuthenticator.mustache", authPackageDir, "OAuthAuthenticator.cs"));
-            supportingFiles.add(new SupportingFile("auth/TokenResponse.mustache", authPackageDir, "TokenResponse.cs"));
-            supportingFiles.add(new SupportingFile("auth/OAuthFlow.mustache", authPackageDir, "OAuthFlow.cs"));
-        }
     }
 
     public void addGenericHostSupportingFiles(final String clientPackageDir, final String packageFolder,
