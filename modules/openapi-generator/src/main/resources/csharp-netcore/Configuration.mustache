@@ -12,8 +12,10 @@ using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Net.Http;
+{{#useRestSharp}}
 {{#hasOAuthMethods}}using {{packageName}}.Client.Auth;
 {{/hasOAuthMethods}}
+{{/useRestSharp}}
 
 namespace {{packageName}}.Client
 {
@@ -331,6 +333,7 @@ namespace {{packageName}}.Client
         /// <value>The access token.</value>
         public virtual string AccessToken { get; set; }
 
+        {{#useRestSharp}}
         {{#hasOAuthMethods}}
         /// <summary>
         /// Gets or sets the token URL for OAuth2 authentication.
@@ -357,6 +360,7 @@ namespace {{packageName}}.Client
         public virtual OAuthFlow? OAuthFlow { get; set; }
 
         {{/hasOAuthMethods}}
+        {{/useRestSharp}}
         /// <summary>
         /// Gets or sets the temporary folder path to store the files downloaded from the server.
         /// </summary>
@@ -684,12 +688,14 @@ namespace {{packageName}}.Client
                 Username = second.Username ?? first.Username,
                 Password = second.Password ?? first.Password,
                 AccessToken = second.AccessToken ?? first.AccessToken,
+                {{#useRestSharp}}
                 {{#hasOAuthMethods}}
                 OAuthTokenUrl = second.OAuthTokenUrl ?? first.OAuthTokenUrl,
                 OAuthClientId = second.OAuthClientId ?? first.OAuthClientId,
                 OAuthClientSecret = second.OAuthClientSecret ?? first.OAuthClientSecret,
                 OAuthFlow = second.OAuthFlow ?? first.OAuthFlow,
                 {{/hasOAuthMethods}}
+                {{/useRestSharp}}
                 {{#hasHttpSignatureMethods}}
                 HttpSigningConfiguration = second.HttpSigningConfiguration ?? first.HttpSigningConfiguration,
                 {{/hasHttpSignatureMethods}}

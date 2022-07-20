@@ -4,8 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Security.Cryptography.X509Certificates;
+{{#useRestSharp}}
 {{#hasOAuthMethods}}using {{packageName}}.Client.Auth;
 {{/hasOAuthMethods}}
+{{/useRestSharp}}
 
 namespace {{packageName}}.Client
 {
@@ -20,6 +22,7 @@ namespace {{packageName}}.Client
         /// <value>Access token.</value>
         string AccessToken { get; }
 
+        {{#useRestSharp}}
         {{#hasOAuthMethods}}
         /// <summary>
         /// Gets the OAuth token URL.
@@ -46,6 +49,7 @@ namespace {{packageName}}.Client
         OAuthFlow? OAuthFlow { get; }
 
         {{/hasOAuthMethods}}
+        {{/useRestSharp}}
         /// <summary>
         /// Gets the API key.
         /// </summary>
