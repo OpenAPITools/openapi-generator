@@ -119,10 +119,10 @@ from unit_test_api.model.simple_enum_validation import SimpleEnumValidation
 from unit_test_api.model.the_default_keyword_does_not_do_anything_if_the_property_is_missing import TheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissing
 from unit_test_api.model.uniqueitems_false_validation import UniqueitemsFalseValidation
 from unit_test_api.model.uniqueitems_validation import UniqueitemsValidation
-# Defining the host is optional and defaults to http://localhost
+# Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
 configuration = unit_test_api.Configuration(
-    host = "http://localhost"
+    host = "https://someserver.com/v1"
 )
 
 
@@ -143,7 +143,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
 
 ## Documentation for API Endpoints
 
-All URIs are relative to *http://localhost*
+All URIs are relative to *https://someserver.com/v1*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------

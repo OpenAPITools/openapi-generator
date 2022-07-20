@@ -377,7 +377,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         supportingFiles.add(new SupportingFile("exceptions." + templateExtension, packagePath(), "exceptions.py"));
 
         if (Boolean.FALSE.equals(excludeTests)) {
-            supportingFiles.add(new SupportingFile("__init__." + templateExtension, testFolder, "__init__.py"));
+            supportingFiles.add(new SupportingFile("__init__test." + templateExtension, testFolder, "__init__.py"));
         }
 
         supportingFiles.add(new SupportingFile("api_client." + templateExtension, packagePath(), "api_client.py"));

@@ -368,8 +368,14 @@ class OpenApiTag:
 
 
 @dataclasses.dataclass
+class OpenApiServer:
+    url: str
+
+
+@dataclasses.dataclass
 class OpenApiDocument:
     openapi: str
+    servers: typing.List[OpenApiServer]
     info: OpenApiDocumentInfo
     tags: typing.List[OpenApiTag]
     paths: OpenApiPaths
@@ -384,6 +390,7 @@ def get_new_openapi() -> OpenApiDocument:
             description=f"sample spec for testing openapi functionality, built from json schema tests for {json_schema_test_draft}",
             version="0.0.1"
         ),
+        servers=[OpenApiServer(url='https://someserver.com/v1')],
         tags = [],
         paths={},
         components=OpenApiComponents({

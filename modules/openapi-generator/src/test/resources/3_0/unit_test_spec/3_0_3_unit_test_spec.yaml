@@ -1,4 +1,6 @@
 openapi: 3.0.3
+servers:
+- url: https://someserver.com/v1
 info:
   title: openapi 3.0.3 sample spec
   version: 0.0.1
