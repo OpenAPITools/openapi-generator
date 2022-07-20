@@ -63,6 +63,10 @@ return [
         \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
     ],
 
+    // token authentication
+    'tokenAuth.secure' => true,
+    'tokenAuth.relaxed' => null,
+
     // logger
     'logger.name' => 'App',
     'logger.path' => \realpath(__DIR__ . '/../../logs') . '/app.log',

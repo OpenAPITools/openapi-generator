@@ -96,6 +96,30 @@ final class RegisterDependencies
                 ->parameter('path', \DI\get('logger.path'))
                 ->parameter('level', \DI\get('logger.level'))
                 ->parameter('options', \DI\get('logger.options')),
+            {{#hasAuthMethods}}
+
+            // set global token middleware options
+            \Dyorg\TokenAuthenticationFactory::class => \DI\autowire()
+                ->constructorParameter('secure', \DI\get('tokenAuth.secure'))
+                ->constructorParameter('relaxed', \DI\get('tokenAuth.relaxed')),
+            {{#authMethods}}
+
+            // middleware factory for security schema {{name}} type {{type}}
+            '{{classname}}MiddlewareFactory' => \DI\create(\Dyorg\TokenAuthenticationFactory::class)
+                {{#isApiKey}}
+                ->method('setHeader', {{#isKeyInHeader}}'{{keyParamName}}'{{/isKeyInHeader}}{{^isKeyInHeader}}null{{/isKeyInHeader}})
+                ->method('setParameter', {{#isKeyInQuery}}'{{keyParamName}}'{{/isKeyInQuery}}{{^isKeyInQuery}}null{{/isKeyInQuery}})
+                ->method('setCookie', {{#isKeyInCookie}}'{{keyParamName}}'{{/isKeyInCookie}}{{^isKeyInCookie}}null{{/isKeyInCookie}})
+                ->method('setRegex', '/^(.*)$/i'),
+                {{/isApiKey}}
+                {{^isApiKey}}
+                ->method('setHeader', 'Authorization')
+                ->method('setParameter', null)
+                ->method('setCookie', null)
+                ->method('setRegex', {{#isBasicBasic}}'/Basic\s+(.*)$/i'{{/isBasicBasic}}{{#isOAuth}}'/Bearer\s+(.*)$/i'{{/isOAuth}}{{#isBasicBearer}}'/Bearer\s+(.*)$/i'{{/isBasicBearer}}),
+                {{/isApiKey}}
+            {{/authMethods}}
+            {{/hasAuthMethods}}
         ]);
     }
 }
