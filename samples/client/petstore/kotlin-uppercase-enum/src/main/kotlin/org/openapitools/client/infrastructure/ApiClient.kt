@@ -105,7 +105,7 @@ open class ApiClient(val baseUrl: String, val client: OkHttpClient = defaultClie
                 if (content == null) {
                     EMPTY_REQUEST
                 } else {
-                    Serializer.jvmJson.encodeToString(content)
+                    Serializer.kotlinxSerializationJson.encodeToString(content)
                         .toRequestBody((mediaType ?: JsonMediaType).toMediaTypeOrNull())
                 }
             mediaType == XmlMediaType -> throw UnsupportedOperationException("xml not currently supported.")
@@ -135,7 +135,7 @@ open class ApiClient(val baseUrl: String, val client: OkHttpClient = defaultClie
         }
         return when {
             mediaType==null || (mediaType.startsWith("application/") && mediaType.endsWith("json")) ->
-                Serializer.jvmJson.decodeFromString<T>(bodyContent)
+                Serializer.kotlinxSerializationJson.decodeFromString<T>(bodyContent)
             else ->  throw UnsupportedOperationException("responseBody currently only supports JSON body.")
         }
     }
@@ -237,6 +237,6 @@ open class ApiClient(val baseUrl: String, val client: OkHttpClient = defaultClie
         formatter. It also easily allows to provide a simple way to define a custom date format pattern
         inside a gson/moshi adapter.
         */
-        return Serializer.jvmJson.encodeToString(value).replace("\"", "")
+        return Serializer.kotlinxSerializationJson.encodeToString(value).replace("\"", "")
     }
 }

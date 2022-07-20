@@ -98,7 +98,7 @@ import java.util.concurrent.atomic.AtomicLong
         .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
 {{/jackson}}
 {{#kotlinx_serialization}}
-    @Deprecated("Use kotlinxSerializationAdapters instead", replaceWith = ReplaceWith("kotlinxSerializationAdapters"))
+    @Deprecated("Use Serializer.kotlinxSerializationAdapters instead", replaceWith = ReplaceWith("Serializer.kotlinxSerializationAdapters"))
     @JvmStatic
     val kotlinSerializationAdapters: SerializersModule
         get() { return kotlinxSerializationAdapters }
@@ -119,7 +119,7 @@ import java.util.concurrent.atomic.AtomicLong
         contextual(StringBuilder::class, StringBuilderAdapter)
     }
 
-    @Deprecated("Use kotlinxSerializationJson instead", replaceWith = ReplaceWith("kotlinxSerializationJson"))
+    @Deprecated("Use Serializer.kotlinxSerializationJson instead", replaceWith = ReplaceWith("Serializer.kotlinxSerializationJson"))
     @JvmStatic
     val jvmJson: Json
         get() { return kotlinxSerializationJson }
