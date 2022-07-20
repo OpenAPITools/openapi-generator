@@ -34,8 +34,6 @@ BOOST_AUTO_TEST_SUITE(GetDefaultResponseModelTest)
         BOOST_TEST(vec.size() == 2);
         BOOST_TEST(vec[0].getString().getBar() == "bar1");
         BOOST_TEST(vec[1].getString().getBar() == "bar2");
-
-
     }
 
 BOOST_AUTO_TEST_SUITE_END()

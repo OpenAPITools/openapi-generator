@@ -11,7 +11,10 @@ target_sources(model_tests
         order_model_test.cpp
         api_response_model_test.cpp
         _foo_get_default_response_test.cpp
+        _special_model_name_test.cpp
         additional_properties_class_test.cpp
+        AllOfWithSingleRef_test.cpp
+        Animal_test.cpp
 )
 
 target_include_directories(model_tests
