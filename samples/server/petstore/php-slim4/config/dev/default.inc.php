@@ -63,6 +63,10 @@ return [
         \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
     ],
 
+    // token authentication
+    'tokenAuth.secure' => false,
+    'tokenAuth.relaxed' => ['localhost', '127.0.0.1'],
+
     // mocker
     // OBVIOUSLY MUST NOT BE USED for production
     // @see https://github.com/ybelenko/openapi-data-mocker-server-middleware

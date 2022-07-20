@@ -187,14 +187,14 @@ Class | Method | HTTP request | Description
 ## Authentication
 
 ### Security schema `api_key`
-> Important! To make ApiKey authentication work you need to extend [\OpenAPIServer\Auth\AbstractAuthenticator](./lib/Auth/AbstractAuthenticator.php) class by [\OpenAPIServer\Auth\ApiKeyAuthenticator](./src/Auth/ApiKeyAuthenticator.php) class.
+> Important! To make ApiKey authentication work you need to extend [\OpenAPIServer\Auth\AbstractSecuritySchema](./lib/Auth/AbstractSecuritySchema.php) class by [\OpenAPIServer\Auth\ApiKeySecuritySchema](./src/Auth/ApiKeySecuritySchema.php) class.
 
 ### Security schema `petstore_auth`
-> Important! To make OAuth authentication work you need to extend [\OpenAPIServer\Auth\AbstractAuthenticator](./lib/Auth/AbstractAuthenticator.php) class by [\OpenAPIServer\Auth\OAuthAuthenticator](./src/Auth/OAuthAuthenticator.php) class.
+> Important! To make OAuth authentication work you need to extend [\OpenAPIServer\Auth\AbstractSecuritySchema](./lib/Auth/AbstractSecuritySchema.php) class by [\OpenAPIServer\Auth\PetstoreAuthSecuritySchema](./src/Auth/PetstoreAuthSecuritySchema.php) class.
 
 Scope list:
 * `write:pets` - modify pets in your account
 * `read:pets` - read your pets
 
 ### Advanced middleware configuration
-Ref to used Slim Token Middleware [dyorg/slim-token-authentication](https://github.com/dyorg/slim-token-authentication/tree/1.x#readme)
+Ref to used fork of Slim Token Middleware [ybelenko/slim-token-authentication](https://github.com/ybelenko/slim-token-authentication/tree/php8#readme)

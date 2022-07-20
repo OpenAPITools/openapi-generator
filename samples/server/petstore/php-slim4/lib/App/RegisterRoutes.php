@@ -24,6 +24,8 @@ declare(strict_types=1);
  */
 namespace OpenAPIServer\App;
 
+use Dyorg\TokenAuthentication;
+use Dyorg\TokenAuthenticationFactory;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Exception\HttpNotImplementedException;
@@ -74,11 +76,8 @@ class RegisterRoutes
             'authMethods' => [
                 // oauth2 security schema named 'petstore_auth'
                 [
-                    'type' => 'oauth2',
-                    'isBasic' => false,
-                    'isBearer' => false,
-                    'isApiKey' => false,
-                    'isOAuth' => true,
+                    'name' => 'petstore_auth',
+                    'classname' => 'PetstoreAuth',
                     'scopes' => [
                         'write:pets', // modify pets in your account
                         'read:pets', // read your pets
@@ -127,11 +126,8 @@ class RegisterRoutes
             'authMethods' => [
                 // oauth2 security schema named 'petstore_auth'
                 [
-                    'type' => 'oauth2',
-                    'isBasic' => false,
-                    'isBearer' => false,
-                    'isApiKey' => false,
-                    'isOAuth' => true,
+                    'name' => 'petstore_auth',
+                    'classname' => 'PetstoreAuth',
                     'scopes' => [
                         'read:pets', // read your pets
                     ],
@@ -179,11 +175,8 @@ class RegisterRoutes
             'authMethods' => [
                 // oauth2 security schema named 'petstore_auth'
                 [
-                    'type' => 'oauth2',
-                    'isBasic' => false,
-                    'isBearer' => false,
-                    'isApiKey' => false,
-                    'isOAuth' => true,
+                    'name' => 'petstore_auth',
+                    'classname' => 'PetstoreAuth',
                     'scopes' => [
                         'read:pets', // read your pets
                     ],
@@ -235,11 +228,8 @@ class RegisterRoutes
             'authMethods' => [
                 // oauth2 security schema named 'petstore_auth'
                 [
-                    'type' => 'oauth2',
-                    'isBasic' => false,
-                    'isBearer' => false,
-                    'isApiKey' => false,
-                    'isOAuth' => true,
+                    'name' => 'petstore_auth',
+                    'classname' => 'PetstoreAuth',
                     'scopes' => [
                         'write:pets', // modify pets in your account
                         'read:pets', // read your pets
@@ -265,11 +255,8 @@ class RegisterRoutes
             'authMethods' => [
                 // oauth2 security schema named 'petstore_auth'
                 [
-                    'type' => 'oauth2',
-                    'isBasic' => false,
-                    'isBearer' => false,
-                    'isApiKey' => false,
-                    'isOAuth' => true,
+                    'name' => 'petstore_auth',
+                    'classname' => 'PetstoreAuth',
                     'scopes' => [
                         'write:pets', // modify pets in your account
                         'read:pets', // read your pets
@@ -317,15 +304,10 @@ class RegisterRoutes
             'authMethods' => [
                 // apiKey security schema named 'api_key'
                 [
-                    'type' => 'apiKey',
-                    'isBasic' => false,
-                    'isBearer' => false,
-                    'isApiKey' => true,
-                    'isOAuth' => false,
-                    'keyParamName' => 'api_key',
-                    'isKeyInHeader' => true,
-                    'isKeyInQuery' => false,
-                    'isKeyInCookie' => false,
+                    'name' => 'api_key',
+                    'classname' => 'ApiKey',
+                    'scopes' => [
+                    ],
                 ],
             ],
         ],
@@ -347,11 +329,8 @@ class RegisterRoutes
             'authMethods' => [
                 // oauth2 security schema named 'petstore_auth'
                 [
-                    'type' => 'oauth2',
-                    'isBasic' => false,
-                    'isBearer' => false,
-                    'isApiKey' => false,
-                    'isOAuth' => true,
+                    'name' => 'petstore_auth',
+                    'classname' => 'PetstoreAuth',
                     'scopes' => [
                         'write:pets', // modify pets in your account
                         'read:pets', // read your pets
@@ -384,11 +363,8 @@ class RegisterRoutes
             'authMethods' => [
                 // oauth2 security schema named 'petstore_auth'
                 [
-                    'type' => 'oauth2',
-                    'isBasic' => false,
-                    'isBearer' => false,
-                    'isApiKey' => false,
-                    'isOAuth' => true,
+                    'name' => 'petstore_auth',
+                    'classname' => 'PetstoreAuth',
                     'scopes' => [
                         'write:pets', // modify pets in your account
                         'read:pets', // read your pets
@@ -425,15 +401,10 @@ class RegisterRoutes
             'authMethods' => [
                 // apiKey security schema named 'api_key'
                 [
-                    'type' => 'apiKey',
-                    'isBasic' => false,
-                    'isBearer' => false,
-                    'isApiKey' => true,
-                    'isOAuth' => false,
-                    'keyParamName' => 'api_key',
-                    'isKeyInHeader' => true,
-                    'isKeyInQuery' => false,
-                    'isKeyInCookie' => false,
+                    'name' => 'api_key',
+                    'classname' => 'ApiKey',
+                    'scopes' => [
+                    ],
                 ],
             ],
         ],
@@ -553,15 +524,10 @@ class RegisterRoutes
             'authMethods' => [
                 // apiKey security schema named 'api_key'
                 [
-                    'type' => 'apiKey',
-                    'isBasic' => false,
-                    'isBearer' => false,
-                    'isApiKey' => true,
-                    'isOAuth' => false,
-                    'keyParamName' => 'api_key',
-                    'isKeyInHeader' => true,
-                    'isKeyInQuery' => false,
-                    'isKeyInCookie' => false,
+                    'name' => 'api_key',
+                    'classname' => 'ApiKey',
+                    'scopes' => [
+                    ],
                 ],
             ],
         ],
@@ -583,15 +549,10 @@ class RegisterRoutes
             'authMethods' => [
                 // apiKey security schema named 'api_key'
                 [
-                    'type' => 'apiKey',
-                    'isBasic' => false,
-                    'isBearer' => false,
-                    'isApiKey' => true,
-                    'isOAuth' => false,
-                    'keyParamName' => 'api_key',
-                    'isKeyInHeader' => true,
-                    'isKeyInQuery' => false,
-                    'isKeyInCookie' => false,
+                    'name' => 'api_key',
+                    'classname' => 'ApiKey',
+                    'scopes' => [
+                    ],
                 ],
             ],
         ],
@@ -613,15 +574,10 @@ class RegisterRoutes
             'authMethods' => [
                 // apiKey security schema named 'api_key'
                 [
-                    'type' => 'apiKey',
-                    'isBasic' => false,
-                    'isBearer' => false,
-                    'isApiKey' => true,
-                    'isOAuth' => false,
-                    'keyParamName' => 'api_key',
-                    'isKeyInHeader' => true,
-                    'isKeyInQuery' => false,
-                    'isKeyInCookie' => false,
+                    'name' => 'api_key',
+                    'classname' => 'ApiKey',
+                    'scopes' => [
+                    ],
                 ],
             ],
         ],
@@ -707,15 +663,10 @@ class RegisterRoutes
             'authMethods' => [
                 // apiKey security schema named 'api_key'
                 [
-                    'type' => 'apiKey',
-                    'isBasic' => false,
-                    'isBearer' => false,
-                    'isApiKey' => true,
-                    'isOAuth' => false,
-                    'keyParamName' => 'api_key',
-                    'isKeyInHeader' => true,
-                    'isKeyInQuery' => false,
-                    'isKeyInCookie' => false,
+                    'name' => 'api_key',
+                    'classname' => 'ApiKey',
+                    'scopes' => [
+                    ],
                 ],
             ],
         ],
@@ -742,15 +693,10 @@ class RegisterRoutes
             'authMethods' => [
                 // apiKey security schema named 'api_key'
                 [
-                    'type' => 'apiKey',
-                    'isBasic' => false,
-                    'isBearer' => false,
-                    'isApiKey' => true,
-                    'isOAuth' => false,
-                    'keyParamName' => 'api_key',
-                    'isKeyInHeader' => true,
-                    'isKeyInQuery' => false,
-                    'isKeyInCookie' => false,
+                    'name' => 'api_key',
+                    'classname' => 'ApiKey',
+                    'scopes' => [
+                    ],
                 ],
             ],
         ],
@@ -817,15 +763,10 @@ class RegisterRoutes
             'authMethods' => [
                 // apiKey security schema named 'api_key'
                 [
-                    'type' => 'apiKey',
-                    'isBasic' => false,
-                    'isBearer' => false,
-                    'isApiKey' => true,
-                    'isOAuth' => false,
-                    'keyParamName' => 'api_key',
-                    'isKeyInHeader' => true,
-                    'isKeyInQuery' => false,
-                    'isKeyInCookie' => false,
+                    'name' => 'api_key',
+                    'classname' => 'ApiKey',
+                    'scopes' => [
+                    ],
                 ],
             ],
         ],
@@ -866,6 +807,28 @@ class RegisterRoutes
                 // Notice how we register the controller using the class name?
                 // PHP-DI will instantiate the class for us only when it's actually necessary
                 $callback = ["\\{$operation['apiPackage']}\\{$operation['userClassname']}", $operation['operationId']];
+            }
+
+            foreach ($operation['authMethods'] as $authMethod) {
+                /** @var TokenAuthenticationFactory */
+                $middlewareFactory = $container->get("{$authMethod['classname']}MiddlewareFactory");
+                $userAuthenticatorClass = "\\OpenAPIServer\Auth\\{$authMethod['classname']}SecuritySchema";
+                if (\class_exists($userAuthenticatorClass)) {
+                    $authenticator = new $userAuthenticatorClass();
+                    $authenticator->setRequiredScope((empty($authMethod['scopes'])) ? null : $authMethod['scopes']);
+                    $middlewares[] = $middlewareFactory
+                        ->setAuthenticator($authenticator)
+                        ->setError($authenticator)
+                        ->create();
+                } else {
+                    $options = $middlewareFactory->buildOptions();
+                    $options['authenticator'] = function (ServerRequestInterface $request) use ($userAuthenticatorClass) {
+                        throw new HttpNotImplementedException($request, \sprintf('Please extend %s with implementation %s class', '\OpenAPIServer\Auth\AbstractSecuritySchema', $userAuthenticatorClass));
+                    };
+                    // reset error handler option
+                    unset($options['error']);
+                    $middlewares[] = new TokenAuthentication($options);
+                }
             }
 
             if ($mockMiddlewareFactory) {
