@@ -53,6 +53,7 @@ public:
     boost::property_tree::ptree toPropertyTree() const;
     void fromPropertyTree(boost::property_tree::ptree const& pt);
 
+
     /////////////////////////////////////////////
     /// Tag members
 
@@ -71,8 +72,6 @@ public:
 protected:
     int64_t m_Id = 0L;
     std::string m_Name = "";
-
-
 };
 
 std::vector<Tag> createTagVectorFromJsonString(const std::string& json);

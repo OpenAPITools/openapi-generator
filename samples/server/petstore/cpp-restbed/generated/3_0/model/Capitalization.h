@@ -53,6 +53,7 @@ public:
     boost::property_tree::ptree toPropertyTree() const;
     void fromPropertyTree(boost::property_tree::ptree const& pt);
 
+
     /////////////////////////////////////////////
     /// Capitalization members
 
@@ -99,12 +100,6 @@ protected:
     std::string m_Capital_Snake = "";
     std::string m_SCA_ETH_Flow_Points = "";
     std::string m_ATT_NAME = "";
-
-
-
-
-
-
 };
 
 std::vector<Capitalization> createCapitalizationVectorFromJsonString(const std::string& json);

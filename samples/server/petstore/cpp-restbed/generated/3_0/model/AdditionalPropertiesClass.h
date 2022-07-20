@@ -54,6 +54,7 @@ public:
     boost::property_tree::ptree toPropertyTree() const;
     void fromPropertyTree(boost::property_tree::ptree const& pt);
 
+
     /////////////////////////////////////////////
     /// AdditionalPropertiesClass members
 
@@ -72,8 +73,6 @@ public:
 protected:
     std::map<std::string, std::string> m_Map_property;
     std::map<std::string, std::map<std::string, std::string>> m_Map_of_map_property;
-
-
 };
 
 std::vector<AdditionalPropertiesClass> createAdditionalPropertiesClassVectorFromJsonString(const std::string& json);

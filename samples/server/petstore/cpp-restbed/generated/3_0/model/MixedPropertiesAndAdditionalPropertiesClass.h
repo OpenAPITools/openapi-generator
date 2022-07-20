@@ -55,6 +55,7 @@ public:
     boost::property_tree::ptree toPropertyTree() const;
     void fromPropertyTree(boost::property_tree::ptree const& pt);
 
+
     /////////////////////////////////////////////
     /// MixedPropertiesAndAdditionalPropertiesClass members
 
@@ -80,9 +81,6 @@ protected:
     std::string m_Uuid = "";
     std::string m_DateTime = "";
     std::map<std::string, Animal> m_map;
-
-
-
 };
 
 std::vector<MixedPropertiesAndAdditionalPropertiesClass> createMixedPropertiesAndAdditionalPropertiesClassVectorFromJsonString(const std::string& json);

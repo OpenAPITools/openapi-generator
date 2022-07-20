@@ -53,6 +53,7 @@ public:
     boost::property_tree::ptree toPropertyTree() const;
     void fromPropertyTree(boost::property_tree::ptree const& pt);
 
+
     /////////////////////////////////////////////
     /// Name members
 
@@ -85,10 +86,6 @@ protected:
     int32_t m_Snake_case = 0;
     std::string m_Property = "";
     int32_t m_r_123Number = 0;
-
-
-
-
 };
 
 std::vector<Name> createNameVectorFromJsonString(const std::string& json);

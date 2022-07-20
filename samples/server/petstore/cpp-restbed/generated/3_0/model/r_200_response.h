@@ -53,6 +53,7 @@ public:
     boost::property_tree::ptree toPropertyTree() const;
     void fromPropertyTree(boost::property_tree::ptree const& pt);
 
+
     /////////////////////////////////////////////
     /// r_200_response members
 
@@ -71,8 +72,6 @@ public:
 protected:
     int32_t m_Name = 0;
     std::string m_r_class = "";
-
-
 };
 
 std::vector<r_200_response> creater_200_responseVectorFromJsonString(const std::string& json);

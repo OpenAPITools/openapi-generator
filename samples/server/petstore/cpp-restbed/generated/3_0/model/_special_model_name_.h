@@ -52,6 +52,7 @@ public:
     boost::property_tree::ptree toPropertyTree() const;
     void fromPropertyTree(boost::property_tree::ptree const& pt);
 
+
     /////////////////////////////////////////////
     /// _special_model_name_ members
 
@@ -63,7 +64,6 @@ public:
 
 protected:
     int64_t m_special_property_name = 0L;
-
 };
 
 std::vector<_special_model_name_> create_special_model_name_VectorFromJsonString(const std::string& json);

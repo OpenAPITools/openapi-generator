@@ -52,6 +52,7 @@ public:
     boost::property_tree::ptree toPropertyTree() const;
     void fromPropertyTree(boost::property_tree::ptree const& pt);
 
+
     /////////////////////////////////////////////
     /// Cat_allOf members
 
@@ -63,7 +64,6 @@ public:
 
 protected:
     bool m_Declawed = false;
-
 };
 
 std::vector<Cat_allOf> createCat_allOfVectorFromJsonString(const std::string& json);

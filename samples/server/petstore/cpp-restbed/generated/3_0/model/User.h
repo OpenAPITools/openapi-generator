@@ -53,6 +53,7 @@ public:
     boost::property_tree::ptree toPropertyTree() const;
     void fromPropertyTree(boost::property_tree::ptree const& pt);
 
+
     /////////////////////////////////////////////
     /// User members
 
@@ -113,14 +114,6 @@ protected:
     std::string m_Password = "";
     std::string m_Phone = "";
     int32_t m_UserStatus = 0;
-
-
-
-
-
-
-
-
 };
 
 std::vector<User> createUserVectorFromJsonString(const std::string& json);

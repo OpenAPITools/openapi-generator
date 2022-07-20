@@ -11,8 +11,8 @@
 #include <regex>
 {{#hasEnums}}
 #include <algorithm>
-#include <boost/lexical_cast.hpp>
 {{/hasEnums}}
+#include <boost/lexical_cast.hpp>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
 #include "helpers.h"
@@ -150,6 +150,30 @@ void {{classname}}::fromPropertyTree(ptree const &pt)
 	{{/vars}}
 }
 
+{{#isEnum}}
+std::string {{classname}}::toString() const {
+    return boost::lexical_cast<std::string>(getEnumValue());
+}
+
+void {{classname}}::fromString(const std::string& str) {
+    setEnumValue(boost::lexical_cast<{{{dataType}}}>(str));
+}
+
+{{{dataType}}} {{classname}}::getEnumValue() const {
+    return m_{{{name}}}EnumValue;
+}
+
+void {{classname}}::setEnumValue(const {{{dataType}}}& val) {
+    static const std::array<{{#complexType}}{{{.}}}{{/complexType}}{{^complexType}}{{{dataType}}}{{/complexType}}, {{#allowableValues}}{{#enumVars}}{{#-last}}{{-index}}{{/-last}}{{/enumVars}}{{/allowableValues}}> allowedValues = {
+        {{#allowableValues}}{{#enumVars}}{{^isNumeric}}"{{/isNumeric}}{{{value}}}{{^isNumeric}}"{{/isNumeric}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}
+    };
+    if (std::find(allowedValues.begin(), allowedValues.end(), val) != allowedValues.end()) {
+        m_{{{name}}}EnumValue = val;
+    } else {
+        throw std::runtime_error("Value " + boost::lexical_cast<std::string>(val) + " not allowed");
+    }
+}
+{{/isEnum}}
 {{#vars}}
 {{{dataType}}} {{classname}}::{{getter}}() const
 {
@@ -159,10 +183,14 @@ void {{classname}}::fromPropertyTree(ptree const &pt)
 void {{classname}}::{{setter}}({{{dataType}}} value)
 {
 	{{#isEnum}}
+    static const std::array<{{#complexType}}{{{.}}}{{/complexType}}{{^complexType}}{{{dataType}}}{{/complexType}}, {{#allowableValues}}{{#enumVars}}{{#-last}}{{-index}}{{/-last}}{{/enumVars}}{{/allowableValues}}> allowedValues = {
+        {{#allowableValues}}{{#enumVars}}{{^isNumeric}}"{{/isNumeric}}{{{value}}}{{^isNumeric}}"{{/isNumeric}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}
+    };
+
 	{{#isContainer}}
     {{#isMap}}
     for (const auto &v: value) {
-        if (std::find(m_{{enumName}}.begin(), m_{{enumName}}.end(), v.first) == m_{{enumName}}.end()) {
+        if (std::find(allowedValues.begin(), allowedValues.end(), v.first) == allowedValues.end()) {
             throw std::runtime_error("Value " + boost::lexical_cast<std::string>(v.first) + " not allowed");
         }
     }
@@ -170,14 +198,14 @@ void {{classname}}::{{setter}}({{{dataType}}} value)
     {{/isMap}}
     {{^isMap}}
     for (const auto &v: value) {
-        if (std::find(m_{{enumName}}.begin(), m_{{enumName}}.end(), v) == m_{{enumName}}.end()) {
+        if (std::find(allowedValues.begin(), allowedValues.end(), v) == allowedValues.end()) {
             throw std::runtime_error("Value " + boost::lexical_cast<std::string>(v) + " not allowed");
         }
     }
     {{/isMap}}
     {{/isContainer}}
 	{{^isContainer}}
-    if (std::find(m_{{enumName}}.begin(), m_{{enumName}}.end(), value) != m_{{enumName}}.end()) {
+    if (std::find(allowedValues.begin(), allowedValues.end(), value) != allowedValues.end()) {
 		m_{{name}} = value;
 	} else {
 		throw std::runtime_error("Value " + boost::lexical_cast<std::string>(value) + " not allowed");

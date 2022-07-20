@@ -54,6 +54,7 @@ public:
     boost::property_tree::ptree toPropertyTree() const;
     void fromPropertyTree(boost::property_tree::ptree const& pt);
 
+
     /////////////////////////////////////////////
     /// FileSchemaTestClass members
 
@@ -72,8 +73,6 @@ public:
 protected:
     File m_file;
     std::vector<File> m_Files;
-
-
 };
 
 std::vector<FileSchemaTestClass> createFileSchemaTestClassVectorFromJsonString(const std::string& json);

@@ -53,6 +53,7 @@ public:
     boost::property_tree::ptree toPropertyTree() const;
     void fromPropertyTree(boost::property_tree::ptree const& pt);
 
+
     /////////////////////////////////////////////
     /// ApiResponse members
 
@@ -78,9 +79,6 @@ protected:
     int32_t m_Code = 0;
     std::string m_Type = "";
     std::string m_Message = "";
-
-
-
 };
 
 std::vector<ApiResponse> createApiResponseVectorFromJsonString(const std::string& json);

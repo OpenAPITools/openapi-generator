@@ -607,7 +607,9 @@ void PetFindByStatusResource::handler_GET_internal(const std::shared_ptr<restbed
     // Getting the query params
     std::string status_raw = request->get_query_parameter("status");
     std::vector<std::string> status;
-    boost::split(status, status_raw, boost::is_any_of(","));
+    std::vector<std::string> status_temp;
+    boost::split(status_temp, status_raw, boost::is_any_of(","));
+    std::copy(status_temp.begin(), status_temp.end(), std::inserter(status, std::next(status.begin())));
     
     int status_code = 500;
     std::vector<Pet> resultObject = std::vector<Pet>();
@@ -732,7 +734,9 @@ void PetFindByTagsResource::handler_GET_internal(const std::shared_ptr<restbed::
     // Getting the query params
     std::string tags_raw = request->get_query_parameter("tags");
     std::set<std::string> tags;
-    boost::split(tags, tags_raw, boost::is_any_of(","));
+    std::vector<std::string> tags_temp;
+    boost::split(tags_temp, tags_raw, boost::is_any_of(","));
+    std::copy(tags_temp.begin(), tags_temp.end(), std::inserter(tags, std::next(tags.begin())));
     
     int status_code = 500;
     std::set<Pet> resultObject = std::set<Pet>();

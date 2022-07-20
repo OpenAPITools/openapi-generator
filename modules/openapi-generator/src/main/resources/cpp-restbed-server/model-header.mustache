@@ -51,8 +51,17 @@ public:
     boost::property_tree::ptree toPropertyTree() const;
     void fromPropertyTree(boost::property_tree::ptree const& pt);
 
+    {{#isEnum}}
+    std::string toString() const;
+    void fromString(const std::string& str);
+    {{/isEnum}}
+
     /////////////////////////////////////////////
     /// {{classname}} members
+    {{#isEnum}}
+    {{{dataType}}} getEnumValue() const;
+    void setEnumValue(const {{{dataType}}}& val);
+    {{/isEnum}}
     {{#vars}}
 
     /// <summary>
@@ -63,6 +72,9 @@ public:
     {{/vars}}
 
 protected:
+    {{#isEnum}}
+    {{{dataType}}} m_{{{name}}}EnumValue;
+    {{/isEnum}}
     {{#vars}}
     {{^isContainer}}
     {{^isModel}}
@@ -75,14 +87,6 @@ protected:
     {{#isContainer}}
     {{{dataType}}} m_{{name}};
     {{/isContainer}}
-    {{/vars}}
-    {{#vars}}
-
-    {{#isEnum}}
-    std::array<{{#complexType}}{{{.}}}{{/complexType}}{{^complexType}}{{{dataType}}}{{/complexType}}, {{#allowableValues}}{{#enumVars}}{{#-last}}{{-index}}{{/-last}}{{/enumVars}}{{/allowableValues}}> m_{{enumName}} = {
-        {{#allowableValues}}{{#enumVars}}{{^isNumeric}}"{{/isNumeric}}{{{value}}}{{^isNumeric}}"{{/isNumeric}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}
-    };
-    {{/isEnum}}
     {{/vars}}
 };
 

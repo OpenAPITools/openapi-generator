@@ -52,6 +52,7 @@ public:
     boost::property_tree::ptree toPropertyTree() const;
     void fromPropertyTree(boost::property_tree::ptree const& pt);
 
+
     /////////////////////////////////////////////
     /// NumberOnly members
 
@@ -63,7 +64,6 @@ public:
 
 protected:
     double m_JustNumber = 0.0;
-
 };
 
 std::vector<NumberOnly> createNumberOnlyVectorFromJsonString(const std::string& json);

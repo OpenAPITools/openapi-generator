@@ -53,6 +53,7 @@ public:
     boost::property_tree::ptree toPropertyTree() const;
     void fromPropertyTree(boost::property_tree::ptree const& pt);
 
+
     /////////////////////////////////////////////
     /// _foo_get_default_response members
 
@@ -64,7 +65,6 @@ public:
 
 protected:
     Foo m_string;
-
 };
 
 std::vector<_foo_get_default_response> create_foo_get_default_responseVectorFromJsonString(const std::string& json);

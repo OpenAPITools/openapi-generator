@@ -53,6 +53,7 @@ public:
     boost::property_tree::ptree toPropertyTree() const;
     void fromPropertyTree(boost::property_tree::ptree const& pt);
 
+
     /////////////////////////////////////////////
     /// HasOnlyReadOnly members
 
@@ -71,8 +72,6 @@ public:
 protected:
     std::string m_Bar = "";
     std::string m_Foo = "";
-
-
 };
 
 std::vector<HasOnlyReadOnly> createHasOnlyReadOnlyVectorFromJsonString(const std::string& json);

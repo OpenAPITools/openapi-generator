@@ -53,6 +53,7 @@ public:
     boost::property_tree::ptree toPropertyTree() const;
     void fromPropertyTree(boost::property_tree::ptree const& pt);
 
+
     /////////////////////////////////////////////
     /// Foo members
 
@@ -64,7 +65,6 @@ public:
 
 protected:
     std::string m_Bar = "bar";
-
 };
 
 std::vector<Foo> createFooVectorFromJsonString(const std::string& json);

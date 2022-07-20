@@ -53,6 +53,7 @@ public:
     boost::property_tree::ptree toPropertyTree() const;
     void fromPropertyTree(boost::property_tree::ptree const& pt);
 
+
     /////////////////////////////////////////////
     /// Category members
 
@@ -71,8 +72,6 @@ public:
 protected:
     int64_t m_Id = 0L;
     std::string m_Name = "default-name";
-
-
 };
 
 std::vector<Category> createCategoryVectorFromJsonString(const std::string& json);

@@ -125,8 +125,12 @@ std::map<std::string, std::string> MapTest::getMapOfEnumString() const
 
 void MapTest::setMapOfEnumString(std::map<std::string, std::string> value)
 {
+    static const std::array<std::string, 2> allowedValues = {
+        "UPPER", "lower"
+    };
+
     for (const auto &v: value) {
-        if (std::find(m_Map_of_enum_stringEnum.begin(), m_Map_of_enum_stringEnum.end(), v.first) == m_Map_of_enum_stringEnum.end()) {
+        if (std::find(allowedValues.begin(), allowedValues.end(), v.first) == allowedValues.end()) {
             throw std::runtime_error("Value " + boost::lexical_cast<std::string>(v.first) + " not allowed");
         }
     }

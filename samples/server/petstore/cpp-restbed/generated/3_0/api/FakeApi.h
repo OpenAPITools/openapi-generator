@@ -32,6 +32,7 @@
 #include <corvusoft/restbed/settings.hpp>
 
 #include "Client.h"
+#include "EnumClass.h"
 #include "FileSchemaTestClass.h"
 #include "HealthCheckResult.h"
 #include "OuterComposite.h"
@@ -641,8 +642,8 @@ public:
                 { throw FakeApiException(501, "Not implemented"); };
 
     std::function<int(
-        std::vector<std::string> & enumHeaderStringArray, std::string & enumHeaderString, std::vector<std::string> & enumQueryStringArray, std::string & enumQueryString, int32_t & enumQueryInteger, double & enumQueryDouble, std::vector<std::string> & enumFormStringArray, std::string & enumFormString)> handler_GET_func =
-            [](std::vector<std::string> &, std::string &, std::vector<std::string> &, std::string &, int32_t &, double &, std::vector<std::string> &, std::string &) -> int
+        std::vector<std::string> & enumHeaderStringArray, std::string & enumHeaderString, std::vector<std::string> & enumQueryStringArray, std::string & enumQueryString, int32_t & enumQueryInteger, double & enumQueryDouble, std::vector<EnumClass> & enumQueryModelArray, std::vector<std::string> & enumFormStringArray, std::string & enumFormString)> handler_GET_func =
+            [](std::vector<std::string> &, std::string &, std::vector<std::string> &, std::string &, int32_t &, double &, std::vector<EnumClass> &, std::vector<std::string> &, std::string &) -> int
                 { throw FakeApiException(501, "Not implemented"); };
 
     std::function<int(
@@ -663,7 +664,7 @@ protected:
     virtual int handler_POST(
         double & number, double & r_double, std::string & patternWithoutDelimiter, std::string & byte, int32_t & integer, int32_t & int32, int64_t & int64, float & r_float, std::string & string, std::string & binary, std::string & date, std::string & dateTime, std::string & password, std::string & callback);
     virtual int handler_GET(
-        std::vector<std::string> & enumHeaderStringArray, std::string & enumHeaderString, std::vector<std::string> & enumQueryStringArray, std::string & enumQueryString, int32_t & enumQueryInteger, double & enumQueryDouble, std::vector<std::string> & enumFormStringArray, std::string & enumFormString);
+        std::vector<std::string> & enumHeaderStringArray, std::string & enumHeaderString, std::vector<std::string> & enumQueryStringArray, std::string & enumQueryString, int32_t & enumQueryInteger, double & enumQueryDouble, std::vector<EnumClass> & enumQueryModelArray, std::vector<std::string> & enumFormStringArray, std::string & enumFormString);
     virtual int handler_DELETE(
         int32_t & requiredStringGroup, bool & requiredBooleanGroup, int64_t & requiredInt64Group, int32_t & stringGroup, bool & booleanGroup, int64_t & int64Group);
 

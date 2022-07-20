@@ -53,6 +53,7 @@ public:
     boost::property_tree::ptree toPropertyTree() const;
     void fromPropertyTree(boost::property_tree::ptree const& pt);
 
+
     /////////////////////////////////////////////
     /// Format_test members
 
@@ -169,22 +170,6 @@ protected:
     std::string m_Password = "";
     std::string m_Pattern_with_digits = "";
     std::string m_Pattern_with_digits_and_delimiter = "";
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 };
 
 std::vector<Format_test> createFormat_testVectorFromJsonString(const std::string& json);

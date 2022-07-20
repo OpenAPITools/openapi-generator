@@ -20,6 +20,7 @@
 #include <sstream>
 #include <stdexcept>
 #include <regex>
+#include <boost/lexical_cast.hpp>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
 #include "helpers.h"
@@ -69,6 +70,28 @@ void OuterEnumIntegerDefaultValue::fromPropertyTree(ptree const &pt)
 	ptree tmp_node;
 }
 
+std::string OuterEnumIntegerDefaultValue::toString() const {
+    return boost::lexical_cast<std::string>(getEnumValue());
+}
+
+void OuterEnumIntegerDefaultValue::fromString(const std::string& str) {
+    setEnumValue(boost::lexical_cast<int32_t>(str));
+}
+
+int32_t OuterEnumIntegerDefaultValue::getEnumValue() const {
+    return m_OuterEnumIntegerDefaultValueEnumValue;
+}
+
+void OuterEnumIntegerDefaultValue::setEnumValue(const int32_t& val) {
+    static const std::array<int32_t, 3> allowedValues = {
+        0, 1, 2
+    };
+    if (std::find(allowedValues.begin(), allowedValues.end(), val) != allowedValues.end()) {
+        m_OuterEnumIntegerDefaultValueEnumValue = val;
+    } else {
+        throw std::runtime_error("Value " + boost::lexical_cast<std::string>(val) + " not allowed");
+    }
+}
 
 std::vector<OuterEnumIntegerDefaultValue> createOuterEnumIntegerDefaultValueVectorFromJsonString(const std::string& json)
 {

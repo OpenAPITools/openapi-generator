@@ -91,7 +91,11 @@ std::string EnumArrays::getJustSymbol() const
 
 void EnumArrays::setJustSymbol(std::string value)
 {
-    if (std::find(m_Just_symbolEnum.begin(), m_Just_symbolEnum.end(), value) != m_Just_symbolEnum.end()) {
+    static const std::array<std::string, 2> allowedValues = {
+        ">=", "$"
+    };
+
+    if (std::find(allowedValues.begin(), allowedValues.end(), value) != allowedValues.end()) {
 		m_Just_symbol = value;
 	} else {
 		throw std::runtime_error("Value " + boost::lexical_cast<std::string>(value) + " not allowed");
@@ -106,8 +110,12 @@ std::vector<std::string> EnumArrays::getArrayEnum() const
 
 void EnumArrays::setArrayEnum(std::vector<std::string> value)
 {
+    static const std::array<std::string, 2> allowedValues = {
+        "fish", "crab"
+    };
+
     for (const auto &v: value) {
-        if (std::find(m_Array_enumEnum.begin(), m_Array_enumEnum.end(), v) == m_Array_enumEnum.end()) {
+        if (std::find(allowedValues.begin(), allowedValues.end(), v) == allowedValues.end()) {
             throw std::runtime_error("Value " + boost::lexical_cast<std::string>(v) + " not allowed");
         }
     }

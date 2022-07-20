@@ -58,6 +58,7 @@ public:
     boost::property_tree::ptree toPropertyTree() const;
     void fromPropertyTree(boost::property_tree::ptree const& pt);
 
+
     /////////////////////////////////////////////
     /// Pet members
 
@@ -104,15 +105,6 @@ protected:
     std::set<std::string> m_PhotoUrls;
     std::vector<Tag> m_Tags;
     std::string m_Status = "";
-
-
-
-
-
-
-    std::array<std::string, 3> m_StatusEnum = {
-        "available", "pending", "sold"
-    };
 };
 
 std::vector<Pet> createPetVectorFromJsonString(const std::string& json);

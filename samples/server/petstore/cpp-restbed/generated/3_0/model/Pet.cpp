@@ -165,7 +165,11 @@ std::string Pet::getStatus() const
 
 void Pet::setStatus(std::string value)
 {
-    if (std::find(m_StatusEnum.begin(), m_StatusEnum.end(), value) != m_StatusEnum.end()) {
+    static const std::array<std::string, 3> allowedValues = {
+        "available", "pending", "sold"
+    };
+
+    if (std::find(allowedValues.begin(), allowedValues.end(), value) != allowedValues.end()) {
 		m_Status = value;
 	} else {
 		throw std::runtime_error("Value " + boost::lexical_cast<std::string>(value) + " not allowed");

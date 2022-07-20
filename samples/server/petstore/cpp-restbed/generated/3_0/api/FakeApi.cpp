@@ -1463,10 +1463,24 @@ void FakeResource::handler_GET_internal(const std::shared_ptr<restbed::Session> 
     // Getting the query params
     std::string enumQueryStringArray_raw = request->get_query_parameter("enumQueryStringArray");
     std::vector<std::string> enumQueryStringArray;
-    boost::split(enumQueryStringArray, enumQueryStringArray_raw, boost::is_any_of(","));
+    std::vector<std::string> enumQueryStringArray_temp;
+    boost::split(enumQueryStringArray_temp, enumQueryStringArray_raw, boost::is_any_of(","));
+    std::copy(enumQueryStringArray_temp.begin(), enumQueryStringArray_temp.end(), std::inserter(enumQueryStringArray, std::next(enumQueryStringArray.begin())));
     std::string enumQueryString = request->get_query_parameter("enumQueryString", "-efg");
     int32_t enumQueryInteger = request->get_query_parameter("enumQueryInteger", 0);
     double enumQueryDouble = request->get_query_parameter("enumQueryDouble", 0.0);
+    std::string enumQueryModelArray_raw = request->get_query_parameter("enumQueryModelArray");
+    std::vector<EnumClass> enumQueryModelArray;
+    std::vector<std::string> enumQueryModelArray_temp;
+    boost::split(enumQueryModelArray_temp, enumQueryModelArray_raw, boost::is_any_of(","));
+            #if 0
+            /*
+        CodegenProperty{openApiType='EnumClass', baseName='inner', complexType='EnumClass', getter='getInner', setter='setInner', description='null', dataType='EnumClass', datatypeWithEnum='EnumClass', dataFormat='null', name='Inner', min='null', max='null', defaultValue='EnumClass{}', defaultValueWithParam=' = data.inner;', baseType='EnumClass', containerType='null', title='null', unescapedDescription='null', maxLength=null, minLength=null, pattern='null', example='null', jsonSchema='{
+      "$ref" : "#/components/schemas/EnumClass"
+    }', minimum='null', maximum='null', exclusiveMinimum=false, exclusiveMaximum=false, required=false, deprecated=false, hasMoreNonReadOnly=false, isPrimitiveType=false, isModel=false, isContainer=false, isString=false, isNumeric=false, isInteger=false, isShort=false, isLong=false, isUnboundedInteger=false, isNumber=false, isFloat=false, isDouble=false, isDecimal=false, isByteArray=false, isBinary=false, isFile=false, isBoolean=false, isDate=false, isDateTime=false, isUuid=false, isUri=false, isEmail=false, isFreeFormObject=false, isArray=false, isMap=false, isEnum=false, isAnyType=false, isReadOnly=false, isWriteOnly=false, isNullable=false, isSelfReference=false, isCircularReference=false, isDiscriminator=false, _enum=null, allowableValues={values=[_abc, -efg, (xyz)]}, items=null, additionalProperties=null, vars=[], requiredVars=[], mostInnerItems=null, vendorExtensions={}, hasValidation=false, isInherited=false, discriminatorValue='null', nameInCamelCase='inner', nameInSnakeCase='INNER', enumName='null', maxItems=null, minItems=null, maxProperties=null, minProperties=null, uniqueItems=false, multipleOf=null, isXmlAttribute=false, xmlPrefix='null', xmlName='null', xmlNamespace='null', isXmlWrapped=false, isNull=false, getAdditionalPropertiesIsAnyType=false, getHasVars=false, getHasRequired=false, getHasDiscriminatorWithNonEmptyMapping=false, composedSchemas=null, hasMultipleTypes=false}
+            */
+            #endif
+    std::transform(enumQueryModelArray_temp.begin(), enumQueryModelArray_temp.end(), std::back_inserter(enumQueryModelArray), [](const auto& i){ EnumClass ret; ret.fromString(i); return ret;});
     // Getting the headers
     std::string enumHeaderStringArray_raw = request->get_header("enumHeaderStringArray");
     std::vector<std::string> enumHeaderStringArray;
@@ -1478,7 +1492,7 @@ void FakeResource::handler_GET_internal(const std::shared_ptr<restbed::Session> 
     
     try {
         status_code =
-            handler_GET(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString);
+            handler_GET(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString);
     }
     catch(const FakeApiException& e) {
         std::tie(status_code, result) = handleFakeApiException(e);
@@ -1572,9 +1586,9 @@ int FakeResource::handler_POST(
     return handler_POST_func(number, r_double, patternWithoutDelimiter, byte, integer, int32, int64, r_float, string, binary, date, dateTime, password, callback);
 }
 int FakeResource::handler_GET(
-    std::vector<std::string> & enumHeaderStringArray, std::string & enumHeaderString, std::vector<std::string> & enumQueryStringArray, std::string & enumQueryString, int32_t & enumQueryInteger, double & enumQueryDouble, std::vector<std::string> & enumFormStringArray, std::string & enumFormString)
+    std::vector<std::string> & enumHeaderStringArray, std::string & enumHeaderString, std::vector<std::string> & enumQueryStringArray, std::string & enumQueryString, int32_t & enumQueryInteger, double & enumQueryDouble, std::vector<EnumClass> & enumQueryModelArray, std::vector<std::string> & enumFormStringArray, std::string & enumFormString)
 {
-    return handler_GET_func(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString);
+    return handler_GET_func(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString);
 }
 int FakeResource::handler_DELETE(
     int32_t & requiredStringGroup, bool & requiredBooleanGroup, int64_t & requiredInt64Group, int32_t & stringGroup, bool & booleanGroup, int64_t & int64Group)
@@ -1886,19 +1900,29 @@ void FakeTest_query_parametersResource::handler_PUT_internal(const std::shared_p
     // Getting the query params
     std::string pipe_raw = request->get_query_parameter("pipe");
     std::vector<std::string> pipe;
-    boost::split(pipe, pipe_raw, boost::is_any_of(","));
+    std::vector<std::string> pipe_temp;
+    boost::split(pipe_temp, pipe_raw, boost::is_any_of(","));
+    std::copy(pipe_temp.begin(), pipe_temp.end(), std::inserter(pipe, std::next(pipe.begin())));
     std::string ioutil_raw = request->get_query_parameter("ioutil");
     std::vector<std::string> ioutil;
-    boost::split(ioutil, ioutil_raw, boost::is_any_of(","));
+    std::vector<std::string> ioutil_temp;
+    boost::split(ioutil_temp, ioutil_raw, boost::is_any_of(","));
+    std::copy(ioutil_temp.begin(), ioutil_temp.end(), std::inserter(ioutil, std::next(ioutil.begin())));
     std::string http_raw = request->get_query_parameter("http");
     std::vector<std::string> http;
-    boost::split(http, http_raw, boost::is_any_of(","));
+    std::vector<std::string> http_temp;
+    boost::split(http_temp, http_raw, boost::is_any_of(","));
+    std::copy(http_temp.begin(), http_temp.end(), std::inserter(http, std::next(http.begin())));
     std::string url_raw = request->get_query_parameter("url");
     std::vector<std::string> url;
-    boost::split(url, url_raw, boost::is_any_of(","));
+    std::vector<std::string> url_temp;
+    boost::split(url_temp, url_raw, boost::is_any_of(","));
+    std::copy(url_temp.begin(), url_temp.end(), std::inserter(url, std::next(url.begin())));
     std::string context_raw = request->get_query_parameter("context");
     std::vector<std::string> context;
-    boost::split(context, context_raw, boost::is_any_of(","));
+    std::vector<std::string> context_temp;
+    boost::split(context_temp, context_raw, boost::is_any_of(","));
+    std::copy(context_temp.begin(), context_temp.end(), std::inserter(context, std::next(context.begin())));
     std::stringstream language_raw(request->get_query_parameter("language"));
     boost::property_tree::ptree language_pt;
     boost::property_tree::json_parser::read_json(language_raw,language_pt);

@@ -55,6 +55,7 @@ public:
     boost::property_tree::ptree toPropertyTree() const;
     void fromPropertyTree(boost::property_tree::ptree const& pt);
 
+
     /////////////////////////////////////////////
     /// EnumArrays members
 
@@ -73,14 +74,6 @@ public:
 protected:
     std::string m_Just_symbol = "";
     std::vector<std::string> m_Array_enum;
-
-    std::array<std::string, 2> m_Just_symbolEnum = {
-        ">=", "$"
-    };
-
-    std::array<std::string, 2> m_Array_enumEnum = {
-        "fish", "crab"
-    };
 };
 
 std::vector<EnumArrays> createEnumArraysVectorFromJsonString(const std::string& json);

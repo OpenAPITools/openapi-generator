@@ -53,6 +53,7 @@ public:
     boost::property_tree::ptree toPropertyTree() const;
     void fromPropertyTree(boost::property_tree::ptree const& pt);
 
+
     /////////////////////////////////////////////
     /// OuterComposite members
 
@@ -78,9 +79,6 @@ protected:
     double m_My_number = 0.0;
     std::string m_My_string = "";
     bool m_My_boolean = false;
-
-
-
 };
 
 std::vector<OuterComposite> createOuterCompositeVectorFromJsonString(const std::string& json);

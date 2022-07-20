@@ -53,6 +53,7 @@ public:
     boost::property_tree::ptree toPropertyTree() const;
     void fromPropertyTree(boost::property_tree::ptree const& pt);
 
+
     /////////////////////////////////////////////
     /// ArrayOfNumberOnly members
 
@@ -64,7 +65,6 @@ public:
 
 protected:
     std::vector<double> m_ArrayNumber;
-
 };
 
 std::vector<ArrayOfNumberOnly> createArrayOfNumberOnlyVectorFromJsonString(const std::string& json);

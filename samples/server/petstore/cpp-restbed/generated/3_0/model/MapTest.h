@@ -55,6 +55,7 @@ public:
     boost::property_tree::ptree toPropertyTree() const;
     void fromPropertyTree(boost::property_tree::ptree const& pt);
 
+
     /////////////////////////////////////////////
     /// MapTest members
 
@@ -87,13 +88,6 @@ protected:
     std::map<std::string, std::string> m_Map_of_enum_string;
     std::map<std::string, bool> m_Direct_map;
     std::map<std::string, bool> m_Indirect_map;
-
-
-    std::array<std::string, 2> m_Map_of_enum_stringEnum = {
-        "UPPER", "lower"
-    };
-
-
 };
 
 std::vector<MapTest> createMapTestVectorFromJsonString(const std::string& json);

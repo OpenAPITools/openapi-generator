@@ -20,6 +20,7 @@
 #include <sstream>
 #include <stdexcept>
 #include <regex>
+#include <boost/lexical_cast.hpp>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
 #include "helpers.h"
@@ -69,6 +70,28 @@ void SingleRefType::fromPropertyTree(ptree const &pt)
 	ptree tmp_node;
 }
 
+std::string SingleRefType::toString() const {
+    return boost::lexical_cast<std::string>(getEnumValue());
+}
+
+void SingleRefType::fromString(const std::string& str) {
+    setEnumValue(boost::lexical_cast<std::string>(str));
+}
+
+std::string SingleRefType::getEnumValue() const {
+    return m_SingleRefTypeEnumValue;
+}
+
+void SingleRefType::setEnumValue(const std::string& val) {
+    static const std::array<std::string, 2> allowedValues = {
+        "admin", "user"
+    };
+    if (std::find(allowedValues.begin(), allowedValues.end(), val) != allowedValues.end()) {
+        m_SingleRefTypeEnumValue = val;
+    } else {
+        throw std::runtime_error("Value " + boost::lexical_cast<std::string>(val) + " not allowed");
+    }
+}
 
 std::vector<SingleRefType> createSingleRefTypeVectorFromJsonString(const std::string& json)
 {

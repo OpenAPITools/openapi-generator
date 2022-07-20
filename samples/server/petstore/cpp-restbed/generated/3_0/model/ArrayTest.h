@@ -55,6 +55,7 @@ public:
     boost::property_tree::ptree toPropertyTree() const;
     void fromPropertyTree(boost::property_tree::ptree const& pt);
 
+
     /////////////////////////////////////////////
     /// ArrayTest members
 
@@ -80,9 +81,6 @@ protected:
     std::vector<std::string> m_Array_of_string;
     std::vector<std::vector<int64_t>> m_Array_array_of_integer;
     std::vector<std::vector<ReadOnlyFirst>> m_Array_array_of_model;
-
-
-
 };
 
 std::vector<ArrayTest> createArrayTestVectorFromJsonString(const std::string& json);

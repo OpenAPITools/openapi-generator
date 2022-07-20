@@ -54,6 +54,7 @@ public:
     boost::property_tree::ptree toPropertyTree() const;
     void fromPropertyTree(boost::property_tree::ptree const& pt);
 
+
     /////////////////////////////////////////////
     /// Order members
 
@@ -100,15 +101,6 @@ protected:
     std::string m_ShipDate = "";
     std::string m_Status = "";
     bool m_Complete = false;
-
-
-
-
-
-    std::array<std::string, 3> m_StatusEnum = {
-        "placed", "approved", "delivered"
-    };
-
 };
 
 std::vector<Order> createOrderVectorFromJsonString(const std::string& json);

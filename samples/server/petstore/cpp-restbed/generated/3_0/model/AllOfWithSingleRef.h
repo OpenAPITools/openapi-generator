@@ -54,6 +54,7 @@ public:
     boost::property_tree::ptree toPropertyTree() const;
     void fromPropertyTree(boost::property_tree::ptree const& pt);
 
+
     /////////////////////////////////////////////
     /// AllOfWithSingleRef members
 
@@ -72,8 +73,6 @@ public:
 protected:
     std::string m_Username = "";
     SingleRefType m_SingleRefType;
-
-
 };
 
 std::vector<AllOfWithSingleRef> createAllOfWithSingleRefVectorFromJsonString(const std::string& json);

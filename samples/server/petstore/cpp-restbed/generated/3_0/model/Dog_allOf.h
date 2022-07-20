@@ -53,6 +53,7 @@ public:
     boost::property_tree::ptree toPropertyTree() const;
     void fromPropertyTree(boost::property_tree::ptree const& pt);
 
+
     /////////////////////////////////////////////
     /// Dog_allOf members
 
@@ -64,7 +65,6 @@ public:
 
 protected:
     std::string m_Breed = "";
-
 };
 
 std::vector<Dog_allOf> createDog_allOfVectorFromJsonString(const std::string& json);

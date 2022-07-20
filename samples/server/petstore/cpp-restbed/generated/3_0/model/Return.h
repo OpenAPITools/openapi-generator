@@ -52,6 +52,7 @@ public:
     boost::property_tree::ptree toPropertyTree() const;
     void fromPropertyTree(boost::property_tree::ptree const& pt);
 
+
     /////////////////////////////////////////////
     /// Return members
 
@@ -63,7 +64,6 @@ public:
 
 protected:
     int32_t m_r_return = 0;
-
 };
 
 std::vector<Return> createReturnVectorFromJsonString(const std::string& json);

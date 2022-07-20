@@ -56,6 +56,7 @@ public:
     boost::property_tree::ptree toPropertyTree() const;
     void fromPropertyTree(boost::property_tree::ptree const& pt);
 
+
     /////////////////////////////////////////////
     /// Dog members
 
@@ -81,9 +82,6 @@ protected:
     std::string m_ClassName = "";
     std::string m_Color = "red";
     std::string m_Breed = "";
-
-
-
 };
 
 std::vector<Dog> createDogVectorFromJsonString(const std::string& json);

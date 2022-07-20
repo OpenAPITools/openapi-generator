@@ -53,6 +53,7 @@ public:
     boost::property_tree::ptree toPropertyTree() const;
     void fromPropertyTree(boost::property_tree::ptree const& pt);
 
+
     /////////////////////////////////////////////
     /// List members
 
@@ -64,7 +65,6 @@ public:
 
 protected:
     std::string m_r_123_list = "";
-
 };
 
 std::vector<List> createListVectorFromJsonString(const std::string& json);

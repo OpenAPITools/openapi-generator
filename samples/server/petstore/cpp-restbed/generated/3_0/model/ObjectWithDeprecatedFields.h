@@ -55,6 +55,7 @@ public:
     boost::property_tree::ptree toPropertyTree() const;
     void fromPropertyTree(boost::property_tree::ptree const& pt);
 
+
     /////////////////////////////////////////////
     /// ObjectWithDeprecatedFields members
 
@@ -87,10 +88,6 @@ protected:
     double m_Id = 0.0;
     DeprecatedObject m_DeprecatedRef;
     std::vector<std::string> m_Bars;
-
-
-
-
 };
 
 std::vector<ObjectWithDeprecatedFields> createObjectWithDeprecatedFieldsVectorFromJsonString(const std::string& json);

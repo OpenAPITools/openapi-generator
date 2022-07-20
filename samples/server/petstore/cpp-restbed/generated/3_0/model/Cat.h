@@ -56,6 +56,7 @@ public:
     boost::property_tree::ptree toPropertyTree() const;
     void fromPropertyTree(boost::property_tree::ptree const& pt);
 
+
     /////////////////////////////////////////////
     /// Cat members
 
@@ -81,9 +82,6 @@ protected:
     std::string m_ClassName = "";
     std::string m_Color = "red";
     bool m_Declawed = false;
-
-
-
 };
 
 std::vector<Cat> createCatVectorFromJsonString(const std::string& json);

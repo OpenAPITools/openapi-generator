@@ -53,6 +53,7 @@ public:
     boost::property_tree::ptree toPropertyTree() const;
     void fromPropertyTree(boost::property_tree::ptree const& pt);
 
+
     /////////////////////////////////////////////
     /// File members
 
@@ -64,7 +65,6 @@ public:
 
 protected:
     std::string m_SourceURI = "";
-
 };
 
 std::vector<File> createFileVectorFromJsonString(const std::string& json);

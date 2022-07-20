@@ -52,10 +52,16 @@ public:
     boost::property_tree::ptree toPropertyTree() const;
     void fromPropertyTree(boost::property_tree::ptree const& pt);
 
+    std::string toString() const;
+    void fromString(const std::string& str);
+
     /////////////////////////////////////////////
     /// OuterEnum members
+    std::string getEnumValue() const;
+    void setEnumValue(const std::string& val);
 
 protected:
+    std::string m_OuterEnumEnumValue;
 };
 
 std::vector<OuterEnum> createOuterEnumVectorFromJsonString(const std::string& json);

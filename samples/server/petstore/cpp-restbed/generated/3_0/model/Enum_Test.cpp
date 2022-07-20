@@ -86,7 +86,11 @@ std::string Enum_Test::getEnumString() const
 
 void Enum_Test::setEnumString(std::string value)
 {
-    if (std::find(m_Enum_stringEnum.begin(), m_Enum_stringEnum.end(), value) != m_Enum_stringEnum.end()) {
+    static const std::array<std::string, 3> allowedValues = {
+        "UPPER", "lower", ""
+    };
+
+    if (std::find(allowedValues.begin(), allowedValues.end(), value) != allowedValues.end()) {
 		m_Enum_string = value;
 	} else {
 		throw std::runtime_error("Value " + boost::lexical_cast<std::string>(value) + " not allowed");
@@ -101,7 +105,11 @@ std::string Enum_Test::getEnumStringRequired() const
 
 void Enum_Test::setEnumStringRequired(std::string value)
 {
-    if (std::find(m_Enum_string_requiredEnum.begin(), m_Enum_string_requiredEnum.end(), value) != m_Enum_string_requiredEnum.end()) {
+    static const std::array<std::string, 3> allowedValues = {
+        "UPPER", "lower", ""
+    };
+
+    if (std::find(allowedValues.begin(), allowedValues.end(), value) != allowedValues.end()) {
 		m_Enum_string_required = value;
 	} else {
 		throw std::runtime_error("Value " + boost::lexical_cast<std::string>(value) + " not allowed");
@@ -116,7 +124,11 @@ int32_t Enum_Test::getEnumInteger() const
 
 void Enum_Test::setEnumInteger(int32_t value)
 {
-    if (std::find(m_Enum_integerEnum.begin(), m_Enum_integerEnum.end(), value) != m_Enum_integerEnum.end()) {
+    static const std::array<int32_t, 2> allowedValues = {
+        1, -1
+    };
+
+    if (std::find(allowedValues.begin(), allowedValues.end(), value) != allowedValues.end()) {
 		m_Enum_integer = value;
 	} else {
 		throw std::runtime_error("Value " + boost::lexical_cast<std::string>(value) + " not allowed");
@@ -131,7 +143,11 @@ double Enum_Test::getEnumNumber() const
 
 void Enum_Test::setEnumNumber(double value)
 {
-    if (std::find(m_Enum_numberEnum.begin(), m_Enum_numberEnum.end(), value) != m_Enum_numberEnum.end()) {
+    static const std::array<double, 2> allowedValues = {
+        1.1, -1.2
+    };
+
+    if (std::find(allowedValues.begin(), allowedValues.end(), value) != allowedValues.end()) {
 		m_Enum_number = value;
 	} else {
 		throw std::runtime_error("Value " + boost::lexical_cast<std::string>(value) + " not allowed");

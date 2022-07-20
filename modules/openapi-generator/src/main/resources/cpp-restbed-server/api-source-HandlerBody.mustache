@@ -51,7 +51,21 @@ auto {{paramName}} = boost::lexical_cast<{{{dataType}}}>(extractFormParamsFromBo
 {{#isArray}}
 std::string {{{paramName}}}_raw = request->get_query_parameter("{{{paramName}}}");
 {{{dataType}}} {{{paramName}}};
-boost::split({{{paramName}}}, {{{paramName}}}_raw, boost::is_any_of(","));
+std::vector<std::string> {{{paramName}}}_temp;
+boost::split({{{paramName}}}_temp, {{{paramName}}}_raw, boost::is_any_of(","));
+{{#items}}
+{{#isString}}
+std::copy({{{paramName}}}_temp.begin(), {{{paramName}}}_temp.end(), std::inserter({{{paramName}}}, std::next({{{paramName}}}.begin())));
+{{/isString}}
+{{^isString}}
+        #if 0
+        /*
+    {{{.}}}
+        */
+        #endif
+std::transform({{{paramName}}}_temp.begin(), {{{paramName}}}_temp.end(), std::back_inserter({{{paramName}}}), [](const auto& i){ {{{dataType}}} ret; ret.fromString(i); return ret;});
+{{/isString}}
+{{/items}}
 {{/isArray}}
 {{#isMap}}
 std::stringstream {{{paramName}}}_raw(request->get_query_parameter("{{{paramName}}}"));

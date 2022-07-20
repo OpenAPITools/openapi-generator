@@ -58,6 +58,7 @@ public:
     boost::property_tree::ptree toPropertyTree() const;
     void fromPropertyTree(boost::property_tree::ptree const& pt);
 
+
     /////////////////////////////////////////////
     /// Enum_Test members
 
@@ -118,26 +119,6 @@ protected:
     OuterEnumInteger m_OuterEnumInteger = OuterEnumInteger{};
     OuterEnumDefaultValue m_OuterEnumDefaultValue = OuterEnumDefaultValue{};
     OuterEnumIntegerDefaultValue m_OuterEnumIntegerDefaultValue = OuterEnumIntegerDefaultValue{};
-
-    std::array<std::string, 3> m_Enum_stringEnum = {
-        "UPPER", "lower", ""
-    };
-
-    std::array<std::string, 3> m_Enum_string_requiredEnum = {
-        "UPPER", "lower", ""
-    };
-
-    std::array<int32_t, 2> m_Enum_integerEnum = {
-        1, -1
-    };
-
-    std::array<double, 2> m_Enum_numberEnum = {
-        1.1, -1.2
-    };
-
-
-
-
 };
 
 std::vector<Enum_Test> createEnum_TestVectorFromJsonString(const std::string& json);

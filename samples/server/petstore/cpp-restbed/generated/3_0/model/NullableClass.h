@@ -55,6 +55,7 @@ public:
     boost::property_tree::ptree toPropertyTree() const;
     void fromPropertyTree(boost::property_tree::ptree const& pt);
 
+
     /////////////////////////////////////////////
     /// NullableClass members
 
@@ -143,18 +144,6 @@ protected:
     std::map<std::string, std::string> m_Object_nullable_prop;
     std::map<std::string, std::string> m_Object_and_items_nullable_prop;
     std::map<std::string, std::string> m_Object_items_nullable;
-
-
-
-
-
-
-
-
-
-
-
-
 };
 
 std::vector<NullableClass> createNullableClassVectorFromJsonString(const std::string& json);
