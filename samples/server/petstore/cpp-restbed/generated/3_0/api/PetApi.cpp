@@ -125,10 +125,6 @@ PetResource::PetResource(const std::string& context /* = "/v2" */)
 			std::placeholders::_1));
 }
 
-PetResource::~PetResource()
-{
-}
-
 std::pair<int, std::string> PetResource::handlePetApiException(const PetApiException& e)
 {
     return std::make_pair<int, std::string>(e.getStatus(), e.what());
@@ -322,10 +318,6 @@ PetPetIdResource::PetPetIdResource(const std::string& context /* = "/v2" */)
 	this->set_method_handler("POST",
 		std::bind(&PetPetIdResource::handler_POST_internal, this,
 			std::placeholders::_1));
-}
-
-PetPetIdResource::~PetPetIdResource()
-{
 }
 
 std::pair<int, std::string> PetPetIdResource::handlePetApiException(const PetApiException& e)
@@ -566,10 +558,6 @@ PetFindByStatusResource::PetFindByStatusResource(const std::string& context /* =
 			std::placeholders::_1));
 }
 
-PetFindByStatusResource::~PetFindByStatusResource()
-{
-}
-
 std::pair<int, std::string> PetFindByStatusResource::handlePetApiException(const PetApiException& e)
 {
     return std::make_pair<int, std::string>(e.getStatus(), e.what());
@@ -691,10 +679,6 @@ PetFindByTagsResource::PetFindByTagsResource(const std::string& context /* = "/v
 	this->set_method_handler("GET",
 		std::bind(&PetFindByTagsResource::handler_GET_internal, this,
 			std::placeholders::_1));
-}
-
-PetFindByTagsResource::~PetFindByTagsResource()
-{
 }
 
 std::pair<int, std::string> PetFindByTagsResource::handlePetApiException(const PetApiException& e)
@@ -820,10 +804,6 @@ PetPetIdUploadImageResource::PetPetIdUploadImageResource(const std::string& cont
 			std::placeholders::_1));
 }
 
-PetPetIdUploadImageResource::~PetPetIdUploadImageResource()
-{
-}
-
 std::pair<int, std::string> PetPetIdUploadImageResource::handlePetApiException(const PetApiException& e)
 {
     return std::make_pair<int, std::string>(e.getStatus(), e.what());
@@ -938,10 +918,6 @@ FakePetIdUploadImageWithRequiredFileResource::FakePetIdUploadImageWithRequiredFi
 	this->set_method_handler("POST",
 		std::bind(&FakePetIdUploadImageWithRequiredFileResource::handler_POST_internal, this,
 			std::placeholders::_1));
-}
-
-FakePetIdUploadImageWithRequiredFileResource::~FakePetIdUploadImageWithRequiredFileResource()
-{
 }
 
 std::pair<int, std::string> FakePetIdUploadImageWithRequiredFileResource::handlePetApiException(const PetApiException& e)

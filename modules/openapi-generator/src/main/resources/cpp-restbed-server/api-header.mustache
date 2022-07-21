@@ -57,7 +57,14 @@ class {{declspec}} {{vendorExtensions.x-codegen-resource-name}}Resource: public 
 {
 public:
     {{vendorExtensions.x-codegen-resource-name}}Resource(const std::string& context = "{{contextPath}}");
-    virtual ~{{vendorExtensions.x-codegen-resource-name}}Resource();
+    virtual ~{{vendorExtensions.x-codegen-resource-name}}Resource() = default;
+
+    {{vendorExtensions.x-codegen-resource-name}}Resource(
+        const {{vendorExtensions.x-codegen-resource-name}}Resource& other) = default; // copy constructor
+    {{vendorExtensions.x-codegen-resource-name}}Resource({{vendorExtensions.x-codegen-resource-name}}Resource&& other) noexcept = default; // move constructor
+
+    {{vendorExtensions.x-codegen-resource-name}}Resource& operator=(const {{vendorExtensions.x-codegen-resource-name}}Resource& other) = default; // copy assignment
+    {{vendorExtensions.x-codegen-resource-name}}Resource& operator=({{vendorExtensions.x-codegen-resource-name}}Resource&& other) noexcept = default; // move assignment
 
     /////////////////////////////////////////////////////
     // Set these to implement the server functionality //

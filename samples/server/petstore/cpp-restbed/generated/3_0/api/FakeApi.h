@@ -76,7 +76,14 @@ class  FakeHealthResource: public restbed::Resource
 {
 public:
     FakeHealthResource(const std::string& context = "/v2");
-    virtual ~FakeHealthResource();
+    virtual ~FakeHealthResource() = default;
+
+    FakeHealthResource(
+        const FakeHealthResource& other) = default; // copy constructor
+    FakeHealthResource(FakeHealthResource&& other) noexcept = default; // move constructor
+
+    FakeHealthResource& operator=(const FakeHealthResource& other) = default; // copy assignment
+    FakeHealthResource& operator=(FakeHealthResource&& other) noexcept = default; // move assignment
 
     /////////////////////////////////////////////////////
     // Set these to implement the server functionality //
@@ -131,7 +138,14 @@ class  FakeHttp_signature_testResource: public restbed::Resource
 {
 public:
     FakeHttp_signature_testResource(const std::string& context = "/v2");
-    virtual ~FakeHttp_signature_testResource();
+    virtual ~FakeHttp_signature_testResource() = default;
+
+    FakeHttp_signature_testResource(
+        const FakeHttp_signature_testResource& other) = default; // copy constructor
+    FakeHttp_signature_testResource(FakeHttp_signature_testResource&& other) noexcept = default; // move constructor
+
+    FakeHttp_signature_testResource& operator=(const FakeHttp_signature_testResource& other) = default; // copy assignment
+    FakeHttp_signature_testResource& operator=(FakeHttp_signature_testResource&& other) noexcept = default; // move assignment
 
     /////////////////////////////////////////////////////
     // Set these to implement the server functionality //
@@ -186,7 +200,14 @@ class  FakeOuterBooleanResource: public restbed::Resource
 {
 public:
     FakeOuterBooleanResource(const std::string& context = "/v2");
-    virtual ~FakeOuterBooleanResource();
+    virtual ~FakeOuterBooleanResource() = default;
+
+    FakeOuterBooleanResource(
+        const FakeOuterBooleanResource& other) = default; // copy constructor
+    FakeOuterBooleanResource(FakeOuterBooleanResource&& other) noexcept = default; // move constructor
+
+    FakeOuterBooleanResource& operator=(const FakeOuterBooleanResource& other) = default; // copy assignment
+    FakeOuterBooleanResource& operator=(FakeOuterBooleanResource&& other) noexcept = default; // move assignment
 
     /////////////////////////////////////////////////////
     // Set these to implement the server functionality //
@@ -241,7 +262,14 @@ class  FakeOuterCompositeResource: public restbed::Resource
 {
 public:
     FakeOuterCompositeResource(const std::string& context = "/v2");
-    virtual ~FakeOuterCompositeResource();
+    virtual ~FakeOuterCompositeResource() = default;
+
+    FakeOuterCompositeResource(
+        const FakeOuterCompositeResource& other) = default; // copy constructor
+    FakeOuterCompositeResource(FakeOuterCompositeResource&& other) noexcept = default; // move constructor
+
+    FakeOuterCompositeResource& operator=(const FakeOuterCompositeResource& other) = default; // copy assignment
+    FakeOuterCompositeResource& operator=(FakeOuterCompositeResource&& other) noexcept = default; // move assignment
 
     /////////////////////////////////////////////////////
     // Set these to implement the server functionality //
@@ -296,7 +324,14 @@ class  FakeOuterNumberResource: public restbed::Resource
 {
 public:
     FakeOuterNumberResource(const std::string& context = "/v2");
-    virtual ~FakeOuterNumberResource();
+    virtual ~FakeOuterNumberResource() = default;
+
+    FakeOuterNumberResource(
+        const FakeOuterNumberResource& other) = default; // copy constructor
+    FakeOuterNumberResource(FakeOuterNumberResource&& other) noexcept = default; // move constructor
+
+    FakeOuterNumberResource& operator=(const FakeOuterNumberResource& other) = default; // copy assignment
+    FakeOuterNumberResource& operator=(FakeOuterNumberResource&& other) noexcept = default; // move assignment
 
     /////////////////////////////////////////////////////
     // Set these to implement the server functionality //
@@ -351,7 +386,14 @@ class  FakeOuterStringResource: public restbed::Resource
 {
 public:
     FakeOuterStringResource(const std::string& context = "/v2");
-    virtual ~FakeOuterStringResource();
+    virtual ~FakeOuterStringResource() = default;
+
+    FakeOuterStringResource(
+        const FakeOuterStringResource& other) = default; // copy constructor
+    FakeOuterStringResource(FakeOuterStringResource&& other) noexcept = default; // move constructor
+
+    FakeOuterStringResource& operator=(const FakeOuterStringResource& other) = default; // copy assignment
+    FakeOuterStringResource& operator=(FakeOuterStringResource&& other) noexcept = default; // move assignment
 
     /////////////////////////////////////////////////////
     // Set these to implement the server functionality //
@@ -406,7 +448,14 @@ class  FakePropertyEnum_intResource: public restbed::Resource
 {
 public:
     FakePropertyEnum_intResource(const std::string& context = "/v2");
-    virtual ~FakePropertyEnum_intResource();
+    virtual ~FakePropertyEnum_intResource() = default;
+
+    FakePropertyEnum_intResource(
+        const FakePropertyEnum_intResource& other) = default; // copy constructor
+    FakePropertyEnum_intResource(FakePropertyEnum_intResource&& other) noexcept = default; // move constructor
+
+    FakePropertyEnum_intResource& operator=(const FakePropertyEnum_intResource& other) = default; // copy assignment
+    FakePropertyEnum_intResource& operator=(FakePropertyEnum_intResource&& other) noexcept = default; // move assignment
 
     /////////////////////////////////////////////////////
     // Set these to implement the server functionality //
@@ -461,7 +510,14 @@ class  FakeBody_with_binaryResource: public restbed::Resource
 {
 public:
     FakeBody_with_binaryResource(const std::string& context = "/v2");
-    virtual ~FakeBody_with_binaryResource();
+    virtual ~FakeBody_with_binaryResource() = default;
+
+    FakeBody_with_binaryResource(
+        const FakeBody_with_binaryResource& other) = default; // copy constructor
+    FakeBody_with_binaryResource(FakeBody_with_binaryResource&& other) noexcept = default; // move constructor
+
+    FakeBody_with_binaryResource& operator=(const FakeBody_with_binaryResource& other) = default; // copy assignment
+    FakeBody_with_binaryResource& operator=(FakeBody_with_binaryResource&& other) noexcept = default; // move assignment
 
     /////////////////////////////////////////////////////
     // Set these to implement the server functionality //
@@ -516,7 +572,14 @@ class  FakeBody_with_file_schemaResource: public restbed::Resource
 {
 public:
     FakeBody_with_file_schemaResource(const std::string& context = "/v2");
-    virtual ~FakeBody_with_file_schemaResource();
+    virtual ~FakeBody_with_file_schemaResource() = default;
+
+    FakeBody_with_file_schemaResource(
+        const FakeBody_with_file_schemaResource& other) = default; // copy constructor
+    FakeBody_with_file_schemaResource(FakeBody_with_file_schemaResource&& other) noexcept = default; // move constructor
+
+    FakeBody_with_file_schemaResource& operator=(const FakeBody_with_file_schemaResource& other) = default; // copy assignment
+    FakeBody_with_file_schemaResource& operator=(FakeBody_with_file_schemaResource&& other) noexcept = default; // move assignment
 
     /////////////////////////////////////////////////////
     // Set these to implement the server functionality //
@@ -571,7 +634,14 @@ class  FakeBody_with_query_paramsResource: public restbed::Resource
 {
 public:
     FakeBody_with_query_paramsResource(const std::string& context = "/v2");
-    virtual ~FakeBody_with_query_paramsResource();
+    virtual ~FakeBody_with_query_paramsResource() = default;
+
+    FakeBody_with_query_paramsResource(
+        const FakeBody_with_query_paramsResource& other) = default; // copy constructor
+    FakeBody_with_query_paramsResource(FakeBody_with_query_paramsResource&& other) noexcept = default; // move constructor
+
+    FakeBody_with_query_paramsResource& operator=(const FakeBody_with_query_paramsResource& other) = default; // copy assignment
+    FakeBody_with_query_paramsResource& operator=(FakeBody_with_query_paramsResource&& other) noexcept = default; // move assignment
 
     /////////////////////////////////////////////////////
     // Set these to implement the server functionality //
@@ -626,7 +696,14 @@ class  FakeResource: public restbed::Resource
 {
 public:
     FakeResource(const std::string& context = "/v2");
-    virtual ~FakeResource();
+    virtual ~FakeResource() = default;
+
+    FakeResource(
+        const FakeResource& other) = default; // copy constructor
+    FakeResource(FakeResource&& other) noexcept = default; // move constructor
+
+    FakeResource& operator=(const FakeResource& other) = default; // copy assignment
+    FakeResource& operator=(FakeResource&& other) noexcept = default; // move assignment
 
     /////////////////////////////////////////////////////
     // Set these to implement the server functionality //
@@ -705,7 +782,14 @@ class  FakeInline_additionalPropertiesResource: public restbed::Resource
 {
 public:
     FakeInline_additionalPropertiesResource(const std::string& context = "/v2");
-    virtual ~FakeInline_additionalPropertiesResource();
+    virtual ~FakeInline_additionalPropertiesResource() = default;
+
+    FakeInline_additionalPropertiesResource(
+        const FakeInline_additionalPropertiesResource& other) = default; // copy constructor
+    FakeInline_additionalPropertiesResource(FakeInline_additionalPropertiesResource&& other) noexcept = default; // move constructor
+
+    FakeInline_additionalPropertiesResource& operator=(const FakeInline_additionalPropertiesResource& other) = default; // copy assignment
+    FakeInline_additionalPropertiesResource& operator=(FakeInline_additionalPropertiesResource&& other) noexcept = default; // move assignment
 
     /////////////////////////////////////////////////////
     // Set these to implement the server functionality //
@@ -760,7 +844,14 @@ class  FakeJsonFormDataResource: public restbed::Resource
 {
 public:
     FakeJsonFormDataResource(const std::string& context = "/v2");
-    virtual ~FakeJsonFormDataResource();
+    virtual ~FakeJsonFormDataResource() = default;
+
+    FakeJsonFormDataResource(
+        const FakeJsonFormDataResource& other) = default; // copy constructor
+    FakeJsonFormDataResource(FakeJsonFormDataResource&& other) noexcept = default; // move constructor
+
+    FakeJsonFormDataResource& operator=(const FakeJsonFormDataResource& other) = default; // copy assignment
+    FakeJsonFormDataResource& operator=(FakeJsonFormDataResource&& other) noexcept = default; // move assignment
 
     /////////////////////////////////////////////////////
     // Set these to implement the server functionality //
@@ -815,7 +906,14 @@ class  FakeTest_query_parametersResource: public restbed::Resource
 {
 public:
     FakeTest_query_parametersResource(const std::string& context = "/v2");
-    virtual ~FakeTest_query_parametersResource();
+    virtual ~FakeTest_query_parametersResource() = default;
+
+    FakeTest_query_parametersResource(
+        const FakeTest_query_parametersResource& other) = default; // copy constructor
+    FakeTest_query_parametersResource(FakeTest_query_parametersResource&& other) noexcept = default; // move constructor
+
+    FakeTest_query_parametersResource& operator=(const FakeTest_query_parametersResource& other) = default; // copy assignment
+    FakeTest_query_parametersResource& operator=(FakeTest_query_parametersResource&& other) noexcept = default; // move assignment
 
     /////////////////////////////////////////////////////
     // Set these to implement the server functionality //

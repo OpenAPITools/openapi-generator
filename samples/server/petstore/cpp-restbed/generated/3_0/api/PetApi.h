@@ -70,7 +70,14 @@ class  PetResource: public restbed::Resource
 {
 public:
     PetResource(const std::string& context = "/v2");
-    virtual ~PetResource();
+    virtual ~PetResource() = default;
+
+    PetResource(
+        const PetResource& other) = default; // copy constructor
+    PetResource(PetResource&& other) noexcept = default; // move constructor
+
+    PetResource& operator=(const PetResource& other) = default; // copy assignment
+    PetResource& operator=(PetResource&& other) noexcept = default; // move assignment
 
     /////////////////////////////////////////////////////
     // Set these to implement the server functionality //
@@ -133,7 +140,14 @@ class  PetPetIdResource: public restbed::Resource
 {
 public:
     PetPetIdResource(const std::string& context = "/v2");
-    virtual ~PetPetIdResource();
+    virtual ~PetPetIdResource() = default;
+
+    PetPetIdResource(
+        const PetPetIdResource& other) = default; // copy constructor
+    PetPetIdResource(PetPetIdResource&& other) noexcept = default; // move constructor
+
+    PetPetIdResource& operator=(const PetPetIdResource& other) = default; // copy assignment
+    PetPetIdResource& operator=(PetPetIdResource&& other) noexcept = default; // move assignment
 
     /////////////////////////////////////////////////////
     // Set these to implement the server functionality //
@@ -204,7 +218,14 @@ class  PetFindByStatusResource: public restbed::Resource
 {
 public:
     PetFindByStatusResource(const std::string& context = "/v2");
-    virtual ~PetFindByStatusResource();
+    virtual ~PetFindByStatusResource() = default;
+
+    PetFindByStatusResource(
+        const PetFindByStatusResource& other) = default; // copy constructor
+    PetFindByStatusResource(PetFindByStatusResource&& other) noexcept = default; // move constructor
+
+    PetFindByStatusResource& operator=(const PetFindByStatusResource& other) = default; // copy assignment
+    PetFindByStatusResource& operator=(PetFindByStatusResource&& other) noexcept = default; // move assignment
 
     /////////////////////////////////////////////////////
     // Set these to implement the server functionality //
@@ -259,7 +280,14 @@ class  PetFindByTagsResource: public restbed::Resource
 {
 public:
     PetFindByTagsResource(const std::string& context = "/v2");
-    virtual ~PetFindByTagsResource();
+    virtual ~PetFindByTagsResource() = default;
+
+    PetFindByTagsResource(
+        const PetFindByTagsResource& other) = default; // copy constructor
+    PetFindByTagsResource(PetFindByTagsResource&& other) noexcept = default; // move constructor
+
+    PetFindByTagsResource& operator=(const PetFindByTagsResource& other) = default; // copy assignment
+    PetFindByTagsResource& operator=(PetFindByTagsResource&& other) noexcept = default; // move assignment
 
     /////////////////////////////////////////////////////
     // Set these to implement the server functionality //
@@ -314,7 +342,14 @@ class  PetPetIdUploadImageResource: public restbed::Resource
 {
 public:
     PetPetIdUploadImageResource(const std::string& context = "/v2");
-    virtual ~PetPetIdUploadImageResource();
+    virtual ~PetPetIdUploadImageResource() = default;
+
+    PetPetIdUploadImageResource(
+        const PetPetIdUploadImageResource& other) = default; // copy constructor
+    PetPetIdUploadImageResource(PetPetIdUploadImageResource&& other) noexcept = default; // move constructor
+
+    PetPetIdUploadImageResource& operator=(const PetPetIdUploadImageResource& other) = default; // copy assignment
+    PetPetIdUploadImageResource& operator=(PetPetIdUploadImageResource&& other) noexcept = default; // move assignment
 
     /////////////////////////////////////////////////////
     // Set these to implement the server functionality //
@@ -369,7 +404,14 @@ class  FakePetIdUploadImageWithRequiredFileResource: public restbed::Resource
 {
 public:
     FakePetIdUploadImageWithRequiredFileResource(const std::string& context = "/v2");
-    virtual ~FakePetIdUploadImageWithRequiredFileResource();
+    virtual ~FakePetIdUploadImageWithRequiredFileResource() = default;
+
+    FakePetIdUploadImageWithRequiredFileResource(
+        const FakePetIdUploadImageWithRequiredFileResource& other) = default; // copy constructor
+    FakePetIdUploadImageWithRequiredFileResource(FakePetIdUploadImageWithRequiredFileResource&& other) noexcept = default; // move constructor
+
+    FakePetIdUploadImageWithRequiredFileResource& operator=(const FakePetIdUploadImageWithRequiredFileResource& other) = default; // copy assignment
+    FakePetIdUploadImageWithRequiredFileResource& operator=(FakePetIdUploadImageWithRequiredFileResource&& other) noexcept = default; // move assignment
 
     /////////////////////////////////////////////////////
     // Set these to implement the server functionality //

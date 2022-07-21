@@ -122,10 +122,6 @@ Fake_classname_testResource::Fake_classname_testResource(const std::string& cont
 			std::placeholders::_1));
 }
 
-Fake_classname_testResource::~Fake_classname_testResource()
-{
-}
-
 std::pair<int, std::string> Fake_classname_testResource::handleFakeClassnameTags123ApiException(const FakeClassnameTags123ApiException& e)
 {
     return std::make_pair<int, std::string>(e.getStatus(), e.what());

@@ -67,7 +67,14 @@ class  Fake_classname_testResource: public restbed::Resource
 {
 public:
     Fake_classname_testResource(const std::string& context = "/v2");
-    virtual ~Fake_classname_testResource();
+    virtual ~Fake_classname_testResource() = default;
+
+    Fake_classname_testResource(
+        const Fake_classname_testResource& other) = default; // copy constructor
+    Fake_classname_testResource(Fake_classname_testResource&& other) noexcept = default; // move constructor
+
+    Fake_classname_testResource& operator=(const Fake_classname_testResource& other) = default; // copy assignment
+    Fake_classname_testResource& operator=(Fake_classname_testResource&& other) noexcept = default; // move assignment
 
     /////////////////////////////////////////////////////
     // Set these to implement the server functionality //

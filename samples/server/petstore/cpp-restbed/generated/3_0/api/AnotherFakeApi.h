@@ -67,7 +67,14 @@ class  Another_fakeDummyResource: public restbed::Resource
 {
 public:
     Another_fakeDummyResource(const std::string& context = "/v2");
-    virtual ~Another_fakeDummyResource();
+    virtual ~Another_fakeDummyResource() = default;
+
+    Another_fakeDummyResource(
+        const Another_fakeDummyResource& other) = default; // copy constructor
+    Another_fakeDummyResource(Another_fakeDummyResource&& other) noexcept = default; // move constructor
+
+    Another_fakeDummyResource& operator=(const Another_fakeDummyResource& other) = default; // copy assignment
+    Another_fakeDummyResource& operator=(Another_fakeDummyResource&& other) noexcept = default; // move assignment
 
     /////////////////////////////////////////////////////
     // Set these to implement the server functionality //

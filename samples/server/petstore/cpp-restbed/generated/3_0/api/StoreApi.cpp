@@ -125,10 +125,6 @@ StoreOrderOrder_idResource::StoreOrderOrder_idResource(const std::string& contex
 			std::placeholders::_1));
 }
 
-StoreOrderOrder_idResource::~StoreOrderOrder_idResource()
-{
-}
-
 std::pair<int, std::string> StoreOrderOrder_idResource::handleStoreApiException(const StoreApiException& e)
 {
     return std::make_pair<int, std::string>(e.getStatus(), e.what());
@@ -307,10 +303,6 @@ StoreInventoryResource::StoreInventoryResource(const std::string& context /* = "
 			std::placeholders::_1));
 }
 
-StoreInventoryResource::~StoreInventoryResource()
-{
-}
-
 std::pair<int, std::string> StoreInventoryResource::handleStoreApiException(const StoreApiException& e)
 {
     return std::make_pair<int, std::string>(e.getStatus(), e.what());
@@ -420,10 +412,6 @@ StoreOrderResource::StoreOrderResource(const std::string& context /* = "/v2" */)
 	this->set_method_handler("POST",
 		std::bind(&StoreOrderResource::handler_POST_internal, this,
 			std::placeholders::_1));
-}
-
-StoreOrderResource::~StoreOrderResource()
-{
 }
 
 std::pair<int, std::string> StoreOrderResource::handleStoreApiException(const StoreApiException& e)

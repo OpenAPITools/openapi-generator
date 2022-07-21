@@ -69,7 +69,14 @@ class  UserResource: public restbed::Resource
 {
 public:
     UserResource(const std::string& context = "/v2");
-    virtual ~UserResource();
+    virtual ~UserResource() = default;
+
+    UserResource(
+        const UserResource& other) = default; // copy constructor
+    UserResource(UserResource&& other) noexcept = default; // move constructor
+
+    UserResource& operator=(const UserResource& other) = default; // copy assignment
+    UserResource& operator=(UserResource&& other) noexcept = default; // move assignment
 
     /////////////////////////////////////////////////////
     // Set these to implement the server functionality //
@@ -124,7 +131,14 @@ class  UserCreateWithArrayResource: public restbed::Resource
 {
 public:
     UserCreateWithArrayResource(const std::string& context = "/v2");
-    virtual ~UserCreateWithArrayResource();
+    virtual ~UserCreateWithArrayResource() = default;
+
+    UserCreateWithArrayResource(
+        const UserCreateWithArrayResource& other) = default; // copy constructor
+    UserCreateWithArrayResource(UserCreateWithArrayResource&& other) noexcept = default; // move constructor
+
+    UserCreateWithArrayResource& operator=(const UserCreateWithArrayResource& other) = default; // copy assignment
+    UserCreateWithArrayResource& operator=(UserCreateWithArrayResource&& other) noexcept = default; // move assignment
 
     /////////////////////////////////////////////////////
     // Set these to implement the server functionality //
@@ -179,7 +193,14 @@ class  UserCreateWithListResource: public restbed::Resource
 {
 public:
     UserCreateWithListResource(const std::string& context = "/v2");
-    virtual ~UserCreateWithListResource();
+    virtual ~UserCreateWithListResource() = default;
+
+    UserCreateWithListResource(
+        const UserCreateWithListResource& other) = default; // copy constructor
+    UserCreateWithListResource(UserCreateWithListResource&& other) noexcept = default; // move constructor
+
+    UserCreateWithListResource& operator=(const UserCreateWithListResource& other) = default; // copy assignment
+    UserCreateWithListResource& operator=(UserCreateWithListResource&& other) noexcept = default; // move assignment
 
     /////////////////////////////////////////////////////
     // Set these to implement the server functionality //
@@ -234,7 +255,14 @@ class  UserUsernameResource: public restbed::Resource
 {
 public:
     UserUsernameResource(const std::string& context = "/v2");
-    virtual ~UserUsernameResource();
+    virtual ~UserUsernameResource() = default;
+
+    UserUsernameResource(
+        const UserUsernameResource& other) = default; // copy constructor
+    UserUsernameResource(UserUsernameResource&& other) noexcept = default; // move constructor
+
+    UserUsernameResource& operator=(const UserUsernameResource& other) = default; // copy assignment
+    UserUsernameResource& operator=(UserUsernameResource&& other) noexcept = default; // move assignment
 
     /////////////////////////////////////////////////////
     // Set these to implement the server functionality //
@@ -305,7 +333,14 @@ class  UserLoginResource: public restbed::Resource
 {
 public:
     UserLoginResource(const std::string& context = "/v2");
-    virtual ~UserLoginResource();
+    virtual ~UserLoginResource() = default;
+
+    UserLoginResource(
+        const UserLoginResource& other) = default; // copy constructor
+    UserLoginResource(UserLoginResource&& other) noexcept = default; // move constructor
+
+    UserLoginResource& operator=(const UserLoginResource& other) = default; // copy assignment
+    UserLoginResource& operator=(UserLoginResource&& other) noexcept = default; // move assignment
 
     /////////////////////////////////////////////////////
     // Set these to implement the server functionality //
@@ -360,7 +395,14 @@ class  UserLogoutResource: public restbed::Resource
 {
 public:
     UserLogoutResource(const std::string& context = "/v2");
-    virtual ~UserLogoutResource();
+    virtual ~UserLogoutResource() = default;
+
+    UserLogoutResource(
+        const UserLogoutResource& other) = default; // copy constructor
+    UserLogoutResource(UserLogoutResource&& other) noexcept = default; // move constructor
+
+    UserLogoutResource& operator=(const UserLogoutResource& other) = default; // copy assignment
+    UserLogoutResource& operator=(UserLogoutResource&& other) noexcept = default; // move assignment
 
     /////////////////////////////////////////////////////
     // Set these to implement the server functionality //

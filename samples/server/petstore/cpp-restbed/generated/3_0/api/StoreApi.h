@@ -69,7 +69,14 @@ class  StoreOrderOrder_idResource: public restbed::Resource
 {
 public:
     StoreOrderOrder_idResource(const std::string& context = "/v2");
-    virtual ~StoreOrderOrder_idResource();
+    virtual ~StoreOrderOrder_idResource() = default;
+
+    StoreOrderOrder_idResource(
+        const StoreOrderOrder_idResource& other) = default; // copy constructor
+    StoreOrderOrder_idResource(StoreOrderOrder_idResource&& other) noexcept = default; // move constructor
+
+    StoreOrderOrder_idResource& operator=(const StoreOrderOrder_idResource& other) = default; // copy assignment
+    StoreOrderOrder_idResource& operator=(StoreOrderOrder_idResource&& other) noexcept = default; // move assignment
 
     /////////////////////////////////////////////////////
     // Set these to implement the server functionality //
@@ -132,7 +139,14 @@ class  StoreInventoryResource: public restbed::Resource
 {
 public:
     StoreInventoryResource(const std::string& context = "/v2");
-    virtual ~StoreInventoryResource();
+    virtual ~StoreInventoryResource() = default;
+
+    StoreInventoryResource(
+        const StoreInventoryResource& other) = default; // copy constructor
+    StoreInventoryResource(StoreInventoryResource&& other) noexcept = default; // move constructor
+
+    StoreInventoryResource& operator=(const StoreInventoryResource& other) = default; // copy assignment
+    StoreInventoryResource& operator=(StoreInventoryResource&& other) noexcept = default; // move assignment
 
     /////////////////////////////////////////////////////
     // Set these to implement the server functionality //
@@ -187,7 +201,14 @@ class  StoreOrderResource: public restbed::Resource
 {
 public:
     StoreOrderResource(const std::string& context = "/v2");
-    virtual ~StoreOrderResource();
+    virtual ~StoreOrderResource() = default;
+
+    StoreOrderResource(
+        const StoreOrderResource& other) = default; // copy constructor
+    StoreOrderResource(StoreOrderResource&& other) noexcept = default; // move constructor
+
+    StoreOrderResource& operator=(const StoreOrderResource& other) = default; // copy assignment
+    StoreOrderResource& operator=(StoreOrderResource&& other) noexcept = default; // move assignment
 
     /////////////////////////////////////////////////////
     // Set these to implement the server functionality //

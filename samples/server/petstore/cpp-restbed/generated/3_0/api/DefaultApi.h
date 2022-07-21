@@ -67,7 +67,14 @@ class  FooResource: public restbed::Resource
 {
 public:
     FooResource(const std::string& context = "/v2");
-    virtual ~FooResource();
+    virtual ~FooResource() = default;
+
+    FooResource(
+        const FooResource& other) = default; // copy constructor
+    FooResource(FooResource&& other) noexcept = default; // move constructor
+
+    FooResource& operator=(const FooResource& other) = default; // copy assignment
+    FooResource& operator=(FooResource&& other) noexcept = default; // move assignment
 
     /////////////////////////////////////////////////////
     // Set these to implement the server functionality //
