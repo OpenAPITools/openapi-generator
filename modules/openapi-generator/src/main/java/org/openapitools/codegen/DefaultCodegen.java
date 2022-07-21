@@ -6971,7 +6971,7 @@ public class DefaultCodegen implements CodegenConfig {
                 schemaProp = fromProperty(toMediaTypeSchemaName(contentType, mediaTypeSchemaSuffix), mt.getSchema(), false);
             }
             HashMap<String, SchemaTestCase> schemaTestCases = null;
-            if (mt.getExtensions().containsKey(xSchemaTestExamplesKey)) {
+            if (mt.getExtensions() != null && mt.getExtensions().containsKey(xSchemaTestExamplesKey)) {
                 Object objNodeWithRef = mt.getExtensions().get(xSchemaTestExamplesKey);
                 if (objNodeWithRef instanceof LinkedHashMap) {
                     LinkedHashMap<String, String> nodeWithRef = (LinkedHashMap<String, String>) objNodeWithRef;
