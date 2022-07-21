@@ -97,11 +97,17 @@
 {{#authMethods}}
 #'
 {{#isBasic}}
+{{#isBasicBasic}}
 #' #Configure HTTP basic authorization: {{{name}}}
-#' # provide your username in the user-serial format
-#' api.instance$api_client$username <- '<user-serial>';
-#' # provide your api key generated using the developer portal
-#' api.instance$api_client$password <- '<api_key>';
+#' # provide the username
+#' api.instance$api_client$username <- 'TODO_YOUR_USERNAME';
+#' # provide the password
+#' api.instance$api_client$password <- 'TODO_YOUR_PASSWORD';
+{{/isBasicBasic}}
+{{#isBasicBearer}}
+#' #Configure HTTP bearer authorization: {{{name}}}
+#' api.instance$api_client$bearer_token <- 'TODO_YOUR_BEARER_TOKEN';
+{{/isBasicBearer}}
 {{/isBasic}}
 {{#isApiKey}}
 #' #Configure API key authorization: {{{name}}}
@@ -302,6 +308,9 @@
       # HTTP basic auth
       header_params["Authorization"] <- paste("Basic", base64enc::base64encode(charToRaw(paste(self$api_client$username, self$api_client$password, sep = ":"))))
       {{/isBasicBasic}}
+      {{#isBasicBearer}}
+      header_params["Authorization"] <- paste("Bearer", self$api_client$bearer_token, sep = " ")
+      {{/isBasicBearer}}
       {{/isBasic}}
       {{#isApiKey}}
       # API key authentication
