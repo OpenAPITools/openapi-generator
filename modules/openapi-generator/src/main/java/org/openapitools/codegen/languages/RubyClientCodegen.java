@@ -63,6 +63,8 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
 
+    private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
+
     public RubyClientCodegen() {
         super();
 
@@ -367,6 +369,12 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
 
     @Override
     public String toModelName(final String name) {
+        // memoization
+        String origName = name;
+        if (schemaKeyToModelNameCache.containsKey(origName)) {
+            return schemaKeyToModelNameCache.get(origName);
+        }
+
         String modelName;
         modelName = sanitizeName(name);
 
@@ -382,6 +390,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         if (isReservedWord(modelName)) {
             modelName = camelize("Model" + modelName);
             LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", name, modelName);
+            schemaKeyToModelNameCache.put(origName, modelName);
             return modelName;
         }
 
@@ -394,7 +403,9 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
 
         // camelize the model name
         // phone_number => PhoneNumber
-        return camelize(modelName);
+        String camelizedName = camelize(modelName);
+        schemaKeyToModelNameCache.put(origName, camelizedName);
+        return camelizedName;
     }
 
     @Override
