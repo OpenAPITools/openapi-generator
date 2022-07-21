@@ -373,7 +373,7 @@ class {{operationIdCamelCase}}(api_client.Api):
         self: api_client.Api,
     {{#if bodyParam}}
     {{#with bodyParam}}
-        {{baseName}}: typing.Union[{{#each content}}{{#unless @first}}, {{/unless}}{{this.schema.baseName}}{{/each}}{{#unless required}}, Unset] = unset{{else}}]{{/unless}},
+        body: typing.Union[{{#each content}}{{#unless @first}}, {{/unless}}{{this.schema.baseName}}{{/each}}{{#unless required}}, Unset] = unset{{else}}]{{/unless}},
     {{/with}}
     {{/if}}
     {{#if queryParams}}
