@@ -17,7 +17,7 @@ target_include_directories(api_tests
 target_link_libraries(api_tests
     PRIVATE
         ${Boost_LIBRARIES}
-        generated_restbed_stubs
+        org.openapitools.server.apiStubs
 )
 
 add_test(NAME api_tests COMMAND api_tests)

@@ -1,4 +1,6 @@
 .gitignore
+CMakeLists.txt
+FindRestbedAndBoost.cmake
 README.md
 api/AnotherFakeApi.cpp
 api/AnotherFakeApi.h

@@ -29,5 +29,5 @@ set(CMAKE_EXE_LINKER_FLAGS ${CMAKE_EXE_LINKER_FLAGS} -lpthread)
 
 enable_testing()
 
-add_subdirectory(server_stubs)
+add_subdirectory(generated/3_0)
 add_subdirectory(test)

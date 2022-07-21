@@ -99,6 +99,8 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("model-helpers-header.mustache", modelFileFolder(), "helpers.h"));
+        supportingFiles.add(new SupportingFile("CMakeLists.txt.mustache", "", "CMakeLists.txt"));
+        supportingFiles.add(new SupportingFile("FindRestbedAndBoost.cmake", "", "FindRestbedAndBoost.cmake"));
 
         languageSpecificPrimitives = new HashSet<>(
                 Arrays.asList("int", "char", "bool", "long", "float", "double", "int32_t", "int64_t"));

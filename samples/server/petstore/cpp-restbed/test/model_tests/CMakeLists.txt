@@ -26,7 +26,7 @@ target_include_directories(model_tests PRIVATE ${CMAKE_CURRENT_LIST_DIR})
 
 target_link_libraries(model_tests
     PRIVATE
-        generated_restbed_stubs
+        org.openapitools.server.apiStubs
         ${Boost_LIBRARIES})
 
 
