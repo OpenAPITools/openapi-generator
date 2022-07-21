@@ -28,11 +28,11 @@
     <PackageReference Include="CompareNETObjects" Version="4.61.0" />
     {{/useCompareNetObjects}}
     {{^useGenericHost}}
-    <PackageReference Include="JsonSubTypes" Version="1.8.0" />
+    <PackageReference Include="JsonSubTypes" Version="1.9.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     {{/useGenericHost}}
       {{#useRestSharp}}
-    <PackageReference Include="RestSharp" Version="106.13.0" />
+    <PackageReference Include="RestSharp" Version="108.0.1" />
       {{/useRestSharp}}
       {{#useGenericHost}}
     <PackageReference Include="Microsoft.Extensions.Http" Version="5.0.0" />
@@ -49,4 +49,10 @@
     {{/validatable}}
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="System.Web" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Web" />
+  </ItemGroup>
 </Project>
