@@ -909,6 +909,12 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
      */
     @Override
     public String toModelName(String name) {
+        // check if schema-mapping has a different model for this class, so we can use it
+        // instead of the auto-generated one.
+        if (schemaMapping.containsKey(name)) {
+            return schemaMapping.get(name);
+        }
+
         // memoization
         String origName = name;
         if (schemaKeyToModelNameCache.containsKey(origName)) {

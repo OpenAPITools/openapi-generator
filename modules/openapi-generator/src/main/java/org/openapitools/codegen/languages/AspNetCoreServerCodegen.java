@@ -74,7 +74,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     private boolean pocoModels = false;
     protected int serverPort = 8080;
     protected String serverHost = "0.0.0.0";
-    protected CliOption swashbuckleVersion = new CliOption(SWASHBUCKLE_VERSION, "Swashbuckle version: 3.0.0, 4.0.0, 5.0.0, 6.0.0");
+    protected CliOption swashbuckleVersion = new CliOption(SWASHBUCKLE_VERSION, "Swashbuckle version: 3.0.0 (deprecated), 4.0.0 (deprecated), 5.0.0 (deprecated), 6.4.0");
     protected CliOption aspnetCoreVersion = new CliOption(ASPNET_CORE_VERSION, "ASP.NET Core version: 6.0, 5.0, 3.1, 3.0, 2.2, 2.1, 2.0 (deprecated)");
     private CliOption classModifier = new CliOption(CLASS_MODIFIER, "Class Modifier for controller classes: Empty string or abstract.");
     private CliOption operationModifier = new CliOption(OPERATION_MODIFIER, "Operation Modifier can be virtual or abstract");
@@ -210,7 +210,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         swashbuckleVersion.addEnum("3.0.0", "Swashbuckle 3.0.0");
         swashbuckleVersion.addEnum("4.0.0", "Swashbuckle 4.0.0");
         swashbuckleVersion.addEnum("5.0.0", "Swashbuckle 5.0.0");
-        swashbuckleVersion.addEnum("6.0.0", "Swashbuckle 6.0.0");
+        swashbuckleVersion.addEnum("6.4.0", "Swashbuckle 6.4.0");
         swashbuckleVersion.setDefault("3.0.0");
         swashbuckleVersion.setOptValue(swashbuckleVersion.getDefault());
         cliOptions.add(swashbuckleVersion);
@@ -760,13 +760,18 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     private void setSwashbuckleVersion() {
         setCliOption(swashbuckleVersion);
 
-        if (aspnetCoreVersion.getOptValue().startsWith("3.") || aspnetCoreVersion.getOptValue().startsWith("5.")) {
-            LOGGER.warn("ASP.NET core version is {} so changing default Swashbuckle version to 5.0.0.", aspnetCoreVersion.getOptValue());
-            swashbuckleVersion.setOptValue("5.0.0");
+        if (aspnetCoreVersion.getOptValue().startsWith("3.")) {
+            LOGGER.warn("ASP.NET core version is {} so changing default Swashbuckle version to 6.4.0.", aspnetCoreVersion.getOptValue());
+            swashbuckleVersion.setOptValue("6.4.0");
+            additionalProperties.put(SWASHBUCKLE_VERSION, swashbuckleVersion.getOptValue());
+        } else if (aspnetCoreVersion.getOptValue().startsWith("5.")) {
+            // for aspnet core 5.x, use Swashbuckle 6.4 instead
+            LOGGER.warn("ASP.NET core version is {} so changing default Swashbuckle version to 6.4.0.", aspnetCoreVersion.getOptValue());
+            swashbuckleVersion.setOptValue("6.4.0");
             additionalProperties.put(SWASHBUCKLE_VERSION, swashbuckleVersion.getOptValue());
         } else if (aspnetCoreVersion.getOptValue().startsWith("6.")) {
-            LOGGER.warn("ASP.NET core version is {} so changing default Swashbuckle version to 6.0.0.", aspnetCoreVersion.getOptValue());
-            swashbuckleVersion.setOptValue("6.0.0");
+            LOGGER.warn("ASP.NET core version is {} so changing default Swashbuckle version to 6.4.0.", aspnetCoreVersion.getOptValue());
+            swashbuckleVersion.setOptValue("6.4.0");
             additionalProperties.put(SWASHBUCKLE_VERSION, swashbuckleVersion.getOptValue());
         } else {
             // default, do nothing

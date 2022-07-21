@@ -343,6 +343,12 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toModelName(String name) {
+        // We need to check if schema-mapping has a different model for this class, so we use it
+        // instead of the auto-generated one.
+        if (schemaMapping.containsKey(name)) {
+            return schemaMapping.get(name);
+        }
+
         // memoization
         String origName = name;
         if (schemaKeyToModelNameCache.containsKey(origName)) {
