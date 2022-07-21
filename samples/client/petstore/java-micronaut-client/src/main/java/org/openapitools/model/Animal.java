@@ -44,8 +44,8 @@ import javax.annotation.Generated;
   @JsonSubTypes.Type(value = Dog.class, name = "Dog"),
 })
 
-@Introspected
-public class Animal {
+
+public abstract sealed class Animal permits BigCat Cat Dog {
     public static final String JSON_PROPERTY_CLASS_NAME = "className";
     protected String className;
 
@@ -144,8 +144,8 @@ public class Animal {
      * @param <T> the return type of the visitor
      * @return the result from the visitor
      */
-    public <T> T accept(Visitor<T> visitor) {
-        return visitor.visitAnimal(this);
+    public <T> T accept(Animal.Visitor<T> visitor) {
+      return visitor.visitAnimal(this);
     }
 
     /**

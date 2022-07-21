@@ -40,6 +40,11 @@ public class CodegenDiscriminator {
 
     private Set<MappedModel> mappedModels = new TreeSet<>();
 
+    /**
+     * Indication if the mapping contains the parent model.
+     */
+    private boolean containsParent = false;
+
     public String getPropertyName() {
         return propertyName;
     }
@@ -86,6 +91,14 @@ public class CodegenDiscriminator {
 
     public void setMappedModels(Set<MappedModel> mappedModels) {
         this.mappedModels = mappedModels;
+    }
+
+    public boolean isContainsParent() {
+        return containsParent;
+    }
+
+    public void setContainsParent(boolean containsParent) {
+        this.containsParent = containsParent;
     }
 
     /**

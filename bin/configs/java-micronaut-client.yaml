@@ -8,4 +8,5 @@ additionalProperties:
   build: "all"
   test: "spock"
   requiredPropertiesInConstructor: "false"
+  useSealed: "true"
   visitable: "true"

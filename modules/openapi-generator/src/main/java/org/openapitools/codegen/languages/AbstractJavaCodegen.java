@@ -1297,6 +1297,13 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         if ("BigDecimal".equals(codegenModel.dataType)) {
             codegenModel.imports.add("BigDecimal");
         }
+        if (codegenModel.discriminator != null) {
+            for (CodegenDiscriminator.MappedModel mapped : codegenModel.discriminator.getMappedModels()) {
+                if (name.equals(mapped.getModelName())) {
+                    codegenModel.discriminator.setContainsParent(true);
+                }
+            }
+        }
         return codegenModel;
     }
 
