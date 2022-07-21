@@ -512,10 +512,6 @@ namespace Org.OpenAPITools.Client
             {
                 response.Data = (T)(object)response.RawBytes;
             }
-            else if (typeof(T).Name == "String") // for string response
-            {
-                response.Data = (T)(object)response.Content;
-            }
 
             InterceptResponse(req, response);
 
@@ -614,11 +610,7 @@ namespace Org.OpenAPITools.Client
             {
                 response.Data = (T)(object)response.RawBytes;
             }
-            else if (typeof(T).Name == "String") // for string response
-            {
-                response.Data = (T)(object)response.Content;
-            }
-            
+
             InterceptResponse(req, response);
 
             var result = ToApiResponse(response);
