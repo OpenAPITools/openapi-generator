@@ -1,28 +1,23 @@
-{{#useAxiosHttpModule}}
 import { DynamicModule, Module, Global } from '@nestjs/common';
 import { HttpModule, HttpService } from '@nestjs/axios';
-{{/useAxiosHttpModule}}
-{{^useAxiosHttpModule}}
-import { DynamicModule, HttpService, HttpModule, Module, Global } from '@nestjs/common';
-{{/useAxiosHttpModule}}
 import { Configuration } from './configuration';
 
-{{#apiInfo}}
-{{#apis}}
-import { {{classname}} } from './{{importPath}}';
-{{/apis}}
-{{/apiInfo}}
+import { PetService } from './api/pet.service';
+import { StoreService } from './api/store.service';
+import { UserService } from './api/user.service';
 
 @Global()
 @Module({
   imports:      [ HttpModule ],
   exports:      [
-    {{#apiInfo}}{{#apis}}{{classname}}{{^-last}},
-    {{/-last}}{{/apis}}{{/apiInfo}}
+    PetService,
+    StoreService,
+    UserService
   ],
   providers: [
-    {{#apiInfo}}{{#apis}}{{classname}}{{^-last}},
-    {{/-last}}{{/apis}}{{/apiInfo}}
+    PetService,
+    StoreService,
+    UserService
   ]
 })
 export class ApiModule {
