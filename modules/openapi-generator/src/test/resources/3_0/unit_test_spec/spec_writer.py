@@ -461,6 +461,36 @@ def generate_post_operation_with_request_body(
         }
     )
 
+
+def generate_post_operation_with_response_content_schema(
+    component_name: str,
+    tags: typing.List[OpenApiTag]
+) -> OpenApiOperation:
+    method = 'post'
+    ref_schema_path = f'#/components/schemas/{component_name}'
+    ref_test_example_path = f'#/components/x-schema-test-examples/{component_name}'
+    media_type = OpenApiMediaType(
+        {
+            'schema': OpenApiSchema({'$ref': ref_schema_path}),
+            'x-schema-test-examples': {'$ref': ref_test_example_path}
+        }
+    )
+    operationId = f'{method}{component_name}ResponseBodyForContentTypes'
+    response_object = OpenApiResponseObject(
+        {
+            'description': 'success',
+            'content': {'application/json': media_type}
+        }
+    )
+    return OpenApiOperation(
+        {
+            'operationId': operationId,
+            'responses': {'200': response_object},
+            'tags': [tag.name for tag in tags]
+        }
+    )
+
+
 def write_openapi_spec():
     openapi = get_new_openapi()
     request_body_tag = OpenApiTag(name='operation.requestBody')
@@ -485,8 +515,12 @@ def write_openapi_spec():
             operation = generate_post_operation_with_request_body(component_name, [request_body_tag, post_tag, json_tag])
             path_item = OpenApiPathItem(post=operation)
             openapi.paths[f'/requestBody/{operation["operationId"]}'] = path_item
+
             # todo add put and patch with paths requestBody/someIdentifier
 
+            operation = generate_post_operation_with_response_content_schema(component_name, [request_body_tag, post_tag, json_tag])
+            path_item = OpenApiPathItem(post=operation)
+            openapi.paths[f'/responseBody/{operation["operationId"]}'] = path_item
     print(
         yaml.dump(
             dataclasses.asdict(openapi),
