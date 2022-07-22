@@ -30,8 +30,9 @@ var_pet <- Pet$new("name_example", list("photoUrls_example"), 123, Category$new(
 
 #Add a new pet to the store
 api_instance <- PetApi$new()
-# Configure OAuth2 access token for authorization: petstore_auth
-api_instance$api_client$access_token <- 'TODO_YOUR_ACCESS_TOKEN';
+# Configure HTTP basic authorization: http_auth
+api_instance$api_client$username <- 'TODO_YOUR_USERNAME';
+api_instance$api_client$password <- 'TODO_YOUR_PASSWORD';
 result <- tryCatch(
              # to save the result into a file, simply add the optional `data_file` parameter, e.g.
              # api_instance$AddPet(var_pet, data_file = "result.txt"),
@@ -63,7 +64,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth)
+[http_auth](../README.md#http_auth)
 
 ### HTTP request headers
 
@@ -271,8 +272,8 @@ var_pet_id <- 56 # integer | ID of pet to return
 
 #Find pet by ID
 api_instance <- PetApi$new()
-# Configure API key authorization: api_key
-api_instance$api_client$api_keys['api_key'] <- 'TODO_YOUR_API_KEY';
+# Configure HTTP bearer authorization: BearerToken
+api.instance$api_client$bearer_token <- 'TODO_YOUR_BEARER_TOKEN';
 result <- tryCatch(
              # to save the result into a file, simply add the optional `data_file` parameter, e.g.
              # api_instance$GetPetById(var_pet_id, data_file = "result.txt"),
@@ -304,7 +305,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[api_key](../README.md#api_key)
+[BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 

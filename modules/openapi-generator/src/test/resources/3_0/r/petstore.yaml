@@ -38,9 +38,7 @@ paths:
         '405':
           description: Invalid input
       security:
-        - petstore_auth:
-            - 'write:pets'
-            - 'read:pets'
+        - http_auth: []
       requestBody:
         $ref: '#/components/requestBodies/Pet'
     put:
@@ -184,7 +182,7 @@ paths:
         '404':
           description: Pet not found
       security:
-        - api_key: []
+        - BearerToken: []
   '/pet/{petId}?streaming':
     get:
       tags:
@@ -671,6 +669,12 @@ components:
       description: Pet object that needs to be added to the store
       required: true
   securitySchemes:
+    http_auth:
+      type : http
+      scheme : basic
+    BearerToken:
+      type : http
+      scheme : bearer
     petstore_auth:
       type: oauth2
       flows:

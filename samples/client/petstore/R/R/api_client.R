@@ -29,6 +29,7 @@
 #' @field password Password for HTTP basic authentication
 #' @field api_keys API keys
 #' @field access_token Access token
+#' @field bearer_token Bearer token
 #' @field timeout Default timeout in seconds
 #' @field retry_status_codes vector of status codes to retry
 #' @field max_retry_attempts maximum number of retries for the status codes
@@ -52,6 +53,8 @@ ApiClient  <- R6::R6Class(
     api_keys = NULL,
     # Access token
     access_token = NULL,
+    # Bearer token
+    bearer_token = NULL,
     # Time Out (seconds)
     timeout = NULL,
     # Vector of status codes to retry
@@ -70,6 +73,7 @@ ApiClient  <- R6::R6Class(
     #' @param password Password.
     #' @param api_keys API keys.
     #' @param access_token Access token.
+    #' @param bearer_token Bearer token.
     #' @param timeout Timeout.
     #' @param retry_status_codes Status codes for retry.
     #' @param max_retry_attempts Maxmium number of retry.
@@ -77,7 +81,7 @@ ApiClient  <- R6::R6Class(
     initialize = function(base_path = NULL, user_agent = NULL,
                           default_headers = NULL,
                           username = NULL, password = NULL, api_keys = NULL,
-                          access_token = NULL, timeout = NULL,
+                          access_token = NULL, bearer_token = NULL, timeout = NULL,
                           retry_status_codes = NULL, max_retry_attempts = NULL) {
       if (!is.null(base_path)) {
         self$base_path <- base_path
@@ -97,6 +101,10 @@ ApiClient  <- R6::R6Class(
 
       if (!is.null(access_token)) {
         self$access_token <- access_token
+      }
+
+      if (!is.null(bearer_token)) {
+        self$bearer_token <- bearer_token
       }
 
       if (!is.null(api_keys)) {
