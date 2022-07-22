@@ -94,7 +94,7 @@ UpdatePetRequest <- R6::R6Class(
           '"jsonData":
           %s
           ',
-          jsonlite::toJSON(self$`jsonData`$toJSON(), auto_unbox=TRUE, digits = NA)
+          jsonlite::toJSON(self$`jsonData`$toJSON(), auto_unbox = TRUE, digits = NA)
           )
         },
         if (!is.null(self$`binaryDataN2Information`)) {
@@ -145,4 +145,3 @@ UpdatePetRequest <- R6::R6Class(
     }
   )
 )
-

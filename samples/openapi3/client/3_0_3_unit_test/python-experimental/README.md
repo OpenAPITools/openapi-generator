@@ -51,14 +51,354 @@ Please follow the [installation procedure](#installation--usage) and then run th
 import time
 import unit_test_api
 from pprint import pprint
+from unit_test_api.api import json_api
+from unit_test_api.model.additionalproperties_allows_a_schema_which_should_validate import AdditionalpropertiesAllowsASchemaWhichShouldValidate
+from unit_test_api.model.additionalproperties_are_allowed_by_default import AdditionalpropertiesAreAllowedByDefault
+from unit_test_api.model.additionalproperties_can_exist_by_itself import AdditionalpropertiesCanExistByItself
+from unit_test_api.model.additionalproperties_should_not_look_in_applicators import AdditionalpropertiesShouldNotLookInApplicators
+from unit_test_api.model.allof import Allof
+from unit_test_api.model.allof_combined_with_anyof_oneof import AllofCombinedWithAnyofOneof
+from unit_test_api.model.allof_simple_types import AllofSimpleTypes
+from unit_test_api.model.allof_with_base_schema import AllofWithBaseSchema
+from unit_test_api.model.allof_with_one_empty_schema import AllofWithOneEmptySchema
+from unit_test_api.model.allof_with_the_first_empty_schema import AllofWithTheFirstEmptySchema
+from unit_test_api.model.allof_with_the_last_empty_schema import AllofWithTheLastEmptySchema
+from unit_test_api.model.allof_with_two_empty_schemas import AllofWithTwoEmptySchemas
+from unit_test_api.model.anyof import Anyof
+from unit_test_api.model.anyof_complex_types import AnyofComplexTypes
+from unit_test_api.model.anyof_with_base_schema import AnyofWithBaseSchema
+from unit_test_api.model.anyof_with_one_empty_schema import AnyofWithOneEmptySchema
+from unit_test_api.model.array_type_matches_arrays import ArrayTypeMatchesArrays
+from unit_test_api.model.by_int import ByInt
+from unit_test_api.model.by_number import ByNumber
+from unit_test_api.model.by_small_number import BySmallNumber
+from unit_test_api.model.enum_with0_does_not_match_false import EnumWith0DoesNotMatchFalse
+from unit_test_api.model.enum_with1_does_not_match_true import EnumWith1DoesNotMatchTrue
+from unit_test_api.model.enum_with_escaped_characters import EnumWithEscapedCharacters
+from unit_test_api.model.enum_with_false_does_not_match0 import EnumWithFalseDoesNotMatch0
+from unit_test_api.model.enum_with_true_does_not_match1 import EnumWithTrueDoesNotMatch1
+from unit_test_api.model.enums_in_properties import EnumsInProperties
+from unit_test_api.model.forbidden_property import ForbiddenProperty
+from unit_test_api.model.invalid_instance_should_not_raise_error_when_float_division_inf import InvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInf
+from unit_test_api.model.invalid_string_value_for_default import InvalidStringValueForDefault
+from unit_test_api.model.maximum_validation import MaximumValidation
+from unit_test_api.model.maximum_validation_with_unsigned_integer import MaximumValidationWithUnsignedInteger
+from unit_test_api.model.maxitems_validation import MaxitemsValidation
+from unit_test_api.model.maxlength_validation import MaxlengthValidation
+from unit_test_api.model.maxproperties0_means_the_object_is_empty import Maxproperties0MeansTheObjectIsEmpty
+from unit_test_api.model.maxproperties_validation import MaxpropertiesValidation
+from unit_test_api.model.minimum_validation import MinimumValidation
+from unit_test_api.model.minimum_validation_with_signed_integer import MinimumValidationWithSignedInteger
+from unit_test_api.model.minitems_validation import MinitemsValidation
+from unit_test_api.model.minlength_validation import MinlengthValidation
+from unit_test_api.model.minproperties_validation import MinpropertiesValidation
+from unit_test_api.model.nested_allof_to_check_validation_semantics import NestedAllofToCheckValidationSemantics
+from unit_test_api.model.nested_anyof_to_check_validation_semantics import NestedAnyofToCheckValidationSemantics
+from unit_test_api.model.nested_items import NestedItems
+from unit_test_api.model.nested_oneof_to_check_validation_semantics import NestedOneofToCheckValidationSemantics
+from unit_test_api.model.nul_characters_in_strings import NulCharactersInStrings
+from unit_test_api.model.object_properties_validation import ObjectPropertiesValidation
+from unit_test_api.model.oneof import Oneof
+from unit_test_api.model.oneof_complex_types import OneofComplexTypes
+from unit_test_api.model.oneof_with_base_schema import OneofWithBaseSchema
+from unit_test_api.model.oneof_with_empty_schema import OneofWithEmptySchema
+from unit_test_api.model.pattern_is_not_anchored import PatternIsNotAnchored
+from unit_test_api.model.pattern_validation import PatternValidation
+from unit_test_api.model.properties_with_escaped_characters import PropertiesWithEscapedCharacters
+from unit_test_api.model.property_named_ref_that_is_not_a_reference import PropertyNamedRefThatIsNotAReference
+from unit_test_api.model.ref_in_additionalproperties import RefInAdditionalproperties
+from unit_test_api.model.ref_in_allof import RefInAllof
+from unit_test_api.model.ref_in_anyof import RefInAnyof
+from unit_test_api.model.ref_in_items import RefInItems
+from unit_test_api.model.ref_in_oneof import RefInOneof
+from unit_test_api.model.ref_in_property import RefInProperty
+from unit_test_api.model.required_default_validation import RequiredDefaultValidation
+from unit_test_api.model.required_validation import RequiredValidation
+from unit_test_api.model.required_with_empty_array import RequiredWithEmptyArray
+from unit_test_api.model.simple_enum_validation import SimpleEnumValidation
+from unit_test_api.model.the_default_keyword_does_not_do_anything_if_the_property_is_missing import TheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissing
+from unit_test_api.model.uniqueitems_false_validation import UniqueitemsFalseValidation
+from unit_test_api.model.uniqueitems_validation import UniqueitemsValidation
+# Defining the host is optional and defaults to https://someserver.com/v1
+# See configuration.py for a list of all supported configuration parameters.
+configuration = unit_test_api.Configuration(
+    host = "https://someserver.com/v1"
+)
+
+
+# Enter a context with an instance of the API client
+with unit_test_api.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = json_api.JsonApi(api_client)
+    additionalproperties_allows_a_schema_which_should_validate = AdditionalpropertiesAllowsASchemaWhichShouldValidate(
+        foo=None,
+        bar=None,
+    ) # AdditionalpropertiesAllowsASchemaWhichShouldValidate | 
+
+    try:
+        api_instance.post_additionalproperties_allows_a_schema_which_should_validate_request_body(additionalproperties_allows_a_schema_which_should_validate)
+    except unit_test_api.ApiException as e:
+        print("Exception when calling JsonApi->post_additionalproperties_allows_a_schema_which_should_validate_request_body: %s\n" % e)
 ```
 
 ## Documentation for API Endpoints
 
-All URIs are relative to *http://localhost*
+All URIs are relative to *https://someserver.com/v1*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+*JsonApi* | [**post_additionalproperties_allows_a_schema_which_should_validate_request_body**](docs/JsonApi.md#post_additionalproperties_allows_a_schema_which_should_validate_request_body) | **POST** /requestBody/postAdditionalpropertiesAllowsASchemaWhichShouldValidateRequestBody | 
+*JsonApi* | [**post_additionalproperties_are_allowed_by_default_request_body**](docs/JsonApi.md#post_additionalproperties_are_allowed_by_default_request_body) | **POST** /requestBody/postAdditionalpropertiesAreAllowedByDefaultRequestBody | 
+*JsonApi* | [**post_additionalproperties_can_exist_by_itself_request_body**](docs/JsonApi.md#post_additionalproperties_can_exist_by_itself_request_body) | **POST** /requestBody/postAdditionalpropertiesCanExistByItselfRequestBody | 
+*JsonApi* | [**post_additionalproperties_should_not_look_in_applicators_request_body**](docs/JsonApi.md#post_additionalproperties_should_not_look_in_applicators_request_body) | **POST** /requestBody/postAdditionalpropertiesShouldNotLookInApplicatorsRequestBody | 
+*JsonApi* | [**post_allof_combined_with_anyof_oneof_request_body**](docs/JsonApi.md#post_allof_combined_with_anyof_oneof_request_body) | **POST** /requestBody/postAllofCombinedWithAnyofOneofRequestBody | 
+*JsonApi* | [**post_allof_request_body**](docs/JsonApi.md#post_allof_request_body) | **POST** /requestBody/postAllofRequestBody | 
+*JsonApi* | [**post_allof_simple_types_request_body**](docs/JsonApi.md#post_allof_simple_types_request_body) | **POST** /requestBody/postAllofSimpleTypesRequestBody | 
+*JsonApi* | [**post_allof_with_base_schema_request_body**](docs/JsonApi.md#post_allof_with_base_schema_request_body) | **POST** /requestBody/postAllofWithBaseSchemaRequestBody | 
+*JsonApi* | [**post_allof_with_one_empty_schema_request_body**](docs/JsonApi.md#post_allof_with_one_empty_schema_request_body) | **POST** /requestBody/postAllofWithOneEmptySchemaRequestBody | 
+*JsonApi* | [**post_allof_with_the_first_empty_schema_request_body**](docs/JsonApi.md#post_allof_with_the_first_empty_schema_request_body) | **POST** /requestBody/postAllofWithTheFirstEmptySchemaRequestBody | 
+*JsonApi* | [**post_allof_with_the_last_empty_schema_request_body**](docs/JsonApi.md#post_allof_with_the_last_empty_schema_request_body) | **POST** /requestBody/postAllofWithTheLastEmptySchemaRequestBody | 
+*JsonApi* | [**post_allof_with_two_empty_schemas_request_body**](docs/JsonApi.md#post_allof_with_two_empty_schemas_request_body) | **POST** /requestBody/postAllofWithTwoEmptySchemasRequestBody | 
+*JsonApi* | [**post_anyof_complex_types_request_body**](docs/JsonApi.md#post_anyof_complex_types_request_body) | **POST** /requestBody/postAnyofComplexTypesRequestBody | 
+*JsonApi* | [**post_anyof_request_body**](docs/JsonApi.md#post_anyof_request_body) | **POST** /requestBody/postAnyofRequestBody | 
+*JsonApi* | [**post_anyof_with_base_schema_request_body**](docs/JsonApi.md#post_anyof_with_base_schema_request_body) | **POST** /requestBody/postAnyofWithBaseSchemaRequestBody | 
+*JsonApi* | [**post_anyof_with_one_empty_schema_request_body**](docs/JsonApi.md#post_anyof_with_one_empty_schema_request_body) | **POST** /requestBody/postAnyofWithOneEmptySchemaRequestBody | 
+*JsonApi* | [**post_array_type_matches_arrays_request_body**](docs/JsonApi.md#post_array_type_matches_arrays_request_body) | **POST** /requestBody/postArrayTypeMatchesArraysRequestBody | 
+*JsonApi* | [**post_boolean_type_matches_booleans_request_body**](docs/JsonApi.md#post_boolean_type_matches_booleans_request_body) | **POST** /requestBody/postBooleanTypeMatchesBooleansRequestBody | 
+*JsonApi* | [**post_by_int_request_body**](docs/JsonApi.md#post_by_int_request_body) | **POST** /requestBody/postByIntRequestBody | 
+*JsonApi* | [**post_by_number_request_body**](docs/JsonApi.md#post_by_number_request_body) | **POST** /requestBody/postByNumberRequestBody | 
+*JsonApi* | [**post_by_small_number_request_body**](docs/JsonApi.md#post_by_small_number_request_body) | **POST** /requestBody/postBySmallNumberRequestBody | 
+*JsonApi* | [**post_date_time_format_request_body**](docs/JsonApi.md#post_date_time_format_request_body) | **POST** /requestBody/postDateTimeFormatRequestBody | 
+*JsonApi* | [**post_email_format_request_body**](docs/JsonApi.md#post_email_format_request_body) | **POST** /requestBody/postEmailFormatRequestBody | 
+*JsonApi* | [**post_enum_with0_does_not_match_false_request_body**](docs/JsonApi.md#post_enum_with0_does_not_match_false_request_body) | **POST** /requestBody/postEnumWith0DoesNotMatchFalseRequestBody | 
+*JsonApi* | [**post_enum_with1_does_not_match_true_request_body**](docs/JsonApi.md#post_enum_with1_does_not_match_true_request_body) | **POST** /requestBody/postEnumWith1DoesNotMatchTrueRequestBody | 
+*JsonApi* | [**post_enum_with_escaped_characters_request_body**](docs/JsonApi.md#post_enum_with_escaped_characters_request_body) | **POST** /requestBody/postEnumWithEscapedCharactersRequestBody | 
+*JsonApi* | [**post_enum_with_false_does_not_match0_request_body**](docs/JsonApi.md#post_enum_with_false_does_not_match0_request_body) | **POST** /requestBody/postEnumWithFalseDoesNotMatch0RequestBody | 
+*JsonApi* | [**post_enum_with_true_does_not_match1_request_body**](docs/JsonApi.md#post_enum_with_true_does_not_match1_request_body) | **POST** /requestBody/postEnumWithTrueDoesNotMatch1RequestBody | 
+*JsonApi* | [**post_enums_in_properties_request_body**](docs/JsonApi.md#post_enums_in_properties_request_body) | **POST** /requestBody/postEnumsInPropertiesRequestBody | 
+*JsonApi* | [**post_forbidden_property_request_body**](docs/JsonApi.md#post_forbidden_property_request_body) | **POST** /requestBody/postForbiddenPropertyRequestBody | 
+*JsonApi* | [**post_hostname_format_request_body**](docs/JsonApi.md#post_hostname_format_request_body) | **POST** /requestBody/postHostnameFormatRequestBody | 
+*JsonApi* | [**post_integer_type_matches_integers_request_body**](docs/JsonApi.md#post_integer_type_matches_integers_request_body) | **POST** /requestBody/postIntegerTypeMatchesIntegersRequestBody | 
+*JsonApi* | [**post_invalid_instance_should_not_raise_error_when_float_division_inf_request_body**](docs/JsonApi.md#post_invalid_instance_should_not_raise_error_when_float_division_inf_request_body) | **POST** /requestBody/postInvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInfRequestBody | 
+*JsonApi* | [**post_invalid_string_value_for_default_request_body**](docs/JsonApi.md#post_invalid_string_value_for_default_request_body) | **POST** /requestBody/postInvalidStringValueForDefaultRequestBody | 
+*JsonApi* | [**post_ipv4_format_request_body**](docs/JsonApi.md#post_ipv4_format_request_body) | **POST** /requestBody/postIpv4FormatRequestBody | 
+*JsonApi* | [**post_ipv6_format_request_body**](docs/JsonApi.md#post_ipv6_format_request_body) | **POST** /requestBody/postIpv6FormatRequestBody | 
+*JsonApi* | [**post_json_pointer_format_request_body**](docs/JsonApi.md#post_json_pointer_format_request_body) | **POST** /requestBody/postJsonPointerFormatRequestBody | 
+*JsonApi* | [**post_maximum_validation_request_body**](docs/JsonApi.md#post_maximum_validation_request_body) | **POST** /requestBody/postMaximumValidationRequestBody | 
+*JsonApi* | [**post_maximum_validation_with_unsigned_integer_request_body**](docs/JsonApi.md#post_maximum_validation_with_unsigned_integer_request_body) | **POST** /requestBody/postMaximumValidationWithUnsignedIntegerRequestBody | 
+*JsonApi* | [**post_maxitems_validation_request_body**](docs/JsonApi.md#post_maxitems_validation_request_body) | **POST** /requestBody/postMaxitemsValidationRequestBody | 
+*JsonApi* | [**post_maxlength_validation_request_body**](docs/JsonApi.md#post_maxlength_validation_request_body) | **POST** /requestBody/postMaxlengthValidationRequestBody | 
+*JsonApi* | [**post_maxproperties0_means_the_object_is_empty_request_body**](docs/JsonApi.md#post_maxproperties0_means_the_object_is_empty_request_body) | **POST** /requestBody/postMaxproperties0MeansTheObjectIsEmptyRequestBody | 
+*JsonApi* | [**post_maxproperties_validation_request_body**](docs/JsonApi.md#post_maxproperties_validation_request_body) | **POST** /requestBody/postMaxpropertiesValidationRequestBody | 
+*JsonApi* | [**post_minimum_validation_request_body**](docs/JsonApi.md#post_minimum_validation_request_body) | **POST** /requestBody/postMinimumValidationRequestBody | 
+*JsonApi* | [**post_minimum_validation_with_signed_integer_request_body**](docs/JsonApi.md#post_minimum_validation_with_signed_integer_request_body) | **POST** /requestBody/postMinimumValidationWithSignedIntegerRequestBody | 
+*JsonApi* | [**post_minitems_validation_request_body**](docs/JsonApi.md#post_minitems_validation_request_body) | **POST** /requestBody/postMinitemsValidationRequestBody | 
+*JsonApi* | [**post_minlength_validation_request_body**](docs/JsonApi.md#post_minlength_validation_request_body) | **POST** /requestBody/postMinlengthValidationRequestBody | 
+*JsonApi* | [**post_minproperties_validation_request_body**](docs/JsonApi.md#post_minproperties_validation_request_body) | **POST** /requestBody/postMinpropertiesValidationRequestBody | 
+*JsonApi* | [**post_nested_allof_to_check_validation_semantics_request_body**](docs/JsonApi.md#post_nested_allof_to_check_validation_semantics_request_body) | **POST** /requestBody/postNestedAllofToCheckValidationSemanticsRequestBody | 
+*JsonApi* | [**post_nested_anyof_to_check_validation_semantics_request_body**](docs/JsonApi.md#post_nested_anyof_to_check_validation_semantics_request_body) | **POST** /requestBody/postNestedAnyofToCheckValidationSemanticsRequestBody | 
+*JsonApi* | [**post_nested_items_request_body**](docs/JsonApi.md#post_nested_items_request_body) | **POST** /requestBody/postNestedItemsRequestBody | 
+*JsonApi* | [**post_nested_oneof_to_check_validation_semantics_request_body**](docs/JsonApi.md#post_nested_oneof_to_check_validation_semantics_request_body) | **POST** /requestBody/postNestedOneofToCheckValidationSemanticsRequestBody | 
+*JsonApi* | [**post_not_more_complex_schema_request_body**](docs/JsonApi.md#post_not_more_complex_schema_request_body) | **POST** /requestBody/postNotMoreComplexSchemaRequestBody | 
+*JsonApi* | [**post_not_request_body**](docs/JsonApi.md#post_not_request_body) | **POST** /requestBody/postNotRequestBody | 
+*JsonApi* | [**post_nul_characters_in_strings_request_body**](docs/JsonApi.md#post_nul_characters_in_strings_request_body) | **POST** /requestBody/postNulCharactersInStringsRequestBody | 
+*JsonApi* | [**post_null_type_matches_only_the_null_object_request_body**](docs/JsonApi.md#post_null_type_matches_only_the_null_object_request_body) | **POST** /requestBody/postNullTypeMatchesOnlyTheNullObjectRequestBody | 
+*JsonApi* | [**post_number_type_matches_numbers_request_body**](docs/JsonApi.md#post_number_type_matches_numbers_request_body) | **POST** /requestBody/postNumberTypeMatchesNumbersRequestBody | 
+*JsonApi* | [**post_object_properties_validation_request_body**](docs/JsonApi.md#post_object_properties_validation_request_body) | **POST** /requestBody/postObjectPropertiesValidationRequestBody | 
+*JsonApi* | [**post_object_type_matches_objects_request_body**](docs/JsonApi.md#post_object_type_matches_objects_request_body) | **POST** /requestBody/postObjectTypeMatchesObjectsRequestBody | 
+*JsonApi* | [**post_oneof_complex_types_request_body**](docs/JsonApi.md#post_oneof_complex_types_request_body) | **POST** /requestBody/postOneofComplexTypesRequestBody | 
+*JsonApi* | [**post_oneof_request_body**](docs/JsonApi.md#post_oneof_request_body) | **POST** /requestBody/postOneofRequestBody | 
+*JsonApi* | [**post_oneof_with_base_schema_request_body**](docs/JsonApi.md#post_oneof_with_base_schema_request_body) | **POST** /requestBody/postOneofWithBaseSchemaRequestBody | 
+*JsonApi* | [**post_oneof_with_empty_schema_request_body**](docs/JsonApi.md#post_oneof_with_empty_schema_request_body) | **POST** /requestBody/postOneofWithEmptySchemaRequestBody | 
+*JsonApi* | [**post_pattern_is_not_anchored_request_body**](docs/JsonApi.md#post_pattern_is_not_anchored_request_body) | **POST** /requestBody/postPatternIsNotAnchoredRequestBody | 
+*JsonApi* | [**post_pattern_validation_request_body**](docs/JsonApi.md#post_pattern_validation_request_body) | **POST** /requestBody/postPatternValidationRequestBody | 
+*JsonApi* | [**post_properties_with_escaped_characters_request_body**](docs/JsonApi.md#post_properties_with_escaped_characters_request_body) | **POST** /requestBody/postPropertiesWithEscapedCharactersRequestBody | 
+*JsonApi* | [**post_property_named_ref_that_is_not_a_reference_request_body**](docs/JsonApi.md#post_property_named_ref_that_is_not_a_reference_request_body) | **POST** /requestBody/postPropertyNamedRefThatIsNotAReferenceRequestBody | 
+*JsonApi* | [**post_ref_in_additionalproperties_request_body**](docs/JsonApi.md#post_ref_in_additionalproperties_request_body) | **POST** /requestBody/postRefInAdditionalpropertiesRequestBody | 
+*JsonApi* | [**post_ref_in_allof_request_body**](docs/JsonApi.md#post_ref_in_allof_request_body) | **POST** /requestBody/postRefInAllofRequestBody | 
+*JsonApi* | [**post_ref_in_anyof_request_body**](docs/JsonApi.md#post_ref_in_anyof_request_body) | **POST** /requestBody/postRefInAnyofRequestBody | 
+*JsonApi* | [**post_ref_in_items_request_body**](docs/JsonApi.md#post_ref_in_items_request_body) | **POST** /requestBody/postRefInItemsRequestBody | 
+*JsonApi* | [**post_ref_in_oneof_request_body**](docs/JsonApi.md#post_ref_in_oneof_request_body) | **POST** /requestBody/postRefInOneofRequestBody | 
+*JsonApi* | [**post_ref_in_property_request_body**](docs/JsonApi.md#post_ref_in_property_request_body) | **POST** /requestBody/postRefInPropertyRequestBody | 
+*JsonApi* | [**post_required_default_validation_request_body**](docs/JsonApi.md#post_required_default_validation_request_body) | **POST** /requestBody/postRequiredDefaultValidationRequestBody | 
+*JsonApi* | [**post_required_validation_request_body**](docs/JsonApi.md#post_required_validation_request_body) | **POST** /requestBody/postRequiredValidationRequestBody | 
+*JsonApi* | [**post_required_with_empty_array_request_body**](docs/JsonApi.md#post_required_with_empty_array_request_body) | **POST** /requestBody/postRequiredWithEmptyArrayRequestBody | 
+*JsonApi* | [**post_simple_enum_validation_request_body**](docs/JsonApi.md#post_simple_enum_validation_request_body) | **POST** /requestBody/postSimpleEnumValidationRequestBody | 
+*JsonApi* | [**post_string_type_matches_strings_request_body**](docs/JsonApi.md#post_string_type_matches_strings_request_body) | **POST** /requestBody/postStringTypeMatchesStringsRequestBody | 
+*JsonApi* | [**post_the_default_keyword_does_not_do_anything_if_the_property_is_missing_request_body**](docs/JsonApi.md#post_the_default_keyword_does_not_do_anything_if_the_property_is_missing_request_body) | **POST** /requestBody/postTheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissingRequestBody | 
+*JsonApi* | [**post_uniqueitems_false_validation_request_body**](docs/JsonApi.md#post_uniqueitems_false_validation_request_body) | **POST** /requestBody/postUniqueitemsFalseValidationRequestBody | 
+*JsonApi* | [**post_uniqueitems_validation_request_body**](docs/JsonApi.md#post_uniqueitems_validation_request_body) | **POST** /requestBody/postUniqueitemsValidationRequestBody | 
+*JsonApi* | [**post_uri_format_request_body**](docs/JsonApi.md#post_uri_format_request_body) | **POST** /requestBody/postUriFormatRequestBody | 
+*JsonApi* | [**post_uri_reference_format_request_body**](docs/JsonApi.md#post_uri_reference_format_request_body) | **POST** /requestBody/postUriReferenceFormatRequestBody | 
+*JsonApi* | [**post_uri_template_format_request_body**](docs/JsonApi.md#post_uri_template_format_request_body) | **POST** /requestBody/postUriTemplateFormatRequestBody | 
+*PostApi* | [**post_additionalproperties_allows_a_schema_which_should_validate_request_body**](docs/PostApi.md#post_additionalproperties_allows_a_schema_which_should_validate_request_body) | **POST** /requestBody/postAdditionalpropertiesAllowsASchemaWhichShouldValidateRequestBody | 
+*PostApi* | [**post_additionalproperties_are_allowed_by_default_request_body**](docs/PostApi.md#post_additionalproperties_are_allowed_by_default_request_body) | **POST** /requestBody/postAdditionalpropertiesAreAllowedByDefaultRequestBody | 
+*PostApi* | [**post_additionalproperties_can_exist_by_itself_request_body**](docs/PostApi.md#post_additionalproperties_can_exist_by_itself_request_body) | **POST** /requestBody/postAdditionalpropertiesCanExistByItselfRequestBody | 
+*PostApi* | [**post_additionalproperties_should_not_look_in_applicators_request_body**](docs/PostApi.md#post_additionalproperties_should_not_look_in_applicators_request_body) | **POST** /requestBody/postAdditionalpropertiesShouldNotLookInApplicatorsRequestBody | 
+*PostApi* | [**post_allof_combined_with_anyof_oneof_request_body**](docs/PostApi.md#post_allof_combined_with_anyof_oneof_request_body) | **POST** /requestBody/postAllofCombinedWithAnyofOneofRequestBody | 
+*PostApi* | [**post_allof_request_body**](docs/PostApi.md#post_allof_request_body) | **POST** /requestBody/postAllofRequestBody | 
+*PostApi* | [**post_allof_simple_types_request_body**](docs/PostApi.md#post_allof_simple_types_request_body) | **POST** /requestBody/postAllofSimpleTypesRequestBody | 
+*PostApi* | [**post_allof_with_base_schema_request_body**](docs/PostApi.md#post_allof_with_base_schema_request_body) | **POST** /requestBody/postAllofWithBaseSchemaRequestBody | 
+*PostApi* | [**post_allof_with_one_empty_schema_request_body**](docs/PostApi.md#post_allof_with_one_empty_schema_request_body) | **POST** /requestBody/postAllofWithOneEmptySchemaRequestBody | 
+*PostApi* | [**post_allof_with_the_first_empty_schema_request_body**](docs/PostApi.md#post_allof_with_the_first_empty_schema_request_body) | **POST** /requestBody/postAllofWithTheFirstEmptySchemaRequestBody | 
+*PostApi* | [**post_allof_with_the_last_empty_schema_request_body**](docs/PostApi.md#post_allof_with_the_last_empty_schema_request_body) | **POST** /requestBody/postAllofWithTheLastEmptySchemaRequestBody | 
+*PostApi* | [**post_allof_with_two_empty_schemas_request_body**](docs/PostApi.md#post_allof_with_two_empty_schemas_request_body) | **POST** /requestBody/postAllofWithTwoEmptySchemasRequestBody | 
+*PostApi* | [**post_anyof_complex_types_request_body**](docs/PostApi.md#post_anyof_complex_types_request_body) | **POST** /requestBody/postAnyofComplexTypesRequestBody | 
+*PostApi* | [**post_anyof_request_body**](docs/PostApi.md#post_anyof_request_body) | **POST** /requestBody/postAnyofRequestBody | 
+*PostApi* | [**post_anyof_with_base_schema_request_body**](docs/PostApi.md#post_anyof_with_base_schema_request_body) | **POST** /requestBody/postAnyofWithBaseSchemaRequestBody | 
+*PostApi* | [**post_anyof_with_one_empty_schema_request_body**](docs/PostApi.md#post_anyof_with_one_empty_schema_request_body) | **POST** /requestBody/postAnyofWithOneEmptySchemaRequestBody | 
+*PostApi* | [**post_array_type_matches_arrays_request_body**](docs/PostApi.md#post_array_type_matches_arrays_request_body) | **POST** /requestBody/postArrayTypeMatchesArraysRequestBody | 
+*PostApi* | [**post_boolean_type_matches_booleans_request_body**](docs/PostApi.md#post_boolean_type_matches_booleans_request_body) | **POST** /requestBody/postBooleanTypeMatchesBooleansRequestBody | 
+*PostApi* | [**post_by_int_request_body**](docs/PostApi.md#post_by_int_request_body) | **POST** /requestBody/postByIntRequestBody | 
+*PostApi* | [**post_by_number_request_body**](docs/PostApi.md#post_by_number_request_body) | **POST** /requestBody/postByNumberRequestBody | 
+*PostApi* | [**post_by_small_number_request_body**](docs/PostApi.md#post_by_small_number_request_body) | **POST** /requestBody/postBySmallNumberRequestBody | 
+*PostApi* | [**post_date_time_format_request_body**](docs/PostApi.md#post_date_time_format_request_body) | **POST** /requestBody/postDateTimeFormatRequestBody | 
+*PostApi* | [**post_email_format_request_body**](docs/PostApi.md#post_email_format_request_body) | **POST** /requestBody/postEmailFormatRequestBody | 
+*PostApi* | [**post_enum_with0_does_not_match_false_request_body**](docs/PostApi.md#post_enum_with0_does_not_match_false_request_body) | **POST** /requestBody/postEnumWith0DoesNotMatchFalseRequestBody | 
+*PostApi* | [**post_enum_with1_does_not_match_true_request_body**](docs/PostApi.md#post_enum_with1_does_not_match_true_request_body) | **POST** /requestBody/postEnumWith1DoesNotMatchTrueRequestBody | 
+*PostApi* | [**post_enum_with_escaped_characters_request_body**](docs/PostApi.md#post_enum_with_escaped_characters_request_body) | **POST** /requestBody/postEnumWithEscapedCharactersRequestBody | 
+*PostApi* | [**post_enum_with_false_does_not_match0_request_body**](docs/PostApi.md#post_enum_with_false_does_not_match0_request_body) | **POST** /requestBody/postEnumWithFalseDoesNotMatch0RequestBody | 
+*PostApi* | [**post_enum_with_true_does_not_match1_request_body**](docs/PostApi.md#post_enum_with_true_does_not_match1_request_body) | **POST** /requestBody/postEnumWithTrueDoesNotMatch1RequestBody | 
+*PostApi* | [**post_enums_in_properties_request_body**](docs/PostApi.md#post_enums_in_properties_request_body) | **POST** /requestBody/postEnumsInPropertiesRequestBody | 
+*PostApi* | [**post_forbidden_property_request_body**](docs/PostApi.md#post_forbidden_property_request_body) | **POST** /requestBody/postForbiddenPropertyRequestBody | 
+*PostApi* | [**post_hostname_format_request_body**](docs/PostApi.md#post_hostname_format_request_body) | **POST** /requestBody/postHostnameFormatRequestBody | 
+*PostApi* | [**post_integer_type_matches_integers_request_body**](docs/PostApi.md#post_integer_type_matches_integers_request_body) | **POST** /requestBody/postIntegerTypeMatchesIntegersRequestBody | 
+*PostApi* | [**post_invalid_instance_should_not_raise_error_when_float_division_inf_request_body**](docs/PostApi.md#post_invalid_instance_should_not_raise_error_when_float_division_inf_request_body) | **POST** /requestBody/postInvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInfRequestBody | 
+*PostApi* | [**post_invalid_string_value_for_default_request_body**](docs/PostApi.md#post_invalid_string_value_for_default_request_body) | **POST** /requestBody/postInvalidStringValueForDefaultRequestBody | 
+*PostApi* | [**post_ipv4_format_request_body**](docs/PostApi.md#post_ipv4_format_request_body) | **POST** /requestBody/postIpv4FormatRequestBody | 
+*PostApi* | [**post_ipv6_format_request_body**](docs/PostApi.md#post_ipv6_format_request_body) | **POST** /requestBody/postIpv6FormatRequestBody | 
+*PostApi* | [**post_json_pointer_format_request_body**](docs/PostApi.md#post_json_pointer_format_request_body) | **POST** /requestBody/postJsonPointerFormatRequestBody | 
+*PostApi* | [**post_maximum_validation_request_body**](docs/PostApi.md#post_maximum_validation_request_body) | **POST** /requestBody/postMaximumValidationRequestBody | 
+*PostApi* | [**post_maximum_validation_with_unsigned_integer_request_body**](docs/PostApi.md#post_maximum_validation_with_unsigned_integer_request_body) | **POST** /requestBody/postMaximumValidationWithUnsignedIntegerRequestBody | 
+*PostApi* | [**post_maxitems_validation_request_body**](docs/PostApi.md#post_maxitems_validation_request_body) | **POST** /requestBody/postMaxitemsValidationRequestBody | 
+*PostApi* | [**post_maxlength_validation_request_body**](docs/PostApi.md#post_maxlength_validation_request_body) | **POST** /requestBody/postMaxlengthValidationRequestBody | 
+*PostApi* | [**post_maxproperties0_means_the_object_is_empty_request_body**](docs/PostApi.md#post_maxproperties0_means_the_object_is_empty_request_body) | **POST** /requestBody/postMaxproperties0MeansTheObjectIsEmptyRequestBody | 
+*PostApi* | [**post_maxproperties_validation_request_body**](docs/PostApi.md#post_maxproperties_validation_request_body) | **POST** /requestBody/postMaxpropertiesValidationRequestBody | 
+*PostApi* | [**post_minimum_validation_request_body**](docs/PostApi.md#post_minimum_validation_request_body) | **POST** /requestBody/postMinimumValidationRequestBody | 
+*PostApi* | [**post_minimum_validation_with_signed_integer_request_body**](docs/PostApi.md#post_minimum_validation_with_signed_integer_request_body) | **POST** /requestBody/postMinimumValidationWithSignedIntegerRequestBody | 
+*PostApi* | [**post_minitems_validation_request_body**](docs/PostApi.md#post_minitems_validation_request_body) | **POST** /requestBody/postMinitemsValidationRequestBody | 
+*PostApi* | [**post_minlength_validation_request_body**](docs/PostApi.md#post_minlength_validation_request_body) | **POST** /requestBody/postMinlengthValidationRequestBody | 
+*PostApi* | [**post_minproperties_validation_request_body**](docs/PostApi.md#post_minproperties_validation_request_body) | **POST** /requestBody/postMinpropertiesValidationRequestBody | 
+*PostApi* | [**post_nested_allof_to_check_validation_semantics_request_body**](docs/PostApi.md#post_nested_allof_to_check_validation_semantics_request_body) | **POST** /requestBody/postNestedAllofToCheckValidationSemanticsRequestBody | 
+*PostApi* | [**post_nested_anyof_to_check_validation_semantics_request_body**](docs/PostApi.md#post_nested_anyof_to_check_validation_semantics_request_body) | **POST** /requestBody/postNestedAnyofToCheckValidationSemanticsRequestBody | 
+*PostApi* | [**post_nested_items_request_body**](docs/PostApi.md#post_nested_items_request_body) | **POST** /requestBody/postNestedItemsRequestBody | 
+*PostApi* | [**post_nested_oneof_to_check_validation_semantics_request_body**](docs/PostApi.md#post_nested_oneof_to_check_validation_semantics_request_body) | **POST** /requestBody/postNestedOneofToCheckValidationSemanticsRequestBody | 
+*PostApi* | [**post_not_more_complex_schema_request_body**](docs/PostApi.md#post_not_more_complex_schema_request_body) | **POST** /requestBody/postNotMoreComplexSchemaRequestBody | 
+*PostApi* | [**post_not_request_body**](docs/PostApi.md#post_not_request_body) | **POST** /requestBody/postNotRequestBody | 
+*PostApi* | [**post_nul_characters_in_strings_request_body**](docs/PostApi.md#post_nul_characters_in_strings_request_body) | **POST** /requestBody/postNulCharactersInStringsRequestBody | 
+*PostApi* | [**post_null_type_matches_only_the_null_object_request_body**](docs/PostApi.md#post_null_type_matches_only_the_null_object_request_body) | **POST** /requestBody/postNullTypeMatchesOnlyTheNullObjectRequestBody | 
+*PostApi* | [**post_number_type_matches_numbers_request_body**](docs/PostApi.md#post_number_type_matches_numbers_request_body) | **POST** /requestBody/postNumberTypeMatchesNumbersRequestBody | 
+*PostApi* | [**post_object_properties_validation_request_body**](docs/PostApi.md#post_object_properties_validation_request_body) | **POST** /requestBody/postObjectPropertiesValidationRequestBody | 
+*PostApi* | [**post_object_type_matches_objects_request_body**](docs/PostApi.md#post_object_type_matches_objects_request_body) | **POST** /requestBody/postObjectTypeMatchesObjectsRequestBody | 
+*PostApi* | [**post_oneof_complex_types_request_body**](docs/PostApi.md#post_oneof_complex_types_request_body) | **POST** /requestBody/postOneofComplexTypesRequestBody | 
+*PostApi* | [**post_oneof_request_body**](docs/PostApi.md#post_oneof_request_body) | **POST** /requestBody/postOneofRequestBody | 
+*PostApi* | [**post_oneof_with_base_schema_request_body**](docs/PostApi.md#post_oneof_with_base_schema_request_body) | **POST** /requestBody/postOneofWithBaseSchemaRequestBody | 
+*PostApi* | [**post_oneof_with_empty_schema_request_body**](docs/PostApi.md#post_oneof_with_empty_schema_request_body) | **POST** /requestBody/postOneofWithEmptySchemaRequestBody | 
+*PostApi* | [**post_pattern_is_not_anchored_request_body**](docs/PostApi.md#post_pattern_is_not_anchored_request_body) | **POST** /requestBody/postPatternIsNotAnchoredRequestBody | 
+*PostApi* | [**post_pattern_validation_request_body**](docs/PostApi.md#post_pattern_validation_request_body) | **POST** /requestBody/postPatternValidationRequestBody | 
+*PostApi* | [**post_properties_with_escaped_characters_request_body**](docs/PostApi.md#post_properties_with_escaped_characters_request_body) | **POST** /requestBody/postPropertiesWithEscapedCharactersRequestBody | 
+*PostApi* | [**post_property_named_ref_that_is_not_a_reference_request_body**](docs/PostApi.md#post_property_named_ref_that_is_not_a_reference_request_body) | **POST** /requestBody/postPropertyNamedRefThatIsNotAReferenceRequestBody | 
+*PostApi* | [**post_ref_in_additionalproperties_request_body**](docs/PostApi.md#post_ref_in_additionalproperties_request_body) | **POST** /requestBody/postRefInAdditionalpropertiesRequestBody | 
+*PostApi* | [**post_ref_in_allof_request_body**](docs/PostApi.md#post_ref_in_allof_request_body) | **POST** /requestBody/postRefInAllofRequestBody | 
+*PostApi* | [**post_ref_in_anyof_request_body**](docs/PostApi.md#post_ref_in_anyof_request_body) | **POST** /requestBody/postRefInAnyofRequestBody | 
+*PostApi* | [**post_ref_in_items_request_body**](docs/PostApi.md#post_ref_in_items_request_body) | **POST** /requestBody/postRefInItemsRequestBody | 
+*PostApi* | [**post_ref_in_oneof_request_body**](docs/PostApi.md#post_ref_in_oneof_request_body) | **POST** /requestBody/postRefInOneofRequestBody | 
+*PostApi* | [**post_ref_in_property_request_body**](docs/PostApi.md#post_ref_in_property_request_body) | **POST** /requestBody/postRefInPropertyRequestBody | 
+*PostApi* | [**post_required_default_validation_request_body**](docs/PostApi.md#post_required_default_validation_request_body) | **POST** /requestBody/postRequiredDefaultValidationRequestBody | 
+*PostApi* | [**post_required_validation_request_body**](docs/PostApi.md#post_required_validation_request_body) | **POST** /requestBody/postRequiredValidationRequestBody | 
+*PostApi* | [**post_required_with_empty_array_request_body**](docs/PostApi.md#post_required_with_empty_array_request_body) | **POST** /requestBody/postRequiredWithEmptyArrayRequestBody | 
+*PostApi* | [**post_simple_enum_validation_request_body**](docs/PostApi.md#post_simple_enum_validation_request_body) | **POST** /requestBody/postSimpleEnumValidationRequestBody | 
+*PostApi* | [**post_string_type_matches_strings_request_body**](docs/PostApi.md#post_string_type_matches_strings_request_body) | **POST** /requestBody/postStringTypeMatchesStringsRequestBody | 
+*PostApi* | [**post_the_default_keyword_does_not_do_anything_if_the_property_is_missing_request_body**](docs/PostApi.md#post_the_default_keyword_does_not_do_anything_if_the_property_is_missing_request_body) | **POST** /requestBody/postTheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissingRequestBody | 
+*PostApi* | [**post_uniqueitems_false_validation_request_body**](docs/PostApi.md#post_uniqueitems_false_validation_request_body) | **POST** /requestBody/postUniqueitemsFalseValidationRequestBody | 
+*PostApi* | [**post_uniqueitems_validation_request_body**](docs/PostApi.md#post_uniqueitems_validation_request_body) | **POST** /requestBody/postUniqueitemsValidationRequestBody | 
+*PostApi* | [**post_uri_format_request_body**](docs/PostApi.md#post_uri_format_request_body) | **POST** /requestBody/postUriFormatRequestBody | 
+*PostApi* | [**post_uri_reference_format_request_body**](docs/PostApi.md#post_uri_reference_format_request_body) | **POST** /requestBody/postUriReferenceFormatRequestBody | 
+*PostApi* | [**post_uri_template_format_request_body**](docs/PostApi.md#post_uri_template_format_request_body) | **POST** /requestBody/postUriTemplateFormatRequestBody | 
+*RequestBodyApi* | [**post_additionalproperties_allows_a_schema_which_should_validate_request_body**](docs/RequestBodyApi.md#post_additionalproperties_allows_a_schema_which_should_validate_request_body) | **POST** /requestBody/postAdditionalpropertiesAllowsASchemaWhichShouldValidateRequestBody | 
+*RequestBodyApi* | [**post_additionalproperties_are_allowed_by_default_request_body**](docs/RequestBodyApi.md#post_additionalproperties_are_allowed_by_default_request_body) | **POST** /requestBody/postAdditionalpropertiesAreAllowedByDefaultRequestBody | 
+*RequestBodyApi* | [**post_additionalproperties_can_exist_by_itself_request_body**](docs/RequestBodyApi.md#post_additionalproperties_can_exist_by_itself_request_body) | **POST** /requestBody/postAdditionalpropertiesCanExistByItselfRequestBody | 
+*RequestBodyApi* | [**post_additionalproperties_should_not_look_in_applicators_request_body**](docs/RequestBodyApi.md#post_additionalproperties_should_not_look_in_applicators_request_body) | **POST** /requestBody/postAdditionalpropertiesShouldNotLookInApplicatorsRequestBody | 
+*RequestBodyApi* | [**post_allof_combined_with_anyof_oneof_request_body**](docs/RequestBodyApi.md#post_allof_combined_with_anyof_oneof_request_body) | **POST** /requestBody/postAllofCombinedWithAnyofOneofRequestBody | 
+*RequestBodyApi* | [**post_allof_request_body**](docs/RequestBodyApi.md#post_allof_request_body) | **POST** /requestBody/postAllofRequestBody | 
+*RequestBodyApi* | [**post_allof_simple_types_request_body**](docs/RequestBodyApi.md#post_allof_simple_types_request_body) | **POST** /requestBody/postAllofSimpleTypesRequestBody | 
+*RequestBodyApi* | [**post_allof_with_base_schema_request_body**](docs/RequestBodyApi.md#post_allof_with_base_schema_request_body) | **POST** /requestBody/postAllofWithBaseSchemaRequestBody | 
+*RequestBodyApi* | [**post_allof_with_one_empty_schema_request_body**](docs/RequestBodyApi.md#post_allof_with_one_empty_schema_request_body) | **POST** /requestBody/postAllofWithOneEmptySchemaRequestBody | 
+*RequestBodyApi* | [**post_allof_with_the_first_empty_schema_request_body**](docs/RequestBodyApi.md#post_allof_with_the_first_empty_schema_request_body) | **POST** /requestBody/postAllofWithTheFirstEmptySchemaRequestBody | 
+*RequestBodyApi* | [**post_allof_with_the_last_empty_schema_request_body**](docs/RequestBodyApi.md#post_allof_with_the_last_empty_schema_request_body) | **POST** /requestBody/postAllofWithTheLastEmptySchemaRequestBody | 
+*RequestBodyApi* | [**post_allof_with_two_empty_schemas_request_body**](docs/RequestBodyApi.md#post_allof_with_two_empty_schemas_request_body) | **POST** /requestBody/postAllofWithTwoEmptySchemasRequestBody | 
+*RequestBodyApi* | [**post_anyof_complex_types_request_body**](docs/RequestBodyApi.md#post_anyof_complex_types_request_body) | **POST** /requestBody/postAnyofComplexTypesRequestBody | 
+*RequestBodyApi* | [**post_anyof_request_body**](docs/RequestBodyApi.md#post_anyof_request_body) | **POST** /requestBody/postAnyofRequestBody | 
+*RequestBodyApi* | [**post_anyof_with_base_schema_request_body**](docs/RequestBodyApi.md#post_anyof_with_base_schema_request_body) | **POST** /requestBody/postAnyofWithBaseSchemaRequestBody | 
+*RequestBodyApi* | [**post_anyof_with_one_empty_schema_request_body**](docs/RequestBodyApi.md#post_anyof_with_one_empty_schema_request_body) | **POST** /requestBody/postAnyofWithOneEmptySchemaRequestBody | 
+*RequestBodyApi* | [**post_array_type_matches_arrays_request_body**](docs/RequestBodyApi.md#post_array_type_matches_arrays_request_body) | **POST** /requestBody/postArrayTypeMatchesArraysRequestBody | 
+*RequestBodyApi* | [**post_boolean_type_matches_booleans_request_body**](docs/RequestBodyApi.md#post_boolean_type_matches_booleans_request_body) | **POST** /requestBody/postBooleanTypeMatchesBooleansRequestBody | 
+*RequestBodyApi* | [**post_by_int_request_body**](docs/RequestBodyApi.md#post_by_int_request_body) | **POST** /requestBody/postByIntRequestBody | 
+*RequestBodyApi* | [**post_by_number_request_body**](docs/RequestBodyApi.md#post_by_number_request_body) | **POST** /requestBody/postByNumberRequestBody | 
+*RequestBodyApi* | [**post_by_small_number_request_body**](docs/RequestBodyApi.md#post_by_small_number_request_body) | **POST** /requestBody/postBySmallNumberRequestBody | 
+*RequestBodyApi* | [**post_date_time_format_request_body**](docs/RequestBodyApi.md#post_date_time_format_request_body) | **POST** /requestBody/postDateTimeFormatRequestBody | 
+*RequestBodyApi* | [**post_email_format_request_body**](docs/RequestBodyApi.md#post_email_format_request_body) | **POST** /requestBody/postEmailFormatRequestBody | 
+*RequestBodyApi* | [**post_enum_with0_does_not_match_false_request_body**](docs/RequestBodyApi.md#post_enum_with0_does_not_match_false_request_body) | **POST** /requestBody/postEnumWith0DoesNotMatchFalseRequestBody | 
+*RequestBodyApi* | [**post_enum_with1_does_not_match_true_request_body**](docs/RequestBodyApi.md#post_enum_with1_does_not_match_true_request_body) | **POST** /requestBody/postEnumWith1DoesNotMatchTrueRequestBody | 
+*RequestBodyApi* | [**post_enum_with_escaped_characters_request_body**](docs/RequestBodyApi.md#post_enum_with_escaped_characters_request_body) | **POST** /requestBody/postEnumWithEscapedCharactersRequestBody | 
+*RequestBodyApi* | [**post_enum_with_false_does_not_match0_request_body**](docs/RequestBodyApi.md#post_enum_with_false_does_not_match0_request_body) | **POST** /requestBody/postEnumWithFalseDoesNotMatch0RequestBody | 
+*RequestBodyApi* | [**post_enum_with_true_does_not_match1_request_body**](docs/RequestBodyApi.md#post_enum_with_true_does_not_match1_request_body) | **POST** /requestBody/postEnumWithTrueDoesNotMatch1RequestBody | 
+*RequestBodyApi* | [**post_enums_in_properties_request_body**](docs/RequestBodyApi.md#post_enums_in_properties_request_body) | **POST** /requestBody/postEnumsInPropertiesRequestBody | 
+*RequestBodyApi* | [**post_forbidden_property_request_body**](docs/RequestBodyApi.md#post_forbidden_property_request_body) | **POST** /requestBody/postForbiddenPropertyRequestBody | 
+*RequestBodyApi* | [**post_hostname_format_request_body**](docs/RequestBodyApi.md#post_hostname_format_request_body) | **POST** /requestBody/postHostnameFormatRequestBody | 
+*RequestBodyApi* | [**post_integer_type_matches_integers_request_body**](docs/RequestBodyApi.md#post_integer_type_matches_integers_request_body) | **POST** /requestBody/postIntegerTypeMatchesIntegersRequestBody | 
+*RequestBodyApi* | [**post_invalid_instance_should_not_raise_error_when_float_division_inf_request_body**](docs/RequestBodyApi.md#post_invalid_instance_should_not_raise_error_when_float_division_inf_request_body) | **POST** /requestBody/postInvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInfRequestBody | 
+*RequestBodyApi* | [**post_invalid_string_value_for_default_request_body**](docs/RequestBodyApi.md#post_invalid_string_value_for_default_request_body) | **POST** /requestBody/postInvalidStringValueForDefaultRequestBody | 
+*RequestBodyApi* | [**post_ipv4_format_request_body**](docs/RequestBodyApi.md#post_ipv4_format_request_body) | **POST** /requestBody/postIpv4FormatRequestBody | 
+*RequestBodyApi* | [**post_ipv6_format_request_body**](docs/RequestBodyApi.md#post_ipv6_format_request_body) | **POST** /requestBody/postIpv6FormatRequestBody | 
+*RequestBodyApi* | [**post_json_pointer_format_request_body**](docs/RequestBodyApi.md#post_json_pointer_format_request_body) | **POST** /requestBody/postJsonPointerFormatRequestBody | 
+*RequestBodyApi* | [**post_maximum_validation_request_body**](docs/RequestBodyApi.md#post_maximum_validation_request_body) | **POST** /requestBody/postMaximumValidationRequestBody | 
+*RequestBodyApi* | [**post_maximum_validation_with_unsigned_integer_request_body**](docs/RequestBodyApi.md#post_maximum_validation_with_unsigned_integer_request_body) | **POST** /requestBody/postMaximumValidationWithUnsignedIntegerRequestBody | 
+*RequestBodyApi* | [**post_maxitems_validation_request_body**](docs/RequestBodyApi.md#post_maxitems_validation_request_body) | **POST** /requestBody/postMaxitemsValidationRequestBody | 
+*RequestBodyApi* | [**post_maxlength_validation_request_body**](docs/RequestBodyApi.md#post_maxlength_validation_request_body) | **POST** /requestBody/postMaxlengthValidationRequestBody | 
+*RequestBodyApi* | [**post_maxproperties0_means_the_object_is_empty_request_body**](docs/RequestBodyApi.md#post_maxproperties0_means_the_object_is_empty_request_body) | **POST** /requestBody/postMaxproperties0MeansTheObjectIsEmptyRequestBody | 
+*RequestBodyApi* | [**post_maxproperties_validation_request_body**](docs/RequestBodyApi.md#post_maxproperties_validation_request_body) | **POST** /requestBody/postMaxpropertiesValidationRequestBody | 
+*RequestBodyApi* | [**post_minimum_validation_request_body**](docs/RequestBodyApi.md#post_minimum_validation_request_body) | **POST** /requestBody/postMinimumValidationRequestBody | 
+*RequestBodyApi* | [**post_minimum_validation_with_signed_integer_request_body**](docs/RequestBodyApi.md#post_minimum_validation_with_signed_integer_request_body) | **POST** /requestBody/postMinimumValidationWithSignedIntegerRequestBody | 
+*RequestBodyApi* | [**post_minitems_validation_request_body**](docs/RequestBodyApi.md#post_minitems_validation_request_body) | **POST** /requestBody/postMinitemsValidationRequestBody | 
+*RequestBodyApi* | [**post_minlength_validation_request_body**](docs/RequestBodyApi.md#post_minlength_validation_request_body) | **POST** /requestBody/postMinlengthValidationRequestBody | 
+*RequestBodyApi* | [**post_minproperties_validation_request_body**](docs/RequestBodyApi.md#post_minproperties_validation_request_body) | **POST** /requestBody/postMinpropertiesValidationRequestBody | 
+*RequestBodyApi* | [**post_nested_allof_to_check_validation_semantics_request_body**](docs/RequestBodyApi.md#post_nested_allof_to_check_validation_semantics_request_body) | **POST** /requestBody/postNestedAllofToCheckValidationSemanticsRequestBody | 
+*RequestBodyApi* | [**post_nested_anyof_to_check_validation_semantics_request_body**](docs/RequestBodyApi.md#post_nested_anyof_to_check_validation_semantics_request_body) | **POST** /requestBody/postNestedAnyofToCheckValidationSemanticsRequestBody | 
+*RequestBodyApi* | [**post_nested_items_request_body**](docs/RequestBodyApi.md#post_nested_items_request_body) | **POST** /requestBody/postNestedItemsRequestBody | 
+*RequestBodyApi* | [**post_nested_oneof_to_check_validation_semantics_request_body**](docs/RequestBodyApi.md#post_nested_oneof_to_check_validation_semantics_request_body) | **POST** /requestBody/postNestedOneofToCheckValidationSemanticsRequestBody | 
+*RequestBodyApi* | [**post_not_more_complex_schema_request_body**](docs/RequestBodyApi.md#post_not_more_complex_schema_request_body) | **POST** /requestBody/postNotMoreComplexSchemaRequestBody | 
+*RequestBodyApi* | [**post_not_request_body**](docs/RequestBodyApi.md#post_not_request_body) | **POST** /requestBody/postNotRequestBody | 
+*RequestBodyApi* | [**post_nul_characters_in_strings_request_body**](docs/RequestBodyApi.md#post_nul_characters_in_strings_request_body) | **POST** /requestBody/postNulCharactersInStringsRequestBody | 
+*RequestBodyApi* | [**post_null_type_matches_only_the_null_object_request_body**](docs/RequestBodyApi.md#post_null_type_matches_only_the_null_object_request_body) | **POST** /requestBody/postNullTypeMatchesOnlyTheNullObjectRequestBody | 
+*RequestBodyApi* | [**post_number_type_matches_numbers_request_body**](docs/RequestBodyApi.md#post_number_type_matches_numbers_request_body) | **POST** /requestBody/postNumberTypeMatchesNumbersRequestBody | 
+*RequestBodyApi* | [**post_object_properties_validation_request_body**](docs/RequestBodyApi.md#post_object_properties_validation_request_body) | **POST** /requestBody/postObjectPropertiesValidationRequestBody | 
+*RequestBodyApi* | [**post_object_type_matches_objects_request_body**](docs/RequestBodyApi.md#post_object_type_matches_objects_request_body) | **POST** /requestBody/postObjectTypeMatchesObjectsRequestBody | 
+*RequestBodyApi* | [**post_oneof_complex_types_request_body**](docs/RequestBodyApi.md#post_oneof_complex_types_request_body) | **POST** /requestBody/postOneofComplexTypesRequestBody | 
+*RequestBodyApi* | [**post_oneof_request_body**](docs/RequestBodyApi.md#post_oneof_request_body) | **POST** /requestBody/postOneofRequestBody | 
+*RequestBodyApi* | [**post_oneof_with_base_schema_request_body**](docs/RequestBodyApi.md#post_oneof_with_base_schema_request_body) | **POST** /requestBody/postOneofWithBaseSchemaRequestBody | 
+*RequestBodyApi* | [**post_oneof_with_empty_schema_request_body**](docs/RequestBodyApi.md#post_oneof_with_empty_schema_request_body) | **POST** /requestBody/postOneofWithEmptySchemaRequestBody | 
+*RequestBodyApi* | [**post_pattern_is_not_anchored_request_body**](docs/RequestBodyApi.md#post_pattern_is_not_anchored_request_body) | **POST** /requestBody/postPatternIsNotAnchoredRequestBody | 
+*RequestBodyApi* | [**post_pattern_validation_request_body**](docs/RequestBodyApi.md#post_pattern_validation_request_body) | **POST** /requestBody/postPatternValidationRequestBody | 
+*RequestBodyApi* | [**post_properties_with_escaped_characters_request_body**](docs/RequestBodyApi.md#post_properties_with_escaped_characters_request_body) | **POST** /requestBody/postPropertiesWithEscapedCharactersRequestBody | 
+*RequestBodyApi* | [**post_property_named_ref_that_is_not_a_reference_request_body**](docs/RequestBodyApi.md#post_property_named_ref_that_is_not_a_reference_request_body) | **POST** /requestBody/postPropertyNamedRefThatIsNotAReferenceRequestBody | 
+*RequestBodyApi* | [**post_ref_in_additionalproperties_request_body**](docs/RequestBodyApi.md#post_ref_in_additionalproperties_request_body) | **POST** /requestBody/postRefInAdditionalpropertiesRequestBody | 
+*RequestBodyApi* | [**post_ref_in_allof_request_body**](docs/RequestBodyApi.md#post_ref_in_allof_request_body) | **POST** /requestBody/postRefInAllofRequestBody | 
+*RequestBodyApi* | [**post_ref_in_anyof_request_body**](docs/RequestBodyApi.md#post_ref_in_anyof_request_body) | **POST** /requestBody/postRefInAnyofRequestBody | 
+*RequestBodyApi* | [**post_ref_in_items_request_body**](docs/RequestBodyApi.md#post_ref_in_items_request_body) | **POST** /requestBody/postRefInItemsRequestBody | 
+*RequestBodyApi* | [**post_ref_in_oneof_request_body**](docs/RequestBodyApi.md#post_ref_in_oneof_request_body) | **POST** /requestBody/postRefInOneofRequestBody | 
+*RequestBodyApi* | [**post_ref_in_property_request_body**](docs/RequestBodyApi.md#post_ref_in_property_request_body) | **POST** /requestBody/postRefInPropertyRequestBody | 
+*RequestBodyApi* | [**post_required_default_validation_request_body**](docs/RequestBodyApi.md#post_required_default_validation_request_body) | **POST** /requestBody/postRequiredDefaultValidationRequestBody | 
+*RequestBodyApi* | [**post_required_validation_request_body**](docs/RequestBodyApi.md#post_required_validation_request_body) | **POST** /requestBody/postRequiredValidationRequestBody | 
+*RequestBodyApi* | [**post_required_with_empty_array_request_body**](docs/RequestBodyApi.md#post_required_with_empty_array_request_body) | **POST** /requestBody/postRequiredWithEmptyArrayRequestBody | 
+*RequestBodyApi* | [**post_simple_enum_validation_request_body**](docs/RequestBodyApi.md#post_simple_enum_validation_request_body) | **POST** /requestBody/postSimpleEnumValidationRequestBody | 
+*RequestBodyApi* | [**post_string_type_matches_strings_request_body**](docs/RequestBodyApi.md#post_string_type_matches_strings_request_body) | **POST** /requestBody/postStringTypeMatchesStringsRequestBody | 
+*RequestBodyApi* | [**post_the_default_keyword_does_not_do_anything_if_the_property_is_missing_request_body**](docs/RequestBodyApi.md#post_the_default_keyword_does_not_do_anything_if_the_property_is_missing_request_body) | **POST** /requestBody/postTheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissingRequestBody | 
+*RequestBodyApi* | [**post_uniqueitems_false_validation_request_body**](docs/RequestBodyApi.md#post_uniqueitems_false_validation_request_body) | **POST** /requestBody/postUniqueitemsFalseValidationRequestBody | 
+*RequestBodyApi* | [**post_uniqueitems_validation_request_body**](docs/RequestBodyApi.md#post_uniqueitems_validation_request_body) | **POST** /requestBody/postUniqueitemsValidationRequestBody | 
+*RequestBodyApi* | [**post_uri_format_request_body**](docs/RequestBodyApi.md#post_uri_format_request_body) | **POST** /requestBody/postUriFormatRequestBody | 
+*RequestBodyApi* | [**post_uri_reference_format_request_body**](docs/RequestBodyApi.md#post_uri_reference_format_request_body) | **POST** /requestBody/postUriReferenceFormatRequestBody | 
+*RequestBodyApi* | [**post_uri_template_format_request_body**](docs/RequestBodyApi.md#post_uri_template_format_request_body) | **POST** /requestBody/postUriTemplateFormatRequestBody | 
 
 ## Documentation For Models
 
@@ -151,6 +491,9 @@ Class | Method | HTTP request | Description
  All endpoints do not require authorization.
 
 ## Author
+
+
+
 
 
 ## Notes for Large OpenAPI documents

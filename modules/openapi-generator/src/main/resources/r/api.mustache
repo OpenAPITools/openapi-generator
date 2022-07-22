@@ -12,7 +12,7 @@
 {{#operation}}
 #' \strong{ {{operationId}} } \emph{ {{summary}} }
 {{#notes}}
-#' {{notes}}
+#' {{{.}}}
 {{/notes}}
 #'
 #' \itemize{
@@ -64,7 +64,7 @@
 {{#responses}}
 #' \item status code : {{code}} | {{message}}
 #'
-#'{{#dataType}} \item return type : {{.}} {{/dataType}}
+#'{{#dataType}} \item return type : {{.}}{{/dataType}}
 #' \item response headers :
 #'
 #' \tabular{ll}{
@@ -97,11 +97,17 @@
 {{#authMethods}}
 #'
 {{#isBasic}}
+{{#isBasicBasic}}
 #' #Configure HTTP basic authorization: {{{name}}}
-#' # provide your username in the user-serial format
-#' api.instance$api_client$username <- '<user-serial>';
-#' # provide your api key generated using the developer portal
-#' api.instance$api_client$password <- '<api_key>';
+#' # provide the username
+#' api.instance$api_client$username <- 'TODO_YOUR_USERNAME';
+#' # provide the password
+#' api.instance$api_client$password <- 'TODO_YOUR_PASSWORD';
+{{/isBasicBasic}}
+{{#isBasicBearer}}
+#' #Configure HTTP bearer authorization: {{{name}}}
+#' api.instance$api_client$bearer_token <- 'TODO_YOUR_BEARER_TOKEN';
+{{/isBasicBearer}}
 {{/isBasic}}
 {{#isApiKey}}
 #' #Configure API key authorization: {{{name}}}
@@ -176,7 +182,7 @@
     #' @param {{{paramName}}} {{{description}}}
     {{/requiredParams}}
     {{#optionalParams}}
-    #' @param {{{paramName}}} (optional){{{description}}} {{#defaultValue}} (default value: {{{.}}}){{/defaultValue}}
+    #' @param {{{paramName}}} (optional) {{{description}}}{{^description}}No description{{/description}}{{#defaultValue}} (default value: {{{.}}}){{/defaultValue}}
     {{/optionalParams}}
     {{#vendorExtensions.x-streaming}}
     #' @param stream_callback (optional) callback function to process the data stream
@@ -187,7 +193,7 @@
     #' @param ... Other optional arguments
     #' @return {{{returnType}}}{{^returnType}}void{{/returnType}}
     #' @export
-    {{{operationId}}} = function({{#requiredParams}}{{paramName}}, {{/requiredParams}}{{#optionalParams}}{{paramName}}={{^defaultValue}}NULL{{/defaultValue}}{{{defaultValue}}}, {{/optionalParams}}{{#vendorExtensions.x-streaming}}stream_callback=NULL, {{/vendorExtensions.x-streaming}}{{#returnType}}data_file = NULL, {{/returnType}}...) {
+    {{{operationId}}} = function({{#requiredParams}}{{paramName}}, {{/requiredParams}}{{#optionalParams}}{{paramName}} = {{^defaultValue}}NULL{{/defaultValue}}{{{defaultValue}}}, {{/optionalParams}}{{#vendorExtensions.x-streaming}}stream_callback = NULL, {{/vendorExtensions.x-streaming}}{{#returnType}}data_file = NULL, {{/returnType}}...) {
       api_response <- self${{{operationId}}}WithHttpInfo({{#allParams}}{{paramName}}, {{/allParams}}{{#vendorExtensions.x-streaming}}stream_callback = stream_callback, {{/vendorExtensions.x-streaming}}{{#returnType}}data_file = data_file, {{/returnType}}...)
       {{#vendorExtensions.x-streaming}}
       if (typeof(stream_callback) == "closure") { # return void if streaming is enabled
@@ -215,7 +221,7 @@
     #' @param {{{paramName}}} {{{description}}}
     {{/requiredParams}}
     {{#optionalParams}}
-    #' @param {{{paramName}}} (optional) {{{description}}}{{#defaultValue}} (default value: {{{.}}}){{/defaultValue}}
+    #' @param {{{paramName}}} (optional) {{{description}}}{{^description}}No description{{/description}}{{#defaultValue}} (default value: {{{.}}}){{/defaultValue}}
     {{/optionalParams}}
     {{#vendorExtensions.x-streaming}}
     #' @param stream_callback (optional) callback function to process the data stream
@@ -226,7 +232,7 @@
     #' @param ... Other optional arguments
     #' @return API response ({{{returnType}}}{{^returnType}}void{{/returnType}}) with additional information such as HTTP status code, headers
     #' @export
-    {{{operationId}}}WithHttpInfo = function({{#requiredParams}}{{paramName}}, {{/requiredParams}}{{#optionalParams}}{{paramName}}={{^defaultValue}}NULL{{/defaultValue}}{{{defaultValue}}}, {{/optionalParams}}{{#vendorExtensions.x-streaming}}stream_callback=NULL, {{/vendorExtensions.x-streaming}}{{#returnType}}data_file = NULL, {{/returnType}}...) {
+    {{{operationId}}}WithHttpInfo = function({{#requiredParams}}{{paramName}}, {{/requiredParams}}{{#optionalParams}}{{paramName}} = {{^defaultValue}}NULL{{/defaultValue}}{{{defaultValue}}}, {{/optionalParams}}{{#vendorExtensions.x-streaming}}stream_callback = NULL, {{/vendorExtensions.x-streaming}}{{#returnType}}data_file = NULL, {{/returnType}}...) {
       args <- list(...)
       query_params <- list()
       header_params <- c()
@@ -270,7 +276,9 @@
       {{#bodyParams}}
       if (!missing(`{{paramName}}`)) {
         {{#isArray}}
-        body.items = paste(unlist(lapply({{paramName}}, function(param) {param$toJSONString()})), collapse = ",")
+        body.items <- paste(unlist(lapply({{paramName}}, function(param) {
+                                                             param$toJSONString()
+                                                         })), collapse = ",")
         body <- paste0("[", body.items, "]")
         {{/isArray}}
         {{^isArray}}
@@ -302,6 +310,9 @@
       # HTTP basic auth
       header_params["Authorization"] <- paste("Basic", base64enc::base64encode(charToRaw(paste(self$api_client$username, self$api_client$password, sep = ":"))))
       {{/isBasicBasic}}
+      {{#isBasicBearer}}
+      header_params["Authorization"] <- paste("Bearer", self$api_client$bearer_token, sep = " ")
+      {{/isBasicBearer}}
       {{/isBasic}}
       {{#isApiKey}}
       # API key authentication
@@ -398,7 +409,7 @@
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
       {{#returnExceptionOnFailure}}
         error_msg <- toString(content(resp))
-        if(error_msg == "") {
+        if (error_msg == "") {
           error_msg <- "Api client exception encountered."
         }
         {{#useDefaultExceptionHandling}}
@@ -416,7 +427,7 @@
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
       {{#returnExceptionOnFailure}}
         error_msg <- toString(content(resp))
-        if(error_msg == "") {
+        if (error_msg == "") {
           error_msg <- "Api server exception encountered."
         }
         {{#useDefaultExceptionHandling}}

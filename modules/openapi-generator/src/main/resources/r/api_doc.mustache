@@ -32,9 +32,15 @@ api_instance <- {{{classname}}}$new()
 {{#hasAuthMethods}}
 {{#authMethods}}
 {{#isBasic}}
+{{#isBasicBasic}}
 # Configure HTTP basic authorization: {{{name}}}
 api_instance$api_client$username <- 'TODO_YOUR_USERNAME';
 api_instance$api_client$password <- 'TODO_YOUR_PASSWORD';
+{{/isBasicBasic}}
+{{#isBasicBearer}}
+# Configure HTTP bearer authorization: {{{name}}}
+api.instance$api_client$bearer_token <- 'TODO_YOUR_BEARER_TOKEN';
+{{/isBasicBearer}}
 {{/isBasic}}
 {{#isApiKey}}
 # Configure API key authorization: {{{name}}}

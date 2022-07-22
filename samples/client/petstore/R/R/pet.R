@@ -161,7 +161,7 @@ Pet <- R6::R6Class(
           '"category":
           %s
           ',
-          jsonlite::toJSON(self$`category`$toJSON(), auto_unbox=TRUE, digits = NA)
+          jsonlite::toJSON(self$`category`$toJSON(), auto_unbox = TRUE, digits = NA)
           )
         },
         if (!is.null(self$`name`)) {
@@ -177,7 +177,7 @@ Pet <- R6::R6Class(
           '"photoUrls":
              [%s]
           ',
-          paste(unlist(lapply(self$`photoUrls`, function(x) paste0('"', x, '"'))), collapse=",")
+          paste(unlist(lapply(self$`photoUrls`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
         if (!is.null(self$`tags`)) {
@@ -185,7 +185,7 @@ Pet <- R6::R6Class(
           '"tags":
           [%s]
 ',
-          paste(sapply(self$`tags`, function(x) jsonlite::toJSON(x$toJSON(), auto_unbox=TRUE, digits = NA)), collapse=",")
+          paste(sapply(self$`tags`, function(x) jsonlite::toJSON(x$toJSON(), auto_unbox = TRUE, digits = NA)), collapse = ",")
           )
         },
         if (!is.null(self$`status`)) {
@@ -253,4 +253,3 @@ Pet <- R6::R6Class(
     }
   )
 )
-

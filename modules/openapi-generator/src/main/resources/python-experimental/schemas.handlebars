@@ -372,15 +372,18 @@ class Singleton:
     _instances = {}
 
     def __new__(cls, arg: typing.Any, **kwargs):
-        key = (cls, arg)
+        """
+        cls base classes: BoolClass, NoneClass, str, decimal.Decimal
+        The 3rd key is used in the tuple below for a corner case where an enum contains integer 1
+        However 1.0  can also be ingested into that enum schema because 1.0 == 1 and
+        Decimal('1.0') == Decimal('1')
+        But if we omitted the 3rd value in the key, then Decimal('1.0') would be stored as Decimal('1')
+        and json serializing that instance would be '1' rather than the expected '1.0'
+        Adding the 3rd value, the str of arg ensures that 1.0 -> Decimal('1.0') which is serialized as 1.0
+        """
+        key = (cls, arg, str(arg))
         if key not in cls._instances:
-            if arg in {None, True, False}:
-                inst = super().__new__(cls)
-                cls._instances[key] = inst
-            elif isinstance(arg, BoolClass):
-                inst = super().__new__(cls)
-                cls._instances[key] = inst
-            elif isinstance(arg, NoneClass):
+            if isinstance(arg, (none_type, bool, BoolClass, NoneClass)):
                 inst = super().__new__(cls)
                 cls._instances[key] = inst
             else:
