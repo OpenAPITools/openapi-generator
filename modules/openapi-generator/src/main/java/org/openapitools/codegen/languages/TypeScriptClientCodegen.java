@@ -742,11 +742,10 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
     }
 
     public String toCurrentDirImportPath(String className) {
-        String filename = "." + File.separator + toModelFilename(className);
         if (importMapping.containsKey(className)) {
             return importMapping.get(className);
         }
-	return filename;
+	return "." + File.separator + toModelFilename(className);
     }
 
     @Override
