@@ -271,8 +271,8 @@ var_pet_id <- 56 # integer | ID of pet to return
 
 #Find pet by ID
 api_instance <- PetApi$new()
-# Configure API key authorization: api_key
-api_instance$api_client$api_keys['api_key'] <- 'TODO_YOUR_API_KEY';
+# Configure HTTP bearer authorization: BearerToken
+api.instance$api_client$bearer_token <- 'TODO_YOUR_BEARER_TOKEN';
 result <- tryCatch(
              # to save the result into a file, simply add the optional `data_file` parameter, e.g.
              # api_instance$GetPetById(var_pet_id, data_file = "result.txt"),
@@ -304,7 +304,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[api_key](../README.md#api_key)
+[BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 

@@ -373,8 +373,8 @@
 #' #Find pet by ID
 #' api.instance <- PetApi$new()
 #'
-#' #Configure API key authorization: api_key
-#' api.instance$api_client$api_keys['api_key'] <- 'TODO_YOUR_API_KEY';
+#' #Configure HTTP bearer authorization: BearerToken
+#' api.instance$api_client$bearer_token <- 'TODO_YOUR_BEARER_TOKEN';
 #'
 #'result <- tryCatch(
 #'             api.instance$GetPetById(var.pet_id),
@@ -969,10 +969,7 @@ PetApi <- R6::R6Class(
         url_path <- gsub(paste0("\\{", "petId", "\\}"), URLencode(as.character(`pet_id`), reserved = TRUE), url_path)
       }
 
-      # API key authentication
-      if ("api_key" %in% names(self$api_client$api_keys) && nchar(self$api_client$api_keys["api_key"]) > 0) {
-        header_params["api_key"] <- paste(unlist(self$api_client$api_keys["api_key"]), collapse = "")
-      }
+      header_params["Authorization"] <- paste("Bearer", self$api_client$bearer_token, sep = " ")
 
       resp <- self$api_client$CallApi(url = paste0(self$api_client$base_path, url_path),
                                  method = "GET",

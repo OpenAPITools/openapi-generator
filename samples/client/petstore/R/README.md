@@ -111,6 +111,10 @@ Class | Method | HTTP request | Description
 ## Documentation for Authorization
 
 
+### BearerToken
+
+- **Type**: HTTP basic authentication
+
 ### api_key
 
 - **Type**: API key
