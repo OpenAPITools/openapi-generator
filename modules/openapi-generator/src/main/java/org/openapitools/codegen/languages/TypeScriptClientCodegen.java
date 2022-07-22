@@ -114,9 +114,6 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
 
         this.generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata).stability(Stability.EXPERIMENTAL).build();
 
-        // clear import mapping (from default generator) as TS does not use it
-        // at the moment
-        importMapping.clear();
         outputFolder = "generated-code" + File.separator + "typescript";
         embeddedTemplateDir = templateDir = "typescript";
 
