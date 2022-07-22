@@ -262,8 +262,11 @@
 #' #Add a new pet to the store
 #' api.instance <- PetApi$new()
 #'
-#' # Configure OAuth2 access token for authorization: petstore_auth
-#' api.instance$api_client$access_token <- 'TODO_YOUR_ACCESS_TOKEN';
+#' #Configure HTTP basic authorization: http_auth
+#' # provide the username
+#' api.instance$api_client$username <- 'TODO_YOUR_USERNAME';
+#' # provide the password
+#' api.instance$api_client$password <- 'TODO_YOUR_PASSWORD';
 #'
 #'result <- tryCatch(
 #'             api.instance$AddPet(var.pet),
@@ -582,8 +585,8 @@ PetApi <- R6::R6Class(
       }
 
       url_path <- "/pet"
-      # OAuth token
-      header_params["Authorization"] <- paste("Bearer", self$api_client$access_token, sep = " ")
+      # HTTP basic auth
+      header_params["Authorization"] <- paste("Basic", base64enc::base64encode(charToRaw(paste(self$api_client$username, self$api_client$password, sep = ":"))))
 
       resp <- self$api_client$CallApi(url = paste0(self$api_client$base_path, url_path),
                                  method = "POST",
