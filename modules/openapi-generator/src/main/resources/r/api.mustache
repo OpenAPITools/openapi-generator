@@ -12,7 +12,7 @@
 {{#operation}}
 #' \strong{ {{operationId}} } \emph{ {{summary}} }
 {{#notes}}
-#' {{notes}}
+#' {{{.}}}
 {{/notes}}
 #'
 #' \itemize{
@@ -64,7 +64,7 @@
 {{#responses}}
 #' \item status code : {{code}} | {{message}}
 #'
-#'{{#dataType}} \item return type : {{.}} {{/dataType}}
+#'{{#dataType}} \item return type : {{.}}{{/dataType}}
 #' \item response headers :
 #'
 #' \tabular{ll}{

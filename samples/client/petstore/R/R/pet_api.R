@@ -25,7 +25,7 @@
 #'
 #' \item status code : 200 | successful operation
 #'
-#' \item return type : Pet 
+#' \item return type : Pet
 #' \item response headers :
 #'
 #' \tabular{ll}{
@@ -68,7 +68,7 @@
 #'
 #' \item status code : 200 | successful operation
 #'
-#' \item return type : array[Pet] 
+#' \item return type : array[Pet]
 #' \item response headers :
 #'
 #' \tabular{ll}{
@@ -93,7 +93,7 @@
 #'
 #' \item status code : 200 | successful operation
 #'
-#' \item return type : array[Pet] 
+#' \item return type : array[Pet]
 #' \item response headers :
 #'
 #' \tabular{ll}{
@@ -118,7 +118,7 @@
 #'
 #' \item status code : 200 | successful operation
 #'
-#' \item return type : Pet 
+#' \item return type : Pet
 #' \item response headers :
 #'
 #' \tabular{ll}{
@@ -150,7 +150,7 @@
 #'
 #' \item status code : 200 | successful operation
 #'
-#' \item return type : Pet 
+#' \item return type : Pet
 #' \item response headers :
 #'
 #' \tabular{ll}{
@@ -182,7 +182,7 @@
 #'
 #' \item status code : 200 | successful operation
 #'
-#' \item return type : Pet 
+#' \item return type : Pet
 #' \item response headers :
 #'
 #' \tabular{ll}{
@@ -242,7 +242,7 @@
 #'
 #' \item status code : 200 | successful operation
 #'
-#' \item return type : ModelApiResponse 
+#' \item return type : ModelApiResponse
 #' \item response headers :
 #'
 #' \tabular{ll}{

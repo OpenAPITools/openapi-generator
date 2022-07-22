@@ -26,7 +26,7 @@
 #'
 #' \item status code : 200 | successful operation
 #'
-#' \item return type : User 
+#' \item return type : User
 #' \item response headers :
 #'
 #' \tabular{ll}{
