@@ -185,7 +185,7 @@ export function FormatTestToJSON(value?: FormatTest | null): any {
         'string': value.string,
         'byte': value._byte,
         'binary': value.binary,
-        'date': (value.date.toISOString().substr(0,10)),
+        'date': (new Date(value.date.getTime() - value.date.getTimezoneOffset()*60000).toISOString().substr(0,10)),
         'dateTime': value.dateTime === undefined ? undefined : (value.dateTime.toISOString()),
         'uuid': value.uuid,
         'password': value.password,
