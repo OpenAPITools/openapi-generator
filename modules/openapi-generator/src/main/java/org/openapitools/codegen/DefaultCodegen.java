@@ -90,6 +90,8 @@ public class DefaultCodegen implements CodegenConfig {
     // A cache of sanitized words. The sanitizeName() method is invoked many times with the same
     // arguments, this cache is used to optimized performance.
     private static Cache<SanitizeNameOptions, String> sanitizedNameCache;
+    private static final String xSchemaTestExamplesKey = "x-schema-test-examples";
+    private static final String xSchemaTestExamplesRefPrefix = "#/components/x-schema-test-examples/";
 
     static {
         DefaultFeatureSet = FeatureSet.newBuilder()
@@ -2729,17 +2731,20 @@ public class DefaultCodegen implements CodegenConfig {
     /**
      * Processes any test cases if they exist in the components.x-test-examples vendor extensions
      * If they exist then cast them to java class instances and return them back in a map
-     * @param schemaName the component schema name that the test cases are for
-     * @param vendorExtensions the extensions that may or may not hold the data
+     * @param refToTestCases the component schema name that the test cases are for
      */
-    private HashMap<String, SchemaTestCase> extractSchemaTestCases(String schemaName, HashMap<String, Object> vendorExtensions) {
-        String testExamplesKey = "x-schema-test-examples";
+    private HashMap<String, SchemaTestCase> extractSchemaTestCases(String refToTestCases) {
         // schemaName to a map of test case name to test case
-        if (vendorExtensions ==  null || !vendorExtensions.containsKey(testExamplesKey)) {
+        HashMap<String, Object> vendorExtensions = (HashMap<String, Object>) openAPI.getComponents().getExtensions();
+        if (vendorExtensions ==  null || !vendorExtensions.containsKey(xSchemaTestExamplesKey)) {
             return null;
         }
+        if (!refToTestCases.startsWith(xSchemaTestExamplesRefPrefix)) {
+            return null;
+        }
+        String schemaName = refToTestCases.substring(xSchemaTestExamplesRefPrefix.length());
         HashMap<String, SchemaTestCase> schemaTestCases = new HashMap<>();
-        LinkedHashMap<String, Object> schemaNameToTestCases = (LinkedHashMap<String, Object>) vendorExtensions.get(testExamplesKey);
+        LinkedHashMap<String, Object> schemaNameToTestCases = (LinkedHashMap<String, Object>) vendorExtensions.get(xSchemaTestExamplesKey);
 
         if (!schemaNameToTestCases.containsKey(schemaName)) {
             return null;
@@ -2784,8 +2789,7 @@ public class DefaultCodegen implements CodegenConfig {
         CodegenModel m = CodegenModelFactory.newInstance(CodegenModelType.MODEL);
         ModelUtils.syncValidationProperties(schema, m);
         if (openAPI != null) {
-            HashMap<String, Object> vendorExtensions = (HashMap<String, Object>) openAPI.getComponents().getExtensions();
-            HashMap<String, SchemaTestCase> schemaTestCases = extractSchemaTestCases(name, vendorExtensions);
+            HashMap<String, SchemaTestCase> schemaTestCases = extractSchemaTestCases(xSchemaTestExamplesRefPrefix + name);
             m.testCases = schemaTestCases;
         }
 
@@ -6969,7 +6973,20 @@ public class DefaultCodegen implements CodegenConfig {
             if (mt.getSchema() != null) {
                 schemaProp = fromProperty(toMediaTypeSchemaName(contentType, mediaTypeSchemaSuffix), mt.getSchema(), false);
             }
-            CodegenMediaType codegenMt = new CodegenMediaType(schemaProp, ceMap);
+            HashMap<String, SchemaTestCase> schemaTestCases = null;
+            if (mt.getExtensions() != null && mt.getExtensions().containsKey(xSchemaTestExamplesKey)) {
+                Object objNodeWithRef = mt.getExtensions().get(xSchemaTestExamplesKey);
+                if (objNodeWithRef instanceof LinkedHashMap) {
+                    LinkedHashMap<String, String> nodeWithRef = (LinkedHashMap<String, String>) objNodeWithRef;
+                    String refKey = "$ref";
+                    String refToTestCases = nodeWithRef.getOrDefault(refKey, null);
+                    if (refToTestCases != null) {
+                        schemaTestCases = extractSchemaTestCases(refToTestCases);
+                    }
+                }
+            }
+
+            CodegenMediaType codegenMt = new CodegenMediaType(schemaProp, ceMap, schemaTestCases);
             cmtContent.put(contentType, codegenMt);
             if (schemaProp != null) {
                 addImports(imports, schemaProp.getImports(false));

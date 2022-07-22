@@ -1,10 +1,1526 @@
 openapi: 3.0.3
+servers:
+- url: https://someserver.com/v1
 info:
   title: openapi 3.0.3 sample spec
+  version: 0.0.1
   description: sample spec for testing openapi functionality, built from json schema
     tests for draft6
-  version: 0.0.1
-paths: {}
+tags:
+- name: requestBody
+paths:
+  /requestBody/postAdditionalpropertiesAllowsASchemaWhichShouldValidateRequestBody:
+    post:
+      operationId: postAdditionalpropertiesAllowsASchemaWhichShouldValidateRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdditionalpropertiesAllowsASchemaWhichShouldValidate'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/AdditionalpropertiesAllowsASchemaWhichShouldValidate'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - requestBody
+      - post
+      - json
+  /requestBody/postAdditionalpropertiesCanExistByItselfRequestBody:
+    post:
+      operationId: postAdditionalpropertiesCanExistByItselfRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdditionalpropertiesCanExistByItself'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/AdditionalpropertiesCanExistByItself'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - requestBody
+      - post
+      - json
+  /requestBody/postAdditionalpropertiesAreAllowedByDefaultRequestBody:
+    post:
+      operationId: postAdditionalpropertiesAreAllowedByDefaultRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdditionalpropertiesAreAllowedByDefault'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/AdditionalpropertiesAreAllowedByDefault'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - requestBody
+      - post
+      - json
+  /requestBody/postAdditionalpropertiesShouldNotLookInApplicatorsRequestBody:
+    post:
+      operationId: postAdditionalpropertiesShouldNotLookInApplicatorsRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdditionalpropertiesShouldNotLookInApplicators'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/AdditionalpropertiesShouldNotLookInApplicators'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - requestBody
+      - post
+      - json
+  /requestBody/postAllofRequestBody:
+    post:
+      operationId: postAllofRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Allof'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/Allof'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - requestBody
+      - post
+      - json
+  /requestBody/postAllofWithBaseSchemaRequestBody:
+    post:
+      operationId: postAllofWithBaseSchemaRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AllofWithBaseSchema'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/AllofWithBaseSchema'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - requestBody
+      - post
+      - json
+  /requestBody/postAllofSimpleTypesRequestBody:
+    post:
+      operationId: postAllofSimpleTypesRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AllofSimpleTypes'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/AllofSimpleTypes'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - requestBody
+      - post
+      - json
+  /requestBody/postAllofWithOneEmptySchemaRequestBody:
+    post:
+      operationId: postAllofWithOneEmptySchemaRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AllofWithOneEmptySchema'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/AllofWithOneEmptySchema'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - requestBody
+      - post
+      - json
+  /requestBody/postAllofWithTwoEmptySchemasRequestBody:
+    post:
+      operationId: postAllofWithTwoEmptySchemasRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AllofWithTwoEmptySchemas'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/AllofWithTwoEmptySchemas'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - requestBody
+      - post
+      - json
+  /requestBody/postAllofWithTheFirstEmptySchemaRequestBody:
+    post:
+      operationId: postAllofWithTheFirstEmptySchemaRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AllofWithTheFirstEmptySchema'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/AllofWithTheFirstEmptySchema'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - requestBody
+      - post
+      - json
+  /requestBody/postAllofWithTheLastEmptySchemaRequestBody:
+    post:
+      operationId: postAllofWithTheLastEmptySchemaRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AllofWithTheLastEmptySchema'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/AllofWithTheLastEmptySchema'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - requestBody
+      - post
+      - json
+  /requestBody/postNestedAllofToCheckValidationSemanticsRequestBody:
+    post:
+      operationId: postNestedAllofToCheckValidationSemanticsRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NestedAllofToCheckValidationSemantics'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/NestedAllofToCheckValidationSemantics'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - requestBody
+      - post
+      - json
+  /requestBody/postAllofCombinedWithAnyofOneofRequestBody:
+    post:
+      operationId: postAllofCombinedWithAnyofOneofRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AllofCombinedWithAnyofOneof'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/AllofCombinedWithAnyofOneof'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - requestBody
+      - post
+      - json
+  /requestBody/postAnyofRequestBody:
+    post:
+      operationId: postAnyofRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Anyof'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/Anyof'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - requestBody
+      - post
+      - json
+  /requestBody/postAnyofWithBaseSchemaRequestBody:
+    post:
+      operationId: postAnyofWithBaseSchemaRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AnyofWithBaseSchema'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/AnyofWithBaseSchema'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - requestBody
+      - post
+      - json
+  /requestBody/postAnyofComplexTypesRequestBody:
+    post:
+      operationId: postAnyofComplexTypesRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AnyofComplexTypes'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/AnyofComplexTypes'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - requestBody
+      - post
+      - json
+  /requestBody/postAnyofWithOneEmptySchemaRequestBody:
+    post:
+      operationId: postAnyofWithOneEmptySchemaRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AnyofWithOneEmptySchema'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/AnyofWithOneEmptySchema'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - requestBody
+      - post
+      - json
+  /requestBody/postNestedAnyofToCheckValidationSemanticsRequestBody:
+    post:
+      operationId: postNestedAnyofToCheckValidationSemanticsRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NestedAnyofToCheckValidationSemantics'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/NestedAnyofToCheckValidationSemantics'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - requestBody
+      - post
+      - json
+  /requestBody/postInvalidStringValueForDefaultRequestBody:
+    post:
+      operationId: postInvalidStringValueForDefaultRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InvalidStringValueForDefault'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/InvalidStringValueForDefault'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - requestBody
+      - post
+      - json
+  /requestBody/postTheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissingRequestBody:
+    post:
+      operationId: postTheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissingRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissing'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/TheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissing'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - requestBody
+      - post
+      - json
+  /requestBody/postSimpleEnumValidationRequestBody:
+    post:
+      operationId: postSimpleEnumValidationRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SimpleEnumValidation'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/SimpleEnumValidation'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - requestBody
+      - post
+      - json
+  /requestBody/postEnumsInPropertiesRequestBody:
+    post:
+      operationId: postEnumsInPropertiesRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EnumsInProperties'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/EnumsInProperties'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - requestBody
+      - post
+      - json
+  /requestBody/postEnumWithEscapedCharactersRequestBody:
+    post:
+      operationId: postEnumWithEscapedCharactersRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EnumWithEscapedCharacters'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/EnumWithEscapedCharacters'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - requestBody
+      - post
+      - json
+  /requestBody/postEnumWithFalseDoesNotMatch0RequestBody:
+    post:
+      operationId: postEnumWithFalseDoesNotMatch0RequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EnumWithFalseDoesNotMatch0'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/EnumWithFalseDoesNotMatch0'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - requestBody
+      - post
+      - json
+  /requestBody/postEnumWithTrueDoesNotMatch1RequestBody:
+    post:
+      operationId: postEnumWithTrueDoesNotMatch1RequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EnumWithTrueDoesNotMatch1'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/EnumWithTrueDoesNotMatch1'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - requestBody
+      - post
+      - json
+  /requestBody/postEnumWith0DoesNotMatchFalseRequestBody:
+    post:
+      operationId: postEnumWith0DoesNotMatchFalseRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EnumWith0DoesNotMatchFalse'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/EnumWith0DoesNotMatchFalse'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - requestBody
+      - post
+      - json
+  /requestBody/postEnumWith1DoesNotMatchTrueRequestBody:
+    post:
+      operationId: postEnumWith1DoesNotMatchTrueRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EnumWith1DoesNotMatchTrue'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/EnumWith1DoesNotMatchTrue'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - requestBody
+      - post
+      - json
+  /requestBody/postNulCharactersInStringsRequestBody:
+    post:
+      operationId: postNulCharactersInStringsRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NulCharactersInStrings'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/NulCharactersInStrings'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - requestBody
+      - post
+      - json
+  /requestBody/postEmailFormatRequestBody:
+    post:
+      operationId: postEmailFormatRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmailFormat'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/EmailFormat'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - requestBody
+      - post
+      - json
+  /requestBody/postIpv4FormatRequestBody:
+    post:
+      operationId: postIpv4FormatRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Ipv4Format'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/Ipv4Format'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - requestBody
+      - post
+      - json
+  /requestBody/postIpv6FormatRequestBody:
+    post:
+      operationId: postIpv6FormatRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Ipv6Format'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/Ipv6Format'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - requestBody
+      - post
+      - json
+  /requestBody/postHostnameFormatRequestBody:
+    post:
+      operationId: postHostnameFormatRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HostnameFormat'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/HostnameFormat'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - requestBody
+      - post
+      - json
+  /requestBody/postDateTimeFormatRequestBody:
+    post:
+      operationId: postDateTimeFormatRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DateTimeFormat'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/DateTimeFormat'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - requestBody
+      - post
+      - json
+  /requestBody/postJsonPointerFormatRequestBody:
+    post:
+      operationId: postJsonPointerFormatRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JsonPointerFormat'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/JsonPointerFormat'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - requestBody
+      - post
+      - json
+  /requestBody/postUriFormatRequestBody:
+    post:
+      operationId: postUriFormatRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UriFormat'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/UriFormat'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - requestBody
+      - post
+      - json
+  /requestBody/postUriReferenceFormatRequestBody:
+    post:
+      operationId: postUriReferenceFormatRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UriReferenceFormat'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/UriReferenceFormat'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - requestBody
+      - post
+      - json
+  /requestBody/postUriTemplateFormatRequestBody:
+    post:
+      operationId: postUriTemplateFormatRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UriTemplateFormat'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/UriTemplateFormat'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - requestBody
+      - post
+      - json
+  /requestBody/postNestedItemsRequestBody:
+    post:
+      operationId: postNestedItemsRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NestedItems'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/NestedItems'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - requestBody
+      - post
+      - json
+  /requestBody/postMaximumValidationRequestBody:
+    post:
+      operationId: postMaximumValidationRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MaximumValidation'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/MaximumValidation'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - requestBody
+      - post
+      - json
+  /requestBody/postMaximumValidationWithUnsignedIntegerRequestBody:
+    post:
+      operationId: postMaximumValidationWithUnsignedIntegerRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MaximumValidationWithUnsignedInteger'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/MaximumValidationWithUnsignedInteger'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - requestBody
+      - post
+      - json
+  /requestBody/postMaxitemsValidationRequestBody:
+    post:
+      operationId: postMaxitemsValidationRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MaxitemsValidation'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/MaxitemsValidation'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - requestBody
+      - post
+      - json
+  /requestBody/postMaxlengthValidationRequestBody:
+    post:
+      operationId: postMaxlengthValidationRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MaxlengthValidation'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/MaxlengthValidation'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - requestBody
+      - post
+      - json
+  /requestBody/postMaxpropertiesValidationRequestBody:
+    post:
+      operationId: postMaxpropertiesValidationRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MaxpropertiesValidation'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/MaxpropertiesValidation'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - requestBody
+      - post
+      - json
+  /requestBody/postMaxproperties0MeansTheObjectIsEmptyRequestBody:
+    post:
+      operationId: postMaxproperties0MeansTheObjectIsEmptyRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Maxproperties0MeansTheObjectIsEmpty'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/Maxproperties0MeansTheObjectIsEmpty'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - requestBody
+      - post
+      - json
+  /requestBody/postMinimumValidationRequestBody:
+    post:
+      operationId: postMinimumValidationRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MinimumValidation'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/MinimumValidation'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - requestBody
+      - post
+      - json
+  /requestBody/postMinimumValidationWithSignedIntegerRequestBody:
+    post:
+      operationId: postMinimumValidationWithSignedIntegerRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MinimumValidationWithSignedInteger'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/MinimumValidationWithSignedInteger'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - requestBody
+      - post
+      - json
+  /requestBody/postMinitemsValidationRequestBody:
+    post:
+      operationId: postMinitemsValidationRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MinitemsValidation'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/MinitemsValidation'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - requestBody
+      - post
+      - json
+  /requestBody/postMinlengthValidationRequestBody:
+    post:
+      operationId: postMinlengthValidationRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MinlengthValidation'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/MinlengthValidation'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - requestBody
+      - post
+      - json
+  /requestBody/postMinpropertiesValidationRequestBody:
+    post:
+      operationId: postMinpropertiesValidationRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MinpropertiesValidation'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/MinpropertiesValidation'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - requestBody
+      - post
+      - json
+  /requestBody/postByIntRequestBody:
+    post:
+      operationId: postByIntRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ByInt'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/ByInt'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - requestBody
+      - post
+      - json
+  /requestBody/postByNumberRequestBody:
+    post:
+      operationId: postByNumberRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ByNumber'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/ByNumber'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - requestBody
+      - post
+      - json
+  /requestBody/postBySmallNumberRequestBody:
+    post:
+      operationId: postBySmallNumberRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BySmallNumber'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/BySmallNumber'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - requestBody
+      - post
+      - json
+  /requestBody/postInvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInfRequestBody:
+    post:
+      operationId: postInvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInfRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInf'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/InvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInf'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - requestBody
+      - post
+      - json
+  /requestBody/postNotRequestBody:
+    post:
+      operationId: postNotRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Not'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/Not'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - requestBody
+      - post
+      - json
+  /requestBody/postNotMoreComplexSchemaRequestBody:
+    post:
+      operationId: postNotMoreComplexSchemaRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NotMoreComplexSchema'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/NotMoreComplexSchema'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - requestBody
+      - post
+      - json
+  /requestBody/postForbiddenPropertyRequestBody:
+    post:
+      operationId: postForbiddenPropertyRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ForbiddenProperty'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/ForbiddenProperty'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - requestBody
+      - post
+      - json
+  /requestBody/postOneofRequestBody:
+    post:
+      operationId: postOneofRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Oneof'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/Oneof'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - requestBody
+      - post
+      - json
+  /requestBody/postOneofWithBaseSchemaRequestBody:
+    post:
+      operationId: postOneofWithBaseSchemaRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OneofWithBaseSchema'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/OneofWithBaseSchema'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - requestBody
+      - post
+      - json
+  /requestBody/postOneofComplexTypesRequestBody:
+    post:
+      operationId: postOneofComplexTypesRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OneofComplexTypes'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/OneofComplexTypes'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - requestBody
+      - post
+      - json
+  /requestBody/postOneofWithEmptySchemaRequestBody:
+    post:
+      operationId: postOneofWithEmptySchemaRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OneofWithEmptySchema'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/OneofWithEmptySchema'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - requestBody
+      - post
+      - json
+  /requestBody/postNestedOneofToCheckValidationSemanticsRequestBody:
+    post:
+      operationId: postNestedOneofToCheckValidationSemanticsRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NestedOneofToCheckValidationSemantics'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/NestedOneofToCheckValidationSemantics'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - requestBody
+      - post
+      - json
+  /requestBody/postPatternValidationRequestBody:
+    post:
+      operationId: postPatternValidationRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatternValidation'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/PatternValidation'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - requestBody
+      - post
+      - json
+  /requestBody/postPatternIsNotAnchoredRequestBody:
+    post:
+      operationId: postPatternIsNotAnchoredRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatternIsNotAnchored'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/PatternIsNotAnchored'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - requestBody
+      - post
+      - json
+  /requestBody/postObjectPropertiesValidationRequestBody:
+    post:
+      operationId: postObjectPropertiesValidationRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ObjectPropertiesValidation'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/ObjectPropertiesValidation'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - requestBody
+      - post
+      - json
+  /requestBody/postPropertiesWithEscapedCharactersRequestBody:
+    post:
+      operationId: postPropertiesWithEscapedCharactersRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PropertiesWithEscapedCharacters'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/PropertiesWithEscapedCharacters'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - requestBody
+      - post
+      - json
+  /requestBody/postPropertyNamedRefThatIsNotAReferenceRequestBody:
+    post:
+      operationId: postPropertyNamedRefThatIsNotAReferenceRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PropertyNamedRefThatIsNotAReference'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/PropertyNamedRefThatIsNotAReference'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - requestBody
+      - post
+      - json
+  /requestBody/postRefInAdditionalpropertiesRequestBody:
+    post:
+      operationId: postRefInAdditionalpropertiesRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RefInAdditionalproperties'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/RefInAdditionalproperties'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - requestBody
+      - post
+      - json
+  /requestBody/postRefInItemsRequestBody:
+    post:
+      operationId: postRefInItemsRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RefInItems'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/RefInItems'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - requestBody
+      - post
+      - json
+  /requestBody/postRefInPropertyRequestBody:
+    post:
+      operationId: postRefInPropertyRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RefInProperty'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/RefInProperty'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - requestBody
+      - post
+      - json
+  /requestBody/postRefInAllofRequestBody:
+    post:
+      operationId: postRefInAllofRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RefInAllof'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/RefInAllof'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - requestBody
+      - post
+      - json
+  /requestBody/postRefInOneofRequestBody:
+    post:
+      operationId: postRefInOneofRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RefInOneof'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/RefInOneof'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - requestBody
+      - post
+      - json
+  /requestBody/postRefInAnyofRequestBody:
+    post:
+      operationId: postRefInAnyofRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RefInAnyof'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/RefInAnyof'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - requestBody
+      - post
+      - json
+  /requestBody/postRequiredValidationRequestBody:
+    post:
+      operationId: postRequiredValidationRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequiredValidation'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/RequiredValidation'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - requestBody
+      - post
+      - json
+  /requestBody/postRequiredDefaultValidationRequestBody:
+    post:
+      operationId: postRequiredDefaultValidationRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequiredDefaultValidation'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/RequiredDefaultValidation'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - requestBody
+      - post
+      - json
+  /requestBody/postRequiredWithEmptyArrayRequestBody:
+    post:
+      operationId: postRequiredWithEmptyArrayRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequiredWithEmptyArray'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/RequiredWithEmptyArray'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - requestBody
+      - post
+      - json
+  /requestBody/postIntegerTypeMatchesIntegersRequestBody:
+    post:
+      operationId: postIntegerTypeMatchesIntegersRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IntegerTypeMatchesIntegers'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/IntegerTypeMatchesIntegers'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - requestBody
+      - post
+      - json
+  /requestBody/postNumberTypeMatchesNumbersRequestBody:
+    post:
+      operationId: postNumberTypeMatchesNumbersRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NumberTypeMatchesNumbers'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/NumberTypeMatchesNumbers'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - requestBody
+      - post
+      - json
+  /requestBody/postStringTypeMatchesStringsRequestBody:
+    post:
+      operationId: postStringTypeMatchesStringsRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StringTypeMatchesStrings'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/StringTypeMatchesStrings'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - requestBody
+      - post
+      - json
+  /requestBody/postObjectTypeMatchesObjectsRequestBody:
+    post:
+      operationId: postObjectTypeMatchesObjectsRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ObjectTypeMatchesObjects'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/ObjectTypeMatchesObjects'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - requestBody
+      - post
+      - json
+  /requestBody/postBooleanTypeMatchesBooleansRequestBody:
+    post:
+      operationId: postBooleanTypeMatchesBooleansRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BooleanTypeMatchesBooleans'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/BooleanTypeMatchesBooleans'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - requestBody
+      - post
+      - json
+  /requestBody/postNullTypeMatchesOnlyTheNullObjectRequestBody:
+    post:
+      operationId: postNullTypeMatchesOnlyTheNullObjectRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NullTypeMatchesOnlyTheNullObject'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/NullTypeMatchesOnlyTheNullObject'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - requestBody
+      - post
+      - json
+  /requestBody/postArrayTypeMatchesArraysRequestBody:
+    post:
+      operationId: postArrayTypeMatchesArraysRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ArrayTypeMatchesArrays'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/ArrayTypeMatchesArrays'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - requestBody
+      - post
+      - json
+  /requestBody/postUniqueitemsValidationRequestBody:
+    post:
+      operationId: postUniqueitemsValidationRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UniqueitemsValidation'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/UniqueitemsValidation'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - requestBody
+      - post
+      - json
+  /requestBody/postUniqueitemsFalseValidationRequestBody:
+    post:
+      operationId: postUniqueitemsFalseValidationRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UniqueitemsFalseValidation'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/UniqueitemsFalseValidation'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - requestBody
+      - post
+      - json
 components:
   schemas:
     AdditionalpropertiesAllowsASchemaWhichShouldValidate:

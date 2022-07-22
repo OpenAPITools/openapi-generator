@@ -1,7 +1,13 @@
 {{>licenseInfo}}
 /* tslint:disable:no-unused-variable member-ordering */
 
+{{#useAxiosHttpModule}}
+import { Inject, Injectable, Optional } from '@nestjs/common';
+import { HttpService } from '@nestjs/axios';
+{{/useAxiosHttpModule}}
+{{^useAxiosHttpModule}}
 import { HttpService, Inject, Injectable, Optional } from '@nestjs/common';
+{{/useAxiosHttpModule}}
 import { AxiosResponse } from 'axios';
 import { Observable } from 'rxjs';
 {{#imports}}

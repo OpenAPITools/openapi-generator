@@ -111,11 +111,19 @@ Class | Method | HTTP request | Description
 ## Documentation for Authorization
 
 
+### BearerToken
+
+- **Type**: HTTP basic authentication
+
 ### api_key
 
 - **Type**: API key
 - **API key parameter name**: api_key
 - **Location**: HTTP header
+
+### http_auth
+
+- **Type**: HTTP basic authentication
 
 ### petstore_auth
 
