@@ -44,14 +44,14 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_no_additional_properties_is_valid_passes
         # no additional properties is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                     "foo":
                         1,
                 }
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -66,19 +66,18 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postAdditionalpropertiesAllowsASchemaWhichShouldValidateRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_an_additional_invalid_property_is_invalid_fails
         # an additional invalid property is invalid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                     "foo":
                         1,
@@ -90,14 +89,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    {
-                        "foo":
-                            1,
-                        "bar":
-                            2,
-                        "quux":
-                            12,
-                    },
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_additionalproperties_allows_a_schema_which_should_validate_request_body(body=body)
@@ -105,7 +97,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_an_additional_valid_property_is_valid_passes
         # an additional valid property is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                     "foo":
                         1,
@@ -116,7 +108,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 }
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -131,13 +123,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postAdditionalpropertiesAllowsASchemaWhichShouldValidateRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
 
@@ -148,7 +139,107 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         """
         from unit_test_api.api.path_post_api_endpoints import post_additionalproperties_allows_a_schema_which_should_validate_response_body_for_content_types as endpoint_module
         response_status = 200
-        # TODO get response content working
+        accept_content_type = 'application/json'
+
+
+        # test_no_additional_properties_is_valid_passes
+        # no additional properties is valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                    "foo":
+                        1,
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_additionalproperties_allows_a_schema_which_should_validate_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postAdditionalpropertiesAllowsASchemaWhichShouldValidateResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_an_additional_invalid_property_is_invalid_fails
+        # an additional invalid property is invalid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                    "foo":
+                        1,
+                    "bar":
+                        2,
+                    "quux":
+                        12,
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_additionalproperties_allows_a_schema_which_should_validate_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postAdditionalpropertiesAllowsASchemaWhichShouldValidateResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_an_additional_valid_property_is_valid_passes
+        # an additional valid property is valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                    "foo":
+                        1,
+                    "bar":
+                        2,
+                    "quux":
+                        True,
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_additionalproperties_allows_a_schema_which_should_validate_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postAdditionalpropertiesAllowsASchemaWhichShouldValidateResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+
         pass
 
     def test_post_additionalproperties_are_allowed_by_default_request_body(self):
@@ -163,7 +254,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_additional_properties_are_allowed_passes
         # additional properties are allowed
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                     "foo":
                         1,
@@ -174,7 +265,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 }
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -189,13 +280,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postAdditionalpropertiesAreAllowedByDefaultRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
 
@@ -206,7 +296,46 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         """
         from unit_test_api.api.path_post_api_endpoints import post_additionalproperties_are_allowed_by_default_response_body_for_content_types as endpoint_module
         response_status = 200
-        # TODO get response content working
+        accept_content_type = 'application/json'
+
+
+        # test_additional_properties_are_allowed_passes
+        # additional properties are allowed
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                    "foo":
+                        1,
+                    "bar":
+                        2,
+                    "quux":
+                        True,
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_additionalproperties_are_allowed_by_default_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postAdditionalpropertiesAreAllowedByDefaultResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+
         pass
 
     def test_post_additionalproperties_can_exist_by_itself_request_body(self):
@@ -221,7 +350,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_an_additional_invalid_property_is_invalid_fails
         # an additional invalid property is invalid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                     "foo":
                         1,
@@ -229,10 +358,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    {
-                        "foo":
-                            1,
-                    },
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_additionalproperties_can_exist_by_itself_request_body(body=body)
@@ -240,14 +366,14 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_an_additional_valid_property_is_valid_passes
         # an additional valid property is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                     "foo":
                         True,
                 }
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -262,13 +388,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postAdditionalpropertiesCanExistByItselfRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
 
@@ -279,7 +404,67 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         """
         from unit_test_api.api.path_post_api_endpoints import post_additionalproperties_can_exist_by_itself_response_body_for_content_types as endpoint_module
         response_status = 200
-        # TODO get response content working
+        accept_content_type = 'application/json'
+
+
+        # test_an_additional_invalid_property_is_invalid_fails
+        # an additional invalid property is invalid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                    "foo":
+                        1,
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_additionalproperties_can_exist_by_itself_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postAdditionalpropertiesCanExistByItselfResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_an_additional_valid_property_is_valid_passes
+        # an additional valid property is valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                    "foo":
+                        True,
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_additionalproperties_can_exist_by_itself_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postAdditionalpropertiesCanExistByItselfResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+
         pass
 
     def test_post_additionalproperties_should_not_look_in_applicators_request_body(self):
@@ -294,7 +479,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_properties_defined_in_allof_are_not_examined_fails
         # properties defined in allOf are not examined
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                     "foo":
                         1,
@@ -304,12 +489,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    {
-                        "foo":
-                            1,
-                        "bar":
-                            True,
-                    },
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_additionalproperties_should_not_look_in_applicators_request_body(body=body)
@@ -322,7 +502,37 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         """
         from unit_test_api.api.path_post_api_endpoints import post_additionalproperties_should_not_look_in_applicators_response_body_for_content_types as endpoint_module
         response_status = 200
-        # TODO get response content working
+        accept_content_type = 'application/json'
+
+
+        # test_properties_defined_in_allof_are_not_examined_fails
+        # properties defined in allOf are not examined
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                    "foo":
+                        1,
+                    "bar":
+                        True,
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_additionalproperties_should_not_look_in_applicators_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postAdditionalpropertiesShouldNotLookInApplicatorsResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+
         pass
 
     def test_post_allof_combined_with_anyof_oneof_request_body(self):
@@ -337,12 +547,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_allof_true_anyof_false_oneof_false_fails
         # allOf: true, anyOf: false, oneOf: false
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 2
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    2,
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_allof_combined_with_anyof_oneof_request_body(body=body)
@@ -350,12 +560,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_allof_false_anyof_false_oneof_true_fails
         # allOf: false, anyOf: false, oneOf: true
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 5
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    5,
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_allof_combined_with_anyof_oneof_request_body(body=body)
@@ -363,12 +573,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_allof_false_anyof_true_oneof_true_fails
         # allOf: false, anyOf: true, oneOf: true
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 15
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    15,
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_allof_combined_with_anyof_oneof_request_body(body=body)
@@ -376,12 +586,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_allof_true_anyof_true_oneof_false_fails
         # allOf: true, anyOf: true, oneOf: false
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 6
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    6,
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_allof_combined_with_anyof_oneof_request_body(body=body)
@@ -389,11 +599,11 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_allof_true_anyof_true_oneof_true_passes
         # allOf: true, anyOf: true, oneOf: true
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 30
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -408,24 +618,23 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postAllofCombinedWithAnyofOneofRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_allof_true_anyof_false_oneof_true_fails
         # allOf: true, anyOf: false, oneOf: true
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 10
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    10,
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_allof_combined_with_anyof_oneof_request_body(body=body)
@@ -433,12 +642,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_allof_false_anyof_true_oneof_false_fails
         # allOf: false, anyOf: true, oneOf: false
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 3
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    3,
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_allof_combined_with_anyof_oneof_request_body(body=body)
@@ -446,12 +655,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_allof_false_anyof_false_oneof_false_fails
         # allOf: false, anyOf: false, oneOf: false
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 1
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    1,
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_allof_combined_with_anyof_oneof_request_body(body=body)
@@ -464,7 +673,193 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         """
         from unit_test_api.api.path_post_api_endpoints import post_allof_combined_with_anyof_oneof_response_body_for_content_types as endpoint_module
         response_status = 200
-        # TODO get response content working
+        accept_content_type = 'application/json'
+
+
+        # test_allof_true_anyof_false_oneof_false_fails
+        # allOf: true, anyOf: false, oneOf: false
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                2
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_allof_combined_with_anyof_oneof_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postAllofCombinedWithAnyofOneofResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_allof_false_anyof_false_oneof_true_fails
+        # allOf: false, anyOf: false, oneOf: true
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                5
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_allof_combined_with_anyof_oneof_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postAllofCombinedWithAnyofOneofResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_allof_false_anyof_true_oneof_true_fails
+        # allOf: false, anyOf: true, oneOf: true
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                15
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_allof_combined_with_anyof_oneof_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postAllofCombinedWithAnyofOneofResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_allof_true_anyof_true_oneof_false_fails
+        # allOf: true, anyOf: true, oneOf: false
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                6
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_allof_combined_with_anyof_oneof_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postAllofCombinedWithAnyofOneofResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_allof_true_anyof_true_oneof_true_passes
+        # allOf: true, anyOf: true, oneOf: true
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                30
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_allof_combined_with_anyof_oneof_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postAllofCombinedWithAnyofOneofResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_allof_true_anyof_false_oneof_true_fails
+        # allOf: true, anyOf: false, oneOf: true
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                10
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_allof_combined_with_anyof_oneof_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postAllofCombinedWithAnyofOneofResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_allof_false_anyof_true_oneof_false_fails
+        # allOf: false, anyOf: true, oneOf: false
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                3
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_allof_combined_with_anyof_oneof_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postAllofCombinedWithAnyofOneofResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_allof_false_anyof_false_oneof_false_fails
+        # allOf: false, anyOf: false, oneOf: false
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                1
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_allof_combined_with_anyof_oneof_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postAllofCombinedWithAnyofOneofResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+
         pass
 
     def test_post_allof_request_body(self):
@@ -479,7 +874,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_allof_passes
         # allOf
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                     "foo":
                         "baz",
@@ -488,7 +883,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 }
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -503,19 +898,18 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postAllofRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_mismatch_first_fails
         # mismatch first
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                     "bar":
                         2,
@@ -523,10 +917,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    {
-                        "bar":
-                            2,
-                    },
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_allof_request_body(body=body)
@@ -534,7 +925,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_mismatch_second_fails
         # mismatch second
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                     "foo":
                         "baz",
@@ -542,10 +933,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    {
-                        "foo":
-                            "baz",
-                    },
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_allof_request_body(body=body)
@@ -553,7 +941,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_wrong_type_fails
         # wrong type
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                     "foo":
                         "baz",
@@ -563,12 +951,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    {
-                        "foo":
-                            "baz",
-                        "bar":
-                            "quux",
-                    },
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_allof_request_body(body=body)
@@ -581,7 +964,121 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         """
         from unit_test_api.api.path_post_api_endpoints import post_allof_response_body_for_content_types as endpoint_module
         response_status = 200
-        # TODO get response content working
+        accept_content_type = 'application/json'
+
+
+        # test_allof_passes
+        # allOf
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                    "foo":
+                        "baz",
+                    "bar":
+                        2,
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_allof_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postAllofResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_mismatch_first_fails
+        # mismatch first
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                    "bar":
+                        2,
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_allof_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postAllofResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_mismatch_second_fails
+        # mismatch second
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                    "foo":
+                        "baz",
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_allof_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postAllofResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_wrong_type_fails
+        # wrong type
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                    "foo":
+                        "baz",
+                    "bar":
+                        "quux",
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_allof_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postAllofResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+
         pass
 
     def test_post_allof_simple_types_request_body(self):
@@ -596,11 +1093,11 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_valid_passes
         # valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 25
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -615,24 +1112,23 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postAllofSimpleTypesRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_mismatch_one_fails
         # mismatch one
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 35
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    35,
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_allof_simple_types_request_body(body=body)
@@ -645,7 +1141,61 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         """
         from unit_test_api.api.path_post_api_endpoints import post_allof_simple_types_response_body_for_content_types as endpoint_module
         response_status = 200
-        # TODO get response content working
+        accept_content_type = 'application/json'
+
+
+        # test_valid_passes
+        # valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                25
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_allof_simple_types_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postAllofSimpleTypesResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_mismatch_one_fails
+        # mismatch one
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                35
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_allof_simple_types_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postAllofSimpleTypesResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+
         pass
 
     def test_post_allof_with_base_schema_request_body(self):
@@ -660,7 +1210,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_valid_passes
         # valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                     "foo":
                         "quux",
@@ -671,7 +1221,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 }
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -686,19 +1236,18 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postAllofWithBaseSchemaRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_mismatch_first_allof_fails
         # mismatch first allOf
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                     "bar":
                         2,
@@ -708,12 +1257,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    {
-                        "bar":
-                            2,
-                        "baz":
-                            None,
-                    },
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_allof_with_base_schema_request_body(body=body)
@@ -721,7 +1265,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_mismatch_base_schema_fails
         # mismatch base schema
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                     "foo":
                         "quux",
@@ -731,12 +1275,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    {
-                        "foo":
-                            "quux",
-                        "baz":
-                            None,
-                    },
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_allof_with_base_schema_request_body(body=body)
@@ -744,7 +1283,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_mismatch_both_fails
         # mismatch both
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                     "bar":
                         2,
@@ -752,10 +1291,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    {
-                        "bar":
-                            2,
-                    },
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_allof_with_base_schema_request_body(body=body)
@@ -763,7 +1299,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_mismatch_second_allof_fails
         # mismatch second allOf
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                     "foo":
                         "quux",
@@ -773,12 +1309,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    {
-                        "foo":
-                            "quux",
-                        "bar":
-                            2,
-                    },
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_allof_with_base_schema_request_body(body=body)
@@ -791,7 +1322,152 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         """
         from unit_test_api.api.path_post_api_endpoints import post_allof_with_base_schema_response_body_for_content_types as endpoint_module
         response_status = 200
-        # TODO get response content working
+        accept_content_type = 'application/json'
+
+
+        # test_valid_passes
+        # valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                    "foo":
+                        "quux",
+                    "bar":
+                        2,
+                    "baz":
+                        None,
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_allof_with_base_schema_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postAllofWithBaseSchemaResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_mismatch_first_allof_fails
+        # mismatch first allOf
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                    "bar":
+                        2,
+                    "baz":
+                        None,
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_allof_with_base_schema_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postAllofWithBaseSchemaResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_mismatch_base_schema_fails
+        # mismatch base schema
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                    "foo":
+                        "quux",
+                    "baz":
+                        None,
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_allof_with_base_schema_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postAllofWithBaseSchemaResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_mismatch_both_fails
+        # mismatch both
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                    "bar":
+                        2,
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_allof_with_base_schema_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postAllofWithBaseSchemaResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_mismatch_second_allof_fails
+        # mismatch second allOf
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                    "foo":
+                        "quux",
+                    "bar":
+                        2,
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_allof_with_base_schema_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postAllofWithBaseSchemaResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+
         pass
 
     def test_post_allof_with_one_empty_schema_request_body(self):
@@ -806,11 +1482,11 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_any_data_is_valid_passes
         # any data is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 1
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -825,13 +1501,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postAllofWithOneEmptySchemaRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
 
@@ -842,7 +1517,39 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         """
         from unit_test_api.api.path_post_api_endpoints import post_allof_with_one_empty_schema_response_body_for_content_types as endpoint_module
         response_status = 200
-        # TODO get response content working
+        accept_content_type = 'application/json'
+
+
+        # test_any_data_is_valid_passes
+        # any data is valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                1
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_allof_with_one_empty_schema_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postAllofWithOneEmptySchemaResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+
         pass
 
     def test_post_allof_with_the_first_empty_schema_request_body(self):
@@ -857,12 +1564,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_string_is_invalid_fails
         # string is invalid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 "foo"
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    "foo",
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_allof_with_the_first_empty_schema_request_body(body=body)
@@ -870,11 +1577,11 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_number_is_valid_passes
         # number is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 1
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -889,13 +1596,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postAllofWithTheFirstEmptySchemaRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
 
@@ -906,7 +1612,61 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         """
         from unit_test_api.api.path_post_api_endpoints import post_allof_with_the_first_empty_schema_response_body_for_content_types as endpoint_module
         response_status = 200
-        # TODO get response content working
+        accept_content_type = 'application/json'
+
+
+        # test_string_is_invalid_fails
+        # string is invalid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                "foo"
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_allof_with_the_first_empty_schema_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postAllofWithTheFirstEmptySchemaResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_number_is_valid_passes
+        # number is valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                1
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_allof_with_the_first_empty_schema_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postAllofWithTheFirstEmptySchemaResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+
         pass
 
     def test_post_allof_with_the_last_empty_schema_request_body(self):
@@ -921,12 +1681,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_string_is_invalid_fails
         # string is invalid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 "foo"
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    "foo",
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_allof_with_the_last_empty_schema_request_body(body=body)
@@ -934,11 +1694,11 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_number_is_valid_passes
         # number is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 1
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -953,13 +1713,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postAllofWithTheLastEmptySchemaRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
 
@@ -970,7 +1729,61 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         """
         from unit_test_api.api.path_post_api_endpoints import post_allof_with_the_last_empty_schema_response_body_for_content_types as endpoint_module
         response_status = 200
-        # TODO get response content working
+        accept_content_type = 'application/json'
+
+
+        # test_string_is_invalid_fails
+        # string is invalid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                "foo"
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_allof_with_the_last_empty_schema_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postAllofWithTheLastEmptySchemaResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_number_is_valid_passes
+        # number is valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                1
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_allof_with_the_last_empty_schema_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postAllofWithTheLastEmptySchemaResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+
         pass
 
     def test_post_allof_with_two_empty_schemas_request_body(self):
@@ -985,11 +1798,11 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_any_data_is_valid_passes
         # any data is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 1
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -1004,13 +1817,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postAllofWithTwoEmptySchemasRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
 
@@ -1021,7 +1833,39 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         """
         from unit_test_api.api.path_post_api_endpoints import post_allof_with_two_empty_schemas_response_body_for_content_types as endpoint_module
         response_status = 200
-        # TODO get response content working
+        accept_content_type = 'application/json'
+
+
+        # test_any_data_is_valid_passes
+        # any data is valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                1
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_allof_with_two_empty_schemas_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postAllofWithTwoEmptySchemasResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+
         pass
 
     def test_post_anyof_complex_types_request_body(self):
@@ -1036,14 +1880,14 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_second_anyof_valid_complex_passes
         # second anyOf valid (complex)
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                     "foo":
                         "baz",
                 }
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -1058,19 +1902,18 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postAnyofComplexTypesRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_neither_anyof_valid_complex_fails
         # neither anyOf valid (complex)
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                     "foo":
                         2,
@@ -1080,12 +1923,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    {
-                        "foo":
-                            2,
-                        "bar":
-                            "quux",
-                    },
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_anyof_complex_types_request_body(body=body)
@@ -1093,7 +1931,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_both_anyof_valid_complex_passes
         # both anyOf valid (complex)
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                     "foo":
                         "baz",
@@ -1102,7 +1940,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 }
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -1117,26 +1955,25 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postAnyofComplexTypesRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_first_anyof_valid_complex_passes
         # first anyOf valid (complex)
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                     "bar":
                         2,
                 }
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -1151,13 +1988,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postAnyofComplexTypesRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
 
@@ -1168,7 +2004,135 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         """
         from unit_test_api.api.path_post_api_endpoints import post_anyof_complex_types_response_body_for_content_types as endpoint_module
         response_status = 200
-        # TODO get response content working
+        accept_content_type = 'application/json'
+
+
+        # test_second_anyof_valid_complex_passes
+        # second anyOf valid (complex)
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                    "foo":
+                        "baz",
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_anyof_complex_types_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postAnyofComplexTypesResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_neither_anyof_valid_complex_fails
+        # neither anyOf valid (complex)
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                    "foo":
+                        2,
+                    "bar":
+                        "quux",
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_anyof_complex_types_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postAnyofComplexTypesResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_both_anyof_valid_complex_passes
+        # both anyOf valid (complex)
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                    "foo":
+                        "baz",
+                    "bar":
+                        2,
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_anyof_complex_types_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postAnyofComplexTypesResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_first_anyof_valid_complex_passes
+        # first anyOf valid (complex)
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                    "bar":
+                        2,
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_anyof_complex_types_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postAnyofComplexTypesResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+
         pass
 
     def test_post_anyof_request_body(self):
@@ -1183,11 +2147,11 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_second_anyof_valid_passes
         # second anyOf valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 2.5
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -1202,24 +2166,23 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postAnyofRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_neither_anyof_valid_fails
         # neither anyOf valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 1.5
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    1.5,
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_anyof_request_body(body=body)
@@ -1227,11 +2190,11 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_both_anyof_valid_passes
         # both anyOf valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 3
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -1246,23 +2209,22 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postAnyofRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_first_anyof_valid_passes
         # first anyOf valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 1
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -1277,13 +2239,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postAnyofRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
 
@@ -1294,7 +2255,119 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         """
         from unit_test_api.api.path_post_api_endpoints import post_anyof_response_body_for_content_types as endpoint_module
         response_status = 200
-        # TODO get response content working
+        accept_content_type = 'application/json'
+
+
+        # test_second_anyof_valid_passes
+        # second anyOf valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                2.5
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_anyof_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postAnyofResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_neither_anyof_valid_fails
+        # neither anyOf valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                1.5
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_anyof_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postAnyofResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_both_anyof_valid_passes
+        # both anyOf valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                3
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_anyof_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postAnyofResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_first_anyof_valid_passes
+        # first anyOf valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                1
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_anyof_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postAnyofResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+
         pass
 
     def test_post_anyof_with_base_schema_request_body(self):
@@ -1309,11 +2382,11 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_one_anyof_valid_passes
         # one anyOf valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 "foobar"
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -1328,24 +2401,23 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postAnyofWithBaseSchemaRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_both_anyof_invalid_fails
         # both anyOf invalid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 "foo"
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    "foo",
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_anyof_with_base_schema_request_body(body=body)
@@ -1353,12 +2425,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_mismatch_base_schema_fails
         # mismatch base schema
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 3
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    3,
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_anyof_with_base_schema_request_body(body=body)
@@ -1371,7 +2443,83 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         """
         from unit_test_api.api.path_post_api_endpoints import post_anyof_with_base_schema_response_body_for_content_types as endpoint_module
         response_status = 200
-        # TODO get response content working
+        accept_content_type = 'application/json'
+
+
+        # test_one_anyof_valid_passes
+        # one anyOf valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                "foobar"
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_anyof_with_base_schema_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postAnyofWithBaseSchemaResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_both_anyof_invalid_fails
+        # both anyOf invalid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                "foo"
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_anyof_with_base_schema_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postAnyofWithBaseSchemaResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_mismatch_base_schema_fails
+        # mismatch base schema
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                3
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_anyof_with_base_schema_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postAnyofWithBaseSchemaResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+
         pass
 
     def test_post_anyof_with_one_empty_schema_request_body(self):
@@ -1386,11 +2534,11 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_string_is_valid_passes
         # string is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 "foo"
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -1405,23 +2553,22 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postAnyofWithOneEmptySchemaRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_number_is_valid_passes
         # number is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 123
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -1436,13 +2583,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postAnyofWithOneEmptySchemaRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
 
@@ -1453,7 +2599,68 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         """
         from unit_test_api.api.path_post_api_endpoints import post_anyof_with_one_empty_schema_response_body_for_content_types as endpoint_module
         response_status = 200
-        # TODO get response content working
+        accept_content_type = 'application/json'
+
+
+        # test_string_is_valid_passes
+        # string is valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                "foo"
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_anyof_with_one_empty_schema_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postAnyofWithOneEmptySchemaResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_number_is_valid_passes
+        # number is valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                123
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_anyof_with_one_empty_schema_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postAnyofWithOneEmptySchemaResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+
         pass
 
     def test_post_array_type_matches_arrays_request_body(self):
@@ -1468,12 +2675,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_a_float_is_not_an_array_fails
         # a float is not an array
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 1.1
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    1.1,
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_array_type_matches_arrays_request_body(body=body)
@@ -1481,12 +2688,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_a_boolean_is_not_an_array_fails
         # a boolean is not an array
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 True
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    True,
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_array_type_matches_arrays_request_body(body=body)
@@ -1494,12 +2701,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_null_is_not_an_array_fails
         # null is not an array
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 None
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    None,
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_array_type_matches_arrays_request_body(body=body)
@@ -1507,14 +2714,13 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_an_object_is_not_an_array_fails
         # an object is not an array
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                 }
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    {
-                    },
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_array_type_matches_arrays_request_body(body=body)
@@ -1522,12 +2728,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_a_string_is_not_an_array_fails
         # a string is not an array
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 "foo"
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    "foo",
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_array_type_matches_arrays_request_body(body=body)
@@ -1535,12 +2741,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_an_array_is_an_array_passes
         # an array is an array
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 [
                 ]
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -1555,24 +2761,23 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postArrayTypeMatchesArraysRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_an_integer_is_not_an_array_fails
         # an integer is not an array
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 1
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    1,
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_array_type_matches_arrays_request_body(body=body)
@@ -1585,7 +2790,173 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         """
         from unit_test_api.api.path_post_api_endpoints import post_array_type_matches_arrays_response_body_for_content_types as endpoint_module
         response_status = 200
-        # TODO get response content working
+        accept_content_type = 'application/json'
+
+
+        # test_a_float_is_not_an_array_fails
+        # a float is not an array
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                1.1
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_array_type_matches_arrays_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postArrayTypeMatchesArraysResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_a_boolean_is_not_an_array_fails
+        # a boolean is not an array
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                True
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_array_type_matches_arrays_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postArrayTypeMatchesArraysResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_null_is_not_an_array_fails
+        # null is not an array
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                None
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_array_type_matches_arrays_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postArrayTypeMatchesArraysResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_an_object_is_not_an_array_fails
+        # an object is not an array
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_array_type_matches_arrays_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postArrayTypeMatchesArraysResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_a_string_is_not_an_array_fails
+        # a string is not an array
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                "foo"
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_array_type_matches_arrays_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postArrayTypeMatchesArraysResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_an_array_is_an_array_passes
+        # an array is an array
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                [
+                ]
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_array_type_matches_arrays_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postArrayTypeMatchesArraysResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_an_integer_is_not_an_array_fails
+        # an integer is not an array
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                1
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_array_type_matches_arrays_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postArrayTypeMatchesArraysResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+
         pass
 
     def test_post_boolean_type_matches_booleans_request_body(self):
@@ -1600,12 +2971,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_an_empty_string_is_not_a_boolean_fails
         # an empty string is not a boolean
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 ""
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    "",
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_boolean_type_matches_booleans_request_body(body=body)
@@ -1613,12 +2984,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_a_float_is_not_a_boolean_fails
         # a float is not a boolean
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 1.1
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    1.1,
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_boolean_type_matches_booleans_request_body(body=body)
@@ -1626,12 +2997,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_null_is_not_a_boolean_fails
         # null is not a boolean
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 None
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    None,
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_boolean_type_matches_booleans_request_body(body=body)
@@ -1639,12 +3010,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_zero_is_not_a_boolean_fails
         # zero is not a boolean
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 0
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    0,
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_boolean_type_matches_booleans_request_body(body=body)
@@ -1652,14 +3023,13 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_an_array_is_not_a_boolean_fails
         # an array is not a boolean
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 [
                 ]
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    [
-                    ],
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_boolean_type_matches_booleans_request_body(body=body)
@@ -1667,12 +3037,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_a_string_is_not_a_boolean_fails
         # a string is not a boolean
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 "foo"
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    "foo",
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_boolean_type_matches_booleans_request_body(body=body)
@@ -1680,11 +3050,11 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_false_is_a_boolean_passes
         # false is a boolean
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 False
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -1699,24 +3069,23 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postBooleanTypeMatchesBooleansRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_an_integer_is_not_a_boolean_fails
         # an integer is not a boolean
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 1
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    1,
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_boolean_type_matches_booleans_request_body(body=body)
@@ -1724,11 +3093,11 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_true_is_a_boolean_passes
         # true is a boolean
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 True
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -1743,26 +3112,24 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postBooleanTypeMatchesBooleansRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_an_object_is_not_a_boolean_fails
         # an object is not a boolean
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                 }
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    {
-                    },
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_boolean_type_matches_booleans_request_body(body=body)
@@ -1775,7 +3142,246 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         """
         from unit_test_api.api.path_post_api_endpoints import post_boolean_type_matches_booleans_response_body_for_content_types as endpoint_module
         response_status = 200
-        # TODO get response content working
+        accept_content_type = 'application/json'
+
+
+        # test_an_empty_string_is_not_a_boolean_fails
+        # an empty string is not a boolean
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                ""
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_boolean_type_matches_booleans_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postBooleanTypeMatchesBooleansResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_a_float_is_not_a_boolean_fails
+        # a float is not a boolean
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                1.1
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_boolean_type_matches_booleans_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postBooleanTypeMatchesBooleansResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_null_is_not_a_boolean_fails
+        # null is not a boolean
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                None
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_boolean_type_matches_booleans_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postBooleanTypeMatchesBooleansResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_zero_is_not_a_boolean_fails
+        # zero is not a boolean
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                0
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_boolean_type_matches_booleans_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postBooleanTypeMatchesBooleansResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_an_array_is_not_a_boolean_fails
+        # an array is not a boolean
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                [
+                ]
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_boolean_type_matches_booleans_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postBooleanTypeMatchesBooleansResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_a_string_is_not_a_boolean_fails
+        # a string is not a boolean
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                "foo"
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_boolean_type_matches_booleans_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postBooleanTypeMatchesBooleansResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_false_is_a_boolean_passes
+        # false is a boolean
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                False
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_boolean_type_matches_booleans_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postBooleanTypeMatchesBooleansResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_an_integer_is_not_a_boolean_fails
+        # an integer is not a boolean
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                1
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_boolean_type_matches_booleans_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postBooleanTypeMatchesBooleansResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_true_is_a_boolean_passes
+        # true is a boolean
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                True
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_boolean_type_matches_booleans_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postBooleanTypeMatchesBooleansResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_an_object_is_not_a_boolean_fails
+        # an object is not a boolean
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_boolean_type_matches_booleans_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postBooleanTypeMatchesBooleansResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+
         pass
 
     def test_post_by_int_request_body(self):
@@ -1790,12 +3396,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_int_by_int_fail_fails
         # int by int fail
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 7
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    7,
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_by_int_request_body(body=body)
@@ -1803,11 +3409,11 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_int_by_int_passes
         # int by int
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 10
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -1822,23 +3428,22 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postByIntRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_ignores_non_numbers_passes
         # ignores non-numbers
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 "foo"
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -1853,13 +3458,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postByIntRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
 
@@ -1870,7 +3474,90 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         """
         from unit_test_api.api.path_post_api_endpoints import post_by_int_response_body_for_content_types as endpoint_module
         response_status = 200
-        # TODO get response content working
+        accept_content_type = 'application/json'
+
+
+        # test_int_by_int_fail_fails
+        # int by int fail
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                7
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_by_int_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postByIntResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_int_by_int_passes
+        # int by int
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                10
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_by_int_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postByIntResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_ignores_non_numbers_passes
+        # ignores non-numbers
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                "foo"
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_by_int_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postByIntResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+
         pass
 
     def test_post_by_number_request_body(self):
@@ -1885,11 +3572,11 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_45_is_multiple_of15_passes
         # 4.5 is multiple of 1.5
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 4.5
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -1904,24 +3591,23 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postByNumberRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_35_is_not_multiple_of15_fails
         # 35 is not multiple of 1.5
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 35
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    35,
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_by_number_request_body(body=body)
@@ -1929,11 +3615,11 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_zero_is_multiple_of_anything_passes
         # zero is multiple of anything
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 0
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -1948,13 +3634,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postByNumberRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
 
@@ -1965,7 +3650,90 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         """
         from unit_test_api.api.path_post_api_endpoints import post_by_number_response_body_for_content_types as endpoint_module
         response_status = 200
-        # TODO get response content working
+        accept_content_type = 'application/json'
+
+
+        # test_45_is_multiple_of15_passes
+        # 4.5 is multiple of 1.5
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                4.5
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_by_number_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postByNumberResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_35_is_not_multiple_of15_fails
+        # 35 is not multiple of 1.5
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                35
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_by_number_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postByNumberResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_zero_is_multiple_of_anything_passes
+        # zero is multiple of anything
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                0
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_by_number_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postByNumberResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+
         pass
 
     def test_post_by_small_number_request_body(self):
@@ -1980,12 +3748,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_000751_is_not_multiple_of00001_fails
         # 0.00751 is not multiple of 0.0001
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 0.00751
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    0.00751,
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_by_small_number_request_body(body=body)
@@ -1993,11 +3761,11 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_00075_is_multiple_of00001_passes
         # 0.0075 is multiple of 0.0001
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 0.0075
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -2012,13 +3780,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postBySmallNumberRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
 
@@ -2029,7 +3796,61 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         """
         from unit_test_api.api.path_post_api_endpoints import post_by_small_number_response_body_for_content_types as endpoint_module
         response_status = 200
-        # TODO get response content working
+        accept_content_type = 'application/json'
+
+
+        # test_000751_is_not_multiple_of00001_fails
+        # 0.00751 is not multiple of 0.0001
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                0.00751
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_by_small_number_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postBySmallNumberResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_00075_is_multiple_of00001_passes
+        # 0.0075 is multiple of 0.0001
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                0.0075
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_by_small_number_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postBySmallNumberResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+
         pass
 
     def test_post_date_time_format_request_body(self):
@@ -2044,12 +3865,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_all_string_formats_ignore_objects_passes
         # all string formats ignore objects
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                 }
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -2064,23 +3885,22 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postDateTimeFormatRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_all_string_formats_ignore_booleans_passes
         # all string formats ignore booleans
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 False
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -2095,23 +3915,22 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postDateTimeFormatRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_all_string_formats_ignore_integers_passes
         # all string formats ignore integers
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 12
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -2126,23 +3945,22 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postDateTimeFormatRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_all_string_formats_ignore_floats_passes
         # all string formats ignore floats
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 13.7
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -2157,24 +3975,23 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postDateTimeFormatRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_all_string_formats_ignore_arrays_passes
         # all string formats ignore arrays
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 [
                 ]
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -2189,23 +4006,22 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postDateTimeFormatRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_all_string_formats_ignore_nulls_passes
         # all string formats ignore nulls
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 None
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -2220,13 +4036,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postDateTimeFormatRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
 
@@ -2237,7 +4052,186 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         """
         from unit_test_api.api.path_post_api_endpoints import post_date_time_format_response_body_for_content_types as endpoint_module
         response_status = 200
-        # TODO get response content working
+        accept_content_type = 'application/json'
+
+
+        # test_all_string_formats_ignore_objects_passes
+        # all string formats ignore objects
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_date_time_format_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postDateTimeFormatResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_all_string_formats_ignore_booleans_passes
+        # all string formats ignore booleans
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                False
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_date_time_format_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postDateTimeFormatResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_all_string_formats_ignore_integers_passes
+        # all string formats ignore integers
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                12
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_date_time_format_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postDateTimeFormatResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_all_string_formats_ignore_floats_passes
+        # all string formats ignore floats
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                13.7
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_date_time_format_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postDateTimeFormatResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_all_string_formats_ignore_arrays_passes
+        # all string formats ignore arrays
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                [
+                ]
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_date_time_format_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postDateTimeFormatResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_all_string_formats_ignore_nulls_passes
+        # all string formats ignore nulls
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                None
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_date_time_format_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postDateTimeFormatResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+
         pass
 
     def test_post_email_format_request_body(self):
@@ -2252,12 +4246,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_all_string_formats_ignore_objects_passes
         # all string formats ignore objects
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                 }
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -2272,23 +4266,22 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postEmailFormatRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_all_string_formats_ignore_booleans_passes
         # all string formats ignore booleans
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 False
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -2303,23 +4296,22 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postEmailFormatRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_all_string_formats_ignore_integers_passes
         # all string formats ignore integers
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 12
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -2334,23 +4326,22 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postEmailFormatRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_all_string_formats_ignore_floats_passes
         # all string formats ignore floats
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 13.7
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -2365,24 +4356,23 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postEmailFormatRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_all_string_formats_ignore_arrays_passes
         # all string formats ignore arrays
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 [
                 ]
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -2397,23 +4387,22 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postEmailFormatRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_all_string_formats_ignore_nulls_passes
         # all string formats ignore nulls
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 None
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -2428,13 +4417,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postEmailFormatRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
 
@@ -2445,7 +4433,186 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         """
         from unit_test_api.api.path_post_api_endpoints import post_email_format_response_body_for_content_types as endpoint_module
         response_status = 200
-        # TODO get response content working
+        accept_content_type = 'application/json'
+
+
+        # test_all_string_formats_ignore_objects_passes
+        # all string formats ignore objects
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_email_format_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postEmailFormatResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_all_string_formats_ignore_booleans_passes
+        # all string formats ignore booleans
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                False
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_email_format_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postEmailFormatResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_all_string_formats_ignore_integers_passes
+        # all string formats ignore integers
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                12
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_email_format_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postEmailFormatResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_all_string_formats_ignore_floats_passes
+        # all string formats ignore floats
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                13.7
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_email_format_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postEmailFormatResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_all_string_formats_ignore_arrays_passes
+        # all string formats ignore arrays
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                [
+                ]
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_email_format_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postEmailFormatResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_all_string_formats_ignore_nulls_passes
+        # all string formats ignore nulls
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                None
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_email_format_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postEmailFormatResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+
         pass
 
     def test_post_enum_with0_does_not_match_false_request_body(self):
@@ -2460,11 +4627,11 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_integer_zero_is_valid_passes
         # integer zero is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 0
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -2479,23 +4646,22 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postEnumWith0DoesNotMatchFalseRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_float_zero_is_valid_passes
         # float zero is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 0.0
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -2510,24 +4676,23 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postEnumWith0DoesNotMatchFalseRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_false_is_invalid_fails
         # false is invalid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 False
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    False,
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_enum_with0_does_not_match_false_request_body(body=body)
@@ -2540,7 +4705,90 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         """
         from unit_test_api.api.path_post_api_endpoints import post_enum_with0_does_not_match_false_response_body_for_content_types as endpoint_module
         response_status = 200
-        # TODO get response content working
+        accept_content_type = 'application/json'
+
+
+        # test_integer_zero_is_valid_passes
+        # integer zero is valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                0
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_enum_with0_does_not_match_false_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postEnumWith0DoesNotMatchFalseResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_float_zero_is_valid_passes
+        # float zero is valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                0.0
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_enum_with0_does_not_match_false_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postEnumWith0DoesNotMatchFalseResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_false_is_invalid_fails
+        # false is invalid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                False
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_enum_with0_does_not_match_false_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postEnumWith0DoesNotMatchFalseResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+
         pass
 
     def test_post_enum_with1_does_not_match_true_request_body(self):
@@ -2555,12 +4803,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_true_is_invalid_fails
         # true is invalid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 True
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    True,
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_enum_with1_does_not_match_true_request_body(body=body)
@@ -2568,11 +4816,11 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_integer_one_is_valid_passes
         # integer one is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 1
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -2587,23 +4835,22 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postEnumWith1DoesNotMatchTrueRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_float_one_is_valid_passes
         # float one is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 1.0
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -2618,13 +4865,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postEnumWith1DoesNotMatchTrueRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
 
@@ -2635,7 +4881,90 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         """
         from unit_test_api.api.path_post_api_endpoints import post_enum_with1_does_not_match_true_response_body_for_content_types as endpoint_module
         response_status = 200
-        # TODO get response content working
+        accept_content_type = 'application/json'
+
+
+        # test_true_is_invalid_fails
+        # true is invalid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                True
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_enum_with1_does_not_match_true_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postEnumWith1DoesNotMatchTrueResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_integer_one_is_valid_passes
+        # integer one is valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                1
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_enum_with1_does_not_match_true_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postEnumWith1DoesNotMatchTrueResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_float_one_is_valid_passes
+        # float one is valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                1.0
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_enum_with1_does_not_match_true_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postEnumWith1DoesNotMatchTrueResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+
         pass
 
     def test_post_enum_with_escaped_characters_request_body(self):
@@ -2650,11 +4979,11 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_member2_is_valid_passes
         # member 2 is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 "foo\rbar"
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -2669,23 +4998,22 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postEnumWithEscapedCharactersRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_member1_is_valid_passes
         # member 1 is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 "foo\nbar"
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -2700,24 +5028,23 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postEnumWithEscapedCharactersRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_another_string_is_invalid_fails
         # another string is invalid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 "abc"
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    "abc",
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_enum_with_escaped_characters_request_body(body=body)
@@ -2730,7 +5057,90 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         """
         from unit_test_api.api.path_post_api_endpoints import post_enum_with_escaped_characters_response_body_for_content_types as endpoint_module
         response_status = 200
-        # TODO get response content working
+        accept_content_type = 'application/json'
+
+
+        # test_member2_is_valid_passes
+        # member 2 is valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                "foo\rbar"
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_enum_with_escaped_characters_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postEnumWithEscapedCharactersResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_member1_is_valid_passes
+        # member 1 is valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                "foo\nbar"
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_enum_with_escaped_characters_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postEnumWithEscapedCharactersResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_another_string_is_invalid_fails
+        # another string is invalid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                "abc"
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_enum_with_escaped_characters_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postEnumWithEscapedCharactersResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+
         pass
 
     def test_post_enum_with_false_does_not_match0_request_body(self):
@@ -2745,11 +5155,11 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_false_is_valid_passes
         # false is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 False
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -2764,24 +5174,23 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postEnumWithFalseDoesNotMatch0RequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_float_zero_is_invalid_fails
         # float zero is invalid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 0.0
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    0.0,
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_enum_with_false_does_not_match0_request_body(body=body)
@@ -2789,12 +5198,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_integer_zero_is_invalid_fails
         # integer zero is invalid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 0
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    0,
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_enum_with_false_does_not_match0_request_body(body=body)
@@ -2807,7 +5216,83 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         """
         from unit_test_api.api.path_post_api_endpoints import post_enum_with_false_does_not_match0_response_body_for_content_types as endpoint_module
         response_status = 200
-        # TODO get response content working
+        accept_content_type = 'application/json'
+
+
+        # test_false_is_valid_passes
+        # false is valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                False
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_enum_with_false_does_not_match0_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postEnumWithFalseDoesNotMatch0ResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_float_zero_is_invalid_fails
+        # float zero is invalid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                0.0
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_enum_with_false_does_not_match0_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postEnumWithFalseDoesNotMatch0ResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_integer_zero_is_invalid_fails
+        # integer zero is invalid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                0
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_enum_with_false_does_not_match0_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postEnumWithFalseDoesNotMatch0ResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+
         pass
 
     def test_post_enum_with_true_does_not_match1_request_body(self):
@@ -2822,12 +5307,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_float_one_is_invalid_fails
         # float one is invalid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 1.0
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    1.0,
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_enum_with_true_does_not_match1_request_body(body=body)
@@ -2835,11 +5320,11 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_true_is_valid_passes
         # true is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 True
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -2854,24 +5339,23 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postEnumWithTrueDoesNotMatch1RequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_integer_one_is_invalid_fails
         # integer one is invalid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 1
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    1,
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_enum_with_true_does_not_match1_request_body(body=body)
@@ -2884,7 +5368,83 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         """
         from unit_test_api.api.path_post_api_endpoints import post_enum_with_true_does_not_match1_response_body_for_content_types as endpoint_module
         response_status = 200
-        # TODO get response content working
+        accept_content_type = 'application/json'
+
+
+        # test_float_one_is_invalid_fails
+        # float one is invalid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                1.0
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_enum_with_true_does_not_match1_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postEnumWithTrueDoesNotMatch1ResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_true_is_valid_passes
+        # true is valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                True
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_enum_with_true_does_not_match1_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postEnumWithTrueDoesNotMatch1ResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_integer_one_is_invalid_fails
+        # integer one is invalid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                1
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_enum_with_true_does_not_match1_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postEnumWithTrueDoesNotMatch1ResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+
         pass
 
     def test_post_enums_in_properties_request_body(self):
@@ -2899,14 +5459,14 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_missing_optional_property_is_valid_passes
         # missing optional property is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                     "bar":
                         "bar",
                 }
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -2921,19 +5481,18 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postEnumsInPropertiesRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_wrong_foo_value_fails
         # wrong foo value
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                     "foo":
                         "foot",
@@ -2943,12 +5502,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    {
-                        "foo":
-                            "foot",
-                        "bar":
-                            "bar",
-                    },
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_enums_in_properties_request_body(body=body)
@@ -2956,7 +5510,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_both_properties_are_valid_passes
         # both properties are valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                     "foo":
                         "foo",
@@ -2965,7 +5519,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 }
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -2980,19 +5534,18 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postEnumsInPropertiesRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_wrong_bar_value_fails
         # wrong bar value
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                     "foo":
                         "foo",
@@ -3002,12 +5555,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    {
-                        "foo":
-                            "foo",
-                        "bar":
-                            "bart",
-                    },
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_enums_in_properties_request_body(body=body)
@@ -3015,14 +5563,13 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_missing_all_properties_is_invalid_fails
         # missing all properties is invalid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                 }
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    {
-                    },
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_enums_in_properties_request_body(body=body)
@@ -3030,7 +5577,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_missing_required_property_is_invalid_fails
         # missing required property is invalid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                     "foo":
                         "foo",
@@ -3038,10 +5585,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    {
-                        "foo":
-                            "foo",
-                    },
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_enums_in_properties_request_body(body=body)
@@ -3054,7 +5598,178 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         """
         from unit_test_api.api.path_post_api_endpoints import post_enums_in_properties_response_body_for_content_types as endpoint_module
         response_status = 200
-        # TODO get response content working
+        accept_content_type = 'application/json'
+
+
+        # test_missing_optional_property_is_valid_passes
+        # missing optional property is valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                    "bar":
+                        "bar",
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_enums_in_properties_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postEnumsInPropertiesResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_wrong_foo_value_fails
+        # wrong foo value
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                    "foo":
+                        "foot",
+                    "bar":
+                        "bar",
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_enums_in_properties_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postEnumsInPropertiesResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_both_properties_are_valid_passes
+        # both properties are valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                    "foo":
+                        "foo",
+                    "bar":
+                        "bar",
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_enums_in_properties_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postEnumsInPropertiesResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_wrong_bar_value_fails
+        # wrong bar value
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                    "foo":
+                        "foo",
+                    "bar":
+                        "bart",
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_enums_in_properties_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postEnumsInPropertiesResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_missing_all_properties_is_invalid_fails
+        # missing all properties is invalid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_enums_in_properties_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postEnumsInPropertiesResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_missing_required_property_is_invalid_fails
+        # missing required property is invalid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                    "foo":
+                        "foo",
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_enums_in_properties_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postEnumsInPropertiesResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+
         pass
 
     def test_post_forbidden_property_request_body(self):
@@ -3069,7 +5784,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_property_present_fails
         # property present
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                     "foo":
                         1,
@@ -3079,12 +5794,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    {
-                        "foo":
-                            1,
-                        "bar":
-                            2,
-                    },
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_forbidden_property_request_body(body=body)
@@ -3092,7 +5802,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_property_absent_passes
         # property absent
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                     "bar":
                         1,
@@ -3101,7 +5811,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 }
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -3116,13 +5826,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postForbiddenPropertyRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
 
@@ -3133,7 +5842,71 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         """
         from unit_test_api.api.path_post_api_endpoints import post_forbidden_property_response_body_for_content_types as endpoint_module
         response_status = 200
-        # TODO get response content working
+        accept_content_type = 'application/json'
+
+
+        # test_property_present_fails
+        # property present
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                    "foo":
+                        1,
+                    "bar":
+                        2,
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_forbidden_property_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postForbiddenPropertyResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_property_absent_passes
+        # property absent
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                    "bar":
+                        1,
+                    "baz":
+                        2,
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_forbidden_property_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postForbiddenPropertyResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+
         pass
 
     def test_post_hostname_format_request_body(self):
@@ -3148,12 +5921,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_all_string_formats_ignore_objects_passes
         # all string formats ignore objects
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                 }
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -3168,23 +5941,22 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postHostnameFormatRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_all_string_formats_ignore_booleans_passes
         # all string formats ignore booleans
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 False
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -3199,23 +5971,22 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postHostnameFormatRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_all_string_formats_ignore_integers_passes
         # all string formats ignore integers
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 12
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -3230,23 +6001,22 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postHostnameFormatRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_all_string_formats_ignore_floats_passes
         # all string formats ignore floats
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 13.7
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -3261,24 +6031,23 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postHostnameFormatRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_all_string_formats_ignore_arrays_passes
         # all string formats ignore arrays
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 [
                 ]
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -3293,23 +6062,22 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postHostnameFormatRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_all_string_formats_ignore_nulls_passes
         # all string formats ignore nulls
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 None
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -3324,13 +6092,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postHostnameFormatRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
 
@@ -3341,7 +6108,186 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         """
         from unit_test_api.api.path_post_api_endpoints import post_hostname_format_response_body_for_content_types as endpoint_module
         response_status = 200
-        # TODO get response content working
+        accept_content_type = 'application/json'
+
+
+        # test_all_string_formats_ignore_objects_passes
+        # all string formats ignore objects
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_hostname_format_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postHostnameFormatResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_all_string_formats_ignore_booleans_passes
+        # all string formats ignore booleans
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                False
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_hostname_format_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postHostnameFormatResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_all_string_formats_ignore_integers_passes
+        # all string formats ignore integers
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                12
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_hostname_format_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postHostnameFormatResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_all_string_formats_ignore_floats_passes
+        # all string formats ignore floats
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                13.7
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_hostname_format_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postHostnameFormatResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_all_string_formats_ignore_arrays_passes
+        # all string formats ignore arrays
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                [
+                ]
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_hostname_format_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postHostnameFormatResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_all_string_formats_ignore_nulls_passes
+        # all string formats ignore nulls
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                None
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_hostname_format_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postHostnameFormatResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+
         pass
 
     def test_post_integer_type_matches_integers_request_body(self):
@@ -3356,14 +6302,13 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_an_object_is_not_an_integer_fails
         # an object is not an integer
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                 }
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    {
-                    },
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_integer_type_matches_integers_request_body(body=body)
@@ -3371,12 +6316,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_a_string_is_not_an_integer_fails
         # a string is not an integer
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 "foo"
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    "foo",
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_integer_type_matches_integers_request_body(body=body)
@@ -3384,12 +6329,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_null_is_not_an_integer_fails
         # null is not an integer
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 None
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    None,
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_integer_type_matches_integers_request_body(body=body)
@@ -3397,11 +6342,11 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_a_float_with_zero_fractional_part_is_an_integer_passes
         # a float with zero fractional part is an integer
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 1.0
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -3416,24 +6361,23 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postIntegerTypeMatchesIntegersRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_a_float_is_not_an_integer_fails
         # a float is not an integer
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 1.1
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    1.1,
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_integer_type_matches_integers_request_body(body=body)
@@ -3441,12 +6385,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_a_boolean_is_not_an_integer_fails
         # a boolean is not an integer
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 True
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    True,
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_integer_type_matches_integers_request_body(body=body)
@@ -3454,11 +6398,11 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_an_integer_is_an_integer_passes
         # an integer is an integer
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 1
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -3473,24 +6417,23 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postIntegerTypeMatchesIntegersRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_a_string_is_still_not_an_integer_even_if_it_looks_like_one_fails
         # a string is still not an integer, even if it looks like one
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 "1"
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    "1",
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_integer_type_matches_integers_request_body(body=body)
@@ -3498,14 +6441,13 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_an_array_is_not_an_integer_fails
         # an array is not an integer
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 [
                 ]
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    [
-                    ],
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_integer_type_matches_integers_request_body(body=body)
@@ -3518,7 +6460,224 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         """
         from unit_test_api.api.path_post_api_endpoints import post_integer_type_matches_integers_response_body_for_content_types as endpoint_module
         response_status = 200
-        # TODO get response content working
+        accept_content_type = 'application/json'
+
+
+        # test_an_object_is_not_an_integer_fails
+        # an object is not an integer
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_integer_type_matches_integers_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postIntegerTypeMatchesIntegersResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_a_string_is_not_an_integer_fails
+        # a string is not an integer
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                "foo"
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_integer_type_matches_integers_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postIntegerTypeMatchesIntegersResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_null_is_not_an_integer_fails
+        # null is not an integer
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                None
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_integer_type_matches_integers_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postIntegerTypeMatchesIntegersResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_a_float_with_zero_fractional_part_is_an_integer_passes
+        # a float with zero fractional part is an integer
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                1.0
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_integer_type_matches_integers_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postIntegerTypeMatchesIntegersResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_a_float_is_not_an_integer_fails
+        # a float is not an integer
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                1.1
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_integer_type_matches_integers_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postIntegerTypeMatchesIntegersResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_a_boolean_is_not_an_integer_fails
+        # a boolean is not an integer
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                True
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_integer_type_matches_integers_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postIntegerTypeMatchesIntegersResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_an_integer_is_an_integer_passes
+        # an integer is an integer
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                1
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_integer_type_matches_integers_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postIntegerTypeMatchesIntegersResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_a_string_is_still_not_an_integer_even_if_it_looks_like_one_fails
+        # a string is still not an integer, even if it looks like one
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                "1"
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_integer_type_matches_integers_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postIntegerTypeMatchesIntegersResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_an_array_is_not_an_integer_fails
+        # an array is not an integer
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                [
+                ]
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_integer_type_matches_integers_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postIntegerTypeMatchesIntegersResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+
         pass
 
     def test_post_invalid_instance_should_not_raise_error_when_float_division_inf_request_body(self):
@@ -3533,12 +6692,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_always_invalid_but_naive_implementations_may_raise_an_overflow_error_fails
         # always invalid, but naive implementations may raise an overflow error
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 1.0E308
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    1.0E308,
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_invalid_instance_should_not_raise_error_when_float_division_inf_request_body(body=body)
@@ -3551,7 +6710,32 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         """
         from unit_test_api.api.path_post_api_endpoints import post_invalid_instance_should_not_raise_error_when_float_division_inf_response_body_for_content_types as endpoint_module
         response_status = 200
-        # TODO get response content working
+        accept_content_type = 'application/json'
+
+
+        # test_always_invalid_but_naive_implementations_may_raise_an_overflow_error_fails
+        # always invalid, but naive implementations may raise an overflow error
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                1.0E308
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_invalid_instance_should_not_raise_error_when_float_division_inf_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postInvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInfResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+
         pass
 
     def test_post_invalid_string_value_for_default_request_body(self):
@@ -3566,14 +6750,14 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_valid_when_property_is_specified_passes
         # valid when property is specified
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                     "bar":
                         "good",
                 }
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -3588,24 +6772,23 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postInvalidStringValueForDefaultRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_still_valid_when_the_invalid_default_is_used_passes
         # still valid when the invalid default is used
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                 }
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -3620,13 +6803,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postInvalidStringValueForDefaultRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
 
@@ -3637,7 +6819,72 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         """
         from unit_test_api.api.path_post_api_endpoints import post_invalid_string_value_for_default_response_body_for_content_types as endpoint_module
         response_status = 200
-        # TODO get response content working
+        accept_content_type = 'application/json'
+
+
+        # test_valid_when_property_is_specified_passes
+        # valid when property is specified
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                    "bar":
+                        "good",
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_invalid_string_value_for_default_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postInvalidStringValueForDefaultResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_still_valid_when_the_invalid_default_is_used_passes
+        # still valid when the invalid default is used
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_invalid_string_value_for_default_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postInvalidStringValueForDefaultResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+
         pass
 
     def test_post_ipv4_format_request_body(self):
@@ -3652,12 +6899,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_all_string_formats_ignore_objects_passes
         # all string formats ignore objects
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                 }
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -3672,23 +6919,22 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postIpv4FormatRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_all_string_formats_ignore_booleans_passes
         # all string formats ignore booleans
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 False
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -3703,23 +6949,22 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postIpv4FormatRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_all_string_formats_ignore_integers_passes
         # all string formats ignore integers
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 12
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -3734,23 +6979,22 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postIpv4FormatRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_all_string_formats_ignore_floats_passes
         # all string formats ignore floats
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 13.7
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -3765,24 +7009,23 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postIpv4FormatRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_all_string_formats_ignore_arrays_passes
         # all string formats ignore arrays
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 [
                 ]
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -3797,23 +7040,22 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postIpv4FormatRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_all_string_formats_ignore_nulls_passes
         # all string formats ignore nulls
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 None
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -3828,13 +7070,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postIpv4FormatRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
 
@@ -3845,7 +7086,186 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         """
         from unit_test_api.api.path_post_api_endpoints import post_ipv4_format_response_body_for_content_types as endpoint_module
         response_status = 200
-        # TODO get response content working
+        accept_content_type = 'application/json'
+
+
+        # test_all_string_formats_ignore_objects_passes
+        # all string formats ignore objects
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_ipv4_format_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postIpv4FormatResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_all_string_formats_ignore_booleans_passes
+        # all string formats ignore booleans
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                False
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_ipv4_format_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postIpv4FormatResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_all_string_formats_ignore_integers_passes
+        # all string formats ignore integers
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                12
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_ipv4_format_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postIpv4FormatResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_all_string_formats_ignore_floats_passes
+        # all string formats ignore floats
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                13.7
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_ipv4_format_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postIpv4FormatResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_all_string_formats_ignore_arrays_passes
+        # all string formats ignore arrays
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                [
+                ]
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_ipv4_format_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postIpv4FormatResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_all_string_formats_ignore_nulls_passes
+        # all string formats ignore nulls
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                None
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_ipv4_format_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postIpv4FormatResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+
         pass
 
     def test_post_ipv6_format_request_body(self):
@@ -3860,12 +7280,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_all_string_formats_ignore_objects_passes
         # all string formats ignore objects
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                 }
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -3880,23 +7300,22 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postIpv6FormatRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_all_string_formats_ignore_booleans_passes
         # all string formats ignore booleans
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 False
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -3911,23 +7330,22 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postIpv6FormatRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_all_string_formats_ignore_integers_passes
         # all string formats ignore integers
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 12
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -3942,23 +7360,22 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postIpv6FormatRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_all_string_formats_ignore_floats_passes
         # all string formats ignore floats
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 13.7
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -3973,24 +7390,23 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postIpv6FormatRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_all_string_formats_ignore_arrays_passes
         # all string formats ignore arrays
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 [
                 ]
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -4005,23 +7421,22 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postIpv6FormatRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_all_string_formats_ignore_nulls_passes
         # all string formats ignore nulls
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 None
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -4036,13 +7451,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postIpv6FormatRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
 
@@ -4053,7 +7467,186 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         """
         from unit_test_api.api.path_post_api_endpoints import post_ipv6_format_response_body_for_content_types as endpoint_module
         response_status = 200
-        # TODO get response content working
+        accept_content_type = 'application/json'
+
+
+        # test_all_string_formats_ignore_objects_passes
+        # all string formats ignore objects
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_ipv6_format_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postIpv6FormatResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_all_string_formats_ignore_booleans_passes
+        # all string formats ignore booleans
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                False
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_ipv6_format_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postIpv6FormatResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_all_string_formats_ignore_integers_passes
+        # all string formats ignore integers
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                12
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_ipv6_format_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postIpv6FormatResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_all_string_formats_ignore_floats_passes
+        # all string formats ignore floats
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                13.7
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_ipv6_format_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postIpv6FormatResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_all_string_formats_ignore_arrays_passes
+        # all string formats ignore arrays
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                [
+                ]
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_ipv6_format_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postIpv6FormatResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_all_string_formats_ignore_nulls_passes
+        # all string formats ignore nulls
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                None
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_ipv6_format_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postIpv6FormatResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+
         pass
 
     def test_post_json_pointer_format_request_body(self):
@@ -4068,12 +7661,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_all_string_formats_ignore_objects_passes
         # all string formats ignore objects
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                 }
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -4088,23 +7681,22 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postJsonPointerFormatRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_all_string_formats_ignore_booleans_passes
         # all string formats ignore booleans
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 False
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -4119,23 +7711,22 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postJsonPointerFormatRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_all_string_formats_ignore_integers_passes
         # all string formats ignore integers
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 12
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -4150,23 +7741,22 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postJsonPointerFormatRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_all_string_formats_ignore_floats_passes
         # all string formats ignore floats
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 13.7
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -4181,24 +7771,23 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postJsonPointerFormatRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_all_string_formats_ignore_arrays_passes
         # all string formats ignore arrays
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 [
                 ]
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -4213,23 +7802,22 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postJsonPointerFormatRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_all_string_formats_ignore_nulls_passes
         # all string formats ignore nulls
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 None
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -4244,13 +7832,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postJsonPointerFormatRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
 
@@ -4261,7 +7848,186 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         """
         from unit_test_api.api.path_post_api_endpoints import post_json_pointer_format_response_body_for_content_types as endpoint_module
         response_status = 200
-        # TODO get response content working
+        accept_content_type = 'application/json'
+
+
+        # test_all_string_formats_ignore_objects_passes
+        # all string formats ignore objects
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_json_pointer_format_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postJsonPointerFormatResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_all_string_formats_ignore_booleans_passes
+        # all string formats ignore booleans
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                False
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_json_pointer_format_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postJsonPointerFormatResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_all_string_formats_ignore_integers_passes
+        # all string formats ignore integers
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                12
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_json_pointer_format_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postJsonPointerFormatResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_all_string_formats_ignore_floats_passes
+        # all string formats ignore floats
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                13.7
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_json_pointer_format_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postJsonPointerFormatResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_all_string_formats_ignore_arrays_passes
+        # all string formats ignore arrays
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                [
+                ]
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_json_pointer_format_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postJsonPointerFormatResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_all_string_formats_ignore_nulls_passes
+        # all string formats ignore nulls
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                None
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_json_pointer_format_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postJsonPointerFormatResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+
         pass
 
     def test_post_maximum_validation_request_body(self):
@@ -4276,11 +8042,11 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_below_the_maximum_is_valid_passes
         # below the maximum is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 2.6
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -4295,23 +8061,22 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postMaximumValidationRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_boundary_point_is_valid_passes
         # boundary point is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 3.0
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -4326,24 +8091,23 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postMaximumValidationRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_above_the_maximum_is_invalid_fails
         # above the maximum is invalid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 3.5
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    3.5,
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_maximum_validation_request_body(body=body)
@@ -4351,11 +8115,11 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_ignores_non_numbers_passes
         # ignores non-numbers
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 "x"
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -4370,13 +8134,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postMaximumValidationRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
 
@@ -4387,7 +8150,119 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         """
         from unit_test_api.api.path_post_api_endpoints import post_maximum_validation_response_body_for_content_types as endpoint_module
         response_status = 200
-        # TODO get response content working
+        accept_content_type = 'application/json'
+
+
+        # test_below_the_maximum_is_valid_passes
+        # below the maximum is valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                2.6
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_maximum_validation_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postMaximumValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_boundary_point_is_valid_passes
+        # boundary point is valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                3.0
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_maximum_validation_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postMaximumValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_above_the_maximum_is_invalid_fails
+        # above the maximum is invalid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                3.5
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_maximum_validation_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postMaximumValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_ignores_non_numbers_passes
+        # ignores non-numbers
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                "x"
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_maximum_validation_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postMaximumValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+
         pass
 
     def test_post_maximum_validation_with_unsigned_integer_request_body(self):
@@ -4402,11 +8277,11 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_below_the_maximum_is_invalid_passes
         # below the maximum is invalid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 299.97
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -4421,24 +8296,23 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postMaximumValidationWithUnsignedIntegerRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_above_the_maximum_is_invalid_fails
         # above the maximum is invalid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 300.5
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    300.5,
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_maximum_validation_with_unsigned_integer_request_body(body=body)
@@ -4446,11 +8320,11 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_boundary_point_integer_is_valid_passes
         # boundary point integer is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 300
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -4465,23 +8339,22 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postMaximumValidationWithUnsignedIntegerRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_boundary_point_float_is_valid_passes
         # boundary point float is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 300.0
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -4496,13 +8369,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postMaximumValidationWithUnsignedIntegerRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
 
@@ -4513,7 +8385,119 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         """
         from unit_test_api.api.path_post_api_endpoints import post_maximum_validation_with_unsigned_integer_response_body_for_content_types as endpoint_module
         response_status = 200
-        # TODO get response content working
+        accept_content_type = 'application/json'
+
+
+        # test_below_the_maximum_is_invalid_passes
+        # below the maximum is invalid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                299.97
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_maximum_validation_with_unsigned_integer_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postMaximumValidationWithUnsignedIntegerResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_above_the_maximum_is_invalid_fails
+        # above the maximum is invalid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                300.5
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_maximum_validation_with_unsigned_integer_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postMaximumValidationWithUnsignedIntegerResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_boundary_point_integer_is_valid_passes
+        # boundary point integer is valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                300
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_maximum_validation_with_unsigned_integer_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postMaximumValidationWithUnsignedIntegerResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_boundary_point_float_is_valid_passes
+        # boundary point float is valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                300.0
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_maximum_validation_with_unsigned_integer_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postMaximumValidationWithUnsignedIntegerResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+
         pass
 
     def test_post_maxitems_validation_request_body(self):
@@ -4528,7 +8512,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_too_long_is_invalid_fails
         # too long is invalid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 [
                     1,
                     2,
@@ -4537,11 +8521,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    [
-                        1,
-                        2,
-                        3,
-                    ],
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_maxitems_validation_request_body(body=body)
@@ -4549,11 +8529,11 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_ignores_non_arrays_passes
         # ignores non-arrays
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 "foobar"
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -4568,25 +8548,24 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postMaxitemsValidationRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_shorter_is_valid_passes
         # shorter is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 [
                     1,
                 ]
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -4601,26 +8580,25 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postMaxitemsValidationRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_exact_length_is_valid_passes
         # exact length is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 [
                     1,
                     2,
                 ]
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -4635,13 +8613,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postMaxitemsValidationRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
 
@@ -4652,7 +8629,128 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         """
         from unit_test_api.api.path_post_api_endpoints import post_maxitems_validation_response_body_for_content_types as endpoint_module
         response_status = 200
-        # TODO get response content working
+        accept_content_type = 'application/json'
+
+
+        # test_too_long_is_invalid_fails
+        # too long is invalid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                [
+                    1,
+                    2,
+                    3,
+                ]
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_maxitems_validation_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postMaxitemsValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_ignores_non_arrays_passes
+        # ignores non-arrays
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                "foobar"
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_maxitems_validation_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postMaxitemsValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_shorter_is_valid_passes
+        # shorter is valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                [
+                    1,
+                ]
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_maxitems_validation_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postMaxitemsValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_exact_length_is_valid_passes
+        # exact length is valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                [
+                    1,
+                    2,
+                ]
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_maxitems_validation_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postMaxitemsValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+
         pass
 
     def test_post_maxlength_validation_request_body(self):
@@ -4667,12 +8765,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_too_long_is_invalid_fails
         # too long is invalid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 "foo"
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    "foo",
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_maxlength_validation_request_body(body=body)
@@ -4680,11 +8778,11 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_ignores_non_strings_passes
         # ignores non-strings
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 100
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -4699,23 +8797,22 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postMaxlengthValidationRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_shorter_is_valid_passes
         # shorter is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 "f"
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -4730,23 +8827,22 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postMaxlengthValidationRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_two_supplementary_unicode_code_points_is_long_enough_passes
         # two supplementary Unicode code points is long enough
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 "💩💩"
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -4761,23 +8857,22 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postMaxlengthValidationRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_exact_length_is_valid_passes
         # exact length is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 "fo"
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -4792,13 +8887,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postMaxlengthValidationRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
 
@@ -4809,7 +8903,148 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         """
         from unit_test_api.api.path_post_api_endpoints import post_maxlength_validation_response_body_for_content_types as endpoint_module
         response_status = 200
-        # TODO get response content working
+        accept_content_type = 'application/json'
+
+
+        # test_too_long_is_invalid_fails
+        # too long is invalid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                "foo"
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_maxlength_validation_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postMaxlengthValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_ignores_non_strings_passes
+        # ignores non-strings
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                100
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_maxlength_validation_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postMaxlengthValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_shorter_is_valid_passes
+        # shorter is valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                "f"
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_maxlength_validation_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postMaxlengthValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_two_supplementary_unicode_code_points_is_long_enough_passes
+        # two supplementary Unicode code points is long enough
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                "💩💩"
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_maxlength_validation_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postMaxlengthValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_exact_length_is_valid_passes
+        # exact length is valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                "fo"
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_maxlength_validation_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postMaxlengthValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+
         pass
 
     def test_post_maxproperties0_means_the_object_is_empty_request_body(self):
@@ -4824,12 +9059,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_no_properties_is_valid_passes
         # no properties is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                 }
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -4844,19 +9079,18 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postMaxproperties0MeansTheObjectIsEmptyRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_one_property_is_invalid_fails
         # one property is invalid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                     "foo":
                         1,
@@ -4864,10 +9098,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    {
-                        "foo":
-                            1,
-                    },
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_maxproperties0_means_the_object_is_empty_request_body(body=body)
@@ -4880,7 +9111,65 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         """
         from unit_test_api.api.path_post_api_endpoints import post_maxproperties0_means_the_object_is_empty_response_body_for_content_types as endpoint_module
         response_status = 200
-        # TODO get response content working
+        accept_content_type = 'application/json'
+
+
+        # test_no_properties_is_valid_passes
+        # no properties is valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_maxproperties0_means_the_object_is_empty_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postMaxproperties0MeansTheObjectIsEmptyResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_one_property_is_invalid_fails
+        # one property is invalid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                    "foo":
+                        1,
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_maxproperties0_means_the_object_is_empty_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postMaxproperties0MeansTheObjectIsEmptyResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+
         pass
 
     def test_post_maxproperties_validation_request_body(self):
@@ -4895,7 +9184,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_too_long_is_invalid_fails
         # too long is invalid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                     "foo":
                         1,
@@ -4907,14 +9196,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    {
-                        "foo":
-                            1,
-                        "bar":
-                            2,
-                        "baz":
-                            3,
-                    },
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_maxproperties_validation_request_body(body=body)
@@ -4922,7 +9204,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_ignores_arrays_passes
         # ignores arrays
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 [
                     1,
                     2,
@@ -4930,7 +9212,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 ]
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -4945,23 +9227,22 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postMaxpropertiesValidationRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_ignores_other_non_objects_passes
         # ignores other non-objects
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 12
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -4976,23 +9257,22 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postMaxpropertiesValidationRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_ignores_strings_passes
         # ignores strings
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 "foobar"
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -5007,26 +9287,25 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postMaxpropertiesValidationRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_shorter_is_valid_passes
         # shorter is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                     "foo":
                         1,
                 }
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -5041,19 +9320,18 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postMaxpropertiesValidationRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_exact_length_is_valid_passes
         # exact length is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                     "foo":
                         1,
@@ -5062,7 +9340,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 }
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -5077,13 +9355,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postMaxpropertiesValidationRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
 
@@ -5094,7 +9371,196 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         """
         from unit_test_api.api.path_post_api_endpoints import post_maxproperties_validation_response_body_for_content_types as endpoint_module
         response_status = 200
-        # TODO get response content working
+        accept_content_type = 'application/json'
+
+
+        # test_too_long_is_invalid_fails
+        # too long is invalid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                    "foo":
+                        1,
+                    "bar":
+                        2,
+                    "baz":
+                        3,
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_maxproperties_validation_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postMaxpropertiesValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_ignores_arrays_passes
+        # ignores arrays
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                [
+                    1,
+                    2,
+                    3,
+                ]
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_maxproperties_validation_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postMaxpropertiesValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_ignores_other_non_objects_passes
+        # ignores other non-objects
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                12
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_maxproperties_validation_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postMaxpropertiesValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_ignores_strings_passes
+        # ignores strings
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                "foobar"
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_maxproperties_validation_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postMaxpropertiesValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_shorter_is_valid_passes
+        # shorter is valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                    "foo":
+                        1,
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_maxproperties_validation_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postMaxpropertiesValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_exact_length_is_valid_passes
+        # exact length is valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                    "foo":
+                        1,
+                    "bar":
+                        2,
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_maxproperties_validation_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postMaxpropertiesValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+
         pass
 
     def test_post_minimum_validation_request_body(self):
@@ -5109,11 +9575,11 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_boundary_point_is_valid_passes
         # boundary point is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 1.1
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -5128,24 +9594,23 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postMinimumValidationRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_below_the_minimum_is_invalid_fails
         # below the minimum is invalid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 0.6
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    0.6,
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_minimum_validation_request_body(body=body)
@@ -5153,11 +9618,11 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_above_the_minimum_is_valid_passes
         # above the minimum is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 2.6
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -5172,23 +9637,22 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postMinimumValidationRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_ignores_non_numbers_passes
         # ignores non-numbers
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 "x"
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -5203,13 +9667,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postMinimumValidationRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
 
@@ -5220,7 +9683,119 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         """
         from unit_test_api.api.path_post_api_endpoints import post_minimum_validation_response_body_for_content_types as endpoint_module
         response_status = 200
-        # TODO get response content working
+        accept_content_type = 'application/json'
+
+
+        # test_boundary_point_is_valid_passes
+        # boundary point is valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                1.1
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_minimum_validation_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postMinimumValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_below_the_minimum_is_invalid_fails
+        # below the minimum is invalid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                0.6
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_minimum_validation_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postMinimumValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_above_the_minimum_is_valid_passes
+        # above the minimum is valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                2.6
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_minimum_validation_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postMinimumValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_ignores_non_numbers_passes
+        # ignores non-numbers
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                "x"
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_minimum_validation_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postMinimumValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+
         pass
 
     def test_post_minimum_validation_with_signed_integer_request_body(self):
@@ -5235,11 +9810,11 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_boundary_point_is_valid_passes
         # boundary point is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 -2
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -5254,23 +9829,22 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postMinimumValidationWithSignedIntegerRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_positive_above_the_minimum_is_valid_passes
         # positive above the minimum is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 0
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -5285,24 +9859,23 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postMinimumValidationWithSignedIntegerRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_int_below_the_minimum_is_invalid_fails
         # int below the minimum is invalid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 -3
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    -3,
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_minimum_validation_with_signed_integer_request_body(body=body)
@@ -5310,12 +9883,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_float_below_the_minimum_is_invalid_fails
         # float below the minimum is invalid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 -2.0001
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    -2.0001,
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_minimum_validation_with_signed_integer_request_body(body=body)
@@ -5323,11 +9896,11 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_boundary_point_with_float_is_valid_passes
         # boundary point with float is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 -2.0
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -5342,23 +9915,22 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postMinimumValidationWithSignedIntegerRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_negative_above_the_minimum_is_valid_passes
         # negative above the minimum is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 -1
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -5373,23 +9945,22 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postMinimumValidationWithSignedIntegerRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_ignores_non_numbers_passes
         # ignores non-numbers
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 "x"
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -5404,13 +9975,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postMinimumValidationWithSignedIntegerRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
 
@@ -5421,7 +9991,199 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         """
         from unit_test_api.api.path_post_api_endpoints import post_minimum_validation_with_signed_integer_response_body_for_content_types as endpoint_module
         response_status = 200
-        # TODO get response content working
+        accept_content_type = 'application/json'
+
+
+        # test_boundary_point_is_valid_passes
+        # boundary point is valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                -2
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_minimum_validation_with_signed_integer_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postMinimumValidationWithSignedIntegerResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_positive_above_the_minimum_is_valid_passes
+        # positive above the minimum is valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                0
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_minimum_validation_with_signed_integer_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postMinimumValidationWithSignedIntegerResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_int_below_the_minimum_is_invalid_fails
+        # int below the minimum is invalid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                -3
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_minimum_validation_with_signed_integer_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postMinimumValidationWithSignedIntegerResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_float_below_the_minimum_is_invalid_fails
+        # float below the minimum is invalid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                -2.0001
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_minimum_validation_with_signed_integer_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postMinimumValidationWithSignedIntegerResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_boundary_point_with_float_is_valid_passes
+        # boundary point with float is valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                -2.0
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_minimum_validation_with_signed_integer_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postMinimumValidationWithSignedIntegerResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_negative_above_the_minimum_is_valid_passes
+        # negative above the minimum is valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                -1
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_minimum_validation_with_signed_integer_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postMinimumValidationWithSignedIntegerResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_ignores_non_numbers_passes
+        # ignores non-numbers
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                "x"
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_minimum_validation_with_signed_integer_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postMinimumValidationWithSignedIntegerResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+
         pass
 
     def test_post_minitems_validation_request_body(self):
@@ -5436,14 +10198,13 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_too_short_is_invalid_fails
         # too short is invalid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 [
                 ]
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    [
-                    ],
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_minitems_validation_request_body(body=body)
@@ -5451,11 +10212,11 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_ignores_non_arrays_passes
         # ignores non-arrays
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 ""
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -5470,26 +10231,25 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postMinitemsValidationRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_longer_is_valid_passes
         # longer is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 [
                     1,
                     2,
                 ]
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -5504,25 +10264,24 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postMinitemsValidationRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_exact_length_is_valid_passes
         # exact length is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 [
                     1,
                 ]
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -5537,13 +10296,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postMinitemsValidationRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
 
@@ -5554,7 +10312,125 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         """
         from unit_test_api.api.path_post_api_endpoints import post_minitems_validation_response_body_for_content_types as endpoint_module
         response_status = 200
-        # TODO get response content working
+        accept_content_type = 'application/json'
+
+
+        # test_too_short_is_invalid_fails
+        # too short is invalid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                [
+                ]
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_minitems_validation_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postMinitemsValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_ignores_non_arrays_passes
+        # ignores non-arrays
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                ""
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_minitems_validation_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postMinitemsValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_longer_is_valid_passes
+        # longer is valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                [
+                    1,
+                    2,
+                ]
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_minitems_validation_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postMinitemsValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_exact_length_is_valid_passes
+        # exact length is valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                [
+                    1,
+                ]
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_minitems_validation_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postMinitemsValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+
         pass
 
     def test_post_minlength_validation_request_body(self):
@@ -5569,12 +10445,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_too_short_is_invalid_fails
         # too short is invalid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 "f"
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    "f",
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_minlength_validation_request_body(body=body)
@@ -5582,12 +10458,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_one_supplementary_unicode_code_point_is_not_long_enough_fails
         # one supplementary Unicode code point is not long enough
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 "💩"
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    "💩",
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_minlength_validation_request_body(body=body)
@@ -5595,11 +10471,11 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_longer_is_valid_passes
         # longer is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 "foo"
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -5614,23 +10490,22 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postMinlengthValidationRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_ignores_non_strings_passes
         # ignores non-strings
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 1
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -5645,23 +10520,22 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postMinlengthValidationRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_exact_length_is_valid_passes
         # exact length is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 "fo"
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -5676,13 +10550,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postMinlengthValidationRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
 
@@ -5693,7 +10566,141 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         """
         from unit_test_api.api.path_post_api_endpoints import post_minlength_validation_response_body_for_content_types as endpoint_module
         response_status = 200
-        # TODO get response content working
+        accept_content_type = 'application/json'
+
+
+        # test_too_short_is_invalid_fails
+        # too short is invalid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                "f"
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_minlength_validation_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postMinlengthValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_one_supplementary_unicode_code_point_is_not_long_enough_fails
+        # one supplementary Unicode code point is not long enough
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                "💩"
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_minlength_validation_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postMinlengthValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_longer_is_valid_passes
+        # longer is valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                "foo"
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_minlength_validation_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postMinlengthValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_ignores_non_strings_passes
+        # ignores non-strings
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                1
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_minlength_validation_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postMinlengthValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_exact_length_is_valid_passes
+        # exact length is valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                "fo"
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_minlength_validation_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postMinlengthValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+
         pass
 
     def test_post_minproperties_validation_request_body(self):
@@ -5708,12 +10715,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_ignores_arrays_passes
         # ignores arrays
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 [
                 ]
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -5728,23 +10735,22 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postMinpropertiesValidationRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_ignores_other_non_objects_passes
         # ignores other non-objects
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 12
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -5759,26 +10765,24 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postMinpropertiesValidationRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_too_short_is_invalid_fails
         # too short is invalid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                 }
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    {
-                    },
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_minproperties_validation_request_body(body=body)
@@ -5786,11 +10790,11 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_ignores_strings_passes
         # ignores strings
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 ""
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -5805,19 +10809,18 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postMinpropertiesValidationRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_longer_is_valid_passes
         # longer is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                     "foo":
                         1,
@@ -5826,7 +10829,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 }
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -5841,26 +10844,25 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postMinpropertiesValidationRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_exact_length_is_valid_passes
         # exact length is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                     "foo":
                         1,
                 }
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -5875,13 +10877,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postMinpropertiesValidationRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
 
@@ -5892,7 +10893,187 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         """
         from unit_test_api.api.path_post_api_endpoints import post_minproperties_validation_response_body_for_content_types as endpoint_module
         response_status = 200
-        # TODO get response content working
+        accept_content_type = 'application/json'
+
+
+        # test_ignores_arrays_passes
+        # ignores arrays
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                [
+                ]
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_minproperties_validation_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postMinpropertiesValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_ignores_other_non_objects_passes
+        # ignores other non-objects
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                12
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_minproperties_validation_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postMinpropertiesValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_too_short_is_invalid_fails
+        # too short is invalid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_minproperties_validation_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postMinpropertiesValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_ignores_strings_passes
+        # ignores strings
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                ""
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_minproperties_validation_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postMinpropertiesValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_longer_is_valid_passes
+        # longer is valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                    "foo":
+                        1,
+                    "bar":
+                        2,
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_minproperties_validation_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postMinpropertiesValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_exact_length_is_valid_passes
+        # exact length is valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                    "foo":
+                        1,
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_minproperties_validation_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postMinpropertiesValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+
         pass
 
     def test_post_nested_allof_to_check_validation_semantics_request_body(self):
@@ -5907,12 +11088,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_anything_non_null_is_invalid_fails
         # anything non-null is invalid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 123
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    123,
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_nested_allof_to_check_validation_semantics_request_body(body=body)
@@ -5920,11 +11101,11 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_null_is_valid_passes
         # null is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 None
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -5939,13 +11120,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postNestedAllofToCheckValidationSemanticsRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
 
@@ -5956,7 +11136,61 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         """
         from unit_test_api.api.path_post_api_endpoints import post_nested_allof_to_check_validation_semantics_response_body_for_content_types as endpoint_module
         response_status = 200
-        # TODO get response content working
+        accept_content_type = 'application/json'
+
+
+        # test_anything_non_null_is_invalid_fails
+        # anything non-null is invalid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                123
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_nested_allof_to_check_validation_semantics_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postNestedAllofToCheckValidationSemanticsResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_null_is_valid_passes
+        # null is valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                None
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_nested_allof_to_check_validation_semantics_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postNestedAllofToCheckValidationSemanticsResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+
         pass
 
     def test_post_nested_anyof_to_check_validation_semantics_request_body(self):
@@ -5971,12 +11205,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_anything_non_null_is_invalid_fails
         # anything non-null is invalid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 123
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    123,
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_nested_anyof_to_check_validation_semantics_request_body(body=body)
@@ -5984,11 +11218,11 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_null_is_valid_passes
         # null is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 None
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -6003,13 +11237,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postNestedAnyofToCheckValidationSemanticsRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
 
@@ -6020,7 +11253,61 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         """
         from unit_test_api.api.path_post_api_endpoints import post_nested_anyof_to_check_validation_semantics_response_body_for_content_types as endpoint_module
         response_status = 200
-        # TODO get response content working
+        accept_content_type = 'application/json'
+
+
+        # test_anything_non_null_is_invalid_fails
+        # anything non-null is invalid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                123
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_nested_anyof_to_check_validation_semantics_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postNestedAnyofToCheckValidationSemanticsResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_null_is_valid_passes
+        # null is valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                None
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_nested_anyof_to_check_validation_semantics_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postNestedAnyofToCheckValidationSemanticsResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+
         pass
 
     def test_post_nested_items_request_body(self):
@@ -6035,7 +11322,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_valid_nested_array_passes
         # valid nested array
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 [
                     [
                         [
@@ -6068,7 +11355,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 ]
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -6083,19 +11370,18 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postNestedItemsRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_nested_array_with_invalid_type_fails
         # nested array with invalid type
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 [
                     [
                         [
@@ -6129,36 +11415,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    [
-                        [
-                            [
-                                [
-                                    "1",
-                                ],
-                            ],
-                            [
-                                [
-                                    2,
-                                ],
-                                [
-                                    3,
-                                ],
-                            ],
-                        ],
-                        [
-                            [
-                                [
-                                    4,
-                                ],
-                                [
-                                    5,
-                                ],
-                                [
-                                    6,
-                                ],
-                            ],
-                        ],
-                    ],
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_nested_items_request_body(body=body)
@@ -6166,7 +11423,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_not_deep_enough_fails
         # not deep enough
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 [
                     [
                         [
@@ -6194,30 +11451,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    [
-                        [
-                            [
-                                1,
-                            ],
-                            [
-                                2,
-                            ],
-                            [
-                                3,
-                            ],
-                        ],
-                        [
-                            [
-                                4,
-                            ],
-                            [
-                                5,
-                            ],
-                            [
-                                6,
-                            ],
-                        ],
-                    ],
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_nested_items_request_body(body=body)
@@ -6230,7 +11464,164 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         """
         from unit_test_api.api.path_post_api_endpoints import post_nested_items_response_body_for_content_types as endpoint_module
         response_status = 200
-        # TODO get response content working
+        accept_content_type = 'application/json'
+
+
+        # test_valid_nested_array_passes
+        # valid nested array
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                [
+                    [
+                        [
+                            [
+                                1,
+                            ],
+                        ],
+                        [
+                            [
+                                2,
+                            ],
+                            [
+                                3,
+                            ],
+                        ],
+                    ],
+                    [
+                        [
+                            [
+                                4,
+                            ],
+                            [
+                                5,
+                            ],
+                            [
+                                6,
+                            ],
+                        ],
+                    ],
+                ]
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_nested_items_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postNestedItemsResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_nested_array_with_invalid_type_fails
+        # nested array with invalid type
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                [
+                    [
+                        [
+                            [
+                                "1",
+                            ],
+                        ],
+                        [
+                            [
+                                2,
+                            ],
+                            [
+                                3,
+                            ],
+                        ],
+                    ],
+                    [
+                        [
+                            [
+                                4,
+                            ],
+                            [
+                                5,
+                            ],
+                            [
+                                6,
+                            ],
+                        ],
+                    ],
+                ]
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_nested_items_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postNestedItemsResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_not_deep_enough_fails
+        # not deep enough
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                [
+                    [
+                        [
+                            1,
+                        ],
+                        [
+                            2,
+                        ],
+                        [
+                            3,
+                        ],
+                    ],
+                    [
+                        [
+                            4,
+                        ],
+                        [
+                            5,
+                        ],
+                        [
+                            6,
+                        ],
+                    ],
+                ]
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_nested_items_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postNestedItemsResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+
         pass
 
     def test_post_nested_oneof_to_check_validation_semantics_request_body(self):
@@ -6245,12 +11636,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_anything_non_null_is_invalid_fails
         # anything non-null is invalid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 123
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    123,
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_nested_oneof_to_check_validation_semantics_request_body(body=body)
@@ -6258,11 +11649,11 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_null_is_valid_passes
         # null is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 None
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -6277,13 +11668,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postNestedOneofToCheckValidationSemanticsRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
 
@@ -6294,7 +11684,61 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         """
         from unit_test_api.api.path_post_api_endpoints import post_nested_oneof_to_check_validation_semantics_response_body_for_content_types as endpoint_module
         response_status = 200
-        # TODO get response content working
+        accept_content_type = 'application/json'
+
+
+        # test_anything_non_null_is_invalid_fails
+        # anything non-null is invalid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                123
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_nested_oneof_to_check_validation_semantics_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postNestedOneofToCheckValidationSemanticsResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_null_is_valid_passes
+        # null is valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                None
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_nested_oneof_to_check_validation_semantics_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postNestedOneofToCheckValidationSemanticsResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+
         pass
 
     def test_post_not_more_complex_schema_request_body(self):
@@ -6309,14 +11753,14 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_other_match_passes
         # other match
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                     "foo":
                         1,
                 }
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -6331,19 +11775,18 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postNotMoreComplexSchemaRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_mismatch_fails
         # mismatch
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                     "foo":
                         "bar",
@@ -6351,10 +11794,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    {
-                        "foo":
-                            "bar",
-                    },
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_not_more_complex_schema_request_body(body=body)
@@ -6362,11 +11802,11 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_match_passes
         # match
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 1
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -6381,13 +11821,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postNotMoreComplexSchemaRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
 
@@ -6398,7 +11837,96 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         """
         from unit_test_api.api.path_post_api_endpoints import post_not_more_complex_schema_response_body_for_content_types as endpoint_module
         response_status = 200
-        # TODO get response content working
+        accept_content_type = 'application/json'
+
+
+        # test_other_match_passes
+        # other match
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                    "foo":
+                        1,
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_not_more_complex_schema_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postNotMoreComplexSchemaResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_mismatch_fails
+        # mismatch
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                    "foo":
+                        "bar",
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_not_more_complex_schema_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postNotMoreComplexSchemaResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_match_passes
+        # match
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                1
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_not_more_complex_schema_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postNotMoreComplexSchemaResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+
         pass
 
     def test_post_not_request_body(self):
@@ -6413,11 +11941,11 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_allowed_passes
         # allowed
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 "foo"
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -6432,24 +11960,23 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postNotRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_disallowed_fails
         # disallowed
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 1
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    1,
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_not_request_body(body=body)
@@ -6462,7 +11989,61 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         """
         from unit_test_api.api.path_post_api_endpoints import post_not_response_body_for_content_types as endpoint_module
         response_status = 200
-        # TODO get response content working
+        accept_content_type = 'application/json'
+
+
+        # test_allowed_passes
+        # allowed
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                "foo"
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_not_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postNotResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_disallowed_fails
+        # disallowed
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                1
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_not_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postNotResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+
         pass
 
     def test_post_nul_characters_in_strings_request_body(self):
@@ -6477,11 +12058,11 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_match_string_with_nul_passes
         # match string with nul
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 "hello\x00there"
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -6496,24 +12077,23 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postNulCharactersInStringsRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_do_not_match_string_lacking_nul_fails
         # do not match string lacking nul
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 "hellothere"
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    "hellothere",
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_nul_characters_in_strings_request_body(body=body)
@@ -6526,7 +12106,61 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         """
         from unit_test_api.api.path_post_api_endpoints import post_nul_characters_in_strings_response_body_for_content_types as endpoint_module
         response_status = 200
-        # TODO get response content working
+        accept_content_type = 'application/json'
+
+
+        # test_match_string_with_nul_passes
+        # match string with nul
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                "hello\x00there"
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_nul_characters_in_strings_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postNulCharactersInStringsResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_do_not_match_string_lacking_nul_fails
+        # do not match string lacking nul
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                "hellothere"
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_nul_characters_in_strings_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postNulCharactersInStringsResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+
         pass
 
     def test_post_null_type_matches_only_the_null_object_request_body(self):
@@ -6541,12 +12175,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_a_float_is_not_null_fails
         # a float is not null
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 1.1
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    1.1,
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_null_type_matches_only_the_null_object_request_body(body=body)
@@ -6554,14 +12188,13 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_an_object_is_not_null_fails
         # an object is not null
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                 }
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    {
-                    },
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_null_type_matches_only_the_null_object_request_body(body=body)
@@ -6569,12 +12202,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_false_is_not_null_fails
         # false is not null
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 False
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    False,
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_null_type_matches_only_the_null_object_request_body(body=body)
@@ -6582,12 +12215,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_an_integer_is_not_null_fails
         # an integer is not null
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 1
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    1,
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_null_type_matches_only_the_null_object_request_body(body=body)
@@ -6595,12 +12228,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_true_is_not_null_fails
         # true is not null
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 True
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    True,
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_null_type_matches_only_the_null_object_request_body(body=body)
@@ -6608,12 +12241,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_zero_is_not_null_fails
         # zero is not null
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 0
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    0,
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_null_type_matches_only_the_null_object_request_body(body=body)
@@ -6621,12 +12254,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_an_empty_string_is_not_null_fails
         # an empty string is not null
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 ""
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    "",
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_null_type_matches_only_the_null_object_request_body(body=body)
@@ -6634,11 +12267,11 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_null_is_null_passes
         # null is null
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 None
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -6653,26 +12286,24 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postNullTypeMatchesOnlyTheNullObjectRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_an_array_is_not_null_fails
         # an array is not null
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 [
                 ]
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    [
-                    ],
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_null_type_matches_only_the_null_object_request_body(body=body)
@@ -6680,12 +12311,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_a_string_is_not_null_fails
         # a string is not null
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 "foo"
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    "foo",
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_null_type_matches_only_the_null_object_request_body(body=body)
@@ -6698,7 +12329,239 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         """
         from unit_test_api.api.path_post_api_endpoints import post_null_type_matches_only_the_null_object_response_body_for_content_types as endpoint_module
         response_status = 200
-        # TODO get response content working
+        accept_content_type = 'application/json'
+
+
+        # test_a_float_is_not_null_fails
+        # a float is not null
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                1.1
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_null_type_matches_only_the_null_object_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postNullTypeMatchesOnlyTheNullObjectResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_an_object_is_not_null_fails
+        # an object is not null
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_null_type_matches_only_the_null_object_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postNullTypeMatchesOnlyTheNullObjectResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_false_is_not_null_fails
+        # false is not null
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                False
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_null_type_matches_only_the_null_object_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postNullTypeMatchesOnlyTheNullObjectResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_an_integer_is_not_null_fails
+        # an integer is not null
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                1
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_null_type_matches_only_the_null_object_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postNullTypeMatchesOnlyTheNullObjectResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_true_is_not_null_fails
+        # true is not null
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                True
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_null_type_matches_only_the_null_object_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postNullTypeMatchesOnlyTheNullObjectResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_zero_is_not_null_fails
+        # zero is not null
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                0
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_null_type_matches_only_the_null_object_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postNullTypeMatchesOnlyTheNullObjectResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_an_empty_string_is_not_null_fails
+        # an empty string is not null
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                ""
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_null_type_matches_only_the_null_object_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postNullTypeMatchesOnlyTheNullObjectResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_null_is_null_passes
+        # null is null
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                None
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_null_type_matches_only_the_null_object_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postNullTypeMatchesOnlyTheNullObjectResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_an_array_is_not_null_fails
+        # an array is not null
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                [
+                ]
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_null_type_matches_only_the_null_object_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postNullTypeMatchesOnlyTheNullObjectResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_a_string_is_not_null_fails
+        # a string is not null
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                "foo"
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_null_type_matches_only_the_null_object_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postNullTypeMatchesOnlyTheNullObjectResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+
         pass
 
     def test_post_number_type_matches_numbers_request_body(self):
@@ -6713,14 +12576,13 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_an_array_is_not_a_number_fails
         # an array is not a number
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 [
                 ]
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    [
-                    ],
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_number_type_matches_numbers_request_body(body=body)
@@ -6728,12 +12590,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_null_is_not_a_number_fails
         # null is not a number
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 None
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    None,
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_number_type_matches_numbers_request_body(body=body)
@@ -6741,14 +12603,13 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_an_object_is_not_a_number_fails
         # an object is not a number
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                 }
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    {
-                    },
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_number_type_matches_numbers_request_body(body=body)
@@ -6756,12 +12617,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_a_boolean_is_not_a_number_fails
         # a boolean is not a number
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 True
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    True,
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_number_type_matches_numbers_request_body(body=body)
@@ -6769,11 +12630,11 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_a_float_is_a_number_passes
         # a float is a number
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 1.1
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -6788,24 +12649,23 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postNumberTypeMatchesNumbersRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_a_string_is_still_not_a_number_even_if_it_looks_like_one_fails
         # a string is still not a number, even if it looks like one
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 "1"
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    "1",
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_number_type_matches_numbers_request_body(body=body)
@@ -6813,12 +12673,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_a_string_is_not_a_number_fails
         # a string is not a number
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 "foo"
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    "foo",
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_number_type_matches_numbers_request_body(body=body)
@@ -6826,11 +12686,11 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_an_integer_is_a_number_passes
         # an integer is a number
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 1
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -6845,23 +12705,22 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postNumberTypeMatchesNumbersRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_a_float_with_zero_fractional_part_is_a_number_and_an_integer_passes
         # a float with zero fractional part is a number (and an integer)
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 1.0
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -6876,13 +12735,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postNumberTypeMatchesNumbersRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
 
@@ -6893,7 +12751,231 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         """
         from unit_test_api.api.path_post_api_endpoints import post_number_type_matches_numbers_response_body_for_content_types as endpoint_module
         response_status = 200
-        # TODO get response content working
+        accept_content_type = 'application/json'
+
+
+        # test_an_array_is_not_a_number_fails
+        # an array is not a number
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                [
+                ]
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_number_type_matches_numbers_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postNumberTypeMatchesNumbersResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_null_is_not_a_number_fails
+        # null is not a number
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                None
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_number_type_matches_numbers_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postNumberTypeMatchesNumbersResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_an_object_is_not_a_number_fails
+        # an object is not a number
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_number_type_matches_numbers_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postNumberTypeMatchesNumbersResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_a_boolean_is_not_a_number_fails
+        # a boolean is not a number
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                True
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_number_type_matches_numbers_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postNumberTypeMatchesNumbersResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_a_float_is_a_number_passes
+        # a float is a number
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                1.1
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_number_type_matches_numbers_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postNumberTypeMatchesNumbersResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_a_string_is_still_not_a_number_even_if_it_looks_like_one_fails
+        # a string is still not a number, even if it looks like one
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                "1"
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_number_type_matches_numbers_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postNumberTypeMatchesNumbersResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_a_string_is_not_a_number_fails
+        # a string is not a number
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                "foo"
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_number_type_matches_numbers_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postNumberTypeMatchesNumbersResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_an_integer_is_a_number_passes
+        # an integer is a number
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                1
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_number_type_matches_numbers_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postNumberTypeMatchesNumbersResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_a_float_with_zero_fractional_part_is_a_number_and_an_integer_passes
+        # a float with zero fractional part is a number (and an integer)
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                1.0
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_number_type_matches_numbers_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postNumberTypeMatchesNumbersResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+
         pass
 
     def test_post_object_properties_validation_request_body(self):
@@ -6908,12 +12990,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_ignores_arrays_passes
         # ignores arrays
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 [
                 ]
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -6928,23 +13010,22 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postObjectPropertiesValidationRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_ignores_other_non_objects_passes
         # ignores other non-objects
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 12
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -6959,19 +13040,18 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postObjectPropertiesValidationRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_one_property_invalid_is_invalid_fails
         # one property invalid is invalid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                     "foo":
                         1,
@@ -6982,13 +13062,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    {
-                        "foo":
-                            1,
-                        "bar":
-                            {
-                            },
-                    },
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_object_properties_validation_request_body(body=body)
@@ -6996,7 +13070,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_both_properties_present_and_valid_is_valid_passes
         # both properties present and valid is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                     "foo":
                         1,
@@ -7005,7 +13079,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 }
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -7020,19 +13094,18 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postObjectPropertiesValidationRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_doesn_t_invalidate_other_properties_passes
         # doesn&#x27;t invalidate other properties
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                     "quux":
                         [
@@ -7040,7 +13113,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 }
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -7055,19 +13128,18 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postObjectPropertiesValidationRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_both_properties_invalid_is_invalid_fails
         # both properties invalid is invalid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                     "foo":
                         [
@@ -7079,14 +13151,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    {
-                        "foo":
-                            [
-                            ],
-                        "bar":
-                            {
-                            },
-                    },
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_object_properties_validation_request_body(body=body)
@@ -7099,7 +13164,193 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         """
         from unit_test_api.api.path_post_api_endpoints import post_object_properties_validation_response_body_for_content_types as endpoint_module
         response_status = 200
-        # TODO get response content working
+        accept_content_type = 'application/json'
+
+
+        # test_ignores_arrays_passes
+        # ignores arrays
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                [
+                ]
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_object_properties_validation_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postObjectPropertiesValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_ignores_other_non_objects_passes
+        # ignores other non-objects
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                12
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_object_properties_validation_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postObjectPropertiesValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_one_property_invalid_is_invalid_fails
+        # one property invalid is invalid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                    "foo":
+                        1,
+                    "bar":
+                        {
+                        },
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_object_properties_validation_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postObjectPropertiesValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_both_properties_present_and_valid_is_valid_passes
+        # both properties present and valid is valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                    "foo":
+                        1,
+                    "bar":
+                        "baz",
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_object_properties_validation_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postObjectPropertiesValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_doesn_t_invalidate_other_properties_passes
+        # doesn&#x27;t invalidate other properties
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                    "quux":
+                        [
+                        ],
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_object_properties_validation_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postObjectPropertiesValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_both_properties_invalid_is_invalid_fails
+        # both properties invalid is invalid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                    "foo":
+                        [
+                        ],
+                    "bar":
+                        {
+                        },
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_object_properties_validation_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postObjectPropertiesValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+
         pass
 
     def test_post_object_type_matches_objects_request_body(self):
@@ -7114,12 +13365,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_a_float_is_not_an_object_fails
         # a float is not an object
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 1.1
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    1.1,
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_object_type_matches_objects_request_body(body=body)
@@ -7127,12 +13378,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_null_is_not_an_object_fails
         # null is not an object
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 None
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    None,
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_object_type_matches_objects_request_body(body=body)
@@ -7140,14 +13391,13 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_an_array_is_not_an_object_fails
         # an array is not an object
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 [
                 ]
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    [
-                    ],
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_object_type_matches_objects_request_body(body=body)
@@ -7155,12 +13405,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_an_object_is_an_object_passes
         # an object is an object
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                 }
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -7175,24 +13425,23 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postObjectTypeMatchesObjectsRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_a_string_is_not_an_object_fails
         # a string is not an object
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 "foo"
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    "foo",
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_object_type_matches_objects_request_body(body=body)
@@ -7200,12 +13449,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_an_integer_is_not_an_object_fails
         # an integer is not an object
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 1
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    1,
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_object_type_matches_objects_request_body(body=body)
@@ -7213,12 +13462,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_a_boolean_is_not_an_object_fails
         # a boolean is not an object
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 True
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    True,
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_object_type_matches_objects_request_body(body=body)
@@ -7231,7 +13480,173 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         """
         from unit_test_api.api.path_post_api_endpoints import post_object_type_matches_objects_response_body_for_content_types as endpoint_module
         response_status = 200
-        # TODO get response content working
+        accept_content_type = 'application/json'
+
+
+        # test_a_float_is_not_an_object_fails
+        # a float is not an object
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                1.1
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_object_type_matches_objects_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postObjectTypeMatchesObjectsResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_null_is_not_an_object_fails
+        # null is not an object
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                None
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_object_type_matches_objects_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postObjectTypeMatchesObjectsResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_an_array_is_not_an_object_fails
+        # an array is not an object
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                [
+                ]
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_object_type_matches_objects_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postObjectTypeMatchesObjectsResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_an_object_is_an_object_passes
+        # an object is an object
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_object_type_matches_objects_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postObjectTypeMatchesObjectsResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_a_string_is_not_an_object_fails
+        # a string is not an object
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                "foo"
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_object_type_matches_objects_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postObjectTypeMatchesObjectsResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_an_integer_is_not_an_object_fails
+        # an integer is not an object
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                1
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_object_type_matches_objects_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postObjectTypeMatchesObjectsResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_a_boolean_is_not_an_object_fails
+        # a boolean is not an object
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                True
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_object_type_matches_objects_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postObjectTypeMatchesObjectsResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+
         pass
 
     def test_post_oneof_complex_types_request_body(self):
@@ -7246,14 +13661,14 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_first_oneof_valid_complex_passes
         # first oneOf valid (complex)
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                     "bar":
                         2,
                 }
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -7268,19 +13683,18 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postOneofComplexTypesRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_neither_oneof_valid_complex_fails
         # neither oneOf valid (complex)
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                     "foo":
                         2,
@@ -7290,12 +13704,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    {
-                        "foo":
-                            2,
-                        "bar":
-                            "quux",
-                    },
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_oneof_complex_types_request_body(body=body)
@@ -7303,7 +13712,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_both_oneof_valid_complex_fails
         # both oneOf valid (complex)
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                     "foo":
                         "baz",
@@ -7313,12 +13722,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    {
-                        "foo":
-                            "baz",
-                        "bar":
-                            2,
-                    },
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_oneof_complex_types_request_body(body=body)
@@ -7326,14 +13730,14 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_second_oneof_valid_complex_passes
         # second oneOf valid (complex)
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                     "foo":
                         "baz",
                 }
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -7348,13 +13752,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postOneofComplexTypesRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
 
@@ -7365,7 +13768,128 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         """
         from unit_test_api.api.path_post_api_endpoints import post_oneof_complex_types_response_body_for_content_types as endpoint_module
         response_status = 200
-        # TODO get response content working
+        accept_content_type = 'application/json'
+
+
+        # test_first_oneof_valid_complex_passes
+        # first oneOf valid (complex)
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                    "bar":
+                        2,
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_oneof_complex_types_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postOneofComplexTypesResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_neither_oneof_valid_complex_fails
+        # neither oneOf valid (complex)
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                    "foo":
+                        2,
+                    "bar":
+                        "quux",
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_oneof_complex_types_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postOneofComplexTypesResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_both_oneof_valid_complex_fails
+        # both oneOf valid (complex)
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                    "foo":
+                        "baz",
+                    "bar":
+                        2,
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_oneof_complex_types_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postOneofComplexTypesResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_second_oneof_valid_complex_passes
+        # second oneOf valid (complex)
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                    "foo":
+                        "baz",
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_oneof_complex_types_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postOneofComplexTypesResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+
         pass
 
     def test_post_oneof_request_body(self):
@@ -7380,11 +13904,11 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_second_oneof_valid_passes
         # second oneOf valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 2.5
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -7399,24 +13923,23 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postOneofRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_both_oneof_valid_fails
         # both oneOf valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 3
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    3,
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_oneof_request_body(body=body)
@@ -7424,11 +13947,11 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_first_oneof_valid_passes
         # first oneOf valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 1
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -7443,24 +13966,23 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postOneofRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_neither_oneof_valid_fails
         # neither oneOf valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 1.5
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    1.5,
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_oneof_request_body(body=body)
@@ -7473,7 +13995,112 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         """
         from unit_test_api.api.path_post_api_endpoints import post_oneof_response_body_for_content_types as endpoint_module
         response_status = 200
-        # TODO get response content working
+        accept_content_type = 'application/json'
+
+
+        # test_second_oneof_valid_passes
+        # second oneOf valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                2.5
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_oneof_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postOneofResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_both_oneof_valid_fails
+        # both oneOf valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                3
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_oneof_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postOneofResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_first_oneof_valid_passes
+        # first oneOf valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                1
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_oneof_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postOneofResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_neither_oneof_valid_fails
+        # neither oneOf valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                1.5
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_oneof_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postOneofResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+
         pass
 
     def test_post_oneof_with_base_schema_request_body(self):
@@ -7488,12 +14115,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_both_oneof_valid_fails
         # both oneOf valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 "foo"
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    "foo",
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_oneof_with_base_schema_request_body(body=body)
@@ -7501,12 +14128,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_mismatch_base_schema_fails
         # mismatch base schema
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 3
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    3,
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_oneof_with_base_schema_request_body(body=body)
@@ -7514,11 +14141,11 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_one_oneof_valid_passes
         # one oneOf valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 "foobar"
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -7533,13 +14160,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postOneofWithBaseSchemaRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
 
@@ -7550,7 +14176,83 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         """
         from unit_test_api.api.path_post_api_endpoints import post_oneof_with_base_schema_response_body_for_content_types as endpoint_module
         response_status = 200
-        # TODO get response content working
+        accept_content_type = 'application/json'
+
+
+        # test_both_oneof_valid_fails
+        # both oneOf valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                "foo"
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_oneof_with_base_schema_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postOneofWithBaseSchemaResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_mismatch_base_schema_fails
+        # mismatch base schema
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                3
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_oneof_with_base_schema_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postOneofWithBaseSchemaResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_one_oneof_valid_passes
+        # one oneOf valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                "foobar"
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_oneof_with_base_schema_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postOneofWithBaseSchemaResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+
         pass
 
     def test_post_oneof_with_empty_schema_request_body(self):
@@ -7565,12 +14267,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_both_valid_invalid_fails
         # both valid - invalid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 123
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    123,
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_oneof_with_empty_schema_request_body(body=body)
@@ -7578,11 +14280,11 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_one_valid_valid_passes
         # one valid - valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 "foo"
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -7597,13 +14299,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postOneofWithEmptySchemaRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
 
@@ -7614,7 +14315,61 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         """
         from unit_test_api.api.path_post_api_endpoints import post_oneof_with_empty_schema_response_body_for_content_types as endpoint_module
         response_status = 200
-        # TODO get response content working
+        accept_content_type = 'application/json'
+
+
+        # test_both_valid_invalid_fails
+        # both valid - invalid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                123
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_oneof_with_empty_schema_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postOneofWithEmptySchemaResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_one_valid_valid_passes
+        # one valid - valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                "foo"
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_oneof_with_empty_schema_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postOneofWithEmptySchemaResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+
         pass
 
     def test_post_pattern_is_not_anchored_request_body(self):
@@ -7629,11 +14384,11 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_matches_a_substring_passes
         # matches a substring
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 "xxaayy"
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -7648,13 +14403,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postPatternIsNotAnchoredRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
 
@@ -7665,7 +14419,39 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         """
         from unit_test_api.api.path_post_api_endpoints import post_pattern_is_not_anchored_response_body_for_content_types as endpoint_module
         response_status = 200
-        # TODO get response content working
+        accept_content_type = 'application/json'
+
+
+        # test_matches_a_substring_passes
+        # matches a substring
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                "xxaayy"
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_pattern_is_not_anchored_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postPatternIsNotAnchoredResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+
         pass
 
     def test_post_pattern_validation_request_body(self):
@@ -7680,12 +14466,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_ignores_arrays_passes
         # ignores arrays
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 [
                 ]
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -7700,24 +14486,23 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postPatternValidationRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_ignores_objects_passes
         # ignores objects
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                 }
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -7732,23 +14517,22 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postPatternValidationRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_ignores_null_passes
         # ignores null
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 None
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -7763,23 +14547,22 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postPatternValidationRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_ignores_floats_passes
         # ignores floats
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 1.0
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -7794,24 +14577,23 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postPatternValidationRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_a_non_matching_pattern_is_invalid_fails
         # a non-matching pattern is invalid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 "abc"
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    "abc",
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_pattern_validation_request_body(body=body)
@@ -7819,11 +14601,11 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_ignores_booleans_passes
         # ignores booleans
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 True
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -7838,23 +14620,22 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postPatternValidationRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_a_matching_pattern_is_valid_passes
         # a matching pattern is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 "aaa"
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -7869,23 +14650,22 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postPatternValidationRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_ignores_integers_passes
         # ignores integers
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 123
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -7900,13 +14680,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postPatternValidationRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
 
@@ -7917,7 +14696,237 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         """
         from unit_test_api.api.path_post_api_endpoints import post_pattern_validation_response_body_for_content_types as endpoint_module
         response_status = 200
-        # TODO get response content working
+        accept_content_type = 'application/json'
+
+
+        # test_ignores_arrays_passes
+        # ignores arrays
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                [
+                ]
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_pattern_validation_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postPatternValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_ignores_objects_passes
+        # ignores objects
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_pattern_validation_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postPatternValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_ignores_null_passes
+        # ignores null
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                None
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_pattern_validation_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postPatternValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_ignores_floats_passes
+        # ignores floats
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                1.0
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_pattern_validation_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postPatternValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_a_non_matching_pattern_is_invalid_fails
+        # a non-matching pattern is invalid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                "abc"
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_pattern_validation_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postPatternValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_ignores_booleans_passes
+        # ignores booleans
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                True
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_pattern_validation_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postPatternValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_a_matching_pattern_is_valid_passes
+        # a matching pattern is valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                "aaa"
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_pattern_validation_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postPatternValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_ignores_integers_passes
+        # ignores integers
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                123
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_pattern_validation_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postPatternValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+
         pass
 
     def test_post_properties_with_escaped_characters_request_body(self):
@@ -7932,7 +14941,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_object_with_all_numbers_is_valid_passes
         # object with all numbers is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                     "foo\nbar":
                         1,
@@ -7949,7 +14958,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 }
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -7964,19 +14973,18 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postPropertiesWithEscapedCharactersRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_object_with_strings_is_invalid_fails
         # object with strings is invalid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                     "foo\nbar":
                         "1",
@@ -7994,20 +15002,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    {
-                        "foo\nbar":
-                            "1",
-                        "foo\"bar":
-                            "1",
-                        "foo\\bar":
-                            "1",
-                        "foo\rbar":
-                            "1",
-                        "foo\tbar":
-                            "1",
-                        "foo\fbar":
-                            "1",
-                    },
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_properties_with_escaped_characters_request_body(body=body)
@@ -8020,7 +15015,87 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         """
         from unit_test_api.api.path_post_api_endpoints import post_properties_with_escaped_characters_response_body_for_content_types as endpoint_module
         response_status = 200
-        # TODO get response content working
+        accept_content_type = 'application/json'
+
+
+        # test_object_with_all_numbers_is_valid_passes
+        # object with all numbers is valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                    "foo\nbar":
+                        1,
+                    "foo\"bar":
+                        1,
+                    "foo\\bar":
+                        1,
+                    "foo\rbar":
+                        1,
+                    "foo\tbar":
+                        1,
+                    "foo\fbar":
+                        1,
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_properties_with_escaped_characters_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postPropertiesWithEscapedCharactersResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_object_with_strings_is_invalid_fails
+        # object with strings is invalid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                    "foo\nbar":
+                        "1",
+                    "foo\"bar":
+                        "1",
+                    "foo\\bar":
+                        "1",
+                    "foo\rbar":
+                        "1",
+                    "foo\tbar":
+                        "1",
+                    "foo\fbar":
+                        "1",
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_properties_with_escaped_characters_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postPropertiesWithEscapedCharactersResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+
         pass
 
     def test_post_property_named_ref_that_is_not_a_reference_request_body(self):
@@ -8035,14 +15110,14 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_property_named_ref_valid_passes
         # property named $ref valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                     "$ref":
                         "a",
                 }
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -8057,19 +15132,18 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postPropertyNamedRefThatIsNotAReferenceRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_property_named_ref_invalid_fails
         # property named $ref invalid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                     "$ref":
                         2,
@@ -8077,10 +15151,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    {
-                        "$ref":
-                            2,
-                    },
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_property_named_ref_that_is_not_a_reference_request_body(body=body)
@@ -8093,7 +15164,67 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         """
         from unit_test_api.api.path_post_api_endpoints import post_property_named_ref_that_is_not_a_reference_response_body_for_content_types as endpoint_module
         response_status = 200
-        # TODO get response content working
+        accept_content_type = 'application/json'
+
+
+        # test_property_named_ref_valid_passes
+        # property named $ref valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                    "$ref":
+                        "a",
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_property_named_ref_that_is_not_a_reference_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postPropertyNamedRefThatIsNotAReferenceResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_property_named_ref_invalid_fails
+        # property named $ref invalid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                    "$ref":
+                        2,
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_property_named_ref_that_is_not_a_reference_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postPropertyNamedRefThatIsNotAReferenceResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+
         pass
 
     def test_post_ref_in_additionalproperties_request_body(self):
@@ -8108,7 +15239,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_property_named_ref_valid_passes
         # property named $ref valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                     "someProp":
                         {
@@ -8118,7 +15249,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 }
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -8133,19 +15264,18 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postRefInAdditionalpropertiesRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_property_named_ref_invalid_fails
         # property named $ref invalid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                     "someProp":
                         {
@@ -8156,13 +15286,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    {
-                        "someProp":
-                            {
-                                "$ref":
-                                    2,
-                            },
-                    },
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_ref_in_additionalproperties_request_body(body=body)
@@ -8175,7 +15299,73 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         """
         from unit_test_api.api.path_post_api_endpoints import post_ref_in_additionalproperties_response_body_for_content_types as endpoint_module
         response_status = 200
-        # TODO get response content working
+        accept_content_type = 'application/json'
+
+
+        # test_property_named_ref_valid_passes
+        # property named $ref valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                    "someProp":
+                        {
+                            "$ref":
+                                "a",
+                        },
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_ref_in_additionalproperties_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postRefInAdditionalpropertiesResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_property_named_ref_invalid_fails
+        # property named $ref invalid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                    "someProp":
+                        {
+                            "$ref":
+                                2,
+                        },
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_ref_in_additionalproperties_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postRefInAdditionalpropertiesResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+
         pass
 
     def test_post_ref_in_allof_request_body(self):
@@ -8190,14 +15380,14 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_property_named_ref_valid_passes
         # property named $ref valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                     "$ref":
                         "a",
                 }
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -8212,19 +15402,18 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postRefInAllofRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_property_named_ref_invalid_fails
         # property named $ref invalid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                     "$ref":
                         2,
@@ -8232,10 +15421,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    {
-                        "$ref":
-                            2,
-                    },
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_ref_in_allof_request_body(body=body)
@@ -8248,7 +15434,67 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         """
         from unit_test_api.api.path_post_api_endpoints import post_ref_in_allof_response_body_for_content_types as endpoint_module
         response_status = 200
-        # TODO get response content working
+        accept_content_type = 'application/json'
+
+
+        # test_property_named_ref_valid_passes
+        # property named $ref valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                    "$ref":
+                        "a",
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_ref_in_allof_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postRefInAllofResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_property_named_ref_invalid_fails
+        # property named $ref invalid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                    "$ref":
+                        2,
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_ref_in_allof_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postRefInAllofResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+
         pass
 
     def test_post_ref_in_anyof_request_body(self):
@@ -8263,14 +15509,14 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_property_named_ref_valid_passes
         # property named $ref valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                     "$ref":
                         "a",
                 }
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -8285,19 +15531,18 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postRefInAnyofRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_property_named_ref_invalid_fails
         # property named $ref invalid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                     "$ref":
                         2,
@@ -8305,10 +15550,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    {
-                        "$ref":
-                            2,
-                    },
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_ref_in_anyof_request_body(body=body)
@@ -8321,7 +15563,67 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         """
         from unit_test_api.api.path_post_api_endpoints import post_ref_in_anyof_response_body_for_content_types as endpoint_module
         response_status = 200
-        # TODO get response content working
+        accept_content_type = 'application/json'
+
+
+        # test_property_named_ref_valid_passes
+        # property named $ref valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                    "$ref":
+                        "a",
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_ref_in_anyof_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postRefInAnyofResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_property_named_ref_invalid_fails
+        # property named $ref invalid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                    "$ref":
+                        2,
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_ref_in_anyof_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postRefInAnyofResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+
         pass
 
     def test_post_ref_in_items_request_body(self):
@@ -8336,7 +15638,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_property_named_ref_valid_passes
         # property named $ref valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 [
                     {
                         "$ref":
@@ -8345,7 +15647,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 ]
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -8360,19 +15662,18 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postRefInItemsRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_property_named_ref_invalid_fails
         # property named $ref invalid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 [
                     {
                         "$ref":
@@ -8382,12 +15683,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    [
-                        {
-                            "$ref":
-                                2,
-                        },
-                    ],
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_ref_in_items_request_body(body=body)
@@ -8400,7 +15696,71 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         """
         from unit_test_api.api.path_post_api_endpoints import post_ref_in_items_response_body_for_content_types as endpoint_module
         response_status = 200
-        # TODO get response content working
+        accept_content_type = 'application/json'
+
+
+        # test_property_named_ref_valid_passes
+        # property named $ref valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                [
+                    {
+                        "$ref":
+                            "a",
+                    },
+                ]
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_ref_in_items_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postRefInItemsResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_property_named_ref_invalid_fails
+        # property named $ref invalid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                [
+                    {
+                        "$ref":
+                            2,
+                    },
+                ]
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_ref_in_items_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postRefInItemsResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+
         pass
 
     def test_post_ref_in_oneof_request_body(self):
@@ -8415,14 +15775,14 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_property_named_ref_valid_passes
         # property named $ref valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                     "$ref":
                         "a",
                 }
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -8437,19 +15797,18 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postRefInOneofRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_property_named_ref_invalid_fails
         # property named $ref invalid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                     "$ref":
                         2,
@@ -8457,10 +15816,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    {
-                        "$ref":
-                            2,
-                    },
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_ref_in_oneof_request_body(body=body)
@@ -8473,7 +15829,67 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         """
         from unit_test_api.api.path_post_api_endpoints import post_ref_in_oneof_response_body_for_content_types as endpoint_module
         response_status = 200
-        # TODO get response content working
+        accept_content_type = 'application/json'
+
+
+        # test_property_named_ref_valid_passes
+        # property named $ref valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                    "$ref":
+                        "a",
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_ref_in_oneof_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postRefInOneofResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_property_named_ref_invalid_fails
+        # property named $ref invalid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                    "$ref":
+                        2,
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_ref_in_oneof_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postRefInOneofResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+
         pass
 
     def test_post_ref_in_property_request_body(self):
@@ -8488,7 +15904,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_property_named_ref_valid_passes
         # property named $ref valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                     "a":
                         {
@@ -8498,7 +15914,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 }
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -8513,19 +15929,18 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postRefInPropertyRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_property_named_ref_invalid_fails
         # property named $ref invalid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                     "a":
                         {
@@ -8536,13 +15951,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    {
-                        "a":
-                            {
-                                "$ref":
-                                    2,
-                            },
-                    },
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_ref_in_property_request_body(body=body)
@@ -8555,7 +15964,73 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         """
         from unit_test_api.api.path_post_api_endpoints import post_ref_in_property_response_body_for_content_types as endpoint_module
         response_status = 200
-        # TODO get response content working
+        accept_content_type = 'application/json'
+
+
+        # test_property_named_ref_valid_passes
+        # property named $ref valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                    "a":
+                        {
+                            "$ref":
+                                "a",
+                        },
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_ref_in_property_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postRefInPropertyResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_property_named_ref_invalid_fails
+        # property named $ref invalid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                    "a":
+                        {
+                            "$ref":
+                                2,
+                        },
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_ref_in_property_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postRefInPropertyResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+
         pass
 
     def test_post_required_default_validation_request_body(self):
@@ -8570,12 +16045,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_not_required_by_default_passes
         # not required by default
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                 }
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -8590,13 +16065,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postRequiredDefaultValidationRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
 
@@ -8607,7 +16081,40 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         """
         from unit_test_api.api.path_post_api_endpoints import post_required_default_validation_response_body_for_content_types as endpoint_module
         response_status = 200
-        # TODO get response content working
+        accept_content_type = 'application/json'
+
+
+        # test_not_required_by_default_passes
+        # not required by default
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_required_default_validation_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postRequiredDefaultValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+
         pass
 
     def test_post_required_validation_request_body(self):
@@ -8622,12 +16129,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_ignores_arrays_passes
         # ignores arrays
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 [
                 ]
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -8642,26 +16149,25 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postRequiredValidationRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_present_required_property_is_valid_passes
         # present required property is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                     "foo":
                         1,
                 }
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -8676,23 +16182,22 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postRequiredValidationRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_ignores_other_non_objects_passes
         # ignores other non-objects
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 12
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -8707,23 +16212,22 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postRequiredValidationRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_ignores_strings_passes
         # ignores strings
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 ""
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -8738,19 +16242,18 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postRequiredValidationRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_non_present_required_property_is_invalid_fails
         # non-present required property is invalid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                     "bar":
                         1,
@@ -8758,10 +16261,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    {
-                        "bar":
-                            1,
-                    },
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_required_validation_request_body(body=body)
@@ -8774,7 +16274,155 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         """
         from unit_test_api.api.path_post_api_endpoints import post_required_validation_response_body_for_content_types as endpoint_module
         response_status = 200
-        # TODO get response content working
+        accept_content_type = 'application/json'
+
+
+        # test_ignores_arrays_passes
+        # ignores arrays
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                [
+                ]
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_required_validation_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postRequiredValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_present_required_property_is_valid_passes
+        # present required property is valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                    "foo":
+                        1,
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_required_validation_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postRequiredValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_ignores_other_non_objects_passes
+        # ignores other non-objects
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                12
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_required_validation_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postRequiredValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_ignores_strings_passes
+        # ignores strings
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                ""
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_required_validation_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postRequiredValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_non_present_required_property_is_invalid_fails
+        # non-present required property is invalid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                    "bar":
+                        1,
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_required_validation_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postRequiredValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+
         pass
 
     def test_post_required_with_empty_array_request_body(self):
@@ -8789,12 +16437,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_property_not_required_passes
         # property not required
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                 }
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -8809,13 +16457,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postRequiredWithEmptyArrayRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
 
@@ -8826,7 +16473,40 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         """
         from unit_test_api.api.path_post_api_endpoints import post_required_with_empty_array_response_body_for_content_types as endpoint_module
         response_status = 200
-        # TODO get response content working
+        accept_content_type = 'application/json'
+
+
+        # test_property_not_required_passes
+        # property not required
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_required_with_empty_array_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postRequiredWithEmptyArrayResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+
         pass
 
     def test_post_simple_enum_validation_request_body(self):
@@ -8841,12 +16521,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_something_else_is_invalid_fails
         # something else is invalid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 4
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    4,
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_simple_enum_validation_request_body(body=body)
@@ -8854,11 +16534,11 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_one_of_the_enum_is_valid_passes
         # one of the enum is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 1
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -8873,13 +16553,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postSimpleEnumValidationRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
 
@@ -8890,7 +16569,61 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         """
         from unit_test_api.api.path_post_api_endpoints import post_simple_enum_validation_response_body_for_content_types as endpoint_module
         response_status = 200
-        # TODO get response content working
+        accept_content_type = 'application/json'
+
+
+        # test_something_else_is_invalid_fails
+        # something else is invalid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                4
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_simple_enum_validation_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postSimpleEnumValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_one_of_the_enum_is_valid_passes
+        # one of the enum is valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                1
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_simple_enum_validation_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postSimpleEnumValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+
         pass
 
     def test_post_string_type_matches_strings_request_body(self):
@@ -8905,12 +16638,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_1_is_not_a_string_fails
         # 1 is not a string
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 1
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    1,
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_string_type_matches_strings_request_body(body=body)
@@ -8918,11 +16651,11 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_a_string_is_still_a_string_even_if_it_looks_like_a_number_passes
         # a string is still a string, even if it looks like a number
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 "1"
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -8937,23 +16670,22 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postStringTypeMatchesStringsRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_an_empty_string_is_still_a_string_passes
         # an empty string is still a string
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 ""
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -8968,24 +16700,23 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postStringTypeMatchesStringsRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_a_float_is_not_a_string_fails
         # a float is not a string
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 1.1
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    1.1,
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_string_type_matches_strings_request_body(body=body)
@@ -8993,14 +16724,13 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_an_object_is_not_a_string_fails
         # an object is not a string
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                 }
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    {
-                    },
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_string_type_matches_strings_request_body(body=body)
@@ -9008,14 +16738,13 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_an_array_is_not_a_string_fails
         # an array is not a string
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 [
                 ]
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    [
-                    ],
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_string_type_matches_strings_request_body(body=body)
@@ -9023,12 +16752,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_a_boolean_is_not_a_string_fails
         # a boolean is not a string
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 True
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    True,
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_string_type_matches_strings_request_body(body=body)
@@ -9036,12 +16765,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_null_is_not_a_string_fails
         # null is not a string
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 None
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    None,
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_string_type_matches_strings_request_body(body=body)
@@ -9049,11 +16778,11 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_a_string_is_a_string_passes
         # a string is a string
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 "foo"
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -9068,13 +16797,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postStringTypeMatchesStringsRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
 
@@ -9085,7 +16813,231 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         """
         from unit_test_api.api.path_post_api_endpoints import post_string_type_matches_strings_response_body_for_content_types as endpoint_module
         response_status = 200
-        # TODO get response content working
+        accept_content_type = 'application/json'
+
+
+        # test_1_is_not_a_string_fails
+        # 1 is not a string
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                1
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_string_type_matches_strings_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postStringTypeMatchesStringsResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_a_string_is_still_a_string_even_if_it_looks_like_a_number_passes
+        # a string is still a string, even if it looks like a number
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                "1"
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_string_type_matches_strings_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postStringTypeMatchesStringsResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_an_empty_string_is_still_a_string_passes
+        # an empty string is still a string
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                ""
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_string_type_matches_strings_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postStringTypeMatchesStringsResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_a_float_is_not_a_string_fails
+        # a float is not a string
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                1.1
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_string_type_matches_strings_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postStringTypeMatchesStringsResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_an_object_is_not_a_string_fails
+        # an object is not a string
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_string_type_matches_strings_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postStringTypeMatchesStringsResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_an_array_is_not_a_string_fails
+        # an array is not a string
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                [
+                ]
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_string_type_matches_strings_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postStringTypeMatchesStringsResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_a_boolean_is_not_a_string_fails
+        # a boolean is not a string
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                True
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_string_type_matches_strings_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postStringTypeMatchesStringsResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_null_is_not_a_string_fails
+        # null is not a string
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                None
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_string_type_matches_strings_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postStringTypeMatchesStringsResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_a_string_is_a_string_passes
+        # a string is a string
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                "foo"
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_string_type_matches_strings_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postStringTypeMatchesStringsResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+
         pass
 
     def test_post_the_default_keyword_does_not_do_anything_if_the_property_is_missing_request_body(self):
@@ -9100,12 +17052,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_missing_properties_are_not_filled_in_with_the_default_passes
         # missing properties are not filled in with the default
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                 }
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -9120,26 +17072,25 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postTheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissingRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_an_explicit_property_value_is_checked_against_maximum_passing_passes
         # an explicit property value is checked against maximum (passing)
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                     "alpha":
                         1,
                 }
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -9154,19 +17105,18 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postTheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissingRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_an_explicit_property_value_is_checked_against_maximum_failing_fails
         # an explicit property value is checked against maximum (failing)
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                     "alpha":
                         5,
@@ -9174,10 +17124,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    {
-                        "alpha":
-                            5,
-                    },
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_the_default_keyword_does_not_do_anything_if_the_property_is_missing_request_body(body=body)
@@ -9190,7 +17137,97 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         """
         from unit_test_api.api.path_post_api_endpoints import post_the_default_keyword_does_not_do_anything_if_the_property_is_missing_response_body_for_content_types as endpoint_module
         response_status = 200
-        # TODO get response content working
+        accept_content_type = 'application/json'
+
+
+        # test_missing_properties_are_not_filled_in_with_the_default_passes
+        # missing properties are not filled in with the default
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_the_default_keyword_does_not_do_anything_if_the_property_is_missing_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postTheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissingResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_an_explicit_property_value_is_checked_against_maximum_passing_passes
+        # an explicit property value is checked against maximum (passing)
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                    "alpha":
+                        1,
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_the_default_keyword_does_not_do_anything_if_the_property_is_missing_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postTheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissingResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_an_explicit_property_value_is_checked_against_maximum_failing_fails
+        # an explicit property value is checked against maximum (failing)
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                    "alpha":
+                        5,
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_the_default_keyword_does_not_do_anything_if_the_property_is_missing_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postTheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissingResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+
         pass
 
     def test_post_uniqueitems_false_validation_request_body(self):
@@ -9205,14 +17242,14 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_non_unique_array_of_integers_is_valid_passes
         # non-unique array of integers is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 [
                     1,
                     1,
                 ]
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -9227,19 +17264,18 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postUniqueitemsFalseValidationRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_unique_array_of_objects_is_valid_passes
         # unique array of objects is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 [
                     {
                         "foo":
@@ -9252,7 +17288,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 ]
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -9267,19 +17303,18 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postUniqueitemsFalseValidationRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_non_unique_array_of_nested_objects_is_valid_passes
         # non-unique array of nested objects is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 [
                     {
                         "foo":
@@ -9304,7 +17339,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 ]
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -9319,19 +17354,18 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postUniqueitemsFalseValidationRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_non_unique_array_of_objects_is_valid_passes
         # non-unique array of objects is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 [
                     {
                         "foo":
@@ -9344,7 +17378,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 ]
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -9359,26 +17393,25 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postUniqueitemsFalseValidationRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_1_and_true_are_unique_passes
         # 1 and true are unique
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 [
                     1,
                     True,
                 ]
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -9393,26 +17426,25 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postUniqueitemsFalseValidationRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_unique_array_of_integers_is_valid_passes
         # unique array of integers is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 [
                     1,
                     2,
                 ]
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -9427,19 +17459,18 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postUniqueitemsFalseValidationRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_non_unique_array_of_arrays_is_valid_passes
         # non-unique array of arrays is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 [
                     [
                         "foo",
@@ -9450,7 +17481,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 ]
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -9465,19 +17496,18 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postUniqueitemsFalseValidationRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_numbers_are_unique_if_mathematically_unequal_passes
         # numbers are unique if mathematically unequal
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 [
                     1.0,
                     1.0,
@@ -9485,7 +17515,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 ]
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -9500,26 +17530,25 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postUniqueitemsFalseValidationRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_false_is_not_equal_to_zero_passes
         # false is not equal to zero
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 [
                     0,
                     False,
                 ]
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -9534,19 +17563,18 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postUniqueitemsFalseValidationRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_unique_array_of_nested_objects_is_valid_passes
         # unique array of nested objects is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 [
                     {
                         "foo":
@@ -9571,7 +17599,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 ]
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -9586,26 +17614,25 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postUniqueitemsFalseValidationRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_0_and_false_are_unique_passes
         # 0 and false are unique
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 [
                     0,
                     False,
                 ]
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -9620,19 +17647,18 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postUniqueitemsFalseValidationRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_unique_array_of_arrays_is_valid_passes
         # unique array of arrays is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 [
                     [
                         "foo",
@@ -9643,7 +17669,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 ]
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -9658,26 +17684,25 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postUniqueitemsFalseValidationRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_true_is_not_equal_to_one_passes
         # true is not equal to one
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 [
                     1,
                     True,
                 ]
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -9692,19 +17717,18 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postUniqueitemsFalseValidationRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_non_unique_heterogeneous_types_are_valid_passes
         # non-unique heterogeneous types are valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 [
                     {
                     },
@@ -9719,7 +17743,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 ]
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -9734,19 +17758,18 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postUniqueitemsFalseValidationRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_unique_heterogeneous_types_are_valid_passes
         # unique heterogeneous types are valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 [
                     {
                     },
@@ -9759,7 +17782,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 ]
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -9774,13 +17797,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postUniqueitemsFalseValidationRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
 
@@ -9791,7 +17813,561 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         """
         from unit_test_api.api.path_post_api_endpoints import post_uniqueitems_false_validation_response_body_for_content_types as endpoint_module
         response_status = 200
-        # TODO get response content working
+        accept_content_type = 'application/json'
+
+
+        # test_non_unique_array_of_integers_is_valid_passes
+        # non-unique array of integers is valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                [
+                    1,
+                    1,
+                ]
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_uniqueitems_false_validation_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postUniqueitemsFalseValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_unique_array_of_objects_is_valid_passes
+        # unique array of objects is valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                [
+                    {
+                        "foo":
+                            "bar",
+                    },
+                    {
+                        "foo":
+                            "baz",
+                    },
+                ]
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_uniqueitems_false_validation_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postUniqueitemsFalseValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_non_unique_array_of_nested_objects_is_valid_passes
+        # non-unique array of nested objects is valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                [
+                    {
+                        "foo":
+                            {
+                                "bar":
+                                    {
+                                        "baz":
+                                            True,
+                                    },
+                            },
+                    },
+                    {
+                        "foo":
+                            {
+                                "bar":
+                                    {
+                                        "baz":
+                                            True,
+                                    },
+                            },
+                    },
+                ]
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_uniqueitems_false_validation_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postUniqueitemsFalseValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_non_unique_array_of_objects_is_valid_passes
+        # non-unique array of objects is valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                [
+                    {
+                        "foo":
+                            "bar",
+                    },
+                    {
+                        "foo":
+                            "bar",
+                    },
+                ]
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_uniqueitems_false_validation_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postUniqueitemsFalseValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_1_and_true_are_unique_passes
+        # 1 and true are unique
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                [
+                    1,
+                    True,
+                ]
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_uniqueitems_false_validation_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postUniqueitemsFalseValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_unique_array_of_integers_is_valid_passes
+        # unique array of integers is valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                [
+                    1,
+                    2,
+                ]
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_uniqueitems_false_validation_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postUniqueitemsFalseValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_non_unique_array_of_arrays_is_valid_passes
+        # non-unique array of arrays is valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                [
+                    [
+                        "foo",
+                    ],
+                    [
+                        "foo",
+                    ],
+                ]
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_uniqueitems_false_validation_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postUniqueitemsFalseValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_numbers_are_unique_if_mathematically_unequal_passes
+        # numbers are unique if mathematically unequal
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                [
+                    1.0,
+                    1.0,
+                    1,
+                ]
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_uniqueitems_false_validation_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postUniqueitemsFalseValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_false_is_not_equal_to_zero_passes
+        # false is not equal to zero
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                [
+                    0,
+                    False,
+                ]
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_uniqueitems_false_validation_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postUniqueitemsFalseValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_unique_array_of_nested_objects_is_valid_passes
+        # unique array of nested objects is valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                [
+                    {
+                        "foo":
+                            {
+                                "bar":
+                                    {
+                                        "baz":
+                                            True,
+                                    },
+                            },
+                    },
+                    {
+                        "foo":
+                            {
+                                "bar":
+                                    {
+                                        "baz":
+                                            False,
+                                    },
+                            },
+                    },
+                ]
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_uniqueitems_false_validation_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postUniqueitemsFalseValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_0_and_false_are_unique_passes
+        # 0 and false are unique
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                [
+                    0,
+                    False,
+                ]
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_uniqueitems_false_validation_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postUniqueitemsFalseValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_unique_array_of_arrays_is_valid_passes
+        # unique array of arrays is valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                [
+                    [
+                        "foo",
+                    ],
+                    [
+                        "bar",
+                    ],
+                ]
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_uniqueitems_false_validation_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postUniqueitemsFalseValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_true_is_not_equal_to_one_passes
+        # true is not equal to one
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                [
+                    1,
+                    True,
+                ]
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_uniqueitems_false_validation_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postUniqueitemsFalseValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_non_unique_heterogeneous_types_are_valid_passes
+        # non-unique heterogeneous types are valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                [
+                    {
+                    },
+                    [
+                        1,
+                    ],
+                    True,
+                    None,
+                    {
+                    },
+                    1,
+                ]
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_uniqueitems_false_validation_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postUniqueitemsFalseValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_unique_heterogeneous_types_are_valid_passes
+        # unique heterogeneous types are valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                [
+                    {
+                    },
+                    [
+                        1,
+                    ],
+                    True,
+                    None,
+                    1,
+                ]
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_uniqueitems_false_validation_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postUniqueitemsFalseValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+
         pass
 
     def test_post_uniqueitems_validation_request_body(self):
@@ -9806,7 +18382,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_unique_array_of_objects_is_valid_passes
         # unique array of objects is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 [
                     {
                         "foo":
@@ -9819,7 +18395,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 ]
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -9834,19 +18410,18 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postUniqueitemsValidationRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_a_true_and_a1_are_unique_passes
         # {&quot;a&quot;: true} and {&quot;a&quot;: 1} are unique
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 [
                     {
                         "a":
@@ -9859,7 +18434,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 ]
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -9874,19 +18449,18 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postUniqueitemsValidationRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_non_unique_heterogeneous_types_are_invalid_fails
         # non-unique heterogeneous types are invalid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 [
                     {
                     },
@@ -9902,18 +18476,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    [
-                        {
-                        },
-                        [
-                            1,
-                        ],
-                        True,
-                        None,
-                        {
-                        },
-                        1,
-                    ],
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_uniqueitems_validation_request_body(body=body)
@@ -9921,7 +18484,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_nested0_and_false_are_unique_passes
         # nested [0] and [false] are unique
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 [
                     [
                         [
@@ -9938,7 +18501,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 ]
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -9953,19 +18516,18 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postUniqueitemsValidationRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_a_false_and_a0_are_unique_passes
         # {&quot;a&quot;: false} and {&quot;a&quot;: 0} are unique
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 [
                     {
                         "a":
@@ -9978,7 +18540,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 ]
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -9993,19 +18555,18 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postUniqueitemsValidationRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_numbers_are_unique_if_mathematically_unequal_fails
         # numbers are unique if mathematically unequal
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 [
                     1.0,
                     1.0,
@@ -10014,11 +18575,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    [
-                        1.0,
-                        1.0,
-                        1,
-                    ],
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_uniqueitems_validation_request_body(body=body)
@@ -10026,14 +18583,14 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_false_is_not_equal_to_zero_passes
         # false is not equal to zero
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 [
                     0,
                     False,
                 ]
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -10048,19 +18605,18 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postUniqueitemsValidationRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_0_and_false_are_unique_passes
         # [0] and [false] are unique
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 [
                     [
                         0,
@@ -10071,7 +18627,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 ]
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -10086,19 +18642,18 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postUniqueitemsValidationRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_unique_array_of_arrays_is_valid_passes
         # unique array of arrays is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 [
                     [
                         "foo",
@@ -10109,7 +18664,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 ]
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -10124,19 +18679,18 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postUniqueitemsValidationRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_non_unique_array_of_nested_objects_is_invalid_fails
         # non-unique array of nested objects is invalid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 [
                     {
                         "foo":
@@ -10162,28 +18716,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    [
-                        {
-                            "foo":
-                                {
-                                    "bar":
-                                        {
-                                            "baz":
-                                                True,
-                                        },
-                                },
-                        },
-                        {
-                            "foo":
-                                {
-                                    "bar":
-                                        {
-                                            "baz":
-                                                True,
-                                        },
-                                },
-                        },
-                    ],
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_uniqueitems_validation_request_body(body=body)
@@ -10191,7 +18724,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_non_unique_array_of_more_than_two_integers_is_invalid_fails
         # non-unique array of more than two integers is invalid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 [
                     1,
                     2,
@@ -10200,11 +18733,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    [
-                        1,
-                        2,
-                        1,
-                    ],
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_uniqueitems_validation_request_body(body=body)
@@ -10212,14 +18741,14 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_true_is_not_equal_to_one_passes
         # true is not equal to one
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 [
                     1,
                     True,
                 ]
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -10234,19 +18763,18 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postUniqueitemsValidationRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_objects_are_non_unique_despite_key_order_fails
         # objects are non-unique despite key order
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 [
                     {
                         "a":
@@ -10264,20 +18792,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    [
-                        {
-                            "a":
-                                1,
-                            "b":
-                                2,
-                        },
-                        {
-                            "b":
-                                2,
-                            "a":
-                                1,
-                        },
-                    ],
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_uniqueitems_validation_request_body(body=body)
@@ -10285,7 +18800,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_unique_array_of_strings_is_valid_passes
         # unique array of strings is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 [
                     "foo",
                     "bar",
@@ -10293,7 +18808,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 ]
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -10308,19 +18823,18 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postUniqueitemsValidationRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_1_and_true_are_unique_passes
         # [1] and [true] are unique
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 [
                     [
                         1,
@@ -10331,7 +18845,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 ]
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -10346,19 +18860,18 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postUniqueitemsValidationRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_different_objects_are_unique_passes
         # different objects are unique
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 [
                     {
                         "a":
@@ -10375,7 +18888,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 ]
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -10390,26 +18903,25 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postUniqueitemsValidationRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_unique_array_of_integers_is_valid_passes
         # unique array of integers is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 [
                     1,
                     2,
                 ]
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -10424,19 +18936,18 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postUniqueitemsValidationRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_non_unique_array_of_more_than_two_arrays_is_invalid_fails
         # non-unique array of more than two arrays is invalid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 [
                     [
                         "foo",
@@ -10451,17 +18962,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    [
-                        [
-                            "foo",
-                        ],
-                        [
-                            "bar",
-                        ],
-                        [
-                            "foo",
-                        ],
-                    ],
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_uniqueitems_validation_request_body(body=body)
@@ -10469,7 +18970,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_non_unique_array_of_objects_is_invalid_fails
         # non-unique array of objects is invalid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 [
                     {
                         "foo":
@@ -10483,16 +18984,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    [
-                        {
-                            "foo":
-                                "bar",
-                        },
-                        {
-                            "foo":
-                                "bar",
-                        },
-                    ],
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_uniqueitems_validation_request_body(body=body)
@@ -10500,7 +18992,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_unique_array_of_nested_objects_is_valid_passes
         # unique array of nested objects is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 [
                     {
                         "foo":
@@ -10525,7 +19017,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 ]
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -10540,19 +19032,18 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postUniqueitemsValidationRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_non_unique_array_of_arrays_is_invalid_fails
         # non-unique array of arrays is invalid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 [
                     [
                         "foo",
@@ -10564,14 +19055,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    [
-                        [
-                            "foo",
-                        ],
-                        [
-                            "foo",
-                        ],
-                    ],
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_uniqueitems_validation_request_body(body=body)
@@ -10579,7 +19063,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_non_unique_array_of_strings_is_invalid_fails
         # non-unique array of strings is invalid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 [
                     "foo",
                     "bar",
@@ -10588,11 +19072,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    [
-                        "foo",
-                        "bar",
-                        "foo",
-                    ],
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_uniqueitems_validation_request_body(body=body)
@@ -10600,7 +19080,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_nested1_and_true_are_unique_passes
         # nested [1] and [true] are unique
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 [
                     [
                         [
@@ -10617,7 +19097,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 ]
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -10632,19 +19112,18 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postUniqueitemsValidationRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_unique_heterogeneous_types_are_valid_passes
         # unique heterogeneous types are valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 [
                     {
                     },
@@ -10658,7 +19137,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 ]
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -10673,19 +19152,18 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postUniqueitemsValidationRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_non_unique_array_of_integers_is_invalid_fails
         # non-unique array of integers is invalid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 [
                     1,
                     1,
@@ -10693,10 +19171,7 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                    [
-                        1,
-                        1,
-                    ],
+                    payload,
                     _configuration=self._configuration
                 )
                 self.api.post_uniqueitems_validation_request_body(body=body)
@@ -10709,7 +19184,882 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         """
         from unit_test_api.api.path_post_api_endpoints import post_uniqueitems_validation_response_body_for_content_types as endpoint_module
         response_status = 200
-        # TODO get response content working
+        accept_content_type = 'application/json'
+
+
+        # test_unique_array_of_objects_is_valid_passes
+        # unique array of objects is valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                [
+                    {
+                        "foo":
+                            "bar",
+                    },
+                    {
+                        "foo":
+                            "baz",
+                    },
+                ]
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_uniqueitems_validation_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postUniqueitemsValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_a_true_and_a1_are_unique_passes
+        # {&quot;a&quot;: true} and {&quot;a&quot;: 1} are unique
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                [
+                    {
+                        "a":
+                            True,
+                    },
+                    {
+                        "a":
+                            1,
+                    },
+                ]
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_uniqueitems_validation_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postUniqueitemsValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_non_unique_heterogeneous_types_are_invalid_fails
+        # non-unique heterogeneous types are invalid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                [
+                    {
+                    },
+                    [
+                        1,
+                    ],
+                    True,
+                    None,
+                    {
+                    },
+                    1,
+                ]
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_uniqueitems_validation_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postUniqueitemsValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_nested0_and_false_are_unique_passes
+        # nested [0] and [false] are unique
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                [
+                    [
+                        [
+                            0,
+                        ],
+                        "foo",
+                    ],
+                    [
+                        [
+                            False,
+                        ],
+                        "foo",
+                    ],
+                ]
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_uniqueitems_validation_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postUniqueitemsValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_a_false_and_a0_are_unique_passes
+        # {&quot;a&quot;: false} and {&quot;a&quot;: 0} are unique
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                [
+                    {
+                        "a":
+                            False,
+                    },
+                    {
+                        "a":
+                            0,
+                    },
+                ]
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_uniqueitems_validation_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postUniqueitemsValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_numbers_are_unique_if_mathematically_unequal_fails
+        # numbers are unique if mathematically unequal
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                [
+                    1.0,
+                    1.0,
+                    1,
+                ]
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_uniqueitems_validation_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postUniqueitemsValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_false_is_not_equal_to_zero_passes
+        # false is not equal to zero
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                [
+                    0,
+                    False,
+                ]
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_uniqueitems_validation_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postUniqueitemsValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_0_and_false_are_unique_passes
+        # [0] and [false] are unique
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                [
+                    [
+                        0,
+                    ],
+                    [
+                        False,
+                    ],
+                ]
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_uniqueitems_validation_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postUniqueitemsValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_unique_array_of_arrays_is_valid_passes
+        # unique array of arrays is valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                [
+                    [
+                        "foo",
+                    ],
+                    [
+                        "bar",
+                    ],
+                ]
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_uniqueitems_validation_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postUniqueitemsValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_non_unique_array_of_nested_objects_is_invalid_fails
+        # non-unique array of nested objects is invalid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                [
+                    {
+                        "foo":
+                            {
+                                "bar":
+                                    {
+                                        "baz":
+                                            True,
+                                    },
+                            },
+                    },
+                    {
+                        "foo":
+                            {
+                                "bar":
+                                    {
+                                        "baz":
+                                            True,
+                                    },
+                            },
+                    },
+                ]
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_uniqueitems_validation_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postUniqueitemsValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_non_unique_array_of_more_than_two_integers_is_invalid_fails
+        # non-unique array of more than two integers is invalid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                [
+                    1,
+                    2,
+                    1,
+                ]
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_uniqueitems_validation_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postUniqueitemsValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_true_is_not_equal_to_one_passes
+        # true is not equal to one
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                [
+                    1,
+                    True,
+                ]
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_uniqueitems_validation_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postUniqueitemsValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_objects_are_non_unique_despite_key_order_fails
+        # objects are non-unique despite key order
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                [
+                    {
+                        "a":
+                            1,
+                        "b":
+                            2,
+                    },
+                    {
+                        "b":
+                            2,
+                        "a":
+                            1,
+                    },
+                ]
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_uniqueitems_validation_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postUniqueitemsValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_unique_array_of_strings_is_valid_passes
+        # unique array of strings is valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                [
+                    "foo",
+                    "bar",
+                    "baz",
+                ]
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_uniqueitems_validation_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postUniqueitemsValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_1_and_true_are_unique_passes
+        # [1] and [true] are unique
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                [
+                    [
+                        1,
+                    ],
+                    [
+                        True,
+                    ],
+                ]
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_uniqueitems_validation_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postUniqueitemsValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_different_objects_are_unique_passes
+        # different objects are unique
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                [
+                    {
+                        "a":
+                            1,
+                        "b":
+                            2,
+                    },
+                    {
+                        "a":
+                            2,
+                        "b":
+                            1,
+                    },
+                ]
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_uniqueitems_validation_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postUniqueitemsValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_unique_array_of_integers_is_valid_passes
+        # unique array of integers is valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                [
+                    1,
+                    2,
+                ]
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_uniqueitems_validation_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postUniqueitemsValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_non_unique_array_of_more_than_two_arrays_is_invalid_fails
+        # non-unique array of more than two arrays is invalid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                [
+                    [
+                        "foo",
+                    ],
+                    [
+                        "bar",
+                    ],
+                    [
+                        "foo",
+                    ],
+                ]
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_uniqueitems_validation_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postUniqueitemsValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_non_unique_array_of_objects_is_invalid_fails
+        # non-unique array of objects is invalid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                [
+                    {
+                        "foo":
+                            "bar",
+                    },
+                    {
+                        "foo":
+                            "bar",
+                    },
+                ]
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_uniqueitems_validation_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postUniqueitemsValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_unique_array_of_nested_objects_is_valid_passes
+        # unique array of nested objects is valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                [
+                    {
+                        "foo":
+                            {
+                                "bar":
+                                    {
+                                        "baz":
+                                            True,
+                                    },
+                            },
+                    },
+                    {
+                        "foo":
+                            {
+                                "bar":
+                                    {
+                                        "baz":
+                                            False,
+                                    },
+                            },
+                    },
+                ]
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_uniqueitems_validation_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postUniqueitemsValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_non_unique_array_of_arrays_is_invalid_fails
+        # non-unique array of arrays is invalid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                [
+                    [
+                        "foo",
+                    ],
+                    [
+                        "foo",
+                    ],
+                ]
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_uniqueitems_validation_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postUniqueitemsValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_non_unique_array_of_strings_is_invalid_fails
+        # non-unique array of strings is invalid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                [
+                    "foo",
+                    "bar",
+                    "foo",
+                ]
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_uniqueitems_validation_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postUniqueitemsValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+        # test_nested1_and_true_are_unique_passes
+        # nested [1] and [true] are unique
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                [
+                    [
+                        [
+                            1,
+                        ],
+                        "foo",
+                    ],
+                    [
+                        [
+                            True,
+                        ],
+                        "foo",
+                    ],
+                ]
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_uniqueitems_validation_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postUniqueitemsValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_unique_heterogeneous_types_are_valid_passes
+        # unique heterogeneous types are valid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                [
+                    {
+                    },
+                    [
+                        1,
+                    ],
+                    True,
+                    None,
+                    1,
+                    "{}",
+                ]
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_uniqueitems_validation_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postUniqueitemsValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_non_unique_array_of_integers_is_invalid_fails
+        # non-unique array of integers is invalid
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                [
+                    1,
+                    1,
+                ]
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
+                self.api.post_uniqueitems_validation_response_body_for_content_types(
+                    accept_content_types=(accept_content_type,)
+                )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postUniqueitemsValidationResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+
         pass
 
     def test_post_uri_format_request_body(self):
@@ -10724,12 +20074,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_all_string_formats_ignore_objects_passes
         # all string formats ignore objects
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                 }
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -10744,23 +20094,22 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postUriFormatRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_all_string_formats_ignore_booleans_passes
         # all string formats ignore booleans
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 False
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -10775,23 +20124,22 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postUriFormatRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_all_string_formats_ignore_integers_passes
         # all string formats ignore integers
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 12
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -10806,23 +20154,22 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postUriFormatRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_all_string_formats_ignore_floats_passes
         # all string formats ignore floats
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 13.7
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -10837,24 +20184,23 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postUriFormatRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_all_string_formats_ignore_arrays_passes
         # all string formats ignore arrays
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 [
                 ]
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -10869,23 +20215,22 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postUriFormatRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_all_string_formats_ignore_nulls_passes
         # all string formats ignore nulls
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 None
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -10900,13 +20245,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postUriFormatRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
 
@@ -10917,7 +20261,186 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         """
         from unit_test_api.api.path_post_api_endpoints import post_uri_format_response_body_for_content_types as endpoint_module
         response_status = 200
-        # TODO get response content working
+        accept_content_type = 'application/json'
+
+
+        # test_all_string_formats_ignore_objects_passes
+        # all string formats ignore objects
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_uri_format_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postUriFormatResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_all_string_formats_ignore_booleans_passes
+        # all string formats ignore booleans
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                False
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_uri_format_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postUriFormatResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_all_string_formats_ignore_integers_passes
+        # all string formats ignore integers
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                12
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_uri_format_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postUriFormatResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_all_string_formats_ignore_floats_passes
+        # all string formats ignore floats
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                13.7
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_uri_format_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postUriFormatResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_all_string_formats_ignore_arrays_passes
+        # all string formats ignore arrays
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                [
+                ]
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_uri_format_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postUriFormatResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_all_string_formats_ignore_nulls_passes
+        # all string formats ignore nulls
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                None
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_uri_format_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postUriFormatResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+
         pass
 
     def test_post_uri_reference_format_request_body(self):
@@ -10932,12 +20455,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_all_string_formats_ignore_objects_passes
         # all string formats ignore objects
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                 }
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -10952,23 +20475,22 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postUriReferenceFormatRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_all_string_formats_ignore_booleans_passes
         # all string formats ignore booleans
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 False
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -10983,23 +20505,22 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postUriReferenceFormatRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_all_string_formats_ignore_integers_passes
         # all string formats ignore integers
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 12
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -11014,23 +20535,22 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postUriReferenceFormatRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_all_string_formats_ignore_floats_passes
         # all string formats ignore floats
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 13.7
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -11045,24 +20565,23 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postUriReferenceFormatRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_all_string_formats_ignore_arrays_passes
         # all string formats ignore arrays
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 [
                 ]
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -11077,23 +20596,22 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postUriReferenceFormatRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_all_string_formats_ignore_nulls_passes
         # all string formats ignore nulls
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 None
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -11108,13 +20626,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postUriReferenceFormatRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
 
@@ -11125,7 +20642,186 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         """
         from unit_test_api.api.path_post_api_endpoints import post_uri_reference_format_response_body_for_content_types as endpoint_module
         response_status = 200
-        # TODO get response content working
+        accept_content_type = 'application/json'
+
+
+        # test_all_string_formats_ignore_objects_passes
+        # all string formats ignore objects
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_uri_reference_format_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postUriReferenceFormatResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_all_string_formats_ignore_booleans_passes
+        # all string formats ignore booleans
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                False
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_uri_reference_format_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postUriReferenceFormatResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_all_string_formats_ignore_integers_passes
+        # all string formats ignore integers
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                12
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_uri_reference_format_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postUriReferenceFormatResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_all_string_formats_ignore_floats_passes
+        # all string formats ignore floats
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                13.7
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_uri_reference_format_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postUriReferenceFormatResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_all_string_formats_ignore_arrays_passes
+        # all string formats ignore arrays
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                [
+                ]
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_uri_reference_format_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postUriReferenceFormatResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_all_string_formats_ignore_nulls_passes
+        # all string formats ignore nulls
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                None
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_uri_reference_format_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postUriReferenceFormatResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+
         pass
 
     def test_post_uri_template_format_request_body(self):
@@ -11140,12 +20836,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         # test_all_string_formats_ignore_objects_passes
         # all string formats ignore objects
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 {
                 }
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -11160,23 +20856,22 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postUriTemplateFormatRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_all_string_formats_ignore_booleans_passes
         # all string formats ignore booleans
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 False
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -11191,23 +20886,22 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postUriTemplateFormatRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_all_string_formats_ignore_integers_passes
         # all string formats ignore integers
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 12
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -11222,23 +20916,22 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postUriTemplateFormatRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_all_string_formats_ignore_floats_passes
         # all string formats ignore floats
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 13.7
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -11253,24 +20946,23 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postUriTemplateFormatRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_all_string_formats_ignore_arrays_passes
         # all string formats ignore arrays
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 [
                 ]
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -11285,23 +20977,22 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postUriTemplateFormatRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
         # test_all_string_formats_ignore_nulls_passes
         # all string formats ignore nulls
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            request_payload = (
+            payload = (
                 None
             )
             body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
-                request_payload,
+                payload,
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
@@ -11316,13 +21007,12 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/requestBody/postUriTemplateFormatRequestBody',
                 method='POST',
-                body=self.json_bytes(request_payload),
+                body=self.json_bytes(payload),
                 content_type=content_type,
                 accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            # TODO if response body is unset check that it is unset here
             assert isinstance(api_response.body, schemas.Unset)
 
 
@@ -11333,7 +21023,186 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
         """
         from unit_test_api.api.path_post_api_endpoints import post_uri_template_format_response_body_for_content_types as endpoint_module
         response_status = 200
-        # TODO get response content working
+        accept_content_type = 'application/json'
+
+
+        # test_all_string_formats_ignore_objects_passes
+        # all string formats ignore objects
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_uri_template_format_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postUriTemplateFormatResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_all_string_formats_ignore_booleans_passes
+        # all string formats ignore booleans
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                False
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_uri_template_format_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postUriTemplateFormatResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_all_string_formats_ignore_integers_passes
+        # all string formats ignore integers
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                12
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_uri_template_format_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postUriTemplateFormatResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_all_string_formats_ignore_floats_passes
+        # all string formats ignore floats
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                13.7
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_uri_template_format_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postUriTemplateFormatResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_all_string_formats_ignore_arrays_passes
+        # all string formats ignore arrays
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                [
+                ]
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_uri_template_format_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postUriTemplateFormatResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+        # test_all_string_formats_ignore_nulls_passes
+        # all string formats ignore nulls
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                None
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_uri_template_format_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postUriTemplateFormatResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            assert api_response.body == deserialized_response_body
+
+
         pass
 
 
