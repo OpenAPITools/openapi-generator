@@ -100,11 +100,14 @@ dependencies {
     {{/kotlinx_serialization}}
     {{#jvm-ktor}}
     implementation "io.ktor:ktor-client-core:$ktor_version"
+    implementation "io.ktor:ktor-client-content-negotiation:$ktor_version"
     {{#gson}}
+    implementation "io.ktor:ktor-serialization-gson:$ktor_version"
     implementation "io.ktor:ktor-client-gson:$ktor_version"
     {{/gson}}
     {{#jackson}}
     implementation "io.ktor:ktor-client-jackson:$ktor_version"
+    implementation "io.ktor:ktor-serialization-jackson:$ktor_version"
     {{/jackson}}
     {{/jvm-ktor}}
     {{#jvm-okhttp3}}

@@ -29,13 +29,14 @@ import io.ktor.client.engine.HttpClientEngine
 import io.ktor.http.ParametersBuilder
 
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 
     open class UserApi(
     baseUrl: String = ApiClient.BASE_URL,
     httpClientEngine: HttpClientEngine? = null,
     httpClientConfig: ((HttpClientConfig<*>) -> Unit)? = null,
-    json: Gson = ApiClient.JSON_DEFAULT,
-    ) : ApiClient(baseUrl, httpClientEngine, httpClientConfig, json) {
+    jsonBlock: GsonBuilder.() -> Unit = ApiClient.JSON_DEFAULT,
+    ) : ApiClient(baseUrl, httpClientEngine, httpClientConfig, jsonBlock) {
 
         /**
         * Create user

@@ -34,8 +34,8 @@ import com.fasterxml.jackson.databind.ObjectMapper
     baseUrl: String = ApiClient.BASE_URL,
     httpClientEngine: HttpClientEngine? = null,
     httpClientConfig: ((HttpClientConfig<*>) -> Unit)? = null,
-    json: ObjectMapper = ApiClient.JSON_DEFAULT,
-    ) : ApiClient(baseUrl, httpClientEngine, httpClientConfig, json) {
+    jsonBlock: ObjectMapper.() -> Unit = ApiClient.JSON_DEFAULT,
+    ) : ApiClient(baseUrl, httpClientEngine, httpClientConfig, jsonBlock) {
 
         /**
         * Delete purchase order by ID

@@ -34,6 +34,8 @@ dependencies {
     implementation "com.fasterxml.jackson.module:jackson-module-kotlin:2.13.3"
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.13.3"
     implementation "io.ktor:ktor-client-core:$ktor_version"
+    implementation "io.ktor:ktor-client-content-negotiation:$ktor_version"
     implementation "io.ktor:ktor-client-jackson:$ktor_version"
+    implementation "io.ktor:ktor-serialization-jackson:$ktor_version"
     testImplementation "io.kotlintest:kotlintest-runner-junit5:3.4.2"
 }
