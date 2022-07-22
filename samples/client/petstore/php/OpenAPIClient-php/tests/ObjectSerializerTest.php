@@ -4,6 +4,8 @@ namespace OpenAPI\Client;
 
 use DateTime;
 use GuzzleHttp\Psr7\Utils;
+use OpenAPI\Client\Model\Pet;
+use OpenAPI\Client\Model\Tag;
 use PHPUnit\Framework\TestCase;
 use SplFileObject;
 
@@ -467,5 +469,34 @@ class ObjectSerializerTest extends TestCase
                 true, 'skipValidation', 'boolean', 'form', true, false, 'skipValidation=true',
             ],
         ];
+    }
+
+    /**
+     * Test array to class deserialization.
+     *
+     * @covers ObjectSerializer::deserialize
+     *
+     * @see https://github.com/OpenAPITools/openapi-generator/pull/12849#issuecomment-1186130098
+     */
+    public function testArrayGivenAsObjectForDeserialize(): void
+    {
+        $data = [
+            'name' => 'Pet Name',
+            'status' => Pet::STATUS_AVAILABLE,
+            'tags' => [
+                ['name' => 'Tag Name'],
+            ]
+        ];
+
+        /** @var Pet $pet */
+        $pet = ObjectSerializer::deserialize($data, Pet::class);
+        $this->assertEquals('Pet Name', $pet->getName());
+        $this->assertEquals(Pet::STATUS_AVAILABLE, $pet->getStatus());
+
+        $tags = $pet->getTags();
+        $this->assertIsArray($tags);
+
+        $tag = $tags[0];
+        $this->assertInstanceOf(Tag::class, $tag);
     }
 }
