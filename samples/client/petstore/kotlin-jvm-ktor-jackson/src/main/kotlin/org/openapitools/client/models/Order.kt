@@ -53,7 +53,7 @@ data class Order (
     val status: Order.Status? = null,
 
     @field:JsonProperty("complete")
-    val complete: kotlin.Boolean? = false
+    val complete: kotlin.Boolean = false
 
 ) {
 

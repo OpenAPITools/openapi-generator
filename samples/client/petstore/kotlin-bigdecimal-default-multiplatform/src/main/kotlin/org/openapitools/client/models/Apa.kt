@@ -42,12 +42,12 @@ data class Apa (
 
     @SerialName(value = "cepa") @Required val cepa: kotlin.Double = (6.28318).toDouble(),
 
-    @SerialName(value = "depa") val depa: kotlin.Double? = (71).toDouble(),
+    @SerialName(value = "depa") val depa: kotlin.Double = (71).toDouble(),
 
-    @SerialName(value = "epa") val epa: kotlin.Double? = (-71).toDouble(),
+    @SerialName(value = "epa") val epa: kotlin.Double = (-71).toDouble(),
 
     @Deprecated(message = "This property is deprecated.")
-    @SerialName(value = "fepa") val fepa: kotlin.Double? = (100).toDouble(),
+    @SerialName(value = "fepa") val fepa: kotlin.Double = (100).toDouble(),
 
     @SerialName(value = "gepa") val gepa: kotlin.Double? = null
 
