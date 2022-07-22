@@ -7,7 +7,9 @@ info:
   description: sample spec for testing openapi functionality, built from json schema
     tests for draft6
 tags:
-- name: requestBody
+- name: operation.requestBody
+- name: path.post
+- name: contentType_json
 paths:
   /requestBody/postAdditionalpropertiesAllowsASchemaWhichShouldValidateRequestBody:
     post:
@@ -24,9 +26,9 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
   /requestBody/postAdditionalpropertiesCanExistByItselfRequestBody:
     post:
       operationId: postAdditionalpropertiesCanExistByItselfRequestBody
@@ -42,9 +44,9 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
   /requestBody/postAdditionalpropertiesAreAllowedByDefaultRequestBody:
     post:
       operationId: postAdditionalpropertiesAreAllowedByDefaultRequestBody
@@ -60,9 +62,9 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
   /requestBody/postAdditionalpropertiesShouldNotLookInApplicatorsRequestBody:
     post:
       operationId: postAdditionalpropertiesShouldNotLookInApplicatorsRequestBody
@@ -78,9 +80,9 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
   /requestBody/postAllofRequestBody:
     post:
       operationId: postAllofRequestBody
@@ -96,9 +98,9 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
   /requestBody/postAllofWithBaseSchemaRequestBody:
     post:
       operationId: postAllofWithBaseSchemaRequestBody
@@ -114,9 +116,9 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
   /requestBody/postAllofSimpleTypesRequestBody:
     post:
       operationId: postAllofSimpleTypesRequestBody
@@ -132,9 +134,9 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
   /requestBody/postAllofWithOneEmptySchemaRequestBody:
     post:
       operationId: postAllofWithOneEmptySchemaRequestBody
@@ -150,9 +152,9 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
   /requestBody/postAllofWithTwoEmptySchemasRequestBody:
     post:
       operationId: postAllofWithTwoEmptySchemasRequestBody
@@ -168,9 +170,9 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
   /requestBody/postAllofWithTheFirstEmptySchemaRequestBody:
     post:
       operationId: postAllofWithTheFirstEmptySchemaRequestBody
@@ -186,9 +188,9 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
   /requestBody/postAllofWithTheLastEmptySchemaRequestBody:
     post:
       operationId: postAllofWithTheLastEmptySchemaRequestBody
@@ -204,9 +206,9 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
   /requestBody/postNestedAllofToCheckValidationSemanticsRequestBody:
     post:
       operationId: postNestedAllofToCheckValidationSemanticsRequestBody
@@ -222,9 +224,9 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
   /requestBody/postAllofCombinedWithAnyofOneofRequestBody:
     post:
       operationId: postAllofCombinedWithAnyofOneofRequestBody
@@ -240,9 +242,9 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
   /requestBody/postAnyofRequestBody:
     post:
       operationId: postAnyofRequestBody
@@ -258,9 +260,9 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
   /requestBody/postAnyofWithBaseSchemaRequestBody:
     post:
       operationId: postAnyofWithBaseSchemaRequestBody
@@ -276,9 +278,9 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
   /requestBody/postAnyofComplexTypesRequestBody:
     post:
       operationId: postAnyofComplexTypesRequestBody
@@ -294,9 +296,9 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
   /requestBody/postAnyofWithOneEmptySchemaRequestBody:
     post:
       operationId: postAnyofWithOneEmptySchemaRequestBody
@@ -312,9 +314,9 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
   /requestBody/postNestedAnyofToCheckValidationSemanticsRequestBody:
     post:
       operationId: postNestedAnyofToCheckValidationSemanticsRequestBody
@@ -330,9 +332,9 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
   /requestBody/postInvalidStringValueForDefaultRequestBody:
     post:
       operationId: postInvalidStringValueForDefaultRequestBody
@@ -348,9 +350,9 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
   /requestBody/postTheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissingRequestBody:
     post:
       operationId: postTheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissingRequestBody
@@ -366,9 +368,9 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
   /requestBody/postSimpleEnumValidationRequestBody:
     post:
       operationId: postSimpleEnumValidationRequestBody
@@ -384,9 +386,9 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
   /requestBody/postEnumsInPropertiesRequestBody:
     post:
       operationId: postEnumsInPropertiesRequestBody
@@ -402,9 +404,9 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
   /requestBody/postEnumWithEscapedCharactersRequestBody:
     post:
       operationId: postEnumWithEscapedCharactersRequestBody
@@ -420,9 +422,9 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
   /requestBody/postEnumWithFalseDoesNotMatch0RequestBody:
     post:
       operationId: postEnumWithFalseDoesNotMatch0RequestBody
@@ -438,9 +440,9 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
   /requestBody/postEnumWithTrueDoesNotMatch1RequestBody:
     post:
       operationId: postEnumWithTrueDoesNotMatch1RequestBody
@@ -456,9 +458,9 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
   /requestBody/postEnumWith0DoesNotMatchFalseRequestBody:
     post:
       operationId: postEnumWith0DoesNotMatchFalseRequestBody
@@ -474,9 +476,9 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
   /requestBody/postEnumWith1DoesNotMatchTrueRequestBody:
     post:
       operationId: postEnumWith1DoesNotMatchTrueRequestBody
@@ -492,9 +494,9 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
   /requestBody/postNulCharactersInStringsRequestBody:
     post:
       operationId: postNulCharactersInStringsRequestBody
@@ -510,9 +512,9 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
   /requestBody/postEmailFormatRequestBody:
     post:
       operationId: postEmailFormatRequestBody
@@ -528,9 +530,9 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
   /requestBody/postIpv4FormatRequestBody:
     post:
       operationId: postIpv4FormatRequestBody
@@ -546,9 +548,9 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
   /requestBody/postIpv6FormatRequestBody:
     post:
       operationId: postIpv6FormatRequestBody
@@ -564,9 +566,9 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
   /requestBody/postHostnameFormatRequestBody:
     post:
       operationId: postHostnameFormatRequestBody
@@ -582,9 +584,9 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
   /requestBody/postDateTimeFormatRequestBody:
     post:
       operationId: postDateTimeFormatRequestBody
@@ -600,9 +602,9 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
   /requestBody/postJsonPointerFormatRequestBody:
     post:
       operationId: postJsonPointerFormatRequestBody
@@ -618,9 +620,9 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
   /requestBody/postUriFormatRequestBody:
     post:
       operationId: postUriFormatRequestBody
@@ -636,9 +638,9 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
   /requestBody/postUriReferenceFormatRequestBody:
     post:
       operationId: postUriReferenceFormatRequestBody
@@ -654,9 +656,9 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
   /requestBody/postUriTemplateFormatRequestBody:
     post:
       operationId: postUriTemplateFormatRequestBody
@@ -672,9 +674,9 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
   /requestBody/postNestedItemsRequestBody:
     post:
       operationId: postNestedItemsRequestBody
@@ -690,9 +692,9 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
   /requestBody/postMaximumValidationRequestBody:
     post:
       operationId: postMaximumValidationRequestBody
@@ -708,9 +710,9 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
   /requestBody/postMaximumValidationWithUnsignedIntegerRequestBody:
     post:
       operationId: postMaximumValidationWithUnsignedIntegerRequestBody
@@ -726,9 +728,9 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
   /requestBody/postMaxitemsValidationRequestBody:
     post:
       operationId: postMaxitemsValidationRequestBody
@@ -744,9 +746,9 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
   /requestBody/postMaxlengthValidationRequestBody:
     post:
       operationId: postMaxlengthValidationRequestBody
@@ -762,9 +764,9 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
   /requestBody/postMaxpropertiesValidationRequestBody:
     post:
       operationId: postMaxpropertiesValidationRequestBody
@@ -780,9 +782,9 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
   /requestBody/postMaxproperties0MeansTheObjectIsEmptyRequestBody:
     post:
       operationId: postMaxproperties0MeansTheObjectIsEmptyRequestBody
@@ -798,9 +800,9 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
   /requestBody/postMinimumValidationRequestBody:
     post:
       operationId: postMinimumValidationRequestBody
@@ -816,9 +818,9 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
   /requestBody/postMinimumValidationWithSignedIntegerRequestBody:
     post:
       operationId: postMinimumValidationWithSignedIntegerRequestBody
@@ -834,9 +836,9 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
   /requestBody/postMinitemsValidationRequestBody:
     post:
       operationId: postMinitemsValidationRequestBody
@@ -852,9 +854,9 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
   /requestBody/postMinlengthValidationRequestBody:
     post:
       operationId: postMinlengthValidationRequestBody
@@ -870,9 +872,9 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
   /requestBody/postMinpropertiesValidationRequestBody:
     post:
       operationId: postMinpropertiesValidationRequestBody
@@ -888,9 +890,9 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
   /requestBody/postByIntRequestBody:
     post:
       operationId: postByIntRequestBody
@@ -906,9 +908,9 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
   /requestBody/postByNumberRequestBody:
     post:
       operationId: postByNumberRequestBody
@@ -924,9 +926,9 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
   /requestBody/postBySmallNumberRequestBody:
     post:
       operationId: postBySmallNumberRequestBody
@@ -942,9 +944,9 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
   /requestBody/postInvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInfRequestBody:
     post:
       operationId: postInvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInfRequestBody
@@ -960,9 +962,9 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
   /requestBody/postNotRequestBody:
     post:
       operationId: postNotRequestBody
@@ -978,9 +980,9 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
   /requestBody/postNotMoreComplexSchemaRequestBody:
     post:
       operationId: postNotMoreComplexSchemaRequestBody
@@ -996,9 +998,9 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
   /requestBody/postForbiddenPropertyRequestBody:
     post:
       operationId: postForbiddenPropertyRequestBody
@@ -1014,9 +1016,9 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
   /requestBody/postOneofRequestBody:
     post:
       operationId: postOneofRequestBody
@@ -1032,9 +1034,9 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
   /requestBody/postOneofWithBaseSchemaRequestBody:
     post:
       operationId: postOneofWithBaseSchemaRequestBody
@@ -1050,9 +1052,9 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
   /requestBody/postOneofComplexTypesRequestBody:
     post:
       operationId: postOneofComplexTypesRequestBody
@@ -1068,9 +1070,9 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
   /requestBody/postOneofWithEmptySchemaRequestBody:
     post:
       operationId: postOneofWithEmptySchemaRequestBody
@@ -1086,9 +1088,9 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
   /requestBody/postNestedOneofToCheckValidationSemanticsRequestBody:
     post:
       operationId: postNestedOneofToCheckValidationSemanticsRequestBody
@@ -1104,9 +1106,9 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
   /requestBody/postPatternValidationRequestBody:
     post:
       operationId: postPatternValidationRequestBody
@@ -1122,9 +1124,9 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
   /requestBody/postPatternIsNotAnchoredRequestBody:
     post:
       operationId: postPatternIsNotAnchoredRequestBody
@@ -1140,9 +1142,9 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
   /requestBody/postObjectPropertiesValidationRequestBody:
     post:
       operationId: postObjectPropertiesValidationRequestBody
@@ -1158,9 +1160,9 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
   /requestBody/postPropertiesWithEscapedCharactersRequestBody:
     post:
       operationId: postPropertiesWithEscapedCharactersRequestBody
@@ -1176,9 +1178,9 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
   /requestBody/postPropertyNamedRefThatIsNotAReferenceRequestBody:
     post:
       operationId: postPropertyNamedRefThatIsNotAReferenceRequestBody
@@ -1194,9 +1196,9 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
   /requestBody/postRefInAdditionalpropertiesRequestBody:
     post:
       operationId: postRefInAdditionalpropertiesRequestBody
@@ -1212,9 +1214,9 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
   /requestBody/postRefInItemsRequestBody:
     post:
       operationId: postRefInItemsRequestBody
@@ -1230,9 +1232,9 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
   /requestBody/postRefInPropertyRequestBody:
     post:
       operationId: postRefInPropertyRequestBody
@@ -1248,9 +1250,9 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
   /requestBody/postRefInAllofRequestBody:
     post:
       operationId: postRefInAllofRequestBody
@@ -1266,9 +1268,9 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
   /requestBody/postRefInOneofRequestBody:
     post:
       operationId: postRefInOneofRequestBody
@@ -1284,9 +1286,9 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
   /requestBody/postRefInAnyofRequestBody:
     post:
       operationId: postRefInAnyofRequestBody
@@ -1302,9 +1304,9 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
   /requestBody/postRequiredValidationRequestBody:
     post:
       operationId: postRequiredValidationRequestBody
@@ -1320,9 +1322,9 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
   /requestBody/postRequiredDefaultValidationRequestBody:
     post:
       operationId: postRequiredDefaultValidationRequestBody
@@ -1338,9 +1340,9 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
   /requestBody/postRequiredWithEmptyArrayRequestBody:
     post:
       operationId: postRequiredWithEmptyArrayRequestBody
@@ -1356,9 +1358,9 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
   /requestBody/postIntegerTypeMatchesIntegersRequestBody:
     post:
       operationId: postIntegerTypeMatchesIntegersRequestBody
@@ -1374,9 +1376,9 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
   /requestBody/postNumberTypeMatchesNumbersRequestBody:
     post:
       operationId: postNumberTypeMatchesNumbersRequestBody
@@ -1392,9 +1394,9 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
   /requestBody/postStringTypeMatchesStringsRequestBody:
     post:
       operationId: postStringTypeMatchesStringsRequestBody
@@ -1410,9 +1412,9 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
   /requestBody/postObjectTypeMatchesObjectsRequestBody:
     post:
       operationId: postObjectTypeMatchesObjectsRequestBody
@@ -1428,9 +1430,9 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
   /requestBody/postBooleanTypeMatchesBooleansRequestBody:
     post:
       operationId: postBooleanTypeMatchesBooleansRequestBody
@@ -1446,9 +1448,9 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
   /requestBody/postNullTypeMatchesOnlyTheNullObjectRequestBody:
     post:
       operationId: postNullTypeMatchesOnlyTheNullObjectRequestBody
@@ -1464,9 +1466,9 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
   /requestBody/postArrayTypeMatchesArraysRequestBody:
     post:
       operationId: postArrayTypeMatchesArraysRequestBody
@@ -1482,9 +1484,9 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
   /requestBody/postUniqueitemsValidationRequestBody:
     post:
       operationId: postUniqueitemsValidationRequestBody
@@ -1500,9 +1502,9 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
   /requestBody/postUniqueitemsFalseValidationRequestBody:
     post:
       operationId: postUniqueitemsFalseValidationRequestBody
@@ -1518,9 +1520,9 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
 components:
   schemas:
     AdditionalpropertiesAllowsASchemaWhichShouldValidate:

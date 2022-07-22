@@ -463,10 +463,11 @@ def generate_post_operation_with_request_body(
 
 def write_openapi_spec():
     openapi = get_new_openapi()
-    request_body_tag = OpenApiTag(name='requestBody')
-    post_tag = OpenApiTag(name='post')
-    json_tag = OpenApiTag(name='json')
-    openapi.tags.append(request_body_tag)
+    request_body_tag = OpenApiTag(name='operation.requestBody')
+    post_tag = OpenApiTag(name='path.post')
+    json_tag = OpenApiTag(name='contentType_json')
+    response_content = OpenApiTag(name='response.content.contentType.schema')
+    openapi.tags.extend([request_body_tag, post_tag, json_tag])
     # write component schemas and tests
     for json_schema_test_file, folders in JSON_SCHEMA_TEST_FILE_TO_FOLDERS.items():
         component_schemas, component_name_to_test_examples = (

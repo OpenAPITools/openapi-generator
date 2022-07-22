@@ -1,93 +1,93 @@
-# unit_test_api.PostApi
+# unit_test_api.OperationRequestBodyApi
 
 All URIs are relative to *https://someserver.com/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**post_additionalproperties_allows_a_schema_which_should_validate_request_body**](PostApi.md#post_additionalproperties_allows_a_schema_which_should_validate_request_body) | **POST** /requestBody/postAdditionalpropertiesAllowsASchemaWhichShouldValidateRequestBody | 
-[**post_additionalproperties_are_allowed_by_default_request_body**](PostApi.md#post_additionalproperties_are_allowed_by_default_request_body) | **POST** /requestBody/postAdditionalpropertiesAreAllowedByDefaultRequestBody | 
-[**post_additionalproperties_can_exist_by_itself_request_body**](PostApi.md#post_additionalproperties_can_exist_by_itself_request_body) | **POST** /requestBody/postAdditionalpropertiesCanExistByItselfRequestBody | 
-[**post_additionalproperties_should_not_look_in_applicators_request_body**](PostApi.md#post_additionalproperties_should_not_look_in_applicators_request_body) | **POST** /requestBody/postAdditionalpropertiesShouldNotLookInApplicatorsRequestBody | 
-[**post_allof_combined_with_anyof_oneof_request_body**](PostApi.md#post_allof_combined_with_anyof_oneof_request_body) | **POST** /requestBody/postAllofCombinedWithAnyofOneofRequestBody | 
-[**post_allof_request_body**](PostApi.md#post_allof_request_body) | **POST** /requestBody/postAllofRequestBody | 
-[**post_allof_simple_types_request_body**](PostApi.md#post_allof_simple_types_request_body) | **POST** /requestBody/postAllofSimpleTypesRequestBody | 
-[**post_allof_with_base_schema_request_body**](PostApi.md#post_allof_with_base_schema_request_body) | **POST** /requestBody/postAllofWithBaseSchemaRequestBody | 
-[**post_allof_with_one_empty_schema_request_body**](PostApi.md#post_allof_with_one_empty_schema_request_body) | **POST** /requestBody/postAllofWithOneEmptySchemaRequestBody | 
-[**post_allof_with_the_first_empty_schema_request_body**](PostApi.md#post_allof_with_the_first_empty_schema_request_body) | **POST** /requestBody/postAllofWithTheFirstEmptySchemaRequestBody | 
-[**post_allof_with_the_last_empty_schema_request_body**](PostApi.md#post_allof_with_the_last_empty_schema_request_body) | **POST** /requestBody/postAllofWithTheLastEmptySchemaRequestBody | 
-[**post_allof_with_two_empty_schemas_request_body**](PostApi.md#post_allof_with_two_empty_schemas_request_body) | **POST** /requestBody/postAllofWithTwoEmptySchemasRequestBody | 
-[**post_anyof_complex_types_request_body**](PostApi.md#post_anyof_complex_types_request_body) | **POST** /requestBody/postAnyofComplexTypesRequestBody | 
-[**post_anyof_request_body**](PostApi.md#post_anyof_request_body) | **POST** /requestBody/postAnyofRequestBody | 
-[**post_anyof_with_base_schema_request_body**](PostApi.md#post_anyof_with_base_schema_request_body) | **POST** /requestBody/postAnyofWithBaseSchemaRequestBody | 
-[**post_anyof_with_one_empty_schema_request_body**](PostApi.md#post_anyof_with_one_empty_schema_request_body) | **POST** /requestBody/postAnyofWithOneEmptySchemaRequestBody | 
-[**post_array_type_matches_arrays_request_body**](PostApi.md#post_array_type_matches_arrays_request_body) | **POST** /requestBody/postArrayTypeMatchesArraysRequestBody | 
-[**post_boolean_type_matches_booleans_request_body**](PostApi.md#post_boolean_type_matches_booleans_request_body) | **POST** /requestBody/postBooleanTypeMatchesBooleansRequestBody | 
-[**post_by_int_request_body**](PostApi.md#post_by_int_request_body) | **POST** /requestBody/postByIntRequestBody | 
-[**post_by_number_request_body**](PostApi.md#post_by_number_request_body) | **POST** /requestBody/postByNumberRequestBody | 
-[**post_by_small_number_request_body**](PostApi.md#post_by_small_number_request_body) | **POST** /requestBody/postBySmallNumberRequestBody | 
-[**post_date_time_format_request_body**](PostApi.md#post_date_time_format_request_body) | **POST** /requestBody/postDateTimeFormatRequestBody | 
-[**post_email_format_request_body**](PostApi.md#post_email_format_request_body) | **POST** /requestBody/postEmailFormatRequestBody | 
-[**post_enum_with0_does_not_match_false_request_body**](PostApi.md#post_enum_with0_does_not_match_false_request_body) | **POST** /requestBody/postEnumWith0DoesNotMatchFalseRequestBody | 
-[**post_enum_with1_does_not_match_true_request_body**](PostApi.md#post_enum_with1_does_not_match_true_request_body) | **POST** /requestBody/postEnumWith1DoesNotMatchTrueRequestBody | 
-[**post_enum_with_escaped_characters_request_body**](PostApi.md#post_enum_with_escaped_characters_request_body) | **POST** /requestBody/postEnumWithEscapedCharactersRequestBody | 
-[**post_enum_with_false_does_not_match0_request_body**](PostApi.md#post_enum_with_false_does_not_match0_request_body) | **POST** /requestBody/postEnumWithFalseDoesNotMatch0RequestBody | 
-[**post_enum_with_true_does_not_match1_request_body**](PostApi.md#post_enum_with_true_does_not_match1_request_body) | **POST** /requestBody/postEnumWithTrueDoesNotMatch1RequestBody | 
-[**post_enums_in_properties_request_body**](PostApi.md#post_enums_in_properties_request_body) | **POST** /requestBody/postEnumsInPropertiesRequestBody | 
-[**post_forbidden_property_request_body**](PostApi.md#post_forbidden_property_request_body) | **POST** /requestBody/postForbiddenPropertyRequestBody | 
-[**post_hostname_format_request_body**](PostApi.md#post_hostname_format_request_body) | **POST** /requestBody/postHostnameFormatRequestBody | 
-[**post_integer_type_matches_integers_request_body**](PostApi.md#post_integer_type_matches_integers_request_body) | **POST** /requestBody/postIntegerTypeMatchesIntegersRequestBody | 
-[**post_invalid_instance_should_not_raise_error_when_float_division_inf_request_body**](PostApi.md#post_invalid_instance_should_not_raise_error_when_float_division_inf_request_body) | **POST** /requestBody/postInvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInfRequestBody | 
-[**post_invalid_string_value_for_default_request_body**](PostApi.md#post_invalid_string_value_for_default_request_body) | **POST** /requestBody/postInvalidStringValueForDefaultRequestBody | 
-[**post_ipv4_format_request_body**](PostApi.md#post_ipv4_format_request_body) | **POST** /requestBody/postIpv4FormatRequestBody | 
-[**post_ipv6_format_request_body**](PostApi.md#post_ipv6_format_request_body) | **POST** /requestBody/postIpv6FormatRequestBody | 
-[**post_json_pointer_format_request_body**](PostApi.md#post_json_pointer_format_request_body) | **POST** /requestBody/postJsonPointerFormatRequestBody | 
-[**post_maximum_validation_request_body**](PostApi.md#post_maximum_validation_request_body) | **POST** /requestBody/postMaximumValidationRequestBody | 
-[**post_maximum_validation_with_unsigned_integer_request_body**](PostApi.md#post_maximum_validation_with_unsigned_integer_request_body) | **POST** /requestBody/postMaximumValidationWithUnsignedIntegerRequestBody | 
-[**post_maxitems_validation_request_body**](PostApi.md#post_maxitems_validation_request_body) | **POST** /requestBody/postMaxitemsValidationRequestBody | 
-[**post_maxlength_validation_request_body**](PostApi.md#post_maxlength_validation_request_body) | **POST** /requestBody/postMaxlengthValidationRequestBody | 
-[**post_maxproperties0_means_the_object_is_empty_request_body**](PostApi.md#post_maxproperties0_means_the_object_is_empty_request_body) | **POST** /requestBody/postMaxproperties0MeansTheObjectIsEmptyRequestBody | 
-[**post_maxproperties_validation_request_body**](PostApi.md#post_maxproperties_validation_request_body) | **POST** /requestBody/postMaxpropertiesValidationRequestBody | 
-[**post_minimum_validation_request_body**](PostApi.md#post_minimum_validation_request_body) | **POST** /requestBody/postMinimumValidationRequestBody | 
-[**post_minimum_validation_with_signed_integer_request_body**](PostApi.md#post_minimum_validation_with_signed_integer_request_body) | **POST** /requestBody/postMinimumValidationWithSignedIntegerRequestBody | 
-[**post_minitems_validation_request_body**](PostApi.md#post_minitems_validation_request_body) | **POST** /requestBody/postMinitemsValidationRequestBody | 
-[**post_minlength_validation_request_body**](PostApi.md#post_minlength_validation_request_body) | **POST** /requestBody/postMinlengthValidationRequestBody | 
-[**post_minproperties_validation_request_body**](PostApi.md#post_minproperties_validation_request_body) | **POST** /requestBody/postMinpropertiesValidationRequestBody | 
-[**post_nested_allof_to_check_validation_semantics_request_body**](PostApi.md#post_nested_allof_to_check_validation_semantics_request_body) | **POST** /requestBody/postNestedAllofToCheckValidationSemanticsRequestBody | 
-[**post_nested_anyof_to_check_validation_semantics_request_body**](PostApi.md#post_nested_anyof_to_check_validation_semantics_request_body) | **POST** /requestBody/postNestedAnyofToCheckValidationSemanticsRequestBody | 
-[**post_nested_items_request_body**](PostApi.md#post_nested_items_request_body) | **POST** /requestBody/postNestedItemsRequestBody | 
-[**post_nested_oneof_to_check_validation_semantics_request_body**](PostApi.md#post_nested_oneof_to_check_validation_semantics_request_body) | **POST** /requestBody/postNestedOneofToCheckValidationSemanticsRequestBody | 
-[**post_not_more_complex_schema_request_body**](PostApi.md#post_not_more_complex_schema_request_body) | **POST** /requestBody/postNotMoreComplexSchemaRequestBody | 
-[**post_not_request_body**](PostApi.md#post_not_request_body) | **POST** /requestBody/postNotRequestBody | 
-[**post_nul_characters_in_strings_request_body**](PostApi.md#post_nul_characters_in_strings_request_body) | **POST** /requestBody/postNulCharactersInStringsRequestBody | 
-[**post_null_type_matches_only_the_null_object_request_body**](PostApi.md#post_null_type_matches_only_the_null_object_request_body) | **POST** /requestBody/postNullTypeMatchesOnlyTheNullObjectRequestBody | 
-[**post_number_type_matches_numbers_request_body**](PostApi.md#post_number_type_matches_numbers_request_body) | **POST** /requestBody/postNumberTypeMatchesNumbersRequestBody | 
-[**post_object_properties_validation_request_body**](PostApi.md#post_object_properties_validation_request_body) | **POST** /requestBody/postObjectPropertiesValidationRequestBody | 
-[**post_object_type_matches_objects_request_body**](PostApi.md#post_object_type_matches_objects_request_body) | **POST** /requestBody/postObjectTypeMatchesObjectsRequestBody | 
-[**post_oneof_complex_types_request_body**](PostApi.md#post_oneof_complex_types_request_body) | **POST** /requestBody/postOneofComplexTypesRequestBody | 
-[**post_oneof_request_body**](PostApi.md#post_oneof_request_body) | **POST** /requestBody/postOneofRequestBody | 
-[**post_oneof_with_base_schema_request_body**](PostApi.md#post_oneof_with_base_schema_request_body) | **POST** /requestBody/postOneofWithBaseSchemaRequestBody | 
-[**post_oneof_with_empty_schema_request_body**](PostApi.md#post_oneof_with_empty_schema_request_body) | **POST** /requestBody/postOneofWithEmptySchemaRequestBody | 
-[**post_pattern_is_not_anchored_request_body**](PostApi.md#post_pattern_is_not_anchored_request_body) | **POST** /requestBody/postPatternIsNotAnchoredRequestBody | 
-[**post_pattern_validation_request_body**](PostApi.md#post_pattern_validation_request_body) | **POST** /requestBody/postPatternValidationRequestBody | 
-[**post_properties_with_escaped_characters_request_body**](PostApi.md#post_properties_with_escaped_characters_request_body) | **POST** /requestBody/postPropertiesWithEscapedCharactersRequestBody | 
-[**post_property_named_ref_that_is_not_a_reference_request_body**](PostApi.md#post_property_named_ref_that_is_not_a_reference_request_body) | **POST** /requestBody/postPropertyNamedRefThatIsNotAReferenceRequestBody | 
-[**post_ref_in_additionalproperties_request_body**](PostApi.md#post_ref_in_additionalproperties_request_body) | **POST** /requestBody/postRefInAdditionalpropertiesRequestBody | 
-[**post_ref_in_allof_request_body**](PostApi.md#post_ref_in_allof_request_body) | **POST** /requestBody/postRefInAllofRequestBody | 
-[**post_ref_in_anyof_request_body**](PostApi.md#post_ref_in_anyof_request_body) | **POST** /requestBody/postRefInAnyofRequestBody | 
-[**post_ref_in_items_request_body**](PostApi.md#post_ref_in_items_request_body) | **POST** /requestBody/postRefInItemsRequestBody | 
-[**post_ref_in_oneof_request_body**](PostApi.md#post_ref_in_oneof_request_body) | **POST** /requestBody/postRefInOneofRequestBody | 
-[**post_ref_in_property_request_body**](PostApi.md#post_ref_in_property_request_body) | **POST** /requestBody/postRefInPropertyRequestBody | 
-[**post_required_default_validation_request_body**](PostApi.md#post_required_default_validation_request_body) | **POST** /requestBody/postRequiredDefaultValidationRequestBody | 
-[**post_required_validation_request_body**](PostApi.md#post_required_validation_request_body) | **POST** /requestBody/postRequiredValidationRequestBody | 
-[**post_required_with_empty_array_request_body**](PostApi.md#post_required_with_empty_array_request_body) | **POST** /requestBody/postRequiredWithEmptyArrayRequestBody | 
-[**post_simple_enum_validation_request_body**](PostApi.md#post_simple_enum_validation_request_body) | **POST** /requestBody/postSimpleEnumValidationRequestBody | 
-[**post_string_type_matches_strings_request_body**](PostApi.md#post_string_type_matches_strings_request_body) | **POST** /requestBody/postStringTypeMatchesStringsRequestBody | 
-[**post_the_default_keyword_does_not_do_anything_if_the_property_is_missing_request_body**](PostApi.md#post_the_default_keyword_does_not_do_anything_if_the_property_is_missing_request_body) | **POST** /requestBody/postTheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissingRequestBody | 
-[**post_uniqueitems_false_validation_request_body**](PostApi.md#post_uniqueitems_false_validation_request_body) | **POST** /requestBody/postUniqueitemsFalseValidationRequestBody | 
-[**post_uniqueitems_validation_request_body**](PostApi.md#post_uniqueitems_validation_request_body) | **POST** /requestBody/postUniqueitemsValidationRequestBody | 
-[**post_uri_format_request_body**](PostApi.md#post_uri_format_request_body) | **POST** /requestBody/postUriFormatRequestBody | 
-[**post_uri_reference_format_request_body**](PostApi.md#post_uri_reference_format_request_body) | **POST** /requestBody/postUriReferenceFormatRequestBody | 
-[**post_uri_template_format_request_body**](PostApi.md#post_uri_template_format_request_body) | **POST** /requestBody/postUriTemplateFormatRequestBody | 
+[**post_additionalproperties_allows_a_schema_which_should_validate_request_body**](OperationRequestBodyApi.md#post_additionalproperties_allows_a_schema_which_should_validate_request_body) | **POST** /requestBody/postAdditionalpropertiesAllowsASchemaWhichShouldValidateRequestBody | 
+[**post_additionalproperties_are_allowed_by_default_request_body**](OperationRequestBodyApi.md#post_additionalproperties_are_allowed_by_default_request_body) | **POST** /requestBody/postAdditionalpropertiesAreAllowedByDefaultRequestBody | 
+[**post_additionalproperties_can_exist_by_itself_request_body**](OperationRequestBodyApi.md#post_additionalproperties_can_exist_by_itself_request_body) | **POST** /requestBody/postAdditionalpropertiesCanExistByItselfRequestBody | 
+[**post_additionalproperties_should_not_look_in_applicators_request_body**](OperationRequestBodyApi.md#post_additionalproperties_should_not_look_in_applicators_request_body) | **POST** /requestBody/postAdditionalpropertiesShouldNotLookInApplicatorsRequestBody | 
+[**post_allof_combined_with_anyof_oneof_request_body**](OperationRequestBodyApi.md#post_allof_combined_with_anyof_oneof_request_body) | **POST** /requestBody/postAllofCombinedWithAnyofOneofRequestBody | 
+[**post_allof_request_body**](OperationRequestBodyApi.md#post_allof_request_body) | **POST** /requestBody/postAllofRequestBody | 
+[**post_allof_simple_types_request_body**](OperationRequestBodyApi.md#post_allof_simple_types_request_body) | **POST** /requestBody/postAllofSimpleTypesRequestBody | 
+[**post_allof_with_base_schema_request_body**](OperationRequestBodyApi.md#post_allof_with_base_schema_request_body) | **POST** /requestBody/postAllofWithBaseSchemaRequestBody | 
+[**post_allof_with_one_empty_schema_request_body**](OperationRequestBodyApi.md#post_allof_with_one_empty_schema_request_body) | **POST** /requestBody/postAllofWithOneEmptySchemaRequestBody | 
+[**post_allof_with_the_first_empty_schema_request_body**](OperationRequestBodyApi.md#post_allof_with_the_first_empty_schema_request_body) | **POST** /requestBody/postAllofWithTheFirstEmptySchemaRequestBody | 
+[**post_allof_with_the_last_empty_schema_request_body**](OperationRequestBodyApi.md#post_allof_with_the_last_empty_schema_request_body) | **POST** /requestBody/postAllofWithTheLastEmptySchemaRequestBody | 
+[**post_allof_with_two_empty_schemas_request_body**](OperationRequestBodyApi.md#post_allof_with_two_empty_schemas_request_body) | **POST** /requestBody/postAllofWithTwoEmptySchemasRequestBody | 
+[**post_anyof_complex_types_request_body**](OperationRequestBodyApi.md#post_anyof_complex_types_request_body) | **POST** /requestBody/postAnyofComplexTypesRequestBody | 
+[**post_anyof_request_body**](OperationRequestBodyApi.md#post_anyof_request_body) | **POST** /requestBody/postAnyofRequestBody | 
+[**post_anyof_with_base_schema_request_body**](OperationRequestBodyApi.md#post_anyof_with_base_schema_request_body) | **POST** /requestBody/postAnyofWithBaseSchemaRequestBody | 
+[**post_anyof_with_one_empty_schema_request_body**](OperationRequestBodyApi.md#post_anyof_with_one_empty_schema_request_body) | **POST** /requestBody/postAnyofWithOneEmptySchemaRequestBody | 
+[**post_array_type_matches_arrays_request_body**](OperationRequestBodyApi.md#post_array_type_matches_arrays_request_body) | **POST** /requestBody/postArrayTypeMatchesArraysRequestBody | 
+[**post_boolean_type_matches_booleans_request_body**](OperationRequestBodyApi.md#post_boolean_type_matches_booleans_request_body) | **POST** /requestBody/postBooleanTypeMatchesBooleansRequestBody | 
+[**post_by_int_request_body**](OperationRequestBodyApi.md#post_by_int_request_body) | **POST** /requestBody/postByIntRequestBody | 
+[**post_by_number_request_body**](OperationRequestBodyApi.md#post_by_number_request_body) | **POST** /requestBody/postByNumberRequestBody | 
+[**post_by_small_number_request_body**](OperationRequestBodyApi.md#post_by_small_number_request_body) | **POST** /requestBody/postBySmallNumberRequestBody | 
+[**post_date_time_format_request_body**](OperationRequestBodyApi.md#post_date_time_format_request_body) | **POST** /requestBody/postDateTimeFormatRequestBody | 
+[**post_email_format_request_body**](OperationRequestBodyApi.md#post_email_format_request_body) | **POST** /requestBody/postEmailFormatRequestBody | 
+[**post_enum_with0_does_not_match_false_request_body**](OperationRequestBodyApi.md#post_enum_with0_does_not_match_false_request_body) | **POST** /requestBody/postEnumWith0DoesNotMatchFalseRequestBody | 
+[**post_enum_with1_does_not_match_true_request_body**](OperationRequestBodyApi.md#post_enum_with1_does_not_match_true_request_body) | **POST** /requestBody/postEnumWith1DoesNotMatchTrueRequestBody | 
+[**post_enum_with_escaped_characters_request_body**](OperationRequestBodyApi.md#post_enum_with_escaped_characters_request_body) | **POST** /requestBody/postEnumWithEscapedCharactersRequestBody | 
+[**post_enum_with_false_does_not_match0_request_body**](OperationRequestBodyApi.md#post_enum_with_false_does_not_match0_request_body) | **POST** /requestBody/postEnumWithFalseDoesNotMatch0RequestBody | 
+[**post_enum_with_true_does_not_match1_request_body**](OperationRequestBodyApi.md#post_enum_with_true_does_not_match1_request_body) | **POST** /requestBody/postEnumWithTrueDoesNotMatch1RequestBody | 
+[**post_enums_in_properties_request_body**](OperationRequestBodyApi.md#post_enums_in_properties_request_body) | **POST** /requestBody/postEnumsInPropertiesRequestBody | 
+[**post_forbidden_property_request_body**](OperationRequestBodyApi.md#post_forbidden_property_request_body) | **POST** /requestBody/postForbiddenPropertyRequestBody | 
+[**post_hostname_format_request_body**](OperationRequestBodyApi.md#post_hostname_format_request_body) | **POST** /requestBody/postHostnameFormatRequestBody | 
+[**post_integer_type_matches_integers_request_body**](OperationRequestBodyApi.md#post_integer_type_matches_integers_request_body) | **POST** /requestBody/postIntegerTypeMatchesIntegersRequestBody | 
+[**post_invalid_instance_should_not_raise_error_when_float_division_inf_request_body**](OperationRequestBodyApi.md#post_invalid_instance_should_not_raise_error_when_float_division_inf_request_body) | **POST** /requestBody/postInvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInfRequestBody | 
+[**post_invalid_string_value_for_default_request_body**](OperationRequestBodyApi.md#post_invalid_string_value_for_default_request_body) | **POST** /requestBody/postInvalidStringValueForDefaultRequestBody | 
+[**post_ipv4_format_request_body**](OperationRequestBodyApi.md#post_ipv4_format_request_body) | **POST** /requestBody/postIpv4FormatRequestBody | 
+[**post_ipv6_format_request_body**](OperationRequestBodyApi.md#post_ipv6_format_request_body) | **POST** /requestBody/postIpv6FormatRequestBody | 
+[**post_json_pointer_format_request_body**](OperationRequestBodyApi.md#post_json_pointer_format_request_body) | **POST** /requestBody/postJsonPointerFormatRequestBody | 
+[**post_maximum_validation_request_body**](OperationRequestBodyApi.md#post_maximum_validation_request_body) | **POST** /requestBody/postMaximumValidationRequestBody | 
+[**post_maximum_validation_with_unsigned_integer_request_body**](OperationRequestBodyApi.md#post_maximum_validation_with_unsigned_integer_request_body) | **POST** /requestBody/postMaximumValidationWithUnsignedIntegerRequestBody | 
+[**post_maxitems_validation_request_body**](OperationRequestBodyApi.md#post_maxitems_validation_request_body) | **POST** /requestBody/postMaxitemsValidationRequestBody | 
+[**post_maxlength_validation_request_body**](OperationRequestBodyApi.md#post_maxlength_validation_request_body) | **POST** /requestBody/postMaxlengthValidationRequestBody | 
+[**post_maxproperties0_means_the_object_is_empty_request_body**](OperationRequestBodyApi.md#post_maxproperties0_means_the_object_is_empty_request_body) | **POST** /requestBody/postMaxproperties0MeansTheObjectIsEmptyRequestBody | 
+[**post_maxproperties_validation_request_body**](OperationRequestBodyApi.md#post_maxproperties_validation_request_body) | **POST** /requestBody/postMaxpropertiesValidationRequestBody | 
+[**post_minimum_validation_request_body**](OperationRequestBodyApi.md#post_minimum_validation_request_body) | **POST** /requestBody/postMinimumValidationRequestBody | 
+[**post_minimum_validation_with_signed_integer_request_body**](OperationRequestBodyApi.md#post_minimum_validation_with_signed_integer_request_body) | **POST** /requestBody/postMinimumValidationWithSignedIntegerRequestBody | 
+[**post_minitems_validation_request_body**](OperationRequestBodyApi.md#post_minitems_validation_request_body) | **POST** /requestBody/postMinitemsValidationRequestBody | 
+[**post_minlength_validation_request_body**](OperationRequestBodyApi.md#post_minlength_validation_request_body) | **POST** /requestBody/postMinlengthValidationRequestBody | 
+[**post_minproperties_validation_request_body**](OperationRequestBodyApi.md#post_minproperties_validation_request_body) | **POST** /requestBody/postMinpropertiesValidationRequestBody | 
+[**post_nested_allof_to_check_validation_semantics_request_body**](OperationRequestBodyApi.md#post_nested_allof_to_check_validation_semantics_request_body) | **POST** /requestBody/postNestedAllofToCheckValidationSemanticsRequestBody | 
+[**post_nested_anyof_to_check_validation_semantics_request_body**](OperationRequestBodyApi.md#post_nested_anyof_to_check_validation_semantics_request_body) | **POST** /requestBody/postNestedAnyofToCheckValidationSemanticsRequestBody | 
+[**post_nested_items_request_body**](OperationRequestBodyApi.md#post_nested_items_request_body) | **POST** /requestBody/postNestedItemsRequestBody | 
+[**post_nested_oneof_to_check_validation_semantics_request_body**](OperationRequestBodyApi.md#post_nested_oneof_to_check_validation_semantics_request_body) | **POST** /requestBody/postNestedOneofToCheckValidationSemanticsRequestBody | 
+[**post_not_more_complex_schema_request_body**](OperationRequestBodyApi.md#post_not_more_complex_schema_request_body) | **POST** /requestBody/postNotMoreComplexSchemaRequestBody | 
+[**post_not_request_body**](OperationRequestBodyApi.md#post_not_request_body) | **POST** /requestBody/postNotRequestBody | 
+[**post_nul_characters_in_strings_request_body**](OperationRequestBodyApi.md#post_nul_characters_in_strings_request_body) | **POST** /requestBody/postNulCharactersInStringsRequestBody | 
+[**post_null_type_matches_only_the_null_object_request_body**](OperationRequestBodyApi.md#post_null_type_matches_only_the_null_object_request_body) | **POST** /requestBody/postNullTypeMatchesOnlyTheNullObjectRequestBody | 
+[**post_number_type_matches_numbers_request_body**](OperationRequestBodyApi.md#post_number_type_matches_numbers_request_body) | **POST** /requestBody/postNumberTypeMatchesNumbersRequestBody | 
+[**post_object_properties_validation_request_body**](OperationRequestBodyApi.md#post_object_properties_validation_request_body) | **POST** /requestBody/postObjectPropertiesValidationRequestBody | 
+[**post_object_type_matches_objects_request_body**](OperationRequestBodyApi.md#post_object_type_matches_objects_request_body) | **POST** /requestBody/postObjectTypeMatchesObjectsRequestBody | 
+[**post_oneof_complex_types_request_body**](OperationRequestBodyApi.md#post_oneof_complex_types_request_body) | **POST** /requestBody/postOneofComplexTypesRequestBody | 
+[**post_oneof_request_body**](OperationRequestBodyApi.md#post_oneof_request_body) | **POST** /requestBody/postOneofRequestBody | 
+[**post_oneof_with_base_schema_request_body**](OperationRequestBodyApi.md#post_oneof_with_base_schema_request_body) | **POST** /requestBody/postOneofWithBaseSchemaRequestBody | 
+[**post_oneof_with_empty_schema_request_body**](OperationRequestBodyApi.md#post_oneof_with_empty_schema_request_body) | **POST** /requestBody/postOneofWithEmptySchemaRequestBody | 
+[**post_pattern_is_not_anchored_request_body**](OperationRequestBodyApi.md#post_pattern_is_not_anchored_request_body) | **POST** /requestBody/postPatternIsNotAnchoredRequestBody | 
+[**post_pattern_validation_request_body**](OperationRequestBodyApi.md#post_pattern_validation_request_body) | **POST** /requestBody/postPatternValidationRequestBody | 
+[**post_properties_with_escaped_characters_request_body**](OperationRequestBodyApi.md#post_properties_with_escaped_characters_request_body) | **POST** /requestBody/postPropertiesWithEscapedCharactersRequestBody | 
+[**post_property_named_ref_that_is_not_a_reference_request_body**](OperationRequestBodyApi.md#post_property_named_ref_that_is_not_a_reference_request_body) | **POST** /requestBody/postPropertyNamedRefThatIsNotAReferenceRequestBody | 
+[**post_ref_in_additionalproperties_request_body**](OperationRequestBodyApi.md#post_ref_in_additionalproperties_request_body) | **POST** /requestBody/postRefInAdditionalpropertiesRequestBody | 
+[**post_ref_in_allof_request_body**](OperationRequestBodyApi.md#post_ref_in_allof_request_body) | **POST** /requestBody/postRefInAllofRequestBody | 
+[**post_ref_in_anyof_request_body**](OperationRequestBodyApi.md#post_ref_in_anyof_request_body) | **POST** /requestBody/postRefInAnyofRequestBody | 
+[**post_ref_in_items_request_body**](OperationRequestBodyApi.md#post_ref_in_items_request_body) | **POST** /requestBody/postRefInItemsRequestBody | 
+[**post_ref_in_oneof_request_body**](OperationRequestBodyApi.md#post_ref_in_oneof_request_body) | **POST** /requestBody/postRefInOneofRequestBody | 
+[**post_ref_in_property_request_body**](OperationRequestBodyApi.md#post_ref_in_property_request_body) | **POST** /requestBody/postRefInPropertyRequestBody | 
+[**post_required_default_validation_request_body**](OperationRequestBodyApi.md#post_required_default_validation_request_body) | **POST** /requestBody/postRequiredDefaultValidationRequestBody | 
+[**post_required_validation_request_body**](OperationRequestBodyApi.md#post_required_validation_request_body) | **POST** /requestBody/postRequiredValidationRequestBody | 
+[**post_required_with_empty_array_request_body**](OperationRequestBodyApi.md#post_required_with_empty_array_request_body) | **POST** /requestBody/postRequiredWithEmptyArrayRequestBody | 
+[**post_simple_enum_validation_request_body**](OperationRequestBodyApi.md#post_simple_enum_validation_request_body) | **POST** /requestBody/postSimpleEnumValidationRequestBody | 
+[**post_string_type_matches_strings_request_body**](OperationRequestBodyApi.md#post_string_type_matches_strings_request_body) | **POST** /requestBody/postStringTypeMatchesStringsRequestBody | 
+[**post_the_default_keyword_does_not_do_anything_if_the_property_is_missing_request_body**](OperationRequestBodyApi.md#post_the_default_keyword_does_not_do_anything_if_the_property_is_missing_request_body) | **POST** /requestBody/postTheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissingRequestBody | 
+[**post_uniqueitems_false_validation_request_body**](OperationRequestBodyApi.md#post_uniqueitems_false_validation_request_body) | **POST** /requestBody/postUniqueitemsFalseValidationRequestBody | 
+[**post_uniqueitems_validation_request_body**](OperationRequestBodyApi.md#post_uniqueitems_validation_request_body) | **POST** /requestBody/postUniqueitemsValidationRequestBody | 
+[**post_uri_format_request_body**](OperationRequestBodyApi.md#post_uri_format_request_body) | **POST** /requestBody/postUriFormatRequestBody | 
+[**post_uri_reference_format_request_body**](OperationRequestBodyApi.md#post_uri_reference_format_request_body) | **POST** /requestBody/postUriReferenceFormatRequestBody | 
+[**post_uri_template_format_request_body**](OperationRequestBodyApi.md#post_uri_template_format_request_body) | **POST** /requestBody/postUriTemplateFormatRequestBody | 
 
 # **post_additionalproperties_allows_a_schema_which_should_validate_request_body**
 > post_additionalproperties_allows_a_schema_which_should_validate_request_body(additionalproperties_allows_a_schema_which_should_validate)
@@ -98,7 +98,7 @@ Method | HTTP request | Description
 
 ```python
 import unit_test_api
-from unit_test_api.api import post_api
+from unit_test_api.api import operation_request_body_api
 from unit_test_api.model.additionalproperties_allows_a_schema_which_should_validate import AdditionalpropertiesAllowsASchemaWhichShouldValidate
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -110,7 +110,7 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = post_api.PostApi(api_client)
+    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
 
     # example passing only required values which don't have defaults set
     body = AdditionalpropertiesAllowsASchemaWhichShouldValidate(
@@ -122,7 +122,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PostApi->post_additionalproperties_allows_a_schema_which_should_validate_request_body: %s\n" % e)
+        print("Exception when calling OperationRequestBodyApi->post_additionalproperties_allows_a_schema_which_should_validate_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -174,7 +174,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import post_api
+from unit_test_api.api import operation_request_body_api
 from unit_test_api.model.additionalproperties_are_allowed_by_default import AdditionalpropertiesAreAllowedByDefault
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -186,7 +186,7 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = post_api.PostApi(api_client)
+    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
 
     # example passing only required values which don't have defaults set
     body = AdditionalpropertiesAreAllowedByDefault(None)
@@ -195,7 +195,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PostApi->post_additionalproperties_are_allowed_by_default_request_body: %s\n" % e)
+        print("Exception when calling OperationRequestBodyApi->post_additionalproperties_are_allowed_by_default_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -247,7 +247,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import post_api
+from unit_test_api.api import operation_request_body_api
 from unit_test_api.model.additionalproperties_can_exist_by_itself import AdditionalpropertiesCanExistByItself
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -259,7 +259,7 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = post_api.PostApi(api_client)
+    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
 
     # example passing only required values which don't have defaults set
     body = AdditionalpropertiesCanExistByItself(
@@ -270,7 +270,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PostApi->post_additionalproperties_can_exist_by_itself_request_body: %s\n" % e)
+        print("Exception when calling OperationRequestBodyApi->post_additionalproperties_can_exist_by_itself_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -322,7 +322,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import post_api
+from unit_test_api.api import operation_request_body_api
 from unit_test_api.model.additionalproperties_should_not_look_in_applicators import AdditionalpropertiesShouldNotLookInApplicators
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -334,7 +334,7 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = post_api.PostApi(api_client)
+    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
 
     # example passing only required values which don't have defaults set
     body = AdditionalpropertiesShouldNotLookInApplicators(None)
@@ -343,7 +343,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PostApi->post_additionalproperties_should_not_look_in_applicators_request_body: %s\n" % e)
+        print("Exception when calling OperationRequestBodyApi->post_additionalproperties_should_not_look_in_applicators_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -395,7 +395,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import post_api
+from unit_test_api.api import operation_request_body_api
 from unit_test_api.model.allof_combined_with_anyof_oneof import AllofCombinedWithAnyofOneof
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -407,7 +407,7 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = post_api.PostApi(api_client)
+    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
 
     # example passing only required values which don't have defaults set
     body = AllofCombinedWithAnyofOneof(None)
@@ -416,7 +416,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PostApi->post_allof_combined_with_anyof_oneof_request_body: %s\n" % e)
+        print("Exception when calling OperationRequestBodyApi->post_allof_combined_with_anyof_oneof_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -468,7 +468,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import post_api
+from unit_test_api.api import operation_request_body_api
 from unit_test_api.model.allof import Allof
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -480,7 +480,7 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = post_api.PostApi(api_client)
+    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
 
     # example passing only required values which don't have defaults set
     body = Allof(None)
@@ -489,7 +489,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PostApi->post_allof_request_body: %s\n" % e)
+        print("Exception when calling OperationRequestBodyApi->post_allof_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -541,7 +541,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import post_api
+from unit_test_api.api import operation_request_body_api
 from unit_test_api.model.allof_simple_types import AllofSimpleTypes
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -553,7 +553,7 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = post_api.PostApi(api_client)
+    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
 
     # example passing only required values which don't have defaults set
     body = AllofSimpleTypes(None)
@@ -562,7 +562,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PostApi->post_allof_simple_types_request_body: %s\n" % e)
+        print("Exception when calling OperationRequestBodyApi->post_allof_simple_types_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -614,7 +614,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import post_api
+from unit_test_api.api import operation_request_body_api
 from unit_test_api.model.allof_with_base_schema import AllofWithBaseSchema
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -626,7 +626,7 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = post_api.PostApi(api_client)
+    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
 
     # example passing only required values which don't have defaults set
     body = AllofWithBaseSchema({})
@@ -635,7 +635,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PostApi->post_allof_with_base_schema_request_body: %s\n" % e)
+        print("Exception when calling OperationRequestBodyApi->post_allof_with_base_schema_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -687,7 +687,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import post_api
+from unit_test_api.api import operation_request_body_api
 from unit_test_api.model.allof_with_one_empty_schema import AllofWithOneEmptySchema
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -699,7 +699,7 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = post_api.PostApi(api_client)
+    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
 
     # example passing only required values which don't have defaults set
     body = AllofWithOneEmptySchema(None)
@@ -708,7 +708,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PostApi->post_allof_with_one_empty_schema_request_body: %s\n" % e)
+        print("Exception when calling OperationRequestBodyApi->post_allof_with_one_empty_schema_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -760,7 +760,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import post_api
+from unit_test_api.api import operation_request_body_api
 from unit_test_api.model.allof_with_the_first_empty_schema import AllofWithTheFirstEmptySchema
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -772,7 +772,7 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = post_api.PostApi(api_client)
+    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
 
     # example passing only required values which don't have defaults set
     body = AllofWithTheFirstEmptySchema(None)
@@ -781,7 +781,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PostApi->post_allof_with_the_first_empty_schema_request_body: %s\n" % e)
+        print("Exception when calling OperationRequestBodyApi->post_allof_with_the_first_empty_schema_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -833,7 +833,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import post_api
+from unit_test_api.api import operation_request_body_api
 from unit_test_api.model.allof_with_the_last_empty_schema import AllofWithTheLastEmptySchema
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -845,7 +845,7 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = post_api.PostApi(api_client)
+    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
 
     # example passing only required values which don't have defaults set
     body = AllofWithTheLastEmptySchema(None)
@@ -854,7 +854,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PostApi->post_allof_with_the_last_empty_schema_request_body: %s\n" % e)
+        print("Exception when calling OperationRequestBodyApi->post_allof_with_the_last_empty_schema_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -906,7 +906,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import post_api
+from unit_test_api.api import operation_request_body_api
 from unit_test_api.model.allof_with_two_empty_schemas import AllofWithTwoEmptySchemas
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -918,7 +918,7 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = post_api.PostApi(api_client)
+    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
 
     # example passing only required values which don't have defaults set
     body = AllofWithTwoEmptySchemas(None)
@@ -927,7 +927,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PostApi->post_allof_with_two_empty_schemas_request_body: %s\n" % e)
+        print("Exception when calling OperationRequestBodyApi->post_allof_with_two_empty_schemas_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -979,7 +979,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import post_api
+from unit_test_api.api import operation_request_body_api
 from unit_test_api.model.anyof_complex_types import AnyofComplexTypes
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -991,7 +991,7 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = post_api.PostApi(api_client)
+    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
 
     # example passing only required values which don't have defaults set
     body = AnyofComplexTypes(None)
@@ -1000,7 +1000,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PostApi->post_anyof_complex_types_request_body: %s\n" % e)
+        print("Exception when calling OperationRequestBodyApi->post_anyof_complex_types_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -1052,7 +1052,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import post_api
+from unit_test_api.api import operation_request_body_api
 from unit_test_api.model.anyof import Anyof
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -1064,7 +1064,7 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = post_api.PostApi(api_client)
+    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
 
     # example passing only required values which don't have defaults set
     body = Anyof(None)
@@ -1073,7 +1073,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PostApi->post_anyof_request_body: %s\n" % e)
+        print("Exception when calling OperationRequestBodyApi->post_anyof_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -1125,7 +1125,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import post_api
+from unit_test_api.api import operation_request_body_api
 from unit_test_api.model.anyof_with_base_schema import AnyofWithBaseSchema
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -1137,7 +1137,7 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = post_api.PostApi(api_client)
+    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
 
     # example passing only required values which don't have defaults set
     body = AnyofWithBaseSchema("body_example")
@@ -1146,7 +1146,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PostApi->post_anyof_with_base_schema_request_body: %s\n" % e)
+        print("Exception when calling OperationRequestBodyApi->post_anyof_with_base_schema_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -1198,7 +1198,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import post_api
+from unit_test_api.api import operation_request_body_api
 from unit_test_api.model.anyof_with_one_empty_schema import AnyofWithOneEmptySchema
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -1210,7 +1210,7 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = post_api.PostApi(api_client)
+    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
 
     # example passing only required values which don't have defaults set
     body = AnyofWithOneEmptySchema(None)
@@ -1219,7 +1219,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PostApi->post_anyof_with_one_empty_schema_request_body: %s\n" % e)
+        print("Exception when calling OperationRequestBodyApi->post_anyof_with_one_empty_schema_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -1271,7 +1271,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import post_api
+from unit_test_api.api import operation_request_body_api
 from unit_test_api.model.array_type_matches_arrays import ArrayTypeMatchesArrays
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -1283,7 +1283,7 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = post_api.PostApi(api_client)
+    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
 
     # example passing only required values which don't have defaults set
     body = ArrayTypeMatchesArrays([
@@ -1294,7 +1294,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PostApi->post_array_type_matches_arrays_request_body: %s\n" % e)
+        print("Exception when calling OperationRequestBodyApi->post_array_type_matches_arrays_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -1346,7 +1346,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import post_api
+from unit_test_api.api import operation_request_body_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -1357,7 +1357,7 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = post_api.PostApi(api_client)
+    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
 
     # example passing only required values which don't have defaults set
     body = True
@@ -1366,7 +1366,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PostApi->post_boolean_type_matches_booleans_request_body: %s\n" % e)
+        print("Exception when calling OperationRequestBodyApi->post_boolean_type_matches_booleans_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -1418,7 +1418,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import post_api
+from unit_test_api.api import operation_request_body_api
 from unit_test_api.model.by_int import ByInt
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -1430,7 +1430,7 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = post_api.PostApi(api_client)
+    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
 
     # example passing only required values which don't have defaults set
     body = ByInt(None)
@@ -1439,7 +1439,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PostApi->post_by_int_request_body: %s\n" % e)
+        print("Exception when calling OperationRequestBodyApi->post_by_int_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -1491,7 +1491,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import post_api
+from unit_test_api.api import operation_request_body_api
 from unit_test_api.model.by_number import ByNumber
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -1503,7 +1503,7 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = post_api.PostApi(api_client)
+    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
 
     # example passing only required values which don't have defaults set
     body = ByNumber(None)
@@ -1512,7 +1512,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PostApi->post_by_number_request_body: %s\n" % e)
+        print("Exception when calling OperationRequestBodyApi->post_by_number_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -1564,7 +1564,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import post_api
+from unit_test_api.api import operation_request_body_api
 from unit_test_api.model.by_small_number import BySmallNumber
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -1576,7 +1576,7 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = post_api.PostApi(api_client)
+    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
 
     # example passing only required values which don't have defaults set
     body = BySmallNumber(None)
@@ -1585,7 +1585,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PostApi->post_by_small_number_request_body: %s\n" % e)
+        print("Exception when calling OperationRequestBodyApi->post_by_small_number_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -1637,7 +1637,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import post_api
+from unit_test_api.api import operation_request_body_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -1648,7 +1648,7 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = post_api.PostApi(api_client)
+    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
 
     # example passing only required values which don't have defaults set
     body = None
@@ -1657,7 +1657,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PostApi->post_date_time_format_request_body: %s\n" % e)
+        print("Exception when calling OperationRequestBodyApi->post_date_time_format_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -1710,7 +1710,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import post_api
+from unit_test_api.api import operation_request_body_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -1721,7 +1721,7 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = post_api.PostApi(api_client)
+    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
 
     # example passing only required values which don't have defaults set
     body = None
@@ -1730,7 +1730,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PostApi->post_email_format_request_body: %s\n" % e)
+        print("Exception when calling OperationRequestBodyApi->post_email_format_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -1783,7 +1783,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import post_api
+from unit_test_api.api import operation_request_body_api
 from unit_test_api.model.enum_with0_does_not_match_false import EnumWith0DoesNotMatchFalse
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -1795,7 +1795,7 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = post_api.PostApi(api_client)
+    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
 
     # example passing only required values which don't have defaults set
     body = EnumWith0DoesNotMatchFalse(0)
@@ -1804,7 +1804,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PostApi->post_enum_with0_does_not_match_false_request_body: %s\n" % e)
+        print("Exception when calling OperationRequestBodyApi->post_enum_with0_does_not_match_false_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -1856,7 +1856,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import post_api
+from unit_test_api.api import operation_request_body_api
 from unit_test_api.model.enum_with1_does_not_match_true import EnumWith1DoesNotMatchTrue
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -1868,7 +1868,7 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = post_api.PostApi(api_client)
+    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
 
     # example passing only required values which don't have defaults set
     body = EnumWith1DoesNotMatchTrue(1)
@@ -1877,7 +1877,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PostApi->post_enum_with1_does_not_match_true_request_body: %s\n" % e)
+        print("Exception when calling OperationRequestBodyApi->post_enum_with1_does_not_match_true_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -1929,7 +1929,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import post_api
+from unit_test_api.api import operation_request_body_api
 from unit_test_api.model.enum_with_escaped_characters import EnumWithEscapedCharacters
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -1941,7 +1941,7 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = post_api.PostApi(api_client)
+    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
 
     # example passing only required values which don't have defaults set
     body = EnumWithEscapedCharacters("foo
@@ -1951,7 +1951,7 @@ bar")
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PostApi->post_enum_with_escaped_characters_request_body: %s\n" % e)
+        print("Exception when calling OperationRequestBodyApi->post_enum_with_escaped_characters_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -2003,7 +2003,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import post_api
+from unit_test_api.api import operation_request_body_api
 from unit_test_api.model.enum_with_false_does_not_match0 import EnumWithFalseDoesNotMatch0
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -2015,7 +2015,7 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = post_api.PostApi(api_client)
+    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
 
     # example passing only required values which don't have defaults set
     body = EnumWithFalseDoesNotMatch0(False)
@@ -2024,7 +2024,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PostApi->post_enum_with_false_does_not_match0_request_body: %s\n" % e)
+        print("Exception when calling OperationRequestBodyApi->post_enum_with_false_does_not_match0_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -2076,7 +2076,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import post_api
+from unit_test_api.api import operation_request_body_api
 from unit_test_api.model.enum_with_true_does_not_match1 import EnumWithTrueDoesNotMatch1
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -2088,7 +2088,7 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = post_api.PostApi(api_client)
+    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
 
     # example passing only required values which don't have defaults set
     body = EnumWithTrueDoesNotMatch1(True)
@@ -2097,7 +2097,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PostApi->post_enum_with_true_does_not_match1_request_body: %s\n" % e)
+        print("Exception when calling OperationRequestBodyApi->post_enum_with_true_does_not_match1_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -2149,7 +2149,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import post_api
+from unit_test_api.api import operation_request_body_api
 from unit_test_api.model.enums_in_properties import EnumsInProperties
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -2161,7 +2161,7 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = post_api.PostApi(api_client)
+    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
 
     # example passing only required values which don't have defaults set
     body = EnumsInProperties(
@@ -2173,7 +2173,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PostApi->post_enums_in_properties_request_body: %s\n" % e)
+        print("Exception when calling OperationRequestBodyApi->post_enums_in_properties_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -2225,7 +2225,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import post_api
+from unit_test_api.api import operation_request_body_api
 from unit_test_api.model.forbidden_property import ForbiddenProperty
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -2237,7 +2237,7 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = post_api.PostApi(api_client)
+    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
 
     # example passing only required values which don't have defaults set
     body = ForbiddenProperty(None)
@@ -2246,7 +2246,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PostApi->post_forbidden_property_request_body: %s\n" % e)
+        print("Exception when calling OperationRequestBodyApi->post_forbidden_property_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -2298,7 +2298,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import post_api
+from unit_test_api.api import operation_request_body_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -2309,7 +2309,7 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = post_api.PostApi(api_client)
+    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
 
     # example passing only required values which don't have defaults set
     body = None
@@ -2318,7 +2318,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PostApi->post_hostname_format_request_body: %s\n" % e)
+        print("Exception when calling OperationRequestBodyApi->post_hostname_format_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -2371,7 +2371,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import post_api
+from unit_test_api.api import operation_request_body_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -2382,7 +2382,7 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = post_api.PostApi(api_client)
+    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
 
     # example passing only required values which don't have defaults set
     body = 1
@@ -2391,7 +2391,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PostApi->post_integer_type_matches_integers_request_body: %s\n" % e)
+        print("Exception when calling OperationRequestBodyApi->post_integer_type_matches_integers_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -2443,7 +2443,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import post_api
+from unit_test_api.api import operation_request_body_api
 from unit_test_api.model.invalid_instance_should_not_raise_error_when_float_division_inf import InvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInf
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -2455,7 +2455,7 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = post_api.PostApi(api_client)
+    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
 
     # example passing only required values which don't have defaults set
     body = InvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInf(1)
@@ -2464,7 +2464,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PostApi->post_invalid_instance_should_not_raise_error_when_float_division_inf_request_body: %s\n" % e)
+        print("Exception when calling OperationRequestBodyApi->post_invalid_instance_should_not_raise_error_when_float_division_inf_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -2516,7 +2516,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import post_api
+from unit_test_api.api import operation_request_body_api
 from unit_test_api.model.invalid_string_value_for_default import InvalidStringValueForDefault
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -2528,7 +2528,7 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = post_api.PostApi(api_client)
+    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
 
     # example passing only required values which don't have defaults set
     body = InvalidStringValueForDefault(None)
@@ -2537,7 +2537,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PostApi->post_invalid_string_value_for_default_request_body: %s\n" % e)
+        print("Exception when calling OperationRequestBodyApi->post_invalid_string_value_for_default_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -2589,7 +2589,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import post_api
+from unit_test_api.api import operation_request_body_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -2600,7 +2600,7 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = post_api.PostApi(api_client)
+    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
 
     # example passing only required values which don't have defaults set
     body = None
@@ -2609,7 +2609,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PostApi->post_ipv4_format_request_body: %s\n" % e)
+        print("Exception when calling OperationRequestBodyApi->post_ipv4_format_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -2662,7 +2662,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import post_api
+from unit_test_api.api import operation_request_body_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -2673,7 +2673,7 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = post_api.PostApi(api_client)
+    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
 
     # example passing only required values which don't have defaults set
     body = None
@@ -2682,7 +2682,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PostApi->post_ipv6_format_request_body: %s\n" % e)
+        print("Exception when calling OperationRequestBodyApi->post_ipv6_format_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -2735,7 +2735,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import post_api
+from unit_test_api.api import operation_request_body_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -2746,7 +2746,7 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = post_api.PostApi(api_client)
+    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
 
     # example passing only required values which don't have defaults set
     body = None
@@ -2755,7 +2755,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PostApi->post_json_pointer_format_request_body: %s\n" % e)
+        print("Exception when calling OperationRequestBodyApi->post_json_pointer_format_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -2808,7 +2808,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import post_api
+from unit_test_api.api import operation_request_body_api
 from unit_test_api.model.maximum_validation import MaximumValidation
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -2820,7 +2820,7 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = post_api.PostApi(api_client)
+    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
 
     # example passing only required values which don't have defaults set
     body = MaximumValidation(None)
@@ -2829,7 +2829,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PostApi->post_maximum_validation_request_body: %s\n" % e)
+        print("Exception when calling OperationRequestBodyApi->post_maximum_validation_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -2881,7 +2881,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import post_api
+from unit_test_api.api import operation_request_body_api
 from unit_test_api.model.maximum_validation_with_unsigned_integer import MaximumValidationWithUnsignedInteger
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -2893,7 +2893,7 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = post_api.PostApi(api_client)
+    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
 
     # example passing only required values which don't have defaults set
     body = MaximumValidationWithUnsignedInteger(None)
@@ -2902,7 +2902,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PostApi->post_maximum_validation_with_unsigned_integer_request_body: %s\n" % e)
+        print("Exception when calling OperationRequestBodyApi->post_maximum_validation_with_unsigned_integer_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -2954,7 +2954,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import post_api
+from unit_test_api.api import operation_request_body_api
 from unit_test_api.model.maxitems_validation import MaxitemsValidation
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -2966,7 +2966,7 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = post_api.PostApi(api_client)
+    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
 
     # example passing only required values which don't have defaults set
     body = MaxitemsValidation(None)
@@ -2975,7 +2975,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PostApi->post_maxitems_validation_request_body: %s\n" % e)
+        print("Exception when calling OperationRequestBodyApi->post_maxitems_validation_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -3027,7 +3027,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import post_api
+from unit_test_api.api import operation_request_body_api
 from unit_test_api.model.maxlength_validation import MaxlengthValidation
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -3039,7 +3039,7 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = post_api.PostApi(api_client)
+    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
 
     # example passing only required values which don't have defaults set
     body = MaxlengthValidation(None)
@@ -3048,7 +3048,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PostApi->post_maxlength_validation_request_body: %s\n" % e)
+        print("Exception when calling OperationRequestBodyApi->post_maxlength_validation_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -3100,7 +3100,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import post_api
+from unit_test_api.api import operation_request_body_api
 from unit_test_api.model.maxproperties0_means_the_object_is_empty import Maxproperties0MeansTheObjectIsEmpty
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -3112,7 +3112,7 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = post_api.PostApi(api_client)
+    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
 
     # example passing only required values which don't have defaults set
     body = Maxproperties0MeansTheObjectIsEmpty(None)
@@ -3121,7 +3121,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PostApi->post_maxproperties0_means_the_object_is_empty_request_body: %s\n" % e)
+        print("Exception when calling OperationRequestBodyApi->post_maxproperties0_means_the_object_is_empty_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -3173,7 +3173,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import post_api
+from unit_test_api.api import operation_request_body_api
 from unit_test_api.model.maxproperties_validation import MaxpropertiesValidation
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -3185,7 +3185,7 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = post_api.PostApi(api_client)
+    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
 
     # example passing only required values which don't have defaults set
     body = MaxpropertiesValidation(None)
@@ -3194,7 +3194,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PostApi->post_maxproperties_validation_request_body: %s\n" % e)
+        print("Exception when calling OperationRequestBodyApi->post_maxproperties_validation_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -3246,7 +3246,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import post_api
+from unit_test_api.api import operation_request_body_api
 from unit_test_api.model.minimum_validation import MinimumValidation
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -3258,7 +3258,7 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = post_api.PostApi(api_client)
+    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
 
     # example passing only required values which don't have defaults set
     body = MinimumValidation(None)
@@ -3267,7 +3267,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PostApi->post_minimum_validation_request_body: %s\n" % e)
+        print("Exception when calling OperationRequestBodyApi->post_minimum_validation_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -3319,7 +3319,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import post_api
+from unit_test_api.api import operation_request_body_api
 from unit_test_api.model.minimum_validation_with_signed_integer import MinimumValidationWithSignedInteger
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -3331,7 +3331,7 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = post_api.PostApi(api_client)
+    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
 
     # example passing only required values which don't have defaults set
     body = MinimumValidationWithSignedInteger(None)
@@ -3340,7 +3340,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PostApi->post_minimum_validation_with_signed_integer_request_body: %s\n" % e)
+        print("Exception when calling OperationRequestBodyApi->post_minimum_validation_with_signed_integer_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -3392,7 +3392,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import post_api
+from unit_test_api.api import operation_request_body_api
 from unit_test_api.model.minitems_validation import MinitemsValidation
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -3404,7 +3404,7 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = post_api.PostApi(api_client)
+    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
 
     # example passing only required values which don't have defaults set
     body = MinitemsValidation(None)
@@ -3413,7 +3413,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PostApi->post_minitems_validation_request_body: %s\n" % e)
+        print("Exception when calling OperationRequestBodyApi->post_minitems_validation_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -3465,7 +3465,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import post_api
+from unit_test_api.api import operation_request_body_api
 from unit_test_api.model.minlength_validation import MinlengthValidation
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -3477,7 +3477,7 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = post_api.PostApi(api_client)
+    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
 
     # example passing only required values which don't have defaults set
     body = MinlengthValidation(None)
@@ -3486,7 +3486,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PostApi->post_minlength_validation_request_body: %s\n" % e)
+        print("Exception when calling OperationRequestBodyApi->post_minlength_validation_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -3538,7 +3538,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import post_api
+from unit_test_api.api import operation_request_body_api
 from unit_test_api.model.minproperties_validation import MinpropertiesValidation
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -3550,7 +3550,7 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = post_api.PostApi(api_client)
+    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
 
     # example passing only required values which don't have defaults set
     body = MinpropertiesValidation(None)
@@ -3559,7 +3559,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PostApi->post_minproperties_validation_request_body: %s\n" % e)
+        print("Exception when calling OperationRequestBodyApi->post_minproperties_validation_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -3611,7 +3611,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import post_api
+from unit_test_api.api import operation_request_body_api
 from unit_test_api.model.nested_allof_to_check_validation_semantics import NestedAllofToCheckValidationSemantics
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -3623,7 +3623,7 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = post_api.PostApi(api_client)
+    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
 
     # example passing only required values which don't have defaults set
     body = NestedAllofToCheckValidationSemantics(None)
@@ -3632,7 +3632,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PostApi->post_nested_allof_to_check_validation_semantics_request_body: %s\n" % e)
+        print("Exception when calling OperationRequestBodyApi->post_nested_allof_to_check_validation_semantics_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -3684,7 +3684,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import post_api
+from unit_test_api.api import operation_request_body_api
 from unit_test_api.model.nested_anyof_to_check_validation_semantics import NestedAnyofToCheckValidationSemantics
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -3696,7 +3696,7 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = post_api.PostApi(api_client)
+    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
 
     # example passing only required values which don't have defaults set
     body = NestedAnyofToCheckValidationSemantics(None)
@@ -3705,7 +3705,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PostApi->post_nested_anyof_to_check_validation_semantics_request_body: %s\n" % e)
+        print("Exception when calling OperationRequestBodyApi->post_nested_anyof_to_check_validation_semantics_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -3757,7 +3757,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import post_api
+from unit_test_api.api import operation_request_body_api
 from unit_test_api.model.nested_items import NestedItems
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -3769,7 +3769,7 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = post_api.PostApi(api_client)
+    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
 
     # example passing only required values which don't have defaults set
     body = NestedItems([
@@ -3786,7 +3786,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PostApi->post_nested_items_request_body: %s\n" % e)
+        print("Exception when calling OperationRequestBodyApi->post_nested_items_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -3838,7 +3838,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import post_api
+from unit_test_api.api import operation_request_body_api
 from unit_test_api.model.nested_oneof_to_check_validation_semantics import NestedOneofToCheckValidationSemantics
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -3850,7 +3850,7 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = post_api.PostApi(api_client)
+    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
 
     # example passing only required values which don't have defaults set
     body = NestedOneofToCheckValidationSemantics(None)
@@ -3859,7 +3859,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PostApi->post_nested_oneof_to_check_validation_semantics_request_body: %s\n" % e)
+        print("Exception when calling OperationRequestBodyApi->post_nested_oneof_to_check_validation_semantics_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -3911,7 +3911,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import post_api
+from unit_test_api.api import operation_request_body_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -3922,7 +3922,7 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = post_api.PostApi(api_client)
+    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
 
     # example passing only required values which don't have defaults set
     body = None
@@ -3931,7 +3931,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PostApi->post_not_more_complex_schema_request_body: %s\n" % e)
+        print("Exception when calling OperationRequestBodyApi->post_not_more_complex_schema_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -3984,7 +3984,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import post_api
+from unit_test_api.api import operation_request_body_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -3995,7 +3995,7 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = post_api.PostApi(api_client)
+    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
 
     # example passing only required values which don't have defaults set
     body = None
@@ -4004,7 +4004,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PostApi->post_not_request_body: %s\n" % e)
+        print("Exception when calling OperationRequestBodyApi->post_not_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -4057,7 +4057,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import post_api
+from unit_test_api.api import operation_request_body_api
 from unit_test_api.model.nul_characters_in_strings import NulCharactersInStrings
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -4069,7 +4069,7 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = post_api.PostApi(api_client)
+    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
 
     # example passing only required values which don't have defaults set
     body = NulCharactersInStrings("hello there")
@@ -4078,7 +4078,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PostApi->post_nul_characters_in_strings_request_body: %s\n" % e)
+        print("Exception when calling OperationRequestBodyApi->post_nul_characters_in_strings_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -4130,7 +4130,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import post_api
+from unit_test_api.api import operation_request_body_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -4141,7 +4141,7 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = post_api.PostApi(api_client)
+    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
 
     # example passing only required values which don't have defaults set
     body = None
@@ -4150,7 +4150,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PostApi->post_null_type_matches_only_the_null_object_request_body: %s\n" % e)
+        print("Exception when calling OperationRequestBodyApi->post_null_type_matches_only_the_null_object_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -4202,7 +4202,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import post_api
+from unit_test_api.api import operation_request_body_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -4213,7 +4213,7 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = post_api.PostApi(api_client)
+    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
 
     # example passing only required values which don't have defaults set
     body = 3.14
@@ -4222,7 +4222,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PostApi->post_number_type_matches_numbers_request_body: %s\n" % e)
+        print("Exception when calling OperationRequestBodyApi->post_number_type_matches_numbers_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -4274,7 +4274,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import post_api
+from unit_test_api.api import operation_request_body_api
 from unit_test_api.model.object_properties_validation import ObjectPropertiesValidation
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -4286,7 +4286,7 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = post_api.PostApi(api_client)
+    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
 
     # example passing only required values which don't have defaults set
     body = ObjectPropertiesValidation(None)
@@ -4295,7 +4295,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PostApi->post_object_properties_validation_request_body: %s\n" % e)
+        print("Exception when calling OperationRequestBodyApi->post_object_properties_validation_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -4347,7 +4347,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import post_api
+from unit_test_api.api import operation_request_body_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -4358,7 +4358,7 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = post_api.PostApi(api_client)
+    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
 
     # example passing only required values which don't have defaults set
     body = dict()
@@ -4367,7 +4367,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PostApi->post_object_type_matches_objects_request_body: %s\n" % e)
+        print("Exception when calling OperationRequestBodyApi->post_object_type_matches_objects_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -4420,7 +4420,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import post_api
+from unit_test_api.api import operation_request_body_api
 from unit_test_api.model.oneof_complex_types import OneofComplexTypes
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -4432,7 +4432,7 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = post_api.PostApi(api_client)
+    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
 
     # example passing only required values which don't have defaults set
     body = OneofComplexTypes(None)
@@ -4441,7 +4441,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PostApi->post_oneof_complex_types_request_body: %s\n" % e)
+        print("Exception when calling OperationRequestBodyApi->post_oneof_complex_types_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -4493,7 +4493,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import post_api
+from unit_test_api.api import operation_request_body_api
 from unit_test_api.model.oneof import Oneof
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -4505,7 +4505,7 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = post_api.PostApi(api_client)
+    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
 
     # example passing only required values which don't have defaults set
     body = Oneof(None)
@@ -4514,7 +4514,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PostApi->post_oneof_request_body: %s\n" % e)
+        print("Exception when calling OperationRequestBodyApi->post_oneof_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -4566,7 +4566,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import post_api
+from unit_test_api.api import operation_request_body_api
 from unit_test_api.model.oneof_with_base_schema import OneofWithBaseSchema
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -4578,7 +4578,7 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = post_api.PostApi(api_client)
+    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
 
     # example passing only required values which don't have defaults set
     body = OneofWithBaseSchema("body_example")
@@ -4587,7 +4587,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PostApi->post_oneof_with_base_schema_request_body: %s\n" % e)
+        print("Exception when calling OperationRequestBodyApi->post_oneof_with_base_schema_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -4639,7 +4639,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import post_api
+from unit_test_api.api import operation_request_body_api
 from unit_test_api.model.oneof_with_empty_schema import OneofWithEmptySchema
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -4651,7 +4651,7 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = post_api.PostApi(api_client)
+    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
 
     # example passing only required values which don't have defaults set
     body = OneofWithEmptySchema(None)
@@ -4660,7 +4660,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PostApi->post_oneof_with_empty_schema_request_body: %s\n" % e)
+        print("Exception when calling OperationRequestBodyApi->post_oneof_with_empty_schema_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -4712,7 +4712,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import post_api
+from unit_test_api.api import operation_request_body_api
 from unit_test_api.model.pattern_is_not_anchored import PatternIsNotAnchored
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -4724,7 +4724,7 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = post_api.PostApi(api_client)
+    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
 
     # example passing only required values which don't have defaults set
     body = PatternIsNotAnchored(None)
@@ -4733,7 +4733,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PostApi->post_pattern_is_not_anchored_request_body: %s\n" % e)
+        print("Exception when calling OperationRequestBodyApi->post_pattern_is_not_anchored_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -4785,7 +4785,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import post_api
+from unit_test_api.api import operation_request_body_api
 from unit_test_api.model.pattern_validation import PatternValidation
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -4797,7 +4797,7 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = post_api.PostApi(api_client)
+    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
 
     # example passing only required values which don't have defaults set
     body = PatternValidation(None)
@@ -4806,7 +4806,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PostApi->post_pattern_validation_request_body: %s\n" % e)
+        print("Exception when calling OperationRequestBodyApi->post_pattern_validation_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -4858,7 +4858,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import post_api
+from unit_test_api.api import operation_request_body_api
 from unit_test_api.model.properties_with_escaped_characters import PropertiesWithEscapedCharacters
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -4870,7 +4870,7 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = post_api.PostApi(api_client)
+    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
 
     # example passing only required values which don't have defaults set
     body = PropertiesWithEscapedCharacters(None)
@@ -4879,7 +4879,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PostApi->post_properties_with_escaped_characters_request_body: %s\n" % e)
+        print("Exception when calling OperationRequestBodyApi->post_properties_with_escaped_characters_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -4931,7 +4931,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import post_api
+from unit_test_api.api import operation_request_body_api
 from unit_test_api.model.property_named_ref_that_is_not_a_reference import PropertyNamedRefThatIsNotAReference
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -4943,7 +4943,7 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = post_api.PostApi(api_client)
+    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
 
     # example passing only required values which don't have defaults set
     body = PropertyNamedRefThatIsNotAReference(None)
@@ -4952,7 +4952,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PostApi->post_property_named_ref_that_is_not_a_reference_request_body: %s\n" % e)
+        print("Exception when calling OperationRequestBodyApi->post_property_named_ref_that_is_not_a_reference_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -5004,7 +5004,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import post_api
+from unit_test_api.api import operation_request_body_api
 from unit_test_api.model.ref_in_additionalproperties import RefInAdditionalproperties
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -5016,7 +5016,7 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = post_api.PostApi(api_client)
+    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
 
     # example passing only required values which don't have defaults set
     body = RefInAdditionalproperties(
@@ -5027,7 +5027,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PostApi->post_ref_in_additionalproperties_request_body: %s\n" % e)
+        print("Exception when calling OperationRequestBodyApi->post_ref_in_additionalproperties_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -5079,7 +5079,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import post_api
+from unit_test_api.api import operation_request_body_api
 from unit_test_api.model.ref_in_allof import RefInAllof
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -5091,7 +5091,7 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = post_api.PostApi(api_client)
+    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
 
     # example passing only required values which don't have defaults set
     body = RefInAllof(None)
@@ -5100,7 +5100,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PostApi->post_ref_in_allof_request_body: %s\n" % e)
+        print("Exception when calling OperationRequestBodyApi->post_ref_in_allof_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -5152,7 +5152,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import post_api
+from unit_test_api.api import operation_request_body_api
 from unit_test_api.model.ref_in_anyof import RefInAnyof
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -5164,7 +5164,7 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = post_api.PostApi(api_client)
+    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
 
     # example passing only required values which don't have defaults set
     body = RefInAnyof(None)
@@ -5173,7 +5173,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PostApi->post_ref_in_anyof_request_body: %s\n" % e)
+        print("Exception when calling OperationRequestBodyApi->post_ref_in_anyof_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -5225,7 +5225,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import post_api
+from unit_test_api.api import operation_request_body_api
 from unit_test_api.model.ref_in_items import RefInItems
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -5237,7 +5237,7 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = post_api.PostApi(api_client)
+    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
 
     # example passing only required values which don't have defaults set
     body = RefInItems([
@@ -5248,7 +5248,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PostApi->post_ref_in_items_request_body: %s\n" % e)
+        print("Exception when calling OperationRequestBodyApi->post_ref_in_items_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -5300,7 +5300,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import post_api
+from unit_test_api.api import operation_request_body_api
 from unit_test_api.model.ref_in_oneof import RefInOneof
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -5312,7 +5312,7 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = post_api.PostApi(api_client)
+    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
 
     # example passing only required values which don't have defaults set
     body = RefInOneof(None)
@@ -5321,7 +5321,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PostApi->post_ref_in_oneof_request_body: %s\n" % e)
+        print("Exception when calling OperationRequestBodyApi->post_ref_in_oneof_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -5373,7 +5373,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import post_api
+from unit_test_api.api import operation_request_body_api
 from unit_test_api.model.ref_in_property import RefInProperty
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -5385,7 +5385,7 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = post_api.PostApi(api_client)
+    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
 
     # example passing only required values which don't have defaults set
     body = RefInProperty(None)
@@ -5394,7 +5394,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PostApi->post_ref_in_property_request_body: %s\n" % e)
+        print("Exception when calling OperationRequestBodyApi->post_ref_in_property_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -5446,7 +5446,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import post_api
+from unit_test_api.api import operation_request_body_api
 from unit_test_api.model.required_default_validation import RequiredDefaultValidation
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -5458,7 +5458,7 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = post_api.PostApi(api_client)
+    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
 
     # example passing only required values which don't have defaults set
     body = RequiredDefaultValidation(None)
@@ -5467,7 +5467,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PostApi->post_required_default_validation_request_body: %s\n" % e)
+        print("Exception when calling OperationRequestBodyApi->post_required_default_validation_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -5519,7 +5519,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import post_api
+from unit_test_api.api import operation_request_body_api
 from unit_test_api.model.required_validation import RequiredValidation
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -5531,7 +5531,7 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = post_api.PostApi(api_client)
+    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
 
     # example passing only required values which don't have defaults set
     body = RequiredValidation(None)
@@ -5540,7 +5540,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PostApi->post_required_validation_request_body: %s\n" % e)
+        print("Exception when calling OperationRequestBodyApi->post_required_validation_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -5592,7 +5592,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import post_api
+from unit_test_api.api import operation_request_body_api
 from unit_test_api.model.required_with_empty_array import RequiredWithEmptyArray
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -5604,7 +5604,7 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = post_api.PostApi(api_client)
+    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
 
     # example passing only required values which don't have defaults set
     body = RequiredWithEmptyArray(None)
@@ -5613,7 +5613,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PostApi->post_required_with_empty_array_request_body: %s\n" % e)
+        print("Exception when calling OperationRequestBodyApi->post_required_with_empty_array_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -5665,7 +5665,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import post_api
+from unit_test_api.api import operation_request_body_api
 from unit_test_api.model.simple_enum_validation import SimpleEnumValidation
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -5677,7 +5677,7 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = post_api.PostApi(api_client)
+    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
 
     # example passing only required values which don't have defaults set
     body = SimpleEnumValidation(1)
@@ -5686,7 +5686,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PostApi->post_simple_enum_validation_request_body: %s\n" % e)
+        print("Exception when calling OperationRequestBodyApi->post_simple_enum_validation_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -5738,7 +5738,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import post_api
+from unit_test_api.api import operation_request_body_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -5749,7 +5749,7 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = post_api.PostApi(api_client)
+    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
 
     # example passing only required values which don't have defaults set
     body = "body_example"
@@ -5758,7 +5758,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PostApi->post_string_type_matches_strings_request_body: %s\n" % e)
+        print("Exception when calling OperationRequestBodyApi->post_string_type_matches_strings_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -5810,7 +5810,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import post_api
+from unit_test_api.api import operation_request_body_api
 from unit_test_api.model.the_default_keyword_does_not_do_anything_if_the_property_is_missing import TheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissing
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -5822,7 +5822,7 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = post_api.PostApi(api_client)
+    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
 
     # example passing only required values which don't have defaults set
     body = TheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissing(
@@ -5833,7 +5833,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PostApi->post_the_default_keyword_does_not_do_anything_if_the_property_is_missing_request_body: %s\n" % e)
+        print("Exception when calling OperationRequestBodyApi->post_the_default_keyword_does_not_do_anything_if_the_property_is_missing_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -5885,7 +5885,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import post_api
+from unit_test_api.api import operation_request_body_api
 from unit_test_api.model.uniqueitems_false_validation import UniqueitemsFalseValidation
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -5897,7 +5897,7 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = post_api.PostApi(api_client)
+    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
 
     # example passing only required values which don't have defaults set
     body = UniqueitemsFalseValidation(None)
@@ -5906,7 +5906,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PostApi->post_uniqueitems_false_validation_request_body: %s\n" % e)
+        print("Exception when calling OperationRequestBodyApi->post_uniqueitems_false_validation_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -5958,7 +5958,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import post_api
+from unit_test_api.api import operation_request_body_api
 from unit_test_api.model.uniqueitems_validation import UniqueitemsValidation
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -5970,7 +5970,7 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = post_api.PostApi(api_client)
+    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
 
     # example passing only required values which don't have defaults set
     body = UniqueitemsValidation(None)
@@ -5979,7 +5979,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PostApi->post_uniqueitems_validation_request_body: %s\n" % e)
+        print("Exception when calling OperationRequestBodyApi->post_uniqueitems_validation_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -6031,7 +6031,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import post_api
+from unit_test_api.api import operation_request_body_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -6042,7 +6042,7 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = post_api.PostApi(api_client)
+    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
 
     # example passing only required values which don't have defaults set
     body = None
@@ -6051,7 +6051,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PostApi->post_uri_format_request_body: %s\n" % e)
+        print("Exception when calling OperationRequestBodyApi->post_uri_format_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -6104,7 +6104,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import post_api
+from unit_test_api.api import operation_request_body_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -6115,7 +6115,7 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = post_api.PostApi(api_client)
+    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
 
     # example passing only required values which don't have defaults set
     body = None
@@ -6124,7 +6124,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PostApi->post_uri_reference_format_request_body: %s\n" % e)
+        print("Exception when calling OperationRequestBodyApi->post_uri_reference_format_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -6177,7 +6177,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import post_api
+from unit_test_api.api import operation_request_body_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -6188,7 +6188,7 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = post_api.PostApi(api_client)
+    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
 
     # example passing only required values which don't have defaults set
     body = None
@@ -6197,7 +6197,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PostApi->post_uri_template_format_request_body: %s\n" % e)
+        print("Exception when calling OperationRequestBodyApi->post_uri_template_format_request_body: %s\n" % e)
 ```
 ### Parameters
 
