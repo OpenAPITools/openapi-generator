@@ -42,7 +42,7 @@ paths:
               x-schema-test-examples:
                 $ref: '#/components/x-schema-test-examples/AdditionalpropertiesAllowsASchemaWhichShouldValidate'
       tags:
-      - operation.requestBody
+      - response.content.contentType.schema
       - path.post
       - contentType_json
   /requestBody/postAdditionalpropertiesCanExistByItselfRequestBody:
@@ -76,7 +76,7 @@ paths:
               x-schema-test-examples:
                 $ref: '#/components/x-schema-test-examples/AdditionalpropertiesCanExistByItself'
       tags:
-      - operation.requestBody
+      - response.content.contentType.schema
       - path.post
       - contentType_json
   /requestBody/postAdditionalpropertiesAreAllowedByDefaultRequestBody:
@@ -110,7 +110,7 @@ paths:
               x-schema-test-examples:
                 $ref: '#/components/x-schema-test-examples/AdditionalpropertiesAreAllowedByDefault'
       tags:
-      - operation.requestBody
+      - response.content.contentType.schema
       - path.post
       - contentType_json
   /requestBody/postAdditionalpropertiesShouldNotLookInApplicatorsRequestBody:
@@ -144,7 +144,7 @@ paths:
               x-schema-test-examples:
                 $ref: '#/components/x-schema-test-examples/AdditionalpropertiesShouldNotLookInApplicators'
       tags:
-      - operation.requestBody
+      - response.content.contentType.schema
       - path.post
       - contentType_json
   /requestBody/postAllofRequestBody:
@@ -178,7 +178,7 @@ paths:
               x-schema-test-examples:
                 $ref: '#/components/x-schema-test-examples/Allof'
       tags:
-      - operation.requestBody
+      - response.content.contentType.schema
       - path.post
       - contentType_json
   /requestBody/postAllofWithBaseSchemaRequestBody:
@@ -212,7 +212,7 @@ paths:
               x-schema-test-examples:
                 $ref: '#/components/x-schema-test-examples/AllofWithBaseSchema'
       tags:
-      - operation.requestBody
+      - response.content.contentType.schema
       - path.post
       - contentType_json
   /requestBody/postAllofSimpleTypesRequestBody:
@@ -246,7 +246,7 @@ paths:
               x-schema-test-examples:
                 $ref: '#/components/x-schema-test-examples/AllofSimpleTypes'
       tags:
-      - operation.requestBody
+      - response.content.contentType.schema
       - path.post
       - contentType_json
   /requestBody/postAllofWithOneEmptySchemaRequestBody:
@@ -280,7 +280,7 @@ paths:
               x-schema-test-examples:
                 $ref: '#/components/x-schema-test-examples/AllofWithOneEmptySchema'
       tags:
-      - operation.requestBody
+      - response.content.contentType.schema
       - path.post
       - contentType_json
   /requestBody/postAllofWithTwoEmptySchemasRequestBody:
@@ -314,7 +314,7 @@ paths:
               x-schema-test-examples:
                 $ref: '#/components/x-schema-test-examples/AllofWithTwoEmptySchemas'
       tags:
-      - operation.requestBody
+      - response.content.contentType.schema
       - path.post
       - contentType_json
   /requestBody/postAllofWithTheFirstEmptySchemaRequestBody:
@@ -348,7 +348,7 @@ paths:
               x-schema-test-examples:
                 $ref: '#/components/x-schema-test-examples/AllofWithTheFirstEmptySchema'
       tags:
-      - operation.requestBody
+      - response.content.contentType.schema
       - path.post
       - contentType_json
   /requestBody/postAllofWithTheLastEmptySchemaRequestBody:
@@ -382,7 +382,7 @@ paths:
               x-schema-test-examples:
                 $ref: '#/components/x-schema-test-examples/AllofWithTheLastEmptySchema'
       tags:
-      - operation.requestBody
+      - response.content.contentType.schema
       - path.post
       - contentType_json
   /requestBody/postNestedAllofToCheckValidationSemanticsRequestBody:
@@ -416,7 +416,7 @@ paths:
               x-schema-test-examples:
                 $ref: '#/components/x-schema-test-examples/NestedAllofToCheckValidationSemantics'
       tags:
-      - operation.requestBody
+      - response.content.contentType.schema
       - path.post
       - contentType_json
   /requestBody/postAllofCombinedWithAnyofOneofRequestBody:
@@ -450,7 +450,7 @@ paths:
               x-schema-test-examples:
                 $ref: '#/components/x-schema-test-examples/AllofCombinedWithAnyofOneof'
       tags:
-      - operation.requestBody
+      - response.content.contentType.schema
       - path.post
       - contentType_json
   /requestBody/postAnyofRequestBody:
@@ -484,7 +484,7 @@ paths:
               x-schema-test-examples:
                 $ref: '#/components/x-schema-test-examples/Anyof'
       tags:
-      - operation.requestBody
+      - response.content.contentType.schema
       - path.post
       - contentType_json
   /requestBody/postAnyofWithBaseSchemaRequestBody:
@@ -518,7 +518,7 @@ paths:
               x-schema-test-examples:
                 $ref: '#/components/x-schema-test-examples/AnyofWithBaseSchema'
       tags:
-      - operation.requestBody
+      - response.content.contentType.schema
       - path.post
       - contentType_json
   /requestBody/postAnyofComplexTypesRequestBody:
@@ -552,7 +552,7 @@ paths:
               x-schema-test-examples:
                 $ref: '#/components/x-schema-test-examples/AnyofComplexTypes'
       tags:
-      - operation.requestBody
+      - response.content.contentType.schema
       - path.post
       - contentType_json
   /requestBody/postAnyofWithOneEmptySchemaRequestBody:
@@ -586,7 +586,7 @@ paths:
               x-schema-test-examples:
                 $ref: '#/components/x-schema-test-examples/AnyofWithOneEmptySchema'
       tags:
-      - operation.requestBody
+      - response.content.contentType.schema
       - path.post
       - contentType_json
   /requestBody/postNestedAnyofToCheckValidationSemanticsRequestBody:
@@ -620,7 +620,7 @@ paths:
               x-schema-test-examples:
                 $ref: '#/components/x-schema-test-examples/NestedAnyofToCheckValidationSemantics'
       tags:
-      - operation.requestBody
+      - response.content.contentType.schema
       - path.post
       - contentType_json
   /requestBody/postInvalidStringValueForDefaultRequestBody:
@@ -654,7 +654,7 @@ paths:
               x-schema-test-examples:
                 $ref: '#/components/x-schema-test-examples/InvalidStringValueForDefault'
       tags:
-      - operation.requestBody
+      - response.content.contentType.schema
       - path.post
       - contentType_json
   /requestBody/postTheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissingRequestBody:
@@ -688,7 +688,7 @@ paths:
               x-schema-test-examples:
                 $ref: '#/components/x-schema-test-examples/TheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissing'
       tags:
-      - operation.requestBody
+      - response.content.contentType.schema
       - path.post
       - contentType_json
   /requestBody/postSimpleEnumValidationRequestBody:
@@ -722,7 +722,7 @@ paths:
               x-schema-test-examples:
                 $ref: '#/components/x-schema-test-examples/SimpleEnumValidation'
       tags:
-      - operation.requestBody
+      - response.content.contentType.schema
       - path.post
       - contentType_json
   /requestBody/postEnumsInPropertiesRequestBody:
@@ -756,7 +756,7 @@ paths:
               x-schema-test-examples:
                 $ref: '#/components/x-schema-test-examples/EnumsInProperties'
       tags:
-      - operation.requestBody
+      - response.content.contentType.schema
       - path.post
       - contentType_json
   /requestBody/postEnumWithEscapedCharactersRequestBody:
@@ -790,7 +790,7 @@ paths:
               x-schema-test-examples:
                 $ref: '#/components/x-schema-test-examples/EnumWithEscapedCharacters'
       tags:
-      - operation.requestBody
+      - response.content.contentType.schema
       - path.post
       - contentType_json
   /requestBody/postEnumWithFalseDoesNotMatch0RequestBody:
@@ -824,7 +824,7 @@ paths:
               x-schema-test-examples:
                 $ref: '#/components/x-schema-test-examples/EnumWithFalseDoesNotMatch0'
       tags:
-      - operation.requestBody
+      - response.content.contentType.schema
       - path.post
       - contentType_json
   /requestBody/postEnumWithTrueDoesNotMatch1RequestBody:
@@ -858,7 +858,7 @@ paths:
               x-schema-test-examples:
                 $ref: '#/components/x-schema-test-examples/EnumWithTrueDoesNotMatch1'
       tags:
-      - operation.requestBody
+      - response.content.contentType.schema
       - path.post
       - contentType_json
   /requestBody/postEnumWith0DoesNotMatchFalseRequestBody:
@@ -892,7 +892,7 @@ paths:
               x-schema-test-examples:
                 $ref: '#/components/x-schema-test-examples/EnumWith0DoesNotMatchFalse'
       tags:
-      - operation.requestBody
+      - response.content.contentType.schema
       - path.post
       - contentType_json
   /requestBody/postEnumWith1DoesNotMatchTrueRequestBody:
@@ -926,7 +926,7 @@ paths:
               x-schema-test-examples:
                 $ref: '#/components/x-schema-test-examples/EnumWith1DoesNotMatchTrue'
       tags:
-      - operation.requestBody
+      - response.content.contentType.schema
       - path.post
       - contentType_json
   /requestBody/postNulCharactersInStringsRequestBody:
@@ -960,7 +960,7 @@ paths:
               x-schema-test-examples:
                 $ref: '#/components/x-schema-test-examples/NulCharactersInStrings'
       tags:
-      - operation.requestBody
+      - response.content.contentType.schema
       - path.post
       - contentType_json
   /requestBody/postEmailFormatRequestBody:
@@ -994,7 +994,7 @@ paths:
               x-schema-test-examples:
                 $ref: '#/components/x-schema-test-examples/EmailFormat'
       tags:
-      - operation.requestBody
+      - response.content.contentType.schema
       - path.post
       - contentType_json
   /requestBody/postIpv4FormatRequestBody:
@@ -1028,7 +1028,7 @@ paths:
               x-schema-test-examples:
                 $ref: '#/components/x-schema-test-examples/Ipv4Format'
       tags:
-      - operation.requestBody
+      - response.content.contentType.schema
       - path.post
       - contentType_json
   /requestBody/postIpv6FormatRequestBody:
@@ -1062,7 +1062,7 @@ paths:
               x-schema-test-examples:
                 $ref: '#/components/x-schema-test-examples/Ipv6Format'
       tags:
-      - operation.requestBody
+      - response.content.contentType.schema
       - path.post
       - contentType_json
   /requestBody/postHostnameFormatRequestBody:
@@ -1096,7 +1096,7 @@ paths:
               x-schema-test-examples:
                 $ref: '#/components/x-schema-test-examples/HostnameFormat'
       tags:
-      - operation.requestBody
+      - response.content.contentType.schema
       - path.post
       - contentType_json
   /requestBody/postDateTimeFormatRequestBody:
@@ -1130,7 +1130,7 @@ paths:
               x-schema-test-examples:
                 $ref: '#/components/x-schema-test-examples/DateTimeFormat'
       tags:
-      - operation.requestBody
+      - response.content.contentType.schema
       - path.post
       - contentType_json
   /requestBody/postJsonPointerFormatRequestBody:
@@ -1164,7 +1164,7 @@ paths:
               x-schema-test-examples:
                 $ref: '#/components/x-schema-test-examples/JsonPointerFormat'
       tags:
-      - operation.requestBody
+      - response.content.contentType.schema
       - path.post
       - contentType_json
   /requestBody/postUriFormatRequestBody:
@@ -1198,7 +1198,7 @@ paths:
               x-schema-test-examples:
                 $ref: '#/components/x-schema-test-examples/UriFormat'
       tags:
-      - operation.requestBody
+      - response.content.contentType.schema
       - path.post
       - contentType_json
   /requestBody/postUriReferenceFormatRequestBody:
@@ -1232,7 +1232,7 @@ paths:
               x-schema-test-examples:
                 $ref: '#/components/x-schema-test-examples/UriReferenceFormat'
       tags:
-      - operation.requestBody
+      - response.content.contentType.schema
       - path.post
       - contentType_json
   /requestBody/postUriTemplateFormatRequestBody:
@@ -1266,7 +1266,7 @@ paths:
               x-schema-test-examples:
                 $ref: '#/components/x-schema-test-examples/UriTemplateFormat'
       tags:
-      - operation.requestBody
+      - response.content.contentType.schema
       - path.post
       - contentType_json
   /requestBody/postNestedItemsRequestBody:
@@ -1300,7 +1300,7 @@ paths:
               x-schema-test-examples:
                 $ref: '#/components/x-schema-test-examples/NestedItems'
       tags:
-      - operation.requestBody
+      - response.content.contentType.schema
       - path.post
       - contentType_json
   /requestBody/postMaximumValidationRequestBody:
@@ -1334,7 +1334,7 @@ paths:
               x-schema-test-examples:
                 $ref: '#/components/x-schema-test-examples/MaximumValidation'
       tags:
-      - operation.requestBody
+      - response.content.contentType.schema
       - path.post
       - contentType_json
   /requestBody/postMaximumValidationWithUnsignedIntegerRequestBody:
@@ -1368,7 +1368,7 @@ paths:
               x-schema-test-examples:
                 $ref: '#/components/x-schema-test-examples/MaximumValidationWithUnsignedInteger'
       tags:
-      - operation.requestBody
+      - response.content.contentType.schema
       - path.post
       - contentType_json
   /requestBody/postMaxitemsValidationRequestBody:
@@ -1402,7 +1402,7 @@ paths:
               x-schema-test-examples:
                 $ref: '#/components/x-schema-test-examples/MaxitemsValidation'
       tags:
-      - operation.requestBody
+      - response.content.contentType.schema
       - path.post
       - contentType_json
   /requestBody/postMaxlengthValidationRequestBody:
@@ -1436,7 +1436,7 @@ paths:
               x-schema-test-examples:
                 $ref: '#/components/x-schema-test-examples/MaxlengthValidation'
       tags:
-      - operation.requestBody
+      - response.content.contentType.schema
       - path.post
       - contentType_json
   /requestBody/postMaxpropertiesValidationRequestBody:
@@ -1470,7 +1470,7 @@ paths:
               x-schema-test-examples:
                 $ref: '#/components/x-schema-test-examples/MaxpropertiesValidation'
       tags:
-      - operation.requestBody
+      - response.content.contentType.schema
       - path.post
       - contentType_json
   /requestBody/postMaxproperties0MeansTheObjectIsEmptyRequestBody:
@@ -1504,7 +1504,7 @@ paths:
               x-schema-test-examples:
                 $ref: '#/components/x-schema-test-examples/Maxproperties0MeansTheObjectIsEmpty'
       tags:
-      - operation.requestBody
+      - response.content.contentType.schema
       - path.post
       - contentType_json
   /requestBody/postMinimumValidationRequestBody:
@@ -1538,7 +1538,7 @@ paths:
               x-schema-test-examples:
                 $ref: '#/components/x-schema-test-examples/MinimumValidation'
       tags:
-      - operation.requestBody
+      - response.content.contentType.schema
       - path.post
       - contentType_json
   /requestBody/postMinimumValidationWithSignedIntegerRequestBody:
@@ -1572,7 +1572,7 @@ paths:
               x-schema-test-examples:
                 $ref: '#/components/x-schema-test-examples/MinimumValidationWithSignedInteger'
       tags:
-      - operation.requestBody
+      - response.content.contentType.schema
       - path.post
       - contentType_json
   /requestBody/postMinitemsValidationRequestBody:
@@ -1606,7 +1606,7 @@ paths:
               x-schema-test-examples:
                 $ref: '#/components/x-schema-test-examples/MinitemsValidation'
       tags:
-      - operation.requestBody
+      - response.content.contentType.schema
       - path.post
       - contentType_json
   /requestBody/postMinlengthValidationRequestBody:
@@ -1640,7 +1640,7 @@ paths:
               x-schema-test-examples:
                 $ref: '#/components/x-schema-test-examples/MinlengthValidation'
       tags:
-      - operation.requestBody
+      - response.content.contentType.schema
       - path.post
       - contentType_json
   /requestBody/postMinpropertiesValidationRequestBody:
@@ -1674,7 +1674,7 @@ paths:
               x-schema-test-examples:
                 $ref: '#/components/x-schema-test-examples/MinpropertiesValidation'
       tags:
-      - operation.requestBody
+      - response.content.contentType.schema
       - path.post
       - contentType_json
   /requestBody/postByIntRequestBody:
@@ -1708,7 +1708,7 @@ paths:
               x-schema-test-examples:
                 $ref: '#/components/x-schema-test-examples/ByInt'
       tags:
-      - operation.requestBody
+      - response.content.contentType.schema
       - path.post
       - contentType_json
   /requestBody/postByNumberRequestBody:
@@ -1742,7 +1742,7 @@ paths:
               x-schema-test-examples:
                 $ref: '#/components/x-schema-test-examples/ByNumber'
       tags:
-      - operation.requestBody
+      - response.content.contentType.schema
       - path.post
       - contentType_json
   /requestBody/postBySmallNumberRequestBody:
@@ -1776,7 +1776,7 @@ paths:
               x-schema-test-examples:
                 $ref: '#/components/x-schema-test-examples/BySmallNumber'
       tags:
-      - operation.requestBody
+      - response.content.contentType.schema
       - path.post
       - contentType_json
   /requestBody/postInvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInfRequestBody:
@@ -1810,7 +1810,7 @@ paths:
               x-schema-test-examples:
                 $ref: '#/components/x-schema-test-examples/InvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInf'
       tags:
-      - operation.requestBody
+      - response.content.contentType.schema
       - path.post
       - contentType_json
   /requestBody/postNotRequestBody:
@@ -1844,7 +1844,7 @@ paths:
               x-schema-test-examples:
                 $ref: '#/components/x-schema-test-examples/Not'
       tags:
-      - operation.requestBody
+      - response.content.contentType.schema
       - path.post
       - contentType_json
   /requestBody/postNotMoreComplexSchemaRequestBody:
@@ -1878,7 +1878,7 @@ paths:
               x-schema-test-examples:
                 $ref: '#/components/x-schema-test-examples/NotMoreComplexSchema'
       tags:
-      - operation.requestBody
+      - response.content.contentType.schema
       - path.post
       - contentType_json
   /requestBody/postForbiddenPropertyRequestBody:
@@ -1912,7 +1912,7 @@ paths:
               x-schema-test-examples:
                 $ref: '#/components/x-schema-test-examples/ForbiddenProperty'
       tags:
-      - operation.requestBody
+      - response.content.contentType.schema
       - path.post
       - contentType_json
   /requestBody/postOneofRequestBody:
@@ -1946,7 +1946,7 @@ paths:
               x-schema-test-examples:
                 $ref: '#/components/x-schema-test-examples/Oneof'
       tags:
-      - operation.requestBody
+      - response.content.contentType.schema
       - path.post
       - contentType_json
   /requestBody/postOneofWithBaseSchemaRequestBody:
@@ -1980,7 +1980,7 @@ paths:
               x-schema-test-examples:
                 $ref: '#/components/x-schema-test-examples/OneofWithBaseSchema'
       tags:
-      - operation.requestBody
+      - response.content.contentType.schema
       - path.post
       - contentType_json
   /requestBody/postOneofComplexTypesRequestBody:
@@ -2014,7 +2014,7 @@ paths:
               x-schema-test-examples:
                 $ref: '#/components/x-schema-test-examples/OneofComplexTypes'
       tags:
-      - operation.requestBody
+      - response.content.contentType.schema
       - path.post
       - contentType_json
   /requestBody/postOneofWithEmptySchemaRequestBody:
@@ -2048,7 +2048,7 @@ paths:
               x-schema-test-examples:
                 $ref: '#/components/x-schema-test-examples/OneofWithEmptySchema'
       tags:
-      - operation.requestBody
+      - response.content.contentType.schema
       - path.post
       - contentType_json
   /requestBody/postNestedOneofToCheckValidationSemanticsRequestBody:
@@ -2082,7 +2082,7 @@ paths:
               x-schema-test-examples:
                 $ref: '#/components/x-schema-test-examples/NestedOneofToCheckValidationSemantics'
       tags:
-      - operation.requestBody
+      - response.content.contentType.schema
       - path.post
       - contentType_json
   /requestBody/postPatternValidationRequestBody:
@@ -2116,7 +2116,7 @@ paths:
               x-schema-test-examples:
                 $ref: '#/components/x-schema-test-examples/PatternValidation'
       tags:
-      - operation.requestBody
+      - response.content.contentType.schema
       - path.post
       - contentType_json
   /requestBody/postPatternIsNotAnchoredRequestBody:
@@ -2150,7 +2150,7 @@ paths:
               x-schema-test-examples:
                 $ref: '#/components/x-schema-test-examples/PatternIsNotAnchored'
       tags:
-      - operation.requestBody
+      - response.content.contentType.schema
       - path.post
       - contentType_json
   /requestBody/postObjectPropertiesValidationRequestBody:
@@ -2184,7 +2184,7 @@ paths:
               x-schema-test-examples:
                 $ref: '#/components/x-schema-test-examples/ObjectPropertiesValidation'
       tags:
-      - operation.requestBody
+      - response.content.contentType.schema
       - path.post
       - contentType_json
   /requestBody/postPropertiesWithEscapedCharactersRequestBody:
@@ -2218,7 +2218,7 @@ paths:
               x-schema-test-examples:
                 $ref: '#/components/x-schema-test-examples/PropertiesWithEscapedCharacters'
       tags:
-      - operation.requestBody
+      - response.content.contentType.schema
       - path.post
       - contentType_json
   /requestBody/postPropertyNamedRefThatIsNotAReferenceRequestBody:
@@ -2252,7 +2252,7 @@ paths:
               x-schema-test-examples:
                 $ref: '#/components/x-schema-test-examples/PropertyNamedRefThatIsNotAReference'
       tags:
-      - operation.requestBody
+      - response.content.contentType.schema
       - path.post
       - contentType_json
   /requestBody/postRefInAdditionalpropertiesRequestBody:
@@ -2286,7 +2286,7 @@ paths:
               x-schema-test-examples:
                 $ref: '#/components/x-schema-test-examples/RefInAdditionalproperties'
       tags:
-      - operation.requestBody
+      - response.content.contentType.schema
       - path.post
       - contentType_json
   /requestBody/postRefInItemsRequestBody:
@@ -2320,7 +2320,7 @@ paths:
               x-schema-test-examples:
                 $ref: '#/components/x-schema-test-examples/RefInItems'
       tags:
-      - operation.requestBody
+      - response.content.contentType.schema
       - path.post
       - contentType_json
   /requestBody/postRefInPropertyRequestBody:
@@ -2354,7 +2354,7 @@ paths:
               x-schema-test-examples:
                 $ref: '#/components/x-schema-test-examples/RefInProperty'
       tags:
-      - operation.requestBody
+      - response.content.contentType.schema
       - path.post
       - contentType_json
   /requestBody/postRefInAllofRequestBody:
@@ -2388,7 +2388,7 @@ paths:
               x-schema-test-examples:
                 $ref: '#/components/x-schema-test-examples/RefInAllof'
       tags:
-      - operation.requestBody
+      - response.content.contentType.schema
       - path.post
       - contentType_json
   /requestBody/postRefInOneofRequestBody:
@@ -2422,7 +2422,7 @@ paths:
               x-schema-test-examples:
                 $ref: '#/components/x-schema-test-examples/RefInOneof'
       tags:
-      - operation.requestBody
+      - response.content.contentType.schema
       - path.post
       - contentType_json
   /requestBody/postRefInAnyofRequestBody:
@@ -2456,7 +2456,7 @@ paths:
               x-schema-test-examples:
                 $ref: '#/components/x-schema-test-examples/RefInAnyof'
       tags:
-      - operation.requestBody
+      - response.content.contentType.schema
       - path.post
       - contentType_json
   /requestBody/postRequiredValidationRequestBody:
@@ -2490,7 +2490,7 @@ paths:
               x-schema-test-examples:
                 $ref: '#/components/x-schema-test-examples/RequiredValidation'
       tags:
-      - operation.requestBody
+      - response.content.contentType.schema
       - path.post
       - contentType_json
   /requestBody/postRequiredDefaultValidationRequestBody:
@@ -2524,7 +2524,7 @@ paths:
               x-schema-test-examples:
                 $ref: '#/components/x-schema-test-examples/RequiredDefaultValidation'
       tags:
-      - operation.requestBody
+      - response.content.contentType.schema
       - path.post
       - contentType_json
   /requestBody/postRequiredWithEmptyArrayRequestBody:
@@ -2558,7 +2558,7 @@ paths:
               x-schema-test-examples:
                 $ref: '#/components/x-schema-test-examples/RequiredWithEmptyArray'
       tags:
-      - operation.requestBody
+      - response.content.contentType.schema
       - path.post
       - contentType_json
   /requestBody/postIntegerTypeMatchesIntegersRequestBody:
@@ -2592,7 +2592,7 @@ paths:
               x-schema-test-examples:
                 $ref: '#/components/x-schema-test-examples/IntegerTypeMatchesIntegers'
       tags:
-      - operation.requestBody
+      - response.content.contentType.schema
       - path.post
       - contentType_json
   /requestBody/postNumberTypeMatchesNumbersRequestBody:
@@ -2626,7 +2626,7 @@ paths:
               x-schema-test-examples:
                 $ref: '#/components/x-schema-test-examples/NumberTypeMatchesNumbers'
       tags:
-      - operation.requestBody
+      - response.content.contentType.schema
       - path.post
       - contentType_json
   /requestBody/postStringTypeMatchesStringsRequestBody:
@@ -2660,7 +2660,7 @@ paths:
               x-schema-test-examples:
                 $ref: '#/components/x-schema-test-examples/StringTypeMatchesStrings'
       tags:
-      - operation.requestBody
+      - response.content.contentType.schema
       - path.post
       - contentType_json
   /requestBody/postObjectTypeMatchesObjectsRequestBody:
@@ -2694,7 +2694,7 @@ paths:
               x-schema-test-examples:
                 $ref: '#/components/x-schema-test-examples/ObjectTypeMatchesObjects'
       tags:
-      - operation.requestBody
+      - response.content.contentType.schema
       - path.post
       - contentType_json
   /requestBody/postBooleanTypeMatchesBooleansRequestBody:
@@ -2728,7 +2728,7 @@ paths:
               x-schema-test-examples:
                 $ref: '#/components/x-schema-test-examples/BooleanTypeMatchesBooleans'
       tags:
-      - operation.requestBody
+      - response.content.contentType.schema
       - path.post
       - contentType_json
   /requestBody/postNullTypeMatchesOnlyTheNullObjectRequestBody:
@@ -2762,7 +2762,7 @@ paths:
               x-schema-test-examples:
                 $ref: '#/components/x-schema-test-examples/NullTypeMatchesOnlyTheNullObject'
       tags:
-      - operation.requestBody
+      - response.content.contentType.schema
       - path.post
       - contentType_json
   /requestBody/postArrayTypeMatchesArraysRequestBody:
@@ -2796,7 +2796,7 @@ paths:
               x-schema-test-examples:
                 $ref: '#/components/x-schema-test-examples/ArrayTypeMatchesArrays'
       tags:
-      - operation.requestBody
+      - response.content.contentType.schema
       - path.post
       - contentType_json
   /requestBody/postUniqueitemsValidationRequestBody:
@@ -2830,7 +2830,7 @@ paths:
               x-schema-test-examples:
                 $ref: '#/components/x-schema-test-examples/UniqueitemsValidation'
       tags:
-      - operation.requestBody
+      - response.content.contentType.schema
       - path.post
       - contentType_json
   /requestBody/postUniqueitemsFalseValidationRequestBody:
@@ -2864,7 +2864,7 @@ paths:
               x-schema-test-examples:
                 $ref: '#/components/x-schema-test-examples/UniqueitemsFalseValidation'
       tags:
-      - operation.requestBody
+      - response.content.contentType.schema
       - path.post
       - contentType_json
 components:

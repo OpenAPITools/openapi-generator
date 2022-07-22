@@ -496,7 +496,7 @@ def write_openapi_spec():
     request_body_tag = OpenApiTag(name='operation.requestBody')
     post_tag = OpenApiTag(name='path.post')
     json_tag = OpenApiTag(name='contentType_json')
-    response_content = OpenApiTag(name='response.content.contentType.schema')
+    response_content_tag = OpenApiTag(name='response.content.contentType.schema')
     openapi.tags.extend([request_body_tag, post_tag, json_tag])
     # write component schemas and tests
     for json_schema_test_file, folders in JSON_SCHEMA_TEST_FILE_TO_FOLDERS.items():
@@ -518,7 +518,7 @@ def write_openapi_spec():
 
             # todo add put and patch with paths requestBody/someIdentifier
 
-            operation = generate_post_operation_with_response_content_schema(component_name, [request_body_tag, post_tag, json_tag])
+            operation = generate_post_operation_with_response_content_schema(component_name, [response_content_tag, post_tag, json_tag])
             path_item = OpenApiPathItem(post=operation)
             openapi.paths[f'/responseBody/{operation["operationId"]}'] = path_item
     print(
