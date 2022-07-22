@@ -239,18 +239,18 @@
           {{#isContainer}}
           {{#isArray}}
           {{#isPrimitiveType}}
-          paste(unlist(lapply(self$`{{{name}}}`, function(x) paste0('"', x, '"'))), collapse=",")
+          paste(unlist(lapply(self$`{{{name}}}`, function(x) paste0('"', x, '"'))), collapse = ",")
           {{/isPrimitiveType}}
           {{^isPrimitiveType}}
-          paste(sapply(self$`{{{name}}}`, function(x) jsonlite::toJSON(x$toJSON(), auto_unbox=TRUE, digits = NA)), collapse=",")
+          paste(sapply(self$`{{{name}}}`, function(x) jsonlite::toJSON(x$toJSON(), auto_unbox = TRUE, digits = NA)), collapse = ",")
           {{/isPrimitiveType}}
           {{/isArray}}
           {{#isMap}}
           {{#isPrimitiveType}}
-          jsonlite::toJSON(lapply(self$`{{{name}}}`, function(x){ x }), auto_unbox = TRUE, digits=NA)
+          jsonlite::toJSON(lapply(self$`{{{name}}}`, function(x){ x }), auto_unbox = TRUE, digits = NA)
           {{/isPrimitiveType}}
           {{^isPrimitiveType}}
-          jsonlite::toJSON(lapply(self$`{{{name}}}`, function(x){ x$toJSON() }), auto_unbox = TRUE, digits=NA)
+          jsonlite::toJSON(lapply(self$`{{{name}}}`, function(x){ x$toJSON() }), auto_unbox = TRUE, digits = NA)
           {{/isPrimitiveType}}
           {{/isMap}}
           {{/isContainer}}
@@ -259,7 +259,7 @@
           {{#isBoolean}}tolower({{/isBoolean}}self$`{{name}}`{{#isBoolean}}){{/isBoolean}}
           {{/isPrimitiveType}}
           {{^isPrimitiveType}}
-          jsonlite::toJSON(self$`{{name}}`$toJSON(), auto_unbox=TRUE, digits = NA)
+          jsonlite::toJSON(self$`{{name}}`$toJSON(), auto_unbox = TRUE, digits = NA)
           {{/isPrimitiveType}}
           {{/isContainer}}
           )
