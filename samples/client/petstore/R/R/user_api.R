@@ -100,7 +100,7 @@
 #'
 #' \item status code : 200 | successful operation
 #'
-#' \item return type : User 
+#' \item return type : User
 #' \item response headers :
 #'
 #' \tabular{ll}{
@@ -132,7 +132,7 @@
 #'
 #' \item status code : 200 | successful operation
 #'
-#' \item return type : character 
+#' \item return type : character
 #' \item response headers :
 #'
 #' \tabular{ll}{
@@ -499,7 +499,7 @@ UserApi <- R6::R6Class(
                      ApiException = ApiException$new(http_response = resp))
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
         error_msg <- toString(content(resp))
-        if(error_msg == "") {
+        if (error_msg == "") {
           error_msg <- "Api client exception encountered."
         }
         rlang::abort(message = error_msg,
@@ -507,7 +507,7 @@ UserApi <- R6::R6Class(
                      ApiException = ApiException$new(http_response = resp))
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
         error_msg <- toString(content(resp))
-        if(error_msg == "") {
+        if (error_msg == "") {
           error_msg <- "Api server exception encountered."
         }
         rlang::abort(message = error_msg,
@@ -559,7 +559,9 @@ UserApi <- R6::R6Class(
       }
 
       if (!missing(`user`)) {
-        body.items = paste(unlist(lapply(user, function(param) {param$toJSONString()})), collapse = ",")
+        body.items <- paste(unlist(lapply(user, function(param) {
+                                                             param$toJSONString()
+                                                         })), collapse = ",")
         body <- paste0("[", body.items, "]")
       } else {
         body <- NULL
@@ -590,7 +592,7 @@ UserApi <- R6::R6Class(
                      ApiException = ApiException$new(http_response = resp))
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
         error_msg <- toString(content(resp))
-        if(error_msg == "") {
+        if (error_msg == "") {
           error_msg <- "Api client exception encountered."
         }
         rlang::abort(message = error_msg,
@@ -598,7 +600,7 @@ UserApi <- R6::R6Class(
                      ApiException = ApiException$new(http_response = resp))
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
         error_msg <- toString(content(resp))
-        if(error_msg == "") {
+        if (error_msg == "") {
           error_msg <- "Api server exception encountered."
         }
         rlang::abort(message = error_msg,
@@ -650,7 +652,9 @@ UserApi <- R6::R6Class(
       }
 
       if (!missing(`user`)) {
-        body.items = paste(unlist(lapply(user, function(param) {param$toJSONString()})), collapse = ",")
+        body.items <- paste(unlist(lapply(user, function(param) {
+                                                             param$toJSONString()
+                                                         })), collapse = ",")
         body <- paste0("[", body.items, "]")
       } else {
         body <- NULL
@@ -681,7 +685,7 @@ UserApi <- R6::R6Class(
                      ApiException = ApiException$new(http_response = resp))
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
         error_msg <- toString(content(resp))
-        if(error_msg == "") {
+        if (error_msg == "") {
           error_msg <- "Api client exception encountered."
         }
         rlang::abort(message = error_msg,
@@ -689,7 +693,7 @@ UserApi <- R6::R6Class(
                      ApiException = ApiException$new(http_response = resp))
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
         error_msg <- toString(content(resp))
-        if(error_msg == "") {
+        if (error_msg == "") {
           error_msg <- "Api server exception encountered."
         }
         rlang::abort(message = error_msg,
@@ -770,7 +774,7 @@ UserApi <- R6::R6Class(
                      ApiException = ApiException$new(http_response = resp))
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
         error_msg <- toString(content(resp))
-        if(error_msg == "") {
+        if (error_msg == "") {
           error_msg <- "Api client exception encountered."
         }
         rlang::abort(message = error_msg,
@@ -778,7 +782,7 @@ UserApi <- R6::R6Class(
                      ApiException = ApiException$new(http_response = resp))
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
         error_msg <- toString(content(resp))
-        if(error_msg == "") {
+        if (error_msg == "") {
           error_msg <- "Api server exception encountered."
         }
         rlang::abort(message = error_msg,
@@ -870,7 +874,7 @@ UserApi <- R6::R6Class(
                      ApiException = ApiException$new(http_response = resp))
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
         error_msg <- toString(content(resp))
-        if(error_msg == "") {
+        if (error_msg == "") {
           error_msg <- "Api client exception encountered."
         }
         rlang::abort(message = error_msg,
@@ -878,7 +882,7 @@ UserApi <- R6::R6Class(
                      ApiException = ApiException$new(http_response = resp))
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
         error_msg <- toString(content(resp))
-        if(error_msg == "") {
+        if (error_msg == "") {
           error_msg <- "Api server exception encountered."
         }
         rlang::abort(message = error_msg,
@@ -975,7 +979,7 @@ UserApi <- R6::R6Class(
                      ApiException = ApiException$new(http_response = resp))
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
         error_msg <- toString(content(resp))
-        if(error_msg == "") {
+        if (error_msg == "") {
           error_msg <- "Api client exception encountered."
         }
         rlang::abort(message = error_msg,
@@ -983,7 +987,7 @@ UserApi <- R6::R6Class(
                      ApiException = ApiException$new(http_response = resp))
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
         error_msg <- toString(content(resp))
-        if(error_msg == "") {
+        if (error_msg == "") {
           error_msg <- "Api server exception encountered."
         }
         rlang::abort(message = error_msg,
@@ -1051,7 +1055,7 @@ UserApi <- R6::R6Class(
                      ApiException = ApiException$new(http_response = resp))
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
         error_msg <- toString(content(resp))
-        if(error_msg == "") {
+        if (error_msg == "") {
           error_msg <- "Api client exception encountered."
         }
         rlang::abort(message = error_msg,
@@ -1059,7 +1063,7 @@ UserApi <- R6::R6Class(
                      ApiException = ApiException$new(http_response = resp))
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
         error_msg <- toString(content(resp))
-        if(error_msg == "") {
+        if (error_msg == "") {
           error_msg <- "Api server exception encountered."
         }
         rlang::abort(message = error_msg,
@@ -1154,7 +1158,7 @@ UserApi <- R6::R6Class(
                      ApiException = ApiException$new(http_response = resp))
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
         error_msg <- toString(content(resp))
-        if(error_msg == "") {
+        if (error_msg == "") {
           error_msg <- "Api client exception encountered."
         }
         rlang::abort(message = error_msg,
@@ -1162,7 +1166,7 @@ UserApi <- R6::R6Class(
                      ApiException = ApiException$new(http_response = resp))
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
         error_msg <- toString(content(resp))
-        if(error_msg == "") {
+        if (error_msg == "") {
           error_msg <- "Api server exception encountered."
         }
         rlang::abort(message = error_msg,

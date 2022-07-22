@@ -103,7 +103,7 @@ NestedOneOf <- R6::R6Class(
           '"nested_pig":
           %s
           ',
-          jsonlite::toJSON(self$`nested_pig`$toJSON(), auto_unbox=TRUE, digits = NA)
+          jsonlite::toJSON(self$`nested_pig`$toJSON(), auto_unbox = TRUE, digits = NA)
           )
         }
       )
@@ -146,4 +146,3 @@ NestedOneOf <- R6::R6Class(
     }
   )
 )
-
