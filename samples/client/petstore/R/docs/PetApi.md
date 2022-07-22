@@ -30,8 +30,9 @@ var_pet <- Pet$new("name_example", list("photoUrls_example"), 123, Category$new(
 
 #Add a new pet to the store
 api_instance <- PetApi$new()
-# Configure OAuth2 access token for authorization: petstore_auth
-api_instance$api_client$access_token <- 'TODO_YOUR_ACCESS_TOKEN';
+# Configure HTTP basic authorization: http_auth
+api_instance$api_client$username <- 'TODO_YOUR_USERNAME';
+api_instance$api_client$password <- 'TODO_YOUR_PASSWORD';
 result <- tryCatch(
              # to save the result into a file, simply add the optional `data_file` parameter, e.g.
              # api_instance$AddPet(var_pet, data_file = "result.txt"),
@@ -63,7 +64,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth)
+[http_auth](../README.md#http_auth)
 
 ### HTTP request headers
 
