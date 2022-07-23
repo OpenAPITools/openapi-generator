@@ -215,7 +215,7 @@ export class ObjectSerializer {
         if (mediaType === undefined) {
             throw new Error("Cannot parse content. No Content-Type defined.");
         }
-        
+
         if (mediaType === "text/plain") {
             return rawData;
         }
