@@ -31,6 +31,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
@@ -39,6 +41,7 @@ import static org.openapitools.codegen.utils.StringUtils.underscore;
 public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(PerlClientCodegen.class);
 
+    protected static int emptyFunctionNameCounter = 0;
     public static final String MODULE_NAME = "moduleName";
     public static final String MODULE_VERSION = "moduleVersion";
     protected String moduleName = "WWW::OpenAPIClient";
@@ -47,7 +50,7 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
 
-    protected static int emptyFunctionNameCounter = 0;
+    private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
 
     public PerlClientCodegen() {
         super();
@@ -340,6 +343,12 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
             return schemaMapping.get(name);
         }
 
+        // memoization
+        String origName = name;
+        if (schemaKeyToModelNameCache.containsKey(origName)) {
+            return schemaKeyToModelNameCache.get(origName);
+        }
+
         name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         // model name cannot use reserved keyword
@@ -366,7 +375,9 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         // camelize the model name
         // phone_number => PhoneNumber
-        return camelize(name);
+        String camelizedName = camelize(name);
+        schemaKeyToModelNameCache.put(origName, camelizedName);
+        return camelizedName;
     }
 
     @Override
