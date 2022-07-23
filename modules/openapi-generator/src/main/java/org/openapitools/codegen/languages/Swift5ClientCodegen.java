@@ -581,6 +581,9 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         supportingFiles.add(new SupportingFile("README.mustache",
                 "",
                 "README.md"));
+        supportingFiles.add(new SupportingFile("swiftformat.mustache",
+                "",
+                ".swiftformat"));
 
         switch (getLibrary()) {
             case LIBRARY_ALAMOFIRE:
