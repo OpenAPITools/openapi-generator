@@ -183,7 +183,7 @@ public class FooGetDefaultResponse {
         }
       }
       // validate the optional field `string`
-      if (jsonObj.getAsJsonObject("string") != null) {
+      if (jsonObj.get("string") != null && !jsonObj.get("string").isJsonNull()) {
         Foo.validateJsonObject(jsonObj.getAsJsonObject("string"));
       }
   }

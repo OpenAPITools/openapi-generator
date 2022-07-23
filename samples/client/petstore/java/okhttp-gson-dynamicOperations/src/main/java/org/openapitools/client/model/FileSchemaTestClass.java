@@ -194,7 +194,7 @@ public class FileSchemaTestClass {
         }
       }
       // validate the optional field `file`
-      if (jsonObj.getAsJsonObject("file") != null) {
+      if (jsonObj.get("file") != null && !jsonObj.get("file").isJsonNull()) {
         ModelFile.validateJsonObject(jsonObj.getAsJsonObject("file"));
       }
       JsonArray jsonArrayfiles = jsonObj.getAsJsonArray("files");

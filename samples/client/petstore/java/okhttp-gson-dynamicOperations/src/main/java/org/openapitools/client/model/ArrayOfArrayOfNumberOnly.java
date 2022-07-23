@@ -164,7 +164,7 @@ public class ArrayOfArrayOfNumberOnly {
         }
       }
       // ensure the json data is an array
-      if (jsonObj.get("ArrayArrayNumber") != null && !jsonObj.get("ArrayArrayNumber").isJsonArray()) {
+      if ((jsonObj.get("ArrayArrayNumber") != null && !jsonObj.get("ArrayArrayNumber").isJsonNull()) && !jsonObj.get("ArrayArrayNumber").isJsonArray()) {
         throw new IllegalArgumentException(String.format("Expected the field `ArrayArrayNumber` to be an array in the JSON string but got `%s`", jsonObj.get("ArrayArrayNumber").toString()));
       }
   }
