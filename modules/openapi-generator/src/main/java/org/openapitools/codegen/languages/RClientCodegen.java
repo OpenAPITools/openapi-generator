@@ -21,6 +21,7 @@ import com.samskivert.mustache.Mustache.Lambda;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
 
+import com.sun.media.sound.InvalidDataException;
 import io.swagger.v3.oas.models.examples.Example;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
@@ -64,9 +65,13 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String DEFAULT = "default";
     public static final String RLANG = "rlang";
 
+    // naming convention for operationId (function names in the API)
+    public static final String OPERATIONID_NAMING = "operationIdNaming";
+
     protected boolean useDefaultExceptionHandling = false;
     protected boolean useRlangExceptionHandling = false;
     protected String errorObjectType;
+    protected String operationIdNaming;
 
     private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
 
@@ -177,6 +182,14 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         cliOptions.add(new CliOption(CodegenConstants.EXCEPTION_ON_FAILURE, CodegenConstants.EXCEPTION_ON_FAILURE_DESC)
                 .defaultValue(Boolean.FALSE.toString()));
 
+        CliOption operationIdNaming = CliOption.newString(OPERATIONID_NAMING, "Naming convention for operationId (function name in the API)");
+        Map<String, String> operationIdNamingOptions = new HashMap<>();
+        operationIdNamingOptions.put("snake_case", "Snake case");
+        operationIdNamingOptions.put("camelCase", "Camel case");
+        operationIdNamingOptions.put("PascalCase", "Pascal case (default)");
+        operationIdNaming.setEnum(operationIdNamingOptions);
+        cliOptions.add(operationIdNaming);
+
         exceptionPackages.put(DEFAULT, "Use stop() for raising exceptions.");
         exceptionPackages.put(RLANG, "Use rlang package for exceptions.");
 
@@ -205,21 +218,27 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
 
         if (additionalProperties.containsKey(CodegenConstants.EXCEPTION_ON_FAILURE)) {
-            boolean booleanValue = Boolean.parseBoolean(additionalProperties.get(CodegenConstants.EXCEPTION_ON_FAILURE).toString());
-            setReturnExceptionOnFailure(booleanValue);
+            setReturnExceptionOnFailure(Boolean.parseBoolean(
+                    additionalProperties.get(CodegenConstants.EXCEPTION_ON_FAILURE).toString()));
         } else {
             setReturnExceptionOnFailure(false);
         }
 
         if (additionalProperties.containsKey(EXCEPTION_PACKAGE)) {
-            String exceptionPackage = additionalProperties.get(EXCEPTION_PACKAGE).toString();
-            setExceptionPackageToUse(exceptionPackage);
+            setExceptionPackageToUse(additionalProperties.get(EXCEPTION_PACKAGE).toString());
         } else {
             setExceptionPackageToUse(DEFAULT);
         }
 
         if (additionalProperties.containsKey(CodegenConstants.ERROR_OBJECT_TYPE)) {
             this.setErrorObjectType(additionalProperties.get(CodegenConstants.ERROR_OBJECT_TYPE).toString());
+        }
+        additionalProperties.put(CodegenConstants.ERROR_OBJECT_TYPE, errorObjectType);
+
+        if (additionalProperties.containsKey(OPERATIONID_NAMING)) {
+            this.setOperationIdNaming(additionalProperties.get(OPERATIONID_NAMING).toString());
+        } else {
+            this.setOperationIdNaming("PascalCase"); // default to PascalCase for backward compatibility
         }
         additionalProperties.put(CodegenConstants.ERROR_OBJECT_TYPE, errorObjectType);
 
@@ -469,7 +488,16 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
             sanitizedOperationId = "call_" + sanitizedOperationId;
         }
 
-        return camelize(sanitizedOperationId);
+        if ("PascalCase".equals(operationIdNaming)) {
+            return camelize(sanitizedOperationId);
+        } else if ("camelCase".equals(operationIdNaming)) {
+            return camelize(sanitizedOperationId, true);
+        } else if ("snake_case".equals(operationIdNaming)) {
+            return underscore(sanitizedOperationId);
+        } else {
+            LOGGER.error("Invalid operationIdNaming: {}. Please report the issue. Default to PascalCase for the time being", operationIdNaming);
+            return camelize(sanitizedOperationId);
+        }
     }
 
     @Override
@@ -542,6 +570,21 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         this.errorObjectType = errorObjectType;
     }
 
+    public void setOperationIdNaming(final String operationIdNaming) {
+        if (!("PascalCase".equals(operationIdNaming) || "camelCase".equals(operationIdNaming) ||
+                "snake_case".equals(operationIdNaming))) {
+            throw new IllegalArgumentException("Invalid operationIdNaming: " + operationIdNaming +
+                    ". Must be PascalCase, camelCase or snake_case");
+        }
+
+        if ("snake_case".equals(operationIdNaming)) {
+            additionalProperties.put("WithHttpInfo", "_with_http_info");
+        } else {
+            additionalProperties.put("WithHttpInfo", "WithHttpInfo");
+        }
+
+        this.operationIdNaming = operationIdNaming;
+    }
     @Override
     public String escapeQuotationMark(String input) {
         // remove " to avoid code injection
