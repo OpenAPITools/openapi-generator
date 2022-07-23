@@ -59,6 +59,9 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
   @XmlElementWrapper({{#xmlNamespace}}namespace="{{.}}", {{/xmlNamespace}}name = "{{xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}")
       {{/isXmlWrapped}}
     {{/isContainer}}
+  {{#isDateTime}}
+  @XmlJavaTypeAdapter(OffsetDateTimeXmlAdapter.class)
+  {{/isDateTime}}
   {{/isXmlAttribute}}
   {{/withXml}}
   {{#gson}}
