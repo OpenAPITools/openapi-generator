@@ -31,6 +31,7 @@ import io.ktor.http.ParametersBuilder
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import java.text.DateFormat
 
     open class PetApi(
     baseUrl: String = ApiClient.BASE_URL,
