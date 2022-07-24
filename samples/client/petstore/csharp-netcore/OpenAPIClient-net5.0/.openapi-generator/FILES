@@ -66,7 +66,6 @@ docs/OuterEnumIntegerDefaultValue.md
 docs/ParentPet.md
 docs/Pet.md
 docs/PetApi.md
-docs/PetStatusFilter.md
 docs/Pig.md
 docs/PolymorphicProperty.md
 docs/Quadrilateral.md
@@ -176,7 +175,6 @@ src/Org.OpenAPITools/Model/OuterEnumInteger.cs
 src/Org.OpenAPITools/Model/OuterEnumIntegerDefaultValue.cs
 src/Org.OpenAPITools/Model/ParentPet.cs
 src/Org.OpenAPITools/Model/Pet.cs
-src/Org.OpenAPITools/Model/PetStatusFilter.cs
 src/Org.OpenAPITools/Model/Pig.cs
 src/Org.OpenAPITools/Model/PolymorphicProperty.cs
 src/Org.OpenAPITools/Model/Quadrilateral.cs
