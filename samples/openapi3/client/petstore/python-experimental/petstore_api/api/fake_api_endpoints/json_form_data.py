@@ -11,6 +11,7 @@ import re  # noqa: F401
 import sys  # noqa: F401
 import typing
 import urllib3
+import functools  # noqa: F401
 from urllib3._collections import HTTPHeaderDict
 
 from petstore_api import api_client, exceptions
@@ -30,6 +31,7 @@ from petstore_api.schemas import (  # noqa: F401
     Float32Schema,
     Float64Schema,
     NumberSchema,
+    UUIDSchema,
     DateSchema,
     DateTimeSchema,
     DecimalSchema,
@@ -37,7 +39,7 @@ from petstore_api.schemas import (  # noqa: F401
     BinarySchema,
     NoneSchema,
     none_type,
-    InstantiationMetadata,
+    Configuration,
     Unset,
     unset,
     ComposedBase,
@@ -46,12 +48,19 @@ from petstore_api.schemas import (  # noqa: F401
     NoneBase,
     StrBase,
     IntBase,
+    Int32Base,
+    Int64Base,
+    Float32Base,
+    Float64Base,
     NumberBase,
+    UUIDBase,
     DateBase,
     DateTimeBase,
     BoolBase,
     BinaryBase,
     Schema,
+    NoneClass,
+    BoolClass,
     _SchemaValidator,
     _SchemaTypeChecker,
     _SchemaEnumMaker
@@ -64,6 +73,8 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
     DictSchema
 ):
     _required_property_names = set((
+        'param',
+        'param2',
     ))
     param = StrSchema
     param2 = StrSchema
@@ -72,13 +83,17 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
+        param: param,
+        param2: param2,
+        _configuration: typing.Optional[Configuration] = None,
         **kwargs: typing.Type[Schema],
     ) -> 'SchemaForRequestBodyApplicationXWwwFormUrlencoded':
         return super().__new__(
             cls,
             *args,
-            _instantiation_metadata=_instantiation_metadata,
+            param=param,
+            param2=param2,
+            _configuration=_configuration,
             **kwargs,
         )
 
@@ -127,6 +142,7 @@ class JsonFormData(api_client.Api):
             api_response.body and api_response.headers will not be deserialized into schema
             class instances
         """
+        used_path = _path
 
         _headers = HTTPHeaderDict()
         # TODO add cookie handling
@@ -141,7 +157,7 @@ class JsonFormData(api_client.Api):
             elif 'body' in serialized_data:
                 _body = serialized_data['body']
         response = self.api_client.call_api(
-            resource_path=_path,
+            resource_path=used_path,
             method=_method,
             headers=_headers,
             fields=_fields,

@@ -33,20 +33,33 @@ export interface EnumArrays {
     arrayEnum?: Array<EnumArraysArrayEnumEnum>;
 }
 
+
 /**
-* @export
-* @enum {string}
-*/
-export enum EnumArraysJustSymbolEnum {
-    GreaterThanOrEqualTo = '>=',
-    Dollar = '$'
-}/**
-* @export
-* @enum {string}
-*/
-export enum EnumArraysArrayEnumEnum {
-    Fish = 'fish',
-    Crab = 'crab'
+ * @export
+ */
+export const EnumArraysJustSymbolEnum = {
+    GreaterThanOrEqualTo: '>=',
+    Dollar: '$'
+} as const;
+export type EnumArraysJustSymbolEnum = typeof EnumArraysJustSymbolEnum[keyof typeof EnumArraysJustSymbolEnum];
+
+/**
+ * @export
+ */
+export const EnumArraysArrayEnumEnum = {
+    Fish: 'fish',
+    Crab: 'crab'
+} as const;
+export type EnumArraysArrayEnumEnum = typeof EnumArraysArrayEnumEnum[keyof typeof EnumArraysArrayEnumEnum];
+
+
+/**
+ * Check if a given object implements the EnumArrays interface.
+ */
+export function instanceOfEnumArrays(value: object): boolean {
+    let isInstance = true;
+
+    return isInstance;
 }
 
 export function EnumArraysFromJSON(json: any): EnumArrays {

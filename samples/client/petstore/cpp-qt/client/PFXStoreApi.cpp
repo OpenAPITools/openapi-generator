@@ -63,7 +63,7 @@ void PFXStoreApi::setServerIndex(const QString &operation, int serverIndex) {
 }
 
 void PFXStoreApi::setApiKey(const QString &apiKeyName, const QString &apiKey) {
-    _apiKeys.insert(apiKeyName,apiKey);
+    _apiKeys.insert(apiKeyName, apiKey);
 }
 
 void PFXStoreApi::setBearerToken(const QString &token) {
@@ -226,7 +226,7 @@ void PFXStoreApi::deleteOrder(const QString &order_id) {
         QString order_idPathParam("{");
         order_idPathParam.append("orderId").append("}");
         QString pathPrefix, pathSuffix, pathDelimiter;
-        QString pathStyle = "";
+        QString pathStyle = "simple";
         if (pathStyle == "")
             pathStyle = "simple";
         pathPrefix = getParamStylePrefix(pathStyle);
@@ -326,7 +326,7 @@ void PFXStoreApi::getInventoryCallback(PFXHttpRequestWorker *worker) {
     QByteArray array(json.toStdString().c_str());
     QJsonDocument doc = QJsonDocument::fromJson(array);
     QJsonObject obj = doc.object();
-    foreach (QString key, obj.keys()) {
+    for (QString key : obj.keys()) {
         qint32 val;
         ::test_namespace::fromJsonValue(val, obj[key]);
         output.insert(key, val);
@@ -350,7 +350,7 @@ void PFXStoreApi::getOrderById(const qint64 &order_id) {
         QString order_idPathParam("{");
         order_idPathParam.append("orderId").append("}");
         QString pathPrefix, pathSuffix, pathDelimiter;
-        QString pathStyle = "";
+        QString pathStyle = "simple";
         if (pathStyle == "")
             pathStyle = "simple";
         pathPrefix = getParamStylePrefix(pathStyle);
@@ -405,7 +405,7 @@ void PFXStoreApi::getOrderByIdCallback(PFXHttpRequestWorker *worker) {
     }
 }
 
-void PFXStoreApi::placeOrder(const PFXOrder &body) {
+void PFXStoreApi::placeOrder(const PFXOrder &pfx_order) {
     QString fullPath = QString(_serverConfigs["placeOrder"][_serverIndices.value("placeOrder")].URL()+"/store/order");
     
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
@@ -415,7 +415,8 @@ void PFXStoreApi::placeOrder(const PFXOrder &body) {
 
     {
 
-        QByteArray output = body.asJson().toUtf8();
+        
+        QByteArray output = pfx_order.asJson().toUtf8();
         input.request_body.append(output);
     }
 #if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
@@ -459,8 +460,8 @@ void PFXStoreApi::placeOrderCallback(PFXHttpRequestWorker *worker) {
 }
 
 void PFXStoreApi::tokenAvailable(){
-  
-    oauthToken token; 
+
+    oauthToken token;
     switch (_OauthMethod) {
     case 1: //implicit flow
         token = _implicitFlow.getToken(_latestScope.join(" "));
@@ -469,7 +470,7 @@ void PFXStoreApi::tokenAvailable(){
             _latestWorker->execute(&_latestInput);
         }else{
             _implicitFlow.removeToken(_latestScope.join(" "));
-            qDebug() << "Could not retreive a valid token";
+            qDebug() << "Could not retrieve a valid token";
         }
         break;
     case 2: //authorization flow
@@ -478,8 +479,8 @@ void PFXStoreApi::tokenAvailable(){
             _latestInput.headers.insert("Authorization", "Bearer " + token.getToken());
             _latestWorker->execute(&_latestInput);
         }else{
-            _authFlow.removeToken(_latestScope.join(" "));    
-            qDebug() << "Could not retreive a valid token";
+            _authFlow.removeToken(_latestScope.join(" "));
+            qDebug() << "Could not retrieve a valid token";
         }
         break;
     case 3: //client credentials flow
@@ -488,8 +489,8 @@ void PFXStoreApi::tokenAvailable(){
             _latestInput.headers.insert("Authorization", "Bearer " + token.getToken());
             _latestWorker->execute(&_latestInput);
         }else{
-            _credentialFlow.removeToken(_latestScope.join(" "));    
-            qDebug() << "Could not retreive a valid token";
+            _credentialFlow.removeToken(_latestScope.join(" "));
+            qDebug() << "Could not retrieve a valid token";
         }
         break;
     case 4: //resource owner password flow
@@ -498,8 +499,8 @@ void PFXStoreApi::tokenAvailable(){
             _latestInput.headers.insert("Authorization", "Bearer " + token.getToken());
             _latestWorker->execute(&_latestInput);
         }else{
-            _credentialFlow.removeToken(_latestScope.join(" "));    
-            qDebug() << "Could not retreive a valid token";
+            _credentialFlow.removeToken(_latestScope.join(" "));
+            qDebug() << "Could not retrieve a valid token";
         }
         break;
     default:

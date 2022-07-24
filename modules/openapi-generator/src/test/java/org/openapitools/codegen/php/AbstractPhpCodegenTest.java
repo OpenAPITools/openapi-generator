@@ -32,7 +32,6 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 
 public class AbstractPhpCodegenTest {
@@ -160,7 +159,7 @@ public class AbstractPhpCodegenTest {
         Assert.assertEquals(codegen.getTypeDeclaration("MyResponse"), "\\php\\Model\\MyResponse");
 
         // We need to postProcess the model for enums to be processed
-        codegen.postProcessModels(Collections.singletonMap("models", Collections.singletonList(Collections.singletonMap("model", cm1))));
+        codegen.postProcessModels(TestUtils.createCodegenModelWrapper(cm1));
 
         // Assert the enum default value is properly generated
         CodegenProperty cp1 = cm1.vars.get(0);

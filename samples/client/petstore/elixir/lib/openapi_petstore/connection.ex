@@ -10,7 +10,7 @@ defmodule OpenapiPetstore.Connection do
   use Tesla
 
   # Add any middleware here (authentication)
-  plug Tesla.Middleware.BaseUrl, "http://petstore.swagger.io:80/v2"
+  plug Tesla.Middleware.BaseUrl, Application.get_env(:open_api_petstore, :base_url, "http://petstore.swagger.io:80/v2")
   plug Tesla.Middleware.Headers, [{"user-agent", "Elixir"}]
   plug Tesla.Middleware.EncodeJson, engine: Poison
 

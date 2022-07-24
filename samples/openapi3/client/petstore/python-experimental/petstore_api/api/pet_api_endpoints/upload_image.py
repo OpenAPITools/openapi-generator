@@ -11,6 +11,7 @@ import re  # noqa: F401
 import sys  # noqa: F401
 import typing
 import urllib3
+import functools  # noqa: F401
 from urllib3._collections import HTTPHeaderDict
 
 from petstore_api import api_client, exceptions
@@ -30,6 +31,7 @@ from petstore_api.schemas import (  # noqa: F401
     Float32Schema,
     Float64Schema,
     NumberSchema,
+    UUIDSchema,
     DateSchema,
     DateTimeSchema,
     DecimalSchema,
@@ -37,7 +39,7 @@ from petstore_api.schemas import (  # noqa: F401
     BinarySchema,
     NoneSchema,
     none_type,
-    InstantiationMetadata,
+    Configuration,
     Unset,
     unset,
     ComposedBase,
@@ -46,12 +48,19 @@ from petstore_api.schemas import (  # noqa: F401
     NoneBase,
     StrBase,
     IntBase,
+    Int32Base,
+    Int64Base,
+    Float32Base,
+    Float64Base,
     NumberBase,
+    UUIDBase,
     DateBase,
     DateTimeBase,
     BoolBase,
     BinaryBase,
     Schema,
+    NoneClass,
+    BoolClass,
     _SchemaValidator,
     _SchemaTypeChecker,
     _SchemaEnumMaker
@@ -99,14 +108,16 @@ class SchemaForRequestBodyMultipartFormData(
         cls,
         *args: typing.Union[dict, frozendict, ],
         additionalMetadata: typing.Union[additionalMetadata, Unset] = unset,
-        _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
+        file: typing.Union[file, Unset] = unset,
+        _configuration: typing.Optional[Configuration] = None,
         **kwargs: typing.Type[Schema],
     ) -> 'SchemaForRequestBodyMultipartFormData':
         return super().__new__(
             cls,
             *args,
             additionalMetadata=additionalMetadata,
-            _instantiation_metadata=_instantiation_metadata,
+            file=file,
+            _configuration=_configuration,
             **kwargs,
         )
 
@@ -171,6 +182,7 @@ class UploadImage(api_client.Api):
             class instances
         """
         self._verify_typed_dict_inputs(RequestPathParams, path_params)
+        used_path = _path
 
         _path_params = {}
         for parameter in (
@@ -181,6 +193,9 @@ class UploadImage(api_client.Api):
                 continue
             serialized_data = parameter.serialize(parameter_data)
             _path_params.update(serialized_data)
+
+        for k, v in _path_params.items():
+            used_path = used_path.replace('{%s}' % k, v)
 
         _headers = HTTPHeaderDict()
         # TODO add cookie handling
@@ -198,9 +213,8 @@ class UploadImage(api_client.Api):
             elif 'body' in serialized_data:
                 _body = serialized_data['body']
         response = self.api_client.call_api(
-            resource_path=_path,
+            resource_path=used_path,
             method=_method,
-            path_params=_path_params,
             headers=_headers,
             fields=_fields,
             body=_body,

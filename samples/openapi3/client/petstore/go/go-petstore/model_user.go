@@ -345,7 +345,7 @@ func (o *User) SetArbitraryObject(v map[string]interface{}) {
 
 // GetArbitraryNullableObject returns the ArbitraryNullableObject field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *User) GetArbitraryNullableObject() map[string]interface{} {
-	if o == nil  {
+	if o == nil {
 		var ret map[string]interface{}
 		return ret
 	}
@@ -378,7 +378,7 @@ func (o *User) SetArbitraryNullableObject(v map[string]interface{}) {
 
 // GetArbitraryTypeValue returns the ArbitraryTypeValue field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *User) GetArbitraryTypeValue() interface{} {
-	if o == nil  {
+	if o == nil {
 		var ret interface{}
 		return ret
 	}
@@ -411,7 +411,7 @@ func (o *User) SetArbitraryTypeValue(v interface{}) {
 
 // GetArbitraryNullableTypeValue returns the ArbitraryNullableTypeValue field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *User) GetArbitraryNullableTypeValue() interface{} {
-	if o == nil  {
+	if o == nil {
 		var ret interface{}
 		return ret
 	}

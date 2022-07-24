@@ -207,6 +207,10 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
     public void processOpts() {
         super.processOpts();
 
+        if (isModelMutable()) {
+            typeMapping.put("array", "kotlin.collections.MutableList");
+        }
+
         if (additionalProperties.containsKey(CodegenConstants.LIBRARY)) {
             this.setLibrary((String) additionalProperties.get(CodegenConstants.LIBRARY));
         }

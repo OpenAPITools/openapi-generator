@@ -7,13 +7,12 @@ import javax.ws.rs.core.Response
 
 
 import java.io.InputStream
-import java.util.Map
-import java.util.List
 
 
 
 @Path("/")
-@javax.annotation.Generated(value = arrayOf("org.openapitools.codegen.languages.KotlinServerCodegen"))class UserApi {
+@javax.annotation.Generated(value = arrayOf("org.openapitools.codegen.languages.KotlinServerCodegen"))
+class UserApi {
 
     @POST
     suspend fun createUser( body: User): Response {

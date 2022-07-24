@@ -4,7 +4,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Id** | **Int64** |  | [optional] 
-**Name** | **String** |  | [optional] 
+**Name** | **String** |  | [default to "default-name"]
 
 ## Examples
 

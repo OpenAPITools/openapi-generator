@@ -19,12 +19,16 @@ package org.openapitools.codegen.languages;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.text.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.ProcessUtils;
 import org.slf4j.Logger;
@@ -65,6 +69,8 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
     protected Set<String> paramNameReservedWords;
     protected String modelsCmdletVerb = "Initialize";
     protected boolean useClassNameInModelsExamples = true;
+
+    private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
 
     /**
      * Constructs an instance of `PowerShellClientCodegen`.
@@ -903,6 +909,18 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
      */
     @Override
     public String toModelName(String name) {
+        // check if schema-mapping has a different model for this class, so we can use it
+        // instead of the auto-generated one.
+        if (schemaMapping.containsKey(name)) {
+            return schemaMapping.get(name);
+        }
+
+        // memoization
+        String origName = name;
+        if (schemaKeyToModelNameCache.containsKey(origName)) {
+            return schemaKeyToModelNameCache.get(origName);
+        }
+
         if (!StringUtils.isEmpty(modelNamePrefix)) {
             name = modelNamePrefix + "_" + name;
         }
@@ -928,6 +946,8 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
                     camelize("model_" + name));
             name = camelize("model_" + name); // e.g. 200Response => Model200Response (after camelize)
         }
+
+        schemaKeyToModelNameCache.put(origName, name);
 
         return name;
     }
@@ -1010,18 +1030,17 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
-        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        OperationMap operations = objs.getOperations();
         HashMap<String, CodegenModel> modelMaps = new HashMap<>();
         HashMap<String, Integer> processedModelMaps = new HashMap<>();
 
-        for (Object o : allModels) {
-            HashMap<String, Object> h = (HashMap<String, Object>) o;
-            CodegenModel m = (CodegenModel) h.get("model");
+        for (ModelMap modelMap : allModels) {
+            CodegenModel m = modelMap.getModel();
             modelMaps.put(m.classname, m);
         }
 
-        List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
+        List<CodegenOperation> operationList = operations.getOperation();
         for (CodegenOperation op : operationList) {
             int index = 0;
             for (CodegenParameter p : op.allParams) {
@@ -1086,15 +1105,14 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
     }
 
     @Override
-    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
-        List<Object> models = (List<Object>) objs.get("models");
+    public ModelsMap postProcessModels(ModelsMap objs) {
+        List<ModelMap> models = objs.getModels();
         // add x-index to properties
         ProcessUtils.addIndexToProperties(models);
 
         // add x-data-type to store powershell type
-        for (Object _mo : models) {
-            Map<String, Object> _model = (Map<String, Object>) _mo;
-            CodegenModel model = (CodegenModel) _model.get("model");
+        for (ModelMap _model : models) {
+            CodegenModel model = _model.getModel();
             CodegenProperty lastWritableProperty = null;
 
             for (CodegenProperty cp : model.allVars) {
@@ -1123,7 +1141,8 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
             }
         }
 
-        return objs;
+        // process enum in models
+        return postProcessModelsEnum(objs);
     }
 
     @Override
@@ -1182,7 +1201,9 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
                 example.append(constructExampleCode(codegenParameter.items, modelMaps, processedModelMap, requiredOnly));
             }
         } else if (codegenParameter.isMap) {
-            if (codegenParameter.items.isModel) {
+            if (codegenParameter.items == null) {
+                example.append("@{ key_example = ... }");
+            } else if (codegenParameter.items.isModel) {
                 String modelExample = constructExampleCode(codegenParameter.items, modelMaps, processedModelMap, requiredOnly);
                 if (!StringUtils.isEmpty(modelExample)) {
                     example.append(modelExample).append("\n");
@@ -1541,4 +1562,30 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
 
     @Override
     public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.POWERSHELL; }
+
+    @Override
+    public String toEnumVarName(String name, String datatype) {
+        if (name.length() == 0) {
+            return "EMPTY";
+        }
+
+        // for symbol, e.g. $, #
+        if (getSymbolName(name) != null) {
+            return (getSymbolName(name)).toUpperCase(Locale.ROOT);
+        }
+
+        // number
+        if ("Int16".equals(datatype) ||  "Int32".equals(datatype)  || "Int64".equals(datatype) ||
+            "UInt16".equals(datatype) ||  "UInt32".equals(datatype)  || "UInt64".equals(datatype) ||
+            "Double".equals(datatype) || "Single".equals(datatype) || "Decimal".equals(datatype)) {
+            String varName = name;
+            varName = varName.replaceAll("-", "MINUS_");
+            varName = varName.replaceAll("\\+", "PLUS_");
+            varName = varName.replaceAll("\\.", "_DOT_");
+            return "NUMBER_" + varName;
+        }
+
+        // remove special character
+        return sanitizeName(name);
+    }
 }

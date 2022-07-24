@@ -12,6 +12,7 @@
 import re  # noqa: F401
 import sys  # noqa: F401
 import typing  # noqa: F401
+import functools  # noqa: F401
 
 from frozendict import frozendict  # noqa: F401
 
@@ -31,6 +32,7 @@ from petstore_api.schemas import (  # noqa: F401
     Float32Schema,
     Float64Schema,
     NumberSchema,
+    UUIDSchema,
     DateSchema,
     DateTimeSchema,
     DecimalSchema,
@@ -38,7 +40,7 @@ from petstore_api.schemas import (  # noqa: F401
     BinarySchema,
     NoneSchema,
     none_type,
-    InstantiationMetadata,
+    Configuration,
     Unset,
     unset,
     ComposedBase,
@@ -47,12 +49,19 @@ from petstore_api.schemas import (  # noqa: F401
     NoneBase,
     StrBase,
     IntBase,
+    Int32Base,
+    Int64Base,
+    Float32Base,
+    Float64Base,
     NumberBase,
+    UUIDBase,
     DateBase,
     DateTimeBase,
     BoolBase,
     BinaryBase,
     Schema,
+    NoneClass,
+    BoolClass,
     _SchemaValidator,
     _SchemaTypeChecker,
     _SchemaEnumMaker
@@ -60,18 +69,16 @@ from petstore_api.schemas import (  # noqa: F401
 
 
 class StringEnum(
-    _SchemaTypeChecker(typing.Union[none_type, str, ]),
+    _SchemaTypeChecker(typing.Union[NoneClass, str, ]),
     _SchemaEnumMaker(
         enum_value_to_name={
-            None: "NONE",
+            NoneClass.NONE: "NONE",
             "placed": "PLACED",
             "approved": "APPROVED",
             "delivered": "DELIVERED",
             "single quoted": "SINGLE_QUOTED",
-            '''multiple
-lines''': "MULTIPLE_LINES",
-            '''double quote 
- with newline''': "DOUBLE_QUOTE_WITH_NEWLINE",
+            "multiple\nlines": "MULTIPLE_LINES",
+            "double quote \n with newline": "DOUBLE_QUOTE_WITH_NEWLINE",
         }
     ),
     StrBase,
@@ -87,49 +94,45 @@ lines''': "MULTIPLE_LINES",
     @classmethod
     @property
     def NONE(cls):
-        return cls._enum_by_value[None](None)
+        return cls(None)
     
     @classmethod
     @property
     def PLACED(cls):
-        return cls._enum_by_value["placed"]("placed")
+        return cls("placed")
     
     @classmethod
     @property
     def APPROVED(cls):
-        return cls._enum_by_value["approved"]("approved")
+        return cls("approved")
     
     @classmethod
     @property
     def DELIVERED(cls):
-        return cls._enum_by_value["delivered"]("delivered")
+        return cls("delivered")
     
     @classmethod
     @property
     def SINGLE_QUOTED(cls):
-        return cls._enum_by_value["single quoted"]("single quoted")
+        return cls("single quoted")
     
     @classmethod
     @property
     def MULTIPLE_LINES(cls):
-        return cls._enum_by_value['''multiple
-lines''']('''multiple
-lines''')
+        return cls("multiple\nlines")
     
     @classmethod
     @property
     def DOUBLE_QUOTE_WITH_NEWLINE(cls):
-        return cls._enum_by_value['''double quote 
- with newline''']('''double quote 
- with newline''')
+        return cls("double quote \n with newline")
 
     def __new__(
         cls,
         *args: typing.Union[str, None, ],
-        _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
+        _configuration: typing.Optional[Configuration] = None,
     ) -> 'StringEnum':
         return super().__new__(
             cls,
             *args,
-            _instantiation_metadata=_instantiation_metadata,
+            _configuration=_configuration,
         )

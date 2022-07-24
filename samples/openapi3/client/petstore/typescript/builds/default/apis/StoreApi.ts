@@ -112,6 +112,7 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
     }
 
     /**
+     * 
      * Place an order for a pet
      * @param order order placed for purchasing the pet
      */

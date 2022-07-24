@@ -5,7 +5,7 @@ import {RequestContext, HttpMethod, ResponseContext, HttpFile} from '../http/htt
 import {ObjectSerializer} from '../models/ObjectSerializer.ts';
 import {ApiException} from './exception.ts';
 import {canConsumeForm, isCodeInRange} from '../util.ts';
-import {SecurityAuthentication} from '../auth/auth';
+import {SecurityAuthentication} from '../auth/auth.ts';
 
 
 import { Order } from '../models/Order.ts';
@@ -110,6 +110,7 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
     }
 
     /**
+     * 
      * Place an order for a pet
      * @param order order placed for purchasing the pet
      */

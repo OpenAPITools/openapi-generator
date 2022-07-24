@@ -1,7 +1,13 @@
 {{>licenseInfo}}
 /* tslint:disable:no-unused-variable member-ordering */
 
+{{#useAxiosHttpModule}}
+import { Inject, Injectable, Optional } from '@nestjs/common';
+import { HttpService } from '@nestjs/axios';
+{{/useAxiosHttpModule}}
+{{^useAxiosHttpModule}}
 import { HttpService, Inject, Injectable, Optional } from '@nestjs/common';
+{{/useAxiosHttpModule}}
 import { AxiosResponse } from 'axios';
 import { Observable } from 'rxjs';
 {{#imports}}
@@ -121,6 +127,9 @@ export class {{classname}} {
 
 {{/isKeyInHeader}}
 {{#isKeyInQuery}}
+        {{^hasQueryParams}}
+        let queryParameters = {};
+        {{/hasQueryParams}}
         if (this.configuration.apiKeys["{{keyParamName}}"]) {
             queryParameters['{{keyParamName}}'] = this.configuration.apiKeys["{{keyParamName}}"];
         }
@@ -208,8 +217,8 @@ export class {{classname}} {
 {{/formParams}}
 
 {{/hasFormParams}}
-        return this.httpClient.{{httpMethod}}{{^isResponseFile}}<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>{{/isResponseFile}}(`${this.basePath}{{{path}}}`,{{#isMethodPutOrPatchOrPost}}
-            {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}{{#hasFormParams}}convertFormParamsToString ? formParams.toString() : formParams{{/hasFormParams}}{{^hasFormParams}}null{{/hasFormParams}}{{/bodyParam}},{{/isMethodPutOrPatchOrPost}}
+        return this.httpClient.{{httpMethod}}{{^isResponseFile}}<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>{{/isResponseFile}}(`${this.basePath}{{{path}}}`,{{#isBodyAllowed}}
+            {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}{{#hasFormParams}}convertFormParamsToString ? formParams.toString() : formParams{{/hasFormParams}}{{^hasFormParams}}null{{/hasFormParams}}{{/bodyParam}},{{/isBodyAllowed}}
             {
 {{#hasQueryParams}}
                 params: queryParameters,

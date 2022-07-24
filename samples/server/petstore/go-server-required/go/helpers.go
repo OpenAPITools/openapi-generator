@@ -36,13 +36,13 @@ func IsZeroValue(val interface{}) bool {
 	return val == nil || reflect.DeepEqual(val, reflect.Zero(reflect.TypeOf(val)).Interface())
 }
 
-// AssertInterfaceRequired recursively checks each struct in a slice against the callback.
+// AssertRecurseInterfaceRequired recursively checks each struct in a slice against the callback.
 // This method traverse nested slices in a preorder fashion.
 func AssertRecurseInterfaceRequired(obj interface{}, callback func(interface{}) error) error {
 	return AssertRecurseValueRequired(reflect.ValueOf(obj), callback)
 }
 
-// AssertNestedValueRequired checks each struct in the nested slice against the callback.
+// AssertRecurseValueRequired checks each struct in the nested slice against the callback.
 // This method traverse nested slices in a preorder fashion.
 func AssertRecurseValueRequired(value reflect.Value, callback func(interface{}) error) error {
 	switch value.Kind() {

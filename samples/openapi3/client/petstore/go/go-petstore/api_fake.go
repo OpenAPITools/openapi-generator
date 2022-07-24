@@ -21,18 +21,14 @@ import (
 	"reflect"
 )
 
-// Linger please
-var (
-	_ context.Context
-)
 
 type FakeApi interface {
 
 	/*
 	FakeHealthGet Health check endpoint
 
-	 @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	 @return ApiFakeHealthGetRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiFakeHealthGetRequest
 	*/
 	FakeHealthGet(ctx context.Context) ApiFakeHealthGetRequest
 
@@ -45,8 +41,8 @@ type FakeApi interface {
 
 	Test serialization of outer boolean types
 
-	 @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	 @return ApiFakeOuterBooleanSerializeRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiFakeOuterBooleanSerializeRequest
 	*/
 	FakeOuterBooleanSerialize(ctx context.Context) ApiFakeOuterBooleanSerializeRequest
 
@@ -59,8 +55,8 @@ type FakeApi interface {
 
 	Test serialization of object with outer number type
 
-	 @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	 @return ApiFakeOuterCompositeSerializeRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiFakeOuterCompositeSerializeRequest
 	*/
 	FakeOuterCompositeSerialize(ctx context.Context) ApiFakeOuterCompositeSerializeRequest
 
@@ -73,8 +69,8 @@ type FakeApi interface {
 
 	Test serialization of outer number types
 
-	 @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	 @return ApiFakeOuterNumberSerializeRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiFakeOuterNumberSerializeRequest
 	*/
 	FakeOuterNumberSerialize(ctx context.Context) ApiFakeOuterNumberSerializeRequest
 
@@ -87,8 +83,8 @@ type FakeApi interface {
 
 	Test serialization of outer string types
 
-	 @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	 @return ApiFakeOuterStringSerializeRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiFakeOuterStringSerializeRequest
 	*/
 	FakeOuterStringSerialize(ctx context.Context) ApiFakeOuterStringSerializeRequest
 
@@ -101,8 +97,8 @@ type FakeApi interface {
 
 	For this test, the body for this request much reference a schema named `File`.
 
-	 @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	 @return ApiTestBodyWithFileSchemaRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiTestBodyWithFileSchemaRequest
 	*/
 	TestBodyWithFileSchema(ctx context.Context) ApiTestBodyWithFileSchemaRequest
 
@@ -112,8 +108,8 @@ type FakeApi interface {
 	/*
 	TestBodyWithQueryParams Method for TestBodyWithQueryParams
 
-	 @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	 @return ApiTestBodyWithQueryParamsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiTestBodyWithQueryParamsRequest
 	*/
 	TestBodyWithQueryParams(ctx context.Context) ApiTestBodyWithQueryParamsRequest
 
@@ -125,8 +121,8 @@ type FakeApi interface {
 
 	To test "client" model
 
-	 @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	 @return ApiTestClientModelRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiTestClientModelRequest
 	*/
 	TestClientModel(ctx context.Context) ApiTestClientModelRequest
 
@@ -143,8 +139,8 @@ type FakeApi interface {
 가짜 엔드 포인트
 
 
-	 @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	 @return ApiTestEndpointParametersRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiTestEndpointParametersRequest
 	*/
 	TestEndpointParameters(ctx context.Context) ApiTestEndpointParametersRequest
 
@@ -156,8 +152,8 @@ type FakeApi interface {
 
 	To test enum parameters
 
-	 @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	 @return ApiTestEnumParametersRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiTestEnumParametersRequest
 	*/
 	TestEnumParameters(ctx context.Context) ApiTestEnumParametersRequest
 
@@ -169,8 +165,8 @@ type FakeApi interface {
 
 	Fake endpoint to test group parameters (optional)
 
-	 @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	 @return ApiTestGroupParametersRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiTestGroupParametersRequest
 	*/
 	TestGroupParameters(ctx context.Context) ApiTestGroupParametersRequest
 
@@ -180,8 +176,10 @@ type FakeApi interface {
 	/*
 	TestInlineAdditionalProperties test inline additionalProperties
 
-	 @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	 @return ApiTestInlineAdditionalPropertiesRequest
+	
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiTestInlineAdditionalPropertiesRequest
 	*/
 	TestInlineAdditionalProperties(ctx context.Context) ApiTestInlineAdditionalPropertiesRequest
 
@@ -191,8 +189,10 @@ type FakeApi interface {
 	/*
 	TestJsonFormData test json serialization of form data
 
-	 @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	 @return ApiTestJsonFormDataRequest
+	
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiTestJsonFormDataRequest
 	*/
 	TestJsonFormData(ctx context.Context) ApiTestJsonFormDataRequest
 
@@ -204,8 +204,8 @@ type FakeApi interface {
 
 	To test the collection format in query parameters
 
-	 @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	 @return ApiTestQueryParameterCollectionFormatRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiTestQueryParameterCollectionFormatRequest
 	*/
 	TestQueryParameterCollectionFormat(ctx context.Context) ApiTestQueryParameterCollectionFormatRequest
 
@@ -217,8 +217,8 @@ type FakeApi interface {
 
 	To test unique items in header and query parameters
 
-	 @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	 @return ApiTestUniqueItemsHeaderAndQueryParameterCollectionFormatRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiTestUniqueItemsHeaderAndQueryParameterCollectionFormatRequest
 	*/
 	TestUniqueItemsHeaderAndQueryParameterCollectionFormat(ctx context.Context) ApiTestUniqueItemsHeaderAndQueryParameterCollectionFormatRequest
 
@@ -234,7 +234,6 @@ type ApiFakeHealthGetRequest struct {
 	ctx context.Context
 	ApiService FakeApi
 }
-
 
 func (r ApiFakeHealthGetRequest) Execute() (*HealthCheckResult, *http.Response, error) {
 	return r.ApiService.FakeHealthGetExecute(r)
@@ -870,6 +869,7 @@ func (r ApiTestBodyWithQueryParamsRequest) Query(query string) ApiTestBodyWithQu
 	r.query = &query
 	return r
 }
+
 func (r ApiTestBodyWithQueryParamsRequest) User(user User) ApiTestBodyWithQueryParamsRequest {
 	r.user = &user
 	return r
@@ -1100,66 +1100,79 @@ func (r ApiTestEndpointParametersRequest) Number(number float32) ApiTestEndpoint
 	r.number = &number
 	return r
 }
+
 // None
 func (r ApiTestEndpointParametersRequest) Double(double float64) ApiTestEndpointParametersRequest {
 	r.double = &double
 	return r
 }
+
 // None
 func (r ApiTestEndpointParametersRequest) PatternWithoutDelimiter(patternWithoutDelimiter string) ApiTestEndpointParametersRequest {
 	r.patternWithoutDelimiter = &patternWithoutDelimiter
 	return r
 }
+
 // None
 func (r ApiTestEndpointParametersRequest) Byte_(byte_ string) ApiTestEndpointParametersRequest {
 	r.byte_ = &byte_
 	return r
 }
+
 // None
 func (r ApiTestEndpointParametersRequest) Integer(integer int32) ApiTestEndpointParametersRequest {
 	r.integer = &integer
 	return r
 }
+
 // None
 func (r ApiTestEndpointParametersRequest) Int32_(int32_ int32) ApiTestEndpointParametersRequest {
 	r.int32_ = &int32_
 	return r
 }
+
 // None
 func (r ApiTestEndpointParametersRequest) Int64_(int64_ int64) ApiTestEndpointParametersRequest {
 	r.int64_ = &int64_
 	return r
 }
+
 // None
 func (r ApiTestEndpointParametersRequest) Float(float float32) ApiTestEndpointParametersRequest {
 	r.float = &float
 	return r
 }
+
 // None
 func (r ApiTestEndpointParametersRequest) String_(string_ string) ApiTestEndpointParametersRequest {
 	r.string_ = &string_
 	return r
 }
+
 // None
 func (r ApiTestEndpointParametersRequest) Binary(binary *os.File) ApiTestEndpointParametersRequest {
 	r.binary = &binary
 	return r
 }
+
 // None
 func (r ApiTestEndpointParametersRequest) Date(date string) ApiTestEndpointParametersRequest {
 	r.date = &date
 	return r
 }
+
 // None
 func (r ApiTestEndpointParametersRequest) DateTime(dateTime time.Time) ApiTestEndpointParametersRequest {
 	r.dateTime = &dateTime
 	return r
 }
+
 // None
 func (r ApiTestEndpointParametersRequest) Password(password string) ApiTestEndpointParametersRequest {
 	r.password = &password
 	return r
 }
+
 // None
 func (r ApiTestEndpointParametersRequest) Callback(callback string) ApiTestEndpointParametersRequest {
 	r.callback = &callback
@@ -1343,36 +1356,43 @@ func (r ApiTestEnumParametersRequest) EnumHeaderStringArray(enumHeaderStringArra
 	r.enumHeaderStringArray = &enumHeaderStringArray
 	return r
 }
+
 // Header parameter enum test (string)
 func (r ApiTestEnumParametersRequest) EnumHeaderString(enumHeaderString string) ApiTestEnumParametersRequest {
 	r.enumHeaderString = &enumHeaderString
 	return r
 }
+
 // Query parameter enum test (string array)
 func (r ApiTestEnumParametersRequest) EnumQueryStringArray(enumQueryStringArray []string) ApiTestEnumParametersRequest {
 	r.enumQueryStringArray = &enumQueryStringArray
 	return r
 }
+
 // Query parameter enum test (string)
 func (r ApiTestEnumParametersRequest) EnumQueryString(enumQueryString string) ApiTestEnumParametersRequest {
 	r.enumQueryString = &enumQueryString
 	return r
 }
+
 // Query parameter enum test (double)
 func (r ApiTestEnumParametersRequest) EnumQueryInteger(enumQueryInteger int32) ApiTestEnumParametersRequest {
 	r.enumQueryInteger = &enumQueryInteger
 	return r
 }
+
 // Query parameter enum test (double)
 func (r ApiTestEnumParametersRequest) EnumQueryDouble(enumQueryDouble float64) ApiTestEnumParametersRequest {
 	r.enumQueryDouble = &enumQueryDouble
 	return r
 }
+
 // Form parameter enum test (string array)
 func (r ApiTestEnumParametersRequest) EnumFormStringArray(enumFormStringArray []string) ApiTestEnumParametersRequest {
 	r.enumFormStringArray = &enumFormStringArray
 	return r
 }
+
 // Form parameter enum test (string)
 func (r ApiTestEnumParametersRequest) EnumFormString(enumFormString string) ApiTestEnumParametersRequest {
 	r.enumFormString = &enumFormString
@@ -1510,26 +1530,31 @@ func (r ApiTestGroupParametersRequest) RequiredStringGroup(requiredStringGroup i
 	r.requiredStringGroup = &requiredStringGroup
 	return r
 }
+
 // Required Boolean in group parameters
 func (r ApiTestGroupParametersRequest) RequiredBooleanGroup(requiredBooleanGroup bool) ApiTestGroupParametersRequest {
 	r.requiredBooleanGroup = &requiredBooleanGroup
 	return r
 }
+
 // Required Integer in group parameters
 func (r ApiTestGroupParametersRequest) RequiredInt64Group(requiredInt64Group int64) ApiTestGroupParametersRequest {
 	r.requiredInt64Group = &requiredInt64Group
 	return r
 }
+
 // String in group parameters
 func (r ApiTestGroupParametersRequest) StringGroup(stringGroup int32) ApiTestGroupParametersRequest {
 	r.stringGroup = &stringGroup
 	return r
 }
+
 // Boolean in group parameters
 func (r ApiTestGroupParametersRequest) BooleanGroup(booleanGroup bool) ApiTestGroupParametersRequest {
 	r.booleanGroup = &booleanGroup
 	return r
 }
+
 // Integer in group parameters
 func (r ApiTestGroupParametersRequest) Int64Group(int64Group int64) ApiTestGroupParametersRequest {
 	r.int64Group = &int64Group
@@ -1659,6 +1684,8 @@ func (r ApiTestInlineAdditionalPropertiesRequest) Execute() (*http.Response, err
 /*
 TestInlineAdditionalProperties test inline additionalProperties
 
+
+
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiTestInlineAdditionalPropertiesRequest
 */
@@ -1750,6 +1777,7 @@ func (r ApiTestJsonFormDataRequest) Param(param string) ApiTestJsonFormDataReque
 	r.param = &param
 	return r
 }
+
 // field2
 func (r ApiTestJsonFormDataRequest) Param2(param2 string) ApiTestJsonFormDataRequest {
 	r.param2 = &param2
@@ -1762,6 +1790,8 @@ func (r ApiTestJsonFormDataRequest) Execute() (*http.Response, error) {
 
 /*
 TestJsonFormData test json serialization of form data
+
+
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiTestJsonFormDataRequest
@@ -1859,18 +1889,22 @@ func (r ApiTestQueryParameterCollectionFormatRequest) Pipe(pipe []string) ApiTes
 	r.pipe = &pipe
 	return r
 }
+
 func (r ApiTestQueryParameterCollectionFormatRequest) Ioutil(ioutil []string) ApiTestQueryParameterCollectionFormatRequest {
 	r.ioutil = &ioutil
 	return r
 }
+
 func (r ApiTestQueryParameterCollectionFormatRequest) Http(http []string) ApiTestQueryParameterCollectionFormatRequest {
 	r.http = &http
 	return r
 }
+
 func (r ApiTestQueryParameterCollectionFormatRequest) Url(url []string) ApiTestQueryParameterCollectionFormatRequest {
 	r.url = &url
 	return r
 }
+
 func (r ApiTestQueryParameterCollectionFormatRequest) Context(context []string) ApiTestQueryParameterCollectionFormatRequest {
 	r.context = &context
 	return r
@@ -2010,6 +2044,7 @@ func (r ApiTestUniqueItemsHeaderAndQueryParameterCollectionFormatRequest) QueryU
 	r.queryUnique = &queryUnique
 	return r
 }
+
 func (r ApiTestUniqueItemsHeaderAndQueryParameterCollectionFormatRequest) HeaderUnique(headerUnique []string) ApiTestUniqueItemsHeaderAndQueryParameterCollectionFormatRequest {
 	r.headerUnique = &headerUnique
 	return r

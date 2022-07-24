@@ -92,6 +92,7 @@ class TestFruit(unittest.TestCase):
                     apple.Apple,
                     banana.Banana,
                 ],
+                'not': None
             }
         )
 

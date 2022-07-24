@@ -12,6 +12,7 @@
 import re  # noqa: F401
 import sys  # noqa: F401
 import typing  # noqa: F401
+import functools  # noqa: F401
 
 from frozendict import frozendict  # noqa: F401
 
@@ -31,6 +32,7 @@ from petstore_api.schemas import (  # noqa: F401
     Float32Schema,
     Float64Schema,
     NumberSchema,
+    UUIDSchema,
     DateSchema,
     DateTimeSchema,
     DecimalSchema,
@@ -38,7 +40,7 @@ from petstore_api.schemas import (  # noqa: F401
     BinarySchema,
     NoneSchema,
     none_type,
-    InstantiationMetadata,
+    Configuration,
     Unset,
     unset,
     ComposedBase,
@@ -47,12 +49,19 @@ from petstore_api.schemas import (  # noqa: F401
     NoneBase,
     StrBase,
     IntBase,
+    Int32Base,
+    Int64Base,
+    Float32Base,
+    Float64Base,
     NumberBase,
+    UUIDBase,
     DateBase,
     DateTimeBase,
     BoolBase,
     BinaryBase,
     Schema,
+    NoneClass,
+    BoolClass,
     _SchemaValidator,
     _SchemaTypeChecker,
     _SchemaEnumMaker
@@ -87,17 +96,17 @@ class Order(
         @classmethod
         @property
         def PLACED(cls):
-            return cls._enum_by_value["placed"]("placed")
+            return cls("placed")
         
         @classmethod
         @property
         def APPROVED(cls):
-            return cls._enum_by_value["approved"]("approved")
+            return cls("approved")
         
         @classmethod
         @property
         def DELIVERED(cls):
-            return cls._enum_by_value["delivered"]("delivered")
+            return cls("delivered")
     complete = BoolSchema
 
 
@@ -110,7 +119,7 @@ class Order(
         shipDate: typing.Union[shipDate, Unset] = unset,
         status: typing.Union[status, Unset] = unset,
         complete: typing.Union[complete, Unset] = unset,
-        _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
+        _configuration: typing.Optional[Configuration] = None,
         **kwargs: typing.Type[Schema],
     ) -> 'Order':
         return super().__new__(
@@ -122,6 +131,6 @@ class Order(
             shipDate=shipDate,
             status=status,
             complete=complete,
-            _instantiation_metadata=_instantiation_metadata,
+            _configuration=_configuration,
             **kwargs,
         )

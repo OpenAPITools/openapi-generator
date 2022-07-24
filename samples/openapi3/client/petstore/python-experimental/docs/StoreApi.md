@@ -72,8 +72,8 @@ Type | Description | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-400 | ApiResponseFor400 | Invalid ID supplied 
-404 | ApiResponseFor404 | Order not found 
+400 | ApiResponseFor400 | Invalid ID supplied
+404 | ApiResponseFor404 | Order not found
 
 #### ApiResponseFor400
 Name | Type | Description  | Notes
@@ -149,7 +149,7 @@ This endpoint does not need any parameter.
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | successful operation 
+200 | ApiResponseFor200 | successful operation
 
 #### ApiResponseFor200
 Name | Type | Description  | Notes
@@ -240,9 +240,9 @@ Type | Description | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | successful operation 
-400 | ApiResponseFor400 | Invalid ID supplied 
-404 | ApiResponseFor404 | Order not found 
+200 | ApiResponseFor200 | successful operation
+400 | ApiResponseFor400 | Invalid ID supplied
+404 | ApiResponseFor404 | Order not found
 
 #### ApiResponseFor200
 Name | Type | Description  | Notes
@@ -314,7 +314,7 @@ with petstore_api.ApiClient(configuration) as api_client:
         id=1,
         pet_id=1,
         quantity=1,
-        ship_date=isoparse('2020-02-02T20:20:20.000222Z'),
+        ship_date="2020-02-02T20:20:20.000222Z",
         status="placed",
         complete=False,
     )
@@ -351,8 +351,8 @@ Type | Description  | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | successful operation 
-400 | ApiResponseFor400 | Invalid Order 
+200 | ApiResponseFor200 | successful operation
+400 | ApiResponseFor400 | Invalid Order
 
 #### ApiResponseFor200
 Name | Type | Description  | Notes

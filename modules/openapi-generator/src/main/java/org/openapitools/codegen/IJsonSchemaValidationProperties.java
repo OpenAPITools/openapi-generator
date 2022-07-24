@@ -99,6 +99,10 @@ public interface IJsonSchemaValidationProperties {
 
     void setIsUnboundedInteger(boolean isUnboundedInteger);
 
+    boolean getIsPrimitiveType();
+
+    void setIsPrimitiveType(boolean isPrimitiveType);
+
     CodegenProperty getAdditionalProperties();
 
     void setAdditionalProperties(CodegenProperty additionalProperties);
@@ -125,7 +129,7 @@ public interface IJsonSchemaValidationProperties {
 
     boolean getHasVars();
 
-    void setHasVars(boolean hasRequiredVars);
+    void setHasVars(boolean hasVars);
 
     boolean getHasRequired();
 
@@ -166,6 +170,9 @@ public interface IJsonSchemaValidationProperties {
     default void setTypeProperties(Schema p) {
         if (ModelUtils.isTypeObjectSchema(p)) {
             setIsMap(true);
+            if (ModelUtils.isModelWithPropertiesOnly(p)) {
+                setIsModel(true);
+            }
         } else if (ModelUtils.isArraySchema(p)) {
             setIsArray(true);
         } else if (ModelUtils.isFileSchema(p) && !ModelUtils.isStringSchema(p)) {
@@ -215,6 +222,9 @@ public interface IJsonSchemaValidationProperties {
             setIsNull(true);
         } else if (ModelUtils.isAnyType(p)) {
             setIsAnyType(true);
+            if (ModelUtils.isModelWithPropertiesOnly(p)) {
+                setIsModel(true);
+            }
         }
     }
 

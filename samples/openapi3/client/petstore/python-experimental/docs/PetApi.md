@@ -119,13 +119,13 @@ with petstore_api.ApiClient(configuration) as api_client:
         ),
         name="doggie",
         photo_urls=[
-            "photo_urls_example",
+            "photo_urls_example"
         ],
         tags=[
             Tag(
                 id=1,
                 name="name_example",
-            ),
+            )
         ],
         status="available",
     )
@@ -167,8 +167,8 @@ Type | Description  | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | Ok 
-405 | ApiResponseFor405 | Invalid input 
+200 | ApiResponseFor200 | Ok
+405 | ApiResponseFor405 | Invalid input
 
 #### ApiResponseFor200
 Name | Type | Description  | Notes
@@ -298,7 +298,7 @@ Type | Description | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-400 | ApiResponseFor400 | Invalid pet value 
+400 | ApiResponseFor400 | Invalid pet value
 
 #### ApiResponseFor400
 Name | Type | Description  | Notes
@@ -415,7 +415,7 @@ with petstore_api.ApiClient(configuration) as api_client:
     # example passing only required values which don't have defaults set
     query_params = {
         'status': [
-        "available",
+        "available"
     ],
     }
     try:
@@ -456,8 +456,8 @@ Type | Description | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | successful operation 
-400 | ApiResponseFor400 | Invalid status value 
+200 | ApiResponseFor200 | successful operation
+400 | ApiResponseFor400 | Invalid status value
 
 #### ApiResponseFor200
 Name | Type | Description  | Notes
@@ -593,7 +593,7 @@ with petstore_api.ApiClient(configuration) as api_client:
     # example passing only required values which don't have defaults set
     query_params = {
         'tags': [
-        "tags_example",
+        "tags_example"
     ],
     }
     try:
@@ -634,8 +634,8 @@ Type | Description | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | successful operation 
-400 | ApiResponseFor400 | Invalid tag value 
+200 | ApiResponseFor200 | successful operation
+400 | ApiResponseFor400 | Invalid tag value
 
 #### ApiResponseFor200
 Name | Type | Description  | Notes
@@ -749,9 +749,9 @@ Type | Description | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | successful operation 
-400 | ApiResponseFor400 | Invalid ID supplied 
-404 | ApiResponseFor404 | Pet not found 
+200 | ApiResponseFor200 | successful operation
+400 | ApiResponseFor400 | Invalid ID supplied
+404 | ApiResponseFor404 | Pet not found
 
 #### ApiResponseFor200
 Name | Type | Description  | Notes
@@ -898,13 +898,13 @@ with petstore_api.ApiClient(configuration) as api_client:
         ),
         name="doggie",
         photo_urls=[
-            "photo_urls_example",
+            "photo_urls_example"
         ],
         tags=[
             Tag(
                 id=1,
                 name="name_example",
-            ),
+            )
         ],
         status="available",
     )
@@ -946,9 +946,9 @@ Type | Description  | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-400 | ApiResponseFor400 | Invalid ID supplied 
-404 | ApiResponseFor404 | Pet not found 
-405 | ApiResponseFor405 | Validation exception 
+400 | ApiResponseFor400 | Invalid ID supplied
+404 | ApiResponseFor404 | Pet not found
+405 | ApiResponseFor405 | Validation exception
 
 #### ApiResponseFor400
 Name | Type | Description  | Notes
@@ -1082,7 +1082,7 @@ Type | Description | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-405 | ApiResponseFor405 | Invalid input 
+405 | ApiResponseFor405 | Invalid input
 
 #### ApiResponseFor405
 Name | Type | Description  | Notes
@@ -1206,7 +1206,7 @@ Type | Description | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | successful operation 
+200 | ApiResponseFor200 | successful operation
 
 #### ApiResponseFor200
 Name | Type | Description  | Notes
@@ -1315,7 +1315,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **additionalMetadata** | **str** | Additional data to pass to server | [optional] 
-**file** | **file_type** | file to upload | 
+**file** | **file_type** | file to upload | [optional] 
 **any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
 
 ### path_params
@@ -1336,7 +1336,7 @@ Type | Description | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | successful operation 
+200 | ApiResponseFor200 | successful operation
 
 #### ApiResponseFor200
 Name | Type | Description  | Notes

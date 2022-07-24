@@ -18,7 +18,7 @@ Name | Type | Description | Notes
 **_byte** | `byte[]` |  | 
 **binary** | `File` |  |  [optional property]
 **date** | `LocalDate` |  | 
-**dateTime** | `LocalDateTime` |  |  [optional property]
+**dateTime** | `OffsetDateTime` |  |  [optional property]
 **uuid** | `UUID` |  |  [optional property]
 **password** | `String` |  | 
 **bigDecimal** | `BigDecimal` |  |  [optional property]

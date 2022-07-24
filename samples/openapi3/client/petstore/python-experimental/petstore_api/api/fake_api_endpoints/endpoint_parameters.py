@@ -11,6 +11,7 @@ import re  # noqa: F401
 import sys  # noqa: F401
 import typing
 import urllib3
+import functools  # noqa: F401
 from urllib3._collections import HTTPHeaderDict
 
 from petstore_api import api_client, exceptions
@@ -30,6 +31,7 @@ from petstore_api.schemas import (  # noqa: F401
     Float32Schema,
     Float64Schema,
     NumberSchema,
+    UUIDSchema,
     DateSchema,
     DateTimeSchema,
     DecimalSchema,
@@ -37,7 +39,7 @@ from petstore_api.schemas import (  # noqa: F401
     BinarySchema,
     NoneSchema,
     none_type,
-    InstantiationMetadata,
+    Configuration,
     Unset,
     unset,
     ComposedBase,
@@ -46,12 +48,19 @@ from petstore_api.schemas import (  # noqa: F401
     NoneBase,
     StrBase,
     IntBase,
+    Int32Base,
+    Int64Base,
+    Float32Base,
+    Float64Base,
     NumberBase,
+    UUIDBase,
     DateBase,
     DateTimeBase,
     BoolBase,
     BinaryBase,
     Schema,
+    NoneClass,
+    BoolClass,
     _SchemaValidator,
     _SchemaTypeChecker,
     _SchemaEnumMaker
@@ -64,6 +73,10 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
     DictSchema
 ):
     _required_property_names = set((
+        'number',
+        'double',
+        'pattern_without_delimiter',
+        'byte',
     ))
     
     
@@ -105,7 +118,7 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
         Float32Schema
     ):
         pass
-    locals()['float'] = _float
+    locals()["float"] = _float
     del locals()['_float']
     
     
@@ -162,6 +175,10 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
+        number: number,
+        double: double,
+        pattern_without_delimiter: pattern_without_delimiter,
+        byte: byte,
         integer: typing.Union[integer, Unset] = unset,
         int32: typing.Union[int32, Unset] = unset,
         int64: typing.Union[int64, Unset] = unset,
@@ -171,12 +188,16 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
         dateTime: typing.Union[dateTime, Unset] = unset,
         password: typing.Union[password, Unset] = unset,
         callback: typing.Union[callback, Unset] = unset,
-        _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
+        _configuration: typing.Optional[Configuration] = None,
         **kwargs: typing.Type[Schema],
     ) -> 'SchemaForRequestBodyApplicationXWwwFormUrlencoded':
         return super().__new__(
             cls,
             *args,
+            number=number,
+            double=double,
+            pattern_without_delimiter=pattern_without_delimiter,
+            byte=byte,
             integer=integer,
             int32=int32,
             int64=int64,
@@ -186,7 +207,7 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
             dateTime=dateTime,
             password=password,
             callback=callback,
-            _instantiation_metadata=_instantiation_metadata,
+            _configuration=_configuration,
             **kwargs,
         )
 
@@ -250,6 +271,7 @@ class EndpointParameters(api_client.Api):
             api_response.body and api_response.headers will not be deserialized into schema
             class instances
         """
+        used_path = _path
 
         _headers = HTTPHeaderDict()
         # TODO add cookie handling
@@ -264,7 +286,7 @@ class EndpointParameters(api_client.Api):
             elif 'body' in serialized_data:
                 _body = serialized_data['body']
         response = self.api_client.call_api(
-            resource_path=_path,
+            resource_path=used_path,
             method=_method,
             headers=_headers,
             fields=_fields,

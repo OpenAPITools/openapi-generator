@@ -46,6 +46,8 @@ Mono<Object> UserController.createUsersWithArrayInput(user)
 
 Creates list of users with given input array
 
+
+
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -66,6 +68,8 @@ Mono<Object> UserController.createUsersWithListInput(user)
 ```
 
 Creates list of users with given input array
+
+
 
 ### Parameters
 Name | Type | Description  | Notes
@@ -111,6 +115,8 @@ Mono<User> UserController.getUserByName(username)
 
 Get user by user name
 
+
+
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -131,6 +137,8 @@ Mono<String> UserController.loginUser(usernamepassword)
 ```
 
 Logs user into the system
+
+
 
 ### Parameters
 Name | Type | Description  | Notes
@@ -153,6 +161,8 @@ Mono<Object> UserController.logoutUser()
 ```
 
 Logs out current logged in user session
+
+
 
 
 

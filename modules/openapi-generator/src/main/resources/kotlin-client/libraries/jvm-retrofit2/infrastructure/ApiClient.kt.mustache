@@ -100,13 +100,9 @@ import okhttp3.MediaType.Companion.toMediaType
     private val defaultClientBuilder: OkHttpClient.Builder by lazy {
         OkHttpClient()
             .newBuilder()
-            .addInterceptor(HttpLoggingInterceptor(object : HttpLoggingInterceptor.Logger {
-                override fun log(message: String) {
-                    logger?.invoke(message)
-                }
-            }).apply {
-                level = HttpLoggingInterceptor.Level.BODY
-            })
+            .addInterceptor(HttpLoggingInterceptor { message -> logger?.invoke(message) }
+                .apply { level = HttpLoggingInterceptor.Level.BODY }
+            )
     }
 
     init {
@@ -125,7 +121,7 @@ import okhttp3.MediaType.Companion.toMediaType
                 {{#authMethods}}"{{name}}" -> {{#isBasic}}{{#isBasicBasic}}HttpBasicAuth(){{/isBasicBasic}}{{#isBasicBearer}}HttpBearerAuth("{{scheme}}"){{/isBasicBearer}}{{/isBasic}}{{#isApiKey}}ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{#isKeyInQuery}}"query"{{/isKeyInQuery}}{{#isKeyInCookie}}"cookie"{{/isKeyInCookie}}, "{{keyParamName}}"){{/isApiKey}}{{#isOAuth}}OAuth(OAuthFlow.{{flow}}, "{{authorizationUrl}}", "{{tokenUrl}}", "{{#scopes}}{{scope}}{{^-last}}, {{/-last}}{{/scopes}}"){{/isOAuth}}{{/authMethods}}
                 else -> throw RuntimeException("auth name $authName not found in available auth names")
             }
-            addAuthorization(authName, auth);
+            addAuthorization(authName, auth)
         }
     }
 
@@ -182,7 +178,7 @@ import okhttp3.MediaType.Companion.toMediaType
     {{#isBasicBasic}}
     fun setCredentials(username: String, password: String): ApiClient {
         apiAuthorizations.values.runOnFirst<Interceptor, HttpBasicAuth> {
-            setCredentials(username, password);
+            setCredentials(username, password)
         }
         {{#hasOAuthMethods}}
         apiAuthorizations.values.runOnFirst<Interceptor, OAuth> {
@@ -269,7 +265,7 @@ import okhttp3.MediaType.Companion.toMediaType
                 ?.setClientId(clientId)
                 ?.setRedirectURI(redirectURI)
         }
-        return this;
+        return this
     }
 
     /**
@@ -281,7 +277,7 @@ import okhttp3.MediaType.Companion.toMediaType
         apiAuthorizations.values.runOnFirst<Interceptor, OAuth> {
             registerAccessTokenListener(accessTokenListener)
         }
-        return this;
+        return this
     }
 
     {{/hasOAuthMethods}}

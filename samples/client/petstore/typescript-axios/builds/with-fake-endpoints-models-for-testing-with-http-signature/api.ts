@@ -173,7 +173,7 @@ export interface ArrayTest {
  * @interface Banana
  */
 export interface Banana {
-    [key: string]: object | any;
+    [key: string]: any;
 
     /**
      * 
@@ -507,6 +507,19 @@ export interface Foo {
 /**
  * 
  * @export
+ * @interface FooGetDefaultResponse
+ */
+export interface FooGetDefaultResponse {
+    /**
+     * 
+     * @type {Foo}
+     * @memberof FooGetDefaultResponse
+     */
+    'string'?: Foo;
+}
+/**
+ * 
+ * @export
  * @interface FormatTest
  */
 export interface FormatTest {
@@ -673,19 +686,6 @@ export interface HealthCheckResult {
 /**
  * 
  * @export
- * @interface InlineResponseDefault
- */
-export interface InlineResponseDefault {
-    /**
-     * 
-     * @type {Foo}
-     * @memberof InlineResponseDefault
-     */
-    'string'?: Foo;
-}
-/**
- * 
- * @export
  * @interface List
  */
 export interface List {
@@ -700,7 +700,7 @@ export interface List {
  * @type Mammal
  * @export
  */
-export type Mammal = Whale | Zebra;
+export type Mammal = { className: 'whale' } & Whale | { className: 'zebra' } & Zebra;
 
 /**
  * 
@@ -1516,7 +1516,7 @@ export const DefaultApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async fooGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<InlineResponseDefault>> {
+        async fooGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FooGetDefaultResponse>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.fooGet(options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -1535,7 +1535,7 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        fooGet(options?: any): AxiosPromise<InlineResponseDefault> {
+        fooGet(options?: any): AxiosPromise<FooGetDefaultResponse> {
             return localVarFp.fooGet(options).then((request) => request(axios, basePath));
         },
     };
@@ -2006,7 +2006,7 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
                 localVarHeaderParameter['enum_header_string_array'] = mapped.join(COLLECTION_FORMATS["csv"]);
             }
 
-            if (enumHeaderString !== undefined && enumHeaderString !== null) {
+            if (enumHeaderString != null) {
                 localVarHeaderParameter['enum_header_string'] = String(enumHeaderString);
             }
 
@@ -2083,12 +2083,16 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
                 localVarQueryParameter['int64_group'] = int64Group;
             }
 
-            if (requiredBooleanGroup !== undefined && requiredBooleanGroup !== null) {
-                localVarHeaderParameter['required_boolean_group'] = String(JSON.stringify(requiredBooleanGroup));
+            if (requiredBooleanGroup != null) {
+                localVarHeaderParameter['required_boolean_group'] = typeof requiredBooleanGroup === 'string' 
+                    ? requiredBooleanGroup 
+                    : JSON.stringify(requiredBooleanGroup);
             }
 
-            if (booleanGroup !== undefined && booleanGroup !== null) {
-                localVarHeaderParameter['boolean_group'] = String(JSON.stringify(booleanGroup));
+            if (booleanGroup != null) {
+                localVarHeaderParameter['boolean_group'] = typeof booleanGroup === 'string' 
+                    ? booleanGroup 
+                    : JSON.stringify(booleanGroup);
             }
 
 
@@ -3076,7 +3080,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "petstore_auth", ["write:pets", "read:pets"], configuration)
 
-            if (apiKey !== undefined && apiKey !== null) {
+            if (apiKey != null) {
                 localVarHeaderParameter['api_key'] = String(apiKey);
             }
 

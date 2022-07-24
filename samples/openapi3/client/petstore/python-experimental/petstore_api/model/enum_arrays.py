@@ -12,6 +12,7 @@
 import re  # noqa: F401
 import sys  # noqa: F401
 import typing  # noqa: F401
+import functools  # noqa: F401
 
 from frozendict import frozendict  # noqa: F401
 
@@ -31,6 +32,7 @@ from petstore_api.schemas import (  # noqa: F401
     Float32Schema,
     Float64Schema,
     NumberSchema,
+    UUIDSchema,
     DateSchema,
     DateTimeSchema,
     DecimalSchema,
@@ -38,7 +40,7 @@ from petstore_api.schemas import (  # noqa: F401
     BinarySchema,
     NoneSchema,
     none_type,
-    InstantiationMetadata,
+    Configuration,
     Unset,
     unset,
     ComposedBase,
@@ -47,12 +49,19 @@ from petstore_api.schemas import (  # noqa: F401
     NoneBase,
     StrBase,
     IntBase,
+    Int32Base,
+    Int64Base,
+    Float32Base,
+    Float64Base,
     NumberBase,
+    UUIDBase,
     DateBase,
     DateTimeBase,
     BoolBase,
     BinaryBase,
     Schema,
+    NoneClass,
+    BoolClass,
     _SchemaValidator,
     _SchemaTypeChecker,
     _SchemaEnumMaker
@@ -82,12 +91,12 @@ class EnumArrays(
         @classmethod
         @property
         def GREATER_THAN_EQUALS(cls):
-            return cls._enum_by_value[">="](">=")
+            return cls(">=")
         
         @classmethod
         @property
         def DOLLAR(cls):
-            return cls._enum_by_value["$"]("$")
+            return cls("$")
     
     
     class array_enum(
@@ -108,12 +117,12 @@ class EnumArrays(
             @classmethod
             @property
             def FISH(cls):
-                return cls._enum_by_value["fish"]("fish")
+                return cls("fish")
             
             @classmethod
             @property
             def CRAB(cls):
-                return cls._enum_by_value["crab"]("crab")
+                return cls("crab")
 
 
     def __new__(
@@ -121,7 +130,7 @@ class EnumArrays(
         *args: typing.Union[dict, frozendict, ],
         just_symbol: typing.Union[just_symbol, Unset] = unset,
         array_enum: typing.Union[array_enum, Unset] = unset,
-        _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
+        _configuration: typing.Optional[Configuration] = None,
         **kwargs: typing.Type[Schema],
     ) -> 'EnumArrays':
         return super().__new__(
@@ -129,6 +138,6 @@ class EnumArrays(
             *args,
             just_symbol=just_symbol,
             array_enum=array_enum,
-            _instantiation_metadata=_instantiation_metadata,
+            _configuration=_configuration,
             **kwargs,
         )

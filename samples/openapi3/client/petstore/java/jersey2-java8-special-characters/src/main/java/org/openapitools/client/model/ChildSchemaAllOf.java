@@ -34,6 +34,7 @@ import org.openapitools.client.JSON;
 @JsonPropertyOrder({
   ChildSchemaAllOf.JSON_PROPERTY_PROP1
 })
+@JsonTypeName("ChildSchema_allOf")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ChildSchemaAllOf {
   public static final String JSON_PROPERTY_PROP1 = "prop1";

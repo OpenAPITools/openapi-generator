@@ -2,16 +2,17 @@ package org.openapitools.virtualan.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.openapitools.virtualan.model.Animal;
-import org.openapitools.virtualan.model.DogAllOf;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
@@ -21,8 +22,9 @@ import javax.annotation.Generated;
  * Dog
  */
 
+
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class Dog extends Animal  {
+public class Dog extends Animal {
 
   @JsonProperty("breed")
   private String breed;
@@ -37,13 +39,23 @@ public class Dog extends Animal  {
    * @return breed
   */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "breed", required = false)
   public String getBreed() {
     return breed;
   }
 
   public void setBreed(String breed) {
     this.breed = breed;
+  }
+
+  public Dog className(String className) {
+    super.setClassName(className);
+    return this;
+  }
+
+  public Dog color(String color) {
+    super.setColor(color);
+    return this;
   }
 
   @Override
