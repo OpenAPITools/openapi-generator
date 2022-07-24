@@ -55,7 +55,7 @@ public class HealthCheckResult {
   @SerializedName(SERIALIZED_NAME_NULLABLE_MESSAGE)
   private String nullableMessage;
 
-  public HealthCheckResult() { 
+  public HealthCheckResult() {
   }
 
   public HealthCheckResult nullableMessage(String nullableMessage) {

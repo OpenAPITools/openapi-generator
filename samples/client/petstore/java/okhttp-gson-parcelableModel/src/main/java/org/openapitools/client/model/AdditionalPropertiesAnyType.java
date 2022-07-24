@@ -55,7 +55,7 @@ public class AdditionalPropertiesAnyType implements Parcelable {
   @SerializedName(SERIALIZED_NAME_NAME)
   private String name;
 
-  public AdditionalPropertiesAnyType() { 
+  public AdditionalPropertiesAnyType() {
   }
 
   public AdditionalPropertiesAnyType name(String name) {

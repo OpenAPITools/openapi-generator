@@ -53,7 +53,7 @@ public class QuadrilateralInterface {
   @SerializedName(SERIALIZED_NAME_QUADRILATERAL_TYPE)
   private String quadrilateralType;
 
-  public QuadrilateralInterface() { 
+  public QuadrilateralInterface() {
   }
 
   public QuadrilateralInterface quadrilateralType(String quadrilateralType) {

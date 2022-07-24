@@ -46,7 +46,8 @@ public class AdditionalPropertiesAnyType extends HashMap<String, Object> {
   @XmlElement(name = "name")
   private String name;
 
-  public AdditionalPropertiesAnyType() { 
+  public AdditionalPropertiesAnyType() {
+
   }
 
   public AdditionalPropertiesAnyType name(String name) {

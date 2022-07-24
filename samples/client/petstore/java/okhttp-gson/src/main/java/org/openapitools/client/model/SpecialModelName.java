@@ -57,7 +57,7 @@ public class SpecialModelName {
   @SerializedName(SERIALIZED_NAME_SPECIAL_MODEL_NAME)
   private String specialModelName;
 
-  public SpecialModelName() { 
+  public SpecialModelName() {
   }
 
   public SpecialModelName $specialPropertyName(Long $specialPropertyName) {

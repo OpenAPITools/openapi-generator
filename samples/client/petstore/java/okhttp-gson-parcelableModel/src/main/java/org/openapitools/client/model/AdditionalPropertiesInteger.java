@@ -55,7 +55,7 @@ public class AdditionalPropertiesInteger implements Parcelable {
   @SerializedName(SERIALIZED_NAME_NAME)
   private String name;
 
-  public AdditionalPropertiesInteger() { 
+  public AdditionalPropertiesInteger() {
   }
 
   public AdditionalPropertiesInteger name(String name) {

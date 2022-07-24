@@ -105,10 +105,22 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
   {{/vendorExtensions.x-is-jackson-optional-nullable}}
 
   {{/vars}}
-  public {{classname}}() { {{#parent}}{{#parcelableModel}}
-    super();{{/parcelableModel}}{{/parent}}{{#gson}}{{#discriminator}}
-    this.{{{discriminatorName}}} = this.getClass().getSimpleName();{{/discriminator}}{{/gson}}
-  }{{#vendorExtensions.x-has-readonly-properties}}{{^withXml}}
+  public {{classname}}() {
+    {{#parent}}
+    {{#parcelableModel}}
+    super();
+    {{/parcelableModel}}
+    {{/parent}}
+    {{#gson}}
+    {{#discriminator}}
+    {{^discriminator.isEnum}}
+    this.{{{discriminatorName}}} = this.getClass().getSimpleName();
+    {{/discriminator.isEnum}}
+    {{/discriminator}}
+    {{/gson}}
+  }
+  {{#vendorExtensions.x-has-readonly-properties}}
+  {{^withXml}}
 
   {{#jsonb}}@JsonbCreator{{/jsonb}}{{#jackson}}@JsonCreator{{/jackson}}
   public {{classname}}(
@@ -120,7 +132,9 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
   {{#readOnlyVars}}
     this.{{name}} = {{name}};
   {{/readOnlyVars}}
-  }{{/withXml}}{{/vendorExtensions.x-has-readonly-properties}}
+  }
+  {{/withXml}}
+  {{/vendorExtensions.x-has-readonly-properties}}
   {{#vars}}
 
   {{^isReadOnly}}

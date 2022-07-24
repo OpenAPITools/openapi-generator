@@ -54,7 +54,7 @@ public class FooGetDefaultResponse {
   @SerializedName(SERIALIZED_NAME_STRING)
   private Foo string;
 
-  public FooGetDefaultResponse() { 
+  public FooGetDefaultResponse() {
   }
 
   public FooGetDefaultResponse string(Foo string) {

@@ -53,7 +53,7 @@ public class Client {
   @SerializedName(SERIALIZED_NAME_CLIENT)
   private String client;
 
-  public Client() { 
+  public Client() {
   }
 
   public Client client(String client) {

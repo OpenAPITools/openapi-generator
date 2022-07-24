@@ -79,7 +79,7 @@ public class User {
   @XmlElement(name = "userStatus")
   private Integer userStatus;
 
-  public User() { 
+  public User() {
   }
 
   public User id(Long id) {

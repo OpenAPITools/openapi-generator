@@ -45,7 +45,7 @@ public class ModelList {
   @XmlElement(name = "123-list")
   private String _123list;
 
-  public ModelList() { 
+  public ModelList() {
   }
 
   public ModelList _123list(String _123list) {

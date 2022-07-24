@@ -66,7 +66,7 @@ public class Name {
   @SerializedName(SERIALIZED_NAME_123NUMBER)
   private Integer _123number;
 
-  public Name() { 
+  public Name() {
   }
 
   

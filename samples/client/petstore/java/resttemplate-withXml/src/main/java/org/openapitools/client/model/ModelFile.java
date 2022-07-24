@@ -46,7 +46,7 @@ public class ModelFile {
   @XmlElement(name = "sourceURI")
   private String sourceURI;
 
-  public ModelFile() { 
+  public ModelFile() {
   }
 
   public ModelFile sourceURI(String sourceURI) {

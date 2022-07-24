@@ -3313,8 +3313,19 @@ public class DefaultCodegen implements CodegenConfig {
         discriminator.setPropertyName(toVarName(discPropName));
         discriminator.setPropertyBaseName(sourceDiscriminator.getPropertyName());
         discriminator.setPropertyGetter(toGetter(discriminator.getPropertyName()));
+
         // FIXME: for now, we assume that the discriminator property is String
         discriminator.setPropertyType(typeMapping.get("string"));
+
+        // check to see if the discriminator property is an enum string
+        if (schema.getProperties() != null &&
+                schema.getProperties().get(discPropName) instanceof StringSchema) {
+            StringSchema s = (StringSchema) schema.getProperties().get(discPropName);
+            if (s.getEnum() != null && !s.getEnum().isEmpty()) { // it's an enum string
+                discriminator.setIsEnum(true);
+            }
+        }
+
         discriminator.setMapping(sourceDiscriminator.getMapping());
         List<MappedModel> uniqueDescendants = new ArrayList<>();
         if (sourceDiscriminator.getMapping() != null && !sourceDiscriminator.getMapping().isEmpty()) {

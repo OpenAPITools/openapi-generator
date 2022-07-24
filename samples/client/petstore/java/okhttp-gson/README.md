@@ -183,6 +183,7 @@ Class | Method | HTTP request | Description
  - [Drawing](docs/Drawing.md)
  - [EnumArrays](docs/EnumArrays.md)
  - [EnumClass](docs/EnumClass.md)
+ - [EnumStringDiscriminator](docs/EnumStringDiscriminator.md)
  - [EnumTest](docs/EnumTest.md)
  - [EquilateralTriangle](docs/EquilateralTriangle.md)
  - [FileSchemaTestClass](docs/FileSchemaTestClass.md)

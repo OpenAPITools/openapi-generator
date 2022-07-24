@@ -57,7 +57,7 @@ public class IsoscelesTriangle {
   @SerializedName(SERIALIZED_NAME_TRIANGLE_TYPE)
   private String triangleType;
 
-  public IsoscelesTriangle() { 
+  public IsoscelesTriangle() {
   }
 
   public IsoscelesTriangle shapeType(String shapeType) {

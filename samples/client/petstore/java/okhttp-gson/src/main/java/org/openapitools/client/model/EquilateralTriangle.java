@@ -57,7 +57,7 @@ public class EquilateralTriangle {
   @SerializedName(SERIALIZED_NAME_TRIANGLE_TYPE)
   private String triangleType;
 
-  public EquilateralTriangle() { 
+  public EquilateralTriangle() {
   }
 
   public EquilateralTriangle shapeType(String shapeType) {

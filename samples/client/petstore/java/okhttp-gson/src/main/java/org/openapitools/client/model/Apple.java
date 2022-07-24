@@ -57,7 +57,7 @@ public class Apple {
   @SerializedName(SERIALIZED_NAME_ORIGIN)
   private String origin;
 
-  public Apple() { 
+  public Apple() {
   }
 
   public Apple cultivar(String cultivar) {

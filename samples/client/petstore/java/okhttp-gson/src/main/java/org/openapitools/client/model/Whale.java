@@ -61,7 +61,7 @@ public class Whale {
   @SerializedName(SERIALIZED_NAME_CLASS_NAME)
   private String className;
 
-  public Whale() { 
+  public Whale() {
   }
 
   public Whale hasBaleen(Boolean hasBaleen) {

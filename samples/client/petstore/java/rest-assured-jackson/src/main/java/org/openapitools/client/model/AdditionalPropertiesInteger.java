@@ -41,7 +41,8 @@ public class AdditionalPropertiesInteger extends HashMap<String, Integer> {
   public static final String JSON_PROPERTY_NAME = "name";
   private String name;
 
-  public AdditionalPropertiesInteger() { 
+  public AdditionalPropertiesInteger() {
+
   }
 
   public AdditionalPropertiesInteger name(String name) {

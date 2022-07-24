@@ -90,7 +90,7 @@ public class BigCatAllOf {
   @XmlElement(name = "kind")
   private KindEnum kind;
 
-  public BigCatAllOf() { 
+  public BigCatAllOf() {
   }
 
   public BigCatAllOf kind(KindEnum kind) {

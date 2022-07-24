@@ -72,7 +72,7 @@ public class Drawing {
   @SerializedName(SERIALIZED_NAME_SHAPES)
   private List<Shape> shapes = null;
 
-  public Drawing() { 
+  public Drawing() {
   }
 
   public Drawing mainShape(Shape mainShape) {

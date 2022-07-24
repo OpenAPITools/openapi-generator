@@ -53,7 +53,7 @@ public class Foo {
   @SerializedName(SERIALIZED_NAME_BAR)
   private String bar = "bar";
 
-  public Foo() { 
+  public Foo() {
   }
 
   public Foo bar(String bar) {

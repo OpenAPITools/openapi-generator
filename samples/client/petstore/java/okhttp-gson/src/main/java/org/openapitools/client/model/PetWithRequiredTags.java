@@ -126,7 +126,7 @@ public class PetWithRequiredTags {
   @SerializedName(SERIALIZED_NAME_STATUS)
   private StatusEnum status;
 
-  public PetWithRequiredTags() { 
+  public PetWithRequiredTags() {
   }
 
   public PetWithRequiredTags id(Long id) {

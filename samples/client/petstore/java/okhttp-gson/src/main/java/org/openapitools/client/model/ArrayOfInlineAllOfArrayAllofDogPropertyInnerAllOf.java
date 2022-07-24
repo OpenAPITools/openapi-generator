@@ -53,7 +53,7 @@ public class ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf {
   @SerializedName(SERIALIZED_NAME_COLOR)
   private String color;
 
-  public ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf() { 
+  public ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf() {
   }
 
   public ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf color(String color) {

@@ -63,7 +63,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   @XmlElement(name = "inner")
   private Map<String, Animal> map = null;
 
-  public MixedPropertiesAndAdditionalPropertiesClass() { 
+  public MixedPropertiesAndAdditionalPropertiesClass() {
   }
 
   public MixedPropertiesAndAdditionalPropertiesClass uuid(UUID uuid) {

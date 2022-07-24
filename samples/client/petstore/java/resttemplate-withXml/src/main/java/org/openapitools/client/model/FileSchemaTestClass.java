@@ -55,7 +55,7 @@ public class FileSchemaTestClass {
   @XmlElement(name = "files")
   private List<ModelFile> files = null;
 
-  public FileSchemaTestClass() { 
+  public FileSchemaTestClass() {
   }
 
   public FileSchemaTestClass _file(ModelFile _file) {

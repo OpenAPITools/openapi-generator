@@ -40,7 +40,7 @@ public class ReadOnlyFirst {
   @SerializedName(SERIALIZED_NAME_BAZ)
   private String baz;
 
-  public ReadOnlyFirst() { 
+  public ReadOnlyFirst() {
   }
 
   

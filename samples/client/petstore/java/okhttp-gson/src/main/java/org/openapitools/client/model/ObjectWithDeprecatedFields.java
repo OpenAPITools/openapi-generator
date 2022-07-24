@@ -69,7 +69,7 @@ public class ObjectWithDeprecatedFields {
   @SerializedName(SERIALIZED_NAME_BARS)
   private List<String> bars = null;
 
-  public ObjectWithDeprecatedFields() { 
+  public ObjectWithDeprecatedFields() {
   }
 
   public ObjectWithDeprecatedFields uuid(String uuid) {

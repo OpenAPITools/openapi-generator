@@ -59,7 +59,7 @@ public class ReadOnlyFirst implements Parcelable {
   @SerializedName(SERIALIZED_NAME_BAZ)
   private String baz;
 
-  public ReadOnlyFirst() { 
+  public ReadOnlyFirst() {
   }
 
   

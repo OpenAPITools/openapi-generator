@@ -105,7 +105,7 @@ public class NullableClass {
   @SerializedName(SERIALIZED_NAME_OBJECT_ITEMS_NULLABLE)
   private Map<String, Object> objectItemsNullable = null;
 
-  public NullableClass() { 
+  public NullableClass() {
   }
 
   public NullableClass integerProp(Integer integerProp) {

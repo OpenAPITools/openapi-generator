@@ -57,7 +57,7 @@ public class ComplexQuadrilateral {
   @SerializedName(SERIALIZED_NAME_QUADRILATERAL_TYPE)
   private String quadrilateralType;
 
-  public ComplexQuadrilateral() { 
+  public ComplexQuadrilateral() {
   }
 
   public ComplexQuadrilateral shapeType(String shapeType) {

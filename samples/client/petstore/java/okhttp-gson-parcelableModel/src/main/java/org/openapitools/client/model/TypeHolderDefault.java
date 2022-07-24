@@ -74,7 +74,7 @@ public class TypeHolderDefault implements Parcelable {
   @SerializedName(SERIALIZED_NAME_ARRAY_ITEM)
   private List<Integer> arrayItem = new ArrayList<>();
 
-  public TypeHolderDefault() { 
+  public TypeHolderDefault() {
   }
 
   public TypeHolderDefault stringItem(String stringItem) {
