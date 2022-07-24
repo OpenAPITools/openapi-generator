@@ -227,7 +227,7 @@ FILEPATH_TO_EXCLUDE_REASON = {
 
 JSON_SCHEMA_TEST_FILE_TO_FOLDERS = {
     'additionalItems.json': (json_schema_test_draft,),
-    'additionalProperties.json': (json_schema_test_draft,),
+    'additionalProperties.json': (json_schema_test_draft, openapi_additions),
     'allOf.json': (json_schema_test_draft,),
     'anyOf.json': (json_schema_test_draft,),
     'boolean_schema.json': (json_schema_test_draft,),
@@ -251,7 +251,7 @@ JSON_SCHEMA_TEST_FILE_TO_FOLDERS = {
     'minItems.json': (json_schema_test_draft,),
     'minLength.json': (json_schema_test_draft,),
     'minProperties.json': (json_schema_test_draft,),
-    'multipleOf.json': (json_schema_test_draft,),
+    'multipleOf.json': (json_schema_test_draft, openapi_additions),
     'not.json': (json_schema_test_draft,),
     'oneOf.json': (json_schema_test_draft,),
     'pattern.json': (json_schema_test_draft,),

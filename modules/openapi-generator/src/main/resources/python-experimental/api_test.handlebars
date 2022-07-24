@@ -69,12 +69,12 @@ class {{#with operations}}Test{{classname}}(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.{{schema.baseName}})
             deserialized_response_body = endpoint_module.{{schema.baseName}}._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.{{schema.baseName}})
             assert api_response.body == deserialized_response_body
 {{else}}
             with self.assertRaises(({{packageName}}.ApiValueError, {{packageName}}.ApiTypeError)):

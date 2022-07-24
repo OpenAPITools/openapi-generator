@@ -3255,6 +3255,12 @@ components:
           foo: 1
           bar: true
         valid: false
+      ValidTestCase:
+        description: valid test case
+        data:
+          foo: false
+          bar: true
+        valid: true
     Allof:
       Allof:
         description: allOf
@@ -4136,6 +4142,10 @@ components:
           error
         data: 1.0e+308
         valid: false
+      ValidIntegerWithMultipleofFloat:
+        description: valid integer with multipleOf float
+        data: 123456789
+        valid: true
     Not:
       Allowed:
         description: allowed

@@ -65,12 +65,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_an_additional_invalid_property_is_invalid_fails
@@ -130,12 +130,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
 
@@ -178,12 +178,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
 
@@ -247,12 +247,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
 
@@ -293,6 +293,40 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
+
+        # test_valid_test_case_passes
+        # valid test case
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                    "foo":
+                        False,
+                    "bar":
+                        True,
+                }
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_additionalproperties_should_not_look_in_applicators_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postAdditionalpropertiesShouldNotLookInApplicatorsResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert api_response.body == deserialized_response_body
 
 
         pass
@@ -415,12 +449,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_allof_true_anyof_false_oneof_true_fails
@@ -527,12 +561,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_mismatch_first_fails
@@ -645,12 +679,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_mismatch_one_fails
@@ -715,12 +749,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_mismatch_first_allof_fails
@@ -862,12 +896,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
 
@@ -925,12 +959,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
 
@@ -988,12 +1022,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
 
@@ -1029,12 +1063,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
 
@@ -1073,12 +1107,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_neither_anyof_valid_complex_fails
@@ -1134,12 +1168,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_first_anyof_valid_complex_passes
@@ -1166,12 +1200,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
 
@@ -1207,12 +1241,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_neither_anyof_valid_fails
@@ -1258,12 +1292,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_first_anyof_valid_passes
@@ -1287,12 +1321,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
 
@@ -1328,12 +1362,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_both_anyof_invalid_fails
@@ -1413,12 +1447,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_number_is_valid_passes
@@ -1442,12 +1476,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
 
@@ -1595,12 +1629,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_an_integer_is_not_an_array_fails
@@ -1791,12 +1825,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_an_integer_is_not_a_boolean_fails
@@ -1842,12 +1876,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_an_object_is_not_a_boolean_fails
@@ -1928,12 +1962,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_ignores_non_numbers_passes
@@ -1957,12 +1991,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
 
@@ -1998,12 +2032,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_35_is_not_multiple_of15_fails
@@ -2049,12 +2083,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
 
@@ -2112,12 +2146,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
 
@@ -2154,12 +2188,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_all_string_formats_ignore_booleans_passes
@@ -2183,12 +2217,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_all_string_formats_ignore_integers_passes
@@ -2212,12 +2246,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_all_string_formats_ignore_floats_passes
@@ -2241,12 +2275,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_all_string_formats_ignore_arrays_passes
@@ -2271,12 +2305,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_all_string_formats_ignore_nulls_passes
@@ -2300,12 +2334,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
 
@@ -2342,12 +2376,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_all_string_formats_ignore_booleans_passes
@@ -2371,12 +2405,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_all_string_formats_ignore_integers_passes
@@ -2400,12 +2434,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_all_string_formats_ignore_floats_passes
@@ -2429,12 +2463,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_all_string_formats_ignore_arrays_passes
@@ -2459,12 +2493,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_all_string_formats_ignore_nulls_passes
@@ -2488,12 +2522,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
 
@@ -2529,12 +2563,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_float_zero_is_valid_passes
@@ -2558,12 +2592,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_false_is_invalid_fails
@@ -2643,12 +2677,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_float_one_is_valid_passes
@@ -2672,12 +2706,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
 
@@ -2713,12 +2747,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_member1_is_valid_passes
@@ -2742,12 +2776,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_another_string_is_invalid_fails
@@ -2805,12 +2839,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_float_zero_is_invalid_fails
@@ -2912,12 +2946,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_integer_one_is_invalid_fails
@@ -2978,12 +3012,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_wrong_foo_value_fails
@@ -3039,12 +3073,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_wrong_bar_value_fails
@@ -3187,12 +3221,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
 
@@ -3229,12 +3263,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_all_string_formats_ignore_booleans_passes
@@ -3258,12 +3292,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_all_string_formats_ignore_integers_passes
@@ -3287,12 +3321,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_all_string_formats_ignore_floats_passes
@@ -3316,12 +3350,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_all_string_formats_ignore_arrays_passes
@@ -3346,12 +3380,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_all_string_formats_ignore_nulls_passes
@@ -3375,12 +3409,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
 
@@ -3483,12 +3517,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_a_float_is_not_an_integer_fails
@@ -3556,12 +3590,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_a_string_is_still_not_an_integer_even_if_it_looks_like_one_fails
@@ -3643,6 +3677,35 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+        # test_valid_integer_with_multipleof_float_passes
+        # valid integer with multipleOf float
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                123456789
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(payload),
+                status=response_status
+            )
+            api_response = self.api.post_invalid_instance_should_not_raise_error_when_float_division_inf_response_body_for_content_types(
+                accept_content_types=(accept_content_type,)
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/responseBody/postInvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInfResponseBodyForContentTypes',
+                method='POST',
+                content_type=None,
+                accept_content_type=accept_content_type,
+            )
+
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
+            deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            assert api_response.body == deserialized_response_body
+
 
         pass
 
@@ -3679,12 +3742,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_still_valid_when_the_invalid_default_is_used_passes
@@ -3709,12 +3772,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
 
@@ -3751,12 +3814,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_all_string_formats_ignore_booleans_passes
@@ -3780,12 +3843,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_all_string_formats_ignore_integers_passes
@@ -3809,12 +3872,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_all_string_formats_ignore_floats_passes
@@ -3838,12 +3901,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_all_string_formats_ignore_arrays_passes
@@ -3868,12 +3931,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_all_string_formats_ignore_nulls_passes
@@ -3897,12 +3960,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
 
@@ -3939,12 +4002,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_all_string_formats_ignore_booleans_passes
@@ -3968,12 +4031,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_all_string_formats_ignore_integers_passes
@@ -3997,12 +4060,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_all_string_formats_ignore_floats_passes
@@ -4026,12 +4089,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_all_string_formats_ignore_arrays_passes
@@ -4056,12 +4119,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_all_string_formats_ignore_nulls_passes
@@ -4085,12 +4148,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
 
@@ -4127,12 +4190,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_all_string_formats_ignore_booleans_passes
@@ -4156,12 +4219,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_all_string_formats_ignore_integers_passes
@@ -4185,12 +4248,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_all_string_formats_ignore_floats_passes
@@ -4214,12 +4277,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_all_string_formats_ignore_arrays_passes
@@ -4244,12 +4307,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_all_string_formats_ignore_nulls_passes
@@ -4273,12 +4336,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
 
@@ -4314,12 +4377,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_boundary_point_is_valid_passes
@@ -4343,12 +4406,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_above_the_maximum_is_invalid_fails
@@ -4394,12 +4457,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
 
@@ -4435,12 +4498,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_above_the_maximum_is_invalid_fails
@@ -4486,12 +4549,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_boundary_point_float_is_valid_passes
@@ -4515,12 +4578,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
 
@@ -4582,12 +4645,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_shorter_is_valid_passes
@@ -4613,12 +4676,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_exact_length_is_valid_passes
@@ -4645,12 +4708,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
 
@@ -4708,12 +4771,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_shorter_is_valid_passes
@@ -4737,12 +4800,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_two_supplementary_unicode_code_points_is_long_enough_passes
@@ -4766,12 +4829,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_exact_length_is_valid_passes
@@ -4795,12 +4858,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
 
@@ -4837,12 +4900,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_one_property_is_invalid_fails
@@ -4936,12 +4999,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_ignores_other_non_objects_passes
@@ -4965,12 +5028,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_ignores_strings_passes
@@ -4994,12 +5057,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_shorter_is_valid_passes
@@ -5026,12 +5089,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_exact_length_is_valid_passes
@@ -5060,12 +5123,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
 
@@ -5101,12 +5164,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_below_the_minimum_is_invalid_fails
@@ -5152,12 +5215,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_ignores_non_numbers_passes
@@ -5181,12 +5244,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
 
@@ -5222,12 +5285,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_positive_above_the_minimum_is_valid_passes
@@ -5251,12 +5314,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_int_below_the_minimum_is_invalid_fails
@@ -5324,12 +5387,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_negative_above_the_minimum_is_valid_passes
@@ -5353,12 +5416,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_ignores_non_numbers_passes
@@ -5382,12 +5445,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
 
@@ -5446,12 +5509,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_longer_is_valid_passes
@@ -5478,12 +5541,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_exact_length_is_valid_passes
@@ -5509,12 +5572,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
 
@@ -5594,12 +5657,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_ignores_non_strings_passes
@@ -5623,12 +5686,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_exact_length_is_valid_passes
@@ -5652,12 +5715,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
 
@@ -5694,12 +5757,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_ignores_other_non_objects_passes
@@ -5723,12 +5786,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_too_short_is_invalid_fails
@@ -5775,12 +5838,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_longer_is_valid_passes
@@ -5809,12 +5872,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_exact_length_is_valid_passes
@@ -5841,12 +5904,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
 
@@ -5904,12 +5967,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
 
@@ -5967,12 +6030,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
 
@@ -6037,12 +6100,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_nested_array_with_invalid_type_fails
@@ -6196,12 +6259,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
 
@@ -6240,12 +6303,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_mismatch_fails
@@ -6294,12 +6357,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
 
@@ -6335,12 +6398,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_disallowed_fails
@@ -6398,12 +6461,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_do_not_match_string_lacking_nul_fails
@@ -6616,12 +6679,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_an_array_is_not_null_fails
@@ -6792,12 +6855,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_a_string_is_still_not_a_number_even_if_it_looks_like_one_fails
@@ -6865,12 +6928,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_a_float_with_zero_fractional_part_is_a_number_and_an_integer_passes
@@ -6894,12 +6957,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
 
@@ -6936,12 +6999,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_ignores_other_non_objects_passes
@@ -6965,12 +7028,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_one_property_invalid_is_invalid_fails
@@ -7027,12 +7090,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_doesn_t_invalidate_other_properties_passes
@@ -7060,12 +7123,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_both_properties_invalid_is_invalid_fails
@@ -7198,12 +7261,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_a_string_is_not_an_object_fails
@@ -7308,12 +7371,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_neither_oneof_valid_complex_fails
@@ -7394,12 +7457,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
 
@@ -7435,12 +7498,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_both_oneof_valid_fails
@@ -7486,12 +7549,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_neither_oneof_valid_fails
@@ -7593,12 +7656,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
 
@@ -7656,12 +7719,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
 
@@ -7697,12 +7760,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
 
@@ -7739,12 +7802,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_ignores_objects_passes
@@ -7769,12 +7832,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_ignores_null_passes
@@ -7798,12 +7861,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_ignores_floats_passes
@@ -7827,12 +7890,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_a_non_matching_pattern_is_invalid_fails
@@ -7878,12 +7941,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_a_matching_pattern_is_valid_passes
@@ -7907,12 +7970,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_ignores_integers_passes
@@ -7936,12 +7999,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
 
@@ -7990,12 +8053,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_object_with_strings_is_invalid_fails
@@ -8069,12 +8132,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_property_named_ref_invalid_fails
@@ -8141,12 +8204,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_property_named_ref_invalid_fails
@@ -8213,12 +8276,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_property_named_ref_invalid_fails
@@ -8282,12 +8345,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_property_named_ref_invalid_fails
@@ -8353,12 +8416,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_property_named_ref_invalid_fails
@@ -8424,12 +8487,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_property_named_ref_invalid_fails
@@ -8496,12 +8559,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_property_named_ref_invalid_fails
@@ -8566,12 +8629,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
 
@@ -8608,12 +8671,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_present_required_property_is_valid_passes
@@ -8640,12 +8703,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_ignores_other_non_objects_passes
@@ -8669,12 +8732,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_ignores_strings_passes
@@ -8698,12 +8761,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_non_present_required_property_is_invalid_fails
@@ -8765,12 +8828,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
 
@@ -8828,12 +8891,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
 
@@ -8891,12 +8954,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_an_empty_string_is_still_a_string_passes
@@ -8920,12 +8983,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_a_float_is_not_a_string_fails
@@ -9061,12 +9124,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
 
@@ -9103,12 +9166,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_an_explicit_property_value_is_checked_against_maximum_passing_passes
@@ -9135,12 +9198,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_an_explicit_property_value_is_checked_against_maximum_failing_fails
@@ -9204,12 +9267,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_unique_array_of_objects_is_valid_passes
@@ -9242,12 +9305,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_non_unique_array_of_nested_objects_is_valid_passes
@@ -9292,12 +9355,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_non_unique_array_of_objects_is_valid_passes
@@ -9330,12 +9393,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_1_and_true_are_unique_passes
@@ -9362,12 +9425,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_unique_array_of_integers_is_valid_passes
@@ -9394,12 +9457,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_non_unique_array_of_arrays_is_valid_passes
@@ -9430,12 +9493,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_numbers_are_unique_if_mathematically_unequal_passes
@@ -9463,12 +9526,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_false_is_not_equal_to_zero_passes
@@ -9495,12 +9558,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_unique_array_of_nested_objects_is_valid_passes
@@ -9545,12 +9608,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_0_and_false_are_unique_passes
@@ -9577,12 +9640,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_unique_array_of_arrays_is_valid_passes
@@ -9613,12 +9676,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_true_is_not_equal_to_one_passes
@@ -9645,12 +9708,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_non_unique_heterogeneous_types_are_valid_passes
@@ -9685,12 +9748,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_unique_heterogeneous_types_are_valid_passes
@@ -9723,12 +9786,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
 
@@ -9773,12 +9836,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_a_true_and_a1_are_unique_passes
@@ -9811,12 +9874,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_non_unique_heterogeneous_types_are_invalid_fails
@@ -9886,12 +9949,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_a_false_and_a0_are_unique_passes
@@ -9924,12 +9987,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_numbers_are_unique_if_mathematically_unequal_fails
@@ -9982,12 +10045,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_0_and_false_are_unique_passes
@@ -10018,12 +10081,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_unique_array_of_arrays_is_valid_passes
@@ -10054,12 +10117,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_non_unique_array_of_nested_objects_is_invalid_fails
@@ -10155,12 +10218,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_objects_are_non_unique_despite_key_order_fails
@@ -10223,12 +10286,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_1_and_true_are_unique_passes
@@ -10259,12 +10322,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_different_objects_are_unique_passes
@@ -10301,12 +10364,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_unique_array_of_integers_is_valid_passes
@@ -10333,12 +10396,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_non_unique_array_of_more_than_two_arrays_is_invalid_fails
@@ -10446,12 +10509,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_non_unique_array_of_arrays_is_invalid_fails
@@ -10543,12 +10606,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_unique_heterogeneous_types_are_valid_passes
@@ -10582,12 +10645,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_non_unique_array_of_integers_is_invalid_fails
@@ -10649,12 +10712,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_all_string_formats_ignore_booleans_passes
@@ -10678,12 +10741,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_all_string_formats_ignore_integers_passes
@@ -10707,12 +10770,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_all_string_formats_ignore_floats_passes
@@ -10736,12 +10799,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_all_string_formats_ignore_arrays_passes
@@ -10766,12 +10829,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_all_string_formats_ignore_nulls_passes
@@ -10795,12 +10858,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
 
@@ -10837,12 +10900,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_all_string_formats_ignore_booleans_passes
@@ -10866,12 +10929,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_all_string_formats_ignore_integers_passes
@@ -10895,12 +10958,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_all_string_formats_ignore_floats_passes
@@ -10924,12 +10987,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_all_string_formats_ignore_arrays_passes
@@ -10954,12 +11017,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_all_string_formats_ignore_nulls_passes
@@ -10983,12 +11046,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
 
@@ -11025,12 +11088,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_all_string_formats_ignore_booleans_passes
@@ -11054,12 +11117,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_all_string_formats_ignore_integers_passes
@@ -11083,12 +11146,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_all_string_formats_ignore_floats_passes
@@ -11112,12 +11175,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_all_string_formats_ignore_arrays_passes
@@ -11142,12 +11205,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
         # test_all_string_formats_ignore_nulls_passes
@@ -11171,12 +11234,12 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
                 accept_content_type=accept_content_type,
             )
 
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             deserialized_response_body = endpoint_module.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.SchemaFor200ResponseBodyApplicationJson)
             assert api_response.body == deserialized_response_body
 
 

@@ -268,6 +268,41 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 )
                 self.api.post_additionalproperties_should_not_look_in_applicators_request_body(body=body)
 
+        # test_valid_test_case_passes
+        # valid test case
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                    "foo":
+                        False,
+                    "bar":
+                        True,
+                }
+            )
+            body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(response_body),
+                status=response_status
+            )
+            api_response = self.api.post_additionalproperties_should_not_look_in_applicators_request_body(
+                body=body,
+                content_type=content_type
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/requestBody/postAdditionalpropertiesShouldNotLookInApplicatorsRequestBody',
+                method='POST',
+                body=self.json_bytes(payload),
+                content_type=content_type,
+                accept_content_type=None,
+            )
+
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, schemas.Unset)
+
 
 
     def test_post_allof_combined_with_anyof_oneof_request_body(self):
@@ -3121,6 +3156,36 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                     _configuration=self._configuration
                 )
                 self.api.post_invalid_instance_should_not_raise_error_when_float_division_inf_request_body(body=body)
+
+        # test_valid_integer_with_multipleof_float_passes
+        # valid integer with multipleOf float
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                123456789
+            )
+            body = endpoint_module.SchemaForRequestBodyApplicationJson._from_openapi_data(
+                payload,
+                _configuration=self._configuration
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(response_body),
+                status=response_status
+            )
+            api_response = self.api.post_invalid_instance_should_not_raise_error_when_float_division_inf_request_body(
+                body=body,
+                content_type=content_type
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/requestBody/postInvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInfRequestBody',
+                method='POST',
+                body=self.json_bytes(payload),
+                content_type=content_type,
+                accept_content_type=None,
+            )
+
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, schemas.Unset)
 
 
 
