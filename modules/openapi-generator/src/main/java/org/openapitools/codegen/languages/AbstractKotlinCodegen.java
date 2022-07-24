@@ -75,6 +75,8 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     // ref: https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-hash-map/
     protected Set<String> propertyAdditionalKeywords = new HashSet<>(Arrays.asList("entries", "keys", "size", "values"));
 
+    private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
+
     public AbstractKotlinCodegen() {
         super();
 
@@ -668,6 +670,11 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
      */
     @Override
     public String toModelName(final String name) {
+        // memoization
+        String origName = name;
+        if (schemaKeyToModelNameCache.containsKey(origName)) {
+            return schemaKeyToModelNameCache.get(origName);
+        }
 
         // Allow for explicitly configured kotlin.* and java.* types
         if (name.startsWith("kotlin.") || name.startsWith("java.")) {
@@ -717,7 +724,8 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
             return modelName;
         }
 
-        return titleCase(modifiedName);
+        schemaKeyToModelNameCache.put(origName, titleCase(modifiedName));
+        return schemaKeyToModelNameCache.get(origName);
     }
 
     /**
