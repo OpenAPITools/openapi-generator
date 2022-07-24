@@ -21,6 +21,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |errorObjectType|Error object type.| |null|
 |exceptionPackage|Specify the exception handling package|<dl><dt>**default**</dt><dd>Use stop() for raising exceptions.</dd><dt>**rlang**</dt><dd>Use rlang package for exceptions.</dd></dl>|default|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
+|operationIdNaming|Naming convention for operationId (function name in the API)|<dl><dt>**PascalCase**</dt><dd>Pascal case (default)</dd><dt>**snake_case**</dt><dd>Snake case</dd><dt>**camelCase**</dt><dd>Camel case</dd></dl>|null|
 |packageName|R package name (convention: lowercase).| |openapi|
 |packageVersion|R package version.| |1.0.0|
 |returnExceptionOnFailure|Throw an exception on non success response codes| |false|
