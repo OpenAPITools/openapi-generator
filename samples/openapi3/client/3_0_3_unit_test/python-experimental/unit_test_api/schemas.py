@@ -1109,9 +1109,6 @@ class DictBase(Discriminable):
             ApiValueError: when a string can't be converted into a date or datetime and it must be one of those classes
             ApiTypeError: when the input type is not in the list of allowed spec types
         """
-        if isinstance(arg, cls):
-            # an instance of the correct type was passed in
-            return {}
         _path_to_schemas = super()._validate(arg, validation_metadata=validation_metadata)
         if not isinstance(arg, frozendict):
             return _path_to_schemas
@@ -1662,18 +1659,6 @@ class ComposedBase(Discriminable):
             ApiValueError: when a string can't be converted into a date or datetime and it must be one of those classes
             ApiTypeError: when the input type is not in the list of allowed spec types
         """
-        if isinstance(arg, Schema) and validation_metadata.from_server is False:
-            if isinstance(arg, cls):
-                # an instance of the correct type was passed in
-                return {}
-            raise ApiTypeError(
-                'Incorrect type passed in, required type was {} and passed type was {} at {}'.format(
-                    cls,
-                    type(arg),
-                    validation_metadata.path_to_item
-                )
-            )
-
         # validation checking on types, validations, and enums
         path_to_schemas = super()._validate(arg, validation_metadata=validation_metadata)
 
@@ -2103,43 +2088,6 @@ class DictSchema(
 
 
 schema_type_classes = set([NoneSchema, DictSchema, ListSchema, NumberSchema, StrSchema, BoolSchema])
-
-
-def deserialize_file(response_data, configuration, content_disposition=None):
-    """Deserializes body to file
-
-    Saves response body into a file in a temporary folder,
-    using the filename from the `Content-Disposition` header if provided.
-
-    Args:
-        param response_data (str):  the file data to write
-        configuration (Configuration): the instance to use to convert files
-
-    Keyword Args:
-        content_disposition (str):  the value of the Content-Disposition
-            header
-
-    Returns:
-        (file_type): the deserialized file which is open
-            The user is responsible for closing and reading the file
-    """
-    fd, path = tempfile.mkstemp(dir=configuration.temp_folder_path)
-    os.close(fd)
-    os.remove(path)
-
-    if content_disposition:
-        filename = re.search(r'filename=[\'"]?([^\'"\s]+)[\'"]?',
-                             content_disposition).group(1)
-        path = os.path.join(os.path.dirname(path), filename)
-
-    with open(path, "wb") as f:
-        if isinstance(response_data, str):
-            # change str to bytes so we can write it
-            response_data = response_data.encode('utf-8')
-        f.write(response_data)
-
-    f = open(path, "rb")
-    return f
 
 
 @functools.cache

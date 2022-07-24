@@ -33,6 +33,18 @@ class TestAdditionalpropertiesShouldNotLookInApplicators(unittest.TestCase):
                 _configuration=self._configuration
             )
 
+    def test_valid_test_case_passes(self):
+        # valid test case
+        AdditionalpropertiesShouldNotLookInApplicators._from_openapi_data(
+            {
+                "foo":
+                    False,
+                "bar":
+                    True,
+            },
+            _configuration=self._configuration
+        )
+
 
 if __name__ == '__main__':
     unittest.main()

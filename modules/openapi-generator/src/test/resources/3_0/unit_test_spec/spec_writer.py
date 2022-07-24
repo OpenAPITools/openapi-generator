@@ -227,7 +227,7 @@ FILEPATH_TO_EXCLUDE_REASON = {
 
 JSON_SCHEMA_TEST_FILE_TO_FOLDERS = {
     'additionalItems.json': (json_schema_test_draft,),
-    'additionalProperties.json': (json_schema_test_draft,),
+    'additionalProperties.json': (json_schema_test_draft, openapi_additions),
     'allOf.json': (json_schema_test_draft,),
     'anyOf.json': (json_schema_test_draft,),
     'boolean_schema.json': (json_schema_test_draft,),
@@ -251,7 +251,7 @@ JSON_SCHEMA_TEST_FILE_TO_FOLDERS = {
     'minItems.json': (json_schema_test_draft,),
     'minLength.json': (json_schema_test_draft,),
     'minProperties.json': (json_schema_test_draft,),
-    'multipleOf.json': (json_schema_test_draft,),
+    'multipleOf.json': (json_schema_test_draft, openapi_additions),
     'not.json': (json_schema_test_draft,),
     'oneOf.json': (json_schema_test_draft,),
     'pattern.json': (json_schema_test_draft,),
@@ -461,12 +461,43 @@ def generate_post_operation_with_request_body(
         }
     )
 
+
+def generate_post_operation_with_response_content_schema(
+    component_name: str,
+    tags: typing.List[OpenApiTag]
+) -> OpenApiOperation:
+    method = 'post'
+    ref_schema_path = f'#/components/schemas/{component_name}'
+    ref_test_example_path = f'#/components/x-schema-test-examples/{component_name}'
+    media_type = OpenApiMediaType(
+        {
+            'schema': OpenApiSchema({'$ref': ref_schema_path}),
+            'x-schema-test-examples': {'$ref': ref_test_example_path}
+        }
+    )
+    operationId = f'{method}{component_name}ResponseBodyForContentTypes'
+    response_object = OpenApiResponseObject(
+        {
+            'description': 'success',
+            'content': {'application/json': media_type}
+        }
+    )
+    return OpenApiOperation(
+        {
+            'operationId': operationId,
+            'responses': {'200': response_object},
+            'tags': [tag.name for tag in tags]
+        }
+    )
+
+
 def write_openapi_spec():
     openapi = get_new_openapi()
-    request_body_tag = OpenApiTag(name='requestBody')
-    post_tag = OpenApiTag(name='post')
-    json_tag = OpenApiTag(name='json')
-    openapi.tags.append(request_body_tag)
+    request_body_tag = OpenApiTag(name='operation.requestBody')
+    post_tag = OpenApiTag(name='path.post')
+    json_tag = OpenApiTag(name='contentType_json')
+    response_content_tag = OpenApiTag(name='response.content.contentType.schema')
+    openapi.tags.extend([request_body_tag, post_tag, json_tag])
     # write component schemas and tests
     for json_schema_test_file, folders in JSON_SCHEMA_TEST_FILE_TO_FOLDERS.items():
         component_schemas, component_name_to_test_examples = (
@@ -484,8 +515,12 @@ def write_openapi_spec():
             operation = generate_post_operation_with_request_body(component_name, [request_body_tag, post_tag, json_tag])
             path_item = OpenApiPathItem(post=operation)
             openapi.paths[f'/requestBody/{operation["operationId"]}'] = path_item
+
             # todo add put and patch with paths requestBody/someIdentifier
 
+            operation = generate_post_operation_with_response_content_schema(component_name, [response_content_tag, post_tag, json_tag])
+            path_item = OpenApiPathItem(post=operation)
+            openapi.paths[f'/responseBody/{operation["operationId"]}'] = path_item
     print(
         yaml.dump(
             dataclasses.asdict(openapi),

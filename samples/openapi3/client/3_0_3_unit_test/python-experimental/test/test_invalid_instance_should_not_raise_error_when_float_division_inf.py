@@ -28,6 +28,13 @@ class TestInvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInf(unittest.TestCa
                 _configuration=self._configuration
             )
 
+    def test_valid_integer_with_multipleof_float_passes(self):
+        # valid integer with multipleOf float
+        InvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInf._from_openapi_data(
+            123456789,
+            _configuration=self._configuration
+        )
+
 
 if __name__ == '__main__':
     unittest.main()
