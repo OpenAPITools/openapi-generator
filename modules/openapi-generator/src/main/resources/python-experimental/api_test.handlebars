@@ -58,16 +58,7 @@ class {{#with operations}}Test{{classname}}(ApiTestMixin, unittest.TestCase):
                 status=response_status
             )
 {{#if valid}}
-            api_response = self.api.{{operationId}}(
-                accept_content_types=(accept_content_type,)
-            )
-            self.assert_pool_manager_request_called_with(
-                mock_request,
-                self._configuration.host + '{{{path}}}',
-                method='{{httpMethod}}',
-                content_type=None,
-                accept_content_type=accept_content_type,
-            )
+            {{> api_test_partial }}
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
             assert isinstance(api_response.body, endpoint_module.{{schema.baseName}})
@@ -126,20 +117,7 @@ class {{#with operations}}Test{{classname}}(ApiTestMixin, unittest.TestCase):
                 self.json_bytes(response_body),
                 status=response_status
             )
-            api_response = self.api.{{operationId}}(
-                body=body,
-                content_type=content_type
-            )
-            self.assert_pool_manager_request_called_with(
-                mock_request,
-                self._configuration.host + '{{{path}}}',
-                method='{{httpMethod}}',
-                body=self.json_bytes(payload),
-                content_type=content_type,
-            {{#unless produces}}
-                accept_content_type=None,
-            {{/unless}}
-            )
+            {{> api_test_partial }}
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
             assert isinstance(api_response.body, schemas.Unset)

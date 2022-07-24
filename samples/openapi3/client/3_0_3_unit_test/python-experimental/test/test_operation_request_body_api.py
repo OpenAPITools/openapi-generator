@@ -68,7 +68,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -125,7 +124,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -173,7 +171,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -233,7 +230,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -297,7 +293,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -390,7 +385,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -475,7 +469,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -566,7 +559,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -627,7 +619,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -738,7 +729,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -792,7 +782,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -846,7 +835,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -887,7 +875,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -931,7 +918,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -984,7 +970,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -1017,7 +1002,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -1058,7 +1042,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -1101,7 +1084,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -1131,7 +1113,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -1172,7 +1153,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -1239,7 +1219,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -1269,7 +1248,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -1377,7 +1355,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -1510,7 +1487,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -1553,7 +1529,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -1621,7 +1596,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -1651,7 +1625,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -1692,7 +1665,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -1735,7 +1707,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -1789,7 +1760,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -1831,7 +1801,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -1861,7 +1830,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -1891,7 +1859,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -1921,7 +1888,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -1952,7 +1918,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -1982,7 +1947,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -2024,7 +1988,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -2054,7 +2017,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -2084,7 +2046,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -2114,7 +2075,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -2145,7 +2105,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -2175,7 +2134,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -2216,7 +2174,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -2246,7 +2203,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -2313,7 +2269,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -2343,7 +2298,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -2384,7 +2338,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -2414,7 +2367,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -2468,7 +2420,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -2548,7 +2499,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -2605,7 +2555,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -2658,7 +2607,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -2770,7 +2718,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -2812,7 +2759,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -2842,7 +2788,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -2872,7 +2817,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -2902,7 +2846,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -2933,7 +2876,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -2963,7 +2905,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -3044,7 +2985,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -3100,7 +3040,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -3181,7 +3120,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -3225,7 +3163,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -3256,7 +3193,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -3298,7 +3234,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -3328,7 +3263,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -3358,7 +3292,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -3388,7 +3321,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -3419,7 +3351,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -3449,7 +3380,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -3491,7 +3421,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -3521,7 +3450,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -3551,7 +3479,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -3581,7 +3508,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -3612,7 +3538,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -3642,7 +3567,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -3684,7 +3608,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -3714,7 +3637,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -3744,7 +3666,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -3774,7 +3695,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -3805,7 +3725,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -3835,7 +3754,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -3876,7 +3794,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -3906,7 +3823,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -3949,7 +3865,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -3990,7 +3905,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -4033,7 +3947,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -4063,7 +3976,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -4121,7 +4033,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -4153,7 +4064,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -4186,7 +4096,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -4240,7 +4149,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -4270,7 +4178,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -4300,7 +4207,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -4330,7 +4236,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -4372,7 +4277,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -4453,7 +4357,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -4483,7 +4386,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -4513,7 +4415,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -4546,7 +4447,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -4581,7 +4481,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -4622,7 +4521,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -4665,7 +4563,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -4695,7 +4592,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -4736,7 +4632,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -4766,7 +4661,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -4822,7 +4716,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -4852,7 +4745,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -4882,7 +4774,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -4937,7 +4828,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -4970,7 +4860,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -5002,7 +4891,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -5069,7 +4957,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -5099,7 +4986,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -5129,7 +5015,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -5171,7 +5056,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -5201,7 +5085,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -5245,7 +5128,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -5280,7 +5162,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -5313,7 +5194,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -5367,7 +5247,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -5421,7 +5300,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -5491,7 +5369,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -5623,7 +5500,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -5667,7 +5543,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -5713,7 +5588,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -5754,7 +5628,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -5808,7 +5681,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -5954,7 +5826,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -6076,7 +5947,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -6132,7 +6002,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -6162,7 +6031,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -6204,7 +6072,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -6234,7 +6101,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -6288,7 +6154,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -6322,7 +6187,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -6424,7 +6288,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -6507,7 +6370,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -6576,7 +6438,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -6617,7 +6478,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -6660,7 +6520,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -6740,7 +6599,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -6794,7 +6652,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -6835,7 +6692,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -6877,7 +6733,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -6908,7 +6763,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -6938,7 +6792,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -6968,7 +6821,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -7011,7 +6863,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -7041,7 +6892,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -7071,7 +6921,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -7125,7 +6974,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -7195,7 +7043,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -7258,7 +7105,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -7321,7 +7167,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -7381,7 +7226,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -7443,7 +7287,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -7505,7 +7348,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -7568,7 +7410,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -7629,7 +7470,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -7671,7 +7511,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -7704,7 +7543,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -7734,7 +7572,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -7764,7 +7601,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -7822,7 +7658,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -7876,7 +7711,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -7930,7 +7764,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -7960,7 +7793,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -8057,7 +7889,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -8099,7 +7930,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -8132,7 +7962,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -8192,7 +8021,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -8231,7 +8059,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -8282,7 +8109,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -8321,7 +8147,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -8354,7 +8179,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -8387,7 +8211,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -8424,7 +8247,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -8458,7 +8280,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -8491,7 +8312,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -8542,7 +8362,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -8575,7 +8394,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -8612,7 +8430,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -8645,7 +8462,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -8686,7 +8502,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -8725,7 +8540,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -8775,7 +8589,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -8814,7 +8627,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -8881,7 +8693,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -8920,7 +8731,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -8970,7 +8780,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -9007,7 +8816,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -9044,7 +8852,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -9128,7 +8935,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -9188,7 +8994,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -9225,7 +9030,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -9268,7 +9072,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -9301,7 +9104,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -9397,7 +9199,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -9477,7 +9278,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -9517,7 +9317,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -9575,7 +9374,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -9605,7 +9403,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -9635,7 +9432,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -9665,7 +9461,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -9696,7 +9491,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -9726,7 +9520,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -9768,7 +9561,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -9798,7 +9590,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -9828,7 +9619,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -9858,7 +9648,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -9889,7 +9678,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -9919,7 +9707,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -9961,7 +9748,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -9991,7 +9777,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -10021,7 +9806,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -10051,7 +9835,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -10082,7 +9865,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -10112,7 +9894,6 @@ class TestOperationRequestBodyApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)

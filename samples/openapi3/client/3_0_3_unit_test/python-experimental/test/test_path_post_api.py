@@ -68,7 +68,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -125,7 +124,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -162,7 +160,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postAdditionalpropertiesAllowsASchemaWhichShouldValidateResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -227,7 +224,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postAdditionalpropertiesAllowsASchemaWhichShouldValidateResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -282,7 +278,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -323,7 +318,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postAdditionalpropertiesAreAllowedByDefaultResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -390,7 +384,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -452,7 +445,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postAdditionalpropertiesCanExistByItselfResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -523,7 +515,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -589,7 +580,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postAdditionalpropertiesShouldNotLookInApplicatorsResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -689,7 +679,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -850,7 +839,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postAllofCombinedWithAnyofOneofResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -969,7 +957,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -1058,7 +1045,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postAllofResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -1183,7 +1169,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -1230,7 +1215,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postAllofSimpleTypesResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -1307,7 +1291,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -1418,7 +1401,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postAllofWithBaseSchemaResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -1572,7 +1554,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -1606,7 +1587,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postAllofWithOneEmptySchemaResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -1667,7 +1647,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -1723,7 +1702,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postAllofWithTheFirstEmptySchemaResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -1784,7 +1762,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -1840,7 +1817,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postAllofWithTheLastEmptySchemaResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -1888,7 +1864,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -1922,7 +1897,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postAllofWithTwoEmptySchemasResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -1973,7 +1947,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -2026,7 +1999,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -2059,7 +2031,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -2096,7 +2067,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postAnyofComplexTypesResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -2157,7 +2127,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postAnyofComplexTypesResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -2189,7 +2158,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postAnyofComplexTypesResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -2237,7 +2205,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -2280,7 +2247,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -2310,7 +2276,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -2344,7 +2309,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postAnyofResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -2395,7 +2359,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postAnyofResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -2424,7 +2387,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postAnyofResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -2472,7 +2434,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -2532,7 +2493,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postAnyofWithBaseSchemaResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -2624,7 +2584,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -2654,7 +2613,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -2688,7 +2646,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postAnyofWithOneEmptySchemaResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -2717,7 +2674,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postAnyofWithOneEmptySchemaResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -2832,7 +2788,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -2991,7 +2946,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postArrayTypeMatchesArraysResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -3140,7 +3094,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -3183,7 +3136,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -3364,7 +3316,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postBooleanTypeMatchesBooleansResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -3415,7 +3366,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postBooleanTypeMatchesBooleansResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -3499,7 +3449,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -3529,7 +3478,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -3585,7 +3533,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postByIntResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -3614,7 +3561,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postByIntResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -3662,7 +3608,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -3705,7 +3650,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -3739,7 +3683,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postByNumberResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -3790,7 +3733,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postByNumberResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -3851,7 +3793,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -3907,7 +3848,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postBySmallNumberResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -3956,7 +3896,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -3986,7 +3925,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -4016,7 +3954,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -4046,7 +3983,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -4077,7 +4013,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -4107,7 +4042,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -4142,7 +4076,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postDateTimeFormatResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -4171,7 +4104,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postDateTimeFormatResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -4200,7 +4132,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postDateTimeFormatResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -4229,7 +4160,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postDateTimeFormatResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -4259,7 +4189,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postDateTimeFormatResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -4288,7 +4217,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postDateTimeFormatResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -4337,7 +4265,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -4367,7 +4294,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -4397,7 +4323,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -4427,7 +4352,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -4458,7 +4382,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -4488,7 +4411,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -4523,7 +4445,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postEmailFormatResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -4552,7 +4473,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postEmailFormatResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -4581,7 +4501,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postEmailFormatResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -4610,7 +4529,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postEmailFormatResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -4640,7 +4558,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postEmailFormatResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -4669,7 +4586,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postEmailFormatResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -4717,7 +4633,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -4747,7 +4662,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -4794,7 +4708,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postEnumWith0DoesNotMatchFalseResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -4823,7 +4736,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postEnumWith0DoesNotMatchFalseResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -4906,7 +4818,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -4936,7 +4847,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -4992,7 +4902,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postEnumWith1DoesNotMatchTrueResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -5021,7 +4930,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postEnumWith1DoesNotMatchTrueResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -5069,7 +4977,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -5099,7 +5006,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -5146,7 +5052,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postEnumWithEscapedCharactersResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -5175,7 +5080,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postEnumWithEscapedCharactersResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -5245,7 +5149,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -5305,7 +5208,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postEnumWithFalseDoesNotMatch0ResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -5410,7 +5312,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -5479,7 +5380,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postEnumWithTrueDoesNotMatch1ResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -5552,7 +5452,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -5605,7 +5504,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -5690,7 +5588,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postEnumsInPropertiesResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -5751,7 +5648,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postEnumsInPropertiesResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -5897,7 +5793,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -5963,7 +5858,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postForbiddenPropertyResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -6012,7 +5906,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -6042,7 +5935,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -6072,7 +5964,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -6102,7 +5993,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -6133,7 +6023,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -6163,7 +6052,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -6198,7 +6086,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postHostnameFormatResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -6227,7 +6114,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postHostnameFormatResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -6256,7 +6142,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postHostnameFormatResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -6285,7 +6170,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postHostnameFormatResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -6315,7 +6199,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postHostnameFormatResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -6344,7 +6227,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postHostnameFormatResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -6432,7 +6314,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -6488,7 +6369,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -6616,7 +6496,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postIntegerTypeMatchesIntegersResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -6689,7 +6568,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postIntegerTypeMatchesIntegersResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -6795,7 +6673,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -6851,7 +6728,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postInvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInfResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -6902,7 +6778,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -6933,7 +6808,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -6970,7 +6844,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postInvalidStringValueForDefaultResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -7000,7 +6873,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postInvalidStringValueForDefaultResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -7049,7 +6921,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -7079,7 +6950,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -7109,7 +6979,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -7139,7 +7008,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -7170,7 +7038,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -7200,7 +7067,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -7235,7 +7101,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postIpv4FormatResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -7264,7 +7129,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postIpv4FormatResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -7293,7 +7157,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postIpv4FormatResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -7322,7 +7185,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postIpv4FormatResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -7352,7 +7214,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postIpv4FormatResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -7381,7 +7242,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postIpv4FormatResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -7430,7 +7290,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -7460,7 +7319,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -7490,7 +7348,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -7520,7 +7377,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -7551,7 +7407,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -7581,7 +7436,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -7616,7 +7470,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postIpv6FormatResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -7645,7 +7498,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postIpv6FormatResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -7674,7 +7526,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postIpv6FormatResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -7703,7 +7554,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postIpv6FormatResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -7733,7 +7583,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postIpv6FormatResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -7762,7 +7611,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postIpv6FormatResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -7811,7 +7659,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -7841,7 +7688,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -7871,7 +7717,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -7901,7 +7746,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -7932,7 +7776,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -7962,7 +7805,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -7997,7 +7839,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postJsonPointerFormatResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -8026,7 +7867,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postJsonPointerFormatResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -8055,7 +7895,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postJsonPointerFormatResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -8084,7 +7923,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postJsonPointerFormatResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -8114,7 +7952,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postJsonPointerFormatResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -8143,7 +7980,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postJsonPointerFormatResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -8191,7 +8027,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -8221,7 +8056,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -8264,7 +8098,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -8298,7 +8131,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postMaximumValidationResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -8327,7 +8159,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postMaximumValidationResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -8378,7 +8209,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postMaximumValidationResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -8426,7 +8256,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -8469,7 +8298,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -8499,7 +8327,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -8533,7 +8360,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postMaximumValidationWithUnsignedIntegerResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -8584,7 +8410,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postMaximumValidationWithUnsignedIntegerResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -8613,7 +8438,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postMaximumValidationWithUnsignedIntegerResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -8678,7 +8502,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -8710,7 +8533,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -8743,7 +8565,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -8803,7 +8624,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postMaxitemsValidationResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -8834,7 +8654,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postMaxitemsValidationResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -8866,7 +8685,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postMaxitemsValidationResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -8927,7 +8745,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -8957,7 +8774,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -8987,7 +8803,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -9017,7 +8832,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -9073,7 +8887,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postMaxlengthValidationResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -9102,7 +8915,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postMaxlengthValidationResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -9131,7 +8943,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postMaxlengthValidationResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -9160,7 +8971,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postMaxlengthValidationResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -9209,7 +9019,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -9260,7 +9069,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postMaxproperties0MeansTheObjectIsEmptyResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -9357,7 +9165,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -9387,7 +9194,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -9417,7 +9223,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -9450,7 +9255,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -9485,7 +9289,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -9552,7 +9355,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postMaxpropertiesValidationResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -9581,7 +9383,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postMaxpropertiesValidationResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -9610,7 +9411,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postMaxpropertiesValidationResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -9642,7 +9442,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postMaxpropertiesValidationResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -9676,7 +9475,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postMaxpropertiesValidationResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -9724,7 +9522,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -9767,7 +9564,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -9797,7 +9593,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -9831,7 +9626,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postMinimumValidationResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -9882,7 +9676,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postMinimumValidationResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -9911,7 +9704,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postMinimumValidationResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -9959,7 +9751,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -9989,7 +9780,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -10045,7 +9835,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -10075,7 +9864,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -10105,7 +9893,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -10139,7 +9926,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postMinimumValidationWithSignedIntegerResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -10168,7 +9954,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postMinimumValidationWithSignedIntegerResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -10241,7 +10026,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postMinimumValidationWithSignedIntegerResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -10270,7 +10054,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postMinimumValidationWithSignedIntegerResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -10299,7 +10082,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postMinimumValidationWithSignedIntegerResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -10361,7 +10143,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -10394,7 +10175,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -10426,7 +10206,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -10483,7 +10262,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postMinitemsValidationResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -10515,7 +10293,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postMinitemsValidationResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -10546,7 +10323,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postMinitemsValidationResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -10620,7 +10396,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -10650,7 +10425,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -10680,7 +10454,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -10758,7 +10531,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postMinlengthValidationResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -10787,7 +10559,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postMinlengthValidationResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -10816,7 +10587,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postMinlengthValidationResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -10865,7 +10635,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -10895,7 +10664,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -10939,7 +10707,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -10974,7 +10741,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -11007,7 +10773,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -11042,7 +10807,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postMinpropertiesValidationResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -11071,7 +10835,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postMinpropertiesValidationResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -11123,7 +10886,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postMinpropertiesValidationResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -11157,7 +10919,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postMinpropertiesValidationResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -11189,7 +10950,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postMinpropertiesValidationResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -11250,7 +11010,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -11306,7 +11065,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postNestedAllofToCheckValidationSemanticsResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -11367,7 +11125,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -11423,7 +11180,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postNestedAnyofToCheckValidationSemanticsResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -11500,7 +11256,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -11641,7 +11396,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postNestedItemsResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -11798,7 +11552,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -11854,7 +11607,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postNestedOneofToCheckValidationSemanticsResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -11905,7 +11657,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -11951,7 +11702,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -11988,7 +11738,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postNotMoreComplexSchemaResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -12042,7 +11791,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postNotMoreComplexSchemaResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -12090,7 +11838,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -12137,7 +11884,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postNotResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -12207,7 +11953,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -12254,7 +11999,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postNulCharactersInStringsResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -12416,7 +12160,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -12632,7 +12375,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postNullTypeMatchesOnlyTheNullObjectResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -12779,7 +12521,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -12835,7 +12576,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -12865,7 +12605,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -12989,7 +12728,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postNumberTypeMatchesNumbersResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -13062,7 +12800,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postNumberTypeMatchesNumbersResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -13091,7 +12828,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postNumberTypeMatchesNumbersResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -13140,7 +12876,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -13170,7 +12905,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -13224,7 +12958,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -13258,7 +12991,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -13313,7 +13045,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postObjectPropertiesValidationResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -13342,7 +13073,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postObjectPropertiesValidationResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -13404,7 +13134,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postObjectPropertiesValidationResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -13437,7 +13166,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postObjectPropertiesValidationResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -13555,7 +13283,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -13696,7 +13423,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postObjectTypeMatchesObjectsResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -13813,7 +13539,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -13882,7 +13607,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -13919,7 +13643,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postOneofComplexTypesResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -14005,7 +13728,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postOneofComplexTypesResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -14053,7 +13775,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -14096,7 +13817,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -14143,7 +13863,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postOneofResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -14194,7 +13913,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postOneofResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -14290,7 +14008,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -14368,7 +14085,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postOneofWithBaseSchemaResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -14429,7 +14145,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -14485,7 +14200,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postOneofWithEmptySchemaResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -14533,7 +14247,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -14567,7 +14280,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postPatternIsNotAnchoredResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -14616,7 +14328,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -14647,7 +14358,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -14677,7 +14387,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -14707,7 +14416,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -14750,7 +14458,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -14780,7 +14487,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -14810,7 +14516,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -14845,7 +14550,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postPatternValidationResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -14875,7 +14579,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postPatternValidationResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -14904,7 +14607,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postPatternValidationResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -14933,7 +14635,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postPatternValidationResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -14984,7 +14685,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postPatternValidationResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -15013,7 +14713,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postPatternValidationResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -15042,7 +14741,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postPatternValidationResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -15103,7 +14801,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -15176,7 +14873,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postPropertiesWithEscapedCharactersResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -15262,7 +14958,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -15315,7 +15010,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postPropertyNamedRefThatIsNotAReferenceResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -15394,7 +15088,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -15453,7 +15146,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postRefInAdditionalpropertiesResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -15532,7 +15224,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -15585,7 +15276,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postRefInAllofResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -15661,7 +15351,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -15714,7 +15403,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postRefInAnyofResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -15792,7 +15480,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -15849,7 +15536,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postRefInItemsResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -15927,7 +15613,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -15980,7 +15665,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postRefInOneofResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -16059,7 +15743,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -16118,7 +15801,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postRefInPropertyResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -16195,7 +15877,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -16230,7 +15911,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postRequiredDefaultValidationResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -16279,7 +15959,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -16312,7 +15991,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -16342,7 +16020,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -16372,7 +16049,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -16423,7 +16099,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postRequiredValidationResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -16455,7 +16130,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postRequiredValidationResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -16484,7 +16158,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postRequiredValidationResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -16513,7 +16186,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postRequiredValidationResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -16587,7 +16259,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -16622,7 +16293,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postRequiredWithEmptyArrayResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -16683,7 +16353,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -16739,7 +16408,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postSimpleEnumValidationResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -16800,7 +16468,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -16830,7 +16497,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -16927,7 +16593,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -16983,7 +16648,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postStringTypeMatchesStringsResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -17012,7 +16676,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postStringTypeMatchesStringsResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -17153,7 +16816,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postStringTypeMatchesStringsResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -17202,7 +16864,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -17235,7 +16896,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -17286,7 +16946,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postTheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissingResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -17318,7 +16977,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postTheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissingResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -17394,7 +17052,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -17433,7 +17090,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -17484,7 +17140,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -17523,7 +17178,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -17556,7 +17210,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -17589,7 +17242,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -17626,7 +17278,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -17660,7 +17311,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -17693,7 +17343,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -17744,7 +17393,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -17777,7 +17425,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -17814,7 +17461,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -17847,7 +17493,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -17888,7 +17533,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -17927,7 +17571,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -17964,7 +17607,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postUniqueitemsFalseValidationResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -18002,7 +17644,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postUniqueitemsFalseValidationResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -18052,7 +17693,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postUniqueitemsFalseValidationResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -18090,7 +17730,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postUniqueitemsFalseValidationResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -18122,7 +17761,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postUniqueitemsFalseValidationResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -18154,7 +17792,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postUniqueitemsFalseValidationResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -18190,7 +17827,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postUniqueitemsFalseValidationResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -18223,7 +17859,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postUniqueitemsFalseValidationResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -18255,7 +17890,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postUniqueitemsFalseValidationResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -18305,7 +17939,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postUniqueitemsFalseValidationResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -18337,7 +17970,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postUniqueitemsFalseValidationResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -18373,7 +18005,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postUniqueitemsFalseValidationResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -18405,7 +18036,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postUniqueitemsFalseValidationResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -18445,7 +18075,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postUniqueitemsFalseValidationResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -18483,7 +18112,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postUniqueitemsFalseValidationResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -18540,7 +18168,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -18579,7 +18206,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -18646,7 +18272,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -18685,7 +18310,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -18735,7 +18359,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -18772,7 +18395,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -18809,7 +18431,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -18893,7 +18514,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -18953,7 +18573,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -18990,7 +18609,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -19033,7 +18651,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -19066,7 +18683,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -19162,7 +18778,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -19242,7 +18857,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -19282,7 +18896,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -19341,7 +18954,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postUniqueitemsValidationResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -19379,7 +18991,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postUniqueitemsValidationResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -19454,7 +19065,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postUniqueitemsValidationResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -19492,7 +19102,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postUniqueitemsValidationResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -19550,7 +19159,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postUniqueitemsValidationResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -19586,7 +19194,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postUniqueitemsValidationResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -19622,7 +19229,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postUniqueitemsValidationResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -19723,7 +19329,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postUniqueitemsValidationResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -19791,7 +19396,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postUniqueitemsValidationResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -19827,7 +19431,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postUniqueitemsValidationResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -19869,7 +19472,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postUniqueitemsValidationResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -19901,7 +19503,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postUniqueitemsValidationResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -20014,7 +19615,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postUniqueitemsValidationResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -20111,7 +19711,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postUniqueitemsValidationResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -20150,7 +19749,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postUniqueitemsValidationResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -20224,7 +19822,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -20254,7 +19851,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -20284,7 +19880,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -20314,7 +19909,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -20345,7 +19939,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -20375,7 +19968,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -20410,7 +20002,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postUriFormatResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -20439,7 +20030,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postUriFormatResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -20468,7 +20058,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postUriFormatResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -20497,7 +20086,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postUriFormatResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -20527,7 +20115,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postUriFormatResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -20556,7 +20143,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postUriFormatResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -20605,7 +20191,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -20635,7 +20220,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -20665,7 +20249,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -20695,7 +20278,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -20726,7 +20308,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -20756,7 +20337,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -20791,7 +20371,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postUriReferenceFormatResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -20820,7 +20399,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postUriReferenceFormatResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -20849,7 +20427,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postUriReferenceFormatResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -20878,7 +20455,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postUriReferenceFormatResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -20908,7 +20484,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postUriReferenceFormatResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -20937,7 +20512,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postUriReferenceFormatResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -20986,7 +20560,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -21016,7 +20589,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -21046,7 +20618,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -21076,7 +20647,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -21107,7 +20677,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -21137,7 +20706,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 method='POST',
                 body=self.json_bytes(payload),
                 content_type=content_type,
-                accept_content_type=None,
             )
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
@@ -21172,7 +20740,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postUriTemplateFormatResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -21201,7 +20768,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postUriTemplateFormatResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -21230,7 +20796,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postUriTemplateFormatResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -21259,7 +20824,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postUriTemplateFormatResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -21289,7 +20853,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postUriTemplateFormatResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
@@ -21318,7 +20881,6 @@ class TestPathPostApi(ApiTestMixin, unittest.TestCase):
                 mock_request,
                 self._configuration.host + '/responseBody/postUriTemplateFormatResponseBodyForContentTypes',
                 method='POST',
-                content_type=None,
                 accept_content_type=accept_content_type,
             )
 
