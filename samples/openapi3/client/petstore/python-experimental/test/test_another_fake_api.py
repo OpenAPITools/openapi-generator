@@ -10,16 +10,24 @@
 """
 
 import unittest
+from unittest.mock import patch
+
+import urllib3
 
 import petstore_api
 from petstore_api.api.another_fake_api import AnotherFakeApi  # noqa: E501
+from petstore_api import configuration, schemas, api_client
+
+from . import ApiTestMixin
 
 
-class TestAnotherFakeApi(unittest.TestCase):
+class TestAnotherFakeApi(ApiTestMixin, unittest.TestCase):
     """AnotherFakeApi unit test stubs"""
+    _configuration = configuration.Configuration()
 
     def setUp(self):
-        self.api = AnotherFakeApi()  # noqa: E501
+        used_api_client = api_client.ApiClient(configuration=self._configuration)
+        self.api = AnotherFakeApi(api_client=used_api_client)  # noqa: E501
 
     def tearDown(self):
         pass
@@ -29,7 +37,15 @@ class TestAnotherFakeApi(unittest.TestCase):
 
         To test special tags  # noqa: E501
         """
-        pass
+        from petstore_api.api.another_fake_api_endpoints import call_123_test_special_tags as endpoint_module
+        response_status = 200
+        accept_content_type = 'application/json'
+
+
+
+        content_type = 'application/json'
+
+
 
 
 if __name__ == '__main__':
