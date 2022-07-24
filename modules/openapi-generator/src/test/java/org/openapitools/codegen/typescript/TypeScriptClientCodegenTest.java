@@ -92,7 +92,7 @@ public class TypeScriptClientCodegenTest {
         codegen.setOpenAPI(openAPI);
 
         try {
-            // TypeScriptClientCodegen can generate codes without any exception.
+            // TypeScriptClientCodegen can generate codes without throwing exception.
             codegen.fromModel("sample", root);
         } catch (Exception e) {
             Assert.fail("Exception was thrown.");
