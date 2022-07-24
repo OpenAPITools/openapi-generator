@@ -54,7 +54,7 @@ public class ModelReturn {
   @SerializedName(SERIALIZED_NAME_RETURN)
   private Integer _return;
 
-  public ModelReturn() { 
+  public ModelReturn() {
   }
 
   public ModelReturn _return(Integer _return) {

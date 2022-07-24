@@ -114,7 +114,7 @@ public class SomeObj {
   @SerializedName(SERIALIZED_NAME_TYPE)
   private String type;
 
-  public SomeObj() { 
+  public SomeObj() {
   }
 
   public SomeObj $type(TypeEnum $type) {

@@ -46,7 +46,8 @@ public class AdditionalPropertiesBoolean extends HashMap<String, Boolean> {
   @XmlElement(name = "name")
   private String name;
 
-  public AdditionalPropertiesBoolean() { 
+  public AdditionalPropertiesBoolean() {
+
   }
 
   public AdditionalPropertiesBoolean name(String name) {

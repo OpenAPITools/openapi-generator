@@ -106,7 +106,7 @@ public class Zebra {
   @SerializedName(SERIALIZED_NAME_CLASS_NAME)
   private String className;
 
-  public Zebra() { 
+  public Zebra() {
   }
 
   public Zebra type(TypeEnum type) {

@@ -64,7 +64,7 @@ public class ArrayOfInlineAllOf {
   @SerializedName(SERIALIZED_NAME_ARRAY_ALLOF_DOG_PROPERTY)
   private List<ArrayOfInlineAllOfArrayAllofDogPropertyInner> arrayAllofDogProperty = null;
 
-  public ArrayOfInlineAllOf() { 
+  public ArrayOfInlineAllOf() {
   }
 
   public ArrayOfInlineAllOf id(Long id) {

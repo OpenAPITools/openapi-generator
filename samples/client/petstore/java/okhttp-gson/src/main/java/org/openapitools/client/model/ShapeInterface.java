@@ -53,7 +53,7 @@ public class ShapeInterface {
   @SerializedName(SERIALIZED_NAME_SHAPE_TYPE)
   private String shapeType;
 
-  public ShapeInterface() { 
+  public ShapeInterface() {
   }
 
   public ShapeInterface shapeType(String shapeType) {

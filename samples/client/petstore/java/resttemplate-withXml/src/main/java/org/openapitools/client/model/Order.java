@@ -113,7 +113,7 @@ public class Order {
   @XmlElement(name = "complete")
   private Boolean complete = false;
 
-  public Order() { 
+  public Order() {
   }
 
   public Order id(Long id) {

@@ -50,7 +50,7 @@ public class ArrayOfNumberOnly {
   @XmlElement(name = "arrayNumber")
   private List<BigDecimal> arrayNumber = null;
 
-  public ArrayOfNumberOnly() { 
+  public ArrayOfNumberOnly() {
   }
 
   public ArrayOfNumberOnly arrayNumber(List<BigDecimal> arrayNumber) {

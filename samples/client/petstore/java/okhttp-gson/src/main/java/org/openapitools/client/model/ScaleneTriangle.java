@@ -57,7 +57,7 @@ public class ScaleneTriangle {
   @SerializedName(SERIALIZED_NAME_TRIANGLE_TYPE)
   private String triangleType;
 
-  public ScaleneTriangle() { 
+  public ScaleneTriangle() {
   }
 
   public ScaleneTriangle shapeType(String shapeType) {

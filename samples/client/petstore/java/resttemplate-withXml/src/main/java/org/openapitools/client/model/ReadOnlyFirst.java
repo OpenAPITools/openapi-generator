@@ -49,7 +49,7 @@ public class ReadOnlyFirst {
   @XmlElement(name = "baz")
   private String baz;
 
-  public ReadOnlyFirst() { 
+  public ReadOnlyFirst() {
   }
 
    /**

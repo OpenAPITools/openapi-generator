@@ -219,7 +219,7 @@ public class XmlItem {
   @XmlElementWrapper(namespace="http://f.com/schema", name = "prefix_ns_wrapped_array")
   private List<Integer> prefixNsWrappedArray = null;
 
-  public XmlItem() { 
+  public XmlItem() {
   }
 
   public XmlItem attributeString(String attributeString) {

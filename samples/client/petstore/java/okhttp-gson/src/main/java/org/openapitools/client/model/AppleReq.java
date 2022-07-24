@@ -57,7 +57,7 @@ public class AppleReq {
   @SerializedName(SERIALIZED_NAME_MEALY)
   private Boolean mealy;
 
-  public AppleReq() { 
+  public AppleReq() {
   }
 
   public AppleReq cultivar(String cultivar) {

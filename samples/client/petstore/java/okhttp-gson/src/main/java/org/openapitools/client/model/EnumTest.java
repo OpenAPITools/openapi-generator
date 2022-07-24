@@ -329,7 +329,7 @@ public class EnumTest {
   @SerializedName(SERIALIZED_NAME_OUTER_ENUM_INTEGER_DEFAULT_VALUE)
   private OuterEnumIntegerDefaultValue outerEnumIntegerDefaultValue = OuterEnumIntegerDefaultValue.NUMBER_0;
 
-  public EnumTest() { 
+  public EnumTest() {
   }
 
   public EnumTest enumString(EnumStringEnum enumString) {

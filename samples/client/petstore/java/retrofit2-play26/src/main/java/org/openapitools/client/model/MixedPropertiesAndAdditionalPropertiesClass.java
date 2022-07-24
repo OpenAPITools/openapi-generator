@@ -51,7 +51,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   public static final String JSON_PROPERTY_MAP = "map";
   private Map<String, Animal> map = null;
 
-  public MixedPropertiesAndAdditionalPropertiesClass() { 
+  public MixedPropertiesAndAdditionalPropertiesClass() {
   }
 
   public MixedPropertiesAndAdditionalPropertiesClass uuid(UUID uuid) {

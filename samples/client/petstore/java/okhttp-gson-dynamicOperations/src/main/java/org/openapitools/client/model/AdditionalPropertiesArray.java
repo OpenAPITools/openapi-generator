@@ -54,7 +54,7 @@ public class AdditionalPropertiesArray {
   @SerializedName(SERIALIZED_NAME_NAME)
   private String name;
 
-  public AdditionalPropertiesArray() { 
+  public AdditionalPropertiesArray() {
   }
 
   public AdditionalPropertiesArray name(String name) {

@@ -124,7 +124,7 @@ public class Order {
   @SerializedName(SERIALIZED_NAME_COMPLETE)
   private Boolean complete = false;
 
-  public Order() { 
+  public Order() {
   }
 
   public Order id(Long id) {

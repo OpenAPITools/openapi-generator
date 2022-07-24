@@ -82,7 +82,7 @@ public class User {
   @SerializedName(SERIALIZED_NAME_USER_STATUS)
   private Integer userStatus;
 
-  public User() { 
+  public User() {
   }
 
   public User id(Long id) {

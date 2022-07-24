@@ -54,7 +54,7 @@ public class Banana {
   @SerializedName(SERIALIZED_NAME_LENGTH_CM)
   private BigDecimal lengthCm;
 
-  public Banana() { 
+  public Banana() {
   }
 
   public Banana lengthCm(BigDecimal lengthCm) {

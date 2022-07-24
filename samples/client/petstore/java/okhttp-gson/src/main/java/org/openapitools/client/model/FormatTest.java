@@ -118,7 +118,7 @@ public class FormatTest {
   @SerializedName(SERIALIZED_NAME_PATTERN_WITH_DIGITS_AND_DELIMITER)
   private String patternWithDigitsAndDelimiter;
 
-  public FormatTest() { 
+  public FormatTest() {
   }
 
   public FormatTest integer(Integer integer) {

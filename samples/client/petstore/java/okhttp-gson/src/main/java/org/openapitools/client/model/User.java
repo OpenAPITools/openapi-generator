@@ -98,7 +98,7 @@ public class User {
   @SerializedName(SERIALIZED_NAME_ANY_TYPE_PROP_NULLABLE)
   private Object anyTypePropNullable = null;
 
-  public User() { 
+  public User() {
   }
 
   public User id(Long id) {

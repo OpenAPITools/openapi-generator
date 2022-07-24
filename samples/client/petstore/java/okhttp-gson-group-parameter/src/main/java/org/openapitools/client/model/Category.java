@@ -58,7 +58,7 @@ public class Category {
   @SerializedName(SERIALIZED_NAME_NAME)
   private String name;
 
-  public Category() { 
+  public Category() {
   }
 
   public Category id(Long id) {

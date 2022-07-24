@@ -53,7 +53,7 @@ public class DanishPig {
   @SerializedName(SERIALIZED_NAME_CLASS_NAME)
   private String className;
 
-  public DanishPig() { 
+  public DanishPig() {
   }
 
   public DanishPig className(String className) {

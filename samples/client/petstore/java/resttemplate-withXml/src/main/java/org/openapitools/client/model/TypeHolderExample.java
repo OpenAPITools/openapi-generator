@@ -75,7 +75,7 @@ public class TypeHolderExample {
   @XmlElement(name = "arrayItem")
   private List<Integer> arrayItem = new ArrayList<>();
 
-  public TypeHolderExample() { 
+  public TypeHolderExample() {
   }
 
   public TypeHolderExample stringItem(String stringItem) {

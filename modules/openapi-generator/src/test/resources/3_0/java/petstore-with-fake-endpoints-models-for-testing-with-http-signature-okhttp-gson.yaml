@@ -2205,3 +2205,17 @@ components:
                 properties:
                   color:
                     type: string
+    EnumStringDiscriminator:
+      type: object
+      description: An object to test discriminator of enum string
+      discriminator:
+        propertyName: enum_str_type
+      required:
+        - enum_str_type
+      properties:
+        enum_str_type:
+          description: enum string type
+          type: string
+          enum:
+            - type_a
+            - type_b

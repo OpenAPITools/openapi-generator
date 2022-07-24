@@ -51,7 +51,7 @@ public class Model200Response {
   @XmlElement(name = "class")
   private String propertyClass;
 
-  public Model200Response() { 
+  public Model200Response() {
   }
 
   public Model200Response name(Integer name) {

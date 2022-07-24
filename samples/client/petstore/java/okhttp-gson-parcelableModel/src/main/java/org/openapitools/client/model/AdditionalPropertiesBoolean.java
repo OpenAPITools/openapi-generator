@@ -55,7 +55,7 @@ public class AdditionalPropertiesBoolean implements Parcelable {
   @SerializedName(SERIALIZED_NAME_NAME)
   private String name;
 
-  public AdditionalPropertiesBoolean() { 
+  public AdditionalPropertiesBoolean() {
   }
 
   public AdditionalPropertiesBoolean name(String name) {

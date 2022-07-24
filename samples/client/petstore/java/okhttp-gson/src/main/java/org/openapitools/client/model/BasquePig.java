@@ -53,7 +53,7 @@ public class BasquePig {
   @SerializedName(SERIALIZED_NAME_CLASS_NAME)
   private String className;
 
-  public BasquePig() { 
+  public BasquePig() {
   }
 
   public BasquePig className(String className) {

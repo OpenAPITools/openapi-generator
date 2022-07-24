@@ -55,7 +55,7 @@ public class DeprecatedObject {
   @SerializedName(SERIALIZED_NAME_NAME)
   private String name;
 
-  public DeprecatedObject() { 
+  public DeprecatedObject() {
   }
 
   public DeprecatedObject name(String name) {

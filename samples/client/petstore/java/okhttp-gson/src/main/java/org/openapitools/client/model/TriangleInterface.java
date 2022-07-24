@@ -53,7 +53,7 @@ public class TriangleInterface {
   @SerializedName(SERIALIZED_NAME_TRIANGLE_TYPE)
   private String triangleType;
 
-  public TriangleInterface() { 
+  public TriangleInterface() {
   }
 
   public TriangleInterface triangleType(String triangleType) {

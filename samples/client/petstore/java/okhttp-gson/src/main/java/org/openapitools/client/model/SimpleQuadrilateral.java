@@ -57,7 +57,7 @@ public class SimpleQuadrilateral {
   @SerializedName(SERIALIZED_NAME_QUADRILATERAL_TYPE)
   private String quadrilateralType;
 
-  public SimpleQuadrilateral() { 
+  public SimpleQuadrilateral() {
   }
 
   public SimpleQuadrilateral shapeType(String shapeType) {
