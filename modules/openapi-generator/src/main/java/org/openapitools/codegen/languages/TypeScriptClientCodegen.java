@@ -887,7 +887,7 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
             inner = ((ArraySchema) p).getItems();
             return this.getSchemaType(p) + "<" + this.getTypeDeclaration(unaliasSchema(inner)) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
-            inner = (Schema) p.getAdditionalProperties();
+            inner = getSchemaAdditionalProperties(p);
             return "{ [key: string]: " + this.getTypeDeclaration(unaliasSchema(inner)) + "; }";
         } else if (ModelUtils.isFileSchema(p)) {
             return "HttpFile";
