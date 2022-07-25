@@ -101,6 +101,12 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#vendorExtens
   {{/isMap}}
   {{/vars}}
 
+  {{#generateBuilders}}public {{classname}}({{#vars}}{{{datatypeWithEnum}}} {{name}}{{^-last}}, {{/-last}}{{/vars}}) {
+    {{#vars}}
+    this.{{name}} = {{name}};
+    {{/vars}}
+  }{{/generateBuilders}}
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
