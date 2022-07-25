@@ -337,11 +337,12 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
 
         final String configDir = "Resources" + File.separator + "config";
         final String dependencyInjectionDir = "DependencyInjection";
+        final String compilerDir = dependencyInjectionDir + File.separator + "Compiler";
 
         supportingFiles.add(new SupportingFile("Controller.mustache", toSrcPath(controllerPackage, srcBasePath), "Controller.php"));
-        supportingFiles.add(new SupportingFile("Bundle.mustache", "", bundleClassName + ".php"));
-        supportingFiles.add(new SupportingFile("Extension.mustache", dependencyInjectionDir, bundleExtensionName + ".php"));
-        supportingFiles.add(new SupportingFile("ApiPass.mustache", dependencyInjectionDir + File.separator + "Compiler", bundleName + "ApiPass.php"));
+        supportingFiles.add(new SupportingFile("Bundle.mustache", toSrcPath("", srcBasePath), bundleClassName + ".php"));
+        supportingFiles.add(new SupportingFile("Extension.mustache", toSrcPath(dependencyInjectionDir, srcBasePath), bundleExtensionName + ".php"));
+        supportingFiles.add(new SupportingFile("ApiPass.mustache", toSrcPath(compilerDir, srcBasePath), bundleName + "ApiPass.php"));
         supportingFiles.add(new SupportingFile("ApiServer.mustache", toSrcPath(apiPackage, srcBasePath), "ApiServer.php"));
 
         // Serialization components
