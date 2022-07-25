@@ -183,6 +183,7 @@ class FakeClassnameTags123Api
             }
 
             switch($statusCode) {
+            
                 case 200:
                     if ('\OpenAPI\Client\Model\Client' === '\SplFileObject') {
                         $content = $response->getBody(); //stream goes to serializer
@@ -198,6 +199,7 @@ class FakeClassnameTags123Api
                         $response->getStatusCode(),
                         $response->getHeaders()
                     ];
+            
             }
 
             $returnType = '\OpenAPI\Client\Model\Client';
@@ -218,6 +220,7 @@ class FakeClassnameTags123Api
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
+            
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
@@ -226,6 +229,7 @@ class FakeClassnameTags123Api
                     );
                     $e->setResponseObject($data);
                     break;
+            
             }
             throw $e;
         }

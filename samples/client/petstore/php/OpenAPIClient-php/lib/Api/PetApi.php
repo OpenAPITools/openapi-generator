@@ -193,6 +193,8 @@ class PetApi
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
+            
+            
             }
             throw $e;
         }
@@ -441,6 +443,8 @@ class PetApi
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
+            
+            
             }
             throw $e;
         }
@@ -676,6 +680,7 @@ class PetApi
             }
 
             switch($statusCode) {
+            
                 case 200:
                     if ('\OpenAPI\Client\Model\Pet[]' === '\SplFileObject') {
                         $content = $response->getBody(); //stream goes to serializer
@@ -691,6 +696,8 @@ class PetApi
                         $response->getStatusCode(),
                         $response->getHeaders()
                     ];
+            
+            
             }
 
             $returnType = '\OpenAPI\Client\Model\Pet[]';
@@ -711,6 +718,7 @@ class PetApi
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
+            
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
@@ -719,6 +727,8 @@ class PetApi
                     );
                     $e->setResponseObject($data);
                     break;
+            
+            
             }
             throw $e;
         }
@@ -963,6 +973,7 @@ class PetApi
             }
 
             switch($statusCode) {
+            
                 case 200:
                     if ('\OpenAPI\Client\Model\Pet[]' === '\SplFileObject') {
                         $content = $response->getBody(); //stream goes to serializer
@@ -978,6 +989,8 @@ class PetApi
                         $response->getStatusCode(),
                         $response->getHeaders()
                     ];
+            
+            
             }
 
             $returnType = '\OpenAPI\Client\Model\Pet[]';
@@ -998,6 +1011,7 @@ class PetApi
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
+            
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
@@ -1006,6 +1020,8 @@ class PetApi
                     );
                     $e->setResponseObject($data);
                     break;
+            
+            
             }
             throw $e;
         }
@@ -1252,6 +1268,7 @@ class PetApi
             }
 
             switch($statusCode) {
+            
                 case 200:
                     if ('\OpenAPI\Client\Model\Pet' === '\SplFileObject') {
                         $content = $response->getBody(); //stream goes to serializer
@@ -1267,6 +1284,9 @@ class PetApi
                         $response->getStatusCode(),
                         $response->getHeaders()
                     ];
+            
+            
+            
             }
 
             $returnType = '\OpenAPI\Client\Model\Pet';
@@ -1287,6 +1307,7 @@ class PetApi
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
+            
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
@@ -1295,6 +1316,9 @@ class PetApi
                     );
                     $e->setResponseObject($data);
                     break;
+            
+            
+            
             }
             throw $e;
         }
@@ -1547,6 +1571,10 @@ class PetApi
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
+            
+            
+            
+            
             }
             throw $e;
         }
@@ -1797,6 +1825,8 @@ class PetApi
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
+            
+            
             }
             throw $e;
         }
@@ -2043,6 +2073,7 @@ class PetApi
             }
 
             switch($statusCode) {
+            
                 case 200:
                     if ('\OpenAPI\Client\Model\ApiResponse' === '\SplFileObject') {
                         $content = $response->getBody(); //stream goes to serializer
@@ -2058,6 +2089,7 @@ class PetApi
                         $response->getStatusCode(),
                         $response->getHeaders()
                     ];
+            
             }
 
             $returnType = '\OpenAPI\Client\Model\ApiResponse';
@@ -2078,6 +2110,7 @@ class PetApi
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
+            
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
@@ -2086,6 +2119,7 @@ class PetApi
                     );
                     $e->setResponseObject($data);
                     break;
+            
             }
             throw $e;
         }
@@ -2353,6 +2387,7 @@ class PetApi
             }
 
             switch($statusCode) {
+            
                 case 200:
                     if ('\OpenAPI\Client\Model\ApiResponse' === '\SplFileObject') {
                         $content = $response->getBody(); //stream goes to serializer
@@ -2368,6 +2403,7 @@ class PetApi
                         $response->getStatusCode(),
                         $response->getHeaders()
                     ];
+            
             }
 
             $returnType = '\OpenAPI\Client\Model\ApiResponse';
@@ -2388,6 +2424,7 @@ class PetApi
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
+            
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
@@ -2396,6 +2433,7 @@ class PetApi
                     );
                     $e->setResponseObject($data);
                     break;
+            
             }
             throw $e;
         }
