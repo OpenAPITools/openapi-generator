@@ -10,24 +10,16 @@
 """
 
 import unittest
-from unittest.mock import patch
-
-import urllib3
 
 import petstore_api
 from petstore_api.api.pet_api import PetApi  # noqa: E501
-from petstore_api import configuration, schemas, api_client
-
-from . import ApiTestMixin
 
 
-class TestPetApi(ApiTestMixin, unittest.TestCase):
+class TestPetApi(unittest.TestCase):
     """PetApi unit test stubs"""
-    _configuration = configuration.Configuration()
 
     def setUp(self):
-        used_api_client = api_client.ApiClient(configuration=self._configuration)
-        self.api = PetApi(api_client=used_api_client)  # noqa: E501
+        self.api = PetApi()  # noqa: E501
 
     def tearDown(self):
         pass
@@ -37,24 +29,13 @@ class TestPetApi(ApiTestMixin, unittest.TestCase):
 
         Add a new pet to the store  # noqa: E501
         """
-        from petstore_api.api.pet_api_endpoints import add_pet as endpoint_module
-        response_status = 200
-        response_body = ''
-        content_type = 'application/json'
-
-
-        content_type = 'application/xml'
-
-
+        pass
 
     def test_delete_pet(self):
         """Test case for delete_pet
 
         Deletes a pet  # noqa: E501
         """
-        from petstore_api.api.pet_api_endpoints import delete_pet as endpoint_module
-        response_status = 400
-        response_body = ''
         pass
 
     def test_find_pets_by_status(self):
@@ -62,16 +43,6 @@ class TestPetApi(ApiTestMixin, unittest.TestCase):
 
         Finds Pets by status  # noqa: E501
         """
-        from petstore_api.api.pet_api_endpoints import find_pets_by_status as endpoint_module
-        response_status = 200
-        accept_content_type = 'application/xml'
-
-
-
-        accept_content_type = 'application/json'
-
-
-
         pass
 
     def test_find_pets_by_tags(self):
@@ -79,16 +50,6 @@ class TestPetApi(ApiTestMixin, unittest.TestCase):
 
         Finds Pets by tags  # noqa: E501
         """
-        from petstore_api.api.pet_api_endpoints import find_pets_by_tags as endpoint_module
-        response_status = 200
-        accept_content_type = 'application/xml'
-
-
-
-        accept_content_type = 'application/json'
-
-
-
         pass
 
     def test_get_pet_by_id(self):
@@ -96,16 +57,6 @@ class TestPetApi(ApiTestMixin, unittest.TestCase):
 
         Find pet by ID  # noqa: E501
         """
-        from petstore_api.api.pet_api_endpoints import get_pet_by_id as endpoint_module
-        response_status = 200
-        accept_content_type = 'application/xml'
-
-
-
-        accept_content_type = 'application/json'
-
-
-
         pass
 
     def test_update_pet(self):
@@ -113,48 +64,28 @@ class TestPetApi(ApiTestMixin, unittest.TestCase):
 
         Update an existing pet  # noqa: E501
         """
-        from petstore_api.api.pet_api_endpoints import update_pet as endpoint_module
-        response_status = 400
-        response_body = ''
-        content_type = 'application/json'
-
-
-        content_type = 'application/xml'
-
-
+        pass
 
     def test_update_pet_with_form(self):
         """Test case for update_pet_with_form
 
         Updates a pet in the store with form data  # noqa: E501
         """
-        from petstore_api.api.pet_api_endpoints import update_pet_with_form as endpoint_module
-        response_status = 405
-        response_body = ''
+        pass
 
     def test_upload_file_with_required_file(self):
         """Test case for upload_file_with_required_file
 
         uploads an image (required)  # noqa: E501
         """
-        from petstore_api.api.pet_api_endpoints import upload_file_with_required_file as endpoint_module
-        response_status = 200
-        accept_content_type = 'application/json'
-
-
-
+        pass
 
     def test_upload_image(self):
         """Test case for upload_image
 
         uploads an image  # noqa: E501
         """
-        from petstore_api.api.pet_api_endpoints import upload_image as endpoint_module
-        response_status = 200
-        accept_content_type = 'application/json'
-
-
-
+        pass
 
 
 if __name__ == '__main__':

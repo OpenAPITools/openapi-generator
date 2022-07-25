@@ -10,24 +10,16 @@
 """
 
 import unittest
-from unittest.mock import patch
-
-import urllib3
 
 import petstore_api
 from petstore_api.api.store_api import StoreApi  # noqa: E501
-from petstore_api import configuration, schemas, api_client
-
-from . import ApiTestMixin
 
 
-class TestStoreApi(ApiTestMixin, unittest.TestCase):
+class TestStoreApi(unittest.TestCase):
     """StoreApi unit test stubs"""
-    _configuration = configuration.Configuration()
 
     def setUp(self):
-        used_api_client = api_client.ApiClient(configuration=self._configuration)
-        self.api = StoreApi(api_client=used_api_client)  # noqa: E501
+        self.api = StoreApi()  # noqa: E501
 
     def tearDown(self):
         pass
@@ -37,9 +29,6 @@ class TestStoreApi(ApiTestMixin, unittest.TestCase):
 
         Delete purchase order by ID  # noqa: E501
         """
-        from petstore_api.api.store_api_endpoints import delete_order as endpoint_module
-        response_status = 400
-        response_body = ''
         pass
 
     def test_get_inventory(self):
@@ -47,12 +36,6 @@ class TestStoreApi(ApiTestMixin, unittest.TestCase):
 
         Returns pet inventories by status  # noqa: E501
         """
-        from petstore_api.api.store_api_endpoints import get_inventory as endpoint_module
-        response_status = 200
-        accept_content_type = 'application/json'
-
-
-
         pass
 
     def test_get_order_by_id(self):
@@ -60,16 +43,6 @@ class TestStoreApi(ApiTestMixin, unittest.TestCase):
 
         Find purchase order by ID  # noqa: E501
         """
-        from petstore_api.api.store_api_endpoints import get_order_by_id as endpoint_module
-        response_status = 200
-        accept_content_type = 'application/xml'
-
-
-
-        accept_content_type = 'application/json'
-
-
-
         pass
 
     def test_place_order(self):
@@ -77,19 +50,7 @@ class TestStoreApi(ApiTestMixin, unittest.TestCase):
 
         Place an order for a pet  # noqa: E501
         """
-        from petstore_api.api.store_api_endpoints import place_order as endpoint_module
-        response_status = 200
-        accept_content_type = 'application/xml'
-
-
-
-        accept_content_type = 'application/json'
-
-
-
-        content_type = 'application/json'
-
-
+        pass
 
 
 if __name__ == '__main__':
