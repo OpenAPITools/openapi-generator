@@ -142,7 +142,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         importMapping.clear();
 
         modelPackage = "model";
-        apiPackage = "api";
+        apiPackage = "path";
         outputFolder = "generated-code" + File.separatorChar + "python";
 
         embeddedTemplateDir = templateDir = "python-experimental";
@@ -417,8 +417,8 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         }
     }
 
-    public String endpointFilename(String templateName, String tag, String operationId) {
-        return apiFileFolder() + File.separator + toApiFilename(tag) + "_endpoints" + File.separator + operationId + ".py";
+    public String endpointFilename(String pathModuleName, String method) {
+        return apiFileFolder() + File.separator + pathModuleName + File.separator + method + ".py";
     }
 
     protected File processTemplateToFile(Map<String, Object> templateData, String templateName, String outputFilename, boolean shouldGenerate, String skippedByOption) throws IOException {
@@ -453,35 +453,38 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         }
         OperationMap operations = objs.getOperations();
         List<CodegenOperation> codegenOperations = operations.getOperation();
-        Set<String> tagsNeedingInitFiles = new HashSet<>();
+        HashMap<String, String> pathModuleToPath = new HashMap<>();
         for (CodegenOperation co: codegenOperations) {
-            for (Tag tag: co.tags) {
-                String tagName = tag.getName();
-                String pythonTagName = toVarName(tagName);
-                Map<String, Object> operationMap = new HashMap<>();
-                operationMap.put("operation", co);
-                operationMap.put("imports", co.imports);
-                operationMap.put("packageName", packageName);
+            String path = co.path;
+            String pathModuleName = toVarName(path);
+            if (!pathModuleToPath.containsKey(pathModuleName)) {
+                pathModuleToPath.put(pathModuleName, path);
+            }
+            co.nickname = pathModuleName;
+            Map<String, Object> operationMap = new HashMap<>();
+            operationMap.put("operation", co);
+            operationMap.put("imports", co.imports);
+            operationMap.put("packageName", packageName);
 
-                String templateName = "endpoint.handlebars";
-                String filename = endpointFilename(templateName, pythonTagName, co.operationId);
-                tagsNeedingInitFiles.add(pythonTagName);
-                try {
-                    processTemplateToFile(operationMap, templateName, filename, true, CodegenConstants.APIS);
-                } catch (IOException e) {
-                    LOGGER.error("Error when writing template file {}", e.toString());
-                }
+            String templateName = "endpoint.handlebars";
+            String filename = endpointFilename(pathModuleName, co.httpMethod);
+            try {
+                processTemplateToFile(operationMap, templateName, filename, true, CodegenConstants.APIS);
+            } catch (IOException e) {
+                LOGGER.error("Error when writing template file {}", e.toString());
             }
         }
-        String templateName = "__init__api_endpoints.handlebars";
-        for (String tagNeedingInitFiles: tagsNeedingInitFiles) {
+        String templateName = "__init__path_x.handlebars";
+        for (Map.Entry<String, String> entry: pathModuleToPath.entrySet()) {
+            String pathModule = entry.getKey();
+            String path = entry.getValue();
             try {
                 Map<String, Object> operationMap = new HashMap<>();
-                String apiModuleName = toApiFilename(tagNeedingInitFiles);
                 operationMap.put("packageName", packageName);
-                operationMap.put("apiModuleName", apiModuleName);
-                operationMap.put("classname", toApiName(tagNeedingInitFiles));
-                String filename = endpointFilename(templateName, tagNeedingInitFiles, "__init__");
+                operationMap.put("apiModuleName", pathModule);
+                operationMap.put("classname", "Api");
+                operationMap.put("path", path);
+                String filename = endpointFilename(pathModule, "__init__");
                 processTemplateToFile(operationMap, templateName, filename, true, CodegenConstants.APIS);
             } catch (IOException e) {
                 LOGGER.error("Error when writing endpoint __init__ file {}", e.toString());
@@ -2393,6 +2396,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
                                           Operation operation,
                                           List<Server> servers) {
         CodegenOperation co = super.fromOperation(path, httpMethod, operation, servers);
+        co.httpMethod = httpMethod.toLowerCase(Locale.ROOT);
         if (co.bodyParam == null) {
             for (CodegenParameter cp: co.allParams) {
                 if (cp.isBodyParam) {

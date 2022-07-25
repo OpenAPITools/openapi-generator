@@ -15,7 +15,7 @@ from unittest.mock import patch
 import urllib3
 
 import unit_test_api
-from unit_test_api.api.response_content_content_type_schema_api import ResponseContentContentTypeSchemaApi  # noqa: E501
+from unit_test_api.path.response_content_content_type_schema_api import ResponseContentContentTypeSchemaApi  # noqa: E501
 from unit_test_api import configuration, schemas, api_client
 
 from . import ApiTestMixin
@@ -36,7 +36,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
         """Test case for post_additionalproperties_allows_a_schema_which_should_validate_response_body_for_content_types
 
         """
-        from unit_test_api.api.response_content_content_type_schema_api_endpoints import post_additionalproperties_allows_a_schema_which_should_validate_response_body_for_content_types as endpoint_module
+        from unit_test_api.path.response_content_content_type_schema_api_endpoints import post_additionalproperties_allows_a_schema_which_should_validate_response_body_for_content_types as endpoint_module
         response_status = 200
         accept_content_type = 'application/json'
 
@@ -60,7 +60,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postAdditionalpropertiesAllowsASchemaWhichShouldValidateResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -96,7 +96,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postAdditionalpropertiesAllowsASchemaWhichShouldValidateResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -124,7 +124,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postAdditionalpropertiesAllowsASchemaWhichShouldValidateResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -143,7 +143,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
         """Test case for post_additionalproperties_are_allowed_by_default_response_body_for_content_types
 
         """
-        from unit_test_api.api.response_content_content_type_schema_api_endpoints import post_additionalproperties_are_allowed_by_default_response_body_for_content_types as endpoint_module
+        from unit_test_api.path.response_content_content_type_schema_api_endpoints import post_additionalproperties_are_allowed_by_default_response_body_for_content_types as endpoint_module
         response_status = 200
         accept_content_type = 'application/json'
 
@@ -171,7 +171,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postAdditionalpropertiesAreAllowedByDefaultResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -190,7 +190,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
         """Test case for post_additionalproperties_can_exist_by_itself_response_body_for_content_types
 
         """
-        from unit_test_api.api.response_content_content_type_schema_api_endpoints import post_additionalproperties_can_exist_by_itself_response_body_for_content_types as endpoint_module
+        from unit_test_api.path.response_content_content_type_schema_api_endpoints import post_additionalproperties_can_exist_by_itself_response_body_for_content_types as endpoint_module
         response_status = 200
         accept_content_type = 'application/json'
 
@@ -215,7 +215,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postAdditionalpropertiesCanExistByItselfResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -239,7 +239,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postAdditionalpropertiesCanExistByItselfResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -258,7 +258,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
         """Test case for post_additionalproperties_should_not_look_in_applicators_response_body_for_content_types
 
         """
-        from unit_test_api.api.response_content_content_type_schema_api_endpoints import post_additionalproperties_should_not_look_in_applicators_response_body_for_content_types as endpoint_module
+        from unit_test_api.path.response_content_content_type_schema_api_endpoints import post_additionalproperties_should_not_look_in_applicators_response_body_for_content_types as endpoint_module
         response_status = 200
         accept_content_type = 'application/json'
 
@@ -285,7 +285,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postAdditionalpropertiesShouldNotLookInApplicatorsResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -311,7 +311,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postAdditionalpropertiesShouldNotLookInApplicatorsResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -330,7 +330,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
         """Test case for post_allof_combined_with_anyof_oneof_response_body_for_content_types
 
         """
-        from unit_test_api.api.response_content_content_type_schema_api_endpoints import post_allof_combined_with_anyof_oneof_response_body_for_content_types as endpoint_module
+        from unit_test_api.path.response_content_content_type_schema_api_endpoints import post_allof_combined_with_anyof_oneof_response_body_for_content_types as endpoint_module
         response_status = 200
         accept_content_type = 'application/json'
 
@@ -352,7 +352,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postAllofCombinedWithAnyofOneofResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -374,7 +374,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postAllofCombinedWithAnyofOneofResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -396,7 +396,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postAllofCombinedWithAnyofOneofResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -418,7 +418,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postAllofCombinedWithAnyofOneofResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -439,7 +439,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postAllofCombinedWithAnyofOneofResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -468,7 +468,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postAllofCombinedWithAnyofOneofResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -490,7 +490,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postAllofCombinedWithAnyofOneofResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -512,7 +512,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postAllofCombinedWithAnyofOneofResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -524,7 +524,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
         """Test case for post_allof_response_body_for_content_types
 
         """
-        from unit_test_api.api.response_content_content_type_schema_api_endpoints import post_allof_response_body_for_content_types as endpoint_module
+        from unit_test_api.path.response_content_content_type_schema_api_endpoints import post_allof_response_body_for_content_types as endpoint_module
         response_status = 200
         accept_content_type = 'application/json'
 
@@ -550,7 +550,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postAllofResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -582,7 +582,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postAllofResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -607,7 +607,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postAllofResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -634,7 +634,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postAllofResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -646,7 +646,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
         """Test case for post_allof_simple_types_response_body_for_content_types
 
         """
-        from unit_test_api.api.response_content_content_type_schema_api_endpoints import post_allof_simple_types_response_body_for_content_types as endpoint_module
+        from unit_test_api.path.response_content_content_type_schema_api_endpoints import post_allof_simple_types_response_body_for_content_types as endpoint_module
         response_status = 200
         accept_content_type = 'application/json'
 
@@ -667,7 +667,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postAllofSimpleTypesResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -696,7 +696,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postAllofSimpleTypesResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -708,7 +708,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
         """Test case for post_allof_with_base_schema_response_body_for_content_types
 
         """
-        from unit_test_api.api.response_content_content_type_schema_api_endpoints import post_allof_with_base_schema_response_body_for_content_types as endpoint_module
+        from unit_test_api.path.response_content_content_type_schema_api_endpoints import post_allof_with_base_schema_response_body_for_content_types as endpoint_module
         response_status = 200
         accept_content_type = 'application/json'
 
@@ -736,7 +736,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postAllofWithBaseSchemaResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -770,7 +770,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postAllofWithBaseSchemaResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -797,7 +797,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postAllofWithBaseSchemaResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -822,7 +822,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postAllofWithBaseSchemaResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -849,7 +849,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postAllofWithBaseSchemaResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -861,7 +861,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
         """Test case for post_allof_with_one_empty_schema_response_body_for_content_types
 
         """
-        from unit_test_api.api.response_content_content_type_schema_api_endpoints import post_allof_with_one_empty_schema_response_body_for_content_types as endpoint_module
+        from unit_test_api.path.response_content_content_type_schema_api_endpoints import post_allof_with_one_empty_schema_response_body_for_content_types as endpoint_module
         response_status = 200
         accept_content_type = 'application/json'
 
@@ -882,7 +882,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postAllofWithOneEmptySchemaResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -901,7 +901,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
         """Test case for post_allof_with_the_first_empty_schema_response_body_for_content_types
 
         """
-        from unit_test_api.api.response_content_content_type_schema_api_endpoints import post_allof_with_the_first_empty_schema_response_body_for_content_types as endpoint_module
+        from unit_test_api.path.response_content_content_type_schema_api_endpoints import post_allof_with_the_first_empty_schema_response_body_for_content_types as endpoint_module
         response_status = 200
         accept_content_type = 'application/json'
 
@@ -923,7 +923,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postAllofWithTheFirstEmptySchemaResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -944,7 +944,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postAllofWithTheFirstEmptySchemaResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -963,7 +963,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
         """Test case for post_allof_with_the_last_empty_schema_response_body_for_content_types
 
         """
-        from unit_test_api.api.response_content_content_type_schema_api_endpoints import post_allof_with_the_last_empty_schema_response_body_for_content_types as endpoint_module
+        from unit_test_api.path.response_content_content_type_schema_api_endpoints import post_allof_with_the_last_empty_schema_response_body_for_content_types as endpoint_module
         response_status = 200
         accept_content_type = 'application/json'
 
@@ -985,7 +985,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postAllofWithTheLastEmptySchemaResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -1006,7 +1006,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postAllofWithTheLastEmptySchemaResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -1025,7 +1025,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
         """Test case for post_allof_with_two_empty_schemas_response_body_for_content_types
 
         """
-        from unit_test_api.api.response_content_content_type_schema_api_endpoints import post_allof_with_two_empty_schemas_response_body_for_content_types as endpoint_module
+        from unit_test_api.path.response_content_content_type_schema_api_endpoints import post_allof_with_two_empty_schemas_response_body_for_content_types as endpoint_module
         response_status = 200
         accept_content_type = 'application/json'
 
@@ -1046,7 +1046,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postAllofWithTwoEmptySchemasResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -1065,7 +1065,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
         """Test case for post_anyof_complex_types_response_body_for_content_types
 
         """
-        from unit_test_api.api.response_content_content_type_schema_api_endpoints import post_anyof_complex_types_response_body_for_content_types as endpoint_module
+        from unit_test_api.path.response_content_content_type_schema_api_endpoints import post_anyof_complex_types_response_body_for_content_types as endpoint_module
         response_status = 200
         accept_content_type = 'application/json'
 
@@ -1089,7 +1089,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postAnyofComplexTypesResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -1123,7 +1123,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postAnyofComplexTypesResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -1149,7 +1149,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postAnyofComplexTypesResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -1180,7 +1180,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postAnyofComplexTypesResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -1199,7 +1199,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
         """Test case for post_anyof_response_body_for_content_types
 
         """
-        from unit_test_api.api.response_content_content_type_schema_api_endpoints import post_anyof_response_body_for_content_types as endpoint_module
+        from unit_test_api.path.response_content_content_type_schema_api_endpoints import post_anyof_response_body_for_content_types as endpoint_module
         response_status = 200
         accept_content_type = 'application/json'
 
@@ -1220,7 +1220,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postAnyofResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -1249,7 +1249,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postAnyofResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -1270,7 +1270,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postAnyofResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -1298,7 +1298,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postAnyofResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -1317,7 +1317,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
         """Test case for post_anyof_with_base_schema_response_body_for_content_types
 
         """
-        from unit_test_api.api.response_content_content_type_schema_api_endpoints import post_anyof_with_base_schema_response_body_for_content_types as endpoint_module
+        from unit_test_api.path.response_content_content_type_schema_api_endpoints import post_anyof_with_base_schema_response_body_for_content_types as endpoint_module
         response_status = 200
         accept_content_type = 'application/json'
 
@@ -1338,7 +1338,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postAnyofWithBaseSchemaResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -1367,7 +1367,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postAnyofWithBaseSchemaResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -1389,7 +1389,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postAnyofWithBaseSchemaResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -1401,7 +1401,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
         """Test case for post_anyof_with_one_empty_schema_response_body_for_content_types
 
         """
-        from unit_test_api.api.response_content_content_type_schema_api_endpoints import post_anyof_with_one_empty_schema_response_body_for_content_types as endpoint_module
+        from unit_test_api.path.response_content_content_type_schema_api_endpoints import post_anyof_with_one_empty_schema_response_body_for_content_types as endpoint_module
         response_status = 200
         accept_content_type = 'application/json'
 
@@ -1422,7 +1422,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postAnyofWithOneEmptySchemaResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -1450,7 +1450,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postAnyofWithOneEmptySchemaResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -1469,7 +1469,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
         """Test case for post_array_type_matches_arrays_response_body_for_content_types
 
         """
-        from unit_test_api.api.response_content_content_type_schema_api_endpoints import post_array_type_matches_arrays_response_body_for_content_types as endpoint_module
+        from unit_test_api.path.response_content_content_type_schema_api_endpoints import post_array_type_matches_arrays_response_body_for_content_types as endpoint_module
         response_status = 200
         accept_content_type = 'application/json'
 
@@ -1491,7 +1491,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postArrayTypeMatchesArraysResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -1513,7 +1513,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postArrayTypeMatchesArraysResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -1535,7 +1535,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postArrayTypeMatchesArraysResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -1558,7 +1558,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postArrayTypeMatchesArraysResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -1580,7 +1580,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postArrayTypeMatchesArraysResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -1602,7 +1602,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postArrayTypeMatchesArraysResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -1631,7 +1631,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postArrayTypeMatchesArraysResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -1643,7 +1643,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
         """Test case for post_boolean_type_matches_booleans_response_body_for_content_types
 
         """
-        from unit_test_api.api.response_content_content_type_schema_api_endpoints import post_boolean_type_matches_booleans_response_body_for_content_types as endpoint_module
+        from unit_test_api.path.response_content_content_type_schema_api_endpoints import post_boolean_type_matches_booleans_response_body_for_content_types as endpoint_module
         response_status = 200
         accept_content_type = 'application/json'
 
@@ -1665,7 +1665,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postBooleanTypeMatchesBooleansResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -1687,7 +1687,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postBooleanTypeMatchesBooleansResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -1709,7 +1709,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postBooleanTypeMatchesBooleansResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -1731,7 +1731,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postBooleanTypeMatchesBooleansResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -1754,7 +1754,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postBooleanTypeMatchesBooleansResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -1776,7 +1776,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postBooleanTypeMatchesBooleansResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -1797,7 +1797,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postBooleanTypeMatchesBooleansResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -1826,7 +1826,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postBooleanTypeMatchesBooleansResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -1847,7 +1847,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postBooleanTypeMatchesBooleansResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -1877,7 +1877,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postBooleanTypeMatchesBooleansResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -1889,7 +1889,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
         """Test case for post_by_int_response_body_for_content_types
 
         """
-        from unit_test_api.api.response_content_content_type_schema_api_endpoints import post_by_int_response_body_for_content_types as endpoint_module
+        from unit_test_api.path.response_content_content_type_schema_api_endpoints import post_by_int_response_body_for_content_types as endpoint_module
         response_status = 200
         accept_content_type = 'application/json'
 
@@ -1911,7 +1911,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postByIntResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -1932,7 +1932,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postByIntResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -1960,7 +1960,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postByIntResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -1979,7 +1979,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
         """Test case for post_by_number_response_body_for_content_types
 
         """
-        from unit_test_api.api.response_content_content_type_schema_api_endpoints import post_by_number_response_body_for_content_types as endpoint_module
+        from unit_test_api.path.response_content_content_type_schema_api_endpoints import post_by_number_response_body_for_content_types as endpoint_module
         response_status = 200
         accept_content_type = 'application/json'
 
@@ -2000,7 +2000,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postByNumberResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -2029,7 +2029,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postByNumberResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -2050,7 +2050,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postByNumberResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -2069,7 +2069,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
         """Test case for post_by_small_number_response_body_for_content_types
 
         """
-        from unit_test_api.api.response_content_content_type_schema_api_endpoints import post_by_small_number_response_body_for_content_types as endpoint_module
+        from unit_test_api.path.response_content_content_type_schema_api_endpoints import post_by_small_number_response_body_for_content_types as endpoint_module
         response_status = 200
         accept_content_type = 'application/json'
 
@@ -2091,7 +2091,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postBySmallNumberResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -2112,7 +2112,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postBySmallNumberResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -2131,7 +2131,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
         """Test case for post_date_time_format_response_body_for_content_types
 
         """
-        from unit_test_api.api.response_content_content_type_schema_api_endpoints import post_date_time_format_response_body_for_content_types as endpoint_module
+        from unit_test_api.path.response_content_content_type_schema_api_endpoints import post_date_time_format_response_body_for_content_types as endpoint_module
         response_status = 200
         accept_content_type = 'application/json'
 
@@ -2153,7 +2153,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postDateTimeFormatResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -2181,7 +2181,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postDateTimeFormatResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -2209,7 +2209,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postDateTimeFormatResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -2237,7 +2237,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postDateTimeFormatResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -2266,7 +2266,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postDateTimeFormatResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -2294,7 +2294,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postDateTimeFormatResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -2313,7 +2313,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
         """Test case for post_email_format_response_body_for_content_types
 
         """
-        from unit_test_api.api.response_content_content_type_schema_api_endpoints import post_email_format_response_body_for_content_types as endpoint_module
+        from unit_test_api.path.response_content_content_type_schema_api_endpoints import post_email_format_response_body_for_content_types as endpoint_module
         response_status = 200
         accept_content_type = 'application/json'
 
@@ -2335,7 +2335,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postEmailFormatResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -2363,7 +2363,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postEmailFormatResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -2391,7 +2391,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postEmailFormatResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -2419,7 +2419,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postEmailFormatResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -2448,7 +2448,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postEmailFormatResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -2476,7 +2476,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postEmailFormatResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -2495,7 +2495,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
         """Test case for post_enum_with0_does_not_match_false_response_body_for_content_types
 
         """
-        from unit_test_api.api.response_content_content_type_schema_api_endpoints import post_enum_with0_does_not_match_false_response_body_for_content_types as endpoint_module
+        from unit_test_api.path.response_content_content_type_schema_api_endpoints import post_enum_with0_does_not_match_false_response_body_for_content_types as endpoint_module
         response_status = 200
         accept_content_type = 'application/json'
 
@@ -2516,7 +2516,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postEnumWith0DoesNotMatchFalseResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -2544,7 +2544,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postEnumWith0DoesNotMatchFalseResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -2573,7 +2573,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postEnumWith0DoesNotMatchFalseResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -2585,7 +2585,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
         """Test case for post_enum_with1_does_not_match_true_response_body_for_content_types
 
         """
-        from unit_test_api.api.response_content_content_type_schema_api_endpoints import post_enum_with1_does_not_match_true_response_body_for_content_types as endpoint_module
+        from unit_test_api.path.response_content_content_type_schema_api_endpoints import post_enum_with1_does_not_match_true_response_body_for_content_types as endpoint_module
         response_status = 200
         accept_content_type = 'application/json'
 
@@ -2607,7 +2607,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postEnumWith1DoesNotMatchTrueResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -2628,7 +2628,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postEnumWith1DoesNotMatchTrueResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -2656,7 +2656,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postEnumWith1DoesNotMatchTrueResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -2675,7 +2675,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
         """Test case for post_enum_with_escaped_characters_response_body_for_content_types
 
         """
-        from unit_test_api.api.response_content_content_type_schema_api_endpoints import post_enum_with_escaped_characters_response_body_for_content_types as endpoint_module
+        from unit_test_api.path.response_content_content_type_schema_api_endpoints import post_enum_with_escaped_characters_response_body_for_content_types as endpoint_module
         response_status = 200
         accept_content_type = 'application/json'
 
@@ -2696,7 +2696,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postEnumWithEscapedCharactersResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -2724,7 +2724,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postEnumWithEscapedCharactersResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -2753,7 +2753,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postEnumWithEscapedCharactersResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -2765,7 +2765,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
         """Test case for post_enum_with_false_does_not_match0_response_body_for_content_types
 
         """
-        from unit_test_api.api.response_content_content_type_schema_api_endpoints import post_enum_with_false_does_not_match0_response_body_for_content_types as endpoint_module
+        from unit_test_api.path.response_content_content_type_schema_api_endpoints import post_enum_with_false_does_not_match0_response_body_for_content_types as endpoint_module
         response_status = 200
         accept_content_type = 'application/json'
 
@@ -2786,7 +2786,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postEnumWithFalseDoesNotMatch0ResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -2815,7 +2815,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postEnumWithFalseDoesNotMatch0ResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -2837,7 +2837,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postEnumWithFalseDoesNotMatch0ResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -2849,7 +2849,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
         """Test case for post_enum_with_true_does_not_match1_response_body_for_content_types
 
         """
-        from unit_test_api.api.response_content_content_type_schema_api_endpoints import post_enum_with_true_does_not_match1_response_body_for_content_types as endpoint_module
+        from unit_test_api.path.response_content_content_type_schema_api_endpoints import post_enum_with_true_does_not_match1_response_body_for_content_types as endpoint_module
         response_status = 200
         accept_content_type = 'application/json'
 
@@ -2871,7 +2871,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postEnumWithTrueDoesNotMatch1ResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -2892,7 +2892,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postEnumWithTrueDoesNotMatch1ResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -2921,7 +2921,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postEnumWithTrueDoesNotMatch1ResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -2933,7 +2933,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
         """Test case for post_enums_in_properties_response_body_for_content_types
 
         """
-        from unit_test_api.api.response_content_content_type_schema_api_endpoints import post_enums_in_properties_response_body_for_content_types as endpoint_module
+        from unit_test_api.path.response_content_content_type_schema_api_endpoints import post_enums_in_properties_response_body_for_content_types as endpoint_module
         response_status = 200
         accept_content_type = 'application/json'
 
@@ -2957,7 +2957,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postEnumsInPropertiesResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -2991,7 +2991,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postEnumsInPropertiesResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -3017,7 +3017,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postEnumsInPropertiesResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -3051,7 +3051,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postEnumsInPropertiesResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -3074,7 +3074,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postEnumsInPropertiesResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -3099,7 +3099,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postEnumsInPropertiesResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -3111,7 +3111,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
         """Test case for post_forbidden_property_response_body_for_content_types
 
         """
-        from unit_test_api.api.response_content_content_type_schema_api_endpoints import post_forbidden_property_response_body_for_content_types as endpoint_module
+        from unit_test_api.path.response_content_content_type_schema_api_endpoints import post_forbidden_property_response_body_for_content_types as endpoint_module
         response_status = 200
         accept_content_type = 'application/json'
 
@@ -3138,7 +3138,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postForbiddenPropertyResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -3164,7 +3164,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postForbiddenPropertyResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -3183,7 +3183,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
         """Test case for post_hostname_format_response_body_for_content_types
 
         """
-        from unit_test_api.api.response_content_content_type_schema_api_endpoints import post_hostname_format_response_body_for_content_types as endpoint_module
+        from unit_test_api.path.response_content_content_type_schema_api_endpoints import post_hostname_format_response_body_for_content_types as endpoint_module
         response_status = 200
         accept_content_type = 'application/json'
 
@@ -3205,7 +3205,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postHostnameFormatResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -3233,7 +3233,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postHostnameFormatResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -3261,7 +3261,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postHostnameFormatResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -3289,7 +3289,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postHostnameFormatResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -3318,7 +3318,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postHostnameFormatResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -3346,7 +3346,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postHostnameFormatResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -3365,7 +3365,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
         """Test case for post_integer_type_matches_integers_response_body_for_content_types
 
         """
-        from unit_test_api.api.response_content_content_type_schema_api_endpoints import post_integer_type_matches_integers_response_body_for_content_types as endpoint_module
+        from unit_test_api.path.response_content_content_type_schema_api_endpoints import post_integer_type_matches_integers_response_body_for_content_types as endpoint_module
         response_status = 200
         accept_content_type = 'application/json'
 
@@ -3388,7 +3388,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postIntegerTypeMatchesIntegersResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -3410,7 +3410,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postIntegerTypeMatchesIntegersResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -3432,7 +3432,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postIntegerTypeMatchesIntegersResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -3453,7 +3453,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postIntegerTypeMatchesIntegersResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -3482,7 +3482,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postIntegerTypeMatchesIntegersResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -3504,7 +3504,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postIntegerTypeMatchesIntegersResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -3525,7 +3525,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postIntegerTypeMatchesIntegersResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -3554,7 +3554,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postIntegerTypeMatchesIntegersResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -3577,7 +3577,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postIntegerTypeMatchesIntegersResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -3589,7 +3589,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
         """Test case for post_invalid_instance_should_not_raise_error_when_float_division_inf_response_body_for_content_types
 
         """
-        from unit_test_api.api.response_content_content_type_schema_api_endpoints import post_invalid_instance_should_not_raise_error_when_float_division_inf_response_body_for_content_types as endpoint_module
+        from unit_test_api.path.response_content_content_type_schema_api_endpoints import post_invalid_instance_should_not_raise_error_when_float_division_inf_response_body_for_content_types as endpoint_module
         response_status = 200
         accept_content_type = 'application/json'
 
@@ -3611,7 +3611,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postInvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInfResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -3632,7 +3632,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postInvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInfResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -3651,7 +3651,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
         """Test case for post_invalid_string_value_for_default_response_body_for_content_types
 
         """
-        from unit_test_api.api.response_content_content_type_schema_api_endpoints import post_invalid_string_value_for_default_response_body_for_content_types as endpoint_module
+        from unit_test_api.path.response_content_content_type_schema_api_endpoints import post_invalid_string_value_for_default_response_body_for_content_types as endpoint_module
         response_status = 200
         accept_content_type = 'application/json'
 
@@ -3675,7 +3675,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postInvalidStringValueForDefaultResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -3704,7 +3704,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postInvalidStringValueForDefaultResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -3723,7 +3723,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
         """Test case for post_ipv4_format_response_body_for_content_types
 
         """
-        from unit_test_api.api.response_content_content_type_schema_api_endpoints import post_ipv4_format_response_body_for_content_types as endpoint_module
+        from unit_test_api.path.response_content_content_type_schema_api_endpoints import post_ipv4_format_response_body_for_content_types as endpoint_module
         response_status = 200
         accept_content_type = 'application/json'
 
@@ -3745,7 +3745,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postIpv4FormatResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -3773,7 +3773,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postIpv4FormatResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -3801,7 +3801,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postIpv4FormatResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -3829,7 +3829,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postIpv4FormatResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -3858,7 +3858,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postIpv4FormatResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -3886,7 +3886,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postIpv4FormatResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -3905,7 +3905,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
         """Test case for post_ipv6_format_response_body_for_content_types
 
         """
-        from unit_test_api.api.response_content_content_type_schema_api_endpoints import post_ipv6_format_response_body_for_content_types as endpoint_module
+        from unit_test_api.path.response_content_content_type_schema_api_endpoints import post_ipv6_format_response_body_for_content_types as endpoint_module
         response_status = 200
         accept_content_type = 'application/json'
 
@@ -3927,7 +3927,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postIpv6FormatResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -3955,7 +3955,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postIpv6FormatResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -3983,7 +3983,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postIpv6FormatResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -4011,7 +4011,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postIpv6FormatResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -4040,7 +4040,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postIpv6FormatResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -4068,7 +4068,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postIpv6FormatResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -4087,7 +4087,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
         """Test case for post_json_pointer_format_response_body_for_content_types
 
         """
-        from unit_test_api.api.response_content_content_type_schema_api_endpoints import post_json_pointer_format_response_body_for_content_types as endpoint_module
+        from unit_test_api.path.response_content_content_type_schema_api_endpoints import post_json_pointer_format_response_body_for_content_types as endpoint_module
         response_status = 200
         accept_content_type = 'application/json'
 
@@ -4109,7 +4109,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postJsonPointerFormatResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -4137,7 +4137,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postJsonPointerFormatResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -4165,7 +4165,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postJsonPointerFormatResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -4193,7 +4193,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postJsonPointerFormatResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -4222,7 +4222,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postJsonPointerFormatResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -4250,7 +4250,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postJsonPointerFormatResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -4269,7 +4269,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
         """Test case for post_maximum_validation_response_body_for_content_types
 
         """
-        from unit_test_api.api.response_content_content_type_schema_api_endpoints import post_maximum_validation_response_body_for_content_types as endpoint_module
+        from unit_test_api.path.response_content_content_type_schema_api_endpoints import post_maximum_validation_response_body_for_content_types as endpoint_module
         response_status = 200
         accept_content_type = 'application/json'
 
@@ -4290,7 +4290,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postMaximumValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -4318,7 +4318,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postMaximumValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -4347,7 +4347,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postMaximumValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -4368,7 +4368,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postMaximumValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -4387,7 +4387,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
         """Test case for post_maximum_validation_with_unsigned_integer_response_body_for_content_types
 
         """
-        from unit_test_api.api.response_content_content_type_schema_api_endpoints import post_maximum_validation_with_unsigned_integer_response_body_for_content_types as endpoint_module
+        from unit_test_api.path.response_content_content_type_schema_api_endpoints import post_maximum_validation_with_unsigned_integer_response_body_for_content_types as endpoint_module
         response_status = 200
         accept_content_type = 'application/json'
 
@@ -4408,7 +4408,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postMaximumValidationWithUnsignedIntegerResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -4437,7 +4437,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postMaximumValidationWithUnsignedIntegerResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -4458,7 +4458,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postMaximumValidationWithUnsignedIntegerResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -4486,7 +4486,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postMaximumValidationWithUnsignedIntegerResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -4505,7 +4505,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
         """Test case for post_maxitems_validation_response_body_for_content_types
 
         """
-        from unit_test_api.api.response_content_content_type_schema_api_endpoints import post_maxitems_validation_response_body_for_content_types as endpoint_module
+        from unit_test_api.path.response_content_content_type_schema_api_endpoints import post_maxitems_validation_response_body_for_content_types as endpoint_module
         response_status = 200
         accept_content_type = 'application/json'
 
@@ -4531,7 +4531,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postMaxitemsValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -4552,7 +4552,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postMaxitemsValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -4582,7 +4582,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postMaxitemsValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -4613,7 +4613,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postMaxitemsValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -4632,7 +4632,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
         """Test case for post_maxlength_validation_response_body_for_content_types
 
         """
-        from unit_test_api.api.response_content_content_type_schema_api_endpoints import post_maxlength_validation_response_body_for_content_types as endpoint_module
+        from unit_test_api.path.response_content_content_type_schema_api_endpoints import post_maxlength_validation_response_body_for_content_types as endpoint_module
         response_status = 200
         accept_content_type = 'application/json'
 
@@ -4654,7 +4654,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postMaxlengthValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -4675,7 +4675,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postMaxlengthValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -4703,7 +4703,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postMaxlengthValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -4731,7 +4731,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postMaxlengthValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -4759,7 +4759,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postMaxlengthValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -4778,7 +4778,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
         """Test case for post_maxproperties0_means_the_object_is_empty_response_body_for_content_types
 
         """
-        from unit_test_api.api.response_content_content_type_schema_api_endpoints import post_maxproperties0_means_the_object_is_empty_response_body_for_content_types as endpoint_module
+        from unit_test_api.path.response_content_content_type_schema_api_endpoints import post_maxproperties0_means_the_object_is_empty_response_body_for_content_types as endpoint_module
         response_status = 200
         accept_content_type = 'application/json'
 
@@ -4800,7 +4800,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postMaxproperties0MeansTheObjectIsEmptyResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -4832,7 +4832,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postMaxproperties0MeansTheObjectIsEmptyResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -4844,7 +4844,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
         """Test case for post_maxproperties_validation_response_body_for_content_types
 
         """
-        from unit_test_api.api.response_content_content_type_schema_api_endpoints import post_maxproperties_validation_response_body_for_content_types as endpoint_module
+        from unit_test_api.path.response_content_content_type_schema_api_endpoints import post_maxproperties_validation_response_body_for_content_types as endpoint_module
         response_status = 200
         accept_content_type = 'application/json'
 
@@ -4873,7 +4873,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postMaxpropertiesValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -4898,7 +4898,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postMaxpropertiesValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -4926,7 +4926,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postMaxpropertiesValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -4954,7 +4954,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postMaxpropertiesValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -4985,7 +4985,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postMaxpropertiesValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -5018,7 +5018,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postMaxpropertiesValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -5037,7 +5037,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
         """Test case for post_minimum_validation_response_body_for_content_types
 
         """
-        from unit_test_api.api.response_content_content_type_schema_api_endpoints import post_minimum_validation_response_body_for_content_types as endpoint_module
+        from unit_test_api.path.response_content_content_type_schema_api_endpoints import post_minimum_validation_response_body_for_content_types as endpoint_module
         response_status = 200
         accept_content_type = 'application/json'
 
@@ -5058,7 +5058,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postMinimumValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -5087,7 +5087,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postMinimumValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -5108,7 +5108,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postMinimumValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -5136,7 +5136,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postMinimumValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -5155,7 +5155,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
         """Test case for post_minimum_validation_with_signed_integer_response_body_for_content_types
 
         """
-        from unit_test_api.api.response_content_content_type_schema_api_endpoints import post_minimum_validation_with_signed_integer_response_body_for_content_types as endpoint_module
+        from unit_test_api.path.response_content_content_type_schema_api_endpoints import post_minimum_validation_with_signed_integer_response_body_for_content_types as endpoint_module
         response_status = 200
         accept_content_type = 'application/json'
 
@@ -5176,7 +5176,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postMinimumValidationWithSignedIntegerResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -5204,7 +5204,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postMinimumValidationWithSignedIntegerResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -5233,7 +5233,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postMinimumValidationWithSignedIntegerResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -5255,7 +5255,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postMinimumValidationWithSignedIntegerResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -5276,7 +5276,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postMinimumValidationWithSignedIntegerResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -5304,7 +5304,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postMinimumValidationWithSignedIntegerResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -5332,7 +5332,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postMinimumValidationWithSignedIntegerResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -5351,7 +5351,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
         """Test case for post_minitems_validation_response_body_for_content_types
 
         """
-        from unit_test_api.api.response_content_content_type_schema_api_endpoints import post_minitems_validation_response_body_for_content_types as endpoint_module
+        from unit_test_api.path.response_content_content_type_schema_api_endpoints import post_minitems_validation_response_body_for_content_types as endpoint_module
         response_status = 200
         accept_content_type = 'application/json'
 
@@ -5374,7 +5374,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postMinitemsValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -5395,7 +5395,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postMinitemsValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -5426,7 +5426,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postMinitemsValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -5456,7 +5456,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postMinitemsValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -5475,7 +5475,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
         """Test case for post_minlength_validation_response_body_for_content_types
 
         """
-        from unit_test_api.api.response_content_content_type_schema_api_endpoints import post_minlength_validation_response_body_for_content_types as endpoint_module
+        from unit_test_api.path.response_content_content_type_schema_api_endpoints import post_minlength_validation_response_body_for_content_types as endpoint_module
         response_status = 200
         accept_content_type = 'application/json'
 
@@ -5497,7 +5497,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postMinlengthValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -5519,7 +5519,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postMinlengthValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -5540,7 +5540,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postMinlengthValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -5568,7 +5568,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postMinlengthValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -5596,7 +5596,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postMinlengthValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -5615,7 +5615,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
         """Test case for post_minproperties_validation_response_body_for_content_types
 
         """
-        from unit_test_api.api.response_content_content_type_schema_api_endpoints import post_minproperties_validation_response_body_for_content_types as endpoint_module
+        from unit_test_api.path.response_content_content_type_schema_api_endpoints import post_minproperties_validation_response_body_for_content_types as endpoint_module
         response_status = 200
         accept_content_type = 'application/json'
 
@@ -5637,7 +5637,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postMinpropertiesValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -5665,7 +5665,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postMinpropertiesValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -5695,7 +5695,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postMinpropertiesValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -5716,7 +5716,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postMinpropertiesValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -5749,7 +5749,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postMinpropertiesValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -5780,7 +5780,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postMinpropertiesValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -5799,7 +5799,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
         """Test case for post_nested_allof_to_check_validation_semantics_response_body_for_content_types
 
         """
-        from unit_test_api.api.response_content_content_type_schema_api_endpoints import post_nested_allof_to_check_validation_semantics_response_body_for_content_types as endpoint_module
+        from unit_test_api.path.response_content_content_type_schema_api_endpoints import post_nested_allof_to_check_validation_semantics_response_body_for_content_types as endpoint_module
         response_status = 200
         accept_content_type = 'application/json'
 
@@ -5821,7 +5821,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postNestedAllofToCheckValidationSemanticsResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -5842,7 +5842,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postNestedAllofToCheckValidationSemanticsResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -5861,7 +5861,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
         """Test case for post_nested_anyof_to_check_validation_semantics_response_body_for_content_types
 
         """
-        from unit_test_api.api.response_content_content_type_schema_api_endpoints import post_nested_anyof_to_check_validation_semantics_response_body_for_content_types as endpoint_module
+        from unit_test_api.path.response_content_content_type_schema_api_endpoints import post_nested_anyof_to_check_validation_semantics_response_body_for_content_types as endpoint_module
         response_status = 200
         accept_content_type = 'application/json'
 
@@ -5883,7 +5883,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postNestedAnyofToCheckValidationSemanticsResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -5904,7 +5904,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postNestedAnyofToCheckValidationSemanticsResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -5923,7 +5923,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
         """Test case for post_nested_items_response_body_for_content_types
 
         """
-        from unit_test_api.api.response_content_content_type_schema_api_endpoints import post_nested_items_response_body_for_content_types as endpoint_module
+        from unit_test_api.path.response_content_content_type_schema_api_endpoints import post_nested_items_response_body_for_content_types as endpoint_module
         response_status = 200
         accept_content_type = 'application/json'
 
@@ -5973,7 +5973,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postNestedItemsResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -6031,7 +6031,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postNestedItemsResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -6076,7 +6076,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postNestedItemsResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -6088,7 +6088,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
         """Test case for post_nested_oneof_to_check_validation_semantics_response_body_for_content_types
 
         """
-        from unit_test_api.api.response_content_content_type_schema_api_endpoints import post_nested_oneof_to_check_validation_semantics_response_body_for_content_types as endpoint_module
+        from unit_test_api.path.response_content_content_type_schema_api_endpoints import post_nested_oneof_to_check_validation_semantics_response_body_for_content_types as endpoint_module
         response_status = 200
         accept_content_type = 'application/json'
 
@@ -6110,7 +6110,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postNestedOneofToCheckValidationSemanticsResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -6131,7 +6131,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postNestedOneofToCheckValidationSemanticsResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -6150,7 +6150,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
         """Test case for post_not_more_complex_schema_response_body_for_content_types
 
         """
-        from unit_test_api.api.response_content_content_type_schema_api_endpoints import post_not_more_complex_schema_response_body_for_content_types as endpoint_module
+        from unit_test_api.path.response_content_content_type_schema_api_endpoints import post_not_more_complex_schema_response_body_for_content_types as endpoint_module
         response_status = 200
         accept_content_type = 'application/json'
 
@@ -6174,7 +6174,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postNotMoreComplexSchemaResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -6206,7 +6206,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postNotMoreComplexSchemaResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -6227,7 +6227,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postNotMoreComplexSchemaResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -6246,7 +6246,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
         """Test case for post_not_response_body_for_content_types
 
         """
-        from unit_test_api.api.response_content_content_type_schema_api_endpoints import post_not_response_body_for_content_types as endpoint_module
+        from unit_test_api.path.response_content_content_type_schema_api_endpoints import post_not_response_body_for_content_types as endpoint_module
         response_status = 200
         accept_content_type = 'application/json'
 
@@ -6267,7 +6267,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postNotResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -6296,7 +6296,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postNotResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -6308,7 +6308,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
         """Test case for post_nul_characters_in_strings_response_body_for_content_types
 
         """
-        from unit_test_api.api.response_content_content_type_schema_api_endpoints import post_nul_characters_in_strings_response_body_for_content_types as endpoint_module
+        from unit_test_api.path.response_content_content_type_schema_api_endpoints import post_nul_characters_in_strings_response_body_for_content_types as endpoint_module
         response_status = 200
         accept_content_type = 'application/json'
 
@@ -6329,7 +6329,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postNulCharactersInStringsResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -6358,7 +6358,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postNulCharactersInStringsResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -6370,7 +6370,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
         """Test case for post_null_type_matches_only_the_null_object_response_body_for_content_types
 
         """
-        from unit_test_api.api.response_content_content_type_schema_api_endpoints import post_null_type_matches_only_the_null_object_response_body_for_content_types as endpoint_module
+        from unit_test_api.path.response_content_content_type_schema_api_endpoints import post_null_type_matches_only_the_null_object_response_body_for_content_types as endpoint_module
         response_status = 200
         accept_content_type = 'application/json'
 
@@ -6392,7 +6392,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postNullTypeMatchesOnlyTheNullObjectResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -6415,7 +6415,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postNullTypeMatchesOnlyTheNullObjectResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -6437,7 +6437,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postNullTypeMatchesOnlyTheNullObjectResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -6459,7 +6459,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postNullTypeMatchesOnlyTheNullObjectResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -6481,7 +6481,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postNullTypeMatchesOnlyTheNullObjectResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -6503,7 +6503,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postNullTypeMatchesOnlyTheNullObjectResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -6525,7 +6525,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postNullTypeMatchesOnlyTheNullObjectResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -6546,7 +6546,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postNullTypeMatchesOnlyTheNullObjectResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -6576,7 +6576,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postNullTypeMatchesOnlyTheNullObjectResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -6598,7 +6598,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postNullTypeMatchesOnlyTheNullObjectResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -6610,7 +6610,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
         """Test case for post_number_type_matches_numbers_response_body_for_content_types
 
         """
-        from unit_test_api.api.response_content_content_type_schema_api_endpoints import post_number_type_matches_numbers_response_body_for_content_types as endpoint_module
+        from unit_test_api.path.response_content_content_type_schema_api_endpoints import post_number_type_matches_numbers_response_body_for_content_types as endpoint_module
         response_status = 200
         accept_content_type = 'application/json'
 
@@ -6633,7 +6633,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postNumberTypeMatchesNumbersResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -6655,7 +6655,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postNumberTypeMatchesNumbersResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -6678,7 +6678,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postNumberTypeMatchesNumbersResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -6700,7 +6700,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postNumberTypeMatchesNumbersResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -6721,7 +6721,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postNumberTypeMatchesNumbersResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -6750,7 +6750,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postNumberTypeMatchesNumbersResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -6772,7 +6772,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postNumberTypeMatchesNumbersResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -6793,7 +6793,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postNumberTypeMatchesNumbersResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -6821,7 +6821,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postNumberTypeMatchesNumbersResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -6840,7 +6840,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
         """Test case for post_object_properties_validation_response_body_for_content_types
 
         """
-        from unit_test_api.api.response_content_content_type_schema_api_endpoints import post_object_properties_validation_response_body_for_content_types as endpoint_module
+        from unit_test_api.path.response_content_content_type_schema_api_endpoints import post_object_properties_validation_response_body_for_content_types as endpoint_module
         response_status = 200
         accept_content_type = 'application/json'
 
@@ -6862,7 +6862,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postObjectPropertiesValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -6890,7 +6890,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postObjectPropertiesValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -6925,7 +6925,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postObjectPropertiesValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -6951,7 +6951,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postObjectPropertiesValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -6983,7 +6983,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postObjectPropertiesValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -7019,7 +7019,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postObjectPropertiesValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -7031,7 +7031,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
         """Test case for post_object_type_matches_objects_response_body_for_content_types
 
         """
-        from unit_test_api.api.response_content_content_type_schema_api_endpoints import post_object_type_matches_objects_response_body_for_content_types as endpoint_module
+        from unit_test_api.path.response_content_content_type_schema_api_endpoints import post_object_type_matches_objects_response_body_for_content_types as endpoint_module
         response_status = 200
         accept_content_type = 'application/json'
 
@@ -7053,7 +7053,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postObjectTypeMatchesObjectsResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -7075,7 +7075,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postObjectTypeMatchesObjectsResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -7098,7 +7098,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postObjectTypeMatchesObjectsResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -7120,7 +7120,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postObjectTypeMatchesObjectsResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -7149,7 +7149,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postObjectTypeMatchesObjectsResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -7171,7 +7171,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postObjectTypeMatchesObjectsResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -7193,7 +7193,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postObjectTypeMatchesObjectsResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -7205,7 +7205,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
         """Test case for post_oneof_complex_types_response_body_for_content_types
 
         """
-        from unit_test_api.api.response_content_content_type_schema_api_endpoints import post_oneof_complex_types_response_body_for_content_types as endpoint_module
+        from unit_test_api.path.response_content_content_type_schema_api_endpoints import post_oneof_complex_types_response_body_for_content_types as endpoint_module
         response_status = 200
         accept_content_type = 'application/json'
 
@@ -7229,7 +7229,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postOneofComplexTypesResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -7263,7 +7263,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postOneofComplexTypesResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -7290,7 +7290,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postOneofComplexTypesResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -7314,7 +7314,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postOneofComplexTypesResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -7333,7 +7333,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
         """Test case for post_oneof_response_body_for_content_types
 
         """
-        from unit_test_api.api.response_content_content_type_schema_api_endpoints import post_oneof_response_body_for_content_types as endpoint_module
+        from unit_test_api.path.response_content_content_type_schema_api_endpoints import post_oneof_response_body_for_content_types as endpoint_module
         response_status = 200
         accept_content_type = 'application/json'
 
@@ -7354,7 +7354,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postOneofResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -7383,7 +7383,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postOneofResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -7404,7 +7404,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postOneofResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -7433,7 +7433,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postOneofResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -7445,7 +7445,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
         """Test case for post_oneof_with_base_schema_response_body_for_content_types
 
         """
-        from unit_test_api.api.response_content_content_type_schema_api_endpoints import post_oneof_with_base_schema_response_body_for_content_types as endpoint_module
+        from unit_test_api.path.response_content_content_type_schema_api_endpoints import post_oneof_with_base_schema_response_body_for_content_types as endpoint_module
         response_status = 200
         accept_content_type = 'application/json'
 
@@ -7467,7 +7467,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postOneofWithBaseSchemaResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -7489,7 +7489,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postOneofWithBaseSchemaResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -7510,7 +7510,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postOneofWithBaseSchemaResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -7529,7 +7529,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
         """Test case for post_oneof_with_empty_schema_response_body_for_content_types
 
         """
-        from unit_test_api.api.response_content_content_type_schema_api_endpoints import post_oneof_with_empty_schema_response_body_for_content_types as endpoint_module
+        from unit_test_api.path.response_content_content_type_schema_api_endpoints import post_oneof_with_empty_schema_response_body_for_content_types as endpoint_module
         response_status = 200
         accept_content_type = 'application/json'
 
@@ -7551,7 +7551,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postOneofWithEmptySchemaResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -7572,7 +7572,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postOneofWithEmptySchemaResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -7591,7 +7591,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
         """Test case for post_pattern_is_not_anchored_response_body_for_content_types
 
         """
-        from unit_test_api.api.response_content_content_type_schema_api_endpoints import post_pattern_is_not_anchored_response_body_for_content_types as endpoint_module
+        from unit_test_api.path.response_content_content_type_schema_api_endpoints import post_pattern_is_not_anchored_response_body_for_content_types as endpoint_module
         response_status = 200
         accept_content_type = 'application/json'
 
@@ -7612,7 +7612,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postPatternIsNotAnchoredResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -7631,7 +7631,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
         """Test case for post_pattern_validation_response_body_for_content_types
 
         """
-        from unit_test_api.api.response_content_content_type_schema_api_endpoints import post_pattern_validation_response_body_for_content_types as endpoint_module
+        from unit_test_api.path.response_content_content_type_schema_api_endpoints import post_pattern_validation_response_body_for_content_types as endpoint_module
         response_status = 200
         accept_content_type = 'application/json'
 
@@ -7653,7 +7653,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postPatternValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -7682,7 +7682,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postPatternValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -7710,7 +7710,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postPatternValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -7738,7 +7738,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postPatternValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -7767,7 +7767,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postPatternValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -7788,7 +7788,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postPatternValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -7816,7 +7816,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postPatternValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -7844,7 +7844,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postPatternValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -7863,7 +7863,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
         """Test case for post_properties_with_escaped_characters_response_body_for_content_types
 
         """
-        from unit_test_api.api.response_content_content_type_schema_api_endpoints import post_properties_with_escaped_characters_response_body_for_content_types as endpoint_module
+        from unit_test_api.path.response_content_content_type_schema_api_endpoints import post_properties_with_escaped_characters_response_body_for_content_types as endpoint_module
         response_status = 200
         accept_content_type = 'application/json'
 
@@ -7897,7 +7897,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postPropertiesWithEscapedCharactersResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -7939,7 +7939,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postPropertiesWithEscapedCharactersResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -7951,7 +7951,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
         """Test case for post_property_named_ref_that_is_not_a_reference_response_body_for_content_types
 
         """
-        from unit_test_api.api.response_content_content_type_schema_api_endpoints import post_property_named_ref_that_is_not_a_reference_response_body_for_content_types as endpoint_module
+        from unit_test_api.path.response_content_content_type_schema_api_endpoints import post_property_named_ref_that_is_not_a_reference_response_body_for_content_types as endpoint_module
         response_status = 200
         accept_content_type = 'application/json'
 
@@ -7975,7 +7975,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postPropertyNamedRefThatIsNotAReferenceResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -8007,7 +8007,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postPropertyNamedRefThatIsNotAReferenceResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -8019,7 +8019,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
         """Test case for post_ref_in_additionalproperties_response_body_for_content_types
 
         """
-        from unit_test_api.api.response_content_content_type_schema_api_endpoints import post_ref_in_additionalproperties_response_body_for_content_types as endpoint_module
+        from unit_test_api.path.response_content_content_type_schema_api_endpoints import post_ref_in_additionalproperties_response_body_for_content_types as endpoint_module
         response_status = 200
         accept_content_type = 'application/json'
 
@@ -8046,7 +8046,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postRefInAdditionalpropertiesResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -8081,7 +8081,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postRefInAdditionalpropertiesResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -8093,7 +8093,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
         """Test case for post_ref_in_allof_response_body_for_content_types
 
         """
-        from unit_test_api.api.response_content_content_type_schema_api_endpoints import post_ref_in_allof_response_body_for_content_types as endpoint_module
+        from unit_test_api.path.response_content_content_type_schema_api_endpoints import post_ref_in_allof_response_body_for_content_types as endpoint_module
         response_status = 200
         accept_content_type = 'application/json'
 
@@ -8117,7 +8117,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postRefInAllofResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -8149,7 +8149,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postRefInAllofResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -8161,7 +8161,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
         """Test case for post_ref_in_anyof_response_body_for_content_types
 
         """
-        from unit_test_api.api.response_content_content_type_schema_api_endpoints import post_ref_in_anyof_response_body_for_content_types as endpoint_module
+        from unit_test_api.path.response_content_content_type_schema_api_endpoints import post_ref_in_anyof_response_body_for_content_types as endpoint_module
         response_status = 200
         accept_content_type = 'application/json'
 
@@ -8185,7 +8185,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postRefInAnyofResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -8217,7 +8217,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postRefInAnyofResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -8229,7 +8229,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
         """Test case for post_ref_in_items_response_body_for_content_types
 
         """
-        from unit_test_api.api.response_content_content_type_schema_api_endpoints import post_ref_in_items_response_body_for_content_types as endpoint_module
+        from unit_test_api.path.response_content_content_type_schema_api_endpoints import post_ref_in_items_response_body_for_content_types as endpoint_module
         response_status = 200
         accept_content_type = 'application/json'
 
@@ -8255,7 +8255,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postRefInItemsResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -8289,7 +8289,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postRefInItemsResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -8301,7 +8301,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
         """Test case for post_ref_in_oneof_response_body_for_content_types
 
         """
-        from unit_test_api.api.response_content_content_type_schema_api_endpoints import post_ref_in_oneof_response_body_for_content_types as endpoint_module
+        from unit_test_api.path.response_content_content_type_schema_api_endpoints import post_ref_in_oneof_response_body_for_content_types as endpoint_module
         response_status = 200
         accept_content_type = 'application/json'
 
@@ -8325,7 +8325,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postRefInOneofResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -8357,7 +8357,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postRefInOneofResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -8369,7 +8369,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
         """Test case for post_ref_in_property_response_body_for_content_types
 
         """
-        from unit_test_api.api.response_content_content_type_schema_api_endpoints import post_ref_in_property_response_body_for_content_types as endpoint_module
+        from unit_test_api.path.response_content_content_type_schema_api_endpoints import post_ref_in_property_response_body_for_content_types as endpoint_module
         response_status = 200
         accept_content_type = 'application/json'
 
@@ -8396,7 +8396,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postRefInPropertyResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -8431,7 +8431,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postRefInPropertyResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -8443,7 +8443,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
         """Test case for post_required_default_validation_response_body_for_content_types
 
         """
-        from unit_test_api.api.response_content_content_type_schema_api_endpoints import post_required_default_validation_response_body_for_content_types as endpoint_module
+        from unit_test_api.path.response_content_content_type_schema_api_endpoints import post_required_default_validation_response_body_for_content_types as endpoint_module
         response_status = 200
         accept_content_type = 'application/json'
 
@@ -8465,7 +8465,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postRequiredDefaultValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -8484,7 +8484,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
         """Test case for post_required_validation_response_body_for_content_types
 
         """
-        from unit_test_api.api.response_content_content_type_schema_api_endpoints import post_required_validation_response_body_for_content_types as endpoint_module
+        from unit_test_api.path.response_content_content_type_schema_api_endpoints import post_required_validation_response_body_for_content_types as endpoint_module
         response_status = 200
         accept_content_type = 'application/json'
 
@@ -8506,7 +8506,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postRequiredValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -8537,7 +8537,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postRequiredValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -8565,7 +8565,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postRequiredValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -8593,7 +8593,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postRequiredValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -8625,7 +8625,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postRequiredValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -8637,7 +8637,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
         """Test case for post_required_with_empty_array_response_body_for_content_types
 
         """
-        from unit_test_api.api.response_content_content_type_schema_api_endpoints import post_required_with_empty_array_response_body_for_content_types as endpoint_module
+        from unit_test_api.path.response_content_content_type_schema_api_endpoints import post_required_with_empty_array_response_body_for_content_types as endpoint_module
         response_status = 200
         accept_content_type = 'application/json'
 
@@ -8659,7 +8659,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postRequiredWithEmptyArrayResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -8678,7 +8678,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
         """Test case for post_simple_enum_validation_response_body_for_content_types
 
         """
-        from unit_test_api.api.response_content_content_type_schema_api_endpoints import post_simple_enum_validation_response_body_for_content_types as endpoint_module
+        from unit_test_api.path.response_content_content_type_schema_api_endpoints import post_simple_enum_validation_response_body_for_content_types as endpoint_module
         response_status = 200
         accept_content_type = 'application/json'
 
@@ -8700,7 +8700,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postSimpleEnumValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -8721,7 +8721,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postSimpleEnumValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -8740,7 +8740,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
         """Test case for post_string_type_matches_strings_response_body_for_content_types
 
         """
-        from unit_test_api.api.response_content_content_type_schema_api_endpoints import post_string_type_matches_strings_response_body_for_content_types as endpoint_module
+        from unit_test_api.path.response_content_content_type_schema_api_endpoints import post_string_type_matches_strings_response_body_for_content_types as endpoint_module
         response_status = 200
         accept_content_type = 'application/json'
 
@@ -8762,7 +8762,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postStringTypeMatchesStringsResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -8783,7 +8783,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postStringTypeMatchesStringsResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -8811,7 +8811,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postStringTypeMatchesStringsResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -8840,7 +8840,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postStringTypeMatchesStringsResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -8863,7 +8863,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postStringTypeMatchesStringsResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -8886,7 +8886,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postStringTypeMatchesStringsResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -8908,7 +8908,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postStringTypeMatchesStringsResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -8930,7 +8930,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postStringTypeMatchesStringsResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -8951,7 +8951,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postStringTypeMatchesStringsResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -8970,7 +8970,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
         """Test case for post_the_default_keyword_does_not_do_anything_if_the_property_is_missing_response_body_for_content_types
 
         """
-        from unit_test_api.api.response_content_content_type_schema_api_endpoints import post_the_default_keyword_does_not_do_anything_if_the_property_is_missing_response_body_for_content_types as endpoint_module
+        from unit_test_api.path.response_content_content_type_schema_api_endpoints import post_the_default_keyword_does_not_do_anything_if_the_property_is_missing_response_body_for_content_types as endpoint_module
         response_status = 200
         accept_content_type = 'application/json'
 
@@ -8992,7 +8992,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postTheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissingResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -9023,7 +9023,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postTheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissingResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -9055,7 +9055,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postTheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissingResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -9067,7 +9067,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
         """Test case for post_uniqueitems_false_validation_response_body_for_content_types
 
         """
-        from unit_test_api.api.response_content_content_type_schema_api_endpoints import post_uniqueitems_false_validation_response_body_for_content_types as endpoint_module
+        from unit_test_api.path.response_content_content_type_schema_api_endpoints import post_uniqueitems_false_validation_response_body_for_content_types as endpoint_module
         response_status = 200
         accept_content_type = 'application/json'
 
@@ -9091,7 +9091,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postUniqueitemsFalseValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -9128,7 +9128,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postUniqueitemsFalseValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -9177,7 +9177,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postUniqueitemsFalseValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -9214,7 +9214,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postUniqueitemsFalseValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -9245,7 +9245,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postUniqueitemsFalseValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -9276,7 +9276,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postUniqueitemsFalseValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -9311,7 +9311,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postUniqueitemsFalseValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -9343,7 +9343,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postUniqueitemsFalseValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -9374,7 +9374,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postUniqueitemsFalseValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -9423,7 +9423,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postUniqueitemsFalseValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -9454,7 +9454,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postUniqueitemsFalseValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -9489,7 +9489,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postUniqueitemsFalseValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -9520,7 +9520,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postUniqueitemsFalseValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -9559,7 +9559,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postUniqueitemsFalseValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -9596,7 +9596,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postUniqueitemsFalseValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -9615,7 +9615,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
         """Test case for post_uniqueitems_validation_response_body_for_content_types
 
         """
-        from unit_test_api.api.response_content_content_type_schema_api_endpoints import post_uniqueitems_validation_response_body_for_content_types as endpoint_module
+        from unit_test_api.path.response_content_content_type_schema_api_endpoints import post_uniqueitems_validation_response_body_for_content_types as endpoint_module
         response_status = 200
         accept_content_type = 'application/json'
 
@@ -9645,7 +9645,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postUniqueitemsValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -9682,7 +9682,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postUniqueitemsValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -9722,7 +9722,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postUniqueitemsValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -9756,7 +9756,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postUniqueitemsValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -9793,7 +9793,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postUniqueitemsValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -9826,7 +9826,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postUniqueitemsValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -9850,7 +9850,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postUniqueitemsValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -9885,7 +9885,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postUniqueitemsValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -9920,7 +9920,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postUniqueitemsValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -9970,7 +9970,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postUniqueitemsValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -9996,7 +9996,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postUniqueitemsValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -10020,7 +10020,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postUniqueitemsValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -10062,7 +10062,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postUniqueitemsValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -10087,7 +10087,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postUniqueitemsValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -10122,7 +10122,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postUniqueitemsValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -10163,7 +10163,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postUniqueitemsValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -10194,7 +10194,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postUniqueitemsValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -10233,7 +10233,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postUniqueitemsValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -10264,7 +10264,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postUniqueitemsValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -10306,7 +10306,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postUniqueitemsValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -10342,7 +10342,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postUniqueitemsValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -10368,7 +10368,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postUniqueitemsValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -10402,7 +10402,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postUniqueitemsValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -10440,7 +10440,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postUniqueitemsValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -10472,7 +10472,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postUniqueitemsValidationResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -10484,7 +10484,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
         """Test case for post_uri_format_response_body_for_content_types
 
         """
-        from unit_test_api.api.response_content_content_type_schema_api_endpoints import post_uri_format_response_body_for_content_types as endpoint_module
+        from unit_test_api.path.response_content_content_type_schema_api_endpoints import post_uri_format_response_body_for_content_types as endpoint_module
         response_status = 200
         accept_content_type = 'application/json'
 
@@ -10506,7 +10506,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postUriFormatResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -10534,7 +10534,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postUriFormatResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -10562,7 +10562,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postUriFormatResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -10590,7 +10590,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postUriFormatResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -10619,7 +10619,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postUriFormatResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -10647,7 +10647,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postUriFormatResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -10666,7 +10666,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
         """Test case for post_uri_reference_format_response_body_for_content_types
 
         """
-        from unit_test_api.api.response_content_content_type_schema_api_endpoints import post_uri_reference_format_response_body_for_content_types as endpoint_module
+        from unit_test_api.path.response_content_content_type_schema_api_endpoints import post_uri_reference_format_response_body_for_content_types as endpoint_module
         response_status = 200
         accept_content_type = 'application/json'
 
@@ -10688,7 +10688,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postUriReferenceFormatResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -10716,7 +10716,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postUriReferenceFormatResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -10744,7 +10744,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postUriReferenceFormatResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -10772,7 +10772,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postUriReferenceFormatResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -10801,7 +10801,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postUriReferenceFormatResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -10829,7 +10829,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postUriReferenceFormatResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -10848,7 +10848,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
         """Test case for post_uri_template_format_response_body_for_content_types
 
         """
-        from unit_test_api.api.response_content_content_type_schema_api_endpoints import post_uri_template_format_response_body_for_content_types as endpoint_module
+        from unit_test_api.path.response_content_content_type_schema_api_endpoints import post_uri_template_format_response_body_for_content_types as endpoint_module
         response_status = 200
         accept_content_type = 'application/json'
 
@@ -10870,7 +10870,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postUriTemplateFormatResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -10898,7 +10898,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postUriTemplateFormatResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -10926,7 +10926,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postUriTemplateFormatResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -10954,7 +10954,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postUriTemplateFormatResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -10983,7 +10983,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postUriTemplateFormatResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
@@ -11011,7 +11011,7 @@ class TestResponseContentContentTypeSchemaApi(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postUriTemplateFormatResponseBodyForContentTypes',
-                method='POST',
+                method='post',
                 accept_content_type=accept_content_type,
             )
 
