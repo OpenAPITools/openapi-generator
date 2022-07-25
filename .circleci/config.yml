@@ -14,7 +14,7 @@ jobs:
 
             docker login ${ACR_HOST} -u ${ACR_PUSH_USER} -p ${ACR_PUSH_PASSWORD}
 
-            if ! docker image pull ${ACR_HOST}/padoa-tools/openapi-generator-cli:$FULL_TAG ; then
+            if ! docker image pull ${ACR_HOST}/padoa-tools/openapi-generator:$FULL_TAG ; then
 
               ./run-in-docker-ci.sh mvn package
               cp docker-entrypoint.sh ./modules/openapi-generator-cli;
