@@ -323,7 +323,7 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
                 }
                 if (!hasPrimaryKey) {
                     final IntegerSchema schema = new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT);
-                    CodegenProperty cp = super.fromProperty(primaryKeyConvention, schema);
+                    CodegenProperty cp = super.fromProperty(primaryKeyConvention, schema, false);
                     cp.setRequired(true);
                     model.vars.add(0, cp);
                     model.allVars.add(0, cp);

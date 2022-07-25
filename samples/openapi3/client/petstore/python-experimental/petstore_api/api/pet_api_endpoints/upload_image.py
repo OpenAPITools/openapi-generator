@@ -59,6 +59,8 @@ from petstore_api.schemas import (  # noqa: F401
     BoolBase,
     BinaryBase,
     Schema,
+    NoneClass,
+    BoolClass,
     _SchemaValidator,
     _SchemaTypeChecker,
     _SchemaEnumMaker
@@ -106,6 +108,7 @@ class SchemaForRequestBodyMultipartFormData(
         cls,
         *args: typing.Union[dict, frozendict, ],
         additionalMetadata: typing.Union[additionalMetadata, Unset] = unset,
+        file: typing.Union[file, Unset] = unset,
         _configuration: typing.Optional[Configuration] = None,
         **kwargs: typing.Type[Schema],
     ) -> 'SchemaForRequestBodyMultipartFormData':
@@ -113,6 +116,7 @@ class SchemaForRequestBodyMultipartFormData(
             cls,
             *args,
             additionalMetadata=additionalMetadata,
+            file=file,
             _configuration=_configuration,
             **kwargs,
         )

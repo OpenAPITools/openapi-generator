@@ -100,7 +100,7 @@
 #'
 #' \item status code : 200 | successful operation
 #'
-#' \item return type : User 
+#' \item return type : User
 #' \item response headers :
 #'
 #' \tabular{ll}{
@@ -132,7 +132,7 @@
 #'
 #' \item status code : 200 | successful operation
 #'
-#' \item return type : character 
+#' \item return type : character
 #' \item response headers :
 #'
 #' \tabular{ll}{
@@ -276,7 +276,7 @@
 #' ####################  DeleteUser  ####################
 #'
 #' library(petstore)
-#' var.username <- 'username_example' # character | The name that needs to be deleted
+#' var.username <- "username_example" # character | The name that needs to be deleted
 #'
 #' #Delete user
 #' api.instance <- UserApi$new()
@@ -302,7 +302,7 @@
 #' ####################  GetUserByName  ####################
 #'
 #' library(petstore)
-#' var.username <- 'username_example' # character | The name that needs to be fetched. Use user1 for testing.
+#' var.username <- "username_example" # character | The name that needs to be fetched. Use user1 for testing.
 #'
 #' #Get user by user name
 #' api.instance <- UserApi$new()
@@ -327,8 +327,8 @@
 #' ####################  LoginUser  ####################
 #'
 #' library(petstore)
-#' var.username <- 'username_example' # character | The user name for login
-#' var.password <- 'password_example' # character | The password for login in clear text
+#' var.username <- "username_example" # character | The user name for login
+#' var.password <- "password_example" # character | The password for login in clear text
 #'
 #' #Logs user into the system
 #' api.instance <- UserApi$new()
@@ -378,7 +378,7 @@
 #' ####################  UpdateUser  ####################
 #'
 #' library(petstore)
-#' var.username <- 'username_example' # character | name that need to be deleted
+#' var.username <- "username_example" # character | name that need to be deleted
 #' var.user <- User$new() # User | Updated user object
 #'
 #' #Updated user
@@ -421,8 +421,7 @@ UserApi <- R6::R6Class(
     initialize = function(api_client) {
       if (!missing(api_client)) {
         self$api_client <- api_client
-      }
-      else {
+      } else {
         self$api_client <- ApiClient$new()
       }
     },
@@ -463,7 +462,10 @@ UserApi <- R6::R6Class(
       header_params <- c()
 
       if (missing(`user`)) {
-        rlang::abort(message = "Missing required parameter `user`.", .subclass = "ApiException", ApiException = ApiException$new(status = 0, reason = "Missing required parameter `user`."))
+        rlang::abort(message = "Missing required parameter `user`.",
+                     .subclass = "ApiException",
+                     ApiException = ApiException$new(status = 0,
+                                                     reason = "Missing required parameter `user`."))
       }
 
       if (!missing(`user`)) {
@@ -489,22 +491,28 @@ UserApi <- R6::R6Class(
         ApiResponse$new(NULL, resp)
       } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
         error_msg <- toString(content(resp))
-        if(error_msg == "") {
+        if (error_msg == "") {
           error_msg <- paste("Server returned ", httr::status_code(resp), " response status code.")
         }
-        rlang::abort(message = error_msg, .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
+        rlang::abort(message = error_msg,
+                     .subclass = "ApiException",
+                     ApiException = ApiException$new(http_response = resp))
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
         error_msg <- toString(content(resp))
-        if(error_msg == "") {
+        if (error_msg == "") {
           error_msg <- "Api client exception encountered."
         }
-        rlang::abort(message = error_msg, .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
+        rlang::abort(message = error_msg,
+                     .subclass = "ApiException",
+                     ApiException = ApiException$new(http_response = resp))
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
         error_msg <- toString(content(resp))
-        if(error_msg == "") {
+        if (error_msg == "") {
           error_msg <- "Api server exception encountered."
         }
-        rlang::abort(message = error_msg, .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
+        rlang::abort(message = error_msg,
+                     .subclass = "ApiException",
+                     ApiException = ApiException$new(http_response = resp))
       }
     },
     #' Creates list of users with given input array
@@ -544,11 +552,16 @@ UserApi <- R6::R6Class(
       header_params <- c()
 
       if (missing(`user`)) {
-        rlang::abort(message = "Missing required parameter `user`.", .subclass = "ApiException", ApiException = ApiException$new(status = 0, reason = "Missing required parameter `user`."))
+        rlang::abort(message = "Missing required parameter `user`.",
+                     .subclass = "ApiException",
+                     ApiException = ApiException$new(status = 0,
+                                                     reason = "Missing required parameter `user`."))
       }
 
       if (!missing(`user`)) {
-        body.items = paste(unlist(lapply(user, function(param) {param$toJSONString()})), collapse = ",")
+        body.items <- paste(unlist(lapply(user, function(param) {
+                                                             param$toJSONString()
+                                                         })), collapse = ",")
         body <- paste0("[", body.items, "]")
       } else {
         body <- NULL
@@ -571,22 +584,28 @@ UserApi <- R6::R6Class(
         ApiResponse$new(NULL, resp)
       } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
         error_msg <- toString(content(resp))
-        if(error_msg == "") {
+        if (error_msg == "") {
           error_msg <- paste("Server returned ", httr::status_code(resp), " response status code.")
         }
-        rlang::abort(message = error_msg, .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
+        rlang::abort(message = error_msg,
+                     .subclass = "ApiException",
+                     ApiException = ApiException$new(http_response = resp))
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
         error_msg <- toString(content(resp))
-        if(error_msg == "") {
+        if (error_msg == "") {
           error_msg <- "Api client exception encountered."
         }
-        rlang::abort(message = error_msg, .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
+        rlang::abort(message = error_msg,
+                     .subclass = "ApiException",
+                     ApiException = ApiException$new(http_response = resp))
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
         error_msg <- toString(content(resp))
-        if(error_msg == "") {
+        if (error_msg == "") {
           error_msg <- "Api server exception encountered."
         }
-        rlang::abort(message = error_msg, .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
+        rlang::abort(message = error_msg,
+                     .subclass = "ApiException",
+                     ApiException = ApiException$new(http_response = resp))
       }
     },
     #' Creates list of users with given input array
@@ -626,11 +645,16 @@ UserApi <- R6::R6Class(
       header_params <- c()
 
       if (missing(`user`)) {
-        rlang::abort(message = "Missing required parameter `user`.", .subclass = "ApiException", ApiException = ApiException$new(status = 0, reason = "Missing required parameter `user`."))
+        rlang::abort(message = "Missing required parameter `user`.",
+                     .subclass = "ApiException",
+                     ApiException = ApiException$new(status = 0,
+                                                     reason = "Missing required parameter `user`."))
       }
 
       if (!missing(`user`)) {
-        body.items = paste(unlist(lapply(user, function(param) {param$toJSONString()})), collapse = ",")
+        body.items <- paste(unlist(lapply(user, function(param) {
+                                                             param$toJSONString()
+                                                         })), collapse = ",")
         body <- paste0("[", body.items, "]")
       } else {
         body <- NULL
@@ -653,22 +677,28 @@ UserApi <- R6::R6Class(
         ApiResponse$new(NULL, resp)
       } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
         error_msg <- toString(content(resp))
-        if(error_msg == "") {
+        if (error_msg == "") {
           error_msg <- paste("Server returned ", httr::status_code(resp), " response status code.")
         }
-        rlang::abort(message = error_msg, .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
+        rlang::abort(message = error_msg,
+                     .subclass = "ApiException",
+                     ApiException = ApiException$new(http_response = resp))
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
         error_msg <- toString(content(resp))
-        if(error_msg == "") {
+        if (error_msg == "") {
           error_msg <- "Api client exception encountered."
         }
-        rlang::abort(message = error_msg, .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
+        rlang::abort(message = error_msg,
+                     .subclass = "ApiException",
+                     ApiException = ApiException$new(http_response = resp))
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
         error_msg <- toString(content(resp))
-        if(error_msg == "") {
+        if (error_msg == "") {
           error_msg <- "Api server exception encountered."
         }
-        rlang::abort(message = error_msg, .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
+        rlang::abort(message = error_msg,
+                     .subclass = "ApiException",
+                     ApiException = ApiException$new(http_response = resp))
       }
     },
     #' Delete user
@@ -708,7 +738,10 @@ UserApi <- R6::R6Class(
       header_params <- c()
 
       if (missing(`username`)) {
-        rlang::abort(message = "Missing required parameter `username`.", .subclass = "ApiException", ApiException = ApiException$new(status = 0, reason = "Missing required parameter `username`."))
+        rlang::abort(message = "Missing required parameter `username`.",
+                     .subclass = "ApiException",
+                     ApiException = ApiException$new(status = 0,
+                                                     reason = "Missing required parameter `username`."))
       }
 
       body <- NULL
@@ -733,22 +766,28 @@ UserApi <- R6::R6Class(
         ApiResponse$new(NULL, resp)
       } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
         error_msg <- toString(content(resp))
-        if(error_msg == "") {
+        if (error_msg == "") {
           error_msg <- paste("Server returned ", httr::status_code(resp), " response status code.")
         }
-        rlang::abort(message = error_msg, .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
+        rlang::abort(message = error_msg,
+                     .subclass = "ApiException",
+                     ApiException = ApiException$new(http_response = resp))
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
         error_msg <- toString(content(resp))
-        if(error_msg == "") {
+        if (error_msg == "") {
           error_msg <- "Api client exception encountered."
         }
-        rlang::abort(message = error_msg, .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
+        rlang::abort(message = error_msg,
+                     .subclass = "ApiException",
+                     ApiException = ApiException$new(http_response = resp))
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
         error_msg <- toString(content(resp))
-        if(error_msg == "") {
+        if (error_msg == "") {
           error_msg <- "Api server exception encountered."
         }
-        rlang::abort(message = error_msg, .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
+        rlang::abort(message = error_msg,
+                     .subclass = "ApiException",
+                     ApiException = ApiException$new(http_response = resp))
       }
     },
     #' Get user by user name
@@ -761,7 +800,7 @@ UserApi <- R6::R6Class(
     #' @param ... Other optional arguments
     #' @return User
     #' @export
-    GetUserByName = function(username, data_file=NULL, ...) {
+    GetUserByName = function(username, data_file = NULL, ...) {
       api_response <- self$GetUserByNameWithHttpInfo(username, data_file = data_file, ...)
       resp <- api_response$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
@@ -790,7 +829,10 @@ UserApi <- R6::R6Class(
       header_params <- c()
 
       if (missing(`username`)) {
-        rlang::abort(message = "Missing required parameter `username`.", .subclass = "ApiException", ApiException = ApiException$new(status = 0, reason = "Missing required parameter `username`."))
+        rlang::abort(message = "Missing required parameter `username`.",
+                     .subclass = "ApiException",
+                     ApiException = ApiException$new(status = 0,
+                                                     reason = "Missing required parameter `username`."))
       }
 
       body <- NULL
@@ -816,28 +858,36 @@ UserApi <- R6::R6Class(
         deserialized_resp_obj <- tryCatch(
           self$api_client$deserialize(resp, "User", loadNamespace("petstore")),
           error = function(e) {
-             rlang::abort(message = "Failed to deserialize response", .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
+             rlang::abort(message = "Failed to deserialize response",
+                          .subclass = "ApiException",
+                          ApiException = ApiException$new(http_response = resp))
           }
         )
         ApiResponse$new(deserialized_resp_obj, resp)
       } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
         error_msg <- toString(content(resp))
-        if(error_msg == "") {
+        if (error_msg == "") {
           error_msg <- paste("Server returned ", httr::status_code(resp), " response status code.")
         }
-        rlang::abort(message = error_msg, .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
+        rlang::abort(message = error_msg,
+                     .subclass = "ApiException",
+                     ApiException = ApiException$new(http_response = resp))
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
         error_msg <- toString(content(resp))
-        if(error_msg == "") {
+        if (error_msg == "") {
           error_msg <- "Api client exception encountered."
         }
-        rlang::abort(message = error_msg, .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
+        rlang::abort(message = error_msg,
+                     .subclass = "ApiException",
+                     ApiException = ApiException$new(http_response = resp))
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
         error_msg <- toString(content(resp))
-        if(error_msg == "") {
+        if (error_msg == "") {
           error_msg <- "Api server exception encountered."
         }
-        rlang::abort(message = error_msg, .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
+        rlang::abort(message = error_msg,
+                     .subclass = "ApiException",
+                     ApiException = ApiException$new(http_response = resp))
       }
     },
     #' Logs user into the system
@@ -851,7 +901,7 @@ UserApi <- R6::R6Class(
     #' @param ... Other optional arguments
     #' @return character
     #' @export
-    LoginUser = function(username, password, data_file=NULL, ...) {
+    LoginUser = function(username, password, data_file = NULL, ...) {
       api_response <- self$LoginUserWithHttpInfo(username, password, data_file = data_file, ...)
       resp <- api_response$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
@@ -881,11 +931,17 @@ UserApi <- R6::R6Class(
       header_params <- c()
 
       if (missing(`username`)) {
-        rlang::abort(message = "Missing required parameter `username`.", .subclass = "ApiException", ApiException = ApiException$new(status = 0, reason = "Missing required parameter `username`."))
+        rlang::abort(message = "Missing required parameter `username`.",
+                     .subclass = "ApiException",
+                     ApiException = ApiException$new(status = 0,
+                                                     reason = "Missing required parameter `username`."))
       }
 
       if (missing(`password`)) {
-        rlang::abort(message = "Missing required parameter `password`.", .subclass = "ApiException", ApiException = ApiException$new(status = 0, reason = "Missing required parameter `password`."))
+        rlang::abort(message = "Missing required parameter `password`.",
+                     .subclass = "ApiException",
+                     ApiException = ApiException$new(status = 0,
+                                                     reason = "Missing required parameter `password`."))
       }
 
       body <- NULL
@@ -907,28 +963,36 @@ UserApi <- R6::R6Class(
         deserialized_resp_obj <- tryCatch(
           self$api_client$deserialize(resp, "character", loadNamespace("petstore")),
           error = function(e) {
-             rlang::abort(message = "Failed to deserialize response", .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
+             rlang::abort(message = "Failed to deserialize response",
+                          .subclass = "ApiException",
+                          ApiException = ApiException$new(http_response = resp))
           }
         )
         ApiResponse$new(deserialized_resp_obj, resp)
       } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
         error_msg <- toString(content(resp))
-        if(error_msg == "") {
+        if (error_msg == "") {
           error_msg <- paste("Server returned ", httr::status_code(resp), " response status code.")
         }
-        rlang::abort(message = error_msg, .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
+        rlang::abort(message = error_msg,
+                     .subclass = "ApiException",
+                     ApiException = ApiException$new(http_response = resp))
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
         error_msg <- toString(content(resp))
-        if(error_msg == "") {
+        if (error_msg == "") {
           error_msg <- "Api client exception encountered."
         }
-        rlang::abort(message = error_msg, .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
+        rlang::abort(message = error_msg,
+                     .subclass = "ApiException",
+                     ApiException = ApiException$new(http_response = resp))
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
         error_msg <- toString(content(resp))
-        if(error_msg == "") {
+        if (error_msg == "") {
           error_msg <- "Api server exception encountered."
         }
-        rlang::abort(message = error_msg, .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
+        rlang::abort(message = error_msg,
+                     .subclass = "ApiException",
+                     ApiException = ApiException$new(http_response = resp))
       }
     },
     #' Logs out current logged in user session
@@ -983,22 +1047,28 @@ UserApi <- R6::R6Class(
         ApiResponse$new(NULL, resp)
       } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
         error_msg <- toString(content(resp))
-        if(error_msg == "") {
+        if (error_msg == "") {
           error_msg <- paste("Server returned ", httr::status_code(resp), " response status code.")
         }
-        rlang::abort(message = error_msg, .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
+        rlang::abort(message = error_msg,
+                     .subclass = "ApiException",
+                     ApiException = ApiException$new(http_response = resp))
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
         error_msg <- toString(content(resp))
-        if(error_msg == "") {
+        if (error_msg == "") {
           error_msg <- "Api client exception encountered."
         }
-        rlang::abort(message = error_msg, .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
+        rlang::abort(message = error_msg,
+                     .subclass = "ApiException",
+                     ApiException = ApiException$new(http_response = resp))
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
         error_msg <- toString(content(resp))
-        if(error_msg == "") {
+        if (error_msg == "") {
           error_msg <- "Api server exception encountered."
         }
-        rlang::abort(message = error_msg, .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
+        rlang::abort(message = error_msg,
+                     .subclass = "ApiException",
+                     ApiException = ApiException$new(http_response = resp))
       }
     },
     #' Updated user
@@ -1040,11 +1110,17 @@ UserApi <- R6::R6Class(
       header_params <- c()
 
       if (missing(`username`)) {
-        rlang::abort(message = "Missing required parameter `username`.", .subclass = "ApiException", ApiException = ApiException$new(status = 0, reason = "Missing required parameter `username`."))
+        rlang::abort(message = "Missing required parameter `username`.",
+                     .subclass = "ApiException",
+                     ApiException = ApiException$new(status = 0,
+                                                     reason = "Missing required parameter `username`."))
       }
 
       if (missing(`user`)) {
-        rlang::abort(message = "Missing required parameter `user`.", .subclass = "ApiException", ApiException = ApiException$new(status = 0, reason = "Missing required parameter `user`."))
+        rlang::abort(message = "Missing required parameter `user`.",
+                     .subclass = "ApiException",
+                     ApiException = ApiException$new(status = 0,
+                                                     reason = "Missing required parameter `user`."))
       }
 
       if (!missing(`user`)) {
@@ -1074,22 +1150,28 @@ UserApi <- R6::R6Class(
         ApiResponse$new(NULL, resp)
       } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
         error_msg <- toString(content(resp))
-        if(error_msg == "") {
+        if (error_msg == "") {
           error_msg <- paste("Server returned ", httr::status_code(resp), " response status code.")
         }
-        rlang::abort(message = error_msg, .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
+        rlang::abort(message = error_msg,
+                     .subclass = "ApiException",
+                     ApiException = ApiException$new(http_response = resp))
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
         error_msg <- toString(content(resp))
-        if(error_msg == "") {
+        if (error_msg == "") {
           error_msg <- "Api client exception encountered."
         }
-        rlang::abort(message = error_msg, .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
+        rlang::abort(message = error_msg,
+                     .subclass = "ApiException",
+                     ApiException = ApiException$new(http_response = resp))
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
         error_msg <- toString(content(resp))
-        if(error_msg == "") {
+        if (error_msg == "") {
           error_msg <- "Api server exception encountered."
         }
-        rlang::abort(message = error_msg, .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
+        rlang::abort(message = error_msg,
+                     .subclass = "ApiException",
+                     ApiException = ApiException$new(http_response = resp))
       }
     }
   )

@@ -1,21 +1,15 @@
-{{#models}}
-{{#model}}
 #' @docType class
 #' @title {{classname}}
 #' @description {{classname}} Class
 #' @format An \code{R6Class} generator object
 {{#vars}}
-#' @field {{name}} {{title}} {{#isContainer}}{{#isArray}}list( {{/isArray}}{{#isMap}}named list( {{/isMap}}{{/isContainer}}{{^isPrimitiveType}}\link{{=<% %>=}}{<%/isPrimitiveType%><%={{ }}=%>{{#isContainer}}{{#items}}{{dataType}}{{/items}}{{/isContainer}}{{^isContainer}}{{dataType}}{{/isContainer}}{{=<% %>=}}<%^isPrimitiveType%>}<%={{ }}=%>{{/isPrimitiveType}}{{#isContainer}}{{#isArray}} ){{/isArray}}{{#isMap}} ){{/isMap}}{{/isContainer}} {{^required}}[optional]{{/required}}
+#' @field {{name}} {{title}} {{#isContainer}}{{#isArray}}list( {{/isArray}}{{#isMap}}named list( {{/isMap}}{{/isContainer}}{{^isPrimitiveType}}\link{{=<% %>=}}{<%/isPrimitiveType%><%={{ }}=%>{{#isContainer}}{{#items}}{{dataType}}{{/items}}{{/isContainer}}{{^isContainer}}{{dataType}}{{/isContainer}}{{=<% %>=}}<%^isPrimitiveType%>}<%={{ }}=%>{{/isPrimitiveType}}{{#isContainer}}{{#isArray}} ){{/isArray}}{{#isMap}} ){{/isMap}}{{/isContainer}}{{^required}} [optional]{{/required}}
 {{/vars}}
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
-{{#isEnum}}
-{{>modelEnum}}
-{{/isEnum}}
-{{^isEnum}}
 #' @export
 {{classname}} <- R6::R6Class(
-  '{{classname}}',
+  "{{classname}}",
   {{#parent}}
   inherit = {{{.}}},
   {{/parent}}
@@ -37,7 +31,7 @@
     #' @param ... Other optional arguments.
     #' @export
     initialize = function(
-        {{#requiredVars}}`{{name}}`, {{/requiredVars}}{{#optionalVars}}`{{name}}`={{{defaultValue}}}{{^defaultValue}}NULL{{/defaultValue}}, {{/optionalVars}}...
+        {{#requiredVars}}`{{name}}`, {{/requiredVars}}{{#optionalVars}}`{{name}}` = {{{defaultValue}}}{{^defaultValue}}NULL{{/defaultValue}}, {{/optionalVars}}...
     ) {
       {{#requiredVars}}
       if (!missing(`{{name}}`)) {
@@ -139,7 +133,7 @@
       {{classname}}Object <- list()
       {{#vars}}
       if (!is.null(self$`{{name}}`)) {
-        {{classname}}Object[['{{baseName}}']] <-
+        {{classname}}Object[["{{baseName}}"]] <-
        {{#isContainer}}
        {{#isArray}}
        {{#isPrimitiveType}}
@@ -211,62 +205,63 @@
       jsoncontent <- c(
       {{#vars}}
         if (!is.null(self$`{{name}}`)) {
-        sprintf(
-        '"{{baseName}}":
-        {{#isContainer}}
-        {{#isArray}}
-        {{#isPrimitiveType}}
-           {{#isNumeric}}[%d]{{/isNumeric}}{{^isNumeric}}[%s]{{/isNumeric}}
-        {{/isPrimitiveType}}
-        {{^isPrimitiveType}}[%s]
-        {{/isPrimitiveType}}
-        {{/isArray}}
-        {{#isMap}}
-        {{#isPrimitiveType}}
-          {{#isNumeric}}%d{{/isNumeric}}{{^isNumeric}}{{^isBoolean}}"{{/isBoolean}}%s{{^isBoolean}}"{{/isBoolean}}{{/isNumeric}}
-        {{/isPrimitiveType}}
-        {{^isPrimitiveType}}%s
-        {{/isPrimitiveType}}
-        {{/isMap}}
-        {{/isContainer}}
-        {{^isContainer}}
-        {{#isPrimitiveType}}
-          {{#isNumeric}}%d{{/isNumeric}}{{^isNumeric}}{{^isBoolean}}"{{/isBoolean}}%s{{^isBoolean}}"{{/isBoolean}}{{/isNumeric}}
-        {{/isPrimitiveType}}
-        {{^isPrimitiveType}}%s
-        {{/isPrimitiveType}}
-        {{/isContainer}}',
-        {{#isContainer}}
-        {{#isArray}}
-        {{#isPrimitiveType}}
-        paste(unlist(lapply(self$`{{{name}}}`, function(x) paste0('"', x, '"'))), collapse=",")
-        {{/isPrimitiveType}}
-        {{^isPrimitiveType}}
-        paste(sapply(self$`{{{name}}}`, function(x) jsonlite::toJSON(x$toJSON(), auto_unbox=TRUE, digits = NA)), collapse=",")
-        {{/isPrimitiveType}}
-        {{/isArray}}
-        {{#isMap}}
-        {{#isPrimitiveType}}
-        jsonlite::toJSON(lapply(self$`{{{name}}}`, function(x){ x }), auto_unbox = TRUE, digits=NA)
-        {{/isPrimitiveType}}
-        {{^isPrimitiveType}}
-        jsonlite::toJSON(lapply(self$`{{{name}}}`, function(x){ x$toJSON() }), auto_unbox = TRUE, digits=NA)
-        {{/isPrimitiveType}}
-        {{/isMap}}
-        {{/isContainer}}
-        {{^isContainer}}
-        {{#isPrimitiveType}}
-        {{#isBoolean}}tolower({{/isBoolean}}self$`{{name}}`{{#isBoolean}}){{/isBoolean}}
-        {{/isPrimitiveType}}
-        {{^isPrimitiveType}}
-        jsonlite::toJSON(self$`{{name}}`$toJSON(), auto_unbox=TRUE, digits = NA)
-        {{/isPrimitiveType}}
-        {{/isContainer}}
-        )}{{^-last}},{{/-last}}
+          sprintf(
+          '"{{baseName}}":
+          {{#isContainer}}
+          {{#isArray}}
+          {{#isPrimitiveType}}
+             {{#isNumeric}}[%d]{{/isNumeric}}{{^isNumeric}}[%s]{{/isNumeric}}
+          {{/isPrimitiveType}}
+          {{^isPrimitiveType}}[%s]
+          {{/isPrimitiveType}}
+          {{/isArray}}
+          {{#isMap}}
+          {{#isPrimitiveType}}
+            {{#isNumeric}}%d{{/isNumeric}}{{^isNumeric}}{{^isBoolean}}"{{/isBoolean}}%s{{^isBoolean}}"{{/isBoolean}}{{/isNumeric}}
+          {{/isPrimitiveType}}
+          {{^isPrimitiveType}}%s
+          {{/isPrimitiveType}}
+          {{/isMap}}
+          {{/isContainer}}
+          {{^isContainer}}
+          {{#isPrimitiveType}}
+            {{#isNumeric}}%d{{/isNumeric}}{{^isNumeric}}{{^isBoolean}}"{{/isBoolean}}%s{{^isBoolean}}"{{/isBoolean}}{{/isNumeric}}
+          {{/isPrimitiveType}}
+          {{^isPrimitiveType}}%s
+          {{/isPrimitiveType}}
+          {{/isContainer}}',
+          {{#isContainer}}
+          {{#isArray}}
+          {{#isPrimitiveType}}
+          paste(unlist(lapply(self$`{{{name}}}`, function(x) paste0('"', x, '"'))), collapse = ",")
+          {{/isPrimitiveType}}
+          {{^isPrimitiveType}}
+          paste(sapply(self$`{{{name}}}`, function(x) jsonlite::toJSON(x$toJSON(), auto_unbox = TRUE, digits = NA)), collapse = ",")
+          {{/isPrimitiveType}}
+          {{/isArray}}
+          {{#isMap}}
+          {{#isPrimitiveType}}
+          jsonlite::toJSON(lapply(self$`{{{name}}}`, function(x){ x }), auto_unbox = TRUE, digits = NA)
+          {{/isPrimitiveType}}
+          {{^isPrimitiveType}}
+          jsonlite::toJSON(lapply(self$`{{{name}}}`, function(x){ x$toJSON() }), auto_unbox = TRUE, digits = NA)
+          {{/isPrimitiveType}}
+          {{/isMap}}
+          {{/isContainer}}
+          {{^isContainer}}
+          {{#isPrimitiveType}}
+          {{#isBoolean}}tolower({{/isBoolean}}self$`{{name}}`{{#isBoolean}}){{/isBoolean}}
+          {{/isPrimitiveType}}
+          {{^isPrimitiveType}}
+          jsonlite::toJSON(self$`{{name}}`$toJSON(), auto_unbox = TRUE, digits = NA)
+          {{/isPrimitiveType}}
+          {{/isContainer}}
+          )
+        }{{^-last}},{{/-last}}
       {{/vars}}
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
-      as.character(jsonlite::minify(paste('{', jsoncontent, '}', sep = "")))
+      as.character(jsonlite::minify(paste("{", jsoncontent, "}", sep = "")))
     },
     #' Deserialize JSON string into an instance of {{{classname}}}
     #'
@@ -362,6 +357,3 @@
     }
   )
 )
-{{/isEnum}}
-{{/model}}
-{{/models}}

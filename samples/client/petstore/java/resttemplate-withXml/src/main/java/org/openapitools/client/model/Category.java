@@ -26,6 +26,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.*;
+import io.github.threetenjaxb.core.*;
 
 /**
  * Category
@@ -47,7 +49,7 @@ public class Category {
   @XmlElement(name = "name")
   private String name = "default-name";
 
-  public Category() { 
+  public Category() {
   }
 
   public Category id(Long id) {

@@ -62,7 +62,7 @@ public class FileSchemaTestClass implements Parcelable {
   @SerializedName(SERIALIZED_NAME_FILES)
   private List<ModelFile> files = null;
 
-  public FileSchemaTestClass() { 
+  public FileSchemaTestClass() {
   }
 
   public FileSchemaTestClass _file(ModelFile _file) {
@@ -219,7 +219,7 @@ public class FileSchemaTestClass implements Parcelable {
         }
       }
       // validate the optional field `file`
-      if (jsonObj.getAsJsonObject("file") != null) {
+      if (jsonObj.get("file") != null && !jsonObj.get("file").isJsonNull()) {
         ModelFile.validateJsonObject(jsonObj.getAsJsonObject("file"));
       }
       JsonArray jsonArrayfiles = jsonObj.getAsJsonArray("files");

@@ -45,7 +45,7 @@ public class FileSchemaTestClass {
   public static final String JSON_PROPERTY_FILES = "files";
   private List<ModelFile> files = null;
 
-  public FileSchemaTestClass() { 
+  public FileSchemaTestClass() {
   }
 
   public FileSchemaTestClass _file(ModelFile _file) {

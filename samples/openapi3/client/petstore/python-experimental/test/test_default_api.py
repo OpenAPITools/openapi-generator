@@ -10,16 +10,24 @@
 """
 
 import unittest
+from unittest.mock import patch
+
+import urllib3
 
 import petstore_api
 from petstore_api.api.default_api import DefaultApi  # noqa: E501
+from petstore_api import configuration, schemas, api_client
+
+from . import ApiTestMixin
 
 
-class TestDefaultApi(unittest.TestCase):
+class TestDefaultApi(ApiTestMixin, unittest.TestCase):
     """DefaultApi unit test stubs"""
+    _configuration = configuration.Configuration()
 
     def setUp(self):
-        self.api = DefaultApi()  # noqa: E501
+        used_api_client = api_client.ApiClient(configuration=self._configuration)
+        self.api = DefaultApi(api_client=used_api_client)  # noqa: E501
 
     def tearDown(self):
         pass
@@ -28,6 +36,12 @@ class TestDefaultApi(unittest.TestCase):
         """Test case for foo_get
 
         """
+        from petstore_api.api.default_api_endpoints import foo_get as endpoint_module
+        response_status = 0
+        accept_content_type = 'application/json'
+
+
+
         pass
 
 

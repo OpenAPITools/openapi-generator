@@ -15,7 +15,7 @@
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
 DogAllOf <- R6::R6Class(
-  'DogAllOf',
+  "DogAllOf",
   public = list(
     `breed` = NULL,
     #' Initialize a new DogAllOf class.
@@ -27,7 +27,7 @@ DogAllOf <- R6::R6Class(
     #' @param ... Other optional arguments.
     #' @export
     initialize = function(
-        `breed`=NULL, ...
+        `breed` = NULL, ...
     ) {
       if (!is.null(`breed`)) {
         stopifnot(is.character(`breed`), length(`breed`) == 1)
@@ -44,7 +44,7 @@ DogAllOf <- R6::R6Class(
     toJSON = function() {
       DogAllOfObject <- list()
       if (!is.null(self$`breed`)) {
-        DogAllOfObject[['breed']] <-
+        DogAllOfObject[["breed"]] <-
           self$`breed`
       }
 
@@ -75,15 +75,16 @@ DogAllOf <- R6::R6Class(
     toJSONString = function() {
       jsoncontent <- c(
         if (!is.null(self$`breed`)) {
-        sprintf(
-        '"breed":
-          "%s"
-                ',
-        self$`breed`
-        )}
+          sprintf(
+          '"breed":
+            "%s"
+                    ',
+          self$`breed`
+          )
+        }
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
-      as.character(jsonlite::minify(paste('{', jsoncontent, '}', sep = "")))
+      as.character(jsonlite::minify(paste("{", jsoncontent, "}", sep = "")))
     },
     #' Deserialize JSON string into an instance of DogAllOf
     #'
@@ -120,4 +121,3 @@ DogAllOf <- R6::R6Class(
     }
   )
 )
-

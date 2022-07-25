@@ -21,6 +21,7 @@ import com.samskivert.mustache.Mustache.Lambda;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
 
+//import com.sun.media.sound.InvalidDataException;
 import io.swagger.v3.oas.models.examples.Example;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
@@ -64,9 +65,15 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String DEFAULT = "default";
     public static final String RLANG = "rlang";
 
+    // naming convention for operationId (function names in the API)
+    public static final String OPERATIONID_NAMING = "operationIdNaming";
+
     protected boolean useDefaultExceptionHandling = false;
     protected boolean useRlangExceptionHandling = false;
     protected String errorObjectType;
+    protected String operationIdNaming;
+
+    private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
 
     public CodegenType getTag() {
         return CodegenType.CLIENT;
@@ -175,6 +182,14 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         cliOptions.add(new CliOption(CodegenConstants.EXCEPTION_ON_FAILURE, CodegenConstants.EXCEPTION_ON_FAILURE_DESC)
                 .defaultValue(Boolean.FALSE.toString()));
 
+        CliOption operationIdNaming = CliOption.newString(OPERATIONID_NAMING, "Naming convention for operationId (function name in the API)");
+        Map<String, String> operationIdNamingOptions = new HashMap<>();
+        operationIdNamingOptions.put("snake_case", "Snake case");
+        operationIdNamingOptions.put("camelCase", "Camel case");
+        operationIdNamingOptions.put("PascalCase", "Pascal case (default)");
+        operationIdNaming.setEnum(operationIdNamingOptions);
+        cliOptions.add(operationIdNaming);
+
         exceptionPackages.put(DEFAULT, "Use stop() for raising exceptions.");
         exceptionPackages.put(RLANG, "Use rlang package for exceptions.");
 
@@ -203,15 +218,14 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
 
         if (additionalProperties.containsKey(CodegenConstants.EXCEPTION_ON_FAILURE)) {
-            boolean booleanValue = Boolean.parseBoolean(additionalProperties.get(CodegenConstants.EXCEPTION_ON_FAILURE).toString());
-            setReturnExceptionOnFailure(booleanValue);
+            setReturnExceptionOnFailure(Boolean.parseBoolean(
+                    additionalProperties.get(CodegenConstants.EXCEPTION_ON_FAILURE).toString()));
         } else {
             setReturnExceptionOnFailure(false);
         }
 
         if (additionalProperties.containsKey(EXCEPTION_PACKAGE)) {
-            String exceptionPackage = additionalProperties.get(EXCEPTION_PACKAGE).toString();
-            setExceptionPackageToUse(exceptionPackage);
+            setExceptionPackageToUse(additionalProperties.get(EXCEPTION_PACKAGE).toString());
         } else {
             setExceptionPackageToUse(DEFAULT);
         }
@@ -221,13 +235,18 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
         additionalProperties.put(CodegenConstants.ERROR_OBJECT_TYPE, errorObjectType);
 
+        if (additionalProperties.containsKey(OPERATIONID_NAMING)) {
+            this.setOperationIdNaming(additionalProperties.get(OPERATIONID_NAMING).toString());
+        } else {
+            this.setOperationIdNaming("PascalCase"); // default to PascalCase for backward compatibility
+        }
+        additionalProperties.put(CodegenConstants.ERROR_OBJECT_TYPE, errorObjectType);
+
         additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
         additionalProperties.put(CodegenConstants.PACKAGE_VERSION, packageVersion);
         additionalProperties.put(CodegenConstants.EXCEPTION_ON_FAILURE, returnExceptionOnFailure);
-
         additionalProperties.put(USE_DEFAULT_EXCEPTION, this.useDefaultExceptionHandling);
         additionalProperties.put(USE_RLANG_EXCEPTION, this.useRlangExceptionHandling);
-
 
         additionalProperties.put("apiDocPath", apiDocPath);
         additionalProperties.put("modelDocPath", modelDocPath);
@@ -252,6 +271,8 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("api_client.mustache", File.separator + "R", "api_client.R"));
         supportingFiles.add(new SupportingFile("NAMESPACE.mustache", "", "NAMESPACE"));
         supportingFiles.add(new SupportingFile("testthat.mustache", File.separator + "tests", "testthat.R"));
+        supportingFiles.add(new SupportingFile("r-client.mustache", File.separator + ".github" + File.separator + "workflows", "r-client.yaml"));
+        supportingFiles.add(new SupportingFile("lintr.mustache", "", ".lintr"));
 
         // add lambda for mustache templates to fix license field
         additionalProperties.put("lambdaLicense", new Mustache.Lambda() {
@@ -341,6 +362,18 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toModelName(String name) {
+        // We need to check if schema-mapping has a different model for this class, so we use it
+        // instead of the auto-generated one.
+        if (schemaMapping.containsKey(name)) {
+            return schemaMapping.get(name);
+        }
+
+        // memoization
+        String origName = name;
+        if (schemaKeyToModelNameCache.containsKey(origName)) {
+            return schemaKeyToModelNameCache.get(origName);
+        }
+
         if (!StringUtils.isEmpty(modelNamePrefix)) {
             name = modelNamePrefix + "_" + name;
         }
@@ -364,6 +397,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
             name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
         }
 
+        schemaKeyToModelNameCache.put(origName, camelize(name));
         return camelize(name);
     }
 
@@ -454,7 +488,16 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
             sanitizedOperationId = "call_" + sanitizedOperationId;
         }
 
-        return camelize(sanitizedOperationId);
+        if ("PascalCase".equals(operationIdNaming)) {
+            return camelize(sanitizedOperationId);
+        } else if ("camelCase".equals(operationIdNaming)) {
+            return camelize(sanitizedOperationId, true);
+        } else if ("snake_case".equals(operationIdNaming)) {
+            return underscore(sanitizedOperationId);
+        } else {
+            LOGGER.error("Invalid operationIdNaming: {}. Please report the issue. Default to PascalCase for the time being", operationIdNaming);
+            return camelize(sanitizedOperationId);
+        }
     }
 
     @Override
@@ -527,6 +570,21 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         this.errorObjectType = errorObjectType;
     }
 
+    public void setOperationIdNaming(final String operationIdNaming) {
+        if (!("PascalCase".equals(operationIdNaming) || "camelCase".equals(operationIdNaming) ||
+                "snake_case".equals(operationIdNaming))) {
+            throw new IllegalArgumentException("Invalid operationIdNaming: " + operationIdNaming +
+                    ". Must be PascalCase, camelCase or snake_case");
+        }
+
+        if ("snake_case".equals(operationIdNaming)) {
+            additionalProperties.put("WithHttpInfo", "_with_http_info");
+        } else {
+            additionalProperties.put("WithHttpInfo", "WithHttpInfo");
+        }
+
+        this.operationIdNaming = operationIdNaming;
+    }
     @Override
     public String escapeQuotationMark(String input) {
         // remove " to avoid code injection
@@ -625,7 +683,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
             if (example == null) {
                 example = p.paramName + "_example";
             }
-            example = "'" + escapeText(example) + "'";
+            example = "\"" + escapeText(example) + "\"";
         } else if ("integer".equals(type)) {
             if (example == null) {
                 example = "56";
@@ -715,7 +773,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
                 if (Pattern.compile("\r\n|\r|\n").matcher((String) p.getDefault()).find())
                     return "'''" + p.getDefault() + "'''";
                 else
-                    return "'" + ((String) p.getDefault()).replaceAll("'", "\'") + "'";
+                    return "\"" + ((String) p.getDefault()).replaceAll("\"", "\\\"") + "\"";
             }
         } else if (ModelUtils.isArraySchema(p)) {
             if (p.getDefault() != null) {

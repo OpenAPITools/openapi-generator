@@ -5,12 +5,13 @@ All URIs are relative to *http://petstore.swagger.io/v2*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**AddPet**](PetApi.md#AddPet) | **POST** /pet | Add a new pet to the store
-[**DeletePet**](PetApi.md#DeletePet) | **DELETE** /pet/{petId} | Deletes a pet
+[**DeletePet**](PetApi.md#DeletePet) | **DELETE** /pet/{petId}?streaming | Deletes a pet
 [**FindPetsByStatus**](PetApi.md#FindPetsByStatus) | **GET** /pet/findByStatus | Finds Pets by status
 [**FindPetsByTags**](PetApi.md#FindPetsByTags) | **GET** /pet/findByTags | Finds Pets by tags
 [**GetPetById**](PetApi.md#GetPetById) | **GET** /pet/{petId} | Find pet by ID
+[**GetPetByIdStreaming**](PetApi.md#GetPetByIdStreaming) | **GET** /pet/{petId}?streaming | Find pet by ID (streaming)
 [**UpdatePet**](PetApi.md#UpdatePet) | **PUT** /pet | Update an existing pet
-[**UpdatePetWithForm**](PetApi.md#UpdatePetWithForm) | **POST** /pet/{petId} | Updates a pet in the store with form data
+[**UpdatePetWithForm**](PetApi.md#UpdatePetWithForm) | **POST** /pet/{petId}?streaming | Updates a pet in the store with form data
 [**UploadFile**](PetApi.md#UploadFile) | **POST** /pet/{petId}/uploadImage | uploads an image
 
 
@@ -29,8 +30,9 @@ var_pet <- Pet$new("name_example", list("photoUrls_example"), 123, Category$new(
 
 #Add a new pet to the store
 api_instance <- PetApi$new()
-# Configure OAuth2 access token for authorization: petstore_auth
-api_instance$api_client$access_token <- 'TODO_YOUR_ACCESS_TOKEN';
+# Configure HTTP basic authorization: http_auth
+api_instance$api_client$username <- 'TODO_YOUR_USERNAME';
+api_instance$api_client$password <- 'TODO_YOUR_PASSWORD';
 result <- tryCatch(
              # to save the result into a file, simply add the optional `data_file` parameter, e.g.
              # api_instance$AddPet(var_pet, data_file = "result.txt"),
@@ -62,7 +64,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth)
+[http_auth](../README.md#http_auth)
 
 ### HTTP request headers
 
@@ -87,7 +89,7 @@ Deletes a pet
 library(petstore)
 
 var_pet_id <- 56 # integer | Pet id to delete
-var_api_key <- 'api_key_example' # character | 
+var_api_key <- "api_key_example" # character | 
 
 #Deletes a pet
 api_instance <- PetApi$new()
@@ -270,12 +272,76 @@ var_pet_id <- 56 # integer | ID of pet to return
 
 #Find pet by ID
 api_instance <- PetApi$new()
-# Configure API key authorization: api_key
-api_instance$api_client$api_keys['api_key'] <- 'TODO_YOUR_API_KEY';
+# Configure HTTP bearer authorization: BearerToken
+api.instance$api_client$bearer_token <- 'TODO_YOUR_BEARER_TOKEN';
 result <- tryCatch(
              # to save the result into a file, simply add the optional `data_file` parameter, e.g.
              # api_instance$GetPetById(var_pet_id, data_file = "result.txt"),
              api_instance$GetPetById(var_pet_id),
+             ApiException = function(ex) ex
+          )
+# In case of error, print the error object
+if (!is.null(result$ApiException)) {
+  cat(result$ApiException$toString())
+} else {
+  # deserialized response object
+  response.object <- result$content
+  # response headers
+  response.headers <- result$response$headers
+  # response status code
+  response.status.code <- result$response$status_code
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **pet_id** | **integer**| ID of pet to return | 
+
+### Return type
+
+[**Pet**](Pet.md)
+
+### Authorization
+
+[BearerToken](../README.md#BearerToken)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/xml, application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | successful operation |  -  |
+| **400** | Invalid ID supplied |  -  |
+| **404** | Pet not found |  -  |
+
+# **GetPetByIdStreaming**
+> Pet GetPetByIdStreaming(pet_id)
+
+Find pet by ID (streaming)
+
+Returns a single pet
+
+### Example
+```R
+library(petstore)
+
+var_pet_id <- 56 # integer | ID of pet to return
+
+#Find pet by ID (streaming)
+api_instance <- PetApi$new()
+# Configure API key authorization: api_key
+api_instance$api_client$api_keys['api_key'] <- 'TODO_YOUR_API_KEY';
+result <- tryCatch(
+             # to save the result into a file, simply add the optional `data_file` parameter, e.g.
+             # api_instance$GetPetByIdStreaming(var_pet_id, data_file = "result.txt"),
+             # this endpoint supports data streaming via a callback function using the optional `stream_callback` parameter, e.g.
+             # api_instance$GetPetByIdStreaming(var_pet_id, stream_callback = function(x){ print(length(x)) }),
+             api_instance$GetPetByIdStreaming(var_pet_id),
              ApiException = function(ex) ex
           )
 # In case of error, print the error object
@@ -392,8 +458,8 @@ Updates a pet in the store with form data
 library(petstore)
 
 var_pet_id <- 56 # integer | ID of pet that needs to be updated
-var_name <- 'name_example' # character | Updated name of the pet
-var_status <- 'status_example' # character | Updated status of the pet
+var_name <- "name_example" # character | Updated name of the pet
+var_status <- "status_example" # character | Updated status of the pet
 
 #Updates a pet in the store with form data
 api_instance <- PetApi$new()
@@ -452,7 +518,7 @@ uploads an image
 library(petstore)
 
 var_pet_id <- 56 # integer | ID of pet to update
-var_additional_metadata <- 'additional_metadata_example' # character | Additional data to pass to server
+var_additional_metadata <- "additional_metadata_example" # character | Additional data to pass to server
 var_file <- File.new('/path/to/file') # data.frame | file to upload
 
 #uploads an image

@@ -63,12 +63,13 @@ Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *FakeApi* | [**FakeDataFile**](docs/FakeApi.md#FakeDataFile) | **GET** /fake/data_file | test data_file to ensure it's escaped correctly
 *PetApi* | [**AddPet**](docs/PetApi.md#AddPet) | **POST** /pet | Add a new pet to the store
-*PetApi* | [**DeletePet**](docs/PetApi.md#DeletePet) | **DELETE** /pet/{petId} | Deletes a pet
+*PetApi* | [**DeletePet**](docs/PetApi.md#DeletePet) | **DELETE** /pet/{petId}?streaming | Deletes a pet
 *PetApi* | [**FindPetsByStatus**](docs/PetApi.md#FindPetsByStatus) | **GET** /pet/findByStatus | Finds Pets by status
 *PetApi* | [**FindPetsByTags**](docs/PetApi.md#FindPetsByTags) | **GET** /pet/findByTags | Finds Pets by tags
 *PetApi* | [**GetPetById**](docs/PetApi.md#GetPetById) | **GET** /pet/{petId} | Find pet by ID
+*PetApi* | [**GetPetByIdStreaming**](docs/PetApi.md#GetPetByIdStreaming) | **GET** /pet/{petId}?streaming | Find pet by ID (streaming)
 *PetApi* | [**UpdatePet**](docs/PetApi.md#UpdatePet) | **PUT** /pet | Update an existing pet
-*PetApi* | [**UpdatePetWithForm**](docs/PetApi.md#UpdatePetWithForm) | **POST** /pet/{petId} | Updates a pet in the store with form data
+*PetApi* | [**UpdatePetWithForm**](docs/PetApi.md#UpdatePetWithForm) | **POST** /pet/{petId}?streaming | Updates a pet in the store with form data
 *PetApi* | [**UploadFile**](docs/PetApi.md#UploadFile) | **POST** /pet/{petId}/uploadImage | uploads an image
 *StoreApi* | [**DeleteOrder**](docs/StoreApi.md#DeleteOrder) | **DELETE** /store/order/{orderId} | Delete purchase order by ID
 *StoreApi* | [**GetInventory**](docs/StoreApi.md#GetInventory) | **GET** /store/inventory | Returns pet inventories by status
@@ -110,11 +111,19 @@ Class | Method | HTTP request | Description
 ## Documentation for Authorization
 
 
+### BearerToken
+
+- **Type**: HTTP basic authentication
+
 ### api_key
 
 - **Type**: API key
 - **API key parameter name**: api_key
 - **Location**: HTTP header
+
+### http_auth
+
+- **Type**: HTTP basic authentication
 
 ### petstore_auth
 

@@ -60,6 +60,8 @@ from petstore_api.schemas import (  # noqa: F401
     BoolBase,
     BinaryBase,
     Schema,
+    NoneClass,
+    BoolClass,
     _SchemaValidator,
     _SchemaTypeChecker,
     _SchemaEnumMaker
@@ -79,7 +81,7 @@ class HealthCheckResult(
     
     
     class NullableMessage(
-        _SchemaTypeChecker(typing.Union[none_type, str, ]),
+        _SchemaTypeChecker(typing.Union[NoneClass, str, ]),
         StrBase,
         NoneBase,
         Schema

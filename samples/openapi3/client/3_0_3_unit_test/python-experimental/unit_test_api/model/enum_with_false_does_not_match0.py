@@ -60,6 +60,8 @@ from unit_test_api.schemas import (  # noqa: F401
     BoolBase,
     BinaryBase,
     Schema,
+    NoneClass,
+    BoolClass,
     _SchemaValidator,
     _SchemaTypeChecker,
     _SchemaEnumMaker
@@ -69,7 +71,7 @@ from unit_test_api.schemas import (  # noqa: F401
 class EnumWithFalseDoesNotMatch0(
     _SchemaEnumMaker(
         enum_value_to_name={
-            False: "FALSE",
+            BoolClass.FALSE: "FALSE",
         }
     ),
     BoolSchema
@@ -83,4 +85,4 @@ class EnumWithFalseDoesNotMatch0(
     @classmethod
     @property
     def FALSE(cls):
-        return cls(False)
+        return cls(BoolClass.FALSE)

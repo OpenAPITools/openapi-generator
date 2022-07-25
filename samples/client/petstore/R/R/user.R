@@ -22,7 +22,7 @@
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
 User <- R6::R6Class(
-  'User',
+  "User",
   public = list(
     `id` = NULL,
     `username` = NULL,
@@ -48,7 +48,7 @@ User <- R6::R6Class(
     #' @param ... Other optional arguments.
     #' @export
     initialize = function(
-        `id`=NULL, `username`=NULL, `firstName`=NULL, `lastName`=NULL, `email`=NULL, `password`=NULL, `phone`=NULL, `userStatus`=NULL, ...
+        `id` = NULL, `username` = NULL, `firstName` = NULL, `lastName` = NULL, `email` = NULL, `password` = NULL, `phone` = NULL, `userStatus` = NULL, ...
     ) {
       if (!is.null(`id`)) {
         stopifnot(is.numeric(`id`), length(`id`) == 1)
@@ -93,35 +93,35 @@ User <- R6::R6Class(
     toJSON = function() {
       UserObject <- list()
       if (!is.null(self$`id`)) {
-        UserObject[['id']] <-
+        UserObject[["id"]] <-
           self$`id`
       }
       if (!is.null(self$`username`)) {
-        UserObject[['username']] <-
+        UserObject[["username"]] <-
           self$`username`
       }
       if (!is.null(self$`firstName`)) {
-        UserObject[['firstName']] <-
+        UserObject[["firstName"]] <-
           self$`firstName`
       }
       if (!is.null(self$`lastName`)) {
-        UserObject[['lastName']] <-
+        UserObject[["lastName"]] <-
           self$`lastName`
       }
       if (!is.null(self$`email`)) {
-        UserObject[['email']] <-
+        UserObject[["email"]] <-
           self$`email`
       }
       if (!is.null(self$`password`)) {
-        UserObject[['password']] <-
+        UserObject[["password"]] <-
           self$`password`
       }
       if (!is.null(self$`phone`)) {
-        UserObject[['phone']] <-
+        UserObject[["phone"]] <-
           self$`phone`
       }
       if (!is.null(self$`userStatus`)) {
-        UserObject[['userStatus']] <-
+        UserObject[["userStatus"]] <-
           self$`userStatus`
       }
 
@@ -173,64 +173,72 @@ User <- R6::R6Class(
     toJSONString = function() {
       jsoncontent <- c(
         if (!is.null(self$`id`)) {
-        sprintf(
-        '"id":
-          %d
-                ',
-        self$`id`
-        )},
+          sprintf(
+          '"id":
+            %d
+                    ',
+          self$`id`
+          )
+        },
         if (!is.null(self$`username`)) {
-        sprintf(
-        '"username":
-          "%s"
-                ',
-        self$`username`
-        )},
+          sprintf(
+          '"username":
+            "%s"
+                    ',
+          self$`username`
+          )
+        },
         if (!is.null(self$`firstName`)) {
-        sprintf(
-        '"firstName":
-          "%s"
-                ',
-        self$`firstName`
-        )},
+          sprintf(
+          '"firstName":
+            "%s"
+                    ',
+          self$`firstName`
+          )
+        },
         if (!is.null(self$`lastName`)) {
-        sprintf(
-        '"lastName":
-          "%s"
-                ',
-        self$`lastName`
-        )},
+          sprintf(
+          '"lastName":
+            "%s"
+                    ',
+          self$`lastName`
+          )
+        },
         if (!is.null(self$`email`)) {
-        sprintf(
-        '"email":
-          "%s"
-                ',
-        self$`email`
-        )},
+          sprintf(
+          '"email":
+            "%s"
+                    ',
+          self$`email`
+          )
+        },
         if (!is.null(self$`password`)) {
-        sprintf(
-        '"password":
-          "%s"
-                ',
-        self$`password`
-        )},
+          sprintf(
+          '"password":
+            "%s"
+                    ',
+          self$`password`
+          )
+        },
         if (!is.null(self$`phone`)) {
-        sprintf(
-        '"phone":
-          "%s"
-                ',
-        self$`phone`
-        )},
+          sprintf(
+          '"phone":
+            "%s"
+                    ',
+          self$`phone`
+          )
+        },
         if (!is.null(self$`userStatus`)) {
-        sprintf(
-        '"userStatus":
-          %d
-                ',
-        self$`userStatus`
-        )}
+          sprintf(
+          '"userStatus":
+            %d
+                    ',
+          self$`userStatus`
+          )
+        }
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
-      as.character(jsonlite::minify(paste('{', jsoncontent, '}', sep = "")))
+      as.character(jsonlite::minify(paste("{", jsoncontent, "}", sep = "")))
     },
     #' Deserialize JSON string into an instance of User
     #'
@@ -274,4 +282,3 @@ User <- R6::R6Class(
     }
   )
 )
-

@@ -133,6 +133,7 @@ public interface PetApi {
      *         or Invalid tag value (status code 400)
      * @deprecated
      */
+    @Deprecated
     @Operation(
         operationId = "findPetsByTags",
         summary = "Finds Pets by tags",

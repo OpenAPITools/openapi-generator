@@ -1534,10 +1534,42 @@ public class JavaClientCodegenTest {
             .collect(Collectors.toMap(File::getName, Function.identity()));
 
         JavaFileAssert.assertThat(files.get("Foo.java"))
+            .assertConstructor("String", "Integer")
+            .hasParameter("b")
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("JsonbProperty", ImmutableMap.of("value", "\"b\"", "nillable", "true"))
+            .toParameter().toConstructor()
+            .hasParameter("c")
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("JsonbProperty", ImmutableMap.of("value", "\"c\""));
+    }
+
+    @Test
+    public void testWebClientJsonCreatorWithNullable_issue12790() throws Exception {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(AbstractJavaCodegen.OPENAPI_NULLABLE, "true");
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+            .setAdditionalProperties(properties)
+            .setGeneratorName("java")
+            .setLibrary(JavaClientCodegen.WEBCLIENT)
+            .setInputSpec("src/test/resources/bugs/issue_12790.yaml")
+            .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(clientOptInput).generate().stream()
+            .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("TestObject.java"))
             .printFileContent()
-            .fileContains(
-                "@JsonbProperty(value = \"b\", nillable = true) String b",
-                "@JsonbProperty(value = \"c\") Integer c"
+            .assertConstructor("String", "String")
+            .bodyContainsLines(
+                "this.nullableProperty = nullableProperty == null ? JsonNullable.<String>undefined() : JsonNullable.of(nullableProperty);",
+                "this.notNullableProperty = notNullableProperty;"
             );
     }
 

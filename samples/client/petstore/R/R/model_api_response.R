@@ -17,7 +17,7 @@
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
 ModelApiResponse <- R6::R6Class(
-  'ModelApiResponse',
+  "ModelApiResponse",
   public = list(
     `code` = NULL,
     `type` = NULL,
@@ -33,7 +33,7 @@ ModelApiResponse <- R6::R6Class(
     #' @param ... Other optional arguments.
     #' @export
     initialize = function(
-        `code`=NULL, `type`=NULL, `message`=NULL, ...
+        `code` = NULL, `type` = NULL, `message` = NULL, ...
     ) {
       if (!is.null(`code`)) {
         stopifnot(is.numeric(`code`), length(`code`) == 1)
@@ -58,15 +58,15 @@ ModelApiResponse <- R6::R6Class(
     toJSON = function() {
       ModelApiResponseObject <- list()
       if (!is.null(self$`code`)) {
-        ModelApiResponseObject[['code']] <-
+        ModelApiResponseObject[["code"]] <-
           self$`code`
       }
       if (!is.null(self$`type`)) {
-        ModelApiResponseObject[['type']] <-
+        ModelApiResponseObject[["type"]] <-
           self$`type`
       }
       if (!is.null(self$`message`)) {
-        ModelApiResponseObject[['message']] <-
+        ModelApiResponseObject[["message"]] <-
           self$`message`
       }
 
@@ -103,29 +103,32 @@ ModelApiResponse <- R6::R6Class(
     toJSONString = function() {
       jsoncontent <- c(
         if (!is.null(self$`code`)) {
-        sprintf(
-        '"code":
-          %d
-                ',
-        self$`code`
-        )},
+          sprintf(
+          '"code":
+            %d
+                    ',
+          self$`code`
+          )
+        },
         if (!is.null(self$`type`)) {
-        sprintf(
-        '"type":
-          "%s"
-                ',
-        self$`type`
-        )},
+          sprintf(
+          '"type":
+            "%s"
+                    ',
+          self$`type`
+          )
+        },
         if (!is.null(self$`message`)) {
-        sprintf(
-        '"message":
-          "%s"
-                ',
-        self$`message`
-        )}
+          sprintf(
+          '"message":
+            "%s"
+                    ',
+          self$`message`
+          )
+        }
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
-      as.character(jsonlite::minify(paste('{', jsoncontent, '}', sep = "")))
+      as.character(jsonlite::minify(paste("{", jsoncontent, "}", sep = "")))
     },
     #' Deserialize JSON string into an instance of ModelApiResponse
     #'
@@ -164,4 +167,3 @@ ModelApiResponse <- R6::R6Class(
     }
   )
 )
-

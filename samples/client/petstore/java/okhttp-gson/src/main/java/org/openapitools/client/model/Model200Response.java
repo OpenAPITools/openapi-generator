@@ -58,7 +58,7 @@ public class Model200Response {
   @SerializedName(SERIALIZED_NAME_PROPERTY_CLASS)
   private String propertyClass;
 
-  public Model200Response() { 
+  public Model200Response() {
   }
 
   public Model200Response name(Integer name) {
@@ -212,7 +212,7 @@ public class Model200Response {
           throw new IllegalArgumentException(String.format("The required field(s) %s in Model200Response is not found in the empty JSON string", Model200Response.openapiRequiredFields.toString()));
         }
       }
-      if (jsonObj.get("class") != null && !jsonObj.get("class").isJsonPrimitive()) {
+      if ((jsonObj.get("class") != null && !jsonObj.get("class").isJsonNull()) && !jsonObj.get("class").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `class` to be a primitive type in the JSON string but got `%s`", jsonObj.get("class").toString()));
       }
   }

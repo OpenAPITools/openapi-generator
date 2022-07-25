@@ -53,7 +53,7 @@ public class ModelList {
   @SerializedName(SERIALIZED_NAME_123LIST)
   private String _123list;
 
-  public ModelList() { 
+  public ModelList() {
   }
 
   public ModelList _123list(String _123list) {
@@ -181,7 +181,7 @@ public class ModelList {
           throw new IllegalArgumentException(String.format("The required field(s) %s in ModelList is not found in the empty JSON string", ModelList.openapiRequiredFields.toString()));
         }
       }
-      if (jsonObj.get("123-list") != null && !jsonObj.get("123-list").isJsonPrimitive()) {
+      if ((jsonObj.get("123-list") != null && !jsonObj.get("123-list").isJsonNull()) && !jsonObj.get("123-list").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `123-list` to be a primitive type in the JSON string but got `%s`", jsonObj.get("123-list").toString()));
       }
   }

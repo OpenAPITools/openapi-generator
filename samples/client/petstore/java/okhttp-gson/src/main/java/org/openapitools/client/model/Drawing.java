@@ -72,7 +72,7 @@ public class Drawing {
   @SerializedName(SERIALIZED_NAME_SHAPES)
   private List<Shape> shapes = null;
 
-  public Drawing() { 
+  public Drawing() {
   }
 
   public Drawing mainShape(Shape mainShape) {
@@ -269,15 +269,15 @@ public class Drawing {
         }
       }
       // validate the optional field `mainShape`
-      if (jsonObj.getAsJsonObject("mainShape") != null) {
+      if (jsonObj.get("mainShape") != null && !jsonObj.get("mainShape").isJsonNull()) {
         Shape.validateJsonObject(jsonObj.getAsJsonObject("mainShape"));
       }
       // validate the optional field `shapeOrNull`
-      if (jsonObj.getAsJsonObject("shapeOrNull") != null) {
+      if (jsonObj.get("shapeOrNull") != null && !jsonObj.get("shapeOrNull").isJsonNull()) {
         ShapeOrNull.validateJsonObject(jsonObj.getAsJsonObject("shapeOrNull"));
       }
       // validate the optional field `nullableShape`
-      if (jsonObj.getAsJsonObject("nullableShape") != null) {
+      if (jsonObj.get("nullableShape") != null && !jsonObj.get("nullableShape").isJsonNull()) {
         NullableShape.validateJsonObject(jsonObj.getAsJsonObject("nullableShape"));
       }
       JsonArray jsonArrayshapes = jsonObj.getAsJsonArray("shapes");

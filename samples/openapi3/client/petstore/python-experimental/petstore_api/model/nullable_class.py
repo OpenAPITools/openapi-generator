@@ -60,6 +60,8 @@ from petstore_api.schemas import (  # noqa: F401
     BoolBase,
     BinaryBase,
     Schema,
+    NoneClass,
+    BoolClass,
     _SchemaValidator,
     _SchemaTypeChecker,
     _SchemaEnumMaker
@@ -77,7 +79,7 @@ class NullableClass(
     
     
     class integer_prop(
-        _SchemaTypeChecker(typing.Union[none_type, decimal.Decimal, ]),
+        _SchemaTypeChecker(typing.Union[NoneClass, decimal.Decimal, ]),
         IntBase,
         NoneBase,
         Schema
@@ -96,7 +98,7 @@ class NullableClass(
     
     
     class number_prop(
-        _SchemaTypeChecker(typing.Union[none_type, decimal.Decimal, ]),
+        _SchemaTypeChecker(typing.Union[NoneClass, decimal.Decimal, ]),
         NumberBase,
         NoneBase,
         Schema
@@ -115,7 +117,7 @@ class NullableClass(
     
     
     class boolean_prop(
-        _SchemaTypeChecker(typing.Union[none_type, bool, ]),
+        _SchemaTypeChecker(typing.Union[NoneClass, BoolClass, ]),
         BoolBase,
         NoneBase,
         Schema
@@ -134,7 +136,7 @@ class NullableClass(
     
     
     class string_prop(
-        _SchemaTypeChecker(typing.Union[none_type, str, ]),
+        _SchemaTypeChecker(typing.Union[NoneClass, str, ]),
         StrBase,
         NoneBase,
         Schema
@@ -153,7 +155,7 @@ class NullableClass(
     
     
     class date_prop(
-        _SchemaTypeChecker(typing.Union[none_type, str, ]),
+        _SchemaTypeChecker(typing.Union[NoneClass, str, ]),
         DateBase,
         NoneBase,
         Schema
@@ -172,7 +174,7 @@ class NullableClass(
     
     
     class datetime_prop(
-        _SchemaTypeChecker(typing.Union[none_type, str, ]),
+        _SchemaTypeChecker(typing.Union[NoneClass, str, ]),
         DateTimeBase,
         NoneBase,
         Schema
@@ -191,7 +193,7 @@ class NullableClass(
     
     
     class array_nullable_prop(
-        _SchemaTypeChecker(typing.Union[tuple, none_type, ]),
+        _SchemaTypeChecker(typing.Union[tuple, NoneClass, ]),
         ListBase,
         NoneBase,
         Schema
@@ -210,7 +212,7 @@ class NullableClass(
     
     
     class array_and_items_nullable_prop(
-        _SchemaTypeChecker(typing.Union[tuple, none_type, ]),
+        _SchemaTypeChecker(typing.Union[tuple, NoneClass, ]),
         ListBase,
         NoneBase,
         Schema
@@ -234,7 +236,7 @@ class NullableClass(
         
         
         class _items(
-            _SchemaTypeChecker(typing.Union[frozendict, none_type, ]),
+            _SchemaTypeChecker(typing.Union[frozendict, NoneClass, ]),
             DictBase,
             NoneBase,
             Schema
@@ -255,7 +257,7 @@ class NullableClass(
     
     
     class object_nullable_prop(
-        _SchemaTypeChecker(typing.Union[frozendict, none_type, ]),
+        _SchemaTypeChecker(typing.Union[frozendict, NoneClass, ]),
         DictBase,
         NoneBase,
         Schema
@@ -277,7 +279,7 @@ class NullableClass(
     
     
     class object_and_items_nullable_prop(
-        _SchemaTypeChecker(typing.Union[frozendict, none_type, ]),
+        _SchemaTypeChecker(typing.Union[frozendict, NoneClass, ]),
         DictBase,
         NoneBase,
         Schema
@@ -285,7 +287,7 @@ class NullableClass(
         
         
         class _additional_properties(
-            _SchemaTypeChecker(typing.Union[frozendict, none_type, ]),
+            _SchemaTypeChecker(typing.Union[frozendict, NoneClass, ]),
             DictBase,
             NoneBase,
             Schema
@@ -324,7 +326,7 @@ class NullableClass(
         
         
         class _additional_properties(
-            _SchemaTypeChecker(typing.Union[frozendict, none_type, ]),
+            _SchemaTypeChecker(typing.Union[frozendict, NoneClass, ]),
             DictBase,
             NoneBase,
             Schema
@@ -359,7 +361,7 @@ class NullableClass(
     
     
     class _additional_properties(
-        _SchemaTypeChecker(typing.Union[frozendict, none_type, ]),
+        _SchemaTypeChecker(typing.Union[frozendict, NoneClass, ]),
         DictBase,
         NoneBase,
         Schema

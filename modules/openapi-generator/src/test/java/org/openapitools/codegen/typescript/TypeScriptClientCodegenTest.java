@@ -79,4 +79,23 @@ public class TypeScriptClientCodegenTest {
         Assert.assertFalse(codegenModel.imports.contains("Set"));
     }
 
+    @Test
+    public void testWithAdditionalProperties() {
+        final Schema inner = new ObjectSchema();
+        inner.setAdditionalProperties(true);
+
+        final Schema root = new ObjectSchema()
+            .addProperties("inner", inner);
+
+        final DefaultCodegen codegen = new TypeScriptClientCodegen();
+        final OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", root);
+        codegen.setOpenAPI(openAPI);
+
+        try {
+            // TypeScriptClientCodegen can generate codes without throwing exception.
+            codegen.fromModel("sample", root);
+        } catch (Exception e) {
+            Assert.fail("Exception was thrown.");
+        }
+    }
 }

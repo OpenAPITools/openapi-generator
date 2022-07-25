@@ -16,7 +16,7 @@
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
 UpdatePetRequest <- R6::R6Class(
-  'UpdatePetRequest',
+  "UpdatePetRequest",
   public = list(
     `jsonData` = NULL,
     `binaryDataN2Information` = NULL,
@@ -30,7 +30,7 @@ UpdatePetRequest <- R6::R6Class(
     #' @param ... Other optional arguments.
     #' @export
     initialize = function(
-        `jsonData`=NULL, `binaryDataN2Information`=NULL, ...
+        `jsonData` = NULL, `binaryDataN2Information` = NULL, ...
     ) {
       if (!is.null(`jsonData`)) {
         stopifnot(R6::is.R6(`jsonData`))
@@ -50,11 +50,11 @@ UpdatePetRequest <- R6::R6Class(
     toJSON = function() {
       UpdatePetRequestObject <- list()
       if (!is.null(self$`jsonData`)) {
-        UpdatePetRequestObject[['jsonData']] <-
+        UpdatePetRequestObject[["jsonData"]] <-
           self$`jsonData`$toJSON()
       }
       if (!is.null(self$`binaryDataN2Information`)) {
-        UpdatePetRequestObject[['binaryDataN2Information']] <-
+        UpdatePetRequestObject[["binaryDataN2Information"]] <-
           self$`binaryDataN2Information`
       }
 
@@ -90,22 +90,24 @@ UpdatePetRequest <- R6::R6Class(
     toJSONString = function() {
       jsoncontent <- c(
         if (!is.null(self$`jsonData`)) {
-        sprintf(
-        '"jsonData":
-        %s
-        ',
-        jsonlite::toJSON(self$`jsonData`$toJSON(), auto_unbox=TRUE, digits = NA)
-        )},
+          sprintf(
+          '"jsonData":
+          %s
+          ',
+          jsonlite::toJSON(self$`jsonData`$toJSON(), auto_unbox = TRUE, digits = NA)
+          )
+        },
         if (!is.null(self$`binaryDataN2Information`)) {
-        sprintf(
-        '"binaryDataN2Information":
-          "%s"
-                ',
-        self$`binaryDataN2Information`
-        )}
+          sprintf(
+          '"binaryDataN2Information":
+            "%s"
+                    ',
+          self$`binaryDataN2Information`
+          )
+        }
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
-      as.character(jsonlite::minify(paste('{', jsoncontent, '}', sep = "")))
+      as.character(jsonlite::minify(paste("{", jsoncontent, "}", sep = "")))
     },
     #' Deserialize JSON string into an instance of UpdatePetRequest
     #'
@@ -143,4 +145,3 @@ UpdatePetRequest <- R6::R6Class(
     }
   )
 )
-

@@ -60,6 +60,8 @@ from unit_test_api.schemas import (  # noqa: F401
     BoolBase,
     BinaryBase,
     Schema,
+    NoneClass,
+    BoolClass,
     _SchemaValidator,
     _SchemaTypeChecker,
     _SchemaEnumMaker
@@ -68,7 +70,7 @@ from unit_test_api.schemas import (  # noqa: F401
 
 class BySmallNumber(
     _SchemaValidator(
-        multiple_of=[0.00010],
+        multiple_of=0.00010,
     ),
     AnyTypeSchema
 ):

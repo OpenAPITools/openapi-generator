@@ -11,6 +11,8 @@ pet <- Pet$new("name_test",
   ),
   status = "available"
 )
+pet_api$api_client$username <- "username123"
+pet_api$api_client$password <- "password123"
 result <- pet_api$AddPet(pet)
 
 test_that("AddPet", {
@@ -90,6 +92,13 @@ test_that("GetPetById", {
     response$tags,
     list(Tag$new(id = 123, name = "tag_test"), Tag$new(id = 456, name = "unknown"))
   )
+})
+
+test_that("GetPetByIdStreaming", {
+  result <- tryCatch(
+               pet_api$GetPetByIdStreaming(pet_id, stream_callback = function(x) { print(x) }),
+               ApiException = function(ex) ex
+            )
 })
 
 #test_that("test GetPetById exception", {

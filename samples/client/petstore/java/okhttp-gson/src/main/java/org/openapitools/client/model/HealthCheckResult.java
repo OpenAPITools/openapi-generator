@@ -55,7 +55,7 @@ public class HealthCheckResult {
   @SerializedName(SERIALIZED_NAME_NULLABLE_MESSAGE)
   private String nullableMessage;
 
-  public HealthCheckResult() { 
+  public HealthCheckResult() {
   }
 
   public HealthCheckResult nullableMessage(String nullableMessage) {
@@ -194,7 +194,7 @@ public class HealthCheckResult {
           throw new IllegalArgumentException(String.format("The required field(s) %s in HealthCheckResult is not found in the empty JSON string", HealthCheckResult.openapiRequiredFields.toString()));
         }
       }
-      if (jsonObj.get("NullableMessage") != null && !jsonObj.get("NullableMessage").isJsonPrimitive()) {
+      if ((jsonObj.get("NullableMessage") != null && !jsonObj.get("NullableMessage").isJsonNull()) && !jsonObj.get("NullableMessage").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `NullableMessage` to be a primitive type in the JSON string but got `%s`", jsonObj.get("NullableMessage").toString()));
       }
   }

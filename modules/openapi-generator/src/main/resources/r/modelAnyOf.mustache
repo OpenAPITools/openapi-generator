@@ -9,7 +9,7 @@
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
 {{classname}} <- R6::R6Class(
-  '{{classname}}',
+  "{{classname}}",
   public = list(
     #' @field actual_instance the object stored in this instance.
     actual_instance = NULL,
@@ -28,10 +28,11 @@
       if (is.null(instance)) {
         # do nothing
       } {{#anyOf}}else if (get(class(instance)[[1]], pos = -1)$classname ==  "{{{.}}}") {
-        self$actual_instance = instance
-        self$actual_type = "{{{.}}}"
+        self$actual_instance <- instance
+        self$actual_type <- "{{{.}}}"
       } {{/anyOf}}else {
-        stop(paste("Failed to initialize {{{classname}}} with anyOf schemas {{#anyOf}}{{{.}}}{{^-last}}, {{/-last}}{{/anyOf}}. Provided class name: ", get(class(instance)[[1]], pos = -1)$classname))
+        stop(paste("Failed to initialize {{{classname}}} with anyOf schemas {{#anyOf}}{{{.}}}{{^-last}}, {{/-last}}{{/anyOf}}. Provided class name: ",
+                   get(class(instance)[[1]], pos = -1)$classname))
       }
     },
     #' Deserialize JSON string into an instance of {{{classname}}}.
@@ -56,13 +57,14 @@
         error = function(err) err
       )
 
-      if (!is.null({{{.}}}_result['error'])) {
-        error_messages <- append(error_messages, {{{.}}}_result['message'])
+      if (!is.null({{{.}}}_result["error"])) {
+        error_messages <- append(error_messages, {{{.}}}_result["message"])
       }
 
       {{/anyOf}}
       # no match
-      stop(paste("No match found when deserializing the payload into {{{classname}}} with anyOf schemas {{#anyOf}}{{{.}}}{{^-last}}, {{/-last}}{{/anyOf}}. Details: ", paste(error_messages, collapse = ', ')))
+      stop(paste("No match found when deserializing the payload into {{{classname}}} with anyOf schemas {{#anyOf}}{{{.}}}{{^-last}}, {{/-last}}{{/anyOf}}. Details: ",
+                 paste(error_messages, collapse = ", ")))
     },
     #' Serialize {{{classname}}} to JSON string.
     #'
@@ -121,12 +123,12 @@
     #' @export
     toString = function() {
       jsoncontent <- c(
-        sprintf('"actual_instance": %s', if (is.null(self$actual_instance)) {NULL} else {self$actual_instance$toJSONString()}),
+        sprintf('"actual_instance": %s', if (is.null(self$actual_instance)) NULL else self$actual_instance$toJSONString()),
         sprintf('"actual_type": "%s"', self$actual_type),
-        sprintf('"any_of": "%s"',  paste( unlist(self$any_of), collapse=', '))
+        sprintf('"any_of": "%s"', paste(unlist(self$any_of), collapse = ", "))
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
-      as.character(jsonlite::prettify(paste('{', jsoncontent, '}', sep = "")))
-     }
+      as.character(jsonlite::prettify(paste("{", jsoncontent, "}", sep = "")))
+    }
   )
 )

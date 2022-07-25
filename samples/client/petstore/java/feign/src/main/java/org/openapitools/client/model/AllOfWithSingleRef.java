@@ -45,7 +45,7 @@ public class AllOfWithSingleRef {
   public static final String JSON_PROPERTY_SINGLE_REF_TYPE = "SingleRefType";
   private JsonNullable<SingleRefType> singleRefType = JsonNullable.<SingleRefType>undefined();
 
-  public AllOfWithSingleRef() { 
+  public AllOfWithSingleRef() {
   }
 
   public AllOfWithSingleRef username(String username) {

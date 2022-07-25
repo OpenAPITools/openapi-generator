@@ -108,6 +108,16 @@ json_schema_test_draft = 'draft6'
 openapi_additions = 'openapi_additions'
 
 FILEPATH_TO_EXCLUDED_CASE_AND_REASON = {
+    (json_schema_test_draft, 'allOf.json'): {
+        'allOf with boolean schemas, all true': ExclusionReason.v303_does_not_support_boolean_schemas_in_location,
+        'allOf with boolean schemas, some false': ExclusionReason.v303_does_not_support_boolean_schemas_in_location,
+        'allOf with boolean schemas, all false': ExclusionReason.v303_does_not_support_boolean_schemas_in_location,
+    },
+    (json_schema_test_draft, 'anyOf.json'): {
+        'anyOf with boolean schemas, all true': ExclusionReason.v303_does_not_support_boolean_schemas_in_location,
+        'anyOf with boolean schemas, some true': ExclusionReason.v303_does_not_support_boolean_schemas_in_location,
+        'anyOf with boolean schemas, all false': ExclusionReason.v303_does_not_support_boolean_schemas_in_location,
+    },
     (json_schema_test_draft, 'default.json'): {
         'invalid type for default': ExclusionReason.v303_requires_that_the_default_value_is_an_allowed_type,
     },
@@ -135,6 +145,11 @@ FILEPATH_TO_EXCLUDED_CASE_AND_REASON = {
     },
     (json_schema_test_draft, 'oneOf.json'): {
         'oneOf with missing optional property': ExclusionReason.v303_does_not_support_boolean_schemas_in_location,
+        'oneOf with boolean schemas, all true': ExclusionReason.v303_does_not_support_boolean_schemas_in_location,
+        'oneOf with boolean schemas, one true': ExclusionReason.v303_does_not_support_boolean_schemas_in_location,
+        'oneOf with boolean schemas, more than one true': ExclusionReason.v303_does_not_support_boolean_schemas_in_location,
+        'oneOf with boolean schemas, all false': ExclusionReason.v303_does_not_support_boolean_schemas_in_location,
+        'oneOf with required': ExclusionReason.required_vars_missing_for_anytype_schema_bug,
     },
     (json_schema_test_draft, 'properties.json'): {
         'properties, patternProperties, additionalProperties interaction': ExclusionReason.v303_does_not_support_patternProperties,
@@ -212,9 +227,9 @@ FILEPATH_TO_EXCLUDE_REASON = {
 
 JSON_SCHEMA_TEST_FILE_TO_FOLDERS = {
     'additionalItems.json': (json_schema_test_draft,),
-    'additionalProperties.json': (json_schema_test_draft,),
-#     'allOf.json': (json_schema_test_draft,),  # activate later after fixing composition processing
-#     'anyOf.json': (json_schema_test_draft,),  # activate later after fixing composition processing
+    'additionalProperties.json': (json_schema_test_draft, openapi_additions),
+    'allOf.json': (json_schema_test_draft,),
+    'anyOf.json': (json_schema_test_draft,),
     'boolean_schema.json': (json_schema_test_draft,),
     'const.json': (json_schema_test_draft,),
     'contains.json': (json_schema_test_draft,),
@@ -236,9 +251,9 @@ JSON_SCHEMA_TEST_FILE_TO_FOLDERS = {
     'minItems.json': (json_schema_test_draft,),
     'minLength.json': (json_schema_test_draft,),
     'minProperties.json': (json_schema_test_draft,),
-    'multipleOf.json': (json_schema_test_draft,),
+    'multipleOf.json': (json_schema_test_draft, openapi_additions),
     'not.json': (json_schema_test_draft,),
-#     'oneOf.json': (json_schema_test_draft,),  # activate after fixing this
+    'oneOf.json': (json_schema_test_draft,),
     'pattern.json': (json_schema_test_draft,),
     'patternProperties.json': (json_schema_test_draft,),
     'properties.json': (json_schema_test_draft,),
@@ -277,41 +292,93 @@ def get_json_schema_test_schemas(file_path: typing.Tuple[str]) -> typing.List[Js
 
 openapi_version = '3.0.3'
 
-
-@dataclasses.dataclass
-class OpenApiDocumentInfo:
-    title: str
-    description: str
-    version: str
-
 OpenApiSchema = typing.TypedDict(
     'OpenApiSchema',
     {
         'type': str,
-        'x-test-examples': typing.Dict[str, JsonSchemaTestCase],
         'items': 'OpenApiSchema',
-        'properties': typing.Dict[str, 'OpenApiSchema']
-    }
+        'properties': typing.Dict[str, 'OpenApiSchema'],
+        '$ref': str
+    },
+    total=False
 )
 
-@dataclasses.dataclass
-class OpenApiExample:
-    description: str
-    value: typing.Union[str, int, float, bool, None, list, dict]
+JsonSchemaTestCases = typing.Dict[str, JsonSchemaTestCase]
 
 OpenApiComponents = typing.TypedDict(
     'OpenApiComponents',
     {
-        'schemas': typing.Dict[str, typing.Union[bool, OpenApiSchema]],
-        'x-schema-test-examples': typing.Dict[str, typing.Dict[str, JsonSchemaTestCase]]
+        'schemas': typing.Dict[str, OpenApiSchema],
+        'x-schema-test-examples': typing.Dict[str, JsonSchemaTestCases]
     }
 )
+
+OpenApiMediaType = typing.TypedDict(
+    'OpenApiMediaType',
+    {
+        'schema': OpenApiSchema,
+        'x-schema-test-examples': JsonSchemaTestCases
+    },
+    total=False
+)
+
+class OpenApiRequestBody(typing.TypedDict, total=False):
+    description: str
+    content: typing.Dict[str, OpenApiMediaType]
+    required: bool
+
+class OpenApiResponseObject(typing.TypedDict):
+    description: str
+    headers: typing.Optional[typing.Dict[str, typing.Any]] = None
+    content: typing.Optional[typing.Dict[str, OpenApiMediaType]] = None
+
+class OpenApiOperation(typing.TypedDict, total=False):
+    tags: typing.List[str]
+    summary: str
+    description: str
+    operationId: str
+    requestBody: OpenApiRequestBody
+    responses: typing.Dict[str, OpenApiResponseObject]
+
+class OpenApiPathItem(typing.TypedDict, total=False):
+    summary: str
+    description: str
+    get: OpenApiOperation
+    put: OpenApiOperation
+    post: OpenApiOperation
+    delete: OpenApiOperation
+    options: OpenApiOperation
+    head: OpenApiOperation
+    patch: OpenApiOperation
+    trace: OpenApiOperation
+
+OpenApiPaths = typing.Dict[str, OpenApiPathItem]
+
+
+@dataclasses.dataclass
+class OpenApiDocumentInfo:
+    title: str
+    version: str
+    description: typing.Optional[str] = None
+
+
+@dataclasses.dataclass
+class OpenApiTag:
+    name: str
+
+
+@dataclasses.dataclass
+class OpenApiServer:
+    url: str
+
 
 @dataclasses.dataclass
 class OpenApiDocument:
     openapi: str
+    servers: typing.List[OpenApiServer]
     info: OpenApiDocumentInfo
-    paths: typing.Dict[str, typing.Any]
+    tags: typing.List[OpenApiTag]
+    paths: OpenApiPaths
     components: OpenApiComponents
 
 
@@ -323,11 +390,13 @@ def get_new_openapi() -> OpenApiDocument:
             description=f"sample spec for testing openapi functionality, built from json schema tests for {json_schema_test_draft}",
             version="0.0.1"
         ),
+        servers=[OpenApiServer(url='https://someserver.com/v1')],
+        tags = [],
         paths={},
         components=OpenApiComponents({
             'schemas': {},
             'x-schema-test-examples': {}
-        })
+        }),
     )
 
 def description_to_component_name(descr: str) -> str:
@@ -338,7 +407,10 @@ def get_test_case_name(test: JsonSchemaTestSchema) -> str:
     res = ''.join(test.description.title().split())
     return re.sub(r'[^A-Za-z0-9 ]+', '', res)
 
-def get_component_schemas_and_test_examples(json_schema_test_file: str, folders: typing.Tuple[str]) -> typing.Dict[str, OpenApiSchema]:
+def get_component_schemas_and_test_examples(
+    json_schema_test_file: str,
+    folders: typing.Tuple[str]
+) -> typing.Tuple[typing.Dict[str, OpenApiSchema], typing.Dict[str, typing.Dict[str, JsonSchemaTestSchema]]]:
     component_schemas = {}
     component_name_to_test_examples = {}
     for folder in folders:
@@ -359,8 +431,74 @@ def get_component_schemas_and_test_examples(json_schema_test_file: str, folders:
                 component_name_to_test_examples[component_name][test_case_name] = test
     return component_schemas, component_name_to_test_examples
 
+def generate_post_operation_with_request_body(
+    component_name: str,
+    tags: typing.List[OpenApiTag]
+) -> OpenApiOperation:
+    method = 'post'
+    ref_schema_path = f'#/components/schemas/{component_name}'
+    ref_test_example_path = f'#/components/x-schema-test-examples/{component_name}'
+    media_type = OpenApiMediaType(
+        {
+            'schema': OpenApiSchema({'$ref': ref_schema_path}),
+            'x-schema-test-examples': {'$ref': ref_test_example_path}
+        }
+    )
+    request_body = OpenApiRequestBody(
+        {
+            'content': {'application/json': media_type},
+            'required': True
+        }
+    )
+    operationId = f'{method}{component_name}RequestBody'
+    response_object = OpenApiResponseObject({'description': 'success'})
+    return OpenApiOperation(
+        {
+            'operationId': operationId,
+            'requestBody': request_body,
+            'responses': {'200': response_object},
+            'tags': [tag.name for tag in tags]
+        }
+    )
+
+
+def generate_post_operation_with_response_content_schema(
+    component_name: str,
+    tags: typing.List[OpenApiTag]
+) -> OpenApiOperation:
+    method = 'post'
+    ref_schema_path = f'#/components/schemas/{component_name}'
+    ref_test_example_path = f'#/components/x-schema-test-examples/{component_name}'
+    media_type = OpenApiMediaType(
+        {
+            'schema': OpenApiSchema({'$ref': ref_schema_path}),
+            'x-schema-test-examples': {'$ref': ref_test_example_path}
+        }
+    )
+    operationId = f'{method}{component_name}ResponseBodyForContentTypes'
+    response_object = OpenApiResponseObject(
+        {
+            'description': 'success',
+            'content': {'application/json': media_type}
+        }
+    )
+    return OpenApiOperation(
+        {
+            'operationId': operationId,
+            'responses': {'200': response_object},
+            'tags': [tag.name for tag in tags]
+        }
+    )
+
+
 def write_openapi_spec():
     openapi = get_new_openapi()
+    request_body_tag = OpenApiTag(name='operation.requestBody')
+    post_tag = OpenApiTag(name='path.post')
+    json_tag = OpenApiTag(name='contentType_json')
+    response_content_tag = OpenApiTag(name='response.content.contentType.schema')
+    openapi.tags.extend([request_body_tag, post_tag, json_tag])
+    # write component schemas and tests
     for json_schema_test_file, folders in JSON_SCHEMA_TEST_FILE_TO_FOLDERS.items():
         component_schemas, component_name_to_test_examples = (
             get_component_schemas_and_test_examples(json_schema_test_file, folders)
@@ -373,6 +511,16 @@ def write_openapi_spec():
             if component_name in openapi.components['x-schema-test-examples']:
                 raise ValueError('A component schema test example map with that name is already defined!')
             openapi.components['x-schema-test-examples'][component_name] = test_examples
+
+            operation = generate_post_operation_with_request_body(component_name, [request_body_tag, post_tag, json_tag])
+            path_item = OpenApiPathItem(post=operation)
+            openapi.paths[f'/requestBody/{operation["operationId"]}'] = path_item
+
+            # todo add put and patch with paths requestBody/someIdentifier
+
+            operation = generate_post_operation_with_response_content_schema(component_name, [response_content_tag, post_tag, json_tag])
+            path_item = OpenApiPathItem(post=operation)
+            openapi.paths[f'/responseBody/{operation["operationId"]}'] = path_item
     print(
         yaml.dump(
             dataclasses.asdict(openapi),
