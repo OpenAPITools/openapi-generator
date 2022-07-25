@@ -50,6 +50,8 @@ BOOST_AUTO_TEST_CASE(startService)
   });
   thread.detach();
 
+  sleep(1);
+
   int status = 0;
   std::string data;
 
