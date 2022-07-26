@@ -28,6 +28,7 @@ import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.config.CodegenConfigurator;
+import org.openapitools.codegen.languages.AbstractPhpCodegen;
 import org.openapitools.codegen.languages.PhpSymfonyServerCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
