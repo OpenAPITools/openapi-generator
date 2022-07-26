@@ -1,0 +1,6 @@
+from unit_test_api.path.request_body_post_enum_with1_does_not_match_true_request_body.post import ApiForpost
+
+class Api(
+    ApiForpost,
+):
+    pass

@@ -4,15 +4,15 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**add_pet**](PetApi.md#add_pet) | **POST** /pet | Add a new pet to the store
-[**delete_pet**](PetApi.md#delete_pet) | **DELETE** /pet/{petId} | Deletes a pet
-[**find_pets_by_status**](PetApi.md#find_pets_by_status) | **GET** /pet/findByStatus | Finds Pets by status
-[**find_pets_by_tags**](PetApi.md#find_pets_by_tags) | **GET** /pet/findByTags | Finds Pets by tags
-[**get_pet_by_id**](PetApi.md#get_pet_by_id) | **GET** /pet/{petId} | Find pet by ID
-[**update_pet**](PetApi.md#update_pet) | **PUT** /pet | Update an existing pet
-[**update_pet_with_form**](PetApi.md#update_pet_with_form) | **POST** /pet/{petId} | Updates a pet in the store with form data
-[**upload_file_with_required_file**](PetApi.md#upload_file_with_required_file) | **POST** /fake/{petId}/uploadImageWithRequiredFile | uploads an image (required)
-[**upload_image**](PetApi.md#upload_image) | **POST** /pet/{petId}/uploadImage | uploads an image
+[**add_pet**](PetApi.md#add_pet) | **post** /pet | Add a new pet to the store
+[**delete_pet**](PetApi.md#delete_pet) | **delete** /pet/{petId} | Deletes a pet
+[**find_pets_by_status**](PetApi.md#find_pets_by_status) | **get** /pet/findByStatus | Finds Pets by status
+[**find_pets_by_tags**](PetApi.md#find_pets_by_tags) | **get** /pet/findByTags | Finds Pets by tags
+[**get_pet_by_id**](PetApi.md#get_pet_by_id) | **get** /pet/{petId} | Find pet by ID
+[**update_pet**](PetApi.md#update_pet) | **put** /pet | Update an existing pet
+[**update_pet_with_form**](PetApi.md#update_pet_with_form) | **post** /pet/{petId} | Updates a pet in the store with form data
+[**upload_file_with_required_file**](PetApi.md#upload_file_with_required_file) | **post** /fake/{petId}/uploadImageWithRequiredFile | uploads an image (required)
+[**upload_image**](PetApi.md#upload_image) | **post** /pet/{petId}/uploadImage | uploads an image
 
 # **add_pet**
 > add_pet(pet)

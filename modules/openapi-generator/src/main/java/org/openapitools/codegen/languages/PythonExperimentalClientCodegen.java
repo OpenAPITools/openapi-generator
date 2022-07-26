@@ -22,6 +22,7 @@ import com.github.curiousoddman.rgxgen.config.RgxGenProperties;
 import com.google.common.base.CaseFormat;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.oas.models.tags.Tag;
 
@@ -60,6 +61,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
@@ -142,7 +144,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         importMapping.clear();
 
         modelPackage = "model";
-        apiPackage = "path";
+        apiPackage = "api";
         outputFolder = "generated-code" + File.separatorChar + "python";
 
         embeddedTemplateDir = templateDir = "python-experimental";
@@ -417,8 +419,10 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         }
     }
 
-    public String endpointFilename(String pathModuleName, String method) {
-        return apiFileFolder() + File.separator + pathModuleName + File.separator + method + ".py";
+    public String endpointFilename(List<String> pathSegments) {
+        String prefix = outputFolder + File.separatorChar + packagePath() + File.separatorChar;
+        String suffix = pathSegments.stream().collect(Collectors.joining(File.separator));
+        return prefix + suffix;
     }
 
     protected File processTemplateToFile(Map<String, Object> templateData, String templateName, String outputFilename, boolean shouldGenerate, String skippedByOption) throws IOException {
@@ -442,6 +446,12 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         }
     }
 
+    @Override
+    public String apiFilename(String templateName, String tag) {
+        String suffix = apiTemplateFiles().get(templateName);
+        return apiFileFolder() + "s" + File.separator + toApiFilename(tag) + suffix;
+    }
+
     /*
     I made this method because endpoint parameters not contain a lot of needed metadata
     It is very verbose to write all of this info into the api template
@@ -454,6 +464,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         OperationMap operations = objs.getOperations();
         List<CodegenOperation> codegenOperations = operations.getOperation();
         HashMap<String, String> pathModuleToPath = new HashMap<>();
+        // one file per endpoint
         for (CodegenOperation co: codegenOperations) {
             String path = co.path;
             String pathModuleName = toVarName(path);
@@ -467,24 +478,48 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
             operationMap.put("packageName", packageName);
 
             String templateName = "endpoint.handlebars";
-            String filename = endpointFilename(pathModuleName, co.httpMethod);
+            String filename = endpointFilename(Arrays.asList("path", pathModuleName, co.httpMethod + ".py"));
             try {
                 processTemplateToFile(operationMap, templateName, filename, true, CodegenConstants.APIS);
             } catch (IOException e) {
                 LOGGER.error("Error when writing template file {}", e.toString());
             }
         }
-        String templateName = "__init__path_x.handlebars";
+        // one file in the path directory
+        Map<String, Object> initOperationMap = new HashMap<>();
+        initOperationMap.put("packageName", packageName);
+        initOperationMap.put("apiClassname", "Api");
+        String initPathFile = endpointFilename(Arrays.asList("path", "__init__.py"));
+        try {
+            processTemplateToFile(initOperationMap, "__init__path.handlebars", initPathFile, true, CodegenConstants.APIS);
+        } catch (IOException e) {
+            LOGGER.error("Error when writing template file {}", e.toString());
+        }
+        // one file per path module, one per paths
         for (Map.Entry<String, String> entry: pathModuleToPath.entrySet()) {
             String pathModule = entry.getKey();
             String path = entry.getValue();
             try {
+                String templateName = "__init__path_x.handlebars";
                 Map<String, Object> operationMap = new HashMap<>();
                 operationMap.put("packageName", packageName);
-                operationMap.put("apiModuleName", pathModule);
-                operationMap.put("classname", "Api");
+                operationMap.put("pathModule", pathModule);
+                operationMap.put("apiClassName", "Api");
                 operationMap.put("path", path);
-                String filename = endpointFilename(pathModule, "__init__");
+                String filename = endpointFilename(Arrays.asList("path", pathModule, "__init__.py"));
+                processTemplateToFile(operationMap, templateName, filename, true, CodegenConstants.APIS);
+            } catch (IOException e) {
+                LOGGER.error("Error when writing endpoint __init__ file {}", e.toString());
+            }
+            PathItem pi = openAPI.getPaths().get(path);
+            try {
+                String templateName = "__init__paths_x.handlebars";
+                Map<String, Object> operationMap = new HashMap<>();
+                operationMap.put("packageName", packageName);
+                operationMap.put("pathModule", pathModule);
+                operationMap.put("apiClassName", "Api");
+                operationMap.put("pathItem", pi);
+                String filename = endpointFilename(Arrays.asList("paths", pathModule + ".py"));
                 processTemplateToFile(operationMap, templateName, filename, true, CodegenConstants.APIS);
             } catch (IOException e) {
                 LOGGER.error("Error when writing endpoint __init__ file {}", e.toString());

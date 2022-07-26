@@ -4,37 +4,37 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**additional_properties_with_array_of_enums**](FakeApi.md#additional_properties_with_array_of_enums) | **GET** /fake/additional-properties-with-array-of-enums | Additional Properties with Array of Enums
-[**array_model**](FakeApi.md#array_model) | **POST** /fake/refs/arraymodel | 
-[**array_of_enums**](FakeApi.md#array_of_enums) | **POST** /fake/refs/array-of-enums | Array of Enums
-[**body_with_file_schema**](FakeApi.md#body_with_file_schema) | **PUT** /fake/body-with-file-schema | 
-[**body_with_query_params**](FakeApi.md#body_with_query_params) | **PUT** /fake/body-with-query-params | 
-[**boolean**](FakeApi.md#boolean) | **POST** /fake/refs/boolean | 
-[**case_sensitive_params**](FakeApi.md#case_sensitive_params) | **PUT** /fake/case-sensitive-params | 
-[**client_model**](FakeApi.md#client_model) | **PATCH** /fake | To test \&quot;client\&quot; model
-[**composed_one_of_different_types**](FakeApi.md#composed_one_of_different_types) | **POST** /fake/refs/composed_one_of_number_with_validations | 
-[**delete_coffee**](FakeApi.md#delete_coffee) | **DELETE** /fake/deleteCoffee/{id} | Delete coffee
-[**endpoint_parameters**](FakeApi.md#endpoint_parameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-[**enum_parameters**](FakeApi.md#enum_parameters) | **GET** /fake | To test enum parameters
-[**fake_health_get**](FakeApi.md#fake_health_get) | **GET** /fake/health | Health check endpoint
-[**group_parameters**](FakeApi.md#group_parameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
-[**inline_additional_properties**](FakeApi.md#inline_additional_properties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
-[**inline_composition**](FakeApi.md#inline_composition) | **POST** /fake/inlineComposition/ | testing composed schemas at inline locations
-[**json_form_data**](FakeApi.md#json_form_data) | **GET** /fake/jsonFormData | test json serialization of form data
-[**json_with_charset**](FakeApi.md#json_with_charset) | **POST** /fake/jsonWithCharset | json with charset tx and rx
-[**mammal**](FakeApi.md#mammal) | **POST** /fake/refs/mammal | 
-[**number_with_validations**](FakeApi.md#number_with_validations) | **POST** /fake/refs/number | 
-[**object_in_query**](FakeApi.md#object_in_query) | **GET** /fake/objInQuery | user list
-[**object_model_with_ref_props**](FakeApi.md#object_model_with_ref_props) | **POST** /fake/refs/object_model_with_ref_props | 
-[**parameter_collisions**](FakeApi.md#parameter_collisions) | **POST** /fake/parameterCollisions/{1}/{aB}/{Ab}/{self}/{A-B}/ | parameter collision case
-[**query_parameter_collection_format**](FakeApi.md#query_parameter_collection_format) | **PUT** /fake/test-query-paramters | 
-[**ref_object_in_query**](FakeApi.md#ref_object_in_query) | **GET** /fake/refObjInQuery | user list
-[**response_without_schema**](FakeApi.md#response_without_schema) | **GET** /fake/responseWithoutSchema | receives a response without schema
-[**string**](FakeApi.md#string) | **POST** /fake/refs/string | 
-[**string_enum**](FakeApi.md#string_enum) | **POST** /fake/refs/enum | 
-[**upload_download_file**](FakeApi.md#upload_download_file) | **POST** /fake/uploadDownloadFile | uploads a file and downloads a file using application/octet-stream
-[**upload_file**](FakeApi.md#upload_file) | **POST** /fake/uploadFile | uploads a file using multipart/form-data
-[**upload_files**](FakeApi.md#upload_files) | **POST** /fake/uploadFiles | uploads files using multipart/form-data
+[**additional_properties_with_array_of_enums**](FakeApi.md#additional_properties_with_array_of_enums) | **get** /fake/additional-properties-with-array-of-enums | Additional Properties with Array of Enums
+[**array_model**](FakeApi.md#array_model) | **post** /fake/refs/arraymodel | 
+[**array_of_enums**](FakeApi.md#array_of_enums) | **post** /fake/refs/array-of-enums | Array of Enums
+[**body_with_file_schema**](FakeApi.md#body_with_file_schema) | **put** /fake/body-with-file-schema | 
+[**body_with_query_params**](FakeApi.md#body_with_query_params) | **put** /fake/body-with-query-params | 
+[**boolean**](FakeApi.md#boolean) | **post** /fake/refs/boolean | 
+[**case_sensitive_params**](FakeApi.md#case_sensitive_params) | **put** /fake/case-sensitive-params | 
+[**client_model**](FakeApi.md#client_model) | **patch** /fake | To test \&quot;client\&quot; model
+[**composed_one_of_different_types**](FakeApi.md#composed_one_of_different_types) | **post** /fake/refs/composed_one_of_number_with_validations | 
+[**delete_coffee**](FakeApi.md#delete_coffee) | **delete** /fake/deleteCoffee/{id} | Delete coffee
+[**endpoint_parameters**](FakeApi.md#endpoint_parameters) | **post** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+[**enum_parameters**](FakeApi.md#enum_parameters) | **get** /fake | To test enum parameters
+[**fake_health_get**](FakeApi.md#fake_health_get) | **get** /fake/health | Health check endpoint
+[**group_parameters**](FakeApi.md#group_parameters) | **delete** /fake | Fake endpoint to test group parameters (optional)
+[**inline_additional_properties**](FakeApi.md#inline_additional_properties) | **post** /fake/inline-additionalProperties | test inline additionalProperties
+[**inline_composition**](FakeApi.md#inline_composition) | **post** /fake/inlineComposition/ | testing composed schemas at inline locations
+[**json_form_data**](FakeApi.md#json_form_data) | **get** /fake/jsonFormData | test json serialization of form data
+[**json_with_charset**](FakeApi.md#json_with_charset) | **post** /fake/jsonWithCharset | json with charset tx and rx
+[**mammal**](FakeApi.md#mammal) | **post** /fake/refs/mammal | 
+[**number_with_validations**](FakeApi.md#number_with_validations) | **post** /fake/refs/number | 
+[**object_in_query**](FakeApi.md#object_in_query) | **get** /fake/objInQuery | user list
+[**object_model_with_ref_props**](FakeApi.md#object_model_with_ref_props) | **post** /fake/refs/object_model_with_ref_props | 
+[**parameter_collisions**](FakeApi.md#parameter_collisions) | **post** /fake/parameterCollisions/{1}/{aB}/{Ab}/{self}/{A-B}/ | parameter collision case
+[**query_parameter_collection_format**](FakeApi.md#query_parameter_collection_format) | **put** /fake/test-query-paramters | 
+[**ref_object_in_query**](FakeApi.md#ref_object_in_query) | **get** /fake/refObjInQuery | user list
+[**response_without_schema**](FakeApi.md#response_without_schema) | **get** /fake/responseWithoutSchema | receives a response without schema
+[**string**](FakeApi.md#string) | **post** /fake/refs/string | 
+[**string_enum**](FakeApi.md#string_enum) | **post** /fake/refs/enum | 
+[**upload_download_file**](FakeApi.md#upload_download_file) | **post** /fake/uploadDownloadFile | uploads a file and downloads a file using application/octet-stream
+[**upload_file**](FakeApi.md#upload_file) | **post** /fake/uploadFile | uploads a file using multipart/form-data
+[**upload_files**](FakeApi.md#upload_files) | **post** /fake/uploadFiles | uploads files using multipart/form-data
 
 # **additional_properties_with_array_of_enums**
 > AdditionalPropertiesWithArrayOfEnums additional_properties_with_array_of_enums()

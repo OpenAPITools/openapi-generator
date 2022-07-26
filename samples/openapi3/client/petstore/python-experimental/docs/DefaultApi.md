@@ -4,7 +4,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**foo_get**](DefaultApi.md#foo_get) | **GET** /foo | 
+[**foo_get**](DefaultApi.md#foo_get) | **get** /foo | 
 
 # **foo_get**
 > {str: (bool, date, datetime, dict, float, int, list, str, none_type)} foo_get()

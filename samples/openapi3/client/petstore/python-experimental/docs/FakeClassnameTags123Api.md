@@ -4,7 +4,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**classname**](FakeClassnameTags123Api.md#classname) | **PATCH** /fake_classname_test | To test class name in snake case
+[**classname**](FakeClassnameTags123Api.md#classname) | **patch** /fake_classname_test | To test class name in snake case
 
 # **classname**
 > Client classname(client)
