@@ -67,13 +67,11 @@ public class PhpSymfonyServerCodegenTest {
     @Test
     public void testGeneratePing() throws Exception {
         Map<String, Object> properties = new HashMap<>();
-        //properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
 
         File output = Files.createTempDirectory("test").toFile();
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
                 .setGeneratorName("php-symfony")
-                //.setLibrary(JavaClientCodegen.OKHTTP_GSON)
                 .setAdditionalProperties(properties)
                 .setInputSpec("src/test/resources/3_0/ping.yaml")
                 .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
@@ -82,11 +80,7 @@ public class PhpSymfonyServerCodegenTest {
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(clientOptInput).generate();
 
-        for (File file : files) {
-            System.out.println("Filepath: " + file.getAbsolutePath());
-        }
-
-        //Assert.assertEquals(files.size(), 33);
+        Assert.assertEquals(files.size(), 33);
         TestUtils.ensureContainsFile(files, output, ".coveralls.yml");
         TestUtils.ensureContainsFile(files, output, ".gitignore");
         TestUtils.ensureContainsFile(files, output, ".openapi-generator-ignore");
@@ -119,7 +113,62 @@ public class PhpSymfonyServerCodegenTest {
         TestUtils.ensureContainsFile(files, output, "Tests/Api/DefaultApiInterfaceTest.php");
         TestUtils.ensureContainsFile(files, output, "Tests/AppKernel.php");
         TestUtils.ensureContainsFile(files, output, "Tests/Controller/ControllerTest.php");
-        TestUtils.ensureContainsFile(files, output, "Tests/test_config.yml");
+        TestUtils.ensureContainsFile(files, output, "Tests/test_config.yaml");
+
+        output.deleteOnExit();
+    }
+
+    @Test
+    public void testGeneratePingWithDifferentSourceDirectory() throws Exception {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.SRC_BASE_PATH, "src");
+
+        File output = Files.createTempDirectory("test").toFile();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("php-symfony")
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/ping.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        Assert.assertEquals(files.size(), 33);
+        TestUtils.ensureContainsFile(files, output, ".coveralls.yml");
+        TestUtils.ensureContainsFile(files, output, ".gitignore");
+        TestUtils.ensureContainsFile(files, output, ".openapi-generator-ignore");
+        TestUtils.ensureContainsFile(files, output, ".openapi-generator/FILES");
+        TestUtils.ensureContainsFile(files, output, ".openapi-generator/VERSION");
+        TestUtils.ensureContainsFile(files, output, ".php_cs.dist");
+        TestUtils.ensureContainsFile(files, output, ".travis.yml");
+        TestUtils.ensureContainsFile(files, output, "autoload.php");
+        TestUtils.ensureContainsFile(files, output, "composer.json");
+        TestUtils.ensureContainsFile(files, output, "git_push.sh");
+        TestUtils.ensureContainsFile(files, output, "phpunit.xml.dist");
+        TestUtils.ensureContainsFile(files, output, "README.md");
+        TestUtils.ensureContainsFile(files, output, "src/Api/ApiServer.php");
+        TestUtils.ensureContainsFile(files, output, "src/Api/DefaultApiInterface.php");
+        TestUtils.ensureContainsFile(files, output, "src/Controller/Controller.php");
+        TestUtils.ensureContainsFile(files, output, "src/Controller/DefaultController.php");
+        TestUtils.ensureContainsFile(files, output, "src/DependencyInjection/Compiler/OpenAPIServerApiPass.php");
+        TestUtils.ensureContainsFile(files, output, "src/DependencyInjection/OpenAPIServerExtension.php");
+        TestUtils.ensureContainsFile(files, output, "src/OpenAPIServerBundle.php");
+        TestUtils.ensureContainsFile(files, output, "src/Resources/config/routing.yaml");
+        TestUtils.ensureContainsFile(files, output, "src/Resources/config/services.yaml");
+        TestUtils.ensureContainsFile(files, output, "src/Resources/docs/Api/DefaultApiInterface.md");
+        TestUtils.ensureContainsFile(files, output, "src/Service/JmsSerializer.php");
+        TestUtils.ensureContainsFile(files, output, "src/Service/SerializerInterface.php");
+        TestUtils.ensureContainsFile(files, output, "src/Service/StrictJsonDeserializationVisitor.php");
+        TestUtils.ensureContainsFile(files, output, "src/Service/StrictJsonDeserializationVisitorFactory.php");
+        TestUtils.ensureContainsFile(files, output, "src/Service/SymfonyValidator.php");
+        TestUtils.ensureContainsFile(files, output, "src/Service/TypeMismatchException.php");
+        TestUtils.ensureContainsFile(files, output, "src/Service/ValidatorInterface.php");
+        TestUtils.ensureContainsFile(files, output, "src/Tests/Api/DefaultApiInterfaceTest.php");
+        TestUtils.ensureContainsFile(files, output, "src/Tests/AppKernel.php");
+        TestUtils.ensureContainsFile(files, output, "src/Tests/Controller/ControllerTest.php");
+        TestUtils.ensureContainsFile(files, output, "src/Tests/test_config.yaml");
 
         output.deleteOnExit();
     }
