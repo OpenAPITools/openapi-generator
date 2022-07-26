@@ -137,10 +137,18 @@ FakeApi <- R6::R6Class(
       body <- NULL
       url_path <- "/fake/data_file"
 
+      # The Accept request HTTP header
+      accepts = list("application/xml", "application/json")
+
+      # The Content-Type representation header
+      content_types = list()
+
       resp <- self$api_client$CallApi(url = paste0(self$api_client$base_path, url_path),
                                  method = "GET",
                                  query_params = query_params,
                                  header_params = header_params,
+                                 accepts = accepts,
+                                 content_types = content_types,
                                  body = body,
                                  ...)
 

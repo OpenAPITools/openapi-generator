@@ -333,10 +333,18 @@
       {{/isOAuth}}
       {{/authMethods}}
 
+      # The Accept request HTTP header
+      accepts = list({{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}})
+
+      # The Content-Type representation header
+      content_types = list({{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}})
+
       resp <- self$api_client$CallApi(url = paste0(self$api_client$base_path, url_path),
                                  method = "{{httpMethod}}",
                                  query_params = query_params,
                                  header_params = header_params,
+                                 accepts = accepts,
+                                 content_types = content_types,
                                  body = body,
                                  {{#vendorExtensions.x-streaming}}
                                  stream_callback = stream_callback,

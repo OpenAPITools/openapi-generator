@@ -588,10 +588,18 @@ PetApi <- R6::R6Class(
       # HTTP basic auth
       header_params["Authorization"] <- paste("Basic", base64enc::base64encode(charToRaw(paste(self$api_client$username, self$api_client$password, sep = ":"))))
 
+      # The Accept request HTTP header
+      accepts = list("application/xml", "application/json")
+
+      # The Content-Type representation header
+      content_types = list("application/json", "application/xml", "multipart/related")
+
       resp <- self$api_client$CallApi(url = paste0(self$api_client$base_path, url_path),
                                  method = "POST",
                                  query_params = query_params,
                                  header_params = header_params,
+                                 accepts = accepts,
+                                 content_types = content_types,
                                  body = body,
                                  ...)
 
@@ -690,10 +698,18 @@ PetApi <- R6::R6Class(
       # OAuth token
       header_params["Authorization"] <- paste("Bearer", self$api_client$access_token, sep = " ")
 
+      # The Accept request HTTP header
+      accepts = list()
+
+      # The Content-Type representation header
+      content_types = list()
+
       resp <- self$api_client$CallApi(url = paste0(self$api_client$base_path, url_path),
                                  method = "DELETE",
                                  query_params = query_params,
                                  header_params = header_params,
+                                 accepts = accepts,
+                                 content_types = content_types,
                                  body = body,
                                  ...)
 
@@ -775,10 +791,18 @@ PetApi <- R6::R6Class(
       # OAuth token
       header_params["Authorization"] <- paste("Bearer", self$api_client$access_token, sep = " ")
 
+      # The Accept request HTTP header
+      accepts = list("application/xml", "application/json")
+
+      # The Content-Type representation header
+      content_types = list()
+
       resp <- self$api_client$CallApi(url = paste0(self$api_client$base_path, url_path),
                                  method = "GET",
                                  query_params = query_params,
                                  header_params = header_params,
+                                 accepts = accepts,
+                                 content_types = content_types,
                                  body = body,
                                  ...)
 
@@ -873,10 +897,18 @@ PetApi <- R6::R6Class(
       # OAuth token
       header_params["Authorization"] <- paste("Bearer", self$api_client$access_token, sep = " ")
 
+      # The Accept request HTTP header
+      accepts = list("application/xml", "application/json")
+
+      # The Content-Type representation header
+      content_types = list()
+
       resp <- self$api_client$CallApi(url = paste0(self$api_client$base_path, url_path),
                                  method = "GET",
                                  query_params = query_params,
                                  header_params = header_params,
+                                 accepts = accepts,
+                                 content_types = content_types,
                                  body = body,
                                  ...)
 
@@ -974,10 +1006,18 @@ PetApi <- R6::R6Class(
 
       header_params["Authorization"] <- paste("Bearer", self$api_client$bearer_token, sep = " ")
 
+      # The Accept request HTTP header
+      accepts = list("application/xml", "application/json")
+
+      # The Content-Type representation header
+      content_types = list()
+
       resp <- self$api_client$CallApi(url = paste0(self$api_client$base_path, url_path),
                                  method = "GET",
                                  query_params = query_params,
                                  header_params = header_params,
+                                 accepts = accepts,
+                                 content_types = content_types,
                                  body = body,
                                  ...)
 
@@ -1084,10 +1124,18 @@ PetApi <- R6::R6Class(
         header_params["api_key"] <- paste(unlist(self$api_client$api_keys["api_key"]), collapse = "")
       }
 
+      # The Accept request HTTP header
+      accepts = list("application/xml", "application/json")
+
+      # The Content-Type representation header
+      content_types = list()
+
       resp <- self$api_client$CallApi(url = paste0(self$api_client$base_path, url_path),
                                  method = "GET",
                                  query_params = query_params,
                                  header_params = header_params,
+                                 accepts = accepts,
+                                 content_types = content_types,
                                  body = body,
                                  stream_callback = stream_callback,
                                  ...)
@@ -1192,10 +1240,18 @@ PetApi <- R6::R6Class(
       # OAuth token
       header_params["Authorization"] <- paste("Bearer", self$api_client$access_token, sep = " ")
 
+      # The Accept request HTTP header
+      accepts = list("application/xml", "application/json")
+
+      # The Content-Type representation header
+      content_types = list("application/json", "application/xml", "multipart/related")
+
       resp <- self$api_client$CallApi(url = paste0(self$api_client$base_path, url_path),
                                  method = "PUT",
                                  query_params = query_params,
                                  header_params = header_params,
+                                 accepts = accepts,
+                                 content_types = content_types,
                                  body = body,
                                  ...)
 
@@ -1300,10 +1356,18 @@ PetApi <- R6::R6Class(
       # OAuth token
       header_params["Authorization"] <- paste("Bearer", self$api_client$access_token, sep = " ")
 
+      # The Accept request HTTP header
+      accepts = list()
+
+      # The Content-Type representation header
+      content_types = list("application/x-www-form-urlencoded")
+
       resp <- self$api_client$CallApi(url = paste0(self$api_client$base_path, url_path),
                                  method = "POST",
                                  query_params = query_params,
                                  header_params = header_params,
+                                 accepts = accepts,
+                                 content_types = content_types,
                                  body = body,
                                  ...)
 
@@ -1397,10 +1461,18 @@ PetApi <- R6::R6Class(
       # OAuth token
       header_params["Authorization"] <- paste("Bearer", self$api_client$access_token, sep = " ")
 
+      # The Accept request HTTP header
+      accepts = list("application/json")
+
+      # The Content-Type representation header
+      content_types = list("multipart/form-data")
+
       resp <- self$api_client$CallApi(url = paste0(self$api_client$base_path, url_path),
                                  method = "POST",
                                  query_params = query_params,
                                  header_params = header_params,
+                                 accepts = accepts,
+                                 content_types = content_types,
                                  body = body,
                                  ...)
 
