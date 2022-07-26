@@ -719,7 +719,6 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
             CodegenModel cm = mo.getModel();
             // Add additional filename information for imports
             mo.put("tsImports", toTsImports(cm, cm.imports));
-            mo.put("currentDirImportPath", toCurrentDirImportPath(cm.classname));
         }
         return objs;
     }
@@ -731,18 +730,11 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
                 HashMap<String, String> tsImport = new HashMap<>();
                 // TVG: This is used as class name in the import statements of the model file
                 tsImport.put("classname", im);
-                tsImport.put("filename", toCurrentDirImportPath(im));
+                tsImport.put("filename", toModelImport(im));
                 tsImports.add(tsImport);
             }
         }
         return tsImports;
-    }
-
-    public String toCurrentDirImportPath(String className) {
-        if (importMapping.containsKey(className)) {
-            return importMapping.get(className);
-        }
-	return "." + File.separator + toModelFilename(className);
     }
 
     @Override
