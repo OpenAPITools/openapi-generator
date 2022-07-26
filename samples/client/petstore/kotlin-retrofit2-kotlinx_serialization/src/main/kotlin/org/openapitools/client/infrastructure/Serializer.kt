@@ -32,5 +32,5 @@ object Serializer {
     }
 
     @JvmStatic
-    val jvmJson: Json by lazy { Json { serializersModule = kotlinSerializationAdapters } }
+    val jvmJson: Json by lazy { Json { serializersModule = kotlinSerializationAdapters; ignoreUnknownKeys = true } }
 }
