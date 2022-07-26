@@ -53,7 +53,7 @@ data class Order (
     var status: Order.Status? = null,
 
     @Json(name = "complete")
-    var complete: kotlin.Boolean? = false
+    var complete: kotlin.Boolean = false
 
 ) {
 

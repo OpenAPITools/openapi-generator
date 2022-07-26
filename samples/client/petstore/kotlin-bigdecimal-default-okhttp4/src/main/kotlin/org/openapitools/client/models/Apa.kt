@@ -43,14 +43,14 @@ data class Apa (
     val cepa: java.math.BigDecimal = java.math.BigDecimal("6.28318"),
 
     @Json(name = "depa")
-    val depa: java.math.BigDecimal? = java.math.BigDecimal("71"),
+    val depa: java.math.BigDecimal = java.math.BigDecimal("71"),
 
     @Json(name = "epa")
-    val epa: java.math.BigDecimal? = java.math.BigDecimal("-71"),
+    val epa: java.math.BigDecimal = java.math.BigDecimal("-71"),
 
     @Json(name = "fepa")
     @Deprecated(message = "This property is deprecated.")
-    val fepa: java.math.BigDecimal? = java.math.BigDecimal("100"),
+    val fepa: java.math.BigDecimal = java.math.BigDecimal("100"),
 
     @Json(name = "gepa")
     val gepa: java.math.BigDecimal? = null

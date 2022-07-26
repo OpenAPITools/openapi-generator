@@ -49,7 +49,7 @@ data class Order (
 
 
     @JsonProperty("complete")
-    val complete: kotlin.Boolean? = false
+    val complete: kotlin.Boolean = false
 
 ) {
 
