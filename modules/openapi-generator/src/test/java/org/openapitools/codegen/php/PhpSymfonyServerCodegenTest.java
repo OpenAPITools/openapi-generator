@@ -106,8 +106,8 @@ public class PhpSymfonyServerCodegenTest {
         TestUtils.ensureContainsFile(files, output, "DependencyInjection/Compiler/OpenAPIServerApiPass.php");
         TestUtils.ensureContainsFile(files, output, "DependencyInjection/OpenAPIServerExtension.php");
         TestUtils.ensureContainsFile(files, output, "OpenAPIServerBundle.php");
-        TestUtils.ensureContainsFile(files, output, "Resources/config/routing.yml");
-        TestUtils.ensureContainsFile(files, output, "Resources/config/services.yml");
+        TestUtils.ensureContainsFile(files, output, "Resources/config/routing.yaml");
+        TestUtils.ensureContainsFile(files, output, "Resources/config/services.yaml");
         TestUtils.ensureContainsFile(files, output, "Resources/docs/Api/DefaultApiInterface.md");
         TestUtils.ensureContainsFile(files, output, "Service/JmsSerializer.php");
         TestUtils.ensureContainsFile(files, output, "Service/SerializerInterface.php");
