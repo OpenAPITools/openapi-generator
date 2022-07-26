@@ -121,7 +121,7 @@ public class PhpSymfonyServerCodegenTest {
     @Test
     public void testGeneratePingWithDifferentSourceDirectory() throws Exception {
         Map<String, Object> properties = new HashMap<>();
-        properties.put(CodegenConstants.SRC_BASE_PATH, "src");
+        properties.put(AbstractPhpCodegen.SRC_BASE_PATH, "src");
 
         File output = Files.createTempDirectory("test").toFile();
 
