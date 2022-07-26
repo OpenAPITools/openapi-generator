@@ -17,10 +17,21 @@
 
 package org.openapitools.codegen.php;
 
+import java.io.File;
+import java.nio.file.Files;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.DefaultGenerator;
+import org.openapitools.codegen.TestUtils;
+import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.PhpSymfonyServerCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
 
 public class PhpSymfonyServerCodegenTest {
 
