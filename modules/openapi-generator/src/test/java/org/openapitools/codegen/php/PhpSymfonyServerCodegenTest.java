@@ -100,10 +100,10 @@ public class PhpSymfonyServerCodegenTest {
         TestUtils.ensureContainsFile(files, output, "Controller/DefaultController.php");
         TestUtils.ensureContainsFile(files, output, "DependencyInjection/Compiler/OpenAPIServerApiPass.php");
         TestUtils.ensureContainsFile(files, output, "DependencyInjection/OpenAPIServerExtension.php");
+        TestUtils.ensureContainsFile(files, output, "docs/Api/DefaultApiInterface.md");
         TestUtils.ensureContainsFile(files, output, "OpenAPIServerBundle.php");
         TestUtils.ensureContainsFile(files, output, "Resources/config/routing.yaml");
         TestUtils.ensureContainsFile(files, output, "Resources/config/services.yaml");
-        TestUtils.ensureContainsFile(files, output, "Resources/docs/Api/DefaultApiInterface.md");
         TestUtils.ensureContainsFile(files, output, "Service/JmsSerializer.php");
         TestUtils.ensureContainsFile(files, output, "Service/SerializerInterface.php");
         TestUtils.ensureContainsFile(files, output, "Service/StrictJsonDeserializationVisitor.php");
@@ -149,6 +149,7 @@ public class PhpSymfonyServerCodegenTest {
         TestUtils.ensureContainsFile(files, output, "git_push.sh");
         TestUtils.ensureContainsFile(files, output, "phpunit.xml.dist");
         TestUtils.ensureContainsFile(files, output, "README.md");
+        TestUtils.ensureContainsFile(files, output, "docs/Api/DefaultApiInterface.md");
         TestUtils.ensureContainsFile(files, output, "src/Api/ApiServer.php");
         TestUtils.ensureContainsFile(files, output, "src/Api/DefaultApiInterface.php");
         TestUtils.ensureContainsFile(files, output, "src/Controller/Controller.php");
@@ -158,7 +159,6 @@ public class PhpSymfonyServerCodegenTest {
         TestUtils.ensureContainsFile(files, output, "src/OpenAPIServerBundle.php");
         TestUtils.ensureContainsFile(files, output, "src/Resources/config/routing.yaml");
         TestUtils.ensureContainsFile(files, output, "src/Resources/config/services.yaml");
-        TestUtils.ensureContainsFile(files, output, "src/Resources/docs/Api/DefaultApiInterface.md");
         TestUtils.ensureContainsFile(files, output, "src/Service/JmsSerializer.php");
         TestUtils.ensureContainsFile(files, output, "src/Service/SerializerInterface.php");
         TestUtils.ensureContainsFile(files, output, "src/Service/StrictJsonDeserializationVisitor.php");
