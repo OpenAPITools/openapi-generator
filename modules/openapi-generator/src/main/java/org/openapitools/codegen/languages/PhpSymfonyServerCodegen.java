@@ -106,7 +106,7 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
         importMapping.clear();
 
         supportsInheritance = true;
-        srcBasePath = ".";
+        srcBasePath = "";
         setInvokerPackage("OpenAPI\\Server");
         setBundleName("OpenAPIServer");
         setBundleAlias("open_api_server");

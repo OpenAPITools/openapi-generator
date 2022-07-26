@@ -86,7 +86,7 @@ public class PhpSymfonyServerCodegenTest {
             System.out.println("Filepath: " + file.getAbsolutePath());
         }
 
-        //Assert.assertEquals(files.size(), 40);
+        //Assert.assertEquals(files.size(), 33);
         TestUtils.ensureContainsFile(files, output, ".coveralls.yml");
         TestUtils.ensureContainsFile(files, output, ".gitignore");
         TestUtils.ensureContainsFile(files, output, ".openapi-generator-ignore");
@@ -99,8 +99,8 @@ public class PhpSymfonyServerCodegenTest {
         TestUtils.ensureContainsFile(files, output, "git_push.sh");
         TestUtils.ensureContainsFile(files, output, "phpunit.xml.dist");
         TestUtils.ensureContainsFile(files, output, "README.md");
-        //TestUtils.ensureContainsFile(files, output, "Api/ApiServer.php");
-        //TestUtils.ensureContainsFile(files, output, "Api/DefaultApiInterface.php");
+        TestUtils.ensureContainsFile(files, output, "Api/ApiServer.php");
+        TestUtils.ensureContainsFile(files, output, "Api/DefaultApiInterface.php");
         TestUtils.ensureContainsFile(files, output, "Controller/Controller.php");
         TestUtils.ensureContainsFile(files, output, "Controller/DefaultController.php");
         TestUtils.ensureContainsFile(files, output, "DependencyInjection/Compiler/OpenAPIServerApiPass.php");
