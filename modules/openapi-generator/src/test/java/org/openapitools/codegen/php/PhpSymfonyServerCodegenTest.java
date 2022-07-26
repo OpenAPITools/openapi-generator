@@ -83,7 +83,7 @@ public class PhpSymfonyServerCodegenTest {
         List<File> files = generator.opts(clientOptInput).generate();
 
         for (File file : files) {
-            System.out.println("Filename: " + file.getName());
+            System.out.println("Filepath: " + file.getAbsolutePath());
         }
 
         //Assert.assertEquals(files.size(), 40);
