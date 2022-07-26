@@ -289,10 +289,18 @@ StoreApi <- R6::R6Class(
       }
 
 
+      # The Accept request HTTP header
+      accepts = list()
+
+      # The Content-Type representation header
+      content_types = list()
+
       resp <- self$api_client$CallApi(url = paste0(self$api_client$base_path, url_path),
                                  method = "DELETE",
                                  query_params = query_params,
                                  header_params = header_params,
+                                 accepts = accepts,
+                                 content_types = content_types,
                                  body = body,
                                  ...)
 
@@ -367,10 +375,18 @@ StoreApi <- R6::R6Class(
         header_params["api_key"] <- paste(unlist(self$api_client$api_keys["api_key"]), collapse = "")
       }
 
+      # The Accept request HTTP header
+      accepts = list("application/json")
+
+      # The Content-Type representation header
+      content_types = list()
+
       resp <- self$api_client$CallApi(url = paste0(self$api_client$base_path, url_path),
                                  method = "GET",
                                  query_params = query_params,
                                  header_params = header_params,
+                                 accepts = accepts,
+                                 content_types = content_types,
                                  body = body,
                                  ...)
 
@@ -467,10 +483,18 @@ StoreApi <- R6::R6Class(
       }
 
 
+      # The Accept request HTTP header
+      accepts = list("application/xml", "application/json")
+
+      # The Content-Type representation header
+      content_types = list()
+
       resp <- self$api_client$CallApi(url = paste0(self$api_client$base_path, url_path),
                                  method = "GET",
                                  query_params = query_params,
                                  header_params = header_params,
+                                 accepts = accepts,
+                                 content_types = content_types,
                                  body = body,
                                  ...)
 
@@ -568,10 +592,18 @@ StoreApi <- R6::R6Class(
 
       url_path <- "/store/order"
 
+      # The Accept request HTTP header
+      accepts = list("application/xml", "application/json")
+
+      # The Content-Type representation header
+      content_types = list("application/json")
+
       resp <- self$api_client$CallApi(url = paste0(self$api_client$base_path, url_path),
                                  method = "POST",
                                  query_params = query_params,
                                  header_params = header_params,
+                                 accepts = accepts,
+                                 content_types = content_types,
                                  body = body,
                                  ...)
 
