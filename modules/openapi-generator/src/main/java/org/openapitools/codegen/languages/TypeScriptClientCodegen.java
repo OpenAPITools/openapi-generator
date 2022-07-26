@@ -406,10 +406,6 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
 
     @Override
     public String toModelImport(String name) {
-        if (importMapping.containsKey(name)) {
-            return importMapping.get(name);
-        }
-
         return ".." + File.separator + modelPackage() + File.separator + toModelName(name);
     }
 
@@ -730,7 +726,7 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
                 HashMap<String, String> tsImport = new HashMap<>();
                 // TVG: This is used as class name in the import statements of the model file
                 tsImport.put("classname", im);
-                tsImport.put("filename", toModelImport(im));
+                tsImport.put("filename", importMapping.getOrDefault(im, toModelImport(im)));
                 tsImports.add(tsImport);
             }
         }
