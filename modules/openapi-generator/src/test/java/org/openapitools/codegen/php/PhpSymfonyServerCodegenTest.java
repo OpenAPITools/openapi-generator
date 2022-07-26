@@ -95,7 +95,7 @@ public class PhpSymfonyServerCodegenTest {
         TestUtils.ensureContainsFile(files, output, "git_push.sh");
         TestUtils.ensureContainsFile(files, output, "phpunit.xml.dist");
         TestUtils.ensureContainsFile(files, output, "README.md");
-        TestUtils.ensureContainsFile(files, output, "Api/ApiServer.php");
+        //TestUtils.ensureContainsFile(files, output, "Api/ApiServer.php");
         TestUtils.ensureContainsFile(files, output, "Api/DefaultApiInterface.php");
         TestUtils.ensureContainsFile(files, output, "Controller/Controller.php");
         TestUtils.ensureContainsFile(files, output, "Controller/DefaultController.php");
