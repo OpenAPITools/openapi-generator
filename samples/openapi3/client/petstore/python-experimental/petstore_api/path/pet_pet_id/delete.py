@@ -139,9 +139,9 @@ _status_code_to_response = {
 }
 
 
-class ApiFordelete(api_client.Api):
+class BaseApi(api_client.Api):
 
-    def delete(
+    def _delete_pet(
         self: api_client.Api,
         header_params: RequestHeaderParams = frozendict(),
         path_params: RequestPathParams = frozendict(),
@@ -150,8 +150,7 @@ class ApiFordelete(api_client.Api):
         skip_deserialization: bool = False,
     ) -> typing.Union[
         api_client.ApiResponseWithoutDeserialization
-    ]:
-        """
+    ]:        """
         Deletes a pet
         :param skip_deserialization: If true then api_response.response will be set but
             api_response.body and api_response.headers will not be deserialized into schema
@@ -207,3 +206,45 @@ class ApiFordelete(api_client.Api):
             raise exceptions.ApiException(api_response=api_response)
 
         return api_response
+
+
+class ApiForDeletePet(BaseApi):
+    # this class is used by api classes that refer to endpoints with operationId fn names
+
+    def delete(
+        self: api_client.Api,
+        header_params: RequestHeaderParams = frozendict(),
+        path_params: RequestPathParams = frozendict(),
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: bool = False,
+    ) -> typing.Union[
+        api_client.ApiResponseWithoutDeserialization
+    ]:        return self._delete_pet(
+            header_params=header_params,
+            path_params=path_params,
+            stream=stream,
+            timeout=timeout,
+            skip_deserialization=skip_deserialization        )
+
+
+class ApiFordelete(BaseApi):
+    # this class is used by api classes that refer to endpoints by path and http method names
+
+    def delete_pet(
+        self: api_client.Api,
+        header_params: RequestHeaderParams = frozendict(),
+        path_params: RequestPathParams = frozendict(),
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: bool = False,
+    ) -> typing.Union[
+        api_client.ApiResponseWithoutDeserialization
+    ]:        return self._delete_pet(
+            header_params=header_params,
+            path_params=path_params,
+            stream=stream,
+            timeout=timeout,
+            skip_deserialization=skip_deserialization        )
+
+

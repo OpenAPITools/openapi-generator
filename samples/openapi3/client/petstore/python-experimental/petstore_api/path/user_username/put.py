@@ -137,9 +137,9 @@ _status_code_to_response = {
 }
 
 
-class ApiForput(api_client.Api):
+class BaseApi(api_client.Api):
 
-    def put(
+    def _update_user(
         self: api_client.Api,
         body: typing.Union[SchemaForRequestBodyApplicationJson],
         path_params: RequestPathParams = frozendict(),
@@ -149,8 +149,7 @@ class ApiForput(api_client.Api):
         skip_deserialization: bool = False,
     ) -> typing.Union[
         api_client.ApiResponseWithoutDeserialization
-    ]:
-        """
+    ]:        """
         Updated user
         :param skip_deserialization: If true then api_response.response will be set but
             api_response.body and api_response.headers will not be deserialized into schema
@@ -209,3 +208,49 @@ class ApiForput(api_client.Api):
             raise exceptions.ApiException(api_response=api_response)
 
         return api_response
+
+
+class ApiForUpdateUser(BaseApi):
+    # this class is used by api classes that refer to endpoints with operationId fn names
+
+    def put(
+        self: api_client.Api,
+        body: typing.Union[SchemaForRequestBodyApplicationJson],
+        path_params: RequestPathParams = frozendict(),
+        content_type: str = 'application/json',
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: bool = False,
+    ) -> typing.Union[
+        api_client.ApiResponseWithoutDeserialization
+    ]:        return self._update_user(
+            body=body,
+            path_params=path_params,
+            content_type=content_type,
+            stream=stream,
+            timeout=timeout,
+            skip_deserialization=skip_deserialization        )
+
+
+class ApiForput(BaseApi):
+    # this class is used by api classes that refer to endpoints by path and http method names
+
+    def update_user(
+        self: api_client.Api,
+        body: typing.Union[SchemaForRequestBodyApplicationJson],
+        path_params: RequestPathParams = frozendict(),
+        content_type: str = 'application/json',
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: bool = False,
+    ) -> typing.Union[
+        api_client.ApiResponseWithoutDeserialization
+    ]:        return self._update_user(
+            body=body,
+            path_params=path_params,
+            content_type=content_type,
+            stream=stream,
+            timeout=timeout,
+            skip_deserialization=skip_deserialization        )
+
+

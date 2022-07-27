@@ -98,9 +98,9 @@ _status_code_to_response = {
 }
 
 
-class ApiForpost(api_client.Api):
+class BaseApi(api_client.Api):
 
-    def post(
+    def _post_ref_in_oneof_request_body(
         self: api_client.Api,
         body: typing.Union[SchemaForRequestBodyApplicationJson],
         content_type: str = 'application/json',
@@ -155,3 +155,51 @@ class ApiForpost(api_client.Api):
             raise exceptions.ApiException(api_response=api_response)
 
         return api_response
+
+
+class PostRefInOneofRequestBody(BaseApi):
+    # this class is used by api classes that refer to endpoints with operationId fn names
+
+    def post_ref_in_oneof_request_body(
+        self: api_client.Api,
+        body: typing.Union[SchemaForRequestBodyApplicationJson],
+        content_type: str = 'application/json',
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: bool = False,
+    ) -> typing.Union[
+        ApiResponseFor200,
+        api_client.ApiResponseWithoutDeserialization
+    ]:
+        return self._post_ref_in_oneof_request_body(
+            body=body,
+            content_type=content_type,
+            stream=stream,
+            timeout=timeout,
+            skip_deserialization=skip_deserialization
+        )
+
+
+class ApiForpost(BaseApi):
+    # this class is used by api classes that refer to endpoints by path and http method names
+
+    def post(
+        self: api_client.Api,
+        body: typing.Union[SchemaForRequestBodyApplicationJson],
+        content_type: str = 'application/json',
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: bool = False,
+    ) -> typing.Union[
+        ApiResponseFor200,
+        api_client.ApiResponseWithoutDeserialization
+    ]:
+        return self._post_ref_in_oneof_request_body(
+            body=body,
+            content_type=content_type,
+            stream=stream,
+            timeout=timeout,
+            skip_deserialization=skip_deserialization
+        )
+
+

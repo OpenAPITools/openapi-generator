@@ -105,9 +105,9 @@ _all_accept_content_types = (
 )
 
 
-class ApiForpost(api_client.Api):
+class BaseApi(api_client.Api):
 
-    def post(
+    def _string(
         self: api_client.Api,
         body: typing.Union[SchemaForRequestBodyApplicationJson, Unset] = unset,
         content_type: str = 'application/json',
@@ -118,8 +118,7 @@ class ApiForpost(api_client.Api):
     ) -> typing.Union[
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
-    ]:
-        """
+    ]:        """
         :param skip_deserialization: If true then api_response.response will be set but
             api_response.body and api_response.headers will not be deserialized into schema
             class instances
@@ -164,3 +163,51 @@ class ApiForpost(api_client.Api):
             raise exceptions.ApiException(api_response=api_response)
 
         return api_response
+
+
+class ApiForString(BaseApi):
+    # this class is used by api classes that refer to endpoints with operationId fn names
+
+    def post(
+        self: api_client.Api,
+        body: typing.Union[SchemaForRequestBodyApplicationJson, Unset] = unset,
+        content_type: str = 'application/json',
+        accept_content_types: typing.Tuple[str] = _all_accept_content_types,
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: bool = False,
+    ) -> typing.Union[
+        ApiResponseFor200,
+        api_client.ApiResponseWithoutDeserialization
+    ]:        return self._string(
+            body=body,
+            content_type=content_type,
+            accept_content_types=accept_content_types,
+            stream=stream,
+            timeout=timeout,
+            skip_deserialization=skip_deserialization        )
+
+
+class ApiForpost(BaseApi):
+    # this class is used by api classes that refer to endpoints by path and http method names
+
+    def string(
+        self: api_client.Api,
+        body: typing.Union[SchemaForRequestBodyApplicationJson, Unset] = unset,
+        content_type: str = 'application/json',
+        accept_content_types: typing.Tuple[str] = _all_accept_content_types,
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: bool = False,
+    ) -> typing.Union[
+        ApiResponseFor200,
+        api_client.ApiResponseWithoutDeserialization
+    ]:        return self._string(
+            body=body,
+            content_type=content_type,
+            accept_content_types=accept_content_types,
+            stream=stream,
+            timeout=timeout,
+            skip_deserialization=skip_deserialization        )
+
+

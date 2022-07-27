@@ -128,9 +128,9 @@ _status_code_to_response = {
 }
 
 
-class ApiForpost(api_client.Api):
+class BaseApi(api_client.Api):
 
-    def post(
+    def _add_pet(
         self: api_client.Api,
         body: typing.Union[SchemaForRequestBodyApplicationJson, SchemaForRequestBodyApplicationXml],
         content_type: str = 'application/json',
@@ -141,8 +141,7 @@ class ApiForpost(api_client.Api):
     ) -> typing.Union[
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
-    ]:
-        """
+    ]:        """
         Add a new pet to the store
         :param skip_deserialization: If true then api_response.response will be set but
             api_response.body and api_response.headers will not be deserialized into schema
@@ -191,3 +190,51 @@ class ApiForpost(api_client.Api):
             raise exceptions.ApiException(api_response=api_response)
 
         return api_response
+
+
+class ApiForAddPet(BaseApi):
+    # this class is used by api classes that refer to endpoints with operationId fn names
+
+    def post(
+        self: api_client.Api,
+        body: typing.Union[SchemaForRequestBodyApplicationJson, SchemaForRequestBodyApplicationXml],
+        content_type: str = 'application/json',
+        host_index: typing.Optional[int] = None,
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: bool = False,
+    ) -> typing.Union[
+        ApiResponseFor200,
+        api_client.ApiResponseWithoutDeserialization
+    ]:        return self._add_pet(
+            body=body,
+            content_type=content_type,
+            host_index=host_index,
+            stream=stream,
+            timeout=timeout,
+            skip_deserialization=skip_deserialization        )
+
+
+class ApiForpost(BaseApi):
+    # this class is used by api classes that refer to endpoints by path and http method names
+
+    def add_pet(
+        self: api_client.Api,
+        body: typing.Union[SchemaForRequestBodyApplicationJson, SchemaForRequestBodyApplicationXml],
+        content_type: str = 'application/json',
+        host_index: typing.Optional[int] = None,
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: bool = False,
+    ) -> typing.Union[
+        ApiResponseFor200,
+        api_client.ApiResponseWithoutDeserialization
+    ]:        return self._add_pet(
+            body=body,
+            content_type=content_type,
+            host_index=host_index,
+            stream=stream,
+            timeout=timeout,
+            skip_deserialization=skip_deserialization        )
+
+

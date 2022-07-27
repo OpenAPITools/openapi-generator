@@ -107,9 +107,9 @@ _status_code_to_response = {
 }
 
 
-class ApiForpost(api_client.Api):
+class BaseApi(api_client.Api):
 
-    def post(
+    def _create_users_with_list_input(
         self: api_client.Api,
         body: typing.Union[SchemaForRequestBodyApplicationJson],
         content_type: str = 'application/json',
@@ -119,8 +119,7 @@ class ApiForpost(api_client.Api):
     ) -> typing.Union[
         ApiResponseForDefault,
         api_client.ApiResponseWithoutDeserialization
-    ]:
-        """
+    ]:        """
         Creates list of users with given input array
         :param skip_deserialization: If true then api_response.response will be set but
             api_response.body and api_response.headers will not be deserialized into schema
@@ -169,3 +168,47 @@ class ApiForpost(api_client.Api):
             raise exceptions.ApiException(api_response=api_response)
 
         return api_response
+
+
+class ApiForCreateUsersWithListInput(BaseApi):
+    # this class is used by api classes that refer to endpoints with operationId fn names
+
+    def post(
+        self: api_client.Api,
+        body: typing.Union[SchemaForRequestBodyApplicationJson],
+        content_type: str = 'application/json',
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: bool = False,
+    ) -> typing.Union[
+        ApiResponseForDefault,
+        api_client.ApiResponseWithoutDeserialization
+    ]:        return self._create_users_with_list_input(
+            body=body,
+            content_type=content_type,
+            stream=stream,
+            timeout=timeout,
+            skip_deserialization=skip_deserialization        )
+
+
+class ApiForpost(BaseApi):
+    # this class is used by api classes that refer to endpoints by path and http method names
+
+    def create_users_with_list_input(
+        self: api_client.Api,
+        body: typing.Union[SchemaForRequestBodyApplicationJson],
+        content_type: str = 'application/json',
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: bool = False,
+    ) -> typing.Union[
+        ApiResponseForDefault,
+        api_client.ApiResponseWithoutDeserialization
+    ]:        return self._create_users_with_list_input(
+            body=body,
+            content_type=content_type,
+            stream=stream,
+            timeout=timeout,
+            skip_deserialization=skip_deserialization        )
+
+

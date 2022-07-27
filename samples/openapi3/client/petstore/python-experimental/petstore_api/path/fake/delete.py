@@ -173,9 +173,9 @@ _status_code_to_response = {
 }
 
 
-class ApiFordelete(api_client.Api):
+class BaseApi(api_client.Api):
 
-    def delete(
+    def _group_parameters(
         self: api_client.Api,
         query_params: RequestQueryParams = frozendict(),
         header_params: RequestHeaderParams = frozendict(),
@@ -184,8 +184,7 @@ class ApiFordelete(api_client.Api):
         skip_deserialization: bool = False,
     ) -> typing.Union[
         api_client.ApiResponseWithoutDeserialization
-    ]:
-        """
+    ]:        """
         Fake endpoint to test group parameters (optional)
         :param skip_deserialization: If true then api_response.response will be set but
             api_response.body and api_response.headers will not be deserialized into schema
@@ -245,3 +244,45 @@ class ApiFordelete(api_client.Api):
             raise exceptions.ApiException(api_response=api_response)
 
         return api_response
+
+
+class ApiForGroupParameters(BaseApi):
+    # this class is used by api classes that refer to endpoints with operationId fn names
+
+    def delete(
+        self: api_client.Api,
+        query_params: RequestQueryParams = frozendict(),
+        header_params: RequestHeaderParams = frozendict(),
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: bool = False,
+    ) -> typing.Union[
+        api_client.ApiResponseWithoutDeserialization
+    ]:        return self._group_parameters(
+            query_params=query_params,
+            header_params=header_params,
+            stream=stream,
+            timeout=timeout,
+            skip_deserialization=skip_deserialization        )
+
+
+class ApiFordelete(BaseApi):
+    # this class is used by api classes that refer to endpoints by path and http method names
+
+    def group_parameters(
+        self: api_client.Api,
+        query_params: RequestQueryParams = frozendict(),
+        header_params: RequestHeaderParams = frozendict(),
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: bool = False,
+    ) -> typing.Union[
+        api_client.ApiResponseWithoutDeserialization
+    ]:        return self._group_parameters(
+            query_params=query_params,
+            header_params=header_params,
+            stream=stream,
+            timeout=timeout,
+            skip_deserialization=skip_deserialization        )
+
+
