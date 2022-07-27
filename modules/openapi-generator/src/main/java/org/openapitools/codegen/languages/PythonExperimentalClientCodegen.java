@@ -509,15 +509,14 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         } catch (IOException e) {
             LOGGER.error("Error when writing template file {}", e.toString());
         }
-        // one file in the paths directory
-        initPathFile = endpointFilename(Arrays.asList("paths", "__init__.py"));
+        // one file in apis/path
+        initPathFile = endpointFilename(Arrays.asList("apis", "path", "__init__.py"));
         try {
             processTemplateToFile(initOperationMap, "__init__paths.handlebars", initPathFile, true, CodegenConstants.APIS);
         } catch (IOException e) {
             LOGGER.error("Error when writing template file {}", e.toString());
         }
         // one file per path module, one per paths
-        // TODO have this write to the apis folder
         for (Map.Entry<String, String> entry: pathModuleToPath.entrySet()) {
             String pathModule = entry.getKey();
             String path = entry.getValue();
@@ -536,13 +535,13 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
             }
             PathItem pi = openAPI.getPaths().get(path);
             try {
-                String templateName = "__init__paths_x.handlebars";
+                String templateName = "apis_path_module.handlebars";
                 Map<String, Object> operationMap = new HashMap<>();
                 operationMap.put("packageName", packageName);
                 operationMap.put("pathModule", pathModule);
                 operationMap.put("apiClassName", "Api");
                 operationMap.put("pathItem", pi);
-                String filename = endpointFilename(Arrays.asList("paths", pathModule + ".py"));
+                String filename = endpointFilename(Arrays.asList("apis", "path", pathModule + ".py"));
                 processTemplateToFile(operationMap, templateName, filename, true, CodegenConstants.APIS);
             } catch (IOException e) {
                 LOGGER.error("Error when writing endpoint __init__ file {}", e.toString());
