@@ -662,18 +662,14 @@ public class ApiClient extends JavaTimeFormatter {
   /**
    * Parse content type object from header value
    */
-  private ContentType getContentType(String headerValue) throws ApiException {
-    try {
-      return ContentType.parse(headerValue);
-    } catch (ParseException e) {
-      throw new ApiException("Could not parse content type " + headerValue);
-    }
+  private ContentType getContentType(String headerValue) {
+    return ContentType.getByMimeType(headerValue);
   }
 
   /**
    * Get content type of a response or null if one was not provided
    */
-  private String getResponseMimeType(HttpResponse response) throws ApiException {
+  private String getResponseMimeType(HttpResponse response) {
     Header contentTypeHeader = response.getFirstHeader("Content-Type");
     if (contentTypeHeader != null) {
       return getContentType(contentTypeHeader.getValue()).getMimeType();
