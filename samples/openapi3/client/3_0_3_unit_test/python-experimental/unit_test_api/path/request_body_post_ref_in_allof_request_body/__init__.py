@@ -4,4 +4,4 @@
 
 from unit_test_api.path import PathValues
 
-path = PathValues.post_ref_in_allof_request_body
+path = PathValues.REQUEST_BODY_POST_REF_IN_ALLOF_REQUEST_BODY

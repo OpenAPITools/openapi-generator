@@ -4,4 +4,4 @@
 
 from unit_test_api.path import PathValues
 
-path = PathValues.post_minimum_validation_with_signed_integer_request_body
+path = PathValues.REQUEST_BODY_POST_MINIMUM_VALIDATION_WITH_SIGNED_INTEGER_REQUEST_BODY

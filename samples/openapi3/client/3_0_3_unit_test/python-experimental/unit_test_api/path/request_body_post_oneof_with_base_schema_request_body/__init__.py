@@ -4,4 +4,4 @@
 
 from unit_test_api.path import PathValues
 
-path = PathValues.post_oneof_with_base_schema_request_body
+path = PathValues.REQUEST_BODY_POST_ONEOF_WITH_BASE_SCHEMA_REQUEST_BODY

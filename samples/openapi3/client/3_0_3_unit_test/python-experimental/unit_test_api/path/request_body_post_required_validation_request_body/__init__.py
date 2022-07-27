@@ -4,4 +4,4 @@
 
 from unit_test_api.path import PathValues
 
-path = PathValues.post_required_validation_request_body
+path = PathValues.REQUEST_BODY_POST_REQUIRED_VALIDATION_REQUEST_BODY

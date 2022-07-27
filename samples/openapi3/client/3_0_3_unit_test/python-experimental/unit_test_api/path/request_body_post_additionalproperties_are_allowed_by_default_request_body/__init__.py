@@ -4,4 +4,4 @@
 
 from unit_test_api.path import PathValues
 
-path = PathValues.post_additionalproperties_are_allowed_by_default_request_body
+path = PathValues.REQUEST_BODY_POST_ADDITIONALPROPERTIES_ARE_ALLOWED_BY_DEFAULT_REQUEST_BODY

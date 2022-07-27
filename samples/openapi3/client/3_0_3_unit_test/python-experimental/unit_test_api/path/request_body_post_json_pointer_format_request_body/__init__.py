@@ -4,4 +4,4 @@
 
 from unit_test_api.path import PathValues
 
-path = PathValues.post_json_pointer_format_request_body
+path = PathValues.REQUEST_BODY_POST_JSON_POINTER_FORMAT_REQUEST_BODY

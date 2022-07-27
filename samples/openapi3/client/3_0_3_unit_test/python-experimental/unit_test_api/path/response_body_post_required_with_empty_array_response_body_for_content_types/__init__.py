@@ -4,4 +4,4 @@
 
 from unit_test_api.path import PathValues
 
-path = PathValues.post_required_with_empty_array_response_body_for_content_types
+path = PathValues.RESPONSE_BODY_POST_REQUIRED_WITH_EMPTY_ARRAY_RESPONSE_BODY_FOR_CONTENT_TYPES

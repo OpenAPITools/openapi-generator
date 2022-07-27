@@ -4,4 +4,4 @@
 
 from unit_test_api.path import PathValues
 
-path = PathValues.post_enums_in_properties_response_body_for_content_types
+path = PathValues.RESPONSE_BODY_POST_ENUMS_IN_PROPERTIES_RESPONSE_BODY_FOR_CONTENT_TYPES

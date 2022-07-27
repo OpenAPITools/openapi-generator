@@ -4,4 +4,4 @@
 
 from unit_test_api.path import PathValues
 
-path = PathValues.post_enum_with1_does_not_match_true_request_body
+path = PathValues.REQUEST_BODY_POST_ENUM_WITH1DOES_NOT_MATCH_TRUE_REQUEST_BODY

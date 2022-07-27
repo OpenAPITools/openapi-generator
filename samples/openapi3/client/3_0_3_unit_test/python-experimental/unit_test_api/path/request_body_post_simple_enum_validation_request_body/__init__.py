@@ -4,4 +4,4 @@
 
 from unit_test_api.path import PathValues
 
-path = PathValues.post_simple_enum_validation_request_body
+path = PathValues.REQUEST_BODY_POST_SIMPLE_ENUM_VALIDATION_REQUEST_BODY

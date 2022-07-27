@@ -4,4 +4,4 @@
 
 from unit_test_api.path import PathValues
 
-path = PathValues.post_nested_items_request_body
+path = PathValues.REQUEST_BODY_POST_NESTED_ITEMS_REQUEST_BODY

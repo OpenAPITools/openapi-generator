@@ -4,4 +4,4 @@
 
 from unit_test_api.path import PathValues
 
-path = PathValues.post_nul_characters_in_strings_request_body
+path = PathValues.REQUEST_BODY_POST_NUL_CHARACTERS_IN_STRINGS_REQUEST_BODY

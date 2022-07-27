@@ -4,4 +4,4 @@
 
 from unit_test_api.path import PathValues
 
-path = PathValues.post_enums_in_properties_request_body
+path = PathValues.REQUEST_BODY_POST_ENUMS_IN_PROPERTIES_REQUEST_BODY

@@ -4,4 +4,4 @@
 
 from unit_test_api.path import PathValues
 
-path = PathValues.post_not_request_body
+path = PathValues.REQUEST_BODY_POST_NOT_REQUEST_BODY

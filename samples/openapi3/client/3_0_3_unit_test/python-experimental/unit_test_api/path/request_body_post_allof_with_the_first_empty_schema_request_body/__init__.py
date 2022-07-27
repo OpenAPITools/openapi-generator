@@ -4,4 +4,4 @@
 
 from unit_test_api.path import PathValues
 
-path = PathValues.post_allof_with_the_first_empty_schema_request_body
+path = PathValues.REQUEST_BODY_POST_ALLOF_WITH_THE_FIRST_EMPTY_SCHEMA_REQUEST_BODY

@@ -4,4 +4,4 @@
 
 from unit_test_api.path import PathValues
 
-path = PathValues.post_ipv4_format_request_body
+path = PathValues.REQUEST_BODY_POST_IPV4FORMAT_REQUEST_BODY

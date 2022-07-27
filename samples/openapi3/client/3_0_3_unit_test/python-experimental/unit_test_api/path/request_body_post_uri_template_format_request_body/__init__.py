@@ -4,4 +4,4 @@
 
 from unit_test_api.path import PathValues
 
-path = PathValues.post_uri_template_format_request_body
+path = PathValues.REQUEST_BODY_POST_URI_TEMPLATE_FORMAT_REQUEST_BODY

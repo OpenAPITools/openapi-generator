@@ -4,4 +4,4 @@
 
 from unit_test_api.path import PathValues
 
-path = PathValues.post_null_type_matches_only_the_null_object_response_body_for_content_types
+path = PathValues.RESPONSE_BODY_POST_NULL_TYPE_MATCHES_ONLY_THE_NULL_OBJECT_RESPONSE_BODY_FOR_CONTENT_TYPES

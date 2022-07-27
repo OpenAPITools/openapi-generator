@@ -4,4 +4,4 @@
 
 from unit_test_api.path import PathValues
 
-path = PathValues.post_property_named_ref_that_is_not_a_reference_request_body
+path = PathValues.REQUEST_BODY_POST_PROPERTY_NAMED_REF_THAT_IS_NOT_AREFERENCE_REQUEST_BODY

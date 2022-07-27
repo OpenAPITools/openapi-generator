@@ -4,4 +4,4 @@
 
 from unit_test_api.path import PathValues
 
-path = PathValues.post_invalid_string_value_for_default_request_body
+path = PathValues.REQUEST_BODY_POST_INVALID_STRING_VALUE_FOR_DEFAULT_REQUEST_BODY

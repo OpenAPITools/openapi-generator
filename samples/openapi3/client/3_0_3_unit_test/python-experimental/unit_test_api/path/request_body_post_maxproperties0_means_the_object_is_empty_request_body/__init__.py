@@ -4,4 +4,4 @@
 
 from unit_test_api.path import PathValues
 
-path = PathValues.post_maxproperties0_means_the_object_is_empty_request_body
+path = PathValues.REQUEST_BODY_POST_MAXPROPERTIES0MEANS_THE_OBJECT_IS_EMPTY_REQUEST_BODY

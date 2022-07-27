@@ -4,4 +4,4 @@
 
 from unit_test_api.path import PathValues
 
-path = PathValues.post_boolean_type_matches_booleans_request_body
+path = PathValues.REQUEST_BODY_POST_BOOLEAN_TYPE_MATCHES_BOOLEANS_REQUEST_BODY

@@ -4,4 +4,4 @@
 
 from unit_test_api.path import PathValues
 
-path = PathValues.post_maximum_validation_request_body
+path = PathValues.REQUEST_BODY_POST_MAXIMUM_VALIDATION_REQUEST_BODY

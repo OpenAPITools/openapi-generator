@@ -64,6 +64,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.utils.OnceLogger.once;
+import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
@@ -1153,13 +1154,19 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
             return value;
         }
         // Replace " " with _
-        String usedValue = value.replaceAll("\\s+", "_").toUpperCase(Locale.ROOT);
+        String usedValue = value.replaceAll("\\s+", "_");
         // strip first character if it is invalid
         usedValue = usedValue.replaceAll("^[^_a-zA-Z]", "");
         // Replace / with _ for path enums
-        usedValue = usedValue.replaceAll("/", "_").toUpperCase(Locale.ROOT);
+        usedValue = usedValue.replaceAll("/", "_");
+        // add underscore at camelCase locations
+        String regex = "([a-z])([A-Z]+)";
+        String replacement = "$1_$2";
+        usedValue = usedValue.replaceAll(regex, replacement);
         // Replace invalid characters with empty space
         usedValue = usedValue.replaceAll("[^_a-zA-Z0-9]*", "");
+        // uppercase
+        usedValue = usedValue.toUpperCase(Locale.ROOT);
 
         if (usedValue.length() == 0) {
             for (int i = 0; i < value.length(); i++){
@@ -2493,5 +2500,42 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         System.out.println("# This generator was written by Justin Black (https://github.com/spacether)    #");
         System.out.println("# Please support his work directly via https://github.com/sponsors/spacether \uD83D\uDE4F#");
         System.out.println("################################################################################");
+    }
+
+    /**
+     * Custom version of this method to prevent mutation of
+     * codegenOperation.operationIdLowerCase/operationIdSnakeCase
+     *
+     * @param tag          name of the tag
+     * @param resourcePath path of the resource
+     * @param operation    OAS Operation object
+     * @param co           Codegen Operation object
+     * @param operations   map of Codegen operations
+     */
+    @Override
+    @SuppressWarnings("static-method")
+    public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation
+            co, Map<String, List<CodegenOperation>> operations) {
+        List<CodegenOperation> opList = operations.get(tag);
+        if (opList == null) {
+            opList = new ArrayList<>();
+            operations.put(tag, opList);
+        }
+        // check for operationId uniqueness
+        String uniqueName = co.operationId;
+        int counter = 0;
+        for (CodegenOperation op : opList) {
+            if (uniqueName.equals(op.operationId)) {
+                uniqueName = co.operationId + "_" + counter;
+                counter++;
+            }
+        }
+        if (!co.operationId.equals(uniqueName)) {
+            LOGGER.warn("generated unique operationId `{}`", uniqueName);
+        }
+        co.operationId = uniqueName;
+        co.operationIdCamelCase = camelize(uniqueName);
+        opList.add(co);
+        co.baseName = tag;
     }
 }

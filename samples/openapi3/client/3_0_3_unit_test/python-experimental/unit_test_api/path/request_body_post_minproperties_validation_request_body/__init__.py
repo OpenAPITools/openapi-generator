@@ -4,4 +4,4 @@
 
 from unit_test_api.path import PathValues
 
-path = PathValues.post_minproperties_validation_request_body
+path = PathValues.REQUEST_BODY_POST_MINPROPERTIES_VALIDATION_REQUEST_BODY

@@ -4,4 +4,4 @@
 
 from unit_test_api.path import PathValues
 
-path = PathValues.post_additionalproperties_should_not_look_in_applicators_request_body
+path = PathValues.REQUEST_BODY_POST_ADDITIONALPROPERTIES_SHOULD_NOT_LOOK_IN_APPLICATORS_REQUEST_BODY

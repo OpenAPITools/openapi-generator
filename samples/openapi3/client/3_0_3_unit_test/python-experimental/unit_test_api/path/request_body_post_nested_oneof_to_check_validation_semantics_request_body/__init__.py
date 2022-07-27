@@ -4,4 +4,4 @@
 
 from unit_test_api.path import PathValues
 
-path = PathValues.post_nested_oneof_to_check_validation_semantics_request_body
+path = PathValues.REQUEST_BODY_POST_NESTED_ONEOF_TO_CHECK_VALIDATION_SEMANTICS_REQUEST_BODY
