@@ -23,6 +23,7 @@ import com.google.common.base.CaseFormat;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
+import io.swagger.v3.oas.models.Paths;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.oas.models.tags.Tag;
 
@@ -465,7 +466,6 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         OperationMap operations = objs.getOperations();
         List<CodegenOperation> codegenOperations = operations.getOperation();
         HashMap<String, String> pathModuleToPath = new HashMap<>();
-        Map<String, Object> pathValToVar = new HashMap<>();
         // one file per endpoint
         for (CodegenOperation co: codegenOperations) {
             String path = co.path;
@@ -473,7 +473,6 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
             if (!pathModuleToPath.containsKey(pathModuleName)) {
                 pathModuleToPath.put(pathModuleName, path);
             }
-            pathValToVar.put(path, co.operationIdLowerCase);
             co.nickname = pathModuleName;
             Map<String, Object> operationMap = new HashMap<>();
             operationMap.put("operation", co);
@@ -488,7 +487,18 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
                 LOGGER.error("Error when writing template file {}", e.toString());
             }
         }
+        Paths paths = openAPI.getPaths();
+        if (paths == null) {
+            return;
+        }
         // one file in the path directory
+        Map<String, Object> pathValToVar = new LinkedHashMap<>();
+        for (Map.Entry<String, PathItem> pathsEntry : paths.entrySet()) {
+            String path = pathsEntry.getKey();
+            if (!pathValToVar.containsKey(path)) {
+                pathValToVar.put(path, toEnumVarName(path, "str"));
+            }
+        }
         Map<String, Object> initOperationMap = new HashMap<>();
         initOperationMap.put("packageName", packageName);
         initOperationMap.put("apiClassname", "Api");
@@ -507,6 +517,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
             LOGGER.error("Error when writing template file {}", e.toString());
         }
         // one file per path module, one per paths
+        // TODO have this write to the apis folder
         for (Map.Entry<String, String> entry: pathModuleToPath.entrySet()) {
             String pathModule = entry.getKey();
             String path = entry.getValue();
