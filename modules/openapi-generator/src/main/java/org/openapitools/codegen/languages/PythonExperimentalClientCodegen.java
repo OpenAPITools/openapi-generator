@@ -495,6 +495,13 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         } catch (IOException e) {
             LOGGER.error("Error when writing template file {}", e.toString());
         }
+        // one file in the paths directory
+        initPathFile = endpointFilename(Arrays.asList("paths", "__init__.py"));
+        try {
+            processTemplateToFile(initOperationMap, "__init__paths.handlebars", initPathFile, true, CodegenConstants.APIS);
+        } catch (IOException e) {
+            LOGGER.error("Error when writing template file {}", e.toString());
+        }
         // one file per path module, one per paths
         for (Map.Entry<String, String> entry: pathModuleToPath.entrySet()) {
             String pathModule = entry.getKey();
