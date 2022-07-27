@@ -201,14 +201,14 @@
       }
 
       {{/vendorExtensions.x-streaming}}
-      resp <- api_response$response
-      if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
+      local_var_response <- api_response$response
+      if (httr::status_code(local_var_response) >= 200 && httr::status_code(local_var_response) <= 299) {
         api_response$content
-      } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
+      } else if (httr::status_code(local_var_response) >= 300 && httr::status_code(local_var_response) <= 399) {
         api_response
-      } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
+      } else if (httr::status_code(local_var_response) >= 400 && httr::status_code(local_var_response) <= 499) {
         api_response
-      } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
+      } else if (httr::status_code(local_var_response) >= 500 && httr::status_code(local_var_response) <= 599) {
         api_response
       }
     },
@@ -260,7 +260,7 @@
 
       {{/query_params}}
       {{#hasFormParams}}
-      body <- list(
+      local_var_body <- list(
         {{#formParams}}
         {{^isFile}}
         "{{baseName}}" = {{paramName}}{{^-last}},{{/-last}}
@@ -279,10 +279,10 @@
         body.items <- paste(unlist(lapply({{paramName}}, function(param) {
                                                              param$toJSONString()
                                                          })), collapse = ",")
-        body <- paste0("[", body.items, "]")
+        local_var_body <- paste0("[", body.items, "]")
         {{/isArray}}
         {{^isArray}}
-        body <- `{{paramName}}`$toJSONString()
+        local_var_body <- `{{paramName}}`$toJSONString()
         {{/isArray}}
       } else {
         body <- NULL
@@ -292,14 +292,14 @@
       {{/hasBodyParam}}
       {{^hasBodyParam}}
       {{^hasFormParams}}
-      body <- NULL
+      local_var_body <- NULL
       {{/hasFormParams}}
       {{/hasBodyParam}}
-      url_path <- "{{path}}"
+      local_var_url_path <- "{{path}}"
       {{#hasPathParams}}
       {{#pathParams}}
       if (!missing(`{{paramName}}`)) {
-        url_path <- gsub(paste0("\\{", "{{baseName}}", "\\}"), URLencode(as.character(`{{paramName}}`), reserved = TRUE), url_path)
+        local_var_url_path <- gsub(paste0("\\{", "{{baseName}}", "\\}"), URLencode(as.character(`{{paramName}}`), reserved = TRUE), local_var_url_path)
       }
 
       {{/pathParams}}
@@ -333,11 +333,19 @@
       {{/isOAuth}}
       {{/authMethods}}
 
-      resp <- self$api_client$CallApi(url = paste0(self$api_client$base_path, url_path),
+      # The Accept request HTTP header
+      local_var_accepts = list({{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}})
+
+      # The Content-Type representation header
+      local_var_content_types = list({{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}})
+
+      local_var_resp <- self$api_client$CallApi(url = paste0(self$api_client$base_path, local_var_url_path),
                                  method = "{{httpMethod}}",
                                  query_params = query_params,
                                  header_params = header_params,
-                                 body = body,
+                                 accepts = local_var_accepts,
+                                 content_types = local_var_content_types,
+                                 body = local_var_body,
                                  {{#vendorExtensions.x-streaming}}
                                  stream_callback = stream_callback,
                                  {{/vendorExtensions.x-streaming}}
@@ -349,15 +357,15 @@
       }
 
       {{/vendorExtensions.x-streaming}}
-      if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
+      if (httr::status_code(local_var_resp) >= 200 && httr::status_code(local_var_resp) <= 299) {
         {{#returnType}}
         {{#isPrimitiveType}}
-        content <- httr::content(
-            resp, "text", encoding = "UTF-8", simplifyVector = FALSE
+        local_var_content <- httr::content(
+            local_var_resp, "text", encoding = "UTF-8", simplifyVector = FALSE
         )
         # save response in a file
         if (!is.null(data_file)) {
-            write(content, data_file)
+            write(local_var_content, data_file)
         }
 
         ApiResponse$new(content,resp)
@@ -365,11 +373,11 @@
         {{^isPrimitiveType}}
         # save response in a file
         if (!is.null(data_file)) {
-            write(httr::content(resp, "text", encoding = "UTF-8", simplifyVector = FALSE), data_file)
+            write(httr::content(local_var_resp, "text", encoding = "UTF-8", simplifyVector = FALSE), data_file)
         }
 
         deserialized_resp_obj <- tryCatch(
-          self$api_client$deserialize(resp, "{{returnType}}", loadNamespace("{{packageName}}")),
+          self$api_client$deserialize(local_var_resp, "{{returnType}}", loadNamespace("{{packageName}}")),
           error = function(e) {
            {{#useDefaultExceptionHandling}}
              stop("Failed to deserialize response")
@@ -377,70 +385,70 @@
            {{#useRlangExceptionHandling}}
              rlang::abort(message = "Failed to deserialize response",
                           .subclass = "ApiException",
-                          ApiException = ApiException$new(http_response = resp))
+                          ApiException = ApiException$new(http_response = local_var_resp))
            {{/useRlangExceptionHandling}}
           }
         )
-        ApiResponse$new(deserialized_resp_obj, resp)
+        ApiResponse$new(deserialized_resp_obj, local_var_resp)
         {{/isPrimitiveType}}
         {{/returnType}}
         {{^returnType}}
         {{! Returning the ApiResponse object with NULL object when the endpoint doesn't return anything}}
-        ApiResponse$new(NULL, resp)
+        ApiResponse$new(NULL, local_var_resp)
         {{/returnType}}
-      } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
+      } else if (httr::status_code(local_var_resp) >= 300 && httr::status_code(local_var_resp) <= 399) {
       {{#returnExceptionOnFailure}}
-        error_msg <- toString(content(resp))
-        if (error_msg == "") {
-          error_msg <- paste("Server returned ", httr::status_code(resp), " response status code.")
+        local_var_error_msg <- toString(content(local_var_resp))
+        if (local_var_error_msg == "") {
+          local_var_error_msg <- paste("Server returned ", httr::status_code(local_var_resp), " response status code.")
         }
         {{#useDefaultExceptionHandling}}
-        stop(error_msg)
+        stop(local_var_error_msg)
+        {{/useDefaultExceptionHandling}}
+        {{#useRlangExceptionHandling}}
+        rlang::abort(message = local_var_error_msg,
+                     .subclass = "ApiException",
+                     ApiException = ApiException$new(http_response = local_var_resp))
+        {{/useRlangExceptionHandling}}
+      {{/returnExceptionOnFailure}}
+      {{^returnExceptionOnFailure}}
+        ApiResponse$new(paste("Server returned ", httr::status_code(local_var_resp), " response status code."), local_var_resp)
+      {{/returnExceptionOnFailure}}
+      } else if (httr::status_code(local_var_resp) >= 400 && httr::status_code(local_var_resp) <= 499) {
+      {{#returnExceptionOnFailure}}
+        local_var_error_msg <- toString(content(local_var_resp))
+        if (local_var_error_msg == "") {
+          local_var_error_msg <- "Api client exception encountered."
+        }
+        {{#useDefaultExceptionHandling}}
+        stop(local_var_error_msg)
+        {{/useDefaultExceptionHandling}}
+        {{#useRlangExceptionHandling}}
+        rlang::abort(message = local_var_error_msg,
+                     .subclass = "ApiException",
+                     ApiException = ApiException$new(http_response = local_var_resp))
+        {{/useRlangExceptionHandling}}
+      {{/returnExceptionOnFailure}}
+      {{^returnExceptionOnFailure}}
+        ApiResponse$new("API client error", local_var_resp)
+      {{/returnExceptionOnFailure}}
+      } else if (httr::status_code(local_var_resp) >= 500 && httr::status_code(local_var_resp) <= 599) {
+      {{#returnExceptionOnFailure}}
+        local_var_error_msg <- toString(content(local_var_resp))
+        if (local_var_error_msg == "") {
+          local_var_error_msg <- "Api server exception encountered."
+        }
+        {{#useDefaultExceptionHandling}}
+        stop(local_var_error_msg)
         {{/useDefaultExceptionHandling}}
         {{#useRlangExceptionHandling}}
         rlang::abort(message = error_msg,
                      .subclass = "ApiException",
-                     ApiException = ApiException$new(http_response = resp))
+                     ApiException = ApiException$new(http_response = local_var_resp))
         {{/useRlangExceptionHandling}}
       {{/returnExceptionOnFailure}}
       {{^returnExceptionOnFailure}}
-        ApiResponse$new(paste("Server returned ", httr::status_code(resp), " response status code."), resp)
-      {{/returnExceptionOnFailure}}
-      } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
-      {{#returnExceptionOnFailure}}
-        error_msg <- toString(content(resp))
-        if (error_msg == "") {
-          error_msg <- "Api client exception encountered."
-        }
-        {{#useDefaultExceptionHandling}}
-        stop(error_msg)
-        {{/useDefaultExceptionHandling}}
-        {{#useRlangExceptionHandling}}
-        rlang::abort(message = error_msg,
-                     .subclass = "ApiException",
-                     ApiException = ApiException$new(http_response = resp))
-        {{/useRlangExceptionHandling}}
-      {{/returnExceptionOnFailure}}
-      {{^returnExceptionOnFailure}}
-        ApiResponse$new("API client error", resp)
-      {{/returnExceptionOnFailure}}
-      } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
-      {{#returnExceptionOnFailure}}
-        error_msg <- toString(content(resp))
-        if (error_msg == "") {
-          error_msg <- "Api server exception encountered."
-        }
-        {{#useDefaultExceptionHandling}}
-        stop(error_msg)
-        {{/useDefaultExceptionHandling}}
-        {{#useRlangExceptionHandling}}
-        rlang::abort(message = error_msg,
-                     .subclass = "ApiException",
-                     ApiException = ApiException$new(http_response = resp))
-        {{/useRlangExceptionHandling}}
-      {{/returnExceptionOnFailure}}
-      {{^returnExceptionOnFailure}}
-        ApiResponse$new("API server error", resp)
+        ApiResponse$new("API server error", local_var_resp)
       {{/returnExceptionOnFailure}}
       }
     }{{^-last}},{{/-last}}

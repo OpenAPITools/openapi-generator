@@ -228,9 +228,9 @@ ApiClient  <- R6::R6Class(
       req %>% req_method(method)
 
       # stream data
-      if (typeof(stream_callback) == "closure") {
-        req %>% req_stream(stream_callback)
-      }
+      #if (typeof(stream_callback) == "closure") {
+      #  req %>% req_stream(stream_callback)
+      #}
 
       # perform the HTTP request
       req_perform(req)

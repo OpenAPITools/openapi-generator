@@ -7,7 +7,9 @@ info:
   description: sample spec for testing openapi functionality, built from json schema
     tests for draft6
 tags:
-- name: requestBody
+- name: operation.requestBody
+- name: path.post
+- name: contentType_json
 paths:
   /requestBody/postAdditionalpropertiesAllowsASchemaWhichShouldValidateRequestBody:
     post:
@@ -24,9 +26,25 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
+  /responseBody/postAdditionalpropertiesAllowsASchemaWhichShouldValidateResponseBodyForContentTypes:
+    post:
+      operationId: postAdditionalpropertiesAllowsASchemaWhichShouldValidateResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdditionalpropertiesAllowsASchemaWhichShouldValidate'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/AdditionalpropertiesAllowsASchemaWhichShouldValidate'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
   /requestBody/postAdditionalpropertiesCanExistByItselfRequestBody:
     post:
       operationId: postAdditionalpropertiesCanExistByItselfRequestBody
@@ -42,9 +60,25 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
+  /responseBody/postAdditionalpropertiesCanExistByItselfResponseBodyForContentTypes:
+    post:
+      operationId: postAdditionalpropertiesCanExistByItselfResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdditionalpropertiesCanExistByItself'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/AdditionalpropertiesCanExistByItself'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
   /requestBody/postAdditionalpropertiesAreAllowedByDefaultRequestBody:
     post:
       operationId: postAdditionalpropertiesAreAllowedByDefaultRequestBody
@@ -60,9 +94,25 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
+  /responseBody/postAdditionalpropertiesAreAllowedByDefaultResponseBodyForContentTypes:
+    post:
+      operationId: postAdditionalpropertiesAreAllowedByDefaultResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdditionalpropertiesAreAllowedByDefault'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/AdditionalpropertiesAreAllowedByDefault'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
   /requestBody/postAdditionalpropertiesShouldNotLookInApplicatorsRequestBody:
     post:
       operationId: postAdditionalpropertiesShouldNotLookInApplicatorsRequestBody
@@ -78,9 +128,25 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
+  /responseBody/postAdditionalpropertiesShouldNotLookInApplicatorsResponseBodyForContentTypes:
+    post:
+      operationId: postAdditionalpropertiesShouldNotLookInApplicatorsResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdditionalpropertiesShouldNotLookInApplicators'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/AdditionalpropertiesShouldNotLookInApplicators'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
   /requestBody/postAllofRequestBody:
     post:
       operationId: postAllofRequestBody
@@ -96,9 +162,25 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
+  /responseBody/postAllofResponseBodyForContentTypes:
+    post:
+      operationId: postAllofResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Allof'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/Allof'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
   /requestBody/postAllofWithBaseSchemaRequestBody:
     post:
       operationId: postAllofWithBaseSchemaRequestBody
@@ -114,9 +196,25 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
+  /responseBody/postAllofWithBaseSchemaResponseBodyForContentTypes:
+    post:
+      operationId: postAllofWithBaseSchemaResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllofWithBaseSchema'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/AllofWithBaseSchema'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
   /requestBody/postAllofSimpleTypesRequestBody:
     post:
       operationId: postAllofSimpleTypesRequestBody
@@ -132,9 +230,25 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
+  /responseBody/postAllofSimpleTypesResponseBodyForContentTypes:
+    post:
+      operationId: postAllofSimpleTypesResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllofSimpleTypes'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/AllofSimpleTypes'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
   /requestBody/postAllofWithOneEmptySchemaRequestBody:
     post:
       operationId: postAllofWithOneEmptySchemaRequestBody
@@ -150,9 +264,25 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
+  /responseBody/postAllofWithOneEmptySchemaResponseBodyForContentTypes:
+    post:
+      operationId: postAllofWithOneEmptySchemaResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllofWithOneEmptySchema'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/AllofWithOneEmptySchema'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
   /requestBody/postAllofWithTwoEmptySchemasRequestBody:
     post:
       operationId: postAllofWithTwoEmptySchemasRequestBody
@@ -168,9 +298,25 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
+  /responseBody/postAllofWithTwoEmptySchemasResponseBodyForContentTypes:
+    post:
+      operationId: postAllofWithTwoEmptySchemasResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllofWithTwoEmptySchemas'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/AllofWithTwoEmptySchemas'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
   /requestBody/postAllofWithTheFirstEmptySchemaRequestBody:
     post:
       operationId: postAllofWithTheFirstEmptySchemaRequestBody
@@ -186,9 +332,25 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
+  /responseBody/postAllofWithTheFirstEmptySchemaResponseBodyForContentTypes:
+    post:
+      operationId: postAllofWithTheFirstEmptySchemaResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllofWithTheFirstEmptySchema'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/AllofWithTheFirstEmptySchema'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
   /requestBody/postAllofWithTheLastEmptySchemaRequestBody:
     post:
       operationId: postAllofWithTheLastEmptySchemaRequestBody
@@ -204,9 +366,25 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
+  /responseBody/postAllofWithTheLastEmptySchemaResponseBodyForContentTypes:
+    post:
+      operationId: postAllofWithTheLastEmptySchemaResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllofWithTheLastEmptySchema'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/AllofWithTheLastEmptySchema'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
   /requestBody/postNestedAllofToCheckValidationSemanticsRequestBody:
     post:
       operationId: postNestedAllofToCheckValidationSemanticsRequestBody
@@ -222,9 +400,25 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
+  /responseBody/postNestedAllofToCheckValidationSemanticsResponseBodyForContentTypes:
+    post:
+      operationId: postNestedAllofToCheckValidationSemanticsResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NestedAllofToCheckValidationSemantics'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/NestedAllofToCheckValidationSemantics'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
   /requestBody/postAllofCombinedWithAnyofOneofRequestBody:
     post:
       operationId: postAllofCombinedWithAnyofOneofRequestBody
@@ -240,9 +434,25 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
+  /responseBody/postAllofCombinedWithAnyofOneofResponseBodyForContentTypes:
+    post:
+      operationId: postAllofCombinedWithAnyofOneofResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllofCombinedWithAnyofOneof'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/AllofCombinedWithAnyofOneof'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
   /requestBody/postAnyofRequestBody:
     post:
       operationId: postAnyofRequestBody
@@ -258,9 +468,25 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
+  /responseBody/postAnyofResponseBodyForContentTypes:
+    post:
+      operationId: postAnyofResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Anyof'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/Anyof'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
   /requestBody/postAnyofWithBaseSchemaRequestBody:
     post:
       operationId: postAnyofWithBaseSchemaRequestBody
@@ -276,9 +502,25 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
+  /responseBody/postAnyofWithBaseSchemaResponseBodyForContentTypes:
+    post:
+      operationId: postAnyofWithBaseSchemaResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnyofWithBaseSchema'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/AnyofWithBaseSchema'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
   /requestBody/postAnyofComplexTypesRequestBody:
     post:
       operationId: postAnyofComplexTypesRequestBody
@@ -294,9 +536,25 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
+  /responseBody/postAnyofComplexTypesResponseBodyForContentTypes:
+    post:
+      operationId: postAnyofComplexTypesResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnyofComplexTypes'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/AnyofComplexTypes'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
   /requestBody/postAnyofWithOneEmptySchemaRequestBody:
     post:
       operationId: postAnyofWithOneEmptySchemaRequestBody
@@ -312,9 +570,25 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
+  /responseBody/postAnyofWithOneEmptySchemaResponseBodyForContentTypes:
+    post:
+      operationId: postAnyofWithOneEmptySchemaResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnyofWithOneEmptySchema'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/AnyofWithOneEmptySchema'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
   /requestBody/postNestedAnyofToCheckValidationSemanticsRequestBody:
     post:
       operationId: postNestedAnyofToCheckValidationSemanticsRequestBody
@@ -330,9 +604,25 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
+  /responseBody/postNestedAnyofToCheckValidationSemanticsResponseBodyForContentTypes:
+    post:
+      operationId: postNestedAnyofToCheckValidationSemanticsResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NestedAnyofToCheckValidationSemantics'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/NestedAnyofToCheckValidationSemantics'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
   /requestBody/postInvalidStringValueForDefaultRequestBody:
     post:
       operationId: postInvalidStringValueForDefaultRequestBody
@@ -348,9 +638,25 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
+  /responseBody/postInvalidStringValueForDefaultResponseBodyForContentTypes:
+    post:
+      operationId: postInvalidStringValueForDefaultResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvalidStringValueForDefault'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/InvalidStringValueForDefault'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
   /requestBody/postTheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissingRequestBody:
     post:
       operationId: postTheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissingRequestBody
@@ -366,9 +672,25 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
+  /responseBody/postTheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissingResponseBodyForContentTypes:
+    post:
+      operationId: postTheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissingResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissing'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/TheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissing'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
   /requestBody/postSimpleEnumValidationRequestBody:
     post:
       operationId: postSimpleEnumValidationRequestBody
@@ -384,9 +706,25 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
+  /responseBody/postSimpleEnumValidationResponseBodyForContentTypes:
+    post:
+      operationId: postSimpleEnumValidationResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimpleEnumValidation'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/SimpleEnumValidation'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
   /requestBody/postEnumsInPropertiesRequestBody:
     post:
       operationId: postEnumsInPropertiesRequestBody
@@ -402,9 +740,25 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
+  /responseBody/postEnumsInPropertiesResponseBodyForContentTypes:
+    post:
+      operationId: postEnumsInPropertiesResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnumsInProperties'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/EnumsInProperties'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
   /requestBody/postEnumWithEscapedCharactersRequestBody:
     post:
       operationId: postEnumWithEscapedCharactersRequestBody
@@ -420,9 +774,25 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
+  /responseBody/postEnumWithEscapedCharactersResponseBodyForContentTypes:
+    post:
+      operationId: postEnumWithEscapedCharactersResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnumWithEscapedCharacters'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/EnumWithEscapedCharacters'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
   /requestBody/postEnumWithFalseDoesNotMatch0RequestBody:
     post:
       operationId: postEnumWithFalseDoesNotMatch0RequestBody
@@ -438,9 +808,25 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
+  /responseBody/postEnumWithFalseDoesNotMatch0ResponseBodyForContentTypes:
+    post:
+      operationId: postEnumWithFalseDoesNotMatch0ResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnumWithFalseDoesNotMatch0'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/EnumWithFalseDoesNotMatch0'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
   /requestBody/postEnumWithTrueDoesNotMatch1RequestBody:
     post:
       operationId: postEnumWithTrueDoesNotMatch1RequestBody
@@ -456,9 +842,25 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
+  /responseBody/postEnumWithTrueDoesNotMatch1ResponseBodyForContentTypes:
+    post:
+      operationId: postEnumWithTrueDoesNotMatch1ResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnumWithTrueDoesNotMatch1'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/EnumWithTrueDoesNotMatch1'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
   /requestBody/postEnumWith0DoesNotMatchFalseRequestBody:
     post:
       operationId: postEnumWith0DoesNotMatchFalseRequestBody
@@ -474,9 +876,25 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
+  /responseBody/postEnumWith0DoesNotMatchFalseResponseBodyForContentTypes:
+    post:
+      operationId: postEnumWith0DoesNotMatchFalseResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnumWith0DoesNotMatchFalse'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/EnumWith0DoesNotMatchFalse'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
   /requestBody/postEnumWith1DoesNotMatchTrueRequestBody:
     post:
       operationId: postEnumWith1DoesNotMatchTrueRequestBody
@@ -492,9 +910,25 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
+  /responseBody/postEnumWith1DoesNotMatchTrueResponseBodyForContentTypes:
+    post:
+      operationId: postEnumWith1DoesNotMatchTrueResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnumWith1DoesNotMatchTrue'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/EnumWith1DoesNotMatchTrue'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
   /requestBody/postNulCharactersInStringsRequestBody:
     post:
       operationId: postNulCharactersInStringsRequestBody
@@ -510,9 +944,25 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
+  /responseBody/postNulCharactersInStringsResponseBodyForContentTypes:
+    post:
+      operationId: postNulCharactersInStringsResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NulCharactersInStrings'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/NulCharactersInStrings'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
   /requestBody/postEmailFormatRequestBody:
     post:
       operationId: postEmailFormatRequestBody
@@ -528,9 +978,25 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
+  /responseBody/postEmailFormatResponseBodyForContentTypes:
+    post:
+      operationId: postEmailFormatResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmailFormat'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/EmailFormat'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
   /requestBody/postIpv4FormatRequestBody:
     post:
       operationId: postIpv4FormatRequestBody
@@ -546,9 +1012,25 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
+  /responseBody/postIpv4FormatResponseBodyForContentTypes:
+    post:
+      operationId: postIpv4FormatResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ipv4Format'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/Ipv4Format'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
   /requestBody/postIpv6FormatRequestBody:
     post:
       operationId: postIpv6FormatRequestBody
@@ -564,9 +1046,25 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
+  /responseBody/postIpv6FormatResponseBodyForContentTypes:
+    post:
+      operationId: postIpv6FormatResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ipv6Format'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/Ipv6Format'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
   /requestBody/postHostnameFormatRequestBody:
     post:
       operationId: postHostnameFormatRequestBody
@@ -582,9 +1080,25 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
+  /responseBody/postHostnameFormatResponseBodyForContentTypes:
+    post:
+      operationId: postHostnameFormatResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HostnameFormat'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/HostnameFormat'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
   /requestBody/postDateTimeFormatRequestBody:
     post:
       operationId: postDateTimeFormatRequestBody
@@ -600,9 +1114,25 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
+  /responseBody/postDateTimeFormatResponseBodyForContentTypes:
+    post:
+      operationId: postDateTimeFormatResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DateTimeFormat'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/DateTimeFormat'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
   /requestBody/postJsonPointerFormatRequestBody:
     post:
       operationId: postJsonPointerFormatRequestBody
@@ -618,9 +1148,25 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
+  /responseBody/postJsonPointerFormatResponseBodyForContentTypes:
+    post:
+      operationId: postJsonPointerFormatResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonPointerFormat'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/JsonPointerFormat'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
   /requestBody/postUriFormatRequestBody:
     post:
       operationId: postUriFormatRequestBody
@@ -636,9 +1182,25 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
+  /responseBody/postUriFormatResponseBodyForContentTypes:
+    post:
+      operationId: postUriFormatResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UriFormat'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/UriFormat'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
   /requestBody/postUriReferenceFormatRequestBody:
     post:
       operationId: postUriReferenceFormatRequestBody
@@ -654,9 +1216,25 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
+  /responseBody/postUriReferenceFormatResponseBodyForContentTypes:
+    post:
+      operationId: postUriReferenceFormatResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UriReferenceFormat'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/UriReferenceFormat'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
   /requestBody/postUriTemplateFormatRequestBody:
     post:
       operationId: postUriTemplateFormatRequestBody
@@ -672,9 +1250,25 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
+  /responseBody/postUriTemplateFormatResponseBodyForContentTypes:
+    post:
+      operationId: postUriTemplateFormatResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UriTemplateFormat'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/UriTemplateFormat'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
   /requestBody/postNestedItemsRequestBody:
     post:
       operationId: postNestedItemsRequestBody
@@ -690,9 +1284,25 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
+  /responseBody/postNestedItemsResponseBodyForContentTypes:
+    post:
+      operationId: postNestedItemsResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NestedItems'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/NestedItems'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
   /requestBody/postMaximumValidationRequestBody:
     post:
       operationId: postMaximumValidationRequestBody
@@ -708,9 +1318,25 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
+  /responseBody/postMaximumValidationResponseBodyForContentTypes:
+    post:
+      operationId: postMaximumValidationResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MaximumValidation'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/MaximumValidation'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
   /requestBody/postMaximumValidationWithUnsignedIntegerRequestBody:
     post:
       operationId: postMaximumValidationWithUnsignedIntegerRequestBody
@@ -726,9 +1352,25 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
+  /responseBody/postMaximumValidationWithUnsignedIntegerResponseBodyForContentTypes:
+    post:
+      operationId: postMaximumValidationWithUnsignedIntegerResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MaximumValidationWithUnsignedInteger'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/MaximumValidationWithUnsignedInteger'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
   /requestBody/postMaxitemsValidationRequestBody:
     post:
       operationId: postMaxitemsValidationRequestBody
@@ -744,9 +1386,25 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
+  /responseBody/postMaxitemsValidationResponseBodyForContentTypes:
+    post:
+      operationId: postMaxitemsValidationResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MaxitemsValidation'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/MaxitemsValidation'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
   /requestBody/postMaxlengthValidationRequestBody:
     post:
       operationId: postMaxlengthValidationRequestBody
@@ -762,9 +1420,25 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
+  /responseBody/postMaxlengthValidationResponseBodyForContentTypes:
+    post:
+      operationId: postMaxlengthValidationResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MaxlengthValidation'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/MaxlengthValidation'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
   /requestBody/postMaxpropertiesValidationRequestBody:
     post:
       operationId: postMaxpropertiesValidationRequestBody
@@ -780,9 +1454,25 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
+  /responseBody/postMaxpropertiesValidationResponseBodyForContentTypes:
+    post:
+      operationId: postMaxpropertiesValidationResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MaxpropertiesValidation'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/MaxpropertiesValidation'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
   /requestBody/postMaxproperties0MeansTheObjectIsEmptyRequestBody:
     post:
       operationId: postMaxproperties0MeansTheObjectIsEmptyRequestBody
@@ -798,9 +1488,25 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
+  /responseBody/postMaxproperties0MeansTheObjectIsEmptyResponseBodyForContentTypes:
+    post:
+      operationId: postMaxproperties0MeansTheObjectIsEmptyResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Maxproperties0MeansTheObjectIsEmpty'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/Maxproperties0MeansTheObjectIsEmpty'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
   /requestBody/postMinimumValidationRequestBody:
     post:
       operationId: postMinimumValidationRequestBody
@@ -816,9 +1522,25 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
+  /responseBody/postMinimumValidationResponseBodyForContentTypes:
+    post:
+      operationId: postMinimumValidationResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MinimumValidation'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/MinimumValidation'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
   /requestBody/postMinimumValidationWithSignedIntegerRequestBody:
     post:
       operationId: postMinimumValidationWithSignedIntegerRequestBody
@@ -834,9 +1556,25 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
+  /responseBody/postMinimumValidationWithSignedIntegerResponseBodyForContentTypes:
+    post:
+      operationId: postMinimumValidationWithSignedIntegerResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MinimumValidationWithSignedInteger'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/MinimumValidationWithSignedInteger'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
   /requestBody/postMinitemsValidationRequestBody:
     post:
       operationId: postMinitemsValidationRequestBody
@@ -852,9 +1590,25 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
+  /responseBody/postMinitemsValidationResponseBodyForContentTypes:
+    post:
+      operationId: postMinitemsValidationResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MinitemsValidation'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/MinitemsValidation'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
   /requestBody/postMinlengthValidationRequestBody:
     post:
       operationId: postMinlengthValidationRequestBody
@@ -870,9 +1624,25 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
+  /responseBody/postMinlengthValidationResponseBodyForContentTypes:
+    post:
+      operationId: postMinlengthValidationResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MinlengthValidation'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/MinlengthValidation'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
   /requestBody/postMinpropertiesValidationRequestBody:
     post:
       operationId: postMinpropertiesValidationRequestBody
@@ -888,9 +1658,25 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
+  /responseBody/postMinpropertiesValidationResponseBodyForContentTypes:
+    post:
+      operationId: postMinpropertiesValidationResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MinpropertiesValidation'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/MinpropertiesValidation'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
   /requestBody/postByIntRequestBody:
     post:
       operationId: postByIntRequestBody
@@ -906,9 +1692,25 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
+  /responseBody/postByIntResponseBodyForContentTypes:
+    post:
+      operationId: postByIntResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ByInt'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/ByInt'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
   /requestBody/postByNumberRequestBody:
     post:
       operationId: postByNumberRequestBody
@@ -924,9 +1726,25 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
+  /responseBody/postByNumberResponseBodyForContentTypes:
+    post:
+      operationId: postByNumberResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ByNumber'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/ByNumber'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
   /requestBody/postBySmallNumberRequestBody:
     post:
       operationId: postBySmallNumberRequestBody
@@ -942,9 +1760,25 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
+  /responseBody/postBySmallNumberResponseBodyForContentTypes:
+    post:
+      operationId: postBySmallNumberResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BySmallNumber'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/BySmallNumber'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
   /requestBody/postInvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInfRequestBody:
     post:
       operationId: postInvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInfRequestBody
@@ -960,9 +1794,25 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
+  /responseBody/postInvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInfResponseBodyForContentTypes:
+    post:
+      operationId: postInvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInfResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInf'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/InvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInf'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
   /requestBody/postNotRequestBody:
     post:
       operationId: postNotRequestBody
@@ -978,9 +1828,25 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
+  /responseBody/postNotResponseBodyForContentTypes:
+    post:
+      operationId: postNotResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Not'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/Not'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
   /requestBody/postNotMoreComplexSchemaRequestBody:
     post:
       operationId: postNotMoreComplexSchemaRequestBody
@@ -996,9 +1862,25 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
+  /responseBody/postNotMoreComplexSchemaResponseBodyForContentTypes:
+    post:
+      operationId: postNotMoreComplexSchemaResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotMoreComplexSchema'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/NotMoreComplexSchema'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
   /requestBody/postForbiddenPropertyRequestBody:
     post:
       operationId: postForbiddenPropertyRequestBody
@@ -1014,9 +1896,25 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
+  /responseBody/postForbiddenPropertyResponseBodyForContentTypes:
+    post:
+      operationId: postForbiddenPropertyResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenProperty'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/ForbiddenProperty'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
   /requestBody/postOneofRequestBody:
     post:
       operationId: postOneofRequestBody
@@ -1032,9 +1930,25 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
+  /responseBody/postOneofResponseBodyForContentTypes:
+    post:
+      operationId: postOneofResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Oneof'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/Oneof'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
   /requestBody/postOneofWithBaseSchemaRequestBody:
     post:
       operationId: postOneofWithBaseSchemaRequestBody
@@ -1050,9 +1964,25 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
+  /responseBody/postOneofWithBaseSchemaResponseBodyForContentTypes:
+    post:
+      operationId: postOneofWithBaseSchemaResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OneofWithBaseSchema'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/OneofWithBaseSchema'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
   /requestBody/postOneofComplexTypesRequestBody:
     post:
       operationId: postOneofComplexTypesRequestBody
@@ -1068,9 +1998,25 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
+  /responseBody/postOneofComplexTypesResponseBodyForContentTypes:
+    post:
+      operationId: postOneofComplexTypesResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OneofComplexTypes'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/OneofComplexTypes'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
   /requestBody/postOneofWithEmptySchemaRequestBody:
     post:
       operationId: postOneofWithEmptySchemaRequestBody
@@ -1086,9 +2032,25 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
+  /responseBody/postOneofWithEmptySchemaResponseBodyForContentTypes:
+    post:
+      operationId: postOneofWithEmptySchemaResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OneofWithEmptySchema'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/OneofWithEmptySchema'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
   /requestBody/postNestedOneofToCheckValidationSemanticsRequestBody:
     post:
       operationId: postNestedOneofToCheckValidationSemanticsRequestBody
@@ -1104,9 +2066,25 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
+  /responseBody/postNestedOneofToCheckValidationSemanticsResponseBodyForContentTypes:
+    post:
+      operationId: postNestedOneofToCheckValidationSemanticsResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NestedOneofToCheckValidationSemantics'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/NestedOneofToCheckValidationSemantics'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
   /requestBody/postPatternValidationRequestBody:
     post:
       operationId: postPatternValidationRequestBody
@@ -1122,9 +2100,25 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
+  /responseBody/postPatternValidationResponseBodyForContentTypes:
+    post:
+      operationId: postPatternValidationResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PatternValidation'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/PatternValidation'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
   /requestBody/postPatternIsNotAnchoredRequestBody:
     post:
       operationId: postPatternIsNotAnchoredRequestBody
@@ -1140,9 +2134,25 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
+  /responseBody/postPatternIsNotAnchoredResponseBodyForContentTypes:
+    post:
+      operationId: postPatternIsNotAnchoredResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PatternIsNotAnchored'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/PatternIsNotAnchored'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
   /requestBody/postObjectPropertiesValidationRequestBody:
     post:
       operationId: postObjectPropertiesValidationRequestBody
@@ -1158,9 +2168,25 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
+  /responseBody/postObjectPropertiesValidationResponseBodyForContentTypes:
+    post:
+      operationId: postObjectPropertiesValidationResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectPropertiesValidation'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/ObjectPropertiesValidation'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
   /requestBody/postPropertiesWithEscapedCharactersRequestBody:
     post:
       operationId: postPropertiesWithEscapedCharactersRequestBody
@@ -1176,9 +2202,25 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
+  /responseBody/postPropertiesWithEscapedCharactersResponseBodyForContentTypes:
+    post:
+      operationId: postPropertiesWithEscapedCharactersResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PropertiesWithEscapedCharacters'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/PropertiesWithEscapedCharacters'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
   /requestBody/postPropertyNamedRefThatIsNotAReferenceRequestBody:
     post:
       operationId: postPropertyNamedRefThatIsNotAReferenceRequestBody
@@ -1194,9 +2236,25 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
+  /responseBody/postPropertyNamedRefThatIsNotAReferenceResponseBodyForContentTypes:
+    post:
+      operationId: postPropertyNamedRefThatIsNotAReferenceResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PropertyNamedRefThatIsNotAReference'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/PropertyNamedRefThatIsNotAReference'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
   /requestBody/postRefInAdditionalpropertiesRequestBody:
     post:
       operationId: postRefInAdditionalpropertiesRequestBody
@@ -1212,9 +2270,25 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
+  /responseBody/postRefInAdditionalpropertiesResponseBodyForContentTypes:
+    post:
+      operationId: postRefInAdditionalpropertiesResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RefInAdditionalproperties'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/RefInAdditionalproperties'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
   /requestBody/postRefInItemsRequestBody:
     post:
       operationId: postRefInItemsRequestBody
@@ -1230,9 +2304,25 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
+  /responseBody/postRefInItemsResponseBodyForContentTypes:
+    post:
+      operationId: postRefInItemsResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RefInItems'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/RefInItems'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
   /requestBody/postRefInPropertyRequestBody:
     post:
       operationId: postRefInPropertyRequestBody
@@ -1248,9 +2338,25 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
+  /responseBody/postRefInPropertyResponseBodyForContentTypes:
+    post:
+      operationId: postRefInPropertyResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RefInProperty'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/RefInProperty'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
   /requestBody/postRefInAllofRequestBody:
     post:
       operationId: postRefInAllofRequestBody
@@ -1266,9 +2372,25 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
+  /responseBody/postRefInAllofResponseBodyForContentTypes:
+    post:
+      operationId: postRefInAllofResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RefInAllof'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/RefInAllof'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
   /requestBody/postRefInOneofRequestBody:
     post:
       operationId: postRefInOneofRequestBody
@@ -1284,9 +2406,25 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
+  /responseBody/postRefInOneofResponseBodyForContentTypes:
+    post:
+      operationId: postRefInOneofResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RefInOneof'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/RefInOneof'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
   /requestBody/postRefInAnyofRequestBody:
     post:
       operationId: postRefInAnyofRequestBody
@@ -1302,9 +2440,25 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
+  /responseBody/postRefInAnyofResponseBodyForContentTypes:
+    post:
+      operationId: postRefInAnyofResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RefInAnyof'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/RefInAnyof'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
   /requestBody/postRequiredValidationRequestBody:
     post:
       operationId: postRequiredValidationRequestBody
@@ -1320,9 +2474,25 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
+  /responseBody/postRequiredValidationResponseBodyForContentTypes:
+    post:
+      operationId: postRequiredValidationResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequiredValidation'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/RequiredValidation'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
   /requestBody/postRequiredDefaultValidationRequestBody:
     post:
       operationId: postRequiredDefaultValidationRequestBody
@@ -1338,9 +2508,25 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
+  /responseBody/postRequiredDefaultValidationResponseBodyForContentTypes:
+    post:
+      operationId: postRequiredDefaultValidationResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequiredDefaultValidation'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/RequiredDefaultValidation'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
   /requestBody/postRequiredWithEmptyArrayRequestBody:
     post:
       operationId: postRequiredWithEmptyArrayRequestBody
@@ -1356,9 +2542,25 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
+  /responseBody/postRequiredWithEmptyArrayResponseBodyForContentTypes:
+    post:
+      operationId: postRequiredWithEmptyArrayResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequiredWithEmptyArray'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/RequiredWithEmptyArray'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
   /requestBody/postIntegerTypeMatchesIntegersRequestBody:
     post:
       operationId: postIntegerTypeMatchesIntegersRequestBody
@@ -1374,9 +2576,25 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
+  /responseBody/postIntegerTypeMatchesIntegersResponseBodyForContentTypes:
+    post:
+      operationId: postIntegerTypeMatchesIntegersResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IntegerTypeMatchesIntegers'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/IntegerTypeMatchesIntegers'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
   /requestBody/postNumberTypeMatchesNumbersRequestBody:
     post:
       operationId: postNumberTypeMatchesNumbersRequestBody
@@ -1392,9 +2610,25 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
+  /responseBody/postNumberTypeMatchesNumbersResponseBodyForContentTypes:
+    post:
+      operationId: postNumberTypeMatchesNumbersResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NumberTypeMatchesNumbers'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/NumberTypeMatchesNumbers'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
   /requestBody/postStringTypeMatchesStringsRequestBody:
     post:
       operationId: postStringTypeMatchesStringsRequestBody
@@ -1410,9 +2644,25 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
+  /responseBody/postStringTypeMatchesStringsResponseBodyForContentTypes:
+    post:
+      operationId: postStringTypeMatchesStringsResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StringTypeMatchesStrings'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/StringTypeMatchesStrings'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
   /requestBody/postObjectTypeMatchesObjectsRequestBody:
     post:
       operationId: postObjectTypeMatchesObjectsRequestBody
@@ -1428,9 +2678,25 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
+  /responseBody/postObjectTypeMatchesObjectsResponseBodyForContentTypes:
+    post:
+      operationId: postObjectTypeMatchesObjectsResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectTypeMatchesObjects'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/ObjectTypeMatchesObjects'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
   /requestBody/postBooleanTypeMatchesBooleansRequestBody:
     post:
       operationId: postBooleanTypeMatchesBooleansRequestBody
@@ -1446,9 +2712,25 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
+  /responseBody/postBooleanTypeMatchesBooleansResponseBodyForContentTypes:
+    post:
+      operationId: postBooleanTypeMatchesBooleansResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BooleanTypeMatchesBooleans'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/BooleanTypeMatchesBooleans'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
   /requestBody/postNullTypeMatchesOnlyTheNullObjectRequestBody:
     post:
       operationId: postNullTypeMatchesOnlyTheNullObjectRequestBody
@@ -1464,9 +2746,25 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
+  /responseBody/postNullTypeMatchesOnlyTheNullObjectResponseBodyForContentTypes:
+    post:
+      operationId: postNullTypeMatchesOnlyTheNullObjectResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NullTypeMatchesOnlyTheNullObject'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/NullTypeMatchesOnlyTheNullObject'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
   /requestBody/postArrayTypeMatchesArraysRequestBody:
     post:
       operationId: postArrayTypeMatchesArraysRequestBody
@@ -1482,9 +2780,25 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
+  /responseBody/postArrayTypeMatchesArraysResponseBodyForContentTypes:
+    post:
+      operationId: postArrayTypeMatchesArraysResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArrayTypeMatchesArrays'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/ArrayTypeMatchesArrays'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
   /requestBody/postUniqueitemsValidationRequestBody:
     post:
       operationId: postUniqueitemsValidationRequestBody
@@ -1500,9 +2814,25 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
+  /responseBody/postUniqueitemsValidationResponseBodyForContentTypes:
+    post:
+      operationId: postUniqueitemsValidationResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UniqueitemsValidation'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/UniqueitemsValidation'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
   /requestBody/postUniqueitemsFalseValidationRequestBody:
     post:
       operationId: postUniqueitemsFalseValidationRequestBody
@@ -1518,9 +2848,25 @@ paths:
         '200':
           description: success
       tags:
-      - requestBody
-      - post
-      - json
+      - operation.requestBody
+      - path.post
+      - contentType_json
+  /responseBody/postUniqueitemsFalseValidationResponseBodyForContentTypes:
+    post:
+      operationId: postUniqueitemsFalseValidationResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UniqueitemsFalseValidation'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/UniqueitemsFalseValidation'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
 components:
   schemas:
     AdditionalpropertiesAllowsASchemaWhichShouldValidate:
@@ -1909,6 +3255,12 @@ components:
           foo: 1
           bar: true
         valid: false
+      ValidTestCase:
+        description: valid test case
+        data:
+          foo: false
+          bar: true
+        valid: true
     Allof:
       Allof:
         description: allOf
@@ -2790,6 +4142,10 @@ components:
           error
         data: 1.0e+308
         valid: false
+      ValidIntegerWithMultipleofFloat:
+        description: valid integer with multipleOf float
+        data: 123456789
+        valid: true
     Not:
       Allowed:
         description: allowed

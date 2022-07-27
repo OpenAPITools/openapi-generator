@@ -16,8 +16,8 @@ class ApiTestMixin:
         url: str,
         method: str = 'POST',
         body: typing.Optional[bytes] = None,
-        content_type: typing.Optional[str] = 'application/json',
-        accept_content_type: typing.Optional[str] = 'application/json',
+        content_type: typing.Optional[str] = None,
+        accept_content_type: typing.Optional[str] = None,
         stream: bool = False,
     ):
         headers = {
