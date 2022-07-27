@@ -1,5 +1,4 @@
 import { ResponseContext, RequestContext, HttpFile } from '../http/http{{extensionForDeno}}';
-import * as models from '../models/all{{extensionForDeno}}';
 import { Configuration} from '../configuration{{extensionForDeno}}'
 {{#useRxJS}}
 import { Observable } from 'rxjs';
@@ -7,7 +6,7 @@ import { Observable } from 'rxjs';
 
 {{#models}}
 {{#model}}
-import { {{{ classname }}} } from '../models/{{{ classFilename }}}{{extensionForDeno}}';
+import { {{{ classname }}} } from '{{{ importPath }}}{{extensionForDeno}}';
 {{/model}}
 {{/models}}
 {{#apiInfo}}
