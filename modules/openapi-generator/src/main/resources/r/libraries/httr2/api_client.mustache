@@ -181,15 +181,21 @@ ApiClient  <- R6::R6Class(
 
       ## add headers and default headers
       if (!is.null(header_params) && length(header_params) != 0) {
-        req %>% req_headers(header_params)
+        for (http_header in names(header_params)) {
+          req %>% req_headers(http_header = header_params[http_header])
+        }
       }
-      if (length(self$default_headers) != 0) {
-        req %>% req_headers(self$default_headers)
+      if (!is.null(self$default_headers) && length(self$default_headers) != 0) {
+        for (http_header in names(header_params)) {
+          req %>% req_headers(http_header = self$default_headers[http_header])
+        }
       }
 
       ## add query parameters
       if (length(query_params) != 0) {
-        req %>% req_url_query(query_params)
+        for (query_param in names(query_params)) {
+          req %>% req_url_query(query_param = query_params[query_param])
+        }
       }
 
       # add body parameters
@@ -218,9 +224,9 @@ ApiClient  <- R6::R6Class(
       req %>% req_method(method)
 
       # stream data
-      if (typeof(stream_callback) == "closure") {
-        req %>% req_stream(stream_callback)
-      }
+      #if (typeof(stream_callback) == "closure") {
+      #  req %>% req_stream(stream_callback)
+      #}
 
       # perform the HTTP request
       req_perform(req)
