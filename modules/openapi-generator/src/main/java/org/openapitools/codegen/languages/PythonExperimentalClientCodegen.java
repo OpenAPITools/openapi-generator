@@ -464,7 +464,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         OperationMap operations = objs.getOperations();
         List<CodegenOperation> codegenOperations = operations.getOperation();
         HashMap<String, String> pathModuleToPath = new HashMap<>();
-        Map<String, Object> pathVarToVal = new HashMap<>();
+        Map<String, Object> pathValToVar = new HashMap<>();
         // one file per endpoint
         for (CodegenOperation co: codegenOperations) {
             String path = co.path;
@@ -472,8 +472,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
             if (!pathModuleToPath.containsKey(pathModuleName)) {
                 pathModuleToPath.put(pathModuleName, path);
             }
-            String pathVar = toEnumVarName(path, "str");
-            pathVarToVal.put(pathVar, path);
+            pathValToVar.put(path, co.operationIdLowerCase);
             co.nickname = pathModuleName;
             Map<String, Object> operationMap = new HashMap<>();
             operationMap.put("operation", co);
@@ -492,7 +491,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         Map<String, Object> initOperationMap = new HashMap<>();
         initOperationMap.put("packageName", packageName);
         initOperationMap.put("apiClassname", "Api");
-        initOperationMap.put("pathVarToVal", pathVarToVal);
+        initOperationMap.put("pathValToVar", pathValToVar);
         String initPathFile = endpointFilename(Arrays.asList("path", "__init__.py"));
         try {
             processTemplateToFile(initOperationMap, "__init__path.handlebars", initPathFile, true, CodegenConstants.APIS);
@@ -510,13 +509,14 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         for (Map.Entry<String, String> entry: pathModuleToPath.entrySet()) {
             String pathModule = entry.getKey();
             String path = entry.getValue();
+            String pathVar = (String) pathValToVar.get(path);
             try {
                 String templateName = "__init__path_x.handlebars";
                 Map<String, Object> operationMap = new HashMap<>();
                 operationMap.put("packageName", packageName);
                 operationMap.put("pathModule", pathModule);
                 operationMap.put("apiClassName", "Api");
-                operationMap.put("path", path);
+                operationMap.put("pathVar", pathVar);
                 String filename = endpointFilename(Arrays.asList("path", pathModule, "__init__.py"));
                 processTemplateToFile(operationMap, templateName, filename, true, CodegenConstants.APIS);
             } catch (IOException e) {
@@ -2447,6 +2447,8 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
                                           List<Server> servers) {
         CodegenOperation co = super.fromOperation(path, httpMethod, operation, servers);
         co.httpMethod = httpMethod.toLowerCase(Locale.ROOT);
+        // smuggle the path enum into here
+        co.operationIdLowerCase = toEnumVarName(co.path, "str");
         if (co.bodyParam == null) {
             for (CodegenParameter cp: co.allParams) {
                 if (cp.isBodyParam) {

@@ -6,6 +6,6 @@ import enum
 
 
 class PathValues(str, enum.Enum):
-{{#each pathVarToVal}}
-    {{@key}} = "{{this}}"
+{{#each pathValToVar}}
+    {{this}} = "{{@key}}"
 {{/each}}

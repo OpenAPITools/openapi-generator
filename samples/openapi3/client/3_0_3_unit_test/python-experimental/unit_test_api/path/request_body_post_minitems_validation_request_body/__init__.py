@@ -2,4 +2,6 @@
 # if you need the ability to import all endpoints from this module, import them with
 # from unit_test_api.paths.request_body_post_minitems_validation_request_body import Api
 
-path = '/requestBody/postMinitemsValidationRequestBody'
+from unit_test_api.path import PathValues
+
+path = PathValues.post_minitems_validation_request_body

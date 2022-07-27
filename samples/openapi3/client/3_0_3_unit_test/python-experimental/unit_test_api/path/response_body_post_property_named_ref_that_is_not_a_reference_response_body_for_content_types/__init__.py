@@ -2,4 +2,6 @@
 # if you need the ability to import all endpoints from this module, import them with
 # from unit_test_api.paths.response_body_post_property_named_ref_that_is_not_a_reference_response_body_for_content_types import Api
 
-path = '/responseBody/postPropertyNamedRefThatIsNotAReferenceResponseBodyForContentTypes'
+from unit_test_api.path import PathValues
+
+path = PathValues.post_property_named_ref_that_is_not_a_reference_response_body_for_content_types

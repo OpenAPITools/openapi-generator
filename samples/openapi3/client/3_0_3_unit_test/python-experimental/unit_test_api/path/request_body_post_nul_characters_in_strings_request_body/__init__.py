@@ -2,4 +2,6 @@
 # if you need the ability to import all endpoints from this module, import them with
 # from unit_test_api.paths.request_body_post_nul_characters_in_strings_request_body import Api
 
-path = '/requestBody/postNulCharactersInStringsRequestBody'
+from unit_test_api.path import PathValues
+
+path = PathValues.post_nul_characters_in_strings_request_body

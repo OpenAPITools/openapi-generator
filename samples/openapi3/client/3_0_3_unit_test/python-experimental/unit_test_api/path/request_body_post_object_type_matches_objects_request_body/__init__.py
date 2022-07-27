@@ -2,4 +2,6 @@
 # if you need the ability to import all endpoints from this module, import them with
 # from unit_test_api.paths.request_body_post_object_type_matches_objects_request_body import Api
 
-path = '/requestBody/postObjectTypeMatchesObjectsRequestBody'
+from unit_test_api.path import PathValues
+
+path = PathValues.post_object_type_matches_objects_request_body

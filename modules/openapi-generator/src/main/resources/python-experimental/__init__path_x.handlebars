@@ -2,4 +2,6 @@
 # if you need the ability to import all endpoints from this module, import them with
 # from {{packageName}}.paths.{{pathModule}} import {{apiClassName}}
 
-path = '{{{path}}}'
+from {{packageName}}.path import PathValues
+
+path = PathValues.{{{pathVar}}}
