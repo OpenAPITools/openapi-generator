@@ -125,7 +125,7 @@ sub call_api {
         $_request = GET($_url, %$header_params);
     }
     elsif ($method eq 'HEAD') {
-        $_request = HEAD($_url,%$header_params); 
+        $_request = HEAD($_url,%$header_params);
     }
     elsif ($method eq 'DELETE') { #TODO support form data
         $_request = DELETE($_url, %$header_params);
@@ -253,10 +253,16 @@ sub deserialize
             }
         }
         return \@_values;
-    } elsif ($class eq 'DateTime') {
+    } elsif (grep /^$class$/, ('DATE_TIME', 'DATE')) {
         return DateTime->from_epoch(epoch => str2time($data));
-    } elsif (grep /^$class$/, ('string', 'int', 'float', 'bool', 'object')) {
+    } elsif ($class eq 'string') {
+        return $data . q();
+    } elsif ($class eq 'object') {
         return $data;
+    } elsif (grep /^$class$/, ('int', 'float', 'double')) {
+        return $data + 0;
+    } elsif ($class eq 'bool') {
+        return !!$data;
     } else { # model
         my $_instance = use_module("WWW::OpenAPIClient::Object::$class")->new;
         if (ref $data eq "HASH") {

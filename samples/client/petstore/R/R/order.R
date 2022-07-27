@@ -20,7 +20,7 @@
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
 Order <- R6::R6Class(
-  'Order',
+  "Order",
   public = list(
     `id` = NULL,
     `petId` = NULL,
@@ -42,7 +42,7 @@ Order <- R6::R6Class(
     #' @param ... Other optional arguments.
     #' @export
     initialize = function(
-        `id`=NULL, `petId`=NULL, `quantity`=NULL, `shipDate`=NULL, `status`=NULL, `complete`=FALSE, ...
+        `id` = NULL, `petId` = NULL, `quantity` = NULL, `shipDate` = NULL, `status` = NULL, `complete` = FALSE, ...
     ) {
       if (!is.null(`id`)) {
         stopifnot(is.numeric(`id`), length(`id`) == 1)
@@ -79,27 +79,27 @@ Order <- R6::R6Class(
     toJSON = function() {
       OrderObject <- list()
       if (!is.null(self$`id`)) {
-        OrderObject[['id']] <-
+        OrderObject[["id"]] <-
           self$`id`
       }
       if (!is.null(self$`petId`)) {
-        OrderObject[['petId']] <-
+        OrderObject[["petId"]] <-
           self$`petId`
       }
       if (!is.null(self$`quantity`)) {
-        OrderObject[['quantity']] <-
+        OrderObject[["quantity"]] <-
           self$`quantity`
       }
       if (!is.null(self$`shipDate`)) {
-        OrderObject[['shipDate']] <-
+        OrderObject[["shipDate"]] <-
           self$`shipDate`
       }
       if (!is.null(self$`status`)) {
-        OrderObject[['status']] <-
+        OrderObject[["status"]] <-
           self$`status`
       }
       if (!is.null(self$`complete`)) {
-        OrderObject[['complete']] <-
+        OrderObject[["complete"]] <-
           self$`complete`
       }
 
@@ -145,50 +145,56 @@ Order <- R6::R6Class(
     toJSONString = function() {
       jsoncontent <- c(
         if (!is.null(self$`id`)) {
-        sprintf(
-        '"id":
-          %d
-                ',
-        self$`id`
-        )},
+          sprintf(
+          '"id":
+            %d
+                    ',
+          self$`id`
+          )
+        },
         if (!is.null(self$`petId`)) {
-        sprintf(
-        '"petId":
-          %d
-                ',
-        self$`petId`
-        )},
+          sprintf(
+          '"petId":
+            %d
+                    ',
+          self$`petId`
+          )
+        },
         if (!is.null(self$`quantity`)) {
-        sprintf(
-        '"quantity":
-          %d
-                ',
-        self$`quantity`
-        )},
+          sprintf(
+          '"quantity":
+            %d
+                    ',
+          self$`quantity`
+          )
+        },
         if (!is.null(self$`shipDate`)) {
-        sprintf(
-        '"shipDate":
-          "%s"
-                ',
-        self$`shipDate`
-        )},
+          sprintf(
+          '"shipDate":
+            "%s"
+                    ',
+          self$`shipDate`
+          )
+        },
         if (!is.null(self$`status`)) {
-        sprintf(
-        '"status":
-          "%s"
-                ',
-        self$`status`
-        )},
+          sprintf(
+          '"status":
+            "%s"
+                    ',
+          self$`status`
+          )
+        },
         if (!is.null(self$`complete`)) {
-        sprintf(
-        '"complete":
-          %s
-                ',
-        tolower(self$`complete`)
-        )}
+          sprintf(
+          '"complete":
+            %s
+                    ',
+          tolower(self$`complete`)
+          )
+        }
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
-      as.character(jsonlite::minify(paste('{', jsoncontent, '}', sep = "")))
+      as.character(jsonlite::minify(paste("{", jsoncontent, "}", sep = "")))
     },
     #' Deserialize JSON string into an instance of Order
     #'
@@ -230,4 +236,3 @@ Order <- R6::R6Class(
     }
   )
 )
-

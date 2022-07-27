@@ -53,7 +53,7 @@ public class QuadrilateralInterface {
   @SerializedName(SERIALIZED_NAME_QUADRILATERAL_TYPE)
   private String quadrilateralType;
 
-  public QuadrilateralInterface() { 
+  public QuadrilateralInterface() {
   }
 
   public QuadrilateralInterface quadrilateralType(String quadrilateralType) {
@@ -189,7 +189,7 @@ public class QuadrilateralInterface {
           throw new IllegalArgumentException(String.format("The required field `%s` is not found in the JSON string: %s", requiredField, jsonObj.toString()));
         }
       }
-      if (jsonObj.get("quadrilateralType") != null && !jsonObj.get("quadrilateralType").isJsonPrimitive()) {
+      if ((jsonObj.get("quadrilateralType") != null && !jsonObj.get("quadrilateralType").isJsonNull()) && !jsonObj.get("quadrilateralType").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `quadrilateralType` to be a primitive type in the JSON string but got `%s`", jsonObj.get("quadrilateralType").toString()));
       }
   }

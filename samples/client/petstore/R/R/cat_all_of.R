@@ -15,7 +15,7 @@
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
 CatAllOf <- R6::R6Class(
-  'CatAllOf',
+  "CatAllOf",
   public = list(
     `declawed` = NULL,
     #' Initialize a new CatAllOf class.
@@ -27,7 +27,7 @@ CatAllOf <- R6::R6Class(
     #' @param ... Other optional arguments.
     #' @export
     initialize = function(
-        `declawed`=NULL, ...
+        `declawed` = NULL, ...
     ) {
       if (!is.null(`declawed`)) {
         stopifnot(is.logical(`declawed`), length(`declawed`) == 1)
@@ -44,7 +44,7 @@ CatAllOf <- R6::R6Class(
     toJSON = function() {
       CatAllOfObject <- list()
       if (!is.null(self$`declawed`)) {
-        CatAllOfObject[['declawed']] <-
+        CatAllOfObject[["declawed"]] <-
           self$`declawed`
       }
 
@@ -75,15 +75,16 @@ CatAllOf <- R6::R6Class(
     toJSONString = function() {
       jsoncontent <- c(
         if (!is.null(self$`declawed`)) {
-        sprintf(
-        '"declawed":
-          %s
-                ',
-        tolower(self$`declawed`)
-        )}
+          sprintf(
+          '"declawed":
+            %s
+                    ',
+          tolower(self$`declawed`)
+          )
+        }
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
-      as.character(jsonlite::minify(paste('{', jsoncontent, '}', sep = "")))
+      as.character(jsonlite::minify(paste("{", jsoncontent, "}", sep = "")))
     },
     #' Deserialize JSON string into an instance of CatAllOf
     #'
@@ -120,4 +121,3 @@ CatAllOf <- R6::R6Class(
     }
   )
 )
-

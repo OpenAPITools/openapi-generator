@@ -1,5 +1,7 @@
 .Rbuildignore
+.github/workflows/r-client.yaml
 .gitignore
+.lintr
 .travis.yml
 DESCRIPTION
 NAMESPACE

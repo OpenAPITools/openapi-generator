@@ -24,7 +24,6 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import android.os.Parcelable;
 import android.os.Parcel;
@@ -117,7 +116,7 @@ public class MapTest implements Parcelable {
   @SerializedName(SERIALIZED_NAME_INDIRECT_MAP)
   private Map<String, Boolean> indirectMap = null;
 
-  public MapTest() { 
+  public MapTest() {
   }
 
   public MapTest mapMapOfString(Map<String, Map<String, String>> mapMapOfString) {

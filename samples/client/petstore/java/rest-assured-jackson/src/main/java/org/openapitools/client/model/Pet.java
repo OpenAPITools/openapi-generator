@@ -103,7 +103,7 @@ public class Pet {
   public static final String JSON_PROPERTY_STATUS = "status";
   private StatusEnum status;
 
-  public Pet() { 
+  public Pet() {
   }
 
   public Pet id(Long id) {

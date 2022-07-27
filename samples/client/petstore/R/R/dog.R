@@ -10,14 +10,14 @@
 #' @title Dog
 #' @description Dog Class
 #' @format An \code{R6Class} generator object
-#' @field className  character 
+#' @field className  character
 #' @field color  character [optional]
 #' @field breed  character [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
 Dog <- R6::R6Class(
-  'Dog',
+  "Dog",
   inherit = Animal,
   public = list(
     `className` = NULL,
@@ -29,12 +29,12 @@ Dog <- R6::R6Class(
     #' Initialize a new Dog class.
     #'
     #' @param className className
-    #' @param color color. Default to 'red'.
+    #' @param color color. Default to "red".
     #' @param breed breed
     #' @param ... Other optional arguments.
     #' @export
     initialize = function(
-        `className`, `color`='red', `breed`=NULL, ...
+        `className`, `color` = "red", `breed` = NULL, ...
     ) {
       if (!missing(`className`)) {
         stopifnot(is.character(`className`), length(`className`) == 1)
@@ -59,15 +59,15 @@ Dog <- R6::R6Class(
     toJSON = function() {
       DogObject <- list()
       if (!is.null(self$`className`)) {
-        DogObject[['className']] <-
+        DogObject[["className"]] <-
           self$`className`
       }
       if (!is.null(self$`color`)) {
-        DogObject[['color']] <-
+        DogObject[["color"]] <-
           self$`color`
       }
       if (!is.null(self$`breed`)) {
-        DogObject[['breed']] <-
+        DogObject[["breed"]] <-
           self$`breed`
       }
 
@@ -104,29 +104,32 @@ Dog <- R6::R6Class(
     toJSONString = function() {
       jsoncontent <- c(
         if (!is.null(self$`className`)) {
-        sprintf(
-        '"className":
-          "%s"
-                ',
-        self$`className`
-        )},
+          sprintf(
+          '"className":
+            "%s"
+                    ',
+          self$`className`
+          )
+        },
         if (!is.null(self$`color`)) {
-        sprintf(
-        '"color":
-          "%s"
-                ',
-        self$`color`
-        )},
+          sprintf(
+          '"color":
+            "%s"
+                    ',
+          self$`color`
+          )
+        },
         if (!is.null(self$`breed`)) {
-        sprintf(
-        '"breed":
-          "%s"
-                ',
-        self$`breed`
-        )}
+          sprintf(
+          '"breed":
+            "%s"
+                    ',
+          self$`breed`
+          )
+        }
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
-      as.character(jsonlite::minify(paste('{', jsoncontent, '}', sep = "")))
+      as.character(jsonlite::minify(paste("{", jsoncontent, "}", sep = "")))
     },
     #' Deserialize JSON string into an instance of Dog
     #'
@@ -171,4 +174,3 @@ Dog <- R6::R6Class(
     }
   )
 )
-

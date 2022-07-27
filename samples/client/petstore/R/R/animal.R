@@ -10,13 +10,13 @@
 #' @title Animal
 #' @description Animal Class
 #' @format An \code{R6Class} generator object
-#' @field className  character 
+#' @field className  character
 #' @field color  character [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
 Animal <- R6::R6Class(
-  'Animal',
+  "Animal",
   public = list(
     `className` = NULL,
     `color` = NULL,
@@ -26,11 +26,11 @@ Animal <- R6::R6Class(
     #' Initialize a new Animal class.
     #'
     #' @param className className
-    #' @param color color. Default to 'red'.
+    #' @param color color. Default to "red".
     #' @param ... Other optional arguments.
     #' @export
     initialize = function(
-        `className`, `color`='red', ...
+        `className`, `color` = "red", ...
     ) {
       if (!missing(`className`)) {
         stopifnot(is.character(`className`), length(`className`) == 1)
@@ -51,11 +51,11 @@ Animal <- R6::R6Class(
     toJSON = function() {
       AnimalObject <- list()
       if (!is.null(self$`className`)) {
-        AnimalObject[['className']] <-
+        AnimalObject[["className"]] <-
           self$`className`
       }
       if (!is.null(self$`color`)) {
-        AnimalObject[['color']] <-
+        AnimalObject[["color"]] <-
           self$`color`
       }
 
@@ -89,22 +89,24 @@ Animal <- R6::R6Class(
     toJSONString = function() {
       jsoncontent <- c(
         if (!is.null(self$`className`)) {
-        sprintf(
-        '"className":
-          "%s"
-                ',
-        self$`className`
-        )},
+          sprintf(
+          '"className":
+            "%s"
+                    ',
+          self$`className`
+          )
+        },
         if (!is.null(self$`color`)) {
-        sprintf(
-        '"color":
-          "%s"
-                ',
-        self$`color`
-        )}
+          sprintf(
+          '"color":
+            "%s"
+                    ',
+          self$`color`
+          )
+        }
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
-      as.character(jsonlite::minify(paste('{', jsoncontent, '}', sep = "")))
+      as.character(jsonlite::minify(paste("{", jsoncontent, "}", sep = "")))
     },
     #' Deserialize JSON string into an instance of Animal
     #'
@@ -148,4 +150,3 @@ Animal <- R6::R6Class(
     }
   )
 )
-

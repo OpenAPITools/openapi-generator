@@ -1,7 +1,13 @@
 {{>licenseInfo}}
 /* tslint:disable:no-unused-variable member-ordering */
 
+{{#useAxiosHttpModule}}
+import { Inject, Injectable, Optional } from '@nestjs/common';
+import { HttpService } from '@nestjs/axios';
+{{/useAxiosHttpModule}}
+{{^useAxiosHttpModule}}
 import { HttpService, Inject, Injectable, Optional } from '@nestjs/common';
+{{/useAxiosHttpModule}}
 import { AxiosResponse } from 'axios';
 import { Observable } from 'rxjs';
 {{#imports}}
@@ -121,6 +127,9 @@ export class {{classname}} {
 
 {{/isKeyInHeader}}
 {{#isKeyInQuery}}
+        {{^hasQueryParams}}
+        let queryParameters = {};
+        {{/hasQueryParams}}
         if (this.configuration.apiKeys["{{keyParamName}}"]) {
             queryParameters['{{keyParamName}}'] = this.configuration.apiKeys["{{keyParamName}}"];
         }

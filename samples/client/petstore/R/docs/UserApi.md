@@ -193,7 +193,7 @@ This can only be done by the logged in user.
 ```R
 library(petstore)
 
-var_username <- 'username_example' # character | The name that needs to be deleted
+var_username <- "username_example" # character | The name that needs to be deleted
 
 #Delete user
 api_instance <- UserApi$new()
@@ -250,7 +250,7 @@ Get user by user name
 ```R
 library(petstore)
 
-var_username <- 'username_example' # character | The name that needs to be fetched. Use user1 for testing.
+var_username <- "username_example" # character | The name that needs to be fetched. Use user1 for testing.
 
 #Get user by user name
 api_instance <- UserApi$new()
@@ -310,8 +310,8 @@ Logs user into the system
 ```R
 library(petstore)
 
-var_username <- 'username_example' # character | The user name for login
-var_password <- 'password_example' # character | The password for login in clear text
+var_username <- "username_example" # character | The user name for login
+var_password <- "password_example" # character | The password for login in clear text
 
 #Logs user into the system
 api_instance <- UserApi$new()
@@ -423,7 +423,7 @@ This can only be done by the logged in user.
 ```R
 library(petstore)
 
-var_username <- 'username_example' # character | name that need to be deleted
+var_username <- "username_example" # character | name that need to be deleted
 var_user <- User$new(123, "username_example", "firstName_example", "lastName_example", "email_example", "password_example", "phone_example", 123) # User | Updated user object
 
 #Updated user

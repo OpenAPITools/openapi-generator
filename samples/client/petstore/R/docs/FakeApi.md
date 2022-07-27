@@ -18,8 +18,8 @@ test data_file to ensure it's escaped correctly
 ```R
 library(petstore)
 
-var_dummy <- 'dummy_example' # character | dummy required parameter
-var_var_data_file <- 'var_data_file_example' # character | header data file
+var_dummy <- "dummy_example" # character | dummy required parameter
+var_var_data_file <- "var_data_file_example" # character | header data file
 
 #test data_file to ensure it's escaped correctly
 api_instance <- FakeApi$new()

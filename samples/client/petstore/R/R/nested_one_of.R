@@ -16,7 +16,7 @@
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
 NestedOneOf <- R6::R6Class(
-  'NestedOneOf',
+  "NestedOneOf",
   public = list(
     `size` = NULL,
     `nested_pig` = NULL,
@@ -30,7 +30,7 @@ NestedOneOf <- R6::R6Class(
     #' @param ... Other optional arguments.
     #' @export
     initialize = function(
-        `size`=NULL, `nested_pig`=NULL, ...
+        `size` = NULL, `nested_pig` = NULL, ...
     ) {
       if (!is.null(`size`)) {
         stopifnot(is.numeric(`size`), length(`size`) == 1)
@@ -51,11 +51,11 @@ NestedOneOf <- R6::R6Class(
     toJSON = function() {
       NestedOneOfObject <- list()
       if (!is.null(self$`size`)) {
-        NestedOneOfObject[['size']] <-
+        NestedOneOfObject[["size"]] <-
           self$`size`
       }
       if (!is.null(self$`nested_pig`)) {
-        NestedOneOfObject[['nested_pig']] <-
+        NestedOneOfObject[["nested_pig"]] <-
           self$`nested_pig`$toJSON()
       }
 
@@ -91,22 +91,24 @@ NestedOneOf <- R6::R6Class(
     toJSONString = function() {
       jsoncontent <- c(
         if (!is.null(self$`size`)) {
-        sprintf(
-        '"size":
-          %d
-                ',
-        self$`size`
-        )},
+          sprintf(
+          '"size":
+            %d
+                    ',
+          self$`size`
+          )
+        },
         if (!is.null(self$`nested_pig`)) {
-        sprintf(
-        '"nested_pig":
-        %s
-        ',
-        jsonlite::toJSON(self$`nested_pig`$toJSON(), auto_unbox=TRUE, digits = NA)
-        )}
+          sprintf(
+          '"nested_pig":
+          %s
+          ',
+          jsonlite::toJSON(self$`nested_pig`$toJSON(), auto_unbox = TRUE, digits = NA)
+          )
+        }
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
-      as.character(jsonlite::minify(paste('{', jsoncontent, '}', sep = "")))
+      as.character(jsonlite::minify(paste("{", jsoncontent, "}", sep = "")))
     },
     #' Deserialize JSON string into an instance of NestedOneOf
     #'
@@ -144,4 +146,3 @@ NestedOneOf <- R6::R6Class(
     }
   )
 )
-

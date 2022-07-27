@@ -17,7 +17,7 @@
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
 Pig <- R6::R6Class(
-  'Pig',
+  "Pig",
   public = list(
     #' @field actual_instance the object stored in this instance.
     actual_instance = NULL,
@@ -36,13 +36,14 @@ Pig <- R6::R6Class(
       if (is.null(instance)) {
         # do nothing
       } else if (get(class(instance)[[1]], pos = -1)$classname ==  "BasquePig") {
-        self$actual_instance = instance
-        self$actual_type = "BasquePig"
+        self$actual_instance <- instance
+        self$actual_type <- "BasquePig"
       } else if (get(class(instance)[[1]], pos = -1)$classname ==  "DanishPig") {
-        self$actual_instance = instance
-        self$actual_type = "DanishPig"
+        self$actual_instance <- instance
+        self$actual_type <- "DanishPig"
       } else {
-        stop(paste("Failed to initialize Pig with oneOf schemas BasquePig, DanishPig. Provided class name: ", get(class(instance)[[1]], pos = -1)$classname))
+        stop(paste("Failed to initialize Pig with oneOf schemas BasquePig, DanishPig. Provided class name: ",
+                   get(class(instance)[[1]], pos = -1)$classname))
       }
     },
     #' Deserialize JSON string into an instance of Pig.
@@ -70,8 +71,8 @@ Pig <- R6::R6Class(
         error = function(err) err
       )
 
-      if (!is.null(BasquePig_result['error'])) {
-        error_messages <- append(error_messages, BasquePig_result['message'])
+      if (!is.null(BasquePig_result["error"])) {
+        error_messages <- append(error_messages, BasquePig_result["message"])
       }
 
       DanishPig_result <- tryCatch({
@@ -85,8 +86,8 @@ Pig <- R6::R6Class(
         error = function(err) err
       )
 
-      if (!is.null(DanishPig_result['error'])) {
-        error_messages <- append(error_messages, DanishPig_result['message'])
+      if (!is.null(DanishPig_result["error"])) {
+        error_messages <- append(error_messages, DanishPig_result["message"])
       }
 
       if (matched == 1) {
@@ -95,10 +96,11 @@ Pig <- R6::R6Class(
         self$actual_type <- instance_type
       } else if (matched > 1) {
         # more than 1 match
-        stop("Multiple matches found when deserializing the payload into Pig with oneOf schemas BasquePig, DanishPig. ")
+        stop("Multiple matches found when deserializing the payload into Pig with oneOf schemas BasquePig, DanishPig.")
       } else {
         # no match
-        stop(paste("No match found when deserializing the payload into Pig with oneOf schemas BasquePig, DanishPig. Details: ", paste(error_messages, collapse = ', ')))
+        stop(paste("No match found when deserializing the payload into Pig with oneOf schemas BasquePig, DanishPig. Details: ",
+                   paste(error_messages, collapse = ", ")))
       }
 
       self
@@ -160,13 +162,12 @@ Pig <- R6::R6Class(
     #' @export
     toString = function() {
       jsoncontent <- c(
-        sprintf('"actual_instance": %s', if (is.null(self$actual_instance)) {NULL} else {self$actual_instance$toJSONString()}),
+        sprintf('"actual_instance": %s', if (is.null(self$actual_instance)) NULL else self$actual_instance$toJSONString()),
         sprintf('"actual_type": "%s"', self$actual_type),
-        sprintf('"one_of": "%s"',  paste( unlist(self$one_of), collapse=', '))
+        sprintf('"one_of": "%s"', paste(unlist(self$one_of), collapse = ", "))
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
-      as.character(jsonlite::prettify(paste('{', jsoncontent, '}', sep = "")))
+      as.character(jsonlite::prettify(paste("{", jsoncontent, "}", sep = "")))
     }
   )
 )
-

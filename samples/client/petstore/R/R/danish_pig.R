@@ -10,13 +10,13 @@
 #' @title DanishPig
 #' @description DanishPig Class
 #' @format An \code{R6Class} generator object
-#' @field className  character 
-#' @field size  integer 
+#' @field className  character
+#' @field size  integer
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
 DanishPig <- R6::R6Class(
-  'DanishPig',
+  "DanishPig",
   public = list(
     `className` = NULL,
     `size` = NULL,
@@ -51,11 +51,11 @@ DanishPig <- R6::R6Class(
     toJSON = function() {
       DanishPigObject <- list()
       if (!is.null(self$`className`)) {
-        DanishPigObject[['className']] <-
+        DanishPigObject[["className"]] <-
           self$`className`
       }
       if (!is.null(self$`size`)) {
-        DanishPigObject[['size']] <-
+        DanishPigObject[["size"]] <-
           self$`size`
       }
 
@@ -89,22 +89,24 @@ DanishPig <- R6::R6Class(
     toJSONString = function() {
       jsoncontent <- c(
         if (!is.null(self$`className`)) {
-        sprintf(
-        '"className":
-          "%s"
-                ',
-        self$`className`
-        )},
+          sprintf(
+          '"className":
+            "%s"
+                    ',
+          self$`className`
+          )
+        },
         if (!is.null(self$`size`)) {
-        sprintf(
-        '"size":
-          %d
-                ',
-        self$`size`
-        )}
+          sprintf(
+          '"size":
+            %d
+                    ',
+          self$`size`
+          )
+        }
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
-      as.character(jsonlite::minify(paste('{', jsoncontent, '}', sep = "")))
+      as.character(jsonlite::minify(paste("{", jsoncontent, "}", sep = "")))
     },
     #' Deserialize JSON string into an instance of DanishPig
     #'
@@ -154,4 +156,3 @@ DanishPig <- R6::R6Class(
     }
   )
 )
-

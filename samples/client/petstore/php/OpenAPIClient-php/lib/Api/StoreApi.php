@@ -412,7 +412,7 @@ class StoreApi
                         $content = $response->getBody(); //stream goes to serializer
                     } else {
                         $content = (string) $response->getBody();
-                        if ('array&lt;string,int&gt;' !== 'string') {
+                        if ('array<string,int>' !== 'string') {
                             $content = json_decode($content);
                         }
                     }

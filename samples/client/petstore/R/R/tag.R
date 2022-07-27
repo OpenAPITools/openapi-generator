@@ -16,7 +16,7 @@
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
 Tag <- R6::R6Class(
-  'Tag',
+  "Tag",
   public = list(
     `id` = NULL,
     `name` = NULL,
@@ -30,7 +30,7 @@ Tag <- R6::R6Class(
     #' @param ... Other optional arguments.
     #' @export
     initialize = function(
-        `id`=NULL, `name`=NULL, ...
+        `id` = NULL, `name` = NULL, ...
     ) {
       if (!is.null(`id`)) {
         stopifnot(is.numeric(`id`), length(`id`) == 1)
@@ -51,11 +51,11 @@ Tag <- R6::R6Class(
     toJSON = function() {
       TagObject <- list()
       if (!is.null(self$`id`)) {
-        TagObject[['id']] <-
+        TagObject[["id"]] <-
           self$`id`
       }
       if (!is.null(self$`name`)) {
-        TagObject[['name']] <-
+        TagObject[["name"]] <-
           self$`name`
       }
 
@@ -89,22 +89,24 @@ Tag <- R6::R6Class(
     toJSONString = function() {
       jsoncontent <- c(
         if (!is.null(self$`id`)) {
-        sprintf(
-        '"id":
-          %d
-                ',
-        self$`id`
-        )},
+          sprintf(
+          '"id":
+            %d
+                    ',
+          self$`id`
+          )
+        },
         if (!is.null(self$`name`)) {
-        sprintf(
-        '"name":
-          "%s"
-                ',
-        self$`name`
-        )}
+          sprintf(
+          '"name":
+            "%s"
+                    ',
+          self$`name`
+          )
+        }
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
-      as.character(jsonlite::minify(paste('{', jsoncontent, '}', sep = "")))
+      as.character(jsonlite::minify(paste("{", jsoncontent, "}", sep = "")))
     },
     #' Deserialize JSON string into an instance of Tag
     #'
@@ -142,4 +144,3 @@ Tag <- R6::R6Class(
     }
   )
 )
-

@@ -41,10 +41,11 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |packageName|C# package name (convention: Title.Case).| |Org.OpenAPITools|
 |packageTitle|Specifies an AssemblyTitle for the .NET Framework global assembly attributes stored in the AssemblyInfo file.| |OpenAPI Library|
 |packageVersion|C# package version.| |1.0.0|
+|pocoModels|Build POCO Models| |false|
 |returnICollection|Return ICollection&lt;T&gt; instead of the concrete type.| |false|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |sourceFolder|source folder for generated code| |src|
-|swashbuckleVersion|Swashbuckle version: 3.0.0, 4.0.0, 5.0.0, 6.0.0|<dl><dt>**3.0.0**</dt><dd>Swashbuckle 3.0.0</dd><dt>**4.0.0**</dt><dd>Swashbuckle 4.0.0</dd><dt>**5.0.0**</dt><dd>Swashbuckle 5.0.0</dd><dt>**6.0.0**</dt><dd>Swashbuckle 6.0.0</dd></dl>|3.0.0|
+|swashbuckleVersion|Swashbuckle version: 3.0.0 (deprecated), 4.0.0 (deprecated), 5.0.0 (deprecated), 6.4.0|<dl><dt>**3.0.0**</dt><dd>Swashbuckle 3.0.0</dd><dt>**4.0.0**</dt><dd>Swashbuckle 4.0.0</dd><dt>**5.0.0**</dt><dd>Swashbuckle 5.0.0</dd><dt>**6.4.0**</dt><dd>Swashbuckle 6.4.0</dd></dl>|3.0.0|
 |useCollection|Deserialize array types to Collection&lt;T&gt; instead of List&lt;T&gt;.| |false|
 |useDateTimeOffset|Use DateTimeOffset to model date-time properties| |false|
 |useDefaultRouting|Use default routing for the ASP.NET Core version.| |true|

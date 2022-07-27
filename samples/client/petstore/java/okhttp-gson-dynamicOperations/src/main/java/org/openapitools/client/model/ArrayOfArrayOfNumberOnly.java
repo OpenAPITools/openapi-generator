@@ -56,7 +56,7 @@ public class ArrayOfArrayOfNumberOnly {
   @SerializedName(SERIALIZED_NAME_ARRAY_ARRAY_NUMBER)
   private List<List<BigDecimal>> arrayArrayNumber = null;
 
-  public ArrayOfArrayOfNumberOnly() { 
+  public ArrayOfArrayOfNumberOnly() {
   }
 
   public ArrayOfArrayOfNumberOnly arrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
@@ -164,7 +164,7 @@ public class ArrayOfArrayOfNumberOnly {
         }
       }
       // ensure the json data is an array
-      if (jsonObj.get("ArrayArrayNumber") != null && !jsonObj.get("ArrayArrayNumber").isJsonArray()) {
+      if ((jsonObj.get("ArrayArrayNumber") != null && !jsonObj.get("ArrayArrayNumber").isJsonNull()) && !jsonObj.get("ArrayArrayNumber").isJsonArray()) {
         throw new IllegalArgumentException(String.format("Expected the field `ArrayArrayNumber` to be an array in the JSON string but got `%s`", jsonObj.get("ArrayArrayNumber").toString()));
       }
   }

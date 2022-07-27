@@ -19,7 +19,7 @@
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
 AllofTagApiResponse <- R6::R6Class(
-  'AllofTagApiResponse',
+  "AllofTagApiResponse",
   public = list(
     `id` = NULL,
     `name` = NULL,
@@ -39,7 +39,7 @@ AllofTagApiResponse <- R6::R6Class(
     #' @param ... Other optional arguments.
     #' @export
     initialize = function(
-        `id`=NULL, `name`=NULL, `code`=NULL, `type`=NULL, `message`=NULL, ...
+        `id` = NULL, `name` = NULL, `code` = NULL, `type` = NULL, `message` = NULL, ...
     ) {
       if (!is.null(`id`)) {
         stopifnot(is.numeric(`id`), length(`id`) == 1)
@@ -72,23 +72,23 @@ AllofTagApiResponse <- R6::R6Class(
     toJSON = function() {
       AllofTagApiResponseObject <- list()
       if (!is.null(self$`id`)) {
-        AllofTagApiResponseObject[['id']] <-
+        AllofTagApiResponseObject[["id"]] <-
           self$`id`
       }
       if (!is.null(self$`name`)) {
-        AllofTagApiResponseObject[['name']] <-
+        AllofTagApiResponseObject[["name"]] <-
           self$`name`
       }
       if (!is.null(self$`code`)) {
-        AllofTagApiResponseObject[['code']] <-
+        AllofTagApiResponseObject[["code"]] <-
           self$`code`
       }
       if (!is.null(self$`type`)) {
-        AllofTagApiResponseObject[['type']] <-
+        AllofTagApiResponseObject[["type"]] <-
           self$`type`
       }
       if (!is.null(self$`message`)) {
-        AllofTagApiResponseObject[['message']] <-
+        AllofTagApiResponseObject[["message"]] <-
           self$`message`
       }
 
@@ -131,43 +131,48 @@ AllofTagApiResponse <- R6::R6Class(
     toJSONString = function() {
       jsoncontent <- c(
         if (!is.null(self$`id`)) {
-        sprintf(
-        '"id":
-          %d
-                ',
-        self$`id`
-        )},
+          sprintf(
+          '"id":
+            %d
+                    ',
+          self$`id`
+          )
+        },
         if (!is.null(self$`name`)) {
-        sprintf(
-        '"name":
-          "%s"
-                ',
-        self$`name`
-        )},
+          sprintf(
+          '"name":
+            "%s"
+                    ',
+          self$`name`
+          )
+        },
         if (!is.null(self$`code`)) {
-        sprintf(
-        '"code":
-          %d
-                ',
-        self$`code`
-        )},
+          sprintf(
+          '"code":
+            %d
+                    ',
+          self$`code`
+          )
+        },
         if (!is.null(self$`type`)) {
-        sprintf(
-        '"type":
-          "%s"
-                ',
-        self$`type`
-        )},
+          sprintf(
+          '"type":
+            "%s"
+                    ',
+          self$`type`
+          )
+        },
         if (!is.null(self$`message`)) {
-        sprintf(
-        '"message":
-          "%s"
-                ',
-        self$`message`
-        )}
+          sprintf(
+          '"message":
+            "%s"
+                    ',
+          self$`message`
+          )
+        }
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
-      as.character(jsonlite::minify(paste('{', jsoncontent, '}', sep = "")))
+      as.character(jsonlite::minify(paste("{", jsoncontent, "}", sep = "")))
     },
     #' Deserialize JSON string into an instance of AllofTagApiResponse
     #'
@@ -208,4 +213,3 @@ AllofTagApiResponse <- R6::R6Class(
     }
   )
 )
-

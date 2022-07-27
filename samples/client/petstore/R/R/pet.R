@@ -12,15 +12,15 @@
 #' @format An \code{R6Class} generator object
 #' @field id  integer [optional]
 #' @field category  \link{Category} [optional]
-#' @field name  character 
-#' @field photoUrls  list( character ) 
+#' @field name  character
+#' @field photoUrls  list( character )
 #' @field tags  list( \link{Tag} ) [optional]
 #' @field status  character [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
 Pet <- R6::R6Class(
-  'Pet',
+  "Pet",
   public = list(
     `id` = NULL,
     `category` = NULL,
@@ -42,7 +42,7 @@ Pet <- R6::R6Class(
     #' @param ... Other optional arguments.
     #' @export
     initialize = function(
-        `name`, `photoUrls`, `id`=NULL, `category`=NULL, `tags`=NULL, `status`=NULL, ...
+        `name`, `photoUrls`, `id` = NULL, `category` = NULL, `tags` = NULL, `status` = NULL, ...
     ) {
       if (!missing(`name`)) {
         stopifnot(is.character(`name`), length(`name`) == 1)
@@ -81,27 +81,27 @@ Pet <- R6::R6Class(
     toJSON = function() {
       PetObject <- list()
       if (!is.null(self$`id`)) {
-        PetObject[['id']] <-
+        PetObject[["id"]] <-
           self$`id`
       }
       if (!is.null(self$`category`)) {
-        PetObject[['category']] <-
+        PetObject[["category"]] <-
           self$`category`$toJSON()
       }
       if (!is.null(self$`name`)) {
-        PetObject[['name']] <-
+        PetObject[["name"]] <-
           self$`name`
       }
       if (!is.null(self$`photoUrls`)) {
-        PetObject[['photoUrls']] <-
+        PetObject[["photoUrls"]] <-
           self$`photoUrls`
       }
       if (!is.null(self$`tags`)) {
-        PetObject[['tags']] <-
+        PetObject[["tags"]] <-
           lapply(self$`tags`, function(x) x$toJSON())
       }
       if (!is.null(self$`status`)) {
-        PetObject[['status']] <-
+        PetObject[["status"]] <-
           self$`status`
       }
 
@@ -149,50 +149,56 @@ Pet <- R6::R6Class(
     toJSONString = function() {
       jsoncontent <- c(
         if (!is.null(self$`id`)) {
-        sprintf(
-        '"id":
-          %d
-                ',
-        self$`id`
-        )},
+          sprintf(
+          '"id":
+            %d
+                    ',
+          self$`id`
+          )
+        },
         if (!is.null(self$`category`)) {
-        sprintf(
-        '"category":
-        %s
-        ',
-        jsonlite::toJSON(self$`category`$toJSON(), auto_unbox=TRUE, digits = NA)
-        )},
+          sprintf(
+          '"category":
+          %s
+          ',
+          jsonlite::toJSON(self$`category`$toJSON(), auto_unbox = TRUE, digits = NA)
+          )
+        },
         if (!is.null(self$`name`)) {
-        sprintf(
-        '"name":
-          "%s"
-                ',
-        self$`name`
-        )},
+          sprintf(
+          '"name":
+            "%s"
+                    ',
+          self$`name`
+          )
+        },
         if (!is.null(self$`photoUrls`)) {
-        sprintf(
-        '"photoUrls":
-           [%s]
-        ',
-        paste(unlist(lapply(self$`photoUrls`, function(x) paste0('"', x, '"'))), collapse=",")
-        )},
+          sprintf(
+          '"photoUrls":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`photoUrls`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
         if (!is.null(self$`tags`)) {
-        sprintf(
-        '"tags":
-        [%s]
+          sprintf(
+          '"tags":
+          [%s]
 ',
-        paste(sapply(self$`tags`, function(x) jsonlite::toJSON(x$toJSON(), auto_unbox=TRUE, digits = NA)), collapse=",")
-        )},
+          paste(sapply(self$`tags`, function(x) jsonlite::toJSON(x$toJSON(), auto_unbox = TRUE, digits = NA)), collapse = ",")
+          )
+        },
         if (!is.null(self$`status`)) {
-        sprintf(
-        '"status":
-          "%s"
-                ',
-        self$`status`
-        )}
+          sprintf(
+          '"status":
+            "%s"
+                    ',
+          self$`status`
+          )
+        }
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
-      as.character(jsonlite::minify(paste('{', jsoncontent, '}', sep = "")))
+      as.character(jsonlite::minify(paste("{", jsoncontent, "}", sep = "")))
     },
     #' Deserialize JSON string into an instance of Pet
     #'
@@ -247,4 +253,3 @@ Pet <- R6::R6Class(
     }
   )
 )
-

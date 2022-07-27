@@ -169,7 +169,7 @@ import com.squareup.moshi.adapter
                         MediaType.parse(mediaType ?: JsonMediaType), Serializer.jacksonObjectMapper.writeValueAsString(content)
                         {{/jackson}}
                         {{#kotlinx_serialization}}
-                        MediaType.parse(mediaType ?: JsonMediaType), Serializer.jvmJson.encodeToString(content)
+                        MediaType.parse(mediaType ?: JsonMediaType), Serializer.kotlinxSerializationJson.encodeToString(content)
                         {{/kotlinx_serialization}}
                     )
                 }
@@ -188,7 +188,7 @@ import com.squareup.moshi.adapter
                     Serializer.jacksonObjectMapper.writeValueAsString(content)
                     {{/jackson}}
                     {{#kotlinx_serialization}}
-                    Serializer.jvmJson.encodeToString(content)
+                    Serializer.kotlinxSerializationJson.encodeToString(content)
                     {{/kotlinx_serialization}}
                         .toRequestBody((mediaType ?: JsonMediaType).toMediaTypeOrNull())
                 }
@@ -236,7 +236,7 @@ import com.squareup.moshi.adapter
                 {{#moshi}}Serializer.moshi.adapter<T>().fromJson(bodyContent){{/moshi}}{{!
                 }}{{#gson}}Serializer.gson.fromJson(bodyContent, (object: TypeToken<T>(){}).getType()){{/gson}}{{!
                 }}{{#jackson}}Serializer.jacksonObjectMapper.readValue(bodyContent, object: TypeReference<T>() {}){{/jackson}}{{!
-                }}{{#kotlinx_serialization}}Serializer.jvmJson.decodeFromString<T>(bodyContent){{/kotlinx_serialization}}
+                }}{{#kotlinx_serialization}}Serializer.kotlinxSerializationJson.decodeFromString<T>(bodyContent){{/kotlinx_serialization}}
             else ->  throw UnsupportedOperationException("responseBody currently only supports JSON body.")
         }
     }
@@ -432,7 +432,7 @@ import com.squareup.moshi.adapter
         return Serializer.jacksonObjectMapper.writeValueAsString(value).replace("\"", "")
         {{/jackson}}
         {{#kotlinx_serialization}}
-        return Serializer.jvmJson.encodeToString(value).replace("\"", "")
+        return Serializer.kotlinxSerializationJson.encodeToString(value).replace("\"", "")
         {{/kotlinx_serialization}}
         {{/toJson}}
         {{^toJson}}

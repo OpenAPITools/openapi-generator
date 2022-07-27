@@ -32,9 +32,15 @@ api_instance <- {{{classname}}}$new()
 {{#hasAuthMethods}}
 {{#authMethods}}
 {{#isBasic}}
+{{#isBasicBasic}}
 # Configure HTTP basic authorization: {{{name}}}
 api_instance$api_client$username <- 'TODO_YOUR_USERNAME';
 api_instance$api_client$password <- 'TODO_YOUR_PASSWORD';
+{{/isBasicBasic}}
+{{#isBasicBearer}}
+# Configure HTTP bearer authorization: {{{name}}}
+api.instance$api_client$bearer_token <- 'TODO_YOUR_BEARER_TOKEN';
+{{/isBasicBearer}}
 {{/isBasic}}
 {{#isApiKey}}
 # Configure API key authorization: {{{name}}}
@@ -52,6 +58,10 @@ result <- tryCatch(
              {{#returnType}}
              # to save the result into a file, simply add the optional `data_file` parameter, e.g.
              # api_instance${{{operationId}}}({{#requiredParams}}var_{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#optionalParams}}{{#-first}}{{#requiredParams.0}}, {{/requiredParams.0}}{{/-first}}{{{paramName}}} = var_{{{paramName}}}{{^-last}}, {{/-last}}{{/optionalParams}}{{#allParams}}{{#-first}}, {{/-first}}{{/allParams}}data_file = "result.txt"),
+             {{#vendorExtensions.x-streaming}}
+             # this endpoint supports data streaming via a callback function using the optional `stream_callback` parameter, e.g.
+             # api_instance${{{operationId}}}({{#requiredParams}}var_{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#optionalParams}}{{#-first}}{{#requiredParams.0}}, {{/requiredParams.0}}{{/-first}}{{{paramName}}} = var_{{{paramName}}}{{^-last}}, {{/-last}}{{/optionalParams}}{{#allParams}}{{#-first}}, {{/-first}}{{/allParams}}stream_callback = function(x){ print(length(x)) }),
+             {{/vendorExtensions.x-streaming}}
              {{/returnType}}
              api_instance${{{operationId}}}({{#requiredParams}}var_{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#optionalParams}}{{#-first}}{{#requiredParams.0}}, {{/requiredParams.0}}{{/-first}}{{{paramName}}} = var_{{{paramName}}}{{^-last}}, {{/-last}}{{/optionalParams}}),
              ApiException = function(ex) ex
@@ -72,6 +82,14 @@ if (!is.null(result$ApiException)) {
 {{/useRlangExceptionHandling}}
 {{/returnExceptionOnFailure}}
 {{^useRlangExceptionHandling}}
+{{#returnType}}
+# to save the result into a file, simply add the optional `data_file` parameter, e.g.
+# result <- api_instance${{{operationId}}}({{#requiredParams}}var_{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#optionalParams}}{{#-first}}{{#requiredParams.0}}, {{/requiredParams.0}}{{/-first}}{{{paramName}}} = var_{{{paramName}}}{{^-last}}, {{/-last}}{{/optionalParams}}data_file = "result.txt")
+{{/returnType}}
+{{#vendorExtensions.x-streaming}}
+# this endpoint supports data streaming via a callback function using the optional `stream_callback` parameter, e.g.
+# api_instance${{{operationId}}}({{#requiredParams}}var_{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#optionalParams}}{{#-first}}{{#requiredParams.0}}, {{/requiredParams.0}}{{/-first}}{{{paramName}}} = var_{{{paramName}}}{{^-last}}, {{/-last}}{{/optionalParams}}{{#allParams}}{{#-first}}, {{/-first}}{{/allParams}}stream_callback = function(x){ print(length(x)) })
+{{/vendorExtensions.x-streaming}}
 {{#returnType}}result <- {{/returnType}}api_instance${{{operationId}}}({{#requiredParams}}var_{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#optionalParams}}{{#-first}}{{#requiredParams.0}}, {{/requiredParams.0}}{{/-first}}{{{paramName}}} = var_{{{paramName}}}{{^-last}}, {{/-last}}{{/optionalParams}})
 {{#returnType}}
 dput(result)
