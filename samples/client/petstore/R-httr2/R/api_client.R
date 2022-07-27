@@ -143,9 +143,12 @@ ApiClient  <- R6::R6Class(
     #' @param ... Other optional arguments.
     #' @return HTTP response
     #' @export
-    CallApi = function(url, method, query_params, header_params, body, stream_callback = NULL, ...) {
+    CallApi = function(url, method, query_params, header_params, accepts,
+                       content_types, body, stream_callback = NULL, ...) {
 
-      resp <- self$Execute(url, method, query_params, header_params, body, stream_callback = stream_callback, ...)
+      resp <- self$Execute(url, method, query_params, header_params,
+                           accepts, content_types,
+                           body, stream_callback = stream_callback, ...)
       #status_code <- httr::status_code(resp)
 
       #if (is.null(self$max_retry_attempts)) {
@@ -181,7 +184,8 @@ ApiClient  <- R6::R6Class(
     #' @param ... Other optional arguments.
     #' @return HTTP response
     #' @export
-    Execute = function(url, method, query_params, header_params, body, stream_callback = NULL, ...) {
+    Execute = function(url, method, query_params, header_params, accepts, content_types,
+                       body, stream_callback = NULL, ...) {
       req <- request(url)
 
       ## add headers and default headers
@@ -194,6 +198,18 @@ ApiClient  <- R6::R6Class(
         for (http_header in names(header_params)) {
           req %>% req_headers(http_header = self$default_headers[http_header])
         }
+      }
+
+      # set HTTP accept header
+      accept = self$select_header(accepts)
+      if (!is.null(accept)) {
+        req %>% req_headers("Accept" = accept)
+      }
+
+      # set HTTP content-type header
+      content_type = self$select_header(content_types)
+      if (!is.null(content_type)) {
+        req %>% req_headers("Content-Type" = content_type)
       }
 
       ## add query parameters
@@ -372,6 +388,31 @@ ApiClient  <- R6::R6Class(
         return_obj <- obj
       }
       return_obj
+    },
+    #' Return a propery header (for accept or content-type). If JSON-related MIME is found,
+    #' return it. Otherwise, return the first one, if any.
+    #'
+    #' @description
+    #' Return a propery header (for accept or content-type). If JSON-related MIME is found,
+    #' return it. Otherwise, return the first one, if any.
+    #'
+    #' @param headers A list of headers
+    #' @return A header (e.g. 'application/json')
+    #' @export
+    select_header = function(headers) {
+      if (length(headers) == 0) {
+        return(invisible(NULL))
+      } else {
+        for (header in headers) {
+          if (str_detect(header, "(?i)^(application/json|[^;/ \t]+/[^;/ \t]+[+]json)[ \t]*(;.*)?$")) {
+            # return JSON-related MIME
+            return(header)
+          }
+        }
+
+        # not json mime type, simply return the first one
+        return(headers[1])
+      }
     }
   )
 )
