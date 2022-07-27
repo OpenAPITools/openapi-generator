@@ -464,6 +464,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         OperationMap operations = objs.getOperations();
         List<CodegenOperation> codegenOperations = operations.getOperation();
         HashMap<String, String> pathModuleToPath = new HashMap<>();
+        Map<String, Object> pathVarToVal = new HashMap<>();
         // one file per endpoint
         for (CodegenOperation co: codegenOperations) {
             String path = co.path;
@@ -471,6 +472,8 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
             if (!pathModuleToPath.containsKey(pathModuleName)) {
                 pathModuleToPath.put(pathModuleName, path);
             }
+            String pathVar = toEnumVarName(path, "str");
+            pathVarToVal.put(pathVar, path);
             co.nickname = pathModuleName;
             Map<String, Object> operationMap = new HashMap<>();
             operationMap.put("operation", co);
@@ -489,6 +492,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         Map<String, Object> initOperationMap = new HashMap<>();
         initOperationMap.put("packageName", packageName);
         initOperationMap.put("apiClassname", "Api");
+        initOperationMap.put("pathVarToVal", pathVarToVal);
         String initPathFile = endpointFilename(Arrays.asList("path", "__init__.py"));
         try {
             processTemplateToFile(initOperationMap, "__init__path.handlebars", initPathFile, true, CodegenConstants.APIS);
@@ -1152,7 +1156,11 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         String usedValue = value.replaceAll("\\s+", "_").toUpperCase(Locale.ROOT);
         // strip first character if it is invalid
         usedValue = usedValue.replaceAll("^[^_a-zA-Z]", "");
+        // Replace / with _ for path enums
+        usedValue = usedValue.replaceAll("/", "_").toUpperCase(Locale.ROOT);
+        // Replace invalid characters with empty space
         usedValue = usedValue.replaceAll("[^_a-zA-Z0-9]*", "");
+
         if (usedValue.length() == 0) {
             for (int i = 0; i < value.length(); i++){
                 Character c = value.charAt(i);
