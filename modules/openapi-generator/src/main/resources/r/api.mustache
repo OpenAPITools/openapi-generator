@@ -251,14 +251,14 @@
       }
 
       {{/requiredParams}}
-      {{#header_params}}
+      {{#headerParams}}
       header_params["{{baseName}}"] <- `{{paramName}}`
 
-      {{/header_params}}
-      {{#query_params}}
+      {{/headerParams}}
+      {{#queryParams}}
       query_params["{{baseName}}"] <- {{paramName}}
 
-      {{/query_params}}
+      {{/queryParams}}
       {{#hasFormParams}}
       local_var_body <- list(
         {{#formParams}}
