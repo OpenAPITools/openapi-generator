@@ -134,6 +134,10 @@ FakeApi <- R6::R6Class(
                                                      reason = "Missing required parameter `dummy`."))
       }
 
+      header_params["dummy"] <- `dummy`
+
+      header_params["data_file"] <- `var_data_file`
+
       local_var_body <- NULL
       local_var_url_path <- "/fake/data_file"
 

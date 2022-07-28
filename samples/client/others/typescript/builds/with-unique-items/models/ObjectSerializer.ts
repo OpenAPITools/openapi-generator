@@ -1,6 +1,6 @@
-export * from './Response';
+export * from '../models/Response';
 
-import { Response } from './Response';
+import { Response } from '../models/Response';
 
 /* tslint:disable:no-unused-variable */
 let primitives = [
