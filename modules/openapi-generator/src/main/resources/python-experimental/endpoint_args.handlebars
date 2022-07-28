@@ -1,4 +1,4 @@
-    self: api_client.Api,
+    self: BaseApi,
 {{#if bodyParam}}
 {{#with bodyParam}}
     body: typing.Union[{{#each content}}{{#unless @first}}, {{/unless}}{{this.schema.baseName}}{{/each}}{{#unless required}}, Unset] = unset{{else}}]{{/unless}},

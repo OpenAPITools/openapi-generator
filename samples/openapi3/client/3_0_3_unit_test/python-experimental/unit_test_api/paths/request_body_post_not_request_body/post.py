@@ -139,7 +139,7 @@ _status_code_to_response = {
 class BaseApi(api_client.Api):
 
     def _post_not_request_body(
-        self: api_client.Api,
+        self: BaseApi,
         body: typing.Union[SchemaForRequestBodyApplicationJson],
         content_type: str = 'application/json',
         stream: bool = False,
@@ -199,7 +199,7 @@ class PostNotRequestBody(BaseApi):
     # this class is used by api classes that refer to endpoints with operationId fn names
 
     def post_not_request_body(
-        self: api_client.Api,
+        self: BaseApi,
         body: typing.Union[SchemaForRequestBodyApplicationJson],
         content_type: str = 'application/json',
         stream: bool = False,
@@ -222,7 +222,7 @@ class ApiForpost(BaseApi):
     # this class is used by api classes that refer to endpoints by path and http method names
 
     def post(
-        self: api_client.Api,
+        self: BaseApi,
         body: typing.Union[SchemaForRequestBodyApplicationJson],
         content_type: str = 'application/json',
         stream: bool = False,

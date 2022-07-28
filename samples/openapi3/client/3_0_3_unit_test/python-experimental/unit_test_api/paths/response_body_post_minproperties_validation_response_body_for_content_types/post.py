@@ -100,7 +100,7 @@ _all_accept_content_types = (
 class BaseApi(api_client.Api):
 
     def _post_minproperties_validation_response_body_for_content_types(
-        self: api_client.Api,
+        self: BaseApi,
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -149,7 +149,7 @@ class PostMinpropertiesValidationResponseBodyForContentTypes(BaseApi):
     # this class is used by api classes that refer to endpoints with operationId fn names
 
     def post_minproperties_validation_response_body_for_content_types(
-        self: api_client.Api,
+        self: BaseApi,
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -170,7 +170,7 @@ class ApiForpost(BaseApi):
     # this class is used by api classes that refer to endpoints by path and http method names
 
     def post(
-        self: api_client.Api,
+        self: BaseApi,
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
