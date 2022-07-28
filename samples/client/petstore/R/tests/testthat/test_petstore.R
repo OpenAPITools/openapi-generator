@@ -11,13 +11,19 @@ pet <- Pet$new("name_test",
   ),
   status = "available"
 )
-pet_api$api_client$username <- "username123"
-pet_api$api_client$password <- "password123"
+
+pet_api$api_client$username <- ""
+pet_api$api_client$password <- ""
 result <- pet_api$AddPet(pet)
 
-test_that("AddPet", {
+test_that("Test toJSONString", {
   expect_equal(pet_id, 123321)
   expect_equal(pet$toJSONString(), '{"id":123321,"category":{"id":450,"name":"test_cat"},"name":"name_test","photoUrls":["photo_test","second test"],"tags":[{"id":123,"name":"tag_test"},{"id":456,"name":"unknown"}],"status":"available"}')
+})
+
+test_that("Test FindPetByStatus", {
+  result <- pet_api$FindPetsByStatus("available")
+  expect_equal(result[[1]]$status, "available")
 })
 
 test_that("Test toJSON toJSONString fromJSON fromJSONString", {
