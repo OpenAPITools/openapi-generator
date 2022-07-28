@@ -2,7 +2,9 @@
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
 
+import 'package:openapi/src/model/extensible.dart';
 import 'package:openapi/src/model/bar_ref.dart';
+import 'package:openapi/src/model/addressable.dart';
 import 'package:openapi/src/model/foo_ref.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
