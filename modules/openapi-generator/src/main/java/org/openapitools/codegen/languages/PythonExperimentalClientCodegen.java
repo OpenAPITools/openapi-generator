@@ -20,6 +20,7 @@ import com.github.curiousoddman.rgxgen.RgxGen;
 import com.github.curiousoddman.rgxgen.config.RgxGenOption;
 import com.github.curiousoddman.rgxgen.config.RgxGenProperties;
 import com.google.common.base.CaseFormat;
+import io.swagger.v3.oas.annotations.tags.Tags;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
@@ -402,7 +403,6 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         supportingFiles.add(new SupportingFile("__init__models." + templateExtension, packagePath() + File.separatorChar + "models", "__init__.py"));
         supportingFiles.add(new SupportingFile("__init__model." + templateExtension, packagePath() + File.separatorChar + modelPackage, "__init__.py"));
         supportingFiles.add(new SupportingFile("__init__apis." + templateExtension, packagePath() + File.separatorChar + apiPackage, "__init__.py"));
-        supportingFiles.add(new SupportingFile("__init__apis." + templateExtension, packagePath() + File.separatorChar + apiPackage + File.separatorChar + "tags", "__init__.py"));
         // Generate the 'signing.py' module, but only if the 'HTTP signature' security scheme is specified in the OAS.
         Map<String, SecurityScheme> securitySchemeMap = openAPI != null ?
                 (openAPI.getComponents() != null ? openAPI.getComponents().getSecuritySchemes() : null) : null;
@@ -489,10 +489,9 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         if (paths == null) {
             return;
         }
-        // paths.__init__.py (contains path str enum)
-        Map<String, Object> pathValToVar = new LinkedHashMap<>();
-        Map<String, Object> pathModuleToApiClassname = new LinkedHashMap<>();
-        Map<String, Object> pathVarToApiClassname = new LinkedHashMap<>();
+        Map<String, String> pathValToVar = new LinkedHashMap<>();
+        Map<String, String> pathModuleToApiClassname = new LinkedHashMap<>();
+        Map<String, String> pathVarToApiClassname = new LinkedHashMap<>();
         for (Map.Entry<String, PathItem> pathsEntry : paths.entrySet()) {
             String path = pathsEntry.getKey();
             String pathEnumVar = toEnumVarName(path, "str");
@@ -501,6 +500,33 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
             pathVarToApiClassname.put(pathEnumVar, apiClassName);
             pathModuleToApiClassname.put(toVarName(path), apiClassName);
         }
+        List<Tag> tags = openAPI.getTags();
+        // for imports
+        Map<String, String> tagModuleNameToApiClassname = new LinkedHashMap<>();
+        // for enum tag definition
+        Map<String, String> enumToTag = new LinkedHashMap<>();
+        // for tag api definition
+        Map<String, String> enumToApiClassname = new LinkedHashMap<>();
+        for (Tag tag: tags) {
+            String tagName = tag.getName();
+            String tagModuleName = toApiFilename(tagName);
+            String apiClassname = toApiName(tagName);
+            tagModuleNameToApiClassname.put(tagModuleName, apiClassname);
+            String tagEnum = toEnumVarName(tagName, "str");
+            enumToTag.put(tagEnum, tagName);
+            enumToApiClassname.put(tagEnum, apiClassname);
+        }
+        // apis.paths.__init__.py
+        Map<String, Object> initApiTagsMap = new HashMap<>();
+        initApiTagsMap.put("packageName", packageName);
+        initApiTagsMap.put("enumToTag", enumToTag);
+        String initApiTagsFile = endpointFilename(Arrays.asList("apis", "tags", "__init__.py"));
+        try {
+            processTemplateToFile(initApiTagsMap, "__init__apis_tags.handlebars", initApiTagsFile, true, CodegenConstants.APIS);
+        } catch (IOException e) {
+            LOGGER.error("Error when writing template file {}", e.toString());
+        }
+        // paths.__init__.py (contains path str enum)
         Map<String, Object> initOperationMap = new HashMap<>();
         initOperationMap.put("packageName", packageName);
         initOperationMap.put("apiClassname", "Api");
@@ -1185,6 +1211,8 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         usedValue = usedValue.replaceAll("^[^_a-zA-Z]", "");
         // Replace / with _ for path enums
         usedValue = usedValue.replaceAll("/", "_");
+        // Replace . with _ for tag enums
+        usedValue = usedValue.replaceAll("\\.", "_");
         // add underscore at camelCase locations
         String regex = "([a-z])([A-Z]+)";
         String replacement = "$1_$2";
