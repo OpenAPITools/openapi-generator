@@ -11,8 +11,9 @@ pet <- Pet$new("name_test",
   ),
   status = "available"
 )
-pet_api$api_client$username <- "username123"
-pet_api$api_client$password <- "password123"
+
+pet_api$api_client$username <- ""
+pet_api$api_client$password <- ""
 result <- pet_api$AddPet(pet)
 
 test_that("Test toJSONString", {
