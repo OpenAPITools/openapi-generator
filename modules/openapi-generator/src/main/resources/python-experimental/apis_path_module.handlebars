@@ -24,7 +24,7 @@ from {{packageName}}.path.{{pathModule}}.trace import ApiFortrace
 {{/if}}
 
 
-class Api(
+class {{apiClassName}}(
 {{#if pathItem.get}}
     ApiForget,
 {{/if}}

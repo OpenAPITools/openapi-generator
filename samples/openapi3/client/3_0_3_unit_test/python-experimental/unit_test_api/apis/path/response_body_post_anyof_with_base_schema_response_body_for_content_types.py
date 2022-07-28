@@ -1,7 +1,7 @@
 from unit_test_api.path.response_body_post_anyof_with_base_schema_response_body_for_content_types.post import ApiForpost
 
 
-class Api(
+class ResponseBodyPostAnyofWithBaseSchemaResponseBodyForContentTypes(
     ApiForpost,
 ):
     pass

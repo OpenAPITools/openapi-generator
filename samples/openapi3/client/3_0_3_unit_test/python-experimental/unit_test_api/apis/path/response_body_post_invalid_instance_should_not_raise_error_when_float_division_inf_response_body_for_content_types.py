@@ -1,7 +1,7 @@
 from unit_test_api.path.response_body_post_invalid_instance_should_not_raise_error_when_float_division_inf_response_body_for_content_types.post import ApiForpost
 
 
-class Api(
+class ResponseBodyPostInvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInfResponseBodyForContentTypes(
     ApiForpost,
 ):
     pass

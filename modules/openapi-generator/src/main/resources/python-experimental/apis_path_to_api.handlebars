@@ -1,0 +1,23 @@
+import typing
+
+from {{packageName}}.path import PathValues
+{{#each pathModuleToApiClassname}}
+from {{packageName}}.apis.path.{{@key}} import {{this}}
+{{/each}}
+
+PathToApi = typing.TypedDict(
+    'PathToApi',
+    {
+{{#each pathVarToApiClassname}}
+        PathValues.{{@key}}: {{this}},
+{{/each}}
+    }
+)
+
+path_to_api = PathToApi(
+    {
+{{#each pathVarToApiClassname}}
+        PathValues.{{@key}}: {{this}},
+{{/each}}
+    }
+)

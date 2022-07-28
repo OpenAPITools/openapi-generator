@@ -466,19 +466,17 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         OperationMap operations = objs.getOperations();
         List<CodegenOperation> codegenOperations = operations.getOperation();
         HashMap<String, String> pathModuleToPath = new HashMap<>();
-        // one file per endpoint
+        // path.some_path.post.py (single endpoint definition)
         for (CodegenOperation co: codegenOperations) {
             String path = co.path;
-            String pathModuleName = toVarName(path);
+            String pathModuleName = co.nickname;
             if (!pathModuleToPath.containsKey(pathModuleName)) {
                 pathModuleToPath.put(pathModuleName, path);
             }
-            co.nickname = pathModuleName;
             Map<String, Object> operationMap = new HashMap<>();
             operationMap.put("operation", co);
             operationMap.put("imports", co.imports);
             operationMap.put("packageName", packageName);
-
             String templateName = "endpoint.handlebars";
             String filename = endpointFilename(Arrays.asList("path", pathModuleName, co.httpMethod + ".py"));
             try {
@@ -491,13 +489,17 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         if (paths == null) {
             return;
         }
-        // one file in the path directory
+        // path.__init__.py (contains path str enum)
         Map<String, Object> pathValToVar = new LinkedHashMap<>();
+        Map<String, Object> pathModuleToApiClassname = new LinkedHashMap<>();
+        Map<String, Object> pathVarToApiClassname = new LinkedHashMap<>();
         for (Map.Entry<String, PathItem> pathsEntry : paths.entrySet()) {
             String path = pathsEntry.getKey();
-            if (!pathValToVar.containsKey(path)) {
-                pathValToVar.put(path, toEnumVarName(path, "str"));
-            }
+            String pathEnumVar = toEnumVarName(path, "str");
+            pathValToVar.put(path, pathEnumVar);
+            String apiClassName = toModelName(path);
+            pathVarToApiClassname.put(pathEnumVar, apiClassName);
+            pathModuleToApiClassname.put(toVarName(path), apiClassName);
         }
         Map<String, Object> initOperationMap = new HashMap<>();
         initOperationMap.put("packageName", packageName);
@@ -509,14 +511,27 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         } catch (IOException e) {
             LOGGER.error("Error when writing template file {}", e.toString());
         }
-        // one file in apis/path
+        // apis.path.__init__.py
         initPathFile = endpointFilename(Arrays.asList("apis", "path", "__init__.py"));
         try {
             processTemplateToFile(initOperationMap, "__init__paths.handlebars", initPathFile, true, CodegenConstants.APIS);
         } catch (IOException e) {
             LOGGER.error("Error when writing template file {}", e.toString());
         }
-        // one file per path module, one per paths
+        // apis.path.all_by_paths.py
+        Map<String, Object> allByPathsFileMap = new HashMap<>();
+        allByPathsFileMap.put("packageName", packageName);
+        allByPathsFileMap.put("apiClassname", "Api");
+        allByPathsFileMap.put("pathModuleToApiClassname", pathModuleToApiClassname);
+        allByPathsFileMap.put("pathVarToApiClassname", pathVarToApiClassname);
+        String allByPathsFile = endpointFilename(Arrays.asList("apis", "path_to_api.py"));
+        try {
+            processTemplateToFile(allByPathsFileMap, "apis_path_to_api.handlebars", allByPathsFile, true, CodegenConstants.APIS);
+        } catch (IOException e) {
+            LOGGER.error("Error when writing template file {}", e.toString());
+        }
+        // path.some_path.__init__.py
+        // apis.path.some_path.py
         for (Map.Entry<String, String> entry: pathModuleToPath.entrySet()) {
             String pathModule = entry.getKey();
             String path = entry.getValue();
@@ -534,12 +549,13 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
                 LOGGER.error("Error when writing endpoint __init__ file {}", e.toString());
             }
             PathItem pi = openAPI.getPaths().get(path);
+            String apiClassName = (String) pathVarToApiClassname.get(pathVar);
             try {
                 String templateName = "apis_path_module.handlebars";
                 Map<String, Object> operationMap = new HashMap<>();
                 operationMap.put("packageName", packageName);
                 operationMap.put("pathModule", pathModule);
-                operationMap.put("apiClassName", "Api");
+                operationMap.put("apiClassName", apiClassName);
                 operationMap.put("pathItem", pi);
                 String filename = endpointFilename(Arrays.asList("apis", "path", pathModule + ".py"));
                 processTemplateToFile(operationMap, templateName, filename, true, CodegenConstants.APIS);
@@ -2464,8 +2480,14 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
                                           List<Server> servers) {
         CodegenOperation co = super.fromOperation(path, httpMethod, operation, servers);
         co.httpMethod = httpMethod.toLowerCase(Locale.ROOT);
-        // smuggle the path enum into here
+        // smuggle the path enum variable name in operationIdLowerCase
         co.operationIdLowerCase = toEnumVarName(co.path, "str");
+        // smuggle pathModuleName in nickname
+        String pathModuleName = toVarName(path);
+        co.nickname = pathModuleName;
+        // smuggle path Api class name ins operationIdSnakeCase
+        co.operationIdSnakeCase = toModelName(path);
+
         if (co.bodyParam == null) {
             for (CodegenParameter cp: co.allParams) {
                 if (cp.isBodyParam) {
@@ -2475,6 +2497,50 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
             }
         }
         return co;
+    }
+
+    /**
+     * Custom version of this method to prevent mutation of
+     * codegenOperation.operationIdLowerCase/operationIdSnakeCase
+     * Property Usages:
+     * - operationId: endpoint method name when using tagged apis
+     * - httpMethod: endpoint method name when using path apis
+     * - operationIdCamelCase: Api class name containing single endpoint for tagged apis
+     * - operationIdLowerCase: (smuggled) path enum variable name
+     * - nickname: (smuggled) path module name for path apis
+     * - operationIdSnakeCase: (smuggled) path Api class name when using path apis
+     *
+     * @param tag          name of the tag
+     * @param resourcePath path of the resource
+     * @param operation    OAS Operation object
+     * @param co           Codegen Operation object
+     * @param operations   map of Codegen operations
+     */
+    @Override
+    @SuppressWarnings("static-method")
+    public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation
+            co, Map<String, List<CodegenOperation>> operations) {
+        List<CodegenOperation> opList = operations.get(tag);
+        if (opList == null) {
+            opList = new ArrayList<>();
+            operations.put(tag, opList);
+        }
+        // check for operationId uniqueness
+        String uniqueName = co.operationId;
+        int counter = 0;
+        for (CodegenOperation op : opList) {
+            if (uniqueName.equals(op.operationId)) {
+                uniqueName = co.operationId + "_" + counter;
+                counter++;
+            }
+        }
+        if (!co.operationId.equals(uniqueName)) {
+            LOGGER.warn("generated unique operationId `{}`", uniqueName);
+        }
+        co.operationId = uniqueName;
+        co.operationIdCamelCase = camelize(uniqueName);
+        opList.add(co);
+        co.baseName = tag;
     }
 
     @Override
@@ -2510,42 +2576,5 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         System.out.println("# This generator was written by Justin Black (https://github.com/spacether)    #");
         System.out.println("# Please support his work directly via https://github.com/sponsors/spacether \uD83D\uDE4F#");
         System.out.println("################################################################################");
-    }
-
-    /**
-     * Custom version of this method to prevent mutation of
-     * codegenOperation.operationIdLowerCase/operationIdSnakeCase
-     *
-     * @param tag          name of the tag
-     * @param resourcePath path of the resource
-     * @param operation    OAS Operation object
-     * @param co           Codegen Operation object
-     * @param operations   map of Codegen operations
-     */
-    @Override
-    @SuppressWarnings("static-method")
-    public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation
-            co, Map<String, List<CodegenOperation>> operations) {
-        List<CodegenOperation> opList = operations.get(tag);
-        if (opList == null) {
-            opList = new ArrayList<>();
-            operations.put(tag, opList);
-        }
-        // check for operationId uniqueness
-        String uniqueName = co.operationId;
-        int counter = 0;
-        for (CodegenOperation op : opList) {
-            if (uniqueName.equals(op.operationId)) {
-                uniqueName = co.operationId + "_" + counter;
-                counter++;
-            }
-        }
-        if (!co.operationId.equals(uniqueName)) {
-            LOGGER.warn("generated unique operationId `{}`", uniqueName);
-        }
-        co.operationId = uniqueName;
-        co.operationIdCamelCase = camelize(uniqueName);
-        opList.add(co);
-        co.baseName = tag;
     }
 }
