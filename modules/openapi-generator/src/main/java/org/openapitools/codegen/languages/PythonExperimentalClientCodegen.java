@@ -146,7 +146,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         importMapping.clear();
 
         modelPackage = "model";
-        apiPackage = "api";
+        apiPackage = "apis";
         outputFolder = "generated-code" + File.separatorChar + "python";
 
         embeddedTemplateDir = templateDir = "python-experimental";
@@ -401,8 +401,8 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         // add the models and apis folders
         supportingFiles.add(new SupportingFile("__init__models." + templateExtension, packagePath() + File.separatorChar + "models", "__init__.py"));
         supportingFiles.add(new SupportingFile("__init__model." + templateExtension, packagePath() + File.separatorChar + modelPackage, "__init__.py"));
-        supportingFiles.add(new SupportingFile("__init__apis." + templateExtension, packagePath() + File.separatorChar + "apis", "__init__.py"));
-        supportingFiles.add(new SupportingFile("__init__api." + templateExtension, packagePath() + File.separatorChar + apiPackage, "__init__.py"));
+        supportingFiles.add(new SupportingFile("__init__apis." + templateExtension, packagePath() + File.separatorChar + apiPackage, "__init__.py"));
+        supportingFiles.add(new SupportingFile("__init__apis." + templateExtension, packagePath() + File.separatorChar + apiPackage + File.separatorChar + "tags", "__init__.py"));
         // Generate the 'signing.py' module, but only if the 'HTTP signature' security scheme is specified in the OAS.
         Map<String, SecurityScheme> securitySchemeMap = openAPI != null ?
                 (openAPI.getComponents() != null ? openAPI.getComponents().getSecuritySchemes() : null) : null;
@@ -451,7 +451,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
     @Override
     public String apiFilename(String templateName, String tag) {
         String suffix = apiTemplateFiles().get(templateName);
-        return apiFileFolder() + "s" + File.separator + toApiFilename(tag) + suffix;
+        return apiFileFolder() + File.separator + toApiFilename(tag) + suffix;
     }
 
     /*
@@ -2376,7 +2376,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
 
     @Override
     public String apiFileFolder() {
-        return outputFolder + File.separatorChar + packagePath() + File.separatorChar +  apiPackage();
+        return outputFolder + File.separatorChar + packagePath() + File.separatorChar +  apiPackage() + File.separatorChar + "tags";
     }
 
     @Override

@@ -51,7 +51,7 @@ Please follow the [installation procedure](#installation--usage) and then run th
 import time
 import unit_test_api
 from pprint import pprint
-from unit_test_api.api import content_type_json_api
+from unit_test_api.apis import content_type_json_api
 from unit_test_api.model.additionalproperties_allows_a_schema_which_should_validate import AdditionalpropertiesAllowsASchemaWhichShouldValidate
 from unit_test_api.model.additionalproperties_are_allowed_by_default import AdditionalpropertiesAreAllowedByDefault
 from unit_test_api.model.additionalproperties_can_exist_by_itself import AdditionalpropertiesCanExistByItself
@@ -755,7 +755,7 @@ RecursionError indicating the maximum recursion limit has been exceeded. In that
 
 Solution 1:
 Use specific imports for apis and models like:
-- `from unit_test_api.api.default_api import DefaultApi`
+- `from unit_test_api.apis.default_api import DefaultApi`
 - `from unit_test_api.model.pet import Pet`
 
 Solution 1:
