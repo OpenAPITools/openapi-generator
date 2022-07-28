@@ -450,11 +450,11 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
             
 
             for (String compositeModelName : compositeModelNames) {
-                CodegenModel _model =  allModels.get(compositeModelName);
-                if (_model == null) continue;
-                List<CodegenProperty> _allVars = ObjectUtils.firstNonNull(_model.getAllVars(), new ArrayList<>());
-                for (CodegenProperty _prop : _allVars  ) {
-                    compositeProperties.add(_prop.getName());
+                CodegenModel model =  allModels.get(compositeModelName);
+                if (model == null) continue;
+                List<CodegenProperty> allVars = ObjectUtils.firstNonNull(model.getAllVars(), new ArrayList<>());
+                for (CodegenProperty prop : allVars  ) {
+                    compositeProperties.add(prop.getName());
                 }
             }
             //dart classes declare selfOnlyProperties as direct members (they exist in "vars")
@@ -479,10 +479,10 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
                     ancestorOnlyProperties.put(prop.getName(), prop);
                 }
             }
-            for (CodegenProperty _var : cm.getVars()) {
-                _var.isInherited = ancestorOnlyProperties.containsKey(_var.getName());
-                if (!_var.isInherited && !compositeProperties.contains(_var.getName())) {
-                    selfOnlyProperties.put(_var.getName(), _var);
+            for (CodegenProperty p : cm.getVars()) {
+                p.isInherited = ancestorOnlyProperties.containsKey(p.getName());
+                if (!p.isInherited && !compositeProperties.contains(p.getName())) {
+                    selfOnlyProperties.put(p.getName(), p);
                 }
             }
             selfAndAncestorOnlyProperties.putAll(selfOnlyProperties);
@@ -495,6 +495,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
             cm.vendorExtensions.put(kHasAncestorOnlyProps, !ancestorOnlyProperties.isEmpty());
             cm.vendorExtensions.put(kSelfAndAncestorOnlyProps, selfAndAncestorOnlyProperties.values());
             cm.vendorExtensions.put(kHasSelfAndAncestorOnlyProps,  !selfAndAncestorOnlyProperties.isEmpty());
+            //cm.imports.addAll(rewriteImports(allAncestors, true));
         }
     }
 
