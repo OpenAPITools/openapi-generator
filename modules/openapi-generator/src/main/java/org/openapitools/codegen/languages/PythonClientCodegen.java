@@ -485,32 +485,36 @@ public class PythonClientCodegen extends AbstractPythonCodegen {
      */
     @Override
     public String toDefaultValue(Schema p) {
-        if (ModelUtils.isStringSchema(p) && !ModelUtils.isDateSchema(p) && !ModelUtils.isDateTimeSchema(p)) { // TODO
-            StringSchema dp = (StringSchema) p;
-            if (dp.getDefault() != null) {
-                return "'" + dp.getDefault() + "'";
+        try {
+            if (ModelUtils.isStringSchema(p) && !ModelUtils.isDateSchema(p) && !ModelUtils.isDateTimeSchema(p) && !ModelUtils.isFileSchema(p)) { // TODO
+                    StringSchema dp = (StringSchema) p;
+                    if (dp.getDefault() != null) {
+                        return "'" + dp.getDefault() + "'";
+                    }
+            } else if (ModelUtils.isBooleanSchema(p)) {
+                BooleanSchema dp = (BooleanSchema) p;
+                if (dp.getDefault() != null) {
+                    if (dp.getDefault().toString().equalsIgnoreCase("false"))
+                        return "False";
+                    else
+                        return "True";
+                }
+            } else if (ModelUtils.isIntegerSchema(p)) {
+                IntegerSchema dp = (IntegerSchema) p;
+                if (dp.getDefault() != null) {
+                    return dp.getDefault().toString();
+                }
+            } else if (ModelUtils.isDoubleSchema(p) || ModelUtils.isFloatSchema(p) || ModelUtils.isLongSchema(p)) {
+                NumberSchema dp = (NumberSchema) p;
+                if (dp.getDefault() != null) {
+                    return dp.getDefault().toString();
+                }
             }
-        } else if (ModelUtils.isBooleanSchema(p)) {
-            BooleanSchema dp = (BooleanSchema) p;
-            if (dp.getDefault() != null) {
-                if (dp.getDefault().toString().equalsIgnoreCase("false"))
-                    return "False";
-                else
-                    return "True";
-            }
-        } else if (ModelUtils.isIntegerSchema(p)) {
-            IntegerSchema dp = (IntegerSchema) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
-            }
-        } else if (ModelUtils.isDoubleSchema(p) || ModelUtils.isFloatSchema(p) || ModelUtils.isLongSchema(p)) {
-            NumberSchema dp = (NumberSchema) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
-            }
-        }
 
-        return null;
+            return null;
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     @Override
