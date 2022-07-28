@@ -1,8 +1,8 @@
 import typing
 
-from {{packageName}}.path import PathValues
+from {{packageName}}.paths import PathValues
 {{#each pathModuleToApiClassname}}
-from {{packageName}}.apis.path.{{@key}} import {{this}}
+from {{packageName}}.apis.paths.{{@key}} import {{this}}
 {{/each}}
 
 PathToApi = typing.TypedDict(

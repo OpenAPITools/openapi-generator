@@ -478,7 +478,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
             operationMap.put("imports", co.imports);
             operationMap.put("packageName", packageName);
             String templateName = "endpoint.handlebars";
-            String filename = endpointFilename(Arrays.asList("path", pathModuleName, co.httpMethod + ".py"));
+            String filename = endpointFilename(Arrays.asList("paths", pathModuleName, co.httpMethod + ".py"));
             try {
                 processTemplateToFile(operationMap, templateName, filename, true, CodegenConstants.APIS);
             } catch (IOException e) {
@@ -489,7 +489,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         if (paths == null) {
             return;
         }
-        // path.__init__.py (contains path str enum)
+        // paths.__init__.py (contains path str enum)
         Map<String, Object> pathValToVar = new LinkedHashMap<>();
         Map<String, Object> pathModuleToApiClassname = new LinkedHashMap<>();
         Map<String, Object> pathVarToApiClassname = new LinkedHashMap<>();
@@ -505,20 +505,20 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         initOperationMap.put("packageName", packageName);
         initOperationMap.put("apiClassname", "Api");
         initOperationMap.put("pathValToVar", pathValToVar);
-        String initPathFile = endpointFilename(Arrays.asList("path", "__init__.py"));
+        String initPathFile = endpointFilename(Arrays.asList("paths", "__init__.py"));
         try {
-            processTemplateToFile(initOperationMap, "__init__path.handlebars", initPathFile, true, CodegenConstants.APIS);
+            processTemplateToFile(initOperationMap, "__init__paths_enum.handlebars", initPathFile, true, CodegenConstants.APIS);
         } catch (IOException e) {
             LOGGER.error("Error when writing template file {}", e.toString());
         }
-        // apis.path.__init__.py
-        initPathFile = endpointFilename(Arrays.asList("apis", "path", "__init__.py"));
+        // apis.paths.__init__.py
+        initPathFile = endpointFilename(Arrays.asList("apis", "paths", "__init__.py"));
         try {
             processTemplateToFile(initOperationMap, "__init__paths.handlebars", initPathFile, true, CodegenConstants.APIS);
         } catch (IOException e) {
             LOGGER.error("Error when writing template file {}", e.toString());
         }
-        // apis.path.all_by_paths.py
+        // apis.paths.all_by_paths.py
         Map<String, Object> allByPathsFileMap = new HashMap<>();
         allByPathsFileMap.put("packageName", packageName);
         allByPathsFileMap.put("apiClassname", "Api");
@@ -530,20 +530,20 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         } catch (IOException e) {
             LOGGER.error("Error when writing template file {}", e.toString());
         }
-        // path.some_path.__init__.py
-        // apis.path.some_path.py
+        // paths.some_path.__init__.py
+        // apis.paths.some_path.py
         for (Map.Entry<String, String> entry: pathModuleToPath.entrySet()) {
             String pathModule = entry.getKey();
             String path = entry.getValue();
             String pathVar = (String) pathValToVar.get(path);
             try {
-                String templateName = "__init__path_x.handlebars";
+                String templateName = "__init__paths_x.handlebars";
                 Map<String, Object> operationMap = new HashMap<>();
                 operationMap.put("packageName", packageName);
                 operationMap.put("pathModule", pathModule);
                 operationMap.put("apiClassName", "Api");
                 operationMap.put("pathVar", pathVar);
-                String filename = endpointFilename(Arrays.asList("path", pathModule, "__init__.py"));
+                String filename = endpointFilename(Arrays.asList("paths", pathModule, "__init__.py"));
                 processTemplateToFile(operationMap, templateName, filename, true, CodegenConstants.APIS);
             } catch (IOException e) {
                 LOGGER.error("Error when writing endpoint __init__ file {}", e.toString());
@@ -557,7 +557,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
                 operationMap.put("pathModule", pathModule);
                 operationMap.put("apiClassName", apiClassName);
                 operationMap.put("pathItem", pi);
-                String filename = endpointFilename(Arrays.asList("apis", "path", pathModule + ".py"));
+                String filename = endpointFilename(Arrays.asList("apis", "paths", pathModule + ".py"));
                 processTemplateToFile(operationMap, templateName, filename, true, CodegenConstants.APIS);
             } catch (IOException e) {
                 LOGGER.error("Error when writing endpoint __init__ file {}", e.toString());
