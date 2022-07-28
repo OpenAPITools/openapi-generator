@@ -793,10 +793,10 @@ export interface FormatTest {
     'byte': string;
     /**
      * 
-     * @type {any}
+     * @type {File}
      * @memberof FormatTest
      */
-    'binary'?: any;
+    'binary'?: File;
     /**
      * 
      * @type {string}
@@ -2255,7 +2255,7 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
          * @param {number} [int64] None
          * @param {number} [_float] None
          * @param {string} [string] None
-         * @param {any} [binary] None
+         * @param {File} [binary] None
          * @param {string} [date] None
          * @param {string} [dateTime] None
          * @param {string} [password] None
@@ -2263,7 +2263,7 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        testEndpointParameters: async (number: number, _double: number, patternWithoutDelimiter: string, _byte: string, integer?: number, int32?: number, int64?: number, _float?: number, string?: string, binary?: any, date?: string, dateTime?: string, password?: string, callback?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        testEndpointParameters: async (number: number, _double: number, patternWithoutDelimiter: string, _byte: string, integer?: number, int32?: number, int64?: number, _float?: number, string?: string, binary?: File, date?: string, dateTime?: string, password?: string, callback?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'number' is not null or undefined
             assertParamExists('testEndpointParameters', 'number', number)
             // verify required parameter '_double' is not null or undefined
@@ -2770,7 +2770,7 @@ export const FakeApiFp = function(configuration?: Configuration) {
          * @param {number} [int64] None
          * @param {number} [_float] None
          * @param {string} [string] None
-         * @param {any} [binary] None
+         * @param {File} [binary] None
          * @param {string} [date] None
          * @param {string} [dateTime] None
          * @param {string} [password] None
@@ -2778,7 +2778,7 @@ export const FakeApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async testEndpointParameters(number: number, _double: number, patternWithoutDelimiter: string, _byte: string, integer?: number, int32?: number, int64?: number, _float?: number, string?: string, binary?: any, date?: string, dateTime?: string, password?: string, callback?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+        async testEndpointParameters(number: number, _double: number, patternWithoutDelimiter: string, _byte: string, integer?: number, int32?: number, int64?: number, _float?: number, string?: string, binary?: File, date?: string, dateTime?: string, password?: string, callback?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, callback, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -2958,7 +2958,7 @@ export const FakeApiFactory = function (configuration?: Configuration, basePath?
          * @param {number} [int64] None
          * @param {number} [_float] None
          * @param {string} [string] None
-         * @param {any} [binary] None
+         * @param {File} [binary] None
          * @param {string} [date] None
          * @param {string} [dateTime] None
          * @param {string} [password] None
@@ -2966,7 +2966,7 @@ export const FakeApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        testEndpointParameters(number: number, _double: number, patternWithoutDelimiter: string, _byte: string, integer?: number, int32?: number, int64?: number, _float?: number, string?: string, binary?: any, date?: string, dateTime?: string, password?: string, callback?: string, options?: any): AxiosPromise<void> {
+        testEndpointParameters(number: number, _double: number, patternWithoutDelimiter: string, _byte: string, integer?: number, int32?: number, int64?: number, _float?: number, string?: string, binary?: File, date?: string, dateTime?: string, password?: string, callback?: string, options?: any): AxiosPromise<void> {
             return localVarFp.testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, callback, options).then((request) => request(axios, basePath));
         },
         /**
@@ -3158,7 +3158,7 @@ export class FakeApi extends BaseAPI {
      * @param {number} [int64] None
      * @param {number} [_float] None
      * @param {string} [string] None
-     * @param {any} [binary] None
+     * @param {File} [binary] None
      * @param {string} [date] None
      * @param {string} [dateTime] None
      * @param {string} [password] None
@@ -3167,7 +3167,7 @@ export class FakeApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof FakeApi
      */
-    public testEndpointParameters(number: number, _double: number, patternWithoutDelimiter: string, _byte: string, integer?: number, int32?: number, int64?: number, _float?: number, string?: string, binary?: any, date?: string, dateTime?: string, password?: string, callback?: string, options?: AxiosRequestConfig) {
+    public testEndpointParameters(number: number, _double: number, patternWithoutDelimiter: string, _byte: string, integer?: number, int32?: number, int64?: number, _float?: number, string?: string, binary?: File, date?: string, dateTime?: string, password?: string, callback?: string, options?: AxiosRequestConfig) {
         return FakeApiFp(this.configuration).testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, callback, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -3673,11 +3673,11 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
          * @summary uploads an image
          * @param {number} petId ID of pet to update
          * @param {string} [additionalMetadata] Additional data to pass to server
-         * @param {any} [file] file to upload
+         * @param {File} [file] file to upload
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        uploadFile: async (petId: number, additionalMetadata?: string, file?: any, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        uploadFile: async (petId: number, additionalMetadata?: string, file?: File, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'petId' is not null or undefined
             assertParamExists('uploadFile', 'petId', petId)
             const localVarPath = `/pet/{petId}/uploadImage`
@@ -3724,12 +3724,12 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
          * 
          * @summary uploads an image (required)
          * @param {number} petId ID of pet to update
-         * @param {any} requiredFile file to upload
+         * @param {File} requiredFile file to upload
          * @param {string} [additionalMetadata] Additional data to pass to server
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        uploadFileWithRequiredFile: async (petId: number, requiredFile: any, additionalMetadata?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        uploadFileWithRequiredFile: async (petId: number, requiredFile: File, additionalMetadata?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'petId' is not null or undefined
             assertParamExists('uploadFileWithRequiredFile', 'petId', petId)
             // verify required parameter 'requiredFile' is not null or undefined
@@ -3870,11 +3870,11 @@ export const PetApiFp = function(configuration?: Configuration) {
          * @summary uploads an image
          * @param {number} petId ID of pet to update
          * @param {string} [additionalMetadata] Additional data to pass to server
-         * @param {any} [file] file to upload
+         * @param {File} [file] file to upload
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async uploadFile(petId: number, additionalMetadata?: string, file?: any, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApiResponse>> {
+        async uploadFile(petId: number, additionalMetadata?: string, file?: File, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApiResponse>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.uploadFile(petId, additionalMetadata, file, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -3882,12 +3882,12 @@ export const PetApiFp = function(configuration?: Configuration) {
          * 
          * @summary uploads an image (required)
          * @param {number} petId ID of pet to update
-         * @param {any} requiredFile file to upload
+         * @param {File} requiredFile file to upload
          * @param {string} [additionalMetadata] Additional data to pass to server
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async uploadFileWithRequiredFile(petId: number, requiredFile: any, additionalMetadata?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApiResponse>> {
+        async uploadFileWithRequiredFile(petId: number, requiredFile: File, additionalMetadata?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApiResponse>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -3980,23 +3980,23 @@ export const PetApiFactory = function (configuration?: Configuration, basePath?:
          * @summary uploads an image
          * @param {number} petId ID of pet to update
          * @param {string} [additionalMetadata] Additional data to pass to server
-         * @param {any} [file] file to upload
+         * @param {File} [file] file to upload
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        uploadFile(petId: number, additionalMetadata?: string, file?: any, options?: any): AxiosPromise<ApiResponse> {
+        uploadFile(petId: number, additionalMetadata?: string, file?: File, options?: any): AxiosPromise<ApiResponse> {
             return localVarFp.uploadFile(petId, additionalMetadata, file, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary uploads an image (required)
          * @param {number} petId ID of pet to update
-         * @param {any} requiredFile file to upload
+         * @param {File} requiredFile file to upload
          * @param {string} [additionalMetadata] Additional data to pass to server
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        uploadFileWithRequiredFile(petId: number, requiredFile: any, additionalMetadata?: string, options?: any): AxiosPromise<ApiResponse> {
+        uploadFileWithRequiredFile(petId: number, requiredFile: File, additionalMetadata?: string, options?: any): AxiosPromise<ApiResponse> {
             return localVarFp.uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata, options).then((request) => request(axios, basePath));
         },
     };
@@ -4102,12 +4102,12 @@ export class PetApi extends BaseAPI {
      * @summary uploads an image
      * @param {number} petId ID of pet to update
      * @param {string} [additionalMetadata] Additional data to pass to server
-     * @param {any} [file] file to upload
+     * @param {File} [file] file to upload
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PetApi
      */
-    public uploadFile(petId: number, additionalMetadata?: string, file?: any, options?: AxiosRequestConfig) {
+    public uploadFile(petId: number, additionalMetadata?: string, file?: File, options?: AxiosRequestConfig) {
         return PetApiFp(this.configuration).uploadFile(petId, additionalMetadata, file, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -4115,13 +4115,13 @@ export class PetApi extends BaseAPI {
      * 
      * @summary uploads an image (required)
      * @param {number} petId ID of pet to update
-     * @param {any} requiredFile file to upload
+     * @param {File} requiredFile file to upload
      * @param {string} [additionalMetadata] Additional data to pass to server
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PetApi
      */
-    public uploadFileWithRequiredFile(petId: number, requiredFile: any, additionalMetadata?: string, options?: AxiosRequestConfig) {
+    public uploadFileWithRequiredFile(petId: number, requiredFile: File, additionalMetadata?: string, options?: AxiosRequestConfig) {
         return PetApiFp(this.configuration).uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata, options).then((request) => request(this.axios, this.basePath));
     }
 }
