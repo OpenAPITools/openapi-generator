@@ -984,6 +984,10 @@ UserApi <- R6::R6Class(
                                                      reason = "Missing required parameter `password`."))
       }
 
+      query_params["username"] <- username
+
+      query_params["password"] <- password
+
       local_var_body <- NULL
       local_var_url_path <- "/user/login"
 
