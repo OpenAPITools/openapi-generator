@@ -101,7 +101,7 @@ _status_code_to_response = {
 class BaseApi(api_client.Api):
 
     def _post_invalid_instance_should_not_raise_error_when_float_division_inf_request_body(
-        self: BaseApi,
+        self: api_client.Api,
         body: typing.Union[SchemaForRequestBodyApplicationJson],
         content_type: str = 'application/json',
         stream: bool = False,

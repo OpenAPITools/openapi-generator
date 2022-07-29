@@ -101,7 +101,7 @@ _status_code_to_response = {
 class BaseApi(api_client.Api):
 
     def _post_maxproperties0_means_the_object_is_empty_request_body(
-        self: BaseApi,
+        self: api_client.Api,
         body: typing.Union[SchemaForRequestBodyApplicationJson],
         content_type: str = 'application/json',
         stream: bool = False,

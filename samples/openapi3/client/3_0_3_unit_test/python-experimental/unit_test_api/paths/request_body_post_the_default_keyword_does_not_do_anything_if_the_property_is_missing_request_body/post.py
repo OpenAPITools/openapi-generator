@@ -101,7 +101,7 @@ _status_code_to_response = {
 class BaseApi(api_client.Api):
 
     def _post_the_default_keyword_does_not_do_anything_if_the_property_is_missing_request_body(
-        self: BaseApi,
+        self: api_client.Api,
         body: typing.Union[SchemaForRequestBodyApplicationJson],
         content_type: str = 'application/json',
         stream: bool = False,

@@ -100,7 +100,7 @@ _all_accept_content_types = (
 class BaseApi(api_client.Api):
 
     def _post_anyof_with_one_empty_schema_response_body_for_content_types(
-        self: BaseApi,
+        self: api_client.Api,
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,

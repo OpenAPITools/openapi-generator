@@ -101,7 +101,7 @@ _status_code_to_response = {
 class BaseApi(api_client.Api):
 
     def _post_additionalproperties_can_exist_by_itself_request_body(
-        self: BaseApi,
+        self: api_client.Api,
         body: typing.Union[SchemaForRequestBodyApplicationJson],
         content_type: str = 'application/json',
         stream: bool = False,
