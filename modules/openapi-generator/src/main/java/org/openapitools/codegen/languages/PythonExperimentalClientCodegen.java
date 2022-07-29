@@ -454,6 +454,19 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         return apiFileFolder() + File.separator + toApiFilename(tag) + suffix;
     }
 
+    private void generateFiles(List<List<Object>> processTemplateToFileInfos) {
+        for (List<Object> processTemplateToFileInfo: processTemplateToFileInfos) {
+            Map<String, Object> templateData = (Map<String, Object>) processTemplateToFileInfo.get(0);
+            String templateName = (String) processTemplateToFileInfo.get(1);
+            String outputFilename = (String) processTemplateToFileInfo.get(2);
+            try {
+                processTemplateToFile(templateData, templateName, outputFilename, true, CodegenConstants.APIS);
+            } catch (IOException e) {
+                LOGGER.error("Error when writing template file {}", e.toString());
+            }
+        }
+    }
+
     /*
     I made this method because endpoint parameters not contain a lot of needed metadata
     It is very verbose to write all of this info into the api template
@@ -463,41 +476,39 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         if (!(Boolean) additionalProperties.get(CodegenConstants.GENERATE_APIS)) {
             return;
         }
+        Paths paths = openAPI.getPaths();
+        if (paths == null) {
+            return;
+        }
+        List<List<Object>> pathsFiles = new ArrayList<>();
+        List<List<Object>> apisFiles = new ArrayList<>();
         OperationMap operations = objs.getOperations();
         List<CodegenOperation> codegenOperations = operations.getOperation();
         HashMap<String, String> pathModuleToPath = new HashMap<>();
-        // path.some_path.post.py (single endpoint definition)
+        // paths.some_path.post.py (single endpoint definition)
         for (CodegenOperation co: codegenOperations) {
             String path = co.path;
             String pathModuleName = co.nickname;
             if (!pathModuleToPath.containsKey(pathModuleName)) {
                 pathModuleToPath.put(pathModuleName, path);
             }
-            Map<String, Object> operationMap = new HashMap<>();
-            operationMap.put("operation", co);
-            operationMap.put("imports", co.imports);
-            operationMap.put("packageName", packageName);
-            String templateName = "endpoint.handlebars";
-            String filename = endpointFilename(Arrays.asList("paths", pathModuleName, co.httpMethod + ".py"));
-            try {
-                processTemplateToFile(operationMap, templateName, filename, true, CodegenConstants.APIS);
-            } catch (IOException e) {
-                LOGGER.error("Error when writing template file {}", e.toString());
-            }
-        }
-        Paths paths = openAPI.getPaths();
-        if (paths == null) {
-            return;
+            Map<String, Object> endpointMap = new HashMap<>();
+            endpointMap.put("operation", co);
+            endpointMap.put("imports", co.imports);
+            endpointMap.put("packageName", packageName);
+            String endpointTemplateName = "endpoint.handlebars";
+            String endpointFilename = endpointFilename(Arrays.asList("paths", pathModuleName, co.httpMethod + ".py"));
+            pathsFiles.add(Arrays.asList(endpointMap, endpointTemplateName, endpointFilename));
         }
         Map<String, String> pathValToVar = new LinkedHashMap<>();
         Map<String, String> pathModuleToApiClassname = new LinkedHashMap<>();
-        Map<String, String> pathVarToApiClassname = new LinkedHashMap<>();
+        Map<String, String> pathEnumToApiClassname = new LinkedHashMap<>();
         for (Map.Entry<String, PathItem> pathsEntry : paths.entrySet()) {
             String path = pathsEntry.getKey();
             String pathEnumVar = toEnumVarName(path, "str");
             pathValToVar.put(path, pathEnumVar);
             String apiClassName = toModelName(path);
-            pathVarToApiClassname.put(pathEnumVar, apiClassName);
+            pathEnumToApiClassname.put(pathEnumVar, apiClassName);
             pathModuleToApiClassname.put(toVarName(path), apiClassName);
         }
         List<Tag> tags = openAPI.getTags();
@@ -506,7 +517,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         // for enum tag definition
         Map<String, String> enumToTag = new LinkedHashMap<>();
         // for tag api definition
-        Map<String, String> enumToApiClassname = new LinkedHashMap<>();
+        Map<String, String> tagEnumToApiClassname = new LinkedHashMap<>();
         for (Tag tag: tags) {
             String tagName = tag.getName();
             String tagModuleName = toApiFilename(tagName);
@@ -514,93 +525,70 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
             tagModuleNameToApiClassname.put(tagModuleName, apiClassname);
             String tagEnum = toEnumVarName(tagName, "str");
             enumToTag.put(tagEnum, tagName);
-            enumToApiClassname.put(tagEnum, apiClassname);
+            tagEnumToApiClassname.put(tagEnum, apiClassname);
         }
+        // Note: __init__apis.handlebars is generated as a supporting file
         // apis.tag_to_api.py
         Map<String, Object> tagToApiMap = new HashMap<>();
         tagToApiMap.put("packageName", packageName);
         tagToApiMap.put("apiClassname", "Api");
         tagToApiMap.put("tagModuleNameToApiClassname", tagModuleNameToApiClassname);
-        tagToApiMap.put("enumToApiClassname", enumToApiClassname);
+        tagToApiMap.put("tagEnumToApiClassname", tagEnumToApiClassname);
         String tagToApiFile = endpointFilename(Arrays.asList("apis", "tag_to_api.py"));
-        try {
-            processTemplateToFile(tagToApiMap, "apis_tag_to_api.handlebars", tagToApiFile, true, CodegenConstants.APIS);
-        } catch (IOException e) {
-            LOGGER.error("Error when writing template file {}", e.toString());
-        }
+        apisFiles.add(Arrays.asList(tagToApiMap, "apis_tag_to_api.handlebars", tagToApiFile));
         // apis.path_to_api.py
         Map<String, Object> allByPathsFileMap = new HashMap<>();
         allByPathsFileMap.put("packageName", packageName);
         allByPathsFileMap.put("apiClassname", "Api");
         allByPathsFileMap.put("pathModuleToApiClassname", pathModuleToApiClassname);
-        allByPathsFileMap.put("pathVarToApiClassname", pathVarToApiClassname);
+        allByPathsFileMap.put("pathEnumToApiClassname", pathEnumToApiClassname);
         String allByPathsFile = endpointFilename(Arrays.asList("apis", "path_to_api.py"));
-        try {
-            processTemplateToFile(allByPathsFileMap, "apis_path_to_api.handlebars", allByPathsFile, true, CodegenConstants.APIS);
-        } catch (IOException e) {
-            LOGGER.error("Error when writing template file {}", e.toString());
-        }
+        apisFiles.add(Arrays.asList(allByPathsFileMap, "apis_path_to_api.handlebars", allByPathsFile));
         // apis.paths.__init__.py
         Map<String, Object> initApiTagsMap = new HashMap<>();
         initApiTagsMap.put("packageName", packageName);
         initApiTagsMap.put("enumToTag", enumToTag);
         String initApiTagsFile = endpointFilename(Arrays.asList("apis", "tags", "__init__.py"));
-        try {
-            processTemplateToFile(initApiTagsMap, "__init__apis_tags.handlebars", initApiTagsFile, true, CodegenConstants.APIS);
-        } catch (IOException e) {
-            LOGGER.error("Error when writing template file {}", e.toString());
-        }
+        apisFiles.add(Arrays.asList(initApiTagsMap, "__init__apis_tags.handlebars", initApiTagsFile));
+
         // paths.__init__.py (contains path str enum)
         Map<String, Object> initOperationMap = new HashMap<>();
         initOperationMap.put("packageName", packageName);
         initOperationMap.put("apiClassname", "Api");
         initOperationMap.put("pathValToVar", pathValToVar);
         String initPathFile = endpointFilename(Arrays.asList("paths", "__init__.py"));
-        try {
-            processTemplateToFile(initOperationMap, "__init__paths_enum.handlebars", initPathFile, true, CodegenConstants.APIS);
-        } catch (IOException e) {
-            LOGGER.error("Error when writing template file {}", e.toString());
-        }
+        pathsFiles.add(Arrays.asList(initOperationMap, "__init__paths_enum.handlebars", initPathFile));
         // apis.paths.__init__.py
         initPathFile = endpointFilename(Arrays.asList("apis", "paths", "__init__.py"));
-        try {
-            processTemplateToFile(initOperationMap, "__init__paths.handlebars", initPathFile, true, CodegenConstants.APIS);
-        } catch (IOException e) {
-            LOGGER.error("Error when writing template file {}", e.toString());
-        }
+        apisFiles.add(Arrays.asList(initOperationMap, "__init__paths.handlebars", initPathFile));
         // paths.some_path.__init__.py
         // apis.paths.some_path.py
         for (Map.Entry<String, String> entry: pathModuleToPath.entrySet()) {
             String pathModule = entry.getKey();
             String path = entry.getValue();
             String pathVar = pathValToVar.get(path);
-            try {
-                String templateName = "__init__paths_x.handlebars";
-                Map<String, Object> operationMap = new HashMap<>();
-                operationMap.put("packageName", packageName);
-                operationMap.put("pathModule", pathModule);
-                operationMap.put("apiClassName", "Api");
-                operationMap.put("pathVar", pathVar);
-                String filename = endpointFilename(Arrays.asList("paths", pathModule, "__init__.py"));
-                processTemplateToFile(operationMap, templateName, filename, true, CodegenConstants.APIS);
-            } catch (IOException e) {
-                LOGGER.error("Error when writing endpoint __init__ file {}", e.toString());
-            }
+            String templateName = "__init__paths_x.handlebars";
+            Map<String, Object> pathApiMap = new HashMap<>();
+            pathApiMap.put("packageName", packageName);
+            pathApiMap.put("pathModule", pathModule);
+            pathApiMap.put("apiClassName", "Api");
+            pathApiMap.put("pathVar", pathVar);
+            String filename = endpointFilename(Arrays.asList("paths", pathModule, "__init__.py"));
+            pathsFiles.add(Arrays.asList(pathApiMap, templateName, filename));
+
             PathItem pi = openAPI.getPaths().get(path);
-            String apiClassName = pathVarToApiClassname.get(pathVar);
-            try {
-                String templateName = "apis_path_module.handlebars";
-                Map<String, Object> operationMap = new HashMap<>();
-                operationMap.put("packageName", packageName);
-                operationMap.put("pathModule", pathModule);
-                operationMap.put("apiClassName", apiClassName);
-                operationMap.put("pathItem", pi);
-                String filename = endpointFilename(Arrays.asList("apis", "paths", pathModule + ".py"));
-                processTemplateToFile(operationMap, templateName, filename, true, CodegenConstants.APIS);
-            } catch (IOException e) {
-                LOGGER.error("Error when writing endpoint __init__ file {}", e.toString());
-            }
+            String apiClassName = pathEnumToApiClassname.get(pathVar);
+            templateName = "apis_path_module.handlebars";
+            Map<String, Object> operationMap = new HashMap<>();
+            operationMap.put("packageName", packageName);
+            operationMap.put("pathModule", pathModule);
+            operationMap.put("apiClassName", apiClassName);
+            operationMap.put("pathItem", pi);
+            filename = endpointFilename(Arrays.asList("apis", "paths", pathModule + ".py"));
+            apisFiles.add(Arrays.asList(operationMap, templateName, filename));
         }
+        generateFiles(pathsFiles);
+        generateFiles(apisFiles);
     }
 
     /*

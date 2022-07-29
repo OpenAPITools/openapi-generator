@@ -8,7 +8,7 @@ from {{packageName}}.apis.tags.{{@key}} import {{this}}
 TagToApi = typing.TypedDict(
     'TagToApi',
     {
-{{#each enumToApiClassname}}
+{{#each tagEnumToApiClassname}}
         TagValues.{{@key}}: {{this}},
 {{/each}}
     }
@@ -16,7 +16,7 @@ TagToApi = typing.TypedDict(
 
 tag_to_api = TagToApi(
     {
-{{#each enumToApiClassname}}
+{{#each tagEnumToApiClassname}}
         TagValues.{{@key}}: {{this}},
 {{/each}}
     }

@@ -8,7 +8,7 @@ from {{packageName}}.apis.paths.{{@key}} import {{this}}
 PathToApi = typing.TypedDict(
     'PathToApi',
     {
-{{#each pathVarToApiClassname}}
+{{#each pathEnumToApiClassname}}
         PathValues.{{@key}}: {{this}},
 {{/each}}
     }
@@ -16,7 +16,7 @@ PathToApi = typing.TypedDict(
 
 path_to_api = PathToApi(
     {
-{{#each pathVarToApiClassname}}
+{{#each pathEnumToApiClassname}}
         PathValues.{{@key}}: {{this}},
 {{/each}}
     }
