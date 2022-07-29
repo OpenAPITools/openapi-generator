@@ -482,6 +482,8 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         }
         List<List<Object>> pathsFiles = new ArrayList<>();
         List<List<Object>> apisFiles = new ArrayList<>();
+        String outputFilename;
+
         OperationMap operations = objs.getOperations();
         List<CodegenOperation> codegenOperations = operations.getOperation();
         HashMap<String, String> pathModuleToPath = new HashMap<>();
@@ -496,9 +498,8 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
             endpointMap.put("operation", co);
             endpointMap.put("imports", co.imports);
             endpointMap.put("packageName", packageName);
-            String endpointTemplateName = "endpoint.handlebars";
-            String endpointFilename = endpointFilename(Arrays.asList("paths", pathModuleName, co.httpMethod + ".py"));
-            pathsFiles.add(Arrays.asList(endpointMap, endpointTemplateName, endpointFilename));
+            outputFilename = endpointFilename(Arrays.asList("paths", pathModuleName, co.httpMethod + ".py"));
+            pathsFiles.add(Arrays.asList(endpointMap, "endpoint.handlebars", outputFilename));
         }
         Map<String, String> pathValToVar = new LinkedHashMap<>();
         Map<String, String> pathModuleToApiClassname = new LinkedHashMap<>();
@@ -534,58 +535,56 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         tagToApiMap.put("apiClassname", "Api");
         tagToApiMap.put("tagModuleNameToApiClassname", tagModuleNameToApiClassname);
         tagToApiMap.put("tagEnumToApiClassname", tagEnumToApiClassname);
-        String tagToApiFile = endpointFilename(Arrays.asList("apis", "tag_to_api.py"));
-        apisFiles.add(Arrays.asList(tagToApiMap, "apis_tag_to_api.handlebars", tagToApiFile));
+        outputFilename = endpointFilename(Arrays.asList("apis", "tag_to_api.py"));
+        apisFiles.add(Arrays.asList(tagToApiMap, "apis_tag_to_api.handlebars", outputFilename));
         // apis.path_to_api.py
         Map<String, Object> allByPathsFileMap = new HashMap<>();
         allByPathsFileMap.put("packageName", packageName);
         allByPathsFileMap.put("apiClassname", "Api");
         allByPathsFileMap.put("pathModuleToApiClassname", pathModuleToApiClassname);
         allByPathsFileMap.put("pathEnumToApiClassname", pathEnumToApiClassname);
-        String allByPathsFile = endpointFilename(Arrays.asList("apis", "path_to_api.py"));
-        apisFiles.add(Arrays.asList(allByPathsFileMap, "apis_path_to_api.handlebars", allByPathsFile));
+        outputFilename = endpointFilename(Arrays.asList("apis", "path_to_api.py"));
+        apisFiles.add(Arrays.asList(allByPathsFileMap, "apis_path_to_api.handlebars", outputFilename));
         // apis.paths.__init__.py
         Map<String, Object> initApiTagsMap = new HashMap<>();
         initApiTagsMap.put("packageName", packageName);
         initApiTagsMap.put("enumToTag", enumToTag);
-        String initApiTagsFile = endpointFilename(Arrays.asList("apis", "tags", "__init__.py"));
-        apisFiles.add(Arrays.asList(initApiTagsMap, "__init__apis_tags.handlebars", initApiTagsFile));
+        outputFilename = endpointFilename(Arrays.asList("apis", "tags", "__init__.py"));
+        apisFiles.add(Arrays.asList(initApiTagsMap, "__init__apis_tags.handlebars", outputFilename));
 
         // paths.__init__.py (contains path str enum)
         Map<String, Object> initOperationMap = new HashMap<>();
         initOperationMap.put("packageName", packageName);
         initOperationMap.put("apiClassname", "Api");
         initOperationMap.put("pathValToVar", pathValToVar);
-        String initPathFile = endpointFilename(Arrays.asList("paths", "__init__.py"));
-        pathsFiles.add(Arrays.asList(initOperationMap, "__init__paths_enum.handlebars", initPathFile));
+        outputFilename = endpointFilename(Arrays.asList("paths", "__init__.py"));
+        pathsFiles.add(Arrays.asList(initOperationMap, "__init__paths_enum.handlebars", outputFilename));
         // apis.paths.__init__.py
-        initPathFile = endpointFilename(Arrays.asList("apis", "paths", "__init__.py"));
-        apisFiles.add(Arrays.asList(initOperationMap, "__init__paths.handlebars", initPathFile));
+        outputFilename = endpointFilename(Arrays.asList("apis", "paths", "__init__.py"));
+        apisFiles.add(Arrays.asList(initOperationMap, "__init__paths.handlebars", outputFilename));
         // paths.some_path.__init__.py
         // apis.paths.some_path.py
         for (Map.Entry<String, String> entry: pathModuleToPath.entrySet()) {
             String pathModule = entry.getKey();
             String path = entry.getValue();
             String pathVar = pathValToVar.get(path);
-            String templateName = "__init__paths_x.handlebars";
             Map<String, Object> pathApiMap = new HashMap<>();
             pathApiMap.put("packageName", packageName);
             pathApiMap.put("pathModule", pathModule);
             pathApiMap.put("apiClassName", "Api");
             pathApiMap.put("pathVar", pathVar);
-            String filename = endpointFilename(Arrays.asList("paths", pathModule, "__init__.py"));
-            pathsFiles.add(Arrays.asList(pathApiMap, templateName, filename));
+            outputFilename = endpointFilename(Arrays.asList("paths", pathModule, "__init__.py"));
+            pathsFiles.add(Arrays.asList(pathApiMap, "__init__paths_x.handlebars", outputFilename));
 
             PathItem pi = openAPI.getPaths().get(path);
             String apiClassName = pathEnumToApiClassname.get(pathVar);
-            templateName = "apis_path_module.handlebars";
             Map<String, Object> operationMap = new HashMap<>();
             operationMap.put("packageName", packageName);
             operationMap.put("pathModule", pathModule);
             operationMap.put("apiClassName", apiClassName);
             operationMap.put("pathItem", pi);
-            filename = endpointFilename(Arrays.asList("apis", "paths", pathModule + ".py"));
-            apisFiles.add(Arrays.asList(operationMap, templateName, filename));
+            outputFilename = endpointFilename(Arrays.asList("apis", "paths", pathModule + ".py"));
+            apisFiles.add(Arrays.asList(operationMap, "apis_path_module.handlebars", outputFilename));
         }
         generateFiles(pathsFiles);
         generateFiles(apisFiles);
