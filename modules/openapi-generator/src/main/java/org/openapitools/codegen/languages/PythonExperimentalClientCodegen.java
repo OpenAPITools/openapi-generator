@@ -516,6 +516,30 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
             enumToTag.put(tagEnum, tagName);
             enumToApiClassname.put(tagEnum, apiClassname);
         }
+        // apis.tag_to_api.py
+        Map<String, Object> tagToApiMap = new HashMap<>();
+        tagToApiMap.put("packageName", packageName);
+        tagToApiMap.put("apiClassname", "Api");
+        tagToApiMap.put("tagModuleNameToApiClassname", tagModuleNameToApiClassname);
+        tagToApiMap.put("enumToApiClassname", enumToApiClassname);
+        String tagToApiFile = endpointFilename(Arrays.asList("apis", "tag_to_api.py"));
+        try {
+            processTemplateToFile(tagToApiMap, "apis_tag_to_api.handlebars", tagToApiFile, true, CodegenConstants.APIS);
+        } catch (IOException e) {
+            LOGGER.error("Error when writing template file {}", e.toString());
+        }
+        // apis.path_to_api.py
+        Map<String, Object> allByPathsFileMap = new HashMap<>();
+        allByPathsFileMap.put("packageName", packageName);
+        allByPathsFileMap.put("apiClassname", "Api");
+        allByPathsFileMap.put("pathModuleToApiClassname", pathModuleToApiClassname);
+        allByPathsFileMap.put("pathVarToApiClassname", pathVarToApiClassname);
+        String allByPathsFile = endpointFilename(Arrays.asList("apis", "path_to_api.py"));
+        try {
+            processTemplateToFile(allByPathsFileMap, "apis_path_to_api.handlebars", allByPathsFile, true, CodegenConstants.APIS);
+        } catch (IOException e) {
+            LOGGER.error("Error when writing template file {}", e.toString());
+        }
         // apis.paths.__init__.py
         Map<String, Object> initApiTagsMap = new HashMap<>();
         initApiTagsMap.put("packageName", packageName);
@@ -544,24 +568,12 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         } catch (IOException e) {
             LOGGER.error("Error when writing template file {}", e.toString());
         }
-        // apis.paths.all_by_paths.py
-        Map<String, Object> allByPathsFileMap = new HashMap<>();
-        allByPathsFileMap.put("packageName", packageName);
-        allByPathsFileMap.put("apiClassname", "Api");
-        allByPathsFileMap.put("pathModuleToApiClassname", pathModuleToApiClassname);
-        allByPathsFileMap.put("pathVarToApiClassname", pathVarToApiClassname);
-        String allByPathsFile = endpointFilename(Arrays.asList("apis", "path_to_api.py"));
-        try {
-            processTemplateToFile(allByPathsFileMap, "apis_path_to_api.handlebars", allByPathsFile, true, CodegenConstants.APIS);
-        } catch (IOException e) {
-            LOGGER.error("Error when writing template file {}", e.toString());
-        }
         // paths.some_path.__init__.py
         // apis.paths.some_path.py
         for (Map.Entry<String, String> entry: pathModuleToPath.entrySet()) {
             String pathModule = entry.getKey();
             String path = entry.getValue();
-            String pathVar = (String) pathValToVar.get(path);
+            String pathVar = pathValToVar.get(path);
             try {
                 String templateName = "__init__paths_x.handlebars";
                 Map<String, Object> operationMap = new HashMap<>();
@@ -575,7 +587,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
                 LOGGER.error("Error when writing endpoint __init__ file {}", e.toString());
             }
             PathItem pi = openAPI.getPaths().get(path);
-            String apiClassName = (String) pathVarToApiClassname.get(pathVar);
+            String apiClassName = pathVarToApiClassname.get(pathVar);
             try {
                 String templateName = "apis_path_module.handlebars";
                 Map<String, Object> operationMap = new HashMap<>();
