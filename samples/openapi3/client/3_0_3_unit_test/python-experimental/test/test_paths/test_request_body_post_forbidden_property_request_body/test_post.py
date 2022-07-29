@@ -15,7 +15,7 @@ import unit_test_api
 from unit_test_api.paths.request_body_post_forbidden_property_request_body import post  # noqa: E501
 from unit_test_api import configuration, schemas, api_client
 
-from . import ApiTestMixin
+from .. import ApiTestMixin
 
 
 class TestRequestBodyPostForbiddenPropertyRequestBody(ApiTestMixin, unittest.TestCase):
@@ -81,7 +81,7 @@ class TestRequestBodyPostForbiddenPropertyRequestBody(ApiTestMixin, unittest.Tes
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/requestBody/postForbiddenPropertyRequestBody',
-                method='post',
+                method='post'.upper(),
                 body=self.json_bytes(payload),
                 content_type=content_type,
             )

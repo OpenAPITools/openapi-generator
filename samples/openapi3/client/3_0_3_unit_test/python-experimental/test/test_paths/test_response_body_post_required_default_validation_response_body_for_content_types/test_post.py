@@ -15,7 +15,7 @@ import unit_test_api
 from unit_test_api.paths.response_body_post_required_default_validation_response_body_for_content_types import post  # noqa: E501
 from unit_test_api import configuration, schemas, api_client
 
-from . import ApiTestMixin
+from .. import ApiTestMixin
 
 
 class TestResponseBodyPostRequiredDefaultValidationResponseBodyForContentTypes(ApiTestMixin, unittest.TestCase):
@@ -54,7 +54,7 @@ class TestResponseBodyPostRequiredDefaultValidationResponseBodyForContentTypes(A
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postRequiredDefaultValidationResponseBodyForContentTypes',
-                method='post',
+                method='post'.upper(),
                 accept_content_type=accept_content_type,
             )
 

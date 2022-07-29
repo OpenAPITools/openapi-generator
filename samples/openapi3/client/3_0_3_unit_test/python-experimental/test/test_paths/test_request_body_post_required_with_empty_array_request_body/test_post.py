@@ -15,7 +15,7 @@ import unit_test_api
 from unit_test_api.paths.request_body_post_required_with_empty_array_request_body import post  # noqa: E501
 from unit_test_api import configuration, schemas, api_client
 
-from . import ApiTestMixin
+from .. import ApiTestMixin
 
 
 class TestRequestBodyPostRequiredWithEmptyArrayRequestBody(ApiTestMixin, unittest.TestCase):
@@ -59,7 +59,7 @@ class TestRequestBodyPostRequiredWithEmptyArrayRequestBody(ApiTestMixin, unittes
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/requestBody/postRequiredWithEmptyArrayRequestBody',
-                method='post',
+                method='post'.upper(),
                 body=self.json_bytes(payload),
                 content_type=content_type,
             )

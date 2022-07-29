@@ -381,7 +381,8 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         supportingFiles.add(new SupportingFile("exceptions." + templateExtension, packagePath(), "exceptions.py"));
 
         if (Boolean.FALSE.equals(excludeTests)) {
-            supportingFiles.add(new SupportingFile("__init__test." + templateExtension, testFolder, "__init__.py"));
+            supportingFiles.add(new SupportingFile("__init__." + templateExtension, testFolder, "__init__.py"));
+            supportingFiles.add(new SupportingFile("__init__." + templateExtension, testFolder + File.separator + "test_models", "__init__.py"));
         }
 
         supportingFiles.add(new SupportingFile("api_client." + templateExtension, packagePath(), "api_client.py"));
@@ -512,7 +513,12 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
             endpointTestMap.put("packageName", packageName);
             outputFilename = filenameFromRoot(Arrays.asList("test", "test_paths", "test_" + pathModuleName, "test_" + co.httpMethod + ".py"));
             testFiles.add(Arrays.asList(endpointTestMap, "api_test.handlebars", outputFilename));
+            outputFilename = filenameFromRoot(Arrays.asList("test", "test_paths", "test_" + pathModuleName, "__init__.py"));
+            testFiles.add(Arrays.asList(new HashMap<>(), "__init__.handlebars", outputFilename));
         }
+        outputFilename = filenameFromRoot(Arrays.asList("test", "test_paths", "__init__.py"));
+        testFiles.add(Arrays.asList(new HashMap<>(), "__init__test_paths.handlebars", outputFilename));
+
         Map<String, String> pathValToVar = new LinkedHashMap<>();
         Map<String, String> pathModuleToApiClassname = new LinkedHashMap<>();
         Map<String, String> pathEnumToApiClassname = new LinkedHashMap<>();

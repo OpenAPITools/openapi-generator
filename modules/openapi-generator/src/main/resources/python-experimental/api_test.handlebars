@@ -11,7 +11,7 @@ import {{packageName}}
 from {{packageName}}.paths.{{operation.nickname}} import {{operation.httpMethod}}  # noqa: E501
 from {{packageName}} import configuration, schemas, api_client
 
-from . import ApiTestMixin
+from .. import ApiTestMixin
 
 
 {{#with operation}}
@@ -74,7 +74,7 @@ class Test{{operationIdSnakeCase}}(ApiTestMixin, unittest.TestCase):
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '{{{path}}}',
-                method='{{httpMethod}}',
+                method='{{httpMethod}}'.upper(),
                 content_type=None,
                 accept_content_type=accept_content_type,
             )

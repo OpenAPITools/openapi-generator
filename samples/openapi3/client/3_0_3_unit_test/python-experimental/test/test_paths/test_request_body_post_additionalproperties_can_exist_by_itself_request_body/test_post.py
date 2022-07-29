@@ -15,7 +15,7 @@ import unit_test_api
 from unit_test_api.paths.request_body_post_additionalproperties_can_exist_by_itself_request_body import post  # noqa: E501
 from unit_test_api import configuration, schemas, api_client
 
-from . import ApiTestMixin
+from .. import ApiTestMixin
 
 
 class TestRequestBodyPostAdditionalpropertiesCanExistByItselfRequestBody(ApiTestMixin, unittest.TestCase):
@@ -77,7 +77,7 @@ class TestRequestBodyPostAdditionalpropertiesCanExistByItselfRequestBody(ApiTest
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/requestBody/postAdditionalpropertiesCanExistByItselfRequestBody',
-                method='post',
+                method='post'.upper(),
                 body=self.json_bytes(payload),
                 content_type=content_type,
             )

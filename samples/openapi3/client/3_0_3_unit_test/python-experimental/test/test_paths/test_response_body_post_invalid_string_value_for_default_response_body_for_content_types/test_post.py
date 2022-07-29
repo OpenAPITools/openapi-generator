@@ -15,7 +15,7 @@ import unit_test_api
 from unit_test_api.paths.response_body_post_invalid_string_value_for_default_response_body_for_content_types import post  # noqa: E501
 from unit_test_api import configuration, schemas, api_client
 
-from . import ApiTestMixin
+from .. import ApiTestMixin
 
 
 class TestResponseBodyPostInvalidStringValueForDefaultResponseBodyForContentTypes(ApiTestMixin, unittest.TestCase):
@@ -56,7 +56,7 @@ class TestResponseBodyPostInvalidStringValueForDefaultResponseBodyForContentType
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postInvalidStringValueForDefaultResponseBodyForContentTypes',
-                method='post',
+                method='post'.upper(),
                 accept_content_type=accept_content_type,
             )
 
@@ -85,7 +85,7 @@ class TestResponseBodyPostInvalidStringValueForDefaultResponseBodyForContentType
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postInvalidStringValueForDefaultResponseBodyForContentTypes',
-                method='post',
+                method='post'.upper(),
                 accept_content_type=accept_content_type,
             )
 

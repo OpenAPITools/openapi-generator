@@ -15,7 +15,7 @@ import unit_test_api
 from unit_test_api.paths.response_body_post_array_type_matches_arrays_response_body_for_content_types import post  # noqa: E501
 from unit_test_api import configuration, schemas, api_client
 
-from . import ApiTestMixin
+from .. import ApiTestMixin
 
 
 class TestResponseBodyPostArrayTypeMatchesArraysResponseBodyForContentTypes(ApiTestMixin, unittest.TestCase):
@@ -54,7 +54,7 @@ class TestResponseBodyPostArrayTypeMatchesArraysResponseBodyForContentTypes(ApiT
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postArrayTypeMatchesArraysResponseBodyForContentTypes',
-                method='post',
+                method='post'.upper(),
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -76,7 +76,7 @@ class TestResponseBodyPostArrayTypeMatchesArraysResponseBodyForContentTypes(ApiT
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postArrayTypeMatchesArraysResponseBodyForContentTypes',
-                method='post',
+                method='post'.upper(),
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -98,7 +98,7 @@ class TestResponseBodyPostArrayTypeMatchesArraysResponseBodyForContentTypes(ApiT
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postArrayTypeMatchesArraysResponseBodyForContentTypes',
-                method='post',
+                method='post'.upper(),
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -121,7 +121,7 @@ class TestResponseBodyPostArrayTypeMatchesArraysResponseBodyForContentTypes(ApiT
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postArrayTypeMatchesArraysResponseBodyForContentTypes',
-                method='post',
+                method='post'.upper(),
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -143,7 +143,7 @@ class TestResponseBodyPostArrayTypeMatchesArraysResponseBodyForContentTypes(ApiT
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postArrayTypeMatchesArraysResponseBodyForContentTypes',
-                method='post',
+                method='post'.upper(),
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -165,7 +165,7 @@ class TestResponseBodyPostArrayTypeMatchesArraysResponseBodyForContentTypes(ApiT
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postArrayTypeMatchesArraysResponseBodyForContentTypes',
-                method='post',
+                method='post'.upper(),
                 accept_content_type=accept_content_type,
             )
 
@@ -194,7 +194,7 @@ class TestResponseBodyPostArrayTypeMatchesArraysResponseBodyForContentTypes(ApiT
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postArrayTypeMatchesArraysResponseBodyForContentTypes',
-                method='post',
+                method='post'.upper(),
                 content_type=None,
                 accept_content_type=accept_content_type,
             )

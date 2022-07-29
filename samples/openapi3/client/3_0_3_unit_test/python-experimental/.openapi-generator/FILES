@@ -95,6 +95,7 @@ setup.cfg
 setup.py
 test-requirements.txt
 test/__init__.py
+test/test_models/__init__.py
 test/test_models/test_additionalproperties_allows_a_schema_which_should_validate.py
 test/test_models/test_additionalproperties_are_allowed_by_default.py
 test/test_models/test_additionalproperties_can_exist_by_itself.py

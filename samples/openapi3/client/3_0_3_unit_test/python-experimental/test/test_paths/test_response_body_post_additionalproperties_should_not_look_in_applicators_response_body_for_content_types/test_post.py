@@ -15,7 +15,7 @@ import unit_test_api
 from unit_test_api.paths.response_body_post_additionalproperties_should_not_look_in_applicators_response_body_for_content_types import post  # noqa: E501
 from unit_test_api import configuration, schemas, api_client
 
-from . import ApiTestMixin
+from .. import ApiTestMixin
 
 
 class TestResponseBodyPostAdditionalpropertiesShouldNotLookInApplicatorsResponseBodyForContentTypes(ApiTestMixin, unittest.TestCase):
@@ -59,7 +59,7 @@ class TestResponseBodyPostAdditionalpropertiesShouldNotLookInApplicatorsResponse
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postAdditionalpropertiesShouldNotLookInApplicatorsResponseBodyForContentTypes',
-                method='post',
+                method='post'.upper(),
                 content_type=None,
                 accept_content_type=accept_content_type,
             )
@@ -85,7 +85,7 @@ class TestResponseBodyPostAdditionalpropertiesShouldNotLookInApplicatorsResponse
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postAdditionalpropertiesShouldNotLookInApplicatorsResponseBodyForContentTypes',
-                method='post',
+                method='post'.upper(),
                 accept_content_type=accept_content_type,
             )
 

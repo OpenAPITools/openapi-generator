@@ -15,7 +15,7 @@ import unit_test_api
 from unit_test_api.paths.response_body_post_ipv6_format_response_body_for_content_types import post  # noqa: E501
 from unit_test_api import configuration, schemas, api_client
 
-from . import ApiTestMixin
+from .. import ApiTestMixin
 
 
 class TestResponseBodyPostIpv6FormatResponseBodyForContentTypes(ApiTestMixin, unittest.TestCase):
@@ -54,7 +54,7 @@ class TestResponseBodyPostIpv6FormatResponseBodyForContentTypes(ApiTestMixin, un
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postIpv6FormatResponseBodyForContentTypes',
-                method='post',
+                method='post'.upper(),
                 accept_content_type=accept_content_type,
             )
 
@@ -82,7 +82,7 @@ class TestResponseBodyPostIpv6FormatResponseBodyForContentTypes(ApiTestMixin, un
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postIpv6FormatResponseBodyForContentTypes',
-                method='post',
+                method='post'.upper(),
                 accept_content_type=accept_content_type,
             )
 
@@ -110,7 +110,7 @@ class TestResponseBodyPostIpv6FormatResponseBodyForContentTypes(ApiTestMixin, un
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postIpv6FormatResponseBodyForContentTypes',
-                method='post',
+                method='post'.upper(),
                 accept_content_type=accept_content_type,
             )
 
@@ -138,7 +138,7 @@ class TestResponseBodyPostIpv6FormatResponseBodyForContentTypes(ApiTestMixin, un
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postIpv6FormatResponseBodyForContentTypes',
-                method='post',
+                method='post'.upper(),
                 accept_content_type=accept_content_type,
             )
 
@@ -167,7 +167,7 @@ class TestResponseBodyPostIpv6FormatResponseBodyForContentTypes(ApiTestMixin, un
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postIpv6FormatResponseBodyForContentTypes',
-                method='post',
+                method='post'.upper(),
                 accept_content_type=accept_content_type,
             )
 
@@ -195,7 +195,7 @@ class TestResponseBodyPostIpv6FormatResponseBodyForContentTypes(ApiTestMixin, un
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postIpv6FormatResponseBodyForContentTypes',
-                method='post',
+                method='post'.upper(),
                 accept_content_type=accept_content_type,
             )
 

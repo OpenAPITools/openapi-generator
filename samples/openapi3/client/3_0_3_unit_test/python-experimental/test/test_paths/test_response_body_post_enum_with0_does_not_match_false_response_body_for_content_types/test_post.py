@@ -15,7 +15,7 @@ import unit_test_api
 from unit_test_api.paths.response_body_post_enum_with0_does_not_match_false_response_body_for_content_types import post  # noqa: E501
 from unit_test_api import configuration, schemas, api_client
 
-from . import ApiTestMixin
+from .. import ApiTestMixin
 
 
 class TestResponseBodyPostEnumWith0DoesNotMatchFalseResponseBodyForContentTypes(ApiTestMixin, unittest.TestCase):
@@ -53,7 +53,7 @@ class TestResponseBodyPostEnumWith0DoesNotMatchFalseResponseBodyForContentTypes(
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postEnumWith0DoesNotMatchFalseResponseBodyForContentTypes',
-                method='post',
+                method='post'.upper(),
                 accept_content_type=accept_content_type,
             )
 
@@ -81,7 +81,7 @@ class TestResponseBodyPostEnumWith0DoesNotMatchFalseResponseBodyForContentTypes(
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postEnumWith0DoesNotMatchFalseResponseBodyForContentTypes',
-                method='post',
+                method='post'.upper(),
                 accept_content_type=accept_content_type,
             )
 
@@ -110,7 +110,7 @@ class TestResponseBodyPostEnumWith0DoesNotMatchFalseResponseBodyForContentTypes(
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/responseBody/postEnumWith0DoesNotMatchFalseResponseBodyForContentTypes',
-                method='post',
+                method='post'.upper(),
                 content_type=None,
                 accept_content_type=accept_content_type,
             )

@@ -15,7 +15,7 @@ import unit_test_api
 from unit_test_api.paths.request_body_post_enum_with_true_does_not_match1_request_body import post  # noqa: E501
 from unit_test_api import configuration, schemas, api_client
 
-from . import ApiTestMixin
+from .. import ApiTestMixin
 
 
 class TestRequestBodyPostEnumWithTrueDoesNotMatch1RequestBody(ApiTestMixin, unittest.TestCase):
@@ -71,7 +71,7 @@ class TestRequestBodyPostEnumWithTrueDoesNotMatch1RequestBody(ApiTestMixin, unit
             self.assert_pool_manager_request_called_with(
                 mock_request,
                 self._configuration.host + '/requestBody/postEnumWithTrueDoesNotMatch1RequestBody',
-                method='post',
+                method='post'.upper(),
                 body=self.json_bytes(payload),
                 content_type=content_type,
             )
