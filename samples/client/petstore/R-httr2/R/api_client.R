@@ -191,57 +191,57 @@ ApiClient  <- R6::R6Class(
       ## add headers and default headers
       if (!is.null(header_params) && length(header_params) != 0) {
         for (http_header in names(header_params)) {
-          req %>% req_headers(http_header = header_params[http_header])
+          req <- req %>% req_headers(http_header = header_params[http_header])
         }
       }
       if (!is.null(self$default_headers) && length(self$default_headers) != 0) {
         for (http_header in names(header_params)) {
-          req %>% req_headers(http_header = self$default_headers[http_header])
+          req <- req %>% req_headers(http_header = self$default_headers[http_header])
         }
       }
 
       # set HTTP accept header
       accept = self$select_header(accepts)
       if (!is.null(accept)) {
-        req %>% req_headers("Accept" = accept)
+        req <- req %>% req_headers("Accept" = accept)
       }
 
       # set HTTP content-type header
       content_type = self$select_header(content_types)
       if (!is.null(content_type)) {
-        req %>% req_headers("Content-Type" = content_type)
+        req <- req %>% req_headers("Content-Type" = content_type)
       }
 
       ## add query parameters
       if (length(query_params) != 0) {
         for (query_param in names(query_params)) {
-          req %>% req_url_query(query_param = query_params[query_param])
+          req <- req %>% req_url_query(query_param = query_params[query_param])
         }
       }
 
       # add body parameters
       if (!is.null(body)) {
-        req %>% req_body_raw(body)
+        req <- req %>% req_body_raw(body)
       }
 
       # set timeout
       if (!is.null(self$timeout)) {
-        req %>% req_timeout(self$timeout)
+        req <- req %>% req_timeout(self$timeout)
       }
 
       # set retry
       if (!is.null(self$max_retry_attempts)) {
-        req %>% retry_max_tries(self$timeout)
-        req %>% retry_max_seconds(self$timeout)
+        req <- req %>% retry_max_tries(self$timeout)
+        req <- req %>% retry_max_seconds(self$timeout)
       }
 
       # set user agent
       if (!is.null(self$user_agent)) {
-        req %>% req_user_agent(self$user_agent)
+        req <- req %>% req_user_agent(self$user_agent)
       }
 
       # set HTTP verb
-      req %>% req_method(method)
+      req <- req %>% req_method(method)
 
       # stream data
       #if (typeof(stream_callback) == "closure") {
