@@ -15,7 +15,7 @@ import petstore_api
 from petstore_api.paths.user_create_with_list import post  # noqa: E501
 from petstore_api import configuration, schemas, api_client
 
-from . import ApiTestMixin
+from .. import ApiTestMixin
 
 
 class TestUserCreateWithList(ApiTestMixin, unittest.TestCase):

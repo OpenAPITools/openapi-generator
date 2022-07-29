@@ -15,7 +15,7 @@ import petstore_api
 from petstore_api.paths.fake_inline_additional_properties import post  # noqa: E501
 from petstore_api import configuration, schemas, api_client
 
-from . import ApiTestMixin
+from .. import ApiTestMixin
 
 
 class TestFakeInlineAdditionalProperties(ApiTestMixin, unittest.TestCase):

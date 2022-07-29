@@ -15,7 +15,7 @@ import petstore_api
 from petstore_api.paths.fake_upload_file import post  # noqa: E501
 from petstore_api import configuration, schemas, api_client
 
-from . import ApiTestMixin
+from .. import ApiTestMixin
 
 
 class TestFakeUploadFile(ApiTestMixin, unittest.TestCase):

@@ -177,7 +177,7 @@ class BaseApi(api_client.Api):
             class instances
         """
         self._verify_typed_dict_inputs(RequestPathParams, path_params)
-        used_path = str(path)
+        used_path = path.value
 
         _path_params = {}
         for parameter in (
@@ -200,7 +200,7 @@ class BaseApi(api_client.Api):
 
         response = self.api_client.call_api(
             resource_path=used_path,
-            method='get',
+            method='get'.upper(),
             headers=_headers,
             auth_settings=_auth,
             stream=stream,

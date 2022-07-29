@@ -15,7 +15,7 @@ import petstore_api
 from petstore_api.paths.fake_obj_in_query import get  # noqa: E501
 from petstore_api import configuration, schemas, api_client
 
-from . import ApiTestMixin
+from .. import ApiTestMixin
 
 
 class TestFakeObjInQuery(ApiTestMixin, unittest.TestCase):

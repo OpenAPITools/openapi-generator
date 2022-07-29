@@ -15,7 +15,7 @@ import petstore_api
 from petstore_api.paths.pet_find_by_status import get  # noqa: E501
 from petstore_api import configuration, schemas, api_client
 
-from . import ApiTestMixin
+from .. import ApiTestMixin
 
 
 class TestPetFindByStatus(ApiTestMixin, unittest.TestCase):

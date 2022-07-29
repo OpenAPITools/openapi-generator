@@ -15,7 +15,7 @@ import petstore_api
 from petstore_api.paths.fake_parameter_collisions_1_a_b_ab_self_a_b_ import post  # noqa: E501
 from petstore_api import configuration, schemas, api_client
 
-from . import ApiTestMixin
+from .. import ApiTestMixin
 
 
 class TestFakeParameterCollisions1ABAbSelfAB(ApiTestMixin, unittest.TestCase):

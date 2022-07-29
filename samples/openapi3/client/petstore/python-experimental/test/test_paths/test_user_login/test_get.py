@@ -15,7 +15,7 @@ import petstore_api
 from petstore_api.paths.user_login import get  # noqa: E501
 from petstore_api import configuration, schemas, api_client
 
-from . import ApiTestMixin
+from .. import ApiTestMixin
 
 
 class TestUserLogin(ApiTestMixin, unittest.TestCase):

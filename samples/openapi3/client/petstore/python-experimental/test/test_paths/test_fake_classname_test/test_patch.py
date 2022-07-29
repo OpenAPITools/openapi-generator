@@ -15,7 +15,7 @@ import petstore_api
 from petstore_api.paths.fake_classname_test import patch  # noqa: E501
 from petstore_api import configuration, schemas, api_client
 
-from . import ApiTestMixin
+from .. import ApiTestMixin
 
 
 class TestFakeClassnameTest(ApiTestMixin, unittest.TestCase):

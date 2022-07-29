@@ -193,7 +193,7 @@ class BaseApi(api_client.Api):
         """
         self._verify_typed_dict_inputs(RequestQueryParams, query_params)
         self._verify_typed_dict_inputs(RequestHeaderParams, header_params)
-        used_path = str(path)
+        used_path = path.value
 
         prefix_separator_iterator = None
         for parameter in (
@@ -225,7 +225,7 @@ class BaseApi(api_client.Api):
 
         response = self.api_client.call_api(
             resource_path=used_path,
-            method='delete',
+            method='delete'.upper(),
             headers=_headers,
             auth_settings=_auth,
             stream=stream,

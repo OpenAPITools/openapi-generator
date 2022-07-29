@@ -15,7 +15,7 @@ import petstore_api
 from petstore_api.paths.fake_case_sensitive_params import put  # noqa: E501
 from petstore_api import configuration, schemas, api_client
 
-from . import ApiTestMixin
+from .. import ApiTestMixin
 
 
 class TestFakeCaseSensitiveParams(ApiTestMixin, unittest.TestCase):

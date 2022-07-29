@@ -15,7 +15,7 @@ import petstore_api
 from petstore_api.paths.fake_additional_properties_with_array_of_enums import get  # noqa: E501
 from petstore_api import configuration, schemas, api_client
 
-from . import ApiTestMixin
+from .. import ApiTestMixin
 
 
 class TestFakeAdditionalPropertiesWithArrayOfEnums(ApiTestMixin, unittest.TestCase):

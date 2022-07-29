@@ -429,7 +429,7 @@ class BaseApi(api_client.Api):
         """
         self._verify_typed_dict_inputs(RequestQueryParams, query_params)
         self._verify_typed_dict_inputs(RequestHeaderParams, header_params)
-        used_path = str(path)
+        used_path = path.value
 
         prefix_separator_iterator = None
         for parameter in (
@@ -470,7 +470,7 @@ class BaseApi(api_client.Api):
                 _body = serialized_data['body']
         response = self.api_client.call_api(
             resource_path=used_path,
-            method='get',
+            method='get'.upper(),
             headers=_headers,
             fields=_fields,
             body=_body,

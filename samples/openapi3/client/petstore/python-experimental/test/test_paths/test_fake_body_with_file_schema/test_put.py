@@ -15,7 +15,7 @@ import petstore_api
 from petstore_api.paths.fake_body_with_file_schema import put  # noqa: E501
 from petstore_api import configuration, schemas, api_client
 
-from . import ApiTestMixin
+from .. import ApiTestMixin
 
 
 class TestFakeBodyWithFileSchema(ApiTestMixin, unittest.TestCase):

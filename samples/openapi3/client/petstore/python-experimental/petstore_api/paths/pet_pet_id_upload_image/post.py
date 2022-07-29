@@ -182,7 +182,7 @@ class BaseApi(api_client.Api):
             class instances
         """
         self._verify_typed_dict_inputs(RequestPathParams, path_params)
-        used_path = str(path)
+        used_path = path.value
 
         _path_params = {}
         for parameter in (
@@ -214,7 +214,7 @@ class BaseApi(api_client.Api):
                 _body = serialized_data['body']
         response = self.api_client.call_api(
             resource_path=used_path,
-            method='post',
+            method='post'.upper(),
             headers=_headers,
             fields=_fields,
             body=_body,

@@ -15,7 +15,7 @@ import petstore_api
 from petstore_api.paths.store_order_order_id import delete  # noqa: E501
 from petstore_api import configuration, schemas, api_client
 
-from . import ApiTestMixin
+from .. import ApiTestMixin
 
 
 class TestStoreOrderOrderId(ApiTestMixin, unittest.TestCase):

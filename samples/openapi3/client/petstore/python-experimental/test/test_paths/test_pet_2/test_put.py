@@ -15,7 +15,7 @@ import petstore_api
 from petstore_api.paths.pet_2 import put  # noqa: E501
 from petstore_api import configuration, schemas, api_client
 
-from . import ApiTestMixin
+from .. import ApiTestMixin
 
 
 class TestPet(ApiTestMixin, unittest.TestCase):
