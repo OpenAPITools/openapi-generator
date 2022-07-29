@@ -26,7 +26,7 @@ Add a new pet to the store
 * OAuth Authentication (petstore_auth):
 ```python
 import petstore_api
-from petstore_api.api import pet_api
+from petstore_api.apis import pet_api
 from petstore_api.model.pet import Pet
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
@@ -203,7 +203,7 @@ Deletes a pet
 * OAuth Authentication (petstore_auth):
 ```python
 import petstore_api
-from petstore_api.api import pet_api
+from petstore_api.apis import pet_api
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -328,7 +328,7 @@ Multiple status values can be provided with comma separated strings
 * OAuth Authentication (petstore_auth):
 ```python
 import petstore_api
-from petstore_api.api import pet_api
+from petstore_api.apis import pet_api
 from petstore_api.model.pet import Pet
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
@@ -506,7 +506,7 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 * OAuth Authentication (petstore_auth):
 ```python
 import petstore_api
-from petstore_api.api import pet_api
+from petstore_api.apis import pet_api
 from petstore_api.model.pet import Pet
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
@@ -684,7 +684,7 @@ Returns a single pet
 * Api Key Authentication (api_key):
 ```python
 import petstore_api
-from petstore_api.api import pet_api
+from petstore_api.apis import pet_api
 from petstore_api.model.pet import Pet
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
@@ -805,7 +805,7 @@ Update an existing pet
 * OAuth Authentication (petstore_auth):
 ```python
 import petstore_api
-from petstore_api.api import pet_api
+from petstore_api.apis import pet_api
 from petstore_api.model.pet import Pet
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
@@ -990,7 +990,7 @@ Updates a pet in the store with form data
 * OAuth Authentication (petstore_auth):
 ```python
 import petstore_api
-from petstore_api.api import pet_api
+from petstore_api.apis import pet_api
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -1110,7 +1110,7 @@ uploads an image (required)
 * OAuth Authentication (petstore_auth):
 ```python
 import petstore_api
-from petstore_api.api import pet_api
+from petstore_api.apis import pet_api
 from petstore_api.model.api_response import ApiResponse
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
@@ -1240,7 +1240,7 @@ uploads an image
 * OAuth Authentication (petstore_auth):
 ```python
 import petstore_api
-from petstore_api.api import pet_api
+from petstore_api.apis import pet_api
 from petstore_api.model.api_response import ApiResponse
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2

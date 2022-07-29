@@ -84,7 +84,7 @@ class DanishPig(
     class className(
         _SchemaEnumMaker(
             enum_value_to_name={
-                "DanishPig": "DANISHPIG",
+                "DanishPig": "DANISH_PIG",
             }
         ),
         StrSchema
@@ -92,7 +92,7 @@ class DanishPig(
         
         @classmethod
         @property
-        def DANISHPIG(cls):
+        def DANISH_PIG(cls):
             return cls("DanishPig")
 
 
