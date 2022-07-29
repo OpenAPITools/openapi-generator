@@ -586,6 +586,12 @@ PetApi <- R6::R6Class(
 
       local_var_url_path <- "/pet"
       # HTTP basic auth
+      if (is.null(self$api_client$username) || is.null(self$api_client$password)) {
+        rlang::abort(message = "username, password in `api_client` must be set for authentication in the endpoint `add_pet`.",
+                     .subclass = "ApiException",
+                     ApiException = ApiException$new(status = 0,
+                                                     reason = "username, password in `api_client` must be set for authentication in the endpoint `add_pet`."))
+      }
       header_params["Authorization"] <- paste("Basic", base64enc::base64encode(charToRaw(paste(self$api_client$username, self$api_client$password, sep = ":"))))
 
       # The Accept request HTTP header
@@ -689,6 +695,8 @@ PetApi <- R6::R6Class(
                                                      reason = "Missing required parameter `pet_id`."))
       }
 
+      header_params["api_key"] <- `api_key`
+
       local_var_body <- NULL
       local_var_url_path <- "/pet/{petId}?streaming"
       if (!missing(`pet_id`)) {
@@ -785,6 +793,8 @@ PetApi <- R6::R6Class(
                      ApiException = ApiException$new(status = 0,
                                                      reason = "Missing required parameter `status`."))
       }
+
+      query_params["status"] <- status
 
       local_var_body <- NULL
       local_var_url_path <- "/pet/findByStatus"
@@ -891,6 +901,8 @@ PetApi <- R6::R6Class(
                      ApiException = ApiException$new(status = 0,
                                                      reason = "Missing required parameter `tags`."))
       }
+
+      query_params["tags"] <- tags
 
       local_var_body <- NULL
       local_var_url_path <- "/pet/findByTags"
