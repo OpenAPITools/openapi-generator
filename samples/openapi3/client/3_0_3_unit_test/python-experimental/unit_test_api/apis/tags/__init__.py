@@ -9,3 +9,4 @@ class TagValues(str, enum.Enum):
     OPERATION_REQUEST_BODY = "operation.requestBody"
     PATH_POST = "path.post"
     CONTENT_TYPE_JSON = "contentType_json"
+    RESPONSE_CONTENT_CONTENT_TYPE_SCHEMA = "response.content.contentType.schema"
