@@ -411,8 +411,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         if (useSeperateModelProject)
         {
             supportingFiles.add(new SupportingFile("typeConverter.mustache", sourceFolder + File.separator + modelPackage + File.separator + "Converters", "CustomEnumConverter.cs"));
-        }
-        else{
+        } else {
             supportingFiles.add(new SupportingFile("typeConverter.mustache", packageFolder + File.separator + "Converters", "CustomEnumConverter.cs"));
         }
 
@@ -469,9 +468,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         if (!useSeperateModelProject)
         {
             return outputFolder + File.separator + sourceFolder + File.separator + packageName + File.separator + "Models";
-        }
-        else
-        {
+        } else {
             return outputFolder + File.separator + sourceFolder + File.separator + modelPackage;
         }
     }
