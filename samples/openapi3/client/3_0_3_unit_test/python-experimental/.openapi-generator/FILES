@@ -95,7 +95,6 @@ setup.cfg
 setup.py
 test-requirements.txt
 test/__init__.py
-test/test_content_type_json_api.py
 test/test_models/test_additionalproperties_allows_a_schema_which_should_validate.py
 test/test_models/test_additionalproperties_are_allowed_by_default.py
 test/test_models/test_additionalproperties_can_exist_by_itself.py
@@ -179,9 +178,6 @@ test/test_models/test_uniqueitems_validation.py
 test/test_models/test_uri_format.py
 test/test_models/test_uri_reference_format.py
 test/test_models/test_uri_template_format.py
-test/test_operation_request_body_api.py
-test/test_path_post_api.py
-test/test_response_content_content_type_schema_api.py
 tox.ini
 unit_test_api/__init__.py
 unit_test_api/api_client.py

@@ -8,24 +8,24 @@ from unittest.mock import patch
 import urllib3
 
 import {{packageName}}
-from {{packageName}}.{{apiPackage}}.{{classFilename}} import {{classname}}  # noqa: E501
+from {{packageName}}.paths.{{operation.nickname}} import {{operation.httpMethod}}  # noqa: E501
 from {{packageName}} import configuration, schemas, api_client
 
 from . import ApiTestMixin
 
 
-class {{#with operations}}Test{{classname}}(ApiTestMixin, unittest.TestCase):
-    """{{classname}} unit test stubs"""
+{{#with operation}}
+class Test{{operationIdSnakeCase}}(ApiTestMixin, unittest.TestCase):
+    """{{operationIdSnakeCase}} unit test stubs"""
     _configuration = configuration.Configuration()
 
     def setUp(self):
         used_api_client = api_client.ApiClient(configuration=self._configuration)
-        self.api = {{classname}}(api_client=used_api_client)  # noqa: E501
+        self.api = {{httpMethod}}.ApiFor{{httpMethod}}(api_client=used_api_client)  # noqa: E501
 
     def tearDown(self):
         pass
 
-{{#each operation}}
     def test_{{operationId}}(self):
         """Test case for {{{operationId}}}
 
@@ -33,7 +33,6 @@ class {{#with operations}}Test{{classname}}(ApiTestMixin, unittest.TestCase):
         {{{summary}}}  # noqa: E501
 {{/if}}
         """
-        from {{packageName}}.{{apiPackage}}.{{classFilename}}_endpoints import {{operationId}} as endpoint_module
 {{#each responses}}
     {{#if @first}}
         response_status = {{code}}
@@ -61,15 +60,15 @@ class {{#with operations}}Test{{classname}}(ApiTestMixin, unittest.TestCase):
             {{> api_test_partial }}
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, endpoint_module.{{schema.baseName}})
-            deserialized_response_body = endpoint_module.{{schema.baseName}}._from_openapi_data(
+            assert isinstance(api_response.body, {{httpMethod}}.{{schema.baseName}})
+            deserialized_response_body = {{httpMethod}}.{{schema.baseName}}._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
             assert api_response.body == deserialized_response_body
 {{else}}
             with self.assertRaises(({{packageName}}.ApiValueError, {{packageName}}.ApiTypeError)):
-                self.api.{{operationId}}(
+                self.api.{{httpMethod}}(
                     accept_content_types=(accept_content_type,)
                 )
             self.assert_pool_manager_request_called_with(
@@ -109,7 +108,7 @@ class {{#with operations}}Test{{classname}}(ApiTestMixin, unittest.TestCase):
 {{/with}}
             )
 {{#if valid}}
-            body = endpoint_module.{{schema.baseName}}._from_openapi_data(
+            body = {{httpMethod}}.{{schema.baseName}}._from_openapi_data(
                 payload,
                 _configuration=self._configuration
             )
@@ -123,11 +122,11 @@ class {{#with operations}}Test{{classname}}(ApiTestMixin, unittest.TestCase):
             assert isinstance(api_response.body, schemas.Unset)
 {{else}}
             with self.assertRaises(({{packageName}}.ApiValueError, {{packageName}}.ApiTypeError)):
-                body = endpoint_module.{{schema.baseName}}._from_openapi_data(
+                body = {{httpMethod}}.{{schema.baseName}}._from_openapi_data(
                     payload,
                     _configuration=self._configuration
                 )
-                self.api.{{operationId}}(body=body)
+                self.api.{{httpMethod}}(body=body)
 {{/if}}
 {{/with}}
 
@@ -141,7 +140,6 @@ class {{#with operations}}Test{{classname}}(ApiTestMixin, unittest.TestCase):
         pass
     {{/if}}
 
-{{/each}}
 {{/with}}
 
 if __name__ == '__main__':

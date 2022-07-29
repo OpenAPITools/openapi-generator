@@ -273,7 +273,6 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         modelTemplateFiles.put("model." + templateExtension, ".py");
         apiTemplateFiles.put("api." + templateExtension, ".py");
         modelTestTemplateFiles.put("model_test." + templateExtension, ".py");
-        apiTestTemplateFiles.put("api_test." + templateExtension, ".py");
         modelDocTemplateFiles.put("model_doc." + templateExtension, ".md");
         apiDocTemplateFiles.put("api_doc." + templateExtension, ".md");
 
@@ -421,8 +420,14 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         }
     }
 
-    public String endpointFilename(List<String> pathSegments) {
+    public String packageFilename(List<String> pathSegments) {
         String prefix = outputFolder + File.separatorChar + packagePath() + File.separatorChar;
+        String suffix = pathSegments.stream().collect(Collectors.joining(File.separator));
+        return prefix + suffix;
+    }
+
+    public String filenameFromRoot(List<String> pathSegments) {
+        String prefix = outputFolder + File.separatorChar;
         String suffix = pathSegments.stream().collect(Collectors.joining(File.separator));
         return prefix + suffix;
     }
@@ -454,13 +459,13 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         return apiFileFolder() + File.separator + toApiFilename(tag) + suffix;
     }
 
-    private void generateFiles(List<List<Object>> processTemplateToFileInfos) {
+    private void generateFiles(List<List<Object>> processTemplateToFileInfos, String skippedByOption) {
         for (List<Object> processTemplateToFileInfo: processTemplateToFileInfos) {
             Map<String, Object> templateData = (Map<String, Object>) processTemplateToFileInfo.get(0);
             String templateName = (String) processTemplateToFileInfo.get(1);
             String outputFilename = (String) processTemplateToFileInfo.get(2);
             try {
-                processTemplateToFile(templateData, templateName, outputFilename, true, CodegenConstants.APIS);
+                processTemplateToFile(templateData, templateName, outputFilename, true, skippedByOption);
             } catch (IOException e) {
                 LOGGER.error("Error when writing template file {}", e.toString());
             }
@@ -482,6 +487,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         }
         List<List<Object>> pathsFiles = new ArrayList<>();
         List<List<Object>> apisFiles = new ArrayList<>();
+        List<List<Object>> testFiles = new ArrayList<>();
         String outputFilename;
 
         OperationMap operations = objs.getOperations();
@@ -498,8 +504,14 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
             endpointMap.put("operation", co);
             endpointMap.put("imports", co.imports);
             endpointMap.put("packageName", packageName);
-            outputFilename = endpointFilename(Arrays.asList("paths", pathModuleName, co.httpMethod + ".py"));
+            outputFilename = packageFilename(Arrays.asList("paths", pathModuleName, co.httpMethod + ".py"));
             pathsFiles.add(Arrays.asList(endpointMap, "endpoint.handlebars", outputFilename));
+
+            Map<String, Object> endpointTestMap = new HashMap<>();
+            endpointTestMap.put("operation", co);
+            endpointTestMap.put("packageName", packageName);
+            outputFilename = filenameFromRoot(Arrays.asList("test", "test_paths", "test_" + pathModuleName, "test_" + co.httpMethod + ".py"));
+            testFiles.add(Arrays.asList(endpointTestMap, "api_test.handlebars", outputFilename));
         }
         Map<String, String> pathValToVar = new LinkedHashMap<>();
         Map<String, String> pathModuleToApiClassname = new LinkedHashMap<>();
@@ -535,7 +547,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         tagToApiMap.put("apiClassname", "Api");
         tagToApiMap.put("tagModuleNameToApiClassname", tagModuleNameToApiClassname);
         tagToApiMap.put("tagEnumToApiClassname", tagEnumToApiClassname);
-        outputFilename = endpointFilename(Arrays.asList("apis", "tag_to_api.py"));
+        outputFilename = packageFilename(Arrays.asList("apis", "tag_to_api.py"));
         apisFiles.add(Arrays.asList(tagToApiMap, "apis_tag_to_api.handlebars", outputFilename));
         // apis.path_to_api.py
         Map<String, Object> allByPathsFileMap = new HashMap<>();
@@ -543,13 +555,13 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         allByPathsFileMap.put("apiClassname", "Api");
         allByPathsFileMap.put("pathModuleToApiClassname", pathModuleToApiClassname);
         allByPathsFileMap.put("pathEnumToApiClassname", pathEnumToApiClassname);
-        outputFilename = endpointFilename(Arrays.asList("apis", "path_to_api.py"));
+        outputFilename = packageFilename(Arrays.asList("apis", "path_to_api.py"));
         apisFiles.add(Arrays.asList(allByPathsFileMap, "apis_path_to_api.handlebars", outputFilename));
         // apis.paths.__init__.py
         Map<String, Object> initApiTagsMap = new HashMap<>();
         initApiTagsMap.put("packageName", packageName);
         initApiTagsMap.put("enumToTag", enumToTag);
-        outputFilename = endpointFilename(Arrays.asList("apis", "tags", "__init__.py"));
+        outputFilename = packageFilename(Arrays.asList("apis", "tags", "__init__.py"));
         apisFiles.add(Arrays.asList(initApiTagsMap, "__init__apis_tags.handlebars", outputFilename));
 
         // paths.__init__.py (contains path str enum)
@@ -557,10 +569,10 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         initOperationMap.put("packageName", packageName);
         initOperationMap.put("apiClassname", "Api");
         initOperationMap.put("pathValToVar", pathValToVar);
-        outputFilename = endpointFilename(Arrays.asList("paths", "__init__.py"));
+        outputFilename = packageFilename(Arrays.asList("paths", "__init__.py"));
         pathsFiles.add(Arrays.asList(initOperationMap, "__init__paths_enum.handlebars", outputFilename));
         // apis.paths.__init__.py
-        outputFilename = endpointFilename(Arrays.asList("apis", "paths", "__init__.py"));
+        outputFilename = packageFilename(Arrays.asList("apis", "paths", "__init__.py"));
         apisFiles.add(Arrays.asList(initOperationMap, "__init__paths.handlebars", outputFilename));
         // paths.some_path.__init__.py
         // apis.paths.some_path.py
@@ -573,7 +585,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
             pathApiMap.put("pathModule", pathModule);
             pathApiMap.put("apiClassName", "Api");
             pathApiMap.put("pathVar", pathVar);
-            outputFilename = endpointFilename(Arrays.asList("paths", pathModule, "__init__.py"));
+            outputFilename = packageFilename(Arrays.asList("paths", pathModule, "__init__.py"));
             pathsFiles.add(Arrays.asList(pathApiMap, "__init__paths_x.handlebars", outputFilename));
 
             PathItem pi = openAPI.getPaths().get(path);
@@ -583,11 +595,12 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
             operationMap.put("pathModule", pathModule);
             operationMap.put("apiClassName", apiClassName);
             operationMap.put("pathItem", pi);
-            outputFilename = endpointFilename(Arrays.asList("apis", "paths", pathModule + ".py"));
+            outputFilename = packageFilename(Arrays.asList("apis", "paths", pathModule + ".py"));
             apisFiles.add(Arrays.asList(operationMap, "apis_path_module.handlebars", outputFilename));
         }
-        generateFiles(pathsFiles);
-        generateFiles(apisFiles);
+        generateFiles(pathsFiles, CodegenConstants.APIS);
+        generateFiles(apisFiles, CodegenConstants.APIS);
+        generateFiles(testFiles, CodegenConstants.API_TESTS);
     }
 
     /*
