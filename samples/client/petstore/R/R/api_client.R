@@ -278,7 +278,7 @@ ApiClient  <- R6::R6Class(
     #' @description
     #' Deserialize the content of API response to the given type.
     #'
-    #' @param raw_respone Raw response.
+    #' @param raw_response Raw response.
     #' @param return_type R return type.
     #' @param pkg_env Package environment.
     #' @return Deserialized object.
@@ -346,8 +346,7 @@ ApiClient  <- R6::R6Class(
       }
       return_obj
     },
-    #' Return a propery header (for accept or content-type). If JSON-related MIME is found,
-    #' return it. Otherwise, return the first one, if any.
+    #' Return a propery header (for accept or content-type).
     #'
     #' @description
     #' Return a propery header (for accept or content-type). If JSON-related MIME is found,
