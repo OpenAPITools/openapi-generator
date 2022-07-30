@@ -112,7 +112,6 @@ module Petstore
       # Overload default options only if provided
       request.options.params_encoder = config.params_encoder if config.params_encoder
       request.options.timeout        = config.timeout        if config.timeout
-      request.options.verbose        = config.debugging      if config.debugging
 
       request.url url
       request.params = query_params
