@@ -567,7 +567,7 @@ PetApi <- R6::R6Class(
     #' @export
     AddPetWithHttpInfo = function(pet, data_file = NULL, ...) {
       args <- list(...)
-      query_params <- list()
+      query_params <- c()
       header_params <- c()
 
       if (missing(`pet`)) {
@@ -684,7 +684,7 @@ PetApi <- R6::R6Class(
     #' @export
     DeletePetWithHttpInfo = function(pet_id, api_key = NULL, ...) {
       args <- list(...)
-      query_params <- list()
+      query_params <- c()
       header_params <- c()
 
       if (missing(`pet_id`)) {
@@ -783,7 +783,7 @@ PetApi <- R6::R6Class(
     #' @export
     FindPetsByStatusWithHttpInfo = function(status, data_file = NULL, ...) {
       args <- list(...)
-      query_params <- list()
+      query_params <- c()
       header_params <- c()
 
       if (missing(`status`)) {
@@ -891,7 +891,7 @@ PetApi <- R6::R6Class(
     #' @export
     FindPetsByTagsWithHttpInfo = function(tags, data_file = NULL, ...) {
       args <- list(...)
-      query_params <- list()
+      query_params <- c()
       header_params <- c()
 
       if (missing(`tags`)) {
@@ -999,7 +999,7 @@ PetApi <- R6::R6Class(
     #' @export
     GetPetByIdWithHttpInfo = function(pet_id, data_file = NULL, ...) {
       args <- list(...)
-      query_params <- list()
+      query_params <- c()
       header_params <- c()
 
       if (missing(`pet_id`)) {
@@ -1114,7 +1114,7 @@ PetApi <- R6::R6Class(
     #' @export
     GetPetByIdStreamingWithHttpInfo = function(pet_id, stream_callback = NULL, data_file = NULL, ...) {
       args <- list(...)
-      query_params <- list()
+      query_params <- c()
       header_params <- c()
 
       if (missing(`pet_id`)) {
@@ -1231,7 +1231,7 @@ PetApi <- R6::R6Class(
     #' @export
     UpdatePetWithHttpInfo = function(pet, data_file = NULL, ...) {
       args <- list(...)
-      query_params <- list()
+      query_params <- c()
       header_params <- c()
 
       if (missing(`pet`)) {
@@ -1344,7 +1344,7 @@ PetApi <- R6::R6Class(
     #' @export
     UpdatePetWithFormWithHttpInfo = function(pet_id, name = NULL, status = NULL, ...) {
       args <- list(...)
-      query_params <- list()
+      query_params <- c()
       header_params <- c()
 
       if (missing(`pet_id`)) {
@@ -1449,7 +1449,7 @@ PetApi <- R6::R6Class(
     #' @export
     UploadFileWithHttpInfo = function(pet_id, additional_metadata = NULL, file = NULL, data_file = NULL, ...) {
       args <- list(...)
-      query_params <- list()
+      query_params <- c()
       header_params <- c()
 
       if (missing(`pet_id`)) {

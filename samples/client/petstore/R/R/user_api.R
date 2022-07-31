@@ -457,7 +457,7 @@ UserApi <- R6::R6Class(
     #' @export
     CreateUserWithHttpInfo = function(user, ...) {
       args <- list(...)
-      query_params <- list()
+      query_params <- c()
       header_params <- c()
 
       if (missing(`user`)) {
@@ -555,7 +555,7 @@ UserApi <- R6::R6Class(
     #' @export
     CreateUsersWithArrayInputWithHttpInfo = function(user, ...) {
       args <- list(...)
-      query_params <- list()
+      query_params <- c()
       header_params <- c()
 
       if (missing(`user`)) {
@@ -656,7 +656,7 @@ UserApi <- R6::R6Class(
     #' @export
     CreateUsersWithListInputWithHttpInfo = function(user, ...) {
       args <- list(...)
-      query_params <- list()
+      query_params <- c()
       header_params <- c()
 
       if (missing(`user`)) {
@@ -757,7 +757,7 @@ UserApi <- R6::R6Class(
     #' @export
     DeleteUserWithHttpInfo = function(username, ...) {
       args <- list(...)
-      query_params <- list()
+      query_params <- c()
       header_params <- c()
 
       if (missing(`username`)) {
@@ -856,7 +856,7 @@ UserApi <- R6::R6Class(
     #' @export
     GetUserByNameWithHttpInfo = function(username, data_file = NULL, ...) {
       args <- list(...)
-      query_params <- list()
+      query_params <- c()
       header_params <- c()
 
       if (missing(`username`)) {
@@ -966,7 +966,7 @@ UserApi <- R6::R6Class(
     #' @export
     LoginUserWithHttpInfo = function(username, password, data_file = NULL, ...) {
       args <- list(...)
-      query_params <- list()
+      query_params <- c()
       header_params <- c()
 
       if (missing(`username`)) {
@@ -1077,7 +1077,7 @@ UserApi <- R6::R6Class(
     #' @export
     LogoutUserWithHttpInfo = function(...) {
       args <- list(...)
-      query_params <- list()
+      query_params <- c()
       header_params <- c()
 
       local_var_body <- NULL
@@ -1165,7 +1165,7 @@ UserApi <- R6::R6Class(
     #' @export
     UpdateUserWithHttpInfo = function(username, user, ...) {
       args <- list(...)
-      query_params <- list()
+      query_params <- c()
       header_params <- c()
 
       if (missing(`username`)) {
