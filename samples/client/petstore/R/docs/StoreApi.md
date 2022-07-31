@@ -31,12 +31,14 @@ result <- tryCatch(
           )
 # In case of error, print the error object
 if (!is.null(result$ApiException)) {
-  cat(result$ApiException$toString())
+  dput(result$ApiException)
+  # error object
+  dput(result$ApiException$error_object)
 } else {
   # response headers
-  response.headers <- result$response$headers
+  dput(result$response$headers)
   # response status code
-  response.status.code <- result$response$status_code
+  dput(result$response$status_code)
 }
 ```
 
@@ -89,14 +91,16 @@ result <- tryCatch(
           )
 # In case of error, print the error object
 if (!is.null(result$ApiException)) {
-  cat(result$ApiException$toString())
+  dput(result$ApiException)
+  # error object
+  dput(result$ApiException$error_object)
 } else {
   # deserialized response object
-  response.object <- result$content
+  dput(result$content)
   # response headers
-  response.headers <- result$response$headers
+  dput(result$response$headers)
   # response status code
-  response.status.code <- result$response$status_code
+  dput(result$response$status_code)
 }
 ```
 
@@ -144,14 +148,16 @@ result <- tryCatch(
           )
 # In case of error, print the error object
 if (!is.null(result$ApiException)) {
-  cat(result$ApiException$toString())
+  dput(result$ApiException)
+  # error object
+  dput(result$ApiException$error_object)
 } else {
   # deserialized response object
-  response.object <- result$content
+  dput(result$content)
   # response headers
-  response.headers <- result$response$headers
+  dput(result$response$headers)
   # response status code
-  response.status.code <- result$response$status_code
+  dput(result$response$status_code)
 }
 ```
 
@@ -204,14 +210,16 @@ result <- tryCatch(
           )
 # In case of error, print the error object
 if (!is.null(result$ApiException)) {
-  cat(result$ApiException$toString())
+  dput(result$ApiException)
+  # error object
+  dput(result$ApiException$error_object)
 } else {
   # deserialized response object
-  response.object <- result$content
+  dput(result$content)
   # response headers
-  response.headers <- result$response$headers
+  dput(result$response$headers)
   # response status code
-  response.status.code <- result$response$status_code
+  dput(result$response$status_code)
 }
 ```
 
