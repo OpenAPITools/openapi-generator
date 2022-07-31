@@ -99,16 +99,15 @@ FakeApi <- R6::R6Class(
     #' @return User
     #' @export
     FakeDataFile = function(dummy, var_data_file = NULL, data_file = NULL, ...) {
-      api_response <- self$FakeDataFileWithHttpInfo(dummy, var_data_file, data_file = data_file, ...)
-      local_var_response <- api_response$response
-      if (httr::status_code(local_var_response) >= 200 && httr::status_code(local_var_response) <= 299) {
-        api_response$content
-      } else if (httr::status_code(local_var_response) >= 300 && httr::status_code(local_var_response) <= 399) {
-        api_response
-      } else if (httr::status_code(local_var_response) >= 400 && httr::status_code(local_var_response) <= 499) {
-        api_response
-      } else if (httr::status_code(local_var_response) >= 500 && httr::status_code(local_var_response) <= 599) {
-        api_response
+      local_var_response <- self$FakeDataFileWithHttpInfo(dummy, var_data_file, data_file = data_file, ...)
+      if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
+        local_var_response$content
+      } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
+        local_var_response
+      } else if (local_var_response$status_code >= 400 && local_var_response$status_code <= 499) {
+        local_var_response
+      } else if (local_var_response$status_code >= 500 && local_var_response$status_code <= 599) {
+        local_var_response
       }
     },
     #' test data_file to ensure it's escaped correctly
@@ -156,39 +155,40 @@ FakeApi <- R6::R6Class(
                                  body = local_var_body,
                                  ...)
 
-      if (httr::status_code(local_var_resp) >= 200 && httr::status_code(local_var_resp) <= 299) {
+      if (local_var_resp$status_code >= 200 && local_var_resp$status_code <= 299) {
         # save response in a file
         if (!is.null(data_file)) {
-            write(httr::content(local_var_resp, "text", encoding = "UTF-8", simplifyVector = FALSE), data_file)
+            write(local_var_resp$response, data_file)
         }
 
         deserialized_resp_obj <- tryCatch(
-          self$api_client$deserialize(local_var_resp, "User", loadNamespace("petstore")),
+          self$api_client$deserialize(local_var_resp$response, "User", loadNamespace("petstore")),
           error = function(e) {
              rlang::abort(message = "Failed to deserialize response",
                           .subclass = "ApiException",
                           ApiException = ApiException$new(http_response = local_var_resp))
           }
         )
-        ApiResponse$new(deserialized_resp_obj, local_var_resp)
-      } else if (httr::status_code(local_var_resp) >= 300 && httr::status_code(local_var_resp) <= 399) {
-        local_var_error_msg <- toString(content(local_var_resp))
+        local_var_resp$content <- deserialized_resp_obj
+        local_var_resp
+      } else if (local_var_resp$status_code >= 300 && local_var_resp$status_code <= 399) {
+        local_var_error_msg <- local_var_resp$response
         if (local_var_error_msg == "") {
-          local_var_error_msg <- paste("Server returned ", httr::status_code(local_var_resp), " response status code.")
+          local_var_error_msg <- paste("Server returned ", local_var_resp$status_code, " response status code.")
         }
         rlang::abort(message = local_var_error_msg,
                      .subclass = "ApiException",
                      ApiException = ApiException$new(http_response = local_var_resp))
-      } else if (httr::status_code(local_var_resp) >= 400 && httr::status_code(local_var_resp) <= 499) {
-        local_var_error_msg <- toString(content(local_var_resp))
+      } else if (local_var_resp$status_code >= 400 && local_var_resp$status_code <= 499) {
+        local_var_error_msg <- local_var_resp$response
         if (local_var_error_msg == "") {
           local_var_error_msg <- "Api client exception encountered."
         }
         rlang::abort(message = local_var_error_msg,
                      .subclass = "ApiException",
                      ApiException = ApiException$new(http_response = local_var_resp))
-      } else if (httr::status_code(local_var_resp) >= 500 && httr::status_code(local_var_resp) <= 599) {
-        local_var_error_msg <- toString(content(local_var_resp))
+      } else if (local_var_resp$status_code >= 500 && local_var_resp$status_code <= 599) {
+        local_var_error_msg <- local_var_resp$response
         if (local_var_error_msg == "") {
           local_var_error_msg <- "Api server exception encountered."
         }
