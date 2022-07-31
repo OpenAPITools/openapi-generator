@@ -107,18 +107,19 @@ test_that("GetPetByIdStreaming", {
             )
 })
 
-#test_that("test GetPetById exception", {
-#  # test exception 
-#  result <- tryCatch(petApi$GetPetById(98765), # petId not exist
-#         error = function(ex) ex
-#  )
-#
-#  expect_true(!is.null(result))
-#  #expect_equal(result$toString(),"")
-#  expect_equal(result, "1")
-#  #expect_equal(result$ApiException$errorObject$code, 1)
-#  #expect_equal(response$name, "name_test")
-#})
+test_that("Test GetPetById exception", {
+  # test exception 
+  result <- tryCatch(pet_api$GetPetById(98765), # petId not exist
+          ApiException = function(ex) ex
+  )
+
+  expect_true(!is.null(result))
+  expect_true(!is.null(result$ApiException))
+  expect_equal(result$ApiException$status, 404)
+  # test error object `ApiResponse`
+  expect_equal(result$ApiException$error_object$toString(), "{\"code\":1,\"type\":\"error\",\"message\":\"Pet not found\"}")
+  expect_equal(result$ApiException$error_object$code, 1)
+})
 
 test_that("GetPetById with data_file", {
   # test to ensure json is saved to the file `get_pet_by_id.json`
