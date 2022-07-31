@@ -17,16 +17,19 @@ result <- tryCatch(
 
 var_pet_id <- 56 # integer | ID of pet to return
 
-#Find pet by ID (streaming)
-api_instance <- PetApi$new()
-# Configure API key authorization: api_key
-api_instance$api_client$api_keys['api_key'] <- 'TODO_YOUR_API_KEY';
-result <- tryCatch(
-             # to save the result into a file, simply add the optional `data_file` parameter, e.g.
-             # api_instance$GetPetByIdStreaming(var_pet_id, data_file = "result.txt"),
-             api_instance$GetPetByIdStreaming(var_pet_id, stream_callback = function(x) { print(x) }),
-             ApiException = function(ex) ex
-          )
+pet_response <- api_instance$get_pet_by_id(var_pet_id, data_file = "get_pet_by_id.json")
+response <- read_json("get_pet_by_id.json")
+
+##Find pet by ID (streaming)
+#api_instance <- PetApi$new()
+## Configure API key authorization: api_key
+#api_instance$api_client$api_keys['api_key'] <- 'TODO_YOUR_API_KEY';
+#result <- tryCatch(
+#             # to save the result into a file, simply add the optional `data_file` parameter, e.g.
+#             # api_instance$GetPetByIdStreaming(var_pet_id, data_file = "result.txt"),
+#             api_instance$GetPetByIdStreaming(var_pet_id, stream_callback = function(x) { print(x) }),
+#             ApiException = function(ex) ex
+#          )
 # In case of error, print the error object
 #if (!is.null(result$ApiException)) {
 #  cat(result$ApiException$toString())
@@ -38,6 +41,7 @@ result <- tryCatch(
 #  # response status code
 #  response.status.code <- result$response$status_code
 #}
+
 
 
 ##errorMsg <- "{\"code\":1,\"type\":\"error\",\"message\":\"Pet not found\"}"

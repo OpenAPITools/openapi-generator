@@ -265,7 +265,12 @@
         "{{baseName}}" = {{paramName}}{{^-last}},{{/-last}}
         {{/isFile}}
         {{#isFile}}
+        {{^isHttr2}}
         "{{baseName}}" = httr::upload_file({{paramName}}){{^-last}},{{/-last}}
+        {{/isHttr2}}
+        {{#isHttr2}}
+        "{{baseName}}" = {{paramName}}{{^-last}},{{/-last}}
+        {{/isHttr2}}
         {{/isFile}}
         {{/formParams}}
       )

@@ -1461,7 +1461,7 @@ PetApi <- R6::R6Class(
 
       local_var_body <- list(
         "additionalMetadata" = additional_metadata,
-        "file" = httr::upload_file(file)
+        "file" = file
       )
 
       local_var_url_path <- "/pet/{petId}/uploadImage"
