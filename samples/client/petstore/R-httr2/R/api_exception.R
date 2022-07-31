@@ -36,14 +36,14 @@ ApiException <- R6::R6Class(
     initialize = function(status = NULL, reason = NULL, http_response = NULL) {
       if (!is.null(http_response)) {
         self$status <- http_response$status_code
-        errorMsg <- toString(content(http_response))
-        if (errorMsg == "") {
+        errorMsg <- http_response$response
+        if (is.null(errorMsg) || errorMsg == "") {
           errorMsg <- "Api exception encountered. No details given."
         }
         self$body <- errorMsg
         self$headers <- http_response$headers
-        self$reason <- httr::http_status(http_response)$reason
-        self$errorObject <- ModelApiResponse$new()$fromJSONString(content(http_response, "text"))
+        self$reason <- http_response$http_status_desc
+        self$errorObject <- ModelApiResponse$new()$fromJSONString(http_response$response)
       } else {
         self$status <- status
         self$reason <- reason
