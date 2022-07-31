@@ -249,87 +249,33 @@ ApiClient  <- R6::R6Class(
       #}
 
       # perform the HTTP request
-      req_perform(req)
+      resp <- req %>%
+        req_error(is_error = function(resp) FALSE) %>%
+        req_perform()
 
-      #if (method == "GET") {
-      #  if (typeof(stream_callback) == "closure") {
-      #    httr::GET(url, query = query_params, headers, http_timeout,
-      #              httr::user_agent(self$`user_agent`), write_stream(stream_callback), ...)
-      #  } else {
-      #    httr::GET(url, query = query_params, headers, http_timeout,
-      #              httr::user_agent(self$`user_agent`), ...)
-      #  }
-      #} else if (method == "POST") {
-      #  if (typeof(stream_callback) == "closure") {
-      #    httr::POST(url, query = query_params, headers, body = body,
-      #               httr::content_type("application/json"), http_timeout,
-      #               httr::user_agent(self$`user_agent`), write_stream(stream_callback), ...)
-      #  } else {
-      #    httr::POST(url, query = query_params, headers, body = body,
-      #               httr::content_type("application/json"), http_timeout,
-      #               httr::user_agent(self$`user_agent`), ...)
-      #  }
-      #} else if (method == "PUT") {
-      #  if (typeof(stream_callback) == "closure") {
-      #    httr::PUT(url, query = query_params, headers, body = body,
-      #              httr::content_type("application/json"), http_timeout,
-      #              http_timeout, httr::user_agent(self$`user_agent`), write_stream(stream_callback), ...)
-      #  } else {
-      #    httr::PUT(url, query = query_params, headers, body = body,
-      #              httr::content_type("application/json"), http_timeout,
-      #              http_timeout, httr::user_agent(self$`user_agent`), ...)
-      #  }
-      #} else if (method == "PATCH") {
-      #  if (typeof(stream_callback) == "closure") {
-      #    httr::PATCH(url, query = query_params, headers, body = body,
-      #                httr::content_type("application/json"), http_timeout,
-      #                http_timeout, httr::user_agent(self$`user_agent`), write_stream(stream_callback), ...)
-      #  } else {
-      #    httr::PATCH(url, query = query_params, headers, body = body,
-      #                httr::content_type("application/json"), http_timeout,
-      #                http_timeout, httr::user_agent(self$`user_agent`), ...)
-      #  }
-      #} else if (method == "HEAD") {
-      #  if (typeof(stream_callback) == "closure") {
-      #    httr::HEAD(url, query = query_params, headers, http_timeout,
-      #               http_timeout, httr::user_agent(self$`user_agent`), write_stream(stream_callback), ...)
-      #  } else {
-      #    httr::HEAD(url, query = query_params, headers, http_timeout,
-      #               http_timeout, httr::user_agent(self$`user_agent`), ...)
-      #  }
-      #} else if (method == "DELETE") {
-      #  if (typeof(stream_callback) == "closure") {
-      #    httr::DELETE(url, query = query_params, headers, http_timeout,
-      #                 http_timeout, httr::user_agent(self$`user_agent`), write_stream(stream_callback), ...)
-      #  } else {
-      #    httr::DELETE(url, query = query_params, headers, http_timeout,
-      #                 http_timeout, httr::user_agent(self$`user_agent`), ...)
-      #  }
-      #} else {
-      #  err_msg <- "Http method must be `GET`, `HEAD`, `OPTIONS`, `POST`, `PATCH`, `PUT` or `DELETE`."
-      #  
-      #  
-      #  rlang::abort(message = err_msg,
-      #               .subclass = "ApiException",
-      #               ApiException = ApiException$new(status = 0, reason = err_msg))
-      #  
-      #}
+      # return ApiResponse
+      api_response <- ApiResponse$new()
+      api_response$status_code <- resp %>% resp_status()
+      api_response$status_code_desc <- resp %>% resp_status_desc()
+      api_response$response <- resp %>% resp_body_string()
+      api_response$headers <- resp %>% resp_headers()
+
+      api_response
     },
-    #' Deserialize the content of api response to the given type.
+    #' Deserialize the content of API response to the given type.
     #'
     #' @description
-    #' Deserialize the content of api response to the given type.
+    #' Deserialize the content of API response to the given type.
     #'
-    #' @param resp Response object.
+    #' @param raw_response Raw response.
     #' @param return_type R return type.
     #' @param pkg_env Package environment.
     #' @return Deserialized object.
     #' @export
-    deserialize = function(resp, return_type, pkg_env) {
-      resp_obj <- jsonlite::fromJSON(httr::content(resp, "text", encoding = "UTF-8"))
+    deserialize = function(raw_response, return_type, pkg_env) {
+      resp_obj <- jsonlite::fromJSON(raw_response)
       self$deserializeObj(resp_obj, return_type, pkg_env)
     },
-
     #' Deserialize the response from jsonlite object based on the given type
     #'
     #' @description
