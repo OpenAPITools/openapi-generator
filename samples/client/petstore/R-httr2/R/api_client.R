@@ -244,23 +244,23 @@ ApiClient  <- R6::R6Class(
       req <- req %>% req_method(method)
 
       # stream data
-      #if (typeof(stream_callback) == "closure") {
-      #  req %>% req_stream(stream_callback)
-      #}
+      if (typeof(stream_callback) == "closure") {
+        req %>% req_stream(stream_callback)
+      } else {
+        # perform the HTTP request
+        resp <- req %>%
+          req_error(is_error = function(resp) FALSE) %>%
+          req_perform()
 
-      # perform the HTTP request
-      resp <- req %>%
-        req_error(is_error = function(resp) FALSE) %>%
-        req_perform()
+        # return ApiResponse
+        api_response <- ApiResponse$new()
+        api_response$status_code <- resp %>% resp_status()
+        api_response$status_code_desc <- resp %>% resp_status_desc()
+        api_response$response <- resp %>% resp_body_string()
+        api_response$headers <- resp %>% resp_headers()
 
-      # return ApiResponse
-      api_response <- ApiResponse$new()
-      api_response$status_code <- resp %>% resp_status()
-      api_response$status_code_desc <- resp %>% resp_status_desc()
-      api_response$response <- resp %>% resp_body_string()
-      api_response$headers <- resp %>% resp_headers()
-
-      api_response
+        api_response
+      }
     },
     #' Deserialize the content of API response to the given type.
     #'
