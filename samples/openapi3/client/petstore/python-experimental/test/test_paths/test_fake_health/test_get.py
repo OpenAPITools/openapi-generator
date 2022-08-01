@@ -19,7 +19,10 @@ from .. import ApiTestMixin
 
 
 class TestFakeHealth(ApiTestMixin, unittest.TestCase):
-    """FakeHealth unit test stubs"""
+    """
+    FakeHealth unit test stubs
+        Health check endpoint  # noqa: E501
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,14 +32,7 @@ class TestFakeHealth(ApiTestMixin, unittest.TestCase):
     def tearDown(self):
         pass
 
-    def test_fake_health_get(self):
-        """Test case for fake_health_get
-
-        Health check endpoint  # noqa: E501
-        """
-        response_status = 200
-        accept_content_type = 'application/json'
-
+    response_status = 200
 
 
         pass

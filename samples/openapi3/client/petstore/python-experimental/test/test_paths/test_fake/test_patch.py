@@ -19,7 +19,10 @@ from .. import ApiTestMixin
 
 
 class TestFake(ApiTestMixin, unittest.TestCase):
-    """Fake unit test stubs"""
+    """
+    Fake unit test stubs
+        To test \"client\" model  # noqa: E501
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,17 +32,9 @@ class TestFake(ApiTestMixin, unittest.TestCase):
     def tearDown(self):
         pass
 
-    def test_client_model(self):
-        """Test case for client_model
-
-        To test \"client\" model  # noqa: E501
-        """
-        response_status = 200
-        accept_content_type = 'application/json'
+    response_status = 200
 
 
-
-        content_type = 'application/json'
 
 
 

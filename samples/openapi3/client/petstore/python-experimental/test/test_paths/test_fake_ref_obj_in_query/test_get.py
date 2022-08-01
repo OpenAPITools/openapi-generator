@@ -19,7 +19,10 @@ from .. import ApiTestMixin
 
 
 class TestFakeRefObjInQuery(ApiTestMixin, unittest.TestCase):
-    """FakeRefObjInQuery unit test stubs"""
+    """
+    FakeRefObjInQuery unit test stubs
+        user list  # noqa: E501
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,13 +32,8 @@ class TestFakeRefObjInQuery(ApiTestMixin, unittest.TestCase):
     def tearDown(self):
         pass
 
-    def test_ref_object_in_query(self):
-        """Test case for ref_object_in_query
-
-        user list  # noqa: E501
-        """
-        response_status = 200
-        response_body = ''
+    response_status = 200
+    response_body = ''
         pass
 
 

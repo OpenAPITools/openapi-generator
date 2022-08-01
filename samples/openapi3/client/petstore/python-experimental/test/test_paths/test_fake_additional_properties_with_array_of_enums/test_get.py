@@ -19,7 +19,10 @@ from .. import ApiTestMixin
 
 
 class TestFakeAdditionalPropertiesWithArrayOfEnums(ApiTestMixin, unittest.TestCase):
-    """FakeAdditionalPropertiesWithArrayOfEnums unit test stubs"""
+    """
+    FakeAdditionalPropertiesWithArrayOfEnums unit test stubs
+        Additional Properties with Array of Enums  # noqa: E501
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,14 +32,7 @@ class TestFakeAdditionalPropertiesWithArrayOfEnums(ApiTestMixin, unittest.TestCa
     def tearDown(self):
         pass
 
-    def test_additional_properties_with_array_of_enums(self):
-        """Test case for additional_properties_with_array_of_enums
-
-        Additional Properties with Array of Enums  # noqa: E501
-        """
-        response_status = 200
-        accept_content_type = 'application/json'
-
+    response_status = 200
 
 
 

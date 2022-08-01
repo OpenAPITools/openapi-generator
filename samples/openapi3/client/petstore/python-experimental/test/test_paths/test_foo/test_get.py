@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestFoo(ApiTestMixin, unittest.TestCase):
-    """Foo unit test stubs"""
+    """
+    Foo unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,13 +31,7 @@ class TestFoo(ApiTestMixin, unittest.TestCase):
     def tearDown(self):
         pass
 
-    def test_foo_get(self):
-        """Test case for foo_get
-
-        """
-        response_status = 0
-        accept_content_type = 'application/json'
-
+    response_status = 0
 
 
         pass

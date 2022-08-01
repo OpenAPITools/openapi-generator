@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestFakeBodyWithQueryParams(ApiTestMixin, unittest.TestCase):
-    """FakeBodyWithQueryParams unit test stubs"""
+    """
+    FakeBodyWithQueryParams unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,13 +31,8 @@ class TestFakeBodyWithQueryParams(ApiTestMixin, unittest.TestCase):
     def tearDown(self):
         pass
 
-    def test_body_with_query_params(self):
-        """Test case for body_with_query_params
-
-        """
-        response_status = 200
-        response_body = ''
-        content_type = 'application/json'
+    response_status = 200
+    response_body = ''
 
 
 

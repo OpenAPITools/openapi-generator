@@ -19,7 +19,10 @@ from .. import ApiTestMixin
 
 
 class TestFakeResponseWithoutSchema(ApiTestMixin, unittest.TestCase):
-    """FakeResponseWithoutSchema unit test stubs"""
+    """
+    FakeResponseWithoutSchema unit test stubs
+        receives a response without schema  # noqa: E501
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,17 +32,8 @@ class TestFakeResponseWithoutSchema(ApiTestMixin, unittest.TestCase):
     def tearDown(self):
         pass
 
-    def test_response_without_schema(self):
-        """Test case for response_without_schema
+    response_status = 200
 
-        receives a response without schema  # noqa: E501
-        """
-        response_status = 200
-        accept_content_type = 'application/json'
-
-
-
-        accept_content_type = 'application/xml'
 
 
 

@@ -19,7 +19,10 @@ from .. import ApiTestMixin
 
 
 class TestPetFindByTags(ApiTestMixin, unittest.TestCase):
-    """PetFindByTags unit test stubs"""
+    """
+    PetFindByTags unit test stubs
+        Finds Pets by tags  # noqa: E501
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,17 +32,8 @@ class TestPetFindByTags(ApiTestMixin, unittest.TestCase):
     def tearDown(self):
         pass
 
-    def test_find_pets_by_tags(self):
-        """Test case for find_pets_by_tags
+    response_status = 200
 
-        Finds Pets by tags  # noqa: E501
-        """
-        response_status = 200
-        accept_content_type = 'application/xml'
-
-
-
-        accept_content_type = 'application/json'
 
 
 

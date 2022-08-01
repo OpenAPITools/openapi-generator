@@ -19,7 +19,10 @@ from .. import ApiTestMixin
 
 
 class TestUserUsername(ApiTestMixin, unittest.TestCase):
-    """UserUsername unit test stubs"""
+    """
+    UserUsername unit test stubs
+        Updated user  # noqa: E501
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,14 +32,8 @@ class TestUserUsername(ApiTestMixin, unittest.TestCase):
     def tearDown(self):
         pass
 
-    def test_update_user(self):
-        """Test case for update_user
-
-        Updated user  # noqa: E501
-        """
-        response_status = 400
-        response_body = ''
-        content_type = 'application/json'
+    response_status = 400
+    response_body = ''
 
 
 

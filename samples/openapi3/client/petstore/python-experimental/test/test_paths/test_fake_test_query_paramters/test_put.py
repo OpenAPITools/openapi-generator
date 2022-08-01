@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestFakeTestQueryParamters(ApiTestMixin, unittest.TestCase):
-    """FakeTestQueryParamters unit test stubs"""
+    """
+    FakeTestQueryParamters unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,12 +31,8 @@ class TestFakeTestQueryParamters(ApiTestMixin, unittest.TestCase):
     def tearDown(self):
         pass
 
-    def test_query_parameter_collection_format(self):
-        """Test case for query_parameter_collection_format
-
-        """
-        response_status = 200
-        response_body = ''
+    response_status = 200
+    response_body = ''
         pass
 
 

@@ -19,7 +19,10 @@ from .. import ApiTestMixin
 
 
 class TestFakeDeleteCoffeeId(ApiTestMixin, unittest.TestCase):
-    """FakeDeleteCoffeeId unit test stubs"""
+    """
+    FakeDeleteCoffeeId unit test stubs
+        Delete coffee  # noqa: E501
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,13 +32,8 @@ class TestFakeDeleteCoffeeId(ApiTestMixin, unittest.TestCase):
     def tearDown(self):
         pass
 
-    def test_delete_coffee(self):
-        """Test case for delete_coffee
-
-        Delete coffee  # noqa: E501
-        """
-        response_status = 200
-        response_body = ''
+    response_status = 200
+    response_body = ''
         pass
 
 

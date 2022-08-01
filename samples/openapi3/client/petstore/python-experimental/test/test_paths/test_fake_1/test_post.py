@@ -19,7 +19,10 @@ from .. import ApiTestMixin
 
 
 class TestFake(ApiTestMixin, unittest.TestCase):
-    """Fake unit test stubs"""
+    """
+    Fake unit test stubs
+        Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트   # noqa: E501
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,13 +32,8 @@ class TestFake(ApiTestMixin, unittest.TestCase):
     def tearDown(self):
         pass
 
-    def test_endpoint_parameters(self):
-        """Test case for endpoint_parameters
-
-        Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트   # noqa: E501
-        """
-        response_status = 400
-        response_body = ''
+    response_status = 400
+    response_body = ''
 
 
 if __name__ == '__main__':

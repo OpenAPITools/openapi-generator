@@ -19,7 +19,10 @@ from .. import ApiTestMixin
 
 
 class TestStoreInventory(ApiTestMixin, unittest.TestCase):
-    """StoreInventory unit test stubs"""
+    """
+    StoreInventory unit test stubs
+        Returns pet inventories by status  # noqa: E501
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,14 +32,7 @@ class TestStoreInventory(ApiTestMixin, unittest.TestCase):
     def tearDown(self):
         pass
 
-    def test_get_inventory(self):
-        """Test case for get_inventory
-
-        Returns pet inventories by status  # noqa: E501
-        """
-        response_status = 200
-        accept_content_type = 'application/json'
-
+    response_status = 200
 
 
         pass

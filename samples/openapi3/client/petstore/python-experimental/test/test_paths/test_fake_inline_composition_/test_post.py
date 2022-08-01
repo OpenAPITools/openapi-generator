@@ -19,7 +19,10 @@ from .. import ApiTestMixin
 
 
 class TestFakeInlineComposition(ApiTestMixin, unittest.TestCase):
-    """FakeInlineComposition unit test stubs"""
+    """
+    FakeInlineComposition unit test stubs
+        testing composed schemas at inline locations  # noqa: E501
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,17 +32,8 @@ class TestFakeInlineComposition(ApiTestMixin, unittest.TestCase):
     def tearDown(self):
         pass
 
-    def test_inline_composition(self):
-        """Test case for inline_composition
+    response_status = 200
 
-        testing composed schemas at inline locations  # noqa: E501
-        """
-        response_status = 200
-        accept_content_type = 'application/json'
-
-
-
-        accept_content_type = 'multipart/form-data'
 
 
 

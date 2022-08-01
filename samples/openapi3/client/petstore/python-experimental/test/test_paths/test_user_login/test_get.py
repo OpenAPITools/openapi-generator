@@ -19,7 +19,10 @@ from .. import ApiTestMixin
 
 
 class TestUserLogin(ApiTestMixin, unittest.TestCase):
-    """UserLogin unit test stubs"""
+    """
+    UserLogin unit test stubs
+        Logs user into the system  # noqa: E501
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,17 +32,8 @@ class TestUserLogin(ApiTestMixin, unittest.TestCase):
     def tearDown(self):
         pass
 
-    def test_login_user(self):
-        """Test case for login_user
+    response_status = 200
 
-        Logs user into the system  # noqa: E501
-        """
-        response_status = 200
-        accept_content_type = 'application/xml'
-
-
-
-        accept_content_type = 'application/json'
 
 
 

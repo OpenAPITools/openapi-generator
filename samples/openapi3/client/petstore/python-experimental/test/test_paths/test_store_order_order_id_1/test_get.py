@@ -19,7 +19,10 @@ from .. import ApiTestMixin
 
 
 class TestStoreOrderOrderId(ApiTestMixin, unittest.TestCase):
-    """StoreOrderOrderId unit test stubs"""
+    """
+    StoreOrderOrderId unit test stubs
+        Find purchase order by ID  # noqa: E501
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,17 +32,8 @@ class TestStoreOrderOrderId(ApiTestMixin, unittest.TestCase):
     def tearDown(self):
         pass
 
-    def test_get_order_by_id(self):
-        """Test case for get_order_by_id
+    response_status = 200
 
-        Find purchase order by ID  # noqa: E501
-        """
-        response_status = 200
-        accept_content_type = 'application/xml'
-
-
-
-        accept_content_type = 'application/json'
 
 
 

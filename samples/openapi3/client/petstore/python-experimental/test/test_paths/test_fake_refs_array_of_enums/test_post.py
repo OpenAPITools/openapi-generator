@@ -19,7 +19,10 @@ from .. import ApiTestMixin
 
 
 class TestFakeRefsArrayOfEnums(ApiTestMixin, unittest.TestCase):
-    """FakeRefsArrayOfEnums unit test stubs"""
+    """
+    FakeRefsArrayOfEnums unit test stubs
+        Array of Enums  # noqa: E501
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,14 +32,7 @@ class TestFakeRefsArrayOfEnums(ApiTestMixin, unittest.TestCase):
     def tearDown(self):
         pass
 
-    def test_array_of_enums(self):
-        """Test case for array_of_enums
-
-        Array of Enums  # noqa: E501
-        """
-        response_status = 200
-        accept_content_type = 'application/json'
-
+    response_status = 200
 
 
 

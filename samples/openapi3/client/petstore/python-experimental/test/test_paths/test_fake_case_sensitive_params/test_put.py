@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestFakeCaseSensitiveParams(ApiTestMixin, unittest.TestCase):
-    """FakeCaseSensitiveParams unit test stubs"""
+    """
+    FakeCaseSensitiveParams unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,12 +31,8 @@ class TestFakeCaseSensitiveParams(ApiTestMixin, unittest.TestCase):
     def tearDown(self):
         pass
 
-    def test_case_sensitive_params(self):
-        """Test case for case_sensitive_params
-
-        """
-        response_status = 200
-        response_body = ''
+    response_status = 200
+    response_body = ''
         pass
 
 

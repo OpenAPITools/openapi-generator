@@ -19,7 +19,10 @@ from .. import ApiTestMixin
 
 
 class TestStoreOrder(ApiTestMixin, unittest.TestCase):
-    """StoreOrder unit test stubs"""
+    """
+    StoreOrder unit test stubs
+        Place an order for a pet  # noqa: E501
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,21 +32,11 @@ class TestStoreOrder(ApiTestMixin, unittest.TestCase):
     def tearDown(self):
         pass
 
-    def test_place_order(self):
-        """Test case for place_order
-
-        Place an order for a pet  # noqa: E501
-        """
-        response_status = 200
-        accept_content_type = 'application/xml'
+    response_status = 200
 
 
 
-        accept_content_type = 'application/json'
 
-
-
-        content_type = 'application/json'
 
 
 

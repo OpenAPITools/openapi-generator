@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestFakeRefsMammal(ApiTestMixin, unittest.TestCase):
-    """FakeRefsMammal unit test stubs"""
+    """
+    FakeRefsMammal unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,16 +31,9 @@ class TestFakeRefsMammal(ApiTestMixin, unittest.TestCase):
     def tearDown(self):
         pass
 
-    def test_mammal(self):
-        """Test case for mammal
-
-        """
-        response_status = 200
-        accept_content_type = 'application/json'
+    response_status = 200
 
 
-
-        content_type = 'application/json'
 
 
 

@@ -19,7 +19,10 @@ from .. import ApiTestMixin
 
 
 class TestFake(ApiTestMixin, unittest.TestCase):
-    """Fake unit test stubs"""
+    """
+    Fake unit test stubs
+        Fake endpoint to test group parameters (optional)  # noqa: E501
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,13 +32,8 @@ class TestFake(ApiTestMixin, unittest.TestCase):
     def tearDown(self):
         pass
 
-    def test_group_parameters(self):
-        """Test case for group_parameters
-
-        Fake endpoint to test group parameters (optional)  # noqa: E501
-        """
-        response_status = 400
-        response_body = ''
+    response_status = 400
+    response_body = ''
         pass
 
 

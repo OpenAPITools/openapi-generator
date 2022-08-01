@@ -19,7 +19,10 @@ from .. import ApiTestMixin
 
 
 class TestFakeUploadFiles(ApiTestMixin, unittest.TestCase):
-    """FakeUploadFiles unit test stubs"""
+    """
+    FakeUploadFiles unit test stubs
+        uploads files using multipart/form-data  # noqa: E501
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,14 +32,7 @@ class TestFakeUploadFiles(ApiTestMixin, unittest.TestCase):
     def tearDown(self):
         pass
 
-    def test_upload_files(self):
-        """Test case for upload_files
-
-        uploads files using multipart/form-data  # noqa: E501
-        """
-        response_status = 200
-        accept_content_type = 'application/json'
-
+    response_status = 200
 
 
 

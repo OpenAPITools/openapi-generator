@@ -19,7 +19,10 @@ from .. import ApiTestMixin
 
 
 class TestFakeClassnameTest(ApiTestMixin, unittest.TestCase):
-    """FakeClassnameTest unit test stubs"""
+    """
+    FakeClassnameTest unit test stubs
+        To test class name in snake case  # noqa: E501
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,17 +32,9 @@ class TestFakeClassnameTest(ApiTestMixin, unittest.TestCase):
     def tearDown(self):
         pass
 
-    def test_classname(self):
-        """Test case for classname
-
-        To test class name in snake case  # noqa: E501
-        """
-        response_status = 200
-        accept_content_type = 'application/json'
+    response_status = 200
 
 
-
-        content_type = 'application/json'
 
 
 

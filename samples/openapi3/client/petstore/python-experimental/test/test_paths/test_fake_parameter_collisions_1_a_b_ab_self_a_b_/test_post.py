@@ -19,7 +19,10 @@ from .. import ApiTestMixin
 
 
 class TestFakeParameterCollisions1ABAbSelfAB(ApiTestMixin, unittest.TestCase):
-    """FakeParameterCollisions1ABAbSelfAB unit test stubs"""
+    """
+    FakeParameterCollisions1ABAbSelfAB unit test stubs
+        parameter collision case  # noqa: E501
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,14 +32,7 @@ class TestFakeParameterCollisions1ABAbSelfAB(ApiTestMixin, unittest.TestCase):
     def tearDown(self):
         pass
 
-    def test_parameter_collisions(self):
-        """Test case for parameter_collisions
-
-        parameter collision case  # noqa: E501
-        """
-        response_status = 200
-        accept_content_type = 'application/json'
-
+    response_status = 200
 
 
 

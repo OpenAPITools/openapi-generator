@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestFakeRefsNumber(ApiTestMixin, unittest.TestCase):
-    """FakeRefsNumber unit test stubs"""
+    """
+    FakeRefsNumber unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,13 +31,7 @@ class TestFakeRefsNumber(ApiTestMixin, unittest.TestCase):
     def tearDown(self):
         pass
 
-    def test_number_with_validations(self):
-        """Test case for number_with_validations
-
-        """
-        response_status = 200
-        accept_content_type = 'application/json'
-
+    response_status = 200
 
 
 

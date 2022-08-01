@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestFakeRefsBoolean(ApiTestMixin, unittest.TestCase):
-    """FakeRefsBoolean unit test stubs"""
+    """
+    FakeRefsBoolean unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,13 +31,7 @@ class TestFakeRefsBoolean(ApiTestMixin, unittest.TestCase):
     def tearDown(self):
         pass
 
-    def test_boolean(self):
-        """Test case for boolean
-
-        """
-        response_status = 200
-        accept_content_type = 'application/json'
-
+    response_status = 200
 
 
 

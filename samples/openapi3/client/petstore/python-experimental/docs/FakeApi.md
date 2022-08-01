@@ -45,7 +45,7 @@ Additional Properties with Array of Enums
 
 ```python
 import petstore_api
-from petstore_api.apis import fake_api
+from petstore_api.apis.tags import fake_api
 from petstore_api.model.additional_properties_with_array_of_enums import AdditionalPropertiesWithArrayOfEnums
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
@@ -133,7 +133,7 @@ Test serialization of ArrayModel
 
 ```python
 import petstore_api
-from petstore_api.apis import fake_api
+from petstore_api.apis.tags import fake_api
 from petstore_api.model.animal_farm import AnimalFarm
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
@@ -216,7 +216,7 @@ Array of Enums
 
 ```python
 import petstore_api
-from petstore_api.apis import fake_api
+from petstore_api.apis.tags import fake_api
 from petstore_api.model.array_of_enums import ArrayOfEnums
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
@@ -302,7 +302,7 @@ For this test, the body for this request much reference a schema named `File`.
 
 ```python
 import petstore_api
-from petstore_api.apis import fake_api
+from petstore_api.apis.tags import fake_api
 from petstore_api.model.file_schema_test_class import FileSchemaTestClass
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
@@ -382,7 +382,7 @@ No authorization required
 
 ```python
 import petstore_api
-from petstore_api.apis import fake_api
+from petstore_api.apis.tags import fake_api
 from petstore_api.model.user import User
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
@@ -490,7 +490,7 @@ Test serialization of outer boolean types
 
 ```python
 import petstore_api
-from petstore_api.apis import fake_api
+from petstore_api.apis.tags import fake_api
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -572,7 +572,7 @@ Ensures that original naming is used in endpoint params, that way we on't have c
 
 ```python
 import petstore_api
-from petstore_api.apis import fake_api
+from petstore_api.apis.tags import fake_api
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -669,7 +669,7 @@ To test \"client\" model
 
 ```python
 import petstore_api
-from petstore_api.apis import fake_api
+from petstore_api.apis.tags import fake_api
 from petstore_api.model.client import Client
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
@@ -755,7 +755,7 @@ Test serialization of object with $refed properties
 
 ```python
 import petstore_api
-from petstore_api.apis import fake_api
+from petstore_api.apis.tags import fake_api
 from petstore_api.model.composed_one_of_different_types import ComposedOneOfDifferentTypes
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
@@ -838,7 +838,7 @@ Delete the coffee identified by the given id, (delete without request body)
 
 ```python
 import petstore_api
-from petstore_api.apis import fake_api
+from petstore_api.apis.tags import fake_api
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -928,7 +928,7 @@ Fake endpoint for testing various parameters 假端點 偽のエンドポイン�
 * Basic Authentication (http_basic_test):
 ```python
 import petstore_api
-from petstore_api.apis import fake_api
+from petstore_api.apis.tags import fake_api
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -1051,7 +1051,7 @@ To test enum parameters
 
 ```python
 import petstore_api
-from petstore_api.apis import fake_api
+from petstore_api.apis.tags import fake_api
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -1213,7 +1213,7 @@ Health check endpoint
 
 ```python
 import petstore_api
-from petstore_api.apis import fake_api
+from petstore_api.apis.tags import fake_api
 from petstore_api.model.health_check_result import HealthCheckResult
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
@@ -1279,7 +1279,7 @@ Fake endpoint to test group parameters (optional)
 * Bearer (JWT) Authentication (bearer_test):
 ```python
 import petstore_api
-from petstore_api.apis import fake_api
+from petstore_api.apis.tags import fake_api
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -1435,7 +1435,7 @@ test inline additionalProperties
 
 ```python
 import petstore_api
-from petstore_api.apis import fake_api
+from petstore_api.apis.tags import fake_api
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -1511,7 +1511,7 @@ testing composed schemas at inline locations
 
 ```python
 import petstore_api
-from petstore_api.apis import fake_api
+from petstore_api.apis.tags import fake_api
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -1642,7 +1642,7 @@ test json serialization of form data
 
 ```python
 import petstore_api
-from petstore_api.apis import fake_api
+from petstore_api.apis.tags import fake_api
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -1721,7 +1721,7 @@ json with charset tx and rx
 
 ```python
 import petstore_api
-from petstore_api.apis import fake_api
+from petstore_api.apis.tags import fake_api
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -1804,7 +1804,7 @@ Test serialization of mammals
 
 ```python
 import petstore_api
-from petstore_api.apis import fake_api
+from petstore_api.apis.tags import fake_api
 from petstore_api.model.mammal import Mammal
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
@@ -1891,7 +1891,7 @@ Test serialization of outer number types
 
 ```python
 import petstore_api
-from petstore_api.apis import fake_api
+from petstore_api.apis.tags import fake_api
 from petstore_api.model.number_with_validations import NumberWithValidations
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
@@ -1972,7 +1972,7 @@ user list
 
 ```python
 import petstore_api
-from petstore_api.apis import fake_api
+from petstore_api.apis.tags import fake_api
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -2058,7 +2058,7 @@ Test serialization of object with $refed properties
 
 ```python
 import petstore_api
-from petstore_api.apis import fake_api
+from petstore_api.apis.tags import fake_api
 from petstore_api.model.object_model_with_ref_props import ObjectModelWithRefProps
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
@@ -2143,7 +2143,7 @@ parameter collision case
 
 ```python
 import petstore_api
-from petstore_api.apis import fake_api
+from petstore_api.apis.tags import fake_api
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -2445,7 +2445,7 @@ To test the collection format in query parameters
 
 ```python
 import petstore_api
-from petstore_api.apis import fake_api
+from petstore_api.apis.tags import fake_api
 from petstore_api.model.string_with_validation import StringWithValidation
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
@@ -2575,7 +2575,7 @@ user list
 
 ```python
 import petstore_api
-from petstore_api.apis import fake_api
+from petstore_api.apis.tags import fake_api
 from petstore_api.model.foo import Foo
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
@@ -2658,7 +2658,7 @@ receives a response without schema
 
 ```python
 import petstore_api
-from petstore_api.apis import fake_api
+from petstore_api.apis.tags import fake_api
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -2715,7 +2715,7 @@ Test serialization of outer string types
 
 ```python
 import petstore_api
-from petstore_api.apis import fake_api
+from petstore_api.apis.tags import fake_api
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -2797,7 +2797,7 @@ Test serialization of outer enum
 
 ```python
 import petstore_api
-from petstore_api.apis import fake_api
+from petstore_api.apis.tags import fake_api
 from petstore_api.model.string_enum import StringEnum
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
@@ -2878,7 +2878,7 @@ uploads a file and downloads a file using application/octet-stream
 
 ```python
 import petstore_api
-from petstore_api.apis import fake_api
+from petstore_api.apis.tags import fake_api
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -2963,7 +2963,7 @@ uploads a file using multipart/form-data
 
 ```python
 import petstore_api
-from petstore_api.apis import fake_api
+from petstore_api.apis.tags import fake_api
 from petstore_api.model.api_response import ApiResponse
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
@@ -3051,7 +3051,7 @@ uploads files using multipart/form-data
 
 ```python
 import petstore_api
-from petstore_api.apis import fake_api
+from petstore_api.apis.tags import fake_api
 from petstore_api.model.api_response import ApiResponse
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2

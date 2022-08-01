@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestFakeRefsEnum(ApiTestMixin, unittest.TestCase):
-    """FakeRefsEnum unit test stubs"""
+    """
+    FakeRefsEnum unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,13 +31,7 @@ class TestFakeRefsEnum(ApiTestMixin, unittest.TestCase):
     def tearDown(self):
         pass
 
-    def test_string_enum(self):
-        """Test case for string_enum
-
-        """
-        response_status = 200
-        accept_content_type = 'application/json'
-
+    response_status = 200
 
 
 

@@ -19,7 +19,10 @@ from .. import ApiTestMixin
 
 
 class TestAnotherFakeDummy(ApiTestMixin, unittest.TestCase):
-    """AnotherFakeDummy unit test stubs"""
+    """
+    AnotherFakeDummy unit test stubs
+        To test special tags  # noqa: E501
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,17 +32,9 @@ class TestAnotherFakeDummy(ApiTestMixin, unittest.TestCase):
     def tearDown(self):
         pass
 
-    def test_call_123_test_special_tags(self):
-        """Test case for call_123_test_special_tags
-
-        To test special tags  # noqa: E501
-        """
-        response_status = 200
-        accept_content_type = 'application/json'
+    response_status = 200
 
 
-
-        content_type = 'application/json'
 
 
 

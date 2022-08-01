@@ -19,7 +19,10 @@ from .. import ApiTestMixin
 
 
 class TestFakeUploadDownloadFile(ApiTestMixin, unittest.TestCase):
-    """FakeUploadDownloadFile unit test stubs"""
+    """
+    FakeUploadDownloadFile unit test stubs
+        uploads a file and downloads a file using application/octet-stream  # noqa: E501
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,17 +32,9 @@ class TestFakeUploadDownloadFile(ApiTestMixin, unittest.TestCase):
     def tearDown(self):
         pass
 
-    def test_upload_download_file(self):
-        """Test case for upload_download_file
-
-        uploads a file and downloads a file using application/octet-stream  # noqa: E501
-        """
-        response_status = 200
-        accept_content_type = 'application/octet-stream'
+    response_status = 200
 
 
-
-        content_type = 'application/octet-stream'
 
 
 

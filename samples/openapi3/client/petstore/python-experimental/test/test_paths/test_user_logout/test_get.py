@@ -19,7 +19,10 @@ from .. import ApiTestMixin
 
 
 class TestUserLogout(ApiTestMixin, unittest.TestCase):
-    """UserLogout unit test stubs"""
+    """
+    UserLogout unit test stubs
+        Logs out current logged in user session  # noqa: E501
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,13 +32,8 @@ class TestUserLogout(ApiTestMixin, unittest.TestCase):
     def tearDown(self):
         pass
 
-    def test_logout_user(self):
-        """Test case for logout_user
-
-        Logs out current logged in user session  # noqa: E501
-        """
-        response_status = 0
-        response_body = ''
+    response_status = 0
+    response_body = ''
         pass
 
 

@@ -19,7 +19,10 @@ from .. import ApiTestMixin
 
 
 class TestPet(ApiTestMixin, unittest.TestCase):
-    """Pet unit test stubs"""
+    """
+    Pet unit test stubs
+        Add a new pet to the store  # noqa: E501
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,17 +32,10 @@ class TestPet(ApiTestMixin, unittest.TestCase):
     def tearDown(self):
         pass
 
-    def test_add_pet(self):
-        """Test case for add_pet
-
-        Add a new pet to the store  # noqa: E501
-        """
-        response_status = 200
-        response_body = ''
-        content_type = 'application/json'
+    response_status = 200
+    response_body = ''
 
 
-        content_type = 'application/xml'
 
 
 

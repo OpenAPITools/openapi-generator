@@ -19,7 +19,10 @@ from .. import ApiTestMixin
 
 
 class TestFakeInlineAdditionalProperties(ApiTestMixin, unittest.TestCase):
-    """FakeInlineAdditionalProperties unit test stubs"""
+    """
+    FakeInlineAdditionalProperties unit test stubs
+        test inline additionalProperties  # noqa: E501
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,14 +32,8 @@ class TestFakeInlineAdditionalProperties(ApiTestMixin, unittest.TestCase):
     def tearDown(self):
         pass
 
-    def test_inline_additional_properties(self):
-        """Test case for inline_additional_properties
-
-        test inline additionalProperties  # noqa: E501
-        """
-        response_status = 200
-        response_body = ''
-        content_type = 'application/json'
+    response_status = 200
+    response_body = ''
 
 
 

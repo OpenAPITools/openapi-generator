@@ -19,7 +19,10 @@ from .. import ApiTestMixin
 
 
 class TestPetPetIdUploadImage(ApiTestMixin, unittest.TestCase):
-    """PetPetIdUploadImage unit test stubs"""
+    """
+    PetPetIdUploadImage unit test stubs
+        uploads an image  # noqa: E501
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,14 +32,7 @@ class TestPetPetIdUploadImage(ApiTestMixin, unittest.TestCase):
     def tearDown(self):
         pass
 
-    def test_upload_image(self):
-        """Test case for upload_image
-
-        uploads an image  # noqa: E501
-        """
-        response_status = 200
-        accept_content_type = 'application/json'
-
+    response_status = 200
 
 
 

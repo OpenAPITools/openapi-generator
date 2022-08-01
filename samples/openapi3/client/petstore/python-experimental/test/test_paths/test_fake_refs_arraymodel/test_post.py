@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestFakeRefsArraymodel(ApiTestMixin, unittest.TestCase):
-    """FakeRefsArraymodel unit test stubs"""
+    """
+    FakeRefsArraymodel unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,13 +31,7 @@ class TestFakeRefsArraymodel(ApiTestMixin, unittest.TestCase):
     def tearDown(self):
         pass
 
-    def test_array_model(self):
-        """Test case for array_model
-
-        """
-        response_status = 200
-        accept_content_type = 'application/json'
-
+    response_status = 200
 
 
 

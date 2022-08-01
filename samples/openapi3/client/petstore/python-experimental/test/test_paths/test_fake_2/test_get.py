@@ -19,7 +19,10 @@ from .. import ApiTestMixin
 
 
 class TestFake(ApiTestMixin, unittest.TestCase):
-    """Fake unit test stubs"""
+    """
+    Fake unit test stubs
+        To test enum parameters  # noqa: E501
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,13 +32,8 @@ class TestFake(ApiTestMixin, unittest.TestCase):
     def tearDown(self):
         pass
 
-    def test_enum_parameters(self):
-        """Test case for enum_parameters
-
-        To test enum parameters  # noqa: E501
-        """
-        response_status = 400
-        response_body = ''
+    response_status = 400
+    response_body = ''
 
 
 if __name__ == '__main__':

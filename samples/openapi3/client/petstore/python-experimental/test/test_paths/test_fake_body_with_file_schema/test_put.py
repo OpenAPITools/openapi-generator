@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestFakeBodyWithFileSchema(ApiTestMixin, unittest.TestCase):
-    """FakeBodyWithFileSchema unit test stubs"""
+    """
+    FakeBodyWithFileSchema unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,13 +31,8 @@ class TestFakeBodyWithFileSchema(ApiTestMixin, unittest.TestCase):
     def tearDown(self):
         pass
 
-    def test_body_with_file_schema(self):
-        """Test case for body_with_file_schema
-
-        """
-        response_status = 200
-        response_body = ''
-        content_type = 'application/json'
+    response_status = 200
+    response_body = ''
 
 
 

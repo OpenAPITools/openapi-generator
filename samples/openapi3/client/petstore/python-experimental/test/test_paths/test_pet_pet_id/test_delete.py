@@ -19,7 +19,10 @@ from .. import ApiTestMixin
 
 
 class TestPetPetId(ApiTestMixin, unittest.TestCase):
-    """PetPetId unit test stubs"""
+    """
+    PetPetId unit test stubs
+        Deletes a pet  # noqa: E501
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,13 +32,8 @@ class TestPetPetId(ApiTestMixin, unittest.TestCase):
     def tearDown(self):
         pass
 
-    def test_delete_pet(self):
-        """Test case for delete_pet
-
-        Deletes a pet  # noqa: E501
-        """
-        response_status = 400
-        response_body = ''
+    response_status = 400
+    response_body = ''
         pass
 
 

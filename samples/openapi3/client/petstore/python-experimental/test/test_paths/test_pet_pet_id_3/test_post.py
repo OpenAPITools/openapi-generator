@@ -19,7 +19,10 @@ from .. import ApiTestMixin
 
 
 class TestPetPetId(ApiTestMixin, unittest.TestCase):
-    """PetPetId unit test stubs"""
+    """
+    PetPetId unit test stubs
+        Updates a pet in the store with form data  # noqa: E501
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,13 +32,8 @@ class TestPetPetId(ApiTestMixin, unittest.TestCase):
     def tearDown(self):
         pass
 
-    def test_update_pet_with_form(self):
-        """Test case for update_pet_with_form
-
-        Updates a pet in the store with form data  # noqa: E501
-        """
-        response_status = 405
-        response_body = ''
+    response_status = 405
+    response_body = ''
 
 
 if __name__ == '__main__':

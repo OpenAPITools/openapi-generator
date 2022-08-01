@@ -19,7 +19,10 @@ from .. import ApiTestMixin
 
 
 class TestUserUsername(ApiTestMixin, unittest.TestCase):
-    """UserUsername unit test stubs"""
+    """
+    UserUsername unit test stubs
+        Delete user  # noqa: E501
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,13 +32,8 @@ class TestUserUsername(ApiTestMixin, unittest.TestCase):
     def tearDown(self):
         pass
 
-    def test_delete_user(self):
-        """Test case for delete_user
-
-        Delete user  # noqa: E501
-        """
-        response_status = 400
-        response_body = ''
+    response_status = 400
+    response_body = ''
         pass
 
 

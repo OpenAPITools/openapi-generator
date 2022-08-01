@@ -19,7 +19,10 @@ from .. import ApiTestMixin
 
 
 class TestStoreOrderOrderId(ApiTestMixin, unittest.TestCase):
-    """StoreOrderOrderId unit test stubs"""
+    """
+    StoreOrderOrderId unit test stubs
+        Delete purchase order by ID  # noqa: E501
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,13 +32,8 @@ class TestStoreOrderOrderId(ApiTestMixin, unittest.TestCase):
     def tearDown(self):
         pass
 
-    def test_delete_order(self):
-        """Test case for delete_order
-
-        Delete purchase order by ID  # noqa: E501
-        """
-        response_status = 400
-        response_body = ''
+    response_status = 400
+    response_body = ''
         pass
 
 

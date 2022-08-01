@@ -15,7 +15,7 @@ Method | HTTP request | Description
 
 ```python
 import petstore_api
-from petstore_api.apis import default_api
+from petstore_api.apis.tags import default_api
 from petstore_api.model.foo import Foo
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2

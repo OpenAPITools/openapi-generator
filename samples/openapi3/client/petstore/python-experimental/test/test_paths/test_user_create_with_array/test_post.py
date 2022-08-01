@@ -19,7 +19,10 @@ from .. import ApiTestMixin
 
 
 class TestUserCreateWithArray(ApiTestMixin, unittest.TestCase):
-    """UserCreateWithArray unit test stubs"""
+    """
+    UserCreateWithArray unit test stubs
+        Creates list of users with given input array  # noqa: E501
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,14 +32,8 @@ class TestUserCreateWithArray(ApiTestMixin, unittest.TestCase):
     def tearDown(self):
         pass
 
-    def test_create_users_with_array_input(self):
-        """Test case for create_users_with_array_input
-
-        Creates list of users with given input array  # noqa: E501
-        """
-        response_status = 0
-        response_body = ''
-        content_type = 'application/json'
+    response_status = 0
+    response_body = ''
 
 
 

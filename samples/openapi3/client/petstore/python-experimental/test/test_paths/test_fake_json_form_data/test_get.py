@@ -19,7 +19,10 @@ from .. import ApiTestMixin
 
 
 class TestFakeJsonFormData(ApiTestMixin, unittest.TestCase):
-    """FakeJsonFormData unit test stubs"""
+    """
+    FakeJsonFormData unit test stubs
+        test json serialization of form data  # noqa: E501
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,13 +32,8 @@ class TestFakeJsonFormData(ApiTestMixin, unittest.TestCase):
     def tearDown(self):
         pass
 
-    def test_json_form_data(self):
-        """Test case for json_form_data
-
-        test json serialization of form data  # noqa: E501
-        """
-        response_status = 200
-        response_body = ''
+    response_status = 200
+    response_body = ''
 
 
 if __name__ == '__main__':

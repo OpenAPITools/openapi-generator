@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestFakeRefsObjectModelWithRefProps(ApiTestMixin, unittest.TestCase):
-    """FakeRefsObjectModelWithRefProps unit test stubs"""
+    """
+    FakeRefsObjectModelWithRefProps unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,13 +31,7 @@ class TestFakeRefsObjectModelWithRefProps(ApiTestMixin, unittest.TestCase):
     def tearDown(self):
         pass
 
-    def test_object_model_with_ref_props(self):
-        """Test case for object_model_with_ref_props
-
-        """
-        response_status = 200
-        accept_content_type = 'application/json'
-
+    response_status = 200
 
 
 

@@ -19,7 +19,10 @@ from .. import ApiTestMixin
 
 
 class TestPetPetId(ApiTestMixin, unittest.TestCase):
-    """PetPetId unit test stubs"""
+    """
+    PetPetId unit test stubs
+        Find pet by ID  # noqa: E501
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,17 +32,8 @@ class TestPetPetId(ApiTestMixin, unittest.TestCase):
     def tearDown(self):
         pass
 
-    def test_get_pet_by_id(self):
-        """Test case for get_pet_by_id
+    response_status = 200
 
-        Find pet by ID  # noqa: E501
-        """
-        response_status = 200
-        accept_content_type = 'application/xml'
-
-
-
-        accept_content_type = 'application/json'
 
 
 

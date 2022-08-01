@@ -19,7 +19,10 @@ from .. import ApiTestMixin
 
 
 class TestFakeJsonWithCharset(ApiTestMixin, unittest.TestCase):
-    """FakeJsonWithCharset unit test stubs"""
+    """
+    FakeJsonWithCharset unit test stubs
+        json with charset tx and rx  # noqa: E501
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,14 +32,7 @@ class TestFakeJsonWithCharset(ApiTestMixin, unittest.TestCase):
     def tearDown(self):
         pass
 
-    def test_json_with_charset(self):
-        """Test case for json_with_charset
-
-        json with charset tx and rx  # noqa: E501
-        """
-        response_status = 200
-        accept_content_type = 'application/json; charset=utf-8'
-
+    response_status = 200
 
 
 
